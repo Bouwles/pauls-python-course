@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paul's Python Course</title>
+<meta name="description" content="Revision notes, practice questions and a Python editor that runs in your browser, for the students Paul teaches in person.">
+<meta property="og:title" content="Paul's Python Course">
+<meta property="og:description" content="Revision notes, practice questions and a Python editor that runs in your browser.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Crect width=%2716%27 height=%2716%27 fill=%27%230d635e%27/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/css/site.css">
+<script>try{var t=JSON.parse(localStorage.getItem("ppc:theme:v1"));if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="brand-dot" aria-hidden="true"></span>Paul's Python Course</a>
+    <nav class="header-nav" aria-label="Main">
+      <a class="header-link" href="index.html" aria-current="page">Lessons</a>
+      <a class="header-link" href="playground.html">Playground</a>
+      <button class="btn btn-quiet btn-icon" type="button" data-theme-toggle aria-label="Switch theme"></button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+    <div class="intro">
+      <h1>Paul's Python Course</h1>
+      <p>Everything we go through in class, written down, with practice you can run in the browser.</p>
+      <div class="continue" id="continue-slot"></div>
+    </div>
+
+    <h2 class="section-label">Lessons</h2>
+    <ul class="lesson-list" id="lesson-list"></ul>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Your progress is saved in this browser only. Nothing is sent anywhere.</p>
+    <button class="btn btn-quiet" type="button" data-reset-progress>Reset my progress</button>
+  </div>
+</footer>
+
+<script src="data/lessons.js"></script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/home.js"></script>
+</body>
+</html>

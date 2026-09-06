@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson - Paul's Python Course</title>
+<meta name="description" content="Lesson notes, worked examples and practice you can run in the browser, from Paul's Python Course.">
+<meta property="og:title" content="Paul's Python Course">
+<meta property="og:description" content="Lesson notes, worked examples and practice you can run in the browser.">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Crect width=%2716%27 height=%2716%27 fill=%27%230d635e%27/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/css/site.css">
+<script>try{var t=JSON.parse(localStorage.getItem("ppc:theme:v1"));if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="brand-dot" aria-hidden="true"></span>Paul's Python Course</a>
+    <nav class="header-nav" aria-label="Main">
+      <a class="header-link" href="index.html">Lessons</a>
+      <a class="header-link" href="playground.html">Playground</a>
+      <button class="btn btn-quiet btn-icon" type="button" data-theme-toggle aria-label="Switch theme"></button>
+    </nav>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+  <div id="lesson-main">
+    <div class="wrap">
+      <div class="lesson-head">
+        <p class="lesson-eyebrow" id="lesson-eyebrow">Lesson</p>
+        <h1 id="lesson-title">Loading</h1>
+        <p class="lede" id="lesson-lede"></p>
+      </div>
+
+      <div class="lesson-layout">
+        <aside class="sidebar">
+          <button class="btn sidebar-toggle" type="button" id="sidebar-toggle" aria-expanded="false" aria-controls="sidebar-panel">
+            <span>Objectives and contents</span>
+            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 6.5 8 10.5l4-4"/></svg>
+          </button>
+          <div class="sidebar-panel" id="sidebar-panel">
+            <h2 id="objectives-heading">By the end you can</h2>
+            <ul class="objectives" id="objectives" aria-labelledby="objectives-heading"></ul>
+            <nav aria-labelledby="contents-heading">
+              <h2 id="contents-heading">On this page</h2>
+              <ul class="toc" id="toc"></ul>
+            </nav>
+          </div>
+        </aside>
+
+        <div class="lesson-body">
+          <div id="lesson-sections"></div>
+
+          <section id="practice" data-spy aria-labelledby="practice-heading">
+            <div class="block-head">
+              <h2 id="practice-heading">Practice</h2>
+              <p>Write it yourself. Run it as many times as you like, then press Check when you think it works.</p>
+            </div>
+            <div id="practice-list"></div>
+          </section>
+
+          <section id="quick-check" data-spy aria-labelledby="quick-check-heading">
+            <div class="block-head">
+              <h2 id="quick-check-heading">Quick check</h2>
+              <p>Four questions. You get the reason either way, and you can try any of them again.</p>
+            </div>
+            <div id="quiz-list"></div>
+          </section>
+
+          <section id="cheatsheet-section" data-spy aria-labelledby="cheatsheet-heading">
+            <div class="block-head">
+              <h2 id="cheatsheet-heading">Cheatsheet</h2>
+              <p>Everything from this lesson in one place.</p>
+            </div>
+            <dl class="cheatsheet" id="cheatsheet"></dl>
+
+            <div class="next-up">
+              <h2>Next lesson</h2>
+              <p id="next-up-text"></p>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Your progress is saved in this browser only. Nothing is sent anywhere.</p>
+    <button class="btn btn-quiet" type="button" data-reset-progress>Reset my progress</button>
+  </div>
+</footer>
+
+<script src="data/lessons.js"></script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/errors.js"></script>
+<script src="assets/js/runner.js"></script>
+<script src="assets/js/lesson.js"></script>
+</body>
+</html>
