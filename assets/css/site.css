@@ -225,6 +225,18 @@ hr {
 .header-link:hover { color: var(--ink); background: var(--tint); }
 .header-link[aria-current="page"] { color: var(--ink); font-weight: 500; }
 
+/* four nav items plus the wordmark is a tight fit on a phone */
+@media (max-width: 34rem) {
+  .site-header .wrap { gap: 0.4rem; }
+  .brand { font-size: 0.82rem; white-space: nowrap; }
+  .header-link { font-size: 0.8rem; padding: 0.35rem 0.28rem; }
+  .header-nav { gap: 0.1rem; }
+  .btn-icon { padding: 0.4rem; }
+}
+@media (max-width: 24rem) {
+  .brand .brand-long { display: none; }
+}
+
 /* --- buttons --------------------------------------------------- */
 
 .btn {
@@ -751,6 +763,9 @@ pre {
 
 /* --- practice --------------------------------------------------- */
 
+.lesson-body > section { margin-bottom: 3.25rem; }
+.lesson-body > section:last-child { margin-bottom: 0; }
+
 .block-head {
   max-width: var(--measure);
   margin: 0 0 1.75rem;
@@ -894,7 +909,85 @@ details.reveal pre { font-size: 0.83rem; }
   border-left: 2px solid var(--rule-strong);
   padding-left: 0.75rem;
 }
-.quiz-actions { margin-top: 0.5rem; }
+.quiz-actions { margin-top: 0.5rem; margin-left: -0.5rem; }
+.quiz-actions:empty { display: none; }
+
+/* --- quiz page ---------------------------------------------------- */
+
+.quiz-head {
+  padding: clamp(2.25rem, 6vw, 3.5rem) 0 1.5rem;
+  max-width: var(--measure);
+}
+.quiz-head h1 { font-size: clamp(1.9rem, 5.5vw, 2.7rem); }
+.quiz-head .lede { margin: 0.75rem 0 0; color: var(--ink-2); }
+
+#quiz-body { padding-bottom: 4rem; }
+
+.quiz-counter {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  max-width: var(--measure);
+  margin: 0 0 1.5rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+/* the question's code sample */
+.quiz-item > pre { margin: 0 0 0.9rem; }
+
+/* predicted-output options are code, so set them as code */
+.quiz-options.is-code .opt-code {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+
+/* typed answers */
+.quiz-write {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+.quiz-write-field {
+  font: inherit;
+  font-family: var(--mono);
+  font-size: 0.88rem;
+  flex: 1 1 14rem;
+  min-width: 0;
+  padding: 0.55rem 0.7rem;
+  color: var(--ink);
+  background: var(--bg-raised);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+}
+.quiz-write-field::placeholder { color: var(--ink-3); font-family: var(--sans); font-size: 0.85rem; }
+.quiz-write-field:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.quiz-write.is-right .quiz-write-field { border-color: var(--good); background: var(--good-tint); }
+.quiz-write.is-wrong .quiz-write-field { border-color: var(--bad); background: var(--bad-tint); }
+
+/* what to go back and read */
+.quiz-summary {
+  max-width: var(--measure);
+  margin-top: 2.5rem;
+  padding: 1.25rem 1.4rem;
+  border: 1px solid var(--rule);
+  border-left: 2px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+.quiz-summary h2 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+.quiz-summary p { color: var(--ink-2); margin-bottom: 0.75rem; }
+.quiz-review { margin: 0; padding-left: 1.1rem; }
+.quiz-review li { margin-bottom: 0.3rem; }
+.quiz-review li::marker { color: var(--ink-3); }
+
+.quiz-back { max-width: var(--measure); margin-top: 2rem; font-size: 0.94rem; }
+
+.tag-done { color: var(--accent); border-color: var(--accent); }
 
 /* --- cheatsheet + next ------------------------------------------ */
 

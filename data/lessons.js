@@ -155,6 +155,10 @@ window.LESSONS = [
       }
     ],
 
+    /* Question types: "choice" (the default), "predict" (shows code, options
+       are output, rendered as code), "write" (they type a line of Python).
+       `review` is the index of the section worth re-reading if they get it
+       wrong; it drives the list at the end of the quiz. */
     quiz: [
       {
         question: 'What do the quotes in print("Hello") tell Python?',
@@ -164,7 +168,8 @@ window.LESSONS = [
           "That the line should be skipped"
         ],
         answer: 0,
-        explain: "Quotes mean text. Without them Python would go looking for something called Hello, and not find it."
+        explain: "Quotes mean text. Without them Python would go looking for something called Hello, and not find it.",
+        review: 2
       },
       {
         question: "What does # do?",
@@ -174,7 +179,49 @@ window.LESSONS = [
           "Turns the line into a heading"
         ],
         answer: 1,
-        explain: "Everything after # on that line is skipped, which is handy for notes and for switching a line off."
+        explain: "Everything after # on that line is skipped, which is handy for notes and for switching a line off.",
+        review: 3
+      },
+      {
+        type: "predict",
+        question: "What comes out when this runs?",
+        code: '# print("one")\nprint("two")\n',
+        options: ["two", "one\ntwo", "one"],
+        answer: 0,
+        explain: "The first line is commented out, so Python skips it entirely. Only the second line runs.",
+        review: 3
+      },
+      {
+        question: 'If name = "Sara", what does print("name") show?',
+        options: ["Sara", "name", "An error"],
+        answer: 1,
+        explain: "The quotes mean you asked for the word itself. Drop the quotes and you get what is in the box: Sara.",
+        review: 5
+      },
+      {
+        type: "predict",
+        question: "What comes out when this runs?",
+        code: 'name = "Sara"\nprint(name)\nprint("name")\n',
+        options: ["Sara\nname", "Sara\nSara", "name\nname"],
+        answer: 0,
+        explain: "Line two asks for what is in the box, so you get Sara. Line three has quotes, so you get the word name.",
+        review: 5
+      },
+      {
+        question: "Which one of these stops with a NameError?",
+        options: ['print("Hello")', "print(Hello)", "# print(Hello)"],
+        optionsAreCode: true,
+        answer: 1,
+        explain: "Without quotes Python goes looking for something called Hello. The third line is a comment, so Python never even reads it.",
+        review: 2
+      },
+      {
+        type: "write",
+        question: "Write the line that shows the word Hello on the screen.",
+        placeholder: 'one line of Python',
+        accept: ['print("Hello")'],
+        explain: "print, then brackets, then the text inside quotes.",
+        review: 1
       },
       {
         question: "What does input do?",
@@ -184,13 +231,25 @@ window.LESSONS = [
           "Loads a file from your computer"
         ],
         answer: 1,
-        explain: "It stops and waits. Whatever gets typed comes back as text, so you normally store it in a variable."
+        explain: "It stops and waits. Whatever gets typed comes back as text, so you normally store it in a variable.",
+        review: 7
       },
       {
-        question: 'If name = "Sara", what does print("name") show?',
-        options: ["Sara", "name", "An error"],
-        answer: 1,
-        explain: "The quotes mean you asked for the word itself. Drop the quotes and you get what is in the box: Sara."
+        type: "predict",
+        question: "Someone types Sara. What comes out?",
+        code: 'name = input("What is your name? ")\nprint("Hi" + name)\n',
+        options: ["HiSara", "Hi Sara", "Hi + Sara"],
+        answer: 0,
+        explain: "+ joins the two pieces of text exactly as they are. There is no space at the end of \"Hi\", so nothing separates them. Write \"Hi \" to get one.",
+        review: 7
+      },
+      {
+        type: "write",
+        question: "Write the line that puts the number 14 into a variable called age.",
+        placeholder: "one line of Python",
+        accept: ["age = 14"],
+        explain: "The name goes on the left, the = in the middle, the value on the right. Numbers do not need quotes.",
+        review: 6
       }
     ],
 

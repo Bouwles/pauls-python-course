@@ -109,11 +109,60 @@ check: [
 ]
 ```
 
-**Quiz questions.** `answer` is the index of the right option, counting from 0.
+**Quiz questions.** These render on `quiz.html?id=<lesson>`, not on the lesson
+page. There are three types.
+
+`choice` is the default, so `type` can be left off. `answer` is the index of
+the right option, counting from 0. `review` is the index of the section worth
+re-reading if they get it wrong, and it drives the list shown at the end.
 
 ```js
-{ question: "...", options: ["a", "b", "c"], answer: 1, explain: "why" }
+{
+  question: "What does # do?",
+  options: ["Runs the line twice", "Makes Python ignore the rest of the line"],
+  answer: 1,
+  explain: "Everything after # is skipped.",
+  review: 3                      // -> section 4 in the lesson, 0-indexed
+}
 ```
+
+Add `optionsAreCode: true` when the options are snippets rather than sentences,
+and they will be set in the monospace face.
+
+`predict` shows a code sample and asks what comes out. The options are output,
+so they are always set as code and can contain newlines.
+
+```js
+{
+  type: "predict",
+  question: "What comes out when this runs?",
+  code: '# print("one")\nprint("two")\n',
+  options: ["two", "one\ntwo", "one"],
+  answer: 0,
+  explain: "The first line is commented out.",
+  review: 3
+}
+```
+
+`write` asks them to type a line of Python. `accept` is a list of answers that
+count as right; the first one is shown if they get it wrong. Matching forgives
+spacing and swaps single quotes for double, and nothing else, so `Print` is
+still wrong.
+
+```js
+{
+  type: "write",
+  question: "Write the line that shows the word Hello on the screen.",
+  placeholder: "one line of Python",
+  accept: ['print("Hello")'],
+  explain: "print, then brackets, then the text inside quotes.",
+  review: 1
+}
+```
+
+There is no score. When every question has been answered once, the quiz lists
+the sections behind the ones they got wrong on the first attempt, as links back
+into the lesson.
 
 ---
 
@@ -151,6 +200,7 @@ Then watch the run under the repo's **Actions** tab. It takes about a minute.
 ```
 index.html            home page: lesson list and progress
 lesson.html           renders one lesson from ?id=
+quiz.html             all quizzes, or one quiz with ?id=
 playground.html       blank editor
 404.html
 data/lessons.js       ALL lesson content - the only file you edit to add lessons
@@ -159,6 +209,7 @@ assets/js/store.js    progress in localStorage, theme, small DOM helpers
 assets/js/errors.js   plain-English error translations
 assets/js/runner.js   Pyodide loading, input() handling, the editor widget
 assets/js/lesson.js   builds the lesson page
+assets/js/quiz.js     builds the quiz index and the quizzes
 assets/js/home.js     builds the home page
 assets/js/playground.js
 .github/workflows/deploy.yml

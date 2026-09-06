@@ -20,9 +20,10 @@
 
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="index.html"><span class="brand-dot" aria-hidden="true"></span>Paul's Python Course</a>
+    <a class="brand" href="index.html"><span class="brand-dot" aria-hidden="true"></span><span class="brand-long">Paul's </span>Python Course</a>
     <nav class="header-nav" aria-label="Main">
       <a class="header-link" href="index.html">Lessons</a>
+      <a class="header-link" href="quiz.html">Quizzes</a>
       <a class="header-link" href="playground.html">Playground</a>
       <button class="btn btn-quiet btn-icon" type="button" data-theme-toggle aria-label="Switch theme"></button>
     </nav>
@@ -68,9 +69,9 @@
           <section id="quick-check" data-spy aria-labelledby="quick-check-heading">
             <div class="block-head">
               <h2 id="quick-check-heading">Quick check</h2>
-              <p>Four questions. You get the reason either way, and you can try any of them again.</p>
+              <p id="quick-check-lede">The questions for this lesson live on their own page, so you can come back to them without scrolling through the notes again.</p>
             </div>
-            <div id="quiz-list"></div>
+            <p><a class="btn btn-primary" id="quiz-link" href="quiz.html">Take the quick check</a></p>
           </section>
 
           <section id="cheatsheet-section" data-spy aria-labelledby="cheatsheet-heading">

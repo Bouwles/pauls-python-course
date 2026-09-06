@@ -216,77 +216,6 @@
     return wrap;
   }
 
-  /* --- quiz -------------------------------------------------------------- */
-
-  function renderQuiz(lesson) {
-    var answered = {};
-
-    function item(question, index) {
-      var wrap = el("section", { class: "quiz-item" });
-      wrap.appendChild(el("h3", { class: "quiz-q" }, [
-        el("span", { class: "task-num", text: pad(index + 1) }),
-        el("span", { text: question.question })
-      ]));
-
-      var options = el("div", { class: "quiz-options", role: "group", "aria-label": question.question });
-      var explain = el("p", { class: "quiz-explain", role: "status", "aria-live": "polite" });
-      explain.hidden = true;
-      var actions = el("div", { class: "quiz-actions" });
-      var retry = el("button", { class: "btn btn-quiet", type: "button" }, ["Try this one again"]);
-      retry.hidden = true;
-      actions.appendChild(retry);
-
-      var buttons = question.options.map(function (text, i) {
-        var btn = el("button", { class: "quiz-opt", type: "button" }, [
-          icon("check", "mark"),
-          el("span", { text: text })
-        ]);
-        btn.addEventListener("click", function () {
-          if (options.classList.contains("quiz-answered")) return;
-          options.classList.add("quiz-answered");
-          buttons.forEach(function (b) { b.disabled = true; });
-
-          var correct = i === question.answer;
-          btn.classList.add(correct ? "is-right" : "is-wrong");
-          if (!correct) {
-            buttons[question.answer].classList.add("is-right");
-            btn.replaceChild(icon("cross", "mark"), btn.firstChild);
-          }
-          explain.textContent = (correct ? "Yes. " : "The answer is: " + question.options[question.answer] + ". ") + question.explain;
-          explain.hidden = false;
-          retry.hidden = false;
-
-          answered[index] = true;
-          if (Object.keys(answered).length === lesson.quiz.length) {
-            Progress.markQuizDone(lesson.id);
-          }
-        });
-        options.appendChild(btn);
-        return btn;
-      });
-
-      retry.addEventListener("click", function () {
-        options.classList.remove("quiz-answered");
-        buttons.forEach(function (b, i) {
-          b.disabled = false;
-          b.classList.remove("is-right", "is-wrong");
-          b.replaceChild(icon("check", "mark"), b.firstChild);
-        });
-        explain.hidden = true;
-        retry.hidden = true;
-        buttons[0].focus();
-      });
-
-      wrap.appendChild(options);
-      wrap.appendChild(explain);
-      wrap.appendChild(actions);
-      return wrap;
-    }
-
-    var host = document.getElementById("quiz-list");
-    lesson.quiz.forEach(function (q, i) { host.appendChild(item(q, i)); });
-  }
-
   /* --- sidebar + scrollspy ------------------------------------------------ */
 
   function mountSidebar(lesson, entries) {
@@ -406,7 +335,15 @@
       practiceHost.appendChild(renderTask(task, i, lesson));
     });
 
-    renderQuiz(lesson);
+    /* the quiz itself lives on quiz.html; this page only points at it */
+    var quizLink = document.getElementById("quiz-link");
+    quizLink.href = "quiz.html?id=" + encodeURIComponent(lesson.id);
+    quizLink.textContent = lesson.quiz.length + " questions on this lesson";
+    quizLink.appendChild(icon("arrow"));
+    if (Progress.get(lesson.id).quiz) {
+      document.getElementById("quick-check-lede").textContent =
+        "You have been through these once. They are on their own page, so you can come back to them any time.";
+    }
 
     var sheet = document.getElementById("cheatsheet");
     lesson.cheatsheet.forEach(function (row) {
