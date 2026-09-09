@@ -263,12 +263,269 @@ window.LESSONS = [
     ],
 
     next: "Numbers, doing maths, int(), and getting Python to make decisions with if and else."
+  },
+
+  {
+    id: 2,
+    slug: "numbers-and-decisions",
+    title: "Numbers and decisions",
+    summary: "Doing maths, turning text into numbers, and getting Python to choose.",
+    objectives: [
+      "Do maths in Python",
+      "Understand why input always gives you text",
+      "Use if and else to make the program choose",
+      "Build a small number guessing game"
+    ],
+
+    sections: [
+      {
+        type: "code",
+        heading: "Numbers do not need quotes",
+        body: [
+          "You met this at the end of lesson 1. Today it starts to matter.",
+          "age = 14 is a number. age = \"14\" is text that happens to look like a number. On screen they come out identical, which is exactly why this one catches people."
+        ],
+        code: 'age = 14\nage_text = "14"\nprint(age)\nprint(age_text)\n',
+        explain: "Two lines of output, and you cannot tell them apart by looking. One is a number you can do maths with. The other is two characters, a 1 and a 4, and Python treats it completely differently.",
+        runnable: true
+      },
+
+      {
+        type: "code",
+        heading: "Doing maths",
+        body: [
+          "Python does sums with the symbols you already know: + adds, - takes away, * multiplies, / divides. No quotes anywhere, because these are numbers.",
+          "The odd one is /. It always hands back a decimal, even when the sum comes out even, so 10 / 2 is 5.0 and not 5. Two more you will see later on: // divides and throws away everything after the point, and % gives you the remainder. You do not need those today."
+        ],
+        code: 'print(10 + 3)\nprint(10 - 3)\nprint(10 * 3)\nprint(10 / 2)\n',
+        explain: "The last line is the surprise: 5.0, with a point and a zero. Change the numbers and run it again.",
+        runnable: true
+      },
+
+      {
+        type: "mistake",
+        heading: "input always gives you text",
+        body: [
+          "This is the part of the lesson to hang on to. input does not care what the person types. Numbers, words, their whole name, it all comes back as text.",
+          "So when someone types 14, you have not got the number 14. You have got the characters 1 and 4, sitting in a box, looking like a number and behaving like text.",
+          "Which means the moment you try to do maths with it, Python stops."
+        ],
+        wrong: 'age = input("How old are you? ")\nprint(age + 1)',
+        right: 'age = int(input("How old are you? "))\nprint(age + 1)',
+        why: "The broken one stops with TypeError: can only concatenate str (not \"int\") to str. Said out loud: Python will not add a number to text, because it does not know which one you meant. Did you want 14 + 1 to come out as 15, or did you want the 14 and the 1 stuck together as 141? Both are fair. Python will not guess, so it stops and waits for you to say which. int() is how you say it."
+      },
+
+      {
+        type: "code",
+        heading: "int() turns text into a number",
+        body: "int() takes text that looks like a number and gives you back the actual number. You wrap it round the input, so the text goes in, a number comes out, and what lands in the box is something you can do maths with.",
+        code: 'age = int(input("How old are you? "))\nprint("Next year you will be")\nprint(age + 1)\n',
+        explain: "Read the brackets from the inside out: input asks the question, int turns the answer into a number, and = puts it in the box. If you want decimals rather than whole numbers, float() does the same job.",
+        runnable: true
+      },
+
+      {
+        type: "code",
+        heading: "Comparing things",
+        body: [
+          "A comparison asks a question and gets back True or False, nothing else. == asks are these the same, != asks are these different, and > < >= <= do what they look like.",
+          "Here is the one that trips up everybody. = puts something in a box. == asks a question. One equals sign stores, two equals signs compare."
+        ],
+        code: 'age = 14\nprint(age == 14)\nprint(age == 20)\nprint(age != 20)\nprint(age > 10)\nprint(age <= 13)\n',
+        explain: "Five questions, five answers, and every answer is either True or False. Note the capital T and F. That is how Python writes them.",
+        runnable: true
+      },
+
+      {
+        type: "code",
+        heading: "if",
+        body: "if runs some lines only when something is True. The if line ends with a colon, and the lines that belong to it are pushed in from the left. That gap is called indentation, and it is the only thing telling Python which lines are inside the if. Four spaces is the normal amount.",
+        code: 'age = int(input("How old are you? "))\nif age >= 13:\n    print("You can watch it")\n',
+        explain: "Type 15 and the message appears. Type 9 and nothing happens at all, because the indented line only runs when the answer to age >= 13 is True.",
+        runnable: true
+      },
+
+      {
+        type: "mistake",
+        heading: "Indentation is not decoration",
+        body: "In plenty of languages the spaces at the start of a line are only tidiness. In Python they carry meaning, and Python will not let you skip them.",
+        wrong: 'age = 14\nif age >= 13:\nprint("You can watch it")',
+        right: 'age = 14\nif age >= 13:\n    print("You can watch it")',
+        why: "The broken one stops with IndentationError: expected an indented block. A colon at the end of a line is Python saying something belongs underneath this, and it will be pushed in. Nothing was pushed in, so Python has an if with nothing inside it and gives up. Four spaces, every time."
+      },
+
+      {
+        type: "code",
+        heading: "else",
+        body: "if covers one case. else covers the rest of the time. It gets its own colon and its own indented lines, and exactly one of the two blocks runs, never both and never neither.",
+        code: 'age = int(input("How old are you? "))\nif age >= 13:\n    print("You can watch it")\nelse:\n    print("Not this one, sorry")\n',
+        explain: "Run it twice, once with a big number and once with a small one. Notice that else lines up underneath if rather than being pushed in, because it is part of the same decision.",
+        runnable: true
+      },
+
+      {
+        type: "code",
+        heading: "elif",
+        body: "Two options is if and else. More than two is elif, which is short for else if. Python works down the list from the top and stops at the first one that is True, so everything below it gets skipped. The else at the bottom catches whatever is left.",
+        code: 'score = int(input("What did you get out of 100? "))\n\nif score >= 70:\n    print("A")\nelif score >= 50:\n    print("B")\nelse:\n    print("Have another go")\n',
+        explain: "Type 85. It is 70 or more, so it prints A and never even looks at the elif. Type 60 and the first question comes back False, so Python moves down to the next one. You can have as many elif lines as you need.",
+        runnable: true
+      },
+
+      {
+        type: "code",
+        heading: "Putting it together",
+        body: "Everything from this lesson in one small program: a number, an input, int(), a comparison, and a decision with three ways it can go.",
+        code: 'secret = 7\nguess = int(input("Guess a number from 1 to 10: "))\n\nif guess == secret:\n    print("Correct")\nelif guess < secret:\n    print("Too low")\nelse:\n    print("Too high")\n',
+        explain: "It gives you one go and then stops, which is a bit mean. Getting it to ask again until you are right is what a loop does, and loops are lesson 3.",
+        runnable: true
+      }
+    ],
+
+    practice: [
+      {
+        id: "p1",
+        prompt: "Print the answer to 17 * 23. Do not work it out yourself, let Python do it.",
+        starter: '# let Python do the maths\n',
+        hint: "print, then the sum inside the brackets. No quotes: with quotes you would get the sum printed back at you instead of the answer.",
+        solution: 'print(17 * 23)\n',
+        check: { type: "output-contains", value: "391", message: "I was looking for the answer to 17 * 23 in the output. Put the sum inside print, with no quotes round it." }
+      },
+      {
+        id: "p2",
+        prompt: "Ask for two numbers and print their total.",
+        starter: '# two questions, then one answer\n',
+        hint: 'Two lines of int(input("...")), each into its own variable, then print the two variables added together.',
+        solution: 'first = int(input("First number: "))\nsecond = int(input("Second number: "))\nprint(first + second)\n',
+        check: [
+          { type: "code-contains", value: "input", message: "This one needs input, so the person using it can type the numbers in." },
+          { type: "code-contains", value: "int(", message: "input gives you text. Wrap it in int() or the two numbers get glued together instead of added up." }
+        ]
+      },
+      {
+        id: "p3",
+        prompt: "Ask someone their age and tell them how old they will be in ten years.",
+        starter: '# ask, convert, add ten\n',
+        hint: "Same shape as the example: int(input(...)) into a variable, then print that variable plus 10.",
+        solution: 'age = int(input("How old are you? "))\nprint("In ten years you will be")\nprint(age + 10)\n',
+        check: [
+          { type: "code-contains", value: "int(", message: "The answer from input is text, so it needs int() round it before you can add ten to it." },
+          { type: "output-not-empty" }
+        ]
+      },
+      {
+        id: "p4",
+        prompt: "Ask for a number and print whether it is bigger than 100.",
+        starter: '# ask, then decide\n',
+        hint: "if number > 100: on one line with a colon, the print pushed in four spaces underneath, then else: with its own print.",
+        solution: 'number = int(input("Give me a number: "))\nif number > 100:\n    print("That is bigger than 100")\nelse:\n    print("That is not bigger than 100")\n',
+        check: [
+          { type: "code-contains", value: "if", message: "This one needs an if, so the program can decide." },
+          { type: "code-contains", value: "else", message: "Add an else so it still says something when the number is not bigger than 100." }
+        ]
+      },
+      {
+        id: "p5",
+        prompt: "Ask for a test score out of 100 and print a grade using if, elif and else.",
+        starter: '# three ways this can go\n',
+        hint: "Put the highest score at the top. Python stops at the first one that is True, so if you start low everything lands in the first branch.",
+        solution: 'score = int(input("What did you get out of 100? "))\nif score >= 70:\n    print("A")\nelif score >= 50:\n    print("B")\nelse:\n    print("Have another go")\n',
+        check: [
+          { type: "code-contains", value: "if", message: "This one starts with an if." },
+          { type: "code-contains", value: "elif", message: "It needs an elif in the middle for the third option." },
+          { type: "code-contains", value: "else", message: "It needs an else at the bottom to catch everything that is left." }
+        ]
+      },
+      {
+        id: "p6",
+        prompt: "Make your own version of the guessing game with a different secret number and different messages.",
+        starter: '# your game, your secret, your words\n',
+        hint: "Copy the shape from the last example: a secret, an int(input(...)) guess, then if, elif and else. Change the number and write the messages yourself.",
+        solution: 'secret = 3\nguess = int(input("Pick a number from 1 to 5: "))\n\nif guess == secret:\n    print("Spot on")\nelif guess < secret:\n    print("Go higher")\nelse:\n    print("Go lower")\n',
+        check: {
+          type: "custom",
+          message: "A guessing game needs input to get the guess, then if and elif so it can say correct, too low or too high.",
+          fn: function (ctx) {
+            var code = ctx.code.toLowerCase();
+            return code.indexOf("input") !== -1 && /\bif\b/.test(code) && code.indexOf("elif") !== -1;
+          }
+        }
+      }
+    ],
+
+    quiz: [
+      {
+        question: "What does input always give you, no matter what the person types?",
+        options: [
+          "Text",
+          "A number if they typed a number, text if they typed a word",
+          "Whatever type you asked for"
+        ],
+        answer: 0,
+        explain: "Always text. Even 14 comes back as the characters 1 and 4, which is the whole reason int() exists.",
+        review: 2
+      },
+      {
+        question: "What is the difference between = and ==?",
+        options: [
+          "= stores a value, == compares two things",
+          "They do the same job, == is the tidier one",
+          "= compares two things, == stores a value"
+        ],
+        answer: 0,
+        explain: "One equals sign puts something in a box. Two equals signs ask a question and get back True or False.",
+        review: 4
+      },
+      {
+        question: 'Why does print(input("Age? ") + 1) break?',
+        options: [
+          "You cannot add a number to text",
+          "print only takes one thing at a time",
+          "input has to go on its own line"
+        ],
+        answer: 0,
+        explain: "input hands back text, and Python will not guess whether you meant to add up or to stick together. Wrap it in int() to do maths with it.",
+        review: 2
+      },
+      {
+        type: "predict",
+        question: "What comes out when this runs?",
+        code: 'print(10 / 2)\n',
+        options: ["5.0", "5", "5.5"],
+        answer: 0,
+        explain: "/ always hands back a decimal, even when it divides evenly.",
+        review: 1
+      },
+      {
+        question: "What decides which lines belong to an if?",
+        options: [
+          "The indentation, the spaces at the start of the line",
+          "The order they are written in",
+          "The colon at the end of every line"
+        ],
+        answer: 0,
+        explain: "The spaces are the whole mechanism. Four spaces in means the line is inside the if. Back at the left means it is not.",
+        review: 6
+      }
+    ],
+
+    cheatsheet: [
+      { code: '+ - * /', meaning: "add, take away, multiply, divide", example: 'print(10 + 3)\nprint(10 - 3)\nprint(10 * 3)\nprint(10 / 2)\n' },
+      { code: 'int(x)', meaning: "turn text that looks like a number into a number", example: 'age = int(input("How old are you? "))\nprint(age + 1)\n' },
+      { code: '= and ==', meaning: "= puts something in a box, == asks a question", example: 'age = 14\nprint(age == 14)\n' },
+      { code: '> and <', meaning: "bigger than, smaller than, and the or equal to versions >= and <=", example: 'age = 14\nprint(age > 10)\nprint(age <= 13)\n' },
+      { code: 'if x > 5:', meaning: "run the indented lines only when this is True", example: 'x = 9\nif x > 5:\n    print("bigger")\n' },
+      { code: 'elif x > 3:', meaning: "check this next, if everything above it was False", example: 'x = 4\nif x > 5:\n    print("bigger")\nelif x > 3:\n    print("middling")\n' },
+      { code: 'else:', meaning: "run these lines the rest of the time", example: 'x = 1\nif x > 5:\n    print("bigger")\nelse:\n    print("smaller")\n' },
+      { code: 'four spaces', meaning: "indentation is what shows which lines are inside the if", example: 'if 2 > 1:\n    print("this line is inside the if")\nprint("this line is not")\n' }
+    ],
+
+    next: "Loops: getting Python to repeat things with while, so a guessing game can keep asking until you get it right."
   }
 ];
 
 /* Lessons not written yet. These render as locked cards on the home page. */
 window.UPCOMING = [
-  { id: 2, title: "Numbers and decisions", summary: "Maths, int(), and if / else." },
-  { id: 3, title: "Repeating yourself", summary: "for, while, and lists." },
+  { id: 3, title: "Loops", summary: "Repeating things, and while." },
   { id: 4, title: "Your own functions", summary: "def, arguments, and return." }
 ];

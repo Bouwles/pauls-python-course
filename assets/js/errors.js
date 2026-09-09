@@ -4,9 +4,9 @@
 
 window.PPC_ERROR_HINTS = [
   {
-    // print("Hi " + age) where age is a number
-    test: /TypeError:\s*can only concatenate str \(not "int"\) to str/i,
-    hint: 'Python will not glue text and a number together with +. Wrap the number in str(), like "Hi " + str(age).'
+    // age = input(...) then age + 1, or print("Hi " + age) where age is a number
+    test: /TypeError:\s*can only concatenate str \(not "(int|float)"\) to str/i,
+    hint: 'One side of the + is text and the other is a number, and Python will not guess which you meant. If the text came from input and you want to do maths with it, wrap it in int(), like int(input("Age? ")). If you wanted to stick them together instead, wrap the number in str().'
   },
   {
     test: /TypeError:\s*unsupported operand type\(s\) for \+: '(int|float)' and 'str'/i,
@@ -17,8 +17,18 @@ window.PPC_ERROR_HINTS = [
     hint: 'One side of the + is text and the other is a number. Wrap the number in str() to join them, or int() to add them up.'
   },
   {
-    test: /ValueError:\s*invalid literal for int\(\) with base 10/i,
-    hint: "int() only works on something that is actually a number. If someone typed a word, there is nothing to convert."
+    test: /ValueError:\s*invalid literal for int\(\) with base 10:\s*'\s*'/i,
+    hint: "int() was handed nothing at all. Something was typed in blank, or enter was pressed straight away, and there is no number there to convert."
+  },
+  {
+    test: /ValueError:\s*invalid literal for int\(\) with base 10:\s*'([^']*)'/i,
+    hint: function (match) {
+      return "int() only works on something that is actually a number, and " + match[1] + " is not one. That is what happens when somebody types a word into a question that wanted a number. Your code is fine; the answer was not.";
+    }
+  },
+  {
+    test: /ValueError:\s*could not convert string to float/i,
+    hint: "float() only works on something that is actually a number. A word went in, and there is nothing there to turn into a number."
   },
   {
     test: /NameError:\s*name '([^']+)' is not defined/i,
@@ -43,8 +53,20 @@ window.PPC_ERROR_HINTS = [
     hint: "Something about the way the line is written stops Python reading it. Check brackets, quotes and colons on that line and the one before it."
   },
   {
+    test: /IndentationError:\s*expected an indented block/i,
+    hint: "A line ending in a colon is Python saying something belongs underneath this. Nothing was pushed in underneath it, so the if has nothing inside it. Put four spaces at the start of the line below."
+  },
+  {
+    test: /IndentationError:\s*unexpected indent/i,
+    hint: "This line is pushed in further than Python expected. If it is not meant to be inside an if, move it back to the left so it lines up with the line above it."
+  },
+  {
+    test: /IndentationError:\s*unindent does not match/i,
+    hint: "The spaces at the start of this line do not line up with anything above it. Every line in the same block needs exactly the same amount of space in front of it, so pick four spaces and stick to it."
+  },
+  {
     test: /IndentationError|TabError/i,
-    hint: "The spaces at the start of the line are not what Python expected. Lines that belong together need the same amount of space in front of them."
+    hint: "The spaces at the start of the line are not what Python expected. Lines that belong together need the same amount of space in front of them, and four spaces is the normal amount. Mixing tabs and spaces causes this too."
   },
   {
     test: /IndexError/i,

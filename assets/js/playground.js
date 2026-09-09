@@ -18,15 +18,16 @@
     (window.LESSONS || []).forEach(function (lesson) {
       (lesson.cheatsheet || []).forEach(function (row) {
         out.push({
-          label: row.code + "  -  " + row.meaning,
-          code: exampleFor(row.code)
+          label: "Lesson " + lesson.id + ": " + row.code + "  -  " + row.meaning,
+          code: row.example || exampleFor(row.code)
         });
       });
     });
     return out;
   }
 
-  /* Cheatsheet entries are fragments. Turn each into something runnable. */
+  /* Cheatsheet entries are fragments. A row can carry its own `example`;
+     this is the fallback for the ones that do not. */
   function exampleFor(fragment) {
     if (fragment.indexOf("input(") === 0) {
       return 'answer = input("What is your name? ")\nprint(answer)\n';

@@ -1029,6 +1029,52 @@ details.reveal pre { font-size: 0.83rem; }
   margin-bottom: 0.4rem;
 }
 .next-up p { margin: 0; color: var(--ink-2); }
+.next-up-go { margin-top: 0.9rem !important; }
+.next-up-soon {
+  margin-top: 0.7rem !important;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  color: var(--ink-3) !important;
+  font-size: 0.9rem;
+}
+
+/* --- previous / next along the bottom ------------------------------ */
+
+.lesson-nav {
+  max-width: var(--measure);
+  margin: 2.5rem 0 3rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+.lesson-nav-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: inherit;
+  background: var(--bg-raised);
+}
+a.lesson-nav-link:hover { border-color: var(--rule-strong); }
+.lesson-nav-link.is-next { text-align: right; }
+.lesson-nav-link.is-locked { opacity: 0.55; background: none; }
+.lesson-nav-label {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.lesson-nav-title { font-size: 0.94rem; }
+@media (max-width: 30rem) {
+  .lesson-nav { grid-template-columns: 1fr; }
+  .lesson-nav-link.is-next { text-align: left; }
+}
 
 /* --- playground -------------------------------------------------- */
 

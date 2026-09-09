@@ -290,6 +290,68 @@
     targets.forEach(function (node) { observer.observe(node); });
   }
 
+  /* --- what comes after this lesson ---------------------------------------- */
+
+  function upcomingById(id) {
+    var list = window.UPCOMING || [];
+    for (var i = 0; i < list.length; i++) {
+      if (String(list[i].id) === String(id)) return list[i];
+    }
+    return null;
+  }
+
+  function lessonHref(id) { return "lesson.html?id=" + encodeURIComponent(id); }
+
+  /* The teaser under the cheatsheet: a real link once the next lesson exists,
+     and a plain "not written yet" line while it does not. */
+  function mountNextUp(lesson) {
+    var host = document.getElementById("next-up");
+    var next = window.PPC.lessonById(Number(lesson.id) + 1);
+    if (next) {
+      host.appendChild(el("p", { class: "next-up-go" }, [
+        el("a", { class: "btn btn-primary", href: lessonHref(next.id) },
+          ["Lesson " + pad(next.id) + ": " + next.title, icon("arrow")])
+      ]));
+      return;
+    }
+    var soon = upcomingById(Number(lesson.id) + 1);
+    if (soon) {
+      host.appendChild(el("p", { class: "next-up-soon" }, [
+        el("span", { class: "tag", text: "Not written yet" }),
+        "Lesson " + pad(soon.id) + ": " + soon.title
+      ]));
+    }
+  }
+
+  /* Previous and next along the bottom of the page. */
+  function mountLessonNav(lesson) {
+    var host = document.getElementById("lesson-nav");
+    if (!host) return;
+
+    function link(dir, label, title, href) {
+      return el("a", { class: "lesson-nav-link is-" + dir, href: href }, [
+        el("span", { class: "lesson-nav-label", text: label }),
+        el("span", { class: "lesson-nav-title", text: title })
+      ]);
+    }
+
+    var prev = window.PPC.lessonById(Number(lesson.id) - 1);
+    host.appendChild(prev
+      ? link("prev", "Previous", "Lesson " + pad(prev.id) + ": " + prev.title, lessonHref(prev.id))
+      : link("prev", "Back to", "All lessons", "index.html"));
+
+    var next = window.PPC.lessonById(Number(lesson.id) + 1);
+    if (next) {
+      host.appendChild(link("next", "Next", "Lesson " + pad(next.id) + ": " + next.title, lessonHref(next.id)));
+    } else {
+      var soon = upcomingById(Number(lesson.id) + 1);
+      host.appendChild(el("span", { class: "lesson-nav-link is-next is-locked" }, [
+        el("span", { class: "lesson-nav-label", text: "Coming next" }),
+        el("span", { class: "lesson-nav-title", text: soon ? "Lesson " + pad(soon.id) + ": " + soon.title : "More soon" })
+      ]));
+    }
+  }
+
   /* --- page ---------------------------------------------------------------- */
 
   function idFromUrl() {
@@ -355,6 +417,8 @@
     });
 
     document.getElementById("next-up-text").textContent = lesson.next;
+    mountNextUp(lesson);
+    mountLessonNav(lesson);
 
     mountSidebar(lesson, entries);
 
