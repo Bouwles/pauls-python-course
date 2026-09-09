@@ -253,29 +253,14 @@
       }
     });
 
-    /* highlight the section you are looking at, and count it as read */
+    /* highlight the section you are looking at. The narrow band keeps the
+       highlight on whatever is near the top of the screen. */
     var targets = Array.prototype.slice.call(document.querySelectorAll("[data-spy]"));
     var visible = {};
-    var dwell = {};
 
-    var observer = new IntersectionObserver(function (records) {
+    var spy = new IntersectionObserver(function (records) {
       records.forEach(function (record) {
-        var id = record.target.id;
-        visible[id] = record.isIntersecting ? record.intersectionRatio : 0;
-
-        /* count it as read only once it has been on screen for a moment,
-           so scrolling straight past does not tick everything off */
-        if (!record.target.hasAttribute("data-section-index")) return;
-        if (record.isIntersecting) {
-          if (!dwell[id]) {
-            dwell[id] = window.setTimeout(function () {
-              Progress.markSectionRead(lesson.id, record.target.getAttribute("data-section-index"));
-            }, 1200);
-          }
-        } else {
-          window.clearTimeout(dwell[id]);
-          dwell[id] = null;
-        }
+        visible[record.target.id] = record.isIntersecting ? record.intersectionRatio : 0;
       });
       var best = null;
       targets.forEach(function (node) {
@@ -287,7 +272,52 @@
       });
     }, { rootMargin: "-20% 0px -55% 0px", threshold: [0, 0.25, 0.6, 1] });
 
-    targets.forEach(function (node) { observer.observe(node); });
+    targets.forEach(function (node) { spy.observe(node); });
+
+    /* Count a section as read once it has been anywhere on screen for about
+       a second in total. The time adds up across visits, so reading normally
+       and scrolling back and forth both count, while scrolling straight to
+       the bottom still does not tick everything off. This watches the whole
+       viewport rather than the narrow band above: a section only passes
+       through that band for a few hundred milliseconds at normal scrolling
+       speed, which used to mean most sections were never counted. */
+    var DWELL = 1200;
+    var seen = {};
+    var since = {};
+    var timers = {};
+    var counted = {};
+
+    function credit(node) {
+      var id = node.id;
+      if (counted[id] || since[id] === undefined) return;
+      var now = Date.now();
+      seen[id] = (seen[id] || 0) + (now - since[id]);
+      since[id] = now;
+      if (seen[id] < DWELL) return;
+      counted[id] = true;
+      window.clearTimeout(timers[id]);
+      Progress.markSectionRead(lesson.id, node.getAttribute("data-section-index"));
+    }
+
+    var reader = new IntersectionObserver(function (records) {
+      records.forEach(function (record) {
+        var node = record.target;
+        var id = node.id;
+        if (counted[id]) return;
+        if (record.isIntersecting) {
+          if (since[id] !== undefined) return;
+          since[id] = Date.now();
+          timers[id] = window.setTimeout(function () { credit(node); }, Math.max(0, DWELL - (seen[id] || 0)));
+        } else {
+          credit(node);
+          since[id] = undefined;
+          window.clearTimeout(timers[id]);
+        }
+      });
+    }, { threshold: 0 });
+
+    Array.prototype.slice.call(document.querySelectorAll("[data-section-index]"))
+      .forEach(function (node) { reader.observe(node); });
   }
 
   /* --- what comes after this lesson ---------------------------------------- */
