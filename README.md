@@ -314,3 +314,7 @@ screenshots/          the images in this README
 ## Licence
 
 Do what you like with the code. The lesson writing is mine.
+
+## License
+
+MIT — see [LICENSE](LICENSE).
