@@ -1,5 +1,11 @@
 # Paul's Python Course
 
+[![Open the site](https://img.shields.io/badge/▶_Open_the_site-16A34A?style=for-the-badge&logo=googlechrome&logoColor=white)](https://bouwles.github.io/pauls-python-course/)
+[![Pyodide](https://img.shields.io/badge/Pyodide-3776AB?style=for-the-badge&logo=python&logoColor=white)](#)
+[![License](https://img.shields.io/github/license/Bouwles/pauls-python-course?style=for-the-badge&color=16a34a)](LICENSE)
+[![Last commit](https://img.shields.io/github/last-commit/Bouwles/pauls-python-course?style=for-the-badge&color=16a34a)](https://github.com/Bouwles/pauls-python-course/commits)
+
+
 A revision site for the teenagers I teach Python to in person. After each
 lesson they come here to re-read what we covered, try the practice, and run
 Python in the browser without installing anything.
