@@ -21,7 +21,7 @@ Plain HTML, CSS and vanilla JavaScript. No React, no build step, no bundler, no
 
 **Home — every lesson, with how far through you are**
 
-![The home page, listing lesson 1 and three locked lessons, each with a progress bar](screenshots/home.png)
+![The home page, listing lessons 1 to 3 with progress bars and two locked lessons below them](screenshots/home.png)
 
 **Lesson page — editable examples that actually run, including `input()`**
 
@@ -42,9 +42,16 @@ underneath it. Failed checks say what was expected and offer a hint.
 
 ![A quiz question showing a code sample and three possible outputs, with the right answer ticked in green and the chosen wrong answer marked in red](screenshots/quiz.png)
 
+**A loop that will not stop is survivable**
+
+Python runs in a Web Worker, so a runaway loop never freezes the page. Output
+is capped and counted, and Stop ends it with the code left in the editor.
+
+![A while loop with no counter printing endlessly, with a Stop button in the toolbar and a line reporting millions of further lines not shown](screenshots/stop-button.png)
+
 **On a phone, because that is what my students actually use**
 
-<img src="screenshots/mobile.png" alt="The lesson page on a phone, with the objectives and contents collapsed into a dropdown under the header" width="320">
+<img src="screenshots/mobile.png" alt="A lesson section on a phone, with the objectives and contents collapsed into a dropdown under the header and a code example showing its output" width="320">
 
 ---
 
@@ -54,10 +61,14 @@ underneath it. Failed checks say what was expected and offer a hint.
   objectives and a contents list that follows you down the page.
 - **Runnable code blocks.** Every example is editable and has Run and Copy.
   Pyodide loads lazily on the first Run and says so while it boots.
+- **An infinite loop cannot kill the page.** Python runs in a Web Worker, so a
+  runaway `while` leaves the page fully usable. Stop ends it and the editor
+  keeps the code. Nothing is ever killed automatically.
 - **`input()` support** with an inline prompt, so programs that ask questions
   work like they do on a real machine.
-- **Error translations.** SyntaxError, NameError, `str + int` and a dozen more
-  get a sentence of plain English. The table is its own file, easy to extend.
+- **Error translations.** SyntaxError, NameError, `str + int`, indentation at
+  two levels and a dozen more get a sentence of plain English. So does the
+  quiet case where a run prints nothing at all. Both tables live in one file.
 - **Practice tasks** with five kinds of gentle check, a hint button, and a
   worked answer that stays hidden until they have had a go themselves.
 - **Quizzes** on their own page: multiple choice, predict-the-output, and
@@ -88,20 +99,21 @@ Then open <http://localhost:8000>.
 
 ---
 
-## Adding Lesson 2
+## Adding the next lesson
 
 Everything a lesson contains lives in **`data/lessons.js`**. That is the only
-file you edit.
+file you edit. Lessons 1 to 3 are written; lesson 4 is the next one.
 
 1. Open `data/lessons.js`.
-2. Copy the whole Lesson 1 object (from `{ id: 1,` down to its closing `},`)
+2. Copy the whole Lesson 3 object (from `{ id: 3,` down to its closing `},`)
    and paste it below itself, inside the same `window.LESSONS = [ ... ]` array.
-3. Change `id` to `2`, give it a new `slug`, `title`, `summary`, and rewrite
+3. Change `id` to `4`, give it a new `slug`, `title`, `summary`, and rewrite
    the contents.
-4. Scroll to `window.UPCOMING` at the bottom and delete the `{ id: 2, ... }`
+4. Update lesson 3's `next` line, which is the teaser for what comes after it.
+5. Scroll to `window.UPCOMING` at the bottom and delete the `{ id: 4, ... }`
    entry, so it stops showing as a locked card.
-5. Save, refresh the browser. The lesson appears on the home page, at
-   `lesson.html?id=2`, and its quiz at `quiz.html?id=2`.
+6. Save, refresh the browser. The lesson appears on the home page, at
+   `lesson.html?id=4`, and its quiz at `quiz.html?id=4`.
 
 Nothing else needs touching. No HTML, no CSS, no JavaScript.
 
@@ -109,9 +121,9 @@ Nothing else needs touching. No HTML, no CSS, no JavaScript.
 
 ```js
 {
-  id: 2,
-  slug: "numbers-and-decisions",
-  title: "Numbers and decisions",
+  id: 4,
+  slug: "lists",
+  title: "Lists",
   summary: "One line, shown on the lesson card.",
   objectives: ["Shown in the sidebar", "Keep them short"],
   sections: [ ... ],      // see below
@@ -141,6 +153,28 @@ Each one becomes a numbered section with its own entry in the sidebar contents.
                    right: 'print("Hello")',
                    why: "the explanation" }
 ```
+
+Any section can also carry these, whatever its type:
+
+```js
+aside: true                    // "Optional" tag, quieter styling, stepped back.
+                               // For the bit you might skip in class.
+
+table: {                       // a small table, for walking through something
+  head: ["Round", "total"],    // step by step
+  rows: [["1st", "1"], ["2nd", "3"]],
+  code: false                  // default true: first column is set as code
+}
+
+after: "..."                   // paragraphs placed below the table,
+                               // string or array
+
+link: { href: "lesson.html?id=2#section-10",
+        text: "The version from lesson 2" }   // a pointer somewhere else
+```
+
+Section anchors are `#section-N`, counting from 1 in the order they appear, so
+`lesson.html?id=2#section-10` is the tenth section of lesson 2.
 
 ### Practice tasks
 
@@ -244,6 +278,16 @@ First match wins, so put specific patterns above general ones. `hint` can also
 be a function receiving the regex match, if you want to quote part of the error
 back to them.
 
+The same file holds `PPC_SILENCE_HINTS`, for the quiet failures where nothing
+went wrong and nothing was printed either. Those confuse beginners more than a
+red traceback does — a `while` whose condition is already false does nothing at
+all and looks broken. These are matched against the **code they wrote**, not
+against an error:
+
+```js
+{ test: /^\s*while\s+.+:/m, hint: "Ran without printing anything. If a while..." }
+```
+
 ---
 
 ## Deploying
@@ -292,6 +336,12 @@ screenshots/          the images in this README
 - **Python** is [Pyodide](https://pyodide.org), loaded from jsDelivr the first
   time anyone presses Run. It is a few megabytes, so the first run takes a few
   seconds and says so. After that it is instant for the rest of the visit.
+- **Python runs in a Web Worker**, not on the page's own thread. That is the
+  only reason a student's infinite loop is survivable: the page stays
+  responsive and Stop can terminate the worker outright. The worker is built
+  from a `Blob` rather than its own `.js` file, because a worker loaded from a
+  `file://` path is blocked by the browser and a `blob:` one is not — which is
+  what keeps "just open index.html" working.
 - **The editor** is [CodeMirror 5](https://codemirror.net/5/) from cdnjs, which
   works as plain script tags. CodeMirror 6 would need a bundler, and the whole
   point here is that there is no build step. If either CDN is unreachable the
@@ -301,10 +351,19 @@ screenshots/          the images in this README
   becomes an `async def` along with the calls to it. The tree is compiled
   directly rather than unparsed, so traceback line numbers still match what was
   typed. Beginner code is fine; `input()` inside a lambda or a comprehension is
-  not.
-- **There is no Stop button.** Interrupting a running program needs
-  `SharedArrayBuffer` and cross-origin isolation headers, which GitHub Pages
-  cannot send, so an infinite loop freezes the tab until it is refreshed.
+  not. Because it is already asynchronous, it works inside the worker by
+  message passing, with no need for `SharedArrayBuffer` or the cross-origin
+  isolation headers that GitHub Pages cannot send.
+- **Stop** terminates the worker, which is the only way to interrupt Python
+  mid-loop. A replacement worker is started immediately in the background, so
+  the run after a Stop is not slow. The editor is never touched.
+- **Runaway output is capped.** A loop can print faster than any page can
+  render, so the worker keeps the first 2000 lines of a run and from then on
+  only counts, updating an "and N more lines, not shown" line. Output is
+  flushed on elapsed time from inside the stdout hook rather than on a timer,
+  because a tight Python loop never gives the worker's event loop a turn.
+- **Nothing is ever killed automatically.** After five seconds a run just says
+  it is still going and points at Stop. Some legitimate loops are slow.
 - **Progress** is `localStorage` under `ppc:progress:v1`. It never leaves the
   device, so the same student on a school computer and on their phone will see
   different progress. The reset button is in the footer.

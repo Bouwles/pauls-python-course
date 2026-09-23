@@ -140,7 +140,8 @@
     sun: '<circle cx="8" cy="8" r="3.1"/><path d="M8 1v1.6M8 13.4V15M15 8h-1.6M2.6 8H1M12.9 3.1l-1.1 1.1M4.2 11.8l-1.1 1.1M12.9 12.9l-1.1-1.1M4.2 4.2 3.1 3.1"/>',
     moon: '<path d="M13.5 9.6A5.8 5.8 0 0 1 6.4 2.5a5.8 5.8 0 1 0 7.1 7.1z"/>',
     lock: '<rect x="3.5" y="7" width="9" height="6.5" rx="1"/><path d="M5.75 7V5.25a2.25 2.25 0 0 1 4.5 0V7"/>',
-    arrow: '<path d="M2.5 8h11M9.5 4l4 4-4 4"/>'
+    arrow: '<path d="M2.5 8h11M9.5 4l4 4-4 4"/>',
+    stop: '<rect x="4.25" y="4.25" width="7.5" height="7.5" rx="1"/>'
   };
 
   function icon(name, extraClass) {

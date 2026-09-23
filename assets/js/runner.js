@@ -1,5 +1,11 @@
 /* Pyodide, loaded lazily the first time anyone presses Run,
-   plus the editor + output widget used everywhere on the site. */
+   plus the editor + output widget used everywhere on the site.
+
+   Python runs in a Web Worker, not on this thread. That is what makes a
+   student's infinite loop survivable: the page stays responsive and the Stop
+   button can terminate the worker outright. The worker is built from a Blob
+   so that opening index.html straight off the disk still works - a worker
+   loaded from a file:// path is blocked, a blob: one is not. */
 (function () {
   "use strict";
 
@@ -8,6 +14,13 @@
   var CM_BASE = "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/";
   var FILENAME = "<your code>";
 
+  /* A runaway loop can print faster than any page can render. The worker
+     keeps the first MAX_LINES lines of a run and counts the rest, so memory
+     and the DOM both stay flat while `while True` spins. */
+  var MAX_LINES = 2000;
+  var FLUSH_MS = 50;
+  var SLOW_MS = 5000;
+
   /* Runs inside Pyodide once, at boot.
 
      input() is the awkward part: Python's input() is synchronous, but the
@@ -15,7 +28,11 @@
      rewrite the syntax tree - input(...) becomes await __ppc_input(...), and
      any function that ends up containing an await is turned into an async
      def, along with the calls to it. The tree is compiled directly (never
-     unparsed) so line numbers in tracebacks still match what they typed. */
+     unparsed) so line numbers in tracebacks still match what they typed.
+
+     The same rewrite is what lets input() work from inside a worker without
+     SharedArrayBuffer: __ppc_input returns a JS promise that settles when the
+     page posts the typed answer back. */
   var BOOT = [
     "import ast, sys, traceback, linecache",
     "",
@@ -95,7 +112,219 @@
     ""
   ].join("\n");
 
-  /* --- script loading ------------------------------------------------ */
+  /* --- the worker ------------------------------------------------------ */
+
+  /* Written as a real function and stringified into a Blob, so it stays
+     readable and there is still no build step. Nothing outside this function
+     is in scope when it runs. */
+  function workerBody() {
+    "use strict";
+    var py = null;
+    var buf = [];
+    var lines = 0;
+    var dropped = 0;
+    var timer = null;
+    var lastFlush = 0;
+    var maxLines = 2000;
+    var flushMs = 50;
+    var pending = {};
+    var inputSeq = 0;
+
+    function flushNow() {
+      if (timer !== null) { clearTimeout(timer); timer = null; }
+      lastFlush = Date.now();
+      if (!buf.length && !dropped) return;
+      self.postMessage({ type: "out", text: buf.join(""), dropped: dropped });
+      buf = [];
+      dropped = 0;
+    }
+
+    /* `while True: print(...)` never gives the worker's event loop a turn, so
+       a timer alone would never fire and the page would show nothing at all
+       while the loop spun. stdout calls this synchronously, so the elapsed
+       check here is the only thing that gets output out during a runaway
+       loop. The timer is just the backstop for the last few lines. */
+    function write(text) {
+      lines++;
+      if (lines <= maxLines) buf.push(text); else dropped++;
+      if (Date.now() - lastFlush >= flushMs) flushNow();
+      else if (timer === null) timer = setTimeout(flushNow, flushMs);
+    }
+
+    self.onmessage = function (event) {
+      var msg = event.data || {};
+
+      if (msg.type === "boot") {
+        maxLines = msg.maxLines || maxLines;
+        flushMs = msg.flushMs || flushMs;
+        try {
+          importScripts(msg.pyodideUrl + "pyodide.js");
+        } catch (err) {
+          self.postMessage({ type: "boot-failed", text: String(err) });
+          return;
+        }
+        loadPyodide({ indexURL: msg.pyodideUrl }).then(function (instance) {
+          py = instance;
+          py.setStdout({ batched: function (line) { write(line + "\n"); } });
+          py.setStderr({ batched: function (line) { write(line + "\n"); } });
+          py.runPython(msg.boot);
+          py.globals.set("__ppc_ainput", function (prompt) {
+            return new Promise(function (resolve) {
+              var id = ++inputSeq;
+              pending[id] = resolve;
+              /* everything printed before the question has to be on screen
+                 before the question is asked */
+              flushNow();
+              self.postMessage({
+                type: "input",
+                id: id,
+                prompt: prompt === undefined || prompt === null ? "" : String(prompt)
+              });
+            });
+          });
+          self.postMessage({ type: "ready" });
+        }, function (err) {
+          self.postMessage({ type: "boot-failed", text: String(err) });
+        });
+        return;
+      }
+
+      if (msg.type === "input-result") {
+        var resolve = pending[msg.id];
+        if (resolve) { delete pending[msg.id]; resolve(msg.value); }
+        return;
+      }
+
+      if (msg.type === "run") {
+        buf = [];
+        lines = 0;
+        dropped = 0;
+        py.globals.set("__ppc_src", msg.code);
+        py.runPythonAsync("await __ppc_run(__ppc_src, __ppc_ainput)").then(function (traceback) {
+          flushNow();
+          self.postMessage({
+            type: "done",
+            traceback: traceback || null,
+            lines: lines,
+            truncated: lines > maxLines
+          });
+        }, function (err) {
+          flushNow();
+          self.postMessage({ type: "done", traceback: String(err), lines: lines, truncated: false });
+        });
+      }
+    };
+  }
+
+  var workerUrl = null;
+  function makeWorker() {
+    if (!workerUrl) {
+      var source = "(" + workerBody.toString() + ")();";
+      workerUrl = URL.createObjectURL(new Blob([source], { type: "text/javascript" }));
+    }
+    return new Worker(workerUrl);
+  }
+
+  /* --- worker lifecycle ------------------------------------------------- */
+
+  var wk = null;       /* { worker, ready } */
+  var current = null;  /* the run in flight */
+
+  function spawn() {
+    var worker = makeWorker();
+    var entry = { worker: worker, ready: null };
+
+    entry.ready = new Promise(function (resolve, reject) {
+      worker.onmessage = function (event) {
+        var msg = event.data || {};
+        if (msg.type === "ready") { entry.booted = true; resolve(); return; }
+        if (msg.type === "boot-failed") { reject(new Error(msg.text)); return; }
+        route(msg);
+      };
+      worker.onerror = function (event) {
+        reject(new Error(event.message || "Python could not be started."));
+      };
+    });
+
+    entry.ready.catch(function () {
+      /* a worker that never booted is no use to the next run either */
+      if (wk === entry) wk = null;
+    });
+
+    worker.postMessage({
+      type: "boot",
+      boot: BOOT,
+      pyodideUrl: PYODIDE_URL,
+      maxLines: MAX_LINES,
+      flushMs: FLUSH_MS
+    });
+    return entry;
+  }
+
+  function ensure() {
+    if (!wk) wk = spawn();
+    return wk;
+  }
+
+  function route(msg) {
+    if (!current) return;
+    if (msg.type === "out") {
+      current.handlers.onOutput(msg.text, msg.dropped || 0);
+      return;
+    }
+    if (msg.type === "input") {
+      var worker = current.worker;
+      Promise.resolve(current.handlers.onInput(msg.prompt)).then(function (value) {
+        /* the run may have been stopped while they were typing */
+        if (current && current.worker === worker) {
+          worker.postMessage({ type: "input-result", id: msg.id, value: String(value) });
+        }
+      });
+      return;
+    }
+    if (msg.type === "done") {
+      var finish = current.finish;
+      current = null;
+      finish({ traceback: msg.traceback || null, stopped: false, truncated: !!msg.truncated, lines: msg.lines || 0 });
+    }
+  }
+
+  /* Kill whatever is running. The worker is thrown away, because the only
+     way to interrupt Python mid-loop is to terminate it, and a fresh one is
+     started straight away so the next Run is not slow. */
+  function stop() {
+    if (!wk) return false;
+    var running = current;
+    if (wk.worker) wk.worker.terminate();
+    wk = null;
+    current = null;
+    if (running) running.finish({ traceback: null, stopped: true, truncated: false, lines: 0 });
+    ensure();  /* warm up a replacement in the background */
+    return !!running;
+  }
+
+  /* Run one program. Calls are serialised because stdout is global.
+     handlers: { onBooting(), onOutput(text, dropped), onInput(prompt) -> Promise<string> }
+     Resolves to { traceback, stopped, truncated, lines }. */
+  var queue = Promise.resolve();
+
+  function exec(code, handlers) {
+    var task = queue.then(function () {
+      var entry = ensure();
+      /* only say "starting Python" when it really is starting */
+      if (!entry.booted && handlers.onBooting) handlers.onBooting();
+      return entry.ready.then(function () {
+        return new Promise(function (resolve) {
+          current = { handlers: handlers, finish: resolve, worker: entry.worker };
+          entry.worker.postMessage({ type: "run", code: code });
+        });
+      });
+    });
+    queue = task.then(function () {}, function () {});
+    return task;
+  }
+
+  /* --- CodeMirror ----------------------------------------------------- */
 
   var scriptCache = {};
   function loadScript(src) {
@@ -119,51 +348,6 @@
     document.head.appendChild(link);
   }
 
-  /* --- Pyodide ------------------------------------------------------- */
-
-  var pyodidePromise = null;
-  var queue = Promise.resolve();
-
-  function boot(onProgress) {
-    if (pyodidePromise) return pyodidePromise;
-    if (onProgress) onProgress();
-    pyodidePromise = loadScript(PYODIDE_URL + "pyodide.js")
-      .then(function () { return window.loadPyodide({ indexURL: PYODIDE_URL }); })
-      .then(function (py) {
-        py.runPython(BOOT);
-        return py;
-      })
-      .catch(function (err) {
-        pyodidePromise = null;
-        throw err;
-      });
-    return pyodidePromise;
-  }
-
-  /* Run one program. Calls are serialised because stdout is global.
-     handlers: { onOutput(text), onInput(prompt) -> Promise<string> } */
-  function exec(code, handlers) {
-    var task = queue.then(function () {
-      return boot(handlers.onBooting).then(function (py) {
-        py.setStdout({ batched: function (line) { handlers.onOutput(line + "\n"); } });
-        py.setStderr({ batched: function (line) { handlers.onOutput(line + "\n"); } });
-
-        py.globals.set("__ppc_src", code);
-        py.globals.set("__ppc_ainput", function (prompt) {
-          return Promise.resolve(handlers.onInput(prompt === undefined || prompt === null ? "" : String(prompt)));
-        });
-
-        return py.runPythonAsync("await __ppc_run(__ppc_src, __ppc_ainput)")
-          .then(function (traceback) { return traceback || null; });
-      });
-    });
-    /* keep the chain alive even when a run blows up */
-    queue = task.then(function () {}, function () {});
-    return task;
-  }
-
-  /* --- CodeMirror ----------------------------------------------------- */
-
   var cmPromise = null;
   function loadCodeMirror() {
     if (cmPromise) return cmPromise;
@@ -179,7 +363,7 @@
 
   var uid = 0;
 
-  /* options: { code, label, name, onRun(outputText), extraButtons: [node] } */
+  /* options: { code, label, name, onRun(outputText, code), extraButtons: [node] } */
   function createRunner(options) {
     var el = window.PPC.el;
     var icon = window.PPC.icon;
@@ -198,13 +382,18 @@
     textarea.value = options.code || "";
 
     var runBtn = el("button", { class: "btn btn-primary", type: "button" }, [icon("play"), "Run"]);
-    var copyBtn = el("button", { class: "btn", type: "button", "aria-label": "Copy code" }, [icon("copy"), "Copy"]);
+    var stopBtn = el("button", { class: "btn btn-stop", type: "button" }, [icon("stop"), "Stop"]);
+    stopBtn.hidden = true;
+    /* the label is wrapped so narrow screens can drop it and keep the icon */
+    function copyLabel(text) { return el("span", { class: "btn-copy-text", text: text }); }
+    var copyBtn = el("button", { class: "btn", type: "button", "aria-label": "Copy code" }, [icon("copy"), copyLabel("Copy")]);
 
     var bar = el("div", { class: "runner-bar" }, [
       el("span", { class: "runner-name", text: options.name || "main.py" })
     ]);
     (options.extraButtons || []).forEach(function (node) { bar.appendChild(node); });
     bar.appendChild(copyBtn);
+    bar.appendChild(stopBtn);
     bar.appendChild(runBtn);
 
     var editorWrap = el("div", { class: "runner-editor" }, [textarea]);
@@ -258,6 +447,7 @@
       out.appendChild(node);
       out.scrollTop = out.scrollHeight;
       if (!className || className === "out-echo") plain += text;
+      return node;
     }
 
     function status(text) {
@@ -265,6 +455,7 @@
       node.appendChild(el("span", { class: "spinner" }));
       node.appendChild(document.createTextNode(text));
       out.appendChild(node);
+      out.scrollTop = out.scrollHeight;
       return node;
     }
 
@@ -289,10 +480,12 @@
         out.appendChild(row);
         out.scrollTop = out.scrollHeight;
         field.focus();
+        stdinRow = row;
 
         function done() {
           var value = field.value;
           row.remove();
+          if (stdinRow === row) stdinRow = null;
           /* keep the question and the answer in the transcript */
           if (prompt) push(prompt);
           push(value + "\n", "out-echo");
@@ -306,61 +499,115 @@
     }
 
     var running = false;
+    var stdinRow = null;
+    var droppedTotal = 0;
+    var droppedNode = null;
+    var slowTimer = null;
+    var slowNode = null;
+
+    /* Some legitimate loops are slow, so nothing is ever killed automatically.
+       After a few seconds it just says so, and points at the Stop button. */
+    function startSlowWatch() {
+      slowTimer = window.setTimeout(function () {
+        slowTimer = null;
+        if (!running) return;
+        slowNode = status("Still running. Press Stop if it should have finished by now.");
+      }, SLOW_MS);
+    }
+
+    function clearRunState() {
+      if (slowTimer) { window.clearTimeout(slowTimer); slowTimer = null; }
+      if (slowNode) { slowNode.remove(); slowNode = null; }
+      if (stdinRow) { stdinRow.remove(); stdinRow = null; }
+      droppedNode = null;
+      droppedTotal = 0;
+    }
+
+    function noteDropped(count) {
+      droppedTotal += count;
+      if (!droppedTotal) return;
+      var text = "\n... and " + droppedTotal.toLocaleString() + " more lines, not shown.\n";
+      if (droppedNode) droppedNode.textContent = text;
+      else droppedNode = push(text, "out-status");
+      out.scrollTop = out.scrollHeight;
+    }
 
     function run() {
       if (running) return Promise.resolve("");
       running = true;
       runBtn.disabled = true;
+      stopBtn.hidden = false;
       clearOut();
+      clearRunState();
       var booting = null;
+      startSlowWatch();
 
       return exec(getCode(), {
         onBooting: function () {
           booting = status("Starting Python. This takes a few seconds the first time.");
         },
-        onOutput: function (text) {
+        onOutput: function (text, dropped) {
           if (booting) { booting.remove(); booting = null; }
-          push(text);
+          if (text) push(text);
+          if (dropped) noteDropped(dropped);
         },
         onInput: function (prompt) {
           if (booting) { booting.remove(); booting = null; }
-          return askForInput(prompt);
+          /* waiting on a person is not a slow program */
+          if (slowTimer) { window.clearTimeout(slowTimer); slowTimer = null; }
+          if (slowNode) { slowNode.remove(); slowNode = null; }
+          return askForInput(prompt).then(function (value) {
+            startSlowWatch();
+            return value;
+          });
         }
-      }).then(function (traceback) {
+      }).then(function (result) {
         if (booting) { booting.remove(); booting = null; }
-        if (traceback) {
-          push(traceback.replace(/\s+$/, "") + "\n", "out-err");
-          var hint = window.PPC_explainError ? window.PPC_explainError(traceback) : null;
+        clearRunState();
+
+        if (result.stopped) {
+          push("\nStopped. Your code is still in the editor.\n", "out-status");
+        } else if (result.traceback) {
+          push(result.traceback.replace(/\s+$/, "") + "\n", "out-err");
+          var hint = window.PPC_explainError ? window.PPC_explainError(result.traceback) : null;
           if (hint) push(hint, "out-hint");
-        } else if (out.childNodes.length === 0) {
-          push("Ran with no output. Nothing was printed.", "out-status");
+        } else if (plain.trim() === "") {
+          var quiet = window.PPC_explainSilence ? window.PPC_explainSilence(getCode()) : null;
+          push(quiet || "Ran with no output. Nothing was printed.", "out-status");
         }
         return plain;
       }, function (err) {
         if (booting) { booting.remove(); booting = null; }
+        clearRunState();
         push("Python could not be loaded. Check your internet connection and try again.\n", "out-err");
         if (err && err.message) push(String(err.message), "out-status");
         return plain;
       }).then(function (result) {
         running = false;
         runBtn.disabled = false;
+        stopBtn.hidden = true;
         if (options.onRun) options.onRun(result, getCode());
         return result;
       });
     }
 
     runBtn.addEventListener("click", run);
+    stopBtn.addEventListener("click", function () {
+      stopBtn.disabled = true;
+      stop();
+      window.setTimeout(function () { stopBtn.disabled = false; }, 200);
+    });
 
     copyBtn.addEventListener("click", function () {
       var text = getCode();
       var restore = function () {
-        copyBtn.innerHTML = "";
+        copyBtn.textContent = "";
         copyBtn.appendChild(icon("check"));
-        copyBtn.appendChild(document.createTextNode("Copied"));
+        copyBtn.appendChild(copyLabel("Copied"));
         window.setTimeout(function () {
-          copyBtn.innerHTML = "";
+          copyBtn.textContent = "";
           copyBtn.appendChild(icon("copy"));
-          copyBtn.appendChild(document.createTextNode("Copy"));
+          copyBtn.appendChild(copyLabel("Copy"));
         }, 1400);
       };
       if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -394,4 +641,5 @@
   window.PPC = window.PPC || {};
   window.PPC.createRunner = createRunner;
   window.PPC.pyExec = exec;
+  window.PPC.pyStop = stop;
 })();

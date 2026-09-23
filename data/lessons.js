@@ -520,12 +520,326 @@ window.LESSONS = [
       { code: 'four spaces', meaning: "indentation is what shows which lines are inside the if", example: 'if 2 > 1:\n    print("this line is inside the if")\nprint("this line is not")\n' }
     ],
 
-    next: "Loops: getting Python to repeat things with while, so a guessing game can keep asking until you get it right."
+    next: "Loops: getting Python to repeat things with for and while, so a guessing game can keep asking until you get it right."
+  },
+
+  {
+    id: 3,
+    slug: "loops",
+    title: "Loops",
+    summary: "Getting the computer to repeat something without writing it out fifty times.",
+    objectives: [
+      "Repeat something a set number of times",
+      "Repeat something until a condition changes",
+      "Stop a loop that will not stop",
+      "Finish the guessing game properly"
+    ],
+
+    sections: [
+      {
+        type: "code",
+        heading: "The problem",
+        body: [
+          "Say you want the numbers 1 to 5 on the screen. You already know how to do this."
+        ],
+        code: "print(1)\nprint(2)\nprint(3)\nprint(4)\nprint(5)\n",
+        explain: "That works. Now do it up to a hundred. That is ninety five more lines to type, every one of them a chance to make a typo, and the computer is sitting there doing none of the work. Repeating things is the job it is best at.",
+        runnable: false
+      },
+
+      {
+        type: "code",
+        heading: "for and range",
+        body: [
+          "A for loop says: run these lines once for each number I give you.",
+          "The colon and the indent work exactly as they did with if last lesson. The colon says something belongs underneath this, and the four spaces say which lines."
+        ],
+        code: "for i in range(5):\n    print(i)\n",
+        explain: "Five lines of output: 0, 1, 2, 3, 4. Five numbers, starting at zero. Python counts from zero. Take it as the convention it is, and it will stop looking odd after you have written a few of these.",
+        runnable: true
+      },
+
+      {
+        type: "code",
+        heading: "Telling range where to start and stop",
+        body: [
+          "range can take more than one number. Give it two and the first is where to start, the second is where to stop.",
+          "The stop number is never included. range(1, 6) gives you 1, 2, 3, 4, 5 and no 6. Give it a third number and that is the size of the step."
+        ],
+        code: "for i in range(1, 6):\n    print(i)\n\nfor i in range(0, 10, 2):\n    print(i)\n",
+        table: {
+          head: ["Written", "What you get"],
+          rows: [
+            ["range(5)", "0 1 2 3 4"],
+            ["range(1, 6)", "1 2 3 4 5"],
+            ["range(0, 10, 2)", "0 2 4 6 8"]
+          ]
+        },
+        explain: "Change the numbers in the editor and run it again. Guess what will come out first, then check. That is the quickest way to get the feel of this.",
+        runnable: true
+      },
+
+      {
+        type: "code",
+        heading: "What is i",
+        body: [
+          "i is an ordinary variable. Nothing about it is special and nothing needs the letter i. The loop puts the next value into it each time round, and you can call it whatever you like.",
+          "A loop does not even need range. Give it a list of things and it walks through them one at a time."
+        ],
+        code: 'for number in range(3):\n    print(number)\n\nfor name in ["Sara", "Ali", "Maya"]:\n    print("Hello " + name)\n',
+        explain: "Square brackets with things inside them is a list. That is all you need to know about them today, and they get a lesson of their own next time.",
+        runnable: true
+      },
+
+      {
+        type: "code",
+        heading: "Running totals",
+        body: [
+          "This is the one that takes a minute to click, so give it that minute. You want to add up 1, 2, 3, 4 and 5.",
+          "The answer has to be kept somewhere while it is being built, so you make a variable before the loop and start it at 0. Each time round, the current number gets added to it."
+        ],
+        code: "total = 0\nfor i in range(1, 6):\n    total = total + i\nprint(total)\n",
+        explain: "total = total + i is not a claim that the two sides are equal. It is an instruction, and it happens in two halves: work out the right hand side first, then put that answer back in the box, replacing whatever was in there before.",
+        table: {
+          code: false,
+          head: ["Round", "i is", "total afterwards"],
+          rows: [
+            ["before the loop", "-", "0"],
+            ["1st", "1", "1"],
+            ["2nd", "2", "3"],
+            ["3rd", "3", "6"],
+            ["4th", "4", "10"],
+            ["5th", "5", "15"]
+          ]
+        },
+        after: [
+          "Only one number gets printed, because print is outside the loop, back at the left margin. Push it in by four spaces and you will get all five instead. Try it and watch the total climb."
+        ],
+        runnable: true
+      },
+
+      {
+        type: "code",
+        heading: "while",
+        body: [
+          "A for loop has to know how many times before it starts. Sometimes you do not know that. What you know instead is when to stop.",
+          "while repeats for as long as something stays true. It checks the condition before every round, including the very first one, so a condition that is false at the start means the loop never runs at all."
+        ],
+        code: 'count = 1\nwhile count <= 5:\n    print(count)\n    count = count + 1\nprint("Done")\n',
+        explain: "Use for when you know how many times. Use while when you only know what has to be true for it to keep going. The last line inside the loop is what eventually ends it: count climbs until count <= 5 stops being true.",
+        runnable: true
+      },
+
+      {
+        type: "mistake",
+        heading: "The loop that never stops",
+        body: [
+          "Take the counting line out and the loop has no way of ever finishing. You will write one of these today, probably by accident."
+        ],
+        wrong: 'count = 1\nwhile count <= 5:\n    print(count)',
+        right: 'count = 1\nwhile count <= 5:\n    print(count)\n    count = count + 1',
+        why: "count never changes, so count <= 5 is true now and will still be true in a thousand years. The loop is doing exactly what it was told. Nothing is damaged and nothing is lost. On this site, press the Stop button above the output and it ends straight away with your code still sitting in the editor. On a real computer it is Ctrl and C. Everybody who writes loops does this, and it is not a sign that you are bad at it."
+      },
+
+      {
+        type: "code",
+        heading: "Keep asking until they get it right",
+        body: [
+          "while and input together is where this starts being useful. The loop keeps asking until the answer is the one you were after.",
+          'The first line has to be there. The while looks at answer on its very first round, before anyone has typed anything, so answer has to already exist. Two quotes with nothing between them is an empty piece of text, and it is a perfectly good thing to start with.'
+        ],
+        code: 'answer = ""\nwhile answer != "yes":\n    answer = input("Ready? ")\nprint("Off we go")\n',
+        explain: "!= means is not equal to. Type no a few times and watch the question come back round. Type yes and it moves on.",
+        runnable: true
+      },
+
+      {
+        type: "code",
+        heading: "The game, finished",
+        body: [
+          "Last lesson the guessing game got one go. One guess, one answer, done. Wrapping it in a while loop is the thing that turns it into a game.",
+          "guess = 0 is there for the same reason the empty quotes were: the while needs something to look at on the first round. Nobody is going to guess 0, so it is a safe place to start."
+        ],
+        code: 'secret = 7\nguess = 0\n\nwhile guess != secret:\n    guess = int(input("Guess a number from 1 to 10: "))\n    if guess < secret:\n        print("Too low")\n    elif guess > secret:\n        print("Too high")\n\nprint("Correct")\n',
+        explain: 'Look down the left edge. The lines inside the while are four spaces in. The two prints are eight, because they are inside the if and the elif, which are themselves inside the while. print("Correct") is back at the margin, so it only runs once the loop has finished, and the loop can only finish when the guess is right.',
+        link: { href: "lesson.html?id=2#section-10", text: "The one guess version from lesson 2" },
+        runnable: true
+      },
+
+      {
+        type: "code",
+        aside: true,
+        heading: "break",
+        body: [
+          "One more way out of a loop, for when you want it. break stops the loop immediately, wherever it has got to.",
+          "while True is a loop with no way out built in, because True is simply always true. Put break inside it and you get: keep going until I say."
+        ],
+        code: 'while True:\n    answer = input("Type quit to stop: ")\n    if answer == "quit":\n        break\n    print("You said " + answer)\nprint("Finished")\n',
+        explain: "Plenty of people write loops for years without ever needing this. It is here so that you recognise it when you come across it.",
+        runnable: true
+      }
+    ],
+
+    practice: [
+      {
+        id: "p1",
+        prompt: "Print the numbers 1 to 20.",
+        starter: "# one line to start the loop, one line to do the printing\n",
+        hint: "for i in range(1, 21): on the first line, then print(i) indented underneath. Remember the stop number is never included, so it has to be 21 to get to 20.",
+        solution: "for i in range(1, 21):\n    print(i)\n",
+        check: [
+          { type: "code-contains", value: "for", message: "This one wants a for loop rather than twenty print lines." },
+          { type: "output-contains", value: ["1", "20"], message: "I was looking for everything from 1 to 20 in the output." }
+        ]
+      },
+      {
+        id: "p2",
+        prompt: "Print the 7 times table, from 7 x 1 up to 7 x 12.",
+        starter: "# the numbers 1 to 12, each one multiplied by 7\n",
+        hint: "Loop over range(1, 13) and print 7 * i each time round. * is the multiply sign.",
+        solution: "for i in range(1, 13):\n    print(7 * i)\n",
+        check: {
+          type: "output-contains",
+          value: ["7", "84"],
+          message: "The table should start at 7 and finish at 84, so both of those want to be in the output."
+        }
+      },
+      {
+        id: "p3",
+        prompt: "Add up every number from 1 to 100 and print the total.",
+        starter: "total = 0\n# now loop, and add each number to total\n",
+        hint: "Same shape as the running total example, just with bigger numbers: total = 0 before the loop, total = total + i inside it, and print(total) at the end, outside the loop.",
+        solution: "total = 0\nfor i in range(1, 101):\n    total = total + i\nprint(total)\n",
+        check: {
+          type: "output-contains",
+          value: "5050",
+          message: "Not the number I was expecting. Check the range goes all the way to 100, and that the print is outside the loop."
+        }
+      },
+      {
+        id: "p4",
+        prompt: "Keep asking for a password until they type python.",
+        starter: '# something for the while to look at on the first round\n',
+        hint: 'Start with password = "" so there is something to check, then while password != "python": and ask again inside the loop.',
+        solution: 'password = ""\nwhile password != "python":\n    password = input("Password: ")\nprint("You are in")\n',
+        check: [
+          { type: "code-contains", value: "while", message: "This one needs a while loop, because you do not know how many goes they will take." },
+          { type: "code-contains", value: "input", message: "It needs input as well, so there is something to ask them." }
+        ]
+      },
+      {
+        id: "p5",
+        prompt: "Add a counter to the guessing game so it says how many tries they took.",
+        starter: 'secret = 7\nguess = 0\ntries = 0\n\n# the while loop goes here\n',
+        hint: 'Add tries = tries + 1 inside the loop, just after the guess comes in. At the end, print("You took " + str(tries) + " tries"). str() is needed because tries is a number and the rest is text.',
+        solution: 'secret = 7\nguess = 0\ntries = 0\n\nwhile guess != secret:\n    guess = int(input("Guess a number from 1 to 10: "))\n    tries = tries + 1\n    if guess < secret:\n        print("Too low")\n    elif guess > secret:\n        print("Too high")\n\nprint("Correct. You took " + str(tries) + " tries")\n',
+        check: {
+          type: "custom",
+          fn: function (ctx) {
+            var code = (ctx.code || "").toLowerCase();
+            return code.indexOf("while") !== -1 &&
+                   code.indexOf("int(") !== -1 &&
+                   code.indexOf("str(") !== -1;
+          },
+          message: "This one wants the while loop to keep it going, int() to turn the typed guess into a number, and str() to put the count into a sentence at the end."
+        }
+      }
+    ],
+
+    quiz: [
+      {
+        question: "What does range(1, 6) give you?",
+        options: ["1, 2, 3, 4, 5", "1, 2, 3, 4, 5, 6", "0, 1, 2, 3, 4, 5"],
+        answer: 0,
+        explain: "It starts at the first number and stops before the second one. The stop number is never included.",
+        review: 2
+      },
+      {
+        type: "predict",
+        question: "What comes out when this runs?",
+        code: "for i in range(3):\n    print(i)\n",
+        options: ["0\n1\n2", "1\n2\n3", "0\n1\n2\n3"],
+        answer: 0,
+        explain: "Three numbers, starting at zero. range(3) means three of them, not up to three.",
+        review: 1
+      },
+      {
+        question: "When would you use while instead of for?",
+        options: [
+          "When you do not know how many times in advance, only when to stop",
+          "When there are more than ten rounds to do",
+          "When the numbers need to count downwards"
+        ],
+        answer: 0,
+        explain: "for is for a known number of rounds. while is for carrying on until something changes, however long that takes.",
+        review: 5
+      },
+      {
+        type: "predict",
+        question: "Why does this never stop?",
+        code: "count = 1\nwhile count <= 5:\n    print(count)\n",
+        options: [
+          "Nothing ever changes count, so the condition stays true forever",
+          "5 is too small a number for a while loop",
+          "print cannot go inside a while loop"
+        ],
+        answer: 0,
+        explain: "count stays at 1, so count <= 5 is true every single time it is checked. The loop needs a line that moves count along.",
+        review: 6
+      },
+      {
+        question: "What does total = total + i actually do?",
+        options: [
+          "Works out the right hand side, then stores that answer back in total",
+          "Says that total and total + i are the same thing",
+          "Makes a second variable also called total"
+        ],
+        answer: 0,
+        explain: "Right side first, then the answer goes back in the box and replaces what was there. That is why it can climb.",
+        review: 4
+      },
+      {
+        type: "predict",
+        question: "What is the last thing this prints?",
+        code: "total = 0\nfor i in range(1, 4):\n    total = total + i\nprint(total)\n",
+        options: ["6", "3", "1\n3\n6"],
+        answer: 0,
+        explain: "1, then 1 + 2 = 3, then 3 + 3 = 6. Only one line comes out, because print is outside the loop.",
+        review: 4
+      },
+      {
+        question: "How many levels of indent does an if inside a while need?",
+        options: ["Two, so eight spaces", "One, so four spaces", "None, ifs are never indented"],
+        answer: 0,
+        explain: "Four spaces to be inside the while, and four more to be inside the if. Things inside two things get indented twice.",
+        review: 8
+      },
+      {
+        type: "write",
+        question: "Write the first line of a loop that counts from 0 to 4.",
+        placeholder: "one line of Python",
+        accept: ["for i in range(5):", "for i in range(0, 5):"],
+        explain: "for, a name for the variable, in, then the range, and a colon on the end.",
+        review: 1
+      }
+    ],
+
+    cheatsheet: [
+      { code: "for i in range(n):", meaning: "do the indented lines n times", example: "for i in range(5):\n    print(i)\n" },
+      { code: "range(start, stop)", meaning: "counts from start, and stops before stop", example: "for i in range(1, 6):\n    print(i)\n" },
+      { code: "range(start, stop, step)", meaning: "the same, but counting in steps", example: "for i in range(0, 10, 2):\n    print(i)\n" },
+      { code: "the stop number", meaning: "never included, so range(1, 6) ends at 5", example: "for i in range(1, 6):\n    print(i)\n" },
+      { code: "while condition:", meaning: "keep going for as long as this stays true", example: 'count = 1\nwhile count <= 5:\n    print(count)\n    count = count + 1\n' },
+      { code: "total = total + x", meaning: "work out the right side, then put it back in total", example: "total = 0\nfor i in range(1, 6):\n    total = total + i\nprint(total)\n" },
+      { code: "break", meaning: "leave the loop immediately", example: 'while True:\n    answer = input("Type quit to stop: ")\n    if answer == "quit":\n        break\n' }
+    ],
+
+    next: "Lists: keeping a whole pile of things in one variable, and going through them without writing each one out."
   }
 ];
 
 /* Lessons not written yet. These render as locked cards on the home page. */
 window.UPCOMING = [
-  { id: 3, title: "Loops", summary: "Repeating things, and while." },
-  { id: 4, title: "Your own functions", summary: "def, arguments, and return." }
+  { id: 4, title: "Lists", summary: "Keeping many things in one variable." },
+  { id: 5, title: "Your own functions", summary: "def, arguments, and return." }
 ];

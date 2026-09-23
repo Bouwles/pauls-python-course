@@ -1149,3 +1149,101 @@ a.lesson-nav-link:hover { border-color: var(--rule-strong); }
 
 body { display: flex; flex-direction: column; min-height: 100vh; }
 main { flex: 1 0 auto; }
+
+/* --- stop button, and the run states around it ------------------ */
+
+/* Reads as stop without shouting: the red is in the text and the border,
+   not a filled slab, so it sits level with Run rather than fighting it. */
+.btn-stop {
+  color: var(--bad);
+  border-color: var(--bad);
+}
+.btn-stop:hover {
+  background: var(--bad-tint);
+  border-color: var(--bad);
+  color: var(--bad);
+}
+:root[data-theme="dark"] .btn-stop:hover,
+:root:not([data-theme="light"]) .btn-stop:hover {
+  background: color-mix(in srgb, var(--bad) 18%, transparent);
+}
+
+/* --- step tables ------------------------------------------------- */
+
+.table-wrap {
+  overflow-x: auto;
+  margin: 1.1rem 0;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+.step-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.94rem;
+}
+.step-table th,
+.step-table td {
+  text-align: left;
+  padding: 0.5rem 0.85rem;
+  border-bottom: 1px solid var(--rule);
+  white-space: nowrap;
+}
+.step-table thead th {
+  font-family: var(--sans);
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  font-weight: 600;
+  background: var(--tint);
+}
+.step-table tbody tr:last-child th,
+.step-table tbody tr:last-child td { border-bottom: 0; }
+.step-table tbody th {
+  font-weight: 400;
+  color: var(--ink);
+}
+.step-table tbody th code {
+  background: none;
+  padding: 0;
+  font-size: 0.92em;
+}
+.step-table td { color: var(--ink-2); }
+
+/* --- optional sections and cross-lesson links --------------------- */
+
+/* Quieter than a normal section, so it reads as worth knowing rather than
+   required. Not hidden, not collapsed: just stepped back. */
+.lesson-section.is-aside {
+  border-left: 2px solid var(--rule);
+  padding-left: 1.4rem;
+}
+.lesson-section.is-aside > h2 { color: var(--ink-2); }
+.lesson-section.is-aside > h2 .tag { vertical-align: middle; margin-left: 0.6rem; }
+
+.section-link {
+  font-size: 0.94rem;
+  margin-top: 1rem;
+}
+.section-link a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.section-link .icon { width: 0.85em; height: 0.85em; }
+
+@media (max-width: 40rem) {
+  .lesson-section.is-aside { padding-left: 1rem; }
+  .step-table th,
+  .step-table td { padding: 0.45rem 0.6rem; }
+}
+
+/* On a phone the toolbar can carry four buttons at once (Check, Copy, Stop,
+   Run). The filename is decorative and Copy has an aria-label, so both give
+   up their text before the buttons are allowed to wrap onto a second row. */
+@media (max-width: 34rem) {
+  .runner-name { display: none; }
+  .runner-bar { justify-content: flex-end; }
+  .runner-bar .btn-copy-text { display: none; }
+  .runner-bar .btn { padding: 0.4rem 0.55rem; }
+}

@@ -81,6 +81,34 @@
 
   /* --- sections -------------------------------------------------------- */
 
+  /* A small two-column table, for walking through something step by step. */
+  function table(spec) {
+    var head = el("tr", {}, (spec.head || []).map(function (cell) {
+      return el("th", { scope: "col", text: cell });
+    }));
+    var body = (spec.rows || []).map(function (row) {
+      return el("tr", {}, row.map(function (cell, i) {
+        var node = el(i === 0 ? "th" : "td");
+        if (i === 0) node.setAttribute("scope", "row");
+        var asCode = spec.code !== false && i === 0;
+        if (asCode) {
+          var codeNode = el("code");
+          codeNode.textContent = cell;
+          node.appendChild(codeNode);
+        } else {
+          node.textContent = cell;
+        }
+        return node;
+      }));
+    });
+    return el("div", { class: "table-wrap" }, [
+      el("table", { class: "step-table" }, [
+        el("thead", {}, [head]),
+        el("tbody", {}, body)
+      ])
+    ]);
+  }
+
   function renderSection(section, index, lesson, registerRunner) {
     var anchor = "section-" + (index + 1);
     var heading = section.heading || ("Part " + (index + 1));
@@ -89,9 +117,13 @@
       el("span", { class: "sec-num", text: pad(index + 1) }),
       heading
     ]);
+    /* `aside` marks a section as worth knowing but skippable in class */
+    if (section.aside) head.appendChild(el("span", { class: "tag", text: "Optional" }));
 
     var wrap = el("section", {
-      class: "lesson-section" + (section.type === "callout" ? " callout" : ""),
+      class: "lesson-section" +
+        (section.type === "callout" ? " callout" : "") +
+        (section.aside ? " is-aside" : ""),
       id: anchor,
       "aria-labelledby": anchor + "-heading",
       "data-section-index": String(index)
@@ -127,6 +159,16 @@
       ]);
       wrap.appendChild(pair);
       if (section.why) wrap.appendChild(el("p", { class: "mistake-why", text: section.why }));
+    }
+
+    if (section.table) wrap.appendChild(table(section.table));
+    if (section.after) paragraphs(section.after).forEach(function (p) { wrap.appendChild(p); });
+
+    /* an optional pointer somewhere else, usually back into an earlier lesson */
+    if (section.link) {
+      wrap.appendChild(el("p", { class: "section-link" }, [
+        el("a", { href: section.link.href }, [section.link.text, icon("arrow")])
+      ]));
     }
 
     return { node: wrap, anchor: anchor, heading: heading };
