@@ -1,0 +1,8 @@
+# Ada Penhallow's notes, found in the code she left behind.
+# Each note is written into a starter file as a comment; finding it sets a story flag.
+notes:
+  - id: the-hill-is-harder
+    job: reading-the-wreckage
+    title: "The tides are the easy part"
+    text: "Whoever fixes this next: the tides are the easy part. The hill is harder. A.P."
+    where: "A comment at the top of the tide table, in the last piece of Reading the Wreckage."

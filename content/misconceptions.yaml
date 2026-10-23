@@ -1,0 +1,108 @@
+# Named misconceptions. Every wrong predict option points at one of these.
+# Choosing that option records the misconception, and review cards target it later.
+
+lines-run-in-any-order:
+  concept: program-order
+  description: Thinks Python may run the lines of a program in some order other than top to bottom.
+later-line-changes-earlier-output:
+  concept: program-order
+  description: Thinks a later line can change what an earlier print already showed.
+print-shows-code:
+  concept: print
+  description: Thinks print() shows the code itself, or the quotes and brackets, rather than the value.
+print-same-line:
+  concept: print
+  description: Thinks separate print() calls continue on the same line.
+quotes-printed:
+  concept: strings
+  description: Thinks the quote marks around a string appear in the output.
+mismatched-quotes-ok:
+  concept: strings
+  description: Thinks a string can open with one kind of quote and close with the other.
+plus-cannot-join-text:
+  concept: strings
+  description: Thinks + only works on numbers, not text.
+comments-run:
+  concept: comments
+  description: Thinks lines starting with # are run or printed.
+left-to-right-always:
+  concept: operator-precedence
+  description: Thinks arithmetic is always worked out strictly from left to right.
+division-gives-whole-number:
+  concept: arithmetic
+  description: Thinks / gives a whole number when dividing whole numbers.
+floor-division-rounds:
+  concept: arithmetic
+  description: Thinks // rounds to the nearest whole number rather than dropping the remainder.
+percent-is-percentage:
+  concept: arithmetic
+  description: Thinks % works out a percentage rather than a remainder.
+caret-is-power:
+  concept: arithmetic
+  description: Thinks ^ raises to a power. In Python, ** does.
+variable-keeps-first-value:
+  concept: variables
+  description: Thinks a variable keeps the first value it was given, even after reassignment.
+printing-name-shows-name:
+  concept: variables
+  description: Thinks print(name) shows the word "name" rather than the value it holds.
+assignment-is-equation:
+  concept: variables
+  description: Reads = as maths equality, so x = x + 1 looks impossible.
+assignment-links-variables:
+  concept: variables
+  description: Thinks b = a ties b to a, so changing a number in a later changes b too.
+names-can-have-spaces:
+  concept: naming
+  description: Thinks variable names may contain spaces or start with a digit.
+input-returns-number:
+  concept: input-returns-text
+  description: Thinks input() gives back a number when digits are typed.
+str-times-int-errors:
+  concept: input-returns-text
+  description: Thinks multiplying text by a whole number is an error.
+repetition-adds-space:
+  concept: input-returns-text
+  description: Thinks repeating text with * puts a space between the copies.
+int-rounds:
+  concept: int-conversion
+  description: Thinks int() rounds to the nearest whole number rather than chopping off the decimals.
+int-reads-decimals:
+  concept: int-conversion
+  description: Thinks int() can read text like "2.5".
+float-is-exact:
+  concept: float-conversion
+  description: Thinks decimal arithmetic on floats is always exact, so 0.1 + 0.2 is exactly 0.3.
+f-prefix-optional:
+  concept: f-strings
+  description: Forgets the f, so the braces and the name are printed literally.
+format-changes-value:
+  concept: f-strings
+  description: Thinks :.2f in an f-string changes the stored value, not just how it is shown.
+type-is-the-value:
+  concept: type-function
+  description: Thinks type() gives back the value, or the value converted to that type.
+error-is-at-the-top:
+  concept: reading-tracebacks
+  description: Thinks the error must be on the first line of the program.
+read-traceback-top-down:
+  concept: reading-tracebacks
+  description: Starts reading a traceback from the top, where the least useful information is.
+syntax-error-line-exact:
+  concept: syntax-error
+  description: Thinks the broken code is always on exactly the line a SyntaxError names.
+syntax-error-runs-earlier-lines:
+  concept: syntax-error
+  description: Thinks lines before a syntax error still run.
+name-without-quotes-is-text:
+  concept: name-error
+  description: Thinks a word without quotes is treated as text.
+type-error-vs-value-error:
+  concept: value-error
+  description: Confuses a value of the wrong type (TypeError) with a value of the right type that can't be used (ValueError).
+plus-joins-text-and-numbers:
+  concept: type-error
+  description: Thinks + will join text and a number without converting.
+str-of-numbers-adds:
+  concept: str-conversion
+  description: Thinks str(2) + str(3) adds the numbers.
