@@ -1,0 +1,49 @@
+id: sorting-the-piles
+title: "Sorting the Piles"
+client: nell
+building: scrapyard
+estimated_minutes: 90
+summary: "Four ways to put Nell's piles in order, and why the one Python already has is the one to use."
+concepts_introduced: [simple-sorts, quicksort, merge-sort, sort-stability]
+concepts_reviewed: [big-o, timing-code, sorted-vs-sort, sort-key, lambda, list-comprehensions, slicing, tuples, mutability, default-arguments]
+ask:
+  dialogue:
+    - nell: "The scrap merchant comes Thursday. He pays by weight, and he wants the pier's lot lightest first."
+    - nell: "By hand I'd sort it by feel. Ten thousand parts is a lot of feel."
+    - moss: "There are four ways worth knowing. After that, you'll see why nobody writes their own."
+  spec: |
+    Two files, each sorting by hand: no `sorted()` or `.sort()` inside your functions.
+
+    In `piles.py`, two sorts that change the list they're given, lightest first, and hand back `None`, like `.sort()`:
+
+    1. `selection_sort(weights)`: find the lightest of what's left and swap it into place.
+    2. `insertion_sort(weights)`: take each weight in turn and slide it left past every heavier one.
+
+    In `sorter.py`, a merge sort for the merchant:
+
+    3. `merge(left, right, key)` takes two lists already sorted by `key` and returns one new list sorted by `key`. On a tie, the item from `left` comes first.
+    4. `merge_sort(items, key=lambda item: item)` returns a new sorted list and leaves `items` as it was. Every item starts as a pile of one; neighbouring piles are merged in pairs, round after round, until one pile is left.
+  example: |
+    Lightest first: [('gear-12t', 1), ('kettle-element', 2), ('hubcap', 4), ('spring-coil', 4)]
+    Pier lot: 10000 parts, same order as sorted(): True
+    merge_sort: 0.041 s, sorted(): 0.002 s
+ship:
+  dialogue:
+    - nell: "Ten thousand parts, lightest first. The four-kilo hubcaps still in the order they came off the pier."
+    - nell: "The merchant asked how I'd sorted them. I said merge sort. He nodded like he knew."
+    - moss: "Now use sorted(). It's merge sort and insertion sort working together, in C."
+  shelf: { object: weighing-scales, label: "Nell's piles, lightest first" }
+  cards: [simple-sorts, quicksort, merge-sort, sort-stability]
+stretch:
+  - id: middle-pivot
+    title: "A better pivot"
+    prompt: |
+      Pip's quicksort takes the first part as its pivot. Hand it a pile that's already in order and every split leaves one side empty: O(n²), and on a few thousand parts Python gives up with a `RecursionError`. Try `quick_sort(list(range(3000)))`, then make it take the middle part as the pivot and try again.
+  - id: count-the-work
+    title: "Count the work"
+    prompt: |
+      Give each of your three sorts a counter for comparisons, and make a table for 1,000 weights in random order, already in order, and back to front. Which sort cares what order it was given? Which doesn't care at all?
+  - id: watch-it
+    title: "Watch it work"
+    prompt: |
+      Write an in-place quicksort for a list of numbers: pick the last weight as the pivot, walk along swapping lighter weights to the front, swap the pivot in after them, then sort each side the same way. Press Step through on a pile of twelve and watch the bars split.
