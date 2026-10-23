@@ -1,0 +1,48 @@
+id: which-bucket
+title: "Which Bucket?"
+client: committee
+building: crab-club
+estimated_minutes: 80
+summary: "Five buckets of bait, a thousand practice runs, and a crab who won't say which he prefers: multi-armed bandits."
+concepts_introduced: [bandits, exploration-exploitation]
+concepts_reviewed: [numpy-arrays, matplotlib, probability, functions-as-values, lambda, mutability, default-arguments, f-strings, zip]
+ask:
+  dialogue:
+    - committee: "Five buckets of bait. One crab. One season."
+    - committee: "Sprats, mussels, bacon rind, cheese..."
+    - committee: "...and whelks. Sir Reginald's late mother was a whelk crab."
+    - committee: "Every practice run on the wrong bucket is a run wasted. We cannot..."
+    - committee: "...squander the season on cheese."
+  spec: |
+    Each practice run, the committee feed Sir Reginald from one bucket and time him. Under twelve seconds is a good run (reward 1); anything else is not (reward 0). Each bucket has its own chance of a good run, and nobody knows what it is.
+
+    Write `bandit.py`:
+
+    1. `update(estimates, counts, bucket, reward)` keeps a running average for each bucket.
+    2. Three strategies, each `choose(estimates, counts, rng)` returning a bucket number: `choose_epsilon_greedy` (with `epsilon=0.1`), `choose_ucb` (with `c=1.0`) and `choose_thompson`.
+    3. `practise(choose, rates, runs, rng)` runs the practice runs and returns `(rewards, counts)`.
+    4. Run as a program, it pits greedy, epsilon-greedy, UCB and Thompson sampling against each other for 1000 runs each, prints how each did, and draws a chart.
+  example: |
+    greedy: 286 good runs in 1000, mostly sprats
+    epsilon-greedy: 628 good runs in 1000, mostly whelks
+    UCB: 619 good runs in 1000, mostly whelks
+    Thompson sampling: 690 good runs in 1000, mostly whelks
+ship:
+  dialogue:
+    - committee: "Whelks. We said whelks."
+    - committee: "One of us said cheese."
+    - committee: "We do not discuss who said cheese."
+    - committee: "Six hundred and ninety good runs in a thousand. A club record..."
+    - committee: "...for practice."
+  shelf: { object: bait-bucket, label: "Sir Reginald's bait trials" }
+  cards: [bandits, exploration-exploitation]
+story_note: one-bucket-at-a-time
+stretch:
+  - id: optimistic-crab
+    title: "An optimistic crab"
+    prompt: |
+      Start every estimate at 1.0 instead of 0, and run plain greedy again. A bucket only loses its shine by being tried, so greedy tries them all before it settles. How does it do now, and why does it still lose to Thompson sampling?
+  - id: calming-down
+    title: "Exploring less as you learn"
+    prompt: |
+      Epsilon-greedy explores one run in ten for ever. Write `choose_decaying(estimates, counts, rng)` whose epsilon is `1 / sqrt(total runs + 1)`, so it explores a lot early and hardly at all later. Add it to the chart.
