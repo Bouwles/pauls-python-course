@@ -1,0 +1,184 @@
+/*
+  Design tokens for Paul's Python Course.
+  Every colour, size, space and radius used in the tool UI comes from here.
+  The pixel world uses palette.json instead.
+*/
+
+:root {
+  color-scheme: light;
+
+  /* Tool palette: day in Saltmarsh */
+  --paper: #f4f1ea;
+  --paper-sunk: #ebe6db;
+  --paper-raised: #faf8f3;
+  --ink: #1e1e1c;
+  --ink-2: #5a574f;
+  --ink-3: #77736b; /* decorative or large text only */
+  --rule: #d5cfc2;
+  --rule-strong: #b3ac9d;
+  --control-border: #847e70;
+  --accent: #c8811e; /* lighthouse lamp: fills only, with ink text */
+  --accent-ink: #8f560c; /* accent as text and focus rings */
+  --on-accent: #1e1e1c;
+  --accent-wash: #f1e2c6;
+  --pass: #4a6332;
+  --pass-wash: #e3e7d6;
+  --fail: #9b443a;
+  --fail-wash: #f1ddd6;
+  --highlight-line: #efe4c9;
+  --selection: #e8d6ae;
+  --scene-frame: #2c3440;
+  --scrim: rgb(30 30 28 / 0.32);
+
+  /* Syntax */
+  --syn-keyword: #8a3b2b;
+  --syn-string: #4a6332;
+  --syn-number: #8f560c;
+  --syn-comment: #6f6b62;
+  --syn-function: #26424f;
+  --syn-builtin: #2f5a63;
+  --syn-operator: #1e1e1c;
+
+  /* Type */
+  --font-prose: var(--font-serif-loaded, "Source Serif 4"), Georgia, "Times New Roman", serif;
+  --font-ui: var(--font-sans-loaded, "IBM Plex Sans"), "Helvetica Neue", Arial, sans-serif;
+  --font-code: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+
+  /* Modular scale, ratio 1.2 (minor third), base 16px */
+  --step--2: 0.694rem;
+  --step--1: 0.833rem;
+  --step-0: 1rem;
+  --step-1: 1.2rem;
+  --step-2: 1.44rem;
+  --step-3: 1.728rem;
+  --step-4: 2.074rem;
+  --step-5: 2.488rem;
+  --step-6: 2.986rem;
+
+  --prose-size: 1.0625rem; /* Source Serif sets small; one optical notch up from step 0 */
+  --lh-prose: 1.6;
+  --lh-ui: 1.4;
+  --lh-tight: 1.15;
+  --measure: 68ch;
+  --tracking-label: 0.04em;
+  --prose-letter-spacing: normal;
+  --prose-word-spacing: normal;
+
+  /* Space, 4px base */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-8: 32px;
+  --s-10: 40px;
+  --s-12: 48px;
+  --s-16: 64px;
+  --s-20: 80px;
+  --s-24: 96px;
+
+  /* Shape */
+  --r-1: 2px;
+  --r-2: 4px;
+  --hairline: 1px solid var(--rule);
+  --hairline-strong: 1px solid var(--rule-strong);
+
+  /* Motion: only where it explains or gives feedback */
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --dur-1: 120ms;
+  --dur-2: 220ms;
+
+  /* Layout */
+  --topbar-h: 48px;
+  --touch: 44px;
+  --editor-font-size: 14px;
+}
+
+/* Night in Saltmarsh. Designed, not inverted. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #161d27;
+    --paper-sunk: #111720;
+    --paper-raised: #1c2531;
+    --ink: #ebe5d5;
+    --ink-2: #aaa598;
+    --ink-3: #8a8679;
+    --rule: #2b3644;
+    --rule-strong: #3d4a59;
+    --control-border: #6a7889;
+    --accent: #d8963a;
+    --accent-ink: #e8ab55;
+    --on-accent: #161d27;
+    --accent-wash: #33301f;
+    --pass: #a5ba72;
+    --pass-wash: #222d22;
+    --fail: #e48a78;
+    --fail-wash: #3a2424;
+    --highlight-line: #26303d;
+    --selection: #3a4656;
+    --scene-frame: #0d1218;
+    --scrim: rgb(5 8 12 / 0.55);
+    --syn-keyword: #e3977f;
+    --syn-string: #a5ba72;
+    --syn-number: #e8ab55;
+    --syn-comment: #8f8a7e;
+    --syn-function: #9fc4ca;
+    --syn-builtin: #93b4a6;
+    --syn-operator: #ebe5d5;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #161d27;
+  --paper-sunk: #111720;
+  --paper-raised: #1c2531;
+  --ink: #ebe5d5;
+  --ink-2: #aaa598;
+  --ink-3: #8a8679;
+  --rule: #2b3644;
+  --rule-strong: #3d4a59;
+  --control-border: #6a7889;
+  --accent: #d8963a;
+  --accent-ink: #e8ab55;
+  --on-accent: #161d27;
+  --accent-wash: #33301f;
+  --pass: #a5ba72;
+  --pass-wash: #222d22;
+  --fail: #e48a78;
+  --fail-wash: #3a2424;
+  --highlight-line: #26303d;
+  --selection: #3a4656;
+  --scene-frame: #0d1218;
+  --scrim: rgb(5 8 12 / 0.55);
+  --syn-keyword: #e3977f;
+  --syn-string: #a5ba72;
+  --syn-number: #e8ab55;
+  --syn-comment: #8f8a7e;
+  --syn-function: #9fc4ca;
+  --syn-builtin: #93b4a6;
+  --syn-operator: #ebe5d5;
+}
+
+/* Dyslexia-friendly prose */
+:root[data-prose="hyperlegible"] {
+  --font-prose: "Atkinson Hyperlegible", var(--font-ui);
+  --prose-size: 1.0625rem;
+  --lh-prose: 1.75;
+  --prose-letter-spacing: 0.02em;
+  --prose-word-spacing: 0.08em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-1: 0ms;
+    --dur-2: 0ms;
+  }
+}
+
+:root[data-motion="reduced"] {
+  --dur-1: 0ms;
+  --dur-2: 0ms;
+}

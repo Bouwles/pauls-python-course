@@ -1,0 +1,190 @@
+{
+  "description": "The Saltmarsh world palette. Every sprite uses only these colours. One character per pixel in sprites/src grids; '.' is transparent. Pip's neck patch (X, Y) is the only deliberate exception.",
+  "colours": {
+    "0": {
+      "name": "harbour night",
+      "hex": "#1d2026"
+    },
+    "1": {
+      "name": "deep slate",
+      "hex": "#2c3440"
+    },
+    "2": {
+      "name": "slate",
+      "hex": "#46515c"
+    },
+    "3": {
+      "name": "wet stone",
+      "hex": "#6c7479"
+    },
+    "4": {
+      "name": "stone",
+      "hex": "#969c9a"
+    },
+    "5": {
+      "name": "pale stone",
+      "hex": "#c5c3b8"
+    },
+    "6": {
+      "name": "sail cloth",
+      "hex": "#ebe5d5"
+    },
+    "7": {
+      "name": "deep sea",
+      "hex": "#26424f"
+    },
+    "8": {
+      "name": "sea",
+      "hex": "#37616b"
+    },
+    "9": {
+      "name": "sea green",
+      "hex": "#518078"
+    },
+    "a": {
+      "name": "foam",
+      "hex": "#90b0a2"
+    },
+    "b": {
+      "name": "dark moss",
+      "hex": "#33402a"
+    },
+    "c": {
+      "name": "moss",
+      "hex": "#526338"
+    },
+    "d": {
+      "name": "lichen",
+      "hex": "#879157"
+    },
+    "e": {
+      "name": "tar",
+      "hex": "#3b2a22"
+    },
+    "f": {
+      "name": "driftwood",
+      "hex": "#634330"
+    },
+    "g": {
+      "name": "rust",
+      "hex": "#8e5236"
+    },
+    "h": {
+      "name": "ochre",
+      "hex": "#b8853f"
+    },
+    "i": {
+      "name": "sand",
+      "hex": "#d5b97d"
+    },
+    "j": {
+      "name": "dark brick",
+      "hex": "#692e2a"
+    },
+    "k": {
+      "name": "brick",
+      "hex": "#9b443a"
+    },
+    "l": {
+      "name": "lamp",
+      "hex": "#d8b65a"
+    },
+    "m": {
+      "name": "lamp glow",
+      "hex": "#eedb9b"
+    },
+    "n": {
+      "name": "rose",
+      "hex": "#b5786a"
+    }
+  },
+  "special": {
+    "X": {
+      "name": "pigeon sheen green",
+      "hex": "#3fdba6"
+    },
+    "Y": {
+      "name": "pigeon sheen violet",
+      "hex": "#9a6ae0"
+    }
+  },
+  "ramps": {
+    "coat": {
+      "chestnut": [
+        "h",
+        "g",
+        "f"
+      ],
+      "sand": [
+        "i",
+        "h",
+        "g"
+      ],
+      "cream": [
+        "6",
+        "5",
+        "4"
+      ],
+      "ash": [
+        "4",
+        "3",
+        "2"
+      ],
+      "umber": [
+        "g",
+        "f",
+        "e"
+      ],
+      "soot": [
+        "2",
+        "1",
+        "0"
+      ]
+    },
+    "jumper": {
+      "brick": [
+        "n",
+        "k",
+        "j"
+      ],
+      "ochre": [
+        "l",
+        "h",
+        "g"
+      ],
+      "moss": [
+        "d",
+        "c",
+        "b"
+      ],
+      "sea": [
+        "a",
+        "9",
+        "8"
+      ],
+      "navy": [
+        "3",
+        "2",
+        "1"
+      ],
+      "oat": [
+        "6",
+        "5",
+        "4"
+      ],
+      "keeper": [
+        "8",
+        "7",
+        "0"
+      ]
+    }
+  },
+  "placeholders": {
+    "A": "coat light",
+    "B": "coat mid",
+    "C": "coat dark",
+    "D": "jumper light",
+    "E": "jumper mid",
+    "F": "jumper dark"
+  }
+}
