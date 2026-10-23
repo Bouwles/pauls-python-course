@@ -1,0 +1,361 @@
+/* Teacher and class mode: plain tables on paper, hairline rules, nothing floating. */
+.page {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-8);
+}
+
+.head {
+  display: grid;
+  gap: var(--s-3);
+}
+
+.back {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+  justify-self: start;
+}
+
+.title {
+  font-size: var(--step-4);
+}
+
+.titleRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-3) var(--s-6);
+}
+
+.lede {
+  font-family: var(--font-prose);
+  font-size: var(--prose-size);
+  line-height: var(--lh-prose);
+  color: var(--ink-2);
+  max-width: var(--measure);
+}
+
+.meta {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+
+.section {
+  display: grid;
+  gap: var(--s-4);
+  padding-top: var(--s-5);
+  border-top: var(--hairline);
+  min-width: 0;
+}
+
+.h2 {
+  font-size: var(--step-2);
+}
+
+.h3 {
+  font-size: var(--step-0);
+  font-family: var(--font-ui);
+  font-weight: 600;
+}
+
+/* Tables scroll inside their own frame on a phone, never the page. */
+.tableWrap {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.tableWrap:focus-visible {
+  outline-offset: 0;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--step--1);
+  font-variant-numeric: tabular-nums;
+}
+
+.table th,
+.table td {
+  text-align: left;
+  vertical-align: middle;
+  padding: var(--s-2) var(--s-3);
+  border-bottom: var(--hairline);
+}
+
+.table th:first-child,
+.table td:first-child {
+  padding-left: 0;
+}
+
+.table thead th {
+  font-weight: 500;
+  color: var(--ink-2);
+  border-bottom: var(--hairline-strong);
+  white-space: nowrap;
+}
+
+.table tbody th {
+  font-weight: 500;
+}
+
+.num {
+  text-align: right !important;
+  white-space: nowrap;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.end {
+  text-align: right !important;
+  padding-right: 0 !important;
+}
+
+.selected {
+  background: var(--paper-sunk);
+}
+
+/* A Job's title with its place in the course beneath. */
+.jobCell {
+  min-width: 10rem;
+}
+
+.jobCell .meta {
+  display: block;
+  font-weight: 400;
+}
+
+.sort {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  min-height: 32px;
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+}
+
+.sort:hover {
+  color: var(--ink);
+}
+
+.sortMark {
+  width: 10px;
+  height: 10px;
+  flex: none;
+}
+
+.student {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.portrait {
+  flex: none;
+  width: 32px;
+  height: 37px;
+  overflow: hidden;
+}
+
+.code {
+  font-family: var(--font-code);
+  font-size: var(--step-0);
+  letter-spacing: 0.14em;
+}
+
+.copy {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  white-space: nowrap;
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--s-3);
+}
+
+.field {
+  display: grid;
+  gap: var(--s-1);
+  font-size: var(--step--1);
+  font-weight: 500;
+  min-width: 0;
+}
+
+.grow {
+  flex: 1 1 280px;
+  max-width: 420px;
+}
+
+.field input,
+.field select {
+  min-height: 40px;
+  border: 1px solid var(--control-border);
+  border-radius: var(--r-2);
+  background: var(--paper-raised);
+  color: var(--ink);
+  padding: 0 var(--s-3);
+  font-size: var(--step-0);
+  font-weight: 400;
+  max-width: 100%;
+}
+
+.form button {
+  min-height: 40px;
+}
+
+.error {
+  color: var(--fail);
+  font-size: var(--step--1);
+}
+
+.status {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+  min-height: 1.4em;
+}
+
+.empty {
+  font-family: var(--font-prose);
+  color: var(--ink-2);
+}
+
+/* A student's page */
+.who {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--s-5);
+  flex-wrap: wrap;
+}
+
+.files {
+  display: grid;
+  gap: var(--s-5);
+}
+
+.file {
+  display: grid;
+  gap: var(--s-2);
+  margin: 0;
+  min-width: 0;
+}
+
+.fileName {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-1) var(--s-3);
+  align-items: baseline;
+  font-size: var(--step--1);
+}
+
+.fileName code {
+  font-weight: 600;
+}
+
+.pre {
+  margin: 0;
+  max-height: 480px;
+  overflow: auto;
+  padding: var(--s-3) var(--s-4);
+  background: var(--paper-sunk);
+  border-left: 2px solid var(--rule-strong);
+  font-size: var(--editor-font-size);
+  line-height: 1.55;
+  tab-size: 4;
+  white-space: pre;
+}
+
+.results {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--s-1);
+  font-size: var(--step--1);
+}
+
+.results li {
+  display: flex;
+  gap: var(--s-2);
+  align-items: baseline;
+}
+
+.pass {
+  color: var(--pass);
+}
+
+.fail {
+  color: var(--fail);
+}
+
+.confirm {
+  display: grid;
+  gap: var(--s-3);
+  justify-items: start;
+  padding: var(--s-4);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-2);
+  background: var(--paper-raised);
+  max-width: 560px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  align-items: center;
+}
+
+.dialog {
+  width: min(520px, calc(100vw - 32px));
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-2);
+  background: var(--paper);
+  color: var(--ink);
+  padding: 0;
+}
+
+.dialog::backdrop {
+  background: var(--scrim);
+}
+
+.dialogBody {
+  display: grid;
+  gap: var(--s-4);
+  padding: var(--s-6);
+}
+
+.dialogBody p {
+  font-family: var(--font-prose);
+}
+
+@media (max-width: 720px) {
+  .hideNarrow {
+    display: none;
+  }
+
+  .table td .copy {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+  }
+
+  .table th,
+  .table td {
+    padding-inline: var(--s-2);
+  }
+
+  .h2 {
+    font-size: var(--step-1);
+  }
+}
