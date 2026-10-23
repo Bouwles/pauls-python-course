@@ -1,0 +1,42 @@
+id: many-features
+title: "Many Features"
+client: wendt
+building: observatory
+estimated_minutes: 70
+summary: "Five evening readings, five weights, one forecast of the night's low. Scaled first, so one learning rate suits them all."
+concepts_introduced: [multivariate-regression, feature-scaling]
+concepts_reviewed: [linear-regression, mean-squared-error, gradient-descent, numpy-arrays, vectorisation, broadcasting, matrices, numerical-gradients, functions, multiple-returns, main-guard, docstrings, zip, f-strings]
+ask:
+  dialogue:
+    - wendt: "Penhallow didn't stop at the thermometer. Every evening: pressure, humidity, wind, cloud."
+    - wendt: "And every morning, the lowest the night had gone."
+    - wendt: "Below nought, the dome shutter freezes. Last winter I opened it with a kettle."
+    - moss: "Five readings, then. Five weights."
+  spec: |
+    Penhallow's notebook is in `nights.csv`: sixty evenings of temperature (degrees), air pressure (hPa), humidity (%), wind (knots) and cloud (eighths of the sky, called oktas), each with that night's lowest temperature.
+
+    In `nights.py`, predict the low from all five readings. Scale them, learn the five weights by gradient descent, check the weights against least squares, then forecast the low for tonight's readings.
+  example: |
+    temperature  +2.79
+    pressure     -0.61
+    humidity     +0.39
+    wind         +0.48
+    cloud        +0.97
+    Least squares agrees: True
+    Tonight's low: -0.1 degrees
+ship:
+  dialogue:
+    - wendt: "Minus nought point one, it said. I closed the shutter at ten, and this morning it opened first time."
+    - wendt: "Temperature matters most, then cloud. Clear skies let the warmth out. Well, I knew that. Now it's a number."
+    - moss: "Five readings, and a fair ruler for each. That was the whole trick."
+  shelf: { object: frost-chart, label: "Wendt's frost forecast" }
+  cards: [multivariate-regression, feature-scaling]
+stretch:
+  - id: leave-one-out
+    title: "Which reading can she do without?"
+    prompt: |
+      Train five more forecasts, each without one of the readings, and print each one's mean squared error. Which reading costs least to drop? Is it the one with the smallest weight?
+  - id: real-units
+    title: "Weights in real units"
+    prompt: |
+      Turn the scaled weights back into weights per degree, per hectopascal, per knot: divide each by its column's spread. Work out the matching `b` too, then check both against least squares on the unscaled readings.

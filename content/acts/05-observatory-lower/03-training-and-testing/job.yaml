@@ -1,0 +1,51 @@
+id: training-and-testing
+title: "Training and Testing"
+client: wendt
+building: observatory
+estimated_minutes: 80
+summary: "A curve for the cooling mirror, chosen on readings it never learnt from and tested once, honestly."
+concepts_introduced: [train-test-split, polynomial-features, overfitting]
+concepts_reviewed: [linear-regression, multivariate-regression, mean-squared-error, numpy-arrays, vectorisation, matplotlib, functions, multiple-returns, main-guard, docstrings, list-comprehensions, zip, f-strings]
+ask:
+  dialogue:
+    - wendt: "When I open the dome, the mirror is warmer than the air, and the stars shimmer until it cools."
+    - wendt: "Penhallow timed it, five nights running. I want a curve I can trust."
+    - pip: "I've done one already. It's perfect. It goes through every reading exactly."
+    - moss: "Perfect on what?"
+  spec: |
+    Penhallow's readings are in `cooling.csv`: the night, the hours since the dome opened, and how many degrees warmer the mirror was than the air.
+
+    In `mirror.py`, fit polynomial curves of degree 1 to 10 and choose one honestly:
+
+    1. Lock a fifth of the readings away for testing.
+    2. Split the rest into training and validation.
+    3. Fit each degree on the training readings, score it on the validation readings, and choose the best.
+    4. Open the test readings once, and compare the chosen curve with simply guessing the average.
+  example: |
+    degree  training  validation
+         1     0.553       0.475
+         2     0.140       0.085
+         3     0.087       0.018
+       ...
+        10     0.064       0.126
+    Chosen degree: 3
+    Test error: 0.121
+    Guessing the average: 1.633
+ship:
+  dialogue:
+    - wendt: "Degree three. On readings it had never seen, it was out by about a third of a degree."
+    - wendt: "Nearly three hours before the mirror settles. I'll open the dome at dusk and make tea."
+    - pip: "Degree eleven was very sure of itself. I liked that about it."
+    - moss: "Sure and right are different trades."
+  shelf: { object: mirror-thermometer, label: "Wendt's mirror curve, tested honestly" }
+  cards: [train-test-split, polynomial-features, overfitting]
+story_note: the-bottom-drawer
+stretch:
+  - id: draw-three-curves
+    title: "Three curves on one chart"
+    prompt: |
+      Plot the readings as dots, then the degree 1, degree 3 and degree 10 curves across 0 to 3.5 hours, with matplotlib. Which would you trust at 3.5 hours, past the last reading?
+  - id: five-folds
+    title: "Five folds"
+    prompt: |
+      One validation split is the luck of the draw. Cut the 48 readings that aren't for testing into five folds. For each degree, train on four folds and validate on the fifth, five times round, and average the five errors. Does it still choose degree 3?
