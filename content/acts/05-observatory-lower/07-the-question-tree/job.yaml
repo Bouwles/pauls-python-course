@@ -1,0 +1,55 @@
+id: the-question-tree
+title: "The Question Tree"
+client: wendt
+building: observatory
+estimated_minutes: 90
+summary: "Will the lens dew over tonight? A tree of yes-or-no questions, grown from scratch, cut back to a depth worth trusting."
+concepts_introduced: [decision-trees]
+concepts_reviewed: [overfitting, train-test-split, classification-metrics, numpy-arrays, vectorisation, dictionaries, nested-data, functions, return-values, default-arguments, multiple-returns, main-guard, docstrings, f-strings]
+ask:
+  dialogue:
+    - wendt: "On some nights the lens dews over by eleven, and the stars go soft, then go."
+    - wendt: "Penhallow logged two hundred nights of it. The dew point spread, the wind, the cloud, the humidity."
+    - wendt: "Not another chance. Questions. Is the air near its dew point? Is it calm? Is it clear?"
+    - moss: "A tree of questions, then. Each answer picks the next one."
+    - pip: "I'll grow it. How deep can it go?"
+  spec: |
+    Penhallow's dew log is in `dew.csv`: two hundred nights of the spread between air temperature and dew point (degrees), wind (knots), cloud (oktas) and humidity (%), each with `1` if the lens dewed over and `0` if it stayed dry.
+
+    In `dew.py`, grow a decision tree from scratch:
+
+    1. Measure how mixed a group of nights is with Gini impurity.
+    2. Find the best question: the reading and threshold whose yes and no groups are least mixed.
+    3. Ask it, then grow each side the same way, until the nights are sorted or the tree reaches its maximum depth.
+    4. Lock a fifth of the nights away for testing, choose the depth on validation nights, print the chosen tree as questions, and test it once.
+  example: |
+    depth  training  validation
+        1     0.800       0.825
+    ...
+        8     1.000       0.750
+    Chosen depth: 3
+    spread <= 2.45?
+      yes: cloud <= 4.5?
+        yes: wind <= 7.5?
+          yes: dew
+    ...
+    Test accuracy: 0.95
+    Always guessing dry: 0.82
+ship:
+  dialogue:
+    - wendt: "Spread under 2.45, under half cloud, wind under 7.5. I've chalked it on the dome door."
+    - wendt: "A model I can read off a door. Penhallow would have said... no, I don't know. Something dry."
+    - pip: "Mine had thirty-one leaves. One of them was just for the eleventh of March."
+    - moss: "Three questions you can trust beat thirty you can't."
+  shelf: { object: question-board, label: "Wendt's dew questions, three deep" }
+  cards: [decision-trees]
+story_note: the-fourteenth-question
+stretch:
+  - id: entropy
+    title: "Entropy instead"
+    prompt: |
+      Write `entropy(y)`, the sum of `-p * log2(p)` over each label's share `p`, and grow the tree with it in place of Gini. Does it ask the same three questions?
+  - id: tidy-leaves
+    title: "Dry either way"
+    prompt: |
+      Some questions end in `dry` whichever way you answer. Write `tidy(tree)`, which replaces any question whose two answers are leaves with the same label by that leaf, working up from the bottom. Check its predictions match the untidied tree's on every night.
