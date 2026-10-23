@@ -1,0 +1,78 @@
+id: reading-tracebacks
+title: Reading a traceback
+summary: |
+  A traceback is Python's note about a crash. Read it from the bottom: the last line names the error and says what went wrong. Just above is the line number, then the line itself. Anything printed before the traceback ran fine.
+example: |
+  print("Before")
+  print(10 / 0)
+  print("After")
+misconceptions: [error-is-at-the-top, read-traceback-top-down]
+related: [syntax-error, name-error, type-error, value-error]
+cards:
+  - type: choice
+    prompt: What gets printed before the crash?
+    code: |
+      print("Before")
+      print(10 / 0)
+      print("After")
+    options:
+      - text: Before
+        correct: true
+      - text: Nothing
+        misconception: error-is-at-the-top
+        feedback: "Line 1 runs fine. The crash is on line 2."
+      - text: "Before\nAfter"
+        misconception: lines-run-in-any-order
+        feedback: "Once line 2 crashes, the program stops. Line 3 never runs."
+  - type: choice
+    prompt: Which line will the traceback point at?
+    code: |
+      print("Before")
+      print(10 / 0)
+      print("After")
+    verify: crash-line
+    options:
+      - text: Line 1
+        misconception: error-is-at-the-top
+        feedback: "Line 1 is fine. The traceback names the line that failed."
+      - text: Line 2
+        correct: true
+      - text: Line 3
+        feedback: "Line 3 never runs."
+  - type: choice
+    prompt: Which part of a traceback do you read first?
+    verify: none
+    options:
+      - text: The last line
+        correct: true
+      - text: "The first line, Traceback (most recent call last)"
+        misconception: read-traceback-top-down
+        feedback: "The first line is the same every time. The last line says what went wrong."
+      - text: The line number
+        misconception: read-traceback-top-down
+        feedback: "Useful, but only once you know what you're looking for. That's on the last line."
+  - type: fix
+    prompt: Read the traceback, then fix it.
+    code: |
+      hours = 6
+      print("High water in " + hours + " hours")
+    tests: |
+      TESTS = [
+          output("6 hours", expect="High water in 6 hours"),
+          output("Other hours", set_vars={"hours": 2}, expect="High water in 2 hours"),
+      ]
+    solution: |
+      hours = 6
+      print("High water in " + str(hours) + " hours")
+  - type: fix
+    prompt: Read the traceback, then fix it.
+    code: |
+      print("Line one")
+      print("Line two)
+      print("Line three")
+    tests: |
+      TESTS = [output("Three lines", expect="Line one\nLine two\nLine three")]
+    solution: |
+      print("Line one")
+      print("Line two")
+      print("Line three")

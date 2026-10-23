@@ -1,0 +1,54 @@
+id: int-conversion
+title: int() makes whole numbers
+summary: |
+  `int()` turns text like `"42"` into the whole number 42. It can't read text with a decimal point, like `"4.5"`: that's a ValueError. Given a float, `int()` chops off everything after the point. It doesn't round.
+example: |
+  print(int("42") + 1)
+  print(int(7.9))
+misconceptions: [int-rounds, int-reads-decimals]
+related: [input-returns-text, float-conversion]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      print(int(7.9))
+    answer: "7"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      print(int("12") * 2)
+    answer: "24"
+  - type: choice
+    prompt: What happens?
+    code: |
+      print(int("2.5"))
+    verify: error
+    options:
+      - text: It prints 2
+        misconception: int-reads-decimals
+        feedback: "int() can chop a float, but it can't read text with a decimal point."
+      - text: It prints 3
+        misconception: int-rounds
+        feedback: "int() never rounds, and here it can't read the text at all."
+      - text: A ValueError
+        correct: true
+        error: ValueError
+  - type: fill
+    prompt: Fill the gap so this prints 20.
+    code: |
+      count = ___("15")
+      print(count + 5)
+    blanks: [["int"]]
+    tests: |
+      TESTS = [output("Prints 20", expect="20")]
+  - type: write
+    prompt: "Ask `How many crates? ` and print double the number."
+    tests: |
+      TESTS = [
+          output("4 crates", inputs=["4"], expect="8"),
+          output("15 crates", inputs=["15"], expect="30"),
+      ]
+    solution: |
+      crates = int(input("How many crates? "))
+      print(crates * 2)

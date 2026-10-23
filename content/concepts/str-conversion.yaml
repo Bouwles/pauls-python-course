@@ -1,0 +1,54 @@
+id: str-conversion
+title: str() makes text
+summary: |
+  `str()` turns a value into text. You need it when joining a number to text with `+`. `str(2) + str(3)` is `"23"`, because joining text puts the pieces side by side.
+example: |
+  boats = 4
+  print("Boats in: " + str(boats))
+  print(str(2) + str(3))
+misconceptions: [str-of-numbers-adds, plus-joins-text-and-numbers]
+related: [type-error, f-strings]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      print(str(2) + str(3))
+    answer: "23"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      print(str(10) * 2)
+    answer: "1010"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      x = str(5)
+      print(type(x))
+    options:
+      - text: "<class 'str'>"
+        correct: true
+      - text: "<class 'int'>"
+        misconception: type-is-the-value
+        feedback: "str(5) is the text \"5\", so x is a str."
+  - type: fill
+    prompt: "Fill the gap so this prints `March 14`."
+    code: |
+      day = 14
+      print("March " + ___(day))
+    blanks: [["str"]]
+    tests: |
+      TESTS = [output("March 14", expect="March 14")]
+  - type: write
+    prompt: "`high` and `low` are tide heights in metres. Print `Range: 5 m`, working the range out with subtraction and joining with `+`."
+    starter: |
+      high = 6
+      low = 1
+    tests: |
+      TESTS = [
+          output("6 and 1", expect="Range: 5 m"),
+          output("9 and 2", set_vars={"high": 9, "low": 2}, expect="Range: 7 m"),
+      ]
+    solution: |
+      high = 6
+      low = 1
+      print("Range: " + str(high - low) + " m")

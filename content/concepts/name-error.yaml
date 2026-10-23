@@ -1,0 +1,64 @@
+id: name-error
+title: NameError
+summary: |
+  A NameError means Python met a name it hasn't been told about. Usually it's a typo, a variable used before it was given a value, or text that's missing its quotes. Python often suggests the name you meant.
+example: |
+  harbour = "Saltmarsh"
+  print(harbor)
+misconceptions: [name-without-quotes-is-text]
+related: [reading-tracebacks, variables]
+cards:
+  - type: choice
+    prompt: What happens?
+    code: |
+      print(Moss)
+    verify: error
+    options:
+      - text: It prints Moss
+        misconception: name-without-quotes-is-text
+        feedback: "Without quotes, Moss is a name, and nothing called Moss exists."
+      - text: A NameError
+        correct: true
+        error: NameError
+  - type: fix
+    prompt: Fix it.
+    code: |
+      tide = 4
+      print(Tide)
+    tests: |
+      TESTS = [output("Prints 4", expect="4")]
+    solution: |
+      tide = 4
+      print(tide)
+  - type: fix
+    prompt: Fix it.
+    code: |
+      print(greeting)
+      greeting = "Morning"
+    tests: |
+      TESTS = [output("Morning", expect="Morning")]
+    solution: |
+      greeting = "Morning"
+      print(greeting)
+  - type: fix
+    prompt: "This should print the word `Agnes`. Fix it."
+    code: |
+      print(Agnes)
+    tests: |
+      TESTS = [output("Agnes", expect="Agnes")]
+    solution: |
+      print("Agnes")
+  - type: choice
+    prompt: What kind of error does this cause?
+    code: |
+      harbour = "north quay"
+      print(harbour_name)
+    verify: error
+    options:
+      - text: NameError
+        correct: true
+        error: NameError
+      - text: TypeError
+        feedback: "Nothing has the wrong type. The name doesn't exist at all."
+      - text: SyntaxError
+        feedback: "Python can read every line. It fails when it looks the name up."

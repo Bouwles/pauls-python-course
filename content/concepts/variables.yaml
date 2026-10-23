@@ -1,0 +1,69 @@
+id: variables
+title: Variables are labels on boxes
+summary: |
+  `loaves = 3` puts the label `loaves` on the value 3. Python works out the right side first, then sticks the label on the result. A later assignment moves the label to a new value; anything worked out earlier stays as it was.
+example: |
+  loaves = 3
+  total = loaves * 240
+  loaves = 5
+  print(loaves, total)
+misconceptions: [variable-keeps-first-value, printing-name-shows-name, assignment-is-equation, assignment-links-variables]
+related: [naming]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      loaves = 3
+      total = loaves * 240
+      loaves = 5
+      print(loaves, total)
+    answer: "5 720"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      a = 4
+      b = a
+      a = 10
+      print(b)
+    answer: "4"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      buns = 2
+      buns = buns * 3
+      print(buns)
+    options:
+      - text: "6"
+        correct: true
+      - text: "2"
+        misconception: variable-keeps-first-value
+        feedback: "Line 2 works out 2 * 3 and moves the label to 6."
+      - text: buns
+        misconception: printing-name-shows-name
+        feedback: "Without quotes, print shows what the name holds."
+  - type: fix
+    prompt: "Two more crates arrive. This should print 7. Fix line 2."
+    code: |
+      crates = 5
+      crates + 2
+      print(crates)
+    tests: |
+      TESTS = [output("Seven crates", expect="7")]
+    solution: |
+      crates = 5
+      crates = crates + 2
+      print(crates)
+  - type: write
+    prompt: "`gulls` holds 12. Make `fed` hold half of `gulls`, using the variable, not the number. Print `fed`."
+    starter: |
+      gulls = 12
+    tests: |
+      TESTS = [
+          output("Half of 12", expect="6", match="numbers"),
+          output("Half of 30", set_vars={"gulls": 30}, expect="15", match="numbers",
+                 hint="Work fed out from gulls, so it follows when gulls changes."),
+      ]
+    solution: |
+      gulls = 12
+      fed = gulls / 2
+      print(fed)

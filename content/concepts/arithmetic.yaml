@@ -1,0 +1,56 @@
+id: arithmetic
+title: Arithmetic
+summary: |
+  `+`, `-` and `*` work as on paper. `/` always gives a float: even `6 / 2` is `3.0`. `//` divides and drops the remainder, `%` gives the remainder, and `**` raises to a power.
+example: |
+  print(7 / 2)
+  print(7 // 2)
+  print(7 % 2)
+  print(2 ** 3)
+misconceptions: [division-gives-whole-number, floor-division-rounds, percent-is-percentage, caret-is-power]
+related: [operator-precedence, variables]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      print(7 / 2)
+    answer: "3.5"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      print(17 // 5, 17 % 5)
+    answer: "3 2"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      print(19 // 10)
+    options:
+      - text: "1"
+        correct: true
+        feedback: "19 divided by 10 is 1 with 9 left over. `//` keeps the 1."
+      - text: "2"
+        misconception: floor-division-rounds
+        feedback: "`//` doesn't round. It drops the remainder, so 1.9 becomes 1."
+      - text: "9"
+        misconception: percent-is-percentage
+        feedback: "9 is the remainder. That's what `%` gives, not `//`."
+  - type: fill
+    prompt: Fill the gap so this prints how many whole dozens are in 50 buns.
+    code: |
+      print(50 ___ 12)
+    blanks: [["//"]]
+    tests: |
+      TESTS = [output("Four dozen", expect="4")]
+  - type: write
+    prompt: "`pence` holds a price in pence. Print the whole pounds and the pence left over, like `4 37`."
+    starter: |
+      pence = 437
+    tests: |
+      TESTS = [
+          output("437 pence", expect="4 37"),
+          output("1205 pence", set_vars={"pence": 1205}, expect="12 5"),
+      ]
+    solution: |
+      pence = 437
+      print(pence // 100, pence % 100)

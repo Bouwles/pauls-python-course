@@ -1,0 +1,48 @@
+id: type-function
+title: type() says what kind of value
+summary: |
+  `type(x)` tells you what kind of value `x` is: `int` for whole numbers, `float` for decimals, `str` for text. When a program misbehaves, checking a type is often the first useful thing to do.
+example: |
+  print(type(3))
+  print(type(3.0))
+  print(type("3"))
+misconceptions: [type-is-the-value, input-returns-number]
+related: [input-returns-text]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      print(type(3.0))
+    answer: "<class 'float'>"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      print(type("42"))
+    answer: "<class 'str'>"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      print(type(10 / 2))
+    options:
+      - text: "<class 'int'>"
+        misconception: division-gives-whole-number
+        feedback: "`/` always gives a float, even when it divides exactly."
+      - text: "<class 'float'>"
+        correct: true
+      - text: "5.0"
+        misconception: type-is-the-value
+        feedback: "type() gives the kind of value, not the value."
+  - type: predict
+    prompt: What does this print?
+    code: |
+      print(type(7 // 2))
+    answer: "<class 'int'>"
+  - type: write
+    prompt: "Ask `Anything? ` and print the type of whatever was typed."
+    tests: |
+      TESTS = [
+          output("Typing 5", inputs=["5"], expect="<class 'str'>"),
+          output("Typing fog", inputs=["fog"], expect="<class 'str'>"),
+      ]
+    solution: |
+      print(type(input("Anything? ")))

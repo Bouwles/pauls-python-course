@@ -1,0 +1,72 @@
+id: value-error
+title: ValueError
+summary: |
+  A ValueError means the value had the right type but couldn't be used. `int("seven")` gets text, which is the right type, but text it can't read as a number. A TypeError is different: there the type itself is wrong.
+example: |
+  print(int("7"))
+  print(int("seven"))
+misconceptions: [type-error-vs-value-error, int-reads-decimals]
+related: [reading-tracebacks, int-conversion]
+cards:
+  - type: choice
+    prompt: What kind of error does this cause?
+    code: |
+      int("seven")
+    verify: error
+    options:
+      - text: ValueError
+        correct: true
+        error: ValueError
+      - text: TypeError
+        misconception: type-error-vs-value-error
+        feedback: "int() is happy to take text. It's this particular text it can't read."
+  - type: choice
+    prompt: What happens?
+    code: |
+      print(int("3.5"))
+    verify: error
+    options:
+      - text: A ValueError
+        correct: true
+        error: ValueError
+      - text: It prints 3
+        misconception: int-reads-decimals
+        feedback: "int() can't read text with a decimal point."
+      - text: It prints 4
+        misconception: int-rounds
+        feedback: "int() never rounds, and it can't read this text anyway."
+  - type: choice
+    prompt: What kind of error does this cause?
+    code: |
+      print("a" + 1)
+    verify: error
+    options:
+      - text: TypeError
+        correct: true
+        error: TypeError
+      - text: ValueError
+        misconception: type-error-vs-value-error
+        feedback: "Here the type is wrong: a number where text was needed. That's a TypeError."
+  - type: fix
+    prompt: "Fix it so it prints `2.5`."
+    code: |
+      height = int("2.5")
+      print(height)
+    tests: |
+      TESTS = [output("2.5", expect="2.5")]
+    solution: |
+      height = float("2.5")
+      print(height)
+  - type: fix
+    prompt: "Fix it so typing `1.5` prints `3.0`."
+    code: |
+      weight = int(input("Weight? "))
+      print(weight * 2)
+    tests: |
+      TESTS = [
+          output("1.5", inputs=["1.5"], expect="3.0"),
+          output("4", inputs=["4"], expect="8.0"),
+      ]
+    solution: |
+      weight = float(input("Weight? "))
+      print(weight * 2)

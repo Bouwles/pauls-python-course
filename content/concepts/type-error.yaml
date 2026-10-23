@@ -1,0 +1,76 @@
+id: type-error
+title: TypeError
+summary: |
+  A TypeError means a value is the wrong type for the job. The classic is joining text and a number with `+`. Decide what you meant: turn the number into text with `str()` or an f-string, or turn the text into a number with `int()`.
+example: |
+  crates = 3
+  print("Crates: " + str(crates))
+  print(f"Crates: {crates}")
+misconceptions: [plus-joins-text-and-numbers, str-times-int-errors]
+related: [reading-tracebacks, str-conversion]
+cards:
+  - type: choice
+    prompt: What happens?
+    code: |
+      print("Crates: " + 3)
+    verify: error
+    options:
+      - text: "It prints Crates: 3"
+        misconception: plus-joins-text-and-numbers
+        feedback: "Python won't guess whether you meant text or arithmetic."
+      - text: A TypeError
+        correct: true
+        error: TypeError
+  - type: choice
+    prompt: What does this print?
+    code: |
+      print("ab" * 3)
+    options:
+      - text: ababab
+        correct: true
+      - text: A TypeError
+        misconception: str-times-int-errors
+        feedback: "Text times a whole number repeats the text. That one's allowed."
+  - type: fix
+    prompt: "Fix it so typing `3` prints `5`."
+    code: |
+      crates = input("Crates? ")
+      print(crates + 2)
+    tests: |
+      TESTS = [
+          output("3 crates", inputs=["3"], expect="5"),
+          output("10 crates", inputs=["10"], expect="12"),
+      ]
+    solution: |
+      crates = int(input("Crates? "))
+      print(crates + 2)
+  - type: fix
+    prompt: Fix it.
+    code: |
+      boats = 4
+      print("Boats in: " + boats)
+    tests: |
+      TESTS = [
+          output("4 boats", expect="Boats in: 4"),
+          output("9 boats", set_vars={"boats": 9}, expect="Boats in: 9"),
+      ]
+    solution: |
+      boats = 4
+      print("Boats in: " + str(boats))
+  - type: write
+    prompt: "`weight` holds a number of kilos. Print `Weight: 12 kg`, joining the parts with `+`."
+    starter: |
+      weight = 12
+    tests: |
+      def uses_plus(tree, source):
+          import ast
+          if not any(isinstance(n, ast.BinOp) and isinstance(n.op, ast.Add) for n in ast.walk(tree)):
+              return "Join the parts with +."
+      TESTS = [
+          output("12 kg", expect="Weight: 12 kg"),
+          output("7 kg", set_vars={"weight": 7}, expect="Weight: 7 kg"),
+          structure("Joins with +", check=uses_plus),
+      ]
+    solution: |
+      weight = 12
+      print("Weight: " + str(weight) + " kg")

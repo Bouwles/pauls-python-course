@@ -1,0 +1,56 @@
+id: f-strings
+title: f-strings
+summary: |
+  An f-string has an `f` before the opening quote. Anything inside `{}` is worked out and dropped into the text. After a colon you can say how to show it: `{total:.2f}` shows two decimal places. The stored value doesn't change, only what is shown.
+example: |
+  total = 7.199999999999999
+  print(f"That's {total:.2f}, please.")
+  print(total)
+misconceptions: [f-prefix-optional, format-changes-value]
+related: [float-conversion, str-conversion]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      buns = 4
+      print(f"{buns} buns")
+    answer: "4 buns"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      price = 3.14159
+      print(f"{price:.2f}")
+    answer: "3.14"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      name = "Bea"
+      print("Morning, {name}")
+    options:
+      - text: "Morning, Bea"
+        misconception: f-prefix-optional
+        feedback: "Without the f, the braces are just characters in the text."
+      - text: "Morning, {name}"
+        correct: true
+  - type: fill
+    prompt: "Fill the gap so the total shows two decimal places."
+    code: |
+      total = 8.5
+      print(f"That's {total___}, please.")
+    blanks: [[":.2f"]]
+    tests: |
+      TESTS = [output("8.50", expect="That's 8.50, please.")]
+  - type: write
+    prompt: "`metres` holds a length. Print it like `Rope: 12.50 m` using an f-string with two decimal places."
+    starter: |
+      metres = 12.5
+    tests: |
+      TESTS = [
+          output("12.5 metres", expect="Rope: 12.50 m"),
+          output("3.25 metres", set_vars={"metres": 3.25}, expect="Rope: 3.25 m"),
+          structure("Uses an f-string", requires=["JoinedStr"]),
+      ]
+    solution: |
+      metres = 12.5
+      print(f"Rope: {metres:.2f} m")

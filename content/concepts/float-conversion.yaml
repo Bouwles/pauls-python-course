@@ -1,0 +1,54 @@
+id: float-conversion
+title: float() makes decimal numbers
+summary: |
+  `float()` turns text like `"2.5"` into a number with a decimal point. Floats are stored in binary, so some decimals can't be held exactly: `0.1 + 0.2` is `0.30000000000000004`. Round them when you show them.
+example: |
+  price = float("2.40")
+  print(price * 3)
+  print(f"{price * 3:.2f}")
+misconceptions: [float-is-exact, int-reads-decimals]
+related: [int-conversion, f-strings]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      print(float("2.5") * 2)
+    answer: "5.0"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      print(float("7"))
+    answer: "7.0"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      print(0.1 + 0.2)
+    options:
+      - text: "0.3"
+        misconception: float-is-exact
+        feedback: "Floats are stored in binary, and 0.1 can't be held exactly. The tiny error shows up here."
+      - text: "0.30000000000000004"
+        correct: true
+  - type: fix
+    prompt: "This crashes when someone types `1.5`. Fix it."
+    code: |
+      metres = int(input("Metres? "))
+      print(metres * 2)
+    tests: |
+      TESTS = [
+          output("1.5 metres", inputs=["1.5"], expect="3.0"),
+          output("2 metres", inputs=["2"], expect="4.0"),
+      ]
+    solution: |
+      metres = float(input("Metres? "))
+      print(metres * 2)
+  - type: write
+    prompt: "Ask `Weight in kg? ` and print the weight in grams."
+    tests: |
+      TESTS = [
+          output("2.5 kg", inputs=["2.5"], expect="2500.0"),
+          output("0.25 kg", inputs=["0.25"], expect="250.0"),
+      ]
+    solution: |
+      kg = float(input("Weight in kg? "))
+      print(kg * 1000)

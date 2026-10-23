@@ -1,0 +1,47 @@
+id: strings
+title: Strings are text in quotes
+summary: |
+  Text in a program goes inside quotes and is called a string. Single or double quotes both work, as long as both ends match. To put one kind of quote inside the text, use the other kind outside. The quotes aren't part of the text, so they don't print.
+example: |
+  print("Bea's bakery")
+  print('Agnes said "no"')
+  print("sea" + "weed")
+misconceptions: [quotes-printed, mismatched-quotes-ok, plus-cannot-join-text]
+related: [print]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      print('Moss')
+    answer: "Moss"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      print("sea" + "weed")
+    answer: "seaweed"
+  - type: choice
+    prompt: "Which line prints `Mira's parcel` without an error?"
+    verify: none
+    options:
+      - text: "print('Mira's parcel')"
+        misconception: mismatched-quotes-ok
+        feedback: "The apostrophe ends the string early, after Mira."
+      - text: "print(\"Mira's parcel\")"
+        correct: true
+      - text: "print(\"Mira's parcel')"
+        misconception: mismatched-quotes-ok
+        feedback: "The quotes at each end have to match."
+  - type: fix
+    prompt: "This should print `Mira's parcel`. Fix it."
+    code: |
+      print('Mira's parcel')
+    tests: |
+      TESTS = [output("Mira's parcel", expect="Mira's parcel")]
+    solution: |
+      print("Mira's parcel")
+  - type: write
+    prompt: "Print this exactly, double quotes included: `Agnes said \"no\"`"
+    tests: |
+      TESTS = [output("With the quotes", expect='Agnes said "no"')]
+    solution: |
+      print('Agnes said "no"')

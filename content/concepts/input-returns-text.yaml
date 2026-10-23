@@ -1,0 +1,58 @@
+id: input-returns-text
+title: input() gives you text
+summary: |
+  `input()` shows a question, waits for an answer and hands it back as text, even when the person types digits. To do arithmetic with the answer, turn it into a number first with `int()` or `float()`.
+example: |
+  count = input("How many? ")
+  print(count * 2)
+  print(int(count) * 2)
+example_inputs: ["3"]
+misconceptions: [input-returns-number, str-times-int-errors, repetition-adds-space]
+related: [int-conversion, float-conversion, type-function]
+cards:
+  - type: predict
+    prompt: "If you type `5`, what does this print?"
+    code: |
+      x = input()
+      print(x + x)
+    inputs: ["5"]
+    answer: "55"
+  - type: fix
+    prompt: "This crashes. Fix the line that reads the age."
+    code: |
+      age = input("Age? ")
+      print(age + 1)
+    tests: |
+      TESTS = [
+          output("Age 12", inputs=["12"], expect="13"),
+          output("Age 40", inputs=["40"], expect="41"),
+      ]
+    solution: |
+      age = int(input("Age? "))
+      print(age + 1)
+  - type: fill
+    prompt: "Fill the gap so `n * 2` works for whole numbers."
+    code: |
+      n = ___(input("Number? "))
+      print(n * 2)
+    blanks: [["int"]]
+    tests: |
+      TESTS = [
+          output("Typing 4", inputs=["4"], expect="8"),
+          output("Typing 21", inputs=["21"], expect="42"),
+      ]
+  - type: predict
+    prompt: "If you type `3.5`, what does this print?"
+    code: |
+      print(type(input()))
+    inputs: ["3.5"]
+    answer: "<class 'str'>"
+  - type: write
+    prompt: "Write one line that reads a decimal number into a variable called `price`."
+    tests: |
+      TESTS = [
+          variable("Typing 2.5", variable="price", inputs=["2.5"], expect=2.5),
+          variable("Typing 0.85", variable="price", inputs=["0.85"], expect=0.85),
+      ]
+    solution: |
+      price = float(input("Price? "))

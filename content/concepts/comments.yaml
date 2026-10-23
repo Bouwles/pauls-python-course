@@ -1,0 +1,62 @@
+id: comments
+title: Comments are notes for people
+summary: |
+  Anything after a `#` on a line is a comment, and Python skips it. Comments say why the code is the way it is, for the next person who reads it. Often that person is you, a month later.
+example: |
+  # Bea counts twice, so the till shows the total twice.
+  print(1060)
+  print(1060)  # once more for Bea
+misconceptions: [comments-run]
+related: [program-order]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      # print("one")
+      print("two")
+    answer: "two"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      print("bell")  # ring it
+      # print("bell")
+    answer: "bell"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      # Total for the Ashbys
+      print(10)
+    options:
+      - text: "10"
+        correct: true
+      - text: "# Total for the Ashbys\n10"
+        misconception: comments-run
+        feedback: "Python skips everything after #."
+      - text: "Total for the Ashbys\n10"
+        misconception: comments-run
+        feedback: "A comment is never printed. It's only for people reading the code."
+  - type: fix
+    prompt: "Line 2 shouldn't run, but Moss wants to keep it. Turn it into a comment."
+    code: |
+      print("Open")
+      print("Closed")
+      print("Back soon")
+    tests: |
+      def kept(tree, source):
+          if not any(l.strip().startswith("#") and "Closed" in l for l in source.splitlines()):
+              return "Keep the line, with a # in front of it."
+      TESTS = [output("Two lines", expect="Open\nBack soon"), structure("Line kept as a comment", check=kept)]
+    solution: |
+      print("Open")
+      # print("Closed")
+      print("Back soon")
+  - type: write
+    prompt: "Print `Ring twice`, with a comment above it saying which door the sign is for."
+    tests: |
+      def has_comment(tree, source):
+          if not any(l.strip().startswith("#") for l in source.splitlines()):
+              return "Add a comment above the print."
+      TESTS = [output("The sign", expect="Ring twice"), structure("Has a comment", check=has_comment)]
+    solution: |
+      # Sign for the back door
+      print("Ring twice")

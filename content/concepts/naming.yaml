@@ -1,0 +1,78 @@
+id: naming
+title: Honest names
+summary: |
+  A variable name can use letters, digits and underscores, but can't start with a digit or contain spaces. Python style is lower-case words joined by underscores, like `bread_price`. Name a variable for what it holds, so the code reads like a description of the job.
+example: |
+  bread_price = 240
+  loaves_ordered = 3
+  print(bread_price * loaves_ordered)
+misconceptions: [names-can-have-spaces]
+related: [variables]
+cards:
+  - type: choice
+    prompt: Which of these is an allowed variable name?
+    verify: none
+    options:
+      - text: bread price
+        misconception: names-can-have-spaces
+        feedback: "No spaces. Python would read two names."
+      - text: 2nd_loaf
+        misconception: names-can-have-spaces
+        feedback: "Names can't start with a digit."
+      - text: second_loaf
+        correct: true
+      - text: loaf-count
+        misconception: names-can-have-spaces
+        feedback: "Python reads the hyphen as a minus sign: loaf minus count."
+  - type: choice
+    prompt: Which name would Moss accept for the number of parcels waiting?
+    verify: none
+    options:
+      - text: p
+        feedback: "Short, but it says nothing about what it holds."
+      - text: parcels_waiting
+        correct: true
+      - text: thing
+        feedback: "Everything is a thing. Name it for what it holds."
+  - type: fix
+    prompt: This crashes. Rename the variable so it works.
+    code: |
+      2nd_delivery = 4
+      print(2nd_delivery)
+    tests: |
+      TESTS = [output("Prints 4", expect="4")]
+    solution: |
+      second_delivery = 4
+      print(second_delivery)
+  - type: fix
+    prompt: Rename the variables so they say what they hold.
+    code: |
+      a = 85
+      b = 6
+      print(a * b)
+    tests: |
+      import ast as _ast
+      def honest(tree, source):
+          short = sorted({n.id for n in _ast.walk(tree) if isinstance(n, _ast.Name) and isinstance(n.ctx, _ast.Store) and len(n.id) == 1})
+          if short:
+              return "Rename " + ", ".join(short) + "."
+      TESTS = [output("Still 510", expect="510"), structure("Honest names", check=honest)]
+    solution: |
+      bun_price = 85
+      buns = 6
+      print(bun_price * buns)
+  - type: write
+    prompt: "Store the harbour's name, `Saltmarsh`, in a well-named variable, then print the variable."
+    tests: |
+      import ast as _ast
+      def named(tree, source):
+          stores = [n for n in _ast.walk(tree) if isinstance(n, _ast.Assign)]
+          if not any(isinstance(t, _ast.Name) and len(t.id) >= 4 for a in stores for t in a.targets):
+              return "Give the variable a name that says what it holds."
+          prints = [n for n in _ast.walk(tree) if isinstance(n, _ast.Call) and getattr(n.func, "id", "") == "print"]
+          if not any(any(isinstance(a, _ast.Name) for a in p.args) for p in prints):
+              return "Print the variable, not the text."
+      TESTS = [output("Saltmarsh", expect="Saltmarsh"), structure("Uses a variable", check=named)]
+    solution: |
+      harbour_name = "Saltmarsh"
+      print(harbour_name)

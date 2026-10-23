@@ -1,0 +1,56 @@
+id: syntax-error
+title: SyntaxError
+summary: |
+  A SyntaxError means Python couldn't read the code, so none of it runs, not even the lines above the mistake. Common causes are a missing bracket, quote or comma. The reported line is where Python noticed; the mistake is sometimes just before it.
+example: |
+  print("Open"
+  print("Closed")
+misconceptions: [syntax-error-line-exact, syntax-error-runs-earlier-lines]
+related: [reading-tracebacks]
+cards:
+  - type: choice
+    prompt: What appears when this runs?
+    code: |
+      print("first")
+      print("second"
+    verify: error
+    options:
+      - text: "first, then an error"
+        misconception: syntax-error-runs-earlier-lines
+        feedback: "With a SyntaxError, Python can't read the program, so it runs nothing at all."
+      - text: Only the error. Nothing runs.
+        correct: true
+        error: SyntaxError
+  - type: fix
+    prompt: Fix it.
+    code: |
+      print("Fog"
+    tests: |
+      TESTS = [output("Fog", expect="Fog")]
+    solution: |
+      print("Fog")
+  - type: fix
+    prompt: Fix it.
+    code: |
+      print('Gulls")
+    tests: |
+      TESTS = [output("Gulls", expect="Gulls")]
+    solution: |
+      print("Gulls")
+  - type: fix
+    prompt: "Fix it so it prints `Tide 6 metres`."
+    code: |
+      print("Tide", 6 "metres")
+    tests: |
+      TESTS = [output("Tide 6 metres", expect="Tide 6 metres")]
+    solution: |
+      print("Tide", 6, "metres")
+  - type: choice
+    prompt: A SyntaxError points at line 5. Where might the mistake be?
+    verify: none
+    options:
+      - text: Only on line 5
+        misconception: syntax-error-line-exact
+        feedback: "Line 5 is where Python noticed. A bracket left open on line 4 is often the real cause."
+      - text: On line 5, or just before it, such as a bracket left open on line 4
+        correct: true

@@ -1,0 +1,47 @@
+id: operator-precedence
+title: Which sum goes first
+summary: |
+  Python uses the usual order: brackets, then `**`, then `*`, `/`, `//` and `%`, then `+` and `-`. Operators of the same rank go left to right. When in doubt, add brackets. They cost nothing and help the next reader.
+example: |
+  print(2 + 3 * 4)
+  print((2 + 3) * 4)
+misconceptions: [left-to-right-always]
+related: [arithmetic]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      print(10 - 2 * 3)
+    answer: "4"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      print((10 - 2) * 3)
+    answer: "24"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      print(1 + 2 * 3 + 4)
+    options:
+      - text: "11"
+        correct: true
+      - text: "13"
+        misconception: left-to-right-always
+        feedback: "That's working left to right. The `2 * 3` happens first, then the additions."
+      - text: "1 + 2 * 3 + 4"
+        misconception: print-shows-code
+        feedback: "No quotes, so Python works it out."
+  - type: fix
+    prompt: "This should print the average of 240 and 85. Fix it with brackets."
+    code: |
+      print(240 + 85 / 2)
+    tests: |
+      TESTS = [output("The average", expect="162.5")]
+    solution: |
+      print((240 + 85) / 2)
+  - type: write
+    prompt: "Print the cost of 4 buns at 85 pence plus 30 pence delivery, as one sum."
+    tests: |
+      TESTS = [output("370 pence", expect="370")]
+    solution: |
+      print(4 * 85 + 30)

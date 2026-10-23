@@ -1,0 +1,62 @@
+id: program-order
+title: Programs run top to bottom
+summary: |
+  A program is a list of instructions. Python runs them one at a time, from the first line to the last. A line can only use what earlier lines have already done.
+example: |
+  print("Kettle on")
+  print("Tea brewed")
+  print("Tea poured")
+misconceptions: [lines-run-in-any-order, later-line-changes-earlier-output]
+related: [print]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      print("one")
+      print("two")
+      print("three")
+    answer: "one\ntwo\nthree"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      boats = 5
+      print(boats)
+      boats = 9
+    options:
+      - text: "5"
+        correct: true
+        feedback: "The print runs before the change. Later lines can't reach back."
+      - text: "9"
+        misconception: later-line-changes-earlier-output
+        feedback: "By the time line 3 runs, line 2 has already printed 5."
+  - type: choice
+    prompt: What happens when this runs?
+    code: |
+      print(total)
+      total = 5
+    verify: error
+    options:
+      - text: It prints 5
+        misconception: lines-run-in-any-order
+        feedback: "Python doesn't look ahead. When line 1 runs, total doesn't exist yet."
+      - text: A NameError, because total doesn't exist yet when line 1 runs
+        correct: true
+        error: NameError
+  - type: fix
+    prompt: The greeting should come before the question. Fix the order.
+    code: |
+      print("What would you like?")
+      print("Morning.")
+    tests: |
+      TESTS = [output("Greeting first", expect="Morning.\nWhat would you like?")]
+    solution: |
+      print("Morning.")
+      print("What would you like?")
+  - type: write
+    prompt: "Write a program that prints `Ready`, then `Steady`, then `Go`, each on its own line."
+    tests: |
+      TESTS = [output("Three lines", expect="Ready\nSteady\nGo")]
+    solution: |
+      print("Ready")
+      print("Steady")
+      print("Go")
