@@ -1,0 +1,91 @@
+id: immutability
+title: Strings can't be changed
+summary: |
+  Once a string exists, it can't be changed. Methods like `.upper()` and `.replace()` make a new string and hand it back; if you don't keep it with `=`, it's gone. `notice[0] = "X"` is a TypeError. To change what a variable says, make new text and move the label: `notice = notice.upper()`.
+example: |
+  notice = "gale warning"
+  notice.upper()
+  print(notice)
+  notice = notice.upper()
+  print(notice)
+misconceptions: [string-method-changes-in-place, unused-result-is-error, string-item-assignment-allowed]
+related: [string-methods, strip-replace, variables]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      name = "tom"
+      name.title()
+      print(name)
+    answer: "tom"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      name = "tom"
+      shout = name.upper()
+      print(name, shout)
+    answer: "tom TOM"
+  - type: choice
+    prompt: What happens?
+    code: |
+      word = "gull"
+      word[0] = "d"
+      print(word)
+    verify: error
+    options:
+      - text: It prints dull
+        misconception: string-item-assignment-allowed
+        feedback: "You can read `word[0]`, but you can't swap it. Strings can't be changed in place."
+      - text: A TypeError
+        correct: true
+        error: TypeError
+  - type: choice
+    prompt: What does this print?
+    code: |
+      tide = "high water"
+      tide.replace("high", "low")
+      print(tide)
+    options:
+      - text: low water
+        misconception: string-method-changes-in-place
+        feedback: "`.replace()` made a new string, `\"low water\"`, and handed it back. Nobody kept it."
+      - text: high water
+        correct: true
+      - text: An error
+        misconception: unused-result-is-error
+        feedback: "Python doesn't mind an answer being ignored. It just throws it away."
+  - type: fix
+    prompt: "This should print `HIGH WATER 06:42`. Fix it."
+    code: |
+      line = "high water 06:42"
+      line.upper()
+      print(line)
+    tests: |
+      TESTS = [output("In capitals", expect="HIGH WATER 06:42")]
+    solution: |
+      line = "high water 06:42"
+      line = line.upper()
+      print(line)
+  - type: fill
+    prompt: "Fill the gap so it prints `storm warning`."
+    code: |
+      notice = "gale warning"
+      notice ___ notice.replace("gale", "storm")
+      print(notice)
+    blanks: [["="]]
+    tests: |
+      TESTS = [output("storm warning", expect="storm warning")]
+  - type: write
+    prompt: "`word` holds a four-letter word. Make `word` hold the same word with its first letter swapped for `d`, using a slice and `+`. Print it."
+    starter: |
+      word = "gull"
+    tests: |
+      TESTS = [
+          output("gull becomes dull", expect="dull"),
+          output("bell becomes dell", set_vars={"word": "bell"}, expect="dell",
+                 hint="Keep everything after the first letter with word[1:]."),
+      ]
+    solution: |
+      word = "gull"
+      word = "d" + word[1:]
+      print(word)

@@ -1,0 +1,90 @@
+id: list-methods
+title: List methods change the list
+summary: |
+  `.remove(x)` takes out the first `x`, and crashes with a ValueError if there isn't one. `.insert(i, x)` puts `x` at position `i` and moves the rest along. `.count(x)` says how many there are, and `.index(x)` where the first one is. The methods that change a list hand back `None`.
+example: |
+  shopping = ["flour", "eggs", "flour"]
+  shopping.remove("flour")
+  shopping.insert(0, "yeast")
+  print(shopping)
+  print(shopping.count("flour"), shopping.index("eggs"))
+misconceptions: [remove-deletes-every-match, remove-takes-last-match, remove-takes-index, remove-missing-is-silent, insert-replaces]
+related: [slicing, sorted-vs-sort]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      crates = ["cod", "crab", "cod", "eel"]
+      crates.remove("cod")
+      print(crates)
+    answer: "['crab', 'cod', 'eel']"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      queue = ["Ashby", "Vance"]
+      queue.insert(1, "Okonjo")
+      print(queue)
+    answer: "['Ashby', 'Okonjo', 'Vance']"
+  - type: choice
+    prompt: What happens?
+    code: |
+      shopping = ["flour", "eggs"]
+      shopping.remove("salt")
+      print(shopping)
+    verify: error
+    options:
+      - text: "It prints ['flour', 'eggs']"
+        misconception: remove-missing-is-silent
+        feedback: "`.remove()` doesn't shrug and carry on. If the item isn't there, it stops the program."
+      - text: A ValueError
+        correct: true
+        error: ValueError
+      - text: "It prints ['eggs']"
+        misconception: remove-takes-index
+        feedback: "`.remove()` looks for the value you give it. It never takes the first item instead."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      boats = ["Kittiwake", "Mary Rose", "Sea Holly"]
+      boats.insert(1, "Lugger")
+      print(boats)
+    options:
+      - text: "['Kittiwake', 'Lugger', 'Mary Rose', 'Sea Holly']"
+        correct: true
+      - text: "['Kittiwake', 'Lugger', 'Sea Holly']"
+        misconception: insert-replaces
+        feedback: "`.insert()` adds; it doesn't overwrite. Everything from position 1 onwards moves along one."
+  - type: fix
+    prompt: "Old Tom's spare bulbs. The broken one should come out, wherever it is. Fix line 2."
+    code: |
+      bulbs = ["good", "good", "broken", "good"]
+      bulbs.pop("broken")
+      print(bulbs)
+    tests: |
+      TESTS = [output("Three good bulbs", expect="['good', 'good', 'good']")]
+    solution: |
+      bulbs = ["good", "good", "broken", "good"]
+      bulbs.remove("broken")
+      print(bulbs)
+  - type: fill
+    prompt: "Fill the gap so Mrs Vance goes to the front of the queue."
+    code: |
+      queue = ["Ashby", "Okonjo"]
+      queue.___(0, "Vance")
+      print(queue)
+    blanks: [["insert"]]
+    tests: |
+      TESTS = [output("Vance first", expect="['Vance', 'Ashby', 'Okonjo']")]
+  - type: write
+    prompt: "`catch` is a list of fish. Print how many `\"mackerel\"` are in it, using a list method."
+    starter: |
+      catch = ["mackerel", "cod", "mackerel", "bass", "mackerel"]
+    tests: |
+      TESTS = [
+          output("Three mackerel", expect="3"),
+          structure("Uses .count()", calls=["count"], message="Let the list count them: catch.count(...)."),
+      ]
+    solution: |
+      catch = ["mackerel", "cod", "mackerel", "bass", "mackerel"]
+      print(catch.count("mackerel"))

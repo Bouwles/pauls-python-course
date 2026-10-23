@@ -1,0 +1,119 @@
+id: mutable-default
+title: The mutable default trap
+summary: |
+  A default value is made once, when Python runs the `def` line, not on every call. If the default is a list or dictionary and the function changes it, every later call sees the changes. Default to `None` and make a new list inside the function instead.
+example: |
+  def add_order(item, basket=[]):
+      basket.append(item)
+      return basket
+
+  print(add_order("bread"))
+  print(add_order("buns"))
+misconceptions: [default-made-fresh-each-call, none-default-still-shared]
+related: [default-arguments]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def stamp(card, seen=[]):
+          seen.append(card)
+          return len(seen)
+
+      print(stamp("a"), stamp("b"), stamp("c"))
+    answer: "1 2 3"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      def add(item, basket=None):
+          if basket is None:
+              basket = []
+          basket.append(item)
+          return basket
+
+      print(add("bread"), add("buns"))
+    options:
+      - text: "['bread'] ['buns']"
+        correct: true
+      - text: "['bread'] ['bread', 'buns']"
+        misconception: none-default-still-shared
+        feedback: "`None` can't be changed, so there is nothing to share. The new list is made inside the function, once per call."
+      - text: "['bread', 'buns'] ['bread', 'buns']"
+        misconception: default-made-fresh-each-call
+        feedback: "Each call makes its own list here, because `basket = []` runs inside the function every time."
+  - type: fix
+    prompt: "Every call should start with an empty order. Fix it, keeping `order` optional."
+    code: |
+      def take(item, order=[]):
+          order.append(item)
+          return order
+
+      print(take("bread"))
+      print(take("buns"))
+    tests: |
+      def passed_in(ctx):
+          m = ctx.module()
+          mine = ["cake"]
+          if m.take("tea", mine) is not mine or mine != ["cake", "tea"]:
+              raise CheckFailed("An order passed in should be added to and handed back.")
+
+
+      TESTS = [
+          output("Two separate orders", expect="['bread']\n['buns']"),
+          custom("An order passed in is used", passed_in),
+      ]
+    solution: |
+      def take(item, order=None):
+          if order is None:
+              order = []
+          order.append(item)
+          return order
+
+      print(take("bread"))
+      print(take("buns"))
+  - type: fill
+    prompt: "Fill the gap so each call without a book starts a new one."
+    code: |
+      def log(entry, book=___):
+          if book is None:
+              book = []
+          book.append(entry)
+          return book
+
+      print(log("06:42 high"))
+      print(log("12:55 low"))
+    blanks: [["None"]]
+    tests: |
+      TESTS = [output("Two separate books", expect="['06:42 high']\n['12:55 low']")]
+  - type: write
+    prompt: "Write `tally(word, counts=None)`: add 1 to `counts[word]`, starting from 0, and return `counts`. With no dictionary given, start a new one on every call."
+    starter: |
+      def tally(word, counts={}):
+          counts[word] = counts.get(word, 0) + 1
+          return counts
+    tests: |
+      def fresh(ctx):
+          m = ctx.module()
+          m.tally("gull")
+          second = m.tally("tern")
+          if second != {"tern": 1}:
+              raise CheckFailed("Two calls without counts should give two separate dictionaries.", expected={"tern": 1}, actual=second)
+
+
+      def given(ctx):
+          m = ctx.module()
+          mine = {"gull": 2}
+          if m.tally("gull", mine) is not mine or mine != {"gull": 3}:
+              raise CheckFailed("A dictionary passed in should be added to and handed back.")
+
+
+      TESTS = [
+          function("One gull", call="tally", args=("gull",), expect={"gull": 1}),
+          custom("A new dictionary every call", fresh),
+          custom("A dictionary passed in is used", given),
+      ]
+    solution: |
+      def tally(word, counts=None):
+          if counts is None:
+              counts = {}
+          counts[word] = counts.get(word, 0) + 1
+          return counts

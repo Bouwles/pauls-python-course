@@ -1,0 +1,102 @@
+id: args-kwargs
+title: "*args and **kwargs"
+summary: |
+  `*lines` in a `def` line gathers any number of positional arguments into a tuple. `**notes` gathers the keyword arguments that match no parameter into a dictionary, names as keys. A parameter after `*lines` can only be passed by name. In a call, `*` and `**` do the reverse: they spread a list or dictionary out into separate arguments.
+example: |
+  def label(*lines, border="-", **notes):
+      print(lines, border, notes)
+
+  label("Kettle", "Bea", border="=", spout="rewelded")
+misconceptions: [star-args-is-list, star-args-takes-one, positional-reaches-keyword-only, kwargs-gathers-values-only]
+related: [keyword-arguments, default-arguments]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def count(*items):
+          return len(items)
+
+      print(count("bread", "buns", "cake"), count())
+    answer: "3 0"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      def label(*lines, border="*"):
+          return border + " ".join(lines) + border
+
+      print(label("Kettle", "-"))
+    options:
+      - text: "*Kettle -*"
+        correct: true
+      - text: "-Kettle-"
+        misconception: positional-reaches-keyword-only
+        feedback: "Every unnamed argument goes into `lines`, the dash included. After `*lines`, `border` can only be set by name."
+      - text: An error, because label takes one line
+        misconception: star-args-takes-one
+        feedback: "`*lines` takes any number of arguments, from none upwards."
+  - type: fix
+    prompt: "`total` should add up any number of prices passed separately. Fix the `def` line."
+    code: |
+      def total(prices):
+          return sum(prices)
+
+      print(total(240, 85, 85))
+    tests: |
+      TESTS = [output("A loaf and two buns", expect="410")]
+    solution: |
+      def total(*prices):
+          return sum(prices)
+
+      print(total(240, 85, 85))
+  - type: fill
+    prompt: "Fill the gap so `notes` gathers every keyword argument."
+    code: |
+      def tag(item, ___notes):
+          lines = [item]
+          for name, value in notes.items():
+              lines.append(f"{name}: {value}")
+          return "\n".join(lines)
+
+      print(tag("kettle", spout="rewelded"))
+    blanks: [["**"]]
+    tests: |
+      TESTS = [output("The kettle's note", expect="kettle\nspout: rewelded")]
+  - type: write
+    prompt: "Write `shout(*words)`, which returns all the words in capitals, joined with spaces."
+    starter: |
+      # shout(*words)
+    tests: |
+      TESTS = [
+          function("Four words", call="shout", args=("fog", "on", "the", "quay"), expect="FOG ON THE QUAY"),
+          function("One word", call="shout", args=("gulls",), expect="GULLS"),
+          function("No words", call="shout", args=(), expect=""),
+      ]
+    solution: |
+      def shout(*words):
+          return " ".join(words).upper()
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def sign(first, second, third):
+          return f"{first}/{second}/{third}"
+
+      hours = ["9", "till", "5"]
+      print(sign(*hours))
+    answer: "9/till/5"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      def tag(item, **notes):
+          return notes
+
+      print(tag("clock", hands="bent", chime="gone"))
+    options:
+      - text: "{'hands': 'bent', 'chime': 'gone'}"
+        correct: true
+      - text: "('bent', 'gone')"
+        misconception: kwargs-gathers-values-only
+        feedback: "`**notes` keeps the names too: a dictionary from each name to its value."
+      - text: "['hands', 'chime']"
+        misconception: star-args-is-list
+        feedback: "`**` makes a dictionary, names and values both. `*` would make a tuple, never a list."

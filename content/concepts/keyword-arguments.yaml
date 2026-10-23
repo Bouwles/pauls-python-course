@@ -1,0 +1,108 @@
+id: keyword-arguments
+title: Keyword arguments
+summary: |
+  A call can name its arguments: `tag("clock", fragile=True)`. Named, or keyword, arguments go to the parameter with that name, in any order, and let you skip the defaults you're happy with. Unnamed, positional arguments fill the parameters from the left, and always come first.
+example: |
+  def tag(item, owner="Moss", fragile=False):
+      return f"{item} for {owner}, fragile: {fragile}"
+
+  print(tag("clock", fragile=True))
+misconceptions: [keyword-fills-next-slot, cannot-skip-defaults, positional-skips-defaults, keyword-order-matters, keyword-replaces-positional]
+related: [default-arguments, args-kwargs]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def ticket(name, route="Truro", returning=False):
+          return f"{name}: {route}, return {returning}"
+
+      print(ticket("Ferro", returning=True))
+    answer: "Ferro: Truro, return True"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      def box(width, height, depth):
+          return f"{width}x{height}x{depth}"
+
+      print(box(depth=3, width=10, height=2))
+    options:
+      - text: "10x2x3"
+        correct: true
+      - text: "3x10x2"
+        misconception: keyword-fills-next-slot
+        feedback: "Each named argument goes to the parameter with that name. The order they're written in doesn't matter."
+      - text: An error, because the names are out of order
+        misconception: keyword-order-matters
+        feedback: "Keyword arguments can come in any order. That's most of the point of them."
+  - type: fix
+    prompt: "This is a SyntaxError: an unnamed argument can't follow a named one. Fix the call so it prints `CLOCK for Tom`."
+    code: |
+      def tag(item, owner="Moss"):
+          return f"{item.upper()} for {owner}"
+
+      print(tag(owner="Tom", "clock"))
+    tests: |
+      TESTS = [output("Tom's clock", expect="CLOCK for Tom")]
+    solution: |
+      def tag(item, owner="Moss"):
+          return f"{item.upper()} for {owner}"
+
+      print(tag("clock", owner="Tom"))
+  - type: fill
+    prompt: "Fill the gap so this prints `Lisbon, 2 stamps`, without touching the `def`."
+    code: |
+      def postage(town, stamps=1, urgent=False):
+          return f"{town}, {stamps} stamps"
+
+      print(postage("Lisbon", ___=2))
+    blanks: [["stamps"]]
+    tests: |
+      TESTS = [output("Two stamps to Lisbon", expect="Lisbon, 2 stamps")]
+  - type: write
+    prompt: "Add one line that prints the fare for a 40-year-old with the adult price set to 5. Name the argument."
+    starter: |
+      def fare(age, child_price=2, adult_price=4):
+          if age < 16:
+              return child_price
+          return adult_price
+    tests: |
+      import ast as _ast
+
+
+      def named(tree, source):
+          for node in _ast.walk(tree):
+              if isinstance(node, _ast.Call) and any(k.arg == "adult_price" for k in node.keywords):
+                  return None
+          return "Name the argument in the call: adult_price=5."
+
+
+      TESTS = [
+          output("A 40-year-old at 5", expect="5"),
+          structure("The argument is named", check=named),
+      ]
+    solution: |
+      def fare(age, child_price=2, adult_price=4):
+          if age < 16:
+              return child_price
+          return adult_price
+
+      print(fare(40, adult_price=5))
+  - type: choice
+    prompt: What happens?
+    code: |
+      def tag(item, owner="Moss"):
+          return f"{item.upper()} for {owner}"
+
+      print(tag("clock", item="kettle"))
+    verify: error
+    options:
+      - text: A TypeError
+        correct: true
+        error: TypeError
+      - text: It prints KETTLE for Moss
+        misconception: keyword-replaces-positional
+        feedback: "`\"clock\"` already went to `item` by position. Naming `item` again gives it two values, and Python refuses."
+      - text: It prints CLOCK for kettle
+        misconception: keyword-fills-next-slot
+        feedback: "`item=\"kettle\"` goes to `item`, not to the next free parameter. That's the problem: `item` already has a value."

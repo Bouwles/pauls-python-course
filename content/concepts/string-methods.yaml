@@ -1,0 +1,76 @@
+id: string-methods
+title: String methods
+summary: |
+  Strings come with methods, called with a dot and brackets. `.upper()`, `.lower()` and `.title()` change the case, and `.center(40)` pads with spaces to 40 characters. `.count("o")` counts, and `.startswith("Lost")` answers `True` or `False`. None of them change the string: each hands back a new one, or an answer.
+example: |
+  title = "lost: one oar"
+  print(title.upper())
+  print(title.title())
+  print(title.count("o"))
+  print(title.startswith("lost"))
+  print(title.center(21, "*"))
+misconceptions: [string-compare-ignores-case, center-adds-width, method-without-brackets]
+related: [immutability, strip-replace, split-join]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      print("mary rose".title())
+    answer: "Mary Rose"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      print("Sea Salt".count("s"))
+    answer: "0"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      print("lost oar".startswith("Lost"))
+    options:
+      - text: "True"
+        misconception: string-compare-ignores-case
+        feedback: "To Python, `L` and `l` are different characters. `\"lost oar\"` starts with a small l."
+      - text: "False"
+        correct: true
+  - type: choice
+    prompt: What does this print?
+    code: |
+      print("ab".center(6, "-"))
+    options:
+      - text: "------ab------"
+        misconception: center-adds-width
+        feedback: "The number is the width of the finished string, not how much to add. Six characters in all."
+      - text: "--ab--"
+        correct: true
+  - type: fix
+    prompt: "This should print `GALE WARNING`. It prints something odd. Fix it."
+    code: |
+      notice = "gale warning"
+      print(notice.upper)
+    tests: |
+      TESTS = [output("In capitals", expect="GALE WARNING")]
+    solution: |
+      notice = "gale warning"
+      print(notice.upper())
+  - type: fill
+    prompt: "Fill the gap so it prints `Agnes Rook`."
+    code: |
+      name = "agnes rook"
+      print(name.___())
+    blanks: [["title"]]
+    tests: |
+      TESTS = [output("Agnes Rook", expect="Agnes Rook")]
+  - type: write
+    prompt: "`boat` holds a boat's name. Print it in capitals."
+    starter: |
+      boat = "kittiwake"
+    tests: |
+      TESTS = [
+          output("Kittiwake", expect="KITTIWAKE"),
+          output("Mary Rose", set_vars={"boat": "mary rose"}, expect="MARY ROSE",
+                 hint="Use the variable, so any boat's name works."),
+      ]
+    solution: |
+      boat = "kittiwake"
+      print(boat.upper())

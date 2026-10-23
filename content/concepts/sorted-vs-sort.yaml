@@ -1,0 +1,84 @@
+id: sorted-vs-sort
+title: sorted() and .sort()
+summary: |
+  `sorted(items)` hands back a new list in order and leaves `items` as it was. `items.sort()` puts `items` itself in order and hands back `None`, so `items = items.sort()` loses the list. Both take `reverse=True`. Text sorts letter by letter, and capitals come before every lower-case letter.
+example: |
+  orders = ["Vance", "Ashby", "Okonjo"]
+  print(sorted(orders))
+  print(orders)
+  orders.sort(reverse=True)
+  print(orders)
+misconceptions: [sort-returns-list, sort-makes-copy, sorted-changes-original, sort-ignores-capitals]
+related: [list-aliasing, list-methods]
+drill: true
+cards:
+  - type: choice
+    prompt: What does this print?
+    code: |
+      names = ["Vance", "Ashby"]
+      ordered = sorted(names)
+      print(names)
+    options:
+      - text: "['Ashby', 'Vance']"
+        misconception: sorted-changes-original
+        feedback: "`sorted()` builds a new list, here called `ordered`. `names` keeps its old order."
+      - text: "['Vance', 'Ashby']"
+        correct: true
+  - type: predict
+    prompt: What does this print?
+    code: |
+      tides = [7, 3, 9]
+      tides.sort()
+      print(tides)
+    answer: "[3, 7, 9]"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      heights = [2, 1, 3]
+      print(heights.sort())
+    options:
+      - text: "[1, 2, 3]"
+        misconception: sort-returns-list
+        feedback: "`.sort()` sorts the list but hands back `None`, and that is what gets printed."
+      - text: "None"
+        correct: true
+  - type: choice
+    prompt: What does this print?
+    code: |
+      print(sorted(["apple", "Bread", "cake"]))
+    options:
+      - text: "['apple', 'Bread', 'cake']"
+        misconception: sort-ignores-capitals
+        feedback: "Python compares letter codes, and every capital comes before every lower-case letter. So `Bread` goes first."
+      - text: "['Bread', 'apple', 'cake']"
+        correct: true
+  - type: fix
+    prompt: "This should print the catch in alphabetical order. It prints `None`. Fix it."
+    code: |
+      catch = ["eel", "cod", "bass"]
+      catch = catch.sort()
+      print(catch)
+    tests: |
+      TESTS = [output("In order", expect="['bass', 'cod', 'eel']")]
+    solution: |
+      catch = ["eel", "cod", "bass"]
+      catch.sort()
+      print(catch)
+  - type: fill
+    prompt: "Fill the gap so the scores print from highest to lowest."
+    code: |
+      scores = [4, 9, 6]
+      print(sorted(scores, ___))
+    blanks: [["reverse=True"]]
+    tests: |
+      TESTS = [output("Highest first", expect="[9, 6, 4]")]
+  - type: write
+    prompt: "Print `crew` in alphabetical order on one line, then print `crew` again to show it is still in its old order."
+    starter: |
+      crew = ["Tom", "Agnes", "Ferro"]
+    tests: |
+      TESTS = [output("Sorted, then unchanged", expect="['Agnes', 'Ferro', 'Tom']\n['Tom', 'Agnes', 'Ferro']")]
+    solution: |
+      crew = ["Tom", "Agnes", "Ferro"]
+      print(sorted(crew))
+      print(crew)

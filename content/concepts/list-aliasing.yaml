@@ -1,0 +1,94 @@
+id: list-aliasing
+title: Two labels, one list
+summary: |
+  `b = a` doesn't copy a list. It puts a second label on the same list, so a change made through `b` shows up in `a`. For a separate list, use `a.copy()`, `a[:]` or `sorted(a)`. Moving a label with a new `=` is different: `a = [9]` points `a` at a new list and leaves `b` where it was.
+example: |
+  today = ["Kittiwake", "Mary Rose"]
+  same = today
+  spare = today.copy()
+  same.append("Sea Holly")
+  print(today)
+  print(spare)
+misconceptions: [assignment-copies-list, assignment-links-variables]
+related: [variables, sorted-vs-sort, list-methods]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      a = ["cod"]
+      b = a
+      b.append("eel")
+      print(a)
+    answer: "['cod', 'eel']"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      a = ["cod"]
+      b = a.copy()
+      b.append("eel")
+      print(a)
+    answer: "['cod']"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      a = [1, 2]
+      b = a
+      a = [9]
+      print(b)
+    options:
+      - text: "[9]"
+        misconception: assignment-links-variables
+        feedback: "`a = [9]` moves the label `a` to a new list. `b` still points at the old one."
+      - text: "[1, 2]"
+        correct: true
+  - type: choice
+    prompt: What does this print?
+    code: |
+      orders = ["Vance", "Ashby"]
+      sheet = orders
+      sheet.sort()
+      print(orders)
+    options:
+      - text: "['Vance', 'Ashby']"
+        misconception: assignment-copies-list
+        feedback: "`sheet = orders` doesn't make a copy. There's one list with two names, and it got sorted."
+      - text: "['Ashby', 'Vance']"
+        correct: true
+  - type: fix
+    prompt: "`orders` should stay in the order people asked; `sheet` should be sorted. Fix line 2."
+    code: |
+      orders = ["Vance", "Ashby"]
+      sheet = orders
+      sheet.sort()
+      print(orders)
+      print(sheet)
+    tests: |
+      TESTS = [output("Two lists", expect="['Vance', 'Ashby']\n['Ashby', 'Vance']")]
+    solution: |
+      orders = ["Vance", "Ashby"]
+      sheet = orders.copy()
+      sheet.sort()
+      print(orders)
+      print(sheet)
+  - type: fill
+    prompt: "Fill the gap so `spare` is a separate list and `rope` is left alone."
+    code: |
+      rope = ["10 m", "20 m"]
+      spare = rope___
+      spare.append("5 m")
+      print(rope)
+    blanks: [[".copy()", "[:]"]]
+    tests: |
+      TESTS = [output("rope unchanged", expect="['10 m', '20 m']")]
+  - type: write
+    prompt: "Make `tomorrow` a separate copy of `today`, then add `\"Sea Holly\"` to `tomorrow` only. Print `today`, then `tomorrow`."
+    starter: |
+      today = ["Kittiwake", "Mary Rose"]
+    tests: |
+      TESTS = [output("Two lists", expect="['Kittiwake', 'Mary Rose']\n['Kittiwake', 'Mary Rose', 'Sea Holly']")]
+    solution: |
+      today = ["Kittiwake", "Mary Rose"]
+      tomorrow = today.copy()
+      tomorrow.append("Sea Holly")
+      print(today)
+      print(tomorrow)

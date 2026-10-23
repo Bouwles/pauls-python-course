@@ -1,0 +1,77 @@
+id: split-join
+title: split() and join()
+summary: |
+  `text.split()` cuts text into a list of words at every run of spaces, and ignores spaces at the ends. `text.split(",")` cuts at each comma instead, keeping any spaces. `" ".join(words)` goes the other way: one string, with `" "` between the items. `.join()` belongs to the separator, and every item must be a string.
+example: |
+  notice = "  Lost   one oar  "
+  words = notice.split()
+  print(words)
+  print(" ".join(words))
+  print("Kittiwake,Mary Rose".split(","))
+misconceptions: [split-keeps-gaps, join-gives-list, join-called-on-list, join-accepts-numbers]
+related: [strip-replace, string-methods]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      print("cod,eel,bass".split(","))
+    answer: "['cod', 'eel', 'bass']"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      print("-".join(["high", "water"]))
+    answer: "high-water"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      print(len("Lost   one   oar".split()))
+    options:
+      - text: "3"
+        correct: true
+      - text: "7"
+        misconception: split-keeps-gaps
+        feedback: "With nothing in the brackets, `.split()` treats a run of spaces as one gap. No empty pieces."
+  - type: choice
+    prompt: What happens?
+    code: |
+      print(" ".join([1, 2, 3]))
+    verify: error
+    options:
+      - text: It prints 1 2 3
+        misconception: join-accepts-numbers
+        feedback: "`.join()` only glues strings. Numbers have to be turned into text first."
+      - text: A TypeError
+        correct: true
+        error: TypeError
+  - type: fix
+    prompt: "This should print `Mind the gulls`. Fix it."
+    code: |
+      words = ["Mind", "the", "gulls"]
+      print(words.join(" "))
+    tests: |
+      TESTS = [output("One string", expect="Mind the gulls")]
+    solution: |
+      words = ["Mind", "the", "gulls"]
+      print(" ".join(words))
+  - type: fill
+    prompt: "Fill the gap so it prints `Bea, Mira, Gwen`."
+    code: |
+      names = ["Bea", "Mira", "Gwen"]
+      print(___.join(names))
+    blanks: [["\", \"", "', '"]]
+    tests: |
+      TESTS = [output("Commas", expect="Bea, Mira, Gwen")]
+  - type: write
+    prompt: "`notice` has runs of spaces in it. Print it with exactly one space between words and none at the ends."
+    starter: |
+      notice = "  Tide   tables    in the  window "
+    tests: |
+      TESTS = [
+          output("Tide tables", expect="Tide tables in the window"),
+          output("Another notice", set_vars={"notice": "Gulls   are    not   pets."}, expect="Gulls are not pets.",
+                 hint="Work from notice itself: split it, then join it."),
+      ]
+    solution: |
+      notice = "  Tide   tables    in the  window "
+      print(" ".join(notice.split()))

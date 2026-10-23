@@ -1,0 +1,86 @@
+id: strip-replace
+title: strip() and replace()
+summary: |
+  `.strip()` takes spaces off both ends of a string, never from the middle. Give it characters, as in `.strip(".,")`, and it takes those off the ends instead. `.replace(old, new)` swaps every `old` for `new`. Both hand back a new string, so keep it with `=`.
+example: |
+  reply = "  yes please  "
+  print(reply.strip() + "|")
+  print("...lost oar...".strip("."))
+  print("gale, gale, gale".replace("gale", "storm"))
+misconceptions: [strip-removes-inner-spaces, replace-first-only, string-method-changes-in-place]
+related: [split-join, immutability, string-methods]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      print("fog fog fog".replace("fog", "sun"))
+    answer: "sun sun sun"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      print("...ahoy!!".strip(".!"))
+    answer: "ahoy"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      print("  Sea  Holly  ".strip())
+    options:
+      - text: "SeaHolly"
+        misconception: strip-removes-inner-spaces
+        feedback: "`.strip()` only works on the ends. The spaces between words stay."
+      - text: "Sea Holly"
+        misconception: strip-removes-inner-spaces
+        feedback: "The two spaces in the middle survive. `.strip()` never looks past the first and last letters."
+      - text: "Sea  Holly"
+        correct: true
+  - type: choice
+    prompt: What does this print?
+    code: |
+      print("a-b-c".replace("-", ""))
+    options:
+      - text: ab-c
+        misconception: replace-first-only
+        feedback: "`.replace()` swaps every match, not just the first."
+      - text: abc
+        correct: true
+  - type: fix
+    prompt: "Customers type ` yes ` with spaces. Make this say `Going again.` when they do."
+    code: |
+      answer = input("Again? ")
+      if answer == "yes":
+          print("Going again.")
+      else:
+          print("Stopping.")
+    tests: |
+      TESTS = [
+          output("Spaces round yes", inputs=[" yes "], expect="Going again."),
+          output("Plain yes", inputs=["yes"], expect="Going again."),
+          output("No", inputs=["no"], expect="Stopping."),
+      ]
+    solution: |
+      answer = input("Again? ").strip()
+      if answer == "yes":
+          print("Going again.")
+      else:
+          print("Stopping.")
+  - type: fill
+    prompt: "Fill the gap so it prints `4.50`."
+    code: |
+      price = "£4.50"
+      print(price.___("£", ""))
+    blanks: [["replace"]]
+    tests: |
+      TESTS = [output("No pound sign", expect="4.50")]
+  - type: write
+    prompt: "`reply` may have spaces round it and capitals in it. Print it in lower case with the spaces gone."
+    starter: |
+      reply = "  YES "
+    tests: |
+      TESTS = [
+          output("YES", expect="yes"),
+          output("No", set_vars={"reply": "No   "}, expect="no", hint="Strip it, then lower it. Work from reply itself."),
+      ]
+    solution: |
+      reply = "  YES "
+      print(reply.strip().lower())

@@ -1,0 +1,110 @@
+id: docstrings
+title: Docstrings
+summary: |
+  A string on the first line inside a `def`, a class or a file is a docstring. Python keeps it as `__doc__`, and `help()` shows it, so callers can use a function without reading its body. Say what goes in and what comes back. A string anywhere else in the body is just a string.
+example: |
+  def price(item, quantity):
+      """Price of an order in pence."""
+      return quantity * 240
+
+  print(price.__doc__)
+misconceptions: [docstring-anywhere, docstring-is-thrown-away]
+related: [default-arguments]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def tide(time):
+          """Turn '06:42' into minutes after midnight."""
+          hours, mins = time.split(":")
+          return int(hours) * 60 + int(mins)
+
+      print(tide.__doc__)
+    answer: "Turn '06:42' into minutes after midnight."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      def price(item):
+          total = 240
+          """Price of one item in pence."""
+          return total
+
+      print(price.__doc__)
+    options:
+      - text: None
+        correct: true
+      - text: Price of one item in pence.
+        misconception: docstring-anywhere
+        feedback: "Only a string on the very first line of the body is a docstring. This one comes after `total = 240`, so it's just a string Python works out and forgets."
+  - type: fix
+    prompt: "`help(wind)` shows nothing useful. Turn the comment into a docstring."
+    code: |
+      def wind(speed):
+          # Describe a wind speed in knots for the noticeboard.
+          if speed > 30:
+              return "gale"
+          return "breezy"
+    tests: |
+      import ast as _ast
+
+
+      def has_docstring(tree, source):
+          for node in tree.body:
+              if isinstance(node, _ast.FunctionDef) and node.name == "wind" and _ast.get_docstring(node):
+                  return None
+          return "Make the first line inside wind a string in triple quotes."
+
+
+      TESTS = [
+          structure("wind has a docstring", check=has_docstring),
+          function("Still a gale at 40", call="wind", args=(40,), expect="gale"),
+      ]
+    solution: |
+      def wind(speed):
+          """Describe a wind speed in knots for the noticeboard."""
+          if speed > 30:
+              return "gale"
+          return "breezy"
+  - type: fill
+    prompt: "Fill both gaps so the line becomes the docstring."
+    code: |
+      def knots(mph):
+          ___Convert miles per hour to knots.___
+          return round(mph * 0.869, 1)
+
+      print(knots.__doc__)
+    blanks: [['"""', "'''"], ['"""', "'''"]]
+    tests: |
+      TESTS = [output("The docstring", expect="Convert miles per hour to knots.")]
+  - type: write
+    prompt: "Write `half(number)`, which returns half of `number`, with a docstring that says so."
+    starter: |
+      # half(number), with a docstring
+    tests: |
+      import ast as _ast
+
+
+      def has_docstring(tree, source):
+          for node in tree.body:
+              if isinstance(node, _ast.FunctionDef) and node.name == "half" and _ast.get_docstring(node):
+                  return None
+          return "Give half a docstring on its first line."
+
+
+      TESTS = [
+          function("Half of 10", call="half", args=(10,), expect=5),
+          function("Half of 3", call="half", args=(3,), expect=1.5),
+          structure("half has a docstring", check=has_docstring),
+      ]
+    solution: |
+      def half(number):
+          """Return half of number."""
+          return number / 2
+  - type: predict
+    prompt: What does this print?
+    code: |
+      class Shed:
+          """Where Dev and Kat keep the bikes."""
+
+      print(Shed.__doc__)
+    answer: "Where Dev and Kat keep the bikes."

@@ -1,0 +1,86 @@
+id: default-arguments
+title: Default arguments
+summary: |
+  A parameter can have a default: `def label(item, copies=1):`. When a call leaves that argument out, the function uses the default; when the call passes one, the default is ignored. Parameters with defaults go after the ones without.
+example: |
+  def label(item, copies=1):
+      return f"{item} x{copies}"
+
+  print(label("kettle"))
+  print(label("clock", 3))
+misconceptions: [default-still-required, missing-argument-is-none, default-overrides-argument]
+related: [keyword-arguments, mutable-default]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def greet(name, greeting="Morning"):
+          return f"{greeting}, {name}"
+
+      print(greet("Agnes"))
+    answer: "Morning, Agnes"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      def loaves(count=12):
+          return count * 2
+
+      print(loaves(), loaves(5))
+    options:
+      - text: "24 10"
+        correct: true
+      - text: "24 24"
+        misconception: default-overrides-argument
+        feedback: "The default is only used when the call leaves the argument out. `loaves(5)` uses 5."
+      - text: An error, because the first call passes nothing
+        misconception: default-still-required
+        feedback: "`count=12` makes the argument optional. With nothing passed, `count` is 12."
+  - type: fix
+    prompt: "Python refuses to run this: a parameter with a default can't come before one without. Fix the `def` line so both calls work."
+    code: |
+      def rope(price=1.15, metres):
+          return round(metres * price, 2)
+
+      print(rope(3))
+      print(rope(3, 2.0))
+    tests: |
+      TESTS = [output("Three metres, then three at 2.00", expect="3.45\n6.0")]
+    solution: |
+      def rope(metres, price=1.15):
+          return round(metres * price, 2)
+
+      print(rope(3))
+      print(rope(3, 2.0))
+  - type: fill
+    prompt: "Fill the gap so `stamp()` gives second class and `stamp(\"first\")` gives first."
+    code: |
+      def stamp(kind=___):
+          return f"{kind} class"
+
+      print(stamp())
+      print(stamp("first"))
+    blanks: [['"second"', "'second'"]]
+    tests: |
+      TESTS = [output("Second, then first", expect="second class\nfirst class")]
+  - type: write
+    prompt: "Write `trim(text, width=10)`, which returns the first `width` characters of `text`."
+    starter: |
+      # trim(text, width=10)
+    tests: |
+      TESTS = [
+          function("The default width", call="trim", args=("Lighthouse lamp",), expect="Lighthouse"),
+          function("Width 4", call="trim", args=("Saltmarsh",), kwargs={"width": 4}, expect="Salt"),
+          function("Shorter than the width", call="trim", args=("Bun",), expect="Bun"),
+      ]
+    solution: |
+      def trim(text, width=10):
+          return text[:width]
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def order(item, qty=1, paid=False):
+          return f"{qty} {item}, paid: {paid}"
+
+      print(order("bun", 6))
+    answer: "6 bun, paid: False"
