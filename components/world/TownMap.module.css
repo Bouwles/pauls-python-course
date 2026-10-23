@@ -1,0 +1,49 @@
+.wrap {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  line-height: 0;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-2);
+  background: #26424f;
+  -webkit-overflow-scrolling: touch;
+}
+
+.inner {
+  position: relative;
+  margin: 0 auto;
+}
+
+.canvas {
+  display: block;
+}
+
+.hotspot {
+  position: absolute;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  border-radius: var(--r-1);
+}
+
+.hotspot:hover {
+  outline: 1px solid rgb(216 182 90 / 0.8);
+}
+
+.hotspot:focus-visible {
+  outline: 2px solid #d8b65a;
+  outline-offset: 2px;
+}
+
+.dennis {
+  position: absolute;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.dennis:focus-visible {
+  outline: 2px solid #d8b65a;
+}
