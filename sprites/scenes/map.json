@@ -1,0 +1,139 @@
+{
+  "name": "map",
+  "size": [
+    400,
+    240
+  ],
+  "fill": "8",
+  "props": [
+    {
+      "sprite": "map-terrain",
+      "frame": "base",
+      "x": 0,
+      "y": 0
+    }
+  ],
+  "marks": {},
+  "previewActors": [
+    {
+      "sprite": "b-workshop",
+      "frame": "open",
+      "x": 116,
+      "y": 148
+    },
+    {
+      "sprite": "b-bakery",
+      "frame": "open",
+      "x": 146,
+      "y": 147
+    },
+    {
+      "sprite": "b-post-office",
+      "frame": "open",
+      "x": 172,
+      "y": 146
+    },
+    {
+      "sprite": "b-pub",
+      "frame": "open",
+      "x": 208,
+      "y": 146
+    },
+    {
+      "sprite": "b-harbour-office",
+      "frame": "open",
+      "x": 238,
+      "y": 155
+    },
+    {
+      "sprite": "b-ferry",
+      "frame": "open",
+      "x": 164,
+      "y": 194
+    },
+    {
+      "sprite": "b-lighthouse",
+      "frame": "open",
+      "x": 352,
+      "y": 158
+    },
+    {
+      "sprite": "b-tailor",
+      "frame": "open",
+      "x": 116,
+      "y": 95
+    },
+    {
+      "sprite": "b-library",
+      "frame": "open",
+      "x": 140,
+      "y": 93
+    },
+    {
+      "sprite": "b-town-hall",
+      "frame": "open",
+      "x": 170,
+      "y": 91
+    },
+    {
+      "sprite": "b-greengrocer",
+      "frame": "open",
+      "x": 214,
+      "y": 95
+    },
+    {
+      "sprite": "b-bike-shed",
+      "frame": "open",
+      "x": 238,
+      "y": 98
+    },
+    {
+      "sprite": "b-scrapyard",
+      "frame": "open",
+      "x": 28,
+      "y": 112
+    },
+    {
+      "sprite": "b-records-office",
+      "frame": "open",
+      "x": 66,
+      "y": 34
+    },
+    {
+      "sprite": "b-weather-station",
+      "frame": "open",
+      "x": 104,
+      "y": 26
+    },
+    {
+      "sprite": "b-observatory",
+      "frame": "open",
+      "x": 298,
+      "y": 16
+    },
+    {
+      "sprite": "b-crab-club",
+      "frame": "open",
+      "x": 292,
+      "y": 99
+    },
+    {
+      "sprite": "b-boat",
+      "frame": "moored",
+      "x": 222,
+      "y": 200
+    },
+    {
+      "sprite": "b-boat",
+      "frame": "moored",
+      "x": 238,
+      "y": 218
+    },
+    {
+      "sprite": "b-boat",
+      "frame": "moored",
+      "x": 140,
+      "y": 214
+    }
+  ]
+}
