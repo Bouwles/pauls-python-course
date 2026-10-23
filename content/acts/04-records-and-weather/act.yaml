@@ -1,0 +1,21 @@
+id: records-and-weather
+number: 4
+title: "The Records Office and the Weather Station"
+district: records-office
+subject: "Data and maths for machine learning"
+hours: 40
+summary: "A hundred years of town records and a century of weather. NumPy, pandas, matplotlib, statistics, probability, linear algebra and the calculus that machine learning leans on."
+locked_line: "A century of records, filed and unread."
+intro:
+  - ashby: "A hundred years of it. Nobody has asked before."
+jobs:
+  - arrays-not-lists
+  - the-census-tables
+  - cleaning-the-records
+  - group-by-the-parish
+  - drawing-the-weather
+  - averages-lie
+  - is-it-really-warmer
+  - vectors-and-arrows
+  - slopes-on-the-hill
+  - saltmarsh-weather-report
