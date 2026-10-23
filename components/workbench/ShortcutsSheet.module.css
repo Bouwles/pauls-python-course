@@ -1,0 +1,69 @@
+.sheet {
+  position: relative;
+}
+
+.summary {
+  list-style: none;
+  cursor: pointer;
+  font-size: var(--step--1);
+  color: var(--ink-2);
+  padding: var(--s-1) var(--s-2);
+  border-radius: var(--r-1);
+  min-height: 28px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.summary:hover {
+  color: var(--ink);
+  background: var(--paper-sunk);
+}
+
+.panel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  z-index: 20;
+  width: 320px;
+  padding: var(--s-3) var(--s-4);
+  background: var(--paper);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-2);
+  font-size: var(--step--1);
+}
+
+.panel dl {
+  margin: 0;
+  display: grid;
+  gap: var(--s-2);
+}
+
+.panel dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s-3);
+}
+
+.panel dd {
+  margin: 0;
+  color: var(--ink-2);
+  text-align: right;
+}
+
+.panel kbd {
+  font-size: 0.72rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-1);
+  padding: 0 4px;
+  background: var(--paper-raised);
+}
+
+.note {
+  margin-top: var(--s-3);
+  color: var(--ink-2);
+  line-height: 1.45;
+}

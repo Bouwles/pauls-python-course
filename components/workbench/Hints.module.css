@@ -1,0 +1,49 @@
+.hints {
+  display: grid;
+  gap: var(--s-3);
+}
+
+.buttons {
+  display: flex;
+  gap: var(--s-2);
+  flex-wrap: wrap;
+}
+
+.nudge {
+  font-family: var(--font-prose);
+  font-size: var(--prose-size);
+  line-height: var(--lh-prose);
+  border-left: 2px solid var(--accent);
+  padding-left: var(--s-3);
+}
+
+.plan {
+  margin: 0;
+  padding-left: 1.4em;
+  font-family: var(--font-prose);
+  font-size: var(--prose-size);
+  line-height: var(--lh-prose);
+}
+
+.solutionRow {
+  display: grid;
+  gap: var(--s-2);
+  justify-items: start;
+}
+
+.notYet,
+.solutionNote {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+  line-height: 1.45;
+}
+
+.solution {
+  display: grid;
+  gap: var(--s-2);
+}
+
+.file {
+  font-family: var(--font-code);
+  font-size: var(--step--1);
+}

@@ -1,0 +1,45 @@
+.closed {
+  margin-top: var(--s-2);
+}
+
+.panel {
+  display: grid;
+  gap: var(--s-3);
+  padding-top: var(--s-4);
+  margin-top: var(--s-4);
+  border-top: var(--hairline);
+}
+
+.field {
+  display: grid;
+  gap: var(--s-1);
+  font-size: var(--step--1);
+}
+
+.field textarea,
+.field select {
+  width: 100%;
+  border: 1px solid var(--control-border);
+  border-radius: var(--r-1);
+  background: var(--paper-raised);
+  padding: var(--s-2);
+  font-family: var(--font-prose);
+  font-size: var(--step--1);
+  resize: vertical;
+}
+
+.field select {
+  font-family: var(--font-code);
+  min-height: 36px;
+}
+
+.row {
+  display: flex;
+  gap: var(--s-2);
+}
+
+.narration {
+  font-family: var(--font-prose);
+  font-style: italic;
+  color: var(--ink-2);
+}

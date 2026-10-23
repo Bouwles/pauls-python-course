@@ -1,0 +1,210 @@
+/*
+  Desktop, three zones:
+    left:   step list, then the brief for the current step
+    centre: the stage (editor and output, or the worked example, Parsons board, ship scene)
+    right:  the scene strip, then hints and Dennis
+  Phone: the scene shrinks to a line of dialogue; Brief, Code and Output become tabs.
+  Steps render their parts with the brief, stage and side classes; .main uses
+  `display: contents` so those parts sit directly in this grid.
+*/
+.wb {
+  display: grid;
+  grid-template-columns: minmax(260px, 300px) minmax(0, 1fr) minmax(336px, 352px);
+  grid-template-rows: var(--topbar-h) auto minmax(0, 1fr);
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--paper);
+}
+
+.main {
+  display: contents;
+}
+
+.nav {
+  grid-column: 1;
+  grid-row: 2;
+  border-right: var(--hairline);
+  overflow: auto;
+  max-height: 44vh;
+}
+
+.brief {
+  grid-column: 1;
+  grid-row: 3;
+  border-right: var(--hairline);
+  border-top: var(--hairline);
+  overflow: auto;
+  padding: var(--s-5) var(--s-5) var(--s-10);
+  min-height: 0;
+}
+
+.stage {
+  grid-column: 2;
+  grid-row: 2 / span 2;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.scene {
+  grid-column: 3;
+  grid-row: 2;
+  border-left: var(--hairline);
+  background: var(--paper-sunk);
+  min-width: 0;
+}
+
+.side {
+  grid-column: 3;
+  grid-row: 3;
+  border-left: var(--hairline);
+  border-top: var(--hairline);
+  overflow: auto;
+  padding: var(--s-4) var(--s-5) var(--s-10);
+  min-height: 0;
+}
+
+/* The side column is empty for some steps; the scene keeps it from looking bare. */
+.output {
+  display: contents;
+}
+
+.tabs {
+  display: none;
+}
+
+.loading {
+  grid-column: 2;
+  grid-row: 3;
+  padding: var(--s-8);
+  color: var(--ink-2);
+}
+
+/* Landing page: a cut-down Workbench in a frame, no top bar. */
+.landing {
+  height: min(780px, 92vh);
+  grid-template-rows: auto minmax(0, 1fr);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-2);
+}
+
+.landing .nav,
+.landing .scene {
+  grid-row: 1;
+}
+
+.landing .brief,
+.landing .side {
+  grid-row: 2;
+}
+
+.landing .stage {
+  grid-row: 1 / span 2;
+}
+
+@media (max-width: 1100px) {
+  .wb {
+    grid-template-columns: minmax(240px, 280px) minmax(0, 1fr) minmax(260px, 300px);
+  }
+}
+
+@media (max-width: 900px) {
+  .wb,
+  .landing {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    grid-auto-rows: auto;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .wb:not(.landing) {
+    min-height: 100dvh;
+  }
+
+  .nav,
+  .brief,
+  .stage,
+  .scene,
+  .side,
+  .tabs,
+  .loading {
+    grid-column: 1;
+    grid-row: auto;
+    border: none;
+    max-height: none;
+  }
+
+  .scene {
+    order: 1;
+    border-bottom: var(--hairline);
+  }
+
+  .tabs {
+    order: 2;
+  }
+
+  .nav {
+    order: 3;
+  }
+
+  .brief {
+    order: 4;
+    padding: var(--s-4) var(--s-4) var(--s-6);
+  }
+
+  .stage {
+    order: 5;
+    overflow: visible;
+  }
+
+  .side {
+    order: 6;
+    border-top: var(--hairline);
+    padding: var(--s-4);
+  }
+
+  /* Steps that use the editor get tabs. */
+  .wb[data-code] .tabs {
+    display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--paper);
+    border-bottom: var(--hairline);
+  }
+
+  .wb[data-code][data-zone="brief"] .stage {
+    display: none;
+  }
+
+  .wb[data-code]:not([data-zone="brief"]) .nav,
+  .wb[data-code]:not([data-zone="brief"]) .brief,
+  .wb[data-code]:not([data-zone="brief"]) .side {
+    display: none;
+  }
+
+  .wb[data-code]:not([data-zone="brief"]) .stage {
+    min-height: 70dvh;
+  }
+
+  .tab {
+    flex: 1;
+    min-height: var(--touch);
+    border: none;
+    background: none;
+    font-weight: 500;
+    font-size: var(--step--1);
+    color: var(--ink-2);
+    border-bottom: 2px solid transparent;
+  }
+
+  .tab[aria-selected="true"] {
+    color: var(--ink);
+    border-bottom-color: var(--accent);
+  }
+}
