@@ -1,0 +1,215 @@
+.rounds,
+.summary,
+.empty {
+  display: grid;
+  gap: var(--s-6);
+  max-width: 760px;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--s-4);
+}
+
+.headRight {
+  text-align: right;
+  display: grid;
+  gap: var(--s-1);
+}
+
+.title {
+  font-size: var(--step-4);
+}
+
+.lede {
+  font-family: var(--font-prose);
+  font-size: var(--prose-size);
+  line-height: var(--lh-prose);
+  color: var(--ink-2);
+  margin-top: var(--s-2);
+}
+
+.count {
+  font-family: var(--font-code);
+  font-size: var(--step--1);
+}
+
+.skip {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+.where {
+  display: flex;
+  gap: var(--s-4);
+  align-items: center;
+}
+
+.where canvas {
+  background: var(--scene-frame);
+  border-radius: var(--r-1);
+}
+
+.concept {
+  font-family: var(--font-prose);
+  font-size: var(--step-1);
+  font-weight: 600;
+}
+
+.card {
+  display: grid;
+  gap: var(--s-4);
+  padding: var(--s-6);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-2);
+  background: var(--paper-raised);
+}
+
+.prompt {
+  font-family: var(--font-prose);
+  font-size: var(--step-1);
+  line-height: 1.4;
+}
+
+.prompt code {
+  font-size: 0.85em;
+  background: var(--paper-sunk);
+  padding: 0 0.25em;
+}
+
+.inputs {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+.answer {
+  border: 1px solid var(--control-border);
+  border-radius: var(--r-1);
+  background: var(--paper);
+  font-family: var(--font-code);
+  font-size: var(--editor-font-size);
+  padding: var(--s-2) var(--s-3);
+  font-variant-ligatures: none;
+}
+
+.options {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--s-2);
+}
+
+.option {
+  display: flex;
+  gap: var(--s-3);
+  align-items: flex-start;
+  padding: var(--s-2) var(--s-3);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-2);
+  cursor: pointer;
+  background: var(--paper);
+}
+
+.option input {
+  margin-top: 3px;
+  accent-color: var(--accent-ink);
+}
+
+.chosen {
+  border-color: var(--ink);
+}
+
+.mono {
+  font-family: var(--font-code);
+  font-size: var(--step--1);
+  white-space: pre-wrap;
+  font-variant-ligatures: none;
+}
+
+.fill {
+  margin: 0;
+  padding: var(--s-3) var(--s-4);
+  background: var(--paper);
+  border: var(--hairline);
+  font-family: var(--font-code);
+  font-size: var(--editor-font-size);
+  line-height: 1.9;
+  font-variant-ligatures: none;
+  white-space: pre-wrap;
+}
+
+.blank {
+  font-family: var(--font-code);
+  font-size: var(--editor-font-size);
+  border: none;
+  border-bottom: 2px solid var(--accent-ink);
+  background: var(--accent-wash);
+  padding: 0 4px;
+  margin: 0 2px;
+}
+
+.editor {
+  height: 200px;
+  border: var(--hairline);
+}
+
+.row,
+.next {
+  display: flex;
+  gap: var(--s-2);
+}
+
+.feedback {
+  padding: var(--s-3);
+  border-left: 2px solid var(--rule-strong);
+  background: var(--paper-sunk);
+  display: grid;
+  gap: var(--s-2);
+}
+
+.good {
+  border-left-color: var(--pass);
+}
+
+.bad {
+  border-left-color: var(--fail);
+}
+
+.fbTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-weight: 600;
+}
+
+.good .fbTitle {
+  color: var(--pass);
+}
+
+.bad .fbTitle {
+  color: var(--fail);
+}
+
+.fbText {
+  font-family: var(--font-prose);
+  white-space: pre-wrap;
+}
+
+.quiet {
+  color: var(--ink-2);
+  font-size: var(--step--1);
+}
+
+.shaky ul {
+  margin: var(--s-2) 0;
+  padding-left: 1.2em;
+  display: grid;
+  gap: var(--s-2);
+}
+
+.conceptName {
+  font-weight: 600;
+}
