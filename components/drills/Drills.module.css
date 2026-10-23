@@ -1,0 +1,108 @@
+.drills,
+.run {
+  display: grid;
+  gap: var(--s-5);
+}
+
+.title,
+.runTitle {
+  font-size: var(--step-4);
+}
+
+.runTitle {
+  font-size: var(--step-3);
+}
+
+.lede {
+  font-family: var(--font-prose);
+  font-size: var(--prose-size);
+  color: var(--ink-2);
+}
+
+.quiet {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: var(--s-4);
+  align-items: center;
+  padding: var(--s-3) 0;
+  border-top: var(--hairline);
+}
+
+.name {
+  font-family: var(--font-prose);
+  font-weight: 600;
+}
+
+.best {
+  font-family: var(--font-code);
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+.locked summary {
+  cursor: pointer;
+  font-size: var(--step--1);
+}
+
+.runHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.clock {
+  display: grid;
+  text-align: right;
+}
+
+.time {
+  font-family: var(--font-code);
+  font-size: var(--step-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.vs {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+.pip {
+  display: flex;
+  gap: var(--s-3);
+  align-items: center;
+  font-family: var(--font-prose);
+}
+
+.pip canvas {
+  background: var(--scene-frame);
+  border-radius: var(--r-1);
+}
+
+.start,
+.result {
+  display: grid;
+  gap: var(--s-3);
+  justify-items: start;
+}
+
+.resultTime {
+  font-family: var(--font-code);
+  font-size: var(--step-5);
+}
+
+.row {
+  display: flex;
+  gap: var(--s-4);
+  align-items: center;
+}
