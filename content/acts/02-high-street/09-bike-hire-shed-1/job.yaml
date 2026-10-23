@@ -1,0 +1,42 @@
+id: bike-hire-shed-1
+title: "The Bike Hire Shed"
+client: dev
+building: bike-shed
+estimated_minutes: 70
+summary: "Dev and Kat's bikes, each one keeping track of itself."
+concepts_introduced: [classes, init, attributes, methods, self]
+concepts_reviewed: [functions, parameters, return-values, none, f-strings, default-arguments, references, is-vs-equals, docstrings, main-guard]
+ask:
+  dialogue:
+    - dev: "Thirty bikes. One notebook. Kat's handwriting."
+    - kat: "My handwriting is fine. The notebook is the problem."
+    - dev: "We need to know which bikes are out, who has them, and what they owe."
+    - moss: "Then each bike should know that about itself."
+  spec: |
+    Write a class `Bike` in `bikes.py`.
+
+    - `Bike(number, kind, rate)` makes a bike: its number, its kind (`"town"`, `"mountain"`) and its rate in pounds an hour. A new bike has `rider` set to `None` and `hours` set to 0.
+    - `hire(rider)` lends the bike out and returns `True`. If the bike is already out, it changes nothing and returns `False`.
+    - `give_back(hours)` returns the cost, `hours` times the rate. It adds the hours to the bike's total and clears the rider.
+    - `describe()` returns one line, like `Bike 7, town, £4.00 an hour, free` or `Bike 7, town, £4.00 an hour, out with Bea`.
+  example: |
+    Bike 7, town, £4.00 an hour, free
+    Bike 7, town, £4.00 an hour, out with Bea
+    Bea owes £12.00
+ship:
+  dialogue:
+    - kat: "Bike 7, out with Bea, three hours. Twelve pounds. The notebook said nine."
+    - dev: "The notebook was in your handwriting."
+    - dev: "Next, the electric ones. They're bikes. Obviously."
+    - kat: "They are not obviously anything."
+  shelf: { object: bike, label: "The bike hire ledger" }
+  cards: [classes, init, attributes, methods, self]
+stretch:
+  - id: shed-total
+    title: "Takings"
+    prompt: |
+      Keep the bikes in a list. Write a function `takings(bikes)` that returns the total hours ridden across the whole shed, using each bike's `hours`.
+  - id: late-fee
+    title: "Late back"
+    prompt: |
+      Give `give_back` a keyword argument `late=False`. A bike brought back late costs an extra £5. Make sure every check still passes without it.

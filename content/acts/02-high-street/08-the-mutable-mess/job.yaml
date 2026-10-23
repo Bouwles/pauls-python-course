@@ -1,0 +1,39 @@
+id: the-mutable-mess
+title: "The Mutable Mess"
+client: bea
+building: bakery
+estimated_minutes: 60
+summary: "Bea's stock numbers change on their own. Read Penhallow's program and find out why."
+concepts_introduced: [references, mutability, copying, is-vs-equals]
+concepts_reviewed: [list-aliasing, dictionaries, nested-data, dict-items, dict-get, functions, return-values, modules, imports, docstrings]
+ask:
+  dialogue:
+    - bea: "Saturday's sheet said thirty-five loaves sold by nine. We'd been open ten minutes."
+    - bea: "I counted twice. Then a third time, which I never do."
+    - moss: "Penhallow wrote that program. Numbers don't move on their own."
+    - moss: "Something else is holding the same box."
+  spec: |
+    Penhallow's stock program keeps a sheet for each day. Find out why one day's sales turn up on the next day's sheet, and fix it.
+
+    Then write `saturday_orders(standing, extras)` for Bea's standing orders. It returns Saturday's orders, the standing orders with this week's extras added, and leaves both of its arguments exactly as they were.
+  example: |
+    bread: 35 left of 40
+    buns: 60 left of 60
+    lardy cake: 12 left of 12
+ship:
+  dialogue:
+    - bea: "Five loaves sold, thirty-five left. That's what the tray says. I counted."
+    - bea: "And the Ashbys get six buns this week. Four next week, like always."
+    - moss: "One box each. That was all it needed."
+  shelf: { object: stock-sheet, label: "Bea's stock sheets, counting once" }
+  cards: [references, mutability, copying, is-vs-equals]
+story_note: copies-are-cheap
+stretch:
+  - id: week-of-sheets
+    title: "A week of sheets"
+    prompt: |
+      Keep a list called `week` and append each day's sheet to it at closing time. Then check, with `is`, that no two days in the week share a counts dictionary.
+  - id: tuple-template
+    title: "A template nobody can change"
+    prompt: |
+      Bea's standard bake shouldn't change at all. Try storing each item's numbers in a tuple, `("bread", 40)`, and building the day's dictionaries from them. What can the rest of the program no longer do by accident?

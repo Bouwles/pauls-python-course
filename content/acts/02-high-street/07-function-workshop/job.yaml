@@ -1,0 +1,41 @@
+id: function-workshop
+title: "Function Workshop"
+client: moss
+building: workshop
+estimated_minutes: 60
+summary: "A configurable label printer, and functions you can call without reading them first."
+concepts_introduced: [default-arguments, keyword-arguments, args-kwargs, mutable-default, docstrings]
+concepts_reviewed: [functions, parameters, return-values, none, f-strings, string-slicing, dict-items, main-guard, tuples, list-comprehensions]
+ask:
+  dialogue:
+    - moss: "Penhallow's label printer still works. Her program for it went with her."
+    - moss: "Every repair gets a label. Some need one line, some need six."
+    - moss: "I want functions I can call without reading them first."
+  spec: |
+    Write three functions in `labels.py`, each with a docstring that says what it does.
+
+    1. `label(*lines, border="-", width=24)` returns the label as one string: a border `width` characters long, then each line cut to `width` characters, then the border again, joined with newlines.
+    2. `tag(item, owner="Moss", **notes)` returns a label with a `=` border. Its first line is the item in capitals and who it is for, like `KETTLE for Bea`. Then one line per note, `name: value`, in the order given.
+    3. `add_to_queue(text, waiting=None)` adds `text` to the list `waiting` and returns the list. With no list given, it starts a new one every time.
+  example: |
+    ========================
+    KETTLE for Bea
+    spout: rewelded
+    handle: new
+    ========================
+ship:
+  dialogue:
+    - moss: "Kettle, clock, Bea's mixer. Three shapes of label, one function."
+    - moss: "And the queue starts empty every morning. As it should."
+    - pip: "Mine started empty once. Then never again."
+  shelf: { object: label-printer, label: "Moss's label printer" }
+  cards: [default-arguments, keyword-arguments, args-kwargs, mutable-default, docstrings]
+stretch:
+  - id: right-aligned
+    title: "Right-aligned"
+    prompt: |
+      Add `align="left"` to `label`. With `align="right"`, pad each line on the left so it ends at the edge of the label: `line.rjust(width)` does that.
+  - id: ask-for-help
+    title: "Ask for help"
+    prompt: |
+      Put `help(tag)` in the main block and run it. Rewrite the docstring until someone who has never seen the code would know what to pass in.

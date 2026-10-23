@@ -1,0 +1,37 @@
+id: version-control
+title: "Version Control at the Workshop"
+client: moss
+building: workshop
+estimated_minutes: 70
+summary: "Track changes to a project with git."
+concepts_introduced: [git-basics, git-branches, merge-conflicts]
+ask:
+  dialogue:
+    - moss: "Penhallow kept every version of everything. In a drawer, labelled by date."
+    - moss: "Half the labels are wrong. Some are just labelled 'better'."
+    - pip: "Mine are labelled 'final', 'final2' and 'actually final'."
+    - moss: "There's a proper way. It's called git. You'll use it for the rest of your life."
+  spec: |
+    Put the workshop's job tracker under version control:
+
+    1. Make a repository and commit the project as it is.
+    2. Change something, look at the difference, and commit again.
+    3. Try an idea on a branch, then merge it back.
+    4. When two changes collide, sort out the conflict and finish the merge.
+  example: |
+    workshop $ git log --oneline
+    3f9c2a1 (HEAD -> main) Merge branch 'prices'
+    8b0d4e2 Charge more for urgent jobs
+    c41a9e7 Add the gate repair
+    1d27f53 First version of the job tracker
+ship:
+  dialogue:
+    - moss: "Every version, labelled honestly. Nothing in a drawer."
+    - moss: "You'll set up real git on your own machine later. It works just like this."
+  shelf: { object: book, label: "The job tracker, with all its history" }
+  cards: [git-basics, git-branches, merge-conflicts]
+stretch:
+  - id: honest-messages
+    title: "Honest messages"
+    prompt: |
+      Look at `git log`. Would someone reading only the messages know what happened, and why? Moss's rule: a message finishes the sentence "This commit will...". Rewrite your next three commit messages that way.

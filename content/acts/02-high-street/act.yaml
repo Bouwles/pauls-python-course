@@ -1,0 +1,29 @@
+id: high-street
+number: 2
+title: "The High Street"
+district: high-street
+subject: "Fluent Python"
+hours: 45
+summary: "Seventeen jobs for the shops on the High Street. Tuples, sets, files, exceptions, comprehensions, modules, classes, testing, generators, decorators, command-line tools and git."
+locked_line: "The shops are shuttered until the harbour is sorted."
+intro:
+  - moss: "The High Street's heard about you."
+  - moss: "Their problems are bigger. So are their programs."
+jobs:
+  - tuples-at-the-tailors
+  - lost-property-box
+  - library-catalogue
+  - penhallows-logs
+  - greengrocers-labels
+  - opening-hours-properly
+  - function-workshop
+  - the-mutable-mess
+  - bike-hire-shed-1
+  - bike-hire-shed-2
+  - postcards
+  - testing-the-tide-table
+  - recipe-generator
+  - the-shop-timer
+  - command-line-tools
+  - version-control
+  - high-street-market-app

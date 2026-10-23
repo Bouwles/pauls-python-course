@@ -1,0 +1,52 @@
+id: testing-the-tide-table
+title: "Testing the Tide Table"
+client: agnes
+building: harbour-office
+estimated_minutes: 70
+summary: "Agnes's tide calculator, with tests that prove it works and notice when it doesn't."
+concepts_introduced: [assert, pytest, edge-cases, test-first]
+concepts_reviewed: [functions, return-values, modules, imports, split-join, f-strings, default-arguments, keyword-arguments, try-except, while-loops, lists]
+ask:
+  dialogue:
+    - agnes: "Requirements. One: the tide table is right. Two: it stays right."
+    - agnes: "Three: if someone breaks it, we find out by lunchtime, not at the next grounding."
+    - moss: "That's three requirements, and one of them is tests."
+    - agnes: "All three are tests. I'll want them by the spring tides."
+  spec: |
+    Penhallow's `tides.py` works out tide times. Write tests for it in `test_tides.py`: plain functions whose names start with `test_`, each checking one thing with `assert`. Your tests must pass on the real `tides.py` and fail on broken ones.
+
+    Then Agnes's two new requirements, tests first:
+
+    1. `can_cross(depth, draught, margin=0.5)` is `True` when a boat can cross the harbour bar: the depth of water is at least the boat's draught plus the margin, all in metres.
+    2. `high_waters(first, count)` returns a list of `count` high water times, starting with `first`.
+  example: |
+    passed test_minutes
+    passed test_clock
+    passed test_clock_after_midnight
+    passed test_next_high
+    passed test_next_high_past_midnight
+    passed test_low_after
+    passed test_can_cross_with_room_to_spare
+    passed test_cannot_cross_in_shallow_water
+    passed test_can_cross_exactly_at_the_margin
+    passed test_cautious_skipper
+    passed test_high_waters
+    passed test_high_waters_past_midnight
+    passed test_no_high_waters
+ship:
+  dialogue:
+    - agnes: "I broke tides.py on purpose, three different ways. Your tests caught all three."
+    - agnes: "The Kittiwake draws two metres. Two and a half on the bar, and she goes."
+    - moss: "At home you'll run these with pytest. They won't need changing."
+  shelf: { object: tide-gauge, label: "Agnes's tide table, with its tests" }
+  cards: [assert, pytest, edge-cases, test-first]
+story_note: passes-everything
+stretch:
+  - id: low-waters
+    title: "Low waters too"
+    prompt: |
+      Write `tide_day(first_high)`, which returns the day's tides as a list of pairs, `("high", "06:42")`, `("low", "12:55")` and so on, until the next day begins. Tests first.
+  - id: bad-times
+    title: "Nonsense in, error out"
+    prompt: |
+      `to_minutes("25:99")` gives a number when it should complain. Write a test that expects a `ValueError` (use `try` and `except` inside the test), watch it fail, then make `to_minutes` raise one for hours over 23 or minutes over 59.
