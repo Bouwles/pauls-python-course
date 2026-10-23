@@ -1,0 +1,126 @@
+.creator {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: var(--s-8);
+  align-items: start;
+}
+
+.preview {
+  position: sticky;
+  top: var(--s-6);
+  display: grid;
+  gap: var(--s-3);
+}
+
+.stage {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 230px;
+  background: var(--scene-frame);
+  border-radius: var(--r-2);
+  padding-bottom: var(--s-4);
+  background-image: linear-gradient(to top, #634330 0, #634330 22px, #3b2a22 22px, #3b2a22 24px, transparent 24px);
+}
+
+.caption {
+  font-family: var(--font-prose);
+  font-size: var(--step--1);
+  color: var(--ink-2);
+  line-height: 1.45;
+}
+
+.choices {
+  display: grid;
+  gap: var(--s-6);
+}
+
+.group {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.group legend {
+  font-size: var(--step--1);
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink-2);
+  margin-bottom: var(--s-3);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--s-2);
+}
+
+.tile {
+  display: grid;
+  justify-items: center;
+  gap: var(--s-1);
+  padding: var(--s-2);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-2);
+  cursor: pointer;
+  font-size: var(--step--1);
+  background: var(--paper);
+}
+
+.tile canvas {
+  width: 64px !important;
+  height: 74px !important;
+}
+
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.swatch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: var(--touch);
+  padding: 0 var(--s-3);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-2);
+  cursor: pointer;
+  font-size: var(--step--1);
+  background: var(--paper);
+}
+
+.chip {
+  width: 18px;
+  height: 18px;
+  border-radius: var(--r-1);
+  border: 1px solid var(--rule-strong);
+}
+
+.on {
+  border-color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--ink);
+  background: var(--paper-raised);
+}
+
+.tile:focus-within,
+.swatch:focus-within {
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 2px;
+}
+
+@media (max-width: 760px) {
+  .creator {
+    grid-template-columns: 1fr;
+  }
+
+  .preview {
+    position: static;
+  }
+
+  .stage {
+    height: 200px;
+  }
+}
