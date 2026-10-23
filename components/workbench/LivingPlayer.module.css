@@ -1,0 +1,236 @@
+.player {
+  display: grid;
+  gap: var(--s-2);
+  margin-top: var(--s-3);
+  padding: var(--s-3);
+  background: var(--paper-sunk);
+  border: var(--hairline);
+  font-family: var(--font-prose);
+  font-size: var(--step--1);
+  outline: none;
+}
+
+.player:focus-visible {
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 2px;
+}
+
+.head {
+  display: grid;
+  gap: var(--s-2);
+}
+
+.title {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  align-items: baseline;
+}
+
+.sub {
+  font-weight: 400;
+  color: var(--ink-2);
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.slider {
+  flex: 1;
+  min-width: 100px;
+  accent-color: var(--accent-ink);
+}
+
+.speed select {
+  font: inherit;
+  font-family: var(--font-ui);
+  font-size: var(--step--1);
+  padding: 2px var(--s-1);
+  border: var(--hairline);
+  border-radius: var(--r-1);
+  background: var(--paper-raised);
+  color: var(--ink);
+}
+
+.count,
+.readout {
+  color: var(--ink-2);
+  font-family: var(--font-ui);
+  font-size: var(--step--1);
+  min-height: 1.5em;
+}
+
+.readout {
+  color: var(--ink);
+}
+
+/* Sir Reginald's grid */
+.gridWrap {
+  display: grid;
+  gap: var(--s-2);
+  overflow-x: auto;
+}
+
+.grid {
+  display: grid;
+  gap: 2px;
+  width: max-content;
+  padding: 3px;
+  background: #634330;
+  border: 2px solid #3b2a22;
+  outline: none;
+}
+
+.grid:focus-visible {
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 2px;
+}
+
+.tile {
+  position: relative;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(var(--tint, transparent), var(--tint, transparent)), #ebe5d5;
+  color: #1e1e1c;
+  overflow: hidden;
+}
+
+.tile.wall {
+  background: repeating-linear-gradient(45deg, #46515c 0 4px, #2c3440 4px 8px);
+}
+
+.tile.goal {
+  box-shadow: inset 0 0 0 3px #1d2026, inset 0 0 0 5px #ebe5d5, inset 0 0 0 7px #1d2026;
+}
+
+.tile.selected {
+  outline: 2px solid #d8b65a;
+  outline-offset: -2px;
+  z-index: 1;
+}
+
+.value {
+  position: absolute;
+  top: 1px;
+  left: 3px;
+  font-family: var(--font-code);
+  font-size: 10px;
+  font-variant-ligatures: none;
+  opacity: 0.8;
+}
+
+.arrow {
+  font-family: var(--font-code);
+  font-size: 15px;
+  line-height: 1;
+  color: #3b2a22;
+  opacity: 0.85;
+}
+
+.crab {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+}
+
+/* The town as a graph */
+.graphWrap {
+  display: grid;
+  gap: var(--s-2);
+  overflow-x: auto;
+}
+
+.graph {
+  display: block;
+  border: var(--hairline);
+  background: var(--paper-raised);
+}
+
+.paper {
+  fill: var(--paper-raised);
+}
+
+.edge {
+  stroke: var(--ink-2);
+  opacity: 0.7;
+}
+
+.edgeHot {
+  stroke: var(--accent-ink);
+}
+
+.weight,
+.nodeLabel {
+  fill: var(--ink);
+  font-family: var(--font-code);
+  stroke: var(--paper-raised);
+  paint-order: stroke;
+}
+
+.node {
+  fill: var(--paper-raised);
+  stroke: var(--ink);
+}
+
+.nodeVisited {
+  fill: var(--pass);
+  stroke: var(--ink);
+}
+
+.nodeFrontier {
+  fill: var(--paper-raised);
+  stroke: var(--accent-ink);
+}
+
+.nodeCurrent {
+  fill: var(--accent);
+  stroke: var(--ink);
+}
+
+/* The observatory hill */
+.hillWrap {
+  display: grid;
+  gap: var(--s-2);
+  overflow-x: auto;
+}
+
+.hill {
+  position: relative;
+  background: var(--paper-raised);
+  border: var(--hairline);
+}
+
+.hill svg {
+  display: block;
+}
+
+.axis {
+  stroke: var(--rule-strong);
+}
+
+.curve {
+  fill: none;
+  stroke: var(--ink-2);
+  stroke-width: 1.5;
+}
+
+.trail {
+  fill: var(--accent-ink);
+  opacity: 0.6;
+}
+
+.tick {
+  fill: var(--ink-2);
+  font-family: var(--font-code);
+  font-size: 10px;
+}
+
+.hiker {
+  position: absolute;
+}

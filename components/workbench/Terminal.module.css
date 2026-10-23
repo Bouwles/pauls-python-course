@@ -1,0 +1,71 @@
+.terminal {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  background: #1d2026;
+  color: #ebe5d5;
+  font-family: var(--font-code);
+  font-size: var(--editor-font-size);
+  font-variant-ligatures: none;
+}
+
+.scroll {
+  flex: 1;
+  overflow: auto;
+  padding: var(--s-3) var(--s-4) 0;
+  min-height: 0;
+}
+
+.line {
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.5;
+}
+
+.cmd {
+  color: #eedb9b;
+}
+
+.err {
+  color: #e48a78;
+}
+
+.add {
+  color: #a5ba72;
+}
+
+.del {
+  color: #e48a78;
+}
+
+.conflict {
+  color: #d8b65a;
+}
+
+.prompt {
+  color: #90b0a2;
+  white-space: nowrap;
+}
+
+.inputRow {
+  display: flex;
+  gap: var(--s-2);
+  align-items: center;
+  padding: var(--s-2) var(--s-4) var(--s-3);
+}
+
+.input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #ebe5d5;
+  font-family: var(--font-code);
+  font-size: var(--editor-font-size);
+  outline: none;
+  caret-color: #eedb9b;
+}
+
+.input:focus-visible {
+  box-shadow: 0 1px 0 #eedb9b;
+}

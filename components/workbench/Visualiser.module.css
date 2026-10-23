@@ -1,0 +1,347 @@
+.vis {
+  display: grid;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-4) var(--s-6);
+  outline: none;
+}
+
+.vis:focus-visible {
+  outline: 2px solid var(--accent-ink);
+  outline-offset: -2px;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  flex-wrap: wrap;
+}
+
+.slider {
+  flex: 1;
+  min-width: 120px;
+  accent-color: var(--accent-ink);
+}
+
+.count {
+  font-family: var(--font-code);
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+.note,
+.empty {
+  font-size: var(--step--1);
+  color: var(--accent-ink);
+}
+
+.where {
+  font-family: var(--font-prose);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: var(--s-4);
+  align-items: start;
+}
+
+.memory {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: var(--s-10);
+  color: var(--accent-ink);
+}
+
+.frames,
+.objects {
+  display: grid;
+  gap: var(--s-2);
+  align-content: start;
+  color: var(--ink);
+}
+
+.frame {
+  border: var(--hairline);
+  padding: var(--s-2) var(--s-3);
+  background: var(--paper);
+}
+
+.top {
+  border-color: var(--ink);
+}
+
+.frameName {
+  font-size: var(--step--1);
+  font-weight: 600;
+  margin-bottom: var(--s-1);
+}
+
+.vars {
+  border-collapse: collapse;
+  font-family: var(--font-code);
+  font-size: var(--step--1);
+  font-variant-ligatures: none;
+}
+
+.vars th {
+  text-align: right;
+  font-weight: 400;
+  color: var(--ink-2);
+  padding: 2px var(--s-2) 2px 0;
+}
+
+.vars td {
+  padding: 2px 0;
+}
+
+.prim {
+  font-family: var(--font-code);
+  font-size: var(--step--1);
+  font-variant-ligatures: none;
+}
+
+.dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent-ink);
+  vertical-align: middle;
+}
+
+.obj {
+  border: 1px solid var(--rule-strong);
+  padding: var(--s-1) var(--s-2) var(--s-2);
+  background: var(--paper-raised);
+}
+
+.objType {
+  font-size: var(--step--2);
+  color: var(--ink-2);
+  margin-bottom: 2px;
+}
+
+.cells {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+
+.cell {
+  display: grid;
+  justify-items: center;
+  min-width: 34px;
+  padding: 2px 4px;
+  border: 1px solid var(--rule);
+  font-family: var(--font-code);
+  font-size: var(--step--1);
+  font-variant-ligatures: none;
+  background: var(--paper);
+}
+
+.idx {
+  font-size: var(--step--2);
+  color: var(--ink-3);
+}
+
+.dim {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+.arrows {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.living {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-6);
+  padding: var(--s-3);
+  background: var(--paper-sunk);
+  border: var(--hairline);
+  font-size: var(--step--1);
+  font-family: var(--font-prose);
+}
+
+.lamp {
+  display: flex;
+  gap: var(--s-3);
+  align-items: center;
+}
+
+.lampTower {
+  position: relative;
+  width: 14px;
+  height: 44px;
+  background: repeating-linear-gradient(to bottom, #ebe5d5 0 8px, #9b443a 8px 16px);
+}
+
+.beam {
+  position: absolute;
+  top: 0;
+  left: 7px;
+  width: 50px;
+  height: 6px;
+  background: #eedb9b;
+  transform-origin: left center;
+  transform: rotate(-8deg);
+  transition: transform 300ms var(--ease);
+}
+
+.beam[data-pass="1"] {
+  transform: rotate(188deg);
+}
+
+.holesWrap {
+  display: grid;
+  gap: var(--s-1);
+}
+
+.holes {
+  display: flex;
+  gap: 3px;
+  padding: 4px;
+  background: #634330;
+  border: 2px solid #3b2a22;
+  flex-wrap: wrap;
+}
+
+.hole {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  min-width: 40px;
+  padding: 4px 3px 2px;
+  background: #3b2a22;
+  color: #ebe5d5;
+}
+
+.parcel {
+  background: #d5b97d;
+  color: #1e1e1c;
+  font-family: var(--font-code);
+  font-size: var(--step--2);
+  padding: 2px 4px;
+  font-variant-ligatures: none;
+}
+
+.holeNo {
+  font-family: var(--font-code);
+  font-size: var(--step--2);
+  color: #eedb9b;
+}
+
+.out pre {
+  margin: var(--s-1) 0 0;
+  background: var(--paper-raised);
+  border: var(--hairline);
+  padding: var(--s-2) var(--s-3);
+  font-family: var(--font-code);
+  font-size: var(--editor-font-size);
+  white-space: pre-wrap;
+}
+
+@media (max-width: 1200px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beam {
+    transition: none;
+  }
+}
+
+.bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 120px;
+  padding: 4px 6px 20px;
+  background: var(--paper-raised);
+  border: var(--hairline);
+}
+
+.pile {
+  position: relative;
+  width: 22px;
+  background: #8e5236;
+  border-top: 2px solid #b8853f;
+}
+
+.pileLabel {
+  position: absolute;
+  bottom: -16px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: var(--font-code);
+  font-size: var(--step--2);
+  color: var(--ink-2);
+}
+
+/* Nell's junk tower: one crate per call, the newest on top. */
+.tower {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.crate {
+  font-family: var(--font-code);
+  font-size: var(--step--2);
+  font-variant-ligatures: none;
+  padding: 3px 8px;
+  background: #b8853f;
+  color: #1e1e1c;
+  border: 2px solid #634330;
+  min-width: 120px;
+}
+
+.crate[data-top="true"] {
+  background: #eedb9b;
+}
+
+.crateGives {
+  color: #3b2a22;
+  font-weight: 600;
+}
+
+/* The post office's drawers, one per key. */
+.drawers {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 3px;
+  padding: 4px;
+  background: #634330;
+  border: 2px solid #3b2a22;
+  max-width: 520px;
+}
+
+.drawer {
+  display: grid;
+  gap: 2px;
+  padding: 3px 4px;
+  background: #d5b97d;
+  color: #1e1e1c;
+  font-family: var(--font-code);
+  font-size: var(--step--2);
+  font-variant-ligatures: none;
+  overflow-wrap: anywhere;
+}
+
+.drawerKey {
+  background: #ebe5d5;
+  padding: 0 3px;
+  border-bottom: 1px solid #8e5236;
+}
