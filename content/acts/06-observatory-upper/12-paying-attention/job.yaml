@@ -1,0 +1,50 @@
+id: paying-attention
+title: "Paying Attention"
+client: wendt
+building: observatory
+estimated_minutes: 180
+summary: "Penhallow's last blackboard: queries, keys and values. Self-attention with a causal mask, several heads at once, and one transformer block, checked number by number."
+concepts_introduced: [attention, transformers]
+concepts_reviewed: [embeddings, language-models, batch-normalisation, neural-networks, activation-functions, matrices, numpy-arrays, broadcasting, json-module]
+ask:
+  dialogue:
+    - wendt: "The top floor. Her last blackboard. Three letters across the top: Q, K, V."
+    - wendt: "Underneath: every letter asks the ones before it a question. Then a block, boxed, and the word stack."
+    - moss: "The forecast model looked one letter back. This looks at all of them?"
+    - wendt: "All of them, and it decides how much each one counts. That's attention."
+  spec: |
+    In `attention.py`:
+
+    1. `softmax(scores)`: chances along the last axis, so each row adds up to 1. It must cope with very large scores and with minus infinity.
+    2. `causal_mask(n)`: an `n` by `n` array of booleans, `True` above the diagonal, where a query would look ahead.
+    3. `attention(Q, K, V, mask=None)`: the scores `Q @ K.T`, divided by the square root of the key size; scores where `mask` is `True` set to minus infinity; softmax along each row into weights. Returns `(weights @ V, weights)`.
+    4. `self_attention(X, Wq, Wk, Wv, causal=True)`: queries, keys and values all made from `X`, with the causal mask unless `causal` is `False`. Returns `(output, weights)`.
+
+    Then in `block.py`, one transformer block: `multi_head`, `layer_norm` (row by row), `feed_forward` and `transformer_block`, checked against a reference with Wendt's test weights.
+  example: |
+    In: (9, 8)  Out: (9, 8)
+    Where the full stop looks, in the first head:
+      't' 0.06  'h' 0.01  'e' 0.35  ' ' 0.07  'h' 0.01  'i' 0.43  'l' 0.03  'l' 0.01  '.' 0.02
+    Changing the last character changes only the last row: True
+story_note: which-parts-matter
+ship:
+  dialogue:
+    - wendt: "Nine characters in, nine out. Every row of weights adds up to one, and nothing looks ahead."
+    - pip: "The full stop looks at the vowels. It's understood vowels."
+    - wendt: "Its weights are random, Pip. It has understood nothing. Yet."
+    - moss: "A sound frame. Now it wants teaching."
+  shelf: { object: magnifier, label: "Penhallow's last blackboard: Q, K, V" }
+  cards: [attention, transformers]
+stretch:
+  - id: draw-the-weights
+    title: "Where everyone looks"
+    prompt: |
+      Draw the first head's weights for "the hill." with `plt.imshow`, the characters along both axes with `plt.xticks` and `plt.yticks`. The causal mask should leave a triangle of nothing. Then draw the second head beside it.
+  - id: shuffle
+    title: "Attention can't count"
+    prompt: |
+      Run self-attention on "fog." without adding the position embeddings, then on "gof." the same way, with `causal=False`. Compare the full stop's output in the two. Then add the positions back and compare again. Why does a transformer need `P` at all?
+  - id: take-it-home
+    title: "A tiny transformer at home"
+    prompt: |
+      On your own computer, with PyTorch: build a character-level transformer, two blocks of four heads, with `torch.nn.Embedding` for the characters and the positions, and train it to guess the next character of the forecasts from Words as Numbers, with a causal mask. A few minutes on a laptop is enough. Make it write forecasts, and compare its perplexity on `held_back.txt` with the bigram's 7.34.

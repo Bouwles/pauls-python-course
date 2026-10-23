@@ -1,0 +1,50 @@
+id: sequences
+title: "Sequences"
+client: wendt
+building: observatory
+estimated_minutes: 120
+summary: "Penhallow's recurrent network reads the harbour gauge an hour at a time and guesses the next. Then a gate on its memory."
+concepts_introduced: [rnns, lstm-gates]
+concepts_reviewed: [neural-networks, activation-functions, backpropagation, chain-rule, numpy-arrays, matrices, json-module, mean-squared-error, for-loops, functions, multiple-returns]
+ask:
+  dialogue:
+    - wendt: "Her tide roll. The harbour gauge, every hour for twelve days, in metres."
+    - agnes: "Requirement: the sea wall gate wants an hour's warning. A forecast, not a guess."
+    - wendt: "On the last page, weights. A network that reads one hour at a time and remembers."
+    - moss: "Remembers what?"
+    - wendt: "The hours before. Some of them. That's what we'll find out."
+  spec: |
+    In `rnn.py`, run Penhallow's recurrent network over the harbour gauge. `load_tides` and `load_weights` are written; readings go in scaled, as `(height - MEAN) / SCALE`, and guesses come out the same way.
+
+    1. `step(x, h, params)`: one hour. The new hidden state is `tanh(x * Wx + h @ Wh + b)`, and the guess at the next reading is `h @ Wy + by`, as a plain float. Returns `(h, guess)`.
+    2. `run(xs, params)`: every reading in order, starting from a hidden state of zeros. Returns the hidden states, one row per reading, and the guesses, one per reading, as arrays.
+    3. `forecast(xs, params, hours)`: run through every reading, then carry on alone, feeding each guess back in as the next reading. Returns `hours` guesses as an array, the first being the guess after the last reading.
+    4. Run as a program, it reports how far out the network is an hour ahead, against "same as last hour", and forecasts the next six hours in metres.
+    5. In `lstm.py`, `lstm_step(x, h, c, params)`: one hour of an LSTM, with a forget gate on its memory.
+  example: |
+    One hour ahead, over 287 hours:
+      the network is out by 5.8 cm on average
+      "same as last hour" is out by 46.7 cm
+    Next six hours: 4.01 4.27 4.16 3.72 2.99 2.16
+story_note: what-any-of-us-do
+ship:
+  dialogue:
+    - agnes: "Out by six centimetres an hour ahead. Same as last hour was out by forty-seven."
+    - wendt: "Six hours ahead it drifts. By then it's reading its own guesses."
+    - agnes: "One hour is what the gate needs. I'll take the one hour."
+    - moss: "A short memory, well kept. That'll do for a tide."
+  shelf: { object: tide-drum, label: "Penhallow's tide network, remembering" }
+  cards: [rnns, lstm-gates]
+stretch:
+  - id: draw-the-roll
+    title: "The roll and the guesses"
+    prompt: |
+      Plot the last two days of the roll with matplotlib, and the network's one-hour guesses over it in another colour. Then add the six-hour forecast past the end, as a dashed line. Where does the network do worst: at high water, at low water, or in between?
+  - id: train-it
+    title: "Train it yourself"
+    prompt: |
+      Write `backward(xs, params)`: backpropagation through time for the tide network, with the mean squared error of each guess against the next reading. Go forward keeping every hidden state, then walk back from the last hour, carrying the blame for `h` from each hour to the one before through `Wh` and the slope of tanh. Check it against a numerical gradient on twelve hours, then train from random weights. Does it get to under six centimetres?
+  - id: take-it-home
+    title: "An LSTM at home"
+    prompt: |
+      On your own computer, with PyTorch from Hello, PyTorch: train `torch.nn.LSTM(input_size=1, hidden_size=8)` with a `torch.nn.Linear(8, 1)` on top to guess the next reading of the roll. Hold back the last two days, and compare it with Penhallow's network on those.
