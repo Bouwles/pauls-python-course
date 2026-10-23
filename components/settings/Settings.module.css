@@ -1,0 +1,155 @@
+.settings {
+  display: grid;
+  gap: var(--s-8);
+}
+
+.title {
+  font-size: var(--step-4);
+}
+
+.saved {
+  font-size: var(--step--1);
+  color: var(--pass);
+  min-height: 1.4em;
+}
+
+.section {
+  display: grid;
+  gap: var(--s-5);
+  padding-top: var(--s-5);
+  border-top: var(--hairline);
+}
+
+.h2 {
+  font-size: var(--step-1);
+}
+
+.field {
+  display: grid;
+  gap: var(--s-1);
+  font-size: var(--step--1);
+  font-weight: 500;
+  max-width: 420px;
+}
+
+.field input:not([type="range"]) {
+  min-height: 40px;
+  border: 1px solid var(--control-border);
+  border-radius: var(--r-2);
+  background: var(--paper-raised);
+  padding: 0 var(--s-3);
+  font-size: var(--step-0);
+  font-weight: 400;
+}
+
+.field input[type="range"] {
+  accent-color: var(--accent-ink);
+}
+
+.choice {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.choice legend {
+  font-size: var(--step--1);
+  font-weight: 500;
+  margin-bottom: var(--s-2);
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.option {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: var(--touch);
+  padding: 0 var(--s-3);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-2);
+  cursor: pointer;
+  font-size: var(--step--1);
+}
+
+.option input {
+  accent-color: var(--accent-ink);
+}
+
+.on {
+  border-color: var(--ink);
+  background: var(--paper-raised);
+}
+
+.hint,
+.meta {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+
+.row {
+  display: flex;
+  gap: var(--s-3);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.character summary {
+  cursor: pointer;
+  font-size: var(--step--1);
+  font-weight: 500;
+  margin-bottom: var(--s-4);
+}
+
+.inline {
+  display: grid;
+  gap: var(--s-3);
+  justify-items: start;
+}
+
+.dialog {
+  width: min(520px, calc(100vw - 32px));
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-2);
+  background: var(--paper);
+  color: var(--ink);
+  padding: 0;
+}
+
+.dialog::backdrop {
+  background: var(--scrim);
+}
+
+.dialogBody {
+  display: grid;
+  gap: var(--s-4);
+  padding: var(--s-6);
+  font-family: var(--font-prose);
+}
+
+.error {
+  color: var(--fail);
+  font-size: var(--step--1);
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: var(--s-2);
+}
+
+.list > li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+  font-family: var(--font-ui);
+  font-size: var(--step--1);
+}
