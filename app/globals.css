@@ -1,0 +1,203 @@
+@import "../tokens.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: var(--step-0);
+  line-height: var(--lh-ui);
+  font-kerning: normal;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-prose);
+  font-weight: 600;
+  line-height: var(--lh-tight);
+  letter-spacing: -0.005em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--rule-strong);
+}
+
+a:hover {
+  text-decoration-color: currentColor;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--selection);
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: var(--font-code);
+  font-size: 0.9em;
+  /* No ligatures: a beginner must see == as two characters, not one long one. */
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "calt" 0;
+}
+
+img.pixel,
+canvas.pixel,
+.pixel {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Lesson prose: a measured column in the book serif. */
+.prose {
+  font-family: var(--font-prose);
+  font-size: var(--prose-size);
+  line-height: var(--lh-prose);
+  letter-spacing: var(--prose-letter-spacing);
+  word-spacing: var(--prose-word-spacing);
+  max-width: var(--measure);
+  font-optical-sizing: auto;
+}
+
+.prose > * + * {
+  margin-top: 0.75em;
+}
+
+.prose code {
+  font-size: 0.85em;
+  background: var(--paper-sunk);
+  border-radius: var(--r-1);
+  padding: 0.05em 0.3em;
+  white-space: break-spaces;
+}
+
+.prose pre {
+  background: var(--paper-sunk);
+  border-left: 2px solid var(--rule-strong);
+  padding: var(--s-3) var(--s-4);
+  overflow-x: auto;
+  line-height: 1.5;
+  font-size: 0.8rem;
+}
+
+.prose pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+  white-space: pre;
+}
+
+/* ```console and ```text fences are terminal output, not code to type. */
+.prose pre:has(> code.language-console),
+.prose pre:has(> code.language-text) {
+  background: var(--ink);
+  color: var(--paper);
+  border-left: none;
+  border-radius: var(--r-1);
+}
+
+:root[data-theme="dark"] .prose pre:has(> code.language-console),
+:root[data-theme="dark"] .prose pre:has(> code.language-text) {
+  background: var(--paper-sunk);
+  color: var(--ink);
+  border: var(--hairline);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .prose pre:has(> code.language-console),
+  :root:not([data-theme="light"]) .prose pre:has(> code.language-text) {
+    background: var(--paper-sunk);
+    color: var(--ink);
+    border: var(--hairline);
+  }
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.2em;
+}
+
+.prose strong {
+  font-weight: 600;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--s-2);
+  top: -100px;
+  z-index: 100;
+  background: var(--ink);
+  color: var(--paper);
+  padding: var(--s-2) var(--s-3);
+}
+
+.skip-link:focus {
+  top: var(--s-2);
+}
+
+/* Small caps-ish labels for UI sections */
+.label {
+  font-family: var(--font-ui);
+  font-size: var(--step--1);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
