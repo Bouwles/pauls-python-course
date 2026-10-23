@@ -1,0 +1,53 @@
+id: arrays-not-lists
+title: "Arrays, Not Lists"
+client: ashby
+building: records-office
+estimated_minutes: 75
+summary: "A century of Saltmarsh rainfall in one NumPy array: totals, averages and the unusual months, without a loop."
+concepts_introduced: [numpy-arrays, vectorisation, broadcasting]
+concepts_reviewed: [lists, slicing, functions, return-values, multiple-returns, main-guard, docstrings, for-loops]
+ask:
+  dialogue:
+    - ashby: "Rainfall at the harbour gauge. Every month since 1925, in millimetres."
+    - ashby: "Penhallow typed it all in. Then nobody asked for it. Until Tuesday."
+    - ashby: "Priya Lund wants totals by the year, and the months that were out of the ordinary."
+    - moss: "Twelve hundred numbers. A list would manage. An array will do it properly."
+  spec: |
+    `rainfall.csv` has one row per year, 1925 to 2024: the year, then twelve monthly totals in millimetres. Penhallow's `load_rainfall` is already written. It gives back `years`, an array of 100 years, and `rain`, an array of 100 rows and 12 columns.
+
+    Write five functions. None of them needs a loop.
+
+    - `yearly_totals(rain)`: each year's total, one number per year.
+    - `monthly_means(rain)`: each month's average over the whole century, one number per month.
+    - `anomalies(rain)`: how far each month was from that month's average, as an array the same shape as `rain`. Leave `rain` as it was.
+    - `wettest_year(years, rain)`: the year with the biggest total.
+    - `count_unusual(rain, limit)`: how many months were more than `limit` millimetres from their month's average, wetter or drier.
+
+    The report at the bottom of the file is written too. It uses your functions.
+  example: |
+    100 years, 1200 months
+    Wettest year: 1960 (1439.0 mm)
+    Average by month: [116  84  81  58  54  55  60  72  78 112 123 127]
+    Months more than 60 mm from normal: 25
+ship:
+  dialogue:
+    - ashby: "1960. By eight tenths of a millimetre. Everyone in town says 1987."
+    - ashby: "1987 was one night in October. Old Tom tells it well."
+    - priya: "Anomalies, not totals. Good. A total can hide a dry summer inside a wet year."
+    - ashby: "I've filed it under R. And a copy under 1960, in case anyone asks."
+  shelf: { object: rain-gauge, label: "A century of Saltmarsh rain, in one array" }
+  cards: [numpy-arrays, vectorisation, broadcasting]
+story_note: waiting-for-more
+stretch:
+  - id: most-unusual
+    title: "The most unusual month"
+    prompt: |
+      Write `most_unusual(years, rain)`. It returns the year and the month number (1 for January, 12 for December) of the month furthest from its normal, wetter or drier.
+
+      `argmax()` on a two-dimensional array gives a position as if the rows were laid end to end. `np.unravel_index(position, rain.shape)` turns that back into a row and a column.
+    tests: tests/stretch-most-unusual.py
+    solution: solutions/stretch-most-unusual.py
+  - id: by-decade
+    title: "Decade by decade"
+    prompt: |
+      Priya would like a total for each decade. `rain.reshape(10, 120)` puts ten years of months in each row. Write `decade_totals(rain)`, and print each total beside `years[::10]`, the first year of its decade.

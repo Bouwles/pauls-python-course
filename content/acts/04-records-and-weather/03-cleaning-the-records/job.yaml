@@ -1,0 +1,54 @@
+id: cleaning-the-records
+title: "Cleaning the Records"
+client: ashby
+building: records-office
+estimated_minutes: 85
+summary: "Three volunteers typed up the lifeboat register three different ways. Clean it once, properly, so nobody has to again."
+concepts_introduced: [missing-data, data-cleaning]
+concepts_reviewed: [pandas-basics, selecting-filtering, vectorisation, string-methods, strip-replace, copying, none, functions, docstrings, main-guard]
+ask:
+  dialogue:
+    - ashby: "The lifeboat crew register. Everyone who has volunteered since 1925."
+    - ashby: "Three volunteers typed it up. Each had their own ideas about dates."
+    - ashby: "My grandfather is in it twice. And a Samuel Vosper joined at 412."
+    - moss: "Clean it once, properly, and write down how. Then nobody does it again."
+  spec: |
+    `register.csv` has the columns `name`, `joined`, `age` (on joining), `parish` and `launches`, all as the volunteers typed them.
+
+    Write `parse_dates(column)`, which reads a column of text dates written any of three ways (`1960-01-09`, `09/01/1960` or `9 Jan 1960`) and leaves any it can't read missing.
+
+    Then write `clean_register(raw)`. It takes the register as `read_csv` gives it, and returns a tidy copy:
+
+    - `name` and `parish`: no spaces at either end, and in title case, like `High Street`.
+    - `joined`: real dates, read with `parse_dates`.
+    - `age`: a number. Blanks, `unknown` and anything over 100 become missing.
+    - `launches`: whole numbers. `none` means 0.
+    - Rows that are the same once cleaned appear once, and the rows are labelled 0, 1, 2 and so on again.
+
+    Leave the raw table exactly as it was. Mr Ashby never writes on an original.
+  example: |
+    Crew on the register: 128
+    Joined from 1925 to 2023
+    Ages known for 108; average age on joining: 26.5
+    Most launches: Walter Kerrow, 251
+ship:
+  dialogue:
+    - ashby: "A hundred and twenty-eight of them. Twenty-six and a half, on average, when they joined."
+    - ashby: "Arthur Ashby, 1931, aged thirty-eight. Once, now. As he should be."
+    - ashby: "Twenty ages we'll never know. I'd rather keep a gap than file a guess."
+    - moss: "And the steps are written down. That's the part that lasts."
+  shelf: { object: crew-register, label: "The lifeboat register, cleaned once and properly" }
+  cards: [missing-data, data-cleaning]
+stretch:
+  - id: joined-in
+    title: "The year of the storm"
+    prompt: |
+      Write `joined_in(crew, year)`. It takes the cleaned register and returns a list of the names of everyone who joined in that year, earliest first. `crew["joined"].dt.year` gives the year of every date in the column.
+
+      `joined_in(crew, 1987)` should find a volunteer who joined the morning after the storm.
+    tests: tests/stretch-joined-in.py
+    solution: solutions/stretch-joined-in.py
+  - id: cleaning-log
+    title: "A cleaning log"
+    prompt: |
+      Make `clean_register` print what it changed: how many names it tidied, how many dates it couldn't read, how many ages it made missing and how many duplicates it dropped. Mr Ashby would like it pinned to the register's folder.
