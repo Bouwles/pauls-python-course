@@ -1,0 +1,77 @@
+# Misconceptions for Act IV, Jobs 1 to 3: NumPy arrays, pandas tables,
+# and cleaning messy records.
+
+# -- Arrays, Not Lists ----------------------------------------------------------
+list-times-doubles:
+  concept: numpy-arrays
+  description: Thinks multiplying a list by a number multiplies each item, rather than repeating the list.
+array-is-a-list:
+  concept: numpy-arrays
+  description: Thinks a NumPy array behaves like a list, so * repeats it and + joins two arrays end to end.
+axis-names-what-remains:
+  concept: numpy-arrays
+  description: Thinks axis=0 keeps one result per row. The axis named is the one that is collapsed, so axis=0 gives one result per column.
+array-needs-loop:
+  concept: vectorisation
+  description: Thinks arithmetic on a NumPy array needs a loop, so array * 2 or array > 60 is an error.
+comparison-gives-one-bool:
+  concept: vectorisation
+  description: Thinks comparing an array with a number gives a single True or False, rather than one for each item.
+broadcast-matches-rows:
+  concept: broadcasting
+  description: Thinks NumPy lines a one-dimensional array up with whichever axis matches its length. Shapes are compared from the right, so it always meets the last axis.
+broadcast-needs-same-shape:
+  concept: broadcasting
+  description: Thinks two arrays must have exactly the same shape to be added or subtracted.
+
+# -- The Census Tables ----------------------------------------------------------
+column-is-a-list:
+  concept: pandas-basics
+  description: Thinks one column of a DataFrame is a plain Python list, rather than a Series with its own index and methods.
+sort-values-in-place:
+  concept: pandas-basics
+  description: Thinks sort_values() reorders the table itself, rather than handing back a sorted copy that has to be kept.
+compare-number-with-text:
+  concept: selecting-filtering
+  description: Thinks comparing a column of numbers with text such as "1951" still finds the matching rows.
+and-combines-series:
+  concept: selecting-filtering
+  description: Thinks Python's and combines two True/False columns row by row. It needs &, with brackets round each condition.
+and-returns-last-condition:
+  concept: selecting-filtering
+  description: Thinks and between two True/False columns quietly uses one of them, so the filter works on the second condition alone.
+filter-renumbers-rows:
+  concept: selecting-filtering
+  description: Thinks filtering renumbers the rows from 0. Rows keep the labels they had in the original table.
+loc-reads-original:
+  concept: selecting-filtering
+  description: Thinks .loc on a filtered table looks rows up in the table it came from.
+
+# -- Cleaning the Records -------------------------------------------------------
+nan-equals-itself:
+  concept: missing-data
+  description: Thinks NaN == NaN is True, so == np.nan finds the missing values.
+nan-comparison-errors:
+  concept: missing-data
+  description: Thinks comparing a value with NaN raises an error, rather than quietly giving False.
+mean-counts-missing:
+  concept: missing-data
+  description: Thinks pandas' mean() counts missing values, as zero or by giving NaN. It skips them.
+numpy-skips-nan:
+  concept: missing-data
+  description: Thinks NumPy's mean() skips NaN the way pandas does. One NaN makes NumPy's answer NaN.
+to-numeric-skips-words:
+  concept: missing-data
+  description: Thinks pd.to_numeric() quietly skips text it can't read. Without errors="coerce" it stops with a ValueError.
+chained-assignment-works:
+  concept: data-cleaning
+  description: Thinks df[mask]["col"] = value changes the table. The first [] makes a new table, and the change lands on that.
+dedupe-before-cleaning:
+  concept: data-cleaning
+  description: Thinks drop_duplicates() catches rows that differ only by a space, a capital letter or a date format.
+str-method-changes-column:
+  concept: data-cleaning
+  description: Thinks df["col"].str.strip() changes the column, without assigning the result back.
+to-datetime-guesses-formats:
+  concept: data-cleaning
+  description: Thinks pd.to_datetime() reads a column of mixed date formats correctly on its own.

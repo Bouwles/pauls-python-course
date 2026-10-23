@@ -1,0 +1,64 @@
+# Misconceptions for Act VI, Jobs 1 to 3: One Neuron, A Small Brain and Learning Backwards.
+
+# -- One Neuron ----------------------------------------------------------------
+neuron-knows-cloud-is-bad:
+  concept: perceptron
+  description: Thinks a neuron starts out knowing which readings should count against a yes, before it has learned anything.
+step-at-zero-says-yes:
+  concept: perceptron
+  description: Thinks a weighted sum of exactly 0 counts as above the threshold, so the perceptron says 1.
+perceptron-updates-when-right:
+  concept: perceptron
+  description: Thinks a perceptron's weights change after every example, even the ones it got right.
+perceptron-learns-anything:
+  concept: perceptron
+  description: Thinks one perceptron can learn any yes-or-no rule, given enough epochs.
+perceptron-finds-best-line:
+  concept: perceptron
+  description: Thinks that on a rule it cannot learn, the perceptron settles on the best straight line and gets nearly everything right.
+
+# -- A Small Brain ---------------------------------------------------------------
+matmul-turns-itself-round:
+  concept: neural-networks
+  description: Thinks @ turns a matrix round by itself when the shapes don't line up.
+matmul-number-by-number:
+  concept: neural-networks
+  description: Thinks @ multiplies two arrays number by number, like *.
+bias-added-per-row:
+  concept: neural-networks
+  description: Thinks a layer's bias adds one number to each example (row), rather than one number to each neuron (column).
+relu-is-absolute:
+  concept: activation-functions
+  description: Thinks ReLU turns negative numbers positive, rather than cutting them to 0.
+sigmoid-keeps-big-inputs-apart:
+  concept: activation-functions
+  description: Thinks sigmoid keeps big sums visibly apart, when past about 10 it gives practically 1 (or 0) for all of them.
+exp-overflow-crashes:
+  concept: activation-functions
+  description: Thinks a huge number inside np.exp stops the program with an error, when NumPy quietly gives 0 or infinity.
+linear-layers-add-power:
+  concept: activation-functions
+  description: Thinks stacking layers with no activation between them lets a network draw curves one layer cannot.
+
+# -- Learning Backwards -----------------------------------------------------------
+relu-gate-ignored:
+  concept: backpropagation
+  description: Thinks blame passes back through a ReLU even where it cut its input to 0.
+sigmoid-passes-blame-unchanged:
+  concept: backpropagation
+  description: Thinks blame passes back through a sigmoid unchanged, as if its slope were 1.
+sigmoid-slope-constant:
+  concept: backpropagation
+  description: Thinks the sigmoid's slope is a quarter everywhere, as it is at 0, so a saturated neuron still passes back plenty of blame.
+gradient-shape-differs:
+  concept: backpropagation
+  description: Thinks a weight's gradient can have a different shape from the weight, such as one row per example.
+central-difference-over-step:
+  concept: numerical-gradient-checking
+  description: Thinks a measured slope from a nudge up and a nudge down is divided by the step, not by twice the step.
+nudge-needs-no-restore:
+  concept: numerical-gradient-checking
+  description: Thinks nudging each weight to measure a slope leaves the weights as they were, without putting each one back.
+loss-falling-proves-gradients:
+  concept: numerical-gradient-checking
+  description: Thinks that if the loss goes down during training, the gradients from backward must be right.

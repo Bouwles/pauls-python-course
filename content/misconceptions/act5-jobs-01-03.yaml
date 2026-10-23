@@ -1,0 +1,112 @@
+# Misconceptions for Act V, Jobs 1 to 3: Drawing the Best Line, Many Features,
+# and Training and Testing.
+
+# -- Drawing the Best Line -------------------------------------------------------
+best-line-through-most-points:
+  concept: linear-regression
+  description: Thinks the best line is the one that passes exactly through the most points.
+slope-is-ratio-of-means:
+  concept: linear-regression
+  description: Thinks the slope of the best line is the mean of y divided by the mean of x.
+extrapolation-is-safe:
+  concept: linear-regression
+  description: Thinks a fitted line predicts just as well far outside the readings it was fitted to.
+intercept-is-first-reading:
+  concept: linear-regression
+  description: Thinks the intercept b is the first reading's y value, rather than where the line crosses x = 0.
+
+misses-can-cancel:
+  concept: mean-squared-error
+  description: Thinks adding up or averaging the raw misses measures how wrong a line is, so misses above and below cancel.
+fewer-misses-lower-error:
+  concept: mean-squared-error
+  description: Thinks a line that is exactly right on most points must have a lower mean squared error than one slightly off on all of them.
+square-of-mean-miss:
+  concept: mean-squared-error
+  description: Thinks the mean squared error is the mean miss, squared, rather than the mean of the squared misses.
+mse-same-units:
+  concept: mean-squared-error
+  description: Thinks the mean squared error is in the same units as the readings, rather than those units squared.
+
+bigger-rate-always-faster:
+  concept: gradient-descent
+  description: Thinks a bigger learning rate always reaches the bottom sooner.
+divergence-raises-error:
+  concept: gradient-descent
+  description: Thinks gradient descent stops with an error when the learning rate is too big, rather than quietly walking further and further uphill.
+step-along-gradient:
+  concept: gradient-descent
+  description: Thinks gradient descent adds the slope, walking in the direction the gradient points, which is uphill.
+fixed-stride:
+  concept: gradient-descent
+  description: Thinks every step of gradient descent moves the same distance, whatever the slope.
+rate-is-learnt:
+  concept: gradient-descent
+  description: Thinks the learning rate is learnt along with the weights, rather than chosen by the person training.
+
+# -- Many Features ---------------------------------------------------------------
+matmul-is-elementwise:
+  concept: multivariate-regression
+  description: Thinks X @ w multiplies element by element, like X * w, rather than giving one sum per row.
+biggest-weight-matters-most:
+  concept: multivariate-regression
+  description: Thinks the feature with the biggest weight matters most, whatever units the features are measured in.
+lstsq-finds-intercept:
+  concept: multivariate-regression
+  description: Thinks least squares finds the intercept by itself, without a column of ones.
+one-slope-per-model:
+  concept: multivariate-regression
+  description: Thinks gradient descent with several features needs only one slope, shared by every weight.
+
+feature-scale-irrelevant:
+  concept: feature-scaling
+  description: Thinks the size of a feature's numbers makes no difference to gradient descent, only what they measure.
+scale-new-data-separately:
+  concept: feature-scaling
+  description: Thinks new readings should be standardised with their own mean and spread, rather than the training data's.
+standardise-squeezes-to-0-1:
+  concept: feature-scaling
+  description: Thinks standardising squeezes every value between 0 and 1.
+scaling-changes-best-fit:
+  concept: feature-scaling
+  description: Thinks standardising the features changes the predictions of the least squares fit, rather than only the size of its weights.
+numpy-checks-units:
+  concept: feature-scaling
+  description: Thinks NumPy refuses to combine columns measured in different units.
+
+# -- Training and Testing ----------------------------------------------------------
+training-error-measures-skill:
+  concept: train-test-split
+  description: Thinks a low error on the training data shows the model will do well on data it has not seen.
+tune-on-the-test-set:
+  concept: train-test-split
+  description: Thinks it is fair to choose settings by trying them on the test set, and then report the test error as honest.
+split-without-shuffling:
+  concept: train-test-split
+  description: Thinks taking the first rows for training and the last for testing is always fair, however the rows are ordered.
+split-breaks-pairs:
+  concept: train-test-split
+  description: Thinks x and y can be shuffled separately when splitting, rather than with the same order.
+
+straight-line-fits-best:
+  concept: polynomial-features
+  description: Thinks a straight line always has the lowest error on the points it was fitted to.
+curves-need-new-method:
+  concept: polynomial-features
+  description: Thinks fitting a curve needs a different method from linear regression, rather than extra columns of powers.
+degree-counts-columns:
+  concept: polynomial-features
+  description: Thinks a polynomial of degree 3 has three columns, forgetting the column of ones, x to the power 0.
+
+more-flexible-always-better:
+  concept: overfitting
+  description: Thinks a more flexible model always predicts new data better.
+zero-training-error-is-perfect:
+  concept: overfitting
+  description: Thinks a model with zero training error is a perfect model.
+validation-error-keeps-falling:
+  concept: overfitting
+  description: Thinks validation error keeps falling as the model gets more flexible, the way training error does.
+underfitting-is-undertraining:
+  concept: overfitting
+  description: Thinks underfitting means gradient descent was not run for long enough, rather than the model being too simple to follow the data.

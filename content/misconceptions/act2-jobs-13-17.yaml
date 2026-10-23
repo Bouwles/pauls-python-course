@@ -1,0 +1,104 @@
+# Misconceptions for Act II, Jobs 13 to 17: generators, functions as values,
+# decorators and command-line tools.
+
+# -- The Recipe Generator ------------------------------------------------------
+next-does-not-advance:
+  concept: iterators
+  description: Thinks next() looks at the next value without moving past it.
+for-restarts-iterator:
+  concept: iterators
+  description: Thinks a for loop over an iterator starts again from the first value, even after next() has taken some.
+iterator-refills:
+  concept: iterators
+  description: Thinks a used-up iterator or generator starts again from the beginning when it is looped over a second time.
+next-on-a-list:
+  concept: iterators
+  description: Thinks next() works on a list directly, without iter() to make an iterator first.
+generator-runs-on-call:
+  concept: generators
+  description: Thinks calling a generator function runs its body straight away.
+next-runs-whole-generator:
+  concept: generators
+  description: Thinks next() runs the whole generator body rather than stopping at the next yield.
+yield-is-return:
+  concept: generators
+  description: Thinks yield ends the function like return, or writes return where yield is needed, so only one value comes out.
+infinite-generator-hangs:
+  concept: lazy-evaluation
+  description: Thinks a generator with a while True loop freezes the program as soon as it is made.
+generator-expression-is-list:
+  concept: lazy-evaluation
+  description: Thinks a generator expression in round brackets builds a list or tuple of every value straight away.
+
+# -- The Shop Timer --------------------------------------------------------------
+passing-function-calls-it:
+  concept: functions-as-values
+  description: Thinks passing a function by name calls it there and then, so announce(shout, ...) runs shout with no arguments.
+functions-not-values:
+  concept: functions-as-values
+  description: Thinks a function can't be stored in a variable, kept in a list or dictionary, or passed to another function.
+lambda-needs-return:
+  concept: lambda
+  description: Thinks a lambda needs the return keyword, like a def.
+lambda-runs-when-written:
+  concept: lambda
+  description: Thinks a lambda runs as soon as it is written, rather than when it is called.
+map-returns-list:
+  concept: map-filter
+  description: Thinks map() and filter() hand back a list, so len() and indexing work on the result straight away.
+filter-removes-matches:
+  concept: map-filter
+  description: Thinks filter() throws away the items its function says yes to, rather than keeping them.
+key-returns-keys:
+  concept: sort-key
+  description: Thinks sorted(items, key=f) hands back the key values rather than the original items.
+key-needs-call:
+  concept: sort-key
+  description: Writes key=len() or key=f() and thinks the key function must be called before it is passed.
+inner-function-forgets-outer:
+  concept: closures
+  description: Thinks an inner function can no longer use the outer function's variables once the outer function has returned.
+closures-share-last-value:
+  concept: closures
+  description: Thinks every function made by the same factory shares one copy of its variables, so the latest call wins.
+closure-captures-value-now:
+  concept: closures
+  description: Thinks a function made in a loop remembers the loop variable's value at the moment it was made, rather than looking it up when called.
+decorator-runs-every-call:
+  concept: decorators
+  description: Thinks the decorator function itself runs every time the decorated function is called, rather than once when the def runs.
+decorator-leaves-original:
+  concept: decorators
+  description: Thinks the name still refers to the original function after decorating, so the wrapper never runs.
+wrapper-returns-automatically:
+  concept: decorators
+  description: Thinks a wrapper hands back the original function's result without a return statement.
+decorator-keeps-name:
+  concept: decorators
+  description: Thinks a decorated function keeps its own __name__ without functools.wraps.
+
+# -- Command Line Tools ------------------------------------------------------------
+argv-gives-numbers:
+  concept: sys-argv
+  description: Thinks command-line arguments arrive as numbers when digits are typed.
+argv-zero-is-first-argument:
+  concept: sys-argv
+  description: Thinks sys.argv[0] is the first word typed after the program's name, rather than the program's own name.
+exit-only-leaves-function:
+  concept: exit-codes
+  description: Thinks sys.exit() only leaves the current function, like return, and the program carries on.
+zero-means-failure:
+  concept: exit-codes
+  description: Thinks exit code 0 means something went wrong, the way 0 is falsy.
+exit-code-unimportant:
+  concept: exit-codes
+  description: Thinks the exit code doesn't matter as long as an error message is printed.
+argparse-gives-text:
+  concept: argparse
+  description: Thinks argparse always hands back text, even when the argument has type=int or type=float.
+default-always-used:
+  concept: argparse
+  description: Thinks an option's default is used even when the option is given on the command line.
+dashes-stay-in-names:
+  concept: argparse
+  description: Thinks an option like --total-only is read as args.total-only, rather than args.total_only.

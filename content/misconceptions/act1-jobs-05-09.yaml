@@ -1,0 +1,173 @@
+# Misconceptions for Act I, Jobs 5 to 9: decisions, loops, random and lists.
+
+# -- The Ferry Fare Machine ----------------------------------------------------
+bool-is-text:
+  concept: bool
+  description: Thinks True and False are text, so "True" in quotes is the same as True.
+bool-lowercase:
+  concept: bool
+  description: Thinks true and false work in lower case.
+greater-includes-equal:
+  concept: comparisons
+  description: Thinks > and < also count equal values, so 16 > 16 is True.
+single-equals-compares:
+  concept: comparisons
+  description: Uses a single = to compare two values, as in maths.
+text-number-equal:
+  concept: comparisons
+  description: Thinks the text "5" is equal to the number 5.
+comparison-needs-if:
+  concept: comparisons
+  description: Thinks a comparison can only appear in an if, not in a print or a variable.
+elif-runs-all-true:
+  concept: if-elif-else
+  description: Thinks every branch whose test is true runs, not only the first.
+elif-picks-best-match:
+  concept: if-elif-else
+  description: Thinks Python picks the most fitting branch rather than the first one whose test is true.
+else-needs-condition:
+  concept: if-elif-else
+  description: Thinks else takes a test of its own, like else age >= 16.
+and-or-swapped:
+  concept: boolean-operators
+  description: Uses and where or is meant, because "before 7 and after 19" sounds right in English.
+or-shares-comparison:
+  concept: boolean-operators
+  description: Thinks x == "a" or "b" compares x with both values.
+or-is-exclusive:
+  concept: boolean-operators
+  description: Thinks or is False when both sides are True.
+nested-if-runs-without-outer:
+  concept: nested-conditions
+  description: Thinks an inner if is checked even when the outer if's test was False.
+else-pairs-with-nearest-if:
+  concept: nested-conditions
+  description: Thinks an else belongs to the nearest if, whatever its indentation.
+
+# -- Tom's Lamp Check ----------------------------------------------------------
+unindented-line-in-loop:
+  concept: for-loops
+  description: Thinks a line after a loop's indented body runs on every pass.
+indented-line-runs-once:
+  concept: for-loops
+  description: Thinks only the first indented line repeats, or that a later indented line runs once after the loop.
+loop-body-runs-once:
+  concept: for-loops
+  description: Thinks the body of a loop runs only once.
+range-includes-end:
+  concept: range
+  description: Thinks range(5) includes 5.
+range-starts-at-one:
+  concept: range
+  description: Thinks range(4) starts at 1.
+range-counts-up-only:
+  concept: range
+  description: Thinks range always counts up, so a negative step gives nothing.
+loop-variable-gone-after-loop:
+  concept: loop-variables
+  description: Thinks the loop variable stops existing when the loop ends.
+changing-loop-variable-changes-passes:
+  concept: loop-variables
+  description: Thinks assigning to the loop variable inside the body changes how many passes the loop makes.
+loop-keeps-last-only:
+  concept: tracing-loops
+  description: Thinks a variable updated with x = x + n ends up holding only the last amount added.
+
+# -- The Fog Horn --------------------------------------------------------------
+while-is-if:
+  concept: while-loops
+  description: Thinks a while loop runs its body once, like an if.
+while-exits-mid-body:
+  concept: while-loops
+  description: Thinks a while loop stops the moment its test becomes False, even halfway through the body.
+while-runs-at-least-once:
+  concept: while-loops
+  description: Thinks the body of a while loop always runs at least once, even if the test starts out False.
+sentinel-counted:
+  concept: sentinels
+  description: Thinks the sentinel value gets counted or added like a real reading.
+loop-asks-by-itself:
+  concept: sentinels
+  description: Thinks asking for input once before a loop is enough, and the loop will ask again by itself.
+total-reset-inside-loop:
+  concept: running-totals
+  description: Puts total = 0 inside the loop, or thinks it does no harm there, so the total resets every pass.
+total-without-start:
+  concept: running-totals
+  description: Thinks a total can be added to before it has been given a starting value.
+loop-condition-updates-itself:
+  concept: infinite-loops
+  description: Thinks the variable in a while test changes by itself, without a line in the body that changes it.
+not-equal-stops-when-passed:
+  concept: infinite-loops
+  description: Thinks while n != 0 stops once n goes past zero, even if it never equals zero exactly.
+
+# -- Guess the Catch -----------------------------------------------------------
+modules-need-no-import:
+  concept: imports
+  description: Thinks modules like random can be used without importing them.
+imported-names-are-bare:
+  concept: imports
+  description: Thinks import random lets you write randint() without random. in front.
+missing-import-is-syntax-error:
+  concept: imports
+  description: Thinks using a module that wasn't imported is a SyntaxError, rather than a NameError when the line runs.
+randint-excludes-end:
+  concept: random-module
+  description: Thinks randint(1, 6) never gives 6, as range(1, 6) wouldn't.
+random-changes-on-use:
+  concept: random-module
+  description: Thinks a variable holding a random number gives a new number each time it is used.
+break-finishes-pass:
+  concept: break-continue
+  description: Thinks break lets the rest of the current pass run before leaving the loop.
+break-ends-program:
+  concept: break-continue
+  description: Thinks break stops the whole program, not just the loop.
+break-continue-swapped:
+  concept: break-continue
+  description: Mixes up break, which leaves the loop, and continue, which skips to the next pass.
+continue-means-carry-on:
+  concept: break-continue
+  description: Reads continue as "carry on with the rest of this pass", as in English.
+
+# -- Mira's Pigeonholes --------------------------------------------------------
+len-is-last-index:
+  concept: lists
+  description: Thinks len() gives the last index rather than the number of items.
+index-from-one:
+  concept: indexing
+  description: Thinks the first item in a list is at index 1.
+index-gives-list:
+  concept: indexing
+  description: Thinks parcels[1] gives back a list holding the item, rather than the item itself.
+index-past-end-gives-nothing:
+  concept: indexing
+  description: Thinks an index past the end gives None or nothing, rather than an IndexError.
+negative-index-error:
+  concept: negative-indices
+  description: Thinks a negative index is always an error.
+negative-index-starts-at-zero:
+  concept: negative-indices
+  description: Thinks -1 is second from the end, as if the last item were -0.
+append-returns-list:
+  concept: append-pop
+  description: Thinks append gives back the new list, so parcels = parcels.append(x) is right.
+pop-takes-first:
+  concept: append-pop
+  description: Thinks pop() with no index takes the first item.
+append-adds-to-front:
+  concept: append-pop
+  description: Thinks append puts the new item at the front of the list.
+in-checks-part-of-item:
+  concept: in-operator
+  description: Thinks "Tom" in ["Old Tom"] is True because Tom is part of an item.
+in-gives-position:
+  concept: in-operator
+  description: Thinks in gives the position of an item rather than True or False.
+loop-gives-index:
+  concept: looping-lists
+  description: Thinks for item in a_list gives the indexes 0, 1, 2 rather than the items.
+loop-var-changes-list:
+  concept: looping-lists
+  description: Thinks assigning to the loop variable changes the item in the list.

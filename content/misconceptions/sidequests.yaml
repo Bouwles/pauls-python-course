@@ -1,0 +1,15 @@
+venv-is-global:
+  concept: virtual-environments
+  description: "Thinks a package installed in one virtual environment can be imported from any project."
+venv-stays-on:
+  concept: virtual-environments
+  description: "Thinks a virtual environment stays switched on in a new terminal window."
+venv-shared-with-project:
+  concept: virtual-environments
+  description: "Thinks the .venv folder should be copied or committed along with the project's code."
+terminal-folder-irrelevant:
+  concept: terminal-basics
+  description: "Thinks a command finds files wherever they are, whatever folder the terminal is in."
+file-name-is-a-command:
+  concept: terminal-basics
+  description: "Types a Python file's name on its own and expects the terminal to run it with Python."

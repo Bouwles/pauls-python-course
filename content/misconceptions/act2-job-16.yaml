@@ -1,0 +1,18 @@
+commit-saves-everything:
+  concept: git-basics
+  description: Thinks git commit saves every changed file, without staging.
+add-means-new-file:
+  concept: git-basics
+  description: Thinks git add is only for brand-new files.
+branch-copies-folder:
+  concept: git-branches
+  description: Thinks a branch is a copy of the whole folder.
+merge-goes-other-way:
+  concept: git-branches
+  description: Thinks git merge X sends the current branch's work into X.
+conflict-means-broken:
+  concept: merge-conflicts
+  description: Thinks a merge conflict means the repository is broken.
+keep-the-markers:
+  concept: merge-conflicts
+  description: Thinks git removes conflict markers by itself after the file is edited.

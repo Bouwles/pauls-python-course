@@ -1,0 +1,12 @@
+# Ada Penhallow's notes in Act II, Jobs 1 to 6.
+notes:
+  - id: still-learning
+    job: penhallows-logs
+    title: "Still learning"
+    text: "02:00 | INFO | hill | still learning"
+    where: "The first line of machines.log, in Penhallow's Logs. It comes from a machine on the hill that nobody in town remembers installing."
+  - id: the-hill-took-the-time
+    job: opening-hours-properly
+    title: "Seven copies"
+    text: "Seven shops, seven copies of this. I meant to make it a module. The hill took the time. A.P."
+    where: "A comment at the top of the High Street board in Opening Hours, Properly. Mrs Vance kept it from Penhallow's copy in the library."

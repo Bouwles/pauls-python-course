@@ -1,0 +1,7 @@
+# Ada Penhallow's notes in Act IV, Jobs 1 to 3.
+notes:
+  - id: waiting-for-more
+    job: arrays-not-lists
+    title: "Waiting for more"
+    text: "Typed in from Mr Ashby's ledgers: 1,200 months of rain. The machine on the hill read the lot in under a second, then sat there waiting for more. There is no more. That is the trouble with the past. A.P."
+    where: "A comment inside load_rainfall, in the starter for the Make step of Arrays, Not Lists."

@@ -1,0 +1,211 @@
+# Misconceptions for Act II, Jobs 1 to 6 (tuples to modules).
+
+# Tuples at the Tailor's
+tuples-can-change:
+  concept: tuples
+  description: Thinks a tuple can be changed in place, like a list.
+tuple-change-ignored:
+  concept: tuples
+  description: Thinks assigning to an item of a tuple is quietly ignored rather than an error.
+one-item-tuple-no-comma:
+  concept: tuples
+  description: Thinks (84) makes a tuple. Round brackets alone just group; a one-item tuple needs a comma, (84,).
+unpack-count-flexible:
+  concept: unpacking
+  description: Thinks unpacking into fewer or more names than there are values just drops or blanks the extras.
+swap-overwrites:
+  concept: unpacking
+  description: Thinks a, b = b, a leaves both names holding the same value, as two separate assignments would.
+return-gives-first-only:
+  concept: multiple-returns
+  description: Thinks return a, b gives back only the first value.
+return-two-is-two-things:
+  concept: multiple-returns
+  description: Thinks return a, b hands back two separate values rather than one tuple holding both.
+return-only-one-value:
+  concept: multiple-returns
+  description: Thinks a function can only ever give back one value.
+second-return-runs:
+  concept: multiple-returns
+  description: Thinks a second return statement below the first also runs, adding a second value.
+enumerate-starts-at-one:
+  concept: enumerate
+  description: Thinks enumerate counts from 1 without being told to.
+enumerate-order-swapped:
+  concept: enumerate
+  description: Thinks enumerate hands over (item, number) rather than (number, item), or that the variable names decide which is which.
+zip-errors-on-uneven:
+  concept: zip
+  description: Thinks zip raises an error when the lists are different lengths. It stops quietly at the shorter one.
+zip-joins-lists:
+  concept: zip
+  description: Thinks zip glues one list onto the end of the other.
+zip-keeps-lists-whole:
+  concept: zip
+  description: Thinks zip groups each whole list into one tuple, rather than pairing items at the same position.
+
+# The Lost Property Box
+set-keeps-duplicates:
+  concept: sets
+  description: Thinks a set keeps repeated values, as a list does.
+set-drops-repeated:
+  concept: sets
+  description: Thinks making a set throws away every value that appeared more than once, rather than keeping one copy of each.
+empty-braces-make-set:
+  concept: sets
+  description: Thinks {} makes an empty set. It makes an empty dict; an empty set is set().
+set-has-order:
+  concept: sets
+  description: Thinks a set keeps items in the order they were added, or can be indexed with [0].
+set-of-string-whole:
+  concept: sets
+  description: Thinks set("kettle") makes a set holding the word, rather than a set of its letters.
+ampersand-joins-sets:
+  concept: set-operations
+  description: Thinks a & b combines everything from both sets, reading & as "and also".
+ampersand-is-difference:
+  concept: set-operations
+  description: Thinks a & b gives what is in a but not in b.
+set-minus-symmetric:
+  concept: set-operations
+  description: Thinks a - b and b - a give the same result, or that - gives everything not shared.
+list-lookup-instant:
+  concept: membership-speed
+  description: Thinks in takes the same time on a list of any length, wherever the item is.
+set-faster-for-everything:
+  concept: membership-speed
+  description: Thinks a set is always the better choice because in is faster, even when order or repeats matter.
+
+# The Library Catalogue
+write-adds-newline:
+  concept: files
+  description: Thinks .write() ends the text with a new line, as print() does.
+write-replaces-each-time:
+  concept: files
+  description: Thinks each .write() call replaces what the previous one wrote, even within one open file.
+write-mode-appends:
+  concept: files
+  description: Thinks opening an existing file with "w" adds to the end of it, rather than emptying it first.
+read-missing-file-empty:
+  concept: files
+  description: Thinks opening a file that doesn't exist for reading gives an empty file rather than a FileNotFoundError.
+with-keeps-file-open:
+  concept: with-statement
+  description: Thinks a file opened in a with block can still be read or written after the block ends.
+with-loses-variables:
+  concept: with-statement
+  description: Thinks variables made inside a with block disappear when the block ends.
+split-handles-quotes:
+  concept: csv-module
+  description: Thinks splitting a line on commas respects quoted values that have commas inside them.
+csv-gives-numbers:
+  concept: csv-module
+  description: Thinks the csv module turns number columns into numbers. Every value comes back as text.
+dictreader-includes-header:
+  concept: csv-module
+  description: Thinks csv.DictReader gives the header line back as one of the rows.
+path-slash-is-division:
+  concept: paths
+  description: Thinks / between a Path and a string divides, or is an error, rather than joining folder and file.
+suffix-without-dot:
+  concept: paths
+  description: Thinks .suffix gives a file's extension without its dot.
+relative-path-anywhere:
+  concept: paths
+  description: Thinks a file name with no folder is looked for all over the computer, rather than in the folder the program runs in.
+
+# Penhallow's Logs
+exception-stays-in-function:
+  concept: exceptions
+  description: Thinks an error inside a function only stops that function, and the code that called it carries on.
+error-skips-line:
+  concept: exceptions
+  description: Thinks Python skips a line that causes an error and carries on with the next one.
+try-finishes-block:
+  concept: try-except
+  description: Thinks the rest of a try block still runs after the line that raised the error.
+except-ends-program:
+  concept: try-except
+  description: Thinks the program stops once an except block has run.
+try-cannot-catch:
+  concept: try-except
+  description: Thinks an error inside a try block still stops the program, even when a matching except is there.
+finally-only-on-success:
+  concept: try-except
+  description: Thinks a finally block runs only when there was no error.
+finally-runs-at-end:
+  concept: try-except
+  description: Thinks finally runs once at the very end of the program, rather than each time its try block finishes.
+broad-except-safe:
+  concept: try-except
+  description: Thinks except Exception only catches the errors you had in mind, so it's a safe default. It catches typos and other bugs too, and hides them.
+raise-prints-message:
+  concept: raising-errors
+  description: Thinks raise just prints its message and lets the program carry on.
+raise-returns-error:
+  concept: raising-errors
+  description: Thinks raise hands the error back to the caller as an ordinary value, the way return does.
+input-is-clean:
+  concept: defensive-input
+  description: Thinks input arrives without stray spaces or odd capitals, so it can be compared exactly as it is.
+skip-silently-fine:
+  concept: defensive-input
+  description: Thinks quietly ignoring bad input, or swapping in a default, is as good as refusing it and saying so.
+
+# The Greengrocer's Labels
+comprehension-keeps-last:
+  concept: list-comprehensions
+  description: Thinks a list comprehension leaves only the last value, as a loop variable does after a loop.
+comprehension-applies-to-list:
+  concept: list-comprehensions
+  description: Thinks the expression in a comprehension is applied to the whole list rather than to each item in turn.
+comprehension-for-printing:
+  concept: list-comprehensions
+  description: Thinks a comprehension is a good way to do something for each item, like printing, rather than to build a list.
+braces-comprehension-is-list:
+  concept: dict-set-comprehensions
+  description: Thinks curly brackets round a comprehension still make a list.
+dict-comprehension-keeps-duplicates:
+  concept: dict-set-comprehensions
+  description: Thinks a dictionary comprehension keeps every pair when a key repeats. A later pair with the same key replaces the earlier one.
+end-if-keeps-all:
+  concept: conditional-comprehensions
+  description: Thinks an if at the end of a comprehension changes values but keeps every item, rather than leaving some out.
+front-if-filters:
+  concept: conditional-comprehensions
+  description: Thinks an if-else at the front of a comprehension leaves items out, rather than choosing a value for every item.
+if-before-for-filters:
+  concept: conditional-comprehensions
+  description: Thinks an if without an else can go before the for to filter items.
+shorter-is-clearer:
+  concept: conditional-comprehensions
+  description: Thinks fewer lines always means clearer code, so any loop is better squeezed into one comprehension.
+
+# Opening Hours, Properly
+import-runs-every-time:
+  concept: modules
+  description: Thinks importing a module a second time runs its code again.
+shadowing-module-harmless:
+  concept: modules
+  description: Thinks giving a variable the same name as an imported module leaves the module still usable.
+from-import-needs-prefix:
+  concept: modules
+  description: Thinks a name brought in with from ... import still needs the module's name in front of it.
+name-is-filename:
+  concept: main-guard
+  description: Thinks __name__ holds the file's name even when the file is run directly, rather than "__main__".
+name-needs-defining:
+  concept: main-guard
+  description: Thinks __name__ has to be defined by the program before it can be used.
+guard-blocks-functions:
+  concept: main-guard
+  description: Thinks the main guard stops importers from using the functions defined in the file.
+weekday-starts-sunday:
+  concept: standard-library
+  description: Thinks datetime's weekday() counts from Sunday, or from 1. It counts Monday as 0.
+ceil-rounds-nearest:
+  concept: standard-library
+  description: Thinks math.ceil rounds to the nearest whole number, rather than always up.
+most-common-gives-name:
+  concept: standard-library
+  description: Thinks Counter's most_common(1) gives back just the item, rather than a list of (item, count) pairs.

@@ -1,0 +1,118 @@
+# Misconceptions for Act III, Jobs 1 to 3: complexity, searching and sorting.
+
+# -- How Long Will It Take? ------------------------------------------------------
+nested-loops-add:
+  concept: big-o
+  description: Thinks a loop inside a loop runs its body n + n times, rather than n times n.
+inner-loop-runs-once:
+  concept: big-o
+  description: Thinks the inner loop of a nested pair runs through once in total, not once for every pass of the outer loop.
+nested-loop-skips-repeats:
+  concept: big-o
+  description: Thinks two nested loops over the same list skip pairing an item with itself, and pairs already met.
+halving-is-linear:
+  concept: big-o
+  description: Thinks a loop that halves what's left each time takes about n / 2 steps.
+while-runs-once-more:
+  concept: big-o
+  description: Thinks a while loop runs one more pass after its condition has become false.
+one-loop-is-linear:
+  concept: big-o
+  description: Thinks code with one visible loop must be O(n), missing the loops hidden in `in`, `.count()` and `.index()` on a list.
+big-o-keeps-constants:
+  concept: big-o
+  description: Thinks Big-O keeps constant factors, so 3n steps is O(3n) and a different kind of growth from n.
+big-o-from-one-count:
+  concept: big-o
+  description: Judges growth from how big one count is, rather than from how the count changes as n grows.
+perf-counter-is-time-of-day:
+  concept: timing-code
+  description: Thinks time.perf_counter() gives the time of day, so a single reading means something on its own.
+timing-is-exact:
+  concept: timing-code
+  description: Thinks one timing of a piece of code is exact and will come out the same on every run.
+time-scales-linearly:
+  concept: timing-code
+  description: Thinks doubling the input always doubles the running time, whatever the growth.
+timing-tiny-jobs:
+  concept: timing-code
+  description: Thinks timing a job that takes microseconds gives a useful measurement of it.
+
+# -- Finding the Bolt -------------------------------------------------------------
+search-finds-last:
+  concept: linear-search
+  description: Thinks a linear search that returns on a match gives the last match rather than the first.
+missing-costs-nothing:
+  concept: linear-search
+  description: Thinks searching for something that isn't there is quick, when it means looking at everything.
+gives-up-after-one-look:
+  concept: linear-search
+  description: Thinks a search can say "not there" as soon as one item doesn't match, so puts the not-found answer inside the loop.
+linear-search-needs-sorted:
+  concept: linear-search
+  description: Thinks a linear search only works on a sorted list.
+binary-search-works-unsorted:
+  concept: binary-search
+  description: Thinks binary search finds things in an unsorted list, only more slowly or not at all, rather than giving wrong answers.
+binary-search-takes-half:
+  concept: binary-search
+  description: Thinks binary search looks at half the items, so takes about n / 2 looks.
+binary-search-stops-when-equal:
+  concept: binary-search
+  description: Thinks a binary search can stop when low and high are the same position, before looking there.
+middle-plus-one-optional:
+  concept: binary-search
+  description: Thinks low = middle works as well as low = middle + 1 in a binary search.
+bisect-right-is-last-index:
+  concept: bisect
+  description: Thinks bisect_right gives the position of the last matching item, rather than the place just after it.
+bisect-missing-gives-minus-one:
+  concept: bisect
+  description: Thinks bisect returns -1 for a value that isn't in the list, rather than where it would go.
+bisect-gives-true-false:
+  concept: bisect
+  description: Thinks bisect says whether a value is in the list, rather than giving a position.
+
+# -- Sorting the Piles -------------------------------------------------------------
+one-pass-sorts:
+  concept: simple-sorts
+  description: Thinks one pass of a simple sort puts more than one item in its final place.
+swap-shifts-along:
+  concept: simple-sorts
+  description: Thinks swapping two items in a list shifts the items between them along by one place.
+index-is-the-value:
+  concept: simple-sorts
+  description: Thinks a variable that marks a position, like lightest, holds the item at that position.
+selection-notices-order:
+  concept: simple-sorts
+  description: Thinks selection sort finishes early on a list that is already in order.
+one-at-a-time-swap:
+  concept: simple-sorts
+  description: Thinks a = b followed by b = a swaps two values, when the first line has already overwritten a.
+split-keeps-equal-items:
+  concept: quicksort
+  description: Thinks items equal to the pivot still land in one of the piles when the split only keeps lighter and heavier ones.
+partition-sorts-piles:
+  concept: quicksort
+  description: Thinks splitting round a pivot also puts each of the smaller piles in order.
+quicksort-loves-sorted:
+  concept: quicksort
+  description: Thinks quicksort is at its fastest on a list that is already sorted, whatever pivot it picks.
+merge-rounds-per-item:
+  concept: merge-sort
+  description: Thinks merge sort needs a round of merging for every item, rather than about log n rounds.
+merge-sort-notices-order:
+  concept: merge-sort
+  description: Thinks merge sort finishes early when the list is already in order.
+ties-sorted-by-rest:
+  concept: sort-stability
+  description: Thinks sorting with a key breaks ties using the rest of the item, such as the name.
+ties-come-out-any-order:
+  concept: sort-stability
+  description: Thinks items that tie come out of a sort in an unpredictable order.
+second-sort-forgets-first:
+  concept: sort-stability
+  description: Thinks sorting a second time throws away the order the first sort made, even among items that tie.
+selection-is-stable:
+  concept: sort-stability
+  description: Thinks selection sort keeps items that tie in the order they started in.

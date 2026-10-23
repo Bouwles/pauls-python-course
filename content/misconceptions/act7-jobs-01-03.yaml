@@ -1,0 +1,92 @@
+# Misconceptions for Act VII, Jobs 1 to 3: bandits, Markov decision processes
+# and dynamic programming at the Crab Racing Club.
+
+# -- Which Bucket? ----------------------------------------------------------------
+greedy-finds-best:
+  concept: bandits
+  description: Thinks an agent that always takes the best estimate so far will discover the best arm on its own, without exploring.
+greedy-switches-after-failure:
+  concept: bandits
+  description: Thinks one bad result makes a greedy agent abandon an arm, even though its estimate is still above the untried arms'.
+average-needs-every-result:
+  concept: bandits
+  description: Thinks a running average needs a list of every past reward, rather than nudging the estimate by (reward - estimate) / count.
+estimate-is-last-reward:
+  concept: bandits
+  description: Thinks an arm's estimate is the most recent reward it gave, not the average of all of them.
+ucb-picks-best-average:
+  concept: exploration-exploitation
+  description: Thinks UCB picks the arm with the highest average reward, ignoring the bonus for arms tried less.
+ucb-is-random:
+  concept: exploration-exploitation
+  description: Thinks UCB explores by chance, like epsilon-greedy, when its choice is fixed by the estimates and counts.
+integers-includes-end:
+  concept: exploration-exploitation
+  description: Thinks rng.integers(0, n) can return n, as random.randint would, so writes len(arms) - 1 and never explores the last arm.
+exploring-stops-when-sure:
+  concept: exploration-exploitation
+  description: Thinks epsilon-greedy stops exploring once it has found the best arm, when it goes on exploring a fraction epsilon of the time for ever.
+exploring-is-waste:
+  concept: exploration-exploitation
+  description: Thinks every exploring run is wasted, so the best strategy never explores.
+exploring-skips-best:
+  concept: exploration-exploitation
+  description: Thinks an exploring run never lands on the current best arm, when exploring picks among all the arms.
+
+# -- The Racing Grid --------------------------------------------------------------
+policy-is-a-route:
+  concept: mdps
+  description: Thinks a policy is a fixed list of moves from the start, rather than an action for every state the agent might find itself in.
+transitions-deterministic:
+  concept: mdps
+  description: Thinks an action always leads to the state it aims at, forgetting the chance of slipping somewhere else.
+outcomes-equally-likely:
+  concept: mdps
+  description: Thinks picking one of the possible outcomes at random is the same as picking each with its own chance.
+bump-ends-race:
+  concept: mdps
+  description: Thinks bumping into an edge or a rock ends the episode or is free, when the agent stays put and the step still costs its reward.
+discount-ignored:
+  concept: returns-discounting
+  description: Adds up the rewards without discounting the later ones.
+discount-starts-at-one:
+  concept: returns-discounting
+  description: Discounts the first reward too, using gamma to the power 1 where it should be gamma to the power 0.
+only-final-reward-counts:
+  concept: returns-discounting
+  description: Thinks the return is the reward at the end of the episode, leaving out the rewards on the way.
+gamma-only-scales:
+  concept: returns-discounting
+  description: Thinks discounting shrinks every return by the same amount, so it can never change which choice is better.
+gamma-backwards:
+  concept: returns-discounting
+  description: Thinks a larger gamma discounts the future more heavily, when a gamma near 1 hardly discounts at all.
+gamma-zero-zeroes-all:
+  concept: returns-discounting
+  description: Thinks a gamma of 0 makes every reward count for nothing, when the first reward still counts in full.
+
+# -- Knowing the Track ------------------------------------------------------------
+news-travels-instantly:
+  concept: policy-evaluation
+  description: Thinks one sweep of policy evaluation carries the finish's value all the way back to the start, when news travels about one tile per sweep.
+value-is-next-reward:
+  concept: policy-evaluation
+  description: Thinks a tile's value is only the reward for its next step, leaving out gamma times the value of where it leads.
+terminal-has-value:
+  concept: policy-evaluation
+  description: Thinks the finish has a value of its own equal to its reward, when the race is over there and its value is 0; the reward belongs to the step onto it.
+best-is-shortest:
+  concept: value-iteration
+  description: Thinks the best policy always takes the shortest way to the goal, whatever the risk on the way.
+sideways-slips-ignored:
+  concept: value-iteration
+  description: Thinks heading away from a hazard is safe, forgetting that slips sideways can still land in it.
+max-over-outcomes:
+  concept: value-iteration
+  description: Takes the max over the outcomes of an action as well as over the actions, as if the agent could choose where chance sends it.
+improvement-is-global:
+  concept: policy-iteration
+  description: Thinks one round of policy improvement fixes the whole policy at once, when each round only improves on the values of the last policy.
+iteration-fixed-rounds:
+  concept: policy-iteration
+  description: Thinks policy iteration runs a fixed number of rounds, rather than stopping when improving gives back the same policy.
