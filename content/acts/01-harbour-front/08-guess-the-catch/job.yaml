@@ -1,0 +1,45 @@
+id: guess-the-catch
+title: "Guess the Catch"
+client: gwen
+building: pub
+estimated_minutes: 40
+summary: "A number guessing game with limited tries."
+concepts_introduced: [random-module, imports, break-continue]
+concepts_reviewed: [for-loops, range, if-elif-else, boolean-operators, int-conversion, f-strings]
+ask:
+  dialogue:
+    - gwen: "When the boats come in, someone fills a bucket with mackerel. The rest bet on how many."
+    - gwen: "Every night, somebody says it was fiddled."
+    - gwen: "I want a machine to pick the number. Nobody can say a machine fiddled it."
+    - moss: "They'll say it. But they'll say it to the machine."
+  spec: |
+    The machine picks a number from 1 to 20 with `random.randint(1, 20)`. The player gets five guesses.
+
+    - Too low or too high: say so.
+    - Right: print `Got it in 3.` (or however many guesses it took) and stop asking.
+    - A guess below 1 or above 20 gets `Between 1 and 20.` and still uses up a guess. House rules.
+    - Five guesses and no luck: `Out of guesses. It was 7.`
+  example: |
+    Guess? 10
+    Too high.
+    Guess? 5
+    Too low.
+    Guess? 7
+    Got it in 3.
+ship:
+  dialogue:
+    - gwen: "Seven mackerel. Two people got it. Nobody said it was fiddled."
+    - gwen: "They said the machine was fiddled. That's an improvement."
+  shelf: { object: fish, label: "Gwen's guess the catch" }
+  cards: [random-module, imports, break-continue]
+stretch:
+  - id: close
+    title: "Warmer"
+    prompt: |
+      When a guess is wrong but within 2 of the catch, print `Close.` on the line after `Too low.` or `Too high.`
+    tests: tests/stretch-close.py
+    solution: solutions/stretch-close.py
+  - id: again
+    title: "Another round"
+    prompt: |
+      After each game, ask `Again? `. If the answer is `yes`, start a new game with a new number. Put the whole game inside a `while` loop.

@@ -1,0 +1,32 @@
+id: python-at-home
+title: Python at Home
+sidequest: true
+client: moss
+building: workshop
+estimated_minutes: 45
+summary: "Set Python up on your own computer: a terminal, an editor, a virtual environment and pytest, proved by a small program and its tests."
+concepts_introduced: [terminal-basics, virtual-environments]
+concepts_reviewed: [functions, return-values, strip-replace]
+ask:
+  dialogue:
+    - moss: "Everything so far ran here in the workshop. Real programs run on real computers."
+    - moss: "Yours, for a start. Set it up properly once and it stays set up."
+    - pip: "I installed Python four times. Three of them are still in there somewhere."
+  spec: |
+    Set Python up on your own computer, and prove it with a small program and its tests:
+
+    - Python 3.10 or newer, run from a terminal
+    - an editor (VS Code is a good one, and free)
+    - a virtual environment for the project, with pytest installed in it
+    - `hello.py`, with a `greeting(name)` function that the tests check
+  example: |
+    $ python hello.py Ferro
+    Morning, Ferro.
+ship:
+  dialogue:
+    - moss: "Same tests, your own computer. That's the whole trick of it."
+    - pip: "Mine says one Python now. I checked twice."
+  shelf:
+    object: terminal
+    label: "A terminal of your own"
+  cards: [terminal-basics, virtual-environments]

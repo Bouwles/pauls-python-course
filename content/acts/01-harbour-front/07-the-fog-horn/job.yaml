@@ -1,0 +1,43 @@
+id: the-fog-horn
+title: "The Fog Horn"
+client: tom
+building: lighthouse
+estimated_minutes: 40
+summary: "Ask for visibility readings until the fog clears, then report the average."
+concepts_introduced: [while-loops, sentinels, running-totals, infinite-loops]
+concepts_reviewed: [for-loops, comparisons, if-elif-else, int-conversion, f-strings]
+ask:
+  dialogue:
+    - tom: "In fog I read the buoys every few minutes. How far I can see, in metres."
+    - tom: "Could be one reading. Could be forty. Fog doesn't say how long it's staying."
+    - tom: "When it clears, the harbour board wants the average. I've never got on with averages."
+    - moss: "A loop that doesn't know how many times. That's a different sort of loop."
+  spec: |
+    Ask for visibility readings in metres, one at a time, until Tom types `clear`.
+    Then print how many readings there were, and the average visibility to one decimal place.
+    If the first thing Tom types is `clear`, print `No fog tonight.` instead.
+  example: |
+    Visibility in metres? 200
+    Visibility in metres? 150
+    Visibility in metres? 400
+    Visibility in metres? clear
+    Readings: 3
+    Average: 250.0 metres
+ship:
+  dialogue:
+    - tom: "Three readings, two hundred and fifty on average. The board will be pleased."
+    - tom: "In '87 the fog sat for three days. I took two hundred readings. Did I tell you about '87."
+  shelf: { object: foghorn, label: "Tom's fog log" }
+  cards: [while-loops, sentinels, running-totals, infinite-loops]
+story_note: the-hill-sees-further
+stretch:
+  - id: thickest
+    title: "The thickest moment"
+    prompt: |
+      Also print the lowest reading, as a third line: `Thickest: 150 metres`. Keep the first reading, and replace it whenever a lower one comes in.
+    tests: tests/stretch-thickest.py
+    solution: solutions/stretch-thickest.py
+  - id: horn
+    title: "Sound the horn"
+    prompt: |
+      The horn only sounds when Tom can see less than 500 metres. After each reading under 500, print `Horn.`
