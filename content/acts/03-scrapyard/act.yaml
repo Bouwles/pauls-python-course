@@ -1,0 +1,24 @@
+id: scrapyard
+number: 3
+title: "The Scrapyard"
+district: scrapyard
+subject: "Algorithms and data structures"
+hours: 45
+summary: "Nell Brannigan knows where everything is in her piles and cannot say how. Thirteen jobs turn that into algorithms: complexity, searching, sorting, recursion, stacks, queues, linked lists, hashing, trees, heaps and graphs."
+locked_line: "Nell's piles, waiting for someone who can explain them."
+intro:
+  - nell: "Everything's here. Finding it is the trick."
+jobs:
+  - how-long-will-it-take
+  - finding-the-bolt
+  - sorting-the-piles
+  - recursion-junk-tower
+  - stacks-and-queues
+  - linked-chains
+  - the-hash-pile
+  - family-tree-of-parts
+  - heaps-priority-pile
+  - the-road-map
+  - the-cheapest-route
+  - puzzles-from-the-pub
+  - scrapyard-route-planner
