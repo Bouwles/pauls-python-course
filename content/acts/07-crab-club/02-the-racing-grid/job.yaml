@@ -1,0 +1,63 @@
+id: the-racing-grid
+title: "The Racing Grid"
+client: committee
+building: crab-club
+estimated_minutes: 80
+summary: "The racing grid as a Markov decision process: tiles, moves, slips, rewards, policies and what a race is worth."
+concepts_introduced: [mdps, returns-discounting]
+concepts_reviewed: [bandits, dictionaries, tuples, while-loops, functions, default-arguments, numpy-arrays, probability]
+ask:
+  dialogue:
+    - committee: "Race day is not a straight. Race day is..."
+    - committee: "...the grid."
+    - committee: "The traditional line runs along the bottom and up the far side."
+    - moss: "Past the rock pool."
+    - committee: "The pool was dug in 1974. The line is older."
+  spec: |
+    Write `track.py`, the racing grid as a Markov decision process:
+
+    ```text
+    ...F    F  the finish: +10, and the race is over
+    .#.P    #  a rock: nobody goes through it
+    S...    P  the rock pool: -10, and the race is over
+            S  the start, (2, 0). Every other tile costs -1.
+    ```
+
+    A tile is a `(row, column)` pair. Told up, down, left or right, Sir Reginald goes that way with chance 0.8, and sideways with chance 0.1 each way. A step off the edge or into the rock leaves him where he was, and still costs -1.
+
+    1. `move(tile, direction)`: where one step leads.
+    2. `outcomes(tile, action, slip=0.2)`: a list of every `(probability, next tile, reward, over)` that can follow.
+    3. `race(policy, rng, start=(2, 0), slip=0.2, limit=100)`: one race following a policy, a dictionary from tile to action. Returns the rewards in order.
+    4. `discounted_return(rewards, gamma)`.
+    5. `MY_LINE`: your own policy, better than the traditional line.
+
+    Run as a program, it races both lines 1000 times and prints each one's average return, with `gamma = 0.9`.
+  example: |
+    The traditional line
+    > > > F
+    ^ # ^ P
+    > > > ^
+    Average return over 1000 races: -7.79
+
+    My line
+    > > > F
+    ^ # ^ P
+    ^ < ^ <
+    Average return over 1000 races: 0.92
+ship:
+  dialogue:
+    - committee: "Minus seven point eight. Forty years of the traditional line..."
+    - committee: "...averaging minus seven point eight."
+    - committee: "We shall need to sit down."
+    - moss: "Next time, the worth of every tile, without running a single race."
+  shelf: { object: racing-grid, label: "The racing grid, slips and all" }
+  cards: [mdps, returns-discounting]
+stretch:
+  - id: rough-weather
+    title: "Rough weather"
+    prompt: |
+      On a windy day Sir Reginald slips four times in ten. Race both lines with `slip=0.4`. Which one suffers more, and why? Does your line still beat tradition?
+  - id: how-long
+    title: "How long is a race"
+    prompt: |
+      Print the average number of steps in a race for each line, and how often each ends in the pool. The committee would like these figures for the newsletter.

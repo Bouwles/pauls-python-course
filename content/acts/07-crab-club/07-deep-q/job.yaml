@@ -1,0 +1,52 @@
+id: deep-q
+title: "Deep Q"
+client: committee
+building: crab-club
+estimated_minutes: 150
+summary: "Sir Reginald's Q-values from a small network instead of a table, kept steady by a replay buffer and a frozen copy."
+concepts_introduced: [dqn]
+concepts_reviewed: [q-learning, td-learning, neural-networks, activation-functions, backpropagation, numerical-gradient-checking, gradient-descent, mean-squared-error, mdps, returns-discounting, exploration-exploitation, classes, copying, numpy-arrays]
+ask:
+  dialogue:
+    - committee: "Sir Reginald's Q-values live in a table. A number for every tile and every move."
+    - committee: "Professor Wendt says a network could hold them instead..."
+    - committee: "...and would hold them better. We are open to persuasion."
+    - moss: "A network that sets its own homework wobbles. There are two old tricks for that."
+  spec: |
+    Write `dqn.py`, Deep Q on the racing grid in `track.py`. A memory is `(tile, action, reward, after, over)`, with `action` a number from 0 to 3, in the order of `ACTIONS`.
+
+    1. `features(tile)`: seven numbers, a 1 for the tile's row among three, then a 1 for its column among four.
+    2. `q_values(params, X)`: a ReLU hidden layer, then four Q-values, for every row of `X` at once.
+    3. `ReplayBuffer(capacity)`: `add(tile, action, reward, after, over)`; `len(buffer)`; `sample(size, rng)`, a list of `size` different memories picked at random. Past `capacity`, the oldest memory goes.
+    4. `targets(target_params, rewards, X_after, overs, gamma=0.9)`: the reward, plus `gamma` times the frozen copy's best Q-value after the move, unless the move ended the race.
+    5. `train_step(params, target_params, batch, gamma=0.9, rate=0.05)`: one gradient step on a batch of memories. Returns the loss before the step.
+    6. `epsilon_at(episode, decay=100)`: 1.0 at race 0, falling in a straight line to 0.05 at race `decay`, then 0.05.
+    7. `copy_params(params)`: a frozen copy that training doesn't touch.
+    8. `train(episodes, rng)`: epsilon-greedy races; every move remembered; once there are 32 memories, one `train_step` per move on a batch picked at random; the frozen copy refreshed every 50 moves.
+
+    Run as a program, it trains for 150 races, then shows the network's line and races it 1000 times, against a crab who moves at random.
+  example: |
+    The network's line
+    > > > F
+    ^ # ^ P
+    ^ > ^ v
+    Average return over 1000 races: 1.02
+    At random: -9.18
+ship:
+  dialogue:
+    - committee: "A network that has never seen the table, racing nine points better than tradition."
+    - committee: "One of us asked it where the pool was."
+    - committee: "It does not answer questions. It answers tiles."
+    - moss: "Next, he stops valuing moves and learns which ones to make."
+  shelf: { object: abacus, label: "Sir Reginald's Q-network" }
+  cards: [dqn]
+story_note: every-night-was-the-night-before
+stretch:
+  - id: double-q
+    title: "Double Deep Q"
+    prompt: |
+      The `max` in the target picks whichever Q-value happens to be guessed highest, so Deep Q tends to think too well of itself. Double Deep Q picks the best move after with the network being trained, and values it with the frozen copy: `q_values(target_params, X_after)[rows, best_moves]`. Train ten seeds each way. Which gives Q-values for the start closer to the 1.2 from Knowing the Track?
+  - id: in-order
+    title: "Learning in order"
+    prompt: |
+      Replace `memory.sample(...)` with the last 32 memories, in the order they happened. Train ten seeds each way and compare what the lines are worth. Then explain to Dennis what went wrong.
