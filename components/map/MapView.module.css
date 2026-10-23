@@ -1,0 +1,232 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: var(--s-8);
+  align-items: start;
+}
+
+.mapCol {
+  display: grid;
+  gap: var(--s-3);
+  min-width: 0;
+}
+
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--s-4);
+  flex-wrap: wrap;
+}
+
+.title {
+  font-size: var(--step-4);
+}
+
+.meta,
+.hint {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+.note {
+  font-family: var(--font-prose);
+  font-style: italic;
+}
+
+.side {
+  display: grid;
+  gap: var(--s-4);
+}
+
+.panel {
+  display: grid;
+  gap: var(--s-2);
+  justify-items: start;
+  padding-bottom: var(--s-4);
+  border-bottom: var(--hairline);
+}
+
+.panelTitle {
+  font-family: var(--font-prose);
+  font-size: var(--step-1);
+  font-weight: 600;
+}
+
+.panelMeta {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+.building {
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-2);
+  padding: var(--s-4);
+  background: var(--paper-raised);
+}
+
+.buildingName {
+  font-size: var(--step-1);
+}
+
+.list {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: var(--s-2);
+  margin-top: var(--s-6);
+}
+
+.listTitle {
+  font-size: var(--step-2);
+  margin-bottom: var(--s-2);
+}
+
+.district {
+  border-top: var(--hairline);
+}
+
+.districtHead {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) minmax(0, 1fr) auto;
+  gap: var(--s-3);
+  align-items: baseline;
+  padding: var(--s-3) 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.districtHead::-webkit-details-marker {
+  display: none;
+}
+
+.actNo {
+  font-family: var(--font-code);
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+.actTitle {
+  font-family: var(--font-prose);
+  font-weight: 600;
+  font-size: var(--step-1);
+}
+
+.actSubject {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+.actState {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+.locked {
+  font-family: var(--font-prose);
+  color: var(--ink-2);
+  margin: 0 0 var(--s-3) 68px;
+}
+
+.jobs {
+  list-style: none;
+  margin: 0 0 var(--s-4);
+  padding: 0;
+  display: grid;
+  gap: var(--s-1);
+}
+
+.list .jobs {
+  margin-left: 68px;
+}
+
+.job {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) auto;
+  gap: var(--s-3);
+  align-items: center;
+  padding: var(--s-1) 0;
+  min-height: 40px;
+}
+
+.jobPortrait {
+  width: 32px;
+  height: 32px;
+  background: var(--scene-frame);
+  border-radius: var(--r-1);
+  overflow: hidden;
+}
+
+.jobMain {
+  display: grid;
+}
+
+.jobTitle {
+  font-weight: 500;
+  text-decoration: none;
+}
+
+a.jobTitle:hover {
+  text-decoration: underline;
+}
+
+.dim {
+  color: var(--ink-2);
+}
+
+.jobMeta {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+.jobState {
+  font-size: var(--step--1);
+}
+
+.shipped {
+  display: inline-flex;
+  gap: var(--s-1);
+  align-items: center;
+  color: var(--pass);
+}
+
+.progress {
+  display: inline-flex;
+  gap: var(--s-1);
+  align-items: center;
+  color: var(--accent-ink);
+}
+
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .districtHead {
+    grid-template-columns: 48px 1fr;
+  }
+
+  .actSubject,
+  .actState {
+    grid-column: 2;
+  }
+
+  .locked,
+  .list .jobs {
+    margin-left: 0;
+  }
+}
+
+.mossNote {
+  margin: var(--s-3) 0 0;
+  padding: var(--s-3) var(--s-4);
+  background: var(--paper-raised);
+  border: var(--hairline);
+  border-left: 3px solid var(--accent);
+  font-family: var(--font-prose);
+  font-size: var(--step--1);
+}
+
+.mossNote footer {
+  margin-top: var(--s-1);
+  color: var(--ink-2);
+}
