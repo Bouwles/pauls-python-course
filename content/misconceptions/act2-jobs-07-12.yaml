@@ -1,0 +1,233 @@
+# Misconceptions for Act II, Jobs 7 to 12: Function Workshop, The Mutable Mess,
+# the Bike Hire Shed (both parts), Postcards and Testing the Tide Table.
+
+# -- Function Workshop ---------------------------------------------------------
+default-still-required:
+  concept: default-arguments
+  description: Thinks a parameter with a default must still be passed in every call.
+missing-argument-is-none:
+  concept: default-arguments
+  description: Thinks a left-out argument becomes None rather than the default in the def line.
+default-overrides-argument:
+  concept: default-arguments
+  description: Thinks the default is used even when the call passes a value.
+keyword-fills-next-slot:
+  concept: keyword-arguments
+  description: Thinks a keyword argument fills the next parameter in order, whatever its name.
+cannot-skip-defaults:
+  concept: keyword-arguments
+  description: Thinks you cannot skip a parameter that has a default in order to name a later one.
+positional-skips-defaults:
+  concept: keyword-arguments
+  description: Thinks positional arguments skip over parameters that have defaults.
+keyword-order-matters:
+  concept: keyword-arguments
+  description: Thinks keyword arguments must be given in the same order as the parameters.
+keyword-replaces-positional:
+  concept: keyword-arguments
+  description: Thinks a keyword argument can replace a value already given to the same parameter by position.
+star-args-is-list:
+  concept: args-kwargs
+  description: Thinks *args gathers the arguments into a list rather than a tuple.
+star-args-takes-one:
+  concept: args-kwargs
+  description: Thinks a *args parameter takes exactly one argument, like any other parameter.
+positional-reaches-keyword-only:
+  concept: args-kwargs
+  description: Thinks an unnamed argument after the others can fill a parameter that comes after *args.
+kwargs-gathers-values-only:
+  concept: args-kwargs
+  description: Thinks **kwargs gathers only the values, not a dictionary of names and values.
+default-made-fresh-each-call:
+  concept: mutable-default
+  description: Thinks a default list or dictionary is made fresh on every call, rather than once when the def line runs.
+none-default-still-shared:
+  concept: mutable-default
+  description: Thinks the None-then-new-list pattern still shares one list between calls.
+docstring-anywhere:
+  concept: docstrings
+  description: Thinks a string anywhere in a function body is its docstring.
+docstring-is-thrown-away:
+  concept: docstrings
+  description: Thinks a docstring is a comment that Python discards, so the program cannot read it.
+
+# -- The Mutable Mess ----------------------------------------------------------
+function-gets-copy:
+  concept: references
+  description: Thinks a function receives its own copy of a list or dictionary, so changes inside can't reach the caller.
+inner-list-copied-into-outer:
+  concept: references
+  description: Thinks putting a list inside another list copies it, so later changes to the original don't show.
+numbers-change-in-place:
+  concept: mutability
+  description: Thinks += on a number changes the number itself, so every name for it sees the change.
+tuple-contents-frozen:
+  concept: mutability
+  description: Thinks a list inside a tuple can't be changed because the tuple is immutable.
+string-methods-change-string:
+  concept: mutability
+  description: Thinks a string method like upper() changes the string in place.
+copy-is-deep:
+  concept: copying
+  description: Thinks copy() also copies the lists and dictionaries inside, so the copy shares nothing.
+deepcopy-is-shallow:
+  concept: copying
+  description: Thinks deepcopy() still shares the inner lists and dictionaries with the original.
+slice-is-not-a-copy:
+  concept: copying
+  description: Thinks list[:] gives another label on the same list rather than a new list.
+equal-means-same-object:
+  concept: is-vs-equals
+  description: Thinks two equal lists must be the same list, so is is True whenever == is.
+equals-checks-identity:
+  concept: is-vs-equals
+  description: Thinks == checks whether two names point at the same object rather than comparing contents.
+is-compares-names:
+  concept: is-vs-equals
+  description: Thinks is compares variable names rather than the objects they refer to.
+copy-is-same-object:
+  concept: is-vs-equals
+  description: Thinks a copy is the same object as the original because it is equal to it.
+
+# -- The Bike Hire Shed --------------------------------------------------------
+attributes-shared-between-objects:
+  concept: classes
+  description: Thinks objects made from the same class share their attributes, so changing one changes them all.
+class-is-the-thing:
+  concept: classes
+  description: Thinks the class itself is one of the things it describes, so Parcel.weight works without making a parcel.
+attributes-fixed-by-init:
+  concept: init
+  description: Thinks attributes set in __init__ cannot be changed afterwards.
+init-called-by-hand:
+  concept: init
+  description: Thinks __init__ must be called by hand after making an object.
+local-is-attribute:
+  concept: attributes
+  description: Thinks assigning a name inside a method, like rider = rider, sets an attribute on the object.
+missing-attribute-is-none:
+  concept: attributes
+  description: Thinks reading an attribute that was never set gives None rather than an AttributeError.
+class-call-reaches-objects:
+  concept: methods
+  description: Thinks calling a method on the class, like Bike.hire("Ann"), changes the objects made from it.
+class-call-makes-new-object:
+  concept: methods
+  description: Thinks calling a method on the class makes a new object to call it on.
+self-passed-by-caller:
+  concept: self
+  description: Thinks the caller must pass self, the object, as an argument when calling a method on it.
+self-is-the-class:
+  concept: self
+  description: Thinks self means the class rather than the one object the method was called on.
+
+# -- The Bike Hire Shed, part 2 ------------------------------------------------
+parent-methods-call-parent-versions:
+  concept: inheritance
+  description: Thinks a method inherited from the parent always calls the parent's versions of other methods, even on a subclass object.
+child-class-starts-empty:
+  concept: inheritance
+  description: Thinks a subclass has none of its parent's methods unless it writes them again.
+override-changes-parent:
+  concept: inheritance
+  description: Thinks overriding a method in a subclass changes it for the parent class too.
+parent-counts-as-child:
+  concept: inheritance
+  description: Thinks an object of the parent class also counts as an object of its subclasses.
+parent-init-runs-anyway:
+  concept: super
+  description: Thinks the parent's __init__ still runs when a subclass writes its own __init__.
+super-calls-own-method:
+  concept: super
+  description: Thinks super().method() calls the subclass's own version of the method again.
+composed-methods-come-free:
+  concept: composition
+  description: Thinks an object automatically gets the methods of the objects it keeps in its attributes.
+composition-copies-object:
+  concept: composition
+  description: Thinks storing an object in another object's attribute makes a copy of it.
+list-shows-str:
+  concept: dunder-methods
+  description: Thinks a list shows its items with __str__ rather than __repr__.
+print-uses-repr:
+  concept: dunder-methods
+  description: Thinks print uses __repr__ even when the class defines __str__.
+dunders-must-be-called:
+  concept: dunder-methods
+  description: Thinks dunder methods do nothing unless they are called by name.
+eq-compares-attributes-by-default:
+  concept: dunder-methods
+  description: Thinks two objects with the same attributes are == even without an __eq__ method.
+missing-return-is-false:
+  concept: dunder-methods
+  description: Thinks a method that ends without a return statement gives False rather than None.
+
+# -- Postcards -----------------------------------------------------------------
+dataclass-eq-is-identity:
+  concept: dataclasses
+  description: Thinks two dataclass objects with the same field values are not ==, as with a plain class.
+dataclass-needs-init:
+  concept: dataclasses
+  description: Thinks a dataclass still needs __init__ written by hand.
+frozen-is-advice:
+  concept: dataclasses
+  description: Thinks frozen=True is only a note, and the fields can still be changed.
+frozen-blocks-replace:
+  concept: dataclasses
+  description: Thinks a frozen dataclass can't be used to make a changed copy with replace().
+dataclass-list-default-ok:
+  concept: dataclasses
+  description: Thinks a dataclass field can default to a list like any other value.
+type-hints-enforced:
+  concept: type-hints
+  description: Thinks Python checks type hints when the program runs and stops on a mismatch.
+type-hints-convert:
+  concept: type-hints
+  description: Thinks a type hint converts the value to that type.
+hint-gives-default:
+  concept: type-hints
+  description: Thinks a type hint like count int gives the field or parameter a default value.
+enum-member-is-its-value:
+  concept: enums
+  description: Thinks an Enum member is the same thing as its value, so Stamp.FIRST is 135.
+enum-equals-value:
+  concept: enums
+  description: Thinks an Enum member compares equal to its value, or to its name written as text.
+enum-call-makes-member:
+  concept: enums
+  description: Thinks calling an Enum with a value, like Stamp(85), makes a new member rather than finding the existing one.
+
+# -- Testing the Tide Table ----------------------------------------------------
+failed-assert-continues:
+  concept: assert
+  description: Thinks a failed assert prints a warning and the program carries on.
+assert-prints-result:
+  concept: assert
+  description: Thinks assert prints True or False.
+assert-comma-compares:
+  concept: assert
+  description: Thinks assert a, b checks that a equals b, when b is only the message.
+expected-from-the-code:
+  concept: assert
+  description: Thinks a test's expected answer can come from calling the code being tested.
+pytest-runs-every-function:
+  concept: pytest
+  description: Thinks pytest runs every function in a test file, not only the ones named test_.
+test-without-assert-checks:
+  concept: pytest
+  description: Thinks a test function with no assert still checks something.
+code-knows-what-you-meant:
+  concept: edge-cases
+  description: Thinks code handles cases its author never wrote for, like midnight, because the intention was obvious.
+wrong-answers-crash:
+  concept: edge-cases
+  description: Thinks a wrong result will always show up as an error, so code that runs is code that works.
+typical-tests-enough:
+  concept: edge-cases
+  description: Thinks testing a few typical inputs is enough to show a function works.
+failing-first-test-is-broken:
+  concept: test-first
+  description: Thinks a test that fails before the code is written must be a broken test.
+passing-tests-prove-correct:
+  concept: test-first
+  description: Thinks a passing test proves the code is right, even if the test has never been seen to fail.

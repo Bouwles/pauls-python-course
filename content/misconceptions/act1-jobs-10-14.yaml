@@ -1,0 +1,165 @@
+# Misconceptions for Act I, Jobs 10 to 14: lists, strings, functions and dictionaries.
+
+# -- The Shopping List Fixer --------------------------------------------------
+remove-deletes-every-match:
+  concept: list-methods
+  description: Thinks .remove(x) takes out every copy of x, not just the first.
+remove-takes-last-match:
+  concept: list-methods
+  description: Thinks .remove(x) takes out the last copy of x rather than the first.
+remove-takes-index:
+  concept: list-methods
+  description: Thinks .remove() takes a position, like .pop(), rather than the value to find.
+remove-missing-is-silent:
+  concept: list-methods
+  description: Thinks .remove(x) quietly does nothing when x is not in the list, rather than raising a ValueError.
+insert-replaces:
+  concept: list-methods
+  description: Thinks .insert(i, x) overwrites the item at position i rather than moving the rest along.
+slice-includes-stop:
+  concept: slicing
+  description: Thinks items[1:3] includes the item at position 3.
+slice-past-end-errors:
+  concept: slicing
+  description: Thinks a slice that runs past the end of a list raises an IndexError.
+slice-changes-list:
+  concept: slicing
+  description: Thinks taking a slice cuts the original list down, rather than making a new list.
+slice-counts-from-one:
+  concept: slicing
+  description: Thinks slice positions count from 1, so items[1:] starts at the first item.
+sort-returns-list:
+  concept: sorted-vs-sort
+  description: Thinks .sort() hands back the sorted list, so x = x.sort() keeps it.
+sort-makes-copy:
+  concept: sorted-vs-sort
+  description: Thinks .sort() makes a sorted copy somewhere and leaves the list itself as it was.
+sorted-changes-original:
+  concept: sorted-vs-sort
+  description: Thinks sorted(x) rearranges x itself.
+sort-ignores-capitals:
+  concept: sorted-vs-sort
+  description: Thinks sorting text ignores capital letters, rather than putting every capital before every lower-case letter.
+assignment-copies-list:
+  concept: list-aliasing
+  description: Thinks b = a makes a separate copy of a list, so changing b leaves a alone.
+
+# -- The Harbour Noticeboard --------------------------------------------------
+string-compare-ignores-case:
+  concept: string-methods
+  description: Thinks Python treats capital and lower-case letters as the same when comparing text.
+center-adds-width:
+  concept: string-methods
+  description: Thinks .center(n) adds n characters to each side, rather than padding to a total width of n.
+method-without-brackets:
+  concept: string-methods
+  description: Thinks writing a method's name without brackets, like notice.upper, calls it.
+string-index-from-one:
+  concept: string-slicing
+  description: Thinks the first character of a string is at position 1.
+string-method-changes-in-place:
+  concept: immutability
+  description: Thinks a string method like .upper() or .replace() changes the string it is called on.
+unused-result-is-error:
+  concept: immutability
+  description: Thinks Python raises an error when the value a method hands back is not stored.
+string-item-assignment-allowed:
+  concept: immutability
+  description: Thinks one character of a string can be swapped with word[0] = "d".
+split-keeps-gaps:
+  concept: split-join
+  description: Thinks .split() with no argument keeps empty pieces where there were several spaces in a row.
+join-gives-list:
+  concept: split-join
+  description: Thinks .join() hands back a list rather than one string.
+join-called-on-list:
+  concept: split-join
+  description: Thinks join is called on the list, words.join(" "), rather than on the separator.
+join-accepts-numbers:
+  concept: split-join
+  description: Thinks .join() will glue together a list of numbers without turning them into text.
+strip-removes-inner-spaces:
+  concept: strip-replace
+  description: Thinks .strip() removes spaces between words as well as at the ends.
+replace-first-only:
+  concept: strip-replace
+  description: Thinks .replace() changes only the first match rather than every one.
+
+# -- Pub Quiz Night -----------------------------------------------------------
+def-runs-body:
+  concept: functions
+  description: Thinks the lines inside a def run when Python reaches the def, before the function is called.
+call-needs-print:
+  concept: functions
+  description: Thinks a function call has to be wrapped in print() before the function does anything visible.
+call-without-brackets:
+  concept: functions
+  description: Thinks writing a function's name without brackets calls it.
+parameter-name-must-match:
+  concept: parameters
+  description: Thinks the variable passed into a function must have the same name as the parameter.
+arguments-fill-by-name:
+  concept: parameters
+  description: Thinks values are matched to parameters by their variable names rather than by position.
+missing-argument-is-zero:
+  concept: parameters
+  description: Thinks a parameter that is not given a value starts at 0, rather than the call failing.
+print-is-return:
+  concept: return-values
+  description: Thinks printing a value inside a function hands it back to the caller.
+code-after-return-runs:
+  concept: return-values
+  description: Thinks the lines after a return statement still run.
+return-value-kept-automatically:
+  concept: return-values
+  description: Thinks a returned value is stored somewhere without being assigned, so calling add_point(score) changes score.
+none-prints-nothing:
+  concept: none
+  description: Thinks print(None) prints nothing, or a blank line.
+missing-return-is-error:
+  concept: none
+  description: Thinks a function without a return statement crashes when its result is used.
+none-is-zero:
+  concept: none
+  description: Thinks None is the same as 0 or empty text.
+local-changes-global:
+  concept: scope
+  description: Thinks assigning to a name inside a function changes the variable of the same name outside it.
+local-visible-outside:
+  concept: scope
+  description: Thinks a variable made inside a function can still be used after the function has finished.
+
+# -- The Address Book ---------------------------------------------------------
+dict-existing-key-ignored:
+  concept: dictionaries
+  description: Thinks giving a value to a key that is already in a dictionary is ignored or refused, rather than replacing the old value.
+dict-key-holds-many:
+  concept: dictionaries
+  description: Thinks giving an existing key a new value adds a second value alongside the first.
+dict-index-by-position:
+  concept: dictionaries
+  description: Thinks a dictionary can be looked up by position, so book[0] gives the first entry.
+in-checks-values:
+  concept: dictionaries
+  description: Thinks in looks through a dictionary's values rather than its keys.
+missing-key-gives-none:
+  concept: dict-get
+  description: Thinks book[key] gives None or a blank for a missing key, rather than raising a KeyError.
+get-adds-key:
+  concept: dict-get
+  description: Thinks .get(key, default) stores the default in the dictionary.
+dict-loop-gives-values:
+  concept: dict-items
+  description: Thinks a for loop over a dictionary gives its values.
+dict-loop-gives-pairs:
+  concept: dict-items
+  description: Thinks a plain for loop over a dictionary gives the key and value together, without .items().
+dict-loop-sorted:
+  concept: dict-items
+  description: Thinks a loop over a dictionary goes through the keys in alphabetical order rather than the order they were added.
+nested-copy-on-read:
+  concept: nested-data
+  description: Thinks record = book[name] makes a copy of the inner dictionary, so changing record leaves the book alone.
+nested-key-at-top:
+  concept: nested-data
+  description: Thinks keys of an inner dictionary can be reached straight from the outer one, as book["address"].
