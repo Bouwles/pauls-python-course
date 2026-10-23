@@ -1,0 +1,32 @@
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s-4);
+  flex-wrap: wrap;
+  padding: var(--s-6);
+  border-top: var(--hairline);
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+.links {
+  display: flex;
+  gap: var(--s-4);
+  flex-wrap: wrap;
+}
+
+.links a {
+  color: var(--ink-2);
+}
+
+@media (max-width: 720px) {
+  .footer {
+    padding: var(--s-5) var(--s-4);
+  }
+
+  .links a {
+    min-height: var(--touch);
+    display: inline-flex;
+    align-items: center;
+  }
+}
