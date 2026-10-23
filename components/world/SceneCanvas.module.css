@@ -1,0 +1,29 @@
+.wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  line-height: 0;
+}
+
+.canvas {
+  display: block;
+  background: var(--scene-frame);
+}
+
+.inner {
+  position: relative;
+}
+
+.hotspot {
+  position: absolute;
+  border: none;
+  background: transparent;
+  padding: 0;
+  border-radius: var(--r-2);
+  cursor: pointer;
+}
+
+.hotspot:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
