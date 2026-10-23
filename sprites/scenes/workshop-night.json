@@ -1,0 +1,181 @@
+{
+  "name": "workshop-night",
+  "size": [
+    160,
+    96
+  ],
+  "fill": "7",
+  "rects": [
+    {
+      "x": 0,
+      "y": 0,
+      "w": 160,
+      "h": 4,
+      "c": "e"
+    },
+    {
+      "x": 0,
+      "y": 4,
+      "w": 160,
+      "h": 1,
+      "c": "7"
+    },
+    {
+      "x": 0,
+      "y": 5,
+      "w": 160,
+      "h": 52,
+      "c": "7",
+      "pattern": [
+        "7777777777777777777778",
+        "7777777777777777777777",
+        "7777777777777777777777",
+        "7777777777877777777777"
+      ]
+    },
+    {
+      "x": 0,
+      "y": 57,
+      "w": 160,
+      "h": 2,
+      "c": "f"
+    },
+    {
+      "x": 0,
+      "y": 57,
+      "w": 160,
+      "h": 1,
+      "c": "g"
+    },
+    {
+      "x": 0,
+      "y": 59,
+      "w": 160,
+      "h": 27,
+      "c": "1",
+      "pattern": [
+        "1111111111111111111110",
+        "1111111111111111111110"
+      ]
+    },
+    {
+      "x": 0,
+      "y": 86,
+      "w": 160,
+      "h": 10,
+      "c": "f",
+      "pattern": [
+        "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "ffffffffffffffffffffffffefffffffffffffff",
+        "ffffffffffffffffffffffffefffffffffffffff",
+        "ffffgfffffffffffffffffffefffffffffffffff",
+        "fffffffffffffeffffffffffffffffffffffffff",
+        "fffffffffffffeffffffffffffffffffffffffff",
+        "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "fffffffffffffffffffffffffffffffeffffffff",
+        "fffffffffffffffffffffffffffffffeffffffff",
+        "fffffffffffgffffffffffffffffffffefffffff"
+      ]
+    }
+  ],
+  "props": [
+    {
+      "sprite": "shelves",
+      "frame": "full",
+      "x": 4,
+      "y": 12
+    },
+    {
+      "sprite": "window",
+      "frame": "night",
+      "x": 98,
+      "y": 12
+    },
+    {
+      "sprite": "door",
+      "frame": "shut",
+      "x": 66,
+      "y": 34
+    },
+    {
+      "sprite": "lamp",
+      "frame": "on",
+      "x": 38,
+      "y": 0
+    },
+    {
+      "sprite": "bench-top",
+      "frame": "tools",
+      "x": 0,
+      "y": 58
+    },
+    {
+      "sprite": "radio",
+      "frame": "broken",
+      "x": 4,
+      "y": 54
+    },
+    {
+      "sprite": "terminal",
+      "frame": "on",
+      "x": 136,
+      "y": 42
+    },
+    {
+      "sprite": "bench",
+      "frame": "front",
+      "x": 0,
+      "y": 66
+    },
+    {
+      "sprite": "desk",
+      "frame": "front",
+      "x": 104,
+      "y": 62
+    }
+  ],
+  "marks": {
+    "moss": [
+      20,
+      56
+    ],
+    "learner": [
+      96,
+      38
+    ],
+    "client": [
+      70,
+      56
+    ],
+    "pip": [
+      84,
+      57
+    ],
+    "dennis": [
+      123,
+      51
+    ],
+    "rain": [
+      101,
+      15,
+      28,
+      22
+    ],
+    "door": [
+      66,
+      34
+    ],
+    "lamp": [
+      38,
+      0
+    ],
+    "radio": [
+      4,
+      54
+    ],
+    "plate": [
+      134,
+      58
+    ]
+  }
+}

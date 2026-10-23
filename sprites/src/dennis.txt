@@ -1,0 +1,45 @@
+# Dennis. Faded yellow rubber duck with a chip on the beak (the sand pixel). Never speaks.
+@sprite dennis 12x12
+@fps 8
+@anchor 6 10
+@frame idle
+............
+......hhh...
+.....hmmlh..
+.....hm0lhgg
+.....hlllhgi
+.h....hllh..
+hmh..hlllh..
+hmlhhmllllh.
+hlllllllllh.
+.hlllllllhh.
+..hhhhhhhh..
+............
+@frame squeak-1
+............
+............
+......hhh...
+.....hmmlh..
+.....hm0lhgg
+.h...hlllhgi
+hmh..hlllh..
+hmlhhmllllh.
+hlllllllllhh
+hllllllllllh
+.hhhhhhhhhh.
+............
+@frame squeak-2
+......hhh...
+.....hmmlh..
+.....hm0lhgg
+.....hlllhgi
+.h....hllh..
+hmh..hlllh..
+hmlhhmllllh.
+hlllllllllh.
+.hlllllllhh.
+..hhhhhhhh..
+............
+............
+@anim idle idle
+@anim squeak squeak-1 squeak-2 idle
