@@ -1,0 +1,156 @@
+.index,
+.page {
+  display: grid;
+  gap: var(--s-5);
+}
+
+.head {
+  display: grid;
+  gap: var(--s-2);
+}
+
+.title {
+  font-size: var(--step-4);
+}
+
+.lede {
+  font-family: var(--font-prose);
+  font-size: var(--prose-size);
+  color: var(--ink-2);
+  max-width: 60ch;
+}
+
+.controls {
+  display: flex;
+  gap: var(--s-5);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.search input {
+  min-height: 40px;
+  width: min(420px, 100%);
+  border: 1px solid var(--control-border);
+  border-radius: var(--r-2);
+  background: var(--paper-raised);
+  padding: 0 var(--s-3);
+  font-size: var(--step-0);
+}
+
+.check {
+  display: flex;
+  gap: var(--s-2);
+  align-items: center;
+  font-size: var(--step--1);
+  min-height: var(--touch);
+}
+
+.count {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) auto;
+  gap: var(--s-4);
+  align-items: baseline;
+  padding: var(--s-3) 0;
+  border-top: var(--hairline);
+}
+
+.itemTitle {
+  font-family: var(--font-prose);
+  font-weight: 600;
+  font-size: var(--step-0);
+  text-decoration: none;
+}
+
+.itemTitle:hover {
+  text-decoration: underline;
+}
+
+.itemMeta {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+.strength {
+  font-size: var(--step--1);
+  font-weight: 500;
+  color: var(--ink-2);
+}
+
+.strong,
+.steady {
+  color: var(--pass);
+}
+
+.shaky {
+  color: var(--fail);
+}
+
+.fresh,
+.new {
+  color: var(--accent-ink);
+}
+
+.example {
+  display: grid;
+  gap: 0;
+  border: var(--hairline);
+  border-radius: var(--r-2);
+  overflow: hidden;
+}
+
+.exampleBar {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-2) var(--s-3);
+  border-bottom: var(--hairline);
+}
+
+.editor {
+  height: 200px;
+}
+
+.console {
+  height: 140px;
+  border-top: var(--hairline);
+}
+
+.hint {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+.h2 {
+  font-size: var(--step-1);
+  margin-bottom: var(--s-2);
+}
+
+.bullets {
+  margin: 0;
+  padding-left: 1.2em;
+  font-family: var(--font-prose);
+  display: grid;
+  gap: var(--s-1);
+}
+
+@media (max-width: 700px) {
+  .item {
+    grid-template-columns: 1fr auto;
+  }
+
+  .itemMeta {
+    grid-column: 1;
+  }
+}
