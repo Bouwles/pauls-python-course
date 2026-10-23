@@ -1,0 +1,20 @@
+.doc {
+  display: grid;
+  gap: var(--s-5);
+}
+
+.title {
+  font-size: var(--step-4);
+}
+
+.draft {
+  font-size: var(--step--1);
+  background: var(--accent-wash);
+  border-left: 2px solid var(--accent);
+  padding: var(--s-2) var(--s-3);
+}
+
+.doc :global(.prose) h2 {
+  font-size: var(--step-1);
+  margin-top: var(--s-6);
+}

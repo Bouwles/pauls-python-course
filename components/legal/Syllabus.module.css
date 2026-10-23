@@ -1,0 +1,96 @@
+.head {
+  display: grid;
+  gap: var(--s-3);
+  margin-bottom: var(--s-10);
+}
+
+.title {
+  font-size: var(--step-5);
+}
+
+.lede {
+  font-family: var(--font-prose);
+  font-size: var(--step-1);
+  line-height: 1.5;
+  max-width: 64ch;
+  color: var(--ink-2);
+}
+
+.act {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: var(--s-8);
+  padding: var(--s-8) 0;
+  border-top: 2px solid var(--ink);
+}
+
+.actHead {
+  display: grid;
+  gap: var(--s-2);
+  align-content: start;
+}
+
+.actNo {
+  font-family: var(--font-code);
+  color: var(--ink-2);
+  font-size: var(--step--1);
+}
+
+.actTitle {
+  font-size: var(--step-3);
+}
+
+.actMeta {
+  font-weight: 500;
+  font-size: var(--step--1);
+}
+
+.actSummary {
+  font-family: var(--font-prose);
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+
+.jobs {
+  margin: 0;
+  padding-left: 1.8em;
+  display: grid;
+  gap: var(--s-3);
+}
+
+.job {
+  display: grid;
+  gap: 2px;
+}
+
+.jobTitle {
+  font-weight: 600;
+}
+
+.jobFor,
+.jobSummary {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+.concepts {
+  font-size: var(--step--1);
+  font-family: var(--font-prose);
+  font-style: italic;
+}
+
+.writing {
+  font-size: var(--step--2);
+  color: var(--accent-ink);
+}
+
+.foot {
+  margin-top: var(--s-8);
+}
+
+@media (max-width: 800px) {
+  .act {
+    grid-template-columns: 1fr;
+    gap: var(--s-4);
+  }
+}
