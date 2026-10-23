@@ -1,0 +1,127 @@
+.form {
+  display: grid;
+  gap: var(--s-4);
+  max-width: 380px;
+}
+
+.field {
+  display: grid;
+  gap: var(--s-1);
+  font-size: var(--step--1);
+  font-weight: 500;
+}
+
+.field input {
+  min-height: 40px;
+  border: 1px solid var(--control-border);
+  border-radius: var(--r-2);
+  background: var(--paper-raised);
+  padding: 0 var(--s-3);
+  font-size: var(--step-0);
+  font-weight: 400;
+}
+
+.hint {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.age {
+  display: grid;
+  gap: var(--s-1);
+}
+
+.check {
+  display: flex;
+  gap: var(--s-2);
+  align-items: center;
+  font-size: var(--step--1);
+  min-height: var(--touch);
+}
+
+.check input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent-ink);
+}
+
+.error {
+  color: var(--fail);
+  font-size: var(--step--1);
+  border-left: 2px solid var(--fail);
+  padding-left: var(--s-2);
+}
+
+.toggle {
+  border: none;
+  background: none;
+  padding: 0;
+  text-align: left;
+  font-size: var(--step--1);
+  color: var(--ink-2);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  min-height: 32px;
+}
+
+.oauth {
+  display: grid;
+  gap: var(--s-2);
+  padding-top: var(--s-3);
+  border-top: var(--hairline);
+}
+
+.or {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+.provider {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  border: 1px solid var(--control-border);
+  border-radius: var(--r-2);
+  text-decoration: none;
+  font-size: var(--step--1);
+  font-weight: 500;
+}
+
+.provider[aria-disabled="true"] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.switch {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+.keep {
+  font-size: var(--step--1);
+  background: var(--accent-wash);
+  padding: var(--s-2) var(--s-3);
+  border-left: 2px solid var(--accent);
+}
+
+.sent {
+  display: grid;
+  gap: var(--s-3);
+  max-width: 420px;
+  font-family: var(--font-prose);
+  font-size: var(--prose-size);
+  line-height: var(--lh-prose);
+}
+
+.sentTitle {
+  font-size: var(--step-2);
+}
+
+.dev {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+  font-family: var(--font-ui);
+}
