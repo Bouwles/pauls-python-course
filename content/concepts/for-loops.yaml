@@ -1,0 +1,75 @@
+id: for-loops
+title: for loops
+summary: |
+  A `for` loop repeats the indented lines under it, once for each value it is given: `for i in range(3):` runs its body three times. The colon starts the body. The first line back at the left edge is after the loop, and runs once.
+example: |
+  for sweep in range(3):
+      print("Sweep")
+  print("Lamp lit")
+misconceptions: [unindented-line-in-loop, indented-line-runs-once, loop-body-runs-once]
+related: [range, loop-variables, tracing-loops]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      for n in range(2):
+          print("Check")
+      print("Done")
+    answer: "Check\nCheck\nDone"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      for n in range(3):
+          print("Sweep")
+          print("Done")
+    options:
+      - text: |-
+          Sweep
+          Done
+          Sweep
+          Done
+          Sweep
+          Done
+        correct: true
+        feedback: "Both lines are indented, so both are in the body. They take turns, three times."
+      - text: |-
+          Sweep
+          Sweep
+          Sweep
+          Done
+        misconception: indented-line-runs-once
+        feedback: "`print(\"Done\")` is indented like the line above it, so it's in the body too and repeats every pass."
+      - text: |-
+          Sweep
+          Done
+        misconception: loop-body-runs-once
+        feedback: "The body runs once for each number in `range(3)`: three times."
+  - type: fix
+    prompt: "This should print `All well` three times. Fix it."
+    code: |
+      for check in range(3)
+          print("All well")
+    tests: |
+      TESTS = [output("Three times", expect="All well\nAll well\nAll well")]
+    solution: |
+      for check in range(3):
+          print("All well")
+  - type: fill
+    prompt: "Fill the gap so this prints `Lamp turning` four times."
+    code: |
+      ___ turn in range(4):
+          print("Lamp turning")
+    blanks: [["for"]]
+    tests: |
+      TESTS = [output("Four times", expect="Lamp turning\nLamp turning\nLamp turning\nLamp turning")]
+  - type: write
+    prompt: "Print `Gull` five times, one per line, using a loop."
+    tests: |
+      TESTS = [
+          output("Five gulls", expect="Gull\nGull\nGull\nGull\nGull"),
+          structure("Uses a for loop", requires=["For"], message="Use a for loop rather than five prints."),
+      ]
+    solution: |
+      for gull in range(5):
+          print("Gull")

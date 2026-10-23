@@ -1,0 +1,79 @@
+id: sort-stability
+title: Stable sorting
+summary: |
+  A sort is stable if items that tie keep the order they started in. Python's `sorted()` and `.sort()` are stable, so sorting parts by weight keeps parts of the same weight in the order they arrived. That means you can sort by two things in two passes: sort by the one that matters less, then by the one that matters more. Merge sort is stable if it takes from the left pile on a tie; selection sort's long swaps make it unstable. Python's own sort is stable and O(n log n), a mix of merge sort and insertion sort, written in C.
+example: |
+  parts = [("valve", 3), ("anvil", 5), ("gear", 3), ("bell", 5)]
+  by_name = sorted(parts)
+  by_weight = sorted(by_name, key=lambda part: part[1])
+  print(by_weight)
+misconceptions: [ties-sorted-by-rest, ties-come-out-any-order, second-sort-forgets-first, selection-is-stable]
+related: [sort-key, sorted-vs-sort, merge-sort]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      orders = [("Bea", 2), ("Tom", 1), ("Gwen", 2), ("Mira", 1)]
+      by_loaves = sorted(orders, key=lambda order: order[1])
+      print([name for name, loaves in by_loaves])
+    answer: "['Tom', 'Mira', 'Bea', 'Gwen']"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      parts = [("valve", 3), ("anvil", 5), ("gear", 3), ("bell", 5)]
+      by_name = sorted(parts)
+      by_weight = sorted(by_name, key=lambda part: part[1])
+      print(by_weight)
+    options:
+      - text: "[('gear', 3), ('valve', 3), ('anvil', 5), ('bell', 5)]"
+        correct: true
+        feedback: "The second sort is by weight, and among parts of the same weight it keeps the order the first sort left them in: alphabetical."
+      - text: "[('valve', 3), ('gear', 3), ('anvil', 5), ('bell', 5)]"
+        misconception: second-sort-forgets-first
+        feedback: "The second sort starts from `by_name`, not from `parts`. Ties keep the order they had going in, which was alphabetical."
+  - type: choice
+    prompt: "Which of these sorts keeps tied parts in their old order, as usually written?"
+    verify: none
+    options:
+      - text: Merge sort, taking from the left pile on a tie
+        correct: true
+        feedback: "Parts only ever move past parts from the other pile, and a tie always goes to the left, so equal parts never change places."
+      - text: Selection sort
+        misconception: selection-is-stable
+        feedback: "Selection sort's swap can throw a part right past others of the same weight. In [4a, 4b, 1], the first swap puts 4a after 4b."
+  - type: choice
+    prompt: "Python's `sorted()` is handed 10,000 parts, many of them the same weight. What can you rely on?"
+    verify: none
+    options:
+      - text: "Parts of the same weight stay in the order they were in"
+        correct: true
+        feedback: "Python's sort is stable, every time. It's a mix of merge sort and insertion sort, written in C."
+      - text: "Nothing about the tied parts: they come out in any order"
+        misconception: ties-come-out-any-order
+        feedback: "Python promises stability. Same pile in, same order out."
+      - text: "Tied parts come out in alphabetical order"
+        misconception: ties-sorted-by-rest
+        feedback: "With `key=` set to the weight, nothing looks at the names. Ties keep their old order."
+  - type: fill
+    prompt: "Fill the gap so that on a tie, the part from the left pile goes first."
+    code: |
+      left = [("hubcap", 4)]
+      right = [("anvil", 4)]
+      if left[0][1] ___ right[0][1]:
+          print(left[0][0], right[0][0])
+      else:
+          print(right[0][0], left[0][0])
+    blanks: [["<="]]
+    tests: |
+      TESTS = [output("Hubcap first", expect="hubcap anvil")]
+  - type: write
+    prompt: "Make `in_order` the parts heaviest first, with parts of the same weight in alphabetical order. Two sorts will do it."
+    starter: |
+      parts = [("valve", 3), ("anvil", 5), ("gear", 3), ("bell", 5), ("cog", 1)]
+    tests: |
+      TESTS = [variable("Heaviest first, then by name", variable="in_order",
+                        expect=[("anvil", 5), ("bell", 5), ("gear", 3), ("valve", 3), ("cog", 1)])]
+    solution: |
+      parts = [("valve", 3), ("anvil", 5), ("gear", 3), ("bell", 5), ("cog", 1)]
+      by_name = sorted(parts)
+      in_order = sorted(by_name, key=lambda part: part[1], reverse=True)

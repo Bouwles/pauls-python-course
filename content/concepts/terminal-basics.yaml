@@ -1,0 +1,60 @@
+id: terminal-basics
+title: The terminal
+summary: |
+  A terminal runs one command at a time: type it, press Enter, read what comes back. It is always *in* a folder, and commands look for files there. `cd folder` moves into a folder, `cd ..` moves up one, `ls` (or `dir` on Windows) lists what is here, and `python hello.py` runs hello.py with Python. Anything after the file name reaches the program in `sys.argv`.
+example: |
+  import sys
+
+  # Run as: python hello.py Ferro
+  # sys.argv is ["hello.py", "Ferro"]; here it has only the file name.
+  print(sys.argv[1:])
+misconceptions: [terminal-folder-irrelevant, file-name-is-a-command]
+related: [virtual-environments]
+drill: false
+cards:
+  - type: choice
+    prompt: "The terminal is in your home folder. hello.py is in Downloads/saltmarsh-python-at-home. You type `python hello.py`. What happens?"
+    options:
+      - text: "Python can't find hello.py: the terminal looks in the folder it's in"
+        correct: true
+      - text: "Python finds hello.py and runs it"
+        misconception: terminal-folder-irrelevant
+        feedback: "Commands look in the terminal's current folder. `cd Downloads/saltmarsh-python-at-home` first."
+  - type: choice
+    prompt: "Which command runs hello.py with Python?"
+    options:
+      - text: "python hello.py"
+        correct: true
+      - text: "hello.py"
+        misconception: file-name-is-a-command
+        feedback: "A file name on its own isn't a command. Tell the terminal which program should open it: `python hello.py` (or `py hello.py` on Windows)."
+      - text: "run hello.py"
+        misconception: file-name-is-a-command
+        feedback: "There's no `run` command. `python` is the program, and hello.py is what it runs."
+  - type: choice
+    prompt: "You're in Downloads/saltmarsh-python-at-home/tests. Which command takes you back up to the project folder?"
+    options:
+      - text: "cd .."
+        correct: true
+      - text: "cd saltmarsh-python-at-home"
+        misconception: terminal-folder-irrelevant
+        feedback: "That looks for a folder called saltmarsh-python-at-home *inside* tests. `..` always means the folder above."
+  - type: predict
+    prompt: "A program is run with no extra words after its name. What does it print?"
+    code: |
+      import sys
+      print(len(sys.argv))
+    answer: "1"
+  - type: choice
+    prompt: "`python hello.py Ferro` runs this. What does it print?"
+    code: |
+      import sys
+      print(sys.argv)
+    # Run with a command-line word, which a card can't do; the answer is checked by hand.
+    verify: none
+    options:
+      - text: "['hello.py', 'Ferro']"
+        correct: true
+      - text: "['Ferro']"
+        misconception: file-name-is-a-command
+        feedback: "The first item is always the program's own name. The words you typed after it follow."

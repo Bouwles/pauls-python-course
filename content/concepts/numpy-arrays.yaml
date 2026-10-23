@@ -1,0 +1,106 @@
+id: numpy-arrays
+title: NumPy arrays
+summary: |
+  `np.array()` turns a list of numbers into an array: a block of numbers of one type, stored side by side. An array has a `shape`, the number of items along each axis, so a hundred years of twelve months is `(100, 12)`. `rain[0, 9]` is row 0, column 9, and `rain[:, 0]` is every row of column 0. Methods like `sum` and `mean` take `axis=`, and the axis you name is the one that collapses.
+example: |
+  import numpy as np
+
+  rain = np.array([[80, 60, 40],
+                   [90, 50, 30]])
+  print(rain.shape)
+  print(rain[1, 0])
+  print(rain[:, 2])
+  print(rain.sum(axis=1))
+misconceptions: [list-times-doubles, array-is-a-list, axis-names-what-remains]
+related: [vectorisation, broadcasting, lists, indexing, slicing]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      rain = np.array([[80, 60, 40],
+                       [90, 50, 30]])
+      print(rain.shape)
+    answer: "(2, 3)"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      rain = np.array([[80, 60, 40],
+                       [90, 50, 30]])
+      print(rain[1, 0], rain[0, -1])
+    answer: "90 40"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      rain = np.array([[80, 60, 40],
+                       [90, 50, 30]])
+      print(rain.sum(axis=0).tolist())
+    options:
+      - text: "[170, 110, 70]"
+        correct: true
+        feedback: "`axis=0` collapses the rows, so each column is added up: one total per column."
+      - text: "[180, 170]"
+        misconception: axis-names-what-remains
+        feedback: "The axis you name is the one that disappears. `axis=0` adds down the rows and leaves one number per column. For one per row, use `axis=1`."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      totals = [5, 7]
+      print(totals * 2)
+    options:
+      - text: "[5, 7, 5, 7]"
+        correct: true
+        feedback: "A list times a number repeats the list. Only an array would double each item."
+      - text: "[10, 14]"
+        misconception: list-times-doubles
+        feedback: "Lists don't do arithmetic on their items. `* 2` repeats the list. `np.array(totals) * 2` would give `[10 14]`."
+  - type: fill
+    prompt: "Fill the gap so `january` is the first column: every row, column 0."
+    code: |
+      import numpy as np
+
+      rain = np.array([[116, 84], [98, 77], [130, 91]])
+      january = rain[___, 0]
+      print(january.tolist())
+    blanks: [[":"]]
+    tests: |
+      TESTS = [output("Every January", expect="[116, 98, 130]")]
+  - type: fix
+    prompt: "Pip wants one total per year, and each row is a year. Fix it so it prints `[180, 170]`."
+    code: |
+      import numpy as np
+
+      rain = np.array([[80, 60, 40],
+                       [90, 50, 30]])
+      per_year = rain.sum(axis=0)
+      print(per_year.tolist())
+    tests: |
+      TESTS = [output("One total per year", expect="[180, 170]")]
+    solution: |
+      import numpy as np
+
+      rain = np.array([[80, 60, 40],
+                       [90, 50, 30]])
+      per_year = rain.sum(axis=1)
+      print(per_year.tolist())
+  - type: write
+    prompt: "Turn Mr Ashby's `ledger` into a NumPy array called `rain`, then print its shape."
+    starter: |
+      ledger = [[80, 60], [90, 50], [70, 70]]
+    tests: |
+      TESTS = [
+          output("Three years of two months", expect="(3, 2)"),
+          structure("Makes an array", calls=["array"]),
+      ]
+    solution: |
+      import numpy as np
+
+      ledger = [[80, 60], [90, 50], [70, 70]]
+      rain = np.array(ledger)
+      print(rain.shape)

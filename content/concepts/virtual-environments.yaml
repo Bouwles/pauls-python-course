@@ -1,0 +1,51 @@
+id: virtual-environments
+title: Virtual environments
+summary: |
+  A virtual environment is a folder (by habit `.venv`, inside the project) holding that project's own Python packages. Make it once with `python -m venv .venv`, switch it on in each new terminal (`source .venv/bin/activate`, or `.venv\Scripts\Activate.ps1` on Windows), and `pip install` then installs into it alone. The project lists what it needs in requirements.txt, so the folder itself is never shared: anyone can rebuild it.
+example: |
+  import sys
+
+  # True only when a virtual environment is switched on.
+  print(sys.prefix != sys.base_prefix)
+misconceptions: [venv-is-global, venv-stays-on, venv-shared-with-project]
+related: [terminal-basics]
+drill: false
+cards:
+  - type: predict
+    prompt: "This runs in a terminal where no virtual environment is switched on. What does it print?"
+    code: |
+      import sys
+      print(sys.prefix != sys.base_prefix)
+    answer: "False"
+  - type: choice
+    prompt: "You installed pytest in the logbook project's virtual environment. In the timetable project, with its own environment switched on, you run `pytest`. What happens?"
+    options:
+      - text: "It isn't found: each environment has its own packages"
+        correct: true
+      - text: "It runs: pytest is installed now"
+        misconception: venv-is-global
+        feedback: "It's installed in the logbook's .venv only. Install it in the timetable's environment too, usually with `pip install -r requirements.txt`."
+  - type: choice
+    prompt: "Yesterday you switched the project's virtual environment on. Today you open a new terminal in the project folder. Is it on?"
+    options:
+      - text: "No: switch it on again in every new terminal"
+        correct: true
+      - text: "Yes: it stays on for the project"
+        misconception: venv-stays-on
+        feedback: "Switching it on only changes that one terminal. A new terminal starts without it; look for (.venv) at the start of the prompt."
+  - type: choice
+    prompt: "You're sending the project to Agnes. What should go with the code?"
+    options:
+      - text: "requirements.txt, so she can make her own environment"
+        correct: true
+      - text: "The .venv folder, so she has the packages"
+        misconception: venv-shared-with-project
+        feedback: "A .venv is built for one computer and is often hundreds of megabytes. requirements.txt lets her rebuild it with one command."
+  - type: choice
+    prompt: "Why give each project its own virtual environment?"
+    options:
+      - text: "So two projects can need different versions of the same package"
+        correct: true
+      - text: "So Python runs faster"
+        misconception: venv-is-global
+        feedback: "Speed doesn't change. The point is that each project's packages are its own, so installing for one can't break another."

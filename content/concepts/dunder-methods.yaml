@@ -1,0 +1,134 @@
+id: dunder-methods
+title: Dunder methods
+summary: |
+  Dunder (double underscore) methods are the ones Python calls for you. `__str__` is what `print` and `str()` show to people; `__repr__` is the programmer's version, used inside lists and when there's no `__str__`. `__eq__` decides `==`: return `NotImplemented` for things you can't compare. `__len__` answers `len()`.
+example: |
+  class Bike:
+      def __init__(self, number, rate):
+          self.number = number
+          self.rate = rate
+
+      def __str__(self):
+          return f"Bike {self.number}"
+
+      def __repr__(self):
+          return f"Bike({self.number}, {self.rate})"
+
+  print(Bike(7, 4), [Bike(7, 4)])
+misconceptions: [list-shows-str, print-uses-repr, dunders-must-be-called, eq-compares-attributes-by-default, missing-return-is-false]
+related: [classes, methods, inheritance]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      class Shed:
+          def __init__(self):
+              self.bikes = ["red", "blue", "tandem"]
+
+          def __len__(self):
+              return len(self.bikes)
+
+      print(len(Shed()))
+    answer: "3"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      class Bike:
+          def __init__(self, number):
+              self.number = number
+
+      print(Bike(7) == Bike(7))
+    options:
+      - text: "False"
+        correct: true
+      - text: "True"
+        misconception: eq-compares-attributes-by-default
+        feedback: "Without an `__eq__`, `==` only says True for the very same object. These are two bikes that happen to share a number."
+  - type: fix
+    prompt: "`print(card)` should show `Postcard to Truro`. Fix the method's name."
+    code: |
+      class Postcard:
+          def __init__(self, town):
+              self.town = town
+
+          def to_string(self):
+              return f"Postcard to {self.town}"
+
+      card = Postcard("Truro")
+      print(card)
+    tests: |
+      TESTS = [output("The postcard", expect="Postcard to Truro")]
+    solution: |
+      class Postcard:
+          def __init__(self, town):
+              self.town = town
+
+          def __str__(self):
+              return f"Postcard to {self.town}"
+
+      card = Postcard("Truro")
+      print(card)
+  - type: fill
+    prompt: "Fill the gap so `==` compares bike numbers."
+    code: |
+      class Bike:
+          def __init__(self, number):
+              self.number = number
+
+          def ___(self, other):
+              if isinstance(other, Bike):
+                  return self.number == other.number
+              return NotImplemented
+
+      print(Bike(7) == Bike(7), Bike(7) == Bike(8))
+    blanks: [["__eq__"]]
+    tests: |
+      TESTS = [output("Same and different", expect="True False")]
+  - type: write
+    prompt: "Give `Stamp` a `__repr__`, so the last line prints `[Stamp(135)]`."
+    starter: |
+      class Stamp:
+          def __init__(self, pence):
+              self.pence = pence
+
+
+      print([Stamp(135)])
+    tests: |
+      def other_stamp(ctx):
+          m = ctx.module()
+          if repr(m.Stamp(85)) != "Stamp(85)":
+              raise CheckFailed("repr() of a second-class stamp", expected="Stamp(85)", actual=repr(m.Stamp(85)))
+
+
+      TESTS = [
+          output("A list with one stamp", expect="[Stamp(135)]"),
+          custom("Another stamp", other_stamp),
+      ]
+    solution: |
+      class Stamp:
+          def __init__(self, pence):
+              self.pence = pence
+
+          def __repr__(self):
+              return f"Stamp({self.pence})"
+
+
+      print([Stamp(135)])
+  - type: choice
+    prompt: What does this print?
+    code: |
+      class Bike:
+          def __init__(self, number):
+              self.number = number
+
+          def __eq__(self, other):
+              if isinstance(other, Bike):
+                  return self.number == other.number
+
+      print(Bike(7) == "seven")
+    options:
+      - text: None
+        correct: true
+      - text: "False"
+        misconception: missing-return-is-false
+        feedback: "For a string, the `if` is skipped and the method ends without a `return`, which gives `None`. `==` passes that straight back."

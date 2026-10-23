@@ -1,0 +1,109 @@
+id: pandas-basics
+title: pandas DataFrames and Series
+summary: |
+  `pd.read_csv("census.csv")` reads a CSV file into a DataFrame: rows, and named columns that each hold one type. `census.shape`, `census.head()` and `census.dtypes` tell you what you've got. `census["age"]` is one column, a Series, with methods like `mean()`, `max()` and `value_counts()`. `sort_values("age")` gives back a sorted copy and leaves the table alone.
+example: |
+  import pandas as pd
+
+  people = pd.DataFrame({
+      "name": ["Edith Hollis", "Walter Rook", "Mary Rook"],
+      "age": [34, 88, 52],
+  })
+  print(people.shape)
+  print(people["age"].mean())
+  print(people.sort_values("age", ascending=False).head(1))
+misconceptions: [column-is-a-list, sort-values-in-place]
+related: [selecting-filtering, numpy-arrays, csv-module]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import pandas as pd
+
+      people = pd.DataFrame({
+          "name": ["Edith Hollis", "Walter Rook", "Mary Rook"],
+          "age": [34, 88, 52],
+      })
+      print(people.shape)
+    answer: "(3, 2)"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import pandas as pd
+
+      people = pd.DataFrame({
+          "name": ["Edith Hollis", "Walter Rook", "Mary Rook"],
+          "age": [34, 88, 52],
+      })
+      print(people["age"].max(), people["age"].mean())
+    answer: "88 58.0"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import pandas as pd
+
+      people = pd.DataFrame({"name": ["Edith", "Walter"], "age": [34, 88]})
+      print(type(people["age"]).__name__)
+    options:
+      - text: Series
+        correct: true
+        feedback: "One column of a DataFrame is a Series: values with labels, and methods such as `mean()` and `value_counts()`."
+      - text: list
+        misconception: column-is-a-list
+        feedback: "It looks like a list when printed, but it's a Series. It keeps the row labels and has its own methods. `.tolist()` would make a list."
+  - type: fix
+    prompt: "This should print the oldest person's name, `Walter Rook`, but it prints `Edith Hollis`. Fix it."
+    code: |
+      import pandas as pd
+
+      people = pd.DataFrame({
+          "name": ["Edith Hollis", "Walter Rook", "Mary Rook"],
+          "age": [34, 88, 52],
+      })
+      people.sort_values("age", ascending=False)
+      print(people["name"].iloc[0])
+    tests: |
+      TESTS = [output("The oldest", expect="Walter Rook")]
+    solution: |
+      import pandas as pd
+
+      people = pd.DataFrame({
+          "name": ["Edith Hollis", "Walter Rook", "Mary Rook"],
+          "age": [34, 88, 52],
+      })
+      people = people.sort_values("age", ascending=False)
+      print(people["name"].iloc[0])
+  - type: fill
+    prompt: "Fill the gap so the census file is read into a DataFrame."
+    code: |
+      import pandas as pd
+
+      census = pd.___("census.csv")
+      print(len(census))
+    files:
+      census.csv: |
+        year,parish,name,age
+        1951,Hill,Ann Jago,30
+        1951,Harbour,Tom Kitto,41
+    blanks: [["read_csv"]]
+    tests: |
+      TESTS = [output("Two people", expect="2")]
+  - type: write
+    prompt: "`census.csv` is there for you. Read it with pandas, then print how many people lived in each parish as a dictionary: `value_counts()` on the `parish` column, then `.to_dict()`."
+    files:
+      census.csv: |
+        year,parish,name,age
+        1951,Hill,Ann Jago,30
+        1951,Harbour,Tom Kitto,41
+        1951,Harbour,Wenna Kitto,39
+    tests: |
+      TESTS = [
+          output("Two at the harbour, one on the Hill", expect="{'Harbour': 2, 'Hill': 1}"),
+          structure("Counts with value_counts", calls=["read_csv", "value_counts"]),
+      ]
+    solution: |
+      import pandas as pd
+
+      census = pd.read_csv("census.csv")
+      print(census["parish"].value_counts().to_dict())

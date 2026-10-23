@@ -1,0 +1,153 @@
+id: inheritance
+title: Inheritance
+summary: |
+  `class ElectricBike(Bike):` makes a subclass: an electric bike is a kind of bike. It inherits every method from its parent and overrides only the ones it writes itself. Inside an inherited method, `self` is still the subclass object, so its overrides win. `isinstance(volt, Bike)` is True.
+example: |
+  class Bike:
+      def describe(self):
+          return f"{self.wheels()} wheels"
+
+      def wheels(self):
+          return 2
+
+  class Tricycle(Bike):
+      def wheels(self):
+          return 3
+
+  print(Bike().describe(), Tricycle().describe())
+misconceptions: [parent-methods-call-parent-versions, child-class-starts-empty, override-changes-parent, parent-counts-as-child]
+related: [super, composition, classes]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      class Boat:
+          def horn(self):
+              return "toot"
+
+          def leave(self):
+              return f"{self.horn()}, casting off"
+
+      class Ferry(Boat):
+          def horn(self):
+              return "BAAARP"
+
+      print(Boat().leave())
+      print(Ferry().leave())
+    answer: |-
+      toot, casting off
+      BAAARP, casting off
+  - type: choice
+    prompt: What does this print?
+    code: |
+      class Bike:
+          def wheels(self):
+              return 2
+
+      class Tricycle(Bike):
+          def wheels(self):
+              return 3
+
+      trike = Tricycle()
+      print(Bike().wheels())
+    options:
+      - text: "2"
+        correct: true
+      - text: "3"
+        misconception: override-changes-parent
+        feedback: "Overriding happens in the subclass only. A plain `Bike` still has two wheels."
+  - type: fix
+    prompt: "A tandem should be a kind of `Bike`. Fix the class line."
+    code: |
+      class Bike:
+          def __init__(self, number):
+              self.number = number
+
+          def describe(self):
+              return f"Bike {self.number}"
+
+      class Tandem:
+          def seats(self):
+              return 2
+
+      tandem = Tandem(5)
+      print(tandem.describe(), tandem.seats())
+    tests: |
+      TESTS = [output("Tandem 5", expect="Bike 5 2")]
+    solution: |
+      class Bike:
+          def __init__(self, number):
+              self.number = number
+
+          def describe(self):
+              return f"Bike {self.number}"
+
+      class Tandem(Bike):
+          def seats(self):
+              return 2
+
+      tandem = Tandem(5)
+      print(tandem.describe(), tandem.seats())
+  - type: fill
+    prompt: "Fill the gap so a fog lamp is a kind of lamp."
+    code: |
+      class Lamp:
+          def light(self):
+              return "lit"
+
+      class FogLamp(___):
+          pass
+
+      print(FogLamp().light())
+    blanks: [["Lamp"]]
+    tests: |
+      TESTS = [output("The fog lamp lights", expect="lit")]
+  - type: write
+    prompt: "Write `Rowboat`, a kind of `Boat` whose `horn()` returns `\"oi\"`."
+    starter: |
+      class Boat:
+          def horn(self):
+              return "toot"
+
+          def leave(self):
+              return f"{self.horn()}, casting off"
+    tests: |
+      def rowboat(ctx):
+          m = ctx.module()
+          boat = m.Rowboat()
+          if not isinstance(boat, m.Boat):
+              raise CheckFailed("A Rowboat should be a kind of Boat.")
+          if boat.leave() != "oi, casting off":
+              raise CheckFailed("A rowboat leaves with an oi.", expected="oi, casting off", actual=boat.leave())
+
+
+      TESTS = [custom("The rowboat leaves", rowboat)]
+    solution: |
+      class Boat:
+          def horn(self):
+              return "toot"
+
+          def leave(self):
+              return f"{self.horn()}, casting off"
+
+
+      class Rowboat(Boat):
+          def horn(self):
+              return "oi"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      class Bike:
+          pass
+
+      class ElectricBike(Bike):
+          pass
+
+      volt = ElectricBike()
+      print(isinstance(volt, Bike), isinstance(Bike(), ElectricBike))
+    options:
+      - text: True False
+        correct: true
+      - text: True True
+        misconception: parent-counts-as-child
+        feedback: "Every electric bike is a bike, but not every bike is electric. The subclass is the narrower one."

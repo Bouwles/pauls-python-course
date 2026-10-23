@@ -1,0 +1,88 @@
+id: looping-lists
+title: Looping over a list
+summary: |
+  `for parcel in parcels:` hands you each item in turn, from the start to the end. When you need the index as well, loop over `range(len(parcels))` and use `parcels[i]`. A loop over an empty list runs zero times. Changing the loop variable doesn't change the list.
+example: |
+  parcels = ["Bea", "Tom", "Agnes"]
+  for parcel in parcels:
+      print("Parcel for", parcel)
+  for hole in range(len(parcels)):
+      print(hole, parcels[hole])
+misconceptions: [loop-gives-index, loop-var-changes-list]
+related: [lists, for-loops, indexing]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      for name in ["Bea", "Tom", "Agnes"]:
+          print("Parcel for", name)
+    answer: "Parcel for Bea\nParcel for Tom\nParcel for Agnes"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      parcels = ["Bea", "Tom"]
+      for p in parcels:
+          print(p)
+    options:
+      - text: |-
+          Bea
+          Tom
+        correct: true
+      - text: |-
+          0
+          1
+        misconception: loop-gives-index
+        feedback: "Looping over the list itself gives the items. For the indexes, loop over `range(len(parcels))`."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      prices = [2, 3, 4]
+      for price in prices:
+          price = price * 2
+      print(prices)
+    options:
+      - text: "[2, 3, 4]"
+        correct: true
+        feedback: "`price` is a label on each item in turn. Moving the label to a new number leaves the list alone."
+      - text: "[4, 6, 8]"
+        misconception: loop-var-changes-list
+        feedback: "Changing the loop variable doesn't reach back into the list. To change the list, assign to `prices[i]`."
+  - type: fix
+    prompt: "Each line should show the hole and the name in it: `Hole 0: Bea` and so on. Fix it."
+    code: |
+      parcels = ["Bea", "Tom", "Agnes"]
+      for hole in range(len(parcels)):
+          print(f"Hole {hole}: {hole}")
+    tests: |
+      TESTS = [output("Three holes", expect="Hole 0: Bea\nHole 1: Tom\nHole 2: Agnes")]
+    solution: |
+      parcels = ["Bea", "Tom", "Agnes"]
+      for hole in range(len(parcels)):
+          print(f"Hole {hole}: {parcels[hole]}")
+  - type: fill
+    prompt: "Fill the gap so this adds up the weights."
+    code: |
+      total = 0
+      for weight in [2, 5, 3]:
+          total = total + ___
+      print(total)
+    blanks: [["weight"]]
+    tests: |
+      TESTS = [output("Ten", expect="10")]
+  - type: write
+    prompt: "Parcels over 2 kg go on the heavy shelf. Count how many of `weights` are over 2 and print the count."
+    starter: |
+      weights = [1.5, 3.2, 0.8, 2.5, 4.0, 2.0]
+    tests: |
+      TESTS = [
+          output("Three heavy", expect="3"),
+          structure("Uses a loop", requires=["For"], message="Go through the list with a loop and count."),
+      ]
+    solution: |
+      weights = [1.5, 3.2, 0.8, 2.5, 4.0, 2.0]
+      heavy = 0
+      for weight in weights:
+          if weight > 2:
+              heavy = heavy + 1
+      print(heavy)

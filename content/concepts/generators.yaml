@@ -1,0 +1,126 @@
+id: generators
+title: Generators and yield
+summary: |
+  A function with `yield` in it is a generator function. Calling it runs none of the body: it hands back a generator, which is an iterator. Each `next()` runs the body as far as the next `yield`, hands that value over and pauses there, with its variables kept. When the body reaches the end, the generator is finished, and looping over it again gives nothing.
+example: |
+  def countdown(start):
+      while start > 0:
+          yield start
+          start -= 1
+
+
+  for number in countdown(3):
+      print(number)
+misconceptions: [generator-runs-on-call, next-runs-whole-generator, yield-is-return, iterator-refills]
+related: [iterators, lazy-evaluation]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def trays():
+          yield "loaf"
+          yield "bun"
+
+
+      print(list(trays()))
+    answer: "['loaf', 'bun']"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      def oven():
+          print("heating")
+          yield "tray"
+
+
+      baking = oven()
+      print("done")
+    options:
+      - text: done
+        correct: true
+      - text: "heating\ndone"
+        misconception: generator-runs-on-call
+        feedback: "Calling `oven()` only makes the generator. Nothing inside runs until something asks it for a value."
+      - text: "heating\ntray\ndone"
+        misconception: generator-runs-on-call
+        feedback: "The body hasn't started, so nothing from it is printed. `yield` hands values over; it doesn't print them."
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def scale(amounts):
+          for grams in amounts:
+              yield grams * 2
+
+
+      doubled = scale([500, 10])
+      print(list(doubled))
+      print(list(doubled))
+    answer: "[1000, 20]\n[]"
+  - type: fix
+    prompt: "This should print each amount doubled, one per line. It crashes. Fix the generator."
+    code: |
+      def doubled(amounts):
+          for grams in amounts:
+              return grams * 2
+
+
+      for grams in doubled([500, 10, 350]):
+          print(grams)
+    tests: |
+      TESTS = [output("Each one doubled", expect="1000\n20\n700")]
+    solution: |
+      def doubled(amounts):
+          for grams in amounts:
+              yield grams * 2
+
+
+      for grams in doubled([500, 10, 350]):
+          print(grams)
+  - type: fill
+    prompt: "Fill the gap so this prints `Batch 1`, `Batch 2` and `Batch 3`."
+    code: |
+      def batch_names(count):
+          for number in range(1, count + 1):
+              ___ f"Batch {number}"
+
+
+      for name in batch_names(3):
+          print(name)
+    blanks: [["yield"]]
+    tests: |
+      TESTS = [output("Three batches", expect="Batch 1\nBatch 2\nBatch 3")]
+  - type: write
+    prompt: "Write a generator `every_other(items)` that yields the first item, the third, the fifth and so on."
+    starter: |
+      def every_other(items):
+          pass
+    tests: |
+      import types as _types
+
+
+      def odd_places(ctx):
+          mod = ctx.module()
+          got = list(mod.every_other(["a", "b", "c", "d", "e"]))
+          if got != ["a", "c", "e"]:
+              raise CheckFailed("The first, third and fifth.", expected="['a', 'c', 'e']", actual=repr(got))
+
+
+      def from_an_iterator(ctx):
+          mod = ctx.module()
+          got = list(mod.every_other(iter([1, 2, 3, 4])))
+          if got != [1, 3]:
+              raise CheckFailed("It should work on anything you can loop over, even an iterator.", expected="[1, 3]", actual=repr(got))
+
+
+      def is_generator(ctx):
+          mod = ctx.module()
+          if not isinstance(mod.every_other([]), _types.GeneratorType):
+              raise CheckFailed("every_other should yield its values.")
+
+
+      TESTS = [custom("Odd places", odd_places), custom("From an iterator", from_an_iterator), custom("A generator", is_generator)]
+    solution: |
+      def every_other(items):
+          for place, item in enumerate(items):
+              if place % 2 == 0:
+                  yield item

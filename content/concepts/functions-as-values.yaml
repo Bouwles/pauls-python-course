@@ -1,0 +1,113 @@
+id: functions-as-values
+title: Functions are values
+summary: |
+  A function is a value, like a number or a list. Its name without brackets is the function itself: you can give it another name, keep it in a list or a dictionary, or pass it to another function. The brackets are what call it. `sorted(key=...)`, `map`, `filter` and decorators all rely on this.
+example: |
+  def shout(text):
+      return text.upper()
+
+
+  announce = shout
+  print(announce("fresh figs"))
+  calls = {"shout": shout, "plain": str.lower}
+  print(calls["plain"]("FRESH FIGS"))
+misconceptions: [passing-function-calls-it, functions-not-values]
+related: [lambda, sort-key, decorators]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def double(number):
+          return number * 2
+
+
+      def twice(action, number):
+          return action(action(number))
+
+
+      print(twice(double, 3))
+    answer: "12"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      def greet():
+          return "Morning"
+
+
+      message = greet
+      print(message())
+    options:
+      - text: Morning
+        correct: true
+      - text: "A TypeError: message is not a function"
+        misconception: functions-not-values
+        feedback: "`message = greet` puts a second name on the same function. Calling `message()` calls it."
+      - text: greet
+        misconception: functions-not-values
+        feedback: "`message` holds the function, not the word greet. The brackets call it, and it gives back Morning."
+  - type: fix
+    prompt: "This should list the crates lightest first. It crashes. Fix the last line."
+    code: |
+      def by_weight(crate):
+          return crate[1]
+
+
+      crates = [("plums", 12), ("figs", 4), ("leeks", 30)]
+      print(sorted(crates, key=by_weight()))
+    tests: |
+      TESTS = [output("Lightest first", expect="[('figs', 4), ('plums', 12), ('leeks', 30)]",
+                      hint="Pass the function itself: key=by_weight, with no brackets.")]
+    solution: |
+      def by_weight(crate):
+          return crate[1]
+
+
+      crates = [("plums", 12), ("figs", 4), ("leeks", 30)]
+      print(sorted(crates, key=by_weight))
+  - type: fill
+    prompt: "Fill the gap so `convert` is another name for `in_pence`."
+    code: |
+      def in_pence(price):
+          return round(price * 100)
+
+
+      convert = ___
+      print(convert(1.25))
+    blanks: [["in_pence"]]
+    tests: |
+      TESTS = [output("125 pence", expect="125")]
+  - type: write
+    prompt: "`actions` maps a word to a function. Look up `\"shout\"` in it, call that function on `\"figs\"`, and print what comes back."
+    starter: |
+      def shout(text):
+          return text.upper()
+
+
+      def whisper(text):
+          return text.lower()
+
+
+      actions = {"shout": shout, "whisper": whisper}
+    tests: |
+      import ast as _ast
+
+
+      def calls_from_dict(tree, source):
+          for node in _ast.walk(tree):
+              if isinstance(node, _ast.Call) and isinstance(node.func, _ast.Subscript):
+                  return None
+          return "Call the function straight from the dictionary: actions[...](...)."
+
+
+      TESTS = [output("FIGS", expect="FIGS"), structure("Called from the dictionary", check=calls_from_dict)]
+    solution: |
+      def shout(text):
+          return text.upper()
+
+
+      def whisper(text):
+          return text.lower()
+
+
+      actions = {"shout": shout, "whisper": whisper}
+      print(actions["shout"]("figs"))

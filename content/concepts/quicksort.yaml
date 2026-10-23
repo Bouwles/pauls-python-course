@@ -1,0 +1,130 @@
+id: quicksort
+title: Quicksort
+summary: |
+  Quicksort picks one item as the pivot and splits the pile into three: smaller than the pivot, the same, and bigger. The smaller and bigger piles are sorted the same way, and the three are joined in order. Forget the pile of the same and you lose every copy of the pivot but one. With a decent pivot each split roughly halves the work, so it's O(n log n) on average; a bad pivot every time, like the first item of a pile already in order, makes it O(n²).
+example: |
+  def quick_sort(pile):
+      if len(pile) <= 1:
+          return pile
+      pivot = pile[0]
+      lighter = [weight for weight in pile if weight < pivot]
+      same = [weight for weight in pile if weight == pivot]
+      heavier = [weight for weight in pile if weight > pivot]
+      return quick_sort(lighter) + same + quick_sort(heavier)
+
+
+  print(quick_sort([7, 3, 9, 7, 1, 7, 4]))
+misconceptions: [split-keeps-equal-items, partition-sorts-piles, quicksort-loves-sorted]
+related: [merge-sort, simple-sorts, list-comprehensions]
+cards:
+  - type: choice
+    prompt: What does this print?
+    code: |
+      pile = [6, 2, 9, 6, 1, 8]
+      pivot = pile[0]
+      lighter = [weight for weight in pile if weight < pivot]
+      same = [weight for weight in pile if weight == pivot]
+      heavier = [weight for weight in pile if weight > pivot]
+      print(lighter, same, heavier)
+    options:
+      - text: "[2, 1] [6, 6] [9, 8]"
+        correct: true
+        feedback: "Each pile keeps the order the parts were in. The split decides which pile; it doesn't sort them."
+      - text: "[1, 2] [6, 6] [8, 9]"
+        misconception: partition-sorts-piles
+        feedback: "The split only decides which pile each part goes in. Inside a pile they're in the order they came. Sorting them is the next job."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      def quick_sort(pile):
+          if len(pile) <= 1:
+              return pile
+          pivot = pile[0]
+          lighter = [weight for weight in pile if weight < pivot]
+          heavier = [weight for weight in pile if weight > pivot]
+          return quick_sort(lighter) + [pivot] + quick_sort(heavier)
+
+
+      print(quick_sort([4, 8, 4, 2]))
+    options:
+      - text: "[2, 4, 8]"
+        correct: true
+        feedback: "The second 4 is neither lighter than 4 nor heavier, so it goes in no pile at all. Only the pivot itself is put back."
+      - text: "[2, 4, 4, 8]"
+        misconception: split-keeps-equal-items
+        feedback: "Neither `weight < pivot` nor `weight > pivot` is true for the other 4. It isn't in either pile, so it's gone."
+  - type: choice
+    prompt: "A quicksort that always takes the first item as its pivot is handed a pile that's already in order. What happens?"
+    verify: none
+    options:
+      - text: "It slows to O(n²): every split leaves one side empty"
+        correct: true
+        feedback: "The first item is always the smallest, so each split takes off one item and leaves the rest. Pick the pivot from the middle and the problem goes away."
+      - text: "It's at its quickest, since nothing needs moving"
+        misconception: quicksort-loves-sorted
+        feedback: "Quicksort doesn't notice the order. It splits round the pivot regardless, and with the smallest item as pivot, the splits are as lopsided as they get."
+  - type: fix
+    prompt: "This loses the second 5. Fix it so every part comes out."
+    code: |
+      def quick_sort(pile):
+          if len(pile) <= 1:
+              return pile
+          pivot = pile[0]
+          lighter = [weight for weight in pile if weight < pivot]
+          heavier = [weight for weight in pile if weight > pivot]
+          return quick_sort(lighter) + [pivot] + quick_sort(heavier)
+
+
+      print(quick_sort([5, 3, 5, 8]))
+    tests: |
+      TESTS = [
+          function("Both 5s", call="quick_sort", args=([5, 3, 5, 8],), expect=[3, 5, 5, 8],
+                   hint="Keep a pile for the parts that weigh the same as the pivot, and join it in the middle."),
+          function("All the same", call="quick_sort", args=([2, 2, 2],), expect=[2, 2, 2]),
+      ]
+    solution: |
+      def quick_sort(pile):
+          if len(pile) <= 1:
+              return pile
+          pivot = pile[0]
+          lighter = [weight for weight in pile if weight < pivot]
+          same = [weight for weight in pile if weight == pivot]
+          heavier = [weight for weight in pile if weight > pivot]
+          return quick_sort(lighter) + same + quick_sort(heavier)
+
+
+      print(quick_sort([5, 3, 5, 8]))
+  - type: fill
+    prompt: "Fill the gap so the three piles are joined in order."
+    code: |
+      def quick_sort(pile):
+          if len(pile) <= 1:
+              return pile
+          pivot = pile[0]
+          lighter = [weight for weight in pile if weight < pivot]
+          same = [weight for weight in pile if weight == pivot]
+          heavier = [weight for weight in pile if weight > pivot]
+          return quick_sort(lighter) + same + quick_sort(___)
+
+
+      print(quick_sort([4, 9, 1, 4]))
+    blanks: [["heavier"]]
+    tests: |
+      TESTS = [output("In order", expect="[1, 4, 4, 9]")]
+  - type: write
+    prompt: "Write `split(pile, pivot)`, which returns three lists: the weights lighter than `pivot`, the same, and heavier, each in the order they appear in `pile`."
+    starter: |
+      def split(pile, pivot):
+          pass
+    tests: |
+      TESTS = [
+          function("Round 6", call="split", args=([6, 2, 9, 6, 1, 8], 6), expect=([2, 1], [6, 6], [9, 8])),
+          function("Nothing lighter", call="split", args=([3, 4, 3], 3), expect=([], [3, 3], [4])),
+          function("An empty pile", call="split", args=([], 5), expect=([], [], [])),
+      ]
+    solution: |
+      def split(pile, pivot):
+          lighter = [weight for weight in pile if weight < pivot]
+          same = [weight for weight in pile if weight == pivot]
+          heavier = [weight for weight in pile if weight > pivot]
+          return lighter, same, heavier

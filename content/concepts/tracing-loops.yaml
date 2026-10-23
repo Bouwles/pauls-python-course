@@ -1,0 +1,87 @@
+id: tracing-loops
+title: Tracing a loop
+summary: |
+  To trace a loop, keep a small table: one row per pass, one column per variable. Fill in each row as Python would, using the values from the row above. It is slow, and it is how you find out what a loop really does. A `print` inside the loop shows the same table on screen.
+example: |
+  oil = 0
+  for night in range(1, 4):
+      oil = oil + night
+      print(night, oil)
+misconceptions: [loop-keeps-last-only]
+related: [for-loops, loop-variables]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      total = 0
+      for n in range(1, 5):
+          total = total + n
+      print(total)
+    answer: "10"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      rope = 10
+      for cut in range(3):
+          rope = rope - 2
+      print(rope)
+    answer: "4"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      oil = 0
+      for night in range(1, 4):
+          oil = oil + night
+          print(oil)
+    options:
+      - text: |-
+          1
+          3
+          6
+        correct: true
+        feedback: "Pass by pass: 0 + 1, then 1 + 2, then 3 + 3."
+      - text: |-
+          1
+          2
+          3
+        misconception: loop-keeps-last-only
+        feedback: "`oil = oil + night` adds to what's already there. Those are the values of `night`, not `oil`."
+      - text: "6"
+        misconception: indented-line-runs-once
+        feedback: "`print(oil)` is indented, so it's in the body and runs every pass."
+  - type: fix
+    prompt: "This should add up 1 to 5 and print 15. Trace it, then fix it."
+    code: |
+      for n in range(1, 6):
+          total = 0
+          total = total + n
+      print(total)
+    tests: |
+      TESTS = [output("1 to 5", expect="15")]
+    solution: |
+      total = 0
+      for n in range(1, 6):
+          total = total + n
+      print(total)
+  - type: fill
+    prompt: "Fill the gap so `pairs` goes up by 2 each pass and ends at 8."
+    code: |
+      pairs = 0
+      for boot in range(4):
+          pairs = pairs + ___
+      print(pairs)
+    blanks: [["2"]]
+    tests: |
+      TESTS = [output("Eight", expect="8")]
+  - type: write
+    prompt: "Use a loop to add up every whole number from 1 to 100. Print the total."
+    tests: |
+      TESTS = [
+          output("1 to 100", expect="5050"),
+          structure("Uses a for loop", requires=["For"], message="Add them up in a loop."),
+      ]
+    solution: |
+      total = 0
+      for n in range(1, 101):
+          total = total + n
+      print(total)

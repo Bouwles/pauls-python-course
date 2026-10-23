@@ -1,0 +1,95 @@
+id: main-guard
+title: The main guard
+summary: |
+  When a file is run directly, its `__name__` is `"__main__"`; when it's imported, `__name__` is the module's name. So the code under `if __name__ == "__main__":` runs only when the file is the program itself. It's the place for quick checks and demos, which a program importing the file doesn't want to see. The functions above it are still there for importers.
+example: |
+  def is_open(hour):
+      return 9 <= hour < 17
+
+
+  if __name__ == "__main__":
+      print(is_open(10))
+      print(is_open(17))
+misconceptions: [name-is-filename, name-needs-defining, guard-blocks-functions]
+related: [modules]
+cards:
+  - type: predict
+    prompt: "This file is run directly. What does it print?"
+    code: |
+      def greet():
+          return "Morning"
+
+
+      if __name__ == "__main__":
+          print(greet())
+      print("Loaded")
+    answer: "Morning\nLoaded"
+  - type: predict
+    prompt: "The first lines write a module, `tides.py`, with a main guard. What does the program print?"
+    code: |
+      with open("tides.py", "w") as file:
+          file.write('def high():\n    return "06:42"\n\nif __name__ == "__main__":\n    print("Testing tides")\n')
+
+      import tides
+      print(tides.high())
+    answer: "06:42"
+  - type: predict
+    prompt: "The first lines write a one-line module, `shop.py`. What does importing it print?"
+    code: |
+      with open("shop.py", "w") as file:
+          file.write("print(__name__)\n")
+
+      import shop
+    answer: "shop"
+  - type: choice
+    prompt: "`hours.py` keeps its quick checks under `if __name__ == \"__main__\":`. What does `import hours` in another program get?"
+    verify: none
+    options:
+      - text: All the functions, and none of the checks run
+        correct: true
+        feedback: "The guard only holds back the code inside it. Everything above it is imported as usual."
+      - text: "Nothing: the guard hides the whole file"
+        misconception: guard-blocks-functions
+        feedback: "Only the indented block under the guard is skipped. The functions are defined and ready to use."
+      - text: The functions, and the checks print as well
+        feedback: "Imported, the file's `__name__` is `hours`, not `__main__`, so the checks stay quiet."
+  - type: fill
+    prompt: "Fill the gap so the check only runs when the file is run directly."
+    code: |
+      def label(name):
+          return name.upper()
+
+
+      if __name__ == ___:
+          print(label("kale"))
+    blanks: [['"__main__"', "'__main__'"]]
+    tests: |
+      TESTS = [output("Run directly", expect="KALE")]
+  - type: fix
+    prompt: "Another program imports this file and doesn't want the check printed. Put the check under the main guard. Run directly, it should still print `True`."
+    code: |
+      def is_open(hour):
+          return 9 <= hour < 17
+
+
+      print(is_open(10))
+    tests: |
+      def quiet_when_imported(ctx):
+          ctx.module()
+          printed = ctx._open[-1].transcript.printed()
+          if printed.strip():
+              raise CheckFailed("Imported, the file still prints. Put the check under if __name__ == \"__main__\":.", actual=printed)
+
+
+      TESTS = [
+          output("Run directly", expect="True"),
+          custom("Quiet when imported", quiet_when_imported),
+          function("The function still works", call="is_open", args=(17,), expect=False),
+      ]
+    solution: |
+      def is_open(hour):
+          return 9 <= hour < 17
+
+
+      if __name__ == "__main__":
+          print(is_open(10))

@@ -1,0 +1,87 @@
+id: in-operator
+title: in
+summary: |
+  `x in parcels` is `True` if `x` is one of the items in the list, and `False` if not. It compares whole items: `"Tom" in ["Old Tom"]` is `False`. `not in` asks the opposite question. It tells you whether, not where.
+example: |
+  parcels = ["Bea", "Old Tom"]
+  print("Bea" in parcels)
+  print("Tom" in parcels)
+  print("Gwen" not in parcels)
+misconceptions: [in-checks-part-of-item, in-gives-position]
+related: [lists, looping-lists, boolean-operators]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      print("Tom" in ["Bea", "Tom"])
+    answer: "True"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      parcels = ["Old Tom", "Bea"]
+      print("Tom" in parcels)
+    options:
+      - text: "False"
+        correct: true
+        feedback: "`in` on a list compares whole items. \"Tom\" isn't an item; \"Old Tom\" is."
+      - text: "True"
+        misconception: in-checks-part-of-item
+        feedback: "On a list, `in` looks for an item that is exactly \"Tom\". Being part of \"Old Tom\" doesn't count."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      parcels = ["Bea", "Tom", "Agnes"]
+      print("Agnes" in parcels)
+    options:
+      - text: "True"
+        correct: true
+      - text: "2"
+        misconception: in-gives-position
+        feedback: "`in` only answers yes or no. To find where, you need the index."
+  - type: fix
+    prompt: "Gwen has no parcel, so this should say `Nothing for Gwen.` Fix the test."
+    code: |
+      parcels = ["Bea", "Tom"]
+      name = "Gwen"
+      if name in parcels:
+          print(f"Nothing for {name}.")
+      else:
+          print(f"One for {name}.")
+    tests: |
+      TESTS = [
+          output("Gwen", expect="Nothing for Gwen."),
+          output("Tom", set_vars={"name": "Tom"}, expect="One for Tom."),
+      ]
+    solution: |
+      parcels = ["Bea", "Tom"]
+      name = "Gwen"
+      if name not in parcels:
+          print(f"Nothing for {name}.")
+      else:
+          print(f"One for {name}.")
+  - type: fill
+    prompt: "Fill the gap so this checks whether there's crab in the catch."
+    code: |
+      catch = ["mackerel", "crab", "cod"]
+      if "crab" ___ catch:
+          print("Crab tonight")
+    blanks: [["in"]]
+    tests: |
+      TESTS = [output("Crab", expect="Crab tonight")]
+  - type: write
+    prompt: "Ask `Name? ` and print `Regular` if the name is in `regulars`, or `Stranger` if it isn't."
+    starter: |
+      regulars = ["Gwen", "Old Tom", "Captain Ferro"]
+    tests: |
+      TESTS = [
+          output("Old Tom", inputs=["Old Tom"], expect="Regular"),
+          output("Pip", inputs=["Pip"], expect="Stranger"),
+          output("Tom on his own", inputs=["Tom"], expect="Stranger"),
+      ]
+    solution: |
+      regulars = ["Gwen", "Old Tom", "Captain Ferro"]
+      name = input("Name? ")
+      if name in regulars:
+          print("Regular")
+      else:
+          print("Stranger")

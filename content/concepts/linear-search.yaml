@@ -1,0 +1,121 @@
+id: linear-search
+title: Linear search
+summary: |
+  A linear search looks at each item in turn from the front and stops at the first match. It works on any list, sorted or not, and takes up to n looks, so it's O(n). The slowest search is for something that isn't there, because only after looking at everything can it say no: `return -1` goes after the loop, not inside it. `in`, `.index()` and `.count()` are linear searches.
+example: |
+  def find(pile, wanted):
+      for position in range(len(pile)):
+          if pile[position] == wanted:
+              return position
+      return -1
+
+
+  print(find(["hubcap", "spring", "bolt"], "bolt"))
+misconceptions: [search-finds-last, missing-costs-nothing, gives-up-after-one-look, linear-search-needs-sorted]
+related: [binary-search, big-o, membership-speed]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def find(pile, wanted):
+          for position in range(len(pile)):
+              if pile[position] == wanted:
+                  return position
+          return -1
+
+
+      print(find(["gear", "bolt", "gear", "nut"], "gear"), find(["gear", "nut"], "valve"))
+    answer: "0 -1"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      pile = ["hinge", "pulley", "saddle", "spring", "valve"]
+      looks = 0
+      for part in pile:
+          looks = looks + 1
+          if part == "anchor":
+              break
+      print(looks)
+    options:
+      - text: "5"
+        correct: true
+        feedback: "There's no anchor, so it looks at every part before it can stop."
+      - text: "0"
+        misconception: missing-costs-nothing
+        feedback: "Nothing can say the anchor isn't there without looking at every part first. A miss is the slowest search."
+      - text: "1"
+        misconception: gives-up-after-one-look
+        feedback: "`break` only runs when a part is the anchor. A part that isn't the anchor just lets the loop carry on."
+  - type: choice
+    prompt: "Nell's pile of parts is in no order at all. Which search can she use?"
+    verify: none
+    options:
+      - text: Linear search
+        correct: true
+        feedback: "It looks at every part in turn, so the order doesn't matter to it."
+      - text: Binary search, because it's quicker
+        misconception: binary-search-works-unsorted
+        feedback: "Binary search throws away half the pile on each look, trusting the order to say which half. With no order, it throws away the wrong half."
+      - text: Neither, until it's sorted
+        misconception: linear-search-needs-sorted
+        feedback: "Linear search never relies on the order. It just keeps looking until it finds the part or runs out."
+  - type: fix
+    prompt: "This should print 2, where the bolt is. It prints -1. Fix it."
+    code: |
+      def find(pile, wanted):
+          for position in range(len(pile)):
+              if pile[position] == wanted:
+                  return position
+              else:
+                  return -1
+
+
+      print(find(["hubcap", "spring", "bolt"], "bolt"))
+    tests: |
+      TESTS = [
+          function("Finds the bolt", call="find", args=(["hubcap", "spring", "bolt"], "bolt"), expect=2,
+                   hint="It gives up at the first part that isn't a bolt. Only say -1 once the loop has looked at everything."),
+          function("No piston", call="find", args=(["hubcap", "spring", "bolt"], "piston"), expect=-1),
+      ]
+    solution: |
+      def find(pile, wanted):
+          for position in range(len(pile)):
+              if pile[position] == wanted:
+                  return position
+          return -1
+
+
+      print(find(["hubcap", "spring", "bolt"], "bolt"))
+  - type: fill
+    prompt: "Fill the gap so `find` says it found nothing."
+    code: |
+      def find(pile, wanted):
+          for position in range(len(pile)):
+              if pile[position] == wanted:
+                  return position
+          return ___
+
+
+      print(find(["nut", "bolt"], "washer"))
+    blanks: [["-1"]]
+    tests: |
+      TESTS = [output("Nothing found", expect="-1")]
+  - type: write
+    prompt: "Write `find_last(pile, wanted)`, which returns the position of the last match, or -1 if there isn't one. No `.index()`."
+    starter: |
+      def find_last(pile, wanted):
+          pass
+    tests: |
+      TESTS = [
+          function("The second gear", call="find_last", args=(["gear", "bolt", "gear", "nut"], "gear"), expect=2),
+          function("Only one", call="find_last", args=(["gear", "bolt"], "bolt"), expect=1),
+          function("None at all", call="find_last", args=(["gear", "bolt"], "valve"), expect=-1),
+          function("An empty pile", call="find_last", args=([], "valve"), expect=-1),
+      ]
+    solution: |
+      def find_last(pile, wanted):
+          for position in range(len(pile) - 1, -1, -1):
+              if pile[position] == wanted:
+                  return position
+          return -1

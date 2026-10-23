@@ -1,0 +1,74 @@
+id: lambda
+title: lambda, a function on one line
+summary: |
+  `lambda` makes a small function with no name: `lambda item: item[1]` takes `item` and gives back `item[1]`. There's no `return`; whatever comes after the colon is what comes back. It's for places that need a function once, like `key=` in `sorted`. If it needs a name, or more than one line, write a `def`.
+example: |
+  stock = [("figs", 3.20), ("leeks", 0.90), ("plums", 2.10)]
+  print(sorted(stock, key=lambda item: item[1]))
+misconceptions: [lambda-needs-return, lambda-runs-when-written]
+related: [sort-key, map-filter, functions-as-values]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      crates = [("plums", 12), ("figs", 4), ("leeks", 30)]
+      print(max(crates, key=lambda crate: crate[1]))
+    answer: "('leeks', 30)"
+  - type: choice
+    prompt: What happens?
+    code: |
+      stock = [("figs", 3.20), ("leeks", 0.90)]
+      print(sorted(stock, key=lambda item: return item[1]))
+    verify: error
+    options:
+      - text: A SyntaxError
+        correct: true
+        error: SyntaxError
+      - text: "It prints [('leeks', 0.9), ('figs', 3.2)]"
+        misconception: lambda-needs-return
+        feedback: "A lambda can't contain `return`. The expression after the colon is what it gives back, so `lambda item: item[1]` is the whole thing."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      prices = [3.20, 0.90]
+      halve = lambda price: price / 2
+      print(prices)
+    options:
+      - text: "[3.2, 0.9]"
+        correct: true
+      - text: "[1.6, 0.45]"
+        misconception: lambda-runs-when-written
+        feedback: "Writing a lambda only makes the function. Nothing calls `halve`, so the prices are untouched."
+  - type: fix
+    prompt: "This should print the cheapest item. It prints the wrong one. Fix the lambda."
+    code: |
+      stock = [("figs", 3.20), ("leeks", 0.90), ("plums", 2.10)]
+      cheapest_first = sorted(stock, key=lambda item: item[0])
+      print(cheapest_first[0][0])
+    tests: |
+      TESTS = [output("Leeks are cheapest", expect="leeks", hint="Sort by the price, which is item[1].")]
+    solution: |
+      stock = [("figs", 3.20), ("leeks", 0.90), ("plums", 2.10)]
+      cheapest_first = sorted(stock, key=lambda item: item[1])
+      print(cheapest_first[0][0])
+  - type: fill
+    prompt: "Fill the gap so the names sort without caring about capitals."
+    code: |
+      names = ["Plums", "figs", "Leeks"]
+      print(sorted(names, key=lambda name: ___))
+    blanks: [["name.lower()", "name.casefold()", "name.upper()"]]
+    tests: |
+      TESTS = [output("figs, Leeks, Plums", expect="['figs', 'Leeks', 'Plums']")]
+  - type: write
+    prompt: "Print `orders` with the biggest order first, using `sorted` with a `lambda` as the key."
+    starter: |
+      orders = [("Bea", 4), ("Gwen", 11), ("Mira", 7)]
+    tests: |
+      TESTS = [
+          output("Biggest first", expect="[('Gwen', 11), ('Mira', 7), ('Bea', 4)]"),
+          structure("Uses a lambda", requires=["Lambda"]),
+      ]
+    solution: |
+      orders = [("Bea", 4), ("Gwen", 11), ("Mira", 7)]
+      print(sorted(orders, key=lambda order: order[1], reverse=True))

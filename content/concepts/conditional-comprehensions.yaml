@@ -1,0 +1,83 @@
+id: conditional-comprehensions
+title: Comprehensions with if
+summary: |
+  An `if` at the end of a comprehension keeps only the items that pass: `[n for n in stock if n > 0]`. An `if ... else` at the front keeps every item and chooses what to write for each: `[n if n > 0 else "out" for n in stock]`. Once you need two conditions, or an `elif`, write a plain loop; nobody can read the one-liner.
+example: |
+  stock = [30, 8, 0, 12]
+  print([n for n in stock if n < 10])
+  print([n if n > 0 else "out" for n in stock])
+misconceptions: [end-if-keeps-all, front-if-filters, if-before-for-filters, shorter-is-clearer]
+related: [list-comprehensions, dict-set-comprehensions]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      counts = [30, 8, 0, 12]
+      print([n for n in counts if n < 10])
+    answer: "[8, 0]"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      counts = [30, 0, 12]
+      print([n if n > 0 else "out" for n in counts])
+    answer: "[30, 'out', 12]"
+  - type: choice
+    prompt: What happens?
+    code: |
+      counts = [30, 0, 12]
+      print([n if n > 0 for n in counts])
+    verify: error
+    options:
+      - text: A SyntaxError
+        correct: true
+        error: SyntaxError
+        feedback: "An `if` at the front must have an `else`. To leave items out, put the `if` at the end."
+      - text: "It prints [30, 12]"
+        misconception: if-before-for-filters
+        feedback: "That's what `[n for n in counts if n > 0]` does. An `if` before the `for` needs an `else`, so this doesn't run at all."
+  - type: fix
+    prompt: "This should list only the items that have sold out. It lists something for everything. Fix it."
+    code: |
+      stock = [("apples", 30), ("leeks", 0), ("kale", 0)]
+      sold_out = [name if count == 0 else "" for name, count in stock]
+      print(sold_out)
+    tests: |
+      TESTS = [output("Only the sold-out ones", expect="['leeks', 'kale']")]
+    solution: |
+      stock = [("apples", 30), ("leeks", 0), ("kale", 0)]
+      sold_out = [name for name, count in stock if count == 0]
+      print(sold_out)
+  - type: fill
+    prompt: "Fill the gap so only prices over 100 are kept."
+    code: |
+      prices = [45, 150, 60, 120]
+      dear = [p for p in prices ___ p > 100]
+      print(dear)
+    blanks: [["if"]]
+    tests: |
+      TESTS = [output("The dear ones", expect="[150, 120]")]
+  - type: write
+    prompt: "Make `tags` with one comprehension: for each count, `\"low\"` if it's under 10, otherwise `\"ok\"`."
+    starter: |
+      counts = [30, 8, 0, 12]
+    tests: |
+      TESTS = [
+          variable("One tag per count", variable="tags", expect=["ok", "low", "low", "ok"]),
+          structure("A comprehension", requires=["ListComp"]),
+      ]
+    solution: |
+      counts = [30, 8, 0, 12]
+      tags = ["low" if count < 10 else "ok" for count in counts]
+  - type: choice
+    prompt: "Sanjay's cousin wrote this. Should it stay a comprehension?"
+    code: |
+      tags = [n.upper() + (" LOW" if c < 5 else " OK" if c < 20 else "") for n, p, c in stock if p > 0 and c > 0]
+    verify: none
+    options:
+      - text: "No: two conditions and an else-if are too much for one line. Write the loop."
+        correct: true
+        feedback: "A loop with `if`, `elif` and `else` says the same thing in a way the next person can follow."
+      - text: "Yes: one line is always clearer than several"
+        misconception: shorter-is-clearer
+        feedback: "Fewer lines isn't the same as clearer. This one takes longer to read than the loop would take to write."

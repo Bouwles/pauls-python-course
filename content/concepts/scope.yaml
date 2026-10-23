@@ -1,0 +1,119 @@
+id: scope
+title: Scope
+summary: |
+  A variable made inside a function belongs to that function. It appears when the function runs and is gone when it ends; outside, the name doesn't exist. Giving a name a value inside a function makes a new, local variable, even if the same name exists outside. Reading an outside name works; to get a value out, `return` it.
+example: |
+  score = 0
+
+  def add_point(score):
+      score = score + 1
+      return score
+
+  add_point(score)
+  print(score)
+  score = add_point(score)
+  print(score)
+misconceptions: [local-changes-global, local-visible-outside, return-value-kept-automatically]
+related: [functions, return-values]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def set_score():
+          score = 10
+
+      score = 0
+      set_score()
+      print(score)
+    answer: "0"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      tide = 4
+
+      def show():
+          print(tide)
+
+      show()
+    answer: "4"
+  - type: choice
+    prompt: What happens?
+    code: |
+      def pour():
+          pints = 2
+
+      pour()
+      print(pints)
+    verify: error
+    options:
+      - text: It prints 2
+        misconception: local-visible-outside
+        feedback: "`pints` lived inside `pour` and was gone when it finished. Outside, nothing has that name."
+      - text: A NameError
+        correct: true
+        error: NameError
+  - type: choice
+    prompt: What does this print?
+    code: |
+      count = 1
+
+      def bump():
+          count = 5
+          return count
+
+      print(bump(), count)
+    options:
+      - text: "5 5"
+        misconception: local-changes-global
+        feedback: "The `count` inside `bump` is a new, local variable. The outside `count` is still 1."
+      - text: "5 1"
+        correct: true
+  - type: fix
+    prompt: "Gwen's tab should go from 10 to 14. Make `add_round` return the new total, and catch it."
+    code: |
+      def add_round(total):
+          total = total + 4
+
+      total = 10
+      add_round(total)
+      print(total)
+    tests: |
+      TESTS = [
+          output("Ten plus a round", expect="14"),
+          function("add_round(20)", call="add_round", args=(20,), expect=24),
+      ]
+    solution: |
+      def add_round(total):
+          return total + 4
+
+      total = 10
+      total = add_round(total)
+      print(total)
+  - type: fill
+    prompt: "Fill the gap so this prints `5`."
+    code: |
+      def tip(bill):
+          extra = bill // 10
+          ___ extra
+
+      extra = tip(50)
+      print(extra)
+    blanks: [["return"]]
+    tests: |
+      TESTS = [output("A tip of 5", expect="5")]
+  - type: write
+    prompt: "Write `add_point(score)`, which returns `score + 1`. Then start `score` at 0, call it three times, catching what comes back each time, and print `score`."
+    tests: |
+      TESTS = [
+          output("Three points", expect="3", hint="Catch each answer: score = add_point(score)."),
+          function("add_point(7)", call="add_point", args=(7,), expect=8),
+      ]
+    solution: |
+      def add_point(score):
+          return score + 1
+
+      score = 0
+      score = add_point(score)
+      score = add_point(score)
+      score = add_point(score)
+      print(score)

@@ -1,0 +1,72 @@
+id: list-comprehensions
+title: List comprehensions
+summary: |
+  `[price * 2 for price in prices]` builds a new list by working something out for each item: a loop that collects, written in one line. Use one when you're building a list. When you're doing something for each item, like printing, use a plain `for` loop, because that's what a reader expects to find there.
+example: |
+  prices = [45, 60, 80]
+  in_pounds = [price / 100 for price in prices]
+  print(in_pounds)
+misconceptions: [comprehension-keeps-last, comprehension-applies-to-list, comprehension-for-printing]
+related: [dict-set-comprehensions, conditional-comprehensions]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      names = ["apples", "kale"]
+      print([name.upper() for name in names])
+    answer: "['APPLES', 'KALE']"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      counts = [3, 0, 7]
+      print([count + 1 for count in counts])
+    answer: "[4, 1, 8]"
+  - type: choice
+    prompt: "Which is the better way to print each label?"
+    verify: none
+    options:
+      - text: "`for label in labels: print(label)`"
+        correct: true
+        feedback: "Printing is doing, not building, so it gets a plain loop."
+      - text: "`[print(label) for label in labels]`"
+        misconception: comprehension-for-printing
+        feedback: "It prints, but it also builds a list of `None`s that nobody wants, and anyone reading expects a comprehension to build something."
+  - type: fix
+    prompt: "This should give the length of each name. Fix the comprehension."
+    code: |
+      names = ["Bea", "Mira", "Tom"]
+      lengths = [len(names) for name in names]
+      print(lengths)
+    tests: |
+      TESTS = [output("Three lengths", expect="[3, 4, 3]")]
+    solution: |
+      names = ["Bea", "Mira", "Tom"]
+      lengths = [len(name) for name in names]
+      print(lengths)
+  - type: fill
+    prompt: "Fill the gap to turn the prices into pounds."
+    code: |
+      pence = [45, 60, 80]
+      pounds = [p / 100 ___ p in pence]
+      print(pounds)
+    blanks: [["for"]]
+    tests: |
+      TESTS = [output("In pounds", expect="[0.45, 0.6, 0.8]")]
+  - type: write
+    prompt: "Rewrite the loop as one list comprehension that makes the same `labels`."
+    starter: |
+      names = ["plums", "kale"]
+      labels = []
+      for name in names:
+          labels.append(name.title())
+      print(labels)
+    tests: |
+      TESTS = [
+          output("Same labels", expect="['Plums', 'Kale']"),
+          structure("A comprehension, not a loop", requires=["ListComp"], forbids=["For"]),
+      ]
+    solution: |
+      names = ["plums", "kale"]
+      labels = [name.title() for name in names]
+      print(labels)

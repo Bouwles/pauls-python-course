@@ -1,0 +1,148 @@
+id: activation-functions
+title: Activation functions
+summary: |
+  An activation function is applied to every neuron's weighted sum before it goes on. ReLU, `np.maximum(0, z)`, bends: negatives become 0. Sigmoid, `1 / (1 + np.exp(-z))`, squashes anything into 0 to 1, but past about 10 either way it is so flat that big differences vanish: it saturates. Without an activation between them, two layers collapse into one, and a network can only draw one straight line.
+example: |
+  import numpy as np
+
+
+  def relu(z):
+      return np.maximum(0, z)
+
+
+  def sigmoid(z):
+      return 1 / (1 + np.exp(-z))
+
+
+  sums = np.array([-3.0, 0.0, 2.0, 30.0])
+  print(relu(sums))
+  print(np.round(sigmoid(sums), 3))
+misconceptions: [relu-is-absolute, sigmoid-keeps-big-inputs-apart, exp-overflow-crashes, linear-layers-add-power]
+related: [neural-networks, perceptron]
+drill: true
+cards:
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      print(np.maximum(0, np.array([-2.0, 0.0, 3.5])))
+    options:
+      - text: "[0.  0.  3.5]"
+        correct: true
+        feedback: "Right. ReLU turns every negative into 0 and leaves the rest alone."
+      - text: "[2.  0.  3.5]"
+        misconception: relu-is-absolute
+        feedback: "ReLU doesn't flip negatives to positive; that's `abs`. It cuts them to 0."
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+
+      def sigmoid(z):
+          return 1 / (1 + np.exp(-z))
+
+
+      print(np.round(sigmoid(np.array([0.0, 2.0])), 2))
+    answer: "[0.5  0.88]"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+
+      def sigmoid(z):
+          return 1 / (1 + np.exp(-z))
+
+
+      print(np.round(sigmoid(np.array([-20.0, 0.0, 20.0])), 3))
+    options:
+      - text: "[0.  0.5 1. ]"
+        correct: true
+        feedback: "Right. At 20 the sigmoid is flat: 0.999999998, which rounds to 1. That flatness is saturation."
+      - text: "[0.119 0.5   0.881]"
+        misconception: sigmoid-keeps-big-inputs-apart
+        feedback: "Those are the sigmoid of -2 and 2. At -20 and 20 it is pressed right up against 0 and 1."
+  - type: fix
+    prompt: "This ReLU crashes. Fix it so it compares 0 with every entry."
+    code: |
+      import numpy as np
+
+
+      def relu(z):
+          return np.max(0, z)
+
+
+      print(relu(np.array([-1.5, 2.0, 0.3])))
+    tests: |
+      TESTS = [output("Negatives cut to zero", expect="[0.  2.  0.3]")]
+    solution: |
+      import numpy as np
+
+
+      def relu(z):
+          return np.maximum(0, z)
+
+
+      print(relu(np.array([-1.5, 2.0, 0.3])))
+  - type: fill
+    prompt: "Fill the gap to finish the sigmoid."
+    code: |
+      import numpy as np
+
+
+      def sigmoid(z):
+          return 1 / (1 + np.exp(___))
+
+
+      print(sigmoid(np.array([0.0])))
+    blanks: [["-z", "-1 * z", "-(z)"]]
+    tests: |
+      TESTS = [output("sigmoid(0) is a half", expect="[0.5]")]
+  - type: choice
+    prompt: "Two layers with no activation between them, against one layer made by multiplying the weights first. What does this print?"
+    code: |
+      import numpy as np
+
+      rng = np.random.default_rng(1)
+      X = rng.normal(size=(5, 3))
+      W1 = rng.normal(size=(3, 4))
+      W2 = rng.normal(size=(4, 2))
+
+      two_layers = (X @ W1) @ W2
+      one_layer = X @ (W1 @ W2)
+      print(np.allclose(two_layers, one_layer))
+    options:
+      - text: "True"
+        correct: true
+        feedback: "Right. Without a bend between them, two layers are exactly one layer with weights `W1 @ W2`. The activation is what makes depth worth having."
+      - text: "False"
+        misconception: linear-layers-add-power
+        feedback: "Matrix multiplication can be regrouped, so the two give the same numbers. Stacking layers adds nothing until there is an activation between them."
+  - type: write
+    prompt: "Write `step(z)`, the perceptron's activation for whole arrays: 1 where an entry is above 0, otherwise 0."
+    starter: |
+      import numpy as np
+
+
+      def step(z):
+          pass
+    tests: |
+      import numpy as np
+
+
+      def steps(ctx):
+          m = ctx.module()
+          got = m.step(np.array([-1.0, 0.0, 2.0, 0.001]))
+          if got is None or np.shape(got) != (4,) or not np.array_equal(np.asarray(got, dtype=float), [0, 0, 1, 1]):
+              raise CheckFailed("step of -1, 0, 2 and 0.001", expected=[0, 0, 1, 1], actual=repr(got))
+
+
+      TESTS = [custom("Four sums", steps)]
+    solution: |
+      import numpy as np
+
+
+      def step(z):
+          return (z > 0).astype(int)

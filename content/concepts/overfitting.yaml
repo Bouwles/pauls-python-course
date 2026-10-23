@@ -1,0 +1,119 @@
+id: overfitting
+title: Overfitting and underfitting
+summary: |
+  A model overfits when it follows the noise in its training data instead of the pattern: a tiny training error, a big error on anything new. It underfits when it's too simple to follow the pattern at all, and both errors stay big. A validation curve plots both errors against how flexible the model is: training error keeps falling, while validation error falls, bottoms out, then climbs. Choose the flexibility at the bottom of the validation curve.
+example: |
+  degrees = [1, 2, 3, 4, 5]
+  train_errors = [0.553, 0.140, 0.087, 0.077, 0.076]
+  val_errors = [0.475, 0.085, 0.018, 0.029, 0.033]
+  best = degrees[val_errors.index(min(val_errors))]
+  print("Choose degree", best)
+misconceptions: [more-flexible-always-better, zero-training-error-is-perfect, validation-error-keeps-falling, underfitting-is-undertraining]
+related: [train-test-split, polynomial-features]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      degrees = [1, 2, 3, 4, 5, 6]
+      val_errors = [0.48, 0.09, 0.02, 0.03, 0.05, 0.11]
+      print(degrees[val_errors.index(min(val_errors))])
+    answer: "3"
+  - type: choice
+    prompt: "Degree 2 and degree 9, fitted on ten readings, scored on ten others. What does this print?"
+    code: |
+      import numpy as np
+
+      rng = np.random.default_rng(0)
+      x_train = np.linspace(0, 3, 10)
+      x_val = np.linspace(0.1, 2.9, 10)
+      y_train = np.exp(-x_train) + rng.normal(0, 0.05, 10)
+      y_val = np.exp(-x_val) + rng.normal(0, 0.05, 10)
+
+
+      def errors(degree):
+          def table(x):
+              return np.column_stack([x ** power for power in range(degree + 1)])
+
+          weights = np.linalg.lstsq(table(x_train), y_train, rcond=None)[0]
+          train_error = np.mean((table(x_train) @ weights - y_train) ** 2)
+          val_error = np.mean((table(x_val) @ weights - y_val) ** 2)
+          return train_error, val_error
+
+
+      train_2, val_2 = errors(2)
+      train_9, val_9 = errors(9)
+      print(train_9 < train_2, val_9 < val_2)
+    options:
+      - text: "True False"
+        correct: true
+      - text: "True True"
+        misconception: validation-error-keeps-falling
+        feedback: "Degree 9 has ten weights for ten training readings, so its training error is practically 0. But it bends to fit their noise, and does worse than degree 2 on readings it hasn't seen."
+  - type: choice
+    prompt: "Pip's degree-11 curve has a training error of exactly 0. What's the likeliest story?"
+    verify: none
+    options:
+      - text: "It has enough weights to pass through every training reading, noise and all, and will do badly on new ones"
+        correct: true
+      - text: "It has found the true curve"
+        misconception: zero-training-error-is-perfect
+        feedback: "Real readings have noise in them, so the true curve misses them a little. A curve that hits every one exactly has learnt the noise too."
+  - type: choice
+    prompt: "A straight line through the mirror's cooling readings has a training error of 0.55 and a validation error of 0.48, however long gradient descent runs. What's wrong?"
+    verify: none
+    options:
+      - text: "It underfits: a line is too stiff for a curve. Give it more flexibility, such as a higher degree"
+        correct: true
+      - text: "It needs more steps of gradient descent"
+        misconception: underfitting-is-undertraining
+        feedback: "More steps only bring it closer to the best straight line, and the best straight line is still wrong. The model is too simple for the shape, however well it's trained."
+  - type: choice
+    prompt: "Degree 10 has the lowest training error of all. Should Wendt choose it?"
+    verify: none
+    options:
+      - text: "No: choose the degree with the lowest validation error"
+        correct: true
+      - text: "Yes: the lowest error wins"
+        misconception: more-flexible-always-better
+        feedback: "Training error always falls as the degree rises, so it would always pick the most flexible curve, which is the one most likely to have learnt the noise."
+  - type: fill
+    prompt: "Fill the gap so `best` is the degree to choose."
+    code: |
+      degrees = [2, 4, 6, 8]
+      train_errors = [0.20, 0.08, 0.05, 0.01]
+      val_errors = [0.25, 0.09, 0.12, 0.40]
+      best = degrees[val_errors.index(min(___))]
+      print(best)
+    blanks: [["val_errors"]]
+    tests: |
+      TESTS = [output("Degree 4", expect="4")]
+  - type: fix
+    prompt: "This should choose the degree that does best on readings it didn't learn from. Fix it."
+    code: |
+      degrees = [1, 2, 3, 4, 5]
+      train_errors = [0.55, 0.14, 0.09, 0.08, 0.07]
+      val_errors = [0.47, 0.09, 0.02, 0.03, 0.05]
+      best = degrees[train_errors.index(min(train_errors))]
+      print("Choose degree", best)
+    tests: |
+      TESTS = [output("Chosen by validation", expect="Choose degree 3")]
+    solution: |
+      degrees = [1, 2, 3, 4, 5]
+      train_errors = [0.55, 0.14, 0.09, 0.08, 0.07]
+      val_errors = [0.47, 0.09, 0.02, 0.03, 0.05]
+      best = degrees[val_errors.index(min(val_errors))]
+      print("Choose degree", best)
+  - type: write
+    prompt: "Write `choose(degrees, val_errors)`: the degree whose validation error is lowest."
+    starter: |
+      def choose(degrees, val_errors):
+          return degrees[-1]
+    tests: |
+      TESTS = [
+          function("Degrees 1 to 3", call="choose", args=([1, 2, 3], [0.5, 0.1, 0.2]), expect=2),
+          function("Degrees 2, 4 and 6", call="choose", args=([2, 4, 6], [0.3, 0.4, 0.1]), expect=6),
+          function("Degrees 5 and 9", call="choose", args=([5, 9], [0.2, 0.7]), expect=5),
+      ]
+    solution: |
+      def choose(degrees, val_errors):
+          return degrees[val_errors.index(min(val_errors))]

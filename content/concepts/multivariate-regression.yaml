@@ -1,0 +1,139 @@
+id: multivariate-regression
+title: Regression with many features
+summary: |
+  With several features, each row of `X` holds one example's readings and `w` holds one weight per column. `X @ w + b` makes every prediction at once: each row's readings times their weights, added up, plus `b`. Gradient descent works as before, with `X.T @ miss` giving every weight's slope in one go, and least squares (`np.linalg.lstsq`) finds the exact answer, given a column of ones to stand in for `b`. Compare weights only when the features share a scale.
+example: |
+  import numpy as np
+
+  X = np.array([[310.0, 0.0], [120.0, 8.5], [250.0, 2.0]])
+  w = np.array([0.15, -1.0])
+  b = 5.0
+  print(X @ w + b)
+misconceptions: [matmul-is-elementwise, biggest-weight-matters-most, lstsq-finds-intercept, one-slope-per-model]
+related: [linear-regression, feature-scaling, gradient-descent]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      X = np.array([[1.0, 2.0], [3.0, 0.0], [0.0, 5.0]])
+      w = np.array([2.0, 1.0])
+      print(X @ w + 1)
+    answer: "[5. 7. 6.]"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      X = np.array([[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]])
+      w = np.array([10.0, 1.0])
+      print((X @ w).shape, (X * w).shape)
+    options:
+      - text: "(3,) (3, 2)"
+        correct: true
+      - text: "(3, 2) (3, 2)"
+        misconception: matmul-is-elementwise
+        feedback: "`X * w` multiplies each column by its weight and keeps the table. `X @ w` also adds along each row, giving one number per row: one prediction per evening."
+  - type: choice
+    prompt: "Two slopes from one step. What does this print?"
+    code: |
+      import numpy as np
+
+      X = np.array([[1.0, 10.0], [2.0, 20.0]])
+      miss = np.array([1.0, -1.0])
+      print(X.T @ miss)
+    options:
+      - text: "[ -1. -10.]"
+        correct: true
+      - text: "-11.0"
+        misconception: one-slope-per-model
+        feedback: "Each weight gets a slope of its own. `X.T @ miss` goes column by column: 1 * 1 + 2 * -1 for the first, 10 * 1 + 20 * -1 for the second."
+  - type: choice
+    prompt: "An unscaled forecast gives wind, in knots, a weight of 0.07 and cloud, in oktas, a weight of 0.40. Does cloud matter more than wind?"
+    verify: none
+    options:
+      - text: "These weights can't say: they depend on the units. Scale the readings, then compare"
+        correct: true
+      - text: "Yes: its weight is bigger"
+        misconception: biggest-weight-matters-most
+        feedback: "Wind runs up to 30 knots, cloud only to 8 oktas. A small weight on big numbers can move the forecast as far as a big weight on small ones. Standardised, the weights become comparable."
+  - type: choice
+    prompt: "The points are on y = 2x + 3. What does this print?"
+    code: |
+      import numpy as np
+
+      x = np.array([0.0, 1.0, 2.0])
+      y = 2 * x + 3
+      X = x.reshape(-1, 1)
+      without = np.linalg.lstsq(X, y, rcond=None)[0]
+      with_ones = np.linalg.lstsq(np.column_stack([X, np.ones(3)]), y, rcond=None)[0]
+      print(np.round(without, 2), np.round(with_ones, 2))
+    options:
+      - text: "[3.8] [2. 3.]"
+        correct: true
+      - text: "[2.] [2. 3.]"
+        misconception: lstsq-finds-intercept
+        feedback: "Without a column of ones there is no `b`, so the line is forced through 0 and tilts more steeply to make up for it: 3.8."
+  - type: fill
+    prompt: "Fill the gap so every weight gets its own slope."
+    code: |
+      import numpy as np
+
+      X = np.array([[1.0, 0.0], [0.0, 1.0], [1.0, 1.0]])
+      y = np.array([3.0, 4.0, 6.0])
+      w = np.zeros(2)
+      b = 0.0
+      for step in range(2000):
+          miss = X @ w + b - y
+          w = w - 0.1 * 2 * ___ @ miss / len(y)
+          b = b - 0.1 * 2 * np.mean(miss)
+      print(np.round(w, 2), round(b, 2))
+    blanks: [["X.T"]]
+    tests: |
+      TESTS = [output("Weights 2 and 3, b of 1", expect="[2. 3.] 1.0")]
+  - type: fix
+    prompt: "These points are on 2a + 3b + 1. This should print the two weights and then `b`: `[2. 3. 1.]`. Fix it."
+    code: |
+      import numpy as np
+
+      X = np.array([[1.0, 0.0], [0.0, 1.0], [1.0, 1.0], [2.0, 1.0]])
+      y = X @ np.array([2.0, 3.0]) + 1
+      solution = np.linalg.lstsq(X, y, rcond=None)[0]
+      print(np.round(solution, 2))
+    tests: |
+      TESTS = [output("Two weights, then b", expect="[2. 3. 1.]")]
+    solution: |
+      import numpy as np
+
+      X = np.array([[1.0, 0.0], [0.0, 1.0], [1.0, 1.0], [2.0, 1.0]])
+      y = X @ np.array([2.0, 3.0]) + 1
+      with_ones = np.column_stack([X, np.ones(len(X))])
+      solution = np.linalg.lstsq(with_ones, y, rcond=None)[0]
+      print(np.round(solution, 2))
+  - type: write
+    prompt: "Write `predict(X, w, b)`: one prediction for each row of `X`, with no loop."
+    starter: |
+      import numpy as np
+
+
+      def predict(X, w, b):
+          pass
+    tests: |
+      import numpy as _np
+
+
+      def two_rows(ctx):
+          m = ctx.module()
+          got = m.predict(_np.array([[1.0, 2.0], [3.0, 4.0]]), _np.array([0.5, -1.0]), 2.0)
+          if got is None or _np.shape(got) != (2,) or not _np.allclose(got, [0.5, -0.5]):
+              raise CheckFailed("One prediction per row: readings times weights, added up, plus b.", expected=[0.5, -0.5], actual=repr(got))
+
+
+      TESTS = [custom("Two rows, two weights", two_rows)]
+    solution: |
+      import numpy as np
+
+
+      def predict(X, w, b):
+          return X @ w + b

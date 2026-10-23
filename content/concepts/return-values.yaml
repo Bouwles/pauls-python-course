@@ -1,0 +1,106 @@
+id: return-values
+title: Return values
+summary: |
+  `return` hands a value back to whoever called the function, and ends the function there: lines after it don't run. The call then stands for that value, so `total = round_cost(4, 3.5)` catches it. Printing is different. `print` shows something to a person; the caller gets nothing.
+example: |
+  def double(n):
+      return n * 2
+
+  answer = double(4)
+  print(answer + 1)
+misconceptions: [print-is-return, code-after-return-runs, return-value-kept-automatically]
+related: [functions, none, scope]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def double(n):
+          return n * 2
+
+      print(double(4) + 1)
+    answer: "9"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def check(tide):
+          if tide > 5:
+              return "high"
+          return "low"
+
+      print(check(7))
+      print(check(2))
+    answer: |-
+      high
+      low
+  - type: choice
+    prompt: What does this print?
+    code: |
+      def stop():
+          return "stopped"
+          print("still going")
+
+      print(stop())
+    options:
+      - text: |-
+          still going
+          stopped
+        misconception: code-after-return-runs
+        feedback: "`return` ends the function straight away. The line after it never runs."
+      - text: stopped
+        correct: true
+  - type: choice
+    prompt: What does this print?
+    code: |
+      def add_point(score):
+          return score + 1
+
+      score = 0
+      add_point(score)
+      print(score)
+    options:
+      - text: "1"
+        misconception: return-value-kept-automatically
+        feedback: "`add_point` handed back 1, but nobody caught it. `score = add_point(score)` would."
+      - text: "0"
+        correct: true
+  - type: fix
+    prompt: "This should print `7.20`. It crashes instead. Fix the function."
+    code: |
+      def price(loaves):
+          print(loaves * 2.4)
+
+      total = price(3)
+      print(f"{total:.2f}")
+    tests: |
+      TESTS = [
+          output("Three loaves", expect="7.20"),
+          function("price(1)", call="price", args=(1,), expect=2.4),
+      ]
+    solution: |
+      def price(loaves):
+          return loaves * 2.4
+
+      total = price(3)
+      print(f"{total:.2f}")
+  - type: fill
+    prompt: "Fill the gap so this prints `4.5`."
+    code: |
+      def half(n):
+          ___ n / 2
+
+      print(half(9))
+    blanks: [["return"]]
+    tests: |
+      TESTS = [output("Half of 9", expect="4.5")]
+  - type: write
+    prompt: "Write `pence(pounds)` that returns the number of pence in a number of pounds."
+    tests: |
+      TESTS = [
+          function("pence(3)", call="pence", args=(3,), expect=300),
+          function("pence(0)", call="pence", args=(0,), expect=0),
+          function("pence(12)", call="pence", args=(12,), expect=1200),
+      ]
+    solution: |
+      def pence(pounds):
+          return pounds * 100

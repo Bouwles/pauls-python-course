@@ -1,0 +1,160 @@
+id: composition
+title: Composition
+summary: |
+  Composition builds an object out of other objects it keeps in its attributes: a shed has a list of bikes; a ferry has an engine. Inheritance says one thing is a kind of another. Ask "is a" or "has a": inherit when "is a" is true, compose when "has a" is. The shed holds the very bikes you added, not copies.
+example: |
+  class Shed:
+      def __init__(self):
+          self.bikes = []
+
+      def add(self, bike):
+          self.bikes.append(bike)
+
+      def __len__(self):
+          return len(self.bikes)
+misconceptions: [composed-methods-come-free, composition-copies-object]
+related: [inheritance, classes, attributes]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      class Bike:
+          def __init__(self, number):
+              self.number = number
+              self.rider = None
+
+      class Shed:
+          def __init__(self):
+              self.bikes = []
+
+          def add(self, bike):
+              self.bikes.append(bike)
+
+      red = Bike(7)
+      shed = Shed()
+      shed.add(red)
+      red.rider = "Bea"
+      print(shed.bikes[0].rider)
+    answer: Bea
+  - type: choice
+    prompt: What happens?
+    code: |
+      class Shed:
+          def __init__(self):
+              self.bikes = []
+
+      shed = Shed()
+      shed.append("bike 7")
+      print(shed.bikes)
+    verify: error
+    options:
+      - text: An AttributeError
+        correct: true
+        error: AttributeError
+      - text: "It prints ['bike 7']"
+        misconception: composed-methods-come-free
+        feedback: "The shed has a list; it isn't one. `append` belongs to `shed.bikes`, so the shed needs its own `add` method."
+  - type: fix
+    prompt: "Kat wants the shed to have a list, not be one. Fix the class so `add` works."
+    code: |
+      class Shed(list):
+          def add(self, bike):
+              self.bikes.append(bike)
+
+      shed = Shed()
+      shed.add("Bike 7")
+      print(shed.bikes)
+    tests: |
+      def kats_way(ctx):
+          m = ctx.module()
+          if isinstance(m.Shed(), list):
+              raise CheckFailed("The shed should have a list, not be one.")
+
+
+      TESTS = [
+          output("One bike in the shed", expect="['Bike 7']"),
+          custom("Kat's way", kats_way),
+      ]
+    solution: |
+      class Shed:
+          def __init__(self):
+              self.bikes = []
+
+          def add(self, bike):
+              self.bikes.append(bike)
+
+      shed = Shed()
+      shed.add("Bike 7")
+      print(shed.bikes)
+  - type: fill
+    prompt: "Fill the gap so every ferry is built with an engine of its own."
+    code: |
+      class Engine:
+          def start(self):
+              return "chug"
+
+      class Ferry:
+          def __init__(self):
+              self.engine = ___()
+
+          def leave(self):
+              return self.engine.start()
+
+      print(Ferry().leave())
+    blanks: [["Engine"]]
+    tests: |
+      TESTS = [output("The ferry leaves", expect="chug")]
+  - type: write
+    prompt: "Write `Tandem`, Kat's way: `Tandem(bike)` keeps the bike in `self.bike` and starts with an empty list `riders`. `board(name)` adds a rider."
+    starter: |
+      class Bike:
+          def __init__(self, number):
+              self.number = number
+    tests: |
+      def tandem(ctx):
+          m = ctx.module()
+          bike = m.Bike(5)
+          t = m.Tandem(bike)
+          t.board("Dev")
+          t.board("Kat")
+          if t.bike is not bike or t.riders != ["Dev", "Kat"]:
+              raise CheckFailed("The tandem should keep the bike it was given and both riders.")
+          if m.Tandem(m.Bike(6)).riders != []:
+              raise CheckFailed("A new tandem has no riders.")
+
+
+      TESTS = [custom("Dev and Kat on one tandem", tandem)]
+    solution: |
+      class Bike:
+          def __init__(self, number):
+              self.number = number
+
+
+      class Tandem:
+          def __init__(self, bike):
+              self.bike = bike
+              self.riders = []
+
+          def board(self, name):
+              self.riders.append(name)
+  - type: choice
+    prompt: What does this print?
+    code: |
+      class Basket:
+          def __init__(self):
+              self.items = []
+
+      class Bike:
+          def __init__(self, basket):
+              self.basket = basket
+
+      basket = Basket()
+      red = Bike(basket)
+      basket.items.append("bread")
+      print(red.basket.items)
+    options:
+      - text: "['bread']"
+        correct: true
+      - text: "[]"
+        misconception: composition-copies-object
+        feedback: "The bike keeps a reference to the very basket it was given. Bread put in that basket is in the bike's basket."

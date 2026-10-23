@@ -1,0 +1,114 @@
+id: try-except
+title: try and except
+summary: |
+  `try:` runs a block that might fail. `except ValueError:` runs only if that kind of error happens, and then the program carries on underneath. `else:` runs if nothing went wrong, and `finally:` runs either way. Catch the error you expect, by name: `except Exception:` catches your own mistakes too, and hides them.
+example: |
+  for text in ["4.2", "deep"]:
+      try:
+          depth = float(text)
+      except ValueError as error:
+          print("Skipped:", error)
+      else:
+          print("Depth:", depth)
+      finally:
+          print("Checked", text)
+misconceptions: [try-finishes-block, except-ends-program, try-cannot-catch, finally-only-on-success, finally-runs-at-end, broad-except-safe]
+related: [exceptions, raising-errors]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      for text in ["4.2", "deep"]:
+          try:
+              depth = float(text)
+          except ValueError:
+              print("Skipped", text)
+          else:
+              print("Depth:", depth)
+          finally:
+              print("Checked", text)
+    answer: "Depth: 4.2\nChecked 4.2\nSkipped deep\nChecked deep"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      try:
+          count = int("12")
+      except ValueError:
+          print("Not a number")
+      else:
+          print("Count:", count)
+    answer: "Count: 12"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      try:
+          total = 0
+          total = totl + 5
+      except Exception:
+          print("Bad reading")
+    options:
+      - text: Bad reading
+        correct: true
+        feedback: "And that's the trouble. The real problem is a typo, a NameError, and `except Exception` dressed it up as a bad reading."
+      - text: A NameError traceback
+        misconception: broad-except-safe
+        feedback: "`except Exception` catches the NameError too. That's why it's dangerous: the typo hides behind a message about readings."
+  - type: fix
+    prompt: "A typo is hiding behind this `except`. Catch only `ValueError`, then fix what that shows up, so it prints `7`."
+    code: |
+      total = 0
+      for text in ["3", "4"]:
+          try:
+              total = total + int(txt)
+          except Exception:
+              print("skipped")
+      print(total)
+    tests: |
+      import ast as _ast
+
+
+      def narrow(tree, source):
+          for node in _ast.walk(tree):
+              if isinstance(node, _ast.ExceptHandler) and (node.type is None or (isinstance(node.type, _ast.Name) and node.type.id == "Exception")):
+                  return "Catch ValueError by name, not Exception."
+
+
+      TESTS = [
+          output("Adds up to 7", expect="7"),
+          structure("Catches only ValueError", check=narrow),
+      ]
+    solution: |
+      total = 0
+      for text in ["3", "4"]:
+          try:
+              total = total + int(text)
+          except ValueError:
+              print("skipped")
+      print(total)
+  - type: fill
+    prompt: "Fill the gap so a word doesn't stop the loop."
+    code: |
+      for text in ["5", "five"]:
+          try:
+              print(int(text) * 2)
+          ___ ValueError:
+              print("not a number")
+    blanks: [["except"]]
+    tests: |
+      TESTS = [output("Both handled", expect="10\nnot a number")]
+  - type: write
+    prompt: "Write `safe_float(text)`. It returns the number in `text` as a float, or `None` if `text` isn't a number."
+    tests: |
+      TESTS = [
+          function("A number", call="safe_float", args=("4.5",), expect=4.5),
+          function("A negative number", call="safe_float", args=("-1",), expect=-1.0),
+          function("A word", call="safe_float", args=("deep",), expect=None),
+          function("Nothing at all", call="safe_float", args=("",), expect=None),
+      ]
+    solution: |
+      def safe_float(text):
+          try:
+              return float(text)
+          except ValueError:
+              return None

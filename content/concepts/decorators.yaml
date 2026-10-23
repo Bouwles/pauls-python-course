@@ -1,0 +1,174 @@
+id: decorators
+title: Decorators
+summary: |
+  A decorator takes a function and hands back a replacement, usually a wrapper that does something extra and calls the original. `@timed` above a `def` is short for `weigh = timed(weigh)`, and it runs once, when the `def` runs. The wrapper should take `*args, **kwargs` and pass them through, `return` the original's result, and use `@functools.wraps(func)` so the function keeps its name.
+example: |
+  import functools
+
+
+  def loud(func):
+      @functools.wraps(func)
+      def wrapper(*args, **kwargs):
+          return func(*args, **kwargs).upper()
+      return wrapper
+
+
+  @loud
+  def special(fruit):
+      return f"{fruit} today"
+
+
+  print(special("figs"))
+  print(special.__name__)
+misconceptions: [decorator-runs-every-call, decorator-leaves-original, wrapper-returns-automatically, decorator-keeps-name]
+related: [closures, functions-as-values, args-kwargs]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def register(func):
+          print("registered", func.__name__)
+          return func
+
+
+      @register
+      def open_shop():
+          print("open")
+
+
+      print("ready")
+      open_shop()
+    answer: "registered open_shop\nready\nopen"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def twice(func):
+          def wrapper():
+              func()
+              func()
+          return wrapper
+
+
+      @twice
+      def ring():
+          print("ding")
+
+
+      ring()
+    answer: "ding\nding"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      def shouted(func):
+          def wrapper(text):
+              func(text.upper())
+          return wrapper
+
+
+      @shouted
+      def label(text):
+          return f"[{text}]"
+
+
+      print(label("figs"))
+    options:
+      - text: None
+        correct: true
+      - text: "[FIGS]"
+        misconception: wrapper-returns-automatically
+        feedback: "The wrapper calls `label` and then throws the answer away. With no `return`, the wrapper gives back None."
+      - text: "[figs]"
+        misconception: decorator-leaves-original
+        feedback: "After decorating, `label` means `wrapper`. The original only runs inside it."
+  - type: fix
+    prompt: "`weigh.__name__` should be `weigh`. Fix the decorator, not the last line."
+    code: |
+      def logged(func):
+          def wrapper(*args, **kwargs):
+              print("calling", func.__name__)
+              return func(*args, **kwargs)
+          return wrapper
+
+
+      @logged
+      def weigh(kilos):
+          return kilos * 1.4
+
+
+      print(weigh.__name__)
+    tests: |
+      TESTS = [
+          output("Keeps its name", expect="weigh", hint="Put @functools.wraps(func) above def wrapper, and import functools."),
+          structure("Uses functools.wraps", calls=["wraps"]),
+      ]
+    solution: |
+      import functools
+
+
+      def logged(func):
+          @functools.wraps(func)
+          def wrapper(*args, **kwargs):
+              print("calling", func.__name__)
+              return func(*args, **kwargs)
+          return wrapper
+
+
+      @logged
+      def weigh(kilos):
+          return kilos * 1.4
+
+
+      print(weigh.__name__)
+  - type: fill
+    prompt: "Fill the gap so `add_one` is decorated by `doubled`."
+    code: |
+      def doubled(func):
+          def wrapper(number):
+              return func(number) * 2
+          return wrapper
+
+
+      ___doubled
+      def add_one(number):
+          return number + 1
+
+
+      print(add_one(4))
+    blanks: [["@"]]
+    tests: |
+      TESTS = [output("(4 + 1) * 2", expect="10")]
+  - type: write
+    prompt: "Write the decorator `announced`: it prints `Starting`, then calls the function and hands back its result."
+    starter: |
+      @announced
+      def weigh(kilos):
+          return kilos * 2
+
+
+      print(weigh(3))
+    tests: |
+      def keyword_arguments(ctx):
+          mod = ctx.module()
+
+          def label(name, price=1):
+              return f"{name}: {price}"
+          got = mod.announced(label)("figs", price=2)
+          if got != "figs: 2":
+              raise CheckFailed("announced should pass keyword arguments through and hand back the result.", expected="figs: 2", actual=repr(got))
+
+
+      TESTS = [output("Starting, then 6", expect="Starting\n6"), custom("Keyword arguments get through", keyword_arguments)]
+    solution: |
+      def announced(func):
+          def wrapper(*args, **kwargs):
+              print("Starting")
+              return func(*args, **kwargs)
+          return wrapper
+
+
+      @announced
+      def weigh(kilos):
+          return kilos * 2
+
+
+      print(weigh(3))

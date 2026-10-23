@@ -1,0 +1,101 @@
+id: if-elif-else
+title: if, elif and else
+summary: |
+  `if` runs its indented block when its test is `True`. `elif` is only asked if every test above it was `False`, and `else` takes whatever is left. Python runs the first branch whose test is `True` and skips the others, so the order of the tests matters.
+example: |
+  age = 70
+  if age < 16:
+      print("Child")
+  elif age < 65:
+      print("Adult")
+  else:
+      print("Pensioner")
+misconceptions: [elif-runs-all-true, elif-picks-best-match, else-needs-condition]
+related: [comparisons, nested-conditions, boolean-operators]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      age = 70
+      if age < 16:
+          print("Child")
+      elif age < 65:
+          print("Adult")
+      else:
+          print("Pensioner")
+    answer: "Pensioner"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      weight = 30
+      if weight > 10:
+          print("Heavy")
+      elif weight > 25:
+          print("Very heavy")
+      else:
+          print("Light")
+    options:
+      - text: Heavy
+        correct: true
+        feedback: "30 is more than 10, so the first branch wins. The `elif` is never asked."
+      - text: Very heavy
+        misconception: elif-picks-best-match
+        feedback: "Python doesn't pick the best fit. It runs the first test that is `True`, and `30 > 10` is `True`."
+      - text: |-
+          Heavy
+          Very heavy
+        misconception: elif-runs-all-true
+        feedback: "Only one branch runs. Once a test is `True`, the rest are skipped."
+  - type: fix
+    prompt: "This should print `Adult` for 70 and `Child` for anyone under 16. Fix the line that won't run."
+    code: |
+      age = 70
+      if age < 16:
+          print("Child")
+      else age >= 16:
+          print("Adult")
+    tests: |
+      TESTS = [
+          output("70", expect="Adult"),
+          output("10", set_vars={"age": 10}, expect="Child"),
+      ]
+    solution: |
+      age = 70
+      if age < 16:
+          print("Child")
+      else:
+          print("Adult")
+  - type: fill
+    prompt: "Fill the gap so a low tide prints `Wait for the tide`."
+    code: |
+      tide = 1.2
+      if tide >= 2:
+          print("Sailing")
+      ___:
+          print("Wait for the tide")
+    blanks: [["else"]]
+    tests: |
+      TESTS = [
+          output("Low tide", expect="Wait for the tide"),
+          output("High tide", set_vars={"tide": 2.5}, expect="Sailing"),
+      ]
+  - type: write
+    prompt: "Print `Calm` if `wind` is under 10, `Breezy` if it is under 25, and `Gale` otherwise."
+    starter: |
+      wind = 12
+    tests: |
+      TESTS = [
+          output("Wind 12", expect="Breezy"),
+          output("Wind 5", set_vars={"wind": 5}, expect="Calm"),
+          output("Wind 25", set_vars={"wind": 25}, expect="Gale"),
+          output("Wind 10", set_vars={"wind": 10}, expect="Breezy"),
+      ]
+    solution: |
+      wind = 12
+      if wind < 10:
+          print("Calm")
+      elif wind < 25:
+          print("Breezy")
+      else:
+          print("Gale")

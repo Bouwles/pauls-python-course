@@ -1,0 +1,81 @@
+id: modules
+title: Modules
+summary: |
+  Any `.py` file is a module, and its name is the file name without `.py`. `import hours` runs `hours.py` once and gives you its names as `hours.is_open`; `from hours import is_open` brings in just that one name, used on its own. Write a helper once in a module and import it everywhere. Never give a variable the same name as a module you've imported.
+example: |
+  import math
+  from math import ceil
+
+  print(math.ceil(3.25), ceil(3.25))
+misconceptions: [import-runs-every-time, shadowing-module-harmless, from-import-needs-prefix]
+related: [main-guard, standard-library]
+cards:
+  - type: predict
+    prompt: "The first lines write a small module, `stall.py`. What does the program print?"
+    code: |
+      with open("stall.py", "w") as file:
+          file.write('print("Setting up the stall")\nPRICE = 45\n')
+
+      import stall
+      import stall
+      print(stall.PRICE)
+    answer: "Setting up the stall\n45"
+  - type: choice
+    prompt: What happens?
+    code: |
+      import math
+
+      math = 130 / 40
+      print(math.ceil(math))
+    verify: error
+    options:
+      - text: An AttributeError
+        correct: true
+        error: AttributeError
+        feedback: "Line 3 moved the name `math` onto a number. A number has no `ceil`."
+      - text: "It prints 4"
+        misconception: shadowing-module-harmless
+        feedback: "Once `math` names a number, the module is out of reach under that name. Use another name for the number."
+  - type: predict
+    prompt: What does this print?
+    code: |
+      from math import ceil, floor
+
+      print(ceil(2.1), floor(2.9))
+    answer: "3 2"
+  - type: fix
+    prompt: "The answer has been given the module's name. Rename the variable so this prints `4`."
+    code: |
+      import math
+
+      items = 130
+      math = items / 40
+      print(math.ceil(math))
+    tests: |
+      TESTS = [output("Four crates", expect="4")]
+    solution: |
+      import math
+
+      items = 130
+      crates = items / 40
+      print(math.ceil(crates))
+  - type: fill
+    prompt: "Fill the gap so `ceil` can be used on its own, without `math.` in front."
+    code: |
+      ___ math import ceil
+
+      print(ceil(130 / 40))
+    blanks: [["from"]]
+    tests: |
+      TESTS = [output("Four crates", expect="4")]
+  - type: write
+    prompt: "Sanjay's square crate holds 2401 apples. Import `math` and print how many fit along one side, using `math.sqrt`, as a whole number."
+    tests: |
+      TESTS = [
+          output("Along one side", expect="49"),
+          structure("Imports a module", requires=["Import"]),
+      ]
+    solution: |
+      import math
+
+      print(int(math.sqrt(2401)))

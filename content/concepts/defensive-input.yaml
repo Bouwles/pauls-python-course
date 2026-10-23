@@ -1,0 +1,113 @@
+id: defensive-input
+title: Defensive input
+summary: |
+  Don't trust input, whether a person typed it or a machine wrote it. Tidy it first, with `.strip()` and `.upper()`, check it's the shape you need, and decide what happens when it isn't: ask again, skip it and say so, or stop with a clear message. Never carry on quietly with a wrong value.
+example: |
+  def ask_depth():
+      while True:
+          text = input("Depth in metres? ").strip()
+          try:
+              depth = float(text)
+          except ValueError:
+              print("That isn't a number.")
+              continue
+          if depth < 0:
+              print("Depths aren't negative.")
+              continue
+          return depth
+
+
+  print(ask_depth())
+example_inputs: ["deep", "-3", " 4.5 "]
+misconceptions: [input-is-clean, skip-silently-fine]
+related: [raising-errors, try-except]
+cards:
+  - type: predict
+    prompt: "If someone types ` warn ` with a space each side, what does this print?"
+    code: |
+      answer = input("Level? ")
+      print(answer == "WARN", answer.strip().upper() == "WARN")
+    inputs: [" warn "]
+    answer: "False True"
+  - type: predict
+    prompt: "Someone types `four`, then `4b`, then `4`. What does this print?"
+    code: |
+      while True:
+          text = input("Berth number? ")
+          try:
+              berth = int(text)
+          except ValueError:
+              print("Numbers only.")
+              continue
+          break
+      print("Berth", berth)
+    inputs: ["four", "4b", "4"]
+    answer: "Numbers only.\nNumbers only.\nBerth 4"
+  - type: choice
+    prompt: "Captain Ferro's fare machine is told there are `-3` passengers. What should it do?"
+    verify: none
+    options:
+      - text: Refuse it, and say why
+        correct: true
+        feedback: "A clear refusal can be put right. A wrong fare can't, once the ferry's gone."
+      - text: Quietly treat it as 0
+        misconception: skip-silently-fine
+        feedback: "Then nobody ever finds out something went wrong. The fare is wrong and looks right."
+      - text: Carry on with -3
+        misconception: input-is-clean
+        feedback: "A negative number of passengers makes a negative fare. Check the value before you use it."
+  - type: fix
+    prompt: "Customers type `Bread`, ` bread ` and `BREAD`. Make the check accept all of them."
+    code: |
+      item = input("Item? ")
+      if item == "bread":
+          print("Bread it is.")
+      else:
+          print("We don't sell that.")
+    tests: |
+      TESTS = [
+          output("Spaces round it", inputs=[" Bread "], expect="Bread it is."),
+          output("Capitals", inputs=["BREAD"], expect="Bread it is."),
+          output("Something else", inputs=["cake"], expect="We don't sell that."),
+      ]
+    solution: |
+      item = input("Item? ").strip().lower()
+      if item == "bread":
+          print("Bread it is.")
+      else:
+          print("We don't sell that.")
+  - type: fill
+    prompt: "Fill the gap so the stray spaces and newline go before the level is checked."
+    code: |
+      level = "  warn\n"
+      level = level.___().upper()
+      print(level)
+    blanks: [["strip"]]
+    tests: |
+      TESTS = [output("Tidy level", expect="WARN")]
+  - type: write
+    prompt: "Write `read_count(text)`. Tidy `text`, then return it as a whole number. If it isn't a whole number of 0 or more, raise `ValueError`."
+    tests: |
+      def refuses(text):
+          def check(ctx):
+              module = ctx.module()
+              try:
+                  module.read_count(text)
+              except ValueError:
+                  return
+              raise CheckFailed(f"read_count({text!r}) should raise ValueError.", expected="ValueError", actual="no error")
+          return check
+
+
+      TESTS = [
+          function("Spaces round 12", call="read_count", args=(" 12 ",), expect=12),
+          function("Zero is allowed", call="read_count", args=("0",), expect=0),
+          custom("-1 is refused", refuses("-1")),
+          custom("lots is refused", refuses("lots")),
+      ]
+    solution: |
+      def read_count(text):
+          count = int(text.strip())
+          if count < 0:
+              raise ValueError(f"count below zero: {count}")
+          return count

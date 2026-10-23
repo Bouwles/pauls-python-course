@@ -1,0 +1,93 @@
+id: running-totals
+title: Running totals and counters
+summary: |
+  A running total starts at 0 before the loop and grows on every pass: `total = total + amount`. A counter is a running total that grows by 1. Both are set before the loop. Set inside it, they go back to 0 every pass.
+example: |
+  total = 0
+  count = 0
+  for reading in range(100, 400, 100):
+      total = total + reading
+      count = count + 1
+  print(total / count)
+misconceptions: [total-reset-inside-loop, total-without-start]
+related: [while-loops, for-loops, tracing-loops]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      total = 0
+      for crates in range(1, 4):
+          total = total + crates * 10
+      print(total)
+    answer: "60"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      for sale in range(1, 4):
+          total = 0
+          total = total + sale
+      print(total)
+    options:
+      - text: "3"
+        correct: true
+        feedback: "`total = 0` is inside the loop, so it goes back to 0 every pass. Only the last sale survives."
+      - text: "6"
+        misconception: total-reset-inside-loop
+        feedback: "`total = 0` is inside the loop and runs every pass, wiping out what came before."
+  - type: choice
+    prompt: What happens?
+    code: |
+      for sale in range(3):
+          total = total + 2
+      print(total)
+    verify: error
+    options:
+      - text: A NameError
+        correct: true
+        error: NameError
+        feedback: "On the first pass `total` doesn't exist yet, so there's nothing to add 2 to."
+      - text: It prints 6
+        misconception: total-without-start
+        feedback: "A total has to start somewhere. Without `total = 0` before the loop, the first `total + 2` fails."
+  - type: fix
+    prompt: "The average of the three readings should be 200.0. Fix it."
+    code: |
+      total = 0
+      count = 0
+      for reading in range(100, 400, 100):
+          total = total + reading
+      count = count + 1
+      print(total / count)
+    tests: |
+      TESTS = [output("Average", expect="200.0")]
+    solution: |
+      total = 0
+      count = 0
+      for reading in range(100, 400, 100):
+          total = total + reading
+          count = count + 1
+      print(total / count)
+  - type: fill
+    prompt: "Five crates of 12 mackerel. Fill the gap so this prints 60."
+    code: |
+      total = 0
+      for crate in range(5):
+          total = ___ + 12
+      print(total)
+    blanks: [["total"]]
+    tests: |
+      TESTS = [output("Sixty", expect="60")]
+  - type: write
+    prompt: "Count how many of the numbers from 1 to 50 divide exactly by 7, using a loop and a counter. Print the count."
+    tests: |
+      TESTS = [
+          output("Sevens", expect="7"),
+          structure("Uses a loop", requires=["For"], message="Count them with a loop and a counter."),
+      ]
+    solution: |
+      count = 0
+      for n in range(1, 51):
+          if n % 7 == 0:
+              count = count + 1
+      print(count)

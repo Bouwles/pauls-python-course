@@ -1,0 +1,77 @@
+id: set-operations
+title: Comparing sets
+summary: |
+  Two sets can be compared in one step. `a & b` keeps what's in both, `a | b` keeps what's in either, and `a - b` keeps what's in `a` but not in `b`. Subtraction is the one where order matters: `b - a` is a different answer.
+example: |
+  found = {"umbrella", "glove", "scarf"}
+  reported = {"glove", "kite"}
+  print(sorted(found & reported))
+  print(sorted(found | reported))
+  print(sorted(found - reported))
+  print(sorted(reported - found))
+misconceptions: [ampersand-joins-sets, ampersand-is-difference, set-minus-symmetric]
+related: [sets]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      monday = {"Bea", "Tom", "Mira"}
+      tuesday = {"Tom", "Gwen"}
+      print(sorted(monday | tuesday))
+    answer: "['Bea', 'Gwen', 'Mira', 'Tom']"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      expected = {"Ashby", "Rook", "Ferro"}
+      delivered = {"Rook", "Nell"}
+      print(sorted(delivered - expected))
+    options:
+      - text: "['Nell']"
+        correct: true
+        feedback: "In `delivered`, not in `expected`: the surprise parcel."
+      - text: "['Ashby', 'Ferro']"
+        misconception: set-minus-symmetric
+        feedback: "That's `expected - delivered`. Subtraction keeps what's in the left-hand set."
+      - text: "['Ashby', 'Ferro', 'Nell']"
+        misconception: set-minus-symmetric
+        feedback: "That's everything in one set but not both. `-` only keeps what's in the left-hand set."
+  - type: predict
+    prompt: What does this print?
+    code: |
+      found = {"umbrella", "glove", "scarf"}
+      reported = {"glove", "scarf", "kite"}
+      print(len(found & reported))
+    answer: "2"
+  - type: fix
+    prompt: "This should print the items handed in that nobody has asked about. Fix the operator."
+    code: |
+      found = {"umbrella", "glove", "scarf"}
+      reported = {"glove", "kite"}
+      print(sorted(found & reported))
+    tests: |
+      TESTS = [output("Nobody has asked about these", expect="['scarf', 'umbrella']")]
+    solution: |
+      found = {"umbrella", "glove", "scarf"}
+      reported = {"glove", "kite"}
+      print(sorted(found - reported))
+  - type: fill
+    prompt: "Fill the gap so `both_days` holds the people who came on both days."
+    code: |
+      monday = {"Bea", "Tom", "Mira"}
+      tuesday = {"Tom", "Gwen", "Mira"}
+      both_days = monday ___ tuesday
+      print(sorted(both_days))
+    blanks: [["&"]]
+    tests: |
+      TESTS = [output("Mira and Tom", expect="['Mira', 'Tom']")]
+  - type: write
+    prompt: "Print the sorted list of boats that were out on Saturday but not on Sunday."
+    starter: |
+      saturday = {"Gull", "Puffin", "Tern"}
+      sunday = {"Puffin", "Kittiwake"}
+    tests: |
+      TESTS = [output("Saturday only", expect="['Gull', 'Tern']")]
+    solution: |
+      saturday = {"Gull", "Puffin", "Tern"}
+      sunday = {"Puffin", "Kittiwake"}
+      print(sorted(saturday - sunday))

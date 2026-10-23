@@ -1,0 +1,105 @@
+id: argparse
+title: argparse reads the command line
+summary: |
+  `argparse` reads the command line for you. `add_argument("customer")` makes a required argument; a name starting `--` makes an option. `type=int` converts, `default=` fills a gap, `choices=` limits the values, and `action="store_true"` makes a flag. `parse_args()` gives back an object with one attribute per argument, dashes turned into underscores. Missing or bad arguments get a usage message and exit code 2, and `--help` comes free.
+example: |
+  import argparse
+
+  parser = argparse.ArgumentParser(description="Lamp oil for the lighthouse.")
+  parser.add_argument("nights", type=int)
+  parser.add_argument("--wicks", type=int, default=1)
+  args = parser.parse_args(["3", "--wicks", "2"])  # as if typed after the name
+  print(f"{args.nights * args.wicks * 0.4:.1f} litres")
+misconceptions: [argparse-gives-text, default-always-used, dashes-stay-in-names]
+related: [sys-argv, exit-codes]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import argparse
+
+      parser = argparse.ArgumentParser()
+      parser.add_argument("customer")
+      parser.add_argument("--status", default="open")
+      args = parser.parse_args(["Bea"])
+      print(args.customer, args.status)
+    answer: Bea open
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import argparse
+
+      parser = argparse.ArgumentParser()
+      parser.add_argument("--total-only", action="store_true")
+      args = parser.parse_args([])
+      print(args.total_only)
+    answer: "False"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import argparse
+
+      parser = argparse.ArgumentParser()
+      parser.add_argument("nights", type=int)
+      args = parser.parse_args(["3"])
+      print(args.nights * 2)
+    options:
+      - text: "6"
+        correct: true
+      - text: "33"
+        misconception: argparse-gives-text
+        feedback: "`type=int` turns the text into a whole number before your code sees it."
+  - type: fix
+    prompt: "Tom's oil tool crashes on the last line. Fix the way the option is read."
+    code: |
+      import argparse
+
+      parser = argparse.ArgumentParser()
+      parser.add_argument("--extra-wicks", type=int, default=0)
+      args = parser.parse_args(["--extra-wicks", "2"])
+      print(args.extra-wicks + 1)
+    tests: |
+      TESTS = [output("Three wicks", expect="3", hint="argparse turns the dash in --extra-wicks into an underscore.")]
+    solution: |
+      import argparse
+
+      parser = argparse.ArgumentParser()
+      parser.add_argument("--extra-wicks", type=int, default=0)
+      args = parser.parse_args(["--extra-wicks", "2"])
+      print(args.extra_wicks + 1)
+  - type: fill
+    prompt: "Fill the gap so `args.hours` is a number with a decimal point."
+    code: |
+      import argparse
+
+      parser = argparse.ArgumentParser()
+      parser.add_argument("--hours", ___=float)
+      args = parser.parse_args(["--hours", "1.5"])
+      print(args.hours * 2)
+    blanks: [["type"]]
+    tests: |
+      TESTS = [output("3.0", expect="3.0")]
+  - type: write
+    prompt: "Add an option `--status` that defaults to `open`, so the last line works."
+    starter: |
+      import argparse
+
+      parser = argparse.ArgumentParser(description="Workshop jobs.")
+      parser.add_argument("customer")
+
+      args = parser.parse_args()
+      print(args.customer, args.status)
+    tests: |
+      TESTS = [
+          output("Just a name", argv=["Bea"], expect="Bea open"),
+          output("With --status", argv=["Bea", "--status", "done"], expect="Bea done"),
+      ]
+    solution: |
+      import argparse
+
+      parser = argparse.ArgumentParser(description="Workshop jobs.")
+      parser.add_argument("customer")
+      parser.add_argument("--status", default="open")
+
+      args = parser.parse_args()
+      print(args.customer, args.status)

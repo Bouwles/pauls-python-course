@@ -1,0 +1,97 @@
+id: bisect
+title: The bisect module
+summary: |
+  `bisect` does binary search on a sorted list for you. `bisect_left(items, x)` gives the first place `x` could go and keep the list in order, which is where the first `x` is if there is one; `bisect_right(items, x)` gives the place just after the last `x`. So `bisect_right(items, x) - bisect_left(items, x)` counts the copies of `x`, and `insort(items, x)` puts `x` in the right place. They always give a position, never `-1` or `True`.
+example: |
+  import bisect
+
+  rack = [6, 8, 8, 8, 10, 12]
+  print(bisect.bisect_left(rack, 8), bisect.bisect_right(rack, 8))
+  bisect.insort(rack, 9)
+  print(rack)
+misconceptions: [bisect-right-is-last-index, bisect-missing-gives-minus-one, bisect-gives-true-false]
+related: [binary-search, imports, standard-library]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import bisect
+
+      print(bisect.bisect_left([10, 20, 20, 30], 20))
+    answer: "1"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import bisect
+
+      print(bisect.bisect_right([10, 20, 20, 30], 20))
+    answer: "3"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import bisect
+
+      print(bisect.bisect_left([3, 6, 9], 7))
+    options:
+      - text: "2"
+        correct: true
+        feedback: "There's no 7, so it says where one would go: after the 6, before the 9."
+      - text: "-1"
+        misconception: bisect-missing-gives-minus-one
+        feedback: "`bisect` never says not found. It always gives the place where 7 would go to keep the list in order."
+      - text: "False"
+        misconception: bisect-gives-true-false
+        feedback: "`bisect` gives a position, not yes or no. To ask whether 7 is there, look at what's at that position."
+  - type: fill
+    prompt: "Fill the gap so this prints how many 8 mm bolts there are."
+    code: |
+      import bisect
+
+      rack = [6, 8, 8, 8, 10, 12]
+      print(bisect.___(rack, 8) - bisect.bisect_left(rack, 8))
+    blanks: [["bisect_right"]]
+    tests: |
+      TESTS = [output("Three 8s", expect="3")]
+  - type: fix
+    prompt: "There's no 7 mm bolt in the rack, but this prints `Got one`. Fix the check."
+    code: |
+      import bisect
+
+      rack = [4, 6, 8, 10]
+      drawer = bisect.bisect_left(rack, 7)
+      if drawer:
+          print("Got one")
+      else:
+          print("None in")
+    tests: |
+      TESTS = [output("No 7 mm", expect="None in",
+                      hint="bisect gives the drawer where 7 would go. Check that the drawer exists and really holds a 7.")]
+    solution: |
+      import bisect
+
+      rack = [4, 6, 8, 10]
+      drawer = bisect.bisect_left(rack, 7)
+      if drawer < len(rack) and rack[drawer] == 7:
+          print("Got one")
+      else:
+          print("None in")
+  - type: write
+    prompt: "Add each bolt in `arrivals` to `rack` with `bisect.insort`, so the rack stays in order."
+    starter: |
+      import bisect
+
+      rack = [4, 6, 8, 10]
+      arrivals = [9, 3, 6, 12]
+    tests: |
+      TESTS = [
+          variable("Still in order", variable="rack", expect=[3, 4, 6, 6, 8, 9, 10, 12]),
+          structure("Uses insort", calls=["insort"]),
+      ]
+    solution: |
+      import bisect
+
+      rack = [4, 6, 8, 10]
+      arrivals = [9, 3, 6, 12]
+      for bolt in arrivals:
+          bisect.insort(rack, bolt)

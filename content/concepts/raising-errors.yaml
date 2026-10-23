@@ -1,0 +1,137 @@
+id: raising-errors
+title: Raising errors
+summary: |
+  `raise ValueError("line 4: expected 4 parts")` stops the program on purpose, with your own message. Raise when a function is handed something it can't sensibly deal with, and say exactly what and where. The caller can catch it like any other error; if nobody does, the program stops with your message at the bottom of the traceback.
+example: |
+  def parse_level(text):
+      level = text.strip().upper()
+      if level not in ("INFO", "WARN", "ERROR"):
+          raise ValueError(f"unknown level {level}")
+      return level
+
+
+  print(parse_level(" warn "))
+  print(parse_level("loud"))
+misconceptions: [raise-prints-message, raise-returns-error]
+related: [exceptions, try-except, defensive-input]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def check_depth(depth):
+          if depth < 0:
+              raise ValueError("depth below zero")
+          return depth
+
+
+      try:
+          check_depth(-2)
+          print("Fine")
+      except ValueError as error:
+          print("Refused:", error)
+    answer: "Refused: depth below zero"
+  - type: choice
+    prompt: What happens?
+    code: |
+      def check_depth(depth):
+          if depth < 0:
+              raise ValueError("depth below zero")
+          print("checked")
+
+
+      check_depth(-2)
+      print("carrying on")
+    verify: error
+    options:
+      - text: "It stops with ValueError: depth below zero"
+        correct: true
+        error: ValueError
+        feedback: "Nothing catches it, so the program stops there with that message."
+      - text: "It prints depth below zero, then carrying on"
+        misconception: raise-prints-message
+        feedback: "`raise` isn't `print`. It stops the program unless something catches the error."
+      - text: "It prints carrying on"
+        misconception: raise-returns-error
+        feedback: "`raise` doesn't hand anything back quietly. The error travels up to the caller, and nobody there catches it."
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def parse_level(text):
+          level = text.strip().upper()
+          if level not in ("INFO", "WARN", "ERROR"):
+              raise ValueError(f"unknown level {level}")
+          return level
+
+
+      print(parse_level(" warn "))
+    answer: "WARN"
+  - type: fix
+    prompt: "`set_fare` should refuse a negative fare by raising `ValueError`, not by printing and returning. Fix it."
+    code: |
+      def set_fare(pence):
+          if pence < 0:
+              print("negative fare")
+              return
+          return pence
+    tests: |
+      def refuses(ctx):
+          module = ctx.module()
+          try:
+              module.set_fare(-5)
+          except ValueError:
+              return
+          raise CheckFailed("set_fare(-5) should raise ValueError.", expected="ValueError", actual="no error")
+
+
+      TESTS = [
+          function("A normal fare", call="set_fare", args=(120,), expect=120),
+          custom("A negative fare is refused", refuses),
+      ]
+    solution: |
+      def set_fare(pence):
+          if pence < 0:
+              raise ValueError("negative fare")
+          return pence
+  - type: fill
+    prompt: "Fill the gap so a bad line stops `parse_parts` with a clear message."
+    code: |
+      def parse_parts(line):
+          parts = line.split("|")
+          if len(parts) != 4:
+              ___ ValueError(f"expected 4 parts, got {len(parts)}")
+          return parts
+
+
+      try:
+          parse_parts("power cut")
+      except ValueError as error:
+          print(error)
+    blanks: [["raise"]]
+    tests: |
+      TESTS = [output("The message", expect="expected 4 parts, got 1")]
+  - type: write
+    prompt: "Write `parse_time(text)`. If `text` is five characters with a colon in the middle, like `06:42`, return it. Otherwise raise a `ValueError` whose message includes the text."
+    tests: |
+      def refuses(text):
+          def check(ctx):
+              module = ctx.module()
+              try:
+                  module.parse_time(text)
+              except ValueError as error:
+                  if text not in str(error):
+                      raise CheckFailed("The message should include the text it was given.", expected=text, actual=str(error))
+                  return
+              raise CheckFailed(f"parse_time({text!r}) should raise ValueError.", expected="ValueError", actual="no error")
+          return check
+
+
+      TESTS = [
+          function("06:42 is fine", call="parse_time", args=("06:42",), expect="06:42"),
+          custom("6:42 is refused", refuses("6:42")),
+          custom("0642x is refused", refuses("0642x")),
+      ]
+    solution: |
+      def parse_time(text):
+          if len(text) != 5 or text[2] != ":":
+              raise ValueError(f"bad time {text}")
+          return text

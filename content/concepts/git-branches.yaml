@@ -1,0 +1,44 @@
+id: git-branches
+title: Branches and merging
+summary: |
+  A branch is a name pointing at a commit. `git switch -c name` makes one and moves you onto it; commits there move that name and leave `main` alone. `git merge name` brings a branch's work into the one you're on. If nothing happened on your branch meanwhile, it's a fast-forward.
+example: |
+  # git switch -c urgent
+  # ...edit, add, commit...
+  # git switch main
+  # git merge urgent
+misconceptions: [branch-copies-folder, merge-goes-other-way]
+related: [git-basics, merge-conflicts]
+cards:
+  - type: choice
+    prompt: "You're on `main` and run `git merge urgent`. Where does the work end up?"
+    verify: none
+    options:
+      - { text: "On main, the branch you're on", correct: true }
+      - { text: "On urgent", misconception: merge-goes-other-way, feedback: "Merge brings the named branch into the one you're standing on." }
+  - type: choice
+    prompt: "What is a branch, inside git?"
+    verify: none
+    options:
+      - { text: "A name pointing at a commit", correct: true }
+      - { text: "A second copy of the whole folder", misconception: branch-copies-folder, feedback: "Nothing is copied. A branch is just a movable label on a commit." }
+      - { text: "A backup on another computer", feedback: "That's a remote. A branch lives in your repository." }
+  - type: choice
+    prompt: "Which command makes a branch called `fog` and moves you onto it?"
+    verify: none
+    options:
+      - { text: "git switch -c fog", correct: true }
+      - { text: "git branch fog", feedback: "That makes it, but you stay where you are." }
+      - { text: "git merge fog", feedback: "Merge brings work in; it doesn't create branches." }
+  - type: choice
+    prompt: "A merge says Fast-forward. What happened?"
+    verify: none
+    options:
+      - { text: "Your branch had no new commits, so it just moved up to the other branch's commit", correct: true }
+      - { text: "Git skipped some commits to save time", feedback: "Nothing is skipped. The history is a straight line, so the label simply moves." }
+  - type: choice
+    prompt: "You have uncommitted changes to `jobs.py`, and switching branches would overwrite them. What does git do?"
+    verify: none
+    options:
+      - { text: "Refuses, and asks you to commit them first", correct: true }
+      - { text: "Throws your changes away", feedback: "Git is careful about losing work. It stops and tells you." }

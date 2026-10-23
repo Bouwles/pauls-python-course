@@ -1,0 +1,65 @@
+id: tuples
+title: Tuples
+summary: |
+  A tuple is a fixed group of values in round brackets: `(112, 98, 84)`. You read it like a list, with `[0]` and `len()`, but you can't change it once it's made. Use one when the parts belong together and shouldn't drift apart: a chest, a waist and a leg. To change one, build a new tuple.
+example: |
+  ferro = (112, 98, 84)
+  print(ferro[0], len(ferro))
+  ferro = (113, ferro[1], ferro[2])
+  print(ferro)
+misconceptions: [tuples-can-change, tuple-change-ignored, one-item-tuple-no-comma]
+related: [unpacking, multiple-returns]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      size = (96, 88, 74)
+      print(size[1] + size[2])
+    answer: "162"
+  - type: choice
+    prompt: What happens?
+    code: |
+      size = (96, 88, 74)
+      size.append(80)
+      print(size)
+    verify: error
+    options:
+      - text: An AttributeError
+        correct: true
+        error: AttributeError
+        feedback: "Tuples have no `append`. Nothing can be added to one after it's made."
+      - text: "It prints (96, 88, 74, 80)"
+        misconception: tuples-can-change
+        feedback: "That's a list. A tuple stays exactly as it was made."
+  - type: predict
+    prompt: What does this print?
+    code: |
+      leg = (84)
+      print(type(leg))
+    answer: "<class 'int'>"
+  - type: fix
+    prompt: "Captain Ferro's chest is now 113. A tuple can't be changed, so make a new one. Fix line 2."
+    code: |
+      ferro = (112, 98, 84)
+      ferro[0] = 113
+      print(ferro)
+    tests: |
+      TESTS = [output("Ferro's new measurements", expect="(113, 98, 84)")]
+    solution: |
+      ferro = (112, 98, 84)
+      ferro = (113, ferro[1], ferro[2])
+      print(ferro)
+  - type: fill
+    prompt: "Make `one_size` a tuple holding just the number 99."
+    code: |
+      one_size = (99___)
+      print(len(one_size))
+    blanks: [[","]]
+    tests: |
+      TESTS = [output("A tuple of one", expect="1")]
+  - type: write
+    prompt: "Write one line that makes `gwen` a tuple of her chest 99, waist 86 and leg 78, in that order."
+    tests: |
+      TESTS = [variable("Gwen's measurements", variable="gwen", expect=(99, 86, 78))]
+    solution: |
+      gwen = (99, 86, 78)

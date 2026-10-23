@@ -1,0 +1,129 @@
+id: timing-code
+title: Timing code
+summary: |
+  `time.perf_counter()` reads a clock made for timing code. One reading means nothing on its own: read it before, run the code, read it again, and subtract to get seconds. Timings wobble from run to run, and a job that takes a millionth of a second measures mostly the clock, so time something big enough, more than once, and trust the fastest. To see how the time grows, time the same job at two sizes and compare.
+example: |
+  import time
+
+  weights = list(range(100_000))
+  start = time.perf_counter()
+  total = sum(weights)
+  seconds = time.perf_counter() - start
+  print(f"{seconds:.5f} s")
+misconceptions: [perf-counter-is-time-of-day, timing-is-exact, time-scales-linearly, timing-tiny-jobs]
+related: [big-o, standard-library]
+cards:
+  - type: predict
+    prompt: "`clock` here stands in for `time.perf_counter`, with readings you can see. What does this print?"
+    code: |
+      readings = [100.0, 100.25]
+
+
+      def clock():
+          return readings.pop(0)
+
+
+      start = clock()
+      total = sum(range(1000))
+      print(clock() - start)
+    answer: "0.25"
+  - type: choice
+    prompt: "One reading of `time.perf_counter()` says `52817.31`. What does that tell you?"
+    verify: none
+    options:
+      - text: Nothing much, until you subtract another reading from it
+        correct: true
+        feedback: "The clock starts from some point nobody promises. Only the difference between two readings means anything."
+      - text: It's 52,817 seconds since midnight
+        misconception: perf-counter-is-time-of-day
+        feedback: "`perf_counter` isn't the time of day. It's a stopwatch that was never reset: read it twice and subtract."
+  - type: choice
+    prompt: "Moss times the same function three times: 0.051 s, 0.048 s and 0.063 s. Which is the best guess at how long it takes?"
+    verify: none
+    options:
+      - text: "0.048 s, the fastest"
+        correct: true
+        feedback: "The slower runs had the computer doing something else as well. The fastest is the closest to the job alone."
+      - text: "None of them: the timing code must be broken"
+        misconception: timing-is-exact
+        feedback: "Timings always wobble. The computer is busy with other things too. Nothing's broken."
+  - type: choice
+    prompt: "A job takes 0.02 s for 1,000 parts and 0.08 s for 2,000. About how long for 4,000?"
+    verify: none
+    options:
+      - text: "0.32 s"
+        correct: true
+        feedback: "Doubling the parts took four times as long, so it's O(n²). Double again: four times 0.08."
+      - text: "0.16 s"
+        misconception: time-scales-linearly
+        feedback: "That assumes doubling the parts doubles the time. Here it quadrupled, so it'll quadruple again."
+  - type: choice
+    prompt: "Pip times `len(parts)` once and gets 0.0000012 s. He times it again: 0.0000031 s. What should he do?"
+    verify: none
+    options:
+      - text: Time it many times in a loop, and divide by how many
+        correct: true
+        feedback: "A job that short is mostly the clock reading itself. Give the clock something big enough to measure."
+      - text: Trust the first one; it came out faster
+        misconception: timing-tiny-jobs
+        feedback: "At millionths of a second, the clock's own wobble is bigger than the job. Neither number is worth much."
+  - type: fill
+    prompt: "Fill the gap so `start` is a reading from the timing clock."
+    code: |
+      import time
+
+      start = time.___()
+      total = sum(range(100_000))
+      seconds = time.perf_counter() - start
+      print(seconds > 0)
+    blanks: [["perf_counter"]]
+    tests: |
+      TESTS = [output("A real time", expect="True")]
+  - type: fix
+    prompt: "Moss's timing comes out negative. Fix it."
+    code: |
+      import time
+
+      start = time.perf_counter()
+      total = sum(range(100_000))
+      seconds = start - time.perf_counter()
+      print(seconds > 0)
+    tests: |
+      TESTS = [output("A positive time", expect="True",
+                      hint="Later reading minus earlier reading.")]
+    solution: |
+      import time
+
+      start = time.perf_counter()
+      total = sum(range(100_000))
+      seconds = time.perf_counter() - start
+      print(seconds > 0)
+  - type: write
+    prompt: "Time `sorted(weights)` and keep how long it took, in seconds, in `seconds`."
+    starter: |
+      import random
+      import time
+
+      random.seed(4)
+      weights = [random.randint(1, 500) for _ in range(50_000)]
+    tests: |
+      def holds_a_time(ctx):
+          module = ctx.module()
+          seconds = getattr(module, "seconds", None)
+          if not isinstance(seconds, float) or not 0 <= seconds < 10:
+              raise CheckFailed("seconds should hold how long sorted(weights) took.", actual=repr(seconds))
+
+
+      TESTS = [
+          custom("seconds holds a time", holds_a_time),
+          structure("Reads the clock around sorted", calls=["perf_counter", "sorted"]),
+      ]
+    solution: |
+      import random
+      import time
+
+      random.seed(4)
+      weights = [random.randint(1, 500) for _ in range(50_000)]
+      start = time.perf_counter()
+      in_order = sorted(weights)
+      seconds = time.perf_counter() - start

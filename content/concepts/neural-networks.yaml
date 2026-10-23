@@ -1,0 +1,134 @@
+id: neural-networks
+title: Layers and the forward pass
+summary: |
+  A neural network is layers of neurons. A batch of examples is one row each, and a layer is a weighted sum for every neuron at once: `X @ W + b`, where `W` has one column per neuron and `b` one bias per neuron, added to every row. `(n, k) @ (k, m)` gives `(n, m)`: the inner sizes must match, and NumPy never turns a matrix round for you. Each layer's output, after its activation, is the next layer's input.
+example: |
+  import numpy as np
+
+  evenings = np.array([[0.9, 0.2, 0.5, 1.0],
+                       [0.2, 0.3, 0.4, 0.0]])   # (2, 4)
+  W1 = np.ones((4, 5)) * 0.1                    # 4 readings in, 5 neurons
+  b1 = np.zeros(5)
+
+  hidden = np.maximum(0, evenings @ W1 + b1)
+  print(hidden.shape)
+misconceptions: [matmul-turns-itself-round, matmul-number-by-number, bias-added-per-row]
+related: [perceptron, activation-functions, backpropagation]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      evenings = np.zeros((6, 4))
+      W1 = np.zeros((4, 5))
+      W2 = np.zeros((5, 3))
+
+      hidden = evenings @ W1
+      print(hidden.shape, (hidden @ W2).shape)
+    answer: "(6, 5) (6, 3)"
+  - type: choice
+    prompt: What happens?
+    code: |
+      import numpy as np
+
+      readings = np.ones((3, 2))
+      weights = np.ones((3, 2))
+      print((readings @ weights).shape)
+    verify: error
+    options:
+      - text: A ValueError
+        correct: true
+        error: ValueError
+        feedback: "Right. Each row of `readings` has 2 numbers, but each column of `weights` has 3. The inner sizes must match."
+      - text: "(3, 2)"
+        misconception: matmul-number-by-number
+        feedback: "That would be `*`, number by number. `@` matches each row on the left with each column on the right."
+      - text: "(3, 3)"
+        misconception: matmul-turns-itself-round
+        feedback: "That's what `readings @ weights.T` gives. NumPy won't turn `weights` round on its own."
+  - type: choice
+    prompt: "Three examples, two neurons, and a bias for each neuron. What does this print?"
+    code: |
+      import numpy as np
+
+      sums = np.array([[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]])
+      b = np.array([10.0, 20.0])
+      print(sums + b)
+    options:
+      - text: |-
+          [[11. 22.]
+           [13. 24.]
+           [15. 26.]]
+        correct: true
+        feedback: "Right. `b` has one number per neuron, so the first column gets 10 and the second 20, in every row."
+      - text: |-
+          [[11. 12.]
+           [23. 24.]
+           [35. 36.]]
+        misconception: bias-added-per-row
+        feedback: "The bias belongs to a neuron, which is a column. NumPy lines `b` up with the last axis, so 10 goes to every row's first column."
+  - type: fill
+    prompt: "Fill the gap so every evening gets a weighted sum for each of the three neurons."
+    code: |
+      import numpy as np
+
+      evenings = np.array([[1.0, 0.0], [0.5, 0.5], [0.0, 1.0]])
+      W1 = np.array([[1.0, -1.0, 0.5], [2.0, 1.0, -0.5]])
+      b1 = np.array([0.0, 0.5, 0.0])
+
+      hidden = np.maximum(0, evenings ___ W1 + b1)
+      print(hidden)
+    blanks: [["@"]]
+    tests: |
+      TESTS = [output("Three evenings, three neurons", expect="1 0 0.5 1.5 0.5 0 2 1.5 0", match="numbers")]
+  - type: fix
+    prompt: "Penhallow wrote this `W1` with one row per hidden neuron. Fix the multiplication so each evening gets two hidden values."
+    code: |
+      import numpy as np
+
+      evenings = np.array([[0.2, 0.9, 0.4], [0.7, 0.1, 0.5]])
+      W1 = np.array([[1.0, 0.0, -1.0],
+                     [0.5, 0.5, 0.5]])
+      hidden = np.maximum(0, evenings @ W1)
+      print(hidden.shape)
+    tests: |
+      TESTS = [output("Two evenings, two hidden values each", expect="(2, 2)")]
+    solution: |
+      import numpy as np
+
+      evenings = np.array([[0.2, 0.9, 0.4], [0.7, 0.1, 0.5]])
+      W1 = np.array([[1.0, 0.0, -1.0],
+                     [0.5, 0.5, 0.5]])
+      hidden = np.maximum(0, evenings @ W1.T)
+      print(hidden.shape)
+  - type: write
+    prompt: "Write `hidden_layer(X, W, b)`: the ReLU of `X @ W + b`, for a whole batch at once."
+    starter: |
+      import numpy as np
+
+
+      def hidden_layer(X, W, b):
+          pass
+    tests: |
+      import numpy as np
+
+
+      def batch(ctx):
+          m = ctx.module()
+          X = np.array([[1.0, 2.0], [0.0, 1.0], [-1.0, 0.5]])
+          W = np.array([[1.0, -1.0, 0.0], [0.5, 1.0, -2.0]])
+          b = np.array([0.0, -2.5, 1.0])
+          got = m.hidden_layer(X, W, b)
+          want = np.maximum(0, X @ W + b)
+          if got is None or np.shape(got) != want.shape or not np.allclose(got, want):
+              raise CheckFailed("Three rows through a layer of three neurons.", expected=want.tolist(), actual=repr(got))
+
+
+      TESTS = [custom("A batch of three", batch)]
+    solution: |
+      import numpy as np
+
+
+      def hidden_layer(X, W, b):
+          return np.maximum(0, X @ W + b)

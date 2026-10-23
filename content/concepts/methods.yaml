@@ -1,0 +1,129 @@
+id: methods
+title: Methods
+summary: |
+  A method is a function defined inside a class. Call it on an object, `red.hire("Bea")`, and Python passes that object in as the first parameter, `self`. Methods that change the object set attributes on `self`; methods that answer a question return a value. `Bike.hire(red, "Bea")` is the same call written the long way.
+example: |
+  class Counter:
+      def __init__(self):
+          self.count = 0
+
+      def tick(self):
+          self.count += 1
+          return self.count
+
+  c = Counter()
+  c.tick()
+  print(c.tick())
+misconceptions: [class-call-reaches-objects, class-call-makes-new-object]
+related: [self, classes, attributes]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      class Counter:
+          def __init__(self):
+              self.count = 0
+
+          def tick(self):
+              self.count += 1
+              return self.count
+
+      c = Counter()
+      c.tick()
+      c.tick()
+      print(c.tick())
+    answer: "3"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      class Bike:
+          def __init__(self, number):
+              self.number = number
+              self.rider = None
+
+          def hire(self, rider):
+              self.rider = rider
+
+      bike = Bike(7)
+      Bike.hire(bike, "Ann")
+      print(bike.rider)
+    options:
+      - text: Ann
+        correct: true
+      - text: None
+        misconception: class-call-makes-new-object
+        feedback: "`Bike.hire(bike, \"Ann\")` passes the bike in as `self` by hand. It's the long way of writing `bike.hire(\"Ann\")`."
+  - type: fix
+    prompt: "`fill` is missing something every method needs. Fix it."
+    code: |
+      class Kettle:
+          def __init__(self):
+              self.full = False
+
+          def fill():
+              self.full = True
+
+      kettle = Kettle()
+      kettle.fill()
+      print(kettle.full)
+    tests: |
+      TESTS = [output("A full kettle", expect="True")]
+    solution: |
+      class Kettle:
+          def __init__(self):
+              self.full = False
+
+          def fill(self):
+              self.full = True
+
+      kettle = Kettle()
+      kettle.fill()
+      print(kettle.full)
+  - type: fill
+    prompt: "Fill the gap to put four biscuits in Moss's tin."
+    code: |
+      class Tin:
+          def __init__(self):
+              self.biscuits = 0
+
+          def add(self, n):
+              self.biscuits += n
+
+      tin = Tin()
+      tin.___(4)
+      print(tin.biscuits)
+    blanks: [["add"]]
+    tests: |
+      TESTS = [output("Four biscuits", expect="4")]
+  - type: write
+    prompt: "Add a method `empty(self)` to `Tin` that sets `biscuits` to 0 and returns how many there were."
+    starter: |
+      class Tin:
+          def __init__(self):
+              self.biscuits = 0
+
+          def add(self, n):
+              self.biscuits += n
+    tests: |
+      def emptied(ctx):
+          m = ctx.module()
+          tin = m.Tin()
+          tin.add(5)
+          eaten = tin.empty()
+          if eaten != 5 or tin.biscuits != 0:
+              raise CheckFailed("empty() should return 5 and leave the tin at 0.", expected=(5, 0), actual=(eaten, tin.biscuits))
+
+
+      TESTS = [custom("Five biscuits, then none", emptied)]
+    solution: |
+      class Tin:
+          def __init__(self):
+              self.biscuits = 0
+
+          def add(self, n):
+              self.biscuits += n
+
+          def empty(self):
+              eaten = self.biscuits
+              self.biscuits = 0
+              return eaten

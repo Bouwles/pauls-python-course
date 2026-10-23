@@ -1,0 +1,78 @@
+id: comparisons
+title: Comparisons
+summary: |
+  `<`, `>`, `<=`, `>=`, `==` and `!=` compare two values and give back `True` or `False`. `>` means strictly more than, so `16 > 16` is `False`; `>=` lets the number itself in. Comparing uses two equals signs, `==`. One equals sign puts a label on a value.
+example: |
+  age = 16
+  print(age > 16, age >= 16, age == 16, age != 16)
+misconceptions: [greater-includes-equal, single-equals-compares, text-number-equal, comparison-needs-if]
+related: [bool, if-elif-else, input-returns-text]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      age = 16
+      print(age > 16, age >= 16)
+    answer: "False True"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      typed = "5"
+      print(typed == 5)
+    options:
+      - text: "False"
+        correct: true
+        feedback: "Text and numbers are never equal, even when they look alike. `int(typed) == 5` would be `True`."
+      - text: "True"
+        misconception: text-number-equal
+        feedback: "`\"5\"` is text and `5` is a number. Python never treats them as equal. Turn the text into a number first."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      bags = 20
+      print(bags < 20, bags <= 20)
+    options:
+      - text: "False True"
+        correct: true
+      - text: "True True"
+        misconception: greater-includes-equal
+        feedback: "`<` means strictly less than. 20 is not less than 20. `<=` is the one that includes it."
+  - type: fix
+    prompt: "This should print `Last crossing`. Fix it."
+    code: |
+      hour = 20
+      if hour = 20:
+          print("Last crossing")
+    tests: |
+      TESTS = [output("Last crossing", expect="Last crossing")]
+    solution: |
+      hour = 20
+      if hour == 20:
+          print("Last crossing")
+  - type: fill
+    prompt: "Fill the gap so this prints `True` for 65 and over, and `False` for anyone younger."
+    code: |
+      age = 65
+      print(age ___ 65)
+    blanks: [[">="]]
+    tests: |
+      TESTS = [
+          output("65", expect="True"),
+          output("64", set_vars={"age": 64}, expect="False"),
+          output("80", set_vars={"age": 80}, expect="True"),
+      ]
+  - type: write
+    prompt: "The luggage limit is 20 kg. Print `True` if `weight` is over the limit, and `False` if it is 20 or less."
+    starter: |
+      weight = 23
+    tests: |
+      TESTS = [
+          output("23 kg", expect="True"),
+          output("20 kg", set_vars={"weight": 20}, expect="False"),
+          output("21 kg", set_vars={"weight": 21}, expect="True"),
+          output("5 kg", set_vars={"weight": 5}, expect="False"),
+      ]
+    solution: |
+      weight = 23
+      print(weight > 20)

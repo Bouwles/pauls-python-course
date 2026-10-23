@@ -1,0 +1,105 @@
+id: attributes
+title: Attributes
+summary: |
+  An attribute is a value kept on an object: `self.rider` inside the class, `red.rider` from outside. Read and change attributes with a dot. A name assigned without `self.` inside a method is only a local variable, gone when the method ends, and reading an attribute that was never set is an AttributeError.
+example: |
+  class Bike:
+      def __init__(self, number):
+          self.number = number
+          self.rider = None
+
+  red = Bike(7)
+  red.rider = "Bea"
+  print(red.number, red.rider)
+misconceptions: [local-is-attribute, missing-attribute-is-none]
+related: [classes, init, self]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      class Bike:
+          def __init__(self, number):
+              self.number = number
+              self.rider = None
+
+      bike = Bike(3)
+      bike.rider = "Gwen"
+      bike.number = bike.number + 10
+      print(bike.number, bike.rider)
+    answer: "13 Gwen"
+  - type: choice
+    prompt: What happens?
+    code: |
+      class Bike:
+          def __init__(self, number):
+              self.number = number
+
+      bike = Bike(3)
+      print(bike.rider)
+    verify: error
+    options:
+      - text: An AttributeError
+        correct: true
+        error: AttributeError
+      - text: It prints None
+        misconception: missing-attribute-is-none
+        feedback: "Nothing ever set `rider` on this bike, so there's nothing to read. Python stops with an AttributeError."
+  - type: fix
+    prompt: "The till should keep a running total. It prints 0. Fix the method."
+    code: |
+      class Till:
+          def __init__(self):
+              self.total = 0
+
+          def ring(self, pence):
+              total = self.total + pence
+
+      till = Till()
+      till.ring(240)
+      till.ring(85)
+      print(till.total)
+    tests: |
+      TESTS = [output("A loaf and a bun", expect="325")]
+    solution: |
+      class Till:
+          def __init__(self):
+              self.total = 0
+
+          def ring(self, pence):
+              self.total = self.total + pence
+
+      till = Till()
+      till.ring(240)
+      till.ring(85)
+      print(till.total)
+  - type: fill
+    prompt: "Fill the gap so the keeper is kept on the lighthouse."
+    code: |
+      class Lighthouse:
+          def __init__(self, keeper):
+              ___.keeper = keeper
+
+      print(Lighthouse("Tom").keeper)
+    blanks: [["self"]]
+    tests: |
+      TESTS = [output("Tom keeps it", expect="Tom")]
+  - type: write
+    prompt: "Give `Parcel` a `weight` from its argument and a `delivered` attribute that starts as `False`."
+    starter: |
+      class Parcel:
+          def __init__(self, weight):
+              pass
+    tests: |
+      def parcel(ctx):
+          m = ctx.module()
+          p = m.Parcel(3)
+          if getattr(p, "weight", None) != 3 or getattr(p, "delivered", None) is not False:
+              raise CheckFailed("A new 3 kg parcel should have weight 3 and delivered False.")
+
+
+      TESTS = [custom("A new parcel", parcel)]
+    solution: |
+      class Parcel:
+          def __init__(self, weight):
+              self.weight = weight
+              self.delivered = False

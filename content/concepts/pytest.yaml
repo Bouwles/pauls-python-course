@@ -1,0 +1,137 @@
+id: pytest
+title: pytest
+summary: |
+  pytest finds files named `test_*.py`, runs every function in them whose name starts with `test_`, and reports each one as passed or failed, showing the values on both sides of a failed `assert`. Test functions take no arguments and need no code to call them. A test with no `assert` checks nothing, so it always passes.
+example: |
+  # test_till.py
+  from till import price
+
+  def test_three_loaves():
+      assert price("bread", 3) == 720
+
+  # then, in a terminal at home:  pytest
+misconceptions: [pytest-runs-every-function, test-without-assert-checks]
+related: [assert, test-first]
+cards:
+  - type: predict
+    prompt: "This loop does what pytest does. What does it print?"
+    code: |
+      def test_high():
+          assert 1 + 1 == 2
+
+      def helper():
+          assert False
+
+      def test_low():
+          assert 2 * 2 == 5
+
+      for name, test in list(globals().items()):
+          if name.startswith("test_"):
+              try:
+                  test()
+                  print("passed", name)
+              except AssertionError:
+                  print("FAILED", name)
+    answer: |-
+      passed test_high
+      FAILED test_low
+  - type: choice
+    prompt: What does this print?
+    code: |
+      def test_bread():
+          240 * 3 == 700
+
+      def test_buns():
+          assert 85 * 4 == 341
+
+      results = []
+      for test in (test_bread, test_buns):
+          try:
+              test()
+              results.append("passed")
+          except AssertionError:
+              results.append("FAILED")
+      print(results)
+    options:
+      - text: "['passed', 'FAILED']"
+        correct: true
+      - text: "['FAILED', 'FAILED']"
+        misconception: test-without-assert-checks
+        feedback: "Without `assert`, the comparison is worked out and thrown away. `test_bread` passes, whatever the answer."
+  - type: fix
+    prompt: "pytest would never run this test. Rename it so it would."
+    code: |
+      def check_minutes():
+          assert 6 * 60 + 42 == 402
+    tests: |
+      import types as _types
+
+
+      def collected(ctx):
+          m = ctx.module()
+          tests = [v for k, v in vars(m).items() if k.startswith("test_") and isinstance(v, _types.FunctionType)]
+          if not tests:
+              raise CheckFailed("pytest only runs functions whose names start with test_.")
+          for test in tests:
+              test()
+
+
+      TESTS = [custom("pytest would find it", collected)]
+    solution: |
+      def test_minutes():
+          assert 6 * 60 + 42 == 402
+  - type: fill
+    prompt: "Fill the gap so pytest would collect this function."
+    code: |
+      def ___minutes():
+          assert 6 * 60 + 42 == 402
+
+      test_minutes()
+      print("ran")
+    blanks: [["test_"]]
+    tests: |
+      TESTS = [output("It runs", expect="ran")]
+  - type: write
+    prompt: "Write two test functions for `double(n)`: one that checks 4, one that checks 0."
+    starter: |
+      def double(n):
+          return n * 2
+    tests: |
+      import types as _types
+
+
+      def tests_of(m):
+          return [v for k, v in vars(m).items() if k.startswith("test_") and isinstance(v, _types.FunctionType)]
+
+
+      def check(ctx):
+          m = ctx.module()
+          found = tests_of(m)
+          if len(found) < 2:
+              raise CheckFailed("Write two functions whose names start with test_.")
+          for test in found:
+              test()
+          for broken in (lambda n: n + 2, lambda n: n * 3):
+              m.double = broken
+              caught = False
+              for test in found:
+                  try:
+                      test()
+                  except AssertionError:
+                      caught = True
+              if not caught:
+                  raise CheckFailed("Your tests still pass when double is wrong.")
+
+
+      TESTS = [custom("Two tests that pass, and can fail", check)]
+    solution: |
+      def double(n):
+          return n * 2
+
+
+      def test_double_four():
+          assert double(4) == 8
+
+
+      def test_double_zero():
+          assert double(0) == 0

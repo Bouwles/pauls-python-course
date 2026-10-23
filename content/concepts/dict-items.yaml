@@ -1,0 +1,100 @@
+id: dict-items
+title: Looping over a dictionary
+summary: |
+  A `for` loop over a dictionary gives you its keys, in the order they went in. `.items()` gives key and value together: `for name, count in parcels.items():`. `.values()` gives just the values. Don't add or remove keys while you're looping over the same dictionary.
+example: |
+  parcels = {"Bea": 2, "Tom": 1}
+  for name in parcels:
+      print(name)
+  for name, count in parcels.items():
+      print(f"{name}: {count}")
+misconceptions: [dict-loop-gives-values, dict-loop-gives-pairs, dict-loop-sorted]
+related: [dictionaries, nested-data]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      parcels = {"Bea": 2, "Tom": 1}
+      for name, count in parcels.items():
+          print(name, count)
+    answer: |-
+      Bea 2
+      Tom 1
+  - type: predict
+    prompt: What does this print?
+    code: |
+      tides = {"Mon": 6, "Tue": 7}
+      total = 0
+      for height in tides.values():
+          total = total + height
+      print(total)
+    answer: "13"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      parcels = {"Tom": 1, "Bea": 2}
+      for name in parcels:
+          print(name)
+    options:
+      - text: |-
+          1
+          2
+        misconception: dict-loop-gives-values
+        feedback: "A plain loop over a dictionary gives the keys."
+      - text: |-
+          Bea
+          Tom
+        misconception: dict-loop-sorted
+        feedback: "A dictionary keeps the order the keys went in. It doesn't sort them."
+      - text: |-
+          Tom
+          Bea
+        correct: true
+  - type: choice
+    prompt: What does this print?
+    code: |
+      berths = {"Kittiwake": 4, "Sea Holly": 7}
+      for name, berth in berths.items():
+          if berth > 5:
+              print(name)
+    options:
+      - text: "7"
+        misconception: dict-loop-gives-values
+        feedback: "The loop prints `name`, which is the key: the boat, not its berth."
+      - text: Sea Holly
+        correct: true
+  - type: fix
+    prompt: "This should print `Bea: 2` and `Tom: 1`. Fix the loop."
+    code: |
+      parcels = {"Bea": 2, "Tom": 1}
+      for name, count in parcels:
+          print(f"{name}: {count}")
+    tests: |
+      TESTS = [output("Both", expect="Bea: 2\nTom: 1")]
+    solution: |
+      parcels = {"Bea": 2, "Tom": 1}
+      for name, count in parcels.items():
+          print(f"{name}: {count}")
+  - type: fill
+    prompt: "Fill the gap so it prints each boat with its berth."
+    code: |
+      berths = {"Kittiwake": 4, "Sea Holly": 7}
+      for boat, berth in berths.___():
+          print(boat, berth)
+    blanks: [["items"]]
+    tests: |
+      TESTS = [output("Both boats", expect="Kittiwake 4\nSea Holly 7")]
+  - type: write
+    prompt: "Print every crate in `catch` as `cod: 12`, one per line, using a loop."
+    starter: |
+      catch = {"cod": 12, "eel": 3, "bass": 5}
+    tests: |
+      TESTS = [
+          output("Three crates", expect="cod: 12\neel: 3\nbass: 5"),
+          structure("Uses a loop", requires=["For"]),
+      ]
+    solution: |
+      catch = {"cod": 12, "eel": 3, "bass": 5}
+      for fish, crates in catch.items():
+          print(f"{fish}: {crates}")

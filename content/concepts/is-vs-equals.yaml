@@ -1,0 +1,110 @@
+id: is-vs-equals
+title: "is and =="
+summary: |
+  `==` asks whether two things hold the same values. `is` asks whether they are the same object. Two lists can be equal without being the same list; a copy is equal to its original but is not it. Use `is` for `None` and for hunting down shared objects, and `==` for comparing values.
+example: |
+  friday = [40, 30]
+  saturday = [40, 30]
+  sheet = friday
+  print(friday == saturday, friday is saturday, friday is sheet)
+misconceptions: [equal-means-same-object, equals-checks-identity, is-compares-names, copy-is-same-object]
+related: [references, copying]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      order = {"bread": 3}
+      copy_of_order = dict(order)
+      print(order == copy_of_order, order is copy_of_order)
+    answer: "True False"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      a = ["bun"]
+      b = ["bun"]
+      print(a is b)
+    options:
+      - text: "False"
+        correct: true
+      - text: "True"
+        misconception: equal-means-same-object
+        feedback: "They hold the same thing, so `a == b` is True. But each `[...]` builds a new list, so they are two lists."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      tray = [1, 2]
+      also_tray = tray
+      print(tray is also_tray, tray == [1, 2])
+    options:
+      - text: "True True"
+        correct: true
+      - text: "False True"
+        misconception: is-compares-names
+        feedback: "`is` compares objects, not names. Both names are on one list."
+      - text: "True False"
+        misconception: equals-checks-identity
+        feedback: "`==` compares contents. `tray` holds 1 and 2, the same as `[1, 2]`."
+  - type: fix
+    prompt: "This should say `same stock` when the two sheets hold the same numbers. Fix the comparison."
+    code: |
+      monday = {"bread": 40}
+      tuesday = {"bread": 40}
+      if monday is tuesday:
+          print("same stock")
+      else:
+          print("different stock")
+    tests: |
+      import ast as _ast
+
+
+      def no_is(tree, source):
+          for node in _ast.walk(tree):
+              if isinstance(node, _ast.Compare) and any(isinstance(op, _ast.Is) for op in node.ops):
+                  return "Compare the values with ==, not with is."
+
+
+      TESTS = [
+          output("Equal sheets", expect="same stock"),
+          structure("Compares values", check=no_is),
+      ]
+    solution: |
+      monday = {"bread": 40}
+      tuesday = {"bread": 40}
+      if monday == tuesday:
+          print("same stock")
+      else:
+          print("different stock")
+  - type: fill
+    prompt: "Fill the gap with the right way to check for `None`."
+    code: |
+      def describe(rider):
+          if rider ___ None:
+              return "free"
+          return f"out with {rider}"
+
+      print(describe(None), describe("Bea"))
+    blanks: [["is"]]
+    tests: |
+      TESTS = [output("Free, then Bea", expect="free out with Bea")]
+  - type: write
+    prompt: "Write `shares_any(a, b)`, which returns `True` when any inner list in `a` is the very same list as the one at the same position in `b`."
+    starter: |
+      def shares_any(a, b):
+          return a == b
+    tests: |
+      def check(ctx):
+          m = ctx.module()
+          inner = [1]
+          if m.shares_any([inner, [2]], [inner, [2]]) is not True:
+              raise CheckFailed("The first inner list is shared, so this should be True.")
+          if m.shares_any([[1], [2]], [[1], [2]]) is not False:
+              raise CheckFailed("Equal but separate lists share nothing, so this should be False.")
+
+
+      TESTS = [custom("Shared and not shared", check)]
+    solution: |
+      def shares_any(a, b):
+          for first, second in zip(a, b):
+              if first is second:
+                  return True
+          return False

@@ -1,0 +1,139 @@
+id: self
+title: self
+summary: |
+  `self` is the object a method was called on. `red.hire("Bea")` runs `hire` with `self` as `red`, so you never pass it yourself, and every attribute the object keeps is reached through it. Called on the class instead, `Bike.hire("Ann")`, there is no object to pass, and `"Ann"` lands in `self`.
+example: |
+  class Bike:
+      def __init__(self, number):
+          self.number = number
+
+      def me(self):
+          return self.number
+
+  print(Bike(7).me(), Bike(12).me())
+misconceptions: [self-passed-by-caller, self-is-the-class]
+related: [methods, attributes]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      class Bike:
+          def __init__(self, number):
+              self.number = number
+
+          def me(self):
+              return self.number
+
+      red = Bike(7)
+      blue = Bike(12)
+      print(blue.me(), red.me())
+    answer: "12 7"
+  - type: choice
+    prompt: What happens?
+    code: |
+      class Bike:
+          def __init__(self, number):
+              self.number = number
+
+          def describe(self):
+              return f"Bike {self.number}"
+
+      red = Bike(7)
+      print(red.describe(red))
+    verify: error
+    options:
+      - text: A TypeError
+        correct: true
+        error: TypeError
+      - text: It prints Bike 7
+        misconception: self-passed-by-caller
+        feedback: "`red.describe()` already passes `red` as `self`. Passing it again makes two arguments for a method that takes one."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      class Lamp:
+          def __init__(self, name):
+              self.name = name
+              self.lit = False
+
+          def light(self):
+              self.lit = True
+
+      north = Lamp("north")
+      south = Lamp("south")
+      south.light()
+      print(north.lit, south.lit)
+    options:
+      - text: False True
+        correct: true
+      - text: True True
+        misconception: self-is-the-class
+        feedback: "`self` is the one lamp the method was called on, `south`. The class itself doesn't change."
+  - type: fix
+    prompt: "This crashes. The method has `self` but doesn't use it. Fix line 6."
+    code: |
+      class Lamp:
+          def __init__(self, hours):
+              self.hours = hours
+
+          def burn(self, extra):
+              hours = hours + extra
+
+      lamp = Lamp(10)
+      lamp.burn(2)
+      print(lamp.hours)
+    tests: |
+      TESTS = [output("Twelve hours", expect="12")]
+    solution: |
+      class Lamp:
+          def __init__(self, hours):
+              self.hours = hours
+
+          def burn(self, extra):
+              self.hours = self.hours + extra
+
+      lamp = Lamp(10)
+      lamp.burn(2)
+      print(lamp.hours)
+  - type: fill
+    prompt: "Fill the gap so the method can reach the ferry's name."
+    code: |
+      class Ferry:
+          def __init__(self, name):
+              self.name = name
+
+          def announce(___):
+              return f"The {self.name} leaves at the turn."
+
+      print(Ferry("Kittiwake").announce())
+    blanks: [["self"]]
+    tests: |
+      TESTS = [output("The announcement", expect="The Kittiwake leaves at the turn.")]
+  - type: write
+    prompt: "Write the two lines that make `red`, bike 7, and hire it to Ann, so the last line prints `Ann`."
+    starter: |
+      class Bike:
+          def __init__(self, number):
+              self.number = number
+              self.rider = None
+
+          def hire(self, rider):
+              self.rider = rider
+
+
+      print(red.rider)
+    tests: |
+      TESTS = [output("Ann has bike 7", expect="Ann")]
+    solution: |
+      class Bike:
+          def __init__(self, number):
+              self.number = number
+              self.rider = None
+
+          def hire(self, rider):
+              self.rider = rider
+
+
+      red = Bike(7)
+      red.hire("Ann")
+      print(red.rider)

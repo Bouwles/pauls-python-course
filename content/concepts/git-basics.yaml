@@ -1,0 +1,48 @@
+id: git-basics
+title: Commits, staging and history
+summary: |
+  git keeps a folder's history as a chain of commits. Each commit is a photograph of every staged file plus a message. You edit in the working folder, choose what goes in the next commit with `git add`, and take the photograph with `git commit -m "..."`. `git status`, `git diff` and `git log` tell you where things are.
+example: |
+  # In a terminal, not in Python:
+  # git init
+  # git add .
+  # git commit -m "First version of the job tracker"
+  # git log --oneline
+misconceptions: [commit-saves-everything, add-means-new-file]
+related: [git-branches]
+cards:
+  - type: choice
+    prompt: "You've edited `jobs.py`. Which command puts that change into the next commit?"
+    verify: none
+    options:
+      - { text: "git add jobs.py", correct: true }
+      - { text: "git commit -m \"Add the gate\"", misconception: commit-saves-everything, feedback: "Commit only takes what's staged. Stage it first with git add." }
+      - { text: "git save jobs.py", feedback: "There's no git save. Staging is git add." }
+  - type: choice
+    prompt: "`git status` lists `jobs.py` under \"Changes not staged for commit\". What does that mean?"
+    verify: none
+    options:
+      - { text: "It changed since it was last staged, and the change isn't staged yet", correct: true }
+      - { text: "It's a new file git has never seen", misconception: add-means-new-file, feedback: "New files are listed as untracked. This one git already knows." }
+      - { text: "It's already in the last commit", feedback: "Then status wouldn't mention it at all." }
+  - type: choice
+    prompt: "Which commit message is most use to someone reading the history in a year?"
+    verify: none
+    options:
+      - { text: "Charge more for urgent jobs", correct: true }
+      - { text: "stuff", feedback: "Pip's favourite. Says nothing." }
+      - { text: "Changed prices.py", feedback: "The diff already shows which file. Say what the change does." }
+  - type: choice
+    prompt: "What does `git diff` show, with no options?"
+    verify: none
+    options:
+      - { text: "Changes in your folder that aren't staged yet", correct: true }
+      - { text: "Everything in the last commit", feedback: "That's git show. Plain diff compares the folder with the staging area." }
+      - { text: "The list of commits", feedback: "That's git log." }
+  - type: choice
+    prompt: "Which command shows the chain of commits, newest first, one line each?"
+    verify: none
+    options:
+      - { text: "git log --oneline", correct: true }
+      - { text: "git status", feedback: "Status shows what's changed and staged now, not history." }
+      - { text: "git diff", feedback: "Diff shows changed lines." }

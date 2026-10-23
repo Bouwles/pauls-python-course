@@ -1,0 +1,104 @@
+id: copying
+title: Shallow and deep copies
+summary: |
+  `copy()`, `list(...)`, `dict(...)` and `[:]` make a shallow copy: a new outer list or dictionary, holding references to the same inner ones. `copy.deepcopy()` copies everything inside too, all the way down. For flat data a shallow copy is enough; for data inside data, copy deeply or build it fresh.
+example: |
+  import copy
+
+  standard = {"bread": {"sold": 0}}
+  monday = standard.copy()
+  tuesday = copy.deepcopy(standard)
+  monday["bread"]["sold"] = 30
+  print(standard, tuesday)
+misconceptions: [copy-is-deep, deepcopy-is-shallow, slice-is-not-a-copy]
+related: [references, mutability, is-vs-equals]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      rows = [["Bea"], ["Tom"]]
+      backup = rows.copy()
+      backup[0].append("Gwen")
+      backup.append(["Mira"])
+      print(len(rows), rows[0])
+    answer: "2 ['Bea', 'Gwen']"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import copy
+
+      week = {"mon": [40], "tue": [40]}
+      plan = copy.deepcopy(week)
+      plan["mon"].append(12)
+      print(week["mon"])
+    options:
+      - text: "[40]"
+        correct: true
+      - text: "[40, 12]"
+        misconception: deepcopy-is-shallow
+        feedback: "`deepcopy` copies the inner lists too. `plan[\"mon\"]` is a list of its own."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      tray = [40, 60]
+      spare = tray[:]
+      spare[0] = 0
+      print(tray)
+    options:
+      - text: "[40, 60]"
+        correct: true
+      - text: "[0, 60]"
+        misconception: slice-is-not-a-copy
+        feedback: "A slice always builds a new list. `tray[:]` is a shallow copy of the whole thing."
+  - type: fix
+    prompt: "Next week's plan should start from this week's and change on its own. Fix the copy."
+    code: |
+      this_week = {"mon": {"bread": 40}, "tue": {"bread": 40}}
+      next_week = this_week.copy()
+      next_week["mon"]["bread"] = 50
+      print(this_week["mon"]["bread"], next_week["mon"]["bread"])
+    tests: |
+      TESTS = [output("Two separate weeks", expect="40 50")]
+    solution: |
+      import copy
+
+      this_week = {"mon": {"bread": 40}, "tue": {"bread": 40}}
+      next_week = copy.deepcopy(this_week)
+      next_week["mon"]["bread"] = 50
+      print(this_week["mon"]["bread"], next_week["mon"]["bread"])
+  - type: fill
+    prompt: "Fill the gap so `grid` is copied all the way down."
+    code: |
+      import copy
+
+      grid = [[0, 0], [0, 0]]
+      plan = copy.___(grid)
+      plan[1][1] = 9
+      print(grid)
+    blanks: [["deepcopy"]]
+    tests: |
+      TESTS = [output("The grid untouched", expect="[[0, 0], [0, 0]]")]
+  - type: write
+    prompt: "Write `fresh_sheet(template)`, which returns a copy of a dictionary of dictionaries that shares nothing with `template`."
+    starter: |
+      def fresh_sheet(template):
+          return template.copy()
+    tests: |
+      def shares_nothing(ctx):
+          m = ctx.module()
+          template = {"bread": {"sold": 0}, "buns": {"sold": 0}}
+          sheet = m.fresh_sheet(template)
+          if sheet != template:
+              raise CheckFailed("The copy should hold the same numbers.", expected=template, actual=sheet)
+          sheet["bread"]["sold"] = 30
+          if template["bread"]["sold"] != 0:
+              raise CheckFailed("Changing the copy changed the template.")
+
+
+      TESTS = [custom("A copy that shares nothing", shares_nothing)]
+    solution: |
+      import copy
+
+
+      def fresh_sheet(template):
+          return copy.deepcopy(template)

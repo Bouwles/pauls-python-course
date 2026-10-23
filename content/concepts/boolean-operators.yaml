@@ -1,0 +1,111 @@
+id: boolean-operators
+title: and, or, not
+summary: |
+  `and` is `True` only when both sides are. `or` is `True` when at least one side is, including when both are. `not` turns `True` into `False` and back. Each side has to be a whole comparison: `hour < 7 or hour >= 19`, never `hour < 7 or >= 19`.
+example: |
+  hour = 20
+  print(hour < 7 or hour >= 19)
+  print(hour < 7 and hour >= 19)
+  print(not hour < 7)
+misconceptions: [and-or-swapped, or-shares-comparison, or-is-exclusive]
+related: [comparisons, if-elif-else]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      hour = 20
+      print(hour < 7 or hour >= 19)
+      print(hour < 7 and hour >= 19)
+    answer: "True\nFalse"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      fog = True
+      if not fog:
+          print("Sail")
+      else:
+          print("Sound the horn")
+    answer: "Sound the horn"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      cargo = "bike"
+      if cargo == "dog" or "pram":
+          print("Half fare")
+      else:
+          print("Full fare")
+    options:
+      - text: Half fare
+        correct: true
+        feedback: "Python reads it as `(cargo == \"dog\") or \"pram\"`. Text that isn't empty counts as true, so the test always passes. Write `cargo == \"dog\" or cargo == \"pram\"`."
+      - text: Full fare
+        misconception: or-shares-comparison
+        feedback: "The `cargo ==` isn't shared by both sides. The right side is just `\"pram\"`, and non-empty text counts as true."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      age = 70
+      hour = 5
+      print(age >= 65 or hour < 7)
+    options:
+      - text: "True"
+        correct: true
+      - text: "False"
+        misconception: or-is-exclusive
+        feedback: "`or` is `True` when either side is, and still `True` when both are."
+  - type: fix
+    prompt: "This should print `Night fare` at 21:00. Fix the test."
+    code: |
+      hour = 21
+      if hour < 7 or >= 19:
+          print("Night fare")
+      else:
+          print("Day fare")
+    tests: |
+      TESTS = [
+          output("21:00", expect="Night fare"),
+          output("12:00", set_vars={"hour": 12}, expect="Day fare"),
+          output("5:00", set_vars={"hour": 5}, expect="Night fare"),
+      ]
+    solution: |
+      hour = 21
+      if hour < 7 or hour >= 19:
+          print("Night fare")
+      else:
+          print("Day fare")
+  - type: fill
+    prompt: "Under fives sail free, but only with an adult. Fill the gap so both must be true."
+    code: |
+      age = 3
+      with_adult = True
+      if age < 5 ___ with_adult:
+          print("Free")
+      else:
+          print("Ticket, please")
+    blanks: [["and"]]
+    tests: |
+      TESTS = [
+          output("3, with an adult", expect="Free"),
+          output("3, alone", set_vars={"with_adult": False}, expect="Ticket, please"),
+          output("7, with an adult", set_vars={"age": 7}, expect="Ticket, please"),
+      ]
+  - type: write
+    prompt: "Print `Sail` if `wind` is under 30 and `tide` is at least 2. Otherwise print `Stay in`."
+    starter: |
+      wind = 12
+      tide = 2.5
+    tests: |
+      TESTS = [
+          output("Light wind, good tide", expect="Sail"),
+          output("Gale", set_vars={"wind": 35}, expect="Stay in"),
+          output("Low tide", set_vars={"tide": 1.5}, expect="Stay in"),
+          output("Right on the limits", set_vars={"wind": 29, "tide": 2}, expect="Sail"),
+      ]
+    solution: |
+      wind = 12
+      tide = 2.5
+      if wind < 30 and tide >= 2:
+          print("Sail")
+      else:
+          print("Stay in")

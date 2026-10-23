@@ -1,0 +1,85 @@
+id: loop-variables
+title: The loop variable
+summary: |
+  The name after `for` is the loop variable. Each pass, Python puts the next value in it, and the body can use it like any other variable. Changing it inside the body doesn't change how many passes there are. After the loop, it keeps the last value it had.
+example: |
+  for night in range(1, 4):
+      print(f"Night {night}")
+  print("Last night was", night)
+misconceptions: [loop-variable-gone-after-loop, changing-loop-variable-changes-passes]
+related: [for-loops, range]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      for night in range(1, 4):
+          print(f"Night {night}")
+    answer: "Night 1\nNight 2\nNight 3"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      for check in range(1, 4):
+          print("Check")
+      print(check)
+    options:
+      - text: |-
+          Check
+          Check
+          Check
+          3
+        correct: true
+        feedback: "After the loop, `check` keeps the last value it was given: 3."
+      - text: An error
+        misconception: loop-variable-gone-after-loop
+        feedback: "The loop variable doesn't vanish when the loop ends. It keeps its last value."
+      - text: |-
+          Check
+          Check
+          Check
+          4
+        misconception: range-includes-end
+        feedback: "`range(1, 4)` never reaches 4, so `check` never holds it."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      for n in range(3):
+          print(n)
+          n = 10
+    options:
+      - text: |-
+          0
+          1
+          2
+        correct: true
+        feedback: "Each pass, `for` puts the next number from the range into `n`, whatever the body did to it."
+      - text: "0"
+        misconception: changing-loop-variable-changes-passes
+        feedback: "Setting `n` to 10 doesn't end the loop. The next pass just puts the next number from the range in `n`."
+  - type: fix
+    prompt: "Each line should show its own hour: `Check at hour 1`, then 2, then 3. Fix it."
+    code: |
+      for hour in range(1, 4):
+          print("Check at hour", 1)
+    tests: |
+      TESTS = [output("Three hours", expect="Check at hour 1\nCheck at hour 2\nCheck at hour 3")]
+    solution: |
+      for hour in range(1, 4):
+          print("Check at hour", hour)
+  - type: fill
+    prompt: "Fill the gap so the valves are numbered 1, 2, 3."
+    code: |
+      for valve in range(1, 4):
+          print(f"Valve {___}: warm")
+    blanks: [["valve"]]
+    tests: |
+      TESTS = [output("Three valves", expect="Valve 1: warm\nValve 2: warm\nValve 3: warm")]
+  - type: write
+    prompt: "Print the four times table with a loop, from `4 x 1 = 4` to `4 x 10 = 40`."
+    tests: |
+      TESTS = [
+          output("Four times table", expect="\n".join(f"4 x {n} = {4 * n}" for n in range(1, 11))),
+          structure("Uses a for loop", requires=["For"], message="Use a for loop and its loop variable."),
+      ]
+    solution: |
+      for n in range(1, 11):
+          print(f"4 x {n} = {4 * n}")

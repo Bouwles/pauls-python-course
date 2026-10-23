@@ -1,0 +1,194 @@
+id: feature-scaling
+title: Feature scaling
+summary: |
+  Standardising a column subtracts its mean and divides by its standard deviation, so every feature is centred on 0 with a spread of 1, whatever its units. Gradient descent needs it: one column of big numbers makes the loss steep in its direction, and a rate that suits the others blows that weight up. Work the means and spreads out from the training data only, and scale every new reading with those same numbers. Standardised values aren't squeezed between 0 and 1: anything more than one spread from the mean lands outside.
+example: |
+  import numpy as np
+
+  X = np.array([[9.0, 1021.0], [12.5, 1004.0], [6.0, 1030.0]])
+  means, spreads = X.mean(axis=0), X.std(axis=0)
+  print(np.round((X - means) / spreads, 2))
+misconceptions: [feature-scale-irrelevant, scale-new-data-separately, standardise-squeezes-to-0-1, scaling-changes-best-fit, numpy-checks-units]
+related: [multivariate-regression, gradient-descent]
+cards:
+  - type: predict
+    prompt: "Tonight's temperature is exactly the average of the training nights. What does this print?"
+    code: |
+      import numpy as np
+
+      temps = np.array([4.0, 8.0, 12.0])
+      means = temps.mean()
+      spreads = temps.std()
+      tonight = np.array([8.0])
+      print((tonight - means) / spreads)
+    answer: "[0.]"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      wind = np.array([0.0, 2.0, 4.0, 30.0])
+      scaled = (wind - wind.mean()) / wind.std()
+      print(scaled.min() < 0, scaled.max() > 1)
+    options:
+      - text: "True True"
+        correct: true
+      - text: "False False"
+        misconception: standardise-squeezes-to-0-1
+        feedback: "Standardising centres the column on 0, so below-average readings go negative, and anything more than one spread above the mean lands above 1. The 30-knot gale ends up at about 1.7."
+  - type: choice
+    prompt: "Pip scales tonight's reading on its own. What does this print?"
+    code: |
+      import numpy as np
+
+      nights = np.array([[2.0], [6.0], [10.0]])
+      means, spreads = nights.mean(axis=0), nights.std(axis=0)
+      tonight = np.array([[10.0]])
+      print((tonight - tonight.mean(axis=0)) / tonight.std(axis=0))
+    options:
+      - text: "[[nan]]"
+        correct: true
+      - text: "[[1.22474487]]"
+        misconception: scale-new-data-separately
+        feedback: "That's tonight scaled with the nights' `means` and `spreads`, which is what it should be. Scaled against itself, one evening has no spread: nought over nought is nan."
+  - type: choice
+    prompt: "Least squares, once on the raw readings and once on standardised ones. What does this print?"
+    code: |
+      import numpy as np
+
+      X = np.array([[1.0, 100.0], [2.0, 300.0], [3.0, 200.0], [4.0, 500.0]])
+      y = np.array([3.0, 7.0, 6.0, 12.0])
+
+
+      def fit_and_predict(X):
+          with_ones = np.column_stack([X, np.ones(len(X))])
+          weights = np.linalg.lstsq(with_ones, y, rcond=None)[0]
+          return with_ones @ weights
+
+
+      scaled = (X - X.mean(axis=0)) / X.std(axis=0)
+      print(np.allclose(fit_and_predict(X), fit_and_predict(scaled)))
+    options:
+      - text: "True"
+        correct: true
+      - text: "False"
+        misconception: scaling-changes-best-fit
+        feedback: "Scaling changes the size of the weights, not the predictions: least squares just finds bigger or smaller weights to match. Scaling matters to gradient descent's walk, not to where the bottom is."
+  - type: choice
+    prompt: "What does this print?"
+    code: |
+      import numpy as np
+
+      evening = np.array([9.0, 1021.0])  # degrees, hectopascals
+      print(evening.sum())
+    options:
+      - text: "1030.0"
+        correct: true
+      - text: "A TypeError: degrees and hectopascals can't be added"
+        misconception: numpy-checks-units
+        error: TypeError
+        feedback: "NumPy has no idea what the numbers measure. It will cheerfully add degrees to hectopascals, which is why big-numbered columns swamp small ones unless you scale them."
+  - type: choice
+    prompt: "A temperature-only forecast trains happily at a rate of 0.01. Wendt adds air pressure, around 1,000 hPa, without scaling. What should she expect?"
+    verify: none
+    options:
+      - text: "The walk blows up, unless she shrinks the rate so far that the other weights barely move"
+        correct: true
+      - text: "It trains just as before, with one more weight"
+        misconception: feature-scale-irrelevant
+        feedback: "Pressure's numbers are a hundred times temperature's, so the loss is thousands of times steeper in its weight's direction. A rate that suits temperature overshoots there; one that suits pressure leaves temperature crawling."
+  - type: fill
+    prompt: "Fill the gaps so each column gets its own mean and spread."
+    code: |
+      import numpy as np
+
+      X = np.array([[9.0, 1021.0], [12.5, 1004.0], [6.0, 1030.0], [11.0, 1012.0]])
+      means = X.mean(axis=___)
+      spreads = X.std(axis=___)
+      scaled = (X - means) / spreads
+    blanks: [["0"], ["0"]]
+    tests: |
+      import numpy as _np
+
+
+      def standardised(ctx):
+          m = ctx.module()
+          s = _np.asarray(m.scaled)
+          if s.shape != (4, 2) or not (_np.allclose(s.mean(axis=0), 0) and _np.allclose(s.std(axis=0), 1)):
+              raise CheckFailed("Each column should end up with mean 0 and spread 1.")
+
+
+      TESTS = [custom("Both columns standardised", standardised)]
+  - type: fix
+    prompt: "`scale_new` should scale a new evening with the training nights' means and spreads. It prints nan. Fix it."
+    code: |
+      import numpy as np
+
+      nights = np.array([[2.0, 1000.0], [6.0, 1010.0], [10.0, 1020.0]])
+      means = nights.mean(axis=0)
+      spreads = nights.std(axis=0)
+
+
+      def scale_new(evening):
+          evening = np.array([evening])
+          return (evening - evening.mean(axis=0)) / evening.std(axis=0)
+
+
+      print(np.round(scale_new([10.0, 1000.0]), 2))
+    tests: |
+      TESTS = [output("Scaled with the nights' ruler", expect="[[ 1.22 -1.22]]")]
+    solution: |
+      import numpy as np
+
+      nights = np.array([[2.0, 1000.0], [6.0, 1010.0], [10.0, 1020.0]])
+      means = nights.mean(axis=0)
+      spreads = nights.std(axis=0)
+
+
+      def scale_new(evening):
+          evening = np.array([evening])
+          return (evening - means) / spreads
+
+
+      print(np.round(scale_new([10.0, 1000.0]), 2))
+  - type: write
+    prompt: "Write `fit_scaler(X)`, returning each column's mean and standard deviation, and `scale(X, means, spreads)`, which standardises `X` with them."
+    starter: |
+      import numpy as np
+
+
+      def fit_scaler(X):
+          pass
+
+
+      def scale(X, means, spreads):
+          pass
+    tests: |
+      import numpy as _np
+
+
+      def scaler(ctx):
+          m = ctx.module()
+          X = _np.array([[1.0, 1000.0], [2.0, 1010.0], [3.0, 1020.0]])
+          result = m.fit_scaler(X)
+          if result is None:
+              raise CheckFailed("fit_scaler should return the means and the spreads.")
+          means, spreads = result
+          if not (_np.allclose(means, [2.0, 1010.0]) and _np.allclose(spreads, X.std(axis=0))):
+              raise CheckFailed("One mean and one spread per column.", expected="means [2, 1010]", actual=repr(means))
+          one = m.scale(_np.array([[3.0, 1000.0]]), means, spreads)
+          if one is None or not _np.allclose(one, (_np.array([[3.0, 1000.0]]) - X.mean(axis=0)) / X.std(axis=0)):
+              raise CheckFailed("scale should use the means and spreads it is given.", actual=repr(one))
+
+
+      TESTS = [custom("Fitted on three rows, used on a fourth", scaler)]
+    solution: |
+      import numpy as np
+
+
+      def fit_scaler(X):
+          return X.mean(axis=0), X.std(axis=0)
+
+
+      def scale(X, means, spreads):
+          return (X - means) / spreads

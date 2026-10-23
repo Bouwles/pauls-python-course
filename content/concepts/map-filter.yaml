@@ -1,0 +1,78 @@
+id: map-filter
+title: map and filter
+summary: |
+  `map(f, items)` gives `f(item)` for each item. `filter(f, items)` keeps the items where `f(item)` is true. Both are lazy: they hand back an object that works each value out as you loop over it, so wrap them in `list()` to get them all at once. A list comprehension does the same jobs; use whichever the next person will read more easily.
+example: |
+  prices = [3.20, 0.90, 2.10]
+  in_pence = map(lambda price: round(price * 100), prices)
+  print(list(in_pence))
+  print(list(filter(lambda price: price < 3, prices)))
+misconceptions: [map-returns-list, filter-removes-matches]
+related: [lambda, lazy-evaluation, list-comprehensions]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      counts = [4, 0, 12, 0, 30]
+      print(list(filter(lambda count: count > 0, counts)))
+    answer: "[4, 12, 30]"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      words = ["fig", "leek", "plum"]
+      print(list(filter(lambda word: len(word) == 4, words)))
+    options:
+      - text: "['leek', 'plum']"
+        correct: true
+      - text: "['fig']"
+        misconception: filter-removes-matches
+        feedback: "`filter` keeps the items its function says yes to. Leek and plum have four letters, so they stay."
+      - text: "[False, True, True]"
+        misconception: map-returns-list
+        feedback: "That's what `map` would give: the function's answer for each item. `filter` gives back the items themselves."
+  - type: choice
+    prompt: What happens?
+    code: |
+      names = map(str.upper, ["figs", "kale"])
+      print(len(names))
+    verify: error
+    options:
+      - text: A TypeError
+        correct: true
+        error: TypeError
+      - text: It prints 2
+        misconception: map-returns-list
+        feedback: "`map` hands back a lazy map object, which doesn't know its length until it has been looped over. `len(list(names))` would be 2."
+  - type: fix
+    prompt: "This should print the first price in pence. It crashes. Fix it."
+    code: |
+      prices = [3.20, 0.90, 2.10]
+      in_pence = map(lambda price: round(price * 100), prices)
+      print(in_pence[0])
+    tests: |
+      TESTS = [output("320 pence", expect="320", hint="A map object can't be indexed. Turn it into a list first.")]
+    solution: |
+      prices = [3.20, 0.90, 2.10]
+      in_pence = list(map(lambda price: round(price * 100), prices))
+      print(in_pence[0])
+  - type: fill
+    prompt: "Fill the gap so this prints the length of each name."
+    code: |
+      crates = ["plums", "figs", "kale"]
+      print(list(___(len, crates)))
+    blanks: [["map"]]
+    tests: |
+      TESTS = [output("5, 4, 4", expect="[5, 4, 4]")]
+  - type: write
+    prompt: "Use `filter` to keep only the stall prices under 15, and print them as a list."
+    starter: |
+      prices = [12, 20, 12, 25, 14]
+    tests: |
+      TESTS = [
+          output("Under 15", expect="[12, 12, 14]"),
+          structure("Uses filter", calls=["filter"]),
+      ]
+    solution: |
+      prices = [12, 20, 12, 25, 14]
+      print(list(filter(lambda price: price < 15, prices)))

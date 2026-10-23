@@ -1,0 +1,104 @@
+id: none
+title: None
+summary: |
+  `None` is Python's word for nothing at all. A function that never reaches a `return` hands back `None`, and so does `print()`. Printing `None` shows the word `None`; check for it with `is None`. A stray `None` in the output usually means something printed when it should have returned.
+example: |
+  def wave():
+      print("Bye")
+
+  result = wave()
+  print(result)
+  print(result is None)
+misconceptions: [none-prints-nothing, missing-return-is-error, none-is-zero, print-is-return]
+related: [return-values, functions]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def wave():
+          print("Bye")
+
+      print(wave())
+    answer: |-
+      Bye
+      None
+  - type: predict
+    prompt: What does this print?
+    code: |
+      result = print("Ahoy")
+      print(result)
+    answer: |-
+      Ahoy
+      None
+  - type: choice
+    prompt: What does this print?
+    code: |
+      def find(name):
+          if name == "Bea":
+              return "Quay Row"
+
+      print(find("Tom"))
+    options:
+      - text: "A blank line"
+        misconception: none-prints-nothing
+        feedback: "`find` hands back `None`, and printing `None` shows the word."
+      - text: "None"
+        correct: true
+      - text: An error
+        misconception: missing-return-is-error
+        error: TypeError
+        feedback: "Reaching the end without a `return` is allowed. The function hands back `None`."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      print(None == 0)
+    options:
+      - text: "True"
+        misconception: none-is-zero
+        feedback: "`None` isn't zero, or empty text. It's its own thing, equal only to itself."
+      - text: "False"
+        correct: true
+  - type: fix
+    prompt: "This prints an extra `None`. Make `remark` hand its words back instead of printing them."
+    code: |
+      def remark(score):
+          if score > 3:
+              print("Respectable.")
+          else:
+              print("Next Tuesday.")
+
+      print(remark(5))
+    tests: |
+      TESTS = [
+          output("Five points", expect="Respectable."),
+          function("remark(1)", call="remark", args=(1,), expect="Next Tuesday."),
+      ]
+    solution: |
+      def remark(score):
+          if score > 3:
+              return "Respectable."
+          else:
+              return "Next Tuesday."
+
+      print(remark(5))
+  - type: fill
+    prompt: "Fill the gap so this prints `No reply yet`."
+    code: |
+      reply = None
+      if reply ___ None:
+          print("No reply yet")
+    blanks: [["is", "=="]]
+    tests: |
+      TESTS = [output("No reply", expect="No reply yet")]
+  - type: write
+    prompt: "Write `berth_of(boat)`: it returns `4` for `\"Kittiwake\"` and `None` for any other boat."
+    tests: |
+      TESTS = [
+          function("Kittiwake", call="berth_of", args=("Kittiwake",), expect=4),
+          function("Mary Rose", call="berth_of", args=("Mary Rose",), expect=None),
+      ]
+    solution: |
+      def berth_of(boat):
+          if boat == "Kittiwake":
+              return 4
+          return None

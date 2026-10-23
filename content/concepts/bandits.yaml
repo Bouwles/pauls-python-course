@@ -1,0 +1,110 @@
+id: bandits
+title: Multi-armed bandits
+summary: |
+  A multi-armed bandit is a row of choices, the arms, each paying off at its own rate that nobody tells you. You learn about an arm only by trying it. For each arm keep a count and an estimate, the average reward so far, updated with `estimate += (reward - estimate) / count` so no list of old rewards is needed. Always taking the best estimate so far is called greedy, and it can lock onto a poor arm for ever, because the arms it never tries never get a chance to look better.
+example: |
+  estimates = [0.0, 0.0]
+  counts = [0, 0]
+  for arm, reward in [(0, 1), (0, 0), (1, 1), (0, 1)]:
+      counts[arm] += 1
+      estimates[arm] += (reward - estimates[arm]) / counts[arm]
+  print(estimates, counts)
+misconceptions: [greedy-finds-best, greedy-switches-after-failure, average-needs-every-result, estimate-is-last-reward]
+related: [exploration-exploitation]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      estimate, count = 0.0, 0
+      for reward in [1, 0, 0, 1]:
+          count += 1
+          estimate += (reward - estimate) / count
+      print(estimate)
+    answer: "0.5"
+  - type: choice
+    prompt: "Arm 0 always pays 0.2 and arm 1 always pays 0.9. The agent is greedy. What does this print?"
+    code: |
+      payout = [0.2, 0.9]
+      estimates = [0.0, 0.0]
+      counts = [0, 0]
+      for run in range(10):
+          arm = estimates.index(max(estimates))
+          counts[arm] += 1
+          estimates[arm] += (payout[arm] - estimates[arm]) / counts[arm]
+      print(counts)
+    options:
+      - text: "[10, 0]"
+        correct: true
+        feedback: "The first try sets arm 0's estimate to 0.2, above arm 1's untried 0.0, and greedy never looks back."
+      - text: "[1, 9]"
+        misconception: greedy-finds-best
+        feedback: "To learn that arm 1 pays 0.9 it would have to try it once. Greedy only tries the best estimate, and arm 1's stays at 0.0."
+  - type: predict
+    prompt: "Bucket 2 has given a good run, a bad run, then a good run. What is its estimate?"
+    code: |
+      estimates = [0.0, 0.0, 0.0]
+      counts = [0, 0, 0]
+      for reward in [1, 0, 1]:
+          counts[2] += 1
+          estimates[2] += (reward - estimates[2]) / counts[2]
+      print(round(estimates[2], 2))
+    answer: "0.67"
+  - type: fix
+    prompt: "This should give the average of the rewards, one at a time. It doesn't. Fix the line that nudges the estimate."
+    code: |
+      def running_average(rewards):
+          estimate = 0.0
+          for count, reward in enumerate(rewards, start=1):
+              estimate += reward - estimate / count
+          return estimate
+
+
+      print(running_average([1, 0, 1, 1]))
+    tests: |
+      TESTS = [
+          function("Three good runs in four", call="running_average", args=([1, 0, 1, 1],), expect=0.75, tol=1e-9),
+          function("Two rewards", call="running_average", args=([4, 8],), expect=6.0, tol=1e-9),
+          function("No rewards yet", call="running_average", args=([],), expect=0.0),
+      ]
+    solution: |
+      def running_average(rewards):
+          estimate = 0.0
+          for count, reward in enumerate(rewards, start=1):
+              estimate += (reward - estimate) / count
+          return estimate
+
+
+      print(running_average([1, 0, 1, 1]))
+  - type: fill
+    prompt: "Fill the gap so each arm's estimate is the average of its own rewards."
+    code: |
+      estimates = [0.0, 0.0]
+      counts = [0, 0]
+      for arm, reward in [(0, 1), (1, 0), (0, 0), (0, 1)]:
+          counts[arm] += 1
+          estimates[arm] += (reward - estimates[arm]) / ___
+      print([round(estimate, 2) for estimate in estimates])
+    blanks: [["counts[arm]"]]
+    tests: |
+      TESTS = [output("Arm 0: two good in three. Arm 1: none in one.", expect="[0.67, 0.0]")]
+  - type: write
+    prompt: "Write `greedy(estimates)`, which returns the index of the biggest estimate, the first one if there's a tie."
+    starter: |
+      def greedy(estimates):
+          pass
+    tests: |
+      TESTS = [
+          function("The middle one", call="greedy", args=([0.2, 0.7, 0.4],), expect=1),
+          function("A tie goes to the first", call="greedy", args=([0.5, 0.1, 0.5],), expect=0),
+          function("Only one arm", call="greedy", args=([0.0],), expect=0),
+      ]
+    solution: |
+      def greedy(estimates):
+          return estimates.index(max(estimates))
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      print(np.argmax([0.3, 0.8, 0.8]))
+    answer: "1"

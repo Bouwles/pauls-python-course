@@ -1,0 +1,110 @@
+id: closures
+title: Closures remember
+summary: |
+  A function defined inside another can use the outer function's variables, and keeps hold of them after the outer one has finished. That inner function is a closure. Each call to the outer function makes fresh variables, so `make_offer(50)` and `make_offer(10)` remember different numbers. A closure looks a variable up when it runs, not when it was made, which catches people out in loops. To change an outer variable, not just read it, mark it `nonlocal`.
+example: |
+  def make_offer(percent):
+      def apply(price):
+          return round(price * (100 - percent) / 100, 2)
+      return apply
+
+
+  half_price = make_offer(50)
+  print(half_price(3.00))
+misconceptions: [inner-function-forgets-outer, closures-share-last-value, closure-captures-value-now]
+related: [functions-as-values, decorators, scope]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def counter():
+          count = 0
+
+          def tick():
+              nonlocal count
+              count += 1
+              return count
+          return tick
+
+
+      till = counter()
+      till()
+      till()
+      print(till())
+    answer: "3"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      def make_greeting(name):
+          def greet():
+              return f"Morning, {name}."
+          return greet
+
+
+      bea = make_greeting("Bea")
+      tom = make_greeting("Tom")
+      print(bea())
+    options:
+      - text: Morning, Bea.
+        correct: true
+      - text: Morning, Tom.
+        misconception: closures-share-last-value
+        feedback: "Each call to `make_greeting` gets its own `name`. Making Tom's greeting doesn't touch Bea's."
+      - text: "A NameError: name is gone"
+        misconception: inner-function-forgets-outer
+        error: NameError
+        feedback: "`greet` keeps hold of `name` after `make_greeting` returns. That's the closure."
+  - type: fix
+    prompt: "Pip made three offers in a loop. They all come out at half price. Fix it so they print 9.0, 8.0 and 5.0."
+    code: |
+      offers = []
+      for percent in [10, 20, 50]:
+          offers.append(lambda price: round(price * (100 - percent) / 100, 2))
+
+      for offer in offers:
+          print(offer(10.00))
+    tests: |
+      TESTS = [output("Three different offers", expect="9.0\n8.0\n5.0",
+                      hint="Each lambda looks up percent when it's called, by which time the loop has finished at 50. A default argument, percent=percent, keeps the value at the time.")]
+    solution: |
+      offers = []
+      for percent in [10, 20, 50]:
+          offers.append(lambda price, percent=percent: round(price * (100 - percent) / 100, 2))
+
+      for offer in offers:
+          print(offer(10.00))
+  - type: fill
+    prompt: "Fill the gap so `vat` adds 20 per cent."
+    code: |
+      def make_tax(rate):
+          def add_tax(price):
+              return round(price * (1 + ___), 2)
+          return add_tax
+
+
+      vat = make_tax(0.2)
+      print(vat(10.00))
+    blanks: [["rate"]]
+    tests: |
+      TESTS = [output("12.0", expect="12.0")]
+  - type: write
+    prompt: "Write `make_multiplier(factor)`, which gives back a function that multiplies whatever it's given by `factor`."
+    starter: |
+      def make_multiplier(factor):
+          pass
+    tests: |
+      def each_keeps_its_own(ctx):
+          mod = ctx.module()
+          triple = mod.make_multiplier(3)
+          tenfold = mod.make_multiplier(10)
+          got = (triple(4), tenfold(4), triple(5))
+          if got != (12, 40, 15):
+              raise CheckFailed("triple(4), tenfold(4), triple(5)", expected="(12, 40, 15)", actual=repr(got))
+
+
+      TESTS = [custom("Each multiplier keeps its own factor", each_keeps_its_own)]
+    solution: |
+      def make_multiplier(factor):
+          def multiply(number):
+              return number * factor
+          return multiply

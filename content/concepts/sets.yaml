@@ -1,0 +1,77 @@
+id: sets
+title: Sets
+summary: |
+  A set holds each value once, in no particular order. `set(items)` makes one from a list and drops the repeats; `{"glove", "scarf"}` writes one directly. Add to it with `.add()`. Empty curly brackets `{}` make a dict, not a set, so an empty set is written `set()`. Sort a set before showing it.
+example: |
+  box = ["umbrella", "glove", "umbrella"]
+  unique = set(box)
+  unique.add("scarf")
+  print(len(unique))
+  print(sorted(unique))
+misconceptions: [set-keeps-duplicates, set-drops-repeated, empty-braces-make-set, set-has-order, set-of-string-whole]
+related: [set-operations, membership-speed]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      hats = ["cap", "beret", "cap", "cap"]
+      print(len(set(hats)))
+    answer: "2"
+  - type: choice
+    prompt: What happens?
+    code: |
+      lost = set()
+      lost.add("umbrella")
+      print(lost[0])
+    verify: error
+    options:
+      - text: A TypeError
+        correct: true
+        error: TypeError
+        feedback: "A set has no positions, so `[0]` means nothing to it."
+      - text: "It prints umbrella"
+        misconception: set-has-order
+        feedback: "Sets have no first item. To get at the items, loop over the set or sort it into a list."
+  - type: predict
+    prompt: What does this print?
+    code: |
+      letters = set("kettle")
+      print(len(letters))
+    answer: "4"
+  - type: fix
+    prompt: "This should print `2`. Fix the line that makes the empty set."
+    code: |
+      seen = {}
+      seen.add("glove")
+      seen.add("hat")
+      seen.add("glove")
+      print(len(seen))
+    tests: |
+      TESTS = [output("Two different things", expect="2")]
+    solution: |
+      seen = set()
+      seen.add("glove")
+      seen.add("hat")
+      seen.add("glove")
+      print(len(seen))
+  - type: fill
+    prompt: "Fill the gap so the repeats disappear."
+    code: |
+      reported = ["oar", "kite", "oar"]
+      unique = ___(reported)
+      print(sorted(unique))
+    blanks: [["set"]]
+    tests: |
+      TESTS = [output("Kite and oar", expect="['kite', 'oar']")]
+  - type: write
+    prompt: "Print how many different boats are in `sightings`, using a set."
+    starter: |
+      sightings = ["Gull", "Puffin", "Gull", "Tern", "Puffin"]
+    tests: |
+      TESTS = [
+          output("Three boats", expect="3"),
+          structure("Uses a set", calls=["set"]),
+      ]
+    solution: |
+      sightings = ["Gull", "Puffin", "Gull", "Tern", "Puffin"]
+      print(len(set(sightings)))

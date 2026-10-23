@@ -1,0 +1,44 @@
+id: merge-conflicts
+title: Merge conflicts
+summary: |
+  A conflict happens when both branches changed the same lines since they split. Git writes both versions into the file between `<<<<<<<`, `=======` and `>>>>>>>` markers and waits. You edit the file to say what it should be, delete the markers, then `git add` and `git commit` to finish. `git merge --abort` backs out.
+example: |
+  # <<<<<<< HEAD
+  # URGENT_EXTRA = 6
+  # =======
+  # URGENT_EXTRA = 8
+  # >>>>>>> prices
+misconceptions: [conflict-means-broken, keep-the-markers]
+related: [git-branches]
+cards:
+  - type: choice
+    prompt: "In a conflict, which version sits between `<<<<<<< HEAD` and `=======`?"
+    verify: none
+    options:
+      - { text: "The branch you're on", correct: true }
+      - { text: "The branch you're merging in", feedback: "That one is between ======= and >>>>>>>." }
+  - type: choice
+    prompt: "What does a merge conflict mean?"
+    verify: none
+    options:
+      - { text: "Both branches changed the same lines, and git needs you to choose", correct: true }
+      - { text: "The repository is broken", misconception: conflict-means-broken, feedback: "Nothing's broken. Git is asking a question only you can answer." }
+  - type: choice
+    prompt: "You've fixed the file. What finishes the merge?"
+    verify: none
+    options:
+      - { text: "git add the file, then git commit", correct: true }
+      - { text: "git merge again", feedback: "The merge is waiting for a commit, not a second merge." }
+      - { text: "Nothing, it's done once the file is fixed", feedback: "Git doesn't know you're finished until you stage the file and commit." }
+  - type: choice
+    prompt: "After fixing a conflict, which lines must be gone from the file?"
+    verify: none
+    options:
+      - { text: "The <<<<<<<, ======= and >>>>>>> lines", correct: true }
+      - { text: "None, git removes them for you", misconception: keep-the-markers, feedback: "Git leaves them in the file. If you commit them, they're in your program." }
+  - type: choice
+    prompt: "A merge has gone badly tangled. How do you get back to just before it?"
+    verify: none
+    options:
+      - { text: "git merge --abort", correct: true }
+      - { text: "Delete the folder and start again", feedback: "There's no need. Abort puts everything back." }

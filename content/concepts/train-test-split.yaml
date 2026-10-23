@@ -1,0 +1,156 @@
+id: train-test-split
+title: Training, validation and test sets
+summary: |
+  A model's error on the data it learnt from flatters it: it has seen the answers. To find out how it does on new data, hold some back. Shuffle first, so every part looks alike, and shuffle x and y with one order so each reading keeps its answer. Choose between models on a validation set; keep a test set locked away until the very end, look at it once, and report that number.
+example: |
+  import numpy as np
+
+  x = np.arange(10.0)
+  y = 2 * x
+  order = np.random.default_rng(0).permutation(len(x))
+  test, train = order[:3], order[3:]
+  print(x[test], y[test])
+misconceptions: [training-error-measures-skill, tune-on-the-test-set, split-without-shuffling, split-breaks-pairs]
+related: [overfitting, polynomial-features]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      readings = np.arange(60)
+      order = np.random.default_rng(4).permutation(len(readings))
+      test_count = round(len(readings) * 0.2)
+      test, train = order[:test_count], order[test_count:]
+      print(len(train), len(test))
+    answer: "48 12"
+  - type: choice
+    prompt: "Pip shuffles the readings and the answers. What does this print?"
+    code: |
+      import numpy as np
+
+      x = np.array([1.0, 2.0, 3.0, 4.0, 5.0])
+      y = 10 * x
+      rng = np.random.default_rng(3)
+      x_shuffled = rng.permutation(x)
+      y_shuffled = rng.permutation(y)
+      print(np.all(y_shuffled == 10 * x_shuffled))
+    options:
+      - text: "False"
+        correct: true
+      - text: "True"
+        misconception: split-breaks-pairs
+        feedback: "Two calls to `permutation` give two different orders, so the readings and their answers no longer line up. Shuffle the positions once, `order = rng.permutation(len(x))`, and use `x[order]` and `y[order]`."
+  - type: choice
+    prompt: "The readings are in time order. What does this print?"
+    code: |
+      import numpy as np
+
+      hours = np.array([0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5])
+      train, test = hours[:8], hours[8:]
+      print(test.min() > train.max())
+    options:
+      - text: "True"
+        correct: true
+      - text: "False"
+        misconception: split-without-shuffling
+        feedback: "Taking the last rows as the test set means testing only on hours later than anything the model learnt from. That measures how it guesses beyond its readings, not how it does on ordinary new ones. Shuffle first."
+  - type: choice
+    prompt: "Pip tries degrees 1 to 10 and keeps whichever has the lowest test error: 0.09. Is 0.09 an honest guess at its error on next week's readings?"
+    verify: none
+    options:
+      - text: "No. He chose it for doing well on those readings, so it flatters. Choose on validation, then test once"
+        correct: true
+      - text: "Yes. The test readings were never used for training"
+        misconception: tune-on-the-test-set
+        feedback: "They weren't trained on, but they were used to choose, and choosing is learning too. Out of ten tries, the one that did best on those readings was partly lucky on them."
+  - type: choice
+    prompt: "A model scores an error of 0.000 on the readings it learnt from. What does that tell you about tomorrow?"
+    verify: none
+    options:
+      - text: "Almost nothing, until it is tried on readings it hasn't seen"
+        correct: true
+      - text: "It will be nearly perfect"
+        misconception: training-error-measures-skill
+        feedback: "A model with enough weights can learn its training readings by heart, noise and all. Only readings it never saw can say how it will do."
+  - type: fill
+    prompt: "Fill the gaps so the training and test parts get the right readings."
+    code: |
+      import numpy as np
+
+
+      def train_test_split(x, y, test_fraction, rng):
+          order = rng.permutation(len(x))
+          test_count = round(len(x) * test_fraction)
+          test, train = order[:test_count], order[test_count:]
+          return x[___], x[test], y[train], y[___]
+
+
+      x = np.arange(5.0)
+      x_train, x_test, y_train, y_test = train_test_split(x, 3 * x, 0.4, np.random.default_rng(1))
+      print(len(x_train), len(x_test), bool(np.all(y_test == 3 * x_test)))
+    blanks: [["train"], ["test"]]
+    tests: |
+      TESTS = [output("Three to train, two to test, pairs kept", expect="3 2 True")]
+  - type: fix
+    prompt: "Every test reading should keep its own answer, so this should print `True`. Fix the shuffle."
+    code: |
+      import numpy as np
+
+      x = np.arange(8.0)
+      y = x ** 2
+      rng = np.random.default_rng(2)
+      x = rng.permutation(x)
+      y = rng.permutation(y)
+      x_train, x_test = x[:6], x[6:]
+      y_train, y_test = y[:6], y[6:]
+      print(bool(np.all(y_test == x_test ** 2)))
+    tests: |
+      TESTS = [output("Pairs kept together", expect="True")]
+    solution: |
+      import numpy as np
+
+      x = np.arange(8.0)
+      y = x ** 2
+      rng = np.random.default_rng(2)
+      order = rng.permutation(len(x))
+      x, y = x[order], y[order]
+      x_train, x_test = x[:6], x[6:]
+      y_train, y_test = y[:6], y[6:]
+      print(bool(np.all(y_test == x_test ** 2)))
+  - type: write
+    prompt: "Write `train_test_split(x, y, test_fraction, rng)`: shuffle the positions with `rng.permutation`, take the first `round(len(x) * test_fraction)` for testing, and return `x_train, x_test, y_train, y_test`."
+    starter: |
+      import numpy as np
+
+
+      def train_test_split(x, y, test_fraction, rng):
+          pass
+    tests: |
+      import numpy as _np
+
+
+      def split(ctx):
+          m = ctx.module()
+          x = _np.arange(10.0) * 0.5
+          result = m.train_test_split(x, 10 * x, 0.3, _np.random.default_rng(0))
+          if result is None:
+              raise CheckFailed("Return four arrays: x_train, x_test, y_train, y_test.")
+          x_train, x_test, y_train, y_test = result
+          order = _np.random.default_rng(0).permutation(10)
+          if not (_np.allclose(x_test, x[order[:3]]) and _np.allclose(x_train, x[order[3:]])):
+              raise CheckFailed("The first three shuffled positions are the test readings.", expected=x[order[:3]].tolist(), actual=repr(x_test))
+          if not (_np.allclose(y_test, 10 * x_test) and _np.allclose(y_train, 10 * x_train)):
+              raise CheckFailed("Each reading has to keep its own answer.")
+
+
+      TESTS = [custom("Three of ten for testing", split)]
+    solution: |
+      import numpy as np
+
+
+      def train_test_split(x, y, test_fraction, rng):
+          order = rng.permutation(len(x))
+          test_count = round(len(x) * test_fraction)
+          test, train = order[:test_count], order[test_count:]
+          return x[train], x[test], y[train], y[test]

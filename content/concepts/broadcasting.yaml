@@ -1,0 +1,95 @@
+id: broadcasting
+title: Broadcasting
+summary: |
+  When arrays of different shapes meet in arithmetic, NumPy stretches the smaller one to fit, without copying it. Shapes are compared from the right-hand end: each pair of sizes must match, or one of them must be 1. So `(100, 12)` minus `(12,)` takes twelve monthly averages off every year, but `(100, 12)` minus `(100,)` fails. To work row by row, keep the totals as a column with `keepdims=True`, which gives shape `(100, 1)`.
+example: |
+  import numpy as np
+
+  rain = np.array([[80, 60],
+                   [100, 40]])
+  print(rain - rain.mean(axis=0))
+  print(rain / rain.sum(axis=1, keepdims=True))
+misconceptions: [broadcast-matches-rows, broadcast-needs-same-shape]
+related: [numpy-arrays, vectorisation]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      rain = np.ones((3, 4))
+      averages = np.array([1, 2, 3, 4])
+      print((rain - averages).shape)
+    answer: "(3, 4)"
+  - type: choice
+    prompt: What happens?
+    code: |
+      import numpy as np
+
+      rain = np.ones((3, 4))
+      totals = np.array([1, 2, 3])
+      print((rain - totals).shape)
+    verify: error
+    options:
+      - text: A ValueError
+        correct: true
+        error: ValueError
+        feedback: "Shapes are compared from the right: 4 against 3. They don't match and neither is 1, so NumPy refuses."
+      - text: "It prints (3, 4)"
+        misconception: broadcast-matches-rows
+        feedback: "NumPy doesn't look for an axis that happens to fit. A one-dimensional array always lines up with the last axis, the columns, and three won't go into four."
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      rain = np.array([[10, 20],
+                       [30, 40]])
+      print((rain - rain.mean(axis=0)).tolist())
+    answer: "[[-10.0, -10.0], [10.0, 10.0]]"
+  - type: choice
+    prompt: "Pip wants each year's total taken off that year's months. What does this print?"
+    code: |
+      import numpy as np
+
+      rain = np.array([[1, 2],
+                       [3, 4]])
+      print((rain - rain.sum(axis=1)).tolist())
+    options:
+      - text: "[[-2, -5], [0, -3]]"
+        correct: true
+        feedback: "No error and no warning. The totals `[3, 7]` were taken off the columns, because shapes line up from the right. With a square array, the wrong axis runs quietly."
+      - text: "[[-2, -1], [-4, -3]]"
+        misconception: broadcast-matches-rows
+        feedback: "That's what Pip wanted, and what `rain.sum(axis=1, keepdims=True)` would give. A plain `(2,)` array lines up with the columns, not the rows."
+  - type: fill
+    prompt: "Fill the gap so each month becomes its share of that year's rain."
+    code: |
+      import numpy as np
+
+      rain = np.array([[1, 3],
+                       [2, 2]])
+      shares = rain / rain.sum(axis=1, keepdims=___)
+      print(shares.tolist())
+    blanks: [["True"]]
+    tests: |
+      TESTS = [output("Shares of each year", expect="[[0.25, 0.75], [0.5, 0.5]]")]
+  - type: write
+    prompt: "Write `anomalies(rain)`: every value minus its column's average, as an array the same shape as `rain`. No loop."
+    tests: |
+      def anomalies_check(ctx):
+          import numpy as np
+          rain = np.array([[10.0, 50.0, 30.0], [30.0, 10.0, 30.0]])
+          result = ctx.module().anomalies(rain)
+          expected = np.array([[-10.0, 20.0, 0.0], [10.0, -20.0, 0.0]])
+          if not isinstance(result, np.ndarray) or result.shape != (2, 3) or not np.allclose(result, expected):
+              raise CheckFailed("Each value minus the average of its column.", expected=str(expected), actual=repr(result))
+
+
+      TESTS = [
+          custom("Two years of three months", anomalies_check),
+          structure("No loop", forbids=["For", "While", "ListComp"]),
+      ]
+    solution: |
+      def anomalies(rain):
+          return rain - rain.mean(axis=0)

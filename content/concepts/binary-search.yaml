@@ -1,0 +1,163 @@
+id: binary-search
+title: Binary search
+summary: |
+  Binary search finds an item in a sorted list by looking in the middle and throwing away the half it can't be in, again and again. Each look halves what's left, so a million items take at most 20 looks: O(log n). Keep `low` and `high` as the first and last places it could still be, move them past `middle` each time, and stop only when `low` passes `high`. On an unsorted list it gives wrong answers without complaint.
+example: |
+  def find_bolt(sizes, size):
+      low = 0
+      high = len(sizes) - 1
+      while low <= high:
+          middle = (low + high) // 2
+          if sizes[middle] == size:
+              return middle
+          elif sizes[middle] < size:
+              low = middle + 1
+          else:
+              high = middle - 1
+      return -1
+
+
+  print(find_bolt([3, 4, 5, 6, 8, 10, 12], 10))
+misconceptions: [binary-search-works-unsorted, binary-search-takes-half, binary-search-stops-when-equal, middle-plus-one-optional]
+related: [linear-search, bisect, big-o, while-loops]
+drill: true
+cards:
+  - type: predict
+    prompt: "What does this print? (`end=\" \"` keeps it on one line.)"
+    code: |
+      sizes = [2, 4, 6, 8, 10, 12, 14]
+      low = 0
+      high = len(sizes) - 1
+      while low <= high:
+          middle = (low + high) // 2
+          print(middle, end=" ")
+          if sizes[middle] == 12:
+              break
+          elif sizes[middle] < 12:
+              low = middle + 1
+          else:
+              high = middle - 1
+    answer: "3 5"
+  - type: choice
+    prompt: "At most, how many looks does binary search need to find a bolt among 1,000,000 sorted ones?"
+    verify: none
+    options:
+      - text: "20"
+        correct: true
+        feedback: "Each look halves what's left, and a million halves down to one in about twenty goes."
+      - text: "500,000"
+        misconception: binary-search-takes-half
+        feedback: "It doesn't look at half the bolts. It halves what's left on every look: a million, half a million, a quarter of a million, and so on."
+      - text: "1,000,000"
+        feedback: "That's a linear search with the bolt in the last drawer."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      def find(sizes, size):
+          low = 0
+          high = len(sizes) - 1
+          while low <= high:
+              middle = (low + high) // 2
+              if sizes[middle] == size:
+                  return middle
+              elif sizes[middle] < size:
+                  low = middle + 1
+              else:
+                  high = middle - 1
+          return -1
+
+
+      print(find([9, 2, 7, 4, 5], 9))
+    options:
+      - text: "-1"
+        correct: true
+        feedback: "The 9 is right there in position 0, but the list isn't sorted. The middle is 7, too small, so it throws away the half with the 9 in it."
+      - text: "0"
+        misconception: binary-search-works-unsorted
+        feedback: "Binary search trusts the order to say which half to throw away. Out of order, it throws away the wrong half and never sees the 9."
+  - type: fix
+    prompt: "This never finds the bolt in the last drawer. Fix it."
+    code: |
+      def find(sizes, size):
+          low = 0
+          high = len(sizes) - 1
+          while low < high:
+              middle = (low + high) // 2
+              if sizes[middle] == size:
+                  return middle
+              elif sizes[middle] < size:
+                  low = middle + 1
+              else:
+                  high = middle - 1
+          return -1
+    tests: |
+      TESTS = [
+          function("The last drawer", call="find", args=([3, 5, 8, 12, 20], 20), expect=4,
+                   hint="When low and high are the same drawer, there's still one left to open."),
+          function("One drawer", call="find", args=([8], 8), expect=0),
+          function("Not there", call="find", args=([3, 5, 8], 6), expect=-1),
+      ]
+    solution: |
+      def find(sizes, size):
+          low = 0
+          high = len(sizes) - 1
+          while low <= high:
+              middle = (low + high) // 2
+              if sizes[middle] == size:
+                  return middle
+              elif sizes[middle] < size:
+                  low = middle + 1
+              else:
+                  high = middle - 1
+          return -1
+  - type: fill
+    prompt: "Fill the gap so `middle` is a whole-number drawer halfway between `low` and `high`."
+    code: |
+      sizes = [3, 5, 8, 12, 20, 24]
+      low = 0
+      high = len(sizes) - 1
+      middle = (low + high) ___ 2
+      print(middle, sizes[middle])
+    blanks: [["//"]]
+    tests: |
+      TESTS = [output("Drawer 2", expect="2 8")]
+  - type: choice
+    prompt: "In a binary search, what goes wrong if `low = middle + 1` is written as `low = middle`?"
+    verify: none
+    options:
+      - text: "For some sizes, the loop goes round forever"
+        correct: true
+        feedback: "Once low and high are side by side, middle is low again, and low = middle changes nothing. The range never shrinks."
+      - text: "Nothing: it just takes one more look"
+        misconception: middle-plus-one-optional
+        feedback: "The middle has already been checked, so it has to go. Leaving it in can stop the range from ever getting smaller."
+      - text: "It finds the bolt one drawer too early"
+        feedback: "It doesn't find the wrong drawer. It may never finish."
+  - type: write
+    prompt: "This rack is sorted biggest first. Write `find_bolt(sizes, size)` for it: the drawer holding `size`, or -1. Binary search, please."
+    starter: |
+      def find_bolt(sizes, size):
+          pass
+    tests: |
+      RACK = [30, 24, 20, 16, 12, 10, 8, 6, 5, 4, 3]
+      TESTS = [
+          function("The 16 mm", call="find_bolt", args=(RACK, 16), expect=3),
+          function("The 3 mm", call="find_bolt", args=(RACK, 3), expect=10),
+          function("The 30 mm", call="find_bolt", args=(RACK, 30), expect=0),
+          function("No 7 mm", call="find_bolt", args=(RACK, 7), expect=-1),
+          function("Empty", call="find_bolt", args=([], 7), expect=-1),
+          structure("A binary search", requires=["While"], forbids_calls=["index"]),
+      ]
+    solution: |
+      def find_bolt(sizes, size):
+          low = 0
+          high = len(sizes) - 1
+          while low <= high:
+              middle = (low + high) // 2
+              if sizes[middle] == size:
+                  return middle
+              elif sizes[middle] > size:
+                  low = middle + 1
+              else:
+                  high = middle - 1
+          return -1

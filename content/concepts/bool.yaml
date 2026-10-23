@@ -1,0 +1,89 @@
+id: bool
+title: True and False
+summary: |
+  A `bool` is a value that is either `True` or `False`, with a capital letter and no quotes. Every comparison gives back a bool, and you can keep one in a variable like any other value: `is_night = hour >= 19`. `"True"` in quotes is text, not a bool.
+example: |
+  hour = 20
+  is_night = hour >= 19
+  print(is_night)
+  print(type(is_night))
+misconceptions: [bool-is-text, bool-lowercase]
+related: [comparisons, if-elif-else]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      hour = 20
+      is_night = hour >= 19
+      print(is_night)
+    answer: "True"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      sailing = True
+      print(type(sailing))
+    options:
+      - text: "<class 'bool'>"
+        correct: true
+      - text: "<class 'str'>"
+        misconception: bool-is-text
+        feedback: "There are no quotes round `True`, so it isn't text. It's a bool."
+      - text: "True"
+        misconception: type-is-the-value
+        feedback: "`type()` tells you what kind of value it is, not the value itself."
+  - type: choice
+    prompt: What happens?
+    code: |
+      sailing = true
+      print(sailing)
+    verify: error
+    options:
+      - text: It prints True
+        misconception: bool-lowercase
+        feedback: "Python only knows `True` with a capital T. Lower-case `true` is just a name nobody has defined."
+      - text: A NameError
+        correct: true
+        error: NameError
+  - type: fix
+    prompt: "The ferry is sailing, so this should print `All aboard`. Fix the first line."
+    code: |
+      sailing = "True"
+      if sailing == True:
+          print("All aboard")
+      else:
+          print("Not today")
+    tests: |
+      TESTS = [output("Sailing", expect="All aboard")]
+    solution: |
+      sailing = True
+      if sailing == True:
+          print("All aboard")
+      else:
+          print("Not today")
+  - type: fill
+    prompt: "Fill the gap so `is_free` is `True` for anyone under 5."
+    code: |
+      age = 3
+      is_free = age ___ 5
+      print(is_free)
+    blanks: [["<"]]
+    tests: |
+      TESTS = [
+          output("Age 3", expect="True"),
+          output("Age 5", set_vars={"age": 5}, expect="False"),
+      ]
+  - type: write
+    prompt: "`tide` holds a height in metres. Make `can_sail` hold `True` when the tide is 2 metres or more, and `False` otherwise. Print it."
+    starter: |
+      tide = 2.5
+    tests: |
+      TESTS = [
+          output("2.5 metres", expect="True"),
+          output("1.8 metres", set_vars={"tide": 1.8}, expect="False"),
+          output("Exactly 2 metres", set_vars={"tide": 2}, expect="True"),
+          variable("can_sail is a bool", variable="can_sail", expect=True),
+      ]
+    solution: |
+      tide = 2.5
+      can_sail = tide >= 2
+      print(can_sail)

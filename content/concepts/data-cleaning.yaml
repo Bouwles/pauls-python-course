@@ -1,0 +1,123 @@
+id: data-cleaning
+title: Cleaning a table
+summary: |
+  Clean in a fixed order, on a copy: tidy the text with `.str.strip()` and `.str.title()`, turn text into numbers with `pd.to_numeric`, read dates with `pd.to_datetime(column, format=..., errors="coerce")` one format at a time, fix impossible values with `.loc[condition, column] = value`, and drop duplicates last, once the copies look alike. Each step hands back something new, so assign it back. And `df[rows]["col"] = value` changes a copy, never `df`.
+example: |
+  import numpy as np
+  import pandas as pd
+
+  crew = pd.DataFrame({
+      "name": [" Ann Rook", "ann rook", "Tom Kitto"],
+      "joined": ["2001-02-03", "03/02/2001", "1999-07-01"],
+      "age": ["19", "19", "412"],
+  })
+  clean = crew.copy()
+  clean["name"] = clean["name"].str.strip().str.title()
+  iso = pd.to_datetime(clean["joined"], format="%Y-%m-%d", errors="coerce")
+  slashed = pd.to_datetime(clean["joined"], format="%d/%m/%Y", errors="coerce")
+  clean["joined"] = iso.fillna(slashed)
+  clean["age"] = pd.to_numeric(clean["age"], errors="coerce")
+  clean.loc[clean["age"] > 100, "age"] = np.nan
+  clean = clean.drop_duplicates().reset_index(drop=True)
+  print(clean)
+misconceptions: [chained-assignment-works, dedupe-before-cleaning, str-method-changes-column, to-datetime-guesses-formats]
+related: [missing-data, pandas-basics, selecting-filtering, strip-replace]
+drill: true
+cards:
+  - type: predict
+    prompt: How many different parishes does pandas see once they're tidied?
+    code: |
+      import pandas as pd
+
+      parishes = pd.Series([" Harbour", "harbour ", "HARBOUR", "Hill"])
+      print(parishes.str.strip().str.title().nunique())
+    answer: "2"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import pandas as pd
+
+      crew = pd.DataFrame({"name": ["Ann Rook", "Tom Kitto"], "launches": [-3, 12]})
+      crew[crew["launches"] < 0]["launches"] = 0
+      print(crew["launches"].tolist())
+    options:
+      - text: "[-3, 12]"
+        correct: true
+        feedback: "The first brackets make a new, filtered table, and the zero goes into that. `crew` is untouched. `crew.loc[crew[\"launches\"] < 0, \"launches\"] = 0` changes `crew` itself."
+      - text: "[0, 12]"
+        misconception: chained-assignment-works
+        feedback: "Two sets of brackets are two steps, and the first one makes a copy. The change lands on the copy. Use one `.loc[rows, column]`."
+  - type: choice
+    prompt: What happens?
+    code: |
+      import pandas as pd
+
+      dates = pd.to_datetime(pd.Series(["2024-03-02", "04/03/2024"]))
+      print(dates.tolist())
+    verify: error
+    options:
+      - text: A ValueError
+        correct: true
+        error: ValueError
+        feedback: "pandas works out a format from the first date and holds the rest to it. `04/03/2024` doesn't fit. Give it each format yourself, with `errors=\"coerce\"`."
+      - text: It prints both dates
+        misconception: to-datetime-guesses-formats
+        feedback: "pandas doesn't read each date its own way. It settles on one format and expects every date to match."
+  - type: choice
+    prompt: How many rows are left?
+    code: |
+      import pandas as pd
+
+      names = pd.DataFrame({"name": ["Ann Rook", "Ann Rook ", "ann rook"]})
+      print(len(names.drop_duplicates()))
+    options:
+      - text: "3"
+        correct: true
+        feedback: "To `drop_duplicates()`, a trailing space or a small letter makes a different value. Tidy the text first, then drop."
+      - text: "1"
+        misconception: dedupe-before-cleaning
+        feedback: "They're the same person to you, not to pandas. Only exact matches count, so tidy first and drop duplicates last."
+  - type: fix
+    prompt: "The spaces are still there. Fix it so it prints `['Ann Rook', 'Tom Kitto']`."
+    code: |
+      import pandas as pd
+
+      crew = pd.DataFrame({"name": [" Ann Rook", "Tom Kitto "]})
+      crew["name"].str.strip()
+      print(crew["name"].tolist())
+    tests: |
+      TESTS = [output("Tidy names", expect="['Ann Rook', 'Tom Kitto']")]
+    solution: |
+      import pandas as pd
+
+      crew = pd.DataFrame({"name": [" Ann Rook", "Tom Kitto "]})
+      crew["name"] = crew["name"].str.strip()
+      print(crew["name"].tolist())
+  - type: fill
+    prompt: "Fill the gap so the date is read as day, then month, then year."
+    code: |
+      import pandas as pd
+
+      dates = pd.Series(["04/03/2024"])
+      read = pd.to_datetime(dates, format=___, errors="coerce")
+      print(read.iloc[0].day, read.iloc[0].month)
+    blanks: [["\"%d/%m/%Y\"", "'%d/%m/%Y'"]]
+    tests: |
+      TESTS = [output("The fourth of March", expect="4 3")]
+  - type: write
+    prompt: "Nobody launches a negative number of times. Use `.loc` to set every negative count in `launches` to 0, then print the column as a list."
+    starter: |
+      import pandas as pd
+
+      crew = pd.DataFrame({"name": ["Ann", "Tom", "Wenna"], "launches": [-3, 12, -1]})
+    tests: |
+      TESTS = [
+          output("No negatives", expect="[0, 12, 0]"),
+          structure("Uses .loc", check=lambda tree, source: None if ".loc[" in source else "Make the change with crew.loc[rows, column] = 0."),
+      ]
+    solution: |
+      import pandas as pd
+
+      crew = pd.DataFrame({"name": ["Ann", "Tom", "Wenna"], "launches": [-3, 12, -1]})
+      crew.loc[crew["launches"] < 0, "launches"] = 0
+      print(crew["launches"].tolist())

@@ -1,0 +1,121 @@
+id: type-hints
+title: Type hints
+summary: |
+  A type hint is a note about what a value should be: `stamps: int` for a parameter, `-> int` for what a function returns, `list[Postcard]` for a list of postcards. Python doesn't check or convert anything when it runs; editors and checkers like mypy read the hints and warn you. Dataclasses use hints to find their fields.
+example: |
+  def postage(stamps: int, price: int) -> int:
+      return stamps * price
+
+  print(postage(3, 85))
+  print(postage("3", 2))
+misconceptions: [type-hints-enforced, type-hints-convert, hint-gives-default]
+related: [dataclasses]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def double(n: int) -> int:
+          return n * 2
+
+      print(double(2.5))
+    answer: "5.0"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      def total(prices: list[int]) -> int:
+          return sum(prices)
+
+      print(total((240, 85)))
+    options:
+      - text: "325"
+        correct: true
+      - text: A TypeError, because a tuple isn't a list
+        misconception: type-hints-enforced
+        feedback: "Python doesn't check hints while it runs. `sum` is happy with a tuple, so this works, hint or no hint."
+  - type: choice
+    prompt: What happens?
+    code: |
+      from dataclasses import dataclass
+
+      @dataclass
+      class Crate:
+          fish: str
+          count: int
+
+      print(Crate("crab"))
+    verify: error
+    options:
+      - text: A TypeError
+        correct: true
+        error: TypeError
+      - text: "It prints Crate(fish='crab', count=0)"
+        misconception: hint-gives-default
+        feedback: "`count: int` says what kind of value `count` holds. It doesn't give it one: without `= 0`, `count` must be passed."
+  - type: fix
+    prompt: "A dataclass only treats names with type hints as fields. Make `kind` a field, so `Stamp(\"first\", 135)` works."
+    code: |
+      from dataclasses import dataclass
+
+      @dataclass
+      class Stamp:
+          kind = ""
+          pence: int = 0
+
+      print(Stamp("first", 135))
+    tests: |
+      TESTS = [output("A first-class stamp", expect="Stamp(kind='first', pence=135)")]
+    solution: |
+      from dataclasses import dataclass
+
+      @dataclass
+      class Stamp:
+          kind: str = ""
+          pence: int = 0
+
+      print(Stamp("first", 135))
+  - type: fill
+    prompt: "Fill the gap with the hint that says what `postage` returns."
+    code: |
+      def postage(stamps: int, price: int) ___ int:
+          return stamps * price
+
+      print(postage(2, 85))
+    blanks: [["->"]]
+    tests: |
+      TESTS = [output("Two second-class stamps", expect="170")]
+  - type: write
+    prompt: "Add type hints to `fare`: `age` is an `int`, `returning` is a `bool`, and it returns a `float`."
+    starter: |
+      def fare(age, returning):
+          price = 3.0
+          if age < 16:
+              price = 1.5
+          if returning:
+              price = price * 2
+          return price
+    tests: |
+      import ast as _ast
+
+
+      def hinted(tree, source):
+          for node in tree.body:
+              if isinstance(node, _ast.FunctionDef) and node.name == "fare":
+                  got = [_ast.unparse(a.annotation) if a.annotation else None for a in node.args.args]
+                  back = _ast.unparse(node.returns) if node.returns else None
+                  if got == ["int", "bool"] and back == "float":
+                      return None
+          return "Hint age as int, returning as bool, and the return value as float."
+
+
+      TESTS = [
+          structure("The hints", check=hinted),
+          function("A return for an adult", call="fare", args=(40, True), expect=6.0),
+      ]
+    solution: |
+      def fare(age: int, returning: bool) -> float:
+          price = 3.0
+          if age < 16:
+              price = 1.5
+          if returning:
+              price = price * 2
+          return price

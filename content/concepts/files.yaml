@@ -1,0 +1,91 @@
+id: files
+title: Reading and writing files
+summary: |
+  `open(name)` opens a file for reading, and fails if it isn't there. `open(name, "w")` opens it for writing and empties it first; `open(name, "a")` adds to the end. `.read()` gives the whole file as one string and `.readlines()` gives a list of lines. `.write(text)` writes exactly the text you give it, with no new line unless you add `"\n"`.
+example: |
+  with open("notes.txt", "w") as notes:
+      notes.write("Overdue: 3\n")
+  with open("notes.txt", "a") as notes:
+      notes.write("Lost: 1\n")
+  with open("notes.txt") as notes:
+      print(notes.read())
+misconceptions: [write-adds-newline, write-replaces-each-time, write-mode-appends, read-missing-file-empty]
+related: [with-statement, csv-module, paths]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      with open("log.txt", "w") as log:
+          log.write("Overdue: 3\n")
+      with open("log.txt", "w") as log:
+          log.write("Lost: 1\n")
+      with open("log.txt") as log:
+          print(log.read())
+    answer: "Lost: 1"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      with open("returns.txt", "w") as returns:
+          returns.write("Emma\n")
+      with open("returns.txt", "a") as returns:
+          returns.write("Moby-Dick\n")
+      with open("returns.txt") as returns:
+          print(len(returns.readlines()))
+    answer: "2"
+  - type: choice
+    prompt: What happens?
+    code: |
+      with open("no-such-file.txt") as file:
+          print(file.read())
+    verify: error
+    options:
+      - text: A FileNotFoundError
+        correct: true
+        error: FileNotFoundError
+        feedback: "Reading needs the file to be there. Check with `Path(...).exists()` first if it might not be."
+      - text: It prints an empty line
+        misconception: read-missing-file-empty
+        feedback: "Only writing makes a missing file. Reading one that isn't there is an error."
+  - type: fix
+    prompt: "Each name should go on its own line of `names.txt`. Fix the writing so the program prints `3`."
+    code: |
+      with open("names.txt", "w") as names:
+          for name in ["Bea", "Tom", "Mira"]:
+              names.write(name)
+      with open("names.txt") as names:
+          print(len(names.readlines()))
+    tests: |
+      TESTS = [output("Three lines", expect="3")]
+    solution: |
+      with open("names.txt", "w") as names:
+          for name in ["Bea", "Tom", "Mira"]:
+              names.write(name + "\n")
+      with open("names.txt") as names:
+          print(len(names.readlines()))
+  - type: fill
+    prompt: "Fill the gap so the second title is added to the file, not written over the first."
+    code: |
+      with open("returns.txt", "w") as returns:
+          returns.write("Emma\n")
+      with open("returns.txt", ___) as returns:
+          returns.write("Moby-Dick\n")
+      with open("returns.txt") as returns:
+          print(returns.read())
+    blanks: [['"a"', "'a'"]]
+    tests: |
+      TESTS = [output("Both titles", expect="Emma\nMoby-Dick")]
+  - type: write
+    prompt: "Write `Low water 12:55` into a file called `tide.txt`, as a line of its own."
+    tests: |
+      def tide_file(ctx):
+          result = ctx.run_program()
+          text = result.files_out.get("tide.txt")
+          if text is None:
+              raise CheckFailed("There's no tide.txt after the program runs.")
+          if text != "Low water 12:55\n":
+              raise CheckFailed("tide.txt should hold one line: Low water 12:55, ending with a new line.", expected="Low water 12:55\n", actual=text)
+
+      TESTS = [custom("tide.txt holds the line", tide_file)]
+    solution: |
+      with open("tide.txt", "w") as tide:
+          tide.write("Low water 12:55\n")

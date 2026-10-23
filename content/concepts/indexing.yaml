@@ -1,0 +1,74 @@
+id: indexing
+title: Indexes start at 0
+summary: |
+  Each item in a list has an index: how many steps it is from the start. The first item is at index 0, so in a list of four the last is at index 3. `parcels[1]` gives the second item, and `parcels[1] = "Moss"` replaces it. An index past the end is an IndexError.
+example: |
+  parcels = ["Bea", "Tom", "Agnes"]
+  print(parcels[0])
+  parcels[1] = "Moss"
+  print(parcels)
+misconceptions: [index-from-one, index-gives-list, index-past-end-gives-nothing]
+related: [lists, negative-indices]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      holes = ["Bea", "Tom", "Agnes"]
+      print(holes[0])
+    answer: "Bea"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      parcels = ["Bea", "Tom", "Agnes"]
+      parcels[1] = "Moss"
+      print(parcels)
+    answer: "['Bea', 'Moss', 'Agnes']"
+  - type: choice
+    prompt: What happens?
+    code: |
+      holes = ["Bea", "Tom", "Agnes"]
+      print(holes[3])
+    verify: error
+    options:
+      - text: An IndexError
+        correct: true
+        error: IndexError
+        feedback: "Three items have indexes 0, 1 and 2. There is no index 3."
+      - text: It prints Agnes
+        misconception: index-from-one
+        feedback: "Agnes is the third item, but indexes start at 0, so she is at index 2."
+      - text: It prints None
+        misconception: index-past-end-gives-nothing
+        feedback: "Asking for an index that isn't there is an error, not an empty answer."
+  - type: fix
+    prompt: "This should print `Agnes`, the third parcel. Fix the index."
+    code: |
+      parcels = ["Bea", "Tom", "Agnes", "Gwen"]
+      print(parcels[3])
+    tests: |
+      TESTS = [output("Agnes", expect="Agnes")]
+    solution: |
+      parcels = ["Bea", "Tom", "Agnes", "Gwen"]
+      print(parcels[2])
+  - type: fill
+    prompt: "Fill the gap so this prints `Tom`."
+    code: |
+      parcels = ["Bea", "Tom", "Agnes"]
+      print(parcels[___])
+    blanks: [["1"]]
+    tests: |
+      TESTS = [output("Tom", expect="Tom")]
+  - type: write
+    prompt: "Print the first parcel and then the fourth, on separate lines, using indexes."
+    starter: |
+      parcels = ["Bea", "Tom", "Agnes", "Gwen", "Moss"]
+    tests: |
+      TESTS = [
+          output("First and fourth", expect="Bea\nGwen"),
+          structure("Uses indexes", requires=["Subscript"], message="Pick the parcels out of the list with square brackets."),
+      ]
+    solution: |
+      parcels = ["Bea", "Tom", "Agnes", "Gwen", "Moss"]
+      print(parcels[0])
+      print(parcels[3])

@@ -1,0 +1,122 @@
+id: assert
+title: assert
+summary: |
+  `assert condition` does nothing when the condition is true, and stops the program with an `AssertionError` when it's false. `assert x == y, "message"` adds a message; the part after the comma is never compared with anything. In a test, the expected answer must come from somewhere other than the code being tested.
+example: |
+  def to_minutes(time):
+      hours, mins = time.split(":")
+      return int(hours) * 60 + int(mins)
+
+  assert to_minutes("06:42") == 402
+  print("checked")
+misconceptions: [failed-assert-continues, assert-prints-result, assert-comma-compares, expected-from-the-code]
+related: [pytest, edge-cases, test-first]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def half(n):
+          return n / 2
+
+      assert half(10) == 5
+      print("checked")
+    answer: checked
+  - type: choice
+    prompt: What happens?
+    code: |
+      total = 240 + 85
+      assert total == 335, "the sum is off"
+      print("done")
+    verify: error
+    options:
+      - text: An AssertionError
+        correct: true
+        error: AssertionError
+      - text: It prints done
+        misconception: failed-assert-continues
+        feedback: "240 + 85 is 325, so the assert fails and the program stops there. `done` is never printed."
+  - type: choice
+    prompt: "`to_minutes` is wrong: it gives 642 for \"06:42\". What does this print?"
+    code: |
+      def to_minutes(time):
+          hours, mins = time.split(":")
+          return int(hours) * 100 + int(mins)
+
+      assert to_minutes("06:42"), 402
+      print("all good")
+    options:
+      - text: all good
+        correct: true
+      - text: An AssertionError
+        misconception: assert-comma-compares
+        feedback: "The comma makes 402 the message. The assert only checks that 642 is truthy, which it is. Write `== 402`."
+  - type: fix
+    prompt: "This test can never fail. Make it compare with an answer worked out by hand: three loaves at 240 pence."
+    code: |
+      def price(loaves):
+          return loaves * 240
+
+      def test_price():
+          assert price(3) == price(3)
+    tests: |
+      def can_fail(ctx):
+          m = ctx.module()
+          m.test_price()
+          m.price = lambda loaves: loaves * 200
+          try:
+              m.test_price()
+          except AssertionError:
+              return
+          raise CheckFailed("The test still passes when price is wrong.")
+
+
+      TESTS = [custom("The test notices a wrong price", can_fail)]
+    solution: |
+      def price(loaves):
+          return loaves * 240
+
+      def test_price():
+          assert price(3) == 720
+  - type: fill
+    prompt: "Fill the gap so the program stops if low water is wrong."
+    code: |
+      def low_after(minutes):
+          return minutes + 373
+
+      ___ low_after(402) == 775
+      print("low water checked")
+    blanks: [["assert"]]
+    tests: |
+      TESTS = [output("Checked", expect="low water checked")]
+  - type: write
+    prompt: "Write `test_bun_price()`, which asserts that `price(\"bun\", 4)` is 340."
+    starter: |
+      def price(item, quantity):
+          if item == "bread":
+              return quantity * 240
+          return quantity * 85
+    tests: |
+      def check(ctx):
+          m = ctx.module()
+          if not hasattr(m, "test_bun_price"):
+              raise CheckFailed("There is no function called test_bun_price.")
+          m.test_bun_price()
+          m.price = lambda item, quantity: quantity * 80
+          try:
+              m.test_bun_price()
+          except AssertionError:
+              return
+          raise CheckFailed("The test still passes when buns cost 80.")
+
+
+      TESTS = [custom("The test passes, and can fail", check)]
+    solution: |
+      def price(item, quantity):
+          if item == "bread":
+              return quantity * 240
+          return quantity * 85
+
+
+      def test_bun_price():
+          assert price("bun", 4) == 340

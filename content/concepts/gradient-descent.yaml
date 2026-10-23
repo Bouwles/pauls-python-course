@@ -1,0 +1,180 @@
+id: gradient-descent
+title: Gradient descent
+summary: |
+  Gradient descent finds the bottom of a loss by walking downhill. Each step works out the slope of the loss for every setting, then moves each setting by the learning rate times its slope, against the slope: `w = w - rate * dw`. Steep slopes give long strides, and the strides shrink near the bottom on their own. Too small a rate crawls; too big a rate overshoots and climbs further every step, and nothing stops it except someone watching the loss.
+example: |
+  import numpy as np
+
+  days = np.array([1.0, 2.0, 4.0])
+  slow = np.array([4.0, 8.0, 16.0])
+  drift = 0.0
+  for step in range(40):
+      slope = 2 * np.mean((drift * days - slow) * days)
+      drift = drift - 0.02 * slope
+  print(round(drift, 3))
+misconceptions: [bigger-rate-always-faster, divergence-raises-error, step-along-gradient, fixed-stride, rate-is-learnt]
+related: [linear-regression, mean-squared-error]
+cards:
+  - type: predict
+    prompt: "One step of gradient descent. What does this print?"
+    code: |
+      w = 2.0
+      slope = 6.0
+      rate = 0.1
+      w = w - rate * slope
+      print(round(w, 2))
+    answer: "1.4"
+  - type: choice
+    prompt: "The loss is lowest at `w = 3`. What does this print?"
+    code: |
+      def loss(w):
+          return (w - 3) ** 2
+
+
+      def slope(w):
+          return 2 * (w - 3)
+
+
+      w = 0.0
+      for step in range(3):
+          w = w + 0.25 * slope(w)
+      print(loss(w) > loss(0.0))
+    options:
+      - text: "True"
+        correct: true
+      - text: "False"
+        misconception: step-along-gradient
+        feedback: "The slope points uphill. At 0 it is -6, so adding a quarter of it moves w to -1.5, away from 3. Every step climbs higher: the loss ends bigger than it started."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      def slope(w):
+          return 2 * (w - 3)
+
+
+      w = 0.0
+      for step in range(3):
+          move = 0.25 * slope(w)
+          w = w - move
+          print(abs(move))
+    options:
+      - text: |-
+          1.5
+          0.75
+          0.375
+        correct: true
+      - text: |-
+          1.5
+          1.5
+          1.5
+        misconception: fixed-stride
+        feedback: "Each step is the rate times the slope where it stands. Closer to the bottom the slope is gentler, so the steps shrink: 1.5, then 0.75, then 0.375."
+      - text: |-
+          0.25
+          0.25
+          0.25
+        misconception: fixed-stride
+        feedback: "The rate isn't the step. The step is the rate times the slope, and the slope changes as w gets closer to 3."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      def slope(w):
+          return 2 * (w - 3)
+
+
+      for rate in [0.4, 1.1]:
+          w = 0.0
+          for step in range(10):
+              w = w - rate * slope(w)
+          print(rate, abs(w - 3) < 0.1)
+    options:
+      - text: |-
+          0.4 True
+          1.1 False
+        correct: true
+      - text: |-
+          0.4 True
+          1.1 True
+        misconception: bigger-rate-always-faster
+        feedback: "At 1.1 each step jumps past 3 and lands further away on the other side than it started. After ten steps w is about 18 from the bottom."
+      - text: "An OverflowError at 1.1"
+        misconception: divergence-raises-error
+        error: OverflowError
+        feedback: "Nothing complains. w just swings further from 3 each step, and the program prints False without a murmur."
+  - type: choice
+    prompt: "Wendt trained her focus line with a learning rate of 0.01. Where did the 0.01 come from?"
+    verify: none
+    options:
+      - text: "She chose it, and could have tried others"
+        correct: true
+      - text: "Gradient descent learnt it, along with w and b"
+        misconception: rate-is-learnt
+        feedback: "Gradient descent only moves the settings it has slopes for: w and b. The learning rate is a choice made before the walk starts, and a bad choice is the trainer's fault, not the model's."
+  - type: fill
+    prompt: "Fill the gap so the walk goes downhill to 5."
+    code: |
+      def slope(w):
+          return 2 * (w - 5)
+
+
+      w = 0.0
+      for step in range(100):
+          w = w ___ 0.1 * slope(w)
+      print(round(w, 3))
+    blanks: [["-"]]
+    tests: |
+      TESTS = [output("It reaches 5", expect="5.0")]
+  - type: fix
+    prompt: "The points are on y = 2x + 1, so this should print `2.0 1.0`. It prints `nan nan`. Fix it."
+    code: |
+      import numpy as np
+
+      x = np.array([0.0, 1.0, 2.0])
+      y = np.array([1.0, 3.0, 5.0])
+      w, b = 0.0, 0.0
+      for step in range(2000):
+          miss = y - (w * x + b)
+          w = w - 0.05 * 2 * np.mean(miss * x)
+          b = b - 0.05 * 2 * np.mean(miss)
+      print(round(w, 2), round(b, 2))
+    tests: |
+      TESTS = [output("The line y = 2x + 1", expect="2.0 1.0")]
+    solution: |
+      import numpy as np
+
+      x = np.array([0.0, 1.0, 2.0])
+      y = np.array([1.0, 3.0, 5.0])
+      w, b = 0.0, 0.0
+      for step in range(2000):
+          miss = (w * x + b) - y
+          w = w - 0.05 * 2 * np.mean(miss * x)
+          b = b - 0.05 * 2 * np.mean(miss)
+      print(round(w, 2), round(b, 2))
+  - type: write
+    prompt: "Write `descend(slope, start, rate, steps)`: start at `start` and take `steps` steps downhill, each of `rate` times `slope(x)`. Return where it ends."
+    starter: |
+      def descend(slope, start, rate, steps):
+          x = start
+          return x
+    tests: |
+      def to_the_bottom(ctx):
+          m = ctx.module()
+          got = m.descend(lambda x: 2 * (x - 3), 0.0, 0.1, 100)
+          if got is None or abs(got - 3) > 1e-6:
+              raise CheckFailed("100 steps at 0.1 on (x - 3) squared should end at 3.", expected=3.0, actual=got)
+
+
+      def one_step(ctx):
+          m = ctx.module()
+          got = m.descend(lambda x: 2 * x, 5.0, 0.25, 1)
+          if got is None or abs(got - 2.5) > 1e-9:
+              raise CheckFailed("One step from 5: the slope is 10, a quarter of it is 2.5, so it ends at 2.5.", expected=2.5, actual=got)
+
+
+      TESTS = [custom("Down to the bottom", to_the_bottom), custom("Exactly one step", one_step)]
+    solution: |
+      def descend(slope, start, rate, steps):
+          x = start
+          for step in range(steps):
+              x = x - rate * slope(x)
+          return x

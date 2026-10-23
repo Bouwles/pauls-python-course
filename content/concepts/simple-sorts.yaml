@@ -1,0 +1,139 @@
+id: simple-sorts
+title: Selection sort and insertion sort
+summary: |
+  Selection sort finds the smallest item left and swaps it into the next place, one pass per place. Insertion sort takes each item in turn and slides it left past every bigger one. Both are O(n²) on a jumbled list. Selection sort always does the same amount of looking, but insertion sort stops sliding as soon as the item to its left is smaller, so on a list that's nearly in order it's close to O(n).
+example: |
+  weights = [7, 3, 9, 1]
+  for position in range(1, len(weights)):
+      current = weights[position]
+      slot = position
+      while slot > 0 and weights[slot - 1] > current:
+          weights[slot] = weights[slot - 1]
+          slot = slot - 1
+      weights[slot] = current
+  print(weights)
+misconceptions: [one-pass-sorts, swap-shifts-along, index-is-the-value, selection-notices-order, one-at-a-time-swap]
+related: [big-o, merge-sort, sorted-vs-sort]
+drill: true
+cards:
+  - type: predict
+    prompt: "Two passes of insertion sort. What does this print?"
+    code: |
+      weights = [6, 2, 9, 1]
+      for position in range(1, 3):
+          current = weights[position]
+          slot = position
+          while slot > 0 and weights[slot - 1] > current:
+              weights[slot] = weights[slot - 1]
+              slot = slot - 1
+          weights[slot] = current
+      print(weights)
+    answer: "[2, 6, 9, 1]"
+  - type: choice
+    prompt: "Two passes of selection sort. What does this print?"
+    code: |
+      weights = [4, 3, 1, 2]
+      for start in range(2):
+          lightest = start
+          for position in range(start + 1, len(weights)):
+              if weights[position] < weights[lightest]:
+                  lightest = position
+          weights[start], weights[lightest] = weights[lightest], weights[start]
+      print(weights)
+    options:
+      - text: "[1, 2, 4, 3]"
+        correct: true
+        feedback: "Two passes put two parts in place: 1 at the front, then 2. The 4 and the 3 wait for a third pass."
+      - text: "[1, 2, 3, 4]"
+        misconception: one-pass-sorts
+        feedback: "Each pass places one part. After two passes only the first two places are settled; the 4 and the 3 are just where the swaps left them."
+      - text: "[4, 1, 2, 3]"
+        misconception: range-starts-at-one
+        feedback: "`range(2)` gives 0 and 1, so the two passes fill places 0 and 1. Passes for places 1 and 2 would leave the 4 at the front."
+  - type: choice
+    prompt: "Nell's pile is already in order, apart from one part near the end. Which sort finishes with the least work?"
+    verify: none
+    options:
+      - text: Insertion sort
+        correct: true
+        feedback: "Each part takes one look to see it's already in place. Only the stray part slides."
+      - text: Selection sort
+        misconception: selection-notices-order
+        feedback: "Selection sort still searches the whole of what's left on every pass, whether or not it's in order. It never notices the pile was tidy."
+  - type: fix
+    prompt: "This should print `[1, 2, 5, 8]`. It prints a pile of 1s. Fix the swap."
+    code: |
+      def selection_sort(weights):
+          for start in range(len(weights) - 1):
+              lightest = start
+              for position in range(start + 1, len(weights)):
+                  if weights[position] < weights[lightest]:
+                      lightest = position
+              weights[start] = weights[lightest]
+              weights[lightest] = weights[start]
+
+
+      pile = [5, 2, 8, 1]
+      selection_sort(pile)
+      print(pile)
+    tests: |
+      TESTS = [output("Sorted, nothing lost", expect="[1, 2, 5, 8]",
+                      hint="The first line of the swap overwrites weights[start] before the second line reads it. Swap both at once: a, b = b, a.")]
+    solution: |
+      def selection_sort(weights):
+          for start in range(len(weights) - 1):
+              lightest = start
+              for position in range(start + 1, len(weights)):
+                  if weights[position] < weights[lightest]:
+                      lightest = position
+              weights[start], weights[lightest] = weights[lightest], weights[start]
+
+
+      pile = [5, 2, 8, 1]
+      selection_sort(pile)
+      print(pile)
+  - type: fill
+    prompt: "Fill the gap so insertion sort puts the lightest first."
+    code: |
+      weights = [7, 3, 9, 1, 3]
+      for position in range(1, len(weights)):
+          current = weights[position]
+          slot = position
+          while slot > 0 and weights[slot - 1] ___ current:
+              weights[slot] = weights[slot - 1]
+              slot = slot - 1
+          weights[slot] = current
+      print(weights)
+    blanks: [[">"]]
+    tests: |
+      TESTS = [output("Lightest first", expect="[1, 3, 3, 7, 9]")]
+  - type: write
+    prompt: "Write `insertion_sort(weights)`, which sorts the list it's given in place, lightest first. No `sorted()` or `.sort()`."
+    starter: |
+      def insertion_sort(weights):
+          pass
+    tests: |
+      def sorts(weights):
+          def check(ctx):
+              pile = list(weights)
+              ctx.module().insertion_sort(pile)
+              if pile != sorted(weights):
+                  raise CheckFailed("The pile should be in order, lightest first.", expected=sorted(weights), actual=pile)
+          return check
+
+
+      TESTS = [
+          custom("Five weights", sorts([7, 3, 9, 3, 1])),
+          custom("Back to front", sorts([5, 4, 3, 2, 1])),
+          custom("Empty", sorts([])),
+          structure("By hand", forbids_calls=["sorted", "sort"]),
+      ]
+    solution: |
+      def insertion_sort(weights):
+          for position in range(1, len(weights)):
+              current = weights[position]
+              slot = position
+              while slot > 0 and weights[slot - 1] > current:
+                  weights[slot] = weights[slot - 1]
+                  slot = slot - 1
+              weights[slot] = current

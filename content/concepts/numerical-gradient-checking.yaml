@@ -1,0 +1,146 @@
+id: numerical-gradient-checking
+title: Checking gradients by measuring
+summary: |
+  To check a backward pass, measure each gradient instead: nudge one weight a hair up, then a hair down, and divide the change in the loss by the distance between them, `2 * step`. Put the weight back before moving on. If `np.allclose` says the measured and worked-out gradients agree, backward is right. A falling loss proves nothing: a gradient that points roughly downhill can be wrong and still go down.
+example: |
+  import numpy as np
+
+  weights = np.array([1.0, -2.0])
+  step = 1e-5
+  grad = np.zeros_like(weights)
+  for i in range(len(weights)):
+      original = weights[i]
+      weights[i] = original + step
+      up = np.sum(weights ** 2)
+      weights[i] = original - step
+      down = np.sum(weights ** 2)
+      weights[i] = original
+      grad[i] = (up - down) / (2 * step)
+  print(np.allclose(grad, 2 * weights))
+misconceptions: [central-difference-over-step, nudge-needs-no-restore, loss-falling-proves-gradients]
+related: [backpropagation]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def f(x):
+          return x ** 3
+
+
+      step = 1e-5
+      slope = (f(2.0 + step) - f(2.0 - step)) / (2 * step)
+      print(round(slope, 4))
+    answer: "12.0"
+  - type: choice
+    prompt: "The slope of `x ** 2` at 3 is 6. What does this measurement print?"
+    code: |
+      def f(x):
+          return x ** 2
+
+
+      step = 1e-5
+      print(round((f(3.0 + step) - f(3.0 - step)) / step, 3))
+    options:
+      - text: "12.0"
+        correct: true
+        feedback: "Right, and it's wrong by exactly double. Up and down are two steps apart, so the change should be divided by `2 * step`."
+      - text: "6.0"
+        misconception: central-difference-over-step
+        feedback: "The two nudges are `2 * step` apart, not `step`. Dividing by `step` doubles every slope."
+  - type: fix
+    prompt: "Measuring the gradient should leave `weights` exactly as it was. This one doesn't. Fix it."
+    code: |
+      import numpy as np
+
+
+      def numerical_gradient(f, array, step=1e-5):
+          grad = np.zeros_like(array)
+          for index in np.ndindex(array.shape):
+              original = array[index]
+              array[index] = original + step
+              up = f()
+              array[index] = original - step
+              down = f()
+              grad[index] = (up - down) / (2 * step)
+          return grad
+
+
+      weights = np.array([1.0, -2.0, 0.5])
+      numerical_gradient(lambda: np.sum(weights ** 2), weights)
+      print(weights)
+    tests: |
+      TESTS = [output("The weights are untouched", expect="[ 1.  -2.   0.5]")]
+    solution: |
+      import numpy as np
+
+
+      def numerical_gradient(f, array, step=1e-5):
+          grad = np.zeros_like(array)
+          for index in np.ndindex(array.shape):
+              original = array[index]
+              array[index] = original + step
+              up = f()
+              array[index] = original - step
+              down = f()
+              array[index] = original
+              grad[index] = (up - down) / (2 * step)
+          return grad
+
+
+      weights = np.array([1.0, -2.0, 0.5])
+      numerical_gradient(lambda: np.sum(weights ** 2), weights)
+      print(weights)
+  - type: fill
+    prompt: "Fill the gap so this measures the slope of `x ** 2` at 5."
+    code: |
+      def f(x):
+          return x ** 2
+
+
+      step = 1e-5
+      slope = (f(5.0 + step) - f(5.0 - step)) / (___ * step)
+      print(round(slope, 3))
+    blanks: [["2"]]
+    tests: |
+      TESTS = [output("The slope at 5 is 10", expect="10.0")]
+  - type: write
+    prompt: "Write `numerical_slope(f, x, step=1e-5)`: the slope of the one-number function `f` at `x`, measured a step either side."
+    starter: |
+      def numerical_slope(f, x, step=1e-5):
+          pass
+    tests: |
+      def slopes(ctx):
+          m = ctx.module()
+          cases = [(lambda x: x ** 2, 3.0, 6.0), (lambda x: x ** 3, -1.0, 3.0), (lambda x: 5 * x - 2, 10.0, 5.0)]
+          for f, x, want in cases:
+              got = m.numerical_slope(f, x)
+              if got is None or abs(got - want) > 1e-4:
+                  raise CheckFailed(f"The slope at {x}", expected=want, actual=repr(got))
+
+
+      TESTS = [custom("Three functions", slopes)]
+    solution: |
+      def numerical_slope(f, x, step=1e-5):
+          return (f(x + step) - f(x - step)) / (2 * step)
+  - type: choice
+    prompt: "This descent uses a gradient half the size it should be. What does it print after 50 steps?"
+    code: |
+      def loss(w):
+          return (w - 3.0) ** 2
+
+
+      def wrong_gradient(w):
+          return w - 3.0          # the true slope is 2 * (w - 3)
+
+
+      w = 0.0
+      for _ in range(50):
+          w = w - 0.1 * wrong_gradient(w)
+      print(round(loss(w), 4))
+    options:
+      - text: "0.0002"
+        correct: true
+        feedback: "Right. It points downhill, so it still gets there, only more slowly. A falling loss can't tell you a gradient is right; only measuring can."
+      - text: "9.0"
+        misconception: loss-falling-proves-gradients
+        feedback: "A wrong gradient that still points roughly downhill makes the loss fall. That's exactly why a falling loss proves nothing about backward."

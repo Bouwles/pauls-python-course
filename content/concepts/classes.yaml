@@ -1,0 +1,95 @@
+id: classes
+title: Classes and objects
+summary: |
+  A class is a pattern for making objects: `class Bike:` describes what every bike keeps and can do, and `Bike(7, 4)` makes one. Each object made from a class keeps its own attributes. Name a class for one thing, in CapitalisedWords: `Bike`, not `bikes`.
+example: |
+  class Bike:
+      def __init__(self, number, rate):
+          self.number = number
+          self.rate = rate
+
+  red = Bike(7, 4)
+  blue = Bike(12, 6)
+  print(red.number, blue.number)
+misconceptions: [attributes-shared-between-objects, class-is-the-thing]
+related: [init, attributes, methods, self]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      class Gull:
+          def __init__(self, name):
+              self.name = name
+              self.chips = 0
+
+      gerald = Gull("Gerald")
+      sue = Gull("Sue")
+      gerald.chips = gerald.chips + 3
+      print(gerald.chips, sue.chips)
+    answer: "3 0"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      class Lamp:
+          def __init__(self):
+              self.on = False
+
+      lamps = [Lamp(), Lamp(), Lamp()]
+      lamps[0].on = True
+      print([lamp.on for lamp in lamps])
+    options:
+      - text: "[True, False, False]"
+        correct: true
+      - text: "[True, True, True]"
+        misconception: attributes-shared-between-objects
+        feedback: "Each `Lamp()` makes a separate lamp with its own `on`. Switching one leaves the others dark."
+  - type: fix
+    prompt: "This should make a 2 kg parcel and print its weight. Fix the line that makes the parcel."
+    code: |
+      class Parcel:
+          def __init__(self, weight):
+              self.weight = weight
+
+      box = Parcel
+      print(box.weight)
+    tests: |
+      TESTS = [output("A 2 kg parcel", expect="2")]
+    solution: |
+      class Parcel:
+          def __init__(self, weight):
+              self.weight = weight
+
+      box = Parcel(2)
+      print(box.weight)
+  - type: fill
+    prompt: "Fill the gap so this defines a pattern for kettles."
+    code: |
+      ___ Kettle:
+          def __init__(self, owner):
+              self.owner = owner
+
+      print(Kettle("Bea").owner)
+    blanks: [["class"]]
+    tests: |
+      TESTS = [output("Bea's kettle", expect="Bea")]
+  - type: write
+    prompt: "Write a class `Crate` whose `__init__` takes `fish` and keeps it, and starts `count` at 0."
+    starter: |
+      # class Crate
+    tests: |
+      def crates(ctx):
+          m = ctx.module()
+          a = m.Crate("mackerel")
+          b = m.Crate("crab")
+          a.count = 5
+          if (a.fish, a.count, b.fish, b.count) != ("mackerel", 5, "crab", 0):
+              raise CheckFailed("Each crate should keep its own fish and count.",
+                                expected=("mackerel", 5, "crab", 0), actual=(a.fish, a.count, b.fish, b.count))
+
+
+      TESTS = [custom("Two crates", crates)]
+    solution: |
+      class Crate:
+          def __init__(self, fish):
+              self.fish = fish
+              self.count = 0

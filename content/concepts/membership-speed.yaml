@@ -1,0 +1,116 @@
+id: membership-speed
+title: How fast is in?
+summary: |
+  `in` on a list checks the items one at a time from the front, so the longer the list, the slower it gets, and the slowest case is an item that isn't there at all. `in` on a set goes straight to where the item would be, so its size barely matters. If a program asks `in` many times of the same collection, make a set first.
+example: |
+  import time
+
+  tickets = list(range(100_000))
+  ticket_set = set(tickets)
+
+  start = time.perf_counter()
+  print(-1 in tickets)
+  print(f"list: {time.perf_counter() - start:.5f} s")
+
+  start = time.perf_counter()
+  print(-1 in ticket_set)
+  print(f"set: {time.perf_counter() - start:.5f} s")
+misconceptions: [list-lookup-instant, set-faster-for-everything]
+related: [sets]
+cards:
+  - type: predict
+    prompt: "This loop does what `in` does on a list. What does it print?"
+    code: |
+      tickets = [7, 3, 9, 4, 1]
+      checks = 0
+      for ticket in tickets:
+          checks = checks + 1
+          if ticket == 4:
+              break
+      print(checks)
+    answer: "4"
+  - type: choice
+    prompt: "A list holds 100,000 raffle tickets. Which `in` check takes longest?"
+    verify: none
+    options:
+      - text: "`-1 in tickets`, a number that isn't there"
+        correct: true
+        feedback: "The list has to check every ticket before it can say no."
+      - text: "`0 in tickets`, the first ticket"
+        misconception: list-lookup-instant
+        feedback: "The first ticket is found on the first check. That's the quickest case there is."
+      - text: "They all take the same time"
+        misconception: list-lookup-instant
+        feedback: "A list stops as soon as it finds the item, so where the item is changes everything."
+  - type: choice
+    prompt: "Which `in` check gets slower as the collection grows?"
+    verify: none
+    options:
+      - text: In a list
+        correct: true
+        feedback: "More items means more to check, one at a time."
+      - text: In a set
+        feedback: "A set goes straight to where the item would be. Its size barely matters."
+      - text: Neither, `in` is always instant
+        misconception: list-lookup-instant
+        feedback: "On a list, `in` is a loop in disguise."
+  - type: choice
+    prompt: "Mrs Vance needs the lost items in the order they were handed in, repeats included. List or set?"
+    verify: none
+    options:
+      - text: A list
+        correct: true
+        feedback: "Order and repeats are the whole point here, and only a list keeps them."
+      - text: A set, because `in` is faster
+        misconception: set-faster-for-everything
+        feedback: "A set forgets the order and drops repeats. Speed doesn't help if the answer is wrong."
+  - type: fix
+    prompt: "This counts how many visitors are members, and it crawls. Keep the answer, but make the lookups use a set."
+    code: |
+      members = list(range(20_000))
+      visitors = list(range(19_000, 21_000))
+      count = 0
+      for visitor in visitors:
+          if visitor in members:
+              count = count + 1
+      print(count)
+    tests: |
+      TESTS = [
+          output("Same count", expect="1000"),
+          structure("Makes a set", calls=["set"]),
+      ]
+    solution: |
+      members = set(range(20_000))
+      visitors = list(range(19_000, 21_000))
+      count = 0
+      for visitor in visitors:
+          if visitor in members:
+              count = count + 1
+      print(count)
+  - type: fill
+    prompt: "Fill the gap so the lookup uses a set."
+    code: |
+      tickets = list(range(100_000))
+      ticket_set = ___(tickets)
+      print(99_999 in ticket_set)
+    blanks: [["set"]]
+    tests: |
+      TESTS = [output("Found it", expect="True")]
+  - type: write
+    prompt: "Make these lookups use a set, without changing what is printed."
+    starter: |
+      members = list(range(50_000))
+      visitors = [3, 49_999, 70_000, 12]
+      for visitor in visitors:
+          print(visitor in members)
+    tests: |
+      TESTS = [
+          output("Same answers", expect="True\nTrue\nFalse\nTrue"),
+          structure("Makes a set", calls=["set"]),
+      ]
+    solution: |
+      members = list(range(50_000))
+      member_set = set(members)
+      visitors = [3, 49_999, 70_000, 12]
+      for visitor in visitors:
+          print(visitor in member_set)

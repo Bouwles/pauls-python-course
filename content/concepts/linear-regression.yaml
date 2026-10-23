@@ -1,0 +1,131 @@
+id: linear-regression
+title: Linear regression
+summary: |
+  Linear regression predicts a number with a straight line: `prediction = w * x + b`. `w` is the slope, how much the prediction changes for each unit of `x`, and `b` is the intercept, the prediction at `x = 0`. The best line is the one with the smallest mean squared error; for one feature there's a formula for it, and gradient descent finds the same line by walking. Trust a line near the readings it was fitted to, and less the further you go.
+example: |
+  import numpy as np
+
+  x = np.array([0.0, 5.0, 10.0])
+  y = np.array([42.3, 41.7, 41.1])
+  w = np.sum((x - x.mean()) * (y - y.mean())) / np.sum((x - x.mean()) ** 2)
+  b = y.mean() - w * x.mean()
+  print(f"y = {w:.2f} * x + {b:.1f}")
+misconceptions: [best-line-through-most-points, slope-is-ratio-of-means, extrapolation-is-safe, intercept-is-first-reading]
+related: [mean-squared-error, gradient-descent]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      w, b = -0.12, 42.3
+      temperatures = np.array([0.0, 5.0, 10.0])
+      print(w * temperatures + b)
+    answer: "[42.3 41.7 41.1]"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      x = np.array([1.0, 2.0, 3.0, 4.0])
+      y = np.array([3.0, 5.0, 7.0, 9.0])
+      w = np.sum((x - x.mean()) * (y - y.mean())) / np.sum((x - x.mean()) ** 2)
+      b = y.mean() - w * x.mean()
+      print(w, b)
+    options:
+      - text: "2.0 1.0"
+        correct: true
+      - text: "2.4 0.0"
+        misconception: slope-is-ratio-of-means
+        feedback: "The mean of y over the mean of x is 2.4, but that line is forced through 0. The formula measures how y moves with x around their means, which gives 2, and then b is whatever puts the line through the middle: 1."
+      - text: "2.0 3.0"
+        misconception: intercept-is-first-reading
+        feedback: "3 is the first reading's y, at x = 1. The intercept is the line's value at x = 0, one step of 2 further down: 1."
+  - type: choice
+    prompt: "A line through four points. Which prints `True`?"
+    code: |
+      import numpy as np
+
+      x = np.array([0.0, 1.0, 2.0, 3.0])
+      y = np.array([0.0, 1.0, 2.0, 7.0])
+
+
+      def mse(w, b):
+          return np.mean((w * x + b - y) ** 2)
+
+
+      through_three = mse(1.0, 0.0)
+      tilted = mse(2.0, -1.0)
+      print(through_three > tilted)
+    options:
+      - text: "True"
+        correct: true
+      - text: "False"
+        misconception: best-line-through-most-points
+        feedback: "y = x goes exactly through three points but misses the fourth by 4: squared, 16, a mean of 4. The tilted line misses everything a little and scores 1.5. Best means smallest squared error, not most points hit."
+  - type: choice
+    prompt: "Wendt's focus line was fitted to nights between -2.5 and 13.7 degrees. A visiting astronomer wants the setting for 35 degrees. How far should she trust the line there?"
+    verify: none
+    options:
+      - text: "Much less than inside the readings: nothing in them says the brass behaves the same at 35 degrees"
+        correct: true
+      - text: "Just as much: a straight line carries on the same everywhere"
+        misconception: extrapolation-is-safe
+        feedback: "The line carries on; the telescope might not. Every reading it learnt from was below 14 degrees, so beyond that it is guessing in a straight line."
+  - type: fill
+    prompt: "Fill the gaps so `b` puts the best line through the middle of the readings."
+    code: |
+      import numpy as np
+
+      x = np.array([0.0, 2.0, 4.0])
+      y = np.array([1.0, 2.0, 3.0])
+      w = np.sum((x - x.mean()) * (y - y.mean())) / np.sum((x - x.mean()) ** 2)
+      b = ___ - w * ___
+      print(w, b)
+    blanks: [["y.mean()", "np.mean(y)"], ["x.mean()", "np.mean(x)"]]
+    tests: |
+      TESTS = [output("The line y = 0.5x + 1", expect="0.5 1.0")]
+  - type: fix
+    prompt: "The points are on y = 3x - 1, so this should print 3.0. It prints `inf`. Fix the formula."
+    code: |
+      import numpy as np
+
+      x = np.array([1.0, 2.0, 3.0, 4.0])
+      y = 3 * x - 1
+      w = np.sum((x - x.mean()) * (y - y.mean())) / np.sum(x - x.mean()) ** 2
+      print(w)
+    tests: |
+      TESTS = [output("The slope is 3", expect="3.0")]
+    solution: |
+      import numpy as np
+
+      x = np.array([1.0, 2.0, 3.0, 4.0])
+      y = 3 * x - 1
+      w = np.sum((x - x.mean()) * (y - y.mean())) / np.sum((x - x.mean()) ** 2)
+      print(w)
+  - type: write
+    prompt: "Write `predict(x, w, b)`: the line's prediction for every value in the array `x`, with no loop."
+    starter: |
+      import numpy as np
+
+
+      def predict(x, w, b):
+          pass
+    tests: |
+      import numpy as _np
+
+
+      def three_nights(ctx):
+          m = ctx.module()
+          got = m.predict(_np.array([0.0, 5.0, 10.0]), -0.12, 42.3)
+          if got is None or _np.shape(got) != (3,) or not _np.allclose(got, [42.3, 41.7, 41.1]):
+              raise CheckFailed("One prediction for each value of x.", expected=[42.3, 41.7, 41.1], actual=repr(got))
+
+
+      TESTS = [custom("Three nights at once", three_nights)]
+    solution: |
+      import numpy as np
+
+
+      def predict(x, w, b):
+          return w * x + b

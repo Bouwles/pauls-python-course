@@ -1,0 +1,90 @@
+id: range
+title: range
+summary: |
+  `range(4)` gives 0, 1, 2, 3: it starts at 0 and stops before 4. `range(1, 5)` starts at 1 and stops before 5. A third number is the step: `range(5, 0, -1)` counts 5, 4, 3, 2, 1, and `range(1, 10, 2)` gives the odd numbers.
+example: |
+  for n in range(5, 0, -1):
+      print(n)
+misconceptions: [range-includes-end, range-starts-at-one, range-counts-up-only]
+related: [for-loops, loop-variables]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      for n in range(2, 5):
+          print(n)
+    answer: "2\n3\n4"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      for n in range(3):
+          print(n)
+    options:
+      - text: |-
+          0
+          1
+          2
+        correct: true
+      - text: |-
+          1
+          2
+          3
+        misconception: range-starts-at-one
+        feedback: "With one number, `range` starts at 0."
+      - text: |-
+          0
+          1
+          2
+          3
+        misconception: range-includes-end
+        feedback: "`range` stops before its end. `range(3)` is three numbers: 0, 1, 2."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      for n in range(3, 0, -1):
+          print(n)
+    options:
+      - text: |-
+          3
+          2
+          1
+        correct: true
+      - text: |-
+          3
+          2
+          1
+          0
+        misconception: range-includes-end
+        feedback: "Counting down, it still stops before the end. 0 is the end, so it isn't included."
+      - text: Nothing is printed
+        misconception: range-counts-up-only
+        feedback: "With a step of -1, `range` counts down. Without the step, `range(3, 0)` would indeed be empty."
+  - type: fix
+    prompt: "This should print the numbers 1 to 10. Fix the range."
+    code: |
+      for n in range(10):
+          print(n)
+    tests: |
+      TESTS = [output("1 to 10", expect="\n".join(str(n) for n in range(1, 11)))]
+    solution: |
+      for n in range(1, 11):
+          print(n)
+  - type: fill
+    prompt: "Fill the gap so this counts down 5, 4, 3, 2, 1."
+    code: |
+      for n in range(___):
+          print(n)
+    blanks: [["5, 0, -1", "5,0,-1"]]
+    tests: |
+      TESTS = [output("Countdown", expect="5\n4\n3\n2\n1")]
+  - type: write
+    prompt: "Print the even numbers from 2 to 10, one per line, using one `range`."
+    tests: |
+      TESTS = [
+          output("Evens", expect="2\n4\n6\n8\n10"),
+          structure("Uses a for loop", requires=["For"], message="Use a for loop over a range."),
+      ]
+    solution: |
+      for n in range(2, 11, 2):
+          print(n)

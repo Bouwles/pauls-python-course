@@ -1,0 +1,58 @@
+id: sort-key
+title: Sorting with key=
+summary: |
+  `sorted(items, key=f)` calls `f` on every item and sorts by what comes back, but hands back the items themselves. `key=len` sorts by length; `key=lambda stall: stall[1]` by the second part. Pass the function, don't call it: `key=len`, not `key=len()`. `reverse=True` puts the biggest first, and `.sort()`, `max` and `min` take `key=` as well.
+example: |
+  fruit = ["fig", "banana", "kiwi"]
+  print(sorted(fruit, key=len))
+  print(max(fruit, key=len))
+misconceptions: [key-returns-keys, key-needs-call]
+related: [lambda, functions-as-values, sorted-vs-sort]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      stalls = [("Bea", 3), ("Gwen", 1), ("Sanjay", 2)]
+      print(sorted(stalls, key=lambda stall: stall[1]))
+    answer: "[('Gwen', 1), ('Sanjay', 2), ('Bea', 3)]"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      words = ["leek", "fig", "plum"]
+      print(sorted(words, key=len))
+    options:
+      - text: "['fig', 'leek', 'plum']"
+        correct: true
+      - text: "[3, 4, 4]"
+        misconception: key-returns-keys
+        feedback: "The lengths are only used for comparing. `sorted` hands back the words themselves."
+      - text: "['fig', 'plum', 'leek']"
+        feedback: "Leek and plum tie on length, and a tie keeps the order they started in: leek was first."
+  - type: fix
+    prompt: "This should print the trays, shortest name first. It crashes. Fix it."
+    code: |
+      trays = ["shortbread", "bun", "loaf"]
+      print(sorted(trays, key=len()))
+    tests: |
+      TESTS = [output("Shortest first", expect="['bun', 'loaf', 'shortbread']", hint="key= wants the function itself: key=len.")]
+    solution: |
+      trays = ["shortbread", "bun", "loaf"]
+      print(sorted(trays, key=len))
+  - type: fill
+    prompt: "Fill the gap so this prints the crate with the most in it."
+    code: |
+      crates = [("plums", 12), ("figs", 4), ("leeks", 30)]
+      print(max(crates, ___=lambda crate: crate[1]))
+    blanks: [["key"]]
+    tests: |
+      TESTS = [output("Leeks", expect="('leeks', 30)")]
+  - type: write
+    prompt: "Print a list of the names in `scores`, highest score first. A dictionary's `.get` makes a good key."
+    starter: |
+      scores = {"Gwen": 7, "Agnes": 9, "Tom": 4}
+    tests: |
+      TESTS = [output("Agnes, Gwen, Tom", expect="['Agnes', 'Gwen', 'Tom']")]
+    solution: |
+      scores = {"Gwen": 7, "Agnes": 9, "Tom": 4}
+      print(sorted(scores, key=scores.get, reverse=True))

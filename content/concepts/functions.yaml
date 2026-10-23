@@ -1,0 +1,109 @@
+id: functions
+title: Functions
+summary: |
+  `def ring_bell():` teaches Python a new command, and the indented lines under it are what the command does. Nothing in them runs until the function is called, with brackets: `ring_bell()`. Call it as often as you like. A function names one piece of work, so you can check it on its own and stop writing it out twice.
+example: |
+  def ring_bell():
+      print("Ding")
+
+  print("Last orders")
+  ring_bell()
+  ring_bell()
+misconceptions: [def-runs-body, call-needs-print, call-without-brackets]
+related: [parameters, return-values]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def horn():
+          print("Boom")
+
+      print("Fog")
+      horn()
+    answer: |-
+      Fog
+      Boom
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def cheer():
+          print("Hooray")
+          print("Again")
+
+      cheer()
+      cheer()
+    answer: |-
+      Hooray
+      Again
+      Hooray
+      Again
+  - type: choice
+    prompt: What does this print?
+    code: |
+      def greet():
+          print("Evening")
+
+      greet
+      print("Done")
+    options:
+      - text: |-
+          Evening
+          Done
+        misconception: call-without-brackets
+        feedback: "Without brackets, `greet` is just the function's name. Nothing calls it. `greet()` would."
+      - text: Done
+        correct: true
+  - type: choice
+    prompt: What does this print?
+    code: |
+      def welcome():
+          print("Welcome aboard")
+
+      print("Boarding")
+    options:
+      - text: |-
+          Welcome aboard
+          Boarding
+        misconception: def-runs-body
+        feedback: "A `def` only stores the instructions. Nothing here calls `welcome()`, so it never runs."
+      - text: Boarding
+        correct: true
+  - type: fix
+    prompt: "The bell should ring twice. Fix the last two lines."
+    code: |
+      def ring():
+          print("Ding")
+
+      ring
+      ring
+    tests: |
+      TESTS = [output("Two rings", expect="Ding\nDing")]
+    solution: |
+      def ring():
+          print("Ding")
+
+      ring()
+      ring()
+  - type: fill
+    prompt: "Fill the gap so this prints `Ding`."
+    code: |
+      ___ ring_bell():
+          print("Ding")
+
+      ring_bell()
+    blanks: [["def"]]
+    tests: |
+      TESTS = [output("Ding", expect="Ding")]
+  - type: write
+    prompt: "Write a function `last_orders()` that prints `Last orders, please.` Then call it once."
+    tests: |
+      TESTS = [
+          function("last_orders() prints the line", call="last_orders", expect=None, prints="Last orders, please."),
+          output("Called once", expect="Last orders, please.", hint="Call the function once, below the def."),
+      ]
+    solution: |
+      def last_orders():
+          print("Last orders, please.")
+
+      last_orders()

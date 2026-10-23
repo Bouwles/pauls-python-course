@@ -1,0 +1,128 @@
+id: backpropagation
+title: Backpropagation
+summary: |
+  Backpropagation works out how the loss changes with every weight by running the chain rule backwards. Do the forward pass and keep every value; then start at the loss and walk back, multiplying the blame arriving at each value by that link's local slope. A weight's gradient is the blame arriving times what went in. ReLU passes blame only where it fired, sigmoid scales it by `P * (1 - P)`, and every gradient has the same shape as the thing it belongs to.
+example: |
+  # x = 2, w1 = 0.5, w2 = 3, target 1
+  h = 0.5 * 2.0           # forward, keeping every value
+  a = max(h, 0.0)
+  y = 3.0 * a
+  d_y = 2 * (y - 1.0)     # backward, from the loss
+  d_a = d_y * 3.0
+  d_h = d_a * (1.0 if h > 0 else 0.0)
+  print(d_h * 2.0)        # dL/dw1
+misconceptions: [relu-gate-ignored, sigmoid-passes-blame-unchanged, sigmoid-slope-constant, gradient-shape-differs]
+related: [numerical-gradient-checking, neural-networks, activation-functions]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      x, w1, w2, target = 1.0, 2.0, -1.0, 0.0
+
+      h = w1 * x
+      a = max(h, 0.0)
+      y = w2 * a
+
+      d_y = 2 * (y - target)
+      d_a = d_y * w2
+      d_h = d_a * (1.0 if h > 0 else 0.0)
+      d_w1 = d_h * x
+      print(d_y, d_w1)
+    answer: "-4.0 4.0"
+  - type: choice
+    prompt: "The ReLU's input is negative here. What does the measured slope for `w1` come to?"
+    code: |
+      def loss(w1, x=2.0, w2=3.0, target=1.0):
+          a = max(w1 * x, 0.0)
+          return (w2 * a - target) ** 2
+
+
+      step = 1e-6
+      print(round((loss(-0.5 + step) - loss(-0.5 - step)) / (2 * step), 3))
+    options:
+      - text: "0.0"
+        correct: true
+        feedback: "Right. `w1 * x` is -1, so the ReLU outputs 0 and keeps outputting 0 for any small nudge. No blame gets back through it, so `w1` doesn't move."
+      - text: "-12.0"
+        misconception: relu-gate-ignored
+        feedback: "That's what you'd get if blame passed straight through the ReLU. Where it cut the number to 0, its slope is 0, and so is everything behind it."
+  - type: fill
+    prompt: "Fill the gap so `dW2` has the same shape as a (4, 2) `W2`."
+    code: |
+      import numpy as np
+
+      H = np.ones((5, 4))      # 5 examples, 4 hidden neurons
+      dZ2 = np.ones((5, 2))    # 5 examples, 2 answers
+      dW2 = H.___ @ dZ2
+      print(dW2.shape)
+    blanks: [["T"]]
+    tests: |
+      TESTS = [output("Shaped like W2", expect="(4, 2)")]
+  - type: fix
+    prompt: "This backward pass lets blame through hidden neurons that didn't fire. Fix the line that makes `dZ1`."
+    code: |
+      import numpy as np
+
+      X = np.array([[1.0, -1.0], [0.5, 2.0]])
+      W1 = np.array([[1.0, -2.0], [0.5, 1.0]])
+      Z1 = X @ W1
+      dH = np.array([[0.1, 0.2], [0.3, -0.4]])
+
+      dZ1 = dH
+      dW1 = X.T @ dZ1
+      print(np.round(dW1, 2))
+    tests: |
+      TESTS = [output("Blame only where the ReLU fired", expect="0.25 -0.2 0.5 -0.8", match="numbers")]
+    solution: |
+      import numpy as np
+
+      X = np.array([[1.0, -1.0], [0.5, 2.0]])
+      W1 = np.array([[1.0, -2.0], [0.5, 1.0]])
+      Z1 = X @ W1
+      dH = np.array([[0.1, 0.2], [0.3, -0.4]])
+
+      dZ1 = dH * (Z1 > 0)
+      dW1 = X.T @ dZ1
+      print(np.round(dW1, 2))
+  - type: write
+    prompt: "Write `sigmoid_backward(dP, P)`: given the blame arriving at a sigmoid's output `P`, return the blame passed back to its input."
+    starter: |
+      import numpy as np
+
+
+      def sigmoid_backward(dP, P):
+          pass
+    tests: |
+      import numpy as np
+
+
+      def through(ctx):
+          m = ctx.module()
+          dP = np.array([[0.5], [-1.0], [2.0]])
+          P = np.array([[0.5], [0.9], [0.9997]])
+          got = m.sigmoid_backward(dP, P)
+          want = dP * P * (1 - P)
+          if got is None or np.shape(got) != want.shape or not np.allclose(got, want):
+              raise CheckFailed("Blame through three sigmoids.", expected=np.round(want, 5).tolist(), actual=repr(got))
+
+
+      TESTS = [custom("Three sigmoids, one nearly saturated", through)]
+    solution: |
+      import numpy as np
+
+
+      def sigmoid_backward(dP, P):
+          return dP * P * (1 - P)
+  - type: choice
+    prompt: "`W1` has shape (4, 5), and a batch of 32 examples goes through. What shape is `dW1`?"
+    verify: none
+    options:
+      - text: "(4, 5)"
+        correct: true
+        feedback: "Right. A gradient holds one slope for each number in the weight, so it is always the weight's shape. The batch is added up inside `X.T @ dZ1`."
+      - text: "(32, 5)"
+        misconception: gradient-shape-differs
+        feedback: "That's the shape of `dZ1`, one row per example. `X.T @ dZ1` adds the examples up and leaves one slope per weight."
+      - text: "(5, 4)"
+        misconception: gradient-shape-differs
+        feedback: "The gradient isn't turned round. It must line up with `W1` entry for entry, so you can subtract it."

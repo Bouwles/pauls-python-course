@@ -1,0 +1,91 @@
+id: with-statement
+title: with blocks
+summary: |
+  `with open(...) as name:` opens a file and closes it when the indented block ends, even if the code inside crashes. Use the file inside the block. After it, the file is shut, but anything you read into a variable is still there.
+example: |
+  with open("shelf.txt", "w") as shelf:
+      shelf.write("Emma\n")
+      print(shelf.closed)
+  print(shelf.closed)
+misconceptions: [with-keeps-file-open, with-loses-variables]
+related: [files]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      with open("shelf.txt", "w") as shelf:
+          shelf.write("Emma\n")
+          print(shelf.closed)
+      print(shelf.closed)
+    answer: "False\nTrue"
+  - type: choice
+    prompt: What happens?
+    code: |
+      with open("shelf.txt", "w") as shelf:
+          shelf.write("Emma\n")
+      shelf.write("Moby-Dick\n")
+    verify: error
+    options:
+      - text: A ValueError
+        correct: true
+        error: ValueError
+        feedback: "The file closed when the block ended. Writing to a closed file is an error: `I/O operation on closed file`."
+      - text: It writes Moby-Dick on the second line
+        misconception: with-keeps-file-open
+        feedback: "The `with` block closes the file as it ends. Line 3 is outside the block."
+  - type: predict
+    prompt: What does this print?
+    code: |
+      with open("shelf.txt", "w") as shelf:
+          shelf.write("Emma\nMoby-Dick\n")
+      with open("shelf.txt") as shelf:
+          books = shelf.readlines()
+      print(len(books))
+    answer: "2"
+  - type: fix
+    prompt: "This reads from the file after the block has closed it. Move the reading inside the block so it prints both lines."
+    code: |
+      with open("shelf.txt", "w") as shelf:
+          shelf.write("Emma\n")
+
+      with open("shelf.txt") as shelf:
+          print("Reading the shelf")
+      print(shelf.read().strip())
+    tests: |
+      TESTS = [output("Reads inside the block", expect="Reading the shelf\nEmma")]
+    solution: |
+      with open("shelf.txt", "w") as shelf:
+          shelf.write("Emma\n")
+
+      with open("shelf.txt") as shelf:
+          print("Reading the shelf")
+          print(shelf.read().strip())
+  - type: fill
+    prompt: "Fill the gap so the file closes itself."
+    code: |
+      ___ open("hours.txt", "w") as hours:
+          hours.write("9 till 5\n")
+      with open("hours.txt") as hours:
+          print(hours.read().strip())
+    blanks: [["with"]]
+    tests: |
+      TESTS = [output("The hours", expect="9 till 5")]
+  - type: write
+    prompt: "Rewrite this with two `with` blocks, so nothing has to be closed by hand. It should still print `Closed Mondays`."
+    starter: |
+      sign = open("sign.txt", "w")
+      sign.write("Closed Mondays\n")
+      sign.close()
+      sign = open("sign.txt")
+      print(sign.read().strip())
+      sign.close()
+    tests: |
+      TESTS = [
+          output("The sign", expect="Closed Mondays"),
+          structure("Uses with, not close()", requires=["With"], forbids_calls=["close"]),
+      ]
+    solution: |
+      with open("sign.txt", "w") as sign:
+          sign.write("Closed Mondays\n")
+      with open("sign.txt") as sign:
+          print(sign.read().strip())

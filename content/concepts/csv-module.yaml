@@ -1,0 +1,120 @@
+id: csv-module
+title: The csv module
+summary: |
+  The `csv` module reads and writes comma-separated files properly, including values with commas inside, which it wraps in quotes. `csv.DictReader` gives each row as a dictionary keyed by the header line; `csv.DictWriter` writes dictionaries back, with `writeheader()` for the first line. Every value comes back as text. Open the file with `newline=""`.
+example: |
+  import csv
+
+  with open("books.csv", "w", newline="") as file:
+      writer = csv.writer(file)
+      writer.writerow(["title", "year"])
+      writer.writerow(["Knots, Unexplained", 2004])
+
+  with open("books.csv", newline="") as file:
+      for row in csv.DictReader(file):
+          print(row["title"], row["year"])
+misconceptions: [split-handles-quotes, csv-gives-numbers, dictreader-includes-header]
+related: [files, with-statement]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import csv
+
+      with open("books.csv", "w", newline="") as file:
+          writer = csv.writer(file)
+          writer.writerow(["title", "year"])
+          writer.writerow(["Emma", 1815])
+
+      with open("books.csv", newline="") as file:
+          books = list(csv.DictReader(file))
+      print(len(books), books[0]["year"])
+    answer: "1 1815"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      line = '"Knots, Unexplained",Captain Ferro,2004'
+      print(len(line.split(",")))
+    options:
+      - text: "4"
+        correct: true
+        feedback: "`split` cuts at every comma, including the one inside the quotes."
+      - text: "3"
+        misconception: split-handles-quotes
+        feedback: "`split` knows nothing about quotes. Only the `csv` module treats a quoted value as one piece."
+  - type: choice
+    prompt: What happens?
+    code: |
+      import csv
+
+      with open("books.csv", "w", newline="") as file:
+          writer = csv.writer(file)
+          writer.writerow(["title", "year"])
+          writer.writerow(["Emma", 1815])
+
+      with open("books.csv", newline="") as file:
+          for book in csv.DictReader(file):
+              print(book["year"] + 1)
+    verify: error
+    options:
+      - text: A TypeError
+        correct: true
+        error: TypeError
+        feedback: "`book[\"year\"]` is the text `\"1815\"`. Text plus a number is a TypeError; `int()` it first."
+      - text: It prints 1816
+        misconception: csv-gives-numbers
+        feedback: "Everything read from a CSV file is text, numbers included."
+  - type: fix
+    prompt: "The title has a comma in it, so splitting cuts it in two. Read the row with the `csv` module so it prints `Knots, Unexplained`."
+    code: |
+      with open("books.csv", "w") as file:
+          file.write('"Knots, Unexplained",Captain Ferro,2004\n')
+
+      with open("books.csv") as file:
+          line = file.readline()
+      print(line.split(",")[0])
+    tests: |
+      TESTS = [output("The whole title", expect="Knots, Unexplained")]
+    solution: |
+      import csv
+
+      with open("books.csv", "w") as file:
+          file.write('"Knots, Unexplained",Captain Ferro,2004\n')
+
+      with open("books.csv", newline="") as file:
+          rows = list(csv.reader(file))
+      print(rows[0][0])
+  - type: fill
+    prompt: "Fill the gap so the file starts with its column names."
+    code: |
+      import csv
+
+      with open("loans.csv", "w", newline="") as file:
+          writer = csv.DictWriter(file, fieldnames=["tool", "borrower"])
+          writer.___()
+          writer.writerow({"tool": "spokeshave", "borrower": "Dev"})
+
+      with open("loans.csv") as file:
+          print(file.readline().strip())
+    blanks: [["writeheader"]]
+    tests: |
+      TESTS = [output("The header line", expect="tool,borrower")]
+  - type: write
+    prompt: "`books.csv` is written for you. Use `csv.DictReader` to print each book's title, one per line."
+    starter: |
+      with open("books.csv", "w") as file:
+          file.write('title,year\nEmma,1815\n"Knots, Unexplained",2004\n')
+    tests: |
+      TESTS = [
+          output("Both titles", expect="Emma\nKnots, Unexplained"),
+          structure("Uses DictReader", calls=["DictReader"]),
+      ]
+    solution: |
+      import csv
+
+      with open("books.csv", "w") as file:
+          file.write('title,year\nEmma,1815\n"Knots, Unexplained",2004\n')
+
+      with open("books.csv", newline="") as file:
+          for book in csv.DictReader(file):
+              print(book["title"])

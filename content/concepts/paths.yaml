@@ -1,0 +1,100 @@
+id: paths
+title: Paths
+summary: |
+  A `Path` from `pathlib` is a file name that understands itself. `Path("records") / "loans.csv"` joins a folder and a file the right way, `.exists()` says whether it's there, and `.name`, `.stem` and `.suffix` pick the name apart. A name with no folder in front is relative: it means the folder the program is running in.
+example: |
+  from pathlib import Path
+
+  loans = Path("records") / "loans.csv"
+  print(loans)
+  print(loans.name, loans.stem, loans.suffix)
+  print(loans.exists())
+misconceptions: [path-slash-is-division, suffix-without-dot, relative-path-anywhere]
+related: [files]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      from pathlib import Path
+
+      report = Path("library") / "overdue.csv"
+      print(report)
+    answer: "library/overdue.csv"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      from pathlib import Path
+
+      print(Path("catalogue.csv").suffix)
+    options:
+      - text: ".csv"
+        correct: true
+        feedback: "The suffix keeps its dot."
+      - text: "csv"
+        misconception: suffix-without-dot
+        feedback: "`.suffix` includes the dot. Handy, because you can stick it straight back on."
+      - text: "catalogue"
+        feedback: "That's `.stem`, the name without the suffix."
+  - type: predict
+    prompt: What does this print?
+    code: |
+      from pathlib import Path
+
+      with open("loans.csv", "w") as file:
+          file.write("tool,borrower\n")
+
+      print(Path("loans.csv").exists(), Path("lones.csv").exists())
+    answer: "True False"
+  - type: fix
+    prompt: "This crashes the first time, before `loans.csv` exists. Make `load` give back an empty list when the file isn't there."
+    code: |
+      from pathlib import Path
+
+
+      def load(path):
+          with open(path) as file:
+              return file.readlines()
+
+
+      print(load(Path("loans.csv")))
+    tests: |
+      TESTS = [
+          output("No file yet", expect="[]"),
+          output("A file with one loan", files={"loans.csv": "spokeshave\n"}, expect="['spokeshave\\n']"),
+      ]
+    solution: |
+      from pathlib import Path
+
+
+      def load(path):
+          if not path.exists():
+              return []
+          with open(path) as file:
+              return file.readlines()
+
+
+      print(load(Path("loans.csv")))
+  - type: fill
+    prompt: "Fill the gap to put `catalogue.csv` inside the `library` folder."
+    code: |
+      from pathlib import Path
+
+      catalogue = Path("library") ___ "catalogue.csv"
+      print(catalogue.name)
+      print(catalogue)
+    blanks: [["/"]]
+    tests: |
+      TESTS = [output("Folder and file", expect="catalogue.csv\nlibrary/catalogue.csv")]
+  - type: write
+    prompt: "Print just the name of the file in `path`, without its folder or its `.csv`."
+    starter: |
+      from pathlib import Path
+
+      path = Path("records") / "donations.csv"
+    tests: |
+      TESTS = [output("The bare name", expect="donations")]
+    solution: |
+      from pathlib import Path
+
+      path = Path("records") / "donations.csv"
+      print(path.stem)

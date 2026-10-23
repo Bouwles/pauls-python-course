@@ -1,0 +1,115 @@
+id: selecting-filtering
+title: Selecting and filtering rows
+summary: |
+  A condition on a column, like `census["age"] > 80`, gives a Series of `True` and `False`. Put it inside `census[...]` and you keep the rows marked `True`. Combine conditions with `&` (and), `|` (or) and `~` (not), with brackets round each one; Python's `and` won't work on a Series. Filtered rows keep their original labels, so `.loc` finds rows by label and `.iloc` by position.
+example: |
+  import pandas as pd
+
+  people = pd.DataFrame({
+      "name": ["Edith Hollis", "Walter Rook", "Mary Rook", "Sam Rook"],
+      "parish": ["High Street", "Harbour", "Harbour", "Harbour"],
+      "age": [34, 88, 52, 9],
+  })
+  older = people[(people["age"] > 50) & (people["parish"] == "Harbour")]
+  print(older)
+  print(older.iloc[0]["name"], older.loc[2, "name"])
+misconceptions: [and-combines-series, and-returns-last-condition, filter-renumbers-rows, loc-reads-original, compare-number-with-text]
+related: [pandas-basics, vectorisation, boolean-operators]
+drill: true
+cards:
+  - type: predict
+    prompt: How many rows are left?
+    code: |
+      import pandas as pd
+
+      people = pd.DataFrame({
+          "name": ["Edith Hollis", "Walter Rook", "Mary Rook", "Sam Rook"],
+          "age": [34, 88, 52, 9],
+      })
+      print(len(people[people["age"] > 30]))
+    answer: "3"
+  - type: choice
+    prompt: What happens?
+    code: |
+      import pandas as pd
+
+      people = pd.DataFrame({"name": ["Edith", "Walter", "Sam"], "age": [34, 88, 9]})
+      print(people[people["age"] > 20 and people["age"] < 60])
+    verify: error
+    options:
+      - text: A ValueError
+        correct: true
+        error: ValueError
+        feedback: "`and` needs one True or False, and a Series has one per row. Use `&`, with brackets round each condition."
+      - text: It prints Edith's row
+        misconception: and-combines-series
+        feedback: "That's the right idea with the wrong word. Row by row, \"and\" is `&`: `(people[\"age\"] > 20) & (people[\"age\"] < 60)`."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import pandas as pd
+
+      people = pd.DataFrame({"name": ["Edith", "Walter", "Mary", "Sam"], "age": [34, 88, 52, 9]})
+      older = people[people["age"] > 50]
+      print(older.index.tolist())
+    options:
+      - text: "[1, 2]"
+        correct: true
+        feedback: "Filtered rows keep their labels. Walter was row 1 and Mary row 2, and they still are."
+      - text: "[0, 1]"
+        misconception: filter-renumbers-rows
+        feedback: "Filtering doesn't renumber. Each row keeps its original label, so `older.loc[0]` would be a KeyError. `.iloc[0]` goes by position."
+  - type: fill
+    prompt: "Fill the gap so only the over-fifties at the harbour are kept."
+    code: |
+      import pandas as pd
+
+      people = pd.DataFrame({
+          "name": ["Edith Hollis", "Walter Rook", "Mary Rook", "Sam Rook"],
+          "parish": ["High Street", "Harbour", "Harbour", "Harbour"],
+          "age": [34, 88, 52, 9],
+      })
+      older = people[(people["age"] > 50) ___ (people["parish"] == "Harbour")]
+      print(older["name"].tolist())
+    blanks: [["&"]]
+    tests: |
+      TESTS = [output("Walter and Mary", expect="['Walter Rook', 'Mary Rook']")]
+  - type: fix
+    prompt: "Pip's filter finds nobody in 1951. There were two people. Fix it so it prints `2`."
+    code: |
+      import pandas as pd
+
+      census = pd.DataFrame({"year": [1921, 1951, 1951], "name": ["Grace Jago", "Walter Rook", "Moss"]})
+      in_1951 = census[census["year"] == "1951"]
+      print(len(in_1951))
+    tests: |
+      TESTS = [output("Two people in 1951", expect="2")]
+    solution: |
+      import pandas as pd
+
+      census = pd.DataFrame({"year": [1921, 1951, 1951], "name": ["Grace Jago", "Walter Rook", "Moss"]})
+      in_1951 = census[census["year"] == 1951]
+      print(len(in_1951))
+  - type: write
+    prompt: "Print the names of everyone younger than 16 or older than 80, as a list, using `|` and `.tolist()`."
+    starter: |
+      import pandas as pd
+
+      people = pd.DataFrame({
+          "name": ["Edith Hollis", "Walter Rook", "Mary Rook", "Sam Rook"],
+          "age": [34, 88, 52, 9],
+      })
+    tests: |
+      TESTS = [
+          output("Walter and Sam", expect="['Walter Rook', 'Sam Rook']"),
+          structure("Uses |", check=lambda tree, source: None if "|" in source else "Combine the two conditions with |."),
+      ]
+    solution: |
+      import pandas as pd
+
+      people = pd.DataFrame({
+          "name": ["Edith Hollis", "Walter Rook", "Mary Rook", "Sam Rook"],
+          "age": [34, 88, 52, 9],
+      })
+      young_or_old = people[(people["age"] < 16) | (people["age"] > 80)]
+      print(young_or_old["name"].tolist())

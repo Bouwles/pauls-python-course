@@ -1,0 +1,148 @@
+id: polynomial-features
+title: Polynomial features
+summary: |
+  Polynomial features let linear regression fit curves. Give it columns `x ** 0`, `x ** 1`, `x ** 2` and so on up to `x ** degree`, and least squares finds a weight for each; the model is still linear in its weights, so nothing else changes. Degree 1 is a straight line, and a degree `d` table has `d + 1` columns, counting the column of ones that does the job of `b`. Higher degrees bend more, which is not always a good thing.
+example: |
+  import numpy as np
+
+  x = np.array([0.0, 0.5, 1.0, 1.5])
+  table = np.column_stack([x ** power for power in range(3)])
+  print(table)
+misconceptions: [straight-line-fits-best, curves-need-new-method, degree-counts-columns]
+related: [linear-regression, multivariate-regression, overfitting]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      x = np.array([0.5, 1.0, 1.5, 2.0])
+      table = np.column_stack([x ** power for power in range(3 + 1)])
+      print(table.shape)
+    answer: "(4, 4)"
+  - type: choice
+    prompt: "Degree 3, for two readings. What does this print?"
+    code: |
+      import numpy as np
+
+      x = np.array([1.0, 2.0])
+      print(np.column_stack([x ** power for power in range(3 + 1)]))
+    options:
+      - text: |-
+          [[1. 1. 1. 1.]
+           [1. 2. 4. 8.]]
+        correct: true
+      - text: |-
+          [[1. 1. 1.]
+           [2. 4. 8.]]
+        misconception: degree-counts-columns
+        feedback: "`range(3 + 1)` runs from 0, so the first column is `x ** 0`: all ones. Degree 3 has four columns, and the ones column is what lets the curve move up and down, the way `b` does."
+  - type: choice
+    prompt: "The points are on 2 - x + 0.5x ** 2. What does this print?"
+    code: |
+      import numpy as np
+
+      x = np.array([0.0, 1.0, 2.0, 3.0])
+      y = 2 - x + 0.5 * x ** 2
+      table = np.column_stack([x ** power for power in range(3)])
+      weights = np.linalg.lstsq(table, y, rcond=None)[0]
+      print(np.round(weights, 2))
+    options:
+      - text: "[ 2.  -1.   0.5]"
+        correct: true
+      - text: "A LinAlgError: least squares only fits straight lines"
+        misconception: curves-need-new-method
+        error: LinAlgError
+        feedback: "Least squares only cares that the prediction is weights times columns, added up. The columns can be anything, squares included, so it finds the curve's three weights exactly."
+  - type: choice
+    prompt: "Five readings. What does this print?"
+    code: |
+      import numpy as np
+
+      x = np.array([0.0, 1.0, 2.0, 3.0, 4.0])
+      y = np.array([1.0, 2.5, 2.0, 4.5, 4.0])
+
+
+      def training_error(degree):
+          table = np.column_stack([x ** power for power in range(degree + 1)])
+          weights = np.linalg.lstsq(table, y, rcond=None)[0]
+          return np.mean((table @ weights - y) ** 2)
+
+
+      print(training_error(4) < training_error(1))
+    options:
+      - text: "True"
+        correct: true
+      - text: "False"
+        misconception: straight-line-fits-best
+        feedback: "Degree 4 has five weights for five readings, so it goes through every one: a training error of practically 0. On the readings it learnt from, more flexibility never does worse."
+  - type: fill
+    prompt: "Fill the gap so the table has every power from `x ** 0` up to `x ** degree`."
+    code: |
+      import numpy as np
+
+
+      def polynomial_features(x, degree):
+          return np.column_stack([x ** power for power in range(___)])
+
+
+      print(polynomial_features(np.array([2.0, 3.0]), 2))
+    blanks: [["degree + 1"]]
+    tests: |
+      TESTS = [output("Columns 1, x and x squared", expect="[[1. 2. 4.]\n [1. 3. 9.]]")]
+  - type: fix
+    prompt: "Degree 2 for two readings should make a table of shape `(2, 3)`. Fix `polynomial_features`."
+    code: |
+      import numpy as np
+
+
+      def polynomial_features(x, degree):
+          return np.column_stack([x ** power for power in range(1, degree)])
+
+
+      print(polynomial_features(np.array([2.0, 3.0]), 2).shape)
+    tests: |
+      TESTS = [output("Three columns for degree 2", expect="(2, 3)")]
+    solution: |
+      import numpy as np
+
+
+      def polynomial_features(x, degree):
+          return np.column_stack([x ** power for power in range(degree + 1)])
+
+
+      print(polynomial_features(np.array([2.0, 3.0]), 2).shape)
+  - type: write
+    prompt: "Write `predict_polynomial(x, weights)`: `weights[0]` goes with `x ** 0`, `weights[1]` with `x`, and so on. One prediction per value in `x`."
+    starter: |
+      import numpy as np
+
+
+      def predict_polynomial(x, weights):
+          pass
+    tests: |
+      import numpy as _np
+
+
+      def curve(ctx):
+          m = ctx.module()
+          got = m.predict_polynomial(_np.array([0.0, 1.0, 2.0]), _np.array([1.0, 0.0, 2.0]))
+          if got is None or _np.shape(got) != (3,) or not _np.allclose(got, [1.0, 3.0, 9.0]):
+              raise CheckFailed("Weights 1, 0, 2 mean 1 + 2x ** 2: 1, 3 and 9.", expected=[1.0, 3.0, 9.0], actual=repr(got))
+
+
+      def line(ctx):
+          m = ctx.module()
+          got = m.predict_polynomial(_np.array([2.0, 4.0]), _np.array([5.0, -1.0]))
+          if got is None or not _np.allclose(got, [3.0, 1.0]):
+              raise CheckFailed("Two weights make a line: 5 - x.", expected=[3.0, 1.0], actual=repr(got))
+
+
+      TESTS = [custom("A curve", curve), custom("A line", line)]
+    solution: |
+      import numpy as np
+
+
+      def predict_polynomial(x, weights):
+          table = np.column_stack([x ** power for power in range(len(weights))])
+          return table @ weights

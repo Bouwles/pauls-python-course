@@ -1,0 +1,129 @@
+id: value-iteration
+title: Value iteration
+summary: |
+  Value iteration finds the best values directly. It sweeps like policy evaluation, but each state takes the value of its best action: the max over actions of the expected reward plus `gamma` times the value of where it leads. The max is over the actions, which the agent chooses; the outcomes of each action are averaged by their chances, because chance chooses those. When the values stop changing, the best policy is to take, in each state, the action with the biggest value. The best policy weighs risk as well as distance, so it is not always the shortest way.
+example: |
+  REWARD = {0: -10, 4: 10}           # the pool at 0, the finish at 4
+  values = [0.0] * 5
+  for sweep in range(100):
+      for tile in range(1, 4):
+          values[tile] = max(REWARD.get(after, -1) + (0.0 if after in REWARD else 0.9 * values[after])
+                             for after in (tile - 1, tile + 1))
+  print([round(value, 2) for value in values])
+misconceptions: [max-over-outcomes, best-is-shortest, sideways-slips-ignored]
+related: [policy-evaluation, policy-iteration]
+cards:
+  - type: predict
+    prompt: "Under the rock pool, with the best values already worked out. Which action is worth more?"
+    code: |
+      values = {"left": 2.79, "here": 0.12}
+      gamma = 0.9
+      actions = {
+          "up": [(0.8, "pool", -10, True), (0.1, "left", -1, False), (0.1, "here", -1, False)],
+          "left": [(0.8, "left", -1, False), (0.1, "pool", -10, True), (0.1, "here", -1, False)],
+      }
+      worth = {action: sum(p * (r + (0 if over else gamma * values[after])) for p, after, r, over in possible)
+               for action, possible in actions.items()}
+      print(max(worth, key=worth.get))
+    answer: "left"
+  - type: choice
+    prompt: "Pip's value iteration says every tile is worth far more than it should be. What's wrong with this line?"
+    code: |
+      best = max(reward + gamma * values[after]
+                 for action in ACTIONS
+                 for chance, after, reward, over in outcomes(tile, action))
+    verify: none
+    options:
+      - text: It takes the best outcome as well as the best action, as if Sir Reginald could choose where he slips.
+        correct: true
+        feedback: "The committee choose the action, so take the max over actions. The sea chooses the outcome, so average the outcomes by their chances."
+      - text: Nothing. The max picks the best action, which is the point of value iteration.
+        misconception: max-over-outcomes
+        feedback: "The max here runs over every outcome of every action, including slips into the pool's neighbours and lucky bumps. Each action's outcomes need averaging by chance first."
+  - type: fix
+    prompt: "The race is over at the pool (tile 0) and the finish (tile 4), but this keeps sweeping them, and every value comes out too high. Fix it."
+    code: |
+      REWARD = {0: -10, 4: 10}           # the pool at 0, the finish at 4
+
+
+      def best_values(gamma=0.9, sweeps=100):
+          values = [0.0] * 5
+          for _ in range(sweeps):
+              for tile in range(5):
+                  values[tile] = max(REWARD.get(after, -1) + gamma * values[after]
+                                     for after in (tile - 1, tile + 1) if 0 <= after <= 4)
+          return values
+
+
+      print([round(value, 2) for value in best_values()])
+    tests: |
+      TESTS = [
+          function("The corridor, gamma 0.9", call="best_values", expect=[0.0, 6.2, 8.0, 10.0, 0.0], tol=1e-6),
+          function("The corridor, gamma 0.5", call="best_values", kwargs={"gamma": 0.5}, expect=[0.0, 1.0, 4.0, 10.0, 0.0], tol=1e-6),
+      ]
+    solution: |
+      REWARD = {0: -10, 4: 10}           # the pool at 0, the finish at 4
+
+
+      def best_values(gamma=0.9, sweeps=100):
+          values = [0.0] * 5
+          for _ in range(sweeps):
+              for tile in range(1, 4):
+                  values[tile] = max(REWARD.get(after, -1) + gamma * values[after]
+                                     for after in (tile - 1, tile + 1) if 0 <= after <= 4)
+          return values
+
+
+      print([round(value, 2) for value in best_values()])
+  - type: fill
+    prompt: "Fill the gap so each tile takes the worth of its better move."
+    code: |
+      REWARD = {0: -10, 4: 10}           # the pool at 0, the finish at 4
+      values = [0.0] * 5
+      for sweep in range(100):
+          for tile in range(1, 4):
+              values[tile] = ___(REWARD.get(after, -1) + (0.0 if after in REWARD else 0.9 * values[after])
+                                 for after in (tile - 1, tile + 1))
+      print([round(value, 2) for value in values])
+    blanks: [["max"]]
+    tests: |
+      TESTS = [output("The best values along the corridor", expect="[0.0, 6.2, 8.0, 10.0, 0.0]")]
+  - type: write
+    prompt: "Write `best_move(values, tile, gamma=0.9)` for the corridor: `'left'` or `'right'`, whichever is worth more. Stepping onto the pool (tile 0) is worth -10 and the finish (tile 4) +10, and the race ends there; any other step is -1."
+    starter: |
+      REWARD = {0: -10, 4: 10}
+
+
+      def best_move(values, tile, gamma=0.9):
+          pass
+    tests: |
+      TESTS = [
+          function("Next to the finish", call="best_move", args=([0.0, 6.2, 8.0, 10.0, 0.0], 3), expect="right"),
+          function("Next to the pool", call="best_move", args=([0.0, 6.2, 8.0, 10.0, 0.0], 1), expect="right"),
+          function("When the values say go back", call="best_move", args=([0.0, 0.0, 5.0, -20.0, 0.0], 2), expect="left"),
+          function("A patient crab", call="best_move", args=([0.0, 0.0, 20.0, 0.0, 0.0], 3), expect="left"),
+          function("An impatient crab", call="best_move", args=([0.0, 0.0, 20.0, 0.0, 0.0], 3), kwargs={"gamma": 0.5}, expect="right"),
+      ]
+    solution: |
+      REWARD = {0: -10, 4: 10}
+
+
+      def best_move(values, tile, gamma=0.9):
+          def worth(after):
+              future = 0 if after in REWARD else gamma * values[after]
+              return REWARD.get(after, -1) + future
+
+          return "left" if worth(tile - 1) > worth(tile + 1) else "right"
+  - type: choice
+    prompt: "Seconds are free and the committee are patient. On the tile left of the rock pool, why does the best policy point into the rock?"
+    verify: none
+    options:
+      - text: Bumping the rock is the only move that can never end in the pool, and waiting costs nothing.
+        correct: true
+        feedback: "He stays put eight times in ten and slips up or down otherwise. With free seconds, a safe wait beats a quick risk."
+      - text: Because the rock is closer than the finish.
+        misconception: best-is-shortest
+        feedback: "Distance isn't what's being maximised. The expected return is, and with free seconds, avoiding the pool matters far more than speed."
+      - text: Going down would be just as safe.
+        misconception: sideways-slips-ignored
+        feedback: "Told down, he can slip sideways, and sideways to the right is the pool."

@@ -1,0 +1,92 @@
+id: mutability
+title: Mutable and immutable
+summary: |
+  Lists, dictionaries and sets are mutable: they can be changed in place, and every reference to them sees the change. Numbers, strings and tuples are immutable: an operation that looks like a change makes a new value and moves the label. A tuple can't be changed, but a list inside it still can.
+example: |
+  loaves = 40
+  count = loaves
+  count -= 5
+  tray = [40]
+  same_tray = tray
+  same_tray[0] -= 5
+  print(loaves, tray)
+misconceptions: [assignment-links-variables, numbers-change-in-place, tuple-contents-frozen, string-methods-change-string]
+related: [references, copying]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      name = "bea"
+      shout = name
+      shout = shout.upper()
+      print(name, shout)
+    answer: "bea BEA"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      a = 7
+      b = a
+      b += 1
+      print(a)
+    options:
+      - text: "7"
+        correct: true
+      - text: "8"
+        misconception: numbers-change-in-place
+        feedback: "Numbers are immutable. `b += 1` makes the number 8 and moves `b` to it. `a` is still on 7."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      shelf = ("bread", [40, 0])
+      shelf[1][1] = 5
+      print(shelf)
+    options:
+      - text: "('bread', [40, 5])"
+        correct: true
+      - text: A TypeError, because tuples can't be changed
+        misconception: tuple-contents-frozen
+        feedback: "The tuple itself doesn't change: it still holds the same two things. One of them is a list, and lists can change."
+  - type: fix
+    prompt: "This should print `KETTLE`. Strings don't change in place. Fix line 2."
+    code: |
+      item = "kettle"
+      item.upper()
+      print(item)
+    tests: |
+      TESTS = [output("In capitals", expect="KETTLE")]
+    solution: |
+      item = "kettle"
+      item = item.upper()
+      print(item)
+  - type: fill
+    prompt: "Fill the gap with a list method that changes the tray in place, so both names see the new batch."
+    code: |
+      tray = [40, 60]
+      same_tray = tray
+      tray.___(12)
+      print(same_tray)
+    blanks: [["append"]]
+    tests: |
+      TESTS = [output("Both names see it", expect="[40, 60, 12]")]
+  - type: write
+    prompt: "Write `topped_up(counts)`, which returns a new list with 1 added to each number, leaving `counts` exactly as it was."
+    starter: |
+      def topped_up(counts):
+          for i in range(len(counts)):
+              counts[i] += 1
+          return counts
+    tests: |
+      def untouched(ctx):
+          m = ctx.module()
+          counts = [3, 0, 7]
+          result = m.topped_up(counts)
+          if counts != [3, 0, 7]:
+              raise CheckFailed("The list passed in changed.", expected=[3, 0, 7], actual=counts)
+          if result != [4, 1, 8]:
+              raise CheckFailed("Each number should be 1 more.", expected=[4, 1, 8], actual=result)
+
+
+      TESTS = [custom("A new list, the old one untouched", untouched)]
+    solution: |
+      def topped_up(counts):
+          return [count + 1 for count in counts]

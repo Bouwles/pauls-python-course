@@ -1,0 +1,77 @@
+id: dict-set-comprehensions
+title: Set and dictionary comprehensions
+summary: |
+  Curly brackets make the same one-line builder for sets and dictionaries. `{name for name in names}` builds a set, so repeats vanish. `{name: price for name, price in stock}` builds a dictionary: the part before the colon is the key, the part after is the value, and if a key comes up twice, the later value wins.
+example: |
+  sales = [("apples", 45), ("kale", 150), ("apples", 45)]
+  sold = {name for name, price in sales}
+  prices = {name: price for name, price in sales}
+  print(sorted(sold))
+  print(prices)
+misconceptions: [braces-comprehension-is-list, dict-comprehension-keeps-duplicates]
+related: [list-comprehensions, conditional-comprehensions]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      names = ["kale", "plums", "kale", "kale"]
+      print(len({name for name in names}))
+    answer: "2"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      stock = [("apples", 30), ("pears", 8)]
+      counts = {name: count for name, count in stock}
+      print(counts["pears"])
+    answer: "8"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      prices = [("plums", 25), ("plums", 30)]
+      book = {name: price for name, price in prices}
+      print(book)
+    options:
+      - text: "{'plums': 30}"
+        correct: true
+        feedback: "One key, one value. The second pair replaces the first."
+      - text: "{'plums': 25, 'plums': 30}"
+        misconception: dict-comprehension-keeps-duplicates
+        feedback: "A dictionary can't hold the same key twice. The later value replaces the earlier one."
+      - text: "{'plums': 25}"
+        misconception: dict-comprehension-keeps-duplicates
+        feedback: "The pairs are put in one after another, so the last price for plums is the one that stays."
+  - type: fix
+    prompt: "This builds a set of pairs, not a dictionary. Fix it so it prints `45`."
+    code: |
+      stock = [("apples", 45), ("kale", 150)]
+      prices = {(name, price) for name, price in stock}
+      print(prices["apples"])
+    tests: |
+      TESTS = [output("The price of apples", expect="45")]
+    solution: |
+      stock = [("apples", 45), ("kale", 150)]
+      prices = {name: price for name, price in stock}
+      print(prices["apples"])
+  - type: fill
+    prompt: "Fill the gap so `counts` is a dictionary of name to count."
+    code: |
+      stock = [("apples", 45, 30), ("pears", 60, 8)]
+      counts = {name___ count for name, price, count in stock}
+      print(counts)
+    blanks: [[":"]]
+    tests: |
+      TESTS = [output("Name to count", expect="{'apples': 30, 'pears': 8}")]
+  - type: write
+    prompt: "Make `initials`, a set of the first letter of each name, with a set comprehension. Then print `sorted(initials)`."
+    starter: |
+      names = ["Bea", "Bill", "Mira", "Moss", "Tom"]
+    tests: |
+      TESTS = [
+          output("Three initials", expect="['B', 'M', 'T']"),
+          structure("A set comprehension", requires=["SetComp"]),
+      ]
+    solution: |
+      names = ["Bea", "Bill", "Mira", "Moss", "Tom"]
+      initials = {name[0] for name in names}
+      print(sorted(initials))

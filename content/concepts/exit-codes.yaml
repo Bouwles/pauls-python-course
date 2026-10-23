@@ -1,0 +1,122 @@
+id: exit-codes
+title: Exit codes
+summary: |
+  Every program finishes with an exit code, a number for whoever started it: 0 means it went well, anything else means it didn't. `sys.exit(1)` ends the whole program on the spot with code 1, from wherever it's called. Reaching the end, or `sys.exit()` with no number, gives 0. Scripts read the code to decide what to do next, so a failure that exits with 0 is a quiet lie.
+example: |
+  import sys
+
+  screws = 0
+  if screws == 0:
+      print("Out of brass screws.", file=sys.stderr)
+      sys.exit(1)
+  print("Plenty left.")
+misconceptions: [exit-only-leaves-function, zero-means-failure, exit-code-unimportant]
+related: [sys-argv, argparse]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import sys
+
+
+      def check(count):
+          if count < 0:
+              print("Bad count")
+              sys.exit(1)
+          print("Fine")
+
+
+      check(3)
+      check(-1)
+      check(5)
+    answer: "Fine\nBad count"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import sys
+
+
+      def save(ledger):
+          if not ledger:
+              print("Nothing to save.")
+              sys.exit()
+          print("Saved.")
+
+
+      save([])
+      print("Backup done.")
+    options:
+      - text: Nothing to save.
+        correct: true
+      - text: "Nothing to save.\nBackup done."
+        misconception: exit-only-leaves-function
+        feedback: "`sys.exit()` ends the whole program, not just `save`. With no number it finishes with code 0, but nothing after it runs."
+  - type: choice
+    prompt: "Moss's backup script only copies the ledger if the job tool finishes with exit code 0. The tool can't find the ledger. What should it finish with?"
+    verify: none
+    options:
+      - text: "1"
+        correct: true
+      - text: "0"
+        misconception: zero-means-failure
+        feedback: "0 means all went well, so the backup would carry on as if nothing were wrong. Failures get a code that isn't 0."
+      - text: "It doesn't matter, as long as it prints a message"
+        misconception: exit-code-unimportant
+        feedback: "The backup script can't read messages. It reads the exit code, and only the exit code."
+  - type: fix
+    prompt: "When an item has run out, this should finish with exit code 1. It finishes with 0. Fix it."
+    code: |
+      import sys
+
+      stock = {"hinges": 12, "valves": 0}
+      item = "valves"
+      if stock[item] == 0:
+          print(f"No {item} left.")
+          sys.exit(0)
+      print(f"{stock[item]} {item} in stock.")
+    tests: |
+      TESTS = [
+          output("Out of valves", expect="No valves left.", exit_code=1),
+          output("Plenty of hinges", set_vars={"item": "hinges"}, expect="12 hinges in stock.", exit_code=0),
+      ]
+    solution: |
+      import sys
+
+      stock = {"hinges": 12, "valves": 0}
+      item = "valves"
+      if stock[item] == 0:
+          print(f"No {item} left.")
+          sys.exit(1)
+      print(f"{stock[item]} {item} in stock.")
+  - type: fill
+    prompt: "Fill the gap so a negative tide stops the program with exit code 1."
+    code: |
+      import sys
+
+      tide = -1
+      if tide < 0:
+          print("A tide can't be negative.")
+          sys.___(1)
+      print(f"Tide: {tide} m")
+    blanks: [["exit"]]
+    tests: |
+      TESTS = [output("Stops with 1", expect="A tide can't be negative.", exit_code=1)]
+  - type: write
+    prompt: "If `name` is empty, print `No name given.` and finish with exit code 2. Otherwise print `Hello, NAME.`"
+    starter: |
+      import sys
+
+      name = ""
+    tests: |
+      TESTS = [
+          output("No name", expect="No name given.", exit_code=2),
+          output("Gwen", set_vars={"name": "Gwen"}, expect="Hello, Gwen.", exit_code=0),
+      ]
+    solution: |
+      import sys
+
+      name = ""
+      if not name:
+          print("No name given.")
+          sys.exit(2)
+      print(f"Hello, {name}.")

@@ -1,0 +1,93 @@
+id: references
+title: References
+summary: |
+  A variable doesn't hold a list or dictionary; it refers to one, like a label stuck on a box. `b = a` sticks a second label on the same box. Passing a list to a function hands over another label on it, so a function that changes the list changes the caller's list too.
+example: |
+  order = ["flour", "eggs"]
+  saturday = order
+  saturday.append("butter")
+  print(order)
+misconceptions: [assignment-copies-list, function-gets-copy, inner-list-copied-into-outer]
+related: [mutability, copying, is-vs-equals]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      tray = ["bun", "bun"]
+      shelf = tray
+      shelf.append("loaf")
+      print(len(tray))
+    answer: "3"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      def sell_one(stock):
+          stock["bread"] -= 1
+
+      stock = {"bread": 40}
+      sell_one(stock)
+      print(stock["bread"])
+    options:
+      - text: "39"
+        correct: true
+      - text: "40"
+        misconception: function-gets-copy
+        feedback: "The function gets another label on the same dictionary, not a copy. Its change is the caller's change."
+  - type: fix
+    prompt: "`spare` should start as a copy of `parts` and change on its own. Fix line 2."
+    code: |
+      parts = ["valve", "dial"]
+      spare = parts
+      spare.append("knob")
+      print(parts)
+      print(spare)
+    tests: |
+      TESTS = [output("Two lists", expect="['valve', 'dial']\n['valve', 'dial', 'knob']")]
+    solution: |
+      parts = ["valve", "dial"]
+      spare = parts.copy()
+      spare.append("knob")
+      print(parts)
+      print(spare)
+  - type: fill
+    prompt: "Fill the gap so the function adds to the caller's list instead of making a new one."
+    code: |
+      def add_parcel(row, parcel):
+          row.___(parcel)
+
+      row = ["Bea"]
+      add_parcel(row, "Tom")
+      print(row)
+    blanks: [["append"]]
+    tests: |
+      TESTS = [output("Tom's parcel in the row", expect="['Bea', 'Tom']")]
+  - type: write
+    prompt: "Write `restock(shelf, n)`, which adds `n` to every number in the dictionary `shelf`, changing it in place. It returns nothing."
+    starter: |
+      def restock(shelf, n):
+          new_shelf = {}
+          for item in shelf:
+              new_shelf[item] = shelf[item] + n
+          return new_shelf
+    tests: |
+      def in_place(ctx):
+          m = ctx.module()
+          shelf = {"bread": 5, "buns": 0}
+          m.restock(shelf, 10)
+          if shelf != {"bread": 15, "buns": 10}:
+              raise CheckFailed("The caller's shelf should change.", expected={"bread": 15, "buns": 10}, actual=shelf)
+
+
+      TESTS = [custom("The shelf itself is restocked", in_place)]
+    solution: |
+      def restock(shelf, n):
+          for item in shelf:
+              shelf[item] = shelf[item] + n
+  - type: predict
+    prompt: What does this print?
+    code: |
+      row = ["kettle"]
+      bench = [row, row]
+      row.append("clock")
+      print(bench[1])
+    answer: "['kettle', 'clock']"

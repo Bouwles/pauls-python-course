@@ -1,0 +1,77 @@
+id: sys-argv
+title: sys.argv, what was typed
+summary: |
+  `sys.argv` is a list of what was typed to start the program. `sys.argv[0]` is the program's own name; the arguments start at `sys.argv[1]`, and `sys.argv[1:]` is all of them. Every item is text, even `3`, so convert numbers yourself. If someone forgets an argument, indexing past the end raises `IndexError`, which is one reason bigger tools use `argparse`.
+example: |
+  import sys
+
+  sys.argv = ["hours.py", "radio", "3"]  # as if typed: python hours.py radio 3
+  print(sys.argv[0])
+  print(sys.argv[1:])
+misconceptions: [argv-gives-numbers, argv-zero-is-first-argument]
+related: [argparse, exit-codes]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import sys
+
+      sys.argv = ["tally.py", "gulls", "12"]  # as if typed: python tally.py gulls 12
+      print(sys.argv[1])
+    answer: gulls
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import sys
+
+      sys.argv = ["add.py", "12", "3"]  # as if typed: python add.py 12 3
+      print(sys.argv[1] + sys.argv[2])
+    options:
+      - text: "123"
+        correct: true
+      - text: "15"
+        misconception: argv-gives-numbers
+        feedback: "Arguments are text. `\"12\" + \"3\"` joins them. `int()` each one first to add them up."
+      - text: add.py12
+        misconception: argv-zero-is-first-argument
+        feedback: "`sys.argv[0]` is the program's name. `sys.argv[1]` is the first argument, `12`."
+  - type: fix
+    prompt: "This should greet whoever's name is typed after the program's name. It greets the program. Fix it."
+    code: |
+      import sys
+
+      sys.argv = ["greet.py", "Agnes"]  # as if typed: python greet.py Agnes
+      name = sys.argv[0]
+      print(f"Morning, {name}.")
+    tests: |
+      TESTS = [output("Morning, Agnes", expect="Morning, Agnes.", hint="The first argument is at index 1.")]
+    solution: |
+      import sys
+
+      sys.argv = ["greet.py", "Agnes"]  # as if typed: python greet.py Agnes
+      name = sys.argv[1]
+      print(f"Morning, {name}.")
+  - type: fill
+    prompt: "Fill the gap so this doubles the number that was typed."
+    code: |
+      import sys
+
+      sys.argv = ["double.py", "21"]  # as if typed: python double.py 21
+      number = ___(sys.argv[1])
+      print(number * 2)
+    blanks: [["int", "float"]]
+    tests: |
+      TESTS = [output("42", expect=r"^42(\.0)?$", match="regex")]
+  - type: write
+    prompt: "Print how many arguments were typed after the program's name."
+    starter: |
+      import sys
+    tests: |
+      TESTS = [
+          output("Three words", argv=["fog", "rain", "sun"], expect="3"),
+          output("None at all", argv=[], expect="0", hint="sys.argv always has the program's name in it, so take one off."),
+      ]
+    solution: |
+      import sys
+
+      print(len(sys.argv) - 1)

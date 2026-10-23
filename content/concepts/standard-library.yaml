@@ -1,0 +1,97 @@
+id: standard-library
+title: The standard library
+summary: |
+  Python ships with a shelf of modules you only have to import. `math` has `ceil`, `floor` and `sqrt`; `datetime` handles dates, times and the gaps between them; `collections.Counter` counts things; `itertools` has tools for loops, like `accumulate` for running totals. Look on the shelf before you build your own.
+example: |
+  import math
+  from collections import Counter
+  from datetime import datetime, timedelta
+  from itertools import accumulate
+
+  print(math.ceil(3.25))
+  print(datetime(2026, 3, 14).strftime("%A"))
+  print(datetime(2026, 3, 14) + timedelta(days=1))
+  print(Counter("kale kale plums".split()).most_common(1))
+  print(list(accumulate([40, 25, 60])))
+misconceptions: [weekday-starts-sunday, ceil-rounds-nearest, most-common-gives-name]
+related: [modules]
+cards:
+  - type: predict
+    prompt: "16 March 2026 is a Monday. What does this print?"
+    code: |
+      from datetime import datetime
+
+      print(datetime(2026, 3, 16).weekday())
+    answer: "0"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import math
+
+      print(math.ceil(2.1), math.floor(2.9))
+    options:
+      - text: "3 2"
+        correct: true
+        feedback: "`ceil` always rounds up and `floor` always rounds down, whatever the decimals."
+      - text: "2 3"
+        misconception: ceil-rounds-nearest
+        feedback: "That's rounding to the nearest. `ceil` goes up even from 2.1, and `floor` goes down even from 2.9."
+  - type: predict
+    prompt: What does this print?
+    code: |
+      from collections import Counter
+
+      visits = ["Sat", "Mon", "Sat", "Fri", "Sat", "Mon"]
+      counts = Counter(visits)
+      print(counts["Mon"], counts["Sun"])
+    answer: "2 0"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      from collections import Counter
+
+      print(Counter(["kale", "plums", "kale"]).most_common(1))
+    options:
+      - text: "[('kale', 2)]"
+        correct: true
+        feedback: "A list of (item, count) pairs, even when you ask for just one."
+      - text: "kale"
+        misconception: most-common-gives-name
+        feedback: "`most_common` gives pairs with their counts, in a list. `[0][0]` gets the name out."
+      - text: "('kale', 2)"
+        misconception: most-common-gives-name
+        feedback: "Close, but it's still a list, holding that one pair."
+  - type: predict
+    prompt: What does this print?
+    code: |
+      from datetime import datetime
+
+      opens = datetime(2026, 3, 14, 8, 0)
+      now = datetime(2026, 3, 14, 11, 30)
+      print(now - opens)
+    answer: "3:30:00"
+  - type: fill
+    prompt: "Fill the gap so `closing` is five hours after `opening`."
+    code: |
+      from datetime import datetime, timedelta
+
+      opening = datetime(2026, 3, 14, 8, 0)
+      closing = opening + ___(hours=5)
+      print(closing.strftime("%H:%M"))
+    blanks: [["timedelta"]]
+    tests: |
+      TESTS = [output("Closing time", expect="13:00")]
+  - type: write
+    prompt: "Print Sanjay's running totals for the week as a list, using `accumulate` from `itertools`."
+    starter: |
+      takings = [40, 25, 60, 15]
+    tests: |
+      TESTS = [
+          output("Running totals", expect="[40, 65, 125, 140]"),
+          structure("Uses accumulate", calls=["accumulate"]),
+      ]
+    solution: |
+      from itertools import accumulate
+
+      takings = [40, 25, 60, 15]
+      print(list(accumulate(takings)))

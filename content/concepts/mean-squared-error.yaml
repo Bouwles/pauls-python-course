@@ -1,0 +1,123 @@
+id: mean-squared-error
+title: Mean squared error
+summary: |
+  The mean squared error says how wrong a set of predictions is, in one number: square each miss (prediction minus actual), then take the mean. Squaring stops misses above and below from cancelling, and makes one big miss cost more than several small ones. It's in the readings' units squared, millimetres squared for focus; its square root is back in millimetres. Lower is better, and 0 means every prediction was exact.
+example: |
+  import numpy as np
+
+  predicted = np.array([41.8, 41.2, 42.4])
+  actual = np.array([41.9, 41.2, 42.1])
+  print(np.mean((predicted - actual) ** 2))
+misconceptions: [misses-can-cancel, fewer-misses-lower-error, square-of-mean-miss, mse-same-units]
+related: [linear-regression, gradient-descent]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      predicted = np.array([3.0, 6.0, 8.0, 5.0])
+      actual = np.array([4.0, 5.0, 6.0, 5.0])
+      print(np.mean((predicted - actual) ** 2))
+    answer: "1.5"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      misses = np.array([3.0, -1.0])
+      print(np.mean(misses ** 2))
+    options:
+      - text: "5.0"
+        correct: true
+      - text: "1.0"
+        misconception: square-of-mean-miss
+        feedback: "That's the mean miss, 1, squared. The mean squared error squares first: 9 and 1, then the mean of those, 5."
+  - type: choice
+    prompt: "A line misses four nights by +2, -2, +1 and -1 millimetres. The mean of its misses is 0. What does that tell you?"
+    verify: none
+    options:
+      - text: "Very little: the misses cancel. The mean squared error, 2.5, says how wrong it is"
+        correct: true
+      - text: "It's a perfect line"
+        misconception: misses-can-cancel
+        feedback: "It misses every single night. Above and below cancel in a plain mean, which is exactly why the misses get squared first."
+  - type: choice
+    prompt: "Two sets of predictions for five nights. What does this print?"
+    code: |
+      import numpy as np
+
+      actual = np.array([10.0, 10.0, 10.0, 10.0, 10.0])
+      steady = np.array([11.0, 9.0, 11.0, 9.0, 11.0])
+      mostly_exact = np.array([10.0, 10.0, 10.0, 10.0, 14.0])
+      print(np.mean((steady - actual) ** 2), np.mean((mostly_exact - actual) ** 2))
+    options:
+      - text: "1.0 3.2"
+        correct: true
+      - text: "1.0 0.8"
+        misconception: fewer-misses-lower-error
+        feedback: "Four exact nights don't make up for one miss of 4: squared, that's 16, and 16 over five nights is 3.2. Squaring makes the big miss count most."
+  - type: choice
+    prompt: "Wendt's focus line has a mean squared error of 0.0026. The focus is measured in millimetres. What units is 0.0026 in?"
+    verify: none
+    options:
+      - text: "Millimetres squared"
+        correct: true
+      - text: "Millimetres"
+        misconception: mse-same-units
+        feedback: "Each miss is in millimetres, so each squared miss is in millimetres squared. The square root, about 0.05, is back in millimetres: roughly the size of a typical miss."
+  - type: fix
+    prompt: "Misses of +2 and -2 should give a mean squared error of 4.0. This prints 0.0. Fix `mse`."
+    code: |
+      import numpy as np
+
+
+      def mse(predicted, actual):
+          return np.mean(predicted - actual) ** 2
+
+
+      print(mse(np.array([3.0, 0.0]), np.array([1.0, 2.0])))
+    tests: |
+      TESTS = [output("Misses of +2 and -2", expect="4.0")]
+    solution: |
+      import numpy as np
+
+
+      def mse(predicted, actual):
+          return np.mean((predicted - actual) ** 2)
+
+
+      print(mse(np.array([3.0, 0.0]), np.array([1.0, 2.0])))
+  - type: write
+    prompt: "Write `rmse(predicted, actual)`: the square root of the mean squared error, back in the readings' own units."
+    starter: |
+      import numpy as np
+
+
+      def rmse(predicted, actual):
+          pass
+    tests: |
+      import numpy as _np
+
+
+      def two_nights(ctx):
+          m = ctx.module()
+          got = m.rmse(_np.array([3.0, 0.0]), _np.array([1.0, 2.0]))
+          if got is None or abs(float(got) - 2.0) > 1e-9:
+              raise CheckFailed("Misses of +2 and -2: mean squared error 4, square root 2.", expected=2.0, actual=got)
+
+
+      def exact(ctx):
+          m = ctx.module()
+          got = m.rmse(_np.array([1.5, 2.5]), _np.array([1.5, 2.5]))
+          if got is None or abs(float(got)) > 1e-12:
+              raise CheckFailed("Exact predictions miss by nothing.", expected=0.0, actual=got)
+
+
+      TESTS = [custom("Misses of +2 and -2", two_nights), custom("Exact predictions", exact)]
+    solution: |
+      import numpy as np
+
+
+      def rmse(predicted, actual):
+          return np.sqrt(np.mean((predicted - actual) ** 2))

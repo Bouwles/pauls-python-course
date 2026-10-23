@@ -1,0 +1,92 @@
+id: vectorisation
+title: Vectorisation
+summary: |
+  Arithmetic and comparisons on an array happen to every item at once, with no loop: `rain / 25.4` converts every month, and `rain > 100` gives an array of `True` and `False`. Functions like `np.abs` work the same way, and `.sum()` on a `True`/`False` array counts the `True`s. It is shorter, and far faster, because the work runs as compiled code over numbers of one type stored side by side, instead of Python handling each number in turn.
+example: |
+  import numpy as np
+
+  rain = np.array([116.0, 84.0, 81.0, 58.0])
+  print(rain / 25.4)
+  print(rain > 80)
+  print((rain > 80).sum())
+misconceptions: [array-needs-loop, comparison-gives-one-bool, array-is-a-list]
+related: [numpy-arrays, broadcasting, for-loops]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      print(np.array([3, 5]) + np.array([10, 20]))
+    answer: "[13 25]"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      rain = np.array([80, 160, 40, 200])
+      print(rain > 100)
+    options:
+      - text: "[False  True False  True]"
+        correct: true
+        feedback: "A comparison on an array is made for every item, so you get one `True` or `False` each."
+      - text: "True"
+        misconception: comparison-gives-one-bool
+        feedback: "Comparing an array with a number doesn't give one answer. It gives an array of answers, one per item."
+      - text: A TypeError
+        misconception: array-needs-loop
+        error: TypeError
+        feedback: "No loop needed. Comparisons, like arithmetic, are applied to each item of the array."
+  - type: predict
+    prompt: How many months had more than 100 mm?
+    code: |
+      import numpy as np
+
+      rain = np.array([80, 160, 40, 200, 120])
+      print((rain > 100).sum())
+    answer: "3"
+  - type: fix
+    prompt: "Dividing a list by a number is a TypeError. Fix it so it prints `[10.0, 5.0, 2.0]`, without a loop."
+    code: |
+      rain = [254.0, 127.0, 50.8]
+      inches = rain / 25.4
+      print(inches.tolist())
+    tests: |
+      TESTS = [
+          output("Three months in inches", expect="[10.0, 5.0, 2.0]"),
+          structure("No loop", forbids=["For", "While", "ListComp"]),
+      ]
+    solution: |
+      import numpy as np
+
+      rain = np.array([254.0, 127.0, 50.8])
+      inches = rain / 25.4
+      print(inches.tolist())
+  - type: fill
+    prompt: "Fill the gap so every anomaly becomes a distance, wetter or drier."
+    code: |
+      import numpy as np
+
+      anomalies = np.array([-12, 30, -5])
+      print(np.___(anomalies).tolist())
+    blanks: [["abs"]]
+    tests: |
+      TESTS = [output("All positive", expect="[12, 30, 5]")]
+  - type: write
+    prompt: "Write `to_inches(rain)`. It takes an array of millimetres and returns the same array in inches: divide by 25.4. No loop."
+    tests: |
+      def converts(ctx):
+          import numpy as np
+          result = ctx.module().to_inches(np.array([254.0, 50.8, 0.0]))
+          if not isinstance(result, np.ndarray) or not np.allclose(result, [10.0, 2.0, 0.0]):
+              raise CheckFailed("to_inches should give back an array, every value divided by 25.4.", expected="[10. 2. 0.]", actual=repr(result))
+
+
+      TESTS = [
+          custom("Three months", converts),
+          structure("No loop", forbids=["For", "While", "ListComp"]),
+      ]
+    solution: |
+      def to_inches(rain):
+          return rain / 25.4

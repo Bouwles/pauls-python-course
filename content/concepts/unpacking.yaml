@@ -1,0 +1,72 @@
+id: unpacking
+title: Unpacking
+summary: |
+  Unpacking takes a tuple or list apart into separate names in one line: `chest, waist, leg = size`. There must be exactly one name for each value, or Python stops with a ValueError. It works in `for` loops too, and it's how Python swaps two values without a spare: `a, b = b, a`.
+example: |
+  size = (96, 88, 74)
+  chest, waist, leg = size
+  print(waist)
+  chest, waist = waist, chest
+  print(chest, waist)
+misconceptions: [unpack-count-flexible, swap-overwrites]
+related: [tuples, multiple-returns, zip]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      chest, waist, leg = (101, 95, 79)
+      print(leg - waist)
+    answer: "-16"
+  - type: choice
+    prompt: What happens?
+    code: |
+      chest, waist = (101, 95, 79)
+      print(chest, waist)
+    verify: error
+    options:
+      - text: A ValueError
+        correct: true
+        error: ValueError
+        feedback: "Three values, two names. Python won't guess which one to leave out."
+      - text: "It prints 101 95"
+        misconception: unpack-count-flexible
+        feedback: "Unpacking needs exactly one name per value. The spare 79 isn't dropped quietly; it's an error."
+  - type: predict
+    prompt: What does this print?
+    code: |
+      first = "Bea"
+      second = "Tom"
+      first, second = second, first
+      print(first, second)
+    answer: "Tom Bea"
+  - type: fix
+    prompt: "This should print each client's waist. Fix the loop so it unpacks all three measurements."
+    code: |
+      sizes = [(112, 98, 84), (96, 88, 74)]
+      for chest, waist in sizes:
+          print(waist)
+    tests: |
+      TESTS = [output("Both waists", expect="98\n88")]
+    solution: |
+      sizes = [(112, 98, 84), (96, 88, 74)]
+      for chest, waist, leg in sizes:
+          print(waist)
+  - type: fill
+    prompt: "Fill the gap so the three names come out of `size`."
+    code: |
+      size = (99, 86, 78)
+      chest, waist, leg = ___
+      print(waist)
+    blanks: [["size"]]
+    tests: |
+      TESTS = [output("Gwen's waist", expect="86")]
+  - type: write
+    prompt: "`mooring` holds a berth number and a boat name. Unpack it into `berth` and `boat` in one line, then print `Gull at berth 4`."
+    starter: |
+      mooring = (4, "Gull")
+    tests: |
+      TESTS = [output("Gull at berth 4", expect="Gull at berth 4")]
+    solution: |
+      mooring = (4, "Gull")
+      berth, boat = mooring
+      print(f"{boat} at berth {berth}")

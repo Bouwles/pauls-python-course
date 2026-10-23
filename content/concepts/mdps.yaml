@@ -1,0 +1,128 @@
+id: mdps
+title: Markov decision processes
+summary: |
+  A Markov decision process describes a problem one step at a time. **States**: where the agent is. **Actions**: what it can do there. **Transitions**: for each state and action, every next state that can follow and its chance, and the chances add up to 1. **Rewards**: what each step is worth. Markov means the next state depends only on this state and this action, not on the history. A **policy** says what to do in every state, as a dictionary from state to action, because the agent can't know in advance where chance will put it.
+example: |
+  OUTCOMES = {
+      ("quay", "steady"): [(1.0, "mid-channel", -1)],
+      ("quay", "full ahead"): [(0.9, "mid-channel", -1), (0.1, "aground", -20)],
+  }
+  POLICY = {"quay": "steady", "mid-channel": "steady"}
+  for chance, after, reward in OUTCOMES[("quay", POLICY["quay"])]:
+      print(chance, after, reward)
+misconceptions: [policy-is-a-route, transitions-deterministic, outcomes-equally-likely, bump-ends-race]
+related: [returns-discounting, bandits]
+cards:
+  - type: predict
+    prompt: "What, on average, is the first step of Ferro's crossing worth if he goes full ahead?"
+    code: |
+      OUTCOMES = {("quay", "full ahead"): [(0.9, "mid-channel", -1), (0.1, "aground", -20)]}
+      average = sum(chance * reward for chance, _, reward in OUTCOMES[("quay", "full ahead")])
+      print(round(average, 1))
+    answer: "-2.9"
+  - type: choice
+    prompt: "Which of these is a policy for the racing grid?"
+    verify: none
+    options:
+      - text: "`{(2, 0): \"up\", (1, 0): \"up\", (0, 0): \"right\", ...}`, one action for every tile"
+        correct: true
+        feedback: "A policy maps every state to an action, so wherever a slip puts him, there's an answer."
+      - text: "`[\"up\", \"up\", \"right\", \"right\", \"right\"]`"
+        misconception: policy-is-a-route
+        feedback: "That's a route. It works only if every move goes as planned. One sideways slip and the third \"right\" is being followed from the wrong tile."
+      - text: "`{\"up\": 0.8, \"left\": 0.1, \"right\": 0.1}`"
+        feedback: "Those are the chances of where he goes when told up: part of the transitions, which the sea decides. A policy is what the committee decide."
+  - type: predict
+    prompt: What does this print?
+    code: |
+      TRACK = ["...F", ".#.P", "S..."]
+
+
+      def move(tile, step):
+          row, col = tile[0] + step[0], tile[1] + step[1]
+          if 0 <= row < 3 and 0 <= col < 4 and TRACK[row][col] != "#":
+              return (row, col)
+          return tile
+
+
+      print(move((2, 1), (-1, 0)), move((0, 0), (0, -1)), move((0, 2), (0, 1)))
+    answer: "(2, 1) (0, 0) (0, 3)"
+  - type: choice
+    prompt: "Sir Reginald is next to the finish and is told to step onto it. He goes where he's told eight times in ten and slips sideways otherwise. What is the chance the race ends this step?"
+    verify: none
+    options:
+      - text: "0.8"
+        correct: true
+        feedback: "Only going straight on reaches the finish. The two sideways slips, 0.1 each, leave him on the track."
+      - text: "1.0"
+        misconception: transitions-deterministic
+        feedback: "Being told isn't the same as going. Two times in ten he scuttles sideways instead."
+  - type: fix
+    prompt: "`sail` should pick each outcome with its own chance, but Ferro runs aground far too often. Fix it."
+    code: |
+      import numpy as np
+
+      OUTCOMES = {("quay", "full ahead"): [(0.9, "mid-channel", -1), (0.1, "aground", -20)]}
+
+
+      def sail(state, action, rng):
+          """One step: the next state and its reward."""
+          possible = OUTCOMES[(state, action)]
+          pick = rng.integers(len(possible))
+          _, after, reward = possible[pick]
+          return after, reward
+
+
+      print(sail("quay", "full ahead", np.random.default_rng(0)))
+    tests: |
+      import numpy as np
+
+
+      def one_in_ten(ctx):
+          m = ctx.module()
+          rng = np.random.default_rng(1)
+          aground = sum(m.sail("quay", "full ahead", rng)[0] == "aground" for _ in range(3000)) / 3000
+          if abs(aground - 0.1) > 0.03:
+              raise CheckFailed(f"Full ahead from the quay runs aground one time in ten. Here it ran aground {aground:.0%} of the time.")
+
+
+      TESTS = [custom("Aground one time in ten", one_in_ten)]
+    solution: |
+      import numpy as np
+
+      OUTCOMES = {("quay", "full ahead"): [(0.9, "mid-channel", -1), (0.1, "aground", -20)]}
+
+
+      def sail(state, action, rng):
+          """One step: the next state and its reward."""
+          possible = OUTCOMES[(state, action)]
+          chances = [chance for chance, _, _ in possible]
+          pick = rng.choice(len(possible), p=chances)
+          _, after, reward = possible[pick]
+          return after, reward
+
+
+      print(sail("quay", "full ahead", np.random.default_rng(0)))
+  - type: fill
+    prompt: "Fill the gap to check the chances of everything that can follow add up to 1."
+    code: |
+      possible = [(0.8, (1, 0), -1, False), (0.1, (2, 0), -1, False), (0.1, (2, 1), -1, False)]
+      total = sum(___ for chance, after, reward, over in possible)
+      print(round(total, 2))
+    blanks: [["chance"]]
+    tests: |
+      TESTS = [output("They add up to 1", expect="1.0")]
+  - type: write
+    prompt: "Write `average_reward(possible)`: given a list of `(chance, next state, reward, over)`, the reward to expect from this one step."
+    starter: |
+      def average_reward(possible):
+          pass
+    tests: |
+      TESTS = [
+          function("Next to the finish", call="average_reward", args=([(0.8, (0, 3), 10, True), (0.1, (0, 2), -1, False), (0.1, (1, 2), -1, False)],), expect=7.8, tol=1e-9),
+          function("Nothing can go wrong", call="average_reward", args=([(1.0, (1, 0), -1, False)],), expect=-1.0, tol=1e-9),
+          function("Under the pool", call="average_reward", args=([(0.8, (1, 3), -10, True), (0.1, (2, 2), -1, False), (0.1, (2, 3), -1, False)],), expect=-8.2, tol=1e-9),
+      ]
+    solution: |
+      def average_reward(possible):
+          return sum(chance * reward for chance, after, reward, over in possible)

@@ -1,0 +1,111 @@
+id: exceptions
+title: Exceptions
+summary: |
+  An exception is Python stopping because something went wrong. It has a type, like `ValueError` or `KeyError`, and a message. It travels back up through every function that was called to get there, and if nothing catches it on the way, the whole program stops and prints the traceback. The bottom of the traceback is where it started.
+example: |
+  def parse_depth(text):
+      return float(text)
+
+
+  def report(text):
+      depth = parse_depth(text)
+      print("Depth:", depth)
+
+
+  report("4.2")
+  report("deep")
+  print("Not reached")
+misconceptions: [exception-stays-in-function, error-skips-line]
+related: [try-except, raising-errors]
+cards:
+  - type: predict
+    prompt: What does this print before it stops?
+    code: |
+      def parse_depth(text):
+          return float(text)
+
+
+      def report(text):
+          print("Reporting", text)
+          depth = parse_depth(text)
+          print("Depth:", depth)
+
+
+      report("deep")
+      print("Done")
+    answer: "Reporting deep"
+  - type: predict
+    prompt: What does this print before it stops?
+    code: |
+      total = 0
+      for text in ["3", "x", "4"]:
+          total = total + int(text)
+          print(total)
+    answer: "3"
+  - type: choice
+    prompt: What happens?
+    code: |
+      levels = {"INFO": 0, "ERROR": 2}
+      print(levels["WARN"])
+    verify: error
+    options:
+      - text: A KeyError
+        correct: true
+        error: KeyError
+        feedback: "Square brackets on a dictionary demand the key. `.get()` is the polite version."
+      - text: It prints None
+        feedback: "That's `levels.get(\"WARN\")`. Square brackets raise a KeyError instead."
+      - text: A ValueError
+        feedback: "A missing dictionary key has its own exception: KeyError."
+  - type: choice
+    prompt: "This crashes. Which line does the bottom of the traceback point at?"
+    code: |
+      def parse(line):
+          parts = line.split("|")
+          return int(parts[1])
+
+
+      print(parse("lamp|3"))
+      print(parse("lamp|three"))
+      print("Done")
+    verify: crash-line
+    options:
+      - text: Line 3
+        correct: true
+        feedback: "The error starts inside `parse`, on line 3. The traceback lists line 7 too, as the place `parse` was called from."
+      - text: Line 7
+        misconception: exception-stays-in-function
+        feedback: "Line 7 called `parse`, and it's in the traceback, but the error happened inside `parse`, on line 3. The bottom entry is where it started."
+      - text: Line 8
+        misconception: error-skips-line
+        feedback: "Line 8 never runs. The error on the way stops everything."
+  - type: fix
+    prompt: "The first bad reading stops the whole report. Catch the error so it prints `bad reading` for that one and carries on."
+    code: |
+      readings = ["4.2", "deep", "3.9"]
+      for text in readings:
+          print(float(text))
+    tests: |
+      TESTS = [output("All three readings", expect="4.2\nbad reading\n3.9")]
+    solution: |
+      readings = ["4.2", "deep", "3.9"]
+      for text in readings:
+          try:
+              print(float(text))
+          except ValueError:
+              print("bad reading")
+  - type: write
+    prompt: "Under `Problem:`, print the caught error itself, so its message appears."
+    starter: |
+      try:
+          depth = float("deep")
+      except ValueError as error:
+          print("Problem:")
+    tests: |
+      TESTS = [output("The message", expect="Problem:\ncould not convert string to float: 'deep'")]
+    solution: |
+      try:
+          depth = float("deep")
+      except ValueError as error:
+          print("Problem:")
+          print(error)

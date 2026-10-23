@@ -1,0 +1,117 @@
+id: init
+title: __init__
+summary: |
+  `__init__` runs by itself every time an object is made. Its job is to give the new object its starting attributes, from the arguments and from sensible starting values like `0` or `None`. It returns nothing: `Bike(7, 4)` hands back the new object on its own.
+example: |
+  class Ticket:
+      def __init__(self, route, price):
+          self.route = route
+          self.price = price
+          self.used = False
+
+  t = Ticket("Truro", 3)
+  print(t.route, t.price, t.used)
+misconceptions: [attributes-fixed-by-init, init-called-by-hand]
+related: [classes, attributes, self]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      class Ticket:
+          def __init__(self, route):
+              print("printing a ticket")
+              self.route = route
+
+      t = Ticket("Truro")
+      print(t.route)
+    answer: |-
+      printing a ticket
+      Truro
+  - type: choice
+    prompt: What happens?
+    code: |
+      class Ticket:
+          def __init__(self, route, price):
+              self.route = route
+              self.price = price
+
+      t = Ticket("Truro")
+      print(t.price)
+    verify: error
+    options:
+      - text: A TypeError
+        correct: true
+        error: TypeError
+      - text: It prints None
+        misconception: missing-argument-is-none
+        feedback: "`price` has no default, so `Ticket(\"Truro\")` is missing an argument. Python stops with a TypeError."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      class Bell:
+          def __init__(self):
+              self.rings = 0
+
+      bell = Bell()
+      bell.rings = 3
+      print(bell.rings)
+    options:
+      - text: "3"
+        correct: true
+      - text: "0"
+        misconception: attributes-fixed-by-init
+        feedback: "`__init__` only sets the starting value. `bell.rings = 3` changes it afterwards."
+      - text: An error, because __init__ was never called
+        misconception: init-called-by-hand
+        feedback: "`Bell()` calls `__init__` for you. You never call it by name."
+  - type: fix
+    prompt: "`__init__` is misspelt, so Python never runs it. Fix it."
+    code: |
+      class Lamp:
+          def _init_(self, keeper):
+              self.keeper = keeper
+
+      lamp = Lamp("Tom")
+      print(lamp.keeper)
+    tests: |
+      TESTS = [output("Tom's lamp", expect="Tom")]
+    solution: |
+      class Lamp:
+          def __init__(self, keeper):
+              self.keeper = keeper
+
+      lamp = Lamp("Tom")
+      print(lamp.keeper)
+  - type: fill
+    prompt: "Fill the gap so every new boat starts with its name and nobody aboard."
+    code: |
+      class Boat:
+          def ___(self, name):
+              self.name = name
+              self.aboard = 0
+
+      boat = Boat("Kittiwake")
+      print(boat.name, boat.aboard)
+    blanks: [["__init__"]]
+    tests: |
+      TESTS = [output("The Kittiwake, empty", expect="Kittiwake 0")]
+  - type: write
+    prompt: "Write `Stamp`, so `Stamp(\"first\", 135)` makes a stamp with attributes `kind` and `pence`."
+    starter: |
+      class Stamp:
+          pass
+    tests: |
+      def stamps(ctx):
+          m = ctx.module()
+          s = m.Stamp("first", 135)
+          t = m.Stamp("second", 85)
+          if (s.kind, s.pence, t.kind, t.pence) != ("first", 135, "second", 85):
+              raise CheckFailed("Each stamp should keep its kind and pence.")
+
+
+      TESTS = [custom("Two stamps", stamps)]
+    solution: |
+      class Stamp:
+          def __init__(self, kind, pence):
+              self.kind = kind
+              self.pence = pence

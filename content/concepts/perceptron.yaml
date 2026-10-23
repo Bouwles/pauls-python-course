@@ -1,0 +1,136 @@
+id: perceptron
+title: The perceptron
+summary: |
+  A perceptron multiplies each reading by a weight, adds them up and adds a bias. If the total is above 0 it says 1, otherwise 0. It learns one example at a time: when it is right nothing changes, and when it is wrong every weight moves by `rate * error * reading`, where `error = label - guess`. It draws one straight line, so it can learn any rule a straight line can split, and no other.
+example: |
+  import numpy as np
+
+  weights = np.array([-0.4, -0.2, -0.1])   # cloud, humidity, moon
+  bias = 0.3
+  night = np.array([0.1, 0.5, 0.2])
+
+  total = np.dot(weights, night) + bias
+  print(1 if total > 0 else 0)
+misconceptions: [neuron-knows-cloud-is-bad, step-at-zero-says-yes, perceptron-updates-when-right, perceptron-learns-anything, perceptron-finds-best-line]
+related: [neural-networks, activation-functions]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      weights = np.array([-0.4, -0.2, -0.1])
+      bias = 0.3
+      night = np.array([0.5, 0.2, 0.4])
+
+      total = np.dot(weights, night) + bias
+      print(round(total, 2), 1 if total > 0 else 0)
+    answer: "0.02 1"
+  - type: choice
+    prompt: The neuron says 1 and the label is 1. What does this print?
+    code: |
+      import numpy as np
+
+      weights = np.array([0.5, -1.0])
+      bias = 0.2
+      night, label = np.array([0.4, 0.1]), 1
+
+      guess = 1 if np.dot(weights, night) + bias > 0 else 0
+      error = label - guess
+      weights = weights + 0.1 * error * night
+      print(weights)
+    options:
+      - text: "[ 0.5 -1. ]"
+        correct: true
+        feedback: "Right. A correct guess makes `error` 0, and 0 times anything moves nothing."
+      - text: "[ 0.54 -0.99]"
+        misconception: perceptron-updates-when-right
+        feedback: "The weights only move when the guess is wrong. Here `error` is 1 - 1, which is 0."
+  - type: fill
+    prompt: "Fill the gaps so the neuron learns from its mistake on this night."
+    code: |
+      import numpy as np
+
+      weights = np.zeros(2)
+      bias = 0.0
+      night, label = np.array([0.3, 0.6]), 1
+
+      guess = 1 if np.dot(weights, night) + bias > 0 else 0
+      error = ___ - guess
+      weights = weights + 0.5 * error * ___
+      bias = bias + 0.5 * error
+      print(weights, bias)
+    blanks: [["label"], ["night"]]
+    tests: |
+      TESTS = [output("It moves towards the night", expect="[0.15 0.3 ] 0.5")]
+  - type: fix
+    prompt: "A neuron with every weight at 0 should keep the dome shut, but this one opens it. Fix `predict`."
+    code: |
+      import numpy as np
+
+
+      def predict(weights, bias, night):
+          total = np.dot(weights, night) + bias
+          return 1 if total >= 0 else 0
+
+
+      print(predict(np.zeros(2), 0.0, np.array([0.4, 0.4])))
+      print(predict(np.array([1.0, 1.0]), -0.5, np.array([0.4, 0.4])))
+    tests: |
+      TESTS = [output("Shut at exactly 0, open above it", expect="0\n1")]
+    solution: |
+      import numpy as np
+
+
+      def predict(weights, bias, night):
+          total = np.dot(weights, night) + bias
+          return 1 if total > 0 else 0
+
+
+      print(predict(np.zeros(2), 0.0, np.array([0.4, 0.4])))
+      print(predict(np.array([1.0, 1.0]), -0.5, np.array([0.4, 0.4])))
+  - type: write
+    prompt: "Write `predict(weights, bias, night)`: 1 if the weighted sum plus the bias is above 0, otherwise 0."
+    starter: |
+      import numpy as np
+
+
+      def predict(weights, bias, night):
+          pass
+    tests: |
+      import numpy as np
+
+
+      def decides(ctx):
+          m = ctx.module()
+          cases = [
+              (np.array([-1.0, -0.5]), 0.6, np.array([0.2, 0.2]), 1),
+              (np.array([-1.0, -0.5]), 0.6, np.array([0.4, 0.6]), 0),
+              (np.zeros(3), 0.0, np.array([0.5, 0.5, 0.5]), 0),
+              (np.array([2.0, 0.0, 1.0]), -1.0, np.array([0.3, 0.9, 0.5]), 1),
+          ]
+          for weights, bias, night, want in cases:
+              got = m.predict(weights, bias, night)
+              if got != want:
+                  raise CheckFailed(f"weights {weights.tolist()}, bias {bias}, night {night.tolist()}", expected=want, actual=repr(got))
+
+
+      TESTS = [custom("Four nights", decides)]
+    solution: |
+      import numpy as np
+
+
+      def predict(weights, bias, night):
+          total = np.dot(weights, night) + bias
+          return 1 if total > 0 else 0
+  - type: choice
+    prompt: "Which rule can one perceptron never learn, however many epochs it gets?"
+    verify: none
+    options:
+      - text: "Open the dome when the cloud is under 0.3."
+        feedback: "One reading and a threshold: a straight line does that easily."
+      - text: "Open when cloud plus humidity is under 0.8."
+        feedback: "That is a straight line through the readings, exactly what a perceptron draws."
+      - text: "Cross when the tide and the wind agree: both high or both low."
+        correct: true
+        feedback: "Right. The yeses sit at opposite corners, and no single straight line splits them from the noes."

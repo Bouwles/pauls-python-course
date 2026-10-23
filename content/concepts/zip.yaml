@@ -1,0 +1,73 @@
+id: zip
+title: zip()
+summary: |
+  `zip(a, b)` walks two lists side by side and hands over one pair at a time: the first of each, then the second of each. It stops when the shorter list runs out, without a word, so check the lists really are the same length.
+example: |
+  names = ["Ferro", "Bea", "Tom"]
+  chests = [112, 96, 101]
+  for name, chest in zip(names, chests):
+      print(name, chest)
+misconceptions: [zip-errors-on-uneven, zip-joins-lists, zip-keeps-lists-whole]
+related: [enumerate, unpacking]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      days = ["Mon", "Tue", "Wed"]
+      loaves = [40, 52]
+      for day, count in zip(days, loaves):
+          print(day, count)
+    answer: "Mon 40\nTue 52"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      print(list(zip(["Bea", "Tom"], [96, 101])))
+    options:
+      - text: "[('Bea', 96), ('Tom', 101)]"
+        correct: true
+        feedback: "One tuple per position: the first of each, then the second of each."
+      - text: "['Bea', 'Tom', 96, 101]"
+        misconception: zip-joins-lists
+        feedback: "That's `+` on two lists. zip pairs items up; it doesn't put one list after the other."
+      - text: "[('Bea', 'Tom'), (96, 101)]"
+        misconception: zip-keeps-lists-whole
+        feedback: "zip doesn't keep each list together. It takes one item from each list at a time."
+  - type: fix
+    prompt: "This should print each boat with its berth, like `Gull 4`. Fix it."
+    code: |
+      boats = ["Gull", "Puffin"]
+      berths = [4, 7]
+      for boat, berth in boats, berths:
+          print(boat, berth)
+    tests: |
+      TESTS = [output("Boats and berths", expect="Gull 4\nPuffin 7")]
+    solution: |
+      boats = ["Gull", "Puffin"]
+      berths = [4, 7]
+      for boat, berth in zip(boats, berths):
+          print(boat, berth)
+  - type: fill
+    prompt: "Fill the gap so each name is printed with its waist."
+    code: |
+      names = ["Mira", "Gwen"]
+      waists = [72, 86]
+      for name, waist in ___(names, waists):
+          print(f"{name}: {waist}")
+    blanks: [["zip"]]
+    tests: |
+      TESTS = [output("Two waists", expect="Mira: 72\nGwen: 86")]
+  - type: write
+    prompt: "`items` and `prices` are in step. Use `zip` to print a line for each, like `apples 45p`."
+    starter: |
+      items = ["apples", "pears", "plums"]
+      prices = [45, 60, 25]
+    tests: |
+      TESTS = [
+          output("Three price lines", expect="apples 45p\npears 60p\nplums 25p"),
+          structure("Uses zip", calls=["zip"]),
+      ]
+    solution: |
+      items = ["apples", "pears", "plums"]
+      prices = [45, 60, 25]
+      for item, price in zip(items, prices):
+          print(f"{item} {price}p")

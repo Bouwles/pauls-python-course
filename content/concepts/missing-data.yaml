@@ -1,0 +1,105 @@
+id: missing-data
+title: Missing data
+summary: |
+  pandas marks a missing number as `NaN` and a missing date as `NaT`, and `pd.to_numeric(column, errors="coerce")` turns text that isn't a number into NaN. NaN isn't equal to anything, not even itself, so find gaps with `isna()` and count them with `isna().sum()`. pandas' `mean()` and `sum()` skip missing values; NumPy's don't. `dropna()` leaves gaps out and `fillna(value)` fills them in, which changes your answers, so a gap is often more honest than a guess.
+example: |
+  import numpy as np
+  import pandas as pd
+
+  ages = pd.Series([23, np.nan, 31])
+  print(ages.isna().sum())
+  print(ages.mean())
+  print(ages.fillna(0).mean())
+misconceptions: [nan-equals-itself, nan-comparison-errors, mean-counts-missing, numpy-skips-nan, to-numeric-skips-words]
+related: [data-cleaning, pandas-basics, none]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      print(np.nan == np.nan)
+    answer: "False"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import pandas as pd
+
+      ages = pd.Series([20, None, 40])
+      print(ages.mean())
+    answer: "30.0"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      ages = np.array([20, np.nan, 40])
+      print(np.mean(ages))
+    options:
+      - text: nan
+        correct: true
+        feedback: "NumPy doesn't skip gaps. One NaN in, NaN out. pandas' `mean()` skips them; in NumPy, `np.nanmean` does."
+      - text: "30.0"
+        misconception: numpy-skips-nan
+        feedback: "That's what pandas would say. NumPy's `mean` lets one NaN spoil the whole answer."
+  - type: choice
+    prompt: How many ages are over 25?
+    code: |
+      import numpy as np
+      import pandas as pd
+
+      ages = pd.Series([20, np.nan, 40])
+      print(len(ages[ages > 25]))
+    options:
+      - text: "1"
+        correct: true
+        feedback: "Any comparison with NaN is `False`, so the gap is quietly left out. Only 40 is kept."
+      - text: A TypeError
+        misconception: nan-comparison-errors
+        error: TypeError
+        feedback: "Comparing with NaN is allowed. It just always comes out `False`, so a missing age never passes a filter."
+  - type: fix
+    prompt: "`pd.to_numeric` stops at the word `unknown`. Make it turn words into NaN, so this prints `27.0`."
+    code: |
+      import pandas as pd
+
+      ages = pd.Series(["23", "unknown", "31"])
+      numbers = pd.to_numeric(ages)
+      print(numbers.mean())
+    tests: |
+      TESTS = [output("The average of the known ages", expect="27.0")]
+    solution: |
+      import pandas as pd
+
+      ages = pd.Series(["23", "unknown", "31"])
+      numbers = pd.to_numeric(ages, errors="coerce")
+      print(numbers.mean())
+  - type: fill
+    prompt: "Fill the gap so it prints how many ages are missing."
+    code: |
+      import numpy as np
+      import pandas as pd
+
+      ages = pd.Series([23, np.nan, 31, np.nan, 19])
+      print(ages.___().sum())
+    blanks: [["isna", "isnull"]]
+    tests: |
+      TESTS = [output("Two missing", expect="2")]
+  - type: write
+    prompt: "Print the share of ages that are missing, as a number between 0 and 1. `True` counts as 1 and `False` as 0, so a `mean()` of `True` and `False` is the share that are `True`."
+    starter: |
+      import numpy as np
+      import pandas as pd
+
+      ages = pd.Series([23, np.nan, 31, 19])
+    tests: |
+      TESTS = [
+          output("A quarter missing", expect="0.25"),
+          structure("Finds the gaps with isna", calls=["isna"]),
+      ]
+    solution: |
+      import numpy as np
+      import pandas as pd
+
+      ages = pd.Series([23, np.nan, 31, 19])
+      print(ages.isna().mean())

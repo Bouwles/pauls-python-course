@@ -1,0 +1,73 @@
+id: imports
+title: import
+summary: |
+  Python keeps extra tools in modules, like `random` and `math`. `import random` at the top of the file loads the module. After that you write the module's name, a dot, then the tool: `random.randint(1, 6)`. Without the import, Python raises a NameError.
+example: |
+  import math
+  print(math.sqrt(49))
+misconceptions: [modules-need-no-import, imported-names-are-bare, missing-import-is-syntax-error]
+related: [random-module]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import math
+      print(math.sqrt(49))
+    answer: "7.0"
+  - type: choice
+    prompt: What happens?
+    code: |
+      import random
+      print(randint(3, 3))
+    verify: error
+    options:
+      - text: A NameError
+        correct: true
+        error: NameError
+        feedback: "`import random` brings in the module, not each of its tools by name. It has to be `random.randint`."
+      - text: It prints 3
+        misconception: imported-names-are-bare
+        feedback: "The tools stay inside the module. Write `random.randint(3, 3)`."
+  - type: choice
+    prompt: What happens?
+    code: |
+      print(math.sqrt(16))
+    verify: error
+    options:
+      - text: A NameError
+        correct: true
+        error: NameError
+      - text: It prints 4.0
+        misconception: modules-need-no-import
+        feedback: "`math` has to be imported before Python knows it."
+      - text: A SyntaxError
+        misconception: missing-import-is-syntax-error
+        error: SyntaxError
+        feedback: "The line reads fine. It fails when it runs and meets a name nobody defined."
+  - type: fix
+    prompt: "This should print 7. Fix it."
+    code: |
+      print(math.floor(7.8))
+    tests: |
+      TESTS = [output("Seven", expect="7")]
+    solution: |
+      import math
+      print(math.floor(7.8))
+  - type: fill
+    prompt: "Fill the gap so this prints 5."
+    code: |
+      ___ random
+      print(random.randint(5, 5))
+    blanks: [["import"]]
+    tests: |
+      TESTS = [output("Five", expect="5")]
+  - type: write
+    prompt: "Use the `math` module's `sqrt` to print the square root of 81."
+    tests: |
+      TESTS = [
+          output("Nine", expect="9.0"),
+          structure("Uses sqrt", calls=["sqrt"], message="Work it out with math.sqrt, not by typing the answer."),
+      ]
+    solution: |
+      import math
+      print(math.sqrt(81))

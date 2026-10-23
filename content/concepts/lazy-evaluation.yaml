@@ -1,0 +1,115 @@
+id: lazy-evaluation
+title: Lazy means worked out when asked
+summary: |
+  Lazy means nothing is worked out until something asks for it. A generator only ever holds the value it's on, so it can stream a file of any length, or count for ever, as long as you only ask for what you need. `range` and generator expressions like `(g * 2 for g in amounts)` are lazy too. A list comprehension is not: it builds every item first.
+example: |
+  def tray_labels():
+      number = 1
+      while True:
+          yield f"Tray {number}"
+          number += 1
+
+
+  labels = tray_labels()
+  print(next(labels))
+  print(next(labels))
+misconceptions: [infinite-generator-hangs, generator-expression-is-list, iterator-refills]
+related: [generators, iterators]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      squares = (n * n for n in range(4))
+      print(sum(squares))
+      print(sum(squares))
+    answer: "14\n0"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      def counting():
+          number = 0
+          while True:
+              yield number
+              number += 1
+
+
+      numbers = counting()
+      print(next(numbers), next(numbers), next(numbers))
+    options:
+      - text: 0 1 2
+        correct: true
+      - text: Nothing. It never finishes
+        misconception: infinite-generator-hangs
+        feedback: "The loop only goes round when something asks for a value. Three `next` calls, three trips round, then it waits."
+      - text: 0 0 0
+        misconception: next-does-not-advance
+        feedback: "Each `next` carries on from the `yield` where it paused, so `number` has gone up by one each time."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      amounts = [500, 10, 350]
+      doubled = (grams * 2 for grams in amounts)
+      print(next(doubled))
+    options:
+      - text: "1000"
+        correct: true
+      - text: "[1000, 20, 700]"
+        misconception: generator-expression-is-list
+        feedback: "Round brackets make a generator, not a list. `next` takes just the first value from it."
+      - text: "(1000, 20, 700)"
+        misconception: generator-expression-is-list
+        feedback: "Round brackets here don't make a tuple. They make a generator, and `next` takes one value."
+  - type: fix
+    prompt: "Bea only wants the first ingredient over a kilo. This weighs every one first. Make it stop weighing as soon as it finds one."
+    code: |
+      def weigh(amounts):
+          for grams in amounts:
+              print("weighing", grams)
+              yield grams
+
+
+      heavy = [grams for grams in weigh([500, 1200, 300, 1900]) if grams > 1000]
+      print("first heavy:", heavy[0])
+    tests: |
+      TESTS = [output("Stops at 1200", expect="weighing 500\nweighing 1200\nfirst heavy: 1200",
+                      hint="A generator expression in round brackets, with next(), stops at the first match.")]
+    solution: |
+      def weigh(amounts):
+          for grams in amounts:
+              print("weighing", grams)
+              yield grams
+
+
+      heavy = (grams for grams in weigh([500, 1200, 300, 1900]) if grams > 1000)
+      print("first heavy:", next(heavy))
+  - type: fill
+    prompt: "Fill the gaps so `doubled` is worked out one value at a time, not all at once."
+    code: |
+      amounts = [500, 10, 350]
+      doubled = ___grams * 2 for grams in amounts___
+      print(next(doubled))
+      print(next(doubled))
+    blanks: [["("], [")"]]
+    tests: |
+      TESTS = [output("The first two", expect="1000\n20")]
+  - type: write
+    prompt: "`tray_labels()` counts for ever. Print just the first three labels."
+    starter: |
+      def tray_labels():
+          number = 1
+          while True:
+              yield f"Tray {number}"
+              number += 1
+    tests: |
+      TESTS = [output("Three labels", expect="Tray 1\nTray 2\nTray 3", timeout=3,
+                      hint="Ask for three with next(), or zip it with range(3). list() would never finish.")]
+    solution: |
+      def tray_labels():
+          number = 1
+          while True:
+              yield f"Tray {number}"
+              number += 1
+
+
+      for _, label in zip(range(3), tray_labels()):
+          print(label)

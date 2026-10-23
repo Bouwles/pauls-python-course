@@ -1,0 +1,143 @@
+id: test-first
+title: Writing tests first
+summary: |
+  Writing the tests first means deciding exactly what a function should do, edges included, before writing it. Run the new tests and watch them fail: a test you've seen fail is one you know can fail. Then write the simplest code that makes them pass, and keep the tests for every change after that.
+example: |
+  def can_cross(depth, draught, margin=0.5):
+      raise NotImplementedError("Tests first. Then this.")
+
+  def test_exactly_at_the_margin():
+      assert can_cross(2.5, 2.0)
+misconceptions: [failing-first-test-is-broken, passing-tests-prove-correct]
+related: [assert, pytest, edge-cases]
+cards:
+  - type: predict
+    prompt: "`high_waters` is only a placeholder so far. What does this print?"
+    code: |
+      def high_waters(first, count):
+          return []
+
+      def test_three():
+          assert high_waters("06:42", 3) == ["06:42", "19:07", "07:32"]
+
+      def test_none():
+          assert high_waters("06:42", 0) == []
+
+      for test in (test_three, test_none):
+          try:
+              test()
+              print("passed", test.__name__)
+          except AssertionError:
+              print("FAILED", test.__name__)
+    answer: |-
+      FAILED test_three
+      passed test_none
+  - type: choice
+    prompt: "`can_cross` is a placeholder that always says yes. What does this print?"
+    code: |
+      def can_cross(depth, draught, margin=0.5):
+          return True
+
+      def test_can_cross():
+          assert can_cross(3.0, 2.0)
+
+      try:
+          test_can_cross()
+          print("passed")
+      except AssertionError:
+          print("FAILED")
+    options:
+      - text: passed
+        correct: true
+      - text: FAILED
+        misconception: passing-tests-prove-correct
+        feedback: "A test that only tries a boat that can cross can't tell a real `can_cross` from one that always says yes. Test a boat that can't, too."
+  - type: fix
+    prompt: "This test was written first, but it expects the wrong thing: exactly half a metre under the keel is enough. Fix the test, not the function."
+    code: |
+      def can_cross(depth, draught, margin=0.5):
+          return depth >= draught + margin
+
+      def test_exactly_at_the_margin():
+          assert not can_cross(2.5, 2.0)
+    tests: |
+      def check(ctx):
+          m = ctx.module()
+          m.test_exactly_at_the_margin()
+          m.can_cross = lambda depth, draught, margin=0.5: depth > draught + margin
+          try:
+              m.test_exactly_at_the_margin()
+          except AssertionError:
+              return
+          raise CheckFailed("The test still passes when can_cross gets the boundary wrong.")
+
+
+      TESTS = [custom("The test matches the requirement", check)]
+    solution: |
+      def can_cross(depth, draught, margin=0.5):
+          return depth >= draught + margin
+
+      def test_exactly_at_the_margin():
+          assert can_cross(2.5, 2.0)
+  - type: fill
+    prompt: "Fill the gap so the placeholder fails loudly until the real code is written."
+    code: |
+      def postage(stamps):
+          ___ NotImplementedError("tests first")
+
+      try:
+          postage(2)
+      except NotImplementedError as problem:
+          print("not yet:", problem)
+    blanks: [["raise"]]
+    tests: |
+      TESTS = [output("Not yet", expect="not yet: tests first")]
+  - type: write
+    prompt: "Tests first. `is_spring_tide(day)` should be `True` on days 1 and 15 of the month and `False` on every other day. Write tests for it; leave the function as it is."
+    starter: |
+      def is_spring_tide(day):
+          raise NotImplementedError("Tests first.")
+    tests: |
+      import types as _types
+
+
+      def tests_of(m):
+          return [v for k, v in vars(m).items() if k.startswith("test_") and isinstance(v, _types.FunctionType)]
+
+
+      def check(ctx):
+          m = ctx.module()
+          found = tests_of(m)
+          if not found:
+              raise CheckFailed("Write functions whose names start with test_.")
+          m.is_spring_tide = lambda day: day in (1, 15)
+          for test in found:
+              test()
+          for broken in (lambda day: True, lambda day: False, lambda day: day == 1):
+              m.is_spring_tide = broken
+              caught = False
+              for test in found:
+                  try:
+                      test()
+                  except AssertionError:
+                      caught = True
+              if not caught:
+                  raise CheckFailed("Your tests pass on a wrong is_spring_tide. Test both spring days and an ordinary one.")
+
+
+      TESTS = [custom("Tests that pin down the requirement", check)]
+    solution: |
+      def is_spring_tide(day):
+          raise NotImplementedError("Tests first.")
+
+
+      def test_first_of_the_month():
+          assert is_spring_tide(1)
+
+
+      def test_fifteenth():
+          assert is_spring_tide(15)
+
+
+      def test_ordinary_day():
+          assert not is_spring_tide(9)

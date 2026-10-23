@@ -1,0 +1,151 @@
+id: super
+title: super()
+summary: |
+  `super()` reaches the parent class's methods for this same object. A subclass that writes its own `__init__` replaces the parent's, so call `super().__init__(...)` to let the parent set up its part. In an overriding method, `super().give_back(hours)` reuses the parent's work so the subclass only adds what differs.
+example: |
+  class Bike:
+      def __init__(self, number):
+          self.number = number
+          self.rider = None
+
+  class ElectricBike(Bike):
+      def __init__(self, number, charge):
+          super().__init__(number)
+          self.charge = charge
+
+  volt = ElectricBike(9, 80)
+  print(volt.number, volt.rider, volt.charge)
+misconceptions: [parent-init-runs-anyway, super-calls-own-method]
+related: [inheritance]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      class Bike:
+          def __init__(self, number):
+              self.number = number
+              self.rider = None
+
+      class ElectricBike(Bike):
+          def __init__(self, number, charge):
+              super().__init__(number)
+              self.charge = charge
+
+      volt = ElectricBike(9, 80)
+      print(volt.number, volt.rider, volt.charge)
+    answer: "9 None 80"
+  - type: choice
+    prompt: What happens?
+    code: |
+      class Bike:
+          def __init__(self, number):
+              self.number = number
+              self.rider = None
+
+      class ElectricBike(Bike):
+          def __init__(self, number, charge):
+              self.charge = charge
+
+      volt = ElectricBike(9, 80)
+      print(volt.rider)
+    verify: error
+    options:
+      - text: An AttributeError
+        correct: true
+        error: AttributeError
+      - text: It prints None
+        misconception: parent-init-runs-anyway
+        feedback: "`ElectricBike` wrote its own `__init__`, which replaces `Bike`'s. Nothing set `rider`, because nothing called `super().__init__`."
+  - type: fix
+    prompt: "A return ticket should still know its route. Fix `ReturnTicket`'s `__init__`."
+    code: |
+      class Ticket:
+          def __init__(self, route):
+              self.route = route
+
+      class ReturnTicket(Ticket):
+          def __init__(self, route, back_by):
+              self.back_by = back_by
+
+      ticket = ReturnTicket("Truro", "Friday")
+      print(ticket.route, ticket.back_by)
+    tests: |
+      TESTS = [output("Truro, back by Friday", expect="Truro Friday")]
+    solution: |
+      class Ticket:
+          def __init__(self, route):
+              self.route = route
+
+      class ReturnTicket(Ticket):
+          def __init__(self, route, back_by):
+              super().__init__(route)
+              self.back_by = back_by
+
+      ticket = ReturnTicket("Truro", "Friday")
+      print(ticket.route, ticket.back_by)
+  - type: fill
+    prompt: "Fill the gap so the electric bike reuses the usual cost and adds its fee."
+    code: |
+      class Bike:
+          def cost(self, hours):
+              return hours * 4
+
+      class ElectricBike(Bike):
+          def cost(self, hours):
+              return ___().cost(hours) + 2
+
+      print(ElectricBike().cost(3))
+    blanks: [["super"]]
+    tests: |
+      TESTS = [output("Three hours plus the fee", expect="14")]
+  - type: write
+    prompt: "Write `ExpressParcel`, a kind of `Parcel` whose `postage()` is the usual postage plus 150. Use `super()`."
+    starter: |
+      class Parcel:
+          def __init__(self, weight):
+              self.weight = weight
+
+          def postage(self):
+              return self.weight * 100
+    tests: |
+      def express(ctx):
+          m = ctx.module()
+          got = m.ExpressParcel(2).postage()
+          if got != 350:
+              raise CheckFailed("A 2 kg express parcel costs 200 plus 150.", expected=350, actual=got)
+
+
+      TESTS = [
+          custom("A 2 kg express parcel", express),
+          structure("Uses super()", calls=["super"]),
+      ]
+    solution: |
+      class Parcel:
+          def __init__(self, weight):
+              self.weight = weight
+
+          def postage(self):
+              return self.weight * 100
+
+
+      class ExpressParcel(Parcel):
+          def postage(self):
+              return super().postage() + 150
+  - type: choice
+    prompt: What does this print?
+    code: |
+      class Bike:
+          def describe(self):
+              return "a bike"
+
+      class Tandem(Bike):
+          def describe(self):
+              return super().describe() + " for two"
+
+      print(Tandem().describe())
+    options:
+      - text: a bike for two
+        correct: true
+      - text: An error, because describe calls itself forever
+        misconception: super-calls-own-method
+        feedback: "`super().describe()` skips the tandem's own version and runs the parent's. No loop."

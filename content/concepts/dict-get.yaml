@@ -1,0 +1,94 @@
+id: dict-get
+title: .get() for keys that might not be there
+summary: |
+  `book[name]` crashes with a KeyError if `name` isn't a key. `book.get(name)` hands back `None` instead, and `book.get(name, "unknown")` hands back `"unknown"`. `.get()` only reads; it never adds the key. Use it when a missing key is normal, not a mistake.
+example: |
+  book = {"Bea": "Quay Row"}
+  print(book.get("Tom"))
+  print(book.get("Tom", "No address"))
+  counts = {}
+  counts["cod"] = counts.get("cod", 0) + 1
+  print(counts)
+misconceptions: [missing-key-gives-none, get-adds-key]
+related: [dictionaries, none]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      book = {"Bea": "Quay Row"}
+      print(book.get("Tom"))
+    answer: "None"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      book = {"Bea": "Quay Row"}
+      print(book.get("Tom", "No address"))
+      print(book.get("Bea", "No address"))
+    answer: |-
+      No address
+      Quay Row
+  - type: choice
+    prompt: What happens?
+    code: |
+      book = {"Bea": "Quay Row"}
+      print(book["Tom"])
+    verify: error
+    options:
+      - text: It prints None
+        misconception: missing-key-gives-none
+        feedback: "Square brackets don't forgive a missing key. That's a KeyError. `.get()` is the one that gives `None`."
+      - text: A KeyError
+        correct: true
+        error: KeyError
+  - type: choice
+    prompt: What does this print?
+    code: |
+      counts = {}
+      counts.get("cod", 0)
+      print(counts)
+    options:
+      - text: "{'cod': 0}"
+        misconception: get-adds-key
+        feedback: "`.get()` only looks. It hands back 0 without storing anything."
+      - text: "{}"
+        correct: true
+  - type: fix
+    prompt: "Typing a name that isn't in the book should print `Unknown`, not crash. Fix line 3."
+    code: |
+      book = {"Bea": "Quay Row", "Tom": "Point Road"}
+      name = input("Name? ")
+      print(book[name])
+    tests: |
+      TESTS = [
+          output("Not in the book", inputs=["Gwen"], expect="Unknown"),
+          output("In the book", inputs=["Tom"], expect="Point Road"),
+      ]
+    solution: |
+      book = {"Bea": "Quay Row", "Tom": "Point Road"}
+      name = input("Name? ")
+      print(book.get(name, "Unknown"))
+  - type: fill
+    prompt: "Fill the gap so this counts the fish: `{'cod': 2, 'eel': 1}`."
+    code: |
+      counts = {}
+      for fish in ["cod", "eel", "cod"]:
+          counts[fish] = counts.get(fish, ___) + 1
+      print(counts)
+    blanks: [["0"]]
+    tests: |
+      TESTS = [output("Counted", expect="{'cod': 2, 'eel': 1}")]
+  - type: write
+    prompt: "Ask `Item? ` and print how many of it Bea has in `stock`, or `0` if it isn't listed. Use `.get()`."
+    starter: |
+      stock = {"flour": 3, "yeast": 2}
+    tests: |
+      TESTS = [
+          output("Treacle isn't listed", inputs=["treacle"], expect="0"),
+          output("Flour is", inputs=["flour"], expect="3"),
+          output("Yeast is", inputs=["yeast"], expect="2"),
+      ]
+    solution: |
+      stock = {"flour": 3, "yeast": 2}
+      item = input("Item? ")
+      print(stock.get(item, 0))

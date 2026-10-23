@@ -1,0 +1,123 @@
+id: enums
+title: Enums
+summary: |
+  An Enum is a fixed set of named choices: `class Stamp(Enum):` with `FIRST = 135` inside. Each member has a `.name` and a `.value`, but a member is not its value: compare members with members, `stamp == Stamp.FIRST`. `Stamp(85)` finds the member with that value, and looping over the class gives every member.
+example: |
+  from enum import Enum
+
+  class Stamp(Enum):
+      FIRST = 135
+      SECOND = 85
+
+  print(Stamp.FIRST, Stamp.FIRST.value, Stamp(85))
+misconceptions: [enum-member-is-its-value, enum-equals-value, enum-call-makes-member]
+related: [dataclasses]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      from enum import Enum
+
+      class Tide(Enum):
+          HIGH = "high"
+          LOW = "low"
+
+      for tide in Tide:
+          print(tide.name, tide.value)
+    answer: |-
+      HIGH high
+      LOW low
+  - type: choice
+    prompt: What does this print?
+    code: |
+      from enum import Enum
+
+      class Stamp(Enum):
+          FIRST = 135
+          SECOND = 85
+
+      print(Stamp(85))
+    options:
+      - text: Stamp.SECOND
+        correct: true
+      - text: "85"
+        misconception: enum-member-is-its-value
+        feedback: "`Stamp(85)` looks up the member whose value is 85 and gives you the member, `Stamp.SECOND`."
+      - text: An error, because there is no Stamp called 85
+        misconception: enum-call-makes-member
+        feedback: "Calling the Enum with a value finds the existing member with that value. It never makes a new one."
+  - type: fix
+    prompt: "Tonight is foggy, but the horn stays quiet. Fix the comparison."
+    code: |
+      from enum import Enum
+
+      class Weather(Enum):
+          CLEAR = "clear"
+          FOG = "fog"
+
+      tonight = Weather.FOG
+      if tonight == "FOG":
+          print("Sound the horn")
+      else:
+          print("Quiet night")
+    tests: |
+      TESTS = [output("Fog means the horn", expect="Sound the horn")]
+    solution: |
+      from enum import Enum
+
+      class Weather(Enum):
+          CLEAR = "clear"
+          FOG = "fog"
+
+      tonight = Weather.FOG
+      if tonight == Weather.FOG:
+          print("Sound the horn")
+      else:
+          print("Quiet night")
+  - type: fill
+    prompt: "Fill the gap to get the price of a second-class stamp."
+    code: |
+      from enum import Enum
+
+      class Stamp(Enum):
+          FIRST = 135
+          SECOND = 85
+
+      print(Stamp.SECOND.___ * 2)
+    blanks: [["value"]]
+    tests: |
+      TESTS = [output("Two second-class stamps", expect="170")]
+  - type: write
+    prompt: "Write an Enum `Tide` with two members, `HIGH` and `LOW`, valued `\"high\"` and `\"low\"`."
+    starter: |
+      from enum import Enum
+    tests: |
+      def tides(ctx):
+          m = ctx.module()
+          import enum
+          if not (isinstance(m.Tide, type) and issubclass(m.Tide, enum.Enum)):
+              raise CheckFailed("Tide should be an Enum: class Tide(Enum).")
+          got = {member.name: member.value for member in m.Tide}
+          if got != {"HIGH": "high", "LOW": "low"}:
+              raise CheckFailed("Tide's members", expected={"HIGH": "high", "LOW": "low"}, actual=got)
+
+
+      TESTS = [custom("High and low", tides)]
+    solution: |
+      from enum import Enum
+
+
+      class Tide(Enum):
+          HIGH = "high"
+          LOW = "low"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      from enum import Enum
+
+      class Stamp(Enum):
+          FIRST = 135
+          SECOND = 85
+
+      print(len(Stamp), Stamp.FIRST.name)
+    answer: "2 FIRST"

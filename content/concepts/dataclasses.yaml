@@ -1,0 +1,145 @@
+id: dataclasses
+title: Dataclasses
+summary: |
+  `@dataclass` above a class with typed fields writes `__init__`, `__repr__` and `__eq__` for you. Fields with defaults go after those without. `@dataclass(frozen=True)` makes the record read-only, and `replace(card, to="Truro")` makes a changed copy. A list default needs `field(default_factory=list)`, for the same reason as the mutable default trap.
+example: |
+  from dataclasses import dataclass, replace
+
+  @dataclass(frozen=True)
+  class Postcard:
+      sender: str
+      to: str
+      message: str = ""
+
+  card = Postcard("Bea", "Truro")
+  print(card, replace(card, to="Tresco"))
+misconceptions: [dataclass-eq-is-identity, dataclass-needs-init, frozen-is-advice, frozen-blocks-replace, dataclass-list-default-ok]
+related: [type-hints, enums]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      from dataclasses import dataclass
+
+      @dataclass
+      class Loaf:
+          kind: str
+          pence: int = 240
+
+      print(Loaf("sourdough"))
+    answer: "Loaf(kind='sourdough', pence=240)"
+  - type: choice
+    prompt: What happens?
+    code: |
+      from dataclasses import dataclass
+
+      @dataclass(frozen=True)
+      class Ticket:
+          route: str
+
+      ticket = Ticket("Truro")
+      ticket.route = "Bodmin"
+      print(ticket.route)
+    verify: error
+    options:
+      - text: A FrozenInstanceError
+        correct: true
+        error: FrozenInstanceError
+      - text: It prints Bodmin
+        misconception: frozen-is-advice
+        feedback: "`frozen=True` really does stop changes: assigning to a field raises FrozenInstanceError."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      from dataclasses import dataclass, replace
+
+      @dataclass(frozen=True)
+      class Ticket:
+          route: str
+          price: int
+
+      ticket = Ticket("Truro", 3)
+      dearer = replace(ticket, price=4)
+      print(ticket.price, dearer.price)
+    options:
+      - text: "3 4"
+        correct: true
+      - text: An error, because Ticket is frozen
+        misconception: frozen-blocks-replace
+        feedback: "`replace` doesn't change the frozen ticket. It builds a new one, which is exactly how frozen records are meant to change."
+  - type: fix
+    prompt: "Python won't even make this class. Fix the `cards` field so every bag starts with its own empty list."
+    code: |
+      from dataclasses import dataclass
+
+      @dataclass
+      class Bag:
+          owner: str
+          cards: list = []
+
+      bag = Bag("Mira")
+      bag.cards.append("Truro")
+      print(bag)
+    tests: |
+      def separate_bags(ctx):
+          m = ctx.module()
+          a = m.Bag("Bea")
+          a.cards.append("x")
+          if m.Bag("Tom").cards != []:
+              raise CheckFailed("Each new bag should start with an empty list of its own.")
+
+
+      TESTS = [
+          output("Mira's bag", expect="Bag(owner='Mira', cards=['Truro'])"),
+          custom("Bags don't share a list", separate_bags),
+      ]
+    solution: |
+      from dataclasses import dataclass, field
+
+      @dataclass
+      class Bag:
+          owner: str
+          cards: list = field(default_factory=list)
+
+      bag = Bag("Mira")
+      bag.cards.append("Truro")
+      print(bag)
+  - type: fill
+    prompt: "Fill the gap so Python writes `__init__` and `__repr__` for `Boat`."
+    code: |
+      from dataclasses import dataclass
+
+      ___
+      class Boat:
+          name: str
+          crew: int
+
+      print(Boat("Kittiwake", 3))
+    blanks: [["@dataclass", "@dataclass()"]]
+    tests: |
+      TESTS = [output("The Kittiwake", expect="Boat(name='Kittiwake', crew=3)")]
+  - type: write
+    prompt: "Write a dataclass `Measurement` with `name: str` and `cm: float`, so two measurements with the same values are equal."
+    starter: |
+      from dataclasses import dataclass
+    tests: |
+      def measured(ctx):
+          m = ctx.module()
+          import dataclasses
+          if not dataclasses.is_dataclass(m.Measurement):
+              raise CheckFailed("Measurement should be a dataclass.")
+          a = m.Measurement("sleeve", 61.5)
+          if a != m.Measurement("sleeve", 61.5) or repr(a) != "Measurement(name='sleeve', cm=61.5)":
+              raise CheckFailed("Two sleeves of 61.5 cm should be equal, and show as Measurement(name='sleeve', cm=61.5).")
+
+
+      TESTS = [custom("Mr Okonjo's sleeve", measured)]
+    solution: |
+      from dataclasses import dataclass
+
+
+      @dataclass
+      class Measurement:
+          name: str
+          cm: float

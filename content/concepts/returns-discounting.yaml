@@ -1,0 +1,107 @@
+id: returns-discounting
+title: Returns and discounting
+summary: |
+  The return is what an episode is worth from a given moment: the rewards from then on, each multiplied by `gamma` once more than the one before, so `r0 + gamma * r1 + gamma**2 * r2 + ...`. The first reward counts in full. With `gamma` near 0 only the next reward or two matter; near 1 the far future counts almost as much as now, so gamma can change which choice is best. Discounting also keeps the return of an endless episode finite. Working backwards from the last reward, `total = reward + gamma * total` gives the return without any powers.
+example: |
+  def discounted_return(rewards, gamma):
+      total = 0
+      for reward in reversed(rewards):
+          total = reward + gamma * total
+      return total
+
+
+  print(round(discounted_return([-1, -1, -1, -1, 10], 0.9), 2))
+misconceptions: [discount-ignored, discount-starts-at-one, only-final-reward-counts, gamma-only-scales, gamma-backwards, gamma-zero-zeroes-all]
+related: [mdps]
+cards:
+  - type: predict
+    prompt: "Sir Reginald refuses to race. He sits on the start for a thousand seconds at -1 a second. What does this print?"
+    code: |
+      no_discount, discounted = 0, 0
+      for t in range(1000):
+          no_discount += 1.0 ** t * -1
+          discounted += 0.9 ** t * -1
+      print(round(no_discount), round(discounted, 1))
+    answer: "-1000 -10.0"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      rewards = [3, 50, 50]
+      gamma = 0
+      print(sum(gamma ** t * reward for t, reward in enumerate(rewards)))
+    options:
+      - text: "3"
+        correct: true
+        feedback: "Gamma to the power 0 is 1, so the first reward counts in full. Everything after it is multiplied by 0. A crab with gamma 0 lives entirely in the present."
+      - text: "0"
+        misconception: gamma-zero-zeroes-all
+        feedback: "In Python `0 ** 0` is 1, so the first reward still counts. Only the later ones vanish."
+      - text: "103"
+        misconception: discount-ignored
+        feedback: "That's the rewards added up with no discounting. With gamma 0, the 50s are multiplied by 0."
+  - type: predict
+    prompt: What does this print?
+    code: |
+      total = 0
+      for reward in reversed([1, 2, 3]):
+          total = reward + 0.5 * total
+      print(total)
+    answer: "2.75"
+  - type: fix
+    prompt: "This discounts the first reward when it should count in full. Fix it."
+    code: |
+      def discounted_return(rewards, gamma):
+          total = 0
+          for t, reward in enumerate(rewards, start=1):
+              total += gamma ** t * reward
+          return total
+
+
+      print(round(discounted_return([-1, -1, -1, -1, 10], 0.9), 2))
+    tests: |
+      TESTS = [
+          function("Four tiles, then the finish", call="discounted_return", args=([-1, -1, -1, -1, 10], 0.9), expect=3.122, tol=1e-6),
+          function("One reward, in full", call="discounted_return", args=([5], 0.5), expect=5, tol=1e-9),
+          output("The committee's practice race", expect="3.12"),
+      ]
+    solution: |
+      def discounted_return(rewards, gamma):
+          total = 0
+          for t, reward in enumerate(rewards):
+              total += gamma ** t * reward
+          return total
+
+
+      print(round(discounted_return([-1, -1, -1, -1, 10], 0.9), 2))
+  - type: fill
+    prompt: "Fill the gap so this works out the return backwards, from the last reward to the first."
+    code: |
+      rewards = [-1, -1, 10]
+      gamma = 0.9
+      total = 0
+      for reward in reversed(rewards):
+          total = reward + ___ * total
+      print(round(total, 2))
+    blanks: [["gamma"]]
+    tests: |
+      TESTS = [output("Two tiles, then the finish", expect="6.2")]
+  - type: write
+    prompt: "Write `returns_from_each_step(rewards, gamma)`: a list with the return from every step of the race, the first step's first. Work backwards."
+    starter: |
+      def returns_from_each_step(rewards, gamma):
+          pass
+    tests: |
+      TESTS = [
+          function("Two tiles, then the finish", call="returns_from_each_step", args=([-1, -1, 10], 0.9), expect=[6.2, 8.0, 10.0], tol=1e-9),
+          function("No discount", call="returns_from_each_step", args=([1, 1, 1, 1], 1.0), expect=[4.0, 3.0, 2.0, 1.0], tol=1e-9),
+          function("A race with no steps", call="returns_from_each_step", args=([], 0.9), expect=[]),
+      ]
+    solution: |
+      def returns_from_each_step(rewards, gamma):
+          returns = []
+          total = 0
+          for reward in reversed(rewards):
+              total = reward + gamma * total
+              returns.append(total)
+          returns.reverse()
+          return returns

@@ -1,0 +1,84 @@
+id: edge-cases
+title: Edge cases
+summary: |
+  An edge case is an input at the boundary of what code handles: zero, empty, exactly one, exactly on a limit, just past midnight. Typical inputs rarely find bugs; edges do, because nobody thought about them. Wrong answers at the edges usually don't crash, so the only way to find them is to test for them.
+example: |
+  def to_clock(minutes):
+      return f"{minutes // 60:02}:{minutes % 60:02}"
+
+  print(to_clock(402), to_clock(1500))
+misconceptions: [code-knows-what-you-meant, wrong-answers-crash, typical-tests-enough]
+related: [assert, test-first]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def average(readings):
+          if not readings:
+              return 0
+          return sum(readings) / len(readings)
+
+      print(average([4, 6]), average([]))
+    answer: "5.0 0"
+  - type: choice
+    prompt: "Sanjay opens at 9 and shuts at 17. What does this print?"
+    code: |
+      def is_open(hour):
+          return 9 < hour < 17
+
+      print(is_open(10), is_open(9), is_open(17))
+    options:
+      - text: True False False
+        correct: true
+      - text: True True False
+        misconception: code-knows-what-you-meant
+        feedback: "Python does what's written: `9 < 9` is False. The shop is open at 9, so the code is wrong at its edge, and only a test at 9 would show it."
+  - type: fix
+    prompt: "Old Tom checks the lamp at every whole hour from `start` to `end`, both included. The last check is missing. Fix it."
+    code: |
+      def check_hours(start, end):
+          return list(range(start, end))
+
+      print(check_hours(20, 23))
+    tests: |
+      TESTS = [
+          output("Eight till eleven", expect="[20, 21, 22, 23]"),
+          function("A single hour", call="check_hours", args=(5, 5), expect=[5]),
+      ]
+    solution: |
+      def check_hours(start, end):
+          return list(range(start, end + 1))
+
+      print(check_hours(20, 23))
+  - type: fill
+    prompt: "Fill the gap so times past midnight wrap round to the morning."
+    code: |
+      def to_clock(minutes):
+          minutes = minutes ___ (24 * 60)
+          return f"{minutes // 60:02}:{minutes % 60:02}"
+
+      print(to_clock(1500))
+    blanks: [["%"]]
+    tests: |
+      TESTS = [output("One in the morning", expect="01:00")]
+  - type: write
+    prompt: "Write `safe_average(readings)`, which returns the average of a list of numbers, or `None` for an empty list."
+    starter: |
+      def safe_average(readings):
+          return sum(readings) / len(readings)
+    tests: |
+      TESTS = [
+          function("Two readings", call="safe_average", args=([4, 6],), expect=5.0),
+          function("One reading", call="safe_average", args=([7],), expect=7.0),
+          function("No readings", call="safe_average", args=([],), expect=None),
+      ]
+    solution: |
+      def safe_average(readings):
+          if not readings:
+              return None
+          return sum(readings) / len(readings)
+  - type: predict
+    prompt: What does this print?
+    code: |
+      print("".split(","), len("".split(",")))
+    answer: "[''] 1"

@@ -1,0 +1,66 @@
+id: lists
+title: Lists
+summary: |
+  A list keeps several values in order, between square brackets: `parcels = ["Bea", "Tom", "Agnes"]`. `[]` is an empty list. `len(parcels)` says how many items it holds, which is one more than the last index. Printing a list shows the brackets, and quotes round any text.
+example: |
+  parcels = ["Bea", "Tom", "Agnes"]
+  print(len(parcels))
+  print(parcels)
+misconceptions: [len-is-last-index]
+related: [indexing, append-pop, looping-lists]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      parcels = ["Bea", "Tom", "Agnes"]
+      print(len(parcels))
+    answer: "3"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      boats = []
+      print(len(boats), boats)
+    answer: "0 []"
+  - type: choice
+    prompt: What happens?
+    code: |
+      parcels = ["Bea", "Tom", "Agnes", "Gwen"]
+      print(parcels[len(parcels)])
+    verify: error
+    options:
+      - text: An IndexError
+        correct: true
+        error: IndexError
+        feedback: "`len(parcels)` is 4, but the indexes only go up to 3."
+      - text: It prints Gwen
+        misconception: len-is-last-index
+        feedback: "`len` counts the items: 4. The last index is one less, 3, because counting starts at 0."
+  - type: fix
+    prompt: "There are three parcels, so this should print 3. Fix the list."
+    code: |
+      parcels = ["Bea", "Tom" "Agnes"]
+      print(len(parcels))
+    tests: |
+      TESTS = [output("Three parcels", expect="3")]
+    solution: |
+      parcels = ["Bea", "Tom", "Agnes"]
+      print(len(parcels))
+  - type: fill
+    prompt: "Fill the gap so `boats` starts as an empty list."
+    code: |
+      boats = ___
+      print(len(boats))
+    blanks: [["[]", "list()"]]
+    tests: |
+      TESTS = [output("Empty", expect="0")]
+  - type: write
+    prompt: "Make a list called `catch` holding `mackerel`, `cod` and `crab`, in that order. Print how many items it has."
+    tests: |
+      TESTS = [
+          output("Three", expect="3"),
+          variable("The list", variable="catch", expect=["mackerel", "cod", "crab"]),
+      ]
+    solution: |
+      catch = ["mackerel", "cod", "crab"]
+      print(len(catch))

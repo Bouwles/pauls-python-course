@@ -1,0 +1,125 @@
+id: random-module
+title: Random numbers
+summary: |
+  `random.randint(1, 20)` picks a whole number from 1 to 20, and unlike `range` it includes both ends. It picks once each time it is called. A variable that holds the result keeps that number until you call `randint` again.
+example: |
+  import random
+
+  catch = random.randint(1, 20)
+  print(catch, catch)
+misconceptions: [randint-excludes-end, random-changes-on-use]
+related: [imports, range]
+cards:
+  - type: predict
+    prompt: "A range with only one number in it. What does this print?"
+    code: |
+      import random
+      print(random.randint(4, 4))
+    answer: "4"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import random
+      catch = random.randint(1, 20)
+      first = catch
+      second = catch
+      print(first == second)
+    options:
+      - text: "True"
+        correct: true
+        feedback: "`catch` holds one number. Reading it twice gives the same number twice."
+      - text: "False, most of the time"
+        misconception: random-changes-on-use
+        feedback: "Only calling `randint` picks again. The variable keeps the number it was given."
+  - type: choice
+    prompt: "This rolls a die 500 times. What does it print?"
+    code: |
+      import random
+      seen_six = False
+      for roll in range(500):
+          if random.randint(1, 6) == 6:
+              seen_six = True
+      print(seen_six)
+    options:
+      - text: "True"
+        correct: true
+        feedback: "`randint(1, 6)` includes 6. In 500 rolls a six turns up, near enough certainly."
+      - text: "False"
+        misconception: randint-excludes-end
+        feedback: "That's how `range(1, 6)` behaves. `randint` includes its end, so 6 is possible."
+  - type: fix
+    prompt: "This die sometimes rolls a 7. Fix it so it rolls 1 to 6."
+    code: |
+      import random
+      roll = random.randint(1, 7)
+      print(f"You rolled {roll}.")
+    tests: |
+      def picks(ctx):
+          import random
+          old = random.randint
+          calls = []
+          def fake(low, high):
+              calls.append((low, high))
+              return 3
+          random.randint = fake
+          try:
+              r = ctx.run_program()
+          finally:
+              random.randint = old
+          if calls != [(1, 6)]:
+              raise CheckFailed("Roll with random.randint(1, 6). randint includes its end.", expected="randint(1, 6)", actual=str(calls))
+          if norm_lines(r.output) != ["You rolled 3."]:
+              raise CheckFailed("Print the roll.", expected="You rolled 3.", actual=r.output)
+
+      TESTS = [custom("Rolls 1 to 6", picks)]
+    solution: |
+      import random
+      roll = random.randint(1, 6)
+      print(f"You rolled {roll}.")
+  - type: fill
+    prompt: "Fill the gap so the catch is a random number from 1 to 20."
+    code: |
+      import random
+      catch = random.___(1, 20)
+      print(catch)
+    blanks: [["randint"]]
+    tests: |
+      def fixed(ctx):
+          import random
+          old = random.randint
+          random.randint = lambda low, high: 9
+          try:
+              r = ctx.run_program()
+          finally:
+              random.randint = old
+          if norm_lines(r.output) != ["9"]:
+              raise CheckFailed("Use random.randint to pick the number.", expected="9", actual=r.output)
+
+      TESTS = [custom("Picks with randint", fixed)]
+  - type: write
+    prompt: "Pick a random hour of sailing from 0 to 23 and print it like `Sailing at 14.`"
+    tests: |
+      def hour(number):
+          def check(ctx):
+              import random
+              old = random.randint
+              calls = []
+              def fake(low, high):
+                  calls.append((low, high))
+                  return number
+              random.randint = fake
+              try:
+                  r = ctx.run_program()
+              finally:
+                  random.randint = old
+              if calls != [(0, 23)]:
+                  raise CheckFailed("Pick once, with random.randint(0, 23).", expected="randint(0, 23)", actual=str(calls))
+              if norm_lines(r.output) != [f"Sailing at {number}."]:
+                  raise CheckFailed("Print the hour.", expected=f"Sailing at {number}.", actual=r.output)
+          return check
+
+      TESTS = [custom("Hour 14", hour(14)), custom("Hour 0", hour(0))]
+    solution: |
+      import random
+      hour = random.randint(0, 23)
+      print(f"Sailing at {hour}.")

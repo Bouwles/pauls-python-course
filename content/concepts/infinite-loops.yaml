@@ -1,0 +1,99 @@
+id: infinite-loops
+title: Loops that never end
+summary: |
+  A loop whose test never becomes `False` goes round forever. Usually a line that should change the variable in the test is missing, or the test can be stepped over, like `!= 0` on a count that goes 3, 1, -1. Press Stop to get out, then check that every pass moves the loop closer to its end.
+example: |
+  fog = 5
+  while fog > 0:
+      print("Horn")
+      fog = fog - 2
+misconceptions: [loop-condition-updates-itself, not-equal-stops-when-passed]
+related: [while-loops, sentinels]
+cards:
+  - type: predict
+    prompt: "This one does stop. What does it print?"
+    code: |
+      fog = 5
+      while fog > 0:
+          print("Horn")
+          fog = fog - 2
+    answer: "Horn\nHorn\nHorn"
+  - type: choice
+    prompt: What does this do?
+    code: |
+      fog = 5
+      while fog != 0:
+          print("Horn")
+          fog = fog - 2
+    verify: error
+    options:
+      - text: It prints Horn forever
+        correct: true
+        feedback: "`fog` goes 5, 3, 1, -1, -3. It never equals 0 exactly, so `fog != 0` stays `True`. `fog > 0` would stop it."
+      - text: It prints Horn three times
+        misconception: not-equal-stops-when-passed
+        feedback: "`!= 0` only stops on exactly 0. `fog` jumps from 1 to -1 and carries on downwards."
+  - type: choice
+    prompt: What does this do?
+    code: |
+      tide = 1
+      while tide < 3:
+          print("Waiting")
+      print("Sail")
+    verify: error
+    options:
+      - text: It prints Waiting forever
+        correct: true
+        feedback: "Nothing in the body changes `tide`, so `tide < 3` is `True` on every pass."
+      - text: |-
+          Waiting
+          Waiting
+          Sail
+        misconception: loop-condition-updates-itself
+        feedback: "A loop's variables don't change by themselves. Something in the body has to change `tide`."
+  - type: fix
+    prompt: "Bea types sales, then `done`. Run it with `5`, `3`, `done`: it hangs. Press Stop, then fix it so it prints 8."
+    code: |
+      total = 0
+      entry = input("Sale? ")
+      while entry != "done":
+          total = total + int(entry)
+      print(total)
+    tests: |
+      TESTS = [
+          output("Two sales", inputs=["5", "3", "done"], expect="8", timeout=2,
+                 hint="Ask for the next sale at the bottom of the loop, or entry never changes."),
+          output("No sales", inputs=["done"], expect="0", timeout=2),
+      ]
+    solution: |
+      total = 0
+      entry = input("Sale? ")
+      while entry != "done":
+          total = total + int(entry)
+          entry = input("Sale? ")
+      print(total)
+  - type: fill
+    prompt: "Fill the gap so this counts down 3, 2, 1 and stops."
+    code: |
+      count = 3
+      while count > 0:
+          print(count)
+          count = ___
+      print("Lit")
+    blanks: [["count - 1", "count-1"]]
+    tests: |
+      TESTS = [output("Countdown", expect="3\n2\n1\nLit", timeout=2)]
+  - type: write
+    prompt: "This loop never stops. Change it so it prints 10, 8, 6, 4, 2 and then stops."
+    starter: |
+      n = 10
+      while n != 1:
+          print(n)
+          n = n - 2
+    tests: |
+      TESTS = [output("Even countdown", expect="10\n8\n6\n4\n2", timeout=2)]
+    solution: |
+      n = 10
+      while n > 0:
+          print(n)
+          n = n - 2

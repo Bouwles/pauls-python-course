@@ -1,0 +1,93 @@
+id: sentinels
+title: Sentinels
+summary: |
+  A sentinel is a special value that means stop, like `done` or `clear`. The pattern: ask once before the loop, test for the sentinel at the top, and ask again at the bottom of the body. That way the sentinel is never counted or added as if it were real data.
+example: |
+  count = 0
+  name = input("Ship? ")
+  while name != "dawn":
+      count = count + 1
+      name = input("Ship? ")
+  print(count)
+example_inputs: ["Kestrel", "Mary Rose", "dawn"]
+misconceptions: [sentinel-counted, loop-asks-by-itself]
+related: [while-loops, running-totals]
+cards:
+  - type: predict
+    prompt: "Tom types `Kestrel`, `Mary Rose`, `Plover`, then `dawn`. What does this print?"
+    code: |
+      count = 0
+      name = input("Ship? ")
+      while name != "dawn":
+          count = count + 1
+          name = input("Ship? ")
+      print(count)
+    inputs: ["Kestrel", "Mary Rose", "Plover", "dawn"]
+    answer: "3"
+  - type: choice
+    prompt: "Tom types `300`, `200`, then `clear`. What does this print?"
+    code: |
+      readings = 0
+      entry = input("Reading? ")
+      while entry != "clear":
+          readings = readings + 1
+          entry = input("Reading? ")
+      print(readings)
+    inputs: ["300", "200", "clear"]
+    options:
+      - text: "2"
+        correct: true
+        feedback: "Two readings. When `clear` arrives, the test fails before it can be counted."
+      - text: "3"
+        misconception: sentinel-counted
+        feedback: "`clear` is checked at the top of the loop before anything is counted, so it never gets a pass."
+  - type: fix
+    prompt: "Mira types parcel names, then `done`. This counts `done` as a parcel. Fix it so it doesn't."
+    code: |
+      count = 0
+      entry = ""
+      while entry != "done":
+          entry = input("Parcel? ")
+          count = count + 1
+      print(count)
+    tests: |
+      TESTS = [
+          output("Two parcels", inputs=["Bea", "Tom", "done"], expect="2", timeout=2),
+          output("No parcels", inputs=["done"], expect="0", timeout=2),
+      ]
+    solution: |
+      count = 0
+      entry = input("Parcel? ")
+      while entry != "done":
+          count = count + 1
+          entry = input("Parcel? ")
+      print(count)
+  - type: fill
+    prompt: "Fill the gap so the loop stops when Tom types `clear`."
+    code: |
+      entry = input("Reading? ")
+      while entry != ___:
+          print("Noted.")
+          entry = input("Reading? ")
+      print("Fog gone.")
+    blanks: [["\"clear\"", "'clear'"]]
+    tests: |
+      TESTS = [
+          output("One reading", inputs=["300", "clear"], expect="Noted.\nFog gone.", timeout=2),
+          output("Clear first", inputs=["clear"], expect="Fog gone.", timeout=2),
+      ]
+  - type: write
+    prompt: "Ask `Word? ` over and over until someone types `stop`. Then print how many words came before it."
+    tests: |
+      TESTS = [
+          output("Two words", inputs=["mackerel", "cod", "stop"], expect="2", timeout=2),
+          output("Stop straight away", inputs=["stop"], expect="0", timeout=2),
+          output("Four words", inputs=["a", "b", "c", "d", "stop"], expect="4", timeout=2),
+      ]
+    solution: |
+      words = 0
+      word = input("Word? ")
+      while word != "stop":
+          words = words + 1
+          word = input("Word? ")
+      print(words)

@@ -1,0 +1,102 @@
+id: multiple-returns
+title: Returning several values
+summary: |
+  A function can give back several values by separating them with commas: `return smallest, largest`. They travel as one tuple, so the caller can unpack them straight away: `low, high = chest_range(sizes)`. A second `return` underneath never runs, because the first one ends the function.
+example: |
+  def split_pence(total):
+      return total // 100, total % 100
+
+
+  pounds, pence = split_pence(1060)
+  print(pounds, pence)
+  print(split_pence(325))
+misconceptions: [return-gives-first-only, return-two-is-two-things, return-only-one-value, second-return-runs]
+related: [tuples, unpacking]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def split_pence(total):
+          return total // 100, total % 100
+
+
+      print(split_pence(325))
+    answer: "(3, 25)"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def first_and_last(names):
+          return names[0], names[-1]
+
+
+      first, last = first_and_last(["Bea", "Mira", "Tom"])
+      print(last)
+    answer: "Tom"
+  - type: choice
+    prompt: What happens?
+    code: |
+      def high_and_low():
+          return 6
+          return 1
+
+
+      high, low = high_and_low()
+      print(high, low)
+    verify: error
+    options:
+      - text: A TypeError
+        correct: true
+        error: TypeError
+        feedback: "The function gives back just 6, and one number can't be unpacked into two names."
+      - text: "It prints 6 1"
+        misconception: second-return-runs
+        feedback: "The first `return` ends the function. The second line never runs."
+      - text: "It prints 6 None"
+        misconception: unpack-count-flexible
+        feedback: "Unpacking doesn't fill gaps with `None`. One value into two names is an error."
+  - type: fix
+    prompt: "`tide_times` should give back both times. Fix it so the program prints `06:42 12:55`."
+    code: |
+      def tide_times():
+          high = "06:42"
+          low = "12:55"
+          return high
+          return low
+
+
+      high, low = tide_times()
+      print(high, low)
+    tests: |
+      TESTS = [output("Both times", expect="06:42 12:55")]
+    solution: |
+      def tide_times():
+          high = "06:42"
+          low = "12:55"
+          return high, low
+
+
+      high, low = tide_times()
+      print(high, low)
+  - type: fill
+    prompt: "Fill the gap so `split_pence` gives back the pounds and the pence left over."
+    code: |
+      def split_pence(total):
+          return total // 100, ___
+
+
+      pounds, pence = split_pence(1060)
+      print(pounds, pence)
+    blanks: [["total % 100"]]
+    tests: |
+      TESTS = [output("1060 pence", expect="10 60")]
+  - type: write
+    prompt: "Write `crates_and_left(items)`. It returns how many full crates of 12 the items fill, and how many are left over. `crates_and_left(30)` gives `(2, 6)`."
+    tests: |
+      TESTS = [
+          function("30 items", call="crates_and_left", args=(30,), expect=(2, 6)),
+          function("12 items", call="crates_and_left", args=(12,), expect=(1, 0)),
+          function("5 items", call="crates_and_left", args=(5,), expect=(0, 5)),
+      ]
+    solution: |
+      def crates_and_left(items):
+          return items // 12, items % 12

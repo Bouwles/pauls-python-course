@@ -1,0 +1,95 @@
+id: while-loops
+title: while loops
+summary: |
+  A `while` loop repeats its body for as long as its test is `True`. The test is asked at the top, before every pass, including the first: if it starts out `False`, the body never runs. The test is not watched during the body, only asked again at the top. Use `while` when you don't know in advance how many passes there will be.
+example: |
+  fog = 3
+  while fog > 0:
+      print("Horn")
+      fog = fog - 1
+  print("Clear")
+misconceptions: [while-is-if, while-exits-mid-body, while-runs-at-least-once]
+related: [for-loops, sentinels, infinite-loops]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      fog = 2
+      while fog > 0:
+          fog = fog - 1
+          print("Horn", fog)
+    answer: "Horn 1\nHorn 0"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      fog = 0
+      while fog > 0:
+          print("Horn")
+          fog = fog - 1
+      print("Clear")
+    options:
+      - text: Clear
+        correct: true
+        feedback: "`0 > 0` is `False` before the first pass, so the body never runs."
+      - text: |-
+          Horn
+          Clear
+        misconception: while-runs-at-least-once
+        feedback: "A `while` asks its test before the first pass too. If it's `False` straight away, the body is skipped."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      tide = 1
+      while tide < 4:
+          tide = tide + 1
+      print(tide)
+    options:
+      - text: "4"
+        correct: true
+        feedback: "1, 2, 3, 4. When `tide` is 4, `tide < 4` is `False` and the loop stops."
+      - text: "2"
+        misconception: while-is-if
+        feedback: "A `while` doesn't stop after one pass. It goes back to the top and asks again."
+  - type: fix
+    prompt: "This should count down 3, 2, 1 and then print `Lit`. Fix the test."
+    code: |
+      count = 3
+      while count < 0:
+          print(count)
+          count = count - 1
+      print("Lit")
+    tests: |
+      TESTS = [output("Countdown", expect="3\n2\n1\nLit", timeout=2)]
+    solution: |
+      count = 3
+      while count > 0:
+          print(count)
+          count = count - 1
+      print("Lit")
+  - type: fill
+    prompt: "Fill the gap so this prints the three buoys."
+    code: |
+      buoy = 1
+      ___ buoy <= 3:
+          print("Buoy", buoy)
+          buoy = buoy + 1
+    blanks: [["while"]]
+    tests: |
+      TESTS = [output("Three buoys", expect="Buoy 1\nBuoy 2\nBuoy 3", timeout=2)]
+  - type: write
+    prompt: "Bea's dough doubles every hour. Keep doubling `dough` while it is under 100, then print it."
+    starter: |
+      dough = 1
+    tests: |
+      TESTS = [
+          output("From 1", expect="128", timeout=2),
+          output("From 3", set_vars={"dough": 3}, expect="192", timeout=2),
+          output("Already big enough", set_vars={"dough": 150}, expect="150", timeout=2),
+          structure("Uses a while loop", requires=["While"], message="Use a while loop: you don't know how many doublings it takes."),
+      ]
+    solution: |
+      dough = 1
+      while dough < 100:
+          dough = dough * 2
+      print(dough)

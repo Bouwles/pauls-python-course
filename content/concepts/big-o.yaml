@@ -1,0 +1,141 @@
+id: big-o
+title: Big-O, how the steps grow
+summary: |
+  Big-O describes how the number of steps a program takes grows as its input grows. O(1) stays the same, O(log n) adds a step each time n doubles, O(n) doubles when n doubles, and O(n²) quadruples. Only the fastest-growing part counts and constants are dropped, so 3n + 50 steps is O(n). Count the hidden loops too: `in`, `.count()` and `.index()` on a list each walk the whole list.
+example: |
+  parts = ["bolt", "hinge", "spring", "bolt"]
+  checks = 0
+  for first in parts:
+      for second in parts:
+          checks = checks + 1
+  print(checks)
+misconceptions: [nested-loops-add, inner-loop-runs-once, nested-loop-skips-repeats, halving-is-linear, while-runs-once-more, one-loop-is-linear, big-o-keeps-constants, big-o-from-one-count]
+related: [membership-speed, for-loops, while-loops, timing-code]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      steps = 0
+      for crate in range(3):
+          for part in range(5):
+              steps = steps + 1
+      print(steps)
+    answer: "15"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      pile = 32
+      steps = 0
+      while pile > 1:
+          pile = pile // 2
+          steps = steps + 1
+      print(steps)
+    options:
+      - text: "5"
+        correct: true
+        feedback: "32, 16, 8, 4, 2, 1: five halvings. Doubling the pile would add just one more."
+      - text: "16"
+        misconception: halving-is-linear
+        feedback: "Halving doesn't take half as many steps as there are parts. Each step throws away half of what's left, so it's only 32, 16, 8, 4, 2, 1."
+      - text: "6"
+        misconception: while-runs-once-more
+        feedback: "Once `pile` is 1, `pile > 1` is false and the loop stops. There's no extra pass after that."
+  - type: choice
+    prompt: "A function takes 1,000 steps for 100 parts and 4,000 steps for 200 parts. What is its growth?"
+    verify: none
+    options:
+      - text: "O(n²)"
+        correct: true
+        feedback: "Twice the parts, four times the steps. That's n squared."
+      - text: "O(n)"
+        misconception: big-o-from-one-count
+        feedback: "O(n) would double, to 2,000. What matters is how the count changes when n doubles, not how big it is."
+      - text: "O(log n)"
+        feedback: "O(log n) adds about one step when n doubles, not three thousand."
+  - type: choice
+    prompt: "`orders` and `stock` are both lists of n parts. What is the growth of this function?"
+    code: |
+      def in_stock(orders, stock):
+          found = 0
+          for order in orders:
+              if order in stock:
+                  found = found + 1
+          return found
+    verify: none
+    options:
+      - text: "O(n²)"
+        correct: true
+        feedback: "`order in stock` walks along the list for every order. One loop you can see and one you can't: n times n."
+      - text: "O(n)"
+        misconception: one-loop-is-linear
+        feedback: "There's only one `for`, but `in` on a list is a loop of its own. If `stock` were a set, it would be O(n)."
+  - type: choice
+    prompt: "Pip's report takes `3 * n + 50` steps for n parts. What is its Big-O?"
+    verify: none
+    options:
+      - text: "O(n)"
+        correct: true
+        feedback: "Big-O keeps the part that grows fastest and drops the constants. 3n + 50 doubles, near enough, when n doubles."
+      - text: "O(3n)"
+        misconception: big-o-keeps-constants
+        feedback: "Big-O drops the 3. Three steps per part still grows the same way as one step per part."
+      - text: "O(1)"
+        feedback: "The 50 is constant, but the 3n part grows with n."
+  - type: fill
+    prompt: "Fill the gap so `steps` counts every pass of the inner loop."
+    code: |
+      steps = 0
+      for first in range(4):
+          for second in range(4):
+              ___
+      print(steps)
+    blanks: [["steps = steps + 1", "steps += 1"]]
+    tests: |
+      TESTS = [output("Sixteen steps", expect="16")]
+  - type: fix
+    prompt: "Pip wants to count every pass of the inner loop. For n = 10 his count says 10. Fix it so it prints 100."
+    code: |
+      def count_pairs(n):
+          steps = 0
+          for first in range(n):
+              steps = steps + 1
+              for second in range(n):
+                  pass
+          return steps
+
+
+      print(count_pairs(10))
+    tests: |
+      TESTS = [
+          output("A hundred steps", expect="100",
+                 hint="The count goes up once per pass of the loop it sits in. Move it inside the inner loop."),
+      ]
+    solution: |
+      def count_pairs(n):
+          steps = 0
+          for first in range(n):
+              for second in range(n):
+                  steps = steps + 1
+          return steps
+
+
+      print(count_pairs(10))
+  - type: write
+    prompt: "Write `halvings(n)`, which returns how many times `n` can be halved with `//` before it gets down to 1."
+    starter: |
+      def halvings(n):
+          pass
+    tests: |
+      TESTS = [
+          function("Eight", call="halvings", args=(8,), expect=3),
+          function("One", call="halvings", args=(1,), expect=0),
+          function("A thousand", call="halvings", args=(1000,), expect=9),
+          function("A million", call="halvings", args=(1_000_000,), expect=19),
+      ]
+    solution: |
+      def halvings(n):
+          steps = 0
+          while n > 1:
+              n = n // 2
+              steps = steps + 1
+          return steps

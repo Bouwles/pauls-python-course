@@ -1,0 +1,197 @@
+id: policy-iteration
+title: Policy iteration
+summary: |
+  Policy iteration finds the best policy by taking turns. Evaluate the current policy to get its values. Improve it: in every state, take the action that looks best one step ahead on those values (the greedy policy). Then evaluate the new policy, and so on, until improving gives back the same policy, which is then the best. Each improvement is a real one, so it needs few rounds, but every round contains a whole policy evaluation.
+example: |
+  def policy_iteration(policy, gamma=0.9):
+      while True:
+          values = evaluate(policy, gamma)
+          better = greedy(values, gamma)
+          if better == policy:
+              return policy, values
+          policy = better
+misconceptions: [improvement-is-global, iteration-fixed-rounds]
+related: [policy-evaluation, value-iteration]
+cards:
+  - type: predict
+    prompt: "A corridor with a pool at 0 and the finish at 4. One evaluation of the all-left policy, then one improvement. What does this print?"
+    code: |
+      REWARD = {0: -5, 4: 10}
+      MOVE = {"left": -1, "right": 1}
+
+
+      def worth(values, tile, action):
+          after = tile + MOVE[action]
+          return REWARD.get(after, -1) + (0 if after in REWARD else 0.9 * values[after])
+
+
+      policy = {1: "left", 2: "left", 3: "left"}
+      values = [0.0] * 5
+      for sweep in range(100):
+          for tile in policy:
+              values[tile] = worth(values, tile, policy[tile])
+      policy = {tile: max(MOVE, key=lambda action: worth(values, tile, action)) for tile in policy}
+      print(list(policy.values()))
+    answer: "['left', 'left', 'right']"
+  - type: choice
+    prompt: "When does policy iteration stop?"
+    verify: none
+    options:
+      - text: When improving the policy gives back the same policy
+        correct: true
+        feedback: "If the greedy policy on a policy's own values is that policy, nothing can improve it: it's the best."
+      - text: After a fixed number of rounds, chosen in advance
+        misconception: iteration-fixed-rounds
+        feedback: "It runs until the policy stops changing, however many rounds that takes. On the racing grid, from the traditional line, it's three."
+      - text: After the first improvement, which fixes every tile
+        misconception: improvement-is-global
+        feedback: "One improvement only uses the values of the old policy. Tiles far from the finish may need another round or two before they hear the good news."
+  - type: predict
+    prompt: "The same corridor, all the way to the best policy. How many rounds does it take?"
+    code: |
+      REWARD = {0: -5, 4: 10}
+      MOVE = {"left": -1, "right": 1}
+
+
+      def worth(values, tile, action):
+          after = tile + MOVE[action]
+          return REWARD.get(after, -1) + (0 if after in REWARD else 0.9 * values[after])
+
+
+      policy = {1: "left", 2: "left", 3: "left"}
+      rounds = 0
+      while True:
+          rounds += 1
+          values = [0.0] * 5
+          for sweep in range(100):
+              for tile in policy:
+                  values[tile] = worth(values, tile, policy[tile])
+          better = {tile: max(MOVE, key=lambda action: worth(values, tile, action)) for tile in policy}
+          if better == policy:
+              break
+          policy = better
+      print(rounds, list(policy.values()))
+    answer: "4 ['right', 'right', 'right']"
+  - type: fix
+    prompt: "This should stop when the policy stops changing, but it never does. Fix the comparison."
+    code: |
+      REWARD = {0: -5, 4: 10}
+      MOVE = {"left": -1, "right": 1}
+
+
+      def worth(values, tile, action):
+          after = tile + MOVE[action]
+          return REWARD.get(after, -1) + (0 if after in REWARD else 0.9 * values[after])
+
+
+      def evaluate(policy):
+          values = [0.0] * 5
+          for sweep in range(100):
+              for tile in policy:
+                  values[tile] = worth(values, tile, policy[tile])
+          return values
+
+
+      def policy_iteration(policy):
+          for rounds in range(1, 50):
+              values = evaluate(policy)
+              better = {tile: max(MOVE, key=lambda action: worth(values, tile, action)) for tile in policy}
+              if better is policy:
+                  return better, rounds
+              policy = better
+          return policy, None
+
+
+      print(policy_iteration({1: "left", 2: "left", 3: "left"}))
+    tests: |
+      TESTS = [
+          function("From all left", call="policy_iteration", args=({1: "left", 2: "left", 3: "left"},),
+                   expect=({1: "right", 2: "right", 3: "right"}, 4)),
+          function("Already the best", call="policy_iteration", args=({1: "right", 2: "right", 3: "right"},),
+                   expect=({1: "right", 2: "right", 3: "right"}, 1)),
+      ]
+    solution: |
+      REWARD = {0: -5, 4: 10}
+      MOVE = {"left": -1, "right": 1}
+
+
+      def worth(values, tile, action):
+          after = tile + MOVE[action]
+          return REWARD.get(after, -1) + (0 if after in REWARD else 0.9 * values[after])
+
+
+      def evaluate(policy):
+          values = [0.0] * 5
+          for sweep in range(100):
+              for tile in policy:
+                  values[tile] = worth(values, tile, policy[tile])
+          return values
+
+
+      def policy_iteration(policy):
+          for rounds in range(1, 50):
+              values = evaluate(policy)
+              better = {tile: max(MOVE, key=lambda action: worth(values, tile, action)) for tile in policy}
+              if better == policy:
+                  return better, rounds
+              policy = better
+          return policy, None
+
+
+      print(policy_iteration({1: "left", 2: "left", 3: "left"}))
+  - type: fill
+    prompt: "Fill the gaps: evaluate the policy, improve it, and keep the improved one for the next round."
+    code: |
+      def policy_iteration(policy, evaluate, improve):
+          while True:
+              values = evaluate(___)
+              better = improve(___)
+              if better == policy:
+                  return policy
+              policy = ___
+
+
+      # A pretend track where improving always turns the first "left" into "right".
+      def evaluate(policy):
+          return policy.count("right")
+
+
+      def improve(values):
+          return ["right"] * min(values + 1, 3)
+
+
+      print(policy_iteration([], evaluate, improve))
+    blanks: [["policy"], ["values"], ["better"]]
+    tests: |
+      TESTS = [output("Three rounds to all right", expect="['right', 'right', 'right']")]
+  - type: write
+    prompt: "Write `improve(values, gamma=0.9)` for the corridor: a dictionary giving tiles 1, 2 and 3 whichever of `'left'` and `'right'` is worth more on `values`. Stepping onto tile 0 is worth -5 and onto tile 4 is worth +10, and the race ends there; any other step is -1."
+    starter: |
+      REWARD = {0: -5, 4: 10}
+      MOVE = {"left": -1, "right": 1}
+
+
+      def improve(values, gamma=0.9):
+          pass
+    tests: |
+      TESTS = [
+          function("On the all-left values", call="improve", args=([0.0, -5.0, -5.5, -5.95, 0.0],),
+                   expect={1: "left", 2: "left", 3: "right"}),
+          function("On the best values", call="improve", args=([0.0, 6.2, 8.0, 10.0, 0.0],),
+                   expect={1: "right", 2: "right", 3: "right"}),
+          function("A patient crab", call="improve", args=([0.0, 0.0, -10.0, 5.0, 0.0],),
+                   expect={1: "left", 2: "right", 3: "right"}),
+          function("An impatient crab", call="improve", args=([0.0, 0.0, -10.0, 5.0, 0.0],), kwargs={"gamma": 0.1},
+                   expect={1: "right", 2: "right", 3: "right"}),
+      ]
+    solution: |
+      REWARD = {0: -5, 4: 10}
+      MOVE = {"left": -1, "right": 1}
+
+
+      def improve(values, gamma=0.9):
+          def worth(tile, action):
+              after = tile + MOVE[action]
+              return REWARD.get(after, -1) + (0 if after in REWARD else gamma * values[after])
+
+          return {tile: max(MOVE, key=lambda action: worth(tile, action)) for tile in (1, 2, 3)}
