@@ -1,0 +1,41 @@
+id: one-neuron
+title: "One Neuron"
+client: wendt
+building: observatory
+estimated_minutes: 60
+summary: "A perceptron that learns, from Penhallow's log, when to open the dome."
+concepts_introduced: [perceptron]
+concepts_reviewed: [numpy-arrays, vectors, functions, multiple-returns, zip, for-loops]
+ask:
+  dialogue:
+    - wendt: "Upstairs. Mind the third step. It isn't there."
+    - wendt: "Penhallow's observing log. Cloud, humidity, moon, and whether she opened the dome."
+    - wendt: "On the back page, one neuron. She was teaching it to decide. Or to agree with her, which is easier."
+    - moss: "A pair of scales with opinions, then."
+  spec: |
+    In `neuron.py`, build a perceptron that decides whether to open the dome. A night is a NumPy array of three readings, each from 0 to 1: cloud, humidity, moon.
+
+    1. `predict(weights, bias, night)`: multiply each reading by its weight, add them up, and add the bias. Return `1` (open) if the total is above 0, otherwise `0`.
+    2. `train(nights, labels, rate, epochs)`: `nights` has one row per night. Start with every weight and the bias at 0. Go through the nights in order; for each one, `error = label - prediction`, then add `rate * error * night` to the weights and `rate * error` to the bias. One pass over every night is an epoch. Count the mistakes in each epoch, and stop after an epoch with none, or after `epochs` epochs. Return the weights, the bias and the list of mistakes per epoch.
+    3. Run as a program, it learns from `nights.csv` and gives tonight's verdict.
+  example: |
+    Learned in 8 epochs. Mistakes: 9, 5, 5, 4, 4, 4, 4, 0
+    Weights: cloud -0.38, humidity -0.22, moon -0.08, bias 0.30
+    Tonight: open the dome
+ship:
+  dialogue:
+    - wendt: "Twenty-four nights in her log, and it agrees with every one. Eight epochs."
+    - wendt: "Cloud weighs most, then humidity, then the moon. She'd have said so. She did, in the margin."
+    - moss: "And the captain's rule?"
+    - wendt: "One straight line won't do it. Her next page has two layers. Of course it does."
+  shelf: { object: dome-neuron, label: "Penhallow's dome neuron" }
+  cards: [perceptron]
+stretch:
+  - id: draw-the-line
+    title: "Draw her line"
+    prompt: |
+      Plot the nights from `nights.csv` with matplotlib: cloud along the bottom, humidity up the side, opened nights in one colour and shut ones in another. Then draw the neuron's line, where the weighted sum is exactly 0, taking the moon at 0.5. Every opened night should sit on one side of it.
+  - id: does-the-rate-matter
+    title: "Does the rate matter?"
+    prompt: |
+      Train with `rate=0.01`, then `0.1`, then `1.0`. Compare the mistakes per epoch and the verdicts, not the weights. Then work out why: every weight starts at 0, so what does the rate do to every number the neuron ever holds?
