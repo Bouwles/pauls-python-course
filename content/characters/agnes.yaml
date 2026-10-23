@@ -1,0 +1,10 @@
+id: agnes
+name: Agnes Rook
+role: harbour master
+sprite: agnes
+look: Crisp coat, clipboard, whistle on a lanyard.
+voice: Efficient. Requests read like real requirements. Numbered points.
+pools:
+  waiting:
+    - "I have a clipboard and I'm not afraid to use it."
+    - "Point three still stands."

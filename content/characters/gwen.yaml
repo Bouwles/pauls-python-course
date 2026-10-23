@@ -1,0 +1,9 @@
+id: gwen
+name: Gwen
+role: landlady of The Drowned Anchor
+sprite: gwen
+look: Sleeves rolled up, tea towel over one shoulder.
+voice: Wry. Runs the worst pub quiz in the county and knows it.
+pools:
+  waiting:
+    - "Question four is the same as question two. Nobody's noticed in eleven years."

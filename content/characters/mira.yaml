@@ -1,0 +1,10 @@
+id: mira
+name: Mira
+role: postmistress
+sprite: mira
+look: Neat cardigan, reading glasses on a chain, a pencil sharpened to a point.
+voice: Organised, precise, fond of labels and numbered things.
+pools:
+  waiting:
+    - "Everything has a place. Mostly it is in the place."
+    - "I'll be sorting. Call me when it's sorted too."

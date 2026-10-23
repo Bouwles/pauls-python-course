@@ -1,0 +1,45 @@
+id: moss
+name: Moss
+role: mentor
+sprite: moss
+look: Old tortoise, dark olive shell with a brass-plated crack, leather apron, round glasses pushed up on his head.
+voice: Few words, dry, precise. Talks about code like carpentry. Distrusts clever.
+pools:
+  check-failed:
+    - "Not yet. Look at the first one that failed."
+    - "Close. Read what it expected, then what you gave it."
+    - "One of them's off. Start there."
+    - "Measure twice."
+    - "It ran. It just didn't do the job. Different things."
+    - "Read the expected line slowly. Then yours."
+  check-passed:
+    - "That holds."
+    - "Good joint. No gaps."
+    - "It does what it says. That's the whole trade."
+    - "Right. Next."
+  run-error:
+    - "Read it from the bottom. The last line is where it hurt."
+    - "The traceback's telling you something. Let it."
+    - "Line number first. Then the last line. Then think."
+  stopped-loop:
+    - "It was going round forever. Something in there never changes."
+    - "Stopped. A loop needs a way out."
+  idle:
+    - "Take your time. The radio isn't going anywhere either."
+    - "Stuck is normal. Dennis is on the desk if you want him."
+    - "Try saying it out loud. Even to the duck."
+  third-hint:
+    - "That's most of it. The rest is yours."
+    - "You've got the shape. Fill it in."
+  solution-seen:
+    - "Read it properly. You'll get a fresh one of these later."
+    - "Look at why each line is there. Not just what it says."
+  returning:
+    - "You're back. The kettle's still warm."
+    - "There you are. Your desk's as you left it."
+    - "Morning. Or whatever it is."
+  predict-wrong:
+    - "Good. Now you know what you thought. Run it."
+    - "Wrong guesses are the useful ones."
+  predict-right:
+    - "Right. Run it and watch."

@@ -1,0 +1,10 @@
+id: ferro
+name: Captain Ferro
+role: ferry captain
+sprite: ferro
+look: Tall, weathered, enormous grey beard, cap with a tarnished badge.
+voice: Nautical terms he expects you to know. Never explains them.
+pools:
+  waiting:
+    - "We sail at the turn of the tide."
+    - "Steady as she goes."

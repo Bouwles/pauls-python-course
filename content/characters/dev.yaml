@@ -1,0 +1,6 @@
+id: dev
+name: Dev
+role: bike hire
+sprite: dev
+look: Cycling jacket, a spanner, strong opinions about inheritance.
+voice: Argues with Kat. Wants everything to be a kind of bike.

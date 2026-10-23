@@ -1,0 +1,10 @@
+id: bea
+name: Bea Hollis
+role: baker
+sprite: bea
+look: Round, flour on her sleeves, hair tied up with a pencil through it.
+voice: Brisk, warm, practical. Slightly suspicious of computers. Counts everything twice.
+pools:
+  waiting:
+    - "I've got loaves in. Take your time, but not too much."
+    - "I can wait. The dough can't."
