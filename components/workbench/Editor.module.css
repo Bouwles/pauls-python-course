@@ -1,0 +1,13 @@
+.editor {
+  height: 100%;
+  min-height: 160px;
+  overflow: hidden;
+}
+
+.editor :global(.cm-editor) {
+  height: 100%;
+}
+
+.editor[data-readonly] :global(.cm-content) {
+  caret-color: transparent;
+}

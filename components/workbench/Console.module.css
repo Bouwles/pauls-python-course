@@ -1,0 +1,137 @@
+.console {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  background: var(--paper-raised);
+}
+
+.scroll {
+  flex: 1;
+  overflow: auto;
+  padding: var(--s-3) var(--s-4);
+  min-height: 0;
+}
+
+.out {
+  margin: 0;
+  font-family: var(--font-code);
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "calt" 0;
+  font-size: var(--editor-font-size);
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.out:empty {
+  display: none;
+}
+
+.prompt {
+  color: var(--ink);
+}
+
+.input {
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+
+.err {
+  color: var(--fail);
+}
+
+.inputForm {
+  display: inline;
+}
+
+.inputForm .input {
+  display: inline-block;
+  min-width: 12ch;
+  width: 40%;
+  border: none;
+  border-bottom: 1px solid var(--accent-ink);
+  background: var(--accent-wash);
+  font-family: var(--font-code);
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "calt" 0;
+  font-size: var(--editor-font-size);
+  padding: 0 var(--s-1);
+  outline: none;
+}
+
+.inputForm .input:focus-visible {
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 1px;
+}
+
+.status {
+  margin-top: var(--s-2);
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+.error {
+  margin-top: var(--s-2);
+}
+
+.traceback {
+  margin: 0;
+  font-family: var(--font-code);
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "calt" 0;
+  font-size: var(--editor-font-size);
+  line-height: 1.5;
+  color: var(--fail);
+  white-space: pre-wrap;
+}
+
+.explain {
+  margin-top: var(--s-3);
+  border-left: 2px solid var(--fail);
+  padding: var(--s-2) var(--s-3);
+  background: var(--fail-wash);
+  font-family: var(--font-prose);
+  font-size: var(--prose-size);
+  line-height: var(--lh-prose);
+  max-width: var(--measure);
+}
+
+.explain > * + * {
+  margin-top: var(--s-1);
+}
+
+.explainTitle {
+  font-weight: 600;
+}
+
+.loadError {
+  border-left: 2px solid var(--accent);
+  padding: var(--s-2) var(--s-3);
+  margin-bottom: var(--s-3);
+}
+
+.loadError pre {
+  font-size: var(--step--1);
+  white-space: pre-wrap;
+}
+
+.row {
+  display: flex;
+  gap: var(--s-3);
+  align-items: flex-start;
+  margin-top: var(--s-2);
+}
+
+.figures {
+  display: grid;
+  gap: var(--s-3);
+  margin-top: var(--s-3);
+}
+
+.figure {
+  max-width: 100%;
+  height: auto;
+  border: var(--hairline);
+  background: #fff;
+}

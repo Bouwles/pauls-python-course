@@ -1,0 +1,133 @@
+.report {
+  padding: var(--s-3) var(--s-4);
+  overflow: auto;
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-weight: 600;
+  font-size: var(--step-0);
+}
+
+.good {
+  color: var(--pass);
+}
+
+.bad {
+  color: var(--fail);
+}
+
+.passLine {
+  margin-top: var(--s-2);
+  font-family: var(--font-prose);
+  font-size: var(--prose-size);
+}
+
+.first {
+  margin-top: var(--s-3);
+  padding: var(--s-3);
+  border: var(--hairline);
+  border-left: 2px solid var(--fail);
+  background: var(--paper);
+}
+
+.name {
+  font-family: var(--font-ui);
+  font-size: var(--step--1);
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.failure > * + * {
+  margin-top: var(--s-2);
+}
+
+.message {
+  margin-top: var(--s-2);
+  font-family: var(--font-prose);
+  font-size: var(--prose-size);
+  line-height: var(--lh-prose);
+}
+
+.values {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--s-2) var(--s-4);
+  margin: var(--s-2) 0 0;
+}
+
+.values dt {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+  margin-bottom: var(--s-1);
+}
+
+.values dd {
+  margin: 0;
+}
+
+.values pre {
+  margin: 0;
+  padding: var(--s-2) var(--s-3);
+  background: var(--paper-sunk);
+  font-size: var(--editor-font-size);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.hint {
+  font-family: var(--font-prose);
+  font-size: var(--prose-size);
+  border-left: 2px solid var(--accent);
+  padding-left: var(--s-3);
+}
+
+.list {
+  list-style: none;
+  margin: var(--s-3) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s-1);
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-size: var(--step--1);
+  cursor: default;
+}
+
+summary.item {
+  cursor: pointer;
+}
+
+.itemPass {
+  color: var(--pass);
+}
+
+.itemPass span:not(:global(.visually-hidden)) {
+  color: var(--ink);
+}
+
+.itemFail {
+  color: var(--fail);
+}
+
+.itemFail span:not(:global(.visually-hidden)) {
+  color: var(--ink);
+}
+
+.itemFail details > div {
+  margin: var(--s-2) 0 var(--s-3) var(--s-6);
+}
+
+.stretch {
+  margin-top: var(--s-4);
+  padding-top: var(--s-3);
+  border-top: var(--hairline);
+}
