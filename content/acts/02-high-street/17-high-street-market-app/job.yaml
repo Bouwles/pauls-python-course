@@ -1,0 +1,61 @@
+id: high-street-market-app
+title: "The High Street Market App"
+client: sanjay
+building: high-street
+estimated_minutes: 480
+summary: "A stall-booking system for the Saturday market: classes, files, tests and a command line."
+concepts_introduced: []
+concepts_reviewed: [classes, init, attributes, methods, dataclasses, type-hints, exceptions, raising-errors, try-except, files, with-statement, csv-module, modules, main-guard, docstrings, mutable-default, copying, list-comprehensions, dict-set-comprehensions, sort-key, lambda, functions-as-values, argparse, exit-codes, assert, pytest, edge-cases]
+ask:
+  dialogue:
+    - sanjay: "I'm chair of the traders' association now. Nobody else stood."
+    - sanjay: "The Saturday market. Thirteen stalls, one exercise book, four arguments a week."
+    - sanjay: "Last month Bea and Mr Okonjo both turned up for stall three. Very polite about it. Mostly."
+    - moss: "Classes, files, tests and a command line. Everything you've got."
+  spec: |
+    A booking system for the High Street's Saturday market, in four files.
+
+    1. Stalls come from `stalls.csv`: number, size, price in pounds. There is no stall 13.
+    2. A trader books a stall for one day, and the market is only on Saturdays.
+    3. A stall can be booked once per day.
+    4. A trader can hold at most two stalls on one day.
+    5. A trader can cancel their own booking, and nobody else's.
+    6. Bookings are saved in `bookings.csv`, so they're still there next time.
+    7. A day sheet shows every stall, who has it, and the day's takings.
+    8. It runs from the command line. A refusal says why, on stderr, and exits with code 1.
+    9. It has tests, written by you, that would catch anyone breaking rules 2 to 5.
+  example: |
+    $ python cli.py 2026-11-07 --book 2 --trader Gwen
+    Booked stall 2 for Gwen on 2026-11-07.
+    $ python cli.py 2026-11-07 --book 2 --trader Mira
+    Stall 2 is already booked on 2026-11-07.
+    $ python cli.py 2026-11-07
+    Market on 2026-11-07
+    Stall 1 (small, £12): Sanjay
+    Stall 2 (small, £12): Gwen
+    Stall 3 (large, £20): Bea
+    ...
+    Stall 14 (large, £25): Okonjo
+    Takings: £69
+ship:
+  dialogue:
+    - sanjay: "Bea tried to book stall three twice. It told her it was already booked. By Bea."
+    - sanjay: "Mr Okonjo tried a Thursday. Market's only on Saturdays, it said. He apologised to it."
+    - sanjay: "Sixty-nine pounds on the seventh. I'd have said seventy. I'd have been wrong, and they'd have let me."
+    - moss: "Four files, and each one knows its job. That's the whole trade."
+  shelf: { object: stall, label: "The High Street market app" }
+  cards: []
+story_note: no-stall-thirteen
+stretch:
+  - id: take-it-home
+    title: "Take it home"
+    prompt: |
+      On the workbench, every run starts from the same `bookings.csv`. Copy the four files to your own computer, run `python cli.py` from a real terminal, and book a stall. Run it again: the booking is still there. Then run `test_market.py` the same way.
+  - id: waiting-list
+    title: "The waiting list"
+    prompt: |
+      When a stall is taken, let `--wait` put the trader on a waiting list for it. When the booking is cancelled, the first trader waiting gets the stall. `collections.deque` keeps a queue in order. Write the tests first.
+  - id: the-month
+    title: "The month at a glance"
+    prompt: |
+      Add `--month 2026-11`, which prints each Saturday of the month and its takings. A generator that yields the Saturdays one at a time keeps it tidy, the way Bea's scaler yielded one line at a time.

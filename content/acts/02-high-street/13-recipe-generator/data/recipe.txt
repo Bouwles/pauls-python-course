@@ -1,0 +1,9 @@
+# Bea's white tin loaf. One batch, two loaves.
+# Pip is not to touch the yeast.
+flour,500,g
+water,350,ml
+yeast,7,g
+salt,10,g
+
+# Butter last, softened. Not melted, Pip.
+butter,25,g

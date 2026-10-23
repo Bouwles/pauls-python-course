@@ -1,0 +1,53 @@
+id: greengrocers-labels
+title: "The Greengrocer's Labels"
+client: sanjay
+building: greengrocer
+estimated_minutes: 55
+summary: "Sanjay's stock list, turned into labels, a reorder list and a price book."
+concepts_introduced: [list-comprehensions, dict-set-comprehensions, conditional-comprehensions]
+concepts_reviewed: [tuples, unpacking, sets, dictionaries, string-methods, split-join, for-loops, f-strings]
+ask:
+  dialogue:
+    - sanjay: "Every Monday I write the labels by hand. Last week leeks were 8p. They're 80."
+    - sanjay: "Nobody complained, funnily enough. Then I ran out of leeks."
+    - sanjay: "I need labels, a list of what to order, and a price book for the till."
+    - moss: "Three new lists from one old one. That's what comprehensions are for."
+  spec: |
+    Sanjay's stock is a list of tuples: `(name, price in pence, how many in the shop)`.
+
+    Write three functions, each built around one comprehension:
+
+    - `labels(stock)`: a list with one label per item, in order. `APPLES 45p`, or `LEEKS sold out` when there are none left.
+    - `reorder(stock)`: a set of the names with fewer than 10 left.
+    - `price_book(stock)`: a dictionary of name to price, only for the items in the shop.
+
+    Then print each label on its own line, and the reorder list in alphabetical order.
+  example: |
+    APPLES 45p
+    PEARS 60p
+    LEEKS sold out
+    PLUMS 25p
+    KALE 150p
+    Reorder: kale, leeks, pears
+ship:
+  dialogue:
+    - sanjay: "Leeks, eighty pence, sold out. All true. Very honest labels."
+    - sanjay: "Plums, three for a pound. Or is it four. Customers like four."
+    - moss: "Four. At twenty-five each, that's no offer at all."
+  shelf: { object: price-label, label: "Sanjay's Monday labels" }
+  cards: [list-comprehensions, dict-set-comprehensions, conditional-comprehensions]
+stretch:
+  - id: pounds
+    title: "Pounds, not pence"
+    prompt: |
+      Labels for anything a pound or more should show pounds: `KALE £1.50`, but still `PLUMS 25p`. One comprehension can still do it, if the choosing is done by a small helper function that takes a price and returns the text.
+    tests: tests/stretch-pounds.py
+    solution: solutions/stretch-pounds.py
+  - id: untangle
+    title: "Untangle the cousin's one-liner"
+    prompt: |
+      Sanjay's cousin sent this, for the shop in Penzance:
+
+      `tags = [n.upper() + (" LOW" if c < 5 else " OK" if c < 20 else "") for n, p, c in stock if p > 0 and c > 0 and n != "kale"]`
+
+      Rewrite it as a plain `for` loop with an `if`, `elif` and `else`, so the next person can read it. Check it makes the same list.

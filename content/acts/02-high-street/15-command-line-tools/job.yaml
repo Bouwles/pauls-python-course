@@ -1,0 +1,44 @@
+id: command-line-tools
+title: "Command Line Tools"
+client: moss
+building: workshop
+estimated_minutes: 60
+summary: "A command-line tool for the workshop ledger, fit for someone else to use."
+concepts_introduced: [sys-argv, exit-codes, argparse]
+concepts_reviewed: [csv-module, files, with-statement, dictionaries, exceptions, try-except, main-guard, standard-library, float-conversion, f-strings, string-methods]
+ask:
+  dialogue:
+    - moss: "Pip asks me ten times a day which jobs are open. I tell him ten times."
+    - moss: "I want a tool he can run himself. A name goes in, the jobs come out."
+    - moss: "And when it can't help, it says so. In words, and in the exit code."
+  spec: |
+    Write `main.py`, a command-line tool for the workshop ledger, `jobs.csv`. Use `argparse`.
+
+    - It takes a customer's name and prints each of their jobs, then the total hours.
+    - `--status open` or `--status done` shows only those jobs. Any other status is a usage error.
+    - `--file` reads a different ledger. The default is `jobs.csv`.
+    - Names match whatever the capitals: `bea` finds Bea.
+    - If no jobs match, or the ledger can't be found, say so on `sys.stderr` and exit with code 1.
+  example: |
+    $ python main.py Bea
+    101 oven door hinge (done, 1.5 h)
+    106 bread slicer (open, 2 h)
+    Total: 3.5 h
+ship:
+  dialogue:
+    - pip: "Ferro, open jobs. One winch handle, three hours. I didn't have to ask anyone."
+    - pip: "Then I tried Gwen. No jobs for Gwen, exit code one. It turned me down properly."
+    - moss: "So it can say no. Most tools can't."
+  shelf: { object: workshop-ledger, label: "The workshop job tool" }
+  cards: [sys-argv, exit-codes, argparse]
+stretch:
+  - id: longest-first
+    title: "Longest first"
+    prompt: |
+      Add `--longest`, a flag that lists the jobs with the most hours first. `action="store_true"` makes an option that takes no value: `args.longest` is `True` when it's given. The Shop Timer's `sorted(..., key=...)` does the rest.
+    tests: tests/stretch-longest-first.py
+    solution: solutions/stretch-longest-first.py
+  - id: how-behind
+    title: "How far behind is Moss"
+    prompt: |
+      Add `--count`, which prints `3 jobs` instead of the list. Try it on Moss with `--status open`. Then don't mention it to him.

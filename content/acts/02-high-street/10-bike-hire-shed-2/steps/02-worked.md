@@ -1,0 +1,52 @@
+---
+id: worked
+type: worked
+title: How Moss would do it
+dialogue:
+  - moss: "Dev's way, done properly. Sanjay wants a cargo bike for deliveries."
+code: |
+  class Bike:
+      def __init__(self, number, rate):
+          self.number = number
+          self.rate = rate
+          self.rider = None
+
+      def give_back(self, hours):
+          self.rider = None
+          return hours * self.rate
+
+
+  class CargoBike(Bike):
+      """A bike with a box on the front. Sanjay hires it for deliveries."""
+
+      def __init__(self, number, rate, box_litres):
+          super().__init__(number, rate)
+          self.box_litres = box_litres
+
+      def give_back(self, hours):
+          cost = super().give_back(hours)
+          return cost + 1.50
+
+
+  cargo = CargoBike(15, 5, 80)
+  print(cargo.rider, cargo.box_litres)
+  print(cargo.give_back(2))
+subgoals:
+  - label: Say what kind of thing it is
+    lines: [12, 13]
+  - label: Let the parent set up its part
+    lines: [15, 16]
+  - label: Add what is new
+    lines: [17, 17]
+  - label: Change only what differs, reusing the parent's work
+    lines: [19, 21]
+  - label: Use it like any other bike
+    lines: [24, 26]
+explain:
+  prompt: "What would `cargo.rider` be if line 16 were deleted?"
+  answer: "There'd be no `rider` at all: an AttributeError. Writing `__init__` in the subclass replaces the parent's, so the parent's setup only runs if you call it with `super().__init__`."
+  concept: super
+---
+`super()` means the parent class, as seen from this object. `super().__init__(number, rate)` runs `Bike`'s setup on the new cargo bike, then the cargo bike adds what only it has.
+
+`super().give_back(hours)` does the same for a method: the parent does the usual work, and the subclass adds the box fee on top.

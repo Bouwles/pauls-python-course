@@ -1,0 +1,8 @@
+# Workshop stock. Counted by Moss, slowly.
+hinges,12
+brass screws,3
+sandpaper,4
+
+# The radio valve. One spare. Don't ask.
+valve,1
+wood glue,9

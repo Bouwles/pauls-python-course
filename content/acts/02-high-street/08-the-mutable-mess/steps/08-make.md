@@ -1,0 +1,34 @@
+---
+id: make
+type: make
+title: Make Saturday's orders
+files: [orders.py]
+entry: orders.py
+on_pass: { bea: "Six buns for the Ashbys this week, four in the standing book. Both right." }
+hints:
+  nudge: "If you copy only the outer dictionary, whose inner dictionaries are the extras added to?"
+  plan:
+    - Copy before you change, all the way down
+    - For each customer with extras, find or make their order in the copy
+    - Add each extra to that order
+    - Hand back the copy
+  shape: |
+    def saturday_orders(standing, extras):
+        orders = copy.___(standing)
+        for customer, items in extras.items():
+            if customer not in orders:
+                orders[customer] = ___
+            for item, quantity in items.items():
+                orders[customer][item] = orders[customer].get(item, ___) + quantity
+        return ___
+---
+Bea's standing orders live in `STANDING`, one dictionary per customer. Write `saturday_orders(standing, extras)`. It returns this Saturday's orders: every standing order with that customer's extras added, plus anyone who only ordered extras. It changes neither argument.
+
+```
+Ashby {'bread': 3, 'buns': 6}
+Drowned Anchor {'bread': 6, 'lardy cake': 2}
+Mira {'lardy cake': 1}
+Standing: {'Ashby': {'bread': 3, 'buns': 4}, ...}
+```
+
+The checks change Saturday's orders after you've made them, then look for the change in the standing book, using `is` as well as `==`.

@@ -1,0 +1,46 @@
+id: recipe-generator
+title: "The Recipe Generator"
+client: bea
+building: bakery
+estimated_minutes: 60
+summary: "A recipe scaler that hands over one line at a time."
+concepts_introduced: [iterators, generators, lazy-evaluation]
+concepts_reviewed: [files, with-statement, functions, return-values, tuples, unpacking, split-join, strip-replace, int-conversion, main-guard, f-strings, list-comprehensions]
+ask:
+  dialogue:
+    - bea: "Saturdays I bake eleven batches. Every recipe I own is written for one."
+    - bea: "I do the sums on a paper bag. Last week I tripled the salt."
+    - bea: "I weigh as I read. One line, then the next. Don't hand me the whole lot."
+    - moss: "Then it should only work out the line she's on."
+  spec: |
+    Bea's recipe for one batch is in `recipe.txt`, one ingredient per line: name, amount, unit, like `flour,500,g`. Blank lines and lines starting with `#` are her notes: skip them.
+
+    Ask how many batches, then print each ingredient scaled, one line at a time.
+
+    Build it from two generators. `read_recipe(path)` yields a `(name, amount, unit)` tuple for each ingredient, with the amount as a whole number. `scale(ingredients, batches)` yields the same tuples with the amount multiplied.
+  example: |
+    Batches? 3
+    flour: 1500 g
+    water: 1050 ml
+    yeast: 21 g
+    salt: 30 g
+    butter: 75 g
+ship:
+  dialogue:
+    - bea: "Five hundred times three, fifteen hundred. Seven times three, twenty-one. Right both times."
+    - bea: "And it waits while I weigh. I like a machine that waits."
+  shelf: { object: recipe-card, label: "Bea's recipe scaler" }
+  cards: [iterators, generators, lazy-evaluation]
+stretch:
+  - id: tray-labels
+    title: "Tray labels"
+    prompt: |
+      Bea labels her trays `Tray 1`, `Tray 2` and so on. Write a generator `tray_labels()` that counts up forever. After the recipe, print one label per batch.
+
+      It never ends, so take only what you need: `zip(range(batches), tray_labels())` stops when the shorter one does.
+    tests: tests/stretch-tray-labels.py
+    solution: solutions/stretch-tray-labels.py
+  - id: the-whole-bowl
+    title: "The whole bowl"
+    prompt: |
+      Add a last line, `Total: 1626 g` for three batches, adding up only the ingredients measured in grams. Mind Pip's mistake: a generator only goes round once.
