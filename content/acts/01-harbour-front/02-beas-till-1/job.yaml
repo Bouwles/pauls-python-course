@@ -1,0 +1,37 @@
+id: beas-till-1
+title: "Bea's Till, part 1"
+client: bea
+building: bakery
+estimated_minutes: 25
+summary: "Bea's till adds up one order."
+concepts_introduced: [arithmetic, operator-precedence, variables, naming]
+concepts_reviewed: [print, comments]
+ask:
+  dialogue:
+    - bea: "My till's older than me. It adds up wrong when it's cold."
+    - bea: "The Ashbys' Saturday order never changes. Three loaves, four buns."
+    - bea: "A loaf is 240 pence, a bun is 85. The till only does pence."
+    - moss: "Numbers first. Teaching it to ask comes later."
+  spec: |
+    Work out the price of the Ashbys' order: 3 loaves at 240 pence and 4 buns at 85 pence.
+    Print the total in pence, then the same total as pounds and pence.
+
+    Keep the quantities in variables called `loaves` and `buns`, so Bea can change the order without rewriting the sums.
+  example: |
+    1060
+    10 pounds 60 pence
+ship:
+  dialogue:
+    - bea: "Ten sixty. I make it ten sixty too."
+    - bea: "Now it needs to ask. Not everyone is an Ashby."
+  shelf: { object: till-receipt, label: "Bea's till, first version" }
+  cards: [arithmetic, operator-precedence, variables, naming]
+stretch:
+  - id: lardy-cake
+    title: "Lardy cake"
+    prompt: |
+      Bea sells lardy cake at 310 pence. Add a variable `cakes` and include it in the total. The Ashbys never buy cake, so start it at 0.
+  - id: change
+    title: "Change from a tenner"
+    prompt: |
+      Print a third line: how much change the Ashbys get from 2000 pence (a twenty), as pounds and pence.

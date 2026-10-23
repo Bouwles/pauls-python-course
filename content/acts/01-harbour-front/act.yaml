@@ -1,0 +1,27 @@
+id: harbour-front
+number: 1
+title: "The Harbour Front"
+district: harbour-front
+subject: "Python foundations"
+hours: 25
+summary: "Fourteen jobs along the quay, from the sign on Moss's door to Agnes Rook's harbour logbook. Printing, numbers, input, decisions, loops, lists, strings, functions and dictionaries."
+locked_line: "The quay, where the first repairs are waiting."
+intro:
+  - moss: "Desk's in the back. Mind the radio."
+  - moss: "People bring me things that are broken. Lately it's mostly programs."
+jobs:
+  - sign-on-the-door
+  - beas-till-1
+  - beas-till-2
+  - reading-the-wreckage
+  - ferry-fare-machine
+  - toms-lamp-check
+  - the-fog-horn
+  - guess-the-catch
+  - miras-pigeonholes
+  - shopping-list-fixer
+  - harbour-noticeboard
+  - pub-quiz-night
+  - the-address-book
+  - harbour-logbook
+  - python-at-home

@@ -1,0 +1,52 @@
+id: pub-quiz-night
+title: "Pub Quiz Night"
+client: gwen
+building: pub
+estimated_minutes: 50
+summary: "Gwen's quiz, built from small functions that each do one job."
+concepts_introduced: [functions, parameters, return-values, none, scope]
+concepts_reviewed: [strip-replace, string-methods, for-loops, range, if-elif-else, lists, f-strings]
+ask:
+  dialogue:
+    - gwen: "Tuesday is quiz night. I mark the answers on a beer mat."
+    - gwen: "Somebody always argues. Usually about capital letters."
+    - gwen: "Question four is the same as question two. Nobody's noticed in eleven years."
+    - moss: "Small pieces, each with a name. Then you can check each one."
+  spec: |
+    Write two functions, then a quiz that uses them.
+
+    - `is_correct(given, answer)` returns `True` if they match, ignoring capitals and spaces at the ends, and `False` if not.
+    - `verdict(score, total)` returns Gwen's remark: `Full marks. Gwen is checking your sleeves.` for all of them, `Not one. Impressive, in its way.` for none, `Respectable.` for at least half, and `There's always next Tuesday.` for fewer.
+    - `main()` asks every question, says `Right.` or `No. It was ...`, then prints the score and the verdict.
+  example: |
+    Who keeps the lighthouse? old tom
+    No. It was Tom.
+    What year was the big storm? 1987
+    Right.
+    What colour is this pub's door? Green
+    Right.
+    What year was the big storm?  1987
+    Right.
+    What is the champion crab called? sir reginald
+    Right.
+    You scored 4 out of 5.
+    Respectable.
+ship:
+  dialogue:
+    - gwen: "Four out of five for the Ashbys. Same as the beer mat."
+    - gwen: "I'll still read the questions out. People like a voice. Even mine."
+  shelf: { object: beer-mat, label: "Gwen's quiz, marked properly" }
+  cards: [functions, parameters, return-values, none, scope]
+stretch:
+  - id: question-four
+    title: "Question four"
+    prompt: |
+      Somebody has finally noticed. Skip any question that has already been asked, and leave it out of the total. With Gwen's questions the score is now out of 4.
+
+      Keep a list of the questions asked so far, and check it with `in`.
+    tests: tests/stretch-question-four.py
+    solution: solutions/stretch-question-four.py
+  - id: ask-function
+    title: "One question at a time"
+    prompt: |
+      Write `ask(question, answer)`: it asks one question, prints `Right.` or `No. It was ...`, and returns 1 for a right answer and 0 for a wrong one. Then `main()` can add up whatever `ask` hands back, and the loop gets very short.

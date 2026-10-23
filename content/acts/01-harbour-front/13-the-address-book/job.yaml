@@ -1,0 +1,52 @@
+id: the-address-book
+title: "The Address Book"
+client: mira
+building: post-office
+estimated_minutes: 50
+summary: "Mira's address book: every parcel looked up and counted, and new names added."
+concepts_introduced: [dictionaries, dict-get, dict-items, nested-data]
+concepts_reviewed: [while-loops, sentinels, in-operator, f-strings, none, list-aliasing]
+ask:
+  dialogue:
+    - mira: "Parcels come in all morning. I type the name on each one."
+    - mira: "I want the address back, and a count for each door."
+    - mira: "New names get added. Nobody gets lost. That is the point of a post office."
+    - moss: "Names to addresses. That wants a dictionary."
+  spec: |
+    `book` holds, for each name, a dictionary with an `address` and the number of `parcels` waiting.
+
+    1. Ask `Name? ` until a blank line.
+    2. A name in the book: print `Name: address` and add one to their parcels.
+    3. A name not in the book: print `No address for Name.`, ask `Address? `, and add them with that address and 1 parcel.
+    4. At the end print `Round:`, then `Name, address: parcels` for everyone with parcels waiting, in book order. If nobody has any, the line after `Round:` is `Nothing to deliver.`
+  example: |
+    Name? Bea Hollis
+    Bea Hollis: The Bakery, Quay Row
+    Name? Captain Ferro
+    No address for Captain Ferro.
+    Address? The Ferry Office, North Quay
+    Name? Bea Hollis
+    Bea Hollis: The Bakery, Quay Row
+    Name?
+    Round:
+    Bea Hollis, The Bakery, Quay Row: 2
+    Captain Ferro, The Ferry Office, North Quay: 1
+ship:
+  dialogue:
+    - mira: "Two for the bakery, one for the ferry office. Counted, and in order."
+    - mira: "Captain Ferro is in the book now. He won't like it. He enjoys being hard to find."
+  shelf: { object: address-book, label: "Mira's address book" }
+  cards: [dictionaries, dict-get, dict-items, nested-data]
+stretch:
+  - id: nicknames
+    title: "Tom, not Old Tom"
+    prompt: |
+      Nobody types the full name. Add a dictionary of nicknames, `{"Bea": "Bea Hollis", "Tom": "Old Tom", "Agnes": "Agnes Rook"}`, and turn each typed name into the full one before looking it up. Names that aren't nicknames stay as they are.
+
+      `nicknames.get(name, name)` does exactly that in one line.
+    tests: tests/stretch-nicknames.py
+    solution: solutions/stretch-nicknames.py
+  - id: busiest
+    title: "The busiest door"
+    prompt: |
+      After the round, print `Busiest: Name (3)` for whoever has the most parcels. If two people tie, the one who comes first in the book wins. Don't print it if nobody has any.

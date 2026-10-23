@@ -1,0 +1,36 @@
+id: sign-on-the-door
+title: "The Sign on the Door"
+client: moss
+building: workshop
+estimated_minutes: 20
+summary: "A first program: print the sign for the workshop door."
+concepts_introduced: [program-order, print, strings, comments]
+ask:
+  dialogue:
+    - moss: "The sign blew off the door again. Third time this month."
+    - moss: "Penhallow left a machine that prints signs. It wants a program, not a pencil."
+    - moss: "Four lines. Nothing clever."
+  spec: |
+    Write a program that prints the workshop sign: four lines, exactly as below, in this order.
+  example: |
+    MOSS'S WORKSHOP
+    Repairs of all kinds
+    Open Tuesday to Saturday, 9 till 5
+    Closed when the radio is on
+ship:
+  dialogue:
+    - moss: "Straight lines. No spelling mistakes. Apostrophe in the right place."
+    - moss: "I'll put it up with the good tape."
+  shelf: { object: workshop-sign, label: "The workshop sign" }
+  cards: [program-order, print, strings, comments]
+stretch:
+  - id: border
+    title: "A border"
+    prompt: |
+      Put a line of `=` signs above and below the sign, exactly as long as the longest line (34 characters). Then the sign looks finished from across the street.
+    tests: tests/stretch-border.py
+    solution: solutions/stretch-border.py
+  - id: second-sign
+    title: "One for the back door"
+    prompt: |
+      Moss wants a smaller sign for the back door: `DELIVERIES` on the first line and `Knock twice. Moss is slow.` on the second. Add it under the main sign, with an empty line between them. `print()` with nothing inside prints an empty line.
