@@ -1,0 +1,50 @@
+id: was-it-right
+title: "Was It Right?"
+client: wendt
+building: observatory
+estimated_minutes: 70
+summary: "Four hundred nights of Penhallow's storm forecasts, scored honestly: what it caught, what it missed, and what catching more would cost."
+concepts_introduced: [classification-metrics, roc-auc]
+concepts_reviewed: [logistic-regression, train-test-split, numpy-arrays, vectorisation, boolean-operators, matplotlib, functions, multiple-returns, main-guard, docstrings, f-strings]
+ask:
+  dialogue:
+    - wendt: "Penhallow kept a storm notebook. Every evening, her forecast's chance of a gale. Every morning, whether one came."
+    - pip: "Mine says calm every night. Ninety-four per cent right. I didn't even have to train it."
+    - priya: "Ninety-four per cent of what, exactly?"
+    - wendt: "The shutters take an hour to lash down. What does this forecast catch, and what does it cost me?"
+    - moss: "Then count both."
+  spec: |
+    Penhallow's storm notebook is in `storms.csv`: four hundred nights, each with the chance of a storm her forecast gave that evening, and `1` if a storm came that night or `0` if it stayed calm. Storms are rare: 25 in 400.
+
+    In `storms.py`, find out how good the forecast really was:
+
+    1. At a threshold of 0.5: the confusion matrix, then accuracy, precision, recall and F1, against saying calm every night.
+    2. The ROC curve, and the area under it.
+    3. The highest threshold that catches nine storms in ten, and what that costs in false alarms.
+  example: |
+    At a threshold of 0.5:
+                  storm   calm
+    warned           12      3
+    not warned       13    372
+    Accuracy 0.96, precision 0.80, recall 0.48, F1 0.60
+    Saying calm every night: accuracy 0.94, recall 0.00
+    AUC: 0.950
+    To catch 90% of storms, warn at 0.12 or more: precision 0.44, 29 false alarms
+ship:
+  dialogue:
+    - wendt: "Nine storms in ten, for twenty-nine false alarms. Twenty-nine hours of lashing shutters for nothing."
+    - wendt: "I'll take it. I've seen what a storm does to an open dome. Well, I've seen the photographs."
+    - pip: "Mine caught nought storms. Out of twenty-five. And it was still ninety-four per cent right."
+    - moss: "That's what accuracy hides when the thing you're after is rare."
+  shelf: { object: storm-glass, label: "Penhallow's storm forecast, scored honestly" }
+  cards: [classification-metrics, roc-auc]
+story_note: bigger-numbers-both-sides
+stretch:
+  - id: draw-the-curve
+    title: "Draw the curve, mark the choice"
+    prompt: |
+      Plot the ROC curve with matplotlib, with a dashed diagonal for a coin. Mark the points for thresholds of 0.5 and 0.12, each with its threshold written beside it.
+  - id: cost-of-a-night
+    title: "Put a price on it"
+    prompt: |
+      Wendt reckons a storm with the shutters open costs her as much as fifteen false alarms. Give a missed storm a cost of 15 and a false alarm a cost of 1, and find the threshold with the lowest total cost over the four hundred nights. Is it near 0.12?

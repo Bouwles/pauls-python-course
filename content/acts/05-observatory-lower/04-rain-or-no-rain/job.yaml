@@ -1,0 +1,49 @@
+id: rain-or-no-rain
+title: "Rain or No Rain"
+client: wendt
+building: observatory
+estimated_minutes: 90
+summary: "Two hundred of Penhallow's evenings, and a chance of rain for tonight: logistic regression, from scratch."
+concepts_introduced: [logistic-regression, cross-entropy]
+concepts_reviewed: [linear-regression, gradient-descent, multivariate-regression, feature-scaling, train-test-split, numerical-gradients, numpy-arrays, vectorisation, broadcasting, matrices, imports, functions, multiple-returns, default-arguments, main-guard, docstrings, zip, f-strings]
+ask:
+  dialogue:
+    - pip: "I'm down off the roof. It rained. Nobody warned me."
+    - wendt: "Rain on an open dome spots the mirror. Then I spend a day cleaning it with a feather."
+    - wendt: "Penhallow wrote down two hundred evenings, and whether it rained by midnight. Not how much. Just whether."
+    - moss: "A yes or a no. A line won't give you that."
+    - wendt: "No. A line gives you 1.15, which is worse than no answer at all."
+  spec: |
+    Penhallow's notebook is in `evenings.csv`: two hundred evenings of humidity (%), air pressure (hPa), how far the pressure moved in the three hours before (hPa), and cloud (oktas), each with `1` if it rained before midnight and `0` if it didn't.
+
+    In `rain.py`, learn the chance of rain by logistic regression, from scratch:
+
+    1. Lock a quarter of the evenings away for testing, and scale the rest with Moss's `tools.py`.
+    2. Learn the four weights by gradient descent on the log loss.
+    3. Score the test evenings, against always guessing dry.
+    4. Give tonight's chance of rain, and whether to open the dome.
+  example: |
+    humidity         +1.72
+    pressure         -0.69
+    pressure_change  -2.13
+    cloud            +1.40
+    Test accuracy: 0.86
+    Always guessing dry: 0.60
+    Tonight: 78% chance of rain. Keep the dome shut.
+ship:
+  dialogue:
+    - wendt: "Seventy-eight per cent. I kept the dome shut, and it poured at eleven."
+    - wendt: "Falling pressure counts most. Not low pressure: falling. Penhallow underlined that. Twice, actually."
+    - pip: "It only ever says a chance. I wanted it to say yes."
+    - moss: "Yes is the Professor's job. It hands her the odds."
+  shelf: { object: barometer, label: "Wendt's chance of rain" }
+  cards: [logistic-regression, cross-entropy]
+stretch:
+  - id: one-weight-hill
+    title: "The log loss hill"
+    prompt: |
+      Fix `b` at its trained value and the other weights at theirs, then walk the humidity weight alone from 0, calling `show_hill(w_humidity, loss, curve=loss_at)` once a step, where `loss_at(v)` is the training log loss with the humidity weight set to `v`. How does the hill's shape compare with the mean squared error hill from the first job?
+  - id: cautious-threshold
+    title: "A more cautious Professor"
+    prompt: |
+      A rainy night with the dome open costs Wendt a day with a feather; a dry night with it shut costs her one night's observing. Count the test evenings it rained with the dome open, and the dry ones with it shut, at thresholds of 0.5, 0.3 and 0.1. Which would you choose?
