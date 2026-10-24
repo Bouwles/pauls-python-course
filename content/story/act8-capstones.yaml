@@ -1,0 +1,29 @@
+# Ada Penhallow's notes from the Lighthouse, Act VIII capstones 1 to 5.
+# Found in the lighthouse, they all point up the stairs to the lamp room,
+# where Old Tom keeps the key. Each is a comment in a starter file.
+notes:
+  - id: the-address-that-goes-upstairs
+    job: capstone-web-app
+    title: "One address that goes upstairs"
+    text: "Every address on this server answers in under a second but one, and that one goes up to the lamp room. Tom keeps the key. Ask him nicely, and not before you're ready. A.P."
+    where: "Pencilled inside the door of the old server cabinet under the lighthouse stairs, copied by Agnes into the top of app.py in the Take It Home project of A Web App for the Town."
+  - id: the-answer-is-at-the-top-of-the-stairs
+    job: capstone-investigation
+    title: "Lamp hours and sunshine"
+    text: "Tom's lamp log and the station's sunshine fitted to the minute for forty years. Since the lamp room was rewired, they don't, quite, and I know why. If you want to know too, the answer is at the top of the stairs. Tom has the key. A.P."
+    where: "On the back of the Weather Station's 1987 sunshine card, found in the lighthouse chart drawer, copied by Priya into the top of station.py in the Make step of A Data Investigation."
+  - id: bigger-not-cleverer
+    job: capstone-paper
+    title: "Bigger, not cleverer"
+    text: "If this holds, a machine should be made bigger, not cleverer. I wrote that here, then went up to the lamp room to think about what it meant. Tom keeps the key. I left the rest of my working up there. A.P."
+    where: "In the margin of Penhallow's copy of the double descent paper, found on the lighthouse stairs, copied by Professor Wendt into the top of descent.py in the first Make of Reproducing a Result."
+  - id: the-hard-version
+    job: capstone-game
+    title: "The hard version"
+    text: "Tom wanted something for the long watches. I wrote him a game where the lamp sweeps and you dodge it. He beat it in a week and asked for it harder. The hard version is in the lamp room. Tom has the key. A.P."
+    where: "On a card tucked into the lighthouse's 1987 visitors' book, copied by Gwen into the top of main.py in the Take It Home project of A Game for the Pier."
+  - id: stopped-writing-the-tests
+    job: capstone-own
+    title: "One small slice, with tests"
+    text: "The last project I chose for myself is at the top of this lighthouse. It began as one small slice, with tests, the way Moss taught me. Somewhere along the way I stopped writing them. Tom has the key. A.P."
+    where: "On the back of a printout of Mira's postage program, kept in the lighthouse's tool cupboard, copied into the top of postage.py in the Make step of Your Own Project."

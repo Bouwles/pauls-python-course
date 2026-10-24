@@ -1,0 +1,128 @@
+# Misconceptions for Act V, Jobs 4 to 8: Rain or No Rain, Was It Right?,
+# Nearest Neighbours, The Question Tree, and Forests and Boosting.
+
+# -- Rain or No Rain -------------------------------------------------------------
+line-stays-in-range:
+  concept: logistic-regression
+  description: Thinks a straight line fitted to answers of 0 and 1 never gives a value below 0 or above 1.
+zero-one-cannot-be-fitted:
+  concept: logistic-regression
+  description: Thinks yes-or-no answers can't be fitted with arithmetic, even when they are written as 0 and 1.
+miss-uses-score:
+  concept: logistic-regression
+  description: Thinks the miss in logistic regression's gradient is the score X @ w + b minus the answer, rather than the chance after the sigmoid minus the answer.
+threshold-on-score:
+  concept: logistic-regression
+  description: Thinks the 0.5 threshold is compared with the score X @ w + b, rather than with the chance after the sigmoid.
+
+log-loss-uses-wrong-side:
+  concept: cross-entropy
+  description: Thinks an evening without rain is charged minus the log of the chance of rain, rather than minus the log of the chance of no rain.
+hedging-costs-nothing:
+  concept: cross-entropy
+  description: Thinks a forecast of 0.5 every time has a log loss of 0, when it costs log 2, about 0.69, whatever happens.
+same-decisions-same-loss:
+  concept: cross-entropy
+  description: Thinks two models that make the same yes-or-no decisions must have the same log loss, whatever chances they gave.
+mse-fine-for-chances:
+  concept: cross-entropy
+  description: Thinks mean squared error on the chances trains a classifier as well as log loss, when its slope all but vanishes for a model that is confidently wrong.
+log-zero-is-harmless:
+  concept: cross-entropy
+  description: Thinks a chance of exactly 0 or 1 is safe in log loss, when np.log(0) is minus infinity and 0 times that is nan.
+
+# -- Was It Right? ----------------------------------------------------------------
+guessing-scores-half:
+  concept: classification-metrics
+  description: Thinks a model that ignores its readings and always gives the same answer scores about 50% accuracy, whatever the answers are.
+accuracy-counts-only-yes:
+  concept: classification-metrics
+  description: Thinks accuracy only counts the cases where the model says yes, so a model that never says yes scores nothing.
+precision-recall-swapped:
+  concept: classification-metrics
+  description: Thinks precision is the share of real cases that were caught and recall the share of warnings that were right, the wrong way round.
+accuracy-fine-when-rare:
+  concept: classification-metrics
+  description: Thinks accuracy is a fair score even when one answer is far rarer than the other.
+f1-is-average:
+  concept: classification-metrics
+  description: Thinks F1 is the ordinary average of precision and recall, rather than their harmonic mean, which stays low if either is low.
+raising-threshold-raises-recall:
+  concept: classification-metrics
+  description: Thinks raising the threshold catches more of the real cases, when it means warning less often, so recall can only fall or stay the same.
+
+auc-is-accuracy:
+  concept: roc-auc
+  description: Thinks the AUC is the accuracy at some threshold, rather than how well the chances rank the real cases above the others.
+coin-auc-zero:
+  concept: roc-auc
+  description: Thinks a forecast that can't tell the cases apart has an AUC of 0, when it has 0.5, the diagonal.
+roc-plots-nights:
+  concept: roc-auc
+  description: Thinks each point on a ROC curve is one case, rather than one threshold's false positive rate and true positive rate.
+auc-depends-on-threshold:
+  concept: roc-auc
+  description: Thinks the AUC changes with the threshold you choose to use, when it sums up every threshold at once.
+auc-needs-true-chances:
+  concept: roc-auc
+  description: Thinks changing the chances without changing their order, such as halving them all, changes the AUC.
+
+# -- Nearest Neighbours -------------------------------------------------------------
+distance-treats-features-fairly:
+  concept: knn
+  description: Thinks the distance between two sets of readings weighs every reading fairly, whatever its units, so a reading counted in hundreds can't swamp one counted in tenths.
+knn-learns-weights:
+  concept: knn
+  description: Thinks k nearest neighbours learns weights while training, rather than keeping every past case and measuring distances when asked.
+k1-training-is-skill:
+  concept: knn
+  description: Thinks the perfect training accuracy of k = 1 shows it forecasts well, when every training case is its own nearest neighbour.
+bigger-k-always-better:
+  concept: knn
+  description: Thinks a larger k always forecasts better because more neighbours means more evidence, when a large k drowns rare answers in the commonest one.
+argsort-gives-distances:
+  concept: knn
+  description: Thinks np.argsort gives the distances in order, rather than the positions of the rows in order of distance.
+sum-axis-zero-per-row:
+  concept: knn
+  description: Thinks .sum(axis=0) adds along each row, when it adds down each column and gives one total per reading.
+
+# -- The Question Tree --------------------------------------------------------------
+gini-is-share:
+  concept: decision-trees
+  description: Thinks Gini impurity is the share of one label in a pile, rather than how mixed the labels are.
+gini-is-minority-share:
+  concept: decision-trees
+  description: Thinks Gini impurity is the share of the rarer label, rather than 1 minus the sum of each label's share squared.
+unweighted-split-score:
+  concept: decision-trees
+  description: Thinks a question's score is the two sides' impurities added together, without weighting each by its size, which favours splitting off one odd case.
+deeper-tree-always-better:
+  concept: decision-trees
+  description: Thinks a deeper tree always forecasts better, because it gets more of its training data right.
+recursion-tracks-depth-itself:
+  concept: decision-trees
+  description: Thinks each recursive call knows how deep it is without being told, so the depth needn't be passed on one higher.
+split-must-change-decision:
+  concept: decision-trees
+  description: Thinks a tree only asks a question if its two answers lead to different labels, rather than whenever it makes the piles less mixed.
+
+# -- Forests and Boosting -------------------------------------------------------------
+averaging-cannot-help:
+  concept: ensembles
+  description: Thinks averaging many models that each make errors can't do better than one of them.
+copies-add-evidence:
+  concept: ensembles
+  description: Thinks averaging copies of one model, or models grown identically on the same data, improves on a single one.
+bootstrap-is-shuffle:
+  concept: ensembles
+  description: Thinks a bootstrap sample is the data reshuffled with every row exactly once, rather than drawn with replacement, so some rows repeat and others are left out.
+boosting-adds-whole-tree:
+  concept: ensembles
+  description: Thinks boosting adds each new tree's whole answer, rather than the learning rate times it.
+boosting-trees-independent:
+  concept: ensembles
+  description: Thinks each tree in boosting learns the whole target on its own, as a forest's trees do, rather than fitting what the trees before it still got wrong.
+boosting-cannot-overfit:
+  concept: ensembles
+  description: Thinks boosting can't overfit, so a bigger rate, deeper trees and more rounds always help because the training error keeps falling.

@@ -1,0 +1,75 @@
+# Misconceptions for Act VIII, capstones 1 to 5: A Web App for the Town,
+# A Data Investigation, Reproducing a Result, A Game for the Pier, and
+# Your Own Project.
+
+# -- A Web App for the Town --------------------------------------------------------
+query-values-are-numbers:
+  concept: http-basics
+  description: Thinks a value in a URL's query string, such as berth=2, arrives as a number. Everything in a URL is text.
+status-200-for-everything:
+  concept: http-basics
+  description: Thinks a response can say 200 and put the problem in the body. The status code is how programs know it went wrong.
+
+json-keeps-tuples:
+  concept: json-module
+  description: Thinks a tuple saved as JSON comes back as a tuple. JSON has only lists, so it comes back as a list.
+json-keeps-int-keys:
+  concept: json-module
+  description: Thinks whole-number dictionary keys survive a JSON round trip. JSON keys are always text.
+write-takes-any-object:
+  concept: json-module
+  description: Thinks a file's write() can write a list or a dictionary. It takes text; json.dump turns the value into text first.
+
+# -- A Data Investigation ----------------------------------------------------------
+coerce-only-drops-missing:
+  concept: data-provenance
+  description: Thinks pd.to_numeric(errors="coerce") only turns the missing-value marker into NaN. It turns anything that isn't a plain number into NaN, marked values included.
+marks-are-noise:
+  concept: data-provenance
+  description: Thinks the marks after values in a source file (estimated, provisional, a change of instrument) can be stripped and forgotten. They say how far to trust each number.
+partial-year-total:
+  concept: data-provenance
+  description: Thinks a yearly total with a missing month is still that year's total. It is a smaller number that was never measured.
+header-length-fixed:
+  concept: data-provenance
+  description: Thinks every file from the same source has the same number of lines before the table, so counting them is safe.
+pandas-sum-gives-nan:
+  concept: data-provenance
+  description: Thinks pandas' sum() gives NaN when a value is missing. It skips gaps unless min_count says how many real values it needs.
+
+# -- Reproducing a Result ----------------------------------------------------------
+bigger-always-overfits:
+  concept: double-descent
+  description: Thinks test error keeps rising as a model gains parameters past the bottom of the U. With smallest-norm fits it peaks at the interpolation threshold and then falls.
+any-exact-fit-is-the-same:
+  concept: double-descent
+  description: Thinks every set of weights that fits the training data exactly is as good as any other. Which exact fit is chosen decides the test error.
+peak-at-smallest:
+  concept: double-descent
+  description: Thinks the smallest model has the worst test error. Small models underfit, but the peak is at the interpolation threshold.
+
+seeded-generator-repeats:
+  concept: reproducibility
+  description: Thinks a seeded random generator gives the same numbers on every call. The seed fixes the sequence; each call takes the next numbers in it.
+random-seed-seeds-numpy:
+  concept: reproducibility
+  description: Thinks random.seed also fixes NumPy's generators. NumPy's default_rng needs a seed of its own.
+one-seed-is-enough:
+  concept: reproducibility
+  description: Thinks one run with a fixed seed shows a result holds. A fixed seed makes one sample repeatable; it doesn't make it typical.
+
+# -- A Game for the Pier -----------------------------------------------------------
+speed-is-per-second:
+  concept: game-loop
+  description: Thinks a speed added once each time round the game loop is per second. It is per frame, so the frame rate multiplies it.
+touching-edges-overlap:
+  concept: game-loop
+  description: Thinks two rectangles whose edges only touch are overlapping. They share no pixels, so nothing is caught.
+drawing-changes-state:
+  concept: game-loop
+  description: Thinks it's fine to move things or change scores while drawing. Then the game depends on how often it's drawn, and can't be tested without a screen.
+
+# -- Your Own Project --------------------------------------------------------------
+typical-values-catch-bugs:
+  concept: mutation-testing
+  description: Thinks testing a few typical values is enough to catch mistakes. Most mistakes sit at the edges of rules, where typical values never go.

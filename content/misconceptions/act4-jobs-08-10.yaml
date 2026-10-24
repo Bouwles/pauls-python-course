@@ -1,0 +1,18 @@
+# Misconceptions for Act IV, Jobs 8 to 10: wind as arrows, slopes on the hill,
+# and the Saltmarsh Weather Report.
+
+# -- Vectors and Arrows ---------------------------------------------------------
+dot-ignores-direction:
+  concept: vectors
+  description: Thinks the dot product depends only on how long the two arrows are, not on how they line up, so a wind gives the same headwind whichever way the boat points.
+dot-never-negative:
+  concept: vectors
+  description: Thinks a dot product can't be below 0, when arrows pointing more apart than a right angle give a negative one.
+
+# -- Slopes on the Hill ---------------------------------------------------------
+slope-is-average-so-far:
+  concept: derivatives
+  description: Thinks the slope at a point is the height there divided by the distance from the start, the average slope so far, rather than the rise over a tiny step at that point.
+one-slope-per-point:
+  concept: derivatives
+  description: Thinks a surface has one slope at each point, the same whichever way you face, rather than a slope for each direction.

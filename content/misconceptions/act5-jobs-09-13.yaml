@@ -1,0 +1,165 @@
+# Misconceptions for Act V, Jobs 9 to 13: Meet scikit-learn, Grouping Stars,
+# Squashing Dimensions, Fair and Honest Models, and The Fishing Forecast.
+
+# -- Meet scikit-learn -------------------------------------------------------------
+sklearn-takes-1d-features:
+  concept: scikit-learn
+  description: Thinks scikit-learn accepts a 1-D array of one reading as X, rather than a table with one column.
+estimator-takes-data-at-creation:
+  concept: scikit-learn
+  description: Thinks the readings go into a model's brackets when it is made, rather than into fit.
+fit-returns-predictions:
+  concept: scikit-learn
+  description: Thinks fit returns predictions, rather than the fitted model itself.
+predict-before-fit:
+  concept: scikit-learn
+  description: Thinks a newly made model can predict before it has been fitted.
+learnt-without-underscore:
+  concept: scikit-learn
+  description: Thinks what a model learns is stored under the names of its settings, rather than in attributes ending in an underscore.
+
+scale-before-cross-validation:
+  concept: pipelines
+  description: Thinks scaling all the data and then cross-validating is the same as scaling inside each fold.
+pipeline-refits-on-predict:
+  concept: pipelines
+  description: Thinks a pipeline measures new readings' own means and spreads when it predicts, rather than reusing the ones from fit.
+pipeline-is-a-list:
+  concept: pipelines
+  description: Thinks a pipeline is only a list of steps to run by hand, rather than one model with its own fit and predict.
+
+folds-share-one-fit:
+  concept: cross-validation
+  description: Thinks cross-validation fits one model and scores it on every fold, rather than fitting a fresh model for each fold.
+cross-val-leaves-a-model:
+  concept: cross-validation
+  description: Thinks cross_val_score leaves a fitted model behind, ready to predict.
+one-split-is-enough:
+  concept: cross-validation
+  description: Thinks a single validation split gives as steady a score as the mean over several folds.
+every-row-trains-every-time:
+  concept: cross-validation
+  description: Thinks each fold's model is trained on all the data, rather than on every fold but the one it is scored on.
+
+grid-search-fits-once-per-setting:
+  concept: grid-search
+  description: Thinks grid search fits the model once per setting, rather than once per setting for every fold.
+grid-search-no-refit:
+  concept: grid-search
+  description: Thinks grid search ends with one of its fold models, rather than refitting the best setting on all the data.
+pipeline-setting-plain-name:
+  concept: grid-search
+  description: Thinks a setting inside a pipeline is named as on the bare model, rather than with its step's name and two underscores.
+best-score-is-honest:
+  concept: grid-search
+  description: Thinks a grid search's best cross-validated score is an honest estimate of how the model will do on new data.
+
+# -- Grouping Stars ----------------------------------------------------------------
+k-means-one-step:
+  concept: k-means
+  description: Thinks the first k-means step moves each centre straight to the middle of the group it will end up with.
+centres-are-points:
+  concept: k-means
+  description: Thinks a k-means centre is always one of the points, rather than the mean of the points that chose it.
+lowest-inertia-finds-k:
+  concept: k-means
+  description: Thinks the k with the lowest inertia is the right number of groups.
+inertia-rises-with-k:
+  concept: k-means
+  description: Thinks inertia rises with more centres, because there are more distances to add up.
+k-means-same-every-start:
+  concept: k-means
+  description: Thinks k-means always finds the same groups, whatever centres it starts from.
+k-means-needs-answers:
+  concept: k-means
+  description: Thinks k-means needs labelled examples of each group to learn from.
+rng-choice-never-repeats:
+  concept: k-means
+  description: Thinks rng.choice picks different items by default, rather than possibly picking the same one twice.
+
+# -- Squashing Dimensions ----------------------------------------------------------
+eigh-biggest-first:
+  concept: eigenvectors
+  description: Thinks np.linalg.eigh hands back the eigenvalues biggest first, rather than smallest first.
+eigenvalues-are-diagonal:
+  concept: eigenvectors
+  description: Thinks the eigenvalues of a matrix are the numbers on its diagonal.
+eigenvectors-are-rows:
+  concept: eigenvectors
+  description: Thinks np.linalg.eigh gives each eigenvector as a row, rather than as a column.
+eigenvector-sign-matters:
+  concept: eigenvectors
+  description: Thinks an eigenvector and its negative are different directions, so the sign eigh gives means something.
+matrix-turns-everything:
+  concept: eigenvectors
+  description: Thinks multiplying by a matrix turns every direction, so no arrow keeps pointing the same way.
+
+pca-without-centring:
+  concept: pca
+  description: Thinks PCA can work on the readings as they are, without taking off each column's mean first.
+pca-picks-columns:
+  concept: pca
+  description: Thinks PCA chooses the most important of the original readings, rather than new directions that mix them.
+rebuild-is-exact:
+  concept: pca
+  description: Thinks readings rebuilt from fewer components than columns come back exactly.
+pca-needs-answers:
+  concept: pca
+  description: Thinks PCA needs answers or labels to find its directions.
+
+# -- Fair and Honest Models --------------------------------------------------------
+leak-still-forecasts:
+  concept: data-leakage
+  description: Thinks a model that scores perfectly with a column filled in after the event will still forecast well before that column is known.
+cross-validation-catches-leaks:
+  concept: data-leakage
+  description: Thinks cross-validation will notice a column that gives away the answer.
+choose-columns-on-everything:
+  concept: data-leakage
+  description: Thinks choosing the columns that best match the answers, using every row, and then cross-validating gives an honest score.
+high-score-means-good-model:
+  concept: data-leakage
+  description: Thinks a suspiciously high score is good news rather than a reason to look for a leak.
+leak-only-in-training:
+  concept: data-leakage
+  description: Thinks a leaky column would show up as a poor score on the test set, when it is recorded there the same way.
+
+overall-accuracy-is-fair:
+  concept: model-bias
+  description: Thinks a model with good overall accuracy must do about as well for every group.
+bias-needs-group-feature:
+  concept: model-bias
+  description: Thinks a model can't treat a group unfairly unless the group is one of its columns.
+error-rate-over-everyone:
+  concept: model-bias
+  description: Thinks a costly mistake's rate should be counted over everyone in the group, rather than over the people it could happen to.
+more-data-overall-fixes-bias:
+  concept: model-bias
+  description: Thinks adding more rows of any kind fixes a model's bias, rather than more rows like the group it does badly for.
+
+# -- The Fishing Forecast ----------------------------------------------------------
+baseline-is-a-coin:
+  concept: baselines
+  description: Thinks the baseline for a yes-or-no forecast is always a coin toss, 50%, whatever the answers' shares.
+accuracy-without-baseline:
+  concept: baselines
+  description: Thinks a high accuracy shows a model is good without comparing it with a simple baseline on the same days.
+baseline-from-test-answers:
+  concept: baselines
+  description: Thinks the commonest-answer baseline may take its commonest answer from the test set.
+baselines-on-different-days:
+  concept: baselines
+  description: Thinks a model and a baseline can be compared fairly on different days.
+
+numbers-know-the-compass:
+  concept: feature-engineering
+  description: Thinks a model knows that compass directions wrap round, so 350 and 10 degrees look close to it.
+features-change-nothing:
+  concept: feature-engineering
+  description: Thinks rewriting a reading, like a direction as east and north parts, can't help a model, because the information is the same.
+engineer-with-the-future:
+  concept: feature-engineering
+  description: Thinks a feature may be built from later rows, like tomorrow's pressure, in a forecast.
+more-columns-always-help:
+  concept: feature-engineering
+  description: Thinks adding any extra column always makes a model better.

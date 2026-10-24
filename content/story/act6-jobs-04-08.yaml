@@ -1,0 +1,23 @@
+# Ada Penhallow's notes from the observatory's upper floors, Act VI Jobs 4 to 8.
+# Each note is a comment in a starter file; finding it sets a story flag.
+notes:
+  - id: no-card-for-why
+    job: the-tiny-engine
+    title: "No card for why"
+    text: "Every card knows the cards it was made from, and nothing else. Ask it how an answer was arrived at and it can tell you, to the last digit. Ask it why, and there is no card for that. A.P."
+    where: "A comment above class Value in engine.py, copied by Professor Wendt from the lid of the shoebox of index cards in Penhallow's desk, in the Make step of The Tiny Engine."
+  - id: it-learned-the-calendar
+    job: training-properly
+    title: "It learned the calendar"
+    text: "Shuffled every time. Shown the evenings in the same order twice, it learned the order: what I did on a Tuesday, because it was Tuesday. It learns what I did, and that included the calendar. A.P."
+    where: "A comment above batches() in brain.py, copied by Professor Wendt from inside the cover of the logbook marked TRAIN PROPERLY, in the Make step of Training Properly."
+  - id: before-tom-did
+    job: penhallows-handwriting
+    title: "Before Tom did"
+    text: "The machine on the hill learned to read my handwriting before Tom did. Tom says that isn't difficult. It reads my notebooks every night now, every number I ever wrote down, and it has never once asked what any of them were for. A.P."
+    where: "A comment above one_hot() in digits.py, copied by Professor Wendt from the flyleaf of the last of the two hundred notebooks, in the Make step of Penhallow's Handwriting."
+  - id: never-once-told-me
+    job: seeing
+    title: "It has never once told me"
+    text: "It watches the harbour mouth through the old camera on the hill, one small square at a time, every ten minutes, day and night. It has never once told me what it sees. I am not sure it would know how. A.P."
+    where: "A comment above convolve() in seeing.py, copied by Professor Wendt from the back of the last page of little grids in Penhallow's notebook, in the Make step of Seeing."

@@ -1,0 +1,155 @@
+# Misconceptions for Act III, Jobs 4 to 8: recursion, stacks and queues, linked lists, hashing and trees.
+
+# -- Recursion in the Junk Tower ----------------------------------------------------
+recursion-one-level-deep:
+  concept: recursion
+  description: Thinks a recursive function handles one level of nesting but not a crate inside a crate inside a crate.
+self-call-is-error:
+  concept: recursion
+  description: Thinks a function can't call itself because it isn't finished being defined, so expects a NameError.
+recursion-never-stops:
+  concept: recursion
+  description: Thinks a function that calls itself must go on calling itself for ever, even when each call is handed a smaller problem.
+inner-total-shared:
+  concept: recursion
+  description: Thinks a recursive call shares the caller's local variables, so the inner call's total adds into the outer one without being returned.
+recursive-call-replaces-function:
+  concept: recursion
+  description: Thinks returning a recursive call's answer is optional, as if calling the function again replaced the current call's result.
+base-case-exact-match:
+  concept: base-cases
+  description: Thinks the steps of a recursion will land exactly on the base case, when they can jump past it.
+no-base-case-runs-forever:
+  concept: base-cases
+  description: Thinks a recursive function with no base case runs for ever like an infinite loop, rather than stopping with a RecursionError.
+base-case-after-call:
+  concept: base-cases
+  description: Thinks the base case can be checked after the recursive call, rather than before it.
+code-after-call-skipped:
+  concept: call-stack
+  description: Thinks the lines after a recursive call never run, as if the call jumped away and left the old call behind.
+unwinds-in-call-order:
+  concept: call-stack
+  description: Thinks waiting calls finish in the order they started, rather than the newest first.
+call-waits-its-turn:
+  concept: call-stack
+  description: Thinks a recursive call runs after the current call finishes, rather than straight away on its own line.
+recursion-limit-is-memory:
+  concept: call-stack
+  description: Thinks a recursion only stops when the computer runs out of memory, rather than at Python's limit of about a thousand waiting calls.
+memo-without-writing:
+  concept: memoisation
+  description: Thinks checking a memo dictionary is enough to speed a function up, without writing each new answer into it.
+cache-keeps-last-only:
+  concept: memoisation
+  description: Thinks functools.cache keeps only the most recent answer, rather than one answer for every set of arguments.
+memo-speeds-everything:
+  concept: memoisation
+  description: Thinks memoisation speeds up any recursive function, even one that never asks the same question twice.
+memo-changes-answers:
+  concept: memoisation
+  description: Thinks memoising a function changes the answers it gives, rather than only how much work it does.
+cache-only-outer-calls:
+  concept: memoisation
+  description: Thinks functools.cache only keeps the answers to calls made from outside the function, not the recursive calls inside it.
+cache-takes-any-argument:
+  concept: memoisation
+  description: Thinks functools.cache works with any arguments, including lists, rather than only with arguments that can be hashed.
+
+# -- Stacks and Queues of Scrap --------------------------------------------------------
+pop-only-looks:
+  concept: stacks
+  description: Thinks pop() reads the top item without taking it off the stack.
+bracket-count-is-enough:
+  concept: stacks
+  description: Thinks counting open brackets is enough to check them, without keeping which kinds were opened and in what order.
+undo-takes-oldest:
+  concept: stacks
+  description: Thinks undo takes back the first change made rather than the latest.
+queue-serves-newest:
+  concept: queues
+  description: Thinks a queue serves the most recent arrival first, as a stack would.
+pop-front-is-free:
+  concept: queues
+  description: Thinks taking the first item off a list with pop(0) is as quick as taking the last with pop().
+appendleft-joins-back:
+  concept: deque
+  description: Thinks appendleft adds to the back of a deque, rather than the front.
+maxlen-refuses-extra:
+  concept: deque
+  description: Thinks a full deque with a maxlen refuses new items or raises an error, rather than dropping one from the other end.
+popleft-empty-gives-none:
+  concept: deque
+  description: Thinks popleft on an empty deque gives None, rather than raising an IndexError.
+
+# -- Linked Chains ---------------------------------------------------------------------
+chain-order-is-creation-order:
+  concept: linked-lists
+  description: Thinks a linked list's order is the order its nodes were made, rather than the order of the links between them.
+walk-falls-off-end:
+  concept: linked-lists
+  description: Thinks a while loop that walks a linked list until None reads past the last node and crashes.
+relinking-keeps-the-rest:
+  concept: linked-lists
+  description: Thinks pointing a node's next at a new node keeps the old rest of the list hanging on after it.
+next-assign-replaces-item:
+  concept: linked-lists
+  description: Thinks changing a node's next swaps out just the following node, like assigning one position of a list, and keeps everything after it.
+linked-list-indexing-is-fast:
+  concept: linked-lists
+  description: Thinks reaching the nth node of a linked list takes one step, as indexing a list does, rather than walking past every node before it.
+turn-before-saving:
+  concept: linked-lists
+  description: Thinks a node's next can be pointed backwards before keeping hold of the node it used to point at.
+
+# -- The Hash Pile -----------------------------------------------------------------------
+different-names-different-piles:
+  concept: hashing
+  description: Thinks a hash function always sends different keys to different piles, so collisions can't happen.
+lists-can-be-keys:
+  concept: hashing
+  description: Thinks a list can be a dictionary key, not knowing that keys must be hashable and lists can change.
+tuples-cannot-be-keys:
+  concept: hashing
+  description: Thinks a tuple can't be a dictionary key because it holds several things, when a tuple of hashable things can.
+hash-changes-each-call:
+  concept: hashing
+  description: Thinks a hash function can give a different number for the same key on a later call in the same run.
+dict-lookup-scans-all:
+  concept: hash-maps
+  description: Thinks looking a key up in a dictionary compares it with every key stored, as in on a list does.
+collision-overwrites:
+  concept: hash-maps
+  description: Thinks a second key landing in an occupied pile replaces the first one, rather than joining it in the pile.
+resize-keeps-old-piles:
+  concept: hash-maps
+  description: Thinks that after a hash map doubles its piles, the keys can stay in the piles they were in.
+
+# -- The Family Tree of Parts ---------------------------------------------------------
+height-counts-cards:
+  concept: trees
+  description: Thinks a tree's height is how many cards it holds, rather than how many levels from the root to the deepest leaf.
+empty-tree-height-one:
+  concept: trees
+  description: Thinks an empty tree has a height of 1, so every height comes out one too many.
+leaves-are-at-the-top:
+  concept: trees
+  description: Thinks the root is a leaf, or that leaves are the cards nearest the top, rather than the cards with nothing below them.
+bst-always-balanced:
+  concept: binary-search-trees
+  description: Thinks a binary search tree stays bushy whatever order the cards are added in, so a search always takes about log n looks.
+bst-checks-both-sides:
+  concept: binary-search-trees
+  description: Thinks searching a binary search tree has to look down both sides of a card, rather than only the side the number belongs on.
+bst-new-card-at-root:
+  concept: binary-search-trees
+  description: Thinks a new card goes in at the top of a binary search tree, pushing the others down, rather than at the empty place its walk ends.
+every-walk-is-sorted:
+  concept: traversals
+  description: Thinks every traversal of a binary search tree lists the numbers in order, not just the in-order one.
+walk-goes-level-by-level:
+  concept: traversals
+  description: Thinks a recursive traversal visits a whole level of the tree before the next, rather than going all the way down one side first.
+post-order-is-reversed-pre-order:
+  concept: traversals
+  description: Thinks post-order is pre-order read backwards, when both still visit the left side before the right.

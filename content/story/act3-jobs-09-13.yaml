@@ -1,0 +1,17 @@
+# Ada Penhallow's notes in Act III, Jobs 9 to 13.
+notes:
+  - id: one-road-in
+    job: the-road-map
+    title: "One road in"
+    text: "The lighthouse is a dead end on this map: one road in, and the same road out. Tom says that's the whole point of a lighthouse. I've come round to his way of thinking. A.P."
+    where: "A comment above the lighthouse in ROADS, in roads.py, in the starter for the Make step of The Road Map."
+  - id: tom-knows-where
+    job: puzzles-from-the-pub
+    title: "Tom knows where"
+    text: "Picture round, for Gwen's quiz, 1994. Ten words; three aren't in the grid, and that's the puzzle. If I'm not back by the next quiz, Tom knows where the answers are. A.P."
+    where: "A comment above Penhallow's grid in grid.py, in the starter for the picture-round Make step of Puzzles from the Pub."
+  - id: the-other-end
+    job: scrapyard-route-planner
+    title: "The other end"
+    text: "Nell's yard, on paper, winter of '96: I walked it with a tape measure. The machine on the hill found the way across in a blink, and never asked what was at the other end. A.P."
+    where: "A comment at the top of planner.py, in the starter for the Make step of The Scrapyard Route Planner."

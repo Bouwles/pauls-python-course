@@ -1,0 +1,53 @@
+# Misconceptions for Act VII, Jobs 7 to 10: Deep Q, policy gradients,
+# actor-critic and the Championship, at the Crab Racing Club.
+
+# -- Deep Q -----------------------------------------------------------------------
+all-actions-updated:
+  concept: dqn
+  description: Thinks the TD error should train every action's output for a tile, when only the move that was actually taken has a target.
+replay-in-order:
+  concept: dqn
+  description: Thinks replaying memories in the order they happened is best, when consecutive moves are so alike that a network trained on them in order forgets everything but the latest stretch.
+target-copy-is-alias:
+  concept: dqn
+  description: Thinks assigning the weights to a second name makes a frozen copy, when both names share the same arrays and the copy changes with every training step.
+frozen-copy-never-refreshed:
+  concept: dqn
+  description: Thinks the frozen copy of the network is made once and kept for ever, when it is refreshed from the trained network every so many moves.
+
+# -- Learning the Policy Directly ------------------------------------------------
+reinforce-always-reinforces:
+  concept: policy-gradients
+  description: Thinks a REINFORCE step always makes the move taken more likely, when a return below the baseline, or below zero with no baseline, makes it less likely.
+baseline-only-shifts:
+  concept: policy-gradients
+  description: Thinks subtracting a baseline from every return can't change any single update, when it can turn a step against a move into a step towards it; only the long-run average stays the same.
+bigger-baseline-better:
+  concept: policy-gradients
+  description: Thinks any baseline steadies the estimates, or a bigger one more so, when only a baseline close to the usual return from that state does.
+softmax-picks-biggest:
+  concept: policy-gradients
+  description: Thinks a softmax policy always takes the move with the biggest preference, when it takes every move with some chance.
+policy-gradient-only-chosen:
+  concept: policy-gradients
+  description: Thinks the REINFORCE step changes only the preference of the move taken, when the minus-chances part moves every move's preference on that state.
+
+# -- Actor and Critic ------------------------------------------------------------
+advantage-is-reward:
+  concept: actor-critic
+  description: Thinks the critic's verdict on a move is the reward it earned, leaving out the change in the critic's value from one state to the next.
+negative-reward-means-worse:
+  concept: actor-critic
+  description: Thinks a move that earns a negative reward is always made less likely, when the actor judges it against what the critic expected from that state.
+critic-chooses-moves:
+  concept: actor-critic
+  description: Thinks the critic picks the moves, when the actor chooses them and the critic only judges how they went.
+ppo-always-clips:
+  concept: actor-critic
+  description: Thinks PPO uses the clipped value whenever the ratio leaves the range, when the min takes it only if it is the less flattering of the two.
+ppo-clip-ignored:
+  concept: actor-critic
+  description: Leaves the clip out of PPO's objective, as if making a move likelier went on paying however far the policy moved from the one that raced.
+ppo-takes-max:
+  concept: actor-critic
+  description: Takes the bigger of PPO's plain and clipped objectives, letting a bad move off lightly, when PPO takes the smaller.

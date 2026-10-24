@@ -1,0 +1,102 @@
+# Misconceptions for Act VI, Jobs 4 to 8: The Tiny Engine, Training Properly,
+# Penhallow's Handwriting, Hello, PyTorch and Seeing.
+
+# -- The Tiny Engine -------------------------------------------------------------
+grad-counted-once-when-reused:
+  concept: autograd
+  description: Thinks a value used twice in a calculation gets its gradient from only one of the uses.
+grad-holds-result:
+  concept: autograd
+  description: Confuses a value's gradient with its number, as if .grad held the result of the calculation.
+backward-replaces-grads:
+  concept: autograd
+  description: Thinks calling backward again starts the gradients afresh, when each call adds to what is already there.
+backward-order-doesnt-matter:
+  concept: autograd
+  description: Thinks the backward functions can be called in any order, when each value's blame must be complete before it is passed on.
+visit-twice-harmless:
+  concept: autograd
+  description: Thinks putting a shared value on the backward order twice does no harm, when its blame is then passed back twice.
+
+# -- Training Properly -------------------------------------------------------------
+minibatch-loss-always-falls:
+  concept: optimisers
+  description: Thinks the loss must fall on every mini-batch step if training is working, when each batch's gradient is only a noisy estimate.
+adam-step-scales-with-gradient:
+  concept: optimisers
+  description: Thinks Adam's first step is bigger for a weight with a bigger gradient, as plain descent's is, when it moves every weight by about the rate.
+adam-counts-per-weight:
+  concept: optimisers
+  description: Thinks Adam's step counter goes up once for each weight array, rather than once per step.
+momentum-forgets-each-step:
+  concept: optimisers
+  description: Thinks momentum's velocity starts again from 0 at every step, so momentum is the same as plain descent.
+shuffle-arrays-separately:
+  concept: optimisers
+  description: Thinks shuffling the readings and the answers separately keeps each answer with its own readings.
+training-breaks-symmetry:
+  concept: weight-initialisation
+  description: Thinks hidden neurons that start with identical weights will drift apart during training, when they get identical gradients and stay identical.
+equal-start-never-moves:
+  concept: weight-initialisation
+  description: Thinks weights that all start at the same value cannot change, when they change together and stay equal.
+bigger-start-learns-faster:
+  concept: weight-initialisation
+  description: Thinks big starting weights give a network a head start, when they saturate its sigmoids and shrink its gradients.
+zero-start-is-neutral:
+  concept: weight-initialisation
+  description: Thinks starting every weight at 0 is a neutral, safe choice for a network with hidden layers.
+
+# -- Penhallow's Handwriting ---------------------------------------------------------
+softmax-safe-for-big-scores:
+  concept: classification-networks
+  description: Thinks exponentiating big scores straight away is safe, when np.exp overflows to infinity and the chances come out as nan.
+softmax-wrong-axis:
+  concept: classification-networks
+  description: Thinks softmax should make each column add up to 1, rather than each row, which holds one example's chances.
+softmax-global-shift:
+  concept: classification-networks
+  description: Thinks subtracting the biggest score in the whole batch protects every row, when a row of much smaller scores can be shifted until every exp is 0.
+cross-entropy-every-column:
+  concept: classification-networks
+  description: Thinks cross-entropy adds up the logs of every class's chance, rather than using only the chance given to the right answer.
+argmax-wrong-axis:
+  concept: classification-networks
+  description: Thinks argmax(axis=0) picks each row's biggest column, when it picks each column's biggest row.
+
+# -- Hello, PyTorch -------------------------------------------------------------------
+softmax-twice-harmless:
+  concept: pytorch
+  description: Thinks ending a PyTorch model with a softmax before nn.CrossEntropyLoss does no harm, when the loss softmaxes again and can never get near 0.
+loss-wants-chances:
+  concept: pytorch
+  description: Thinks nn.CrossEntropyLoss should be given chances that add up to 1, rather than the raw scores.
+zero-grad-optional:
+  concept: pytorch
+  description: Thinks optimiser.zero_grad() is optional tidying, when without it every step's gradient includes all the earlier ones.
+linear-weight-in-out:
+  concept: pytorch
+  description: Thinks nn.Linear(64, 32).weight is shaped (64, 32) like the NumPy brain's W1, when PyTorch keeps it as (32, 64).
+step-computes-gradients:
+  concept: pytorch
+  description: Thinks optimiser.step() works out the gradients itself, so loss.backward() can be left out.
+
+# -- Seeing ---------------------------------------------------------------------------
+conv-output-same-size:
+  concept: convolutions
+  description: Thinks a convolution gives back a map the same size as the picture, when the kernel has to fit inside, so the map is smaller by the kernel's size less one each way.
+kernel-flipped:
+  concept: convolutions
+  description: Thinks the kernel is turned round before it's applied, so a right-minus-left kernel finds left-minus-right edges.
+pool-averages:
+  concept: convolutions
+  description: Thinks max pooling averages each block, rather than keeping its biggest number.
+pool-keeps-leftovers:
+  concept: convolutions
+  description: Thinks pooling keeps the rows and columns that don't make a whole block.
+kernel-fires-on-flat:
+  concept: convolutions
+  description: Thinks an edge kernel gives a big answer on any bright patch, when its weights add up to 0 and a patch of one shade gives 0.
+kernel-different-each-place:
+  concept: convolutions
+  description: Thinks a convolution uses different weights at each place in the picture, rather than the same kernel everywhere.

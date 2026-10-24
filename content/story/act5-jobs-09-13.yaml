@@ -1,0 +1,28 @@
+# Ada Penhallow's notes in Act V, Jobs 9 to 13: the observatory's lower floors.
+# Each note is a comment in a starter file; finding it sets a story flag.
+notes:
+  - id: a-line-each
+    job: meet-scikit-learn
+    title: "A line each"
+    text: "Four ways to forecast a clear night, each built by hand over a winter. Then the library came, and each one was a line. I kept the hand-built ones. When a line is wrong it can't tell you where. A.P."
+    where: "A comment at the top of seeing.py, copied by Professor Wendt from the back page of the seeing log, in the Make step of Meet scikit-learn."
+  - id: the-fourth-pile
+    job: grouping-stars
+    title: "The fourth pile"
+    text: "I asked the machine to sort my nights into piles, and didn't say what a pile was. It made four. Three I recognised: clear, fog, gales. The fourth I still can't name, and it won't say. A.P."
+    where: "A comment at the top of stars.py, copied by Professor Wendt from a note pinned inside the plate box, in the Make step of Grouping Stars."
+  - id: its-own-two
+    job: squashing-dimensions
+    title: "Its own two"
+    text: "Twelve filters, and two numbers that matter: how bright, and how blue. Squash the twelve and those two fall out, which is reassuring. The machine on the hill squashes too, but I can't read its two. A.P."
+    where: "A comment at the top of filters.py, copied by Professor Wendt from the inside cover of the filter book, in the Make step of Squashing Dimensions."
+  - id: the-kettle
+    job: fair-and-honest-models
+    title: "Tom's kettle"
+    text: "The machine learned to light the lamp when Tom's kettle boiled. Right every night for a month, for the wrong reason: Tom puts the kettle on at dusk. I took the kettle out of its readings, and it was wrong for a week. It had never known why. A.P."
+    where: "A comment at the top of audit.py, copied by Professor Wendt from a card in the bottom drawer of Penhallow's desk, in the Make step of Fair and Honest Models."
+  - id: the-fish-moved
+    job: the-fishing-forecast
+    title: "The fish moved"
+    text: "The machine on the hill forecast the fishing better than the fleet for three winters running. Then the fish moved. It took the machine a season to notice, and Captain Ferro one morning. A.P."
+    where: "A comment at the top of features.py, copied by Professor Wendt from the back of the fleet's catch book, in the first Make of The Fishing Forecast."

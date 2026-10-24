@@ -1,0 +1,74 @@
+# Misconceptions for Act VII, Jobs 4 to 6: Monte Carlo and TD learning,
+# Q-learning and SARSA, and Gymnasium environments.
+
+# -- Learning by Racing -----------------------------------------------------------
+mc-whole-race-return:
+  concept: monte-carlo
+  description: Credits every state in an episode with the whole episode's return from the start, rather than the return from the moment the agent was in that state.
+mc-discount-from-start:
+  concept: monte-carlo
+  description: Discounts each reward by its distance from the start of the episode when working out a later state's return, instead of counting from that state.
+mc-needs-model:
+  concept: monte-carlo
+  description: Thinks Monte Carlo needs the transition probabilities, when it learns from sampled episodes alone.
+mc-learns-mid-race:
+  concept: monte-carlo
+  description: Thinks Monte Carlo can update a state's value before the episode ends, when the return is not known until then.
+td-replaces-value:
+  concept: td-learning
+  description: Thinks a TD update sets the value to the TD target, ignoring the step size alpha.
+td-ignores-next-value:
+  concept: td-learning
+  description: Leaves the discounted value of the next state out of the TD target, using the reward alone.
+td-waits-for-end:
+  concept: td-learning
+  description: Thinks TD learning must wait for the end of an episode before updating, as Monte Carlo does.
+td-terminal-bootstrap:
+  concept: td-learning
+  description: Adds gamma times the value of a terminal state to the TD target, or lets a terminal state's value be updated, when nothing follows the end of an episode.
+td-news-instant:
+  concept: td-learning
+  description: Thinks one episode of TD(0) carries a reward back to every state visited, when each update only looks one step ahead.
+
+# -- Q-Crab -----------------------------------------------------------------------
+q-target-same-action:
+  concept: q-learning
+  description: Uses the next state's value for the action just taken in the Q-learning target, instead of the best action's value there.
+q-target-average:
+  concept: q-learning
+  description: Averages the next state's action values in the Q-learning target, instead of taking the biggest.
+q-needs-model:
+  concept: q-learning
+  description: Thinks choosing the best action from Q-values needs the transition probabilities, as choosing from state values does.
+q-explores-in-target:
+  concept: q-learning
+  description: Thinks Q-learning's values include the cost of its own exploring, when its target always assumes the best action next.
+sarsa-uses-max:
+  concept: sarsa
+  description: Thinks SARSA's target uses the best next action, as Q-learning's does, rather than the next action actually chosen.
+q-learning-on-policy:
+  concept: sarsa
+  description: Swaps the two methods, thinking Q-learning uses the next action actually taken and SARSA the best one.
+sarsa-learns-best-policy:
+  concept: sarsa
+  description: Thinks SARSA learns the values of the best policy while it explores, when it learns the values of the exploring policy it follows.
+
+# -- The Sea Wall Gate ------------------------------------------------------------
+truncated-is-terminated:
+  concept: gymnasium
+  description: Treats an episode stopped by a time limit as if it ended in its own right, setting terminated rather than truncated.
+loop-ignores-truncated:
+  concept: gymnasium
+  description: Writes the episode loop to stop only when terminated, so an episode that is only ever truncated never stops.
+step-returns-four:
+  concept: gymnasium
+  description: Expects step to return four things with a single done flag, as the old Gym API did, rather than Gymnasium's five.
+reset-returns-observation-only:
+  concept: gymnasium
+  description: Thinks reset returns just the observation, forgetting the info dictionary that comes with it.
+unseeded-reset-repeats:
+  concept: gymnasium
+  description: Thinks reset() without a seed starts the same random run again, when it carries on with the generator the last seed made.
+truncated-state-worthless:
+  concept: gymnasium
+  description: Leaves out the value of the next state when an episode is truncated, as if a time limit meant nothing could follow.

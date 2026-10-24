@@ -1,0 +1,137 @@
+# Misconceptions for Act III, Jobs 9 to 13: heaps, graphs, Dijkstra, backtracking, dynamic programming and A*.
+
+# -- Heaps for the Priority Pile -------------------------------------------------
+heap-list-is-sorted:
+  concept: heaps
+  description: Thinks a heap kept in a list is in sorted order, rather than only having the smallest item at the front.
+heappush-just-appends:
+  concept: heaps
+  description: Thinks heappush adds the item to the end like append, so the list stays in the order things arrived.
+heappop-takes-last:
+  concept: heaps
+  description: Thinks heappop takes the last item in the list, like list.pop(), rather than the smallest.
+heap-children-at-2i:
+  concept: heaps
+  description: Thinks the children of position i in a heap list are at 2i and 2i + 1, forgetting that the list counts from 0.
+heap-push-is-linear:
+  concept: heaps
+  description: Thinks adding an item to a heap means looking at every item already in it, so it takes O(n) steps.
+heap-sink-either-child:
+  concept: heaps
+  description: Thinks a sinking item can swap with either child, rather than the smaller one, so the smaller child can end up below a bigger one.
+heap-ties-keep-arrival:
+  concept: priority-queues
+  description: Thinks heapq hands back items with the same priority in the order they were pushed, when the tuple's next item decides.
+heapq-gives-largest:
+  concept: priority-queues
+  description: Thinks heapq hands back the largest item first.
+ties-never-compare-rest:
+  concept: priority-queues
+  description: Thinks two tuples with the same first item are treated as equal, so the rest of the tuple is never compared.
+negating-reverses-names:
+  concept: priority-queues
+  description: Thinks pushing the negative of the priority also reverses the order of ties between the other items in the tuple.
+
+# -- The Road Map ----------------------------------------------------------------
+graph-roads-one-list-both-ways:
+  concept: graphs
+  description: Thinks writing a road in one place's list of neighbours makes it go both ways.
+graph-keys-are-all-places:
+  concept: graphs
+  description: Thinks every place in a dictionary of neighbours has its own key, missing places that only appear in other places' lists.
+graph-needs-a-picture:
+  concept: graphs
+  description: Thinks a graph needs positions or a drawing, rather than only the places and which ones are connected.
+bfs-goes-deep:
+  concept: bfs
+  description: Thinks breadth-first search follows one road as far as it goes before trying the next.
+bfs-queues-twice:
+  concept: bfs
+  description: Thinks a place reached by two roads is queued and visited twice, even though it was marked as reached the first time it was queued.
+bfs-first-route-any:
+  concept: bfs
+  description: Thinks the first route breadth-first search finds to a place might not be the one with the fewest roads.
+bfs-mark-when-taken:
+  concept: bfs
+  description: Thinks it makes no difference whether a place is marked as reached when it's queued or when it's taken off the queue.
+dfs-goes-by-distance:
+  concept: dfs
+  description: Thinks depth-first search reaches places nearest first.
+dfs-stops-at-dead-end:
+  concept: dfs
+  description: Thinks depth-first search stops at the first dead end, rather than going back and trying the next road.
+dfs-loops-forever:
+  concept: dfs
+  description: Thinks depth-first search on two-way roads goes round in circles forever, even when it skips places already reached.
+dfs-finds-shortest:
+  concept: dfs
+  description: Thinks the first route depth-first search finds to a place is the shortest one.
+
+# -- The Cheapest Route ----------------------------------------------------------
+weighted-route-counts-roads:
+  concept: weighted-graphs
+  description: Thinks the length of a route in a weighted graph is how many roads it has, not the sum of the numbers on them.
+fewest-roads-is-quickest:
+  concept: weighted-graphs
+  description: Thinks the route with the fewest roads is always the quickest, whatever the roads weigh.
+weights-on-places:
+  concept: weighted-graphs
+  description: Thinks the numbers in a weighted graph belong to the places rather than to the roads between them.
+zip-pairs-wrap-round:
+  concept: zip
+  description: Thinks zip(route, route[1:]) pairs the last item with the first, as if the list went round in a circle.
+dijkstra-first-seen-final:
+  concept: dijkstra
+  description: Thinks a place's distance is final the first time it is reached, as it is in breadth-first search.
+dijkstra-old-entries-removed:
+  concept: dijkstra
+  description: Thinks pushing a place onto the heap again with a better time removes its old entry.
+dijkstra-negative-ok:
+  concept: dijkstra
+  description: Thinks Dijkstra's algorithm still gives the right answer when some roads have negative weights.
+dijkstra-settles-by-roads:
+  concept: dijkstra
+  description: Thinks Dijkstra's algorithm settles places in order of how many roads away they are, rather than how far.
+
+# -- Puzzles from the Pub --------------------------------------------------------
+backtracking-keeps-choices:
+  concept: backtracking
+  description: Thinks a choice that led nowhere can be left in place while the next choice is tried, so never undoes it.
+backtracking-builds-everything:
+  concept: backtracking
+  description: Thinks backtracking builds every complete arrangement and checks each one at the end, rather than dropping a branch as soon as it breaks a rule.
+backtracking-stops-at-dead-end:
+  concept: backtracking
+  description: Thinks reaching a dead end means there's no answer, rather than going back and trying the next choice.
+coin-orders-counted-once:
+  concept: dynamic-programming
+  description: Thinks a recursion that tries every coin as the next coin counts each handful once, when it counts every order of the same coins.
+negative-amount-never-stops:
+  concept: base-cases
+  description: Thinks a recursion that can step below zero never stops, missing the base case that returns at once for a negative amount.
+dp-changes-answers:
+  concept: dynamic-programming
+  description: Thinks storing answers in a cache or table can change what a function gives back, rather than only how much work it does.
+dp-table-any-order:
+  concept: dynamic-programming
+  description: Thinks a table's slots can be filled in any order, when each slot needs the smaller ones it's built from to be filled first.
+greedy-is-fewest:
+  concept: dynamic-programming
+  description: Thinks always taking the biggest coin that fits gives the fewest coins, whatever the coins are.
+
+# -- The Scrapyard Route Planner -------------------------------------------------
+a-star-greedy-to-goal:
+  concept: a-star
+  description: Thinks A* takes whichever waiting tile is nearest the goal, ignoring what it cost to reach it.
+a-star-cheapest-so-far:
+  concept: a-star
+  description: Thinks A* takes whichever waiting tile was cheapest to reach, as Dijkstra does, ignoring the estimate of what's left.
+a-star-overestimate-ok:
+  concept: a-star
+  description: Thinks any guess at the distance left will do for A*, even one that can be bigger than the real cost.
+manhattan-is-straight-line:
+  concept: a-star
+  description: Thinks the Manhattan distance is the straight-line distance between two tiles, rather than rows apart plus columns apart.
+a-star-slower-route:
+  concept: a-star
+  description: Thinks A* can settle for a slower route than Dijkstra because it looks at fewer tiles.

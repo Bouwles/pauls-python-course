@@ -1,0 +1,175 @@
+# Misconceptions for Act VI, Jobs 9 to 13: Regularising, Sequences, Words as Numbers,
+# Paying Attention and Penhallow's Notebook Reader.
+
+# -- Regularising ----------------------------------------------------------------
+decay-needs-gradient:
+  concept: regularisation
+  description: Thinks weight decay only moves a weight when the loss's gradient for it is non-zero.
+decay-subtracts-constant:
+  concept: regularisation
+  description: Thinks weight decay takes the same fixed amount off a weight every step, rather than a share of the weight.
+decay-zeroes-weights:
+  concept: regularisation
+  description: Thinks weight decay switches unhelpful weights off at once, setting them to exactly 0.
+decay-on-biases:
+  concept: regularisation
+  description: Thinks weight decay should shrink the biases as well as the weights.
+early-stop-on-training-loss:
+  concept: regularisation
+  description: Thinks early stopping should watch the training loss, which keeps improving for ever.
+early-stop-keeps-last:
+  concept: regularisation
+  description: Thinks early stopping hands back the weights from the epoch it stopped at, rather than the best epoch's.
+regularising-lowers-training-loss:
+  concept: regularisation
+  description: Thinks a regulariser should make the training loss lower, when it usually makes it higher in exchange for a lower validation loss.
+dict-copy-copies-arrays:
+  concept: regularisation
+  description: Thinks params.copy() copies the arrays inside the dict, so later in-place updates won't reach the copy.
+dropout-mask-fixed:
+  concept: dropout
+  description: Thinks dropout picks which neurons to switch off once, and the same ones sleep every step.
+dropout-no-rescale:
+  concept: dropout
+  description: Thinks the neurons left awake by dropout pass through unchanged, rather than divided by 1 - rate.
+dropout-scales-all:
+  concept: dropout
+  description: Thinks dropout turns every neuron down by the same fraction, rather than switching some fully off.
+dropout-at-evaluation:
+  concept: dropout
+  description: Thinks dropout should stay switched on when the network is evaluated or used.
+batchnorm-single-row-keeps-values:
+  concept: batch-normalisation
+  description: Thinks batch normalisation leaves a batch of one row unchanged, rather than turning it into all zeros.
+batchnorm-divides-by-zero:
+  concept: batch-normalisation
+  description: Thinks a column with no spread makes batch normalisation give nan, forgetting the eps added to the variance.
+batchnorm-normalises-rows:
+  concept: batch-normalisation
+  description: Thinks batch normalisation normalises across each example's neurons (rows) rather than down each neuron's column.
+batchnorm-eval-uses-batch:
+  concept: batch-normalisation
+  description: Thinks batch normalisation uses the current batch's mean and variance at evaluation too, rather than the running averages.
+early-stop-at-first-rise:
+  concept: regularisation
+  description: Thinks early stopping stops the first time the validation loss rises, rather than waiting out its patience.
+early-stop-compares-last:
+  concept: regularisation
+  description: Thinks early stopping compares each validation loss with the previous epoch's, rather than with the best so far.
+
+# -- Sequences --------------------------------------------------------------------
+rnn-memory-resets:
+  concept: rnns
+  description: Thinks a recurrent network starts each step with an empty memory, so it only ever sees the current reading.
+rnn-memory-permanent:
+  concept: rnns
+  description: Thinks a recurrent network's memory keeps old readings at full strength, rather than fading them through its memory weights.
+rnn-new-weights-each-step:
+  concept: rnns
+  description: Thinks a recurrent network has different weights for each step of the sequence, rather than the same weights reused.
+rnn-guess-same-hour:
+  concept: rnns
+  description: Thinks the guess made at step t should be compared with the reading at step t, rather than the next one.
+bptt-blame-unchanged:
+  concept: rnns
+  description: Thinks blame passed back through time arrives at earlier steps undiminished.
+bptt-one-step-only:
+  concept: rnns
+  description: Thinks backpropagation through time only passes blame back one step.
+bptt-blame-adds:
+  concept: rnns
+  description: Thinks the factors blame passes through, step after step, add up rather than multiply.
+forget-gate-forgets:
+  concept: lstm-gates
+  description: Thinks a forget gate near 1 wipes the memory, when it means keep almost all of it.
+tanh-keeps-memory:
+  concept: lstm-gates
+  description: Thinks a plain recurrent memory, squashed through tanh and a weight each step, keeps its value as well as a gated cell does.
+lstm-cell-is-hidden:
+  concept: lstm-gates
+  description: Thinks an LSTM's cell and its hidden state are the same thing, rather than the hidden state being the output gate times tanh of the cell.
+
+# -- Words as Numbers ---------------------------------------------------------------
+vocab-first-seen-order:
+  concept: tokenisation
+  description: Thinks sorted(set(text)) keeps the characters in the order they first appear.
+vocab-skips-space:
+  concept: tokenisation
+  description: Thinks a space isn't a character, so it gets no place in the vocabulary.
+vocab-counts-repeats:
+  concept: tokenisation
+  description: Thinks a vocabulary lists a character once for every time it appears.
+ids-count-from-one:
+  concept: tokenisation
+  description: Thinks a token's id counts from 1, rather than being its index in the vocabulary from 0.
+word-vocab-covers-new-words:
+  concept: tokenisation
+  description: Thinks a vocabulary of whole words can encode a word it has never seen.
+decode-adds-spaces:
+  concept: tokenisation
+  description: Thinks decoding characters should join them with spaces, rather than with nothing.
+onehot-sums-all:
+  concept: embeddings
+  description: Thinks a one-hot row times a matrix adds up all the matrix's rows.
+onehot-position-from-one:
+  concept: embeddings
+  description: Thinks the 1 in a one-hot row at index i picks row i counting from 1.
+onehot-shape-error:
+  concept: embeddings
+  description: Thinks a one-hot row can't be multiplied by an embedding matrix because the shapes don't line up.
+embedding-lookup-differs:
+  concept: embeddings
+  description: Thinks looking up E[ids] gives different numbers from one_hot(ids) @ E.
+embeddings-know-meaning:
+  concept: embeddings
+  description: Thinks a model groups embeddings by what the tokens mean, rather than by the company they keep in the training text.
+normalise-columns:
+  concept: language-models
+  description: Thinks dividing counts by counts.sum(axis=0) makes each row of chances add up to 1.
+unseen-pair-small-chance:
+  concept: language-models
+  description: Thinks a pair never seen in the training text gets a small chance automatically, without smoothing.
+unseen-pair-costs-nothing:
+  concept: language-models
+  description: Thinks a next character the model gave no chance at all adds nothing to the loss, rather than an infinite amount.
+sample-from-start-row:
+  concept: language-models
+  description: Thinks each sampled character should be drawn from the start character's row, rather than from the row of the character just drawn.
+perplexity-higher-better:
+  concept: language-models
+  description: Thinks a higher perplexity means a better language model.
+
+# -- Paying Attention ---------------------------------------------------------------
+attention-picks-best:
+  concept: attention
+  description: Thinks attention takes the value of the single best-matching key, rather than a softmax-weighted mix of every value.
+attention-output-plain-average:
+  concept: attention
+  description: Thinks attention's output is the plain average of the values, ignoring the weights.
+mask-with-zero:
+  concept: attention
+  description: Thinks setting a masked score to 0 gives it a weight of 0, when softmax gives e to the 0, which is 1.
+mask-ignored:
+  concept: attention
+  description: Thinks np.where with a mask leaves the scores as they were.
+softmax-over-queries:
+  concept: attention
+  description: Thinks attention's softmax runs down each column, across the queries, rather than along each row, across the keys.
+scale-by-size:
+  concept: attention
+  description: Thinks the scores are divided by the key size itself, rather than by its square root.
+attention-knows-order:
+  concept: attention
+  description: Thinks attention knows the order of the characters without position embeddings.
+heads-are-added:
+  concept: transformers
+  description: Thinks multi-head attention adds or averages the heads' outputs, rather than putting them side by side.
+concat-stacks-rows:
+  concept: transformers
+  description: Thinks np.concatenate with axis=1 stacks arrays as extra rows rather than extra columns.
+layernorm-over-batch:
+  concept: transformers
+  description: Thinks layer norm takes each column's mean across the batch, like batch norm, rather than each row's.
+residual-replaces:
+  concept: transformers
+  description: Thinks a block's output replaces what came in, rather than being added to it.

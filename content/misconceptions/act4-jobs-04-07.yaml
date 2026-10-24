@@ -1,0 +1,112 @@
+# Misconceptions for Act IV, Jobs 4 to 7: grouping and merging tables,
+# honest charts, descriptive statistics, and testing whether it's really warmer.
+
+# -- Group By the Parish ------------------------------------------------------------
+groupby-keeps-order:
+  concept: groupby
+  description: Thinks groupby lists the groups in the order they first appear. It sorts them by their keys unless told sort=False.
+groupby-keeps-rows:
+  concept: groupby
+  description: Thinks groupby followed by an aggregation like mean() gives one answer per original row, rather than one per group.
+count-equals-size:
+  concept: groupby
+  description: Thinks count() and size() are the same. size() counts the rows in each group; count() counts only the values that aren't missing.
+partial-key-groups:
+  concept: groupby
+  description: Thinks a number that restarts in each year or batch, like a household number, picks out one thing on its own, so grouping by it alone lumps different things together.
+mean-of-means:
+  concept: groupby
+  description: Thinks the average of the group averages is the overall average. It is only when every group is the same size.
+merge-keeps-all-rows:
+  concept: merging
+  description: Thinks merge keeps every row of the left table by default. The default is an inner merge, which drops rows with no match.
+merge-keeps-both:
+  concept: merging
+  description: Thinks merge keeps every row from both tables by default, which is what how="outer" does.
+merge-missing-key-errors:
+  concept: merging
+  description: Thinks merge raises an error when a row's key has no match in the other table, rather than quietly dropping or filling it.
+merge-duplicate-key-ignored:
+  concept: merging
+  description: Thinks a key repeated in the lookup table still gives one row per left row. merge makes a row for every matching pair, so the left row is repeated.
+merge-refuses-duplicates:
+  concept: merging
+  description: Thinks pandas refuses to merge on a key that is repeated, when it only checks if asked with validate=.
+
+# -- Drawing the Weather ------------------------------------------------------------
+ax-has-pyplot-names:
+  concept: matplotlib
+  description: Thinks an axes has pyplot's method names, ax.xlabel and ax.title, rather than ax.set_xlabel and ax.set_title.
+axis-starts-at-zero:
+  concept: honest-charts
+  description: Thinks matplotlib starts every y axis at zero unless told otherwise. It fits a line's scale to the data; only bars are drawn up from zero.
+bars-zoom-to-fit:
+  concept: honest-charts
+  description: Thinks matplotlib fits a bar chart's scale to the data the way it does a line's, when it keeps zero on the scale because a bar's length is its value.
+truncated-bars-honest:
+  concept: honest-charts
+  description: Thinks starting a bar chart's scale above zero only zooms in. It changes how long the bars look, so the ratios between them lie.
+subplots-share-scale:
+  concept: honest-charts
+  description: Thinks the panels from plt.subplots share a scale automatically. Each fits its own unless sharey=True.
+gap-joined-up:
+  concept: honest-charts
+  description: Thinks matplotlib draws a line straight across missing values, or that a gap should be filled in to keep the line tidy. NaN leaves a gap, and the gap is the truth.
+
+# -- Averages Lie ---------------------------------------------------------------------
+median-is-midrange:
+  concept: descriptive-statistics
+  description: Thinks the median is halfway between the smallest and largest readings, rather than the middle reading once they are sorted.
+median-is-mode:
+  concept: descriptive-statistics
+  description: Thinks the median is the most common value, which is the mode.
+mean-is-typical:
+  concept: descriptive-statistics
+  description: Thinks the mean is the typical reading even when a few very large readings pull it far above most of the others.
+extreme-moves-median:
+  concept: descriptive-statistics
+  description: Thinks one extreme reading moves the median as much as it moves the mean. The median depends only on the order of the readings, so it barely moves.
+std-same-everywhere:
+  concept: descriptive-statistics
+  description: Thinks NumPy's std and pandas' std give the same answer. NumPy divides by the number of readings, pandas by one less.
+same-mean-same-spread:
+  concept: descriptive-statistics
+  description: Thinks two sets of readings with the same mean are alike, when their spread can be very different.
+outlier-is-error:
+  concept: distributions
+  description: Thinks every reading outside the fences is a mistake to delete. In a skewed distribution many real readings fall outside, and each needs a reason before it goes.
+tail-names-the-bulk:
+  concept: distributions
+  description: Thinks a distribution skewed to the right has most of its readings on the right. The tail is on the right; most readings sit at the left.
+quantile-is-share-of-max:
+  concept: distributions
+  description: Thinks quantile(0.25) is a quarter of the largest value, rather than the value a quarter of the way up the sorted readings.
+
+# -- Is It Really Warmer? -------------------------------------------------------------
+seed-changes-nothing:
+  concept: probability
+  description: Thinks two generators made with the same seed still give different numbers, so a simulation can never be run again exactly.
+counts-only-bigger:
+  concept: permutation-tests
+  description: Counts only the shuffles whose difference is strictly bigger than the real one. The real arrangement is one of the possible shuffles, so a p-value counts those at least as big.
+p-value-is-chance-true:
+  concept: permutation-tests
+  description: Thinks the p-value is the chance that the claim is true, or that the difference is real, rather than how often luck alone would make a difference at least as big.
+big-p-means-no-difference:
+  concept: permutation-tests
+  description: Thinks a large p-value proves there is no difference. It only means luck could easily have made the difference seen, so the data can't tell.
+small-p-means-big-effect:
+  concept: permutation-tests
+  description: Thinks a tiny p-value means a large difference. It means luck rarely matches the difference; with enough readings, even a small difference gets a tiny p-value.
+correlation-measures-any-link:
+  concept: correlation-causation
+  description: Thinks correlation measures any relationship. It measures how well the points fit a straight sloping line, so a hump or a U can give r near 0.
+correlation-means-cause:
+  concept: correlation-causation
+  description: Thinks a strong correlation shows that one thing causes the other, when both may follow a third thing, like time or the season, or the link may be luck.
+correlation-is-slope:
+  concept: correlation-causation
+  description: Thinks r is the slope, how much y rises for each step in x. r has no units and stays the same if either set of numbers is stretched.
+correlation-order-matters:
+  concept: correlation-causation
+  description: Thinks correlation(x, y) and correlation(y, x) are different numbers. Correlation is symmetric.
