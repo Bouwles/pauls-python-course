@@ -1,0 +1,168 @@
+id: derivatives
+title: Derivatives are slopes
+summary: |
+  The derivative of a function at a point is its slope there: how fast the output changes for each unit the input moves, measured over a tiny move. A straight line has the same slope everywhere, but a curve doesn't: the slope of `x ** 2` is `2 * x`, and in general the slope of `x ** n` is `n * x ** (n - 1)`. Adding a constant lifts a curve without tilting it, so a constant's slope is 0, and slopes add and scale just as the functions do. A positive slope means the output rises as the input grows, a negative one means it falls, and 0 means flat, as at the bottom of a valley. With several inputs, a partial derivative is the slope in one direction with the others held still, so a loss has one slope for `w` and another for `b`.
+example: |
+  def loss(w):
+      return (w - 3) ** 2
+
+
+  def slope(w):
+      return 2 * (w - 3)
+
+
+  for w in [1.0, 3.0, 4.0]:
+      print(w, loss(w), slope(w))
+misconceptions: [slope-is-value, curve-slope-constant, constant-changes-slope, partial-moves-everything]
+related: [chain-rule, numerical-gradients, gradient-descent]
+drill: true
+cards:
+  - type: choice
+    prompt: "Rise over run, across a tiny step. What does this print?"
+    code: |
+      def f(x):
+          return x ** 2
+
+
+      tiny = 1e-6
+      for x in [1.0, 2.0, 3.0]:
+          print(round((f(x + tiny) - f(x)) / tiny, 2))
+    options:
+      - text: |-
+          2.0
+          4.0
+          6.0
+        correct: true
+        feedback: "`x ** 2` gets steeper as x grows. Its slope is `2 * x`: 2, then 4, then 6."
+      - text: |-
+          2.0
+          2.0
+          2.0
+        misconception: curve-slope-constant
+        feedback: "That would be a straight line. A curve's slope changes along it: `x ** 2` climbs faster the further out you go, with slope `2 * x`."
+      - text: |-
+          1.0
+          4.0
+          9.0
+        misconception: slope-is-value
+        feedback: "Those are the values of `x ** 2`, its height. The slope is how fast the height changes, which is `2 * x`."
+  - type: choice
+    prompt: "This loss bottoms out at `w = 3`. What does this print?"
+    code: |
+      def loss(w):
+          return (w - 3) ** 2 + 5
+
+
+      def slope(w):
+          return 2 * (w - 3)
+
+
+      print(loss(3), slope(3))
+    options:
+      - text: "5 0"
+        correct: true
+        feedback: "The loss is still 5 at the bottom, but the ground is flat there. Height and steepness are different things."
+      - text: "5 5"
+        misconception: slope-is-value
+        feedback: "The slope isn't the height. At the bottom of the valley the loss is 5, but the curve is flat, so the slope is 0."
+  - type: choice
+    prompt: "Two hills of the same shape, one 100 metres higher. What does this print?"
+    code: |
+      def low(x):
+          return x ** 2
+
+
+      def high(x):
+          return x ** 2 + 100
+
+
+      tiny = 1e-6
+      print(round((low(3 + tiny) - low(3 - tiny)) / (2 * tiny), 3),
+            round((high(3 + tiny) - high(3 - tiny)) / (2 * tiny), 3))
+    options:
+      - text: "6.0 6.0"
+        correct: true
+        feedback: "The 100 lifts every point equally, so it cancels in the subtraction. Same shape, same slope."
+      - text: "6.0 106.0"
+        misconception: constant-changes-slope
+        feedback: "Adding 100 raises the whole hill without tilting it. The 100 cancels when you subtract one height from the other: a constant's slope is 0."
+  - type: choice
+    prompt: "Two settings, a slope for each. What does this print?"
+    code: |
+      def loss(w, b):
+          return (2 * w + b - 7) ** 2
+
+
+      tiny = 1e-6
+      dw = (loss(1 + tiny, 1) - loss(1, 1)) / tiny
+      db = (loss(1, 1 + tiny) - loss(1, 1)) / tiny
+      print(round(dw), round(db))
+    options:
+      - text: "-16 -8"
+        correct: true
+        feedback: "Each partial slope moves one setting and holds the other still. `w` counts twice in the score, so it pulls twice as hard as `b`."
+      - text: "-24 -24"
+        misconception: partial-moves-everything
+        feedback: "-24 is what you'd get by nudging both at once, a diagonal step that belongs to neither. Each line here moves one setting only, and the two slopes differ."
+  - type: predict
+    prompt: "The slope of `2 * x ** 2 - 2 * x + 1` is `4 * x - 2`. What does this print?"
+    code: |
+      def slope(x):
+          return 4 * x - 2
+
+
+      def direction(x):
+          if slope(x) > 0:
+              return "up"
+          if slope(x) < 0:
+              return "down"
+          return "flat"
+
+
+      print([direction(x) for x in [0, 0.5, 1]])
+    answer: "['down', 'flat', 'up']"
+  - type: fill
+    prompt: "Fill the gap so `slope` is the slope of `x ** 3 - 2 * x`."
+    code: |
+      def slope(x):
+          return ___ * x ** 2 - 2
+
+
+      print(slope(0), slope(1), slope(2))
+    blanks: [["3"]]
+    tests: |
+      TESTS = [output("Slopes at 0, 1 and 2", expect="-2 1 10")]
+  - type: fix
+    prompt: "Pip's slope for the loss `(w - 4) ** 2` isn't 0 at the bottom, `w = 4`. Fix it."
+    code: |
+      def slope(w):
+          return 2 * w - 4
+
+
+      print(slope(4))
+    tests: |
+      TESTS = [
+          function("Flat at the bottom", call="slope", args=(4,), expect=0),
+          function("Downhill to the left", call="slope", args=(0,), expect=-8),
+          function("Uphill to the right", call="slope", args=(5.5,), expect=3.0, tol=1e-9),
+      ]
+    solution: |
+      def slope(w):
+          return 2 * (w - 4)
+
+
+      print(slope(4))
+  - type: write
+    prompt: "Write `lowest_point(a, b)`: the `x` where `a * x ** 2 + b * x` is flat, for `a` above 0. Its slope is `2 * a * x + b`."
+    starter: |
+      def lowest_point(a, b):
+          pass
+    tests: |
+      TESTS = [
+          function("Flat at 3", call="lowest_point", args=(1, -6), expect=3.0, tol=1e-9),
+          function("Flat at -1", call="lowest_point", args=(2, 4), expect=-1.0, tol=1e-9),
+          function("Flat at 0", call="lowest_point", args=(0.5, 0), expect=0.0, tol=1e-9),
+      ]
+    solution: |
+      def lowest_point(a, b):
+          return -b / (2 * a)

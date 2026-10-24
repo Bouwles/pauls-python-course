@@ -1,0 +1,156 @@
+id: probability
+title: Probability and simulation
+summary: |
+  A probability is a number from 0 to 1 that says how often something happens: the share of equally likely outcomes in which it happens, or the share of tries it happens in over a long run. With two dice there are 36 equally likely pairs and six of them total 7, so a 7 has chance 6/36, while a 2 has only one pair and chance 1/36. The chances of all the possible outcomes add up to 1, so the chance something doesn't happen is 1 minus the chance it does; for independent events, the chance both happen is their chances multiplied. When counting is hard, simulate: with `rng = np.random.default_rng(seed)`, `rng.random(n) < 0.3` is `True` about 30 times in a hundred, and the mean of the array is the estimate. A short run wobbles and a long one settles, and no run remembers the last: a coin that has landed tails three times is no more likely to land heads.
+example: |
+  import numpy as np
+
+  ways = sum(1 for a in range(1, 7) for b in range(1, 7) if a + b == 7)
+  print(ways, "pairs of 36 make 7:", round(ways / 36, 3))
+
+  rng = np.random.default_rng(3)
+  first = rng.integers(1, 7, size=100_000)
+  second = rng.integers(1, 7, size=100_000)
+  print("Simulated:", round(float(np.mean(first + second == 7)), 3))
+misconceptions: [sums-equally-likely, both-chances-add, gamblers-fallacy, short-run-is-exact, seeded-generator-repeats, seed-changes-nothing]
+related: [random-module, numpy-arrays, permutation-tests, bandits, mdps]
+cards:
+  - type: predict
+    prompt: "Two dice. In how many of the 36 pairs is there at least one six?"
+    code: |
+      ways = 0
+      for a in range(1, 7):
+          for b in range(1, 7):
+              if a == 6 or b == 6:
+                  ways += 1
+      print(ways)
+    answer: "11"
+  - type: choice
+    prompt: "Two dice. What does this print?"
+    code: |
+      from collections import Counter
+
+      totals = Counter(a + b for a in range(1, 7) for b in range(1, 7))
+      print(totals[2], totals[7])
+    options:
+      - text: "1 6"
+        correct: true
+        feedback: "Only 1 and 1 makes 2. Six pairs make 7: 1 and 6, 2 and 5, 3 and 4, each both ways round."
+      - text: "1 1"
+        misconception: sums-equally-likely
+        feedback: "Each pair of faces is equally likely, but the totals aren't. One pair makes 2 and six pairs make 7, which is why 7 turns up six times as often."
+  - type: choice
+    prompt: "Each June is wet with chance 0.3. What does this print?"
+    code: |
+      import numpy as np
+
+      rng = np.random.default_rng(7)
+      wet = rng.random(100_000) < 0.3
+      for junes in [5, 100_000]:
+          print(junes, abs(wet[:junes].mean() - 0.3) < 0.01)
+    options:
+      - text: |-
+          5 False
+          100000 True
+        correct: true
+        feedback: "Five Junes can only give 0, 0.2, 0.4 and so on, never 0.3. A hundred thousand settle to within 0.01 of the true chance."
+      - text: |-
+          5 True
+          100000 True
+        misconception: short-run-is-exact
+        feedback: "A short run is a rough estimate. Five Junes can only come out as 0, 0.2, 0.4 and so on, so they can't land on 0.3; only a long run settles close to it."
+  - type: choice
+    prompt: "Sir Reginald wins a heat with chance 0.4, and each heat is independent. What does this print?"
+    code: |
+      import numpy as np
+
+      rng = np.random.default_rng(5)
+      first = rng.random(100_000) < 0.4
+      second = rng.random(100_000) < 0.4
+      print(round(np.mean(first & second), 2))
+    options:
+      - text: "0.16"
+        correct: true
+        feedback: "He wins the first heat 40% of the time, and wins the second in 40% of those: 0.4 * 0.4."
+      - text: "0.8"
+        misconception: both-chances-add
+        feedback: "Adding would make winning both more likely than winning either one, which can't be right. Both is the rarer event: for independent heats the chances multiply, 0.4 * 0.4."
+  - type: choice
+    prompt: "The committee toss a coin for lanes. After three tails in a row, how often is the next toss heads?"
+    code: |
+      import numpy as np
+
+      rng = np.random.default_rng(0)
+      heads = rng.random(20_000) < 0.5
+      after_three_tails = [heads[i] for i in range(3, len(heads))
+                           if not heads[i - 1] and not heads[i - 2] and not heads[i - 3]]
+      print(round(float(np.mean(after_three_tails)), 1))
+    options:
+      - text: "0.5"
+        correct: true
+        feedback: "The coin has no memory. After three tails, heads comes up half the time, as it always does."
+      - text: "Well above 0.5: heads is due"
+        misconception: gamblers-fallacy
+        feedback: "Nothing in a coin keeps count. Each toss is independent, so after any run of tails the next toss is still heads half the time, and the simulation agrees."
+  - type: fill
+    prompt: "Each day is wet with chance 0.3, independently. Fill the gap so `at_least_one` is the chance of at least one wet day in a week."
+    code: |
+      dry_week = (1 - 0.3) ** 7
+      at_least_one = ___ - dry_week
+      print(round(at_least_one, 3))
+    blanks: [["1", "1.0"]]
+    tests: |
+      TESTS = [output("Everything except a dry week", expect="0.918")]
+  - type: fix
+    prompt: "Pip's simulated die never rolls a six. Fix it so the chance of a six comes out near 1/6."
+    code: |
+      import numpy as np
+
+      rng = np.random.default_rng(1)
+      rolls = rng.integers(1, 6, size=60_000)
+      print(round(np.mean(rolls == 6), 2))
+    tests: |
+      TESTS = [output("About one roll in six", expect="0.167", match="numbers", tol=0.01)]
+    solution: |
+      import numpy as np
+
+      rng = np.random.default_rng(1)
+      rolls = rng.integers(1, 7, size=60_000)
+      print(round(np.mean(rolls == 6), 2))
+  - type: write
+    prompt: "Write `chance_of_total(total)`: the chance that two dice add up to `total`, by counting the 36 pairs."
+    starter: |
+      def chance_of_total(total):
+          pass
+    tests: |
+      TESTS = [
+          function("A seven", call="chance_of_total", args=(7,), expect=6 / 36, tol=1e-9),
+          function("Double one", call="chance_of_total", args=(2,), expect=1 / 36, tol=1e-9),
+          function("A ten", call="chance_of_total", args=(10,), expect=3 / 36, tol=1e-9),
+          function("Thirteen can't happen", call="chance_of_total", args=(13,), expect=0, tol=1e-9),
+      ]
+    solution: |
+      def chance_of_total(total):
+          ways = 0
+          for a in range(1, 7):
+              for b in range(1, 7):
+                  if a + b == total:
+                      ways += 1
+          return ways / 36
+  - type: choice
+    prompt: "Priya runs her simulation twice, with the same seed. What does this print?"
+    code: |
+      import numpy as np
+
+      def wet_share(seed):
+          rng = np.random.default_rng(seed)
+          return np.mean(rng.random(1000) < 0.3)
+
+      print(wet_share(7) == wet_share(7), wet_share(7) == wet_share(8))
+    options:
+      - text: "True False"
+        correct: true
+        feedback: "A fresh generator with the same seed deals the same numbers, so the same seed gives the same answer. A different seed gives a slightly different estimate."
+      - text: "False False"
+        misconception: seed-changes-nothing
+        feedback: "Seeding is exactly what makes a simulation repeatable. Two generators started from seed 7 deal identical numbers."

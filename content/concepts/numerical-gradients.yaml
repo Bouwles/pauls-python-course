@@ -1,0 +1,191 @@
+id: numerical-gradients
+title: Numerical gradients
+summary: |
+  A numerical gradient measures a slope instead of working it out: nudge the input a small step either side, and divide the change in the output by the distance between the two, `(f(x + step) - f(x - step)) / (2 * step)`. This central difference is far more accurate than nudging one way only, because the curve's bend cancels out between the two sides. A step near `1e-5` is the usual choice: much bigger and the curve bends within the step, much smaller and rounding in the subtraction swamps the answer. With several inputs, nudge one at a time and hold the rest still, for one partial slope each. It costs two runs of the function per input, too slow to train with, so it is used to check slopes worked out by hand: it knows nothing of the algebra, so it can't make the same mistake.
+example: |
+  def loss(w):
+      return (3 * w - 2) ** 2
+
+
+  def worked_out(w):
+      return 2 * (3 * w - 2) * 3
+
+
+  step = 1e-5
+  measured = (loss(1.0 + step) - loss(1.0 - step)) / (2 * step)
+  print(round(measured, 6), worked_out(1.0))
+misconceptions: [one-sided-as-good, smaller-step-always-better, numerical-for-training]
+related: [derivatives, chain-rule, numerical-gradient-checking, gradient-descent]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def f(x):
+          return 1 / x
+
+
+      step = 1e-5
+      print(round((f(2 + step) - f(2 - step)) / (2 * step), 4))
+    answer: "-0.25"
+  - type: choice
+    prompt: "The slope of `x ** 2` at 3 is exactly 6. What does this print?"
+    code: |
+      def f(x):
+          return x ** 2
+
+
+      step = 0.01
+      one_side = (f(3 + step) - f(3)) / step
+      both_sides = (f(3 + step) - f(3 - step)) / (2 * step)
+      print(round(one_side, 4), round(both_sides, 4))
+    options:
+      - text: "6.01 6.0"
+        correct: true
+        feedback: "Nudging only up measures the average slope from 3 to 3.01, and the curve is steeper at 3.01. Nudging both ways cancels the bend."
+      - text: "6.0 6.0"
+        misconception: one-sided-as-good
+        feedback: "One way only measures the slope across 3 to 3.01, and `x ** 2` steepens in between, so it comes out 0.01 too high. The two-sided version straddles 3, and the errors on each side cancel."
+  - type: choice
+    prompt: "The true slope is 6. What does this print?"
+    code: |
+      def f(x):
+          return x ** 2
+
+
+      for step in [1e-5, 1e-13]:
+          slope = (f(3 + step) - f(3 - step)) / (2 * step)
+          print(step, abs(slope - 6) < 1e-6)
+    options:
+      - text: |-
+          1e-05 True
+          1e-13 False
+        correct: true
+        feedback: "At 1e-13 the two values agree in all but their last few digits, and those digits are rounding. Dividing by a tiny step blows the rounding up into an error of about 0.004."
+      - text: |-
+          1e-05 True
+          1e-13 True
+        misconception: smaller-step-always-better
+        feedback: "Floats keep about 16 significant digits. With a step of 1e-13, `f(3 + step)` and `f(3 - step)` differ only in their last few, which are mostly rounding, and dividing by 2e-13 magnifies it. Around 1e-5 is the sweet spot."
+  - type: choice
+    prompt: "Pip worked out `my_slope` by hand. What does the check print?"
+    code: |
+      def loss(w):
+          return (3 * w - 2) ** 2
+
+
+      def my_slope(w):
+          return 2 * (3 * w - 2)
+
+
+      step = 1e-5
+      measured = (loss(1 + step) - loss(1 - step)) / (2 * step)
+      print(round(measured, 3), my_slope(1))
+    options:
+      - text: "6.0 2"
+        correct: true
+        feedback: "The measurement only nudges and watches, so it finds the true slope, 6. Pip forgot the inner 3, and the check has caught it."
+      - text: "2.0 2"
+        misconception: chain-forgets-inner
+        feedback: "The measurement doesn't know Pip's algebra. It nudges w and watches the loss, which moves 3 times as fast inside the bracket: 2 * 1 * 3 = 6. That disagreement is the reason for measuring."
+  - type: fill
+    prompt: "Fill the gap so this measures the slope of `f` at `x`, a step either side."
+    code: |
+      def f(x):
+          return x ** 3
+
+
+      x = 2.0
+      step = 1e-5
+      slope = (f(x + step) - f(___)) / (2 * step)
+      print(round(slope, 3))
+    blanks: [["x - step", "x-step", "2.0 - step", "2 - step"]]
+    tests: |
+      TESTS = [output("The slope of x cubed at 2", expect="12.0")]
+  - type: fix
+    prompt: "`partial_slopes` should measure the slope for `w` with `b` held still, and for `b` with `w` held still. One line moves both. Fix it."
+    code: |
+      def loss(w, b):
+          return (2 * w + b - 7) ** 2
+
+
+      def partial_slopes(w, b, step=1e-5):
+          dw = (loss(w + step, b + step) - loss(w - step, b - step)) / (2 * step)
+          db = (loss(w, b + step) - loss(w, b - step)) / (2 * step)
+          return dw, db
+
+
+      print(partial_slopes(1.0, 1.0))
+    tests: |
+      def slopes(ctx):
+          m = ctx.module()
+          for point, want in [((1.0, 1.0), (-16.0, -8.0)), ((3.0, 2.0), (4.0, 2.0))]:
+              got = m.partial_slopes(*point)
+              if got is None or len(got) != 2 or abs(got[0] - want[0]) > 1e-4 or abs(got[1] - want[1]) > 1e-4:
+                  raise CheckFailed(f"The slopes at w, b = {point}", expected=want, actual=got)
+
+
+      TESTS = [custom("Two points, two slopes each", slopes)]
+    solution: |
+      def loss(w, b):
+          return (2 * w + b - 7) ** 2
+
+
+      def partial_slopes(w, b, step=1e-5):
+          dw = (loss(w + step, b) - loss(w - step, b)) / (2 * step)
+          db = (loss(w, b + step) - loss(w, b - step)) / (2 * step)
+          return dw, db
+
+
+      print(partial_slopes(1.0, 1.0))
+  - type: choice
+    prompt: "A network has 10,000 weights. Why train it with slopes from backpropagation rather than measured ones?"
+    verify: none
+    options:
+      - text: "Measuring takes two runs of the network per weight, 20,000 a step; backpropagation finds every slope in one run forward and one back"
+        correct: true
+        feedback: "Measuring is slow but simple and hard to get wrong, which makes it the right tool for checking backpropagation once, on a small network."
+      - text: "No reason: measured slopes are simpler, so train with those"
+        misconception: numerical-for-training
+        feedback: "They are simpler, and right, but every weight needs two runs of the whole network of its own. Measuring is for checking a backward pass, not for every step of training."
+  - type: write
+    prompt: "Write `numerical_partials(f, point, step=1e-5)`: `point` is a list of numbers; return a list of the measured slopes of `f` along each one, the others held still."
+    starter: |
+      def numerical_partials(f, point, step=1e-5):
+          pass
+    tests: |
+      def partials(ctx):
+          m = ctx.module()
+          cases = [
+              (lambda p: p[0] ** 2 + 3 * p[1], [2.0, 5.0], [4.0, 3.0]),
+              (lambda p: p[0] * p[1] * p[2], [1.0, 2.0, 3.0], [6.0, 3.0, 2.0]),
+          ]
+          for f, point, want in cases:
+              before = list(point)
+              got = m.numerical_partials(f, point)
+              if got is None or len(got) != len(want) or any(abs(g - w) > 1e-4 for g, w in zip(got, want)):
+                  raise CheckFailed(f"The slopes at {before}", expected=want, actual=got)
+              if point != before:
+                  raise CheckFailed("The point should be left as it was.", expected=before, actual=point)
+
+
+      TESTS = [custom("Two functions, one slope per input", partials)]
+    solution: |
+      def numerical_partials(f, point, step=1e-5):
+          slopes = []
+          for i in range(len(point)):
+              up = list(point)
+              down = list(point)
+              up[i] = up[i] + step
+              down[i] = down[i] - step
+              slopes.append((f(up) - f(down)) / (2 * step))
+          return slopes
+  - type: predict
+    prompt: "Barometer readings an hour apart. What does this print?"
+    code: |
+      import numpy as np
+
+      hours = np.array([0.0, 1.0, 2.0, 3.0, 4.0])
+      pressure = np.array([1000.0, 998.0, 994.0, 988.0, 986.0])
+      rate = (pressure[2:] - pressure[:-2]) / (hours[2:] - hours[:-2])
+      print(rate)
+    answer: "[-3. -5. -4.]"

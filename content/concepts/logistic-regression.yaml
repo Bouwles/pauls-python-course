@@ -1,0 +1,241 @@
+id: logistic-regression
+title: Logistic regression
+summary: |
+  Logistic regression answers a yes-or-no question with a chance. It works out a straight-line score, `z = X @ w + b`, then squashes it with the sigmoid, `1 / (1 + np.exp(-z))`, into a probability between 0 and 1: a score of 0 gives exactly 0.5, positive scores lean to yes and negative ones to no. It learns `w` and `b` by gradient descent on log loss, `-np.mean(y * np.log(p) + (1 - y) * np.log(1 - p))`, which charges little for a hesitant miss and without limit for a confident one, and whose gradient is simply `X.T @ (p - y) / len(y)`. The model only ever gives a chance; to make a decision, compare it with a threshold, usually 0.5.
+example: |
+  import numpy as np
+
+
+  def sigmoid(z):
+      return 1 / (1 + np.exp(-z))
+
+
+  cloud = np.array([[0.1], [0.5], [0.9]])     # cloud cover, 0 to 1
+  w, b = np.array([6.0]), -3.0
+  chance = sigmoid(cloud @ w + b)
+  print(np.round(chance, 2))
+  print((chance >= 0.5).astype(int))
+misconceptions: [logistic-outputs-class, sigmoid-of-zero-is-zero, confident-wrong-cheap, line-stays-in-range, miss-uses-score, threshold-on-score]
+related: [linear-regression, gradient-descent, cross-entropy, activation-functions, probability]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+
+      def sigmoid(z):
+          return 1 / (1 + np.exp(-z))
+
+
+      X = np.array([[2.0, 1.0],
+                    [0.0, 1.0]])
+      w = np.array([1.5, -2.0])
+      b = 0.5
+      print(np.round(sigmoid(X @ w + b), 2))
+    answer: "[0.82 0.18]"
+  - type: choice
+    prompt: "Tonight's readings give a score of exactly 0. What does this print?"
+    code: |
+      import numpy as np
+
+      night = np.array([0.5, 0.25])
+      w = np.array([2.0, -4.0])
+      b = 0.0
+      z = night @ w + b
+      print(1 / (1 + np.exp(-z)))
+    options:
+      - text: "0.5"
+        correct: true
+        feedback: "`np.exp(0)` is 1, so the sigmoid gives 1 / 2. A score of 0 sits exactly on the line between yes and no."
+      - text: "0.0"
+        misconception: sigmoid-of-zero-is-zero
+        feedback: "A score of 0 isn't a chance of 0. `np.exp(0)` is 1, so the sigmoid is 1 / (1 + 1). Chances near 0 need large negative scores."
+  - type: choice
+    prompt: "It rained. One forecast had said 0.6, the other 0.01. What does this print?"
+    code: |
+      import numpy as np
+
+      y = 1
+      for p in [0.6, 0.01]:
+          loss = -(y * np.log(p) + (1 - y) * np.log(1 - p))
+          print(round(loss, 2))
+    options:
+      - text: |-
+          0.51
+          4.61
+        correct: true
+        feedback: "Log loss is minus the log of the chance given to what happened. The forecast that was nearly sure of a dry night costs nine times as much."
+      - text: |-
+          0.4
+          0.99
+        misconception: confident-wrong-cheap
+        feedback: "Those are the misses, `1 - p`. Log loss is `-log(p)` for what happened, which grows without limit as p falls to 0: a forecast that was sure and wrong costs far more than one that hedged."
+  - type: choice
+    prompt: "For tonight, Wendt's model gives 0.62. What has it told her?"
+    verify: none
+    options:
+      - text: "A 62% chance of rain; whether to shut the dome depends on her threshold"
+        correct: true
+        feedback: "The model only gives a chance. Comparing it with a threshold, 0.5 or a more cautious one, turns it into a decision."
+      - text: "Nothing yet: logistic regression should answer 0 or 1"
+        misconception: logistic-outputs-class
+        feedback: "Despite the name, logistic regression gives a probability, not a class. The 0 or 1 comes from comparing that probability with a threshold, and choosing the threshold is Wendt's job."
+  - type: fill
+    prompt: "Fill the gap so `dw` is the gradient of the log loss."
+    code: |
+      import numpy as np
+
+      X = np.array([[1.0, 0.0],
+                    [0.0, 1.0],
+                    [1.0, 1.0]])
+      y = np.array([1.0, 0.0, 1.0])
+      p = np.array([0.5, 0.5, 0.5])
+      dw = X.T @ (p - ___) / len(y)
+      print(np.round(dw, 3).tolist())
+    blanks: [["y"]]
+    tests: |
+      TESTS = [output("One slope per weight", expect="[-0.333, 0.0]")]
+  - type: fix
+    prompt: "Pip's log loss is wrong for the nights it didn't rain. Fix it."
+    code: |
+      import numpy as np
+
+
+      def log_loss(y, p):
+          return -np.mean(y * np.log(p) + (1 - y) * np.log(p))
+
+
+      print(round(log_loss(np.array([1, 0]), np.array([0.8, 0.1])), 3))
+    tests: |
+      import numpy as np
+
+
+      def losses(ctx):
+          m = ctx.module()
+          cases = [([1, 0], [0.8, 0.1]), ([0, 0, 1], [0.5, 0.9, 0.9])]
+          for y, p in cases:
+              y, p = np.array(y), np.array(p)
+              want = -np.mean(y * np.log(p) + (1 - y) * np.log(1 - p))
+              got = m.log_loss(y, p)
+              if got is None or abs(got - want) > 1e-9:
+                  raise CheckFailed(f"The log loss for y = {y.tolist()}, p = {p.tolist()}", expected=round(float(want), 4), actual=got)
+
+
+      TESTS = [custom("Wet and dry nights", losses)]
+    solution: |
+      import numpy as np
+
+
+      def log_loss(y, p):
+          return -np.mean(y * np.log(p) + (1 - y) * np.log(1 - p))
+
+
+      print(round(log_loss(np.array([1, 0]), np.array([0.8, 0.1])), 3))
+  - type: write
+    prompt: "Write `decide(X, w, b, threshold=0.5)`: an array with 1 for each row whose chance of rain is at least `threshold`, and 0 otherwise. No loop."
+    starter: |
+      import numpy as np
+
+
+      def sigmoid(z):
+          return 1 / (1 + np.exp(-z))
+
+
+      def decide(X, w, b, threshold=0.5):
+          pass
+    tests: |
+      import numpy as np
+
+
+      def decisions(ctx):
+          m = ctx.module()
+          X = np.array([[0.1], [0.5], [0.9]])
+          w = np.array([6.0])
+          for threshold, want in [(0.5, [0, 1, 1]), (0.9, [0, 0, 1])]:
+              got = m.decide(X, w, -3.0, threshold)
+              if got is None or np.shape(got) != (3,) or not np.array_equal(np.asarray(got), want):
+                  raise CheckFailed(f"Three nights at a threshold of {threshold}", expected=want, actual=repr(got))
+
+
+      TESTS = [
+          custom("Two thresholds, one night on the line", decisions),
+          structure("No loop", forbids=["For", "While", "ListComp"]),
+      ]
+    solution: |
+      import numpy as np
+
+
+      def sigmoid(z):
+          return 1 / (1 + np.exp(-z))
+
+
+      def decide(X, w, b, threshold=0.5):
+          return (sigmoid(X @ w + b) >= threshold).astype(int)
+  - type: choice
+    prompt: "Pip decides with the score instead of the chance. The score is 0.3. What does this print?"
+    code: |
+      import numpy as np
+
+      score = 0.3
+      chance = 1 / (1 + np.exp(-score))
+      print("rain" if score >= 0.5 else "dry", "rain" if chance >= 0.5 else "dry")
+    options:
+      - text: "dry rain"
+        correct: true
+        feedback: "The chance is 0.57, so the model leans to rain. A threshold of 0.5 belongs to the chance; on the score, the same decision line sits at 0."
+      - text: "rain rain"
+        misconception: threshold-on-score
+        feedback: "The score isn't a chance. A score of 0.3 squashes to a chance of 0.57; Pip's test of `score >= 0.5` asks for a chance of at least 0.62, so he calls dry nights that lean to rain."
+  - type: fix
+    prompt: "Pip's walk fits a straight line to the 0s and 1s instead of learning chances. Fix the miss."
+    code: |
+      import numpy as np
+
+
+      def sigmoid(z):
+          return 1 / (1 + np.exp(-z))
+
+
+      def step(X, y, w, b, rate):
+          miss = X @ w + b - y
+          return w - rate * X.T @ miss / len(y), b - rate * np.mean(miss)
+
+
+      X = np.array([[1.0], [-1.0], [2.0]])
+      y = np.array([1.0, 0.0, 1.0])
+      print(step(X, y, np.array([0.5]), 0.0, 1.0))
+    tests: |
+      import numpy as np
+
+
+      def one_step(ctx):
+          m = ctx.module()
+          X = np.array([[1.0, 0.0], [0.0, 2.0], [1.0, 1.0]])
+          y = np.array([1.0, 0.0, 0.0])
+          w, b = np.array([0.5, -0.5]), 0.2
+          p = 1 / (1 + np.exp(-(X @ w + b)))
+          want_w, want_b = w - 0.1 * X.T @ (p - y) / 3, b - 0.1 * np.mean(p - y)
+          got_w, got_b = m.step(X, y, w, b, 0.1)
+          if not (np.allclose(got_w, want_w) and abs(got_b - want_b) < 1e-9):
+              raise CheckFailed("One step downhill on the log loss", expected=(np.round(want_w, 4).tolist(), round(float(want_b), 4)),
+                                actual=(np.round(got_w, 4).tolist(), round(float(got_b), 4)))
+
+
+      TESTS = [custom("One step on the log loss", one_step)]
+    solution: |
+      import numpy as np
+
+
+      def sigmoid(z):
+          return 1 / (1 + np.exp(-z))
+
+
+      def step(X, y, w, b, rate):
+          miss = sigmoid(X @ w + b) - y
+          return w - rate * X.T @ miss / len(y), b - rate * np.mean(miss)
+
+
+      X = np.array([[1.0], [-1.0], [2.0]])
+      y = np.array([1.0, 0.0, 1.0])
+      print(step(X, y, np.array([0.5]), 0.0, 1.0))

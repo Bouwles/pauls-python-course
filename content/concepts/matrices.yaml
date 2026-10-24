@@ -1,0 +1,168 @@
+id: matrices
+title: Matrices and @
+summary: |
+  A matrix is a two-dimensional array: a table with one row per evening and one column per reading, or a grid of weights. `A @ B` multiplies matrices: each row of `A` meets each column of `B`, so entry `[i, j]` is the dot product of row `i` with column `j`. That makes `(n, k) @ (k, m)` give `(n, m)`: the inner sizes must match and are used up, and `X @ w` gives one weighted sum per row of `X`. `A.T`, the transpose, swaps rows with columns, and `A @ B` is usually not the same as `B @ A`. A 2 by 2 matrix also moves arrows: with `turn = [[0, -1], [1, 0]]`, `turn @ arrow` turns any arrow a quarter turn anticlockwise.
+example: |
+  import numpy as np
+
+  evenings = np.array([[1.0, 2.0, 0.0],
+                       [3.0, 0.0, 1.0]])   # 2 evenings, 3 readings
+  weights = np.array([0.5, 1.0, -2.0])
+  print(evenings @ weights)
+  print(evenings.T.shape)
+
+  turn = np.array([[0, -1],
+                   [1, 0]])
+  print(turn @ np.array([1, 0]))
+misconceptions: [matmul-commutes, matmul-keeps-inner-size, transpose-changes-1d]
+related: [vectors, numpy-arrays, multivariate-regression, neural-networks]
+drill: true
+cards:
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      A = np.ones((2, 3))
+      B = np.ones((3, 4))
+      print((A @ B).shape)
+    options:
+      - text: "(2, 4)"
+        correct: true
+        feedback: "The inner 3s match and are used up in the adding. What's left is A's 2 rows and B's 4 columns."
+      - text: "(2, 3)"
+        misconception: matmul-keeps-inner-size
+        feedback: "Each row of A, 3 numbers, meets each column of B, 3 numbers, and gives one number. The shared 3 disappears; the answer has A's 2 rows and B's 4 columns."
+      - text: A ValueError
+        misconception: matmul-number-by-number
+        error: ValueError
+        feedback: "`@` isn't number by number, so the shapes needn't be equal. Only the inner sizes must match: A's 3 columns against B's 3 rows."
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      A = np.array([[1, 2],
+                    [3, 4]])
+      B = np.array([[5, 6],
+                    [7, 8]])
+      print((A @ B)[1, 0])
+    answer: "43"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      A = np.array([[1, 2],
+                    [0, 1]])
+      B = np.array([[0, 1],
+                    [1, 0]])
+      print(np.array_equal(A @ B, B @ A))
+    options:
+      - text: "False"
+        correct: true
+        feedback: "`A @ B` is [[2, 1], [1, 0]] and `B @ A` is [[0, 1], [1, 2]]. Rows come from the first, columns from the second, so order matters."
+      - text: "True"
+        misconception: matmul-commutes
+        feedback: "Ordinary numbers don't mind the order; matrices do. Swapping them swaps which one gives the rows and which the columns: here `A @ B` is [[2, 1], [1, 0]] and `B @ A` is [[0, 1], [1, 2]]."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      w = np.array([0.5, 1.0, -2.0])
+      print(w.T.shape)
+    options:
+      - text: "(3,)"
+        correct: true
+        feedback: "A one-dimensional array has one axis, so there is nothing to swap, and `.T` hands it back as it was."
+      - text: "(3, 1)"
+        misconception: transpose-changes-1d
+        feedback: "That's a column, and `.T` can't make one from a one-dimensional array: with only one axis there's nothing to swap. `w.reshape(3, 1)` would."
+      - text: "(1, 3)"
+        misconception: transpose-changes-1d
+        feedback: "`.T` swaps axes, and `w` has only one, so it comes back unchanged. A row of shape (1, 3) needs `w.reshape(1, 3)`."
+  - type: fill
+    prompt: "Fill the gap so `forecast` holds one weighted sum per evening."
+    code: |
+      import numpy as np
+
+      evenings = np.array([[1.0, 0.0, 2.0],
+                           [0.0, 3.0, 1.0],
+                           [2.0, 2.0, 2.0],
+                           [1.0, 1.0, 0.0]])
+      weights = np.array([2.0, 1.0, 0.5])
+      forecast = evenings ___ weights
+      print(forecast.tolist())
+    blanks: [["@"]]
+    tests: |
+      TESTS = [output("One forecast for each of four evenings", expect="[3.0, 3.5, 7.0, 3.0]")]
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      stretch = np.array([[2, 0],
+                          [0, 1]])
+      print(stretch @ np.array([3, 4]))
+    answer: "[6 4]"
+  - type: fix
+    prompt: "`turn` should turn arrows a quarter turn anticlockwise, so east `(1, 0)` becomes north `(0, 1)`. It turns them the wrong way. Fix the matrix."
+    code: |
+      import numpy as np
+
+      turn = np.array([[0, 1],
+                       [-1, 0]])
+      print(turn @ np.array([1, 0]))
+      print(turn @ np.array([0, 1]))
+    tests: |
+      TESTS = [output("East to north, north to west", expect="0 1 -1 0", match="numbers")]
+    solution: |
+      import numpy as np
+
+      turn = np.array([[0, -1],
+                       [1, 0]])
+      print(turn @ np.array([1, 0]))
+      print(turn @ np.array([0, 1]))
+  - type: write
+    prompt: "Each row of `points` is an arrow. Write `move(matrix, points)`: every arrow moved by the 2 by 2 `matrix`, one row each, with no loop."
+    starter: |
+      import numpy as np
+
+
+      def move(matrix, points):
+          pass
+    tests: |
+      import numpy as np
+
+
+      def turned(ctx):
+          m = ctx.module()
+          turn = np.array([[0, -1], [1, 0]])
+          points = np.array([[1, 0], [0, 1], [2, 3]])
+          got = m.move(turn, points)
+          want = np.array([[0, 1], [-1, 0], [-3, 2]])
+          if got is None or np.shape(got) != (3, 2) or not np.allclose(got, want):
+              raise CheckFailed("Three arrows, each turned a quarter turn.", expected=want.tolist(), actual=repr(got))
+
+
+      def stretched(ctx):
+          m = ctx.module()
+          stretch = np.array([[2, 0], [0, 1]])
+          got = m.move(stretch, np.array([[1, 1], [3, -1]]))
+          want = np.array([[2, 1], [6, -1]])
+          if got is None or np.shape(got) != (2, 2) or not np.allclose(got, want):
+              raise CheckFailed("Two arrows, each stretched to twice as wide.", expected=want.tolist(), actual=repr(got))
+
+
+      TESTS = [
+          custom("A quarter turn", turned),
+          custom("A stretch", stretched),
+          structure("No loop", forbids=["For", "While", "ListComp"]),
+      ]
+    solution: |
+      import numpy as np
+
+
+      def move(matrix, points):
+          return points @ matrix.T

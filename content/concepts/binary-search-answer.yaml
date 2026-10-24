@@ -1,0 +1,213 @@
+id: binary-search-answer
+title: Binary search on the answer
+summary: |
+  Sometimes there's no list to search, only a question whose answer is a number: the lightest load limit, the slowest speed, the fewest crossings. If you can check one guess quickly, and the check switches from no to yes only once as the guesses grow, binary search the guesses themselves. Check the middle of what's possible, and throw away the half the answer can't be in. When the middle works, keep it, since it may be the answer: `high = middle`. A hundred million possible limits take about 27 checks.
+example: |
+  def crossings_needed(crates, limit):
+      crossings, load = 1, 0
+      for weight in crates:
+          if load + weight > limit:
+              crossings, load = crossings + 1, 0
+          load += weight
+      return crossings
+
+
+  def smallest_limit(crates, days):
+      low, high = max(crates), sum(crates)
+      while low < high:
+          middle = (low + high) // 2
+          if crossings_needed(crates, middle) <= days:
+              high = middle
+          else:
+              low = middle + 1
+      return low
+
+
+  print(smallest_limit([4, 8, 3, 5, 6], 3))
+misconceptions: [answer-search-needs-a-list, answer-search-needs-sorted-input, answer-search-stops-at-first-yes, answer-search-drops-the-yes, limit-below-heaviest]
+related: [binary-search, big-o, bisect]
+drill: true
+cards:
+  - type: predict
+    prompt: "What does this print?"
+    code: |
+      def crossings_needed(crates, limit):
+          crossings, load = 1, 0
+          for weight in crates:
+              if load + weight > limit:
+                  crossings, load = crossings + 1, 0
+              load += weight
+          return crossings
+
+
+      crates = [4, 8, 3, 5, 6]
+      print([crossings_needed(crates, limit) for limit in [8, 10, 11, 14, 26]])
+    answer: "[4, 4, 3, 2, 1]"
+  - type: choice
+    prompt: "Binary search on the answer needs one thing to be true of the check. What?"
+    verify: none
+    options:
+      - text: "Once the check says yes for a guess, it says yes for every bigger guess too"
+        correct: true
+        feedback: "That's what lets one look throw away half. A limit of 20 kg works, so 21 works; 19 might not. The answers run no, no, no, yes, yes, yes, and you're hunting the first yes."
+      - text: "The crates have to be sorted first"
+        misconception: answer-search-needs-sorted-input
+        feedback: "Nothing is sorted. What's in order is the guesses, 8, 9, 10 and up, and the check's answers to them: all the noes, then all the yeses."
+      - text: "The possible answers have to be stored in a list"
+        misconception: answer-search-needs-a-list
+        feedback: "There's no list of limits anywhere. low and high are just numbers, and the middle is worked out, not looked up."
+  - type: choice
+    prompt: "What does this print?"
+    code: |
+      def works(limit):
+          return limit >= 11
+
+
+      low, high = 8, 26
+      while low < high:
+          middle = (low + high) // 2
+          if works(middle):
+              high = middle
+          else:
+              low = middle + 1
+      print(low)
+    options:
+      - text: "11"
+        correct: true
+        feedback: "The middles are 17, 12, 10 and 11. Each yes pulls high down to the middle, each no pushes low past it, until they meet at the first limit that works."
+      - text: "17"
+        misconception: answer-search-stops-at-first-yes
+        feedback: "17 is the first middle that works, but a yes only says the answer is 17 or lighter. The search carries on below it."
+      - text: "10"
+        misconception: answer-search-drops-the-yes
+        feedback: "10 is the last limit that fails. low = middle + 1 steps past every no, so low ends on a yes."
+  - type: fill
+    prompt: "Fill the gaps so this finds the slowest whole speed, in knots, that covers 100 nautical miles in 7 hours."
+    code: |
+      def works(speed):
+          return speed * 7 >= 100
+
+
+      low, high = 1, 100
+      while low < high:
+          middle = (low + high) // 2
+          if works(middle):
+              high = ___
+          else:
+              low = ___
+      print(low)
+    blanks: [["middle"], ["middle + 1", "middle+1", "1 + middle"]]
+    tests: |
+      TESTS = [output("15 knots", expect="15")]
+  - type: fix
+    prompt: "Pip's search sometimes answers a kilo or so too light. Fix it."
+    code: |
+      def crossings_needed(crates, limit):
+          crossings, load = 1, 0
+          for weight in crates:
+              if load + weight > limit:
+                  crossings, load = crossings + 1, 0
+              load += weight
+          return crossings
+
+
+      def smallest_limit(crates, days):
+          low, high = max(crates), sum(crates)
+          while low < high:
+              middle = (low + high) // 2
+              if crossings_needed(crates, middle) <= days:
+                  high = middle - 1
+              else:
+                  low = middle + 1
+          return low
+    tests: |
+      TESTS = [
+          function("Five crates in two crossings", call="smallest_limit", args=([4, 8, 3, 5, 6], 2), expect=14,
+                   hint="When the middle works, it might be the answer. Keep it in the range."),
+          function("Six crates in three crossings", call="smallest_limit", args=([3, 2, 2, 4, 1, 4], 3), expect=6),
+          function("Five crates in three crossings", call="smallest_limit", args=([4, 8, 3, 5, 6], 3), expect=11),
+          function("One crate", call="smallest_limit", args=([9], 1), expect=9),
+      ]
+    solution: |
+      def crossings_needed(crates, limit):
+          crossings, load = 1, 0
+          for weight in crates:
+              if load + weight > limit:
+                  crossings, load = crossings + 1, 0
+              load += weight
+          return crossings
+
+
+      def smallest_limit(crates, days):
+          low, high = max(crates), sum(crates)
+          while low < high:
+              middle = (low + high) // 2
+              if crossings_needed(crates, middle) <= days:
+                  high = middle
+              else:
+                  low = middle + 1
+          return low
+  - type: choice
+    prompt: "Nell has 50,000 crates of up to 10,000 kg each. Roughly how many load limits does binary search on the answer check?"
+    verify: none
+    options:
+      - text: "About 30"
+        correct: true
+        feedback: "The limit lies somewhere between the heaviest crate and all of them together: at most 500 million. Halving 500 million down to one takes about 29 looks, each one a pass over the crates."
+      - text: "About 25,000"
+        misconception: binary-search-takes-half
+        feedback: "It doesn't check half of anything. Each check halves the range of limits that's left."
+      - text: "About 50,000, one for each crate"
+        misconception: answer-search-needs-a-list
+        feedback: "The search isn't over the crates. It's over the possible limits, and each check goes through all the crates once."
+  - type: choice
+    prompt: "Crates of 4, 8 and 3 kg, and as many crossings as you like. Can a load limit of 7 kg get them all across?"
+    verify: none
+    options:
+      - text: "No: the 8 kg crate can't go on any crossing"
+        correct: true
+        feedback: "Crates are never split, so the limit is at least the heaviest crate. That's why the search starts with low = max(crates)."
+      - text: "Yes, with enough crossings"
+        misconception: limit-below-heaviest
+        feedback: "More crossings help with the total, not with one crate. An 8 kg crate needs a limit of at least 8 kg, however many trips there are."
+  - type: write
+    prompt: "Write `first_yes(works, low, high)`: the smallest whole number from `low` to `high` for which `works(number)` is `True`. `works` is no, then yes, and `works(high)` is always `True`. Check as few numbers as you can."
+    starter: |
+      def first_yes(works, low, high):
+          pass
+    tests: |
+      def counted(threshold):
+          calls = [0]
+
+          def works(number):
+              calls[0] += 1
+              return number >= threshold
+          return works, calls
+
+
+      def a_million(ctx):
+          module = ctx.module()
+          works, calls = counted(765_432)
+          got = module.first_yes(works, 1, 1_000_000)
+          if got != 765_432:
+              raise CheckFailed("The first yes is 765,432.", expected=765_432, actual=got)
+          if calls[0] > 25:
+              raise CheckFailed(f"It checked {calls[0]:,} numbers. Halving a million takes about 20.", expected="25 or fewer", actual=calls[0])
+
+
+      TESTS = [
+          function("Squares of at least 50", call="first_yes", args=(lambda n: n * n >= 50, 1, 50), expect=8),
+          function("Yes from the start", call="first_yes", args=(lambda n: True, 3, 9), expect=3),
+          function("Only the last one", call="first_yes", args=(lambda n: n >= 9, 3, 9), expect=9),
+          function("A range of one", call="first_yes", args=(lambda n: True, 4, 4), expect=4),
+          custom("A million numbers, about twenty checks", a_million),
+      ]
+    solution: |
+      def first_yes(works, low, high):
+          while low < high:
+              middle = (low + high) // 2
+              if works(middle):
+                  high = middle
+              else:
+                  low = middle + 1
+          return low
