@@ -1,0 +1,56 @@
+.notes {
+  margin-top: var(--s-8);
+  display: grid;
+  gap: var(--s-3);
+}
+
+.title {
+  font-family: var(--font-prose);
+  font-size: var(--step-2);
+}
+
+.meta {
+  color: var(--ink-2);
+  font-family: var(--font-ui);
+  font-size: var(--step--1);
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--s-4);
+}
+
+.note {
+  display: grid;
+  gap: var(--s-2);
+  align-content: start;
+  padding: var(--s-3) var(--s-4) var(--s-4);
+  background: var(--paper-raised);
+  border: var(--hairline);
+  border-top: 3px solid var(--accent);
+}
+
+.noteTitle {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: var(--step--1);
+}
+
+.text {
+  margin: 0;
+  font-family: var(--font-code);
+  font-size: var(--step--1);
+  font-variant-ligatures: none;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.where {
+  color: var(--ink-2);
+  font-family: var(--font-prose);
+  font-size: var(--step--1);
+  font-style: italic;
+}
