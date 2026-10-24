@@ -1,0 +1,23 @@
+id: placement-harbour-front
+title: "Placement: The Harbour Front"
+client: moss
+building: workshop
+estimated_minutes: 25
+summary: "Three small programs for the quay: input, decisions, loops, lists, strings, functions and dictionaries."
+placement_for: harbour-front
+concepts_introduced: []
+concepts_reviewed: [input-returns-text, int-conversion, float-conversion, f-strings, if-elif-else, boolean-operators, while-loops, sentinels, running-totals, for-loops, range, lists, list-methods, slicing, sorted-vs-sort, strings, string-methods, split-join, strip-replace, functions, parameters, return-values, none, dictionaries, dict-get, dict-items]
+ask:
+  dialogue:
+    - moss: "Show me what you know, then."
+    - moss: "Three jobs from the quay: Ferro, Gwen, then Mira. They won't know it's a test."
+    - moss: "I'll be at the radio. Shout when they're done."
+  spec: |
+    Three Make tasks, each a small program for someone on the quay. There are no hints: each task has its brief, two visible checks and a good many hidden ones.
+
+    Pass all three and the Harbour Front is placed. The High Street opens, and Act I's ideas join your review deck.
+ship:
+  dialogue:
+    - moss: "Fares, marking and postage. All three hold."
+    - moss: "The High Street's open. They'll want more than a till."
+  cards: []

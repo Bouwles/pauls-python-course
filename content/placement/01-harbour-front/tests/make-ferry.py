@@ -1,0 +1,35 @@
+def fares(*lines):
+    return "\n".join(lines)
+
+
+TESTS = [
+    output("Three aboard", inputs=["34", "3", "ten", "70", ""],
+           expect=fares("Fare: £3.20", "Fare: free", "Ages are whole numbers.", "Fare: £2.00",
+                        "Passengers: 3", "Fares: £5.20"),
+           visible=True),
+    output("A child and a pensioner", inputs=["12", "81", ""],
+           expect=fares("Fare: £1.50", "Fare: £2.00", "Passengers: 2", "Fares: £3.50"),
+           visible=True),
+    output("Nobody today", inputs=[""], expect=fares("Passengers: 0", "Fares: £0.00"),
+           hint="With a blank line straight away, nobody boards: 0 passengers and £0.00."),
+    output("The edges of every band", inputs=["4", "5", "15", "16", "64", "65", ""],
+           expect=fares("Fare: free", "Fare: £1.50", "Fare: £1.50", "Fare: £3.20", "Fare: £3.20", "Fare: £2.00",
+                        "Passengers: 6", "Fares: £11.40"),
+           hint="5 to 15 includes both 5 and 15; 16 to 64 includes both ends too."),
+    output("A baby in arms", inputs=["0", ""], expect=fares("Fare: free", "Passengers: 1", "Fares: £0.00"),
+           hint="0 is a whole number of years. The baby boards, free, and counts as a passenger."),
+    output("Decimals and minus signs", inputs=["4.5", "-3", "", ],
+           expect=fares("Ages are whole numbers.", "Ages are whole numbers.", "Passengers: 0", "Fares: £0.00"),
+           hint="4.5 and -3 aren't whole numbers of years. Say so, and don't let them board."),
+    output("Spaces round an age", inputs=[" 40 ", "  7", ""],
+           expect=fares("Fare: £3.20", "Fare: £1.50", "Passengers: 2", "Fares: £4.70"),
+           hint="Strip the spaces off before deciding whether it's a whole number."),
+    output("Twelve and she's full", inputs=["30"] * 12,
+           expect=fares(*(["Fare: £3.20"] * 12), "Full.", "Passengers: 12", "Fares: £38.40"),
+           hint="When the twelfth passenger boards, print Full. and stop asking: there is no thirteenth Age?"),
+    output("A bad age doesn't take a seat", inputs=["x"] + ["10"] * 12,
+           expect=fares("Ages are whole numbers.", *(["Fare: £1.50"] * 12), "Full.", "Passengers: 12", "Fares: £18.00"),
+           hint="Only passengers who board count towards the twelve."),
+    output("A busy crossing", inputs=["5", "5", "5", "5", "5", "5", "5", "16", "16", "16", "2", ""],
+           expect=fares(*(["Fare: £1.50"] * 7), *(["Fare: £3.20"] * 3), "Fare: free", "Passengers: 11", "Fares: £20.10")),
+]
