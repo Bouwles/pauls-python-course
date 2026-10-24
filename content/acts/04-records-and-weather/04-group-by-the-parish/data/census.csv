@@ -1,0 +1,320 @@
+year,parish,household,name,relation,age,occupation
+1921,Harbour,1,Frederick Teague,head,63,boat builder
+1921,Harbour,1,Annie Teague,wife,62,home duties
+1921,Harbour,2,Ethel Pennant,head,53,fisherman
+1921,Harbour,2,Walter Pennant,husband,54,fisherman
+1921,Harbour,2,William Pennant,son,14,school
+1921,Harbour,2,Edith Pennant,daughter,14,school
+1921,Harbour,2,Annie Penrose,mother,79,retired
+1921,Harbour,3,Frederick Nance,head,54,fisherman
+1921,Harbour,3,Florence Nance,wife,57,shop assistant
+1921,Harbour,3,Arthur Nance,son,3,infant
+1921,Harbour,4,Walter Rowe,head,32,fisherman
+1921,Harbour,4,Ada Rowe,wife,36,home duties
+1921,Harbour,4,Lilian Rowe,daughter,11,school
+1921,Harbour,4,Grace Rowe,daughter,2,infant
+1921,Harbour,5,Albert Trevail,head,49,fisherman
+1921,Harbour,5,Ethel Trevail,wife,44,home duties
+1921,Harbour,5,Lilian Trevail,daughter,17,fisherman
+1921,Harbour,5,Mary Trevail,daughter,0,infant
+1921,Harbour,6,Thomas Rowe,head,48,net maker
+1921,Harbour,6,Edith Rowe,wife,46,home duties
+1921,Harbour,6,Frederick Rowe,son,16,coastguard
+1921,Harbour,6,Arthur Rowe,son,7,school
+1921,Harbour,6,Mary Rowe,daughter,6,school
+1921,Harbour,7,George Tregear,head,58,boat builder
+1921,Harbour,7,Mabel Tregear,wife,57,home duties
+1921,Harbour,7,Walter Kerrow,lodger,23,fisherman
+1921,Harbour,8,Grace Jago,head,93,retired
+1921,Harbour,9,Moss,head,31,carpenter
+1921,Harbour,10,Frederick Pascoe,head,64,fisherman
+1921,High Street,11,Joseph Rowe,head,24,blacksmith
+1921,High Street,11,Alice Rowe,wife,26,home duties
+1921,High Street,11,Florence Rowe,daughter,3,infant
+1921,High Street,11,Annie Rowe,daughter,2,infant
+1921,High Street,11,Samuel Rowe,son,1,infant
+1921,High Street,11,James Rowe,son,0,infant
+1921,High Street,11,Alice Vosper,servant,26,domestic servant
+1921,High Street,12,Arthur Penrose,head,44,publican
+1921,High Street,12,Edith Penrose,daughter,19,blacksmith
+1921,High Street,12,Samuel Penrose,son,15,school
+1921,High Street,12,Thomas Penrose,son,4,infant
+1921,High Street,12,Alice Penrose,daughter,3,infant
+1921,High Street,13,Arthur Vosper,head,65,retired
+1921,High Street,13,Annie Vosper,wife,61,home duties
+1921,High Street,13,Annie Trevail,servant,22,domestic servant
+1921,High Street,14,Henry Hocking,head,34,publican
+1921,High Street,14,Ada Hocking,wife,36,dressmaker
+1921,High Street,14,Joseph Hocking,son,12,school
+1921,High Street,14,Frederick Hocking,son,5,school
+1921,High Street,14,Samuel Hocking,son,4,infant
+1921,High Street,14,Annie Hocking,daughter,0,infant
+1921,High Street,14,Emily Hocking,servant,25,domestic servant
+1921,High Street,15,Albert Rowe,head,33,publican
+1921,High Street,15,Ethel Rowe,wife,30,home duties
+1921,High Street,15,William Rowe,son,7,school
+1921,High Street,15,Henry Rowe,son,2,infant
+1921,High Street,15,Mabel Trevail,mother,61,retired
+1921,High Street,16,Albert Hollis,head,44,baker
+1921,High Street,16,Edith Hollis,wife,41,baker
+1921,High Street,16,Frank Hollis,son,12,school
+1921,High Street,17,James Kerrow,head,50,blacksmith
+1921,High Street,17,Emily Kerrow,wife,52,home duties
+1921,High Street,17,Joseph Kerrow,son,19,shopkeeper
+1921,High Street,17,Samuel Kerrow,son,1,infant
+1921,High Street,17,Grace Penrose,servant,23,domestic servant
+1921,Hill,18,Albert Pascoe,head,32,coastguard
+1921,Hill,18,Edith Pascoe,wife,33,home duties
+1921,Hill,18,Mabel Pascoe,daughter,12,school
+1921,Hill,18,Henry Pascoe,son,10,school
+1921,Hill,19,Elizabeth Vosper,head,50,farm labourer
+1921,Hill,19,Albert Vosper,husband,52,farm labourer
+1921,Hill,19,Joseph Vosper,son,14,school
+1921,Hill,19,Lilian Vosper,daughter,10,school
+1921,Hill,19,James Vosper,son,5,school
+1921,Hill,20,Mary Hocking,head,32,coastguard
+1921,Hill,20,Albert Hocking,husband,31,farm labourer
+1921,Hill,20,John Hocking,son,12,school
+1921,Hill,20,Arthur Hocking,son,1,infant
+1921,Hill,20,Ethel Hocking,daughter,1,infant
+1921,Marsh,21,Henry Bolitho,head,29,fisherman
+1921,Marsh,21,Grace Bolitho,wife,32,home duties
+1921,Marsh,21,Mabel Bolitho,daughter,9,school
+1921,Marsh,21,Ethel Bolitho,daughter,0,infant
+1921,Marsh,22,Arthur Bolitho,head,37,fisherman
+1921,Marsh,22,Edith Bolitho,daughter,13,school
+1921,Marsh,22,Emily Bolitho,daughter,12,school
+1921,Marsh,22,Albert Bolitho,son,10,school
+1921,Marsh,23,John Tregear,head,53,farm labourer
+1921,Marsh,23,Arthur Tregear,son,19,reed cutter
+1921,Marsh,23,Edith Tregear,daughter,16,fisherman
+1921,Marsh,23,William Tregear,son,15,school
+1951,Harbour,1,Robert Tregear,head,63,fisherman
+1951,Harbour,1,Sheila Tregear,wife,64,shop assistant
+1951,Harbour,2,Dennis Nance,head,44,net maker
+1951,Harbour,2,Doreen Nance,wife,46,typist
+1951,Harbour,2,Sheila Nance,daughter,5,school
+1951,Harbour,2,Robert Nance,son,2,infant
+1951,Harbour,2,Barbara Teague,mother,70,retired
+1951,Harbour,3,Stanley Couch,head,27,harbour hand
+1951,Harbour,3,Robert Couch,son,7,school
+1951,Harbour,3,Dennis Couch,son,3,infant
+1951,Harbour,3,David Couch,son,0,infant
+1951,Harbour,3,Michael Couch,son,0,infant
+1951,Harbour,3,Leonard Rowe,lodger,43,fisherman
+1951,Harbour,4,Moss,head,61,carpenter
+1951,Harbour,5,Betty Kerrow,head,25,fisherman
+1951,Harbour,5,Ronald Kerrow,husband,26,ferry hand
+1951,Harbour,5,David Kerrow,son,5,school
+1951,Harbour,5,Sheila Kerrow,daughter,4,infant
+1951,Harbour,5,Margaret Pascoe,mother,52,retired
+1951,Harbour,6,Peter Nance,head,62,net maker
+1951,Harbour,6,Margaret Nance,wife,57,home duties
+1951,Harbour,7,Barbara Kerrow,head,39,harbour hand
+1951,Harbour,7,Dennis Kerrow,husband,41,harbour hand
+1951,Harbour,8,John Pennant,head,29,fisherman
+1951,Harbour,8,Betty Pennant,wife,29,home duties
+1951,Harbour,8,Dennis Pennant,son,6,school
+1951,Harbour,9,Robert Pascoe,head,26,net maker
+1951,Harbour,9,John Pascoe,son,5,school
+1951,Harbour,9,Dennis Pascoe,son,2,infant
+1951,Harbour,9,Kenneth Pascoe,son,1,infant
+1951,Harbour,9,Irene Pascoe,daughter,1,infant
+1951,Harbour,9,Leonard Pascoe,son,0,infant
+1951,Harbour,9,Jean Tregear,mother,51,retired
+1951,Harbour,10,Walter Rook,head,88,retired
+1951,Harbour,10,Mary Rook,daughter,52,home duties
+1951,High Street,11,Kenneth Teague,head,44,bus driver
+1951,High Street,11,Doreen Teague,wife,44,nurse
+1951,High Street,11,Margaret Teague,daughter,6,school
+1951,High Street,12,Barbara Vosper,head,48,postman
+1951,High Street,12,Stanley Vosper,son,20,bus driver
+1951,High Street,12,Sheila Vosper,daughter,12,school
+1951,High Street,12,Leonard Vosper,son,11,school
+1951,High Street,12,Peter Vosper,son,5,school
+1951,High Street,13,Leonard Ashby,head,36,records clerk
+1951,High Street,13,Irene Ashby,wife,33,home duties
+1951,High Street,13,Kenneth Ashby,son,2,infant
+1951,High Street,14,Dennis Jago,head,62,shopkeeper
+1951,High Street,14,Betty Jago,wife,63,home duties
+1951,High Street,15,Dennis Tregear,head,25,publican
+1951,High Street,15,Doreen Tregear,wife,25,home duties
+1951,High Street,15,Kenneth Tregear,son,2,infant
+1951,High Street,15,Peter Tregear,son,1,infant
+1951,High Street,15,Michael Tregear,son,1,infant
+1951,High Street,16,Ronald Pascoe,head,33,publican
+1951,High Street,16,Doreen Pascoe,wife,29,home duties
+1951,High Street,16,Betty Pascoe,daughter,10,school
+1951,High Street,16,Pamela Pascoe,daughter,2,infant
+1951,High Street,16,Jean Pascoe,daughter,1,infant
+1951,High Street,16,Pamela Penrose,mother,56,retired
+1951,High Street,17,Frank Hollis,head,42,baker
+1951,High Street,17,Joan Hollis,wife,39,baker
+1951,High Street,17,Robert Hollis,son,14,school
+1951,High Street,18,Ronald Pennant,head,50,schoolteacher
+1951,High Street,18,Patricia Pennant,wife,52,shop assistant
+1951,High Street,18,Stanley Pennant,son,12,school
+1951,High Street,18,Kenneth Pennant,son,3,infant
+1951,Hill,19,Michael Bolitho,head,39,farm labourer
+1951,Hill,19,Betty Bolitho,wife,33,home duties
+1951,Hill,19,Patricia Bolitho,daughter,19,farm labourer
+1951,Hill,19,Peter Bolitho,son,14,school
+1951,Hill,19,Dennis Bolitho,son,13,school
+1951,Hill,19,Kenneth Bolitho,son,9,school
+1951,Hill,19,Sheila Bolitho,daughter,7,school
+1951,Hill,20,Michael Teague,head,48,gardener
+1951,Hill,20,Patricia Teague,daughter,22,coastguard
+1951,Hill,20,Brian Teague,son,17,coastguard
+1951,Hill,21,Sheila Hocking,head,32,nurse
+1951,Hill,21,Leonard Hocking,husband,36,farm labourer
+1951,Hill,21,Peter Hocking,son,10,school
+1951,Hill,21,Michael Hocking,son,5,school
+1951,Hill,21,Ronald Hocking,son,4,infant
+1951,Hill,21,Robert Hocking,son,3,infant
+1951,Hill,22,Ronald Couch,head,39,coastguard
+1951,Hill,22,Sheila Couch,daughter,18,gardener
+1951,Marsh,23,Stanley Angove,head,25,lorry driver
+1951,Marsh,23,Joan Angove,daughter,5,school
+1951,Marsh,23,Patricia Angove,daughter,5,school
+1951,Marsh,23,Pamela Angove,daughter,3,infant
+1951,Marsh,23,Robert Angove,son,1,infant
+1951,Marsh,23,Betty Angove,daughter,0,infant
+1951,Marsh,24,Robert Pennant,head,63,fisherman
+1951,Marsh,24,Irene Pennant,wife,63,home duties
+1951,Marsh,25,Patrick Brannigan,head,39,scrap dealer
+1951,Marsh,25,Doreen Brannigan,wife,35,home duties
+1951,Marsh,26,Peter Kerrow,head,31,fisherman
+1951,Marsh,26,Margaret Kerrow,daughter,10,school
+1951,Marsh,26,Jean Kerrow,daughter,7,school
+1951,Marsh,26,Pamela Kerrow,daughter,7,school
+1981,Harbour,1,Moss,head,91,carpenter
+1981,Harbour,2,Paul Kerrow,head,54,fisherman
+1981,Harbour,2,Karen Kerrow,wife,50,fisherman
+1981,Harbour,2,Stephen Kerrow,son,18,ferry hand
+1981,Harbour,2,Nicola Kerrow,daughter,14,school
+1981,Harbour,3,Paul Pascoe,head,63,boat builder
+1981,Harbour,3,Claire Rowe,mother,87,retired
+1981,Harbour,4,Sarah Tregear,head,43,ferry hand
+1981,Harbour,4,Paul Tregear,husband,46,fisherman
+1981,Harbour,4,Julie Tregear,daughter,22,ferry hand
+1981,Harbour,4,Ian Tregear,son,18,boat builder
+1981,Harbour,5,Mark Jago,head,65,retired
+1981,Harbour,5,Claire Jago,wife,62,boat builder
+1981,Harbour,5,Emma Pennant,mother,87,retired
+1981,Harbour,6,Paul Couch,head,63,fisherman
+1981,Harbour,6,Joanne Couch,wife,66,harbour hand
+1981,Harbour,7,Neil Penrose,head,62,ferry hand
+1981,Harbour,7,Helen Penrose,wife,63,boat builder
+1981,Harbour,8,Richard Penrose,head,46,harbour hand
+1981,Harbour,8,Julie Penrose,daughter,19,fisherman
+1981,Harbour,8,Stephen Penrose,son,16,boat builder
+1981,High Street,9,Gary Kerrow,head,56,postman
+1981,High Street,9,Susan Kerrow,wife,56,nurse
+1981,High Street,10,Gary Hocking,head,43,shop assistant
+1981,High Street,10,Helen Hocking,wife,38,shop assistant
+1981,High Street,10,Emma Hocking,daughter,19,hairdresser
+1981,High Street,10,David Hocking,son,10,school
+1981,High Street,10,Sarah Hocking,daughter,4,infant
+1981,High Street,11,Susan Pennant,head,40,teacher
+1981,High Street,11,David Pennant,husband,41,teacher
+1981,High Street,11,Paul Pennant,son,1,infant
+1981,High Street,12,Gary Chegwin,head,55,hairdresser
+1981,High Street,13,Kenneth Ashby,head,32,records clerk
+1981,High Street,14,Helen Jago,head,62,nurse
+1981,High Street,15,Robert Hollis,head,44,baker
+1981,High Street,15,Susan Hollis,wife,41,baker
+1981,High Street,15,Beatrice Hollis,daughter,8,school
+1981,High Street,16,Mark Vosper,head,33,publican
+1981,High Street,16,Joanne Chegwin,mother,57,retired
+1981,Hill,17,Ada Penhallow,head,31,engineer
+1981,Hill,18,Susan Jago,head,28,teacher
+1981,Hill,19,Mark Tregear,head,54,teacher
+1981,Hill,19,Karen Tregear,wife,57,home duties
+1981,Hill,19,Joanne Tregear,daughter,3,infant
+1981,Hill,19,Andrew Tregear,son,0,infant
+1981,Hill,20,Susan Vosper,head,58,farmer
+1981,Hill,20,Paul Vosper,husband,61,nurse
+1981,Hill,21,Paul Jago,head,40,nurse
+1981,Marsh,22,Sean Brannigan,head,41,scrap dealer
+1981,Marsh,22,Sheila Brannigan,wife,38,home duties
+1981,Marsh,23,Nicola Tregear,head,45,shop assistant
+1981,Marsh,23,David Tregear,husband,48,lorry driver
+1981,Marsh,23,Emma Tregear,daughter,10,school
+1981,Marsh,23,Richard Tregear,son,8,school
+1981,Marsh,24,Nicola Hocking,head,31,farmer
+1981,Marsh,24,Ian Hocking,husband,26,farmer
+1981,Marsh,24,Paul Hocking,son,1,infant
+1981,Marsh,24,Neil Hocking,son,0,infant
+1981,Marsh,25,Claire Penrose,head,50,lorry driver
+1981,Marsh,25,Sarah Penrose,daughter,16,lorry driver
+1981,Marsh,25,Nicola Penrose,daughter,16,lorry driver
+1981,Marsh,26,David Bolitho,head,65,retired
+1981,Marsh,26,Karen Bolitho,wife,64,mechanic
+2011,Harbour,1,Luke Penrose,head,55,ferry hand
+2011,Harbour,1,Grace Penrose,wife,55,fisherman
+2011,Harbour,2,Lucy Vosper,head,53,fisherman
+2011,Harbour,3,Jack Jago,head,63,fisherman
+2011,Harbour,4,Chloe Angove,head,52,boat builder
+2011,Harbour,4,Ben Angove,husband,52,fisherman
+2011,Harbour,4,Isla Angove,daughter,12,school
+2011,Harbour,4,Ella Angove,daughter,0,infant
+2011,Harbour,5,Megan Angove,head,33,fisherman
+2011,Harbour,5,Oliver Angove,husband,28,harbour hand
+2011,Harbour,5,Luke Angove,son,12,school
+2011,Harbour,5,Amy Angove,daughter,9,school
+2011,Harbour,5,Emily Angove,daughter,6,school
+2011,Harbour,6,Moss,head,121,carpenter
+2011,Harbour,7,Ben Hocking,head,56,ferry hand
+2011,Harbour,7,Chloe Hocking,wife,57,boat builder
+2011,Harbour,8,Callum Nance,head,43,ferry hand
+2011,Harbour,8,Isla Nance,wife,46,cafe owner
+2011,High Street,9,Grace Chegwin,head,48,teacher
+2011,High Street,9,Ryan Chegwin,husband,44,shop assistant
+2011,High Street,10,Beatrice Hollis,head,38,baker
+2011,High Street,11,Lucy Nance,head,35,shop assistant
+2011,High Street,11,Luke Nance,husband,36,teacher
+2011,High Street,11,Daniel Nance,son,11,school
+2011,High Street,11,Ryan Nance,son,5,school
+2011,High Street,11,Jack Nance,son,1,infant
+2011,High Street,12,Ella Hocking,head,25,pharmacist
+2011,High Street,12,Callum Hocking,husband,22,shop assistant
+2011,High Street,12,Harry Hocking,son,2,infant
+2011,High Street,13,Emily Tregear,head,43,teacher
+2011,High Street,13,Oliver Tregear,husband,47,nurse
+2011,High Street,13,Ben Tregear,son,4,infant
+2011,High Street,13,Sam Tregear,son,4,infant
+2011,High Street,14,Thomas Jago,head,38,barista
+2011,High Street,14,Isla Jago,wife,37,pharmacist
+2011,High Street,14,Megan Jago,daughter,0,infant
+2011,High Street,15,Ben Trevail,head,33,nurse
+2011,High Street,15,Sophie Trevail,wife,36,nurse
+2011,High Street,15,Ryan Trevail,son,5,school
+2011,High Street,15,Ella Trevail,daughter,4,infant
+2011,High Street,16,Ryan Tregear,head,45,shop assistant
+2011,High Street,16,Isla Tregear,wife,41,pharmacist
+2011,High Street,17,Kenneth Ashby,head,62,records clerk
+2011,Hill,18,Ryan Pennant,head,28,gardener
+2011,Hill,18,Lucy Pennant,wife,29,teacher
+2011,Hill,18,Emily Pennant,daughter,1,infant
+2011,Hill,18,Jack Pennant,son,0,infant
+2011,Hill,18,Holly Pennant,daughter,0,infant
+2011,Hill,19,Thomas Vosper,head,55,gardener
+2011,Hill,19,Amy Vosper,wife,50,nurse
+2011,Hill,20,Grace Hocking,head,32,web designer
+2011,Hill,20,Luke Hocking,husband,33,gardener
+2011,Hill,20,Sophie Hocking,daughter,10,school
+2011,Hill,21,Lucy Hocking,head,46,gardener
+2011,Hill,21,Daniel Hocking,husband,41,gardener
+2011,Marsh,22,Grace Pennant,head,58,mechanic
+2011,Marsh,22,Thomas Pennant,husband,53,farmer
+2011,Marsh,23,Nell Brannigan,head,44,scrap dealer
+2011,Marsh,24,Harry Rowe,head,62,mechanic
+2011,Marsh,24,Amy Rowe,wife,64,home duties
+2011,Marsh,25,Holly Angove,head,26,farmer
+2011,Marsh,25,Jack Angove,husband,29,electrician
+2011,Marsh,25,Grace Angove,daughter,0,infant
+2011,Marsh,26,Chloe Pennant,head,53,farmer
+2011,Marsh,26,Oliver Pennant,son,18,electrician
+2011,Marsh,26,Harry Pennant,son,17,farmer
+2011,Marsh,26,Sam Pennant,son,12,school
+2011,Marsh,26,Lucy Angove,mother,76,retired

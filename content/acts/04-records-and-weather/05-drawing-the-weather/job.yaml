@@ -1,0 +1,46 @@
+id: drawing-the-weather
+title: "Drawing the Weather"
+client: priya
+building: weather-station
+estimated_minutes: 80
+summary: "Four charts of a century of Saltmarsh weather for the station noticeboard, drawn with matplotlib and drawn honestly."
+concepts_introduced: [matplotlib, honest-charts]
+concepts_reviewed: [pandas-basics, groupby, missing-data, numpy-arrays, functions, return-values, multiple-returns, docstrings, main-guard, f-strings]
+ask:
+  dialogue:
+    - priya: "A hundred years of readings, and the station noticeboard has one chart. From 1974."
+    - priya: "I want four new ones. Rain, the warming, a histogram, and July."
+    - moss: "And honest, I expect."
+    - priya: "Bars start at zero. Every axis says what it measures. Anyone who wants drama can read a novel."
+  spec: |
+    `station.csv` is the station book: one row per month from 1925 to 2024, with `year`, `month`, `temp` (the month's average, in degrees C), `rain` (mm) and `sun` (hours of sunshine, blank from 1941 to 1945).
+
+    Write four functions. Each makes a figure with `plt.subplots()` and returns `fig, ax`. Every axis is labelled with what it measures and its units, and every chart has a title.
+
+    - `rain_bars(totals)`: `totals` is a Series of each year's rain, labelled by year. One bar per year, on a scale that starts at zero. Labels: `year` and `rain (mm)`.
+    - `warming_chart(temps)`: `temps` is a Series of each year's average temperature, labelled by year. Take the century's average off every year, then draw three lines with a key: the differences (`each year`), their ten-year rolling average (`ten-year average`), and a line right across at 0 (`century average`). Labels: `year` and `difference from average (degrees C)`.
+    - `rain_histogram(rain)`: how many months had each amount of rain, in bins 20 mm wide from 0 to 300. Labels: `rain in the month (mm)` and `months`.
+    - `july_scatter(station)`: one dot for each July with a sunshine record, its sunshine across and its temperature up. Labels: `sunshine (hours)` and `temperature (degrees C)`.
+  example: |
+    Four charts, from 1200 months of readings.
+ship:
+  dialogue:
+    - priya: "The warming chart goes in the middle of the board. A degree since the seventies, drawn as a degree."
+    - priya: "And sunny Julys are warm Julys, mostly. The one furthest right is 1976."
+    - moss: "Pip would like his chart up as well."
+    - priya: "When the 2020s are nineteen times warmer than the 1960s, it can go up."
+  shelf: { object: noticeboard, label: "Four honest charts for the Weather Station" }
+  cards: [matplotlib, honest-charts]
+stretch:
+  - id: sunshine-gap
+    title: "Leave the gap"
+    prompt: |
+      Write `sunshine_chart(station)`: one line of each year's total sunshine, labelled by year, with the axes labelled and a title.
+
+      The recorder was down from 1941 to 1945. `sum()` adds up nothing as 0, which would draw five years of total darkness. `sum(min_count=1)` gives `NaN` instead, and matplotlib leaves a gap in the line where the `NaN`s are. A line drawn across the gap would be a claim nobody measured.
+    tests: tests/stretch-sunshine-gap.py
+    solution: solutions/stretch-sunshine-gap.py
+  - id: twelve-panels
+    title: "Twelve panels"
+    prompt: |
+      `plt.subplots(3, 4, figsize=(12, 7), sharey=True)` gives a grid of twelve axes, as a 3 by 4 array; `axes.flat` goes through them one at a time. Draw each month's temperature over the century in its own panel, all on one scale. Which month has warmed the most?
