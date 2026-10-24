@@ -1,0 +1,43 @@
+{
+  "format": "ppc-league-1",
+  "layout": [
+    "S...#....",
+    ".#..#.~..",
+    ".#....~..",
+    "...##...#",
+    ".~....#..",
+    ".~#...#..",
+    "....#...F"
+  ],
+  "key": {
+    "S": "start",
+    "F": "finish",
+    "#": "rock (can't enter)",
+    "~": "rock pool (slips more)",
+    ".": "sand"
+  },
+  "moves": [
+    "up",
+    "down",
+    "left",
+    "right"
+  ],
+  "slip": {
+    "sand": 0.1,
+    "pool": 0.35,
+    "note": "A slip moves the crab sideways to the intended move, either way with equal chance. Into a rock or off the course, he stays put."
+  },
+  "max_steps": 100,
+  "start": [
+    0,
+    0
+  ],
+  "finish": [
+    6,
+    8
+  ],
+  "entry": {
+    "format": "ppc-league-1",
+    "policy": "a list of 7 rows of 9 moves (up, down, left, right), or q: 7 rows of 9 lists of 4 action values in that order"
+  }
+}
