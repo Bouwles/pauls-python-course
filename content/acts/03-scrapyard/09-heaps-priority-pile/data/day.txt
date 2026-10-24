@@ -1,0 +1,13 @@
+add 3 Mrs Vance's trolley
+add 3 Mr Ashby's ladder
+add 1 the ferry winch
+take
+add 2 Bea's oven door
+add 4 the crab club's bell
+take
+take
+add 1 Tom's lamp bracket
+add 2 Mira's parcel scales
+take
+take
+take
