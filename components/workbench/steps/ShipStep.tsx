@@ -1,0 +1,266 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import type { ShipStep, StretchTask } from "@/lib/content/types";
+import type { CheckReport, ReviewResult } from "@/lib/python/protocol";
+import { getRuntime } from "@/lib/python/runtime";
+import type { StepProgressRow } from "@/lib/store/types";
+import { updateJob } from "@/lib/store/progress";
+import { useSession } from "@/lib/store/session";
+import { playSound } from "@/lib/sound";
+import { defaultLook } from "@/lib/pixel/learner";
+import { Button, LinkButton } from "../../ui/Button";
+import { PassIcon } from "../../ui/Icons";
+import { SceneCanvas, type Actor } from "../../world/SceneCanvas";
+import { useNight } from "../../world/useNight";
+import { loadIndex } from "../../world/sprites";
+import { CodeWorkspace } from "../CodeWorkspace";
+import { sceneFor, useEarned, workshopExtras } from "../../world/useWorkshopExtras";
+import { useWorkbench } from "../context";
+import styles from "./steps.module.css";
+
+export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressRow }) {
+  const { areas, job, progress, jobProgress, shipJob, markPassed, goTo, characters, conceptTitles, landing, guest, store } = useWorkbench();
+  const { profile } = useSession();
+  const night = useNight();
+  const [stretch, setStretch] = useState<StretchTask | null>(null);
+  const [hasClientSprite, setHasClientSprite] = useState(false);
+  const [hasLampRoom, setHasLampRoom] = useState(false);
+  const [review, setReview] = useState<ReviewResult | null>(null);
+  const earned = useEarned();
+  const done = (id: string) => ["passed", "seen-solution"].includes(progress[id]?.status ?? "");
+  const waitingFor = (step.requires ?? (step.shipsFrom ? [step.shipsFrom] : [])).filter((id) => !done(id));
+  const ready = waitingFor.length === 0;
+  const shipped = jobProgress?.status === "shipped" || jobProgress?.status === "shipped-stretch";
+  const stretchDone = new Set(jobProgress?.stretchDone ?? []);
+  // Stretch tasks extend the Make step's program, so they get the same files.
+  const from = job.steps.find((s) => s.id === (waitingFor[0] ?? step.shipsFrom));
+  const shipFiles = from && "entry" in from ? { files: from.files, entry: from.entry } : { files: ["main.py"], entry: "main.py" };
+
+  useEffect(() => {
+    if (!ready) return;
+    void (async () => {
+      const first = !(jobProgress?.status === "shipped" || jobProgress?.status === "shipped-stretch");
+      await shipJob();
+      if (first) playSound("stamp", profile.settings.sound);
+      if (row.status !== "passed") await markPassed(step.id);
+    })();
+    // Shipping happens once, when the step opens and the Make step is done.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready]);
+
+  // Moss's style notes on what shipped (Section 5.1). They never stop a Job shipping.
+  useEffect(() => {
+    if (!ready || !store || !step.shipsFrom || landing) return;
+    const fromStep = job.steps.find((s) => s.id === step.shipsFrom);
+    if (!fromStep || !("entry" in fromStep)) return;
+    let cancelled = false;
+    void (async () => {
+      const rows = await store.prefixed("code_files", `${job.id}/${fromStep.id}/`);
+      const files = Object.fromEntries(rows.filter((r) => r.filename.endsWith(".py")).map((r) => [r.filename, r.content]));
+      if (!Object.keys(files).length) return;
+      // Python may still be finishing something (a check, or a run): wait a moment and try again.
+      for (let attempt = 0; attempt < 6 && !cancelled; attempt++) {
+        try {
+          const result = await getRuntime().review({ files });
+          if (!cancelled) setReview(result);
+          return;
+        } catch {
+          await new Promise((r) => setTimeout(r, 1000));
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+    // Reviewed once, when the Job ships.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready, store]);
+
+  useEffect(() => {
+    void loadIndex().then((i) => {
+      setHasClientSprite(Boolean(i.sprites[characters[job.client]?.sprite ?? job.client]));
+      setHasLampRoom(Boolean(i.scenes[job.scene]));
+    });
+  }, [characters, job.client]);
+
+  if (!ready) {
+    return (
+      <>
+        <div className={areas.brief}>
+          <p className={`label ${styles.kind}`}>Ship it</p>
+          <h2 className={styles.heading}>Not yet</h2>
+          <div className="prose">
+            <p>
+              {waitingFor.length > 1
+                ? `This ships when all its tasks pass. ${waitingFor.length} still to go.`
+                : `The job ships when the ${from?.title ?? "Make step"} passes its checks.`}
+            </p>
+          </div>
+          {from ? (
+            <div className={styles.next}>
+              <Button variant="primary" onClick={() => goTo(from.id)}>
+                Go to {from.title}
+              </Button>
+            </div>
+          ) : null}
+        </div>
+        <div className={areas.stage}>
+          <div className={styles.stagePad} />
+        </div>
+      </>
+    );
+  }
+
+  const clientName = characters[job.client]?.name ?? job.client;
+  const actors: Actor[] = [
+    { key: "moss", sprite: "moss", anim: "nod", at: "moss" },
+    { key: "learner", learner: profile.character ?? defaultLook(), pose: "sit", anim: "sit", at: "learner" },
+    { key: "dennis", sprite: "dennis", anim: "idle", at: "dennis" },
+  ];
+  if (job.client !== "moss" && hasClientSprite) actors.push({ key: "client", sprite: characters[job.client]!.sprite, anim: "happy", at: "client", flip: true });
+  const scene = sceneFor(job.scene, night, hasLampRoom ? undefined : new Set());
+  if (scene.startsWith("workshop")) actors.push(...workshopExtras(earned));
+  const shippedAt = jobProgress?.shippedAt ? new Date(jobProgress.shippedAt) : new Date();
+
+  const onStretchCheck = async (task: StretchTask, report: CheckReport) => {
+    const ok = report.status === "ok" && report.results.filter((r) => !r.stretch).every((r) => r.passed);
+    if (!ok || !store) return;
+    const done = [...new Set([...(jobProgress?.stretchDone ?? []), task.id])];
+    await updateJob(store, job.id, { stretchDone: done, status: "shipped-stretch" });
+  };
+
+  return (
+    <>
+      <div className={areas.brief}>
+        <p className={`label ${styles.kind}`}>Ship it</p>
+        <h2 className={styles.heading}>{step.places ? "Placed" : shipped ? "Shipped" : "Shipping"}</h2>
+        <div className="prose">
+          {step.places ? (
+            <p>
+              You&apos;re placed past {step.places.actTitle}. The next Act is open on the map. Its Jobs stay open if you want them, and its ideas join your review deck, so Morning Rounds will still check you remember them.
+            </p>
+          ) : (
+            <p>
+              {job.client === "moss" ? "Moss has it now." : `${clientName} has it now.`}
+              {step.shelf ? <> It&apos;s on your Shelf: {step.shelf.label.toLowerCase()}.</> : null}
+            </p>
+          )}
+        </div>
+        {step.awards.includes("name-plate") ? (
+          <p className={styles.cards}>Moss screws a brass plate to the edge of your desk. It has your name on it, spelt right.</p>
+        ) : null}
+        {step.awards.includes("keeper-coat") ? (
+          <p className={styles.cards}>
+            Old Tom hands you a lighthouse keeper&apos;s coat, brass buttons and all. It&apos;s yours to wear: <Link href="/settings">Settings</Link>, under your character.
+          </p>
+        ) : null}
+        {step.cards.length ? (
+          <p className={styles.cards}>New in your review deck: {step.cards.map((c) => conceptTitles[c] ?? c).join(", ")}. They come up from tomorrow.</p>
+        ) : null}
+        {review ? (
+          <section className={styles.block} style={{ marginTop: 24 }} aria-labelledby="review-title">
+            <h3 id="review-title" className="label">
+              Moss&apos;s review
+            </h3>
+            {review.notes.length === 0 ? (
+              <p className={styles.cards}>Moss reads it through twice and hands it back. Nothing to say, which is the review.</p>
+            ) : (
+              <>
+                <ul className={styles.tasks}>
+                  {review.notes.map((n) => (
+                    <li key={n.rule} className={styles.task}>
+                      <p className={styles.visibleName}>
+                        {n.title}{" "}
+                        <span className={styles.reviewWhere}>
+                          {n.file}, line {n.line}
+                          {n.count > 1 ? `, and ${n.count - 1} more like it` : ""}
+                        </span>
+                      </p>
+                      <p>
+                        {n.message.split("`").map((part, i) => (i % 2 ? <code key={i}>{part}</code> : part))}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+                <p className={styles.nextNote}>Style notes never stop a Job shipping. Tidy them now, or carry them into the next one.</p>
+              </>
+            )}
+          </section>
+        ) : null}
+        {job.stretch.length ? (
+          <section className={styles.block} style={{ marginTop: 24 }} aria-labelledby="stretch-title">
+            <h3 id="stretch-title" className="label">
+              Stretch, if you want more
+            </h3>
+            <ul className={styles.tasks}>
+              {job.stretch.map((t) => (
+                <li key={t.id} className={styles.task}>
+                  <p className={styles.visibleName}>
+                    {t.title} {stretchDone.has(t.id) ? <span className={styles.done}><PassIcon /> Done</span> : null}
+                  </p>
+                  <div className="prose" dangerouslySetInnerHTML={{ __html: t.promptHtml }} />
+                  <div>
+                    <Button size="sm" variant={stretch?.id === t.id ? "primary" : "secondary"} onClick={() => setStretch(t)}>
+                      {stretch?.id === t.id ? "Working on it" : "Try it"}
+                    </Button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
+        <div className={styles.next}>
+          {landing || guest ? (
+            <LinkButton variant="primary" href="/signup?keep=1">
+              Keep this: make an account
+            </LinkButton>
+          ) : (
+            <LinkButton variant="primary" href="/map">
+              Back to the map
+            </LinkButton>
+          )}
+          {!landing && !guest && step.shelf ? (
+            <Link href="/shelf" className={styles.nextNote}>
+              See it on your Shelf
+            </Link>
+          ) : null}
+        </div>
+      </div>
+      <div className={areas.stage}>
+        {stretch ? (
+          <CodeWorkspace
+            key={stretch.id}
+            stepId={`stretch-${stretch.id}`}
+            files={shipFiles.files}
+            entry={shipFiles.entry}
+            starter={{}}
+            starterFrom={step.shipsFrom}
+            checkKey={stretch.hasTests ? `${job.id}/stretch-${stretch.id}` : null}
+            onCheck={(r) => void onStretchCheck(stretch, r)}
+          />
+        ) : (
+          <div className={styles.stagePad}>
+            <div className={styles.ship}>
+              <div className={styles.shipScene}>
+                <SceneCanvas scene={scene} actors={actors} label={`${clientName} with the finished program. Moss nods.`} maxScale={4} />
+                <div className={styles.stamp} aria-hidden="true">
+                  {step.places ? "PLACED" : "SHIPPED"}
+                  <small>{shippedAt.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</small>
+                </div>
+              </div>
+              <ul className={styles.visibleList} aria-label="What was said">
+                {step.dialogue.map((l, i) => (
+                  <li key={i} className={styles.visibleItem}>
+                    <span className={styles.visibleName}>{characters[l.who]?.name ?? l.who}:</span> {l.text}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
+  );
+}
