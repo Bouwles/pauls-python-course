@@ -1,0 +1,103 @@
+# Misconceptions for the maths and plotting concepts that Act IV introduces and
+# Acts V to VII lean on: vectors, matrices, derivatives, the chain rule,
+# numerical gradients, probability, matplotlib and logistic regression.
+
+# -- Vectors ----------------------------------------------------------------------
+dot-gives-vector:
+  concept: vectors
+  description: Thinks the dot product of two vectors is a vector of the pairs multiplied, rather than one number, their sum.
+length-is-sum:
+  concept: vectors
+  description: Thinks a vector's length is the sum of its entries, rather than the square root of the sum of their squares.
+vector-adds-lengths:
+  concept: vectors
+  description: Thinks adding two vectors gives one whose length is the two lengths added, which is only true when they point the same way.
+zero-dot-means-zero-vector:
+  concept: vectors
+  description: Thinks a dot product of 0 means one of the vectors is all zeros, rather than that the two are at right angles.
+
+# -- Matrices ---------------------------------------------------------------------
+matmul-commutes:
+  concept: matrices
+  description: Thinks A @ B is the same as B @ A, as it would be for two ordinary numbers.
+matmul-keeps-inner-size:
+  concept: matrices
+  description: Thinks the shape of (n, k) @ (k, m) keeps the shared size k, rather than the outer sizes (n, m).
+transpose-changes-1d:
+  concept: matrices
+  description: Thinks .T turns a one-dimensional array into a column or a row, when it hands it back unchanged.
+
+# -- Derivatives ------------------------------------------------------------------
+slope-is-value:
+  concept: derivatives
+  description: Thinks a function's slope at a point is its value there, so a high point must be steep and a flat point must be at 0.
+curve-slope-constant:
+  concept: derivatives
+  description: Thinks a curve has one slope everywhere, like a straight line, so the slope of x ** 2 is 2 at every x.
+constant-changes-slope:
+  concept: derivatives
+  description: Thinks adding a constant to a function changes its slope, rather than only lifting the whole curve.
+partial-moves-everything:
+  concept: derivatives
+  description: Thinks a partial derivative moves every input at once, rather than one input with the rest held still.
+
+# -- The chain rule ---------------------------------------------------------------
+chain-forgets-inner:
+  concept: chain-rule
+  description: Takes the slope of a function of a function as the outer slope alone, forgetting to multiply by the inner function's slope.
+chain-rates-add:
+  concept: chain-rule
+  description: Thinks the rates along a chain add up, rather than multiply.
+outer-slope-at-x:
+  concept: chain-rule
+  description: Works out the outer function's slope at x itself, rather than at the inner function's value.
+
+# -- Numerical gradients ----------------------------------------------------------
+one-sided-as-good:
+  concept: numerical-gradients
+  description: Thinks nudging only upwards, (f(x + step) - f(x)) / step, measures a slope as accurately as nudging both ways.
+smaller-step-always-better:
+  concept: numerical-gradients
+  description: Thinks the smaller the step, the more accurate the measured slope, without limit, when very small steps let rounding errors take over.
+numerical-for-training:
+  concept: numerical-gradients
+  description: Thinks measured slopes should replace worked-out ones in training, when they cost two runs of the function per input and are kept for checking.
+
+# -- Probability ------------------------------------------------------------------
+sums-equally-likely:
+  concept: probability
+  description: Thinks every total of two dice is equally likely, forgetting to count how many pairs make each one.
+both-chances-add:
+  concept: probability
+  description: Thinks the chance that two independent things both happen is their chances added, rather than multiplied.
+gamblers-fallacy:
+  concept: probability
+  description: Thinks a run of one outcome makes the other more likely next time, when independent tries have no memory.
+short-run-is-exact:
+  concept: probability
+  description: Thinks a short simulation gives the true chance, rather than a rough estimate that wobbles and only settles over many runs.
+
+# -- matplotlib -------------------------------------------------------------------
+plot-replaces-line:
+  concept: matplotlib
+  description: Thinks each call to plot replaces the line already on the axes, rather than adding another.
+single-list-is-x:
+  concept: matplotlib
+  description: Thinks plot with one list uses it as the x values, when it is taken as the y values against 0, 1, 2 and so on.
+label-needs-no-legend:
+  concept: matplotlib
+  description: Thinks giving a line a label= is enough to show a key, without calling legend().
+figsize-in-pixels:
+  concept: matplotlib
+  description: Thinks figsize is measured in pixels, when it is in inches.
+
+# -- Logistic regression ----------------------------------------------------------
+logistic-outputs-class:
+  concept: logistic-regression
+  description: Thinks logistic regression answers 0 or 1 directly, rather than giving a probability that is then compared with a threshold.
+sigmoid-of-zero-is-zero:
+  concept: logistic-regression
+  description: Thinks a score of 0 gives a probability of 0, when the sigmoid of 0 is 0.5.
+confident-wrong-cheap:
+  concept: logistic-regression
+  description: Thinks log loss charges a confident wrong answer about the same as a hesitant one, when it grows without limit as the chance given to what happened falls to 0.

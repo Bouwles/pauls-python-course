@@ -1,0 +1,12 @@
+# The end of Ada Penhallow's thread (Act VIII).
+notes:
+  - id: the-radio-speaks
+    job: mosss-radio
+    title: "Saltmarsh lighthouse to the workshop"
+    text: "Saltmarsh lighthouse to the workshop. If you can hear this, Moss, your apprentice fixed the tuning. Come up to the lamp room, both of you. Bring the biscuits. A.P."
+    where: "On the old harbour frequency, 96.4, the night Moss's radio was tuned."
+  - id: tested-at-last
+    job: the-lamp-room
+    title: "Tested, at last"
+    text: "Tested, at last, by someone who asked why. It is wrong in four places. Keep asking it things it hasn't seen; that's the whole of the job, and it was always going to be somebody else's. Thank you. A.P."
+    where: "Penhallow's last comment, added to the top of hill.py in the lamp room, the night the tests were written."

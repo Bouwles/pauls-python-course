@@ -1,0 +1,17 @@
+# Misconceptions for Act VIII, University Readiness: binary search on the answer.
+
+answer-search-needs-a-list:
+  concept: binary-search-answer
+  description: Thinks binary search only works on a list it can index, not on a range of possible answers tested with a yes-or-no check.
+answer-search-needs-sorted-input:
+  concept: binary-search-answer
+  description: Thinks binary search on the answer needs the input sorted, rather than a check whose answer switches from no to yes only once.
+answer-search-stops-at-first-yes:
+  concept: binary-search-answer
+  description: Thinks the first guess that works is the answer, rather than a sign that the answer is that guess or smaller.
+answer-search-drops-the-yes:
+  concept: binary-search-answer
+  description: Thinks high = middle - 1 is right when the middle works, throwing away a guess that may be the answer.
+limit-below-heaviest:
+  concept: binary-search-answer
+  description: Thinks a load limit lighter than the heaviest item can still work, given enough trips.
