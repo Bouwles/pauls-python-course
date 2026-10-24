@@ -1,0 +1,35 @@
+id: the-lamp-room
+title: "The Lamp Room"
+client: penhallow
+building: lighthouse
+scene: lamp-room
+estimated_minutes: 75
+summary: "At the top of the lighthouse, someone has been waiting for the radio to work. The machine on the hill gets its first tests."
+concepts_reviewed: [assert, pytest, edge-cases, test-first, train-test-split, overfitting, neural-networks]
+ask:
+  dialogue:
+    - tom: "She asked me not to say. I haven't, for fifteen years. It's been very restful."
+    - penhallow: "You read the comments. Hardly anyone reads the comments."
+    - penhallow: "Sit down. The kettle's on, and there's something on the hill you should see."
+    - moss: "Ada."
+    - penhallow: "Moss. You brought the tin, at least."
+  spec: |
+    The machine on the hill runs the lamp, the fog horn and the sea wall gate from each night's readings. It has never had a single test.
+
+    Write the tests, in `test_hill.py`: test functions that check `decide` against Old Tom's rules, written down here for the first time, and that catch what the machine never learned. Your tests should pass on a machine that follows the rules, and fail on this one.
+  example: |
+    lamp: lit when it's dark, or when visibility is under 2000 m
+    horn: sounding when visibility is under 500 m, whatever the tide
+    gate: shut when the tide is 4.4 m or more, or 4.0 m or more in wind force 8 or above
+ship:
+  dialogue:
+    - penhallow: "It fails your tests. Good. Now we know where it stands, and so will whoever comes next."
+    - moss: "Measure twice."
+    - penhallow: "You taught me that. I never told you it stuck."
+    - tom: "Lamp's lit. Same as every night. Only now somebody knows why."
+    - pip: "I'd have added an if. Several, probably."
+    - narrator: "Dennis sits on the lamp room sill, looking out at the hill."
+  shelf: { object: lamp-room-key, label: "The key to the lamp room" }
+  cards: []
+  awards: [keeper-coat]
+story_note: tested-at-last
