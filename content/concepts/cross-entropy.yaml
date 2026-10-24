@@ -1,0 +1,171 @@
+id: cross-entropy
+title: Cross-entropy (log loss)
+summary: |
+  Cross-entropy, called log loss when the answer is yes or no, measures how wrong a chance was: for each case, minus the log of the chance the model gave to what actually happened, `-(y * np.log(p) + (1 - y) * np.log(1 - p))`, averaged over every case. Rain forecast at 0.9 costs 0.11; at 0.1 it costs 2.3; at 0 it costs without limit. Saying 0.5 every time costs log 2, about 0.69, which is the score any real model must beat. Paired with the sigmoid, its slope is simply the chance minus the answer, so a confidently wrong model gets a strong push, where mean squared error on chances barely nudges it. `np.log(0)` is minus infinity, so clip chances just inside 0 and 1 before taking logs.
+example: |
+  import numpy as np
+
+
+  def log_loss(y, p):
+      p = np.clip(p, 1e-12, 1 - 1e-12)
+      return -np.mean(y * np.log(p) + (1 - y) * np.log(1 - p))
+
+
+  rained = np.array([1, 0, 1, 0])
+  print(round(log_loss(rained, np.array([0.9, 0.2, 0.7, 0.1])), 3))
+  print(round(log_loss(rained, np.full(4, 0.5)), 3))
+misconceptions: [log-loss-uses-wrong-side, hedging-costs-nothing, same-decisions-same-loss, mse-fine-for-chances, log-zero-is-harmless]
+related: [logistic-regression, mean-squared-error, gradient-descent, probability]
+cards:
+  - type: predict
+    prompt: "Wendt's laziest forecast says 0.5 every evening. What does this print?"
+    code: |
+      import numpy as np
+
+      rained = np.array([1, 0, 0, 1, 1])
+      p = np.full(5, 0.5)
+      print(round(-np.mean(rained * np.log(p) + (1 - rained) * np.log(1 - p)), 3))
+    answer: "0.693"
+  - type: choice
+    prompt: "A dry evening, and the forecast gave rain a chance of 0.2. What does this night cost?"
+    code: |
+      import numpy as np
+
+      rained, p = 0, 0.2
+      print(round(-(rained * np.log(p) + (1 - rained) * np.log(1 - p)), 2))
+    options:
+      - text: "0.22"
+        correct: true
+        feedback: "A dry evening pays minus the log of the chance of no rain, 1 - 0.2 = 0.8. It was a good forecast, so it costs little."
+      - text: "1.61"
+        misconception: log-loss-uses-wrong-side
+        feedback: "That's -log(0.2), the cost of the chance of rain. On a dry evening, `rained` is 0, so the first half vanishes and the night pays -log(1 - p)."
+  - type: choice
+    prompt: "Both forecasts say rain on all four evenings, so they make the same decisions. Which has the lower log loss?"
+    code: |
+      import numpy as np
+
+
+      def log_loss(y, p):
+          return -np.mean(y * np.log(p) + (1 - y) * np.log(1 - p))
+
+
+      rained = np.array([1, 1, 1, 0])
+      bold = np.full(4, 0.99)
+      careful = np.full(4, 0.8)
+      print("bold" if log_loss(rained, bold) < log_loss(rained, careful) else "careful")
+    options:
+      - text: "careful"
+        correct: true
+        feedback: "On the dry evening, bold gave no rain a chance of 0.01, which costs 4.6 on its own. Careful's worst evening costs 1.6."
+      - text: "bold"
+        misconception: confident-wrong-cheap
+        feedback: "Bold saves a little on the three wet evenings and pays a great deal on the dry one: -log(0.01) is 4.6. Log loss punishes a confident miss far more than it rewards confidence."
+      - text: "They tie, because they make the same decisions"
+        misconception: same-decisions-same-loss
+        feedback: "The decisions match, but log loss scores the chances, not the decisions. 0.99 and 0.8 are charged very differently on the evening it stayed dry."
+  - type: choice
+    prompt: "A wet evening, and the model's score was -6: it was sure of a dry night. Which loss pushes harder on that score?"
+    code: |
+      import numpy as np
+
+      y = 1
+      z = -6.0
+      p = 1 / (1 + np.exp(-z))
+      mse_slope = 2 * (p - y) * p * (1 - p)
+      log_loss_slope = p - y
+      print(abs(log_loss_slope) > 100 * abs(mse_slope))
+    options:
+      - text: "True"
+        correct: true
+        feedback: "Log loss's slope is p - y, nearly -1, a firm push. Mean squared error's carries the sigmoid's own slope, p * (1 - p), which is tiny out here, so a confidently wrong model barely moves."
+      - text: "False"
+        misconception: mse-fine-for-chances
+        feedback: "Squared error on the chance has the sigmoid's slope, p * (1 - p), as a factor, and at a score of -6 that's about 0.0025. Log loss cancels it, which is why classifiers are trained on log loss."
+  - type: fill
+    prompt: "Fill the gap so `loss` is the mean log loss of the three evenings."
+    code: |
+      import numpy as np
+
+      rained = np.array([0, 1, 0])
+      p = np.array([0.1, 0.6, 0.3])
+      loss = -np.mean(rained * np.log(p) + (1 - rained) * np.log(___))
+      print(round(loss, 3))
+    blanks: [["1 - p", "1-p"]]
+    tests: |
+      TESTS = [output("Three evenings", expect="0.324")]
+  - type: fix
+    prompt: "Pip's log loss prints nan when a forecast of 1.0 turns out right. Fix the function so a chance of exactly 0 or 1 is safe."
+    code: |
+      import numpy as np
+
+
+      def log_loss(y, p):
+          return -np.mean(y * np.log(p) + (1 - y) * np.log(1 - p))
+
+
+      print(log_loss(np.array([1, 0]), np.array([1.0, 0.2])))
+    tests: |
+      import numpy as np
+
+
+      def safe(ctx):
+          m = ctx.module()
+          got = m.log_loss(np.array([1, 0]), np.array([1.0, 0.2]))
+          want = -np.log(0.8) / 2
+          if got is None or not np.isfinite(got) or abs(got - want) > 1e-6:
+              raise CheckFailed("A right forecast of 1.0 costs nothing; the dry evening at 0.2 costs -log(0.8). The mean of those.",
+                                expected=round(float(want), 4), actual=repr(got))
+
+
+      def sure_and_wrong(ctx):
+          m = ctx.module()
+          got = m.log_loss(np.array([1]), np.array([0.0]))
+          if got is None or not np.isfinite(got) or got < 20:
+              raise CheckFailed("Sure of no rain, and it rained: a big number, but a number.", expected="a finite number over 20", actual=repr(got))
+
+
+      def ordinary(ctx):
+          m = ctx.module()
+          y, p = np.array([1, 0, 1]), np.array([0.7, 0.4, 0.9])
+          want = -np.mean(y * np.log(p) + (1 - y) * np.log(1 - p))
+          got = m.log_loss(y, p)
+          if got is None or abs(got - want) > 1e-9:
+              raise CheckFailed("Ordinary chances shouldn't change.", expected=round(float(want), 4), actual=repr(got))
+
+
+      TESTS = [custom("Right at 1.0", safe), custom("Wrong at 0.0", sure_and_wrong), custom("Ordinary chances", ordinary)]
+    solution: |
+      import numpy as np
+
+
+      def log_loss(y, p):
+          p = np.clip(p, 1e-12, 1 - 1e-12)
+          return -np.mean(y * np.log(p) + (1 - y) * np.log(1 - p))
+
+
+      print(log_loss(np.array([1, 0]), np.array([1.0, 0.2])))
+  - type: write
+    prompt: "Write `night_cost(rained, chance)`: what one evening costs in log loss. `rained` is 1 or 0; `chance` is the forecast chance of rain."
+    starter: |
+      import math
+
+
+      def night_cost(rained, chance):
+          pass
+    tests: |
+      import math
+
+      TESTS = [
+          function("Rain at 0.9", call="night_cost", args=(1, 0.9), expect=-math.log(0.9), tol=1e-9),
+          function("Dry at 0.9", call="night_cost", args=(0, 0.9), expect=-math.log(0.1), tol=1e-9),
+          function("Dry at 0.25", call="night_cost", args=(0, 0.25), expect=-math.log(0.75), tol=1e-9),
+      ]
+    solution: |
+      import math
+
+
+      def night_cost(rained, chance):
+          if rained:
+              return -math.log(chance)
+          return -math.log(1 - chance)

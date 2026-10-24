@@ -1,0 +1,123 @@
+id: reproducibility
+title: Reproducible results
+summary: |
+  A result is reproducible when someone else can run it again and get the same numbers. Give every random draw a seed: `np.random.default_rng(7)` starts the same sequence every time it is made, though each call on it carries on to the next numbers. `random.seed` doesn't touch NumPy's generators. One seed is still one sample, so run several, report the median and the spread rather than the best, and write down the settings and versions you used.
+example: |
+  import numpy as np
+
+  errors = [np.random.default_rng(seed).normal(0.4, 0.05) for seed in range(5)]
+  print(f"median {np.median(errors):.3f}, from {min(errors):.3f} to {max(errors):.3f}")
+misconceptions: [seeded-generator-repeats, random-seed-seeds-numpy, one-seed-is-enough]
+related: [random-module, double-descent, numpy-arrays]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      first = np.random.default_rng(7).integers(0, 100, 3)
+      again = np.random.default_rng(7).integers(0, 100, 3)
+      print((first == again).all())
+    answer: "True"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      rng = np.random.default_rng(7)
+      first = rng.integers(0, 100, 3)
+      second = rng.integers(0, 100, 3)
+      print((first == second).all())
+    options:
+      - text: "False"
+        correct: true
+        feedback: "The seed fixes the whole sequence, not each call. The second call carries on from where the first stopped, so it gets the next three numbers. Run the program again and both lines repeat exactly."
+      - text: "True"
+        misconception: seeded-generator-repeats
+        feedback: "A seeded generator isn't stuck on one answer. It gives the same sequence every run, but each call takes the next numbers along."
+  - type: choice
+    prompt: "Pip seeds Python's `random` before each draw. What does this print?"
+    code: |
+      import random
+
+      import numpy as np
+
+      random.seed(1)
+      a = np.random.default_rng().random()
+      random.seed(1)
+      b = np.random.default_rng().random()
+      print(a == b)
+    options:
+      - text: "False"
+        correct: true
+        feedback: "`random.seed` seeds Python's `random` module and nothing else. `default_rng()` with no seed starts from fresh randomness each time. Give it the seed: `default_rng(1)`."
+      - text: "True"
+        misconception: random-seed-seeds-numpy
+        feedback: "NumPy's generators don't listen to `random.seed`. Without a seed of its own, `default_rng()` is different every time."
+  - type: fix
+    prompt: "The trial ignores its seed, so nobody can repeat it. Fix it so this prints `True`."
+    code: |
+      import numpy as np
+
+
+      def noisy_readings(seed):
+          rng = np.random.default_rng()
+          return rng.normal(0, 1, 3)
+
+
+      print((noisy_readings(4) == noisy_readings(4)).all())
+    tests: |
+      TESTS = [output("Same seed, same readings", expect="True")]
+    solution: |
+      import numpy as np
+
+
+      def noisy_readings(seed):
+          rng = np.random.default_rng(seed)
+          return rng.normal(0, 1, 3)
+
+
+      print((noisy_readings(4) == noisy_readings(4)).all())
+  - type: fill
+    prompt: "Five seeds; one of them landed on the peak. Fill the gap with the summary that one wild seed can't drag about."
+    code: |
+      import numpy as np
+
+      errors = [0.41, 0.39, 0.40, 37.2, 0.42]
+      print(np.___(errors))
+    blanks: [["median"]]
+    tests: |
+      TESTS = [output("The middle one", expect="0.41")]
+  - type: write
+    prompt: "Run `trial` for seeds 0 to 9. Print the median and the spread, the largest minus the smallest, to three places: `median 0.000, spread 0.000`."
+    starter: |
+      import numpy as np
+
+
+      def trial(seed):
+          return float(np.random.default_rng(seed).normal(0.4, 0.05))
+    tests: |
+      import numpy as _np
+
+
+      def report(ctx):
+          errors = [float(_np.random.default_rng(seed).normal(0.4, 0.05)) for seed in range(10)]
+          want = f"median {_np.median(errors):.3f}, spread {max(errors) - min(errors):.3f}"
+          result = ctx.run_program()
+          if result.error is not None:
+              raise CheckFailed(f"The program crashed: {type(result.error).__name__}: {result.error}")
+          if result.output.strip() != want:
+              raise CheckFailed("The median over seeds 0 to 9, and the largest minus the smallest.", expected=want, actual=result.output.strip())
+
+
+      TESTS = [custom("Ten seeds, summarised", report)]
+    solution: |
+      import numpy as np
+
+
+      def trial(seed):
+          return float(np.random.default_rng(seed).normal(0.4, 0.05))
+
+
+      errors = [trial(seed) for seed in range(10)]
+      print(f"median {np.median(errors):.3f}, spread {max(errors) - min(errors):.3f}")

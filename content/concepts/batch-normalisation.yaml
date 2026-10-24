@@ -1,0 +1,110 @@
+id: batch-normalisation
+title: Batch normalisation
+summary: |
+  Batch normalisation puts every hidden neuron back on the same scale between layers. In training, for each column of `Z` (one neuron), it subtracts the batch's mean and divides by `np.sqrt(var + eps)`, then multiplies by `gamma` and adds `beta`, two arrays the network learns. It also keeps running averages of the means and variances, `momentum * old + (1 - momentum) * new`. At evaluation it uses those running averages instead, because a batch of one evening is its own average and would come out as all zeros.
+example: |
+  import numpy as np
+
+  Z = np.array([[3000.0, 12.0], [200.0, 30.0], [50.0, 2.0]])    # metres, knots
+  mean, var = Z.mean(axis=0), Z.var(axis=0)
+  print(np.round((Z - mean) / np.sqrt(var + 1e-5), 2))
+misconceptions: [batchnorm-single-row-keeps-values, batchnorm-divides-by-zero, batchnorm-normalises-rows, batchnorm-eval-uses-batch]
+related: [feature-scaling, neural-networks, regularisation, dropout]
+cards:
+  - type: predict
+    prompt: "One neuron, three evenings. What does this print?"
+    code: |
+      import numpy as np
+
+      Z = np.array([[2.0], [4.0], [6.0]])
+      out = (Z - Z.mean(axis=0)) / np.sqrt(Z.var(axis=0) + 1e-5)
+      print(np.round(out.ravel(), 2))
+    answer: "[-1.22  0.    1.22]"
+  - type: choice
+    prompt: "Batch norm in training, with `gamma` and `beta`. What does this print?"
+    code: |
+      import numpy as np
+
+      Z = np.array([[1.0, 10.0], [3.0, 30.0], [5.0, 20.0]])
+      gamma, beta = np.array([2.0, 0.5]), np.array([1.0, 0.0])
+      out = gamma * (Z - Z.mean(axis=0)) / np.sqrt(Z.var(axis=0) + 1e-5) + beta
+      print(np.round(out.std(axis=0), 2), np.round(out.mean(axis=0), 2))
+    options:
+      - text: "[2.  0.5] [1. 0.]"
+        correct: true
+        feedback: "Right. Normalising gives each column spread 1 and mean 0; then `gamma` sets the spread and `beta` the mean. The network learns both."
+      - text: "[1. 1.] [0. 0.]"
+        misconception: batchnorm-single-row-keeps-values
+        feedback: "That's straight after normalising. `gamma` and `beta` then rescale and shift each column, so the network can undo the normalising where that helps."
+  - type: choice
+    prompt: "The network was trained with batch norm. Tonight there is one evening to put through it. Which mean and variance should batch norm use?"
+    verify: none
+    options:
+      - text: "The running averages it kept during training"
+        correct: true
+      - text: "Tonight's own mean and variance"
+        misconception: batchnorm-eval-uses-batch
+        feedback: "One evening is its own mean, so every neuron would come out as exactly beta whatever the readings were. The running averages are kept for exactly this."
+  - type: fill
+    prompt: "Fill the gap: fold this batch's mean into the running mean."
+    code: |
+      import numpy as np
+
+      running = {"mean": np.array([0.0, 10.0])}
+      Z = np.array([[2.0, 20.0], [4.0, 40.0]])
+      mean = Z.mean(axis=0)
+      momentum = 0.9
+      running["mean"] = momentum * running["mean"] + (1 - momentum) * ___
+      print(np.round(running["mean"], 2))
+    blanks: [["mean", "Z.mean(axis=0)"]]
+    tests: |
+      TESTS = [output("A tenth of the way towards the batch", expect="[ 0.3 12. ]")]
+  - type: fix
+    prompt: "This normalises the wrong way. Each neuron (column) should come out with mean 0. Fix it."
+    code: |
+      import numpy as np
+
+      Z = np.array([[1.0, 100.0], [2.0, 300.0], [3.0, 200.0]])
+      mean = Z.mean(axis=1, keepdims=True)
+      var = Z.var(axis=1, keepdims=True)
+      out = (Z - mean) / np.sqrt(var + 1e-5)
+      print(np.round(out.mean(axis=0), 2) + 0.0)
+    tests: |
+      TESTS = [output("Every column has mean 0", expect="[0. 0.]")]
+    solution: |
+      import numpy as np
+
+      Z = np.array([[1.0, 100.0], [2.0, 300.0], [3.0, 200.0]])
+      mean = Z.mean(axis=0)
+      var = Z.var(axis=0)
+      out = (Z - mean) / np.sqrt(var + 1e-5)
+      print(np.round(out.mean(axis=0), 2) + 0.0)
+  - type: write
+    prompt: "Write `batch_norm_eval(Z, gamma, beta, running, eps=1e-5)`: batch norm at evaluation, using `running[\"mean\"]` and `running[\"var\"]`."
+    starter: |
+      import numpy as np
+
+
+      def batch_norm_eval(Z, gamma, beta, running, eps=1e-5):
+          return (Z - Z.mean(axis=0)) / np.sqrt(Z.var(axis=0) + eps)
+    tests: |
+      import numpy as np
+
+
+      def one_evening(ctx):
+          m = ctx.module()
+          running = {"mean": np.array([2.0, -1.0]), "var": np.array([4.0, 0.25])}
+          Z = np.array([[3.0, -0.5]])
+          got = m.batch_norm_eval(Z, np.array([1.0, 2.0]), np.array([0.0, 1.0]), running)
+          want = np.array([1.0, 2.0]) * (Z - running["mean"]) / np.sqrt(running["var"] + 1e-5) + np.array([0.0, 1.0])
+          if got is None or np.shape(got) != want.shape or not np.allclose(got, want):
+              raise CheckFailed("One evening, with the running numbers.", expected=np.round(want, 4).tolist(), actual=repr(got))
+
+
+      TESTS = [custom("One evening at evaluation", one_evening)]
+    solution: |
+      import numpy as np
+
+
+      def batch_norm_eval(Z, gamma, beta, running, eps=1e-5):
+          return gamma * (Z - running["mean"]) / np.sqrt(running["var"] + eps) + beta

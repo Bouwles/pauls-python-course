@@ -1,0 +1,141 @@
+id: pipelines
+title: "Pipelines: steps that travel together"
+summary: |
+  `make_pipeline(StandardScaler(), KNeighborsClassifier())` chains steps into one model. Its `fit` fits each step in turn: the scaler measures each column's mean and spread, then the k-NN learns from the scaled readings. Its `predict` scales new readings with those same means and spreads, then asks the k-NN. Because the pipeline is one model, `cross_val_score` and `GridSearchCV` refit all of it in every fold, so the fold being scored never helps measure anything. Each step is named after its class, in lower case: `standardscaler`, `kneighborsclassifier`.
+example: |
+  import numpy as np
+  from sklearn.neighbors import KNeighborsClassifier
+  from sklearn.pipeline import make_pipeline
+  from sklearn.preprocessing import StandardScaler
+
+  # cloud (oktas) and visibility (metres): very different rulers
+  X = np.array([[1, 30000], [2, 25000], [7, 26000], [8, 4000]])
+  usable = np.array([1, 1, 0, 0])
+
+  model = make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=1))
+  model.fit(X, usable)
+  print(model.predict([[7, 29000]]))
+  print(list(model.named_steps))
+misconceptions: [scale-before-cross-validation, pipeline-refits-on-predict, pipeline-is-a-list]
+related: [feature-scaling, scikit-learn, cross-validation, grid-search]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      from sklearn.linear_model import LogisticRegression
+      from sklearn.pipeline import make_pipeline
+      from sklearn.preprocessing import StandardScaler
+
+      model = make_pipeline(StandardScaler(), LogisticRegression())
+      print(list(model.named_steps))
+    answer: "['standardscaler', 'logisticregression']"
+  - type: choice
+    prompt: "The pipeline learns from two evenings, then predicts a third. What does this print?"
+    code: |
+      import numpy as np
+      from sklearn.linear_model import LogisticRegression
+      from sklearn.pipeline import make_pipeline
+      from sklearn.preprocessing import StandardScaler
+
+      model = make_pipeline(StandardScaler(), LogisticRegression())
+      model.fit(np.array([[0.0], [10.0]]), np.array([0, 1]))
+      print(model.named_steps["standardscaler"].mean_, end=" ")
+      model.predict(np.array([[100.0]]))
+      print(model.named_steps["standardscaler"].mean_)
+    options:
+      - text: "[5.] [5.]"
+        correct: true
+        feedback: "Right. The scaler measured its mean during `fit`. `predict` reuses it, so new readings are measured with the training ruler."
+      - text: "[5.] [100.]"
+        misconception: pipeline-refits-on-predict
+        feedback: "Only `fit` measures. `predict` scales the new reading with the mean and spread from training, which is exactly what you want: tonight is measured with the same ruler as the nights the model learnt from."
+  - type: choice
+    prompt: "Pip runs `StandardScaler().fit_transform(X)` on all 320 evenings, then `cross_val_score(KNeighborsClassifier(), X_scaled, y, cv=5)`. What's wrong with that?"
+    verify: none
+    options:
+      - text: "Every fold was scaled with means and spreads measured partly on itself. Put the scaler in a pipeline"
+        correct: true
+        feedback: "Right. Inside a pipeline, each fold is scaled using only the other folds, the way a new evening will be."
+      - text: "Nothing. The means and spreads come out much the same whichever evenings measure them"
+        misconception: scale-before-cross-validation
+        feedback: "Often nearly the same, which is why it's easy to miss. But the fold being scored has had a say in its own ruler, and with steps that learn more than a mean, like choosing columns, the score can come out far too kind."
+  - type: fill
+    prompt: "Fill the gaps so the readings are scaled before the neighbours are asked."
+    code: |
+      import numpy as np
+      from sklearn.neighbors import KNeighborsClassifier
+      from sklearn.pipeline import make_pipeline
+      from sklearn.preprocessing import StandardScaler
+
+      X = np.array([[1, 30000], [2, 25000], [7, 26000], [8, 4000]])
+      usable = np.array([1, 1, 0, 0])
+      model = ___(___(), KNeighborsClassifier(n_neighbors=1))
+      model.fit(X, usable)
+      print(model.predict([[7, 29000]]))
+    blanks: [["make_pipeline"], ["StandardScaler"]]
+    tests: |
+      TESTS = [output("Seven oktas is cloudy, whatever the visibility", expect="[0]")]
+  - type: fix
+    prompt: "Tonight's prediction should change with tonight's readings, but it's the same every time. Fix it so tonight is scaled with the training evenings' means and spreads."
+    code: |
+      import numpy as np
+      from sklearn.linear_model import LogisticRegression
+      from sklearn.preprocessing import StandardScaler
+
+      X = np.array([[1.0, 60.0], [2.0, 65.0], [7.0, 90.0], [8.0, 95.0]])
+      usable = np.array([1, 1, 0, 0])
+      scaler = StandardScaler()
+      model = LogisticRegression().fit(scaler.fit_transform(X), usable)
+
+      for tonight in ([[1.5, 62.0]], [[7.5, 93.0]]):
+          print(model.predict(StandardScaler().fit_transform(tonight)))
+    tests: |
+      TESTS = [output("A clear night, then a cloudy one", expect="[1]\n[0]")]
+    solution: |
+      import numpy as np
+      from sklearn.linear_model import LogisticRegression
+      from sklearn.pipeline import make_pipeline
+      from sklearn.preprocessing import StandardScaler
+
+      X = np.array([[1.0, 60.0], [2.0, 65.0], [7.0, 90.0], [8.0, 95.0]])
+      usable = np.array([1, 1, 0, 0])
+      model = make_pipeline(StandardScaler(), LogisticRegression()).fit(X, usable)
+
+      for tonight in ([[1.5, 62.0]], [[7.5, 93.0]]):
+          print(model.predict(tonight))
+  - type: write
+    prompt: "Make `model`: a pipeline that scales, then fits `LogisticRegression()`. Fit it on `X` and `y`, and print its predictions for `new`."
+    starter: |
+      import numpy as np
+      from sklearn.linear_model import LogisticRegression
+      from sklearn.pipeline import make_pipeline
+      from sklearn.preprocessing import StandardScaler
+
+      # passengers and rain (mm): did Bea sell out by noon?
+      X = np.array([[400, 0.0], [350, 1.0], [120, 9.0], [90, 12.0]])
+      y = np.array([1, 1, 0, 0])
+      new = np.array([[380, 0.5], [100, 10.0]])
+    tests: |
+      def is_pipeline(ctx):
+          from sklearn.pipeline import Pipeline
+          from sklearn.preprocessing import StandardScaler
+          model = getattr(ctx.module(), "model", None)
+          if not isinstance(model, Pipeline) or not isinstance(model.steps[0][1], StandardScaler):
+              raise CheckFailed("model should be a pipeline that starts with a StandardScaler.", actual=repr(model))
+
+
+      TESTS = [output("A busy dry Saturday, then a wet quiet one", expect="[1 0]"), custom("It's a pipeline", is_pipeline)]
+    solution: |
+      import numpy as np
+      from sklearn.linear_model import LogisticRegression
+      from sklearn.pipeline import make_pipeline
+      from sklearn.preprocessing import StandardScaler
+
+      # passengers and rain (mm): did Bea sell out by noon?
+      X = np.array([[400, 0.0], [350, 1.0], [120, 9.0], [90, 12.0]])
+      y = np.array([1, 1, 0, 0])
+      new = np.array([[380, 0.5], [100, 10.0]])
+      model = make_pipeline(StandardScaler(), LogisticRegression())
+      model.fit(X, y)
+      print(model.predict(new))

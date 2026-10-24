@@ -1,0 +1,138 @@
+id: base-cases
+title: Base cases
+summary: |
+  A base case is the answer a recursive function gives straight away, without calling itself: an empty crate weighs nothing, a hook on the ground needs no pulls. Every call must move closer to a base case, and the base case has to catch every way the calls can arrive, not just the one you pictured. `height == 0` misses a height that goes 3, 1, -1; `height <= 0` doesn't. Without a base case that's reached, Python stops the program with a `RecursionError`.
+example: |
+  def pulls(height):
+      if height <= 0:
+          return 0
+      return 1 + pulls(height - 2)
+
+
+  print(pulls(7))
+misconceptions: [base-case-exact-match, no-base-case-runs-forever, base-case-after-call]
+related: [recursion, call-stack]
+cards:
+  - type: choice
+    prompt: What happens?
+    code: |
+      def halvings(pile):
+          if pile == 1:
+              return 0
+          return 1 + halvings(pile // 2)
+
+
+      print(halvings(0))
+    verify: error
+    options:
+      - text: A RecursionError
+        correct: true
+        error: RecursionError
+        feedback: "`0 // 2` is 0, so every call asks about a pile of 0 again. It never reaches 1, and Python stops it about a thousand calls deep."
+      - text: It prints 0
+        misconception: base-case-exact-match
+        feedback: "The base case only answers for a pile of exactly 1. A pile of 0 halves to 0, again and again, and never gets there."
+      - text: It runs for ever, until you press Stop
+        misconception: no-base-case-runs-forever
+        feedback: "Unlike a loop, recursion can't go on for ever: every waiting call takes room, and Python stops it with a RecursionError at about a thousand."
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def stack_height(crates):
+          if crates <= 0:
+              return 0
+          return 40 + stack_height(crates - 1)
+
+
+      print(stack_height(3), stack_height(0))
+    answer: "120 0"
+  - type: fix
+    prompt: "Nell numbers every third crate, counting down: `labels(10)` should be `[10, 7, 4, 1]`. It crashes instead. Fix the base case."
+    code: |
+      def labels(number):
+          if number == 0:
+              return []
+          return [number] + labels(number - 3)
+
+
+      print(labels(10))
+    tests: |
+      TESTS = [
+          function("From 10", call="labels", args=(10,), expect=[10, 7, 4, 1],
+                   hint="From 10 the numbers go 10, 7, 4, 1, -2. The base case has to catch -2."),
+          function("From 9", call="labels", args=(9,), expect=[9, 6, 3]),
+          function("From 0", call="labels", args=(0,), expect=[]),
+      ]
+    solution: |
+      def labels(number):
+          if number <= 0:
+              return []
+          return [number] + labels(number - 3)
+
+
+      print(labels(10))
+  - type: fill
+    prompt: "Fill the gap so a pile of one part, or none, is handed straight back."
+    code: |
+      def quick_sort(pile):
+          if len(pile) ___ 1:
+              return pile
+          pivot = pile[0]
+          lighter = [weight for weight in pile if weight < pivot]
+          same = [weight for weight in pile if weight == pivot]
+          heavier = [weight for weight in pile if weight > pivot]
+          return quick_sort(lighter) + same + quick_sort(heavier)
+
+
+      print(quick_sort([5, 2, 8, 2]))
+      print(quick_sort([]))
+    blanks: [["<="]]
+    tests: |
+      TESTS = [output("Sorted, and empty", expect="[2, 2, 5, 8]\n[]")]
+  - type: choice
+    prompt: "Which is the base case for `count_parts(crate)`, which counts the parts in crates inside crates?"
+    verify: none
+    options:
+      - text: "A crate with no crates in it: count its parts and call nothing"
+        correct: true
+        feedback: "That's where the calls stop. With nested crates, the base case is often not an `if` at all: a crate with no crates inside just never reaches the recursive call."
+      - text: "There isn't one, so it runs until Python stops it"
+        misconception: no-base-case-runs-forever
+        feedback: "Every crate is smaller than the one it's in, and the smallest have no crates inside. Those calls make no further calls, so it stops."
+  - type: write
+    prompt: "Write `digits(number)` recursively: how many digits a whole number of 0 or more has. A number under 10 has one; any other has one more than `number // 10`."
+    starter: |
+      def digits(number):
+          pass
+    tests: |
+      TESTS = [
+          function("Seven", call="digits", args=(7,), expect=1),
+          function("Nought", call="digits", args=(0,), expect=1),
+          function("Ten", call="digits", args=(10,), expect=2),
+          function("A big number", call="digits", args=(4096000,), expect=7),
+      ]
+    solution: |
+      def digits(number):
+          if number < 10:
+              return 1
+          return 1 + digits(number // 10)
+  - type: choice
+    prompt: What happens?
+    code: |
+      def count_down(number):
+          count_down(number - 1)
+          if number == 0:
+              return
+          print(number)
+
+
+      count_down(2)
+    verify: error
+    options:
+      - text: A RecursionError, before anything is printed
+        correct: true
+        error: RecursionError
+        feedback: "Every call makes its recursive call on the first line, before it ever reaches the check. The check never runs, so nothing stops the calls."
+      - text: It prints 1, then 2
+        misconception: base-case-after-call
+        feedback: "The base case has to come before the recursive call. Here each call calls again straight away, so no call ever gets as far as asking whether it's 0."

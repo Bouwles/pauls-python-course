@@ -1,0 +1,119 @@
+id: regularisation
+title: "Regularisation: weight decay and early stopping"
+summary: |
+  A regulariser gives up a little fit on the training data to fit unseen data better, usually by stopping the model from bending itself round every noisy point. **Weight decay** adds `decay * W` to each weight matrix's gradient before the step, so every weight shrinks by a share of itself each step unless the loss pushes back; biases are left alone. **Early stopping** watches the validation loss every epoch, keeps a copy of the weights whenever it reaches a new low, stops after `patience` epochs without one, and puts the best weights back. Regularising usually raises the training loss. Judge it, and choose its strength, by the validation loss.
+example: |
+  import numpy as np
+
+  w = np.array([2.0, -1.0])           # two weights the loss doesn't need
+  for step in range(3):
+      gradient = np.zeros(2) + 0.2 * w     # weight decay 0.2
+      w = w - 0.5 * gradient
+  print(np.round(w, 3))
+misconceptions: [decay-needs-gradient, decay-subtracts-constant, decay-zeroes-weights, decay-on-biases, early-stop-on-training-loss, early-stop-keeps-last, early-stop-at-first-rise, early-stop-compares-last, regularising-lowers-training-loss, dict-copy-copies-arrays]
+related: [overfitting, dropout, batch-normalisation, gradient-descent, train-test-split]
+cards:
+  - type: predict
+    prompt: "One step of gradient descent with weight decay. What does this print?"
+    code: |
+      w, gradient = 1.0, 0.3
+      rate, decay = 0.1, 0.5
+
+      w = w - rate * (gradient + decay * w)
+      print(round(w, 2))
+    answer: "0.92"
+  - type: choice
+    prompt: "Early stopping with patience 3, on a list of validation losses. What does this print?"
+    code: |
+      val_losses = [0.9, 0.7, 0.6, 0.65, 0.62, 0.61, 0.7, 0.8]
+      patience = 3
+      best, best_loss = 0, float("inf")
+      for epoch, loss in enumerate(val_losses):
+          if loss < best_loss:
+              best, best_loss = epoch, loss
+          elif epoch - best >= patience:
+              break
+      print(epoch, best)
+    options:
+      - text: "5 2"
+        correct: true
+        feedback: "Right. The best is 0.6 at epoch 2. Epochs 3, 4 and 5 don't beat it, and at epoch 5 patience has run out."
+      - text: "3 2"
+        misconception: early-stop-at-first-rise
+        feedback: "That stops the first time the loss goes up. Patience waits three epochs to see whether it was a wobble: 0.62 and 0.61 were nearly a recovery."
+      - text: "7 5"
+        misconception: early-stop-compares-last
+        feedback: "That compares each loss with the epoch before. 0.61 beats 0.62, but not 0.6, the best so far. The best stays at epoch 2, so patience runs out at epoch 5."
+  - type: choice
+    prompt: "Wendt switched on weight decay. The training loss went from 0.0000 to 0.0451, and the validation loss from 0.2455 to 0.1340. Is something wrong?"
+    verify: none
+    options:
+      - text: "No. It gave up fit on the 24 training nights for a better fit on the 36 it never saw"
+        correct: true
+      - text: "Yes. A regulariser should bring the training loss down too"
+        misconception: regularising-lowers-training-loss
+        feedback: "Regularising holds the network back from fitting the training data exactly, so the training loss usually rises. The validation loss is the one it's for."
+  - type: fill
+    prompt: "Fill the gap so the weights, and only the weights, get weight decay."
+    code: |
+      import numpy as np
+
+      params = {"W1": np.array([1.0, -2.0]), "b1": np.array([4.0])}
+      grads = {"W1": np.array([0.5, 0.5]), "b1": np.array([0.5])}
+      decay = 0.1
+
+      decayed = {name: grads[name] + decay * params[name] if name.startswith(___) else grads[name]
+                 for name in grads}
+      print(decayed["W1"], decayed["b1"])
+    blanks: [['"W"', "'W'"]]
+    tests: |
+      TESTS = [output("Weights decayed, bias left alone", expect="[0.6 0.3] [0.5]")]
+  - type: fix
+    prompt: "This early stopping never stops. Fix it so it watches the right loss."
+    code: |
+      train_losses = [0.9, 0.5, 0.3, 0.2, 0.1, 0.05, 0.02, 0.01]
+      val_losses = [1.0, 0.6, 0.4, 0.45, 0.5, 0.55, 0.6, 0.7]
+      patience = 2
+      best, best_loss = 0, float("inf")
+      for epoch in range(len(val_losses)):
+          if train_losses[epoch] < best_loss:
+              best, best_loss = epoch, train_losses[epoch]
+          elif epoch - best >= patience:
+              break
+      print("Stopped at", epoch, "best", best)
+    tests: |
+      TESTS = [output("Stops two epochs after the best validation loss", expect="Stopped at 4 best 2")]
+    solution: |
+      train_losses = [0.9, 0.5, 0.3, 0.2, 0.1, 0.05, 0.02, 0.01]
+      val_losses = [1.0, 0.6, 0.4, 0.45, 0.5, 0.55, 0.6, 0.7]
+      patience = 2
+      best, best_loss = 0, float("inf")
+      for epoch in range(len(val_losses)):
+          if val_losses[epoch] < best_loss:
+              best, best_loss = epoch, val_losses[epoch]
+          elif epoch - best >= patience:
+              break
+      print("Stopped at", epoch, "best", best)
+  - type: write
+    prompt: "Write `decayed_step(w, gradient, rate, decay)`: one gradient descent step for weight `w`, with weight decay."
+    starter: |
+      def decayed_step(w, gradient, rate, decay):
+          return w - rate * gradient
+    tests: |
+      TESTS = [
+          function("A weight the loss doesn't need", call="decayed_step", args=(2.0, 0.0, 0.5, 0.2), expect=1.8, tol=1e-9),
+          function("A weight the loss pushes up", call="decayed_step", args=(1.0, -0.4, 0.1, 0.5), expect=0.99, tol=1e-9),
+          function("No decay at all", call="decayed_step", args=(3.0, 1.0, 0.1, 0.0), expect=2.9, tol=1e-9),
+      ]
+    solution: |
+      def decayed_step(w, gradient, rate, decay):
+          return w - rate * (gradient + decay * w)
+  - type: choice
+    prompt: "Pip keeps `best_params = params.copy()` at each new best, then trains on with `params[name] -= rate * grads[name]`. What does he hand back at the end?"
+    verify: none
+    options:
+      - text: "The last epoch's weights: the copied dict holds the same arrays, and -= changed them in place"
+        correct: true
+      - text: "The best epoch's weights"
+        misconception: dict-copy-copies-arrays
+        feedback: "`dict.copy()` makes a new dict that points at the same arrays. Copy each array, `{name: value.copy() for name, value in params.items()}`, to keep the numbers."

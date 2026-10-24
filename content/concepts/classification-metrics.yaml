@@ -1,0 +1,125 @@
+id: classification-metrics
+title: Precision, recall and the confusion matrix
+summary: |
+  A yes-or-no forecast is right in two ways and wrong in two: true positives (warned, and it came), false positives (a false alarm), false negatives (a miss) and true negatives. Those four counts are the confusion matrix. Precision starts from the warnings, `tp / (tp + fp)`: the share that were right. Recall starts from the real cases, `tp / (tp + fn)`: the share that were caught. F1 is their harmonic mean, high only when both are. When the thing you're after is rare, accuracy flatters: a forecast that never warns of a storm that comes 25 nights in 400 is still 94% accurate, and catches nothing. Raising the threshold warns less often, which tends to lift precision and can only lower recall.
+example: |
+  import numpy as np
+
+  storm = np.array([1, 0, 0, 1, 0, 1, 0, 0])
+  warned = np.array([1, 1, 0, 1, 0, 0, 0, 0])
+  tp = np.sum((warned == 1) & (storm == 1))
+  fp = np.sum((warned == 1) & (storm == 0))
+  fn = np.sum((warned == 0) & (storm == 1))
+  print("precision", round(tp / (tp + fp), 2), "recall", round(tp / (tp + fn), 2))
+misconceptions: [guessing-scores-half, accuracy-counts-only-yes, precision-recall-swapped, accuracy-fine-when-rare, f1-is-average, raising-threshold-raises-recall]
+related: [roc-auc, logistic-regression, train-test-split]
+cards:
+  - type: predict
+    prompt: "Eight frost warnings, six of them right; four frosts missed. What does this print?"
+    code: |
+      tp, fp, fn = 6, 2, 4
+      print(round(tp / (tp + fp), 2), round(tp / (tp + fn), 2))
+    answer: "0.75 0.6"
+  - type: choice
+    prompt: "A thousand nights, ten with frost on the mirror. A forecast says no frost every night. What does this print?"
+    code: |
+      import numpy as np
+
+      frost = np.array([1] * 10 + [0] * 990)
+      forecast = np.zeros(1000, dtype=int)
+      print(np.mean(forecast == frost))
+    options:
+      - text: "0.99"
+        correct: true
+        feedback: "Right on all 990 frost-free nights, wrong on the 10 that mattered. Its recall is 0."
+      - text: "0.5"
+        misconception: guessing-scores-half
+        feedback: "A forecast that always says the same thing isn't a coin. It's right whenever the answer happens to be its answer, and here that's 990 nights in 1,000."
+      - text: "0.0"
+        misconception: accuracy-counts-only-yes
+        feedback: "Accuracy counts every right answer. Saying no frost on a frost-free night is right."
+  - type: choice
+    prompt: "Precision 1.0, recall 0.1: every warning right, but nine storms in ten missed. What does this print?"
+    code: |
+      p, r = 1.0, 0.1
+      print(round(2 * p * r / (p + r), 2))
+    options:
+      - text: "0.18"
+        correct: true
+        feedback: "The harmonic mean is dragged down by the smaller number, so F1 stays low unless both are good."
+      - text: "0.55"
+        misconception: f1-is-average
+        feedback: "That's the ordinary average. F1 is the harmonic mean, 2pr / (p + r), which a single bad number can't hide behind."
+  - type: choice
+    prompt: "Wendt raises her storm threshold from 0.3 to 0.6. What happens to recall?"
+    verify: none
+    options:
+      - text: "It falls or stays the same: a higher threshold warns on fewer nights, so it can't catch more storms"
+        correct: true
+      - text: "It rises: a stricter forecast is a better one"
+        misconception: raising-threshold-raises-recall
+        feedback: "Every night warned at 0.6 was already warned at 0.3, and some at 0.3 aren't warned at 0.6. Fewer warnings can only catch the same storms or fewer. It's precision that tends to rise."
+  - type: choice
+    prompt: "Pip's frost forecast: 'Precision is the share of frosts it caught.' Is he right?"
+    verify: none
+    options:
+      - text: "No: that's recall. Precision is the share of its warnings that were right"
+        correct: true
+      - text: "Yes"
+        misconception: precision-recall-swapped
+        feedback: "Precision starts from the warnings: of the nights it said frost, how many had frost. The share of frosts caught starts from the frosts, and that's recall."
+  - type: fill
+    prompt: "Fill the gap so `recall` is the share of storms the forecast caught."
+    code: |
+      tp, fp, fn, tn = 12, 3, 13, 372
+      recall = tp / (tp + ___)
+      print(round(recall, 2))
+    blanks: [["fn"]]
+    tests: |
+      TESTS = [output("Twelve of twenty-five", expect="0.48")]
+  - type: fix
+    prompt: "This should print the precision, then the recall. Fix it."
+    code: |
+      tp, fp, fn = 9, 6, 1
+      precision = tp / (tp + fn)
+      recall = tp / (tp + fp)
+      print(precision, recall)
+    tests: |
+      TESTS = [output("Fifteen warnings, ten storms", expect="0.6 0.9")]
+    solution: |
+      tp, fp, fn = 9, 6, 1
+      precision = tp / (tp + fp)
+      recall = tp / (tp + fn)
+      print(precision, recall)
+  - type: write
+    prompt: "Write `confusion(y, warned)`: the tuple `(tp, fp, fn, tn)` for two NumPy arrays of 1s and 0s."
+    starter: |
+      import numpy as np
+
+
+      def confusion(y, warned):
+          return 0, 0, 0, 0
+    tests: |
+      import numpy as np
+
+
+      def counts(ctx):
+          m = ctx.module()
+          cases = [([1, 0, 1, 1, 0, 0], [1, 1, 0, 1, 0, 0], (2, 1, 1, 2)), ([0, 0, 1], [0, 0, 0], (0, 0, 1, 2))]
+          for y, warned, want in cases:
+              got = tuple(int(v) for v in m.confusion(np.array(y), np.array(warned)))
+              if got != want:
+                  raise CheckFailed(f"y = {y}, warned = {warned}", expected=want, actual=got)
+
+
+      TESTS = [custom("Two sets of nights", counts)]
+    solution: |
+      import numpy as np
+
+
+      def confusion(y, warned):
+          tp = np.sum((warned == 1) & (y == 1))
+          fp = np.sum((warned == 1) & (y == 0))
+          fn = np.sum((warned == 0) & (y == 1))
+          tn = np.sum((warned == 0) & (y == 0))
+          return tp, fp, fn, tn

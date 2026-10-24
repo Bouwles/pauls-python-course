@@ -1,0 +1,128 @@
+id: json-module
+title: JSON and the json module
+summary: |
+  JSON is text that looks like Python's dictionaries and lists, and nearly every web API speaks it. `json.dumps(value)` turns a value into JSON text and `json.loads(text)` turns it back; `json.dump(value, file)` and `json.load(file)` do the same with an open file. The round trip isn't perfect: tuples come back as lists, dictionary keys always come back as text, and `True` and `None` are written `true` and `null`.
+example: |
+  import json
+
+  booking = {"boat": "Kittiwake", "berth": 2, "paid": True, "notes": None}
+  text = json.dumps(booking)
+  print(text)
+  print(json.loads(text) == booking)
+misconceptions: [json-keeps-tuples, json-keeps-int-keys, write-takes-any-object]
+related: [http-basics, dictionaries, files, with-statement]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import json
+
+      print(json.dumps({"boat": "Kittiwake", "paid": True, "notes": None}))
+    answer: '{"boat": "Kittiwake", "paid": true, "notes": null}'
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import json
+
+      taken = {"berths": (2, 3)}
+      print(json.loads(json.dumps(taken))["berths"])
+    options:
+      - text: "[2, 3]"
+        correct: true
+        feedback: "JSON has lists but no tuples, so a tuple goes in as a list and comes back as one."
+      - text: "(2, 3)"
+        misconception: json-keeps-tuples
+        feedback: "JSON only knows lists. The tuple is written as `[2, 3]`, and that's what comes back."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import json
+
+      names = {1: "Pontoon A", 2: "Pontoon B"}
+      again = json.loads(json.dumps(names))
+      print(again.get(1))
+    options:
+      - text: None
+        correct: true
+        feedback: "JSON keys are always text, so 1 went in and `\"1\"` came back. `again.get(\"1\")` would find Pontoon A."
+      - text: Pontoon A
+        misconception: json-keeps-int-keys
+        feedback: "In JSON every key is text. After the round trip the key is `\"1\"`, and `get(1)` finds nothing."
+  - type: fix
+    prompt: "Agnes's bookings should be saved as JSON, then read back. Fix the saving so this prints `Kittiwake`."
+    code: |
+      import json
+
+      bookings = [{"boat": "Kittiwake", "berth": 2}]
+      with open("bookings.json", "w") as data_file:
+          data_file.write(bookings)
+
+      with open("bookings.json") as data_file:
+          print(json.load(data_file)[0]["boat"])
+    tests: |
+      TESTS = [output("Saved and read back", expect="Kittiwake")]
+    solution: |
+      import json
+
+      bookings = [{"boat": "Kittiwake", "berth": 2}]
+      with open("bookings.json", "w") as data_file:
+          json.dump(bookings, data_file)
+
+      with open("bookings.json") as data_file:
+          print(json.load(data_file)[0]["boat"])
+  - type: fill
+    prompt: "The text came from a request. Fill the gap to turn it into a dictionary."
+    code: |
+      import json
+
+      text = '{"boat": "Puffin", "length": 7.5}'
+      booking = json.___(text)
+      print(booking["length"] * 2)
+    blanks: [["loads"]]
+    tests: |
+      TESTS = [output("Twice the length", expect="15.0")]
+  - type: write
+    prompt: "Write `save(bookings, path)`, which writes the list to a JSON file, and `load(path)`, which reads it back, or gives `[]` if the file isn't there yet."
+    starter: |
+      import json
+      from pathlib import Path
+
+
+      def save(bookings, path):
+          pass
+
+
+      def load(path):
+          pass
+    tests: |
+      def round_trip(ctx):
+          mod = ctx.module()
+          bookings = [{"boat": "Kittiwake", "berth": 2}, {"boat": "Puffin", "berth": 1}]
+          mod.save(bookings, "saved.json")
+          back = mod.load("saved.json")
+          if back != bookings:
+              raise CheckFailed("load should give back exactly what save was given.", expected=str(bookings), actual=str(back))
+
+
+      def first_run(ctx):
+          mod = ctx.module()
+          if mod.load("never-saved.json") != []:
+              raise CheckFailed("With no file yet, load gives an empty list.", expected="[]", actual=repr(mod.load("never-saved.json")))
+
+
+      TESTS = [custom("Saved, then loaded", round_trip), custom("The first run has no file", first_run)]
+    solution: |
+      import json
+      from pathlib import Path
+
+
+      def save(bookings, path):
+          with open(path, "w") as data_file:
+              json.dump(bookings, data_file)
+
+
+      def load(path):
+          if not Path(path).exists():
+              return []
+          with open(path) as data_file:
+              return json.load(data_file)

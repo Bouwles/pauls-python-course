@@ -1,0 +1,113 @@
+id: double-descent
+title: Double descent
+summary: |
+  Make a model more flexible and its test error usually falls, then rises as it starts to fit the noise: the classical U. With smallest-norm fits, that rise peaks at the interpolation threshold, where the model has just enough parameters to fit every training example, and then the error falls again as the model keeps growing, sometimes below the bottom of the U. Past the threshold, many sets of weights fit the training data exactly; choosing the one with the smallest norm is what brings the error back down. A ridge penalty flattens the peak. Belkin, Hsu, Ma and Mandal named it in 2019.
+example: |
+  import numpy as np
+
+  rng = np.random.default_rng(0)
+  features = rng.normal(size=(6, 10))     # 6 examples, 10 features
+  y = rng.normal(size=6)
+  weights = np.linalg.pinv(features) @ y  # the smallest exact fit
+  print(np.allclose(features @ weights, y), round(float(np.linalg.norm(weights)), 3))
+misconceptions: [bigger-always-overfits, any-exact-fit-is-the-same, peak-at-smallest]
+related: [overfitting, linear-regression, train-test-split, reproducibility]
+cards:
+  - type: predict
+    prompt: "Six examples, ten features, the smallest-norm fit. What does this print?"
+    code: |
+      import numpy as np
+
+      rng = np.random.default_rng(0)
+      features = rng.normal(size=(6, 10))
+      y = rng.normal(size=6)
+      weights = np.linalg.pinv(features) @ y
+      print(round(float(np.mean((features @ weights - y) ** 2)), 6))
+    answer: "0.0"
+  - type: choice
+    prompt: "One example, two weights: any `w1 + w2 = 2` fits it exactly. Which weights does `pinv` choose?"
+    code: |
+      import numpy as np
+
+      features = np.array([[1.0, 1.0]])
+      y = np.array([2.0])
+      print(np.linalg.pinv(features) @ y)
+    options:
+      - text: "[1. 1.]"
+        correct: true
+        feedback: "Every pair adding to 2 fits, but `[1. 1.]` has the smallest norm, the square root of 2. Spreading the work across the weights keeps each of them small."
+      - text: "[2. 0.]"
+        misconception: any-exact-fit-is-the-same
+        feedback: "That fits too, but its norm is 2, bigger than the square root of 2 for `[1. 1.]`. Among exact fits, `pinv` chooses the smallest, and which one you choose is what decides the test error."
+  - type: choice
+    prompt: "Twenty training examples, smallest-norm fits, and 5, 20 or 500 random features. Which width has the worst median test error?"
+    code: |
+      import numpy as np
+
+
+      def test_error(width, seed, n_train=20):
+          rng = np.random.default_rng(seed)
+          X, X_test = rng.normal(size=(n_train, 5)), rng.normal(size=(300, 5))
+          y, y_test = np.tanh(X.sum(axis=1)) + rng.normal(0, 0.2, n_train), np.tanh(X_test.sum(axis=1))
+          W = rng.normal(size=(5, width))
+          weights = np.linalg.pinv(np.maximum(0, X @ W)) @ y
+          return np.mean((np.maximum(0, X_test @ W) @ weights - y_test) ** 2)
+
+
+      widths = [5, 20, 500]
+      errors = [np.median([test_error(width, seed) for seed in range(5)]) for width in widths]
+      print(widths[int(np.argmax(errors))])
+    options:
+      - text: "20"
+        correct: true
+        feedback: "Twenty features for twenty examples: just enough to go through every point, with only one way to do it. That one way chases the noise wildly. Fewer features can't chase it; more can choose a calmer fit."
+      - text: "500"
+        misconception: bigger-always-overfits
+        feedback: "The classical U says so, but with smallest-norm fits the error comes back down past the threshold. At 500 features it's lower than at 5."
+      - text: "5"
+        misconception: peak-at-smallest
+        feedback: "Five features underfit, but only mildly. The worst is at the threshold, where the features just match the examples."
+  - type: fill
+    prompt: "Fill the gap so the weights are the smallest exact fit."
+    code: |
+      import numpy as np
+
+      rng = np.random.default_rng(1)
+      features, y = rng.normal(size=(4, 9)), rng.normal(size=4)
+      weights = np.linalg.___(features) @ y
+      print(np.allclose(features @ weights, y), weights.shape)
+    blanks: [["pinv"]]
+    tests: |
+      TESTS = [output("An exact fit, nine weights", expect="True (9,)")]
+  - type: write
+    prompt: "Write `ridge(features, y, penalty)`: the weights `np.linalg.solve(F.T @ F + penalty * I, F.T @ y)`, where `I` is the identity with one row per feature. A penalty like this is what flattens the peak."
+    starter: |
+      import numpy as np
+
+
+      def ridge(features, y, penalty):
+          pass
+    tests: |
+      import numpy as _np
+
+
+      def matches(ctx):
+          mod = ctx.module()
+          rng = _np.random.default_rng(3)
+          for rows, cols, penalty in ((10, 4, 0.5), (5, 12, 0.1)):
+              F, y = rng.normal(size=(rows, cols)), rng.normal(size=rows)
+              want = _np.linalg.solve(F.T @ F + penalty * _np.eye(cols), F.T @ y)
+              got = mod.ridge(F, y, penalty)
+              if got is None or _np.shape(got) != (cols,) or not _np.allclose(got, want):
+                  raise CheckFailed(f"With {rows} examples, {cols} features and a penalty of {penalty}, the weights are off.",
+                                    expected=_np.round(want, 3).tolist(), actual=None if got is None else _np.round(got, 3).tolist())
+
+
+      TESTS = [custom("Ridge weights, more and fewer features than examples", matches)]
+    solution: |
+      import numpy as np
+
+
+      def ridge(features, y, penalty):
+          identity = np.eye(features.shape[1])
+          return np.linalg.solve(features.T @ features + penalty * identity, features.T @ y)

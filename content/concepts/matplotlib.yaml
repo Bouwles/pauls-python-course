@@ -1,0 +1,174 @@
+id: matplotlib
+title: Charts with matplotlib
+summary: |
+  Charts start with `import matplotlib.pyplot as plt`, and `fig, ax = plt.subplots()` gives a figure, the whole picture, and an axes, the framed box with scales that the data is drawn in. `ax.plot(x, y)` adds a line, `ax.scatter(x, y)` adds dots and `ax.bar(names, heights)` adds bars; every call adds to the same axes, and `plot` given a single list draws it as heights against 0, 1, 2 and so on. `ax.set_xlabel`, `ax.set_ylabel` and `ax.set_title` name things, `ax.set_ylim(bottom=0)` starts the scale at 0, and a `label=` on each line shows up only once you call `ax.legend()`. `figsize=(8, 4)` is in inches, not pixels. The shorter `plt.plot` and `plt.xlabel` do the same jobs on whichever axes was made last, and `plt.show()` puts the picture on the page.
+example: |
+  import matplotlib.pyplot as plt
+
+  months = ["Jan", "Feb", "Mar", "Apr"]
+  fig, ax = plt.subplots(figsize=(6, 3))
+  ax.plot(months, [116, 84, 71, 58], label="1923")
+  ax.plot(months, [98, 77, 80, 49], label="2023")
+  ax.set_ylabel("rain (mm)")
+  ax.set_ylim(bottom=0)
+  ax.legend()
+  print(len(ax.lines), "lines, scale from", ax.get_ylim()[0])
+  plt.show()
+misconceptions: [plot-replaces-line, single-list-is-x, label-needs-no-legend, figsize-in-pixels, ax-has-pyplot-names]
+related: [numpy-arrays, pandas-basics, honest-charts]
+cards:
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import matplotlib
+      matplotlib.use("Agg")
+      import matplotlib.pyplot as plt
+
+      fig, ax = plt.subplots()
+      ax.plot([1, 2, 3], [80, 60, 40])
+      ax.plot([1, 2, 3], [90, 50, 30])
+      print(len(ax.lines))
+    options:
+      - text: "2"
+        correct: true
+        feedback: "Each `plot` adds a line to the axes. That's how two years end up on one chart."
+      - text: "1"
+        misconception: plot-replaces-line
+        feedback: "A second `plot` doesn't rub out the first. Both lines stay on the axes until you clear them or start a new figure."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import matplotlib
+      matplotlib.use("Agg")
+      import matplotlib.pyplot as plt
+
+      fig, ax = plt.subplots()
+      line, = ax.plot([5, 9, 4])
+      print(line.get_xdata().tolist())
+    options:
+      - text: "[0.0, 1.0, 2.0]"
+        correct: true
+        feedback: "Given one list, `plot` takes it as the heights and counts along the bottom from 0."
+      - text: "[5.0, 9.0, 4.0]"
+        misconception: single-list-is-x
+        feedback: "A single list is taken as the y values, the heights. The x values are made up for you: 0, 1, 2."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import matplotlib
+      matplotlib.use("Agg")
+      import matplotlib.pyplot as plt
+
+      fig, ax = plt.subplots()
+      ax.plot([1, 2, 3], [80, 60, 40], label="1923")
+      ax.plot([1, 2, 3], [90, 50, 30], label="2023")
+      print(ax.get_legend() is None)
+    options:
+      - text: "True"
+        correct: true
+        feedback: "The labels are stored with the lines, but nothing draws the key until `ax.legend()` is called."
+      - text: "False"
+        misconception: label-needs-no-legend
+        feedback: "A `label=` is only remembered. The key appears when you call `ax.legend()`, and nobody has."
+  - type: choice
+    prompt: "`fig.dpi` is dots per inch. What does this print?"
+    code: |
+      import matplotlib
+      matplotlib.use("Agg")
+      import matplotlib.pyplot as plt
+
+      fig, ax = plt.subplots(figsize=(6, 4))
+      print(fig.get_size_inches() * fig.dpi)
+    options:
+      - text: "[600. 400.]"
+        correct: true
+        feedback: "`figsize` is in inches. At 100 dots per inch, 6 by 4 inches is 600 by 400 dots."
+      - text: "[6. 4.]"
+        misconception: figsize-in-pixels
+        feedback: "A chart 6 pixels wide would be a speck. `figsize` is in inches, and at 100 dots an inch that's 600 by 400."
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import matplotlib
+      matplotlib.use("Agg")
+      import matplotlib.pyplot as plt
+
+      fig, axes = plt.subplots(2, 3)
+      print(axes.shape, len(fig.axes))
+    answer: "(2, 3) 6"
+  - type: fill
+    prompt: "Priya wants the temperature scale to start at 0. Fill the gap."
+    code: |
+      import matplotlib
+      matplotlib.use("Agg")
+      import matplotlib.pyplot as plt
+
+      fig, ax = plt.subplots()
+      ax.plot([1, 2, 3, 4], [41.2, 43.8, 44.1, 42.7])
+      ax.set_ylim(bottom=___)
+      print(ax.get_ylim()[0])
+    blanks: [["0", "0.0"]]
+    tests: |
+      TESTS = [output("The scale starts at 0", expect="0.0")]
+  - type: fix
+    prompt: "Pip's chart crashes before it is labelled. Fix it."
+    code: |
+      import matplotlib
+      matplotlib.use("Agg")
+      import matplotlib.pyplot as plt
+
+      fig, ax = plt.subplots()
+      ax.plot([1, 2, 3, 4], [41.2, 43.8, 44.1, 42.7])
+      ax.xlabel("week")
+      ax.ylabel("temperature (degrees)")
+      print(ax.get_xlabel(), "/", ax.get_ylabel())
+    tests: |
+      TESTS = [output("Both axes labelled", expect="week / temperature (degrees)")]
+    solution: |
+      import matplotlib
+      matplotlib.use("Agg")
+      import matplotlib.pyplot as plt
+
+      fig, ax = plt.subplots()
+      ax.plot([1, 2, 3, 4], [41.2, 43.8, 44.1, 42.7])
+      ax.set_xlabel("week")
+      ax.set_ylabel("temperature (degrees)")
+      print(ax.get_xlabel(), "/", ax.get_ylabel())
+  - type: write
+    prompt: "Write `rain_chart(months, rain)`: a line of `rain` against `months`, with the y axis labelled `rain (mm)` and starting at 0. Return `fig, ax`."
+    starter: |
+      import matplotlib
+      matplotlib.use("Agg")
+      import matplotlib.pyplot as plt
+
+
+      def rain_chart(months, rain):
+          fig, ax = plt.subplots()
+          return fig, ax
+    tests: |
+      def chart(ctx):
+          fig, ax = ctx.module().rain_chart(["Jan", "Feb", "Mar"], [116, 84, 71])
+          if len(ax.lines) != 1:
+              raise CheckFailed("One line on the axes.", expected=1, actual=len(ax.lines))
+          heights = [float(v) for v in ax.lines[0].get_ydata()]
+          if heights != [116.0, 84.0, 71.0]:
+              raise CheckFailed("The line's heights are the rain.", expected=[116.0, 84.0, 71.0], actual=heights)
+          if ax.get_ylabel() != "rain (mm)":
+              raise CheckFailed("The y axis label.", expected="rain (mm)", actual=ax.get_ylabel())
+          if float(ax.get_ylim()[0]) != 0.0:
+              raise CheckFailed("The y axis starts at 0.", expected=0.0, actual=float(ax.get_ylim()[0]))
+
+
+      TESTS = [custom("Three months of rain", chart)]
+    solution: |
+      import matplotlib
+      matplotlib.use("Agg")
+      import matplotlib.pyplot as plt
+
+
+      def rain_chart(months, rain):
+          fig, ax = plt.subplots()
+          ax.plot(months, rain)
+          ax.set_ylabel("rain (mm)")
+          ax.set_ylim(bottom=0)
+          return fig, ax

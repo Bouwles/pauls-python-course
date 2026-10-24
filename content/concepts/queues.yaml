@@ -1,0 +1,111 @@
+id: queues
+title: Queues
+summary: |
+  A queue is used from both ends: things join at the back and leave from the front, so the first in is the first out, like lorries at Nell's gate. A list can do it with `append` and `pop(0)`, but `pop(0)` shuffles everything behind it up a place, so serving each one is O(n). Use `collections.deque`, where joining and leaving at either end are O(1).
+example: |
+  from collections import deque
+
+  gate = deque()
+  for lorry in ["flatbed", "tipper", "council van"]:
+      gate.append(lorry)
+  while gate:
+      print("Weighing", gate.popleft())
+misconceptions: [queue-serves-newest, pop-front-is-free]
+related: [deque, stacks, big-o]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      from collections import deque
+
+      gate = deque(["flatbed"])
+      gate.append("tipper")
+      gate.append("skip lorry")
+      print(gate.popleft())
+      gate.append("van")
+      print(gate.popleft(), len(gate))
+    answer: |-
+      flatbed
+      tipper 2
+  - type: choice
+    prompt: "Ten thousand lorries wait in a plain list. Each is served with `queue.pop(0)`. How does the work grow with the length of the queue?"
+    verify: none
+    options:
+      - text: "O(n²) in all: each pop(0) shuffles every lorry behind it up one place"
+        correct: true
+        feedback: "Every `pop(0)` moves the rest of the list along, which is O(n), and it happens once per lorry. A deque's `popleft` doesn't move anything."
+      - text: "O(n) in all: each pop(0) is as quick as pop()"
+        misconception: pop-front-is-free
+        feedback: "`pop()` takes from the end and moves nothing. `pop(0)` takes from the front, and every item behind it has to move up a place."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      from collections import deque
+
+      gate = deque()
+      gate.append("first to arrive")
+      gate.append("second")
+      gate.append("just pulled in")
+      print(gate.popleft())
+    options:
+      - text: first to arrive
+        correct: true
+        feedback: "Lorries join on the right and leave from the left, so the one that's waited longest goes first."
+      - text: just pulled in
+        misconception: queue-serves-newest
+        feedback: "That's how a stack works. A queue serves from the front, where the earliest arrival is."
+  - type: fix
+    prompt: "The gate should weigh lorries in the order they arrived: `flatbed`, `tipper`, `van`. It weighs the newest first. Fix it."
+    code: |
+      from collections import deque
+
+      gate = deque(["flatbed", "tipper", "van"])
+      while gate:
+          print(gate.pop())
+    tests: |
+      TESTS = [output("In the order they came", expect="flatbed\ntipper\nvan",
+                      hint="pop() takes from the right, the back of the queue. The front is on the left.")]
+    solution: |
+      from collections import deque
+
+      gate = deque(["flatbed", "tipper", "van"])
+      while gate:
+          print(gate.popleft())
+  - type: fill
+    prompt: "Fill the gap so the lorry at the front leaves the queue."
+    code: |
+      from collections import deque
+
+      gate = deque(["tipper", "van"])
+      gate.append("flatbed")
+      weighed = gate.___()
+      print(weighed, list(gate))
+    blanks: [["popleft"]]
+    tests: |
+      TESTS = [output("The tipper first", expect="tipper ['van', 'flatbed']")]
+  - type: write
+    prompt: "Write `weigh_order(events)`. Each event is either a lorry's name, arriving, or `\"weigh\"`, which weighs whoever is at the front (if anyone). Return the names in the order they were weighed."
+    starter: |
+      def weigh_order(events):
+          pass
+    tests: |
+      TESTS = [
+          function("A morning", call="weigh_order", args=(["van", "tipper", "weigh", "skip", "weigh", "weigh"],), expect=["van", "tipper", "skip"]),
+          function("Weigh before anyone comes", call="weigh_order", args=(["weigh", "van", "weigh"],), expect=["van"]),
+          function("Nobody weighed", call="weigh_order", args=(["van", "tipper"],), expect=[]),
+          structure("Uses a deque", calls=["deque"], message="Keep the queue in a collections.deque."),
+      ]
+    solution: |
+      from collections import deque
+
+
+      def weigh_order(events):
+          gate = deque()
+          weighed = []
+          for event in events:
+              if event == "weigh":
+                  if gate:
+                      weighed.append(gate.popleft())
+              else:
+                  gate.append(event)
+          return weighed

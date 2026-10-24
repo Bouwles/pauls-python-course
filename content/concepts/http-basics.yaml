@@ -1,0 +1,114 @@
+id: http-basics
+title: Requests and responses
+summary: |
+  A web request has a method (`GET` asks, `POST` sends something new, `DELETE` removes), a path such as `/api/bookings/3`, perhaps a query string after the `?`, and perhaps a body. The response has a status code and a body. The status's first digit says how it went: 2 for success (200 here it is, 201 made, 204 done with nothing to add), 4 for a problem with the request (400 sent wrong, 404 not there, 409 clashes with something), 5 for a problem in the server. Everything in a URL arrives as text, numbers included.
+example: |
+  from http import HTTPStatus
+  from urllib.parse import parse_qs, urlsplit
+
+  url = urlsplit("/api/bookings?date=2027-04-11&berth=2")
+  print(url.path)
+  print(parse_qs(url.query))
+  print(409, HTTPStatus(409).phrase)
+misconceptions: [query-values-are-numbers, status-200-for-everything]
+related: [json-module, dictionaries]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      from http import HTTPStatus
+
+      for code in (201, 404, 409):
+          print(code, HTTPStatus(code).phrase)
+    answer: |-
+      201 Created
+      404 Not Found
+      409 Conflict
+  - type: choice
+    prompt: "A skipper's phone asks for `/api/bookings?berth=2`. What does this print?"
+    code: |
+      from urllib.parse import parse_qs, urlsplit
+
+      query = parse_qs(urlsplit("/api/bookings?berth=2").query)
+      berth = query["berth"][0]
+      print(berth == 2)
+    options:
+      - text: "False"
+        correct: true
+        feedback: "A URL is text from end to end. `berth` is the text `\"2\"`, which isn't equal to the number 2 until `int()` makes it one."
+      - text: "True"
+        misconception: query-values-are-numbers
+        feedback: "`parse_qs` hands back text, always: `\"2\"`, not 2. Text and a number are never equal, so convert it first."
+  - type: predict
+    prompt: "Agnes's rules, worked out by hand. What does this print?"
+    code: |
+      BOOKINGS = {1: "Kittiwake"}
+
+
+      def status(method, path):
+          parts = path.strip("/").split("/")
+          if len(parts) == 2:
+              return 200 if method == "GET" else 201
+          if int(parts[2]) not in BOOKINGS:
+              return 404
+          return 204 if method == "DELETE" else 200
+
+
+      print(status("DELETE", "/api/bookings/1"), status("GET", "/api/bookings/2"), status("POST", "/api/bookings"))
+    answer: "204 404 201"
+  - type: fix
+    prompt: "Asking for a booking that doesn't exist should say so with its status, not only in the body. Fix it so this prints the right status."
+    code: |
+      BOOKINGS = {1: {"boat": "Kittiwake"}}
+
+
+      def show_booking(booking_id):
+          """Gives back (body, status), as a Flask view can."""
+          if booking_id not in BOOKINGS:
+              return {"error": "No such booking."}, 200
+          return BOOKINGS[booking_id], 200
+
+
+      print(show_booking(7))
+    tests: |
+      TESTS = [output("Booking 7 isn't there", expect="({'error': 'No such booking.'}, 404)")]
+    solution: |
+      BOOKINGS = {1: {"boat": "Kittiwake"}}
+
+
+      def show_booking(booking_id):
+          """Gives back (body, status), as a Flask view can."""
+          if booking_id not in BOOKINGS:
+              return {"error": "No such booking."}, 404
+          return BOOKINGS[booking_id], 200
+
+
+      print(show_booking(7))
+  - type: fill
+    prompt: "A new booking was made. Fill the gap with the status that says so."
+    code: |
+      from http import HTTPStatus
+
+      print(int(HTTPStatus.___))
+    blanks: [["CREATED"]]
+    tests: |
+      TESTS = [output("Made", expect="201")]
+  - type: write
+    prompt: "Write `who_to_blame(status)`: `\"nobody\"` for 200 to 299, `\"the request\"` for 400 to 499, and `\"the server\"` for 500 to 599."
+    starter: |
+      def who_to_blame(status):
+          pass
+    tests: |
+      TESTS = [
+          function("204 is fine", call="who_to_blame", args=(204,), expect="nobody"),
+          function("409 is the request's fault", call="who_to_blame", args=(409,), expect="the request"),
+          function("500 is the server's", call="who_to_blame", args=(500,), expect="the server"),
+          function("404 is the request's fault", call="who_to_blame", args=(404,), expect="the request"),
+      ]
+    solution: |
+      def who_to_blame(status):
+          if 200 <= status <= 299:
+              return "nobody"
+          if 400 <= status <= 499:
+              return "the request"
+          return "the server"

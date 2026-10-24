@@ -1,0 +1,119 @@
+id: dqn
+title: Deep Q networks
+summary: |
+  Deep Q (DQN) swaps Q-learning's table for a network: a state's features go in, one Q-value per action comes out. Each memory trains only the output for the action that was taken, towards the target `reward + gamma * max(frozen Q-values after)`, or the reward alone if that move ended the episode. Two tricks keep it steady: a replay buffer, so each step learns from a random batch of old and new memories rather than the last few moves in order, and a frozen copy of the network for the targets, refreshed every so many moves. Epsilon starts high and falls as it learns.
+example: |
+  import numpy as np
+
+  frozen_after = np.array([[2.0, 5.0, 1.0, 3.0],   # Q-values on the tile each move led to
+                           [4.0, 4.0, 4.0, 4.0]])
+  rewards = np.array([-1.0, 10.0])
+  overs = np.array([0.0, 1.0])                    # the second move ended the race
+
+  targets = rewards + 0.9 * frozen_after.max(axis=1) * (1 - overs)
+  print(targets)
+misconceptions: [td-terminal-bootstrap, q-target-same-action, all-actions-updated, replay-in-order, target-copy-is-alias, frozen-copy-never-refreshed]
+related: [q-learning, neural-networks, backpropagation, exploration-exploitation, mean-squared-error]
+cards:
+  - type: predict
+    prompt: "Two memories, gamma 0.5. What does this print?"
+    code: |
+      import numpy as np
+
+      frozen_after = np.array([[1.0, 6.0, 2.0, 0.0],
+                               [3.0, 3.0, 3.0, 3.0]])
+      rewards = np.array([-1.0, -10.0])
+      overs = np.array([0.0, 1.0])
+      print((rewards + 0.5 * frozen_after.max(axis=1) * (1 - overs)).tolist())
+    answer: "[2.0, -10.0]"
+  - type: choice
+    prompt: "A memory says: from (2, 0) he went up, and that move should have been worth 5.0. Which of the network's four outputs for (2, 0) does it train?"
+    verify: none
+    options:
+      - text: Only the Q-value for up
+        correct: true
+        feedback: "Right. The memory has a target for the move he made and nothing to say about the other three."
+      - text: All four, towards 5.0
+        misconception: all-actions-updated
+        feedback: "Down, left and right never happened, so there's no evidence about them. Pulling them to 5.0 would make every move from (2, 0) look the same."
+  - type: choice
+    prompt: "Why does Deep Q learn from a batch of memories picked at random, rather than from its last 32 moves in order?"
+    verify: none
+    options:
+      - text: Moves in a row are nearly alike, so a random batch mixes the whole track, and every memory gets used many times.
+        correct: true
+        feedback: "Right. In order, the network would keep fitting whatever stretch of track it's just raced, and forget the rest."
+      - text: It makes no difference; in order would learn just as well.
+        misconception: replay-in-order
+        feedback: "Thirty-two moves in a row are mostly the same few tiles. Training on them in order drags the network towards the latest stretch and lets everything else drift."
+  - type: choice
+    prompt: "Deep Q makes a frozen copy of its network for working out targets. What happens to the copy during training?"
+    verify: none
+    options:
+      - text: Every so many moves it's replaced by a fresh copy of the network being trained
+        correct: true
+        feedback: "Right. Held still between refreshes, it gives steady targets; refreshed, it lets the targets improve as the network does."
+      - text: Nothing. It's frozen for the whole of training
+        misconception: frozen-copy-never-refreshed
+        feedback: "Then the targets would come from the random network it started as, for ever. The copy is refreshed every so many moves, 50 in your Make."
+  - type: fix
+    prompt: "The frozen copy is supposed to stay put while `weights` trains. It doesn't. Fix it."
+    code: |
+      import numpy as np
+
+      weights = np.array([1.0, 2.0, 3.0])
+      frozen = weights          # the frozen copy, for the targets
+      weights += 0.5            # one training step
+      print(frozen)
+    tests: |
+      TESTS = [output("The frozen copy stays put", expect="[1. 2. 3.]")]
+    solution: |
+      import numpy as np
+
+      weights = np.array([1.0, 2.0, 3.0])
+      frozen = weights.copy()   # the frozen copy, for the targets
+      weights += 0.5            # one training step
+      print(frozen)
+  - type: fill
+    prompt: "Fill the gap so the loss only looks at the Q-value of the move each memory made."
+    code: |
+      import numpy as np
+
+      Q = np.array([[1.0, 4.0, 2.0, 0.0],
+                    [3.0, 0.5, 0.0, 1.0]])
+      actions = np.array([1, 0])
+      y = np.array([5.0, 2.0])
+      chosen = Q[np.arange(2), ___]
+      print(np.mean((chosen - y) ** 2))
+    blanks: [["actions"]]
+    tests: |
+      TESTS = [output("The TD loss on the moves taken", expect="1.0")]
+  - type: write
+    prompt: "Write `targets(rewards, after_q, overs, gamma=0.9)`: the reward, plus gamma times the best of each row of `after_q`, except where `overs` is 1. All three are NumPy arrays."
+    starter: |
+      import numpy as np
+
+
+      def targets(rewards, after_q, overs, gamma=0.9):
+          pass
+    tests: |
+      import numpy as np
+
+
+      def check(ctx):
+          m = ctx.module()
+          got = m.targets(np.array([-1.0, 10.0]), np.array([[2.0, 5.0, 1.0, 3.0], [4.0, 4.0, 4.0, 4.0]]), np.array([0.0, 1.0]))
+          if got is None or not np.allclose(got, [3.5, 10.0]):
+              raise CheckFailed("Two memories, the second ending the race.", expected=[3.5, 10.0], actual=got)
+          got = m.targets(np.array([-1.0]), np.array([[0.0, -2.0, 6.0, 1.0]]), np.array([0.0]), gamma=0.5)
+          if got is None or not np.allclose(got, [2.0]):
+              raise CheckFailed("One memory, gamma 0.5.", expected=[2.0], actual=got)
+
+
+      TESTS = [custom("Targets", check)]
+    solution: |
+      import numpy as np
+
+
+      def targets(rewards, after_q, overs, gamma=0.9):
+          return rewards + gamma * after_q.max(axis=1) * (1 - overs)

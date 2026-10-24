@@ -1,0 +1,139 @@
+id: recursion
+title: Recursion
+summary: |
+  A recursive function solves a problem by calling itself on a smaller piece of it. To weigh a crate of parts and crates, add up the parts, and weigh each crate inside the same way. Every call has its own local variables, so an inner call's answer only reaches the outer call if it is returned and used. Anything built from smaller copies of itself, like crates in crates or a family tree, is a natural fit.
+example: |
+  def weigh(crate):
+      total = 0
+      for thing in crate:
+          if isinstance(thing, list):
+              total = total + weigh(thing)
+          else:
+              total = total + thing
+      return total
+
+
+  print(weigh([4, [2, 3], [1, [5]]]))
+misconceptions: [recursion-one-level-deep, self-call-is-error, recursion-never-stops, inner-total-shared, recursive-call-replaces-function]
+related: [base-cases, call-stack, memoisation, nested-data]
+cards:
+  - type: predict
+    prompt: "How many crates, counting the outside one? What does this print?"
+    code: |
+      def count_crates(crate):
+          count = 1
+          for thing in crate:
+              if isinstance(thing, list):
+                  count = count + count_crates(thing)
+          return count
+
+
+      print(count_crates([3, [1], [[2]]]))
+    answer: "4"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      def weigh(crate):
+          total = 0
+          for thing in crate:
+              if isinstance(thing, list):
+                  weigh(thing)
+              else:
+                  total = total + thing
+          return total
+
+
+      print(weigh([4, [2, 3]]))
+    options:
+      - text: "4"
+        correct: true
+        feedback: "The inner call works out 5 in its own `total` and gives it back, but nothing uses what it gives back. The outer `total` only ever got the 4."
+      - text: "9"
+        misconception: inner-total-shared
+        feedback: "Each call has its own `total`. The inner call's 5 only reaches the outer call if the outer call adds what `weigh(thing)` gives back."
+      - text: "5"
+        misconception: recursive-call-replaces-function
+        feedback: "The inner call doesn't take over the outer one. The outer call carries on after it, and returns its own `total`, which is 4."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      def lower(hook):
+          if hook == 0:
+              return "on the ground"
+          lower(hook - 1)
+
+
+      print(lower(3))
+    options:
+      - text: "None"
+        correct: true
+        feedback: "Only `lower(0)` returns the text. `lower(1)` calls it and throws the answer away, then reaches the end of the function, which gives back `None`, and so on up to `lower(3)`."
+      - text: on the ground
+        misconception: recursive-call-replaces-function
+        feedback: "The answer has to be passed back by every call on the way out. Without `return lower(hook - 1)`, each call throws it away and gives back `None`."
+  - type: fix
+    prompt: "This should count the parts in a tower, however deep: it should print `5`. Fix it."
+    code: |
+      def count_parts(crate):
+          count = 0
+          for thing in crate:
+              if isinstance(thing, list):
+                  count_parts(thing)
+              else:
+                  count = count + 1
+          return count
+
+
+      print(count_parts([4, [2, 3], [1, [5]]]))
+    tests: |
+      TESTS = [output("Five parts", expect="5",
+                      hint="The inner call gives back how many parts its crate holds. Add that to count.")]
+    solution: |
+      def count_parts(crate):
+          count = 0
+          for thing in crate:
+              if isinstance(thing, list):
+                  count = count + count_parts(thing)
+              else:
+                  count = count + 1
+          return count
+
+
+      print(count_parts([4, [2, 3], [1, [5]]]))
+  - type: fill
+    prompt: "Fill the gap so each crate inside is weighed the same way."
+    code: |
+      def weigh(crate):
+          total = 0
+          for thing in crate:
+              if isinstance(thing, list):
+                  total = total + ___(thing)
+              else:
+                  total = total + thing
+          return total
+
+
+      print(weigh([1, [2, [3]]]))
+    blanks: [["weigh"]]
+    tests: |
+      TESTS = [output("Six kilos", expect="6")]
+  - type: write
+    prompt: "Write `unpack(crate)`: every part in the tower, in a flat list, in the order you'd meet them opening it. `unpack([4, [2, 3], [1, [5]]])` is `[4, 2, 3, 1, 5]`."
+    starter: |
+      def unpack(crate):
+          pass
+    tests: |
+      TESTS = [
+          function("Nell's tower", call="unpack", args=([4, [2, 3], [1, [5]]],), expect=[4, 2, 3, 1, 5]),
+          function("Empty crates", call="unpack", args=([[], [[]]],), expect=[]),
+          function("Deep at the front", call="unpack", args=([[[7]], 8],), expect=[7, 8]),
+      ]
+    solution: |
+      def unpack(crate):
+          parts = []
+          for thing in crate:
+              if isinstance(thing, list):
+                  parts.extend(unpack(thing))
+              else:
+                  parts.append(thing)
+          return parts

@@ -1,0 +1,166 @@
+id: memoisation
+title: Memoisation
+summary: |
+  Some recursive functions ask the same question many times: Penhallow's lorry packer works out the 2 m bed millions of times for one long lorry. Memoisation writes each answer down the first time, filed by its arguments, and reads it back after that. The answers don't change, only the work: from millions of calls to a few dozen. Use a dictionary, or put `@functools.cache` above the `def`. Its arguments must be things a dictionary could use as keys, so not lists.
+example: |
+  import functools
+
+
+  @functools.cache
+  def packings(length):
+      if length < 0:
+          return 0
+      if length == 0:
+          return 1
+      return packings(length - 1) + packings(length - 2)
+
+
+  print(packings(40))
+misconceptions: [memo-without-writing, cache-keeps-last-only, cache-only-outer-calls, memo-speeds-everything, memo-changes-answers, cache-takes-any-argument]
+related: [recursion, decorators, dictionaries, big-o]
+cards:
+  - type: predict
+    prompt: "What does this print: the answer, then the number of calls?"
+    code: |
+      calls = []
+
+
+      def packings(length, known):
+          calls.append(length)
+          if length in known:
+              return known[length]
+          if length <= 1:
+              return 1
+          known[length] = packings(length - 1, known) + packings(length - 2, known)
+          return known[length]
+
+
+      print(packings(5, {}), len(calls))
+    answer: "8 9"
+  - type: choice
+    prompt: "Nell puts `@functools.cache` above Penhallow's `packings`, then asks for `packings(12)`, `packings(30)` and `packings(12)` again. What has the cache kept?"
+    verify: none
+    options:
+      - text: "An answer for every length it was ever asked, from -1 up to 30"
+        correct: true
+        feedback: "The recursive calls go through the cached name too, so every length on the way down is kept. The second `packings(12)` is read straight off."
+      - text: "Only the answer for 12, the last length asked"
+        misconception: cache-keeps-last-only
+        feedback: "The cache keeps one answer for every set of arguments it has seen, not just the latest."
+      - text: "Answers for 12 and 30 only, the two lengths Nell asked for"
+        misconception: cache-only-outer-calls
+        feedback: "Inside `packings`, the call `packings(length - 1)` uses the cached name as well. Every length worked out on the way down is kept."
+      - text: "Different answers from before, worked out a quicker way"
+        misconception: memo-changes-answers
+        feedback: "The answers are exactly the ones Penhallow's version gives. Memoisation changes how often they're worked out, never what they are."
+  - type: fix
+    prompt: "This is meant to remember its answers, but it still makes 21,891 calls. Fix it so it prints `10946 39`."
+    code: |
+      known = {}
+      calls = []
+
+
+      def packings(length):
+          calls.append(length)
+          if length in known:
+              return known[length]
+          if length <= 1:
+              return 1
+          answer = packings(length - 1) + packings(length - 2)
+          return answer
+
+
+      print(packings(20), len(calls))
+    tests: |
+      TESTS = [output("Remembered", expect="10946 39",
+                      hint="It checks known, but nothing ever goes into it. Write the answer in before returning it.")]
+    solution: |
+      known = {}
+      calls = []
+
+
+      def packings(length):
+          calls.append(length)
+          if length in known:
+              return known[length]
+          if length <= 1:
+              return 1
+          answer = packings(length - 1) + packings(length - 2)
+          known[length] = answer
+          return answer
+
+
+      print(packings(20), len(calls))
+  - type: fill
+    prompt: "Fill the gap so Python remembers every answer."
+    code: |
+      import functools
+
+
+      @functools.___
+      def packings(length):
+          if length < 0:
+              return 0
+          if length == 0:
+              return 1
+          return packings(length - 1) + packings(length - 2)
+
+
+      print(packings(60))
+    blanks: [["cache", "lru_cache"]]
+    tests: |
+      TESTS = [output("The 60 m quay", expect="2504730781961", timeout=5)]
+  - type: choice
+    prompt: "Which of these would `@functools.cache` speed up?"
+    verify: none
+    options:
+      - text: "packings(length), which asks for the same shorter lengths over and over"
+        correct: true
+        feedback: "Memoisation only saves work when a question is asked more than once. `packings` asks about each short bed millions of times."
+      - text: "count_parts(crate) on one tower, where each crate is asked about once"
+        misconception: memo-speeds-everything
+        feedback: "Each crate in the tower is counted once, so there's nothing to read back. Memoising it only adds the writing down. It would fail anyway: a crate is a list."
+  - type: choice
+    prompt: What happens?
+    code: |
+      import functools
+
+
+      @functools.cache
+      def weigh(crate):
+          return sum(crate)
+
+
+      print(weigh([4, 2, 3]))
+    verify: error
+    options:
+      - text: A TypeError
+        correct: true
+        error: TypeError
+        feedback: "The cache files answers in a dictionary, by their arguments, and a list can't be a dictionary key: unhashable type: 'list'."
+      - text: It prints 9
+        misconception: cache-takes-any-argument
+        feedback: "The cache needs its arguments to work as dictionary keys. Numbers, strings and tuples can; lists can't, because they can change."
+  - type: write
+    prompt: "Nell's crane lifts 1, 2 or 3 crates at a time. Write `lifts(crates)`: how many different ways it can lift that many, one lift after another. `lifts(3)` is 4; `lifts(0)` is 1. It must answer `lifts(30)` quickly."
+    starter: |
+      def lifts(crates):
+          pass
+    tests: |
+      TESTS = [
+          function("Three crates", call="lifts", args=(3,), expect=4),
+          function("No crates", call="lifts", args=(0,), expect=1),
+          function("Four crates", call="lifts", args=(4,), expect=7),
+          function("Thirty crates, quickly", call="lifts", args=(30,), expect=53798080, timeout=3),
+      ]
+    solution: |
+      import functools
+
+
+      @functools.cache
+      def lifts(crates):
+          if crates < 0:
+              return 0
+          if crates == 0:
+              return 1
+          return lifts(crates - 1) + lifts(crates - 2) + lifts(crates - 3)

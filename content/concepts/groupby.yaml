@@ -1,0 +1,144 @@
+id: groupby
+title: groupby, aggregation and pivot tables
+summary: |
+  `census.groupby("year")` sorts the rows into one group per year. Pick a column and say what to work out, `["age"].mean()`, `.size()` or `["household"].nunique()`, and you get one answer per group, labelled by the group and sorted. Group by a list of columns for one group per combination, and use `.agg(people=("name", "size"), oldest=("age", "max"))` for several named answers at once. `pivot_table(index="parish", columns="year", aggfunc="size", fill_value=0)` lays the answers out as a grid. `size()` counts rows; `count()` counts only values that aren't missing.
+example: |
+  import pandas as pd
+
+  people = pd.DataFrame({
+      "parish": ["Marsh", "Harbour", "Marsh", "Harbour", "Hill"],
+      "year": [1921, 1921, 1951, 1951, 1951],
+      "age": [88, 34, 52, 9, 40],
+  })
+  print(people.groupby("parish")["age"].mean())
+  print(people.groupby("year").agg(people=("age", "size"), oldest=("age", "max")))
+  print(people.pivot_table(index="parish", columns="year", aggfunc="size", fill_value=0))
+misconceptions: [groupby-keeps-order, groupby-keeps-rows, count-equals-size, partial-key-groups, mean-of-means]
+related: [pandas-basics, selecting-filtering, merging]
+drill: true
+cards:
+  - type: predict
+    prompt: "Three boats' catches, in crates. What does this print?"
+    code: |
+      import pandas as pd
+
+      landings = pd.DataFrame({
+          "boat": ["Kittiwake", "Dolly", "Kittiwake", "Dolly", "Kittiwake"],
+          "crates": [12, 5, 8, 7, 4],
+      })
+      print(landings.groupby("boat")["crates"].sum().to_dict())
+    answer: "{'Dolly': 12, 'Kittiwake': 24}"
+  - type: choice
+    prompt: "Two ages are missing. What does this print?"
+    code: |
+      import numpy as np
+      import pandas as pd
+
+      people = pd.DataFrame({
+          "parish": ["Hill", "Hill", "Hill", "Marsh"],
+          "age": [40, np.nan, np.nan, 61],
+      })
+      by_parish = people.groupby("parish")
+      print(by_parish.size().tolist(), by_parish["age"].count().tolist())
+    options:
+      - text: "[3, 1] [1, 1]"
+        correct: true
+        feedback: "`size()` counts the rows in each group. `count()` counts the values that aren't missing, so the Hill's two blank ages don't count."
+      - text: "[3, 1] [3, 1]"
+        misconception: count-equals-size
+        feedback: "`count()` skips missing values. Three people live on the Hill, but only one of them has an age written down."
+  - type: choice
+    prompt: "Batch numbers start again at 1 every day. What does this print?"
+    code: |
+      import pandas as pd
+
+      bakes = pd.DataFrame({
+          "day": ["Mon", "Mon", "Mon", "Tue", "Tue"],
+          "batch": [1, 1, 2, 1, 2],
+          "loaves": [10, 12, 9, 11, 8],
+      })
+      print(len(bakes.groupby("batch").size()), len(bakes.groupby(["day", "batch"]).size()))
+    options:
+      - text: "2 4"
+        correct: true
+        feedback: "Batch 1 on Monday and batch 1 on Tuesday are different batches, but grouping by the number alone puts them together. A batch is a day and a number."
+      - text: "4 4"
+        misconception: partial-key-groups
+        feedback: "Grouping by `batch` alone only sees the numbers 1 and 2. Monday's batch 1 and Tuesday's batch 1 land in the same group, which is why you need both columns."
+  - type: fill
+    prompt: "Fill the gap so a parish with nobody in it that year shows 0 rather than NaN."
+    code: |
+      import pandas as pd
+
+      people = pd.DataFrame({
+          "parish": ["Hill", "Marsh", "Marsh"],
+          "year": [1921, 1921, 1951],
+      })
+      table = people.pivot_table(index="parish", columns="year", aggfunc="size", fill_value=___)
+      print(table.loc["Hill", 1951])
+    blanks: [["0"]]
+    tests: |
+      TESTS = [output("Nobody on the Hill in 1951", expect="0")]
+  - type: fix
+    prompt: "Pip averaged the two parishes' averages to get the town's average age. Fix it so it prints the average age of all four people, `48.5`."
+    code: |
+      import pandas as pd
+
+      people = pd.DataFrame({
+          "parish": ["Hill", "Marsh", "Marsh", "Marsh"],
+          "age": [70, 30, 44, 50],
+      })
+      parish_averages = people.groupby("parish")["age"].mean()
+      print(parish_averages.mean())
+    tests: |
+      TESTS = [output("The town's average age", expect="48.5")]
+    solution: |
+      import pandas as pd
+
+      people = pd.DataFrame({
+          "parish": ["Hill", "Marsh", "Marsh", "Marsh"],
+          "age": [70, 30, 44, 50],
+      })
+      print(people["age"].mean())
+  - type: write
+    prompt: "Write `crates_by_boat(landings)`: a Series of each boat's total crates, the biggest total first."
+    starter: |
+      import pandas as pd
+
+
+      def crates_by_boat(landings):
+          pass
+    tests: |
+      def check(ctx):
+          import pandas as pd
+
+          landings = pd.DataFrame({
+              "boat": ["Kittiwake", "Dolly", "Kittiwake", "Dolly", "Gull"],
+              "crates": [12, 5, 8, 7, 30],
+          })
+          result = ctx.module().crates_by_boat(landings)
+          found = [(str(k), int(v)) for k, v in result.items()]
+          expected = [("Gull", 30), ("Kittiwake", 20), ("Dolly", 12)]
+          if found != expected:
+              raise CheckFailed("Each boat's total, biggest first.", expected=str(expected), actual=str(found))
+
+
+      TESTS = [custom("Three boats", check)]
+    solution: |
+      import pandas as pd
+
+
+      def crates_by_boat(landings):
+          return landings.groupby("boat")["crates"].sum().sort_values(ascending=False)
+  - type: predict
+    prompt: "What does this print?"
+    code: |
+      import pandas as pd
+
+      people = pd.DataFrame({
+          "year": [1921, 1921, 1951, 1951, 1951],
+          "age": [88, 34, 52, 9, 40],
+      })
+      summary = people.groupby("year").agg(people=("age", "size"), oldest=("age", "max"))
+      print(summary.loc[1951].tolist())
+    answer: "[3, 52]"

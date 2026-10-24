@@ -1,0 +1,124 @@
+id: monte-carlo
+title: Monte Carlo learning
+summary: |
+  Monte Carlo learns what states are worth from whole episodes, with no model of the world. When an episode ends, walk back through it: the return from each step is its reward plus `gamma` times the return from the step after. Each return is one sample of what that state is worth, and its value is the running average of its samples. Counting every visit or only the first in each episode both work. It can't learn until an episode is over.
+example: |
+  race = [((0, 0), -1), ((0, 1), -1), ((0, 2), 10)]
+  values = {}
+  visits = {}
+  total = 0
+  for tile, reward in reversed(race):
+      total = reward + 0.9 * total
+      visits[tile] = visits.get(tile, 0) + 1
+      values[tile] = values.get(tile, 0) + (total - values.get(tile, 0)) / visits[tile]
+  print(values)
+misconceptions: [mc-whole-race-return, mc-discount-from-start, mc-needs-model, mc-learns-mid-race]
+related: [td-learning, returns-discounting, policy-evaluation, bandits]
+cards:
+  - type: predict
+    prompt: "The return from every step of a three-step race. What does this print?"
+    code: |
+      rewards = [-1, -1, 10]
+      gamma = 0.9
+      total = 0
+      returns = []
+      for reward in reversed(rewards):
+          total = reward + gamma * total
+          returns.append(round(total, 2))
+      print(returns[::-1])
+    answer: "[6.2, 8.0, 10.0]"
+  - type: choice
+    prompt: "Three races have each credited the start tile with a return. What is its worth now?"
+    code: |
+      value = 0.0
+      visits = 0
+      for sample in [4, 8, 3]:
+          visits += 1
+          value += (sample - value) / visits
+      print(value)
+    options:
+      - text: "5.0"
+        correct: true
+        feedback: "The running average: each sample moves the estimate 1/visits of the way towards it, which comes to (4 + 8 + 3) / 3."
+      - text: "3.0"
+        misconception: estimate-is-last-reward
+        feedback: "The last sample moves the estimate only a third of the way towards it. Every race counts equally."
+      - text: "15.0"
+        misconception: average-needs-every-result
+        feedback: "Dividing by visits each time keeps it an average, not a total, without storing the samples."
+  - type: choice
+    prompt: "Sir Reginald is half way through a practice race. When can Monte Carlo update the tiles he has stood on so far?"
+    verify: none
+    options:
+      - text: When the race is over
+        correct: true
+        feedback: "A tile's sample is the return from that moment to the end, and the end hasn't happened yet."
+      - text: After every step
+        misconception: mc-learns-mid-race
+        feedback: "That's TD. Monte Carlo uses the real return, which isn't known until the race ends."
+      - text: Once someone tells it the chances of slipping
+        misconception: mc-needs-model
+        feedback: "Monte Carlo never needs the chances. Races are samples of them already."
+  - type: fix
+    prompt: "This credits every tile in a race with the return from the start. Each tile should get the return from the moment he stood on it. Fix it."
+    code: |
+      def mc_values(races, gamma=0.9):
+          """races: a list of races, each a list of (tile, reward)."""
+          values, visits = {}, {}
+          for race in races:
+              total = 0
+              for tile, reward in reversed(race):
+                  total = reward + gamma * total
+              for tile, reward in race:
+                  visits[tile] = visits.get(tile, 0) + 1
+                  values[tile] = values.get(tile, 0) + (total - values.get(tile, 0)) / visits[tile]
+          return values
+    tests: |
+      TESTS = [
+          function("One race along the top", call="mc_values",
+                   args=([[("a", -1), ("b", -1), ("c", 10)]],), expect={"a": 6.2, "b": 8.0, "c": 10.0}, tol=1e-9),
+          function("Two races, averaged", call="mc_values",
+                   args=([[("a", -1), ("c", 10)], [("a", -1), ("c", -10)]], 0.5), expect={"a": -1.0, "c": 0.0}, tol=1e-9),
+      ]
+    solution: |
+      def mc_values(races, gamma=0.9):
+          """races: a list of races, each a list of (tile, reward)."""
+          values, visits = {}, {}
+          for race in races:
+              total = 0
+              for tile, reward in reversed(race):
+                  total = reward + gamma * total
+                  visits[tile] = visits.get(tile, 0) + 1
+                  values[tile] = values.get(tile, 0) + (total - values.get(tile, 0)) / visits[tile]
+          return values
+  - type: fill
+    prompt: "Fill the gap so each return nudges the tile's estimate by the right fraction for a running average."
+    code: |
+      values = {"start": 0.0}
+      visits = {"start": 0}
+      for sample in [2.0, 6.0]:
+          visits["start"] += 1
+          values["start"] += (sample - values["start"]) / ___
+      print(values["start"])
+    blanks: [["visits[\"start\"]", "visits['start']"]]
+    tests: |
+      TESTS = [output("The average of 2 and 6", expect="4.0")]
+  - type: write
+    prompt: "Write `returns_from(rewards, gamma)`: the return from every step, first to last, as a list as long as `rewards`."
+    starter: |
+      def returns_from(rewards, gamma):
+          pass
+    tests: |
+      TESTS = [
+          function("A short race", call="returns_from", args=([-1, -1, 10], 0.9), expect=[6.2, 8.0, 10.0], tol=1e-9),
+          function("Gamma of a half", call="returns_from", args=([10, -1], 0.5), expect=[9.5, -1.0], tol=1e-9),
+          function("No race at all", call="returns_from", args=([], 0.9), expect=[]),
+      ]
+    solution: |
+      def returns_from(rewards, gamma):
+          returns = [0.0] * len(rewards)
+          total = 0.0
+          for t in reversed(range(len(rewards))):
+              total = rewards[t] + gamma * total
+              returns[t] = total
+          return returns

@@ -1,0 +1,138 @@
+id: mutation-testing
+title: Testing the tests
+summary: |
+  A test suite is only as good as the mistakes it would catch. Mutation testing checks it by making small, deliberate mistakes in the code (a `<` for a `<=`, a missing check, a wrong number) and running the tests against each one. A broken version that still passes every test has found a gap in the tests. Tests at the edges of each rule, and tests of what should be refused, catch most of these; tests of typical values alone catch few.
+example: |
+  def real(weight):
+      return 60 if weight <= 100 else 90
+
+
+  def broken(weight):
+      return 60 if weight < 100 else 90
+
+
+  def typical(price):
+      return price(50) == 60 and price(300) == 90
+
+
+  def edge(price):
+      return price(100) == 60
+
+
+  print(typical(real), typical(broken))
+  print(edge(real), edge(broken))
+misconceptions: [typical-values-catch-bugs, passing-tests-prove-correct]
+related: [pytest, edge-cases, test-first, assert]
+cards:
+  - type: predict
+    prompt: "A test, a real postage and a broken one. What does this print?"
+    code: |
+      def real(weight):
+          return 60 if weight <= 100 else 90
+
+
+      def broken(weight):
+          return 60 if weight < 100 else 90
+
+
+      def test(price):
+          return price(50) == 60 and price(200) == 90
+
+
+      print(test(real), test(broken))
+    answer: "True True"
+  - type: choice
+    prompt: "Which weights tell the real postage and the broken one apart?"
+    code: |
+      def real(weight):
+          return 60 if weight <= 100 else 90
+
+
+      def broken(weight):
+          return 60 if weight < 100 else 90
+
+
+      print([weight for weight in (50, 99, 100, 101, 200) if real(weight) != broken(weight)])
+    options:
+      - text: "[100]"
+        correct: true
+        feedback: "Only the edge itself. `<` and `<=` agree everywhere except at 100, so only a test at exactly 100 g can notice the difference."
+      - text: "[50, 200]"
+        misconception: typical-values-catch-bugs
+        feedback: "Typical weights get the same answer from both: 60 below the edge, 90 above it. The two versions only disagree at 100 itself."
+      - text: "[99, 100, 101]"
+        misconception: typical-values-catch-bugs
+        feedback: "99 and 101 are near the edge, but on either side of it both versions agree. The difference is at exactly 100."
+  - type: fix
+    prompt: "This check only tries local parcels, so a postage that never doubles for away slips past it. Strengthen `check` so this prints `True False`."
+    code: |
+      def real(weight, destination):
+          price = 60 if weight <= 100 else 90
+          return price * 2 if destination == "away" else price
+
+
+      def never_doubles(weight, destination):
+          return 60 if weight <= 100 else 90
+
+
+      def check(postage):
+          return postage(50, "local") == 60 and postage(300, "local") == 90
+
+
+      print(check(real), check(never_doubles))
+    tests: |
+      TESTS = [output("Passes the real one, catches the broken one", expect="True False")]
+    solution: |
+      def real(weight, destination):
+          price = 60 if weight <= 100 else 90
+          return price * 2 if destination == "away" else price
+
+
+      def never_doubles(weight, destination):
+          return 60 if weight <= 100 else 90
+
+
+      def check(postage):
+          return (postage(50, "local") == 60 and postage(300, "local") == 90
+                  and postage(50, "away") == 120)
+
+
+      print(check(real), check(never_doubles))
+  - type: fill
+    prompt: "Fill the gap with the price that makes this test check the edge of the first band."
+    code: |
+      def postage(weight):
+          return 60 if weight <= 100 else 90
+
+
+      assert postage(100) == ___
+      print("holds")
+    blanks: [["60"]]
+    tests: |
+      TESTS = [output("The edge holds", expect="holds")]
+  - type: write
+    prompt: "Write `survivors(test, versions)`. `versions` maps a name to a version of a function, and `test` takes a version and gives back True if it passes. Give back the names of the versions that pass, in the order they were given."
+    starter: |
+      def survivors(test, versions):
+          pass
+    tests: |
+      def check(ctx):
+          mod = ctx.module()
+          versions = {
+              "real": lambda w: 60 if w <= 100 else 90,
+              "edge": lambda w: 60 if w < 100 else 90,
+              "flat": lambda w: 60,
+          }
+          got = mod.survivors(lambda price: price(50) == 60 and price(200) == 90, versions)
+          if got != ["real", "edge"]:
+              raise CheckFailed("The typical-values test passes the real one and the edge mistake, and catches the flat price.",
+                                expected=["real", "edge"], actual=got)
+          got = mod.survivors(lambda price: price(100) == 60 and price(101) == 90, versions)
+          if got != ["real"]:
+              raise CheckFailed("The edge test passes only the real one.", expected=["real"], actual=got)
+
+
+      TESTS = [custom("Who survives each test", check)]
+    solution: |
+      def survivors(test, versions):
+          return [name for name, version in versions.items() if test(version)]

@@ -1,0 +1,100 @@
+id: optimisers
+title: Optimisers, mini-batches and the learning rate
+summary: |
+  An optimiser is the rule that turns gradients into steps. Plain descent moves each weight by the learning rate times its gradient: too small a rate crawls, too big a rate overshoots further each step. Momentum keeps a velocity per weight, `beta * velocity + gradient`, so steady slopes build up speed and zig-zags cancel. Adam gives each weight its own step from running averages of its gradient and its square; its first step moves every weight by about the rate. Mini-batches take a step for every few dozen shuffled rows instead of one per pass, each a noisy estimate, many more of them.
+example: |
+  # Momentum on a slope that keeps pointing the same way
+  beta, rate = 0.9, 0.1
+  w, velocity = 0.0, 0.0
+  for slope in [-1.0, -1.0, -1.0]:
+      velocity = beta * velocity + slope
+      w = w - rate * velocity
+  print(round(w, 3))            # 0.561: each step longer than the last
+misconceptions: [bigger-rate-always-faster, minibatch-loss-always-falls, adam-step-scales-with-gradient, adam-counts-per-weight, momentum-forgets-each-step, shuffle-arrays-separately]
+related: [gradient-descent, backpropagation, weight-initialisation]
+cards:
+  - type: predict
+    prompt: "Three steps on a slope of 1, with momentum. What does this print?"
+    code: |
+      beta = 0.9
+      velocity = 0.0
+      for slope in [1.0, 1.0, 1.0]:
+          velocity = beta * velocity + slope
+      print(round(velocity, 2))
+    answer: "2.71"
+  - type: choice
+    prompt: "Adam's first step, for two weights with very different gradients. What does this print?"
+    code: |
+      import numpy as np
+
+      g = np.array([500.0, -0.002])
+      m = (1 - 0.9) * g
+      v = (1 - 0.999) * g ** 2
+      m_hat = m / (1 - 0.9 ** 1)
+      v_hat = v / (1 - 0.999 ** 1)
+      print(np.round(0.01 * m_hat / (np.sqrt(v_hat) + 1e-8), 3))
+    options:
+      - text: "[ 0.01 -0.01]"
+        correct: true
+        feedback: "Right. On the first step `m_hat` is `g` and `v_hat` is `g ** 2`, so the step is the rate times `g / abs(g)`: 0.01 each, in the direction the gradient points."
+      - text: "[ 5. -0.]"
+        misconception: adam-step-scales-with-gradient
+        feedback: "That's plain descent: the rate times the gradient. Adam divides by the size of the gradient, so its first step is about the rate for every weight."
+  - type: predict
+    prompt: "Eight hundred and ten evenings in batches of 32. How many steps does one epoch take?"
+    code: |
+      n_evenings = 810
+      batch_size = 32
+      steps = 0
+      for start in range(0, n_evenings, batch_size):
+          steps += 1
+      print(steps)
+    answer: "26"
+  - type: fill
+    prompt: "Fill the gap so the velocity keeps most of its last value and adds the new slope."
+    code: |
+      beta = 0.5
+      velocity = 0.0
+      for slope in [2.0, 2.0]:
+          velocity = ___ * velocity + slope
+      print(velocity)
+    blanks: [["beta"]]
+    tests: |
+      TESTS = [output("Two steps with beta 0.5", expect="3.0")]
+  - type: write
+    prompt: "Write `momentum_step(w, velocity, slope, rate, beta)`, which returns the new weight and the new velocity, in that order."
+    starter: |
+      def momentum_step(w, velocity, slope, rate, beta):
+          pass
+    tests: |
+      TESTS = [
+          function("A first step is a plain step", call="momentum_step", args=(1.0, 0.0, 2.0, 0.1, 0.9), expect=(0.8, 2.0), tol=1e-9),
+          function("A second step keeps most of the first", call="momentum_step", args=(0.8, 2.0, 2.0, 0.1, 0.9), expect=(0.42, 3.8), tol=1e-9),
+      ]
+    solution: |
+      def momentum_step(w, velocity, slope, rate, beta):
+          velocity = beta * velocity + slope
+          return w - rate * velocity, velocity
+  - type: choice
+    prompt: "Training on batches of 32 evenings, the loss on step 40's batch is higher than on step 39's. What does that tell you?"
+    verify: none
+    options:
+      - text: "Not much: each batch's gradient is a noisy estimate, so single steps can go up while the trend goes down"
+        correct: true
+        feedback: "Right. Judge mini-batch training by the loss on every row after each epoch, not by one batch."
+      - text: "Training has gone wrong: the loss should fall at every step"
+        misconception: minibatch-loss-always-falls
+        feedback: "That's true of plain descent on all the rows with a small rate. A batch is a sample, and a different sample each step, so the loss jitters."
+      - text: "The learning rate is too small"
+        misconception: bigger-rate-always-faster
+        feedback: "A too-small rate makes the loss fall slowly, not rise. One rise on one batch is usually just the batch."
+  - type: choice
+    prompt: "Pip shuffles his readings with `rng.shuffle(X)` and then his answers with `rng.shuffle(T)`. What goes wrong?"
+    verify: none
+    options:
+      - text: "Each row of X no longer lines up with its answer in T, so the brain learns from mismatched pairs"
+        correct: true
+        feedback: "Right. Shuffle one list of row numbers, `order = rng.permutation(len(X))`, and use it for both: `X[order]`, `T[order]`."
+      - text: "Nothing: both arrays get the same random order"
+        misconception: shuffle-arrays-separately
+        feedback: "Each call to `rng.shuffle` draws fresh random numbers, so the two orders differ. The answers end up beside the wrong readings."

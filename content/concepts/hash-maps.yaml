@@ -1,0 +1,169 @@
+id: hash-maps
+title: Hash maps
+summary: |
+  A hash map, which is what Python's `dict` and `set` are, keeps a row of piles. A key goes in the pile its hash picks, as a pair with its value, and a lookup goes straight to that pile and compares keys along it. Each comparison is a probe. While piles stay short, a lookup is a probe or two however many keys there are: O(1) on average. When the keys outnumber three-quarters of the piles, the piles double and every key is moved to its new pile, because its pile number has changed.
+example: |
+  def letter_sum(name):
+      return sum(ord(character) for character in name)
+
+
+  piles = [[] for _ in range(8)]
+  for name, count in [("pots", 3), ("stop", 5), ("nuts", 40)]:
+      piles[letter_sum(name) % 8].append((name, count))
+  print(piles[6])
+  print(piles[2])
+misconceptions: [dict-lookup-scans-all, collision-overwrites, resize-keeps-old-piles]
+related: [hashing, dictionaries, membership-speed, big-o]
+cards:
+  - type: choice
+    prompt: "`pots`, `stop` and `spot` all land in pile 6. What does this print?"
+    code: |
+      def letter_sum(name):
+          return sum(ord(character) for character in name)
+
+
+      piles = [[] for _ in range(8)]
+      for name, count in [("pots", 3), ("stop", 5), ("spot", 1)]:
+          piles[letter_sum(name) % 8].append((name, count))
+      print(piles[6])
+    options:
+      - text: "[('pots', 3), ('stop', 5), ('spot', 1)]"
+        correct: true
+        feedback: "Each pair joins the end of its pile. A collision just makes the pile longer."
+      - text: "[('spot', 1)]"
+        misconception: collision-overwrites
+        feedback: "Nothing is replaced. The pile is a list, and each pair is appended to it, so all three are kept."
+  - type: predict
+    prompt: "How many probes does this take to find `spot`?"
+    code: |
+      pile = [("pots", 3), ("stop", 5), ("spot", 1)]
+      probes = 0
+      for name, count in pile:
+          probes = probes + 1
+          if name == "spot":
+              break
+      print(probes)
+    answer: "3"
+  - type: choice
+    prompt: "Nell's stock is a dict of 100,000 parts. Roughly how many keys does `stock[\"brass-valve\"]` compare with?"
+    verify: none
+    options:
+      - text: "One or two: only the keys in brass-valve's own pile"
+        correct: true
+        feedback: "The hash sends the lookup straight to one pile, and the dict keeps its piles short by growing. That's why `in` on a dict or a set barely notices its size."
+      - text: "About 50,000, half of them on average"
+        misconception: dict-lookup-scans-all
+        feedback: "That's `in` on a list. A dict never looks outside the one pile the key's hash picks."
+  - type: choice
+    prompt: "A hash map's piles double from 8 to 16. Why must every key be moved?"
+    verify: none
+    options:
+      - text: "Its pile is now its hash % 16, not % 8, and a lookup will look there"
+        correct: true
+        feedback: "The pile number depends on how many piles there are. A key left behind would be looked for in the wrong pile and never found."
+      - text: "They needn't be: old keys stay put, and new keys use the new piles"
+        misconception: resize-keeps-old-piles
+        feedback: "A lookup only knows the key and the number of piles. With 16 piles it looks in hash % 16, which may not be where the key was left."
+  - type: fix
+    prompt: "This `get` only looks at the first pair in the pile, so `stop` isn't found. It should print `5`. Fix it."
+    code: |
+      def letter_sum(name):
+          return sum(ord(character) for character in name)
+
+
+      piles = [[] for _ in range(8)]
+      for name, count in [("pots", 3), ("stop", 5)]:
+          piles[letter_sum(name) % 8].append((name, count))
+
+
+      def get(name):
+          pile = piles[letter_sum(name) % 8]
+          if pile and pile[0][0] == name:
+              return pile[0][1]
+          return None
+
+
+      print(get("stop"))
+    tests: |
+      TESTS = [
+          output("Found in the pile", expect="5", hint="Look along the whole pile, comparing each stored name."),
+          function("The first in the pile", call="get", args=("pots",), expect=3),
+          function("Not there", call="get", args=("spot",), expect=None),
+      ]
+    solution: |
+      def letter_sum(name):
+          return sum(ord(character) for character in name)
+
+
+      piles = [[] for _ in range(8)]
+      for name, count in [("pots", 3), ("stop", 5)]:
+          piles[letter_sum(name) % 8].append((name, count))
+
+
+      def get(name):
+          pile = piles[letter_sum(name) % 8]
+          for stored, count in pile:
+              if stored == name:
+                  return count
+          return None
+
+
+      print(get("stop"))
+  - type: fill
+    prompt: "Fill the gap so every pair moves to its pile among the new, doubled piles."
+    code: |
+      def letter_sum(name):
+          return sum(ord(character) for character in name)
+
+
+      old_piles = [[("pots", 3)], [], [], [("nuts", 40)]]
+      new_piles = [[] for _ in range(2 * len(old_piles))]
+      for pile in old_piles:
+          for name, count in pile:
+              new_piles[letter_sum(name) % ___].append((name, count))
+      print(new_piles)
+    blanks: [["len(new_piles)", "8"]]
+    tests: |
+      TESTS = [output("Moved", expect="[[], [], [('nuts', 40)], [], [], [], [('pots', 3)], []]")]
+  - type: write
+    prompt: "Write `put(piles, name, count)` for a list of piles of `(name, count)` pairs, using `letter_sum`: replace the pair if the name is in its pile already, otherwise add it to the end."
+    starter: |
+      def letter_sum(name):
+          return sum(ord(character) for character in name)
+
+
+      def put(piles, name, count):
+          pass
+    tests: |
+      def adds_and_replaces(ctx):
+          module = ctx.module()
+          piles = [[] for _ in range(8)]
+          module.put(piles, "pots", 3)
+          module.put(piles, "stop", 5)
+          module.put(piles, "pots", 4)
+          if piles[6] != [("pots", 4), ("stop", 5)]:
+              raise CheckFailed("pots and stop share pile 6; putting pots again replaces its pair where it stands.",
+                                expected=[("pots", 4), ("stop", 5)], actual=piles[6])
+
+
+      def other_piles_alone(ctx):
+          module = ctx.module()
+          piles = [[] for _ in range(8)]
+          module.put(piles, "nuts", 40)
+          if piles[2] != [("nuts", 40)] or sum(len(pile) for pile in piles) != 1:
+              raise CheckFailed("nuts goes in pile 2, and nowhere else.", expected=[("nuts", 40)], actual=piles[2])
+
+
+      TESTS = [custom("Adds, then replaces", adds_and_replaces), custom("Its own pile", other_piles_alone)]
+    solution: |
+      def letter_sum(name):
+          return sum(ord(character) for character in name)
+
+
+      def put(piles, name, count):
+          pile = piles[letter_sum(name) % len(piles)]
+          for position, (stored, _old) in enumerate(pile):
+              if stored == name:
+                  pile[position] = (name, count)
+                  return
+          pile.append((name, count))

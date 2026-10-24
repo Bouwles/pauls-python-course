@@ -1,0 +1,117 @@
+id: cross-validation
+title: Cross-validation
+summary: |
+  One validation split is the luck of the draw: which rows land in it changes the score. k-fold cross-validation cuts the training data into k folds, fits a fresh model on all but one fold, scores it on the fold left out, and lets every fold take a turn. The mean of the k scores is a steadier guess at how the model does on new data. `cross_val_score(model, X, y, cv=5)` gives back the five scores. It's for choosing between models and settings, it leaves no fitted model behind, and the test set stays out of it.
+example: |
+  import numpy as np
+  from sklearn.model_selection import KFold, cross_val_score
+  from sklearn.tree import DecisionTreeClassifier
+
+  print([test.tolist() for train, test in KFold(n_splits=3).split(np.arange(6))])
+
+  cloud = np.array([[0], [1], [2], [3], [5], [6], [7], [8], [1], [7], [2], [6]])
+  clear = np.array([1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0])
+  scores = cross_val_score(DecisionTreeClassifier(max_depth=1), cloud, clear, cv=3)
+  print(scores, scores.mean())
+misconceptions: [folds-share-one-fit, cross-val-leaves-a-model, one-split-is-enough, every-row-trains-every-time]
+related: [train-test-split, overfitting, scikit-learn, grid-search, pipelines]
+drill: true
+cards:
+  - type: predict
+    prompt: "Which rows does each fold hold out? What does this print?"
+    code: |
+      import numpy as np
+      from sklearn.model_selection import KFold
+
+      folds = KFold(n_splits=3).split(np.arange(6))
+      print([test.tolist() for train, test in folds])
+    answer: "[[0, 1], [2, 3], [4, 5]]"
+  - type: predict
+    prompt: "Ten rows, five folds. What does this print?"
+    code: |
+      import numpy as np
+      from sklearn.model_selection import KFold
+
+      for train, test in KFold(n_splits=5).split(np.arange(10)):
+          print(len(train), len(test))
+          break
+    answer: "8 2"
+  - type: choice
+    prompt: What happens?
+    code: |
+      import numpy as np
+      from sklearn.model_selection import cross_val_score
+      from sklearn.tree import DecisionTreeClassifier
+
+      cloud = np.array([[0], [1], [2], [3], [5], [6], [7], [8], [1], [7], [2], [6]])
+      clear = np.array([1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0])
+      model = DecisionTreeClassifier(max_depth=1)
+      scores = cross_val_score(model, cloud, clear, cv=3)
+      print(model.predict([[4]]))
+    verify: error
+    options:
+      - text: A NotFittedError
+        correct: true
+        error: NotFittedError
+        feedback: "Right. `cross_val_score` fits copies of the model, one per fold, and throws them away. `model` itself was never fitted. Fit the one you choose afterwards."
+      - text: It prints the tree's guess for 4 oktas
+        misconception: cross-val-leaves-a-model
+        feedback: "Cross-validation scores fresh copies of the model and keeps only the scores. Your `model` is untouched, so it can't predict until you call `model.fit` yourself."
+  - type: choice
+    prompt: "Pip says one validation split is enough: it's quicker than five folds and tells you the same thing. Is he right?"
+    verify: none
+    options:
+      - text: "No. One split's score depends on which rows landed in it. The mean over five folds wobbles far less"
+        correct: true
+        feedback: "Right. Bea's five folds scored anywhere from 0.75 to 0.88. One split could have been any of those."
+      - text: "Yes. A validation score is a validation score"
+        misconception: one-split-is-enough
+        feedback: "On a few hundred rows, a single split can come out lucky or unlucky by several points. Every row gets a turn at being scored in cross-validation, so its mean is much steadier."
+      - text: "No. Five folds train each model on five times as much data"
+        misconception: every-row-trains-every-time
+        feedback: "Each fold's model trains on four fifths of the data, never all of it. The point isn't more training: it's that every row is scored once, by a model that never saw it."
+  - type: fill
+    prompt: "Fill the gap to get the mean accuracy over three folds."
+    code: |
+      import numpy as np
+      from sklearn.model_selection import cross_val_score
+      from sklearn.tree import DecisionTreeClassifier
+
+      cloud = np.array([[0], [1], [2], [3], [5], [6], [7], [8], [1], [7], [2], [6]])
+      clear = np.array([1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0])
+      scores = ___(DecisionTreeClassifier(max_depth=1), cloud, clear, cv=3)
+      print(scores.mean())
+    blanks: [["cross_val_score"]]
+    tests: |
+      TESTS = [output("Cloud alone decides these", expect="1.0")]
+  - type: write
+    prompt: "Write `mean_accuracy(model, X, y, folds)`, which returns the mean of the model's cross-validated accuracies over that many folds."
+    starter: |
+      from sklearn.model_selection import cross_val_score
+
+
+      def mean_accuracy(model, X, y, folds):
+          pass
+    tests: |
+      def matches(ctx):
+          import numpy as np
+          from sklearn.model_selection import cross_val_score
+          from sklearn.neighbors import KNeighborsClassifier
+          rng = np.random.default_rng(3)
+          X = rng.normal(size=(40, 2))
+          y = (X[:, 0] + rng.normal(0, 0.8, 40) > 0).astype(int)
+          model = KNeighborsClassifier(n_neighbors=3)
+          for folds in (4, 5):
+              want = cross_val_score(model, X, y, cv=folds).mean()
+              got = ctx.module().mean_accuracy(model, X, y, folds)
+              if got is None or abs(float(got) - want) > 1e-9:
+                  raise CheckFailed(f"With {folds} folds the mean accuracy is off.", expected=round(want, 4), actual=got)
+
+
+      TESTS = [custom("Matches cross_val_score", matches)]
+    solution: |
+      from sklearn.model_selection import cross_val_score
+
+
+      def mean_accuracy(model, X, y, folds):
+          return cross_val_score(model, X, y, cv=folds).mean()

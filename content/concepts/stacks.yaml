@@ -1,0 +1,141 @@
+id: stacks
+title: Stacks
+summary: |
+  A stack is a pile used only from the top: push puts something on, pop takes the top thing off, so the last in is the first out. A list is a good stack if you only use its end: `append` pushes and `pop()` pops, both O(1). Stacks fit anything that has to be undone or closed newest first: undo buttons, brackets, and the calls waiting in a recursion.
+example: |
+  PARTNERS = {")": "(", "]": "[", "}": "{"}
+
+
+  def balanced(text):
+      still_open = []
+      for character in text:
+          if character in "([{":
+              still_open.append(character)
+          elif character in PARTNERS:
+              if not still_open or still_open.pop() != PARTNERS[character]:
+                  return False
+      return not still_open
+
+
+  print(balanced("lift(hook[2]) swing{left}"))
+misconceptions: [pop-takes-first, pop-only-looks, bracket-count-is-enough, undo-takes-oldest]
+related: [queues, deque, call-stack, append-pop]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      pile = []
+      for crate in ["anvil", "bell", "chain"]:
+          pile.append(crate)
+      pile.pop()
+      pile.append("drum")
+      print(pile.pop(), pile.pop())
+    answer: "drum bell"
+  - type: choice
+    prompt: "A program counts brackets: one up for `(` or `[`, one down for `)` or `]`. It says `([)]` is fine, because the count ends at nought. Is it?"
+    verify: none
+    options:
+      - text: "No: the ) arrives while [ is the most recent bracket open"
+        correct: true
+        feedback: "Brackets close newest first. A stack of the open ones has `[` on top when the `)` arrives, so it's a mistake. A count can't see that."
+      - text: "Yes: every bracket that opens also closes"
+        misconception: bracket-count-is-enough
+        feedback: "The count is right, but the order isn't. `)` has to close the most recent opener, and that's a `[`."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      history = ["add 4 hubcaps", "add 2 bells", "add 40 hubcaps"]
+      print(history.pop())
+      print(history)
+    options:
+      - text: |-
+          add 40 hubcaps
+          ['add 4 hubcaps', 'add 2 bells']
+        correct: true
+        feedback: "`pop()` takes the latest change off the top, which is exactly what an undo button should take back."
+      - text: |-
+          add 4 hubcaps
+          ['add 2 bells', 'add 40 hubcaps']
+        misconception: pop-takes-first
+        feedback: "With no position, `pop()` takes the last item, not the first."
+      - text: |-
+          add 40 hubcaps
+          ['add 4 hubcaps', 'add 2 bells', 'add 40 hubcaps']
+        misconception: pop-only-looks
+        feedback: "`pop()` removes the item as well as handing it back. It isn't in `history` any more."
+  - type: fix
+    prompt: "Undo should take back the latest change. This takes back the oldest: it should print `['left', 'up']`. Fix it."
+    code: |
+      moves = ["left", "up", "down"]
+
+
+      def undo(moves):
+          moves.pop(0)
+
+
+      undo(moves)
+      print(moves)
+    tests: |
+      TESTS = [output("The latest move undone", expect="['left', 'up']",
+                      hint="The latest move is on the end of the list. pop() with no position takes it.")]
+    solution: |
+      moves = ["left", "up", "down"]
+
+
+      def undo(moves):
+          moves.pop()
+
+
+      undo(moves)
+      print(moves)
+  - type: fill
+    prompt: "Fill the gap so each closer takes the most recent opener off the stack."
+    code: |
+      def balanced(text):
+          still_open = []
+          for character in text:
+              if character == "(":
+                  still_open.append(character)
+              elif character == ")":
+                  if not still_open:
+                      return False
+                  still_open.___()
+          return not still_open
+
+
+      print(balanced("(()())"), balanced("())("))
+    blanks: [["pop"]]
+    tests: |
+      TESTS = [output("One yes, one no", expect="True False")]
+  - type: write
+    prompt: "Nell's crane log is a list of moves, where `\"undo\"` takes back the latest move still standing. Write `standing(log)`, which returns the moves left. `standing([\"left\", \"up\", \"undo\", \"down\"])` is `[\"left\", \"down\"]`. An undo with nothing to take back does nothing."
+    starter: |
+      def standing(log):
+          pass
+    tests: |
+      TESTS = [
+          function("One undo", call="standing", args=(["left", "up", "undo", "down"],), expect=["left", "down"]),
+          function("Undo everything", call="standing", args=(["left", "undo", "undo", "right"],), expect=["right"]),
+          function("No undos", call="standing", args=(["up", "up"],), expect=["up", "up"]),
+          function("Nothing at all", call="standing", args=([],), expect=[]),
+      ]
+    solution: |
+      def standing(log):
+          moves = []
+          for move in log:
+              if move == "undo":
+                  if moves:
+                      moves.pop()
+              else:
+                  moves.append(move)
+          return moves
+  - type: choice
+    prompt: "Nell adds 4 hubcaps, then 2 bells, then 40 hubcaps when she meant 4. She presses undo once. Which change should it take back?"
+    verify: none
+    options:
+      - text: The 40 hubcaps
+        correct: true
+        feedback: "Undo takes back the latest change first. That's why an undo history is a stack: the latest change is always on top."
+      - text: The first 4 hubcaps
+        misconception: undo-takes-oldest
+        feedback: "Undo works backwards from the latest change. Taking back the first would leave her mistake standing and remove a change she meant."

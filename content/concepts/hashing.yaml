@@ -1,0 +1,105 @@
+id: hashing
+title: Hashing
+summary: |
+  A hash function turns a key into a number, and the same key always gives the same number. A hash map takes the remainder of that number by how many piles it has, and that picks the key's pile. Different keys can land in the same pile, which is a collision, and that's allowed. Because a key's pile depends on its hash, a key must never change after it's filed: Python only takes hashable keys, like strings, numbers and tuples of them, never lists.
+example: |
+  def scrap_hash(name):
+      number = 0
+      for character in name:
+          number = (number * 31 + ord(character)) % 1_000_003
+      return number
+
+
+  for name in ["brass-valve", "kettle", "anvil"]:
+      print(name, scrap_hash(name) % 8)
+misconceptions: [different-names-different-piles, lists-can-be-keys, tuples-cannot-be-keys, hash-changes-each-call]
+related: [hash-maps, dictionaries, immutability, sets]
+cards:
+  - type: predict
+    prompt: "`ord(\"g\")` is 103, `ord(\"e\")` is 101, `ord(\"a\")` is 97 and `ord(\"r\")` is 114. What does this print?"
+    code: |
+      def letter_sum(name):
+          total = 0
+          for character in name:
+              total = total + ord(character)
+          return total
+
+
+      print(letter_sum("gear") % 8, letter_sum("rage") % 8)
+    answer: "7 7"
+  - type: predict
+    prompt: "For a whole number, Python's `hash` gives the number back. What does this print?"
+    code: |
+      print(hash(42) % 8, hash("bolt") == hash("bolt"))
+    answer: "2 True"
+  - type: choice
+    prompt: What happens?
+    code: |
+      stock = {}
+      stock[("hubcap", 14)] = 6
+      stock[["hubcap", 15]] = 2
+      print(len(stock))
+    verify: crash-line
+    options:
+      - text: It crashes on line 3
+        correct: true
+        feedback: "A list can change, so it can't be hashed: TypeError, unhashable type: 'list'. Use a tuple, as line 2 does."
+      - text: It crashes on line 2
+        misconception: tuples-cannot-be-keys
+        feedback: "A tuple of a string and a number never changes, so it hashes, and it makes a perfectly good key."
+      - text: It prints 2
+        misconception: lists-can-be-keys
+        feedback: "Line 3 never finishes. A list as a key raises TypeError, because a list could change after it was filed."
+  - type: choice
+    prompt: "Moss's hash puts `brass-valve` and `bolt-1` both in pile 4. What does that tell you?"
+    verify: none
+    options:
+      - text: "Nothing's wrong: two names sharing a pile is a collision, and the pile holds both"
+        correct: true
+        feedback: "With more names than piles, collisions are certain. A good hash keeps them spread out; it can't stop them."
+      - text: "The hash is broken: different names should never share a pile"
+        misconception: different-names-different-piles
+        feedback: "There are far more possible names than piles, so some must share. The pile keeps both, and a lookup compares names along it."
+  - type: choice
+    prompt: "Nell files `kettle` in pile 3 on Monday morning. On Monday afternoon the program, still running, works out `scrap_hash(\"kettle\") % 8` again. What does it get?"
+    verify: none
+    options:
+      - text: "3, the same as before"
+        correct: true
+        feedback: "A hash function gives the same number for the same key every time. If it didn't, nothing filed could ever be found again."
+      - text: "It could be any pile, which is why a lookup checks them all"
+        misconception: hash-changes-each-call
+        feedback: "Then the kettle would be lost. The whole point is that the same name gives the same pile, so a lookup goes straight there."
+  - type: fill
+    prompt: "Fill the gap so the pile number is always from 0 to 7."
+    code: |
+      def letter_sum(name):
+          total = 0
+          for character in name:
+              total = total + ord(character)
+          return total
+
+
+      pile = letter_sum("hubcap") ___ 8
+      print(pile)
+    blanks: [["%"]]
+    tests: |
+      TESTS = [output("Pile 3", expect="3")]
+  - type: write
+    prompt: "Write `pile_for(name, piles)`: Penhallow's hash of the name, with the remainder by `piles`. Multiply the running number by 31 and add `ord(character)` for each character, keeping the remainder by 1,000,003 each time."
+    starter: |
+      def pile_for(name, piles):
+          pass
+    tests: |
+      TESTS = [
+          function("A brass valve in 8 piles", call="pile_for", args=("brass-valve", 8), expect=4),
+          function("A kettle in 8 piles", call="pile_for", args=("kettle", 8), expect=3),
+          function("The empty name", call="pile_for", args=("", 16), expect=0),
+          function("A chain in 100 piles", call="pile_for", args=("chain", 100), expect=43),
+      ]
+    solution: |
+      def pile_for(name, piles):
+          number = 0
+          for character in name:
+              number = (number * 31 + ord(character)) % 1_000_003
+          return number % piles

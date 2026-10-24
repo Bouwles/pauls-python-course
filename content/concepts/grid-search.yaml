@@ -1,0 +1,130 @@
+id: grid-search
+title: Grid search
+summary: |
+  `GridSearchCV(model, grid, cv=5)` cross-validates every combination of settings in `grid` and keeps the best. The grid is a dict from a setting's name to the values to try: two settings with three and four values make twelve combinations, each fitted once per fold. Inside a pipeline, a setting is named for its step, two underscores, then the setting: `kneighborsclassifier__n_neighbors`. After `fit`, `best_params_` holds the winner and `best_score_` its mean score, and the winner is refitted on all the data, so the search can `predict`. `best_score_` was chosen for being highest, so it flatters: report a test score.
+example: |
+  import numpy as np
+  from sklearn.model_selection import GridSearchCV
+  from sklearn.tree import DecisionTreeClassifier
+
+  cloud = np.array([[0], [1], [2], [3], [5], [6], [7], [8], [1], [7], [2], [6]])
+  clear = np.array([1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0])
+  search = GridSearchCV(DecisionTreeClassifier(random_state=0), {"max_depth": [1, 2, 3]}, cv=3)
+  search.fit(cloud, clear)
+  print(search.best_params_, search.best_score_)
+  print(search.predict([[4]]))
+misconceptions: [grid-search-fits-once-per-setting, grid-search-no-refit, pipeline-setting-plain-name, best-score-is-honest]
+related: [cross-validation, pipelines, scikit-learn, overfitting]
+drill: true
+cards:
+  - type: predict
+    prompt: "How many combinations does this grid hold? What does this print?"
+    code: |
+      from sklearn.model_selection import ParameterGrid
+
+      grid = {"n_neighbors": [1, 5, 9], "weights": ["uniform", "distance"]}
+      print(len(ParameterGrid(grid)))
+    answer: "6"
+  - type: choice
+    prompt: "`CountingTree` writes down every time it's fitted. What does this print?"
+    code: |
+      import numpy as np
+      from sklearn.model_selection import GridSearchCV
+      from sklearn.tree import DecisionTreeClassifier
+
+      fits = []
+
+
+      class CountingTree(DecisionTreeClassifier):
+          def fit(self, X, y):
+              fits.append(self.max_depth)
+              return super().fit(X, y)
+
+
+      cloud = np.array([[0], [1], [2], [3], [5], [6], [7], [8], [1], [7], [2], [6]])
+      clear = np.array([1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0])
+      GridSearchCV(CountingTree(), {"max_depth": [1, 2, 3]}, cv=3).fit(cloud, clear)
+      print(len(fits))
+    options:
+      - text: "10"
+        correct: true
+        feedback: "Right. Three depths times three folds is nine fittings to choose, and one more to refit the winner on everything."
+      - text: "3"
+        misconception: grid-search-fits-once-per-setting
+        feedback: "Each depth is cross-validated: three folds, three fittings, for every depth."
+      - text: "9"
+        misconception: grid-search-no-refit
+        feedback: "Nine fittings choose the depth. Then the winner is fitted once more, on all the data, so the search has a model to predict with."
+  - type: choice
+    prompt: What happens?
+    code: |
+      import numpy as np
+      from sklearn.model_selection import GridSearchCV
+      from sklearn.neighbors import KNeighborsClassifier
+      from sklearn.pipeline import make_pipeline
+      from sklearn.preprocessing import StandardScaler
+
+      cloud = np.array([[0], [1], [2], [3], [5], [6], [7], [8], [1], [7], [2], [6]])
+      clear = np.array([1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0])
+      pipeline = make_pipeline(StandardScaler(), KNeighborsClassifier())
+      search = GridSearchCV(pipeline, {"n_neighbors": [1, 3]}, cv=3)
+      search.fit(cloud, clear)
+      print(search.best_params_)
+    verify: error
+    options:
+      - text: A ValueError
+        correct: true
+        error: ValueError
+        feedback: "Right. The pipeline has no setting called `n_neighbors`; its k-NN step does. Name it `kneighborsclassifier__n_neighbors`."
+      - text: "It prints {'n_neighbors': 1} or {'n_neighbors': 3}"
+        misconception: pipeline-setting-plain-name
+        feedback: "Inside a pipeline, each setting belongs to a step, so it's named step name, two underscores, setting: `kneighborsclassifier__n_neighbors`. The plain name is an invalid parameter."
+  - type: choice
+    prompt: "Pip's grid search tried forty settings. The best had a `best_score_` of 0.93, so he tells Professor Wendt to expect 93 in a hundred on new nights. Should she?"
+    verify: none
+    options:
+      - text: "No. The winner was picked for scoring highest on those folds, so it's partly luck. Score it once on a test set"
+        correct: true
+        feedback: "Right. With forty tries, the best is a little lucky on exactly those rows. A test set it never touched gives the honest number."
+      - text: "Yes. Cross-validation scores on rows the model hasn't seen"
+        misconception: best-score-is-honest
+        feedback: "Each score is on unseen rows, but the choice of the best used all of them. Choosing is a kind of learning, and the number it chose flatters."
+  - type: fill
+    prompt: "Fill the gap so the search tries 1, 3 and 5 neighbours inside the pipeline."
+    code: |
+      import numpy as np
+      from sklearn.model_selection import GridSearchCV
+      from sklearn.neighbors import KNeighborsClassifier
+      from sklearn.pipeline import make_pipeline
+      from sklearn.preprocessing import StandardScaler
+
+      cloud = np.array([[0], [1], [2], [3], [5], [6], [7], [8], [1], [7], [2], [6]])
+      clear = np.array([1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0])
+      pipeline = make_pipeline(StandardScaler(), KNeighborsClassifier())
+      search = GridSearchCV(pipeline, {"___": [1, 3, 5]}, cv=3)
+      search.fit(cloud, clear)
+      print(search.best_score_)
+    blanks: [["kneighborsclassifier__n_neighbors"]]
+    tests: |
+      TESTS = [output("Every choice is perfect here", expect="1.0")]
+  - type: write
+    prompt: "Make `search`: a `GridSearchCV` of `DecisionTreeClassifier(random_state=0)` over `max_depth` of 1, 2 and 3, with 3 folds. Fit it on `cloud` and `clear`, and print `search.best_params_`."
+    starter: |
+      import numpy as np
+      from sklearn.model_selection import GridSearchCV
+      from sklearn.tree import DecisionTreeClassifier
+
+      cloud = np.array([[0], [1], [2], [3], [5], [6], [7], [8], [1], [7], [2], [6]])
+      clear = np.array([1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0])
+    tests: |
+      TESTS = [output("One question is enough", expect="{'max_depth': 1}")]
+    solution: |
+      import numpy as np
+      from sklearn.model_selection import GridSearchCV
+      from sklearn.tree import DecisionTreeClassifier
+
+      cloud = np.array([[0], [1], [2], [3], [5], [6], [7], [8], [1], [7], [2], [6]])
+      clear = np.array([1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0])
+      search = GridSearchCV(DecisionTreeClassifier(random_state=0), {"max_depth": [1, 2, 3]}, cv=3)
+      search.fit(cloud, clear)
+      print(search.best_params_)

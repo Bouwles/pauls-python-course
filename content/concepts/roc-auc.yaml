@@ -1,0 +1,134 @@
+id: roc-auc
+title: ROC curves and AUC
+summary: |
+  A forecast that gives chances can be turned into decisions at any threshold, and each threshold gives one point: the false positive rate (the share of quiet nights warned) along the bottom, the true positive rate (recall) up the side. Trying every distinct chance as the threshold, from the highest down, traces the ROC curve from (0, 0), warning on nothing, to (1, 1), warning on everything. The area under it, the AUC, is the chance that a random real case got a higher forecast than a random quiet one: 1 is perfect, 0.5 is a coin. It sums up every threshold at once, so it measures how well the chances rank the cases, not which threshold to use, and it doesn't change if every chance is halved.
+example: |
+  import numpy as np
+
+  storm = np.array([1, 0, 1, 0, 0])
+  chance = np.array([0.9, 0.7, 0.6, 0.3, 0.2])
+  fpr, tpr = [0.0], [0.0]
+  for threshold in np.unique(chance)[::-1]:
+      warned = chance >= threshold
+      tpr.append(np.sum(warned & (storm == 1)) / np.sum(storm == 1))
+      fpr.append(np.sum(warned & (storm == 0)) / np.sum(storm == 0))
+  fpr, tpr = np.array(fpr), np.array(tpr)
+  print(round(float(np.sum((fpr[1:] - fpr[:-1]) * (tpr[1:] + tpr[:-1]) / 2)), 3))
+misconceptions: [auc-is-accuracy, coin-auc-zero, roc-plots-nights, auc-depends-on-threshold, auc-needs-true-chances]
+related: [classification-metrics, logistic-regression]
+cards:
+  - type: predict
+    prompt: "Two storm nights and three calm ones. What share of storm-and-calm pairs put the storm higher?"
+    code: |
+      import numpy as np
+
+      storms = np.array([0.9, 0.4])
+      calms = np.array([0.8, 0.1, 0.3])
+      print(round(np.mean(storms[:, None] > calms[None, :]), 2))
+    answer: "0.83"
+  - type: choice
+    prompt: "A forecast gives every night the same chance. What is its AUC?"
+    code: |
+      import numpy as np
+
+      storm = np.array([1, 0, 0, 1, 0, 0])
+      chance = np.full(6, 0.1)
+      fpr, tpr = [0.0], [0.0]
+      for threshold in np.unique(chance)[::-1]:
+          warned = chance >= threshold
+          tpr.append(np.sum(warned & (storm == 1)) / 2)
+          fpr.append(np.sum(warned & (storm == 0)) / 4)
+      print((fpr[1] - fpr[0]) * (tpr[1] + tpr[0]) / 2)
+    options:
+      - text: "0.5"
+        correct: true
+        feedback: "One threshold, so the curve goes straight from (0, 0) to (1, 1): the diagonal, a coin. No skill at ranking at all."
+      - text: "0.0"
+        misconception: coin-auc-zero
+        feedback: "An AUC of 0 would mean every calm night outranked every storm: perfectly backwards, which is a skill of a sort. A forecast that can't tell them apart sits on the diagonal, at 0.5."
+  - type: choice
+    prompt: "Pip halves every chance in the storm notebook. Does the AUC change?"
+    code: |
+      import numpy as np
+
+
+      def ranked(storm, chance):
+          pos, neg = chance[storm == 1], chance[storm == 0]
+          return np.mean(pos[:, None] > neg[None, :]) + 0.5 * np.mean(pos[:, None] == neg[None, :])
+
+
+      storm = np.array([1, 0, 1, 0, 0, 1])
+      chance = np.array([0.8, 0.3, 0.4, 0.5, 0.1, 0.9])
+      print(ranked(storm, chance) == ranked(storm, chance / 2))
+    options:
+      - text: "True"
+        correct: true
+        feedback: "Halving keeps every night in the same order, and the AUC only cares about the order."
+      - text: "False"
+        misconception: auc-needs-true-chances
+        feedback: "The AUC compares storm nights with calm nights, pair by pair. Halving every chance changes no comparison, so it changes nothing."
+  - type: choice
+    prompt: "Wendt moves her threshold from 0.5 to 0.12. What happens to the forecast's AUC?"
+    verify: none
+    options:
+      - text: "Nothing: the AUC sums up every threshold at once"
+        correct: true
+      - text: "It goes up, because more storms are caught"
+        misconception: auc-depends-on-threshold
+        feedback: "Catching more storms moves her along the curve, not the curve itself. The area belongs to the chances, whatever threshold she picks."
+  - type: choice
+    prompt: "What does one point on a ROC curve stand for?"
+    verify: none
+    options:
+      - text: "One threshold: the share of quiet nights it warns on, and the share of real cases it catches"
+        correct: true
+      - text: "One night: its chance, and whether it stormed"
+        misconception: roc-plots-nights
+        feedback: "That would be a scatter of nights. A ROC curve has one point per threshold, each made from all the nights at once."
+      - text: "The accuracy at that threshold"
+        misconception: auc-is-accuracy
+        feedback: "Accuracy is one number per threshold and flatters rare events. A ROC point is two rates, and the area under all of them measures ranking, not accuracy."
+  - type: fill
+    prompt: "Fill the gap so `area` adds up the curve in trapezoids."
+    code: |
+      fpr = [0.0, 0.0, 0.5, 0.5, 1.0]
+      tpr = [0.0, 0.5, 0.5, 1.0, 1.0]
+      area = 0.0
+      for i in range(1, len(fpr)):
+          area += (fpr[i] - fpr[i - 1]) * (tpr[i] + ___) / 2
+      print(area)
+    blanks: [["tpr[i - 1]", "tpr[i-1]"]]
+    tests: |
+      TESTS = [output("Three quarters", expect="0.75")]
+  - type: write
+    prompt: "Write `rates(y, chances, threshold)`: the pair `(fpr, tpr)` when every night with a chance at or above `threshold` is warned."
+    starter: |
+      import numpy as np
+
+
+      def rates(y, chances, threshold):
+          return 0.0, 0.0
+    tests: |
+      import numpy as np
+
+
+      def pairs(ctx):
+          m = ctx.module()
+          y = np.array([1, 0, 1, 0, 0])
+          chances = np.array([0.9, 0.7, 0.6, 0.3, 0.2])
+          for threshold, want in [(0.7, (1 / 3, 0.5)), (0.6, (1 / 3, 1.0)), (0.95, (0.0, 0.0))]:
+              got = m.rates(y, chances, threshold)
+              if not np.allclose(got, want):
+                  raise CheckFailed(f"At a threshold of {threshold}", expected=tuple(round(v, 3) for v in want), actual=repr(got))
+
+
+      TESTS = [custom("Three thresholds", pairs)]
+    solution: |
+      import numpy as np
+
+
+      def rates(y, chances, threshold):
+          warned = chances >= threshold
+          tpr = np.sum(warned & (y == 1)) / np.sum(y == 1)
+          fpr = np.sum(warned & (y == 0)) / np.sum(y == 0)
+          return fpr, tpr

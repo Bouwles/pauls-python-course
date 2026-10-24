@@ -1,0 +1,112 @@
+id: graphs
+title: Graphs as dictionaries of neighbours
+summary: |
+  A graph is a set of places, called nodes, and the connections between them, called edges: towns and roads, people and friendships, parts and the parts they fit. The usual way to keep one in Python is a dictionary of neighbours: each place, and a list of the places one step away. A two-way road is written in both lists; written in only one, it's one way. A place with no list of its own has nothing leading out of it, so `roads.get(place, [])` is safer than `roads[place]`.
+example: |
+  ROADS = {
+      "workshop": ["bakery", "tailor"],
+      "bakery": ["workshop", "post-office"],
+      "tailor": ["workshop"],
+      "post-office": ["bakery"],
+  }
+  for place, neighbours in ROADS.items():
+      print(place, "->", ", ".join(neighbours))
+misconceptions: [graph-roads-one-list-both-ways, graph-keys-are-all-places, graph-needs-a-picture]
+related: [dictionaries, dict-get, lists, bfs, dfs]
+drill: true
+cards:
+  - type: predict
+    prompt: "Every road here goes both ways. What does this print?"
+    code: |
+      ROADS = {
+          "pub": ["bakery", "post-office", "harbour-office"],
+          "bakery": ["pub", "post-office", "workshop"],
+          "post-office": ["pub", "bakery"],
+          "harbour-office": ["pub"],
+          "workshop": ["bakery"],
+      }
+      print(sum(len(neighbours) for neighbours in ROADS.values()) // 2)
+    answer: "5"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      ROADS = {"quay": ["chapel"], "chapel": []}
+      print("quay" in ROADS["chapel"])
+    options:
+      - text: "False"
+        correct: true
+        feedback: "The quay's list says you can get to the chapel. Nothing says you can get back. That road is one way."
+      - text: "True"
+        misconception: graph-roads-one-list-both-ways
+        feedback: "Each list only says where you can go from that place. A two-way road has to be written in both lists."
+  - type: predict
+    prompt: What does this print?
+    code: |
+      ROADS = {
+          "pub": ["bakery", "post-office", "harbour-office"],
+          "bakery": ["pub", "post-office", "workshop"],
+          "post-office": ["pub", "bakery"],
+      }
+      print(sorted(set(ROADS["pub"]) & set(ROADS["bakery"])))
+    answer: "['post-office']"
+  - type: fill
+    prompt: "Some places have no list of their own. Fill the gap so this prints nothing for the shed instead of crashing."
+    code: |
+      ROADS = {"workshop": ["shed"]}
+      for neighbour in ROADS.___("shed", []):
+          print(neighbour)
+      print("done")
+    blanks: [["get"]]
+    tests: |
+      TESTS = [output("No roads out of the shed", expect="done")]
+  - type: fix
+    prompt: "This should count every place on the map. It misses one. Fix it."
+    code: |
+      ROADS = {
+          "workshop": ["shed", "yard"],
+          "yard": ["gate"],
+          "gate": ["workshop"],
+      }
+      places = set(ROADS)
+      print(len(places))
+    tests: |
+      TESTS = [output("Four places", expect="4",
+                      hint="The shed has no list of its own, but it's still on the map. Add every place in every list.")]
+    solution: |
+      ROADS = {
+          "workshop": ["shed", "yard"],
+          "yard": ["gate"],
+          "gate": ["workshop"],
+      }
+      places = set(ROADS)
+      for neighbours in ROADS.values():
+          places.update(neighbours)
+      print(len(places))
+  - type: write
+    prompt: "Write `add_road(roads, a, b)`, which adds a two-way road between `a` and `b`. Either place might not be on the map yet."
+    starter: |
+      def add_road(roads, a, b):
+          pass
+    tests: |
+      def new_lane(ctx):
+          module = ctx.module()
+          roads = {"crab-club": ["bike-shed"], "bike-shed": ["crab-club"]}
+          module.add_road(roads, "crab-club", "lighthouse")
+          expected = {"crab-club": ["bike-shed", "lighthouse"], "bike-shed": ["crab-club"], "lighthouse": ["crab-club"]}
+          if roads != expected:
+              raise CheckFailed("The lighthouse is new: it needs a list of its own, with the crab club in it.", expected=expected, actual=roads)
+
+
+      def empty_map(ctx):
+          module = ctx.module()
+          roads = {}
+          module.add_road(roads, "pub", "ferry")
+          if roads != {"pub": ["ferry"], "ferry": ["pub"]}:
+              raise CheckFailed("On an empty map, both places are new.", expected={"pub": ["ferry"], "ferry": ["pub"]}, actual=roads)
+
+
+      TESTS = [custom("A lane to the lighthouse", new_lane), custom("An empty map", empty_map)]
+    solution: |
+      def add_road(roads, a, b):
+          roads.setdefault(a, []).append(b)
+          roads.setdefault(b, []).append(a)

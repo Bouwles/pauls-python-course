@@ -1,0 +1,152 @@
+id: priority-queues
+title: Priority queues
+summary: |
+  A priority queue hands out the most urgent thing first, whatever order things arrived in. With `heapq`, push tuples with the priority first: tuples compare item by item, so the lowest priority number comes out first. When two priorities tie, Python compares the next item along, so put an arrival count second, `(priority, arrival, item)`, to keep ties first come, first served and never compare the items themselves. `heapq` only does smallest first; for biggest first, push the negative.
+example: |
+  import heapq
+
+  pile = []
+  arrival = 0
+  for repair, priority in [("Mrs Vance's trolley", 3), ("Mr Ashby's ladder", 3), ("the ferry winch", 1)]:
+      heapq.heappush(pile, (priority, arrival, repair))
+      arrival = arrival + 1
+  while pile:
+      priority, _, repair = heapq.heappop(pile)
+      print(priority, repair)
+misconceptions: [heap-ties-keep-arrival, heapq-gives-largest, ties-never-compare-rest, negating-reverses-names]
+related: [heaps, tuples, sort-stability, comparisons]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import heapq
+
+      pile = []
+      heapq.heappush(pile, (2, "kettle"))
+      heapq.heappush(pile, (1, "winch"))
+      heapq.heappush(pile, (2, "anchor"))
+      print([heapq.heappop(pile)[1] for _ in range(3)])
+    answer: "['winch', 'anchor', 'kettle']"
+  - type: choice
+    prompt: What happens?
+    code: |
+      import heapq
+
+      pile = []
+      heapq.heappush(pile, (2, {"what": "rudder"}))
+      heapq.heappush(pile, (2, {"what": "rolling pin"}))
+      print(heapq.heappop(pile))
+    verify: error
+    options:
+      - text: A TypeError
+        correct: true
+        error: TypeError
+        feedback: "The priorities tie, so Python compares the dictionaries next, and dictionaries can't be compared with <. An arrival number in between would settle it first."
+      - text: "It prints (2, {'what': 'rudder'})"
+        misconception: ties-never-compare-rest
+        feedback: "A tie on the first item doesn't make two tuples equal. Python moves on to the next item, and here that's two dictionaries."
+      - text: "It prints (2, {'what': 'rolling pin'})"
+        misconception: heap-ties-keep-arrival
+        feedback: "Nothing in a heap remembers arrival order. It has to compare the next item in the tuple, and it can't."
+  - type: choice
+    prompt: "A heap holds `(priority, repair)` pairs. What does `heapq.heappop` hand back?"
+    verify: none
+    options:
+      - text: The pair with the lowest priority number
+        correct: true
+        feedback: "heapq always gives the smallest, and pairs compare by their first item. So priority 1 before priority 5."
+      - text: The pair with the highest priority number
+        misconception: heapq-gives-largest
+        feedback: "heapq only ever hands back the smallest. For biggest first, push the negative of the priority."
+      - text: The pair that was pushed first
+        misconception: heap-ties-keep-arrival
+        feedback: "Arrival order counts for nothing unless it's in the tuple. The heap compares what's in the pairs."
+  - type: fill
+    prompt: "The scrap merchant wants the heaviest part first. Fill the gap so `heapq` hands them out heaviest first."
+    code: |
+      import heapq
+
+      pile = []
+      for name, kg in [("hubcap", 4), ("anvil", 30), ("spring", 1)]:
+          heapq.heappush(pile, (___kg, name))
+      while pile:
+          kg, name = heapq.heappop(pile)
+          print(name)
+    blanks: [["-", "- "]]
+    tests: |
+      TESTS = [output("Heaviest first", expect="anvil\nhubcap\nspring")]
+  - type: fix
+    prompt: "`take` crashes now that each repair carries an arrival number. Fix it so it hands back the repair."
+    code: |
+      import heapq
+
+      pile = []
+      heapq.heappush(pile, (3, 0, "Mrs Vance's trolley"))
+      heapq.heappush(pile, (3, 1, "Mr Ashby's ladder"))
+      heapq.heappush(pile, (1, 2, "the ferry winch"))
+
+
+      def take(pile):
+          priority, repair = heapq.heappop(pile)
+          return repair
+
+
+      print(take(pile))
+      print(take(pile))
+    tests: |
+      TESTS = [output("The winch, then Mrs Vance", expect="the ferry winch\nMrs Vance's trolley",
+                      hint="Each tuple has three things in it now. Unpack all three.")]
+    solution: |
+      import heapq
+
+      pile = []
+      heapq.heappush(pile, (3, 0, "Mrs Vance's trolley"))
+      heapq.heappush(pile, (3, 1, "Mr Ashby's ladder"))
+      heapq.heappush(pile, (1, 2, "the ferry winch"))
+
+
+      def take(pile):
+          priority, arrival, repair = heapq.heappop(pile)
+          return repair
+
+
+      print(take(pile))
+      print(take(pile))
+  - type: write
+    prompt: "Write `serve(orders)`. `orders` is a list of `(name, priority)` in the order they came in. Return the names in the order Nell serves them: lowest priority number first, ties in the order they came. Use `heapq`."
+    starter: |
+      import heapq
+
+
+      def serve(orders):
+          pass
+    tests: |
+      TESTS = [
+          function("Urgent first", call="serve", args=([("bell", 4), ("winch", 1), ("oven door", 2)],), expect=["winch", "oven door", "bell"]),
+          function("Ties in the order they came", call="serve", args=([("trolley", 3), ("ladder", 3), ("anchor", 3)],),
+                   expect=["trolley", "ladder", "anchor"]),
+          function("Nothing to serve", call="serve", args=([],), expect=[]),
+      ]
+    solution: |
+      import heapq
+
+
+      def serve(orders):
+          pile = []
+          for arrival, (name, priority) in enumerate(orders):
+              heapq.heappush(pile, (priority, arrival, name))
+          served = []
+          while pile:
+              served.append(heapq.heappop(pile)[2])
+          return served
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import heapq
+
+      pile = []
+      for kg, name in [(4, "hubcap"), (30, "anvil"), (4, "boiler")]:
+          heapq.heappush(pile, (-kg, name))
+      print([heapq.heappop(pile)[1] for _ in range(3)])
+    answer: "['anvil', 'boiler', 'hubcap']"

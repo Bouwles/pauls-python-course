@@ -1,0 +1,113 @@
+id: data-provenance
+title: Where the numbers came from
+summary: |
+  Where a number came from is part of the number: who measured it, where, with what instrument, under what licence, and what the source's own notes say about it. Station files mark estimated values, provisional months and changes of instrument; keep those marks as columns of their own rather than stripping them and forgetting. Read the notes above a table before the table, find its start rather than counting lines, and credit the source as its licence asks.
+example: |
+  lines = ["   2009   4   12.5*    5.9*   71.0   151.2#",
+           "   2026   9   15.3    10.1   140.6    94.0#  Provisional"]
+  for line in lines:
+      fields = line.split()
+      print(fields[0], "estimated" if "*" in line else "measured",
+            "provisional" if fields[-1] == "Provisional" else "checked")
+misconceptions: [coerce-only-drops-missing, marks-are-noise, partial-year-total, header-length-fixed]
+related: [data-cleaning, missing-data, pandas-basics]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      lines = ["   2009   4   12.5*    5.9*   71.0   151.2#",
+               "   2009   5   14.0     7.1    55.2   190.4#",
+               "   2009   6   15.9     9.0     ---   140.0#  Provisional"]
+      estimated = sum("*" in line for line in lines)
+      provisional = sum(line.endswith("Provisional") for line in lines)
+      print(estimated, provisional)
+    answer: "1 1"
+  - type: choice
+    prompt: "Priya's rainfall, read straight into numbers. How many readings does this lose?"
+    code: |
+      import pandas as pd
+
+      rain = pd.Series(["111.1*", "95.0", "---", "71.0*"])
+      numbers = pd.to_numeric(rain, errors="coerce")
+      print(numbers.isna().sum())
+    options:
+      - text: "3"
+        correct: true
+        feedback: "Only `95.0` is a number as it stands. `errors=\"coerce\"` turns anything else into NaN, so both estimated readings vanish with the real gap. Take the marks off first, and keep them in a column of their own."
+      - text: "1"
+        misconception: coerce-only-drops-missing
+        feedback: "`errors=\"coerce\"` doesn't know `---` is special. Anything that isn't a plain number becomes NaN, and `111.1*` isn't."
+  - type: fix
+    prompt: "This counts the lines before the table, and another station's file has fewer. Find the line that starts with `yyyy` instead, so it works for any station."
+    code: |
+      TEXT = """Gullhaven
+      Estimated data is marked with a * after the value.
+         yyyy  mm   tmax
+                    degC
+         1998   1    6.1
+         1998   2    7.0*"""
+
+      lines = TEXT.splitlines()
+      table = lines[7:]
+      print(len(table), table[0].split())
+    tests: |
+      OTHER = "Hollow Point\nLocation: somewhere damp\nEstimated data is marked with a * after the value.\nMissing data is marked by ---.\n   yyyy  mm   tmax\n              degC\n   2001   3    8.8\n   2001   4   10.2\n   2001   5   13.0\n"
+      TESTS = [
+          output("Gullhaven's table", expect="2 ['1998', '1', '6.1']"),
+          output("Another station, more notes", set_vars={"TEXT": OTHER}, expect="3 ['2001', '3', '8.8']"),
+      ]
+    solution: |
+      TEXT = """Gullhaven
+      Estimated data is marked with a * after the value.
+         yyyy  mm   tmax
+                    degC
+         1998   1    6.1
+         1998   2    7.0*"""
+
+      lines = TEXT.splitlines()
+      header = next(i for i, line in enumerate(lines) if line.split()[:1] == ["yyyy"])
+      table = [line for line in lines[header + 2:] if line.strip()]
+      print(len(table), table[0].split())
+  - type: write
+    prompt: "Keep the marks as information. Print how many values are estimated, then the mean of the readings that exist, as `estimated: 2` and `mean: 12.0`."
+    starter: |
+      values = ["12.5*", "14.0", "---", "9.5*"]
+    tests: |
+      TESTS = [
+          output("Two estimated, three readings", expect="estimated: 2\nmean: 12.0"),
+          output("Other readings", set_vars={"values": ["10.0", "---", "---", "20.0*", "30.0"]}, expect="estimated: 1\nmean: 20.0"),
+      ]
+    solution: |
+      values = ["12.5*", "14.0", "---", "9.5*"]
+      estimated = sum(value.endswith("*") for value in values)
+      readings = [float(value.rstrip("*")) for value in values if value != "---"]
+      print(f"estimated: {estimated}")
+      print(f"mean: {sum(readings) / len(readings)}")
+  - type: choice
+    prompt: "Eleven months of rain were measured; December's gauge froze. What does this print?"
+    code: |
+      import numpy as np
+      import pandas as pd
+
+      rain = pd.Series([100.0] * 11 + [np.nan])
+      print(rain.sum(), rain.sum(min_count=12))
+    options:
+      - text: "1100.0 nan"
+        correct: true
+        feedback: "pandas' `sum` skips the gap and reports eleven months as if they were a year. `min_count=12` refuses to add up fewer than twelve, which is the honest answer for a yearly total."
+      - text: "1100.0 1100.0"
+        misconception: partial-year-total
+        feedback: "`min_count=12` means at least twelve real values or no total at all. Eleven months isn't a year, and pretending it is makes a dry year that never happened."
+      - text: "nan nan"
+        misconception: pandas-sum-gives-nan
+        feedback: "That's NumPy's habit, not pandas'. pandas' `sum` skips gaps unless `min_count` says how many it needs."
+  - type: fill
+    prompt: "The `#` says the sunshine came from the automatic sensor. Fill the gap to take it off before adding up."
+    code: |
+      import pandas as pd
+
+      sun = pd.Series(["47.5#", "52.0", "60.5#"])
+      print(pd.to_numeric(sun.str.___("#")).sum())
+    blanks: [["rstrip", "strip"]]
+    tests: |
+      TESTS = [output("Total sunshine", expect="160.0")]

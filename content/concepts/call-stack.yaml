@@ -1,0 +1,146 @@
+id: call-stack
+title: The call stack
+summary: |
+  When a function calls another, it stops on that line and waits, with its variables kept. Python piles the waiting calls up as the call stack: the newest on top, and only the top one running. When the top call returns, it comes off the pile and the one below carries on from where it stopped. So recursive calls finish newest first, and anything after the recursive call runs on the way back out. The pile is only allowed about a thousand calls high; past that, Python stops with a `RecursionError`.
+example: |
+  def climb(rung):
+      if rung == 0:
+          print("top")
+          return
+      print("up", rung)
+      climb(rung - 1)
+      print("down", rung)
+
+
+  climb(2)
+misconceptions: [code-after-call-skipped, unwinds-in-call-order, call-waits-its-turn, recursion-limit-is-memory]
+related: [recursion, base-cases, functions]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def unload(crates):
+          if crates == 0:
+              return
+          unload(crates - 1)
+          print("crate", crates)
+
+
+      unload(3)
+    answer: |-
+      crate 1
+      crate 2
+      crate 3
+  - type: choice
+    prompt: What does this print?
+    code: |
+      def label(crate):
+          print("open", crate)
+          if crate > 1:
+              label(crate - 1)
+          print("shut", crate)
+
+
+      label(3)
+    options:
+      - text: |-
+          open 3
+          open 2
+          open 1
+          shut 1
+          shut 2
+          shut 3
+        correct: true
+        feedback: "Each call opens, then waits for the call it made. The newest call, for crate 1, is the first to shut."
+      - text: |-
+          open 3
+          open 2
+          open 1
+          shut 3
+          shut 2
+          shut 1
+        misconception: unwinds-in-call-order
+        feedback: "Waiting calls finish newest first. `label(3)` can't shut until `label(2)` has, and that can't until `label(1)` has."
+      - text: |-
+          open 3
+          shut 3
+          open 2
+          shut 2
+          open 1
+          shut 1
+        misconception: call-waits-its-turn
+        feedback: "The call to `label(2)` happens on its line, straight away. `label(3)` waits there, and only shuts once everything above it has finished."
+      - text: |-
+          open 3
+          open 2
+          open 1
+        misconception: code-after-call-skipped
+        feedback: "Calling `label` again doesn't abandon the current call. Each one carries on after its call returns, and prints its shut line."
+  - type: choice
+    prompt: "A recursive function needs 5,000 calls waiting at once to reach its base case. What happens?"
+    verify: none
+    options:
+      - text: "Python stops it with a RecursionError, at about a thousand waiting calls"
+        correct: true
+        feedback: "Python keeps the call stack to about a thousand calls high, long before memory runs short. Deep jobs like this are done with a loop and a list of your own instead."
+      - text: "It works, as long as the computer has the memory"
+        misconception: recursion-limit-is-memory
+        feedback: "Memory isn't the limit; Python's own is. At about a thousand waiting calls it stops with a RecursionError, however much memory is free."
+  - type: fix
+    prompt: "This should print `3`, `2`, `1`, then `ground`, as the hook comes down. It prints them the other way up. Fix it by moving one line."
+    code: |
+      def lower(height):
+          if height == 0:
+              print("ground")
+              return
+          lower(height - 1)
+          print(height)
+
+
+      lower(3)
+    tests: |
+      TESTS = [output("On the way down", expect="3\n2\n1\nground",
+                      hint="A print after the recursive call happens on the way back out. Put it before the call.")]
+    solution: |
+      def lower(height):
+          if height == 0:
+              print("ground")
+              return
+          print(height)
+          lower(height - 1)
+
+
+      lower(3)
+  - type: fill
+    prompt: "Fill the gap so this prints `in 2` and `in 1` on the way in, then `out 1` and `out 2` on the way back out."
+    code: |
+      def crates(level):
+          if level == 0:
+              return
+          print("in", level)
+          crates(___)
+          print("out", level)
+
+
+      crates(2)
+    blanks: [["level - 1", "level-1"]]
+    tests: |
+      TESTS = [output("In and out", expect="in 2\nin 1\nout 1\nout 2")]
+  - type: write
+    prompt: "Write `ladder(rungs)`, which prints `up` and the rung number on the way up from `rungs` to 1, then `top`, then `down` and the rung number on the way back. `ladder(0)` prints only `top`."
+    starter: |
+      def ladder(rungs):
+          pass
+    tests: |
+      TESTS = [
+          function("Two rungs", call="ladder", args=(2,), expect=None, prints="up 2\nup 1\ntop\ndown 1\ndown 2"),
+          function("No rungs", call="ladder", args=(0,), expect=None, prints="top"),
+      ]
+    solution: |
+      def ladder(rungs):
+          if rungs == 0:
+              print("top")
+              return
+          print("up", rungs)
+          ladder(rungs - 1)
+          print("down", rungs)

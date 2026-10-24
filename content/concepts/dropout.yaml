@@ -1,0 +1,122 @@
+id: dropout
+title: Dropout
+summary: |
+  Dropout switches off each hidden neuron with chance `rate` on every training step, choosing afresh each time, so no neuron can rely on any particular other one and the network can't build a single fragile path through the training data. A mask does it: `keep = rng.random(H.shape) >= rate`, then `H * keep / (1 - rate)`. Dividing by `1 - rate` scales the survivors up so the layer's total stays about the same on average. The backward pass uses the same mask. At evaluation nothing is dropped and nothing is scaled.
+example: |
+  import numpy as np
+
+  rng = np.random.default_rng(4)
+  hidden = np.array([0.8, 0.2, 0.5, 0.9, 0.4, 0.6])
+  for epoch in range(2):
+      keep = rng.random(6) >= 0.5
+      print(hidden * keep / 0.5)
+misconceptions: [dropout-mask-fixed, dropout-no-rescale, dropout-scales-all, dropout-at-evaluation]
+related: [regularisation, neural-networks, random-module]
+cards:
+  - type: predict
+    prompt: "A dropout mask at rate 0.25. What does this print?"
+    code: |
+      import numpy as np
+
+      rng = np.random.default_rng(0)
+      mask = (rng.random(1000) >= 0.25) / (1 - 0.25)
+      print(sorted(set(np.round(mask, 2).tolist())))
+    answer: "[0.0, 1.33]"
+  - type: choice
+    prompt: "Two masks, one after the other, from the same rng. What does this print?"
+    code: |
+      import numpy as np
+
+      rng = np.random.default_rng(1)
+      first = rng.random(5) >= 0.5
+      second = rng.random(5) >= 0.5
+      print(np.array_equal(first, second))
+    options:
+      - text: "False"
+        correct: true
+        feedback: "Right. Every call to `rng.random` gives new numbers, so each training step sleeps a different set of neurons."
+      - text: "True"
+        misconception: dropout-mask-fixed
+        feedback: "The rng moves on with every call. The same seed gives the same sequence of masks, but not the same mask twice."
+  - type: choice
+    prompt: "The seeing network is trained with dropout 0.5. Tonight Wendt asks it for the seeing. What should dropout do?"
+    verify: none
+    options:
+      - text: "Nothing: every neuron is awake and nothing is scaled"
+        correct: true
+      - text: "Switch off half the neurons at random, as in training"
+        misconception: dropout-at-evaluation
+        feedback: "Then the same night would get a different answer every time you asked. Dropout is a training exercise; a network in use has every neuron on."
+  - type: fill
+    prompt: "Fill the gaps: switch each neuron off with chance `rate`, and scale the survivors."
+    code: |
+      import numpy as np
+
+      rng = np.random.default_rng(2)
+      H = np.ones((100, 80))
+      rate = 0.2
+      keep = rng.random(H.shape) >= ___
+      dropped = H * keep / (1 - ___)
+      print(round(float(dropped.mean()), 1), round(float(dropped.max()), 2))
+    blanks: [["rate", "0.2"], ["rate", "0.2"]]
+    tests: |
+      TESTS = [output("About the same total; survivors at 1.25", expect="1.0 1.25")]
+  - type: fix
+    prompt: "This dropout makes the layer's average fall to about half. Fix it so the average stays about 1."
+    code: |
+      import numpy as np
+
+      rng = np.random.default_rng(3)
+      H = np.ones((200, 50))
+      keep = rng.random(H.shape) >= 0.5
+      dropped = H * keep
+      print(round(float(dropped.mean()), 1))
+    tests: |
+      TESTS = [output("The average stays about 1", expect="1.0")]
+    solution: |
+      import numpy as np
+
+      rng = np.random.default_rng(3)
+      H = np.ones((200, 50))
+      keep = rng.random(H.shape) >= 0.5
+      dropped = H * keep / (1 - 0.5)
+      print(round(float(dropped.mean()), 1))
+  - type: write
+    prompt: "Write `dropout(H, rate, rng)`: `H` with each entry switched off with chance `rate`, and the survivors scaled by `1 / (1 - rate)`."
+    starter: |
+      import numpy as np
+
+
+      def dropout(H, rate, rng):
+          return H
+    tests: |
+      import numpy as np
+
+
+      def scaled(ctx):
+          m = ctx.module()
+          H = np.full((300, 40), 0.5)
+          out = np.asarray(m.dropout(H, 0.4, np.random.default_rng(5)))
+          values = sorted(set(np.round(out.ravel(), 6).tolist()))
+          if values != [0.0, round(0.5 / 0.6, 6)]:
+              raise CheckFailed("Every entry should be 0 or 0.5 / 0.6.", expected=[0.0, round(0.5 / 0.6, 6)], actual=values[:5])
+          if abs(float(np.mean(out == 0)) - 0.4) > 0.03:
+              raise CheckFailed("About 40 in every 100 should be switched off.", actual=round(float(np.mean(out == 0)), 3))
+
+
+      def nothing(ctx):
+          m = ctx.module()
+          H = np.arange(6.0).reshape(2, 3)
+          out = np.asarray(m.dropout(H, 0.0, np.random.default_rng(1)))
+          if not np.allclose(out, H):
+              raise CheckFailed("At rate 0, nothing is switched off.", expected=H.tolist(), actual=out.tolist())
+
+
+      TESTS = [custom("Rate 0.4: zeros and scaled survivors", scaled), custom("Rate 0 changes nothing", nothing)]
+    solution: |
+      import numpy as np
+
+
+      def dropout(H, rate, rng):
+          keep = rng.random(H.shape) >= rate
+          return H * keep / (1 - rate)

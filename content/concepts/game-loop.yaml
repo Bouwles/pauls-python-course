@@ -1,0 +1,153 @@
+id: game-loop
+title: The game loop
+summary: |
+  A game is a loop that goes round many times a second: read the input, update the state by one step, draw the state, wait for the next frame. Speeds in a loop like this are per frame, not per second: 4 pixels a frame at 60 frames a second is 240 pixels a second. Keep `update` free of drawing and of input, a step from one state to the next, and keep drawing free of changes, and the rules can be tested without a screen, sped up, or replayed exactly from a seed.
+example: |
+  class Fall:
+      def __init__(self):
+          self.y = 0
+
+      def update(self):
+          self.y += 4                     # pixels per frame
+
+      def draw(self):
+          return f"mackerel at {self.y}"  # reads the state, never changes it
+
+
+  fall = Fall()
+  for frame in range(3):
+      fall.update()
+      print(fall.draw())
+misconceptions: [speed-is-per-second, touching-edges-overlap, drawing-changes-state]
+related: [while-loops, classes, methods, edge-cases]
+cards:
+  - type: predict
+    prompt: "A mackerel falls 3 pixels a frame from the top. What does this print?"
+    code: |
+      y = 0
+      frames = 0
+      while y < 10:
+          y += 3
+          frames += 1
+      print(frames, y)
+    answer: "4 12"
+  - type: choice
+    prompt: "The game runs at 60 frames a second, and things fall 4 pixels a frame. How far does a mackerel fall in two seconds?"
+    code: |
+      FPS = 60
+      FALL_SPEED = 4      # pixels per frame
+      print(FALL_SPEED * FPS * 2)
+    options:
+      - text: "480"
+        correct: true
+        feedback: "4 pixels a frame, 60 frames a second, for two seconds: 480 pixels, three quarters of the screen. Change the frame rate and the game's speed changes with it."
+      - text: "8"
+        misconception: speed-is-per-second
+        feedback: "That treats 4 as pixels per second. The loop adds it once a frame, and there are 120 frames in two seconds."
+  - type: choice
+    prompt: "A mackerel's right edge touches the bucket's left edge exactly. Is it caught?"
+    code: |
+      def overlaps(a, b):
+          ax, ay, aw, ah = a
+          bx, by, bw, bh = b
+          return ax < bx + bw and ax + aw > bx and ay < by + bh and ay + ah > by
+
+
+      mackerel = (184, 600, 24, 24)
+      bucket = (208, 600, 64, 24)
+      print(overlaps(mackerel, bucket))
+    options:
+      - text: "False"
+        correct: true
+        feedback: "The mackerel ends at 184 + 24 = 208, exactly where the bucket begins. With strict `<` and `>`, edges that only touch share no pixels, so it isn't a catch."
+      - text: "True"
+        misconception: touching-edges-overlap
+        feedback: "Touching isn't overlapping. The mackerel covers pixels 184 to 207 and the bucket starts at 208; not one pixel is shared."
+  - type: fix
+    prompt: "Pip moves the bucket while drawing it, so it only moves when it's drawn. Move the change into `update`, so three updates move it 6 and drawing changes nothing."
+    code: |
+      class Game:
+          def __init__(self):
+              self.x = 0
+
+          def update(self):
+              pass
+
+          def draw(self):
+              self.x += 2
+              return "." * self.x + "U"
+
+
+      game = Game()
+      for frame in range(3):
+          game.update()
+      print(game.x)
+    tests: |
+      def drawing_is_harmless(ctx):
+          game = ctx.module().Game()
+          game.draw()
+          game.draw()
+          if game.x != 0:
+              raise CheckFailed("Drawing should only read the state. Two draws moved the bucket.", expected=0, actual=game.x)
+
+
+      TESTS = [
+          output("Three updates move it 6", expect="6"),
+          custom("Drawing changes nothing", drawing_is_harmless),
+      ]
+    solution: |
+      class Game:
+          def __init__(self):
+              self.x = 0
+
+          def update(self):
+              self.x += 2
+
+          def draw(self):
+              return "." * self.x + "U"
+
+
+      game = Game()
+      for frame in range(3):
+          game.update()
+      print(game.x)
+  - type: fill
+    prompt: "Fill the gap so two rectangles overlap only when they share pixels: touching edges don't count."
+    code: |
+      def overlaps(a, b):
+          ax, ay, aw, ah = a
+          bx, by, bw, bh = b
+          return ax < bx + bw and ax + aw ___ bx and ay < by + bh and ay + ah > by
+
+
+      print(overlaps((0, 0, 10, 10), (10, 0, 10, 10)), overlaps((0, 0, 11, 10), (10, 0, 10, 10)))
+    blanks: [[">"]]
+    tests: |
+      TESTS = [output("Touching, then overlapping by one", expect="False True")]
+  - type: write
+    prompt: "Write `step(state, direction)`: it gives back a new state with the bucket moved by `direction * 8`, kept between 0 and 416, and leaves the old state as it was."
+    starter: |
+      def step(state, direction):
+          pass
+    tests: |
+      def moved(ctx):
+          mod = ctx.module()
+          before = {"bucket_x": 208, "score": 3}
+          after = mod.step(before, 1)
+          if after != {"bucket_x": 216, "score": 3}:
+              raise CheckFailed("One step right from 208.", expected={"bucket_x": 216, "score": 3}, actual=after)
+          if before != {"bucket_x": 208, "score": 3}:
+              raise CheckFailed("The old state should be left as it was.", expected={"bucket_x": 208, "score": 3}, actual=before)
+
+
+      def ends(ctx):
+          mod = ctx.module()
+          if mod.step({"bucket_x": 4, "score": 0}, -1)["bucket_x"] != 0 or mod.step({"bucket_x": 412, "score": 0}, 1)["bucket_x"] != 416:
+              raise CheckFailed("The bucket stops at 0 and at 416.")
+
+
+      TESTS = [custom("One step right", moved), custom("Never off the pier", ends)]
+    solution: |
+      def step(state, direction):
+          new_x = min(max(state["bucket_x"] + direction * 8, 0), 416)
+          return {**state, "bucket_x": new_x}

@@ -1,0 +1,125 @@
+id: weight-initialisation
+title: Starting weights
+summary: |
+  A network's starting weights decide whether it can learn at all. Hidden neurons that start identical get identical gradients and stay identical forever, so all-zero or all-equal starts waste every neuron but one. Starts that are too big push sums into the flat parts of the sigmoid, where almost no blame gets back. Small random weights, with a spread of `np.sqrt(2 / n_in)` for a ReLU layer and `np.sqrt(1 / n_in)` for a sigmoid one, keep each layer's numbers about the same size; biases can start at 0.
+example: |
+  import numpy as np
+
+  rng = np.random.default_rng(6)
+  W1 = rng.normal(0, np.sqrt(2 / 4), (4, 16))      # 4 readings into a ReLU layer
+  W2 = rng.normal(0, np.sqrt(1 / 16), (16, 3))     # 16 hidden into the sigmoids
+  print(W1.shape, W2.shape)
+misconceptions: [training-breaks-symmetry, equal-start-never-moves, bigger-start-learns-faster, zero-start-is-neutral]
+related: [optimisers, neural-networks, activation-functions]
+cards:
+  - type: choice
+    prompt: "Two hidden neurons start with the same weights. After 100 steps, are their weights still the same?"
+    code: |
+      import numpy as np
+
+      X = np.array([[0.0, 1.0], [1.0, 0.0], [1.0, 1.0]])
+      T = np.array([[1.0], [1.0], [0.0]])
+      W1 = np.full((2, 2), 0.3)
+      W2 = np.full((2, 1), 0.3)
+      for _ in range(100):
+          H = np.maximum(0, X @ W1)
+          P = H @ W2
+          dP = 2 * (P - T) / len(X)
+          dH = (dP @ W2.T) * (H > 0)
+          W2 -= 0.1 * H.T @ dP
+          W1 -= 0.1 * X.T @ dH
+      print(np.allclose(W1[:, 0], W1[:, 1]))
+    options:
+      - text: "True"
+        correct: true
+        feedback: "Right. Same weights, same outputs, same blame, same step, every time. Two neurons doing one neuron's work."
+      - text: "False"
+        misconception: training-breaks-symmetry
+        feedback: "Nothing ever tells them apart. Each gets exactly the gradient the other gets, so they move in step."
+  - type: predict
+    prompt: "Each sum adds up 400 products of numbers with a spread of 1. What spread do the sums have, to the nearest ten?"
+    code: |
+      import numpy as np
+
+      rng = np.random.default_rng(0)
+      inputs = rng.normal(0, 1, (5000, 400))
+      weights = rng.normal(0, 1, 400)
+      print(round(float(np.std(inputs @ weights)), -1))
+    answer: "20.0"
+  - type: fill
+    prompt: "Fill the gap to start a ReLU layer with 64 inputs at the usual spread."
+    code: |
+      import numpy as np
+
+      n_in = 64
+      rng = np.random.default_rng(1)
+      W = rng.normal(0, np.sqrt(___ / n_in), (n_in, 32))
+      print(round(float(np.std(W)), 2))
+    blanks: [["2", "2.0"]]
+    tests: |
+      TESTS = [output("A spread of about 0.18", expect="0.18")]
+  - type: choice
+    prompt: "Every weight in this brain starts at 0. After 200 steps, what is the biggest weight in W1?"
+    code: |
+      import numpy as np
+
+      X = np.array([[0.2, 0.9], [0.8, 0.1], [0.5, 0.5]])
+      T = np.array([[1.0], [0.0], [1.0]])
+      W1, b1 = np.zeros((2, 4)), np.zeros(4)
+      W2, b2 = np.zeros((4, 1)), np.zeros(1)
+      for _ in range(200):
+          Z1 = X @ W1 + b1
+          H = np.maximum(0, Z1)
+          P = 1 / (1 + np.exp(-(H @ W2 + b2)))
+          dZ2 = 2 * (P - T) / len(X) * P * (1 - P)
+          dZ1 = (dZ2 @ W2.T) * (Z1 > 0)
+          W2 -= 1.0 * H.T @ dZ2
+          b2 -= 1.0 * dZ2.sum(axis=0)
+          W1 -= 1.0 * X.T @ dZ1
+          b1 -= 1.0 * dZ1.sum(axis=0)
+      print(float(np.abs(W1).max()))
+    options:
+      - text: "0.0"
+        correct: true
+        feedback: "Right. With W2 at 0, no blame reaches the hidden layer, and with every hidden output at 0, W2 gets no gradient either. Only the output bias learns. Zero is a trap, not a neutral start."
+      - text: "Something small but not 0, because training always moves the weights"
+        misconception: zero-start-is-neutral
+        feedback: "Every route the blame could take back to W1 passes through a 0: the weights in W2, or the hidden outputs. Nothing arrives, so nothing moves."
+  - type: write
+    prompt: "Write `start_layer(n_in, n_out, rng)`: weights from `rng.normal` with a spread of `np.sqrt(2 / n_in)`, shape `(n_in, n_out)`, and biases at 0. Return both."
+    starter: |
+      import numpy as np
+
+
+      def start_layer(n_in, n_out, rng):
+          pass
+    tests: |
+      import numpy as np
+
+
+      def scaled(ctx):
+          m = ctx.module()
+          W, b = m.start_layer(500, 200, np.random.default_rng(2))
+          if np.shape(W) != (500, 200) or np.shape(b) != (200,):
+              raise CheckFailed("Weights (500, 200) and biases (200,).", actual=f"{np.shape(W)} and {np.shape(b)}")
+          if abs(float(np.std(W)) - np.sqrt(2 / 500)) > 0.002 or np.any(b != 0):
+              raise CheckFailed("A spread of np.sqrt(2 / 500), and every bias at 0.", expected=round(np.sqrt(2 / 500), 4), actual=round(float(np.std(W)), 4))
+
+
+      TESTS = [custom("500 inputs, 200 neurons", scaled)]
+    solution: |
+      import numpy as np
+
+
+      def start_layer(n_in, n_out, rng):
+          return rng.normal(0, np.sqrt(2 / n_in), (n_in, n_out)), np.zeros(n_out)
+  - type: choice
+    prompt: "Pip starts every weight from `rng.normal(0, 10, shape)`: big, so it has more to work with. What happens to a sigmoid output layer?"
+    verify: none
+    options:
+      - text: "Its sums are huge, so its outputs sit at 0 or 1 where the sigmoid is flat, and almost no blame gets back"
+        correct: true
+        feedback: "Right. Saturated from the first step. Small starts keep the sums near 0, where the sigmoid is steep and the gradients are useful."
+      - text: "It learns faster, because big weights mean big gradients"
+        misconception: bigger-start-learns-faster
+        feedback: "Big weights mean big sums, and a sigmoid's slope at a big sum is nearly 0. The gradients shrink, not grow."

@@ -1,0 +1,231 @@
+id: linked-lists
+title: Linked lists
+summary: |
+  A linked list keeps each item in a node that also holds a reference to the next node; the last node's `next` is `None`, and the list itself only knows the first. The order lives in the links, not in positions. Reaching the nth item means walking past every node before it, O(n), but putting a node in or taking one out changes an arrow or two and moves nothing. Change arrows in the right order: an arrow you overwrite forgets where it pointed.
+example: |
+  class Crate:
+      def __init__(self, part):
+          self.part = part
+          self.next = None
+
+
+  anchor = Crate("anchor")
+  anchor.next = Crate("chain")
+  gong = Crate("gong")
+  gong.next = anchor.next
+  anchor.next = gong
+
+  crate = anchor
+  while crate is not None:
+      print(crate.part)
+      crate = crate.next
+misconceptions: [chain-order-is-creation-order, walk-falls-off-end, relinking-keeps-the-rest, next-assign-replaces-item, linked-list-indexing-is-fast, turn-before-saving]
+related: [classes, references, none, stacks]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      class Crate:
+          def __init__(self, part):
+              self.part = part
+              self.next = None
+
+
+      bell = Crate("bell")
+      drum = Crate("drum")
+      anchor = Crate("anchor")
+      drum.next = anchor
+      anchor.next = bell
+
+      crate = drum
+      while crate is not None:
+          print(crate.part, end=" ")
+          crate = crate.next
+    answer: "drum anchor bell"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      class Crate:
+          def __init__(self, part):
+              self.part = part
+              self.next = None
+
+
+      head = Crate("anchor")
+      head.next = Crate("bell")
+      head.next.next = Crate("chain")
+      head.next = Crate("gong")
+
+      crate = head
+      while crate is not None:
+          print(crate.part, end=" ")
+          crate = crate.next
+    options:
+      - text: anchor gong
+        correct: true
+        feedback: "The anchor's arrow now points at the new gong, whose `next` is `None`. The bell and the chain are cut off."
+      - text: anchor gong bell chain
+        misconception: relinking-keeps-the-rest
+        feedback: "The gong was never told to point at the bell. Changing the anchor's arrow forgets the old one."
+      - text: anchor gong chain
+        misconception: next-assign-replaces-item
+        feedback: "It isn't a list position being swapped. The anchor points at the gong, the gong points at nothing, and everything after is lost."
+  - type: choice
+    prompt: "The merchant's round has 1,000 crates in a linked list. How many steps to reach the 500th?"
+    verify: none
+    options:
+      - text: "About 500: walk from the head, one arrow at a time"
+        correct: true
+        feedback: "A linked list only knows its first crate. Every other one is reached by walking, so getting the nth is O(n)."
+      - text: "One, like round[499] on a list"
+        misconception: linked-list-indexing-is-fast
+        feedback: "A Python list keeps its items in numbered places, so it can jump. A linked list has no numbers, only arrows to follow."
+  - type: choice
+    prompt: "Pip's reverse. What does it print?"
+    code: |
+      class Crate:
+          def __init__(self, part):
+              self.part = part
+              self.next = None
+
+
+      head = Crate("anchor")
+      head.next = Crate("bell")
+      head.next.next = Crate("chain")
+
+      before = None
+      crate = head
+      while crate is not None:
+          crate.next = before
+          before = crate
+          crate = crate.next
+      head = before
+
+      crate = head
+      while crate is not None:
+          print(crate.part, end=" ")
+          crate = crate.next
+    options:
+      - text: anchor
+        correct: true
+        feedback: "The anchor's arrow is turned to `None` before anyone kept the bell. Then `crate = crate.next` is `None`, and the loop ends after one crate."
+      - text: chain bell anchor
+        misconception: turn-before-saving
+        feedback: "Once `crate.next = before` runs, the only arrow to the bell is gone. Keep `after = crate.next` first, then turn the arrow."
+  - type: fix
+    prompt: "This should reverse the round and print `chain bell anchor`. Fix it."
+    code: |
+      class Crate:
+          def __init__(self, part):
+              self.part = part
+              self.next = None
+
+
+      head = Crate("anchor")
+      head.next = Crate("bell")
+      head.next.next = Crate("chain")
+
+      before = None
+      crate = head
+      while crate is not None:
+          crate.next = before
+          before = crate
+          crate = crate.next
+      head = before
+
+      crate = head
+      while crate is not None:
+          print(crate.part, end=" ")
+          crate = crate.next
+    tests: |
+      TESTS = [output("Reversed", expect="chain bell anchor",
+                      hint="Keep hold of crate.next in a variable before you point crate.next back, then step on to it.")]
+    solution: |
+      class Crate:
+          def __init__(self, part):
+              self.part = part
+              self.next = None
+
+
+      head = Crate("anchor")
+      head.next = Crate("bell")
+      head.next.next = Crate("chain")
+
+      before = None
+      crate = head
+      while crate is not None:
+          after = crate.next
+          crate.next = before
+          before = crate
+          crate = after
+      head = before
+
+      crate = head
+      while crate is not None:
+          print(crate.part, end=" ")
+          crate = crate.next
+  - type: fill
+    prompt: "Fill the gap so the walk moves on to the next crate."
+    code: |
+      class Crate:
+          def __init__(self, part):
+              self.part = part
+              self.next = None
+
+
+      head = Crate("anchor")
+      head.next = Crate("bell")
+
+      crate = head
+      while crate is not None:
+          print(crate.part)
+          crate = crate.___
+    blanks: [["next"]]
+    tests: |
+      TESTS = [output("Both crates", expect="anchor\nbell")]
+  - type: write
+    prompt: "Write `count(head, part)`: how many crates on the round starting at `head` hold `part`. `head` may be `None`."
+    starter: |
+      class Crate:
+          def __init__(self, part):
+              self.part = part
+              self.next = None
+
+
+      def count(head, part):
+          pass
+    tests: |
+      def counts(parts, part, expected):
+          def check(ctx):
+              module = ctx.module()
+              head = None
+              for name in reversed(parts):
+                  crate = module.Crate(name)
+                  crate.next = head
+                  head = crate
+              got = module.count(head, part)
+              if got != expected:
+                  raise CheckFailed(f"{parts} holds {part} {expected} times.", expected=expected, actual=got)
+          return check
+
+
+      TESTS = [
+          custom("Two bells", counts(["bell", "anchor", "bell"], "bell", 2)),
+          custom("No kettles", counts(["bell", "anchor"], "kettle", 0)),
+          custom("An empty round", counts([], "bell", 0)),
+      ]
+    solution: |
+      class Crate:
+          def __init__(self, part):
+              self.part = part
+              self.next = None
+
+
+      def count(head, part):
+          found = 0
+          crate = head
+          while crate is not None:
+              if crate.part == part:
+                  found = found + 1
+              crate = crate.next
+          return found

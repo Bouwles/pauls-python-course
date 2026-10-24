@@ -1,0 +1,229 @@
+id: autograd
+title: Autograd
+summary: |
+  An autograd engine works out gradients for you. Every value remembers the values it was made from and leaves behind a small `_backward` function holding its operation's local slope. `backward()` puts every value in topological order, each after its parents, sets the answer's gradient to 1, and walks the order backwards so each value's blame is complete before it is passed on. Blame is added with `+=`, so a value used twice gets both shares, and so gradients must be set back to 0 before each training step.
+example: |
+  # Using the engine from The Tiny Engine
+  from engine import Value
+
+  side = Value(3.0)
+  area = side * side
+  area.backward()
+  print(area.data, side.grad)     # 9.0 6.0
+example_inputs: []
+misconceptions: [grad-counted-once-when-reused, grad-holds-result, backward-replaces-grads, backward-order-doesnt-matter, visit-twice-harmless]
+related: [backpropagation, numerical-gradient-checking, closures, dunder-methods]
+cards:
+  - type: predict
+    prompt: What does this print?
+    files: &engine
+      engine.py: |
+        class Value:
+            def __init__(self, data, parents=()):
+                self.data = data
+                self.grad = 0.0
+                self.parents = parents
+                self._backward = lambda: None
+
+            def __add__(self, other):
+                other = other if isinstance(other, Value) else Value(other)
+                out = Value(self.data + other.data, (self, other))
+
+                def _backward():
+                    self.grad += out.grad
+                    other.grad += out.grad
+
+                out._backward = _backward
+                return out
+
+            def __mul__(self, other):
+                other = other if isinstance(other, Value) else Value(other)
+                out = Value(self.data * other.data, (self, other))
+
+                def _backward():
+                    self.grad += other.data * out.grad
+                    other.grad += self.data * out.grad
+
+                out._backward = _backward
+                return out
+
+            __radd__ = __add__
+            __rmul__ = __mul__
+
+            def backward(self):
+                order, seen = [], set()
+
+                def visit(value):
+                    if value not in seen:
+                        seen.add(value)
+                        for parent in value.parents:
+                            visit(parent)
+                        order.append(value)
+
+                visit(self)
+                self.grad = 1.0
+                for value in reversed(order):
+                    value._backward()
+    code: |
+      from engine import Value
+
+      a = Value(2.0)
+      b = Value(5.0)
+      c = a * b + a
+      c.backward()
+      print(a.grad, b.grad)
+    answer: "6.0 2.0"
+  - type: choice
+    prompt: "`x` is used three times. What does this print?"
+    files: *engine
+    code: |
+      from engine import Value
+
+      x = Value(2.0)
+      y = x * x * x
+      y.backward()
+      print(x.grad)
+    options:
+      - text: "12.0"
+        correct: true
+        feedback: "Right. Each of the three uses adds a share of 4, and 4 + 4 + 4 is 12: the slope of x cubed is 3 times x squared."
+      - text: "4.0"
+        misconception: grad-counted-once-when-reused
+        feedback: "That's one use's share. Every use adds its own with `+=`, so all three count."
+      - text: "8.0"
+        misconception: grad-holds-result
+        feedback: "8.0 is `y.data`, two cubed. The gradient is how fast `y` moves when `x` is nudged."
+  - type: choice
+    prompt: What does this print?
+    files: *engine
+    code: |
+      from engine import Value
+
+      weight = Value(0.5)
+      loss = weight * 4.0
+      loss.backward()
+      loss.backward()
+      print(weight.grad)
+    options:
+      - text: "8.0"
+        correct: true
+        feedback: "Right. Each backward adds 4 to `weight.grad`. That's why a training loop sets every gradient back to 0 before each backward."
+      - text: "4.0"
+        misconception: backward-replaces-grads
+        feedback: "The second backward doesn't start afresh. It adds another 4 on top of the first."
+      - text: "2.0"
+        misconception: grad-holds-result
+        feedback: "2.0 is `loss.data`. The gradient is the slope, 4 for each call, and the two calls add up."
+  - type: fill
+    prompt: "Fill the gap so blame passes back through `exp` correctly. The slope of e to the x is e to the x."
+    files: *engine
+    code: |
+      import math
+
+      from engine import Value
+
+
+      def exp(v):
+          out = Value(math.exp(v.data), (v,))
+
+          def _backward():
+              v.grad += ___ * out.grad
+
+          out._backward = _backward
+          return out
+
+
+      x = Value(1.0)
+      y = exp(x) * 3
+      y.backward()
+      print(round(x.grad, 4))
+    blanks: [["out.data", "math.exp(v.data)", "math.exp(x.data)"]]
+    tests: |
+      TESTS = [output("Three times e", expect="8.1548")]
+  - type: fix
+    prompt: "`times` gets `side * side` wrong: the side's gradient should be 6.0. Fix it."
+    files: *engine
+    code: |
+      from engine import Value
+
+
+      def times(a, b):
+          out = Value(a.data * b.data, (a, b))
+
+          def _backward():
+              a.grad = b.data * out.grad
+              b.grad = a.data * out.grad
+
+          out._backward = _backward
+          return out
+
+
+      side = Value(3.0)
+      area = times(side, side)
+      area.backward()
+      print(side.grad)
+    tests: |
+      TESTS = [output("Both uses count", expect="6.0")]
+    solution: |
+      from engine import Value
+
+
+      def times(a, b):
+          out = Value(a.data * b.data, (a, b))
+
+          def _backward():
+              a.grad += b.data * out.grad
+              b.grad += a.data * out.grad
+
+          out._backward = _backward
+          return out
+
+
+      side = Value(3.0)
+      area = times(side, side)
+      area.backward()
+      print(side.grad)
+  - type: write
+    prompt: "Write `step(parameters, rate)`: move each parameter's `data` against its gradient, then set its `grad` back to 0, ready for the next backward."
+    files: *engine
+    starter: |
+      from engine import Value
+
+
+      def step(parameters, rate):
+          pass
+    tests: |
+      def moves(ctx):
+          m = ctx.module()
+          from engine import Value
+          w, b = Value(0.5), Value(-1.0)
+          w.grad, b.grad = 2.0, -4.0
+          m.step([w, b], 0.1)
+          if abs(w.data - 0.3) > 1e-9 or abs(b.data + 0.6) > 1e-9:
+              raise CheckFailed("Each data moves by rate times its grad, downhill.", expected=[0.3, -0.6], actual=[w.data, b.data])
+          if (w.grad, b.grad) != (0.0, 0.0):
+              raise CheckFailed("Every grad should be 0 afterwards.", expected=[0.0, 0.0], actual=[w.grad, b.grad])
+
+
+      TESTS = [custom("Two parameters, one step", moves)]
+    solution: |
+      from engine import Value
+
+
+      def step(parameters, rate):
+          for parameter in parameters:
+              parameter.data -= rate * parameter.grad
+              parameter.grad = 0.0
+  - type: choice
+    prompt: "Why does `backward()` call each value's `_backward` in reverse topological order, starting at the answer?"
+    verify: none
+    options:
+      - text: "So every value has received all its blame before it passes any on to its parents"
+        correct: true
+        feedback: "Right. A value made into two things gets blame from both. Walking the order backwards means both have handed theirs over before it passes its own total back."
+      - text: "It doesn't matter: the blame adds up the same in any order"
+        misconception: backward-order-doesnt-matter
+        feedback: "Each `_backward` passes on the grad its value holds at that moment. Call it too early and it passes on a grad that isn't finished, often 0."
+      - text: "Because the values were made in that order, and Python can only undo them in reverse"
+        misconception: backward-order-doesnt-matter
+        feedback: "Nothing is undone, and the numbers stay as they are. The order is about blame: a value mustn't pass its gradient on until it has heard from everything made from it."

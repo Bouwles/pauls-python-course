@@ -1,0 +1,126 @@
+id: scikit-learn
+title: "scikit-learn: make, fit, predict"
+summary: |
+  scikit-learn holds the classical models in one library, and every one is used the same way. Make it, with its settings in the brackets: `KNeighborsClassifier(n_neighbors=5)`. `model.fit(X, y)` learns from readings and answers; `model.predict(X)` gives one answer per row of new readings; `model.score(X, y)` measures it, as accuracy for a classifier. `X` is always a table, one row per example and one column per reading, even with a single column: `x.reshape(-1, 1)`. What `fit` learns is kept in attributes ending in an underscore, like `coef_`, and `fit` returns the model itself.
+example: |
+  import numpy as np
+  from sklearn.linear_model import LinearRegression
+
+  temperatures = np.array([-0.8, 5.5, 7.2, 12.8])
+  focus = np.array([42.45, 41.64, 41.41, 40.77])
+
+  model = LinearRegression()
+  model.fit(temperatures.reshape(-1, 1), focus)
+  print(round(model.coef_[0], 4), round(model.intercept_, 3))
+  print(model.predict([[4.0]]))
+misconceptions: [sklearn-takes-1d-features, estimator-takes-data-at-creation, fit-returns-predictions, predict-before-fit, learnt-without-underscore]
+related: [linear-regression, pipelines, cross-validation, grid-search]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      temperatures = np.array([3.0, 5.5, 8.0, 10.5])
+      print(temperatures.reshape(-1, 1).shape)
+    answer: "(4, 1)"
+  - type: choice
+    prompt: What happens?
+    code: |
+      from sklearn.neighbors import KNeighborsClassifier
+
+      model = KNeighborsClassifier(n_neighbors=3)
+      print(model.predict([[4.0, 72.0]]))
+    verify: error
+    options:
+      - text: A NotFittedError
+        correct: true
+        error: NotFittedError
+        feedback: "Right. A new model knows nothing yet. It has to be fitted before it can predict."
+      - text: It prints [0]
+        misconception: predict-before-fit
+        feedback: "Making a model only stores its settings. Until `fit` has shown it some readings and answers, there are no neighbours to ask."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import numpy as np
+      from sklearn.linear_model import LinearRegression
+
+      X = np.array([[0.0], [1.0], [2.0]])
+      y = np.array([1.0, 4.0, 7.0])
+      model = LinearRegression()
+      result = model.fit(X, y)
+      print(result is model)
+    options:
+      - text: "True"
+        correct: true
+        feedback: "Right. `fit` changes the model and hands back the same model, so `model = LinearRegression().fit(X, y)` works in one line."
+      - text: "False"
+        misconception: fit-returns-predictions
+        feedback: "`fit` doesn't predict anything. It teaches the model, then returns that same model, which is why you can write `LinearRegression().fit(X, y).predict(new)`."
+  - type: predict
+    prompt: "Every point is on a straight line. What does this print?"
+    code: |
+      import numpy as np
+      from sklearn.linear_model import LinearRegression
+
+      days = np.array([[0.0], [1.0], [2.0], [3.0]])
+      seconds_slow = 3 * days[:, 0] + 1
+      model = LinearRegression().fit(days, seconds_slow)
+      print(round(model.coef_[0], 2), round(model.intercept_, 2))
+    answer: "3.0 1.0"
+  - type: fix
+    prompt: "This should print the predicted focus at 4 degrees, but it crashes. Fix it: the readings must be a table."
+    code: |
+      import numpy as np
+      from sklearn.linear_model import LinearRegression
+
+      temperatures = np.array([0.0, 5.0, 10.0])
+      focus = np.array([42.3, 41.7, 41.1])
+      model = LinearRegression()
+      model.fit(temperatures, focus)
+      print(round(model.predict([[4.0]])[0], 2))
+    tests: |
+      TESTS = [output("Focus at 4 degrees", expect="41.82")]
+    solution: |
+      import numpy as np
+      from sklearn.linear_model import LinearRegression
+
+      temperatures = np.array([0.0, 5.0, 10.0])
+      focus = np.array([42.3, 41.7, 41.1])
+      model = LinearRegression()
+      model.fit(temperatures.reshape(-1, 1), focus)
+      print(round(model.predict([[4.0]])[0], 2))
+  - type: fill
+    prompt: "Fill the gaps: teach the tree, then ask it about two new evenings."
+    code: |
+      from sklearn.tree import DecisionTreeClassifier
+
+      cloud = [[0], [1], [2], [6], [7], [8]]
+      clear = [1, 1, 1, 0, 0, 0]
+      model = DecisionTreeClassifier(max_depth=1)
+      model.___(cloud, clear)
+      print(model.___([[1], [7]]))
+    blanks: [["fit"], ["predict"]]
+    tests: |
+      TESTS = [output("Clear at 1 okta, cloudy at 7", expect="[1 0]")]
+  - type: write
+    prompt: "Make a `KNeighborsClassifier` with 3 neighbours called `model`, fit it on `X` and `y`, and print its predictions for `new`."
+    starter: |
+      from sklearn.neighbors import KNeighborsClassifier
+
+      X = [[1, 1], [1, 2], [2, 1], [8, 8], [8, 9], [9, 8]]
+      y = [0, 0, 0, 1, 1, 1]
+      new = [[2, 2], [7, 9]]
+    tests: |
+      TESTS = [output("One near each corner", expect="[0 1]")]
+    solution: |
+      from sklearn.neighbors import KNeighborsClassifier
+
+      X = [[1, 1], [1, 2], [2, 1], [8, 8], [8, 9], [9, 8]]
+      y = [0, 0, 0, 1, 1, 1]
+      new = [[2, 2], [7, 9]]
+      model = KNeighborsClassifier(n_neighbors=3)
+      model.fit(X, y)
+      print(model.predict(new))

@@ -1,0 +1,119 @@
+id: merging
+title: Merging tables
+summary: |
+  `people.merge(trades, on="occupation")` lines up two tables by the values in a shared column and gives back one table with the columns of both. The default keeps only rows that match in both tables; `how="left"` keeps every row of the left table, with `NaN` where the right had nothing, and `how="outer"` keeps everything from both. A key that appears twice in the right table repeats the left row once per match, so check a lookup table for repeats, or pass `validate="many_to_one"` and pandas will refuse to merge if there are any.
+example: |
+  import pandas as pd
+
+  people = pd.DataFrame({"name": ["Walter", "Edith", "Ella"], "occupation": ["fisherman", "baker", "pharmacist"]})
+  trades = pd.DataFrame({"occupation": ["baker", "fisherman"], "sector": ["trade", "sea"]})
+  print(people.merge(trades, on="occupation"))
+  both = people.merge(trades, on="occupation", how="left", validate="many_to_one")
+  both["sector"] = both["sector"].fillna("unlisted")
+  print(both)
+misconceptions: [merge-keeps-all-rows, merge-keeps-both, merge-missing-key-errors, merge-duplicate-key-ignored, merge-refuses-duplicates]
+related: [groupby, pandas-basics, missing-data]
+drill: true
+cards:
+  - type: choice
+    prompt: "What does this print?"
+    code: |
+      import pandas as pd
+
+      boats = pd.DataFrame({"boat": ["Kittiwake", "Dolly", "Gull"], "skipper": ["Kerrow", "Nance", "Pascoe"]})
+      berths = pd.DataFrame({"boat": ["Dolly", "Kittiwake"], "berth": [4, 7]})
+      print(len(boats.merge(berths, on="boat")))
+    options:
+      - text: "2"
+        correct: true
+        feedback: "A plain merge keeps only the rows that match. The Gull has no berth, so she isn't in the result."
+      - text: "3"
+        misconception: merge-keeps-all-rows
+        feedback: "The default is an inner merge: rows without a match are dropped. `how=\"left\"` would keep the Gull, with `NaN` for a berth."
+  - type: choice
+    prompt: "The berths list has the Dolly in twice. What does this print?"
+    code: |
+      import pandas as pd
+
+      boats = pd.DataFrame({"boat": ["Kittiwake", "Dolly", "Gull"], "skipper": ["Kerrow", "Nance", "Pascoe"]})
+      berths = pd.DataFrame({"boat": ["Dolly", "Dolly", "Kittiwake"], "berth": [4, 4, 7]})
+      print(len(boats.merge(berths, on="boat", how="left")))
+    options:
+      - text: "4"
+        correct: true
+        feedback: "The Dolly matches two rows, so she comes out twice. The Kittiwake matches one and the Gull, kept by `how=\"left\"`, matches none."
+      - text: "3"
+        misconception: merge-duplicate-key-ignored
+        feedback: "merge makes one row for every match. Two rows for the Dolly in `berths` means two Dollys in the result."
+  - type: predict
+    prompt: "What does this print?"
+    code: |
+      import pandas as pd
+
+      boats = pd.DataFrame({"boat": ["Kittiwake", "Dolly", "Gull"]})
+      berths = pd.DataFrame({"boat": ["Dolly", "Kittiwake"], "berth": ["north", "south"]})
+      both = boats.merge(berths, on="boat", how="left")
+      print(both["berth"].fillna("at sea").tolist())
+    answer: "['south', 'north', 'at sea']"
+  - type: fill
+    prompt: "Fill the gap so the Gull keeps her row."
+    code: |
+      import pandas as pd
+
+      boats = pd.DataFrame({"boat": ["Kittiwake", "Dolly", "Gull"]})
+      berths = pd.DataFrame({"boat": ["Dolly", "Kittiwake"], "berth": [4, 7]})
+      both = boats.merge(berths, on="boat", how=___)
+      print(len(both))
+    blanks: [["\"left\"", "'left'"]]
+    tests: |
+      TESTS = [output("All three boats", expect="3")]
+  - type: fix
+    prompt: "Pip's merge counts the Kittiwake's landings twice, because her berth card is in twice. Fix it so the total is `20`."
+    code: |
+      import pandas as pd
+
+      landings = pd.DataFrame({"boat": ["Kittiwake", "Dolly", "Kittiwake"], "crates": [8, 5, 7]})
+      berths = pd.DataFrame({"boat": ["Kittiwake", "Kittiwake", "Dolly"], "berth": [7, 7, 4]})
+      both = landings.merge(berths, on="boat", how="left")
+      print(both["crates"].sum())
+    tests: |
+      TESTS = [output("Every crate once", expect="20")]
+    solution: |
+      import pandas as pd
+
+      landings = pd.DataFrame({"boat": ["Kittiwake", "Dolly", "Kittiwake"], "crates": [8, 5, 7]})
+      berths = pd.DataFrame({"boat": ["Kittiwake", "Kittiwake", "Dolly"], "berth": [7, 7, 4]})
+      both = landings.merge(berths.drop_duplicates("boat"), on="boat", how="left")
+      print(both["crates"].sum())
+  - type: write
+    prompt: "Write `with_streets(parcels, addresses)`: the parcels with a `street` column from `addresses`, matched on `name`. Keep every parcel, in order; a name with no address gets the street `unknown`."
+    starter: |
+      import pandas as pd
+
+
+      def with_streets(parcels, addresses):
+          pass
+    tests: |
+      def check(ctx):
+          import pandas as pd
+
+          parcels = pd.DataFrame({"name": ["Bea", "Tom", "Ada", "Bea"], "weight": [2.0, 0.5, 1.2, 3.1]})
+          addresses = pd.DataFrame({"name": ["Tom", "Bea"], "street": ["Lighthouse Lane", "High Street"]})
+          result = ctx.module().with_streets(parcels, addresses)
+          if len(result) != 4:
+              raise CheckFailed("Every parcel, once each.", expected="4 rows", actual=f"{len(result)} rows")
+          streets = result["street"].tolist()
+          expected = ["High Street", "Lighthouse Lane", "unknown", "High Street"]
+          if streets != expected:
+              raise CheckFailed("The streets, in parcel order.", expected=str(expected), actual=str(streets))
+
+
+      TESTS = [custom("Four parcels", check)]
+    solution: |
+      import pandas as pd
+
+
+      def with_streets(parcels, addresses):
+          both = parcels.merge(addresses, on="name", how="left")
+          both["street"] = both["street"].fillna("unknown")
+          return both
