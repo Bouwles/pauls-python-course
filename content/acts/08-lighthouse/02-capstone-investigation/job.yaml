@@ -1,0 +1,50 @@
+id: capstone-investigation
+title: "A Data Investigation"
+client: priya
+building: lighthouse
+estimated_minutes: 1200
+summary: "One question put to 150 years of real Met Office readings from Stornoway, and answered honestly: loaded, checked, charted and written up."
+concepts_introduced: [data-provenance]
+concepts_reviewed: [pandas-basics, selecting-filtering, missing-data, data-cleaning, matplotlib, files, string-methods, functions, docstrings, main-guard, f-strings, pytest, assert, edge-cases, test-first]
+ask:
+  dialogue:
+    - priya: "Our station's records start with Penhallow. Stornoway's start in 1873, with every doubt marked."
+    - priya: "Ask them one question. Answer it so that someone who disagrees with you would still believe it."
+    - pip: "Is it getting rainier. I'll have it by tea."
+    - priya: "You'll have an answer by tea. That's what worries me."
+  spec: |
+    `stornowaydata.txt` is the Met Office's monthly record for Stornoway Airport, a harbour town on the Isle of Lewis, from July 1873 to September 2026: for each month, the mean daily maximum and minimum temperatures, the days of air frost, the rainfall and the hours of sunshine. It's exactly as the Met Office publishes it, marks and all, and `SOURCE.md` says where it came from and what each mark means.
+
+    The data is Crown copyright, from the Met Office, used under the Open Government Licence v3.0. Anything you publish from it carries this line: "Contains public sector information licensed under the Open Government Licence v3.0. Source: Met Office."
+
+    1. **Load it.** `station.py` reads the file into an agreed table, keeping the marks as columns. The Make step checks it.
+    2. **Ask one question** the data can answer, and plan your checks before you see the answer.
+    3. **Clean and check.** Your own tests, in `test_station.py`, on everything your answer stands on.
+    4. **Analyse it, and chart it honestly,** in `investigation.py`.
+    5. **Write it up:** the answer, how sure you are, and what this data can't tell anyone.
+  example: |
+    >>> station = load_station("stornowaydata.txt")
+    >>> station.shape
+    (1839, 10)
+    >>> station[["year", "month", "rain", "sun", "sun_sensor", "provisional"]].tail(2)
+          year  month   rain   sun  sun_sensor  provisional
+    1837  2026      8  104.8  95.6        True         True
+    1838  2026      9  140.6  94.0        True         True
+ship:
+  dialogue:
+    - priya: "One question, one answer, the uncertainty beside it, and a paragraph on what it can't say."
+    - priya: "I checked the axes before I read a word. Then I read every word."
+    - pip: "Mine said it's getting rainier. Since the sixties, it is. Since 1900, it isn't."
+    - moss: "Choose the years before you look. That's half of honesty, in a sentence."
+  shelf: { object: sunshine-recorder, label: "Stornoway's weather, one question answered honestly" }
+  cards: [data-provenance]
+story_note: the-answer-is-at-the-top-of-the-stairs
+stretch:
+  - id: seasons
+    title: "Winter, honestly"
+    prompt: |
+      Meteorological winter is December, January and February, so each winter starts in one year and ends in the next. Add `winter_rain(station)` to `station.py`: one total per winter, labelled by the year its January falls in, and missing unless all three months were measured. Test it on the first winter in the file, which is incomplete, and on one you've added up by hand.
+  - id: sensor-change
+    title: "The day the sunshine changed"
+    prompt: |
+      The automatic sensor took over in September 2002. Compare the ten years either side of the change, month by month. Is the difference bigger than the usual difference between one decade and the next? Write two sentences Priya could put under the chart.

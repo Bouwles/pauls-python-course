@@ -1,0 +1,66 @@
+id: capstone-paper
+title: "Reproducing a Result"
+client: wendt
+building: lighthouse
+estimated_minutes: 1200
+summary: "Double descent, from a 2019 paper, reproduced in NumPy at a size that runs in seconds: the pieces, the curve, one experiment of your own, and an honest account of what didn't match."
+concepts_introduced: [double-descent, reproducibility]
+concepts_reviewed: [overfitting, train-test-split, polynomial-features, linear-regression, mean-squared-error, numpy-arrays, matrices, vectorisation, activation-functions, neural-networks, random-module, matplotlib, functions, docstrings, main-guard, pytest, test-first]
+ask:
+  dialogue:
+    - wendt: "A paper from 2019. It says my lecture on overfitting is half right. The first half."
+    - wendt: "Past the point where a model fits every reading, the test error comes down again. Allegedly."
+    - pip: "So degree eleven was right all along."
+    - wendt: "No. Well. Possibly not. We reproduce it before anybody says anything."
+    - moss: "Make it small enough to run twice. Then run it twice."
+  spec: |
+    Belkin, Hsu, Ma and Mandal, "Reconciling modern machine-learning practice and the classical bias-variance trade-off", *Proceedings of the National Academy of Sciences* 116 (32), 2019.
+
+    The claim: as a model gets more parameters, its test error first follows the classical U, falling and then rising to a peak where the model can only just fit every training example. Past that point, if the fit with the smallest norm is chosen, the error falls again, often below the bottom of the U. They called it double descent.
+
+    Reproduce it at a size that runs in seconds:
+
+    - data made from a known answer: ten random inputs per example, the answer `tanh` of their scaled sum, plus noise; 40 training examples and 400 test examples
+    - random features, the paper's first model, but with ReLU in place of its sines and cosines: fixed random weights that are never trained, then the smallest-norm least-squares fit on top
+    - widths from 1 to 2000 features, ten seeds each, and the median test error at each width
+
+    1. **The pieces:** `descent.py`, checked.
+    2. **The curve:** `reproduce.py`, checked, with your own tests in `test_descent.py`.
+    3. **The claim in your words,** and what would count as reproducing it.
+    4. **The main figure.**
+    5. **One thing the paper didn't try.**
+    6. **The write-up,** with an honest account of what didn't match.
+  example: |
+    features  test error
+           1       0.612
+           2       0.603
+           5       0.498
+          10       0.435
+          15       0.399
+          20       0.572
+          30       1.141
+          35       1.476
+          40      46.300
+          45       2.147
+          50       1.002
+         ...
+        2000       0.312
+ship:
+  dialogue:
+    - wendt: "Down, up at forty, and down again. On ten seeds, then on ten more."
+    - wendt: "Your list of what didn't match is longer than the paper's footnotes. Good. That's the useful list."
+    - pip: "So bigger is better."
+    - wendt: "Sometimes. Under conditions. They're in the write-up, Pip."
+    - moss: "Reproduced, small, and twice. Now you're entitled to an opinion."
+  shelf: { object: annotated-paper, label: "Double descent, reproduced in miniature" }
+  cards: [double-descent, reproducibility]
+story_note: bigger-not-cleverer
+stretch:
+  - id: more-data-can-hurt
+    title: "More data can hurt"
+    prompt: |
+      Fix the width at 40 features and vary the number of training examples instead, from 10 to 100. Nakkiran's 2019 paper "More Data Can Hurt for Linear Regression: Sample-wise Double Descent" says the test error should peak again, this time at 40 examples. Does it? Draw it beside your first figure.
+  - id: just-enough-ridge
+    title: "Just enough ridge"
+    prompt: |
+      Swap `fit_min_norm` for ridge regression with a small penalty and redraw the curve for penalties of 0.001, 0.01, 0.1 and 1. Find the smallest penalty that flattens the peak, and say what it costs at 15 features and at 2000.

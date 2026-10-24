@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Saltmarsh Harbour: visitor berths</title>
+  <style>
+    body { font-family: Georgia, serif; max-width: 40rem; margin: 1rem auto; padding: 0 1rem; line-height: 1.4; }
+    table { border-collapse: collapse; width: 100%; }
+    td, th { border-bottom: 1px solid #ccc; padding: 0.4rem; text-align: left; }
+    .problem { border-left: 4px solid #a33; padding-left: 0.6rem; }
+    .booked { border-left: 4px solid #374; padding-left: 0.6rem; }
+    label { display: block; margin: 0.4rem 0; }
+  </style>
+</head>
+<body>
+  <h1>Saltmarsh Harbour: visitor berths</h1>
+
+  {% if booked %}
+    <p class="booked">Booking {{ booked.id }}: {{ booked.boat }}, {{ booked.nights }} night{{ "s" if booked.nights != 1 }} from {{ booked.date }}.</p>
+  {% endif %}
+  {% if problem %}
+    <p class="problem">Not booked. {{ problem }}</p>
+  {% endif %}
+
+  <form method="get" action="/">
+    <label>Night of <input type="date" name="date" value="{{ night.isoformat() }}"></label>
+    <button>Show</button>
+  </form>
+
+  <h2>The night of {{ night.strftime("%d %B %Y") }}</h2>
+  <table>
+    <tr><th>Berth</th><th>Longest boat</th><th>Who's in it</th></tr>
+    {% for berth in berths %}
+      <tr>
+        <td>{{ berth.name }}</td>
+        <td>{{ berth.max_length }} m</td>
+        <td>{{ staying[berth.id].boat if berth.id in staying else "free" }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+
+  <h2>Book a berth</h2>
+  <form method="post" action="/book">
+    <label>Boat <input name="boat" required></label>
+    <label>Length in metres <input name="length" type="number" step="0.1" min="0.1" required></label>
+    <label>Berth
+      <select name="berth">
+        {% for berth in berths %}<option value="{{ berth.id }}">{{ berth.name }} (up to {{ berth.max_length }} m)</option>{% endfor %}
+      </select>
+    </label>
+    <label>Arriving <input type="date" name="date" value="{{ night.isoformat() }}" required></label>
+    <label>Nights <input name="nights" type="number" min="1" max="14" value="1"></label>
+    <button>Book it</button>
+  </form>
+</body>
+</html>
