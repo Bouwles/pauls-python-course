@@ -1,0 +1,48 @@
+id: the-tiny-engine
+title: "The Tiny Engine"
+client: wendt
+building: observatory
+estimated_minutes: 120
+summary: "Numbers that remember how they were made, so the gradients work themselves out: a small autograd engine, then a neuron built on it."
+concepts_introduced: [autograd]
+concepts_reviewed: [backpropagation, numerical-gradient-checking, chain-rule, classes, init, self, dunder-methods, closures, functions-as-values, sets, recursion, activation-functions, gradient-descent, mean-squared-error, perceptron]
+ask:
+  dialogue:
+    - wendt: "Every time we change the brain, somebody rewrites backward by hand. Usually me. Usually wrong."
+    - wendt: "Penhallow didn't. In her desk drawer, a shoebox of index cards. One number on each."
+    - wendt: "On the back of every card, the cards it was made from. That's the whole trick, I think."
+    - moss: "Every number with its receipt. I approve of receipts."
+  spec: |
+    In `engine.py`, finish `Value`: one number that remembers how it was made. `+` is already written, as the pattern for the rest.
+
+    1. `Value(data)` keeps the number in `.data`, its gradient in `.grad` (starting at 0), the values it was made from in `.parents` (a tuple, empty for a number you typed in) and the operation's name in `.op`.
+    2. `a * b`, `a ** 2` (the power is a plain number), `a.exp()` and `a.relu()` each make a new `Value` that records its parents and a `_backward` function: how blame arriving at the new value passes back to each parent. Blame is added to a parent's `.grad`, never written over it. Plain numbers mixed in, as in `2 * a`, work too.
+    3. `backward()`: put every value this one was made from in order, each after its parents; set this value's `.grad` to 1; then go through the order backwards, calling each value's `_backward`.
+
+    Then, in `neuron.py`, a neuron built on the engine:
+
+    4. `Neuron(n_inputs)` keeps a list of `Value` weights in `.weights`, one per input, and a `Value` in `.bias`, all starting at 0. `parameters()` gives back the weights, then the bias. Calling the neuron on a night's readings gives the sigmoid of the weighted sum, as a `Value`.
+    5. `train(neuron, nights, labels, rate, steps)`: each step, set every gradient to 0, work out the mean squared error over every night, call `backward()`, and move each weight against its gradient. It returns the loss at each step.
+    6. Run as a program, it learns Penhallow's dome log and gives tonight's chance.
+  example: |
+    Loss: 0.2500 at the start, 0.0476 at the end
+    Agrees with 24 of 24 nights
+    Tonight: 0.90, open the dome
+story_note: no-card-for-why
+ship:
+  dialogue:
+    - wendt: "Twenty-four nights out of twenty-four, and nobody wrote a backward pass. The cards did."
+    - wendt: "Her perceptron jumped from shut to open. This one slides, so there's a slope to follow."
+    - pip: "Mine was faster."
+    - moss: "Yours was wrong faster."
+  shelf: { object: shoebox, label: "Penhallow's shoebox engine" }
+  cards: [autograd]
+stretch:
+  - id: tanh
+    title: "One more card"
+    prompt: |
+      Add `a.tanh()` to `Value`, with its own `_backward`. The slope of tanh at a value is `1 - tanh ** 2`, and `out.data` already holds the tanh. Check it against a measurement at three points, one of them negative. Then build `tanh` again from `exp` alone, `(e ** 2x - 1) / (e ** 2x + 1)`, and check both give the same gradient.
+  - id: little-brain
+    title: "A brain from cards"
+    prompt: |
+      Build a `Layer` (a list of neurons, each seeing every input) and a two-layer brain from it, with ReLU in the hidden layer. Train it on Captain Ferro's four crossings from Learning Backwards. Start the weights at small random numbers rather than 0, and work out why the neuron could start at 0 and the brain can't.
