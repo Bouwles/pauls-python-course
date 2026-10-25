@@ -2,14 +2,19 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { BRAND } from "@/lib/brand";
 import { useSession } from "@/lib/store/session";
 import { DEFAULT_SETTINGS, TABLES, type Settings as SettingsData } from "@/lib/store/types";
 import { download, zip } from "@/lib/export";
 import { defaultLook } from "@/lib/pixel/learner";
 import { Button } from "../ui/Button";
-import { CharacterCreator } from "../welcome/CharacterCreator";
+import { Credit } from "../site/Credit";
+import { CharacterCreator, describeLook } from "../welcome/CharacterCreator";
+import { LearnerSprite } from "../world/LearnerSprite";
 import { useEarned } from "../world/useWorkshopExtras";
+import { Choice, Panel } from "./controls";
 import { Elsewhere } from "./Elsewhere";
+import { Billing } from "./Billing";
 import styles from "./Settings.module.css";
 
 export function Settings() {
@@ -18,6 +23,8 @@ export function Settings() {
   const s = { ...DEFAULT_SETTINGS, ...profile.settings };
   const [name, setName] = useState(profile.displayName);
   const [look, setLook] = useState(profile.character ?? defaultLook());
+  const [creatorOpen, setCreatorOpen] = useState(false);
+  const [passwordOpen, setPasswordOpen] = useState(false);
   const [saved, setSaved] = useState<string | null>(null);
   const earned = useEarned();
 
@@ -36,56 +43,133 @@ export function Settings() {
 
   return (
     <div className={styles.settings}>
-      <header>
+      <header className={styles.head}>
         <h1 className={styles.title}>Settings</h1>
+        {/* A small toast in the corner, so the note shows wherever you are on the page. */}
         <p className={styles.saved} role="status" aria-live="polite">
-          {saved ?? " "}
+          {saved ?? ""}
         </p>
       </header>
 
-      <section className={styles.section} aria-labelledby="s-you">
-        <h2 id="s-you" className={styles.h2}>
-          You
-        </h2>
-        <label className={styles.field}>
-          <span>Display name</span>
-          <input value={name} maxLength={40} onChange={(e) => setName(e.target.value)} onBlur={() => name.trim() && name !== profile.displayName && void updateProfile({ displayName: name.trim() }).then(() => setSaved("Saved."))} />
-        </label>
-        <details className={styles.character}>
-          <summary>Change your character</summary>
-          <CharacterCreator look={look} earned={earned} onChange={(l) => {
-            setLook(l);
-            void updateProfile({ character: l }).then(() => setSaved("Saved."));
-          }} />
-        </details>
-      </section>
+      <Panel id="s-account" title="Account">
+        {user ? (
+          <>
+            <p className={styles.meta}>Logged in as {user.email}.</p>
+            <div className={styles.row}>
+              <Button variant="quiet" aria-expanded={passwordOpen} aria-controls="password-form" onClick={() => setPasswordOpen((o) => !o)}>
+                Change password
+              </Button>
+              <Button variant="quiet" onClick={() => void exportEverything(store, Boolean(user))}>
+                Download all my data
+              </Button>
+              <Button variant="quiet" onClick={() => void signOut()}>
+                Log out
+              </Button>
+            </div>
+            {passwordOpen ? <PasswordForm onClose={() => setPasswordOpen(false)} /> : null}
+            <div className={styles.danger}>
+              <DeleteAccount
+                expected={profile.displayName || user.email}
+                onDeleted={async () => {
+                  if (store) await store.destroy();
+                  router.push("/");
+                  router.refresh();
+                }}
+              />
+            </div>
+          </>
+        ) : (
+          <>
+            <p className={styles.meta}>You&apos;re not logged in. Your work is saved on this device only.</p>
+            <div className={styles.row}>
+              <Button variant="primary" onClick={() => router.push("/signup?keep=1")}>
+                Make an account
+              </Button>
+              <Button variant="quiet" onClick={() => void exportEverything(store, false)}>
+                Download my work
+              </Button>
+            </div>
+          </>
+        )}
+        {mode === "local" && user ? <p className={styles.hint}>Running on the local development backend.</p> : null}
+      </Panel>
 
-      <section className={styles.section} aria-labelledby="s-look">
-        <h2 id="s-look" className={styles.h2}>
-          Reading and display
-        </h2>
-        <Choice label="Theme" value={s.theme} options={[["system", "Follow my device"], ["light", "Day"], ["dark", "Night"]]} onChange={(v) => void set({ theme: v as SettingsData["theme"] })} />
-        <Choice label="Lesson text" value={s.prose} options={[["serif", "Book serif"], ["hyperlegible", "Atkinson Hyperlegible, more spacing"]]} onChange={(v) => void set({ prose: v as SettingsData["prose"] })} />
-        <Choice label="Motion" value={s.motion} options={[["system", "Follow my device"], ["reduced", "Reduce motion"]]} onChange={(v) => void set({ motion: v as SettingsData["motion"] })} hint="Reduced motion stops the rain, the idle animations and the transitions." />
-        <label className={styles.field}>
-          <span>Code size: {s.editorFontSize}px</span>
-          <input type="range" min={12} max={22} step={1} value={s.editorFontSize} onChange={(e) => void set({ editorFontSize: Number(e.target.value) })} />
-        </label>
+      <Panel id="s-character" title="Character">
+        <div className={styles.you}>
+          {!creatorOpen ? (
+            <div className={styles.stage}>
+              <LearnerSprite look={look} scale={3} label={describeLook(look)} />
+            </div>
+          ) : null}
+          <div className={styles.youFields}>
+            <label className={styles.field}>
+              <span className={styles.legend}>Display name</span>
+              <input
+                value={name}
+                maxLength={40}
+                onChange={(e) => setName(e.target.value)}
+                onBlur={() => name.trim() && name !== profile.displayName && void updateProfile({ displayName: name.trim() }).then(() => setSaved("Saved."))}
+              />
+            </label>
+            {!creatorOpen ? <p className={styles.hint}>{describeLook(look)}</p> : null}
+            <div className={styles.row}>
+              <Button variant="quiet" aria-expanded={creatorOpen} aria-controls="character-creator" onClick={() => setCreatorOpen((o) => !o)}>
+                {creatorOpen ? "Done" : "Change your character"}
+              </Button>
+            </div>
+          </div>
+        </div>
+        {creatorOpen ? (
+          <div id="character-creator" className={styles.creator}>
+            <CharacterCreator
+              look={look}
+              earned={earned}
+              onChange={(l) => {
+                setLook(l);
+                void updateProfile({ character: l }).then(() => setSaved("Saved."));
+              }}
+            />
+          </div>
+        ) : null}
+      </Panel>
+
+      <Panel id="s-display" title="Display">
+        <Choice label="Theme" value={s.theme} options={[["dark", "Night"], ["light", "Day"], ["system", "Follow my device"]]} onChange={(v) => void set({ theme: v as SettingsData["theme"] })} />
+        <Choice
+          label="Lesson text"
+          value={s.prose}
+          options={[["serif", "Standard"], ["hyperlegible", "More spacing"]]}
+          onChange={(v) => void set({ prose: v as SettingsData["prose"] })}
+          hint="More spacing adds room between lines, letters and words."
+        />
+      </Panel>
+
+      <Panel id="s-editor" title="Editor">
+        <div className={styles.field}>
+          <label className={styles.legend} htmlFor="code-size">
+            Code size: {s.editorFontSize}px
+          </label>
+          <input id="code-size" className={styles.range} type="range" min={12} max={22} step={1} value={s.editorFontSize} onChange={(e) => void set({ editorFontSize: Number(e.target.value) })} />
+        </div>
+        <pre className={styles.sample} aria-hidden="true">
+          <code>print(&quot;Open for repairs&quot;)</code>
+        </pre>
         <p className={styles.hint}>Indents are always four spaces. Python reads indentation as structure, and one fixed width avoids errors you can&apos;t see.</p>
-      </section>
+      </Panel>
 
-      <section className={styles.section} aria-labelledby="s-talk">
-        <h2 id="s-talk" className={styles.h2}>
-          Talk and sound
-        </h2>
-        <Choice label="Dialogue" value={s.dialogue} options={[["full", "Full"], ["less", "Less talk: one line a job"]]} onChange={(v) => void set({ dialogue: v as SettingsData["dialogue"] })} />
-        <Choice label="Sound" value={s.sound ? "on" : "off"} options={[["off", "Off"], ["on", "On: the shop bell, a key for Run, a stamp for Ship"]]} onChange={(v) => void set({ sound: v === "on" })} />
-      </section>
+      <Panel id="s-dialogue" title="Dialogue">
+        <Choice hideLabel label="Dialogue" value={s.dialogue} options={[["full", "Full"], ["less", "Less talk"]]} onChange={(v) => void set({ dialogue: v as SettingsData["dialogue"] })} hint="Less talk keeps it to one line a job." />
+      </Panel>
 
-      <section className={styles.section} aria-labelledby="s-pace">
-        <h2 id="s-pace" className={styles.h2}>
-          Pace
-        </h2>
+      <Panel id="s-sound" title="Sound">
+        <Choice hideLabel label="Sound" value={s.sound ? "on" : "off"} options={[["off", "Off"], ["on", "On"]]} onChange={(v) => void set({ sound: v === "on" })} hint="The shop bell, a key for Run, a stamp for Ship." />
+      </Panel>
+
+      <Panel id="s-motion" title="Motion">
+        <Choice hideLabel label="Motion" value={s.motion} options={[["system", "Follow my device"], ["reduced", "Reduce motion"]]} onChange={(v) => void set({ motion: v as SettingsData["motion"] })} hint="Reduced motion stops the rain, the idle animations and the transitions." />
+      </Panel>
+
+      <Panel id="s-pace" title="Pace">
         <Choice
           label="Daily goal"
           value={String(s.dailyGoalMinutes ?? "none")}
@@ -102,81 +186,30 @@ export function Settings() {
             hint="Three lines on a Monday: what you shipped, what's due for review. Nothing else, and none at all in a quiet week."
           />
         ) : null}
-      </section>
+      </Panel>
 
       {user ? <Elsewhere /> : null}
 
-      <section className={styles.section} aria-labelledby="s-account">
-        <h2 id="s-account" className={styles.h2}>
-          Account
-        </h2>
-        {user ? (
-          <>
-            <p className={styles.meta}>Logged in as {user.email}.</p>
-            <PasswordForm />
-            <div className={styles.row}>
-              <Button variant="secondary" onClick={() => void exportEverything(store, Boolean(user))}>
-                Download all my data
-              </Button>
-              <Button variant="quiet" onClick={() => void signOut()}>
-                Log out
-              </Button>
-            </div>
-            <DeleteAccount expected={profile.displayName || user.email} onDeleted={async () => {
-              if (store) await store.destroy();
-              router.push("/");
-              router.refresh();
-            }} />
-          </>
-        ) : (
-          <>
-            <p className={styles.meta}>You&apos;re not logged in. Your work is saved on this device only.</p>
-            <div className={styles.row}>
-              <Button variant="primary" onClick={() => router.push("/signup?keep=1")}>
-                Make an account
-              </Button>
-              <Button variant="secondary" onClick={() => void exportEverything(store, false)}>
-                Download my work
-              </Button>
-            </div>
-          </>
-        )}
-        {mode === "local" && user ? <p className={styles.hint}>Running on the local development backend.</p> : null}
-      </section>
+      <div id="billing">
+        <Panel id="s-billing" title="Billing">
+          <Billing />
+        </Panel>
+      </div>
+
+      <footer className={styles.foot}>
+        <Credit />
+      </footer>
     </div>
   );
 }
 
-function Choice({ label, value, options, onChange, hint }: { label: string; value: string; options: [string, string][]; onChange: (v: string) => void; hint?: string }) {
-  return (
-    <fieldset className={styles.choice}>
-      <legend>{label}</legend>
-      <div className={styles.options}>
-        {options.map(([v, text]) => (
-          <label key={v} className={[styles.option, value === v ? styles.on : ""].join(" ")}>
-            <input type="radio" name={label} value={v} checked={value === v} onChange={() => onChange(v)} />
-            {text}
-          </label>
-        ))}
-      </div>
-      {hint ? <p className={styles.hint}>{hint}</p> : null}
-    </fieldset>
-  );
-}
-
-function PasswordForm() {
-  const [open, setOpen] = useState(false);
+function PasswordForm({ onClose }: { onClose: () => void }) {
   const [current, setCurrent] = useState("");
   const [next, setNext] = useState("");
   const [msg, setMsg] = useState<string | null>(null);
-  if (!open)
-    return (
-      <Button variant="quiet" size="sm" onClick={() => setOpen(true)}>
-        Change password
-      </Button>
-    );
   return (
     <form
+      id="password-form"
       className={styles.inline}
       onSubmit={async (e) => {
         e.preventDefault();
@@ -190,17 +223,26 @@ function PasswordForm() {
       }}
     >
       <label className={styles.field}>
-        <span>Current password</span>
+        <span className={styles.legend}>Current password</span>
         <input type="password" autoComplete="current-password" value={current} onChange={(e) => setCurrent(e.target.value)} />
       </label>
       <label className={styles.field}>
-        <span>New password, at least 10 characters</span>
+        <span className={styles.legend}>New password, at least 10 characters</span>
         <input type="password" autoComplete="new-password" value={next} onChange={(e) => setNext(e.target.value)} minLength={10} />
       </label>
-      <Button type="submit" size="sm" variant="secondary" disabled={next.length < 10}>
-        Change it
-      </Button>
-      {msg ? <p className={styles.hint} role="status">{msg}</p> : null}
+      <div className={styles.row}>
+        <Button type="submit" variant="primary" disabled={next.length < 10}>
+          Change it
+        </Button>
+        <Button type="button" variant="quiet" onClick={onClose}>
+          Cancel
+        </Button>
+      </div>
+      {msg ? (
+        <p className={styles.hint} role="status">
+          {msg}
+        </p>
+      ) : null}
     </form>
   );
 }
@@ -215,7 +257,7 @@ function DeleteAccount({ expected, onDeleted }: { expected: string; onDeleted: (
       <Button variant="danger" onClick={() => dialog.current?.showModal()}>
         Delete my account
       </Button>
-      <dialog ref={dialog} className={styles.dialog} aria-labelledby="del-title">
+      <dialog ref={dialog} className={["frame-panel", styles.dialog].join(" ")} aria-labelledby="del-title">
         <form
           method="dialog"
           className={styles.dialogBody}
@@ -233,14 +275,18 @@ function DeleteAccount({ expected, onDeleted }: { expected: string; onDeleted: (
           <h2 id="del-title" className={styles.h2}>
             Delete your account
           </h2>
-          <p>This removes your account, your code, your Shelf and your review deck from our database. It can&apos;t be undone. Download your data first if you want to keep it.</p>
+          <p className={styles.body}>This removes your account, your code, your Shelf and your review deck from our database. It can&apos;t be undone. Download your data first if you want to keep it.</p>
           <label className={styles.field}>
-            <span>
+            <span className={styles.legend}>
               Type <strong>{expected}</strong> to confirm
             </span>
             <input value={typed} onChange={(e) => setTyped(e.target.value)} autoComplete="off" />
           </label>
-          {error ? <p className={styles.error} role="alert">{error}</p> : null}
+          {error ? (
+            <p className={styles.error} role="alert">
+              {error}
+            </p>
+          ) : null}
           <div className={styles.row}>
             <Button type="submit" variant="danger" disabled={typed.trim() !== expected.trim() || busy}>
               Delete everything
@@ -268,6 +314,7 @@ async function exportEverything(store: ReturnType<typeof useSession>["store"], s
     if (!signedIn) data = { exportedAt: new Date().toISOString(), ...local };
     for (const c of (local.code_files as { jobId: string; stepId: string; filename: string; content: string }[]) ?? []) files[`code/${c.jobId}/${c.stepId}/${c.filename}`] = c.content;
   }
-  files["pauls-python-course-data.json"] = JSON.stringify(data, null, 2);
-  download("pauls-python-course-export.zip", zip(files), "application/zip");
+  const slug = BRAND.name.toLowerCase();
+  files[`${slug}-data.json`] = JSON.stringify(data, null, 2);
+  download(`${slug}-export.zip`, zip(files), "application/zip");
 }

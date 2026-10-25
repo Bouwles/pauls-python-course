@@ -11,7 +11,8 @@ import { LampLoop } from "../widgets/LampLoop";
 import { Growth } from "../widgets/Growth";
 import { HillWalker } from "../widgets/HillWalker";
 import { useWorkbench } from "../context";
-import { JobSummary, NextRow, Prose, StepHeading } from "./common";
+import { NextRow, Prose, StepHeading } from "./common";
+import { Ticket } from "../Ticket";
 import styles from "./steps.module.css";
 
 function Widget({ step, done, onDone }: { step: ConceptStep; done: boolean; onDone: () => void }) {
@@ -38,8 +39,7 @@ export function SimpleStepView({ step, row }: { step: ReadingStep | ExplainStep 
   const done = row.status === "passed";
   return (
     <>
-      <div className={areas.brief}>
-        <JobSummary />
+      <Ticket>
         <StepHeading step={step} />
         <Prose html={step.html} />
         {step.type === "explain" ? (
@@ -52,7 +52,7 @@ export function SimpleStepView({ step, row }: { step: ReadingStep | ExplainStep 
           </div>
         ) : null}
         <NextRow row={row} />
-      </div>
+      </Ticket>
       <div className={areas.stage}>
         <div className={styles.stagePad}>
           {step.type === "concept" ? (

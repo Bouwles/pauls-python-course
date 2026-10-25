@@ -1,42 +1,52 @@
+/* A learner's public page: who they are on a panel, and their shelves by Act. */
 .layout {
   display: grid;
-  grid-template-columns: 240px minmax(0, 1fr);
-  gap: var(--s-12);
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: var(--s-8);
   align-items: start;
 }
 
 .who {
   display: grid;
   gap: var(--s-4);
-  justify-items: start;
   position: sticky;
-  top: var(--s-6);
+  top: var(--s-4);
+  box-shadow: var(--shadow-hard);
 }
 
-.sprite {
-  padding: var(--s-4) var(--s-5) 0;
-  border-bottom: 4px solid var(--rule-strong);
+/* The character on the workshop floorboards. */
+.stage {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  min-height: 200px;
+  padding-bottom: var(--s-4);
+  background: var(--art-deep-slate);
+  box-shadow:
+    inset 0 -20px 0 var(--art-driftwood),
+    inset 0 -24px 0 var(--art-tar),
+    0 0 0 2px var(--night-0);
 }
 
 .text {
   display: grid;
   gap: var(--s-2);
+  min-width: 0;
 }
 
 .name {
-  font-size: var(--step-4);
+  font-size: var(--pixel-2);
   overflow-wrap: anywhere;
 }
 
 .line {
-  font-family: var(--font-prose);
   font-size: var(--prose-size);
-  color: var(--ink-2);
+  line-height: var(--lh-prose);
 }
 
 .meta {
   font-size: var(--step--1);
-  color: var(--ink-2);
+  color: var(--text-2);
 }
 
 .shelf {
@@ -46,7 +56,7 @@
 }
 
 .h2 {
-  font-size: var(--step-2);
+  font-size: var(--pixel-3);
 }
 
 .act {
@@ -55,54 +65,39 @@
 }
 
 .actTitle {
-  font-family: var(--font-prose);
-  font-size: var(--step-1);
-  font-weight: 600;
-  display: flex;
-  gap: var(--s-3);
-  align-items: baseline;
+  font-size: var(--pixel-1);
+  line-height: 24px;
 }
 
 .actNo {
-  font-family: var(--font-code);
-  font-size: var(--step--1);
-  font-weight: 400;
-  color: var(--ink-2);
+  color: var(--accent-text);
 }
 
-/* Each object stands on the board with its name, and the Job it came from beneath. */
-.item {
-  display: grid;
-  justify-items: center;
-  gap: 4px;
-  padding: 4px 6px 2px;
-  max-width: 120px;
-  text-align: center;
-}
-
-/* The shelf's own label colour, quieter. */
+/* Under the object's own label, the Job it came from, quieter. */
 .job {
-  opacity: 0.75;
+  display: block;
+  margin-top: var(--s-1);
+  font-weight: 400;
+  color: var(--text-2);
 }
 
-@media (max-width: 720px) {
+@media (max-width: 860px) {
   .layout {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--s-8);
   }
 
   .who {
     position: static;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 140px minmax(0, 1fr);
     align-items: end;
-    gap: var(--s-4);
   }
 
-  .sprite {
-    padding: var(--s-2) var(--s-3) 0;
+  .stage {
+    min-height: 120px;
   }
 
-  .name {
-    font-size: var(--step-3);
+  .h2 {
+    font-size: var(--pixel-2);
   }
 }

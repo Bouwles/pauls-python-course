@@ -1,4 +1,4 @@
--- Paul's Python Course: learner data.
+-- Fixwick: learner data.
 -- Runs unchanged on Supabase and on the local PGlite development database.
 -- Times are milliseconds since the epoch (bigint), matching the client's local store,
 -- so sync compares like with like.

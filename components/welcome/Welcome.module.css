@@ -1,54 +1,68 @@
+/* Taking a desk: make your character, say what Moss should call you, and how much code you've written. */
 .welcome {
+  --slot: var(--panel);
+  --slot-hover: var(--panel-2);
   display: grid;
-  gap: var(--s-10);
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-8);
 }
 
 .head {
   display: grid;
-  gap: var(--s-2);
+  gap: var(--s-3);
 }
 
 .title {
-  font-size: var(--step-4);
+  font-size: var(--pixel-3);
 }
 
 .lede {
-  font-family: var(--font-prose);
   font-size: var(--prose-size);
-  color: var(--ink-2);
+  line-height: var(--lh-prose);
+  color: var(--text-2);
 }
 
 .rows {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
   gap: var(--s-8);
-  padding-top: var(--s-6);
-  border-top: var(--hairline);
+  box-shadow: var(--shadow-hard);
 }
 
 .field {
   display: grid;
   gap: var(--s-2);
   align-content: start;
+  min-width: 0;
 }
 
 .labelText {
-  font-weight: 600;
-  font-size: var(--step-0);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  font-weight: 400;
+  line-height: 24px;
+  -webkit-font-smoothing: none;
 }
 
 .field input {
-  min-height: 42px;
-  border: 1px solid var(--control-border);
-  border-radius: var(--r-2);
-  background: var(--paper-raised);
+  width: 100%;
+  min-height: 44px;
   padding: 0 var(--s-3);
+  background: var(--code-bg);
+  color: var(--text);
+  border: 2px solid var(--night-0);
+  box-shadow: inset 0 2px 0 var(--night-0);
   font-size: var(--step-0);
+}
+
+.field input::placeholder {
+  color: var(--text-2);
 }
 
 .hint {
   font-size: var(--step--1);
-  color: var(--ink-2);
+  line-height: 1.45;
+  color: var(--text-2);
 }
 
 .experience {
@@ -57,40 +71,72 @@
   margin: 0;
   display: grid;
   gap: var(--s-2);
+  min-width: 0;
 }
 
 .experience legend {
+  padding: 0;
   margin-bottom: var(--s-2);
 }
 
+/* Each answer is a slot that lights up when chosen, with a pixel radio mark. */
 .option {
   display: grid;
-  grid-template-columns: 18px 1fr;
+  grid-template-columns: 20px minmax(0, 1fr);
   gap: var(--s-3);
-  padding: var(--s-3);
-  border: 1px solid var(--rule-strong);
-  border-radius: var(--r-2);
+  align-items: start;
+  padding: var(--s-3) var(--s-4) var(--s-4) var(--s-3);
+  background: var(--slot);
+  box-shadow: inset 0 -4px 0 var(--quiet-dark);
   cursor: pointer;
 }
 
-.option input {
-  margin-top: 3px;
-  accent-color: var(--accent-ink);
+.option:hover {
+  background: var(--slot-hover);
+}
+
+.mark {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  background: var(--code-bg);
+  box-shadow: inset 0 0 0 2px var(--night-0);
+}
+
+.optionText {
+  display: grid;
+  gap: var(--s-1);
 }
 
 .option strong {
-  display: block;
-  font-weight: 600;
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  font-weight: 400;
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  padding-top: 3px;
 }
 
 .note {
   font-size: var(--step--1);
-  color: var(--ink-2);
+  line-height: 1.45;
+  color: var(--text-2);
 }
 
-.on {
-  border-color: var(--ink);
-  background: var(--paper-raised);
+.on,
+.on:hover {
+  background: var(--accent-wash);
+  box-shadow: inset 0 0 0 2px var(--lamp), inset 0 -4px 0 var(--lamp);
+}
+
+.on .mark {
+  background: var(--lamp);
+  box-shadow: inset 0 0 0 2px var(--night-0), inset 0 0 0 6px var(--code-bg);
+}
+
+.option:focus-within {
+  outline: 2px solid var(--lamp);
+  outline-offset: 2px;
 }
 
 .go {
@@ -102,10 +148,24 @@
 
 @media (max-width: 760px) {
   .rows {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-6);
   }
 
   .title {
-    font-size: var(--step-3);
+    font-size: var(--pixel-2);
+  }
+}
+
+/* Day: a day panel's body is the panel colour, so slots step down to the page colour instead. */
+:root[data-theme="light"] .welcome {
+  --slot: var(--bg);
+  --slot-hover: var(--frame);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .welcome {
+    --slot: var(--bg);
+    --slot-hover: var(--frame);
   }
 }

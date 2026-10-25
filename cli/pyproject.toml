@@ -3,9 +3,9 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ppc-saltmarsh"
+name = "fixwick"
 version = "0.1.0"
-description = "The companion tool for Paul's Python Course: fetch Take It Home Jobs, run their tests, hand them in."
+description = "The companion tool for Fixwick: fetch Take It Home Jobs, run their tests, hand them in."
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }

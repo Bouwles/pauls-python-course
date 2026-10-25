@@ -1,0 +1,77 @@
+.wrap {
+  position: relative;
+}
+
+.trigger {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 32px;
+  border: 0;
+  outline: 2px solid var(--night-0);
+  padding-bottom: 4px;
+  background: var(--quiet);
+  color: var(--quiet-text);
+  box-shadow: inset 0 -4px 0 var(--quiet-dark);
+}
+
+.trigger:hover {
+  background: var(--quiet-hover);
+}
+
+.trigger:active {
+  transform: translateY(2px);
+  box-shadow: inset 0 -2px 0 var(--quiet-dark);
+}
+
+.trigger[aria-expanded="true"] {
+  background: var(--night-4);
+  color: var(--chalk);
+}
+
+.menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 40;
+  min-width: 200px;
+  margin: 0;
+  padding: var(--s-1);
+  list-style: none;
+  background: var(--night-2);
+  outline: 2px solid var(--night-0);
+  box-shadow: inset 0 0 0 2px var(--night-4), var(--shadow-hard);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  width: 100%;
+  min-height: 36px;
+  padding: 2px var(--s-3) 0;
+  border: 0;
+  background: none;
+  color: var(--chalk);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  text-align: left;
+}
+
+.item:hover:not(:disabled),
+.item:focus-visible {
+  background: var(--lamp);
+  color: var(--night-0);
+  outline: none;
+}
+
+.item:disabled {
+  color: var(--fog);
+  opacity: 0.6;
+}
+
+.noIcon {
+  width: 24px;
+}

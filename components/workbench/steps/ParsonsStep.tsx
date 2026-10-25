@@ -9,9 +9,11 @@ import { CheckIcon } from "../../ui/Icons";
 import { highlightLines } from "../CodeBlock";
 import cb from "../CodeBlock.module.css";
 import { Hints } from "../Hints";
+import { InDialogue } from "../Slots";
 import { TestReport } from "../TestReport";
 import { useWorkbench } from "../context";
-import { JobSummary, NextRow, Prose, StepHeading } from "./common";
+import { NextRow, Prose, StepHeading } from "./common";
+import { Ticket } from "../Ticket";
 import styles from "./parsons.module.css";
 import s from "./steps.module.css";
 
@@ -181,15 +183,14 @@ export function ParsonsStepView({ step, row }: { step: ParsonsStep; row: StepPro
 
   return (
     <>
-      <div className={areas.brief}>
-        <JobSummary />
+      <Ticket>
         <StepHeading step={step} />
         <Prose html={step.html} />
         <p className={s.nextNote} style={{ marginTop: 12 }}>
           Drag blocks across, or use the buttons. On a block: Alt and the arrow keys move it, Tab and Shift+Tab indent it, Delete puts it back.
         </p>
         <NextRow row={row} />
-      </div>
+      </Ticket>
       <div className={areas.stage}>
         <div className={styles.board}>
           <section className={styles.column} aria-labelledby="pool-title">
@@ -270,9 +271,9 @@ export function ParsonsStepView({ step, row }: { step: ParsonsStep; row: StepPro
         ) : null}
       </div>
       {step.hints ? (
-        <div className={areas.side}>
+        <InDialogue>
           <Hints step={{ ...step, type: "make", files: ["main.py"], entry: "main.py", starter: {}, visibleTests: [], requiredCount: 0, stretchCount: 0, hints: step.hints, timeoutMs: step.timeoutMs, starterFrom: null, onPass: null, argvField: false, stretch: false }} hints={step.hints} row={row} />
-        </div>
+        </InDialogue>
       ) : null}
     </>
   );

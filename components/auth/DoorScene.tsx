@@ -9,6 +9,7 @@ export function DoorScene() {
   const night = useNight();
   return (
     <figure className={styles.figure}>
+      <div className={styles.window}>
       <SceneCanvas
         scene={night ? "workshop-night" : "workshop"}
         actors={[
@@ -18,6 +19,7 @@ export function DoorScene() {
         label="The workshop. Moss is at his bench with the old radio. The desk by the terminal is empty."
         maxScale={3}
       />
+      </div>
       <figcaption className={styles.caption}>The desk by the terminal is yours.</figcaption>
     </figure>
   );

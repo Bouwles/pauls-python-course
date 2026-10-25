@@ -77,7 +77,7 @@ export function Placement({ acts, placements }: { acts: ActSummary[]; placements
         </ol>
       )}
       <p className={styles.meta}>
-        Rather start from the beginning? <Link href="/job/sign-on-the-door">Job 1</Link> takes twenty minutes. Or <Link href="/map">go to the map</Link>.
+        Rather start from the beginning? <Link href="/job/shop-sign">Job 1</Link> takes twenty minutes. Or <Link href="/map">go to the map</Link>.
       </p>
     </div>
   );

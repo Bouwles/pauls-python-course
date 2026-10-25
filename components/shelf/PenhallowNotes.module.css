@@ -1,42 +1,46 @@
+/* Ada Penhallow's notes: comments she left in old code, gathered in one panel. */
 .notes {
-  margin-top: var(--s-8);
+  margin-top: var(--s-10);
   display: grid;
   gap: var(--s-3);
+  box-shadow: var(--shadow-hard);
 }
 
 .title {
-  font-family: var(--font-prose);
-  font-size: var(--step-2);
+  font-size: var(--pixel-2);
 }
 
 .meta {
-  color: var(--ink-2);
-  font-family: var(--font-ui);
+  color: var(--text-2);
   font-size: var(--step--1);
 }
 
 .list {
   list-style: none;
+  margin: var(--s-2) 0 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: var(--s-4);
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+  gap: var(--s-3);
 }
 
+/* Each note is a printed slip of her code: a comment, then where it was found. */
 .note {
   display: grid;
   gap: var(--s-2);
   align-content: start;
   padding: var(--s-3) var(--s-4) var(--s-4);
-  background: var(--paper-raised);
-  border: var(--hairline);
-  border-top: 3px solid var(--accent);
+  background: var(--code-bg);
+  box-shadow: 0 0 0 2px var(--night-0);
+  min-width: 0;
 }
 
 .noteTitle {
-  font-family: var(--font-ui);
-  font-weight: 600;
-  font-size: var(--step--1);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  padding-top: var(--s-1);
 }
 
 .text {
@@ -45,12 +49,12 @@
   font-size: var(--step--1);
   font-variant-ligatures: none;
   line-height: 1.6;
-  color: var(--ink);
+  color: var(--syn-comment);
+  overflow-wrap: anywhere;
 }
 
 .where {
-  color: var(--ink-2);
-  font-family: var(--font-prose);
+  color: var(--text-2);
   font-size: var(--step--1);
-  font-style: italic;
+  line-height: 1.45;
 }

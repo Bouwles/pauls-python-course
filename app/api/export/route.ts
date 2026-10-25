@@ -2,6 +2,7 @@ import { getDb } from "@/lib/server/db";
 import { json, requireUser } from "@/lib/server/http";
 import { TABLE_SPECS, dbToRow } from "@/lib/server/tables";
 import { TABLES } from "@/lib/store/types";
+import { BRAND } from "@/lib/brand";
 
 export const dynamic = "force-dynamic";
 
@@ -21,5 +22,5 @@ export async function GET() {
     out.submissions = await q("select id, job_id, step_id, kind, results, created_at from public.submissions where user_id = $1", [user.id]);
     return out;
   });
-  return json(data, 200, { "Content-Disposition": `attachment; filename="pauls-python-course-export.json"` });
+  return json(data, 200, { "Content-Disposition": `attachment; filename="${BRAND.name.toLowerCase()}-export.json"` });
 }

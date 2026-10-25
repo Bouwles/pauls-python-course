@@ -1,0 +1,13 @@
+.credit {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--step--1);
+  color: var(--text-2);
+}
+
+.heart {
+  display: inline-flex;
+  color: var(--brick);
+  cursor: default;
+}

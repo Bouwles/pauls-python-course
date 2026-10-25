@@ -1,5 +1,6 @@
 import { GitHubError, githubEnabled, loadToken, pushRepository } from "@/lib/server/github";
 import { json, limited, readJson, requireUser, sameOrigin } from "@/lib/server/http";
+import { BRAND } from "@/lib/brand";
 
 export const dynamic = "force-dynamic";
 
@@ -21,7 +22,7 @@ export async function POST(req: Request) {
   const token = await loadToken(user.id);
   if (!token) return json({ error: "Connect GitHub first." }, 401);
   try {
-    const url = await pushRepository(token.token, body.name, "Programs I wrote in Paul's Python Course.", files);
+    const url = await pushRepository(token.token, body.name, `Programs I wrote in ${BRAND.name}.`, files);
     return json({ ok: true, url });
   } catch (err) {
     if (err instanceof GitHubError) return json({ error: err.message }, err.status);

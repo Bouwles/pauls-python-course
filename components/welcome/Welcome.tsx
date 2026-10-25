@@ -35,7 +35,7 @@ export function Welcome() {
     setSaving(true);
     await updateProfile({ character: look, displayName: name.trim().slice(0, 40), experience, onboarded: true });
     const last = profile.lastLocation;
-    router.push(last ? `/job/${last.jobId}?step=${last.stepId}` : experience === "lots" ? "/placement" : "/job/sign-on-the-door");
+    router.push(last ? `/job/${last.jobId}?step=${last.stepId}` : experience === "lots" ? "/placement" : "/job/shop-sign");
   };
 
   return (
@@ -45,7 +45,7 @@ export function Welcome() {
         <p className={styles.lede}>Moss doesn&apos;t mind who you are. He minds whether the till balances.</p>
       </header>
       <CharacterCreator look={look} onChange={setLook} />
-      <div className={styles.rows}>
+      <div className={`frame-panel ${styles.rows}`}>
         <label className={styles.field}>
           <span className={styles.labelText}>What should Moss call you?</span>
           <input value={name} onChange={(e) => setName(e.target.value)} maxLength={40} autoComplete="nickname" required placeholder="A name, or a nickname" />
@@ -55,8 +55,9 @@ export function Welcome() {
           <legend className={styles.labelText}>Have you written code before?</legend>
           {EXPERIENCE.map(([value, label, note]) => (
             <label key={value} className={[styles.option, experience === value ? styles.on : ""].join(" ")}>
-              <input type="radio" name="experience" value={value} checked={experience === value} onChange={() => setExperience(value)} />
-              <span>
+              <input type="radio" name="experience" value={value} checked={experience === value} onChange={() => setExperience(value)} className="visually-hidden" />
+              <span className={styles.mark} aria-hidden="true" />
+              <span className={styles.optionText}>
                 <strong>{label}</strong>
                 <span className={styles.note}>{note}</span>
               </span>

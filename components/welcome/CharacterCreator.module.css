@@ -1,53 +1,118 @@
+/* The character creator: the character on the workshop floor, and pixel folder tabs of choices.
+   It sits in the welcome page and in a Settings panel, so it answers to its own width. */
+.root {
+  container-type: inline-size;
+}
+
 .creator {
   display: grid;
-  grid-template-columns: 260px minmax(0, 1fr);
-  gap: var(--s-8);
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: var(--s-6);
   align-items: start;
 }
 
 .preview {
   position: sticky;
-  top: var(--s-6);
+  top: var(--s-4);
   display: grid;
   gap: var(--s-3);
+  box-shadow: var(--shadow-hard);
 }
 
+/* The back wall and the floorboards the character stands on. */
 .stage {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  height: 230px;
-  background: var(--scene-frame);
-  border-radius: var(--r-2);
-  padding-bottom: var(--s-4);
-  background-image: linear-gradient(to top, #634330 0, #634330 22px, #3b2a22 22px, #3b2a22 24px, transparent 24px);
+  height: 240px;
+  padding-bottom: var(--s-5);
+  background: var(--art-deep-slate);
+  box-shadow:
+    inset 0 -24px 0 var(--art-driftwood),
+    inset 0 -28px 0 var(--art-tar),
+    0 0 0 2px var(--night-0);
 }
 
 .caption {
-  font-family: var(--font-prose);
   font-size: var(--step--1);
-  color: var(--ink-2);
   line-height: 1.45;
+  color: var(--text-2);
+  min-height: 2.9em;
 }
 
 .choices {
   display: grid;
-  gap: var(--s-6);
+  min-width: 0;
+}
+
+/* Folder tabs (REDESIGN.md 4.2): pixel labels on night-2; the chosen tab joins the panel. */
+.tabs {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--s-1);
+  min-width: 0;
+}
+
+.tab {
+  flex: 1 1 0;
+  min-width: 0;
+  display: grid;
+  gap: var(--s-1);
+  justify-items: start;
+  align-content: center;
+  min-height: 52px;
+  padding: var(--s-2) var(--s-3);
+  border: 0;
+  background: var(--panel-2);
+  color: var(--text-2);
+  box-shadow: inset 0 2px 0 var(--frame-hi), inset 0 -4px 0 var(--quiet-dark);
+  text-align: left;
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+}
+
+.tab:hover {
+  color: var(--text);
+}
+
+.tab[aria-selected="true"] {
+  min-height: 60px;
+  background: var(--frame);
+  color: var(--text);
+  box-shadow: inset 0 4px 0 var(--lamp);
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--lamp);
+  outline-offset: -2px;
+}
+
+/* What's chosen on each tab, under its name. */
+.tabValue {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-read);
+  font-size: var(--step--1);
+  -webkit-font-smoothing: auto;
+  color: var(--text-2);
+}
+
+.panel {
+  min-height: 236px;
+  padding: var(--s-5);
+  background: var(--frame);
+  box-shadow: var(--shadow-hard);
 }
 
 .group {
   border: none;
   padding: 0;
   margin: 0;
-}
-
-.group legend {
-  font-size: var(--step--1);
-  font-weight: 600;
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--ink-2);
-  margin-bottom: var(--s-3);
+  min-width: 0;
 }
 
 .grid {
@@ -56,21 +121,25 @@
   gap: var(--s-2);
 }
 
+/* A choice: a slot a step darker than the panel; chosen, it lights up like a pressed key. */
+.tile,
+.swatch {
+  cursor: pointer;
+  background: var(--panel);
+  box-shadow: inset 0 -4px 0 var(--quiet-dark);
+  font-size: var(--step--1);
+}
+
 .tile {
   display: grid;
   justify-items: center;
   gap: var(--s-1);
-  padding: var(--s-2);
-  border: 1px solid var(--rule-strong);
-  border-radius: var(--r-2);
-  cursor: pointer;
-  font-size: var(--step--1);
-  background: var(--paper);
+  padding: var(--s-2) var(--s-1) var(--s-3);
 }
 
-.tile canvas {
-  width: 64px !important;
-  height: 74px !important;
+.tile:hover,
+.swatch:hover {
+  background: var(--panel-2);
 }
 
 .swatches {
@@ -84,36 +153,32 @@
   align-items: center;
   gap: var(--s-2);
   min-height: var(--touch);
-  padding: 0 var(--s-3);
-  border: 1px solid var(--rule-strong);
-  border-radius: var(--r-2);
-  cursor: pointer;
-  font-size: var(--step--1);
-  background: var(--paper);
+  padding: 0 var(--s-4) 4px var(--s-3);
 }
 
 .chip {
-  width: 18px;
-  height: 18px;
-  border-radius: var(--r-1);
-  border: 1px solid var(--rule-strong);
+  width: 20px;
+  height: 20px;
+  box-shadow: 0 0 0 2px var(--night-0);
 }
 
-.on {
-  border-color: var(--ink);
-  box-shadow: inset 0 0 0 1px var(--ink);
-  background: var(--paper-raised);
+.on,
+.on:hover {
+  background: var(--accent-wash);
+  box-shadow: inset 0 0 0 2px var(--lamp), inset 0 -4px 0 var(--lamp);
+  color: var(--text);
+  font-weight: 700;
 }
 
 .tile:focus-within,
 .swatch:focus-within {
-  outline: 2px solid var(--accent-ink);
+  outline: 2px solid var(--lamp);
   outline-offset: 2px;
 }
 
-@media (max-width: 760px) {
+@container (max-width: 760px) {
   .creator {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .preview {
@@ -121,6 +186,25 @@
   }
 
   .stage {
-    height: 200px;
+    height: 224px;
+  }
+}
+
+@container (max-width: 520px) {
+  .tab {
+    padding: var(--s-2);
+  }
+
+  .tabValue {
+    display: none;
+  }
+
+  .panel {
+    min-height: 0;
+    padding: var(--s-3);
+  }
+
+  .tile {
+    padding-inline: 0;
   }
 }

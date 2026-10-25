@@ -1,12 +1,13 @@
 "use client";
 
-// The map of Saltmarsh, drawn on one canvas. Buildings open as jobs ship;
+// The map of the town, drawn on one canvas. Buildings open as jobs ship;
 // locked districts sit under a dither; at night the town uses its night
 // frames (darker palette neighbours) and lit windows stay lit.
 import { useEffect, useRef, useState } from "react";
 import { BUILDINGS, DECOR, DISTRICT_AREAS, MAP_H, MAP_W, type Building } from "@/lib/world/map";
 import { prefersReducedMotion } from "@/lib/display";
 import { integerScale, loadSheet, type Sheet } from "./sprites";
+import { PixelIcon } from "../ui/PixelIcon";
 import styles from "./TownMap.module.css";
 
 export interface HiddenDennis {
@@ -44,9 +45,13 @@ interface Props {
   onFindDennis: (id: string) => void;
   night: boolean;
   label: string;
+  /** A whole-number zoom (2x, 3x, 4x). Without it the map fits its box. */
+  zoom?: number;
+  /** Districts that need Pro: drawn with a pixel padlock. */
+  lockedActs?: Set<string>;
 }
 
-export function TownMap({ openBuildings, openActs, selected, onSelect, foundDennises, onFindDennis, night, label }: Props) {
+export function TownMap({ openBuildings, openActs, selected, onSelect, foundDennises, onFindDennis, night, label, zoom, lockedActs }: Props) {
   const wrap = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
   const [scale, setScale] = useState(2);
@@ -54,6 +59,10 @@ export function TownMap({ openBuildings, openActs, selected, onSelect, foundDenn
   state.current = { openBuildings, openActs, selected, foundDennises, night };
 
   useEffect(() => {
+    if (zoom) {
+      setScale(zoom);
+      return;
+    }
     if (!wrap.current) return;
     const el = wrap.current;
     const fit = () => setScale(Math.max(1, integerScale(MAP_W, el.clientWidth, 3)));
@@ -61,7 +70,26 @@ export function TownMap({ openBuildings, openActs, selected, onSelect, foundDenn
     const ro = new ResizeObserver(fit);
     ro.observe(el);
     return () => ro.disconnect();
-  }, []);
+  }, [zoom]);
+
+  // Drag to pan when the map is bigger than its box (keyboard and wheel scroll as usual).
+  const drag = useRef<{ x: number; y: number; left: number; top: number } | null>(null);
+  const onPointerDown = (e: React.PointerEvent) => {
+    const el = wrap.current;
+    if (!el || e.button !== 0 || (e.target as HTMLElement).closest("button")) return;
+    if (el.scrollWidth <= el.clientWidth && el.scrollHeight <= el.clientHeight) return;
+    drag.current = { x: e.clientX, y: e.clientY, left: el.scrollLeft, top: el.scrollTop };
+    el.setPointerCapture(e.pointerId);
+  };
+  const onPointerMove = (e: React.PointerEvent) => {
+    const el = wrap.current;
+    if (!el || !drag.current) return;
+    el.scrollLeft = drag.current.left - (e.clientX - drag.current.x);
+    el.scrollTop = drag.current.top - (e.clientY - drag.current.y);
+  };
+  const onPointerUp = () => {
+    drag.current = null;
+  };
 
   const scaleRef = useRef(scale);
   scaleRef.current = scale;
@@ -72,7 +100,8 @@ export function TownMap({ openBuildings, openActs, selected, onSelect, foundDenn
     const reduced = prefersReducedMotion();
     const names = new Set(["map-terrain", "b-gull", "dennis-mini", ...BUILDINGS.map((b) => b.sprite), ...DECOR.map((d) => d.sprite)]);
     const sheets = new Map<string, Sheet>();
-    void Promise.all([...names].map(async (n) => sheets.set(n, await loadSheet(n)))).then(() => {
+    // A building whose sprite isn't drawn yet is left off rather than stopping the map.
+    void Promise.all([...names].map(async (n) => void (await loadSheet(n).then((sh) => sheets.set(n, sh)).catch(() => {})))).then(() => {
       if (cancelled) return;
       const start = performance.now();
       let last = -1;
@@ -115,7 +144,8 @@ export function TownMap({ openBuildings, openActs, selected, onSelect, foundDenn
         }
         for (const b of BUILDINGS) {
           if (b.x < 0) continue;
-          const sh = sheets.get(b.sprite)!;
+          const sh = sheets.get(b.sprite);
+          if (!sh) continue;
           const open = s.openBuildings.has(b.id);
           const idx = sh.meta.frames[(open ? "open" : "closed") + sfx] ?? 0;
           ctx.drawImage(sh.img, idx * sh.meta.w, 0, sh.meta.w, sh.meta.h, b.x, b.y, sh.meta.w, sh.meta.h);
@@ -154,7 +184,7 @@ export function TownMap({ openBuildings, openActs, selected, onSelect, foundDenn
         }
         // The selected building gets a hairline marker.
         const sel = BUILDINGS.find((b) => b.id === s.selected);
-        if (sel && sel.x >= 0) {
+        if (sel && sel.x >= 0 && sheets.has(sel.sprite)) {
           const sh = sheets.get(sel.sprite)!;
           ctx.fillStyle = "#d8b65a";
           ctx.fillRect(sel.x - 1, sel.y + sh.meta.h + 1, sh.meta.w + 2, 1);
@@ -169,12 +199,24 @@ export function TownMap({ openBuildings, openActs, selected, onSelect, foundDenn
   }, []);
 
   return (
-    <div ref={wrap} className={styles.wrap}>
+    <div ref={wrap} className={[styles.wrap, zoom ? styles.zoomed : ""].join(" ")} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={onPointerUp}>
       <div className={styles.inner} style={{ width: MAP_W * scale, height: MAP_H * scale }}>
         <canvas ref={canvas} className={`pixel ${styles.canvas}`} role="img" aria-label={label} style={{ width: MAP_W * scale, height: MAP_H * scale }} />
         {BUILDINGS.filter((b) => b.x >= 0).map((b) => (
           <BuildingHotspot key={b.id} b={b} scale={scale} onSelect={onSelect} selected={selected === b.id} locked={!openActs.has(b.act)} />
         ))}
+        {lockedActs
+          ? Object.entries(DISTRICT_AREAS)
+              .filter(([act, rects]) => lockedActs.has(act) && rects.length)
+              .map(([act, rects]) => {
+                const [x, y, w, h] = rects[0]!;
+                return (
+                  <span key={act} className={styles.padlock} style={{ left: (x + w / 2) * scale - 16, top: (y + h / 2) * scale - 16 }} aria-hidden="true">
+                    <PixelIcon name="lock" />
+                  </span>
+                );
+              })
+          : null}
         {HIDDEN_DENNISES.filter((d) => !foundDennises.has(d.id) && visibleDennis(d, openActs)).map((d) => (
           <button
             key={d.id}

@@ -7,12 +7,25 @@ import { useSession } from "@/lib/store/session";
 import { dueCards, gradeFor, pickVariant, review } from "@/lib/review/deck";
 import { recordMisconception } from "@/lib/store/progress";
 import { Button, LinkButton } from "../ui/Button";
-import { Portrait } from "../world/Portrait";
+import { Head } from "../world/CharacterPortrait";
 import { useRunner } from "../workbench/useRunner";
 import { ReviewCard, type CardOutcome } from "./ReviewCard";
+import { Says } from "./Says";
 import styles from "./Rounds.module.css";
 
 const MAX = 10;
+
+/** How Moss names a client: "Bea" for Bea Hollis, but "Captain Ferro" and "Old Tom" in full. */
+function callName(name: string) {
+  return /^(Mr|Mrs|Ms|Dr|Captain|Professor|Old|The)\b/.test(name) ? name : (name.split(" ")[0] ?? name);
+}
+
+/** "Bea's till", "Captain Ferro's ferry fare machine": the thing that's acting up. */
+function thingFor(title: string, client: string) {
+  const what = title.replace(/, part \d+$/, "").replace(/^The /, "");
+  const owned = /^([A-Z][a-z]+'s) (.+)$/.exec(what);
+  return owned ? `${owned[1]} ${owned[2]!.toLowerCase()}` : `${callName(client)}'s ${what.toLowerCase()}`;
+}
 
 interface Planned {
   concept: Concept;
@@ -50,7 +63,10 @@ export function Rounds({ concepts, jobs, characters, buildings }: { concepts: Re
   useEffect(() => {
     const first = plan?.[0]?.job;
     // Framed as Moss sending you round town to check on old repairs (Section 3.4).
-    if (first) setIntro(`Moss says ${characters[first.client]?.name ?? "someone"}'s ${first.title.replace(/, part \d+$/, "").replace(/^The /, "").toLowerCase()} is acting up again. Have a look before anything new.`);
+    if (!first) return;
+    // Moss's own jobs were lessons, not repairs for someone: he asks for a look back instead.
+    if (first.client === "moss") setIntro(`Before anything new, a look back at ${first.title.replace(/, part \d+$/, "")}.`);
+    else setIntro(`${thingFor(first.title, characters[first.client]?.name ?? "someone")} is acting up again. Have a look before anything new.`);
   }, [plan, characters]);
 
   const current = plan?.[index];
@@ -66,16 +82,25 @@ export function Rounds({ concepts, jobs, characters, buildings }: { concepts: Re
 
   const shaky = useMemo(() => outcomes.filter((o) => !o.correct || o.attempts > 1), [outcomes]);
 
-  if (plan === null) return <p className={styles.quiet}>Getting the round ready.</p>;
+  if (plan === null)
+    return (
+      <p className={styles.quiet} role="status">
+        Getting the round ready.
+      </p>
+    );
 
   if (plan.length === 0) {
     return (
       <div className={styles.empty}>
         <h1 className={styles.title}>Morning Rounds</h1>
-        <p className={styles.lede}>No repairs to check on today. Everything you&apos;ve fixed is holding.</p>
-        <LinkButton href="/map" variant="primary">
-          Back to the map
-        </LinkButton>
+        <Says id="moss" name="Moss">
+          No repairs to check on today. Everything you&apos;ve fixed is holding.
+        </Says>
+        <div className={styles.next}>
+          <LinkButton href="/map" variant="primary">
+            Back to the map
+          </LinkButton>
+        </div>
       </div>
     );
   }
@@ -88,8 +113,8 @@ export function Rounds({ concepts, jobs, characters, buildings }: { concepts: Re
           {outcomes.length} {outcomes.length === 1 ? "repair" : "repairs"} checked. {shaky.length === 0 ? "All of them held." : `${shaky.length} needed a second look.`}
         </p>
         {shaky.length ? (
-          <section className={styles.shaky} aria-labelledby="shaky-title">
-            <h2 id="shaky-title" className="label">
+          <section className={["frame-paper", styles.shaky].join(" ")} aria-labelledby="shaky-title">
+            <h2 id="shaky-title" className={styles.slipTitle}>
               Worth another look
             </h2>
             <ul>
@@ -105,7 +130,7 @@ export function Rounds({ concepts, jobs, characters, buildings }: { concepts: Re
                         from <Link href={`/job/${job.id}`}>{job.title}</Link>
                       </>
                     ) : null}
-                    . <Link href={`/concepts/${id}`}>The handbook entry</Link>
+                    . <Link href={`/handbook/${id}`}>The handbook entry</Link>
                   </li>
                 );
               })}
@@ -113,51 +138,74 @@ export function Rounds({ concepts, jobs, characters, buildings }: { concepts: Re
             <p className={styles.quiet}>These come back sooner. The ones that held come back later.</p>
           </section>
         ) : null}
-        <LinkButton href="/map" variant="primary">
-          On to new work
-        </LinkButton>
+        <div className={styles.next}>
+          <LinkButton href="/map" variant="primary">
+            On to new work
+          </LinkButton>
+        </div>
       </div>
     );
   }
 
-  const client = current!.job ? characters[current!.job.client] : null;
+  const job = current!.job;
+  const clientId = job ? job.client : "moss";
+  const building = job ? (buildings[job.building] ?? job.building) : null;
   return (
     <div className={styles.rounds}>
       <header className={styles.head}>
-        <div>
-          <h1 className={styles.title}>Morning Rounds</h1>
-          {index === 0 && intro ? <p className={styles.lede}>{intro}</p> : null}
-        </div>
+        <h1 className={styles.title}>Morning Rounds</h1>
         <div className={styles.headRight}>
           <p className={styles.count}>
             {index + 1} of {plan.length}
           </p>
-          <Link href="/map" className={styles.skip}>
+          <LinkButton href="/map" variant="quiet" size="sm">
             Skip the rounds
-          </Link>
+          </LinkButton>
         </div>
       </header>
-      <div className={styles.where}>
-        {client ? <Portrait sprite={client.sprite} size={64} /> : null}
-        <div>
-          <p className="label">{current!.job ? `${current!.job.title}, ${buildings[current!.job.building] ?? current!.job.building}` : "A loose end"}</p>
-          <p className={styles.concept}>{current!.concept.title}</p>
-        </div>
-      </div>
-      <ReviewCard key={current!.card.id} card={current!.card} runner={runner} onAnswered={(o) => void onAnswered(o)} />
-      {answered ? (
-        <div className={styles.next}>
-          <Button
-            variant="primary"
-            onClick={() => {
-              setAnswered(false);
-              setIndex((i) => i + 1);
-            }}
-          >
-            {index + 1 < plan.length ? "Next repair" : "Finish the rounds"}
-          </Button>
-        </div>
-      ) : null}
+      {/* One pip per slip in today's round: checked, this one, still to come. */}
+      <ol className={styles.pips} aria-hidden="true">
+        {plan.map((p, i) => (
+          <li key={`${p.card.id}-${i}`} className={i < index ? styles.pipDone : i === index ? styles.pipNow : undefined} />
+        ))}
+      </ol>
+      {index === 0 && intro ? <Says id="moss" name="Moss">{intro}</Says> : null}
+      <ReviewCard
+        key={current!.card.id}
+        card={current!.card}
+        runner={runner}
+        onAnswered={(o) => void onAnswered(o)}
+        label={`Repair slip ${index + 1} of ${plan.length}`}
+        head={
+          <header className={styles.slipHead}>
+            <span className={styles.slipFace}>
+              <Head id={clientId} sprite={characters[clientId]?.sprite} scale={2} />
+            </span>
+            <div className={styles.slipWho}>
+              <h2 className={styles.slipTitle}>{job ? job.title : "A loose end"}</h2>
+              {building ? <p className={styles.slipMeta}>{building}</p> : null}
+            </div>
+            <p className={styles.tag}>
+              <span className="visually-hidden">About: </span>
+              {current!.concept.title}
+            </p>
+          </header>
+        }
+      >
+        {answered ? (
+          <div className={styles.next}>
+            <Button
+              variant="primary"
+              onClick={() => {
+                setAnswered(false);
+                setIndex((i) => i + 1);
+              }}
+            >
+              {index + 1 < plan.length ? "Next repair" : "Finish the rounds"}
+            </Button>
+          </div>
+        ) : null}
+      </ReviewCard>
     </div>
   );
 }

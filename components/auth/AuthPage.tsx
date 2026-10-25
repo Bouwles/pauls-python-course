@@ -8,7 +8,7 @@ export function AuthPage({ mode }: { mode: "signup" | "login" }) {
   return (
     <Page>
       <div className={styles.layout}>
-        <div className={styles.copy}>
+        <div className={`frame-panel ${styles.card}`}>
           <h1 className={styles.title}>{mode === "signup" ? "Take a desk at the workshop" : "Back to the workshop"}</h1>
           <p className={styles.lede}>
             {mode === "signup"

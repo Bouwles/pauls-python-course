@@ -2,14 +2,15 @@
 
 All pixel art was drawn for this project as text grids in `sprites/src` (see `sprites/README.md`). No external or generated artwork is used. If CC0 art is ever added, record its source and licence here and recolour it to `palette.json`.
 
-## Fonts (self-hosted via @fontsource)
+## Fonts (self-hosted)
 
 | Font | Author | Licence |
 | --- | --- | --- |
-| Source Serif 4 | Frank Grießhammer, Adobe | SIL OFL 1.1 |
-| IBM Plex Sans | Mike Abbink, Bold Monday, IBM | SIL OFL 1.1 |
+| m6x11plus | Daniel Linssen | Free to use with attribution ("a font by Daniel Linssen") |
+| Atkinson Hyperlegible Next | Braille Institute of America | SIL OFL 1.1 |
 | JetBrains Mono | JetBrains | SIL OFL 1.1 |
-| Atkinson Hyperlegible | Braille Institute of America | SIL OFL 1.1 |
+
+The pixel display face, m6x11plus, is by Daniel Linssen and used with the attribution he asks for.
 
 ## Software
 
@@ -28,4 +29,4 @@ All pixel art was drawn for this project as text grids in `sprites/src` (see `sp
 
 ## Sound
 
-None yet. Any sounds added must be CC0 and credited here.
+All sounds (the door bell, the typewriter key, the stamp, the dialogue blip) are synthesised in the browser with Web Audio in `lib/sound.ts`; there are no recordings. Any recorded sounds added must be CC0 and credited here.

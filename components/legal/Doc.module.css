@@ -1,20 +1,91 @@
+/* Credits, privacy and terms: a pixel title, then the text on a panel, in the reading face. */
 .doc {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--s-5);
 }
 
+.head {
+  display: grid;
+  gap: var(--s-3);
+}
+
 .title {
-  font-size: var(--step-4);
+  font-size: var(--pixel-3);
+}
+
+.lede {
+  font-size: var(--prose-size);
+  line-height: var(--lh-prose);
+  color: var(--text-2);
 }
 
 .draft {
-  font-size: var(--step--1);
+  display: flex;
+  gap: var(--s-3);
+  align-items: center;
+  padding: var(--s-3) var(--s-4);
   background: var(--accent-wash);
-  border-left: 2px solid var(--accent);
-  padding: var(--s-2) var(--s-3);
+  font-size: var(--step--1);
+  line-height: 1.45;
 }
 
-.doc :global(.prose) h2 {
-  font-size: var(--step-1);
-  margin-top: var(--s-6);
+.draft svg {
+  color: var(--accent-text);
+}
+
+.body {
+  padding: var(--s-2) var(--s-3) var(--s-4);
+  box-shadow: var(--shadow-hard);
+  min-width: 0;
+}
+
+.body :global(.prose) {
+  max-width: none;
+}
+
+.body :global(.prose) h2 {
+  font-size: var(--pixel-2);
+  margin-top: var(--s-8);
+}
+
+.body :global(.prose) h2:first-child {
+  margin-top: 0;
+}
+
+.body :global(.prose) h2 + * {
+  margin-top: var(--s-3);
+}
+
+.body :global(.prose) ul {
+  list-style: none;
+  padding-left: 0;
+  display: grid;
+  gap: var(--s-2);
+}
+
+/* Square lamp bullets, on the pixel grid. */
+.body :global(.prose) li {
+  position: relative;
+  padding-left: var(--s-6);
+}
+
+.body :global(.prose) li::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 0.6em;
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+}
+
+@media (max-width: 720px) {
+  .title {
+    font-size: var(--pixel-2);
+  }
+
+  .body {
+    padding: 0;
+  }
 }

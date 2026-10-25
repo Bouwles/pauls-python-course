@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 import { createHash, randomBytes, scrypt as scryptCb, timingSafeEqual } from "node:crypto";
 import { promisify } from "node:util";
 import { getDb } from "./db";
+import { BRAND } from "../brand";
 
 const scrypt = promisify(scryptCb) as (pw: string, salt: Buffer, len: number, opts: object) => Promise<Buffer>;
 
@@ -210,7 +211,7 @@ export async function sendMagicLink(emailRaw: string, origin: string): Promise<{
     await q("insert into local_auth.magic_links (token_hash, email, expires_at) values ($1, $2, now() + ($3 || ' minutes')::interval)", [sha256(token), email, String(MAGIC_MINUTES)]);
     await q("insert into local_auth.mailbox (to_email, subject, body, link) values ($1, $2, $3, $4)", [
       email,
-      "Your link to Saltmarsh",
+      `Your link to ${BRAND.townName}`,
       `Moss says: here's your way in. The link works once, for ${MAGIC_MINUTES} minutes.`,
       link,
     ]);

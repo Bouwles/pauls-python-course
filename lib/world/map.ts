@@ -1,4 +1,4 @@
-// Where everything sits on the map of Saltmarsh (sprites/src/map.txt).
+// Where everything sits on the town map (sprites/src/map.txt).
 // Each building opens when the learner has shipped a job there; a district
 // lights up when its Act is open.
 
@@ -33,7 +33,8 @@ export const BUILDINGS: Building[] = [
   { id: "records-office", sprite: "b-records-office", name: "The Records Office", x: 66, y: 34, act: "records-and-weather" },
   { id: "weather-station", sprite: "b-weather-station", name: "The Weather Station", x: 104, y: 26, act: "records-and-weather" },
   { id: "observatory", sprite: "b-observatory", name: "The Observatory", x: 298, y: 16, act: "observatory-lower" },
-  { id: "crab-club", sprite: "b-crab-club", name: "The Crab Racing Club", x: 292, y: 99, act: "crab-club" },
+  { id: "pier", sprite: "b-pier-arcade", name: "The Pier", x: 318, y: 176, act: "pier" },
+  { id: "crab-club", sprite: "b-crab-club", name: "The Pier Arcade", x: 292, y: 99, act: "crab-club" },
   { id: "sea-wall", sprite: "b-crab-club", name: "The Sea Wall", x: -100, y: -100, act: "crab-club" },
 ];
 
@@ -46,6 +47,7 @@ export const DECOR = [
 /** Rectangles that darken when a district's Act is still locked. */
 export const DISTRICT_AREAS: Record<string, [number, number, number, number][]> = {
   "high-street": [[104, 86, 196, 42]],
+  pier: [[308, 168, 40, 28]],
   scrapyard: [[14, 86, 84, 80]],
   "records-and-weather": [[56, 14, 72, 52]],
   "observatory-lower": [[284, 6, 52, 46]],

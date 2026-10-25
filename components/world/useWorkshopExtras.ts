@@ -23,18 +23,20 @@ export function useEarned(): Set<string> {
   return earned;
 }
 
-/** Extra actors for the workshop scene (marks in sprites/scenes/workshop.json). */
-export function workshopExtras(earned: Set<string>): Actor[] {
+/** Extra actors for the workshop scene (marks in sprites/scenes/workshop*.json). */
+export function workshopExtras(earned: Set<string>, scene = "workshop"): Actor[] {
   const out: Actor[] = [];
-  if (earned.has(RADIO_FLAG)) out.push({ key: "radio", sprite: "radio", anim: "playing", at: "radio" });
+  // The 320x180 workshop has its own, bigger radio.
+  if (earned.has(RADIO_FLAG)) out.push({ key: "radio", sprite: scene.startsWith("workshop2") ? "w2-radio" : "radio", anim: "playing", at: "radio" });
   if (earned.has("name-plate")) out.push({ key: "plate", sprite: "nameplate", anim: "idle", at: "plate" });
   return out;
 }
 
-/** The scene a Job is set in, with the workshop's night version after dark. */
+/** The scene a Job is set in, with the workshop's night version after dark. The redrawn 320x180 workshop wins when it's there. */
 export function sceneFor(scene: string | undefined, night: boolean, available?: Set<string>): string {
   if (scene && scene !== "workshop" && (!available || available.has(scene))) return scene;
-  return night ? "workshop-night" : "workshop";
+  const base = available?.has("workshop2") ? "workshop2" : "workshop";
+  return night ? `${base}-night` : base;
 }
 
 /** Characters who belong in a scene and are drawn there when the Job's dialogue includes them. */

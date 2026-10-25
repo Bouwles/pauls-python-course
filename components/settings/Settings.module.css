@@ -1,145 +1,328 @@
+/* Settings: a stack of framed panels, one per group, with the credit line at the foot. */
 .settings {
   display: grid;
-  gap: var(--s-8);
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-6);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
 }
 
 .title {
-  font-size: var(--step-4);
+  font-size: var(--pixel-2);
 }
 
+/* "Saved.": a small toast in the corner, so it shows wherever you are on the page. */
 .saved {
-  font-size: var(--step--1);
-  color: var(--pass);
-  min-height: 1.4em;
+  position: fixed;
+  right: var(--s-4);
+  bottom: var(--s-4);
+  z-index: 30;
+  padding: 10px var(--s-3) 8px;
+  background: var(--night-2);
+  color: var(--chalk);
+  outline: 2px solid var(--night-0);
+  box-shadow: inset 0 -4px 0 var(--night-0), var(--shadow-hard);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  pointer-events: none;
 }
 
-.section {
-  display: grid;
-  gap: var(--s-5);
-  padding-top: var(--s-5);
-  border-top: var(--hairline);
-}
-
-.h2 {
-  font-size: var(--step-1);
-}
-
-.field {
-  display: grid;
-  gap: var(--s-1);
-  font-size: var(--step--1);
-  font-weight: 500;
-  max-width: 420px;
-}
-
-.field input:not([type="range"]) {
-  min-height: 40px;
-  border: 1px solid var(--control-border);
-  border-radius: var(--r-2);
-  background: var(--paper-raised);
-  padding: 0 var(--s-3);
-  font-size: var(--step-0);
-  font-weight: 400;
-}
-
-.field input[type="range"] {
-  accent-color: var(--accent-ink);
-}
-
-.choice {
-  border: none;
+.saved:empty {
   padding: 0;
-  margin: 0;
+  outline: 0;
+  box-shadow: none;
 }
 
-.choice legend {
-  font-size: var(--step--1);
-  font-weight: 500;
-  margin-bottom: var(--s-2);
+/* ---- Panels ---- */
+.panel {
+  --slot: var(--panel);
+  --dots: var(--frame-hi);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-5);
+  padding: var(--s-2) var(--s-3) var(--s-4);
+  min-width: 0;
 }
 
-.options {
+/* By day the panel is pale, so toggles and list rows sink to the page colour instead. */
+:global(:root[data-theme="light"]) .panel {
+  --slot: var(--bg);
+  --dots: var(--frame);
+}
+
+@media (prefers-color-scheme: light) {
+  :global(:root[data-theme="system"]) .panel {
+    --slot: var(--bg);
+    --dots: var(--frame);
+  }
+}
+
+/* The panel name, with a dotted pixel rule running to the right edge. */
+.h2 {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-2);
-}
-
-.option {
-  display: inline-flex;
   align-items: center;
-  gap: var(--s-2);
-  min-height: var(--touch);
-  padding: 0 var(--s-3);
-  border: 1px solid var(--rule-strong);
-  border-radius: var(--r-2);
-  cursor: pointer;
-  font-size: var(--step--1);
+  gap: var(--s-3);
+  font-size: var(--pixel-1);
+  line-height: 24px;
+  color: var(--accent-text);
 }
 
-.option input {
-  accent-color: var(--accent-ink);
+.h2::after {
+  content: "";
+  flex: 1;
+  height: 4px;
+  background: var(--dots);
+  -webkit-mask: var(--mask-dots-8) repeat-x 0 0 / 8px 4px;
+  mask: var(--mask-dots-8) repeat-x 0 0 / 8px 4px;
 }
 
-.on {
-  border-color: var(--ink);
-  background: var(--paper-raised);
+.legend {
+  display: block;
+  font-family: var(--font-read);
+  font-size: var(--step-0);
+  font-weight: 700;
+  line-height: var(--lh-ui);
+  color: var(--text);
 }
 
 .hint,
-.meta {
+.meta,
+.body {
+  font-family: var(--font-read);
   font-size: var(--step--1);
-  color: var(--ink-2);
   line-height: 1.5;
+  color: var(--text-2);
+  max-width: var(--measure);
+}
+
+.meta,
+.body {
+  font-size: var(--step-0);
+  color: var(--text);
+}
+
+.error {
+  font-size: var(--step--1);
+  color: var(--danger-text);
 }
 
 .row {
   display: flex;
-  gap: var(--s-3);
   flex-wrap: wrap;
   align-items: center;
+  gap: var(--s-3);
 }
 
-.character summary {
-  cursor: pointer;
-  font-size: var(--step--1);
-  font-weight: 500;
-  margin-bottom: var(--s-4);
+/* Deleting sits apart from the everyday account buttons. */
+.danger {
+  display: flex;
+  padding-top: var(--s-4);
+  position: relative;
+}
+
+.danger::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--dots);
+  -webkit-mask: var(--mask-dots-8) repeat-x 0 0 / 8px 4px;
+  mask: var(--mask-dots-8) repeat-x 0 0 / 8px 4px;
+}
+
+/* ---- Fields ---- */
+.field {
+  display: grid;
+  gap: var(--s-2);
+  max-width: 420px;
+  min-width: 0;
+}
+
+.field input:not([type="range"]) {
+  min-height: 40px;
+  width: 100%;
+  padding: 0 var(--s-3);
+  background: var(--code-bg);
+  color: var(--text);
+  border: 2px solid var(--night-0);
+  box-shadow: inset 0 2px 0 var(--frame);
+  font-size: var(--step-0);
 }
 
 .inline {
   display: grid;
-  gap: var(--s-3);
-  justify-items: start;
+  gap: var(--s-4);
+  justify-items: stretch;
 }
 
-.dialog {
-  width: min(520px, calc(100vw - 32px));
-  border: 1px solid var(--rule-strong);
-  border-radius: var(--r-2);
-  background: var(--paper);
-  color: var(--ink);
+/* ---- The segmented choice: pixel toggles on a dark strip ---- */
+.choice {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+  display: grid;
+  gap: var(--s-2);
+}
+
+.choice legend {
+  margin-bottom: var(--s-2);
   padding: 0;
 }
 
-.dialog::backdrop {
-  background: var(--scrim);
+.toggle {
+  display: flex;
+  flex-wrap: wrap;
+  justify-self: start;
+  gap: var(--s-1);
+  padding: var(--s-1);
+  background: var(--slot);
+  outline: 2px solid var(--night-0);
+  max-width: 100%;
 }
 
-.dialogBody {
+.option {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 2px var(--s-3);
+  color: var(--text-2);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  cursor: pointer;
+  user-select: none;
+}
+
+.option:hover:not(.on) {
+  color: var(--text);
+  background: var(--frame);
+}
+
+.on {
+  background: var(--lamp);
+  color: var(--night-0);
+  box-shadow: inset 0 -4px 0 var(--lamp-dark);
+}
+
+.option:has(input:focus-visible) {
+  outline: 2px solid var(--lamp);
+  outline-offset: 2px;
+  z-index: 1;
+}
+
+/* ---- Character ---- */
+.you {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-5);
+  align-items: flex-start;
+}
+
+/* A little floor for the character to stand on. */
+.stage {
+  flex: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 128px;
+  height: 144px;
+  padding-bottom: 12px;
+  background: var(--night-1);
+  box-shadow:
+    inset 0 -10px 0 var(--art-driftwood),
+    inset 0 -12px 0 var(--art-tar),
+    inset 0 0 0 2px var(--night-0);
+}
+
+.youFields {
+  flex: 1 1 260px;
   display: grid;
-  gap: var(--s-4);
-  padding: var(--s-6);
-  font-family: var(--font-prose);
+  gap: var(--s-3);
+  min-width: 0;
 }
 
-.error {
-  color: var(--fail);
-  font-size: var(--step--1);
+.creator {
+  min-width: 0;
 }
 
+/* ---- Editor ---- */
+.range {
+  width: 100%;
+  max-width: 420px;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+.range::-webkit-slider-runnable-track {
+  height: 8px;
+  background: var(--night-0);
+}
+
+.range::-moz-range-track {
+  height: 8px;
+  background: var(--night-0);
+}
+
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 24px;
+  margin-top: -8px;
+  border: 0;
+  border-radius: 0;
+  background: var(--lamp);
+  box-shadow: inset 0 -4px 0 var(--lamp-dark), 0 0 0 2px var(--night-0);
+}
+
+.range::-moz-range-thumb {
+  width: 16px;
+  height: 24px;
+  border: 0;
+  border-radius: 0;
+  background: var(--lamp);
+  box-shadow: inset 0 -4px 0 var(--lamp-dark), 0 0 0 2px var(--night-0);
+}
+
+.range:focus-visible {
+  outline: 2px solid var(--lamp);
+  outline-offset: 4px;
+}
+
+/* A line of code at the chosen size. */
+.sample {
+  margin: 0;
+  padding: var(--s-3) var(--s-4);
+  background: var(--code-bg);
+  color: var(--syn-function);
+  box-shadow: inset 0 0 0 2px var(--night-0);
+  font-size: var(--editor-font-size);
+  line-height: 1.6;
+  overflow-x: auto;
+}
+
+/* ---- Lists (classes, connected tools) ---- */
 .list {
   list-style: none;
   padding: 0;
+  margin: 0;
   display: grid;
   gap: var(--s-2);
 }
@@ -149,7 +332,55 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--s-2);
-  font-family: var(--font-ui);
+  gap: var(--s-2) var(--s-3);
+  padding: var(--s-2) var(--s-3);
+  background: var(--slot);
+  font-family: var(--font-read);
+  font-size: var(--step--1);
+}
+
+/* ---- The delete dialog ---- */
+.dialog {
+  --dots: var(--frame-hi);
+  width: min(520px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  padding: 0;
+  color: var(--text);
+  box-shadow: var(--shadow-hard);
+}
+
+.dialog::backdrop {
+  background: var(--scrim);
+}
+
+.dialogBody {
+  display: grid;
+  gap: var(--s-4);
+  padding: var(--s-2) var(--s-3) var(--s-3);
+}
+
+/* ---- The credit line ---- */
+.foot {
+  display: flex;
+  justify-content: center;
+  padding-top: var(--s-4);
+}
+
+@media (max-width: 720px) {
+  .panel {
+    padding: var(--s-1) var(--s-1) var(--s-3);
+  }
+
+  .option {
+    min-height: 40px;
+  }
+}
+
+/* One calm note when a payment fails: in Settings only, never on every screen. */
+.notice {
+  padding: var(--s-2) var(--s-3);
+  background: var(--inset);
+  box-shadow: inset 4px 0 0 var(--lamp);
   font-size: var(--step--1);
 }

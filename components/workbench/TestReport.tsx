@@ -42,7 +42,7 @@ function Failure({ r, source, onShowLine }: { r: TestResult; source: string; onS
           ) : null}
           {r.actual !== undefined && !r.error ? (
             <div>
-              <dt>Yours</dt>
+              <dt>Got</dt>
               <dd>
                 <pre>{show(r.actual)}</pre>
               </dd>
@@ -108,56 +108,53 @@ export function TestReport({
     <div className={styles.report} aria-live="polite">
       <p className={[styles.summary, allPassed ? styles.good : styles.bad].join(" ")}>
         {allPassed ? <PassIcon /> : <FailIcon />}
-        {allPassed ? "All checks passed." : `${passed} of ${required.length} checks passed.`}
+        {allPassed ? `All ${required.length} checks passed` : `${passed} of ${required.length} checks passed`}
       </p>
       {allPassed && passLine ? <p className={styles.passLine}>{passLine}</p> : null}
-      {firstFail ? (
-        <section className={styles.first} aria-label="First check that failed">
-          <h3 className={styles.name}>{firstFail.name}</h3>
-          <Failure r={firstFail} source={source} onShowLine={onShowLine} />
-        </section>
-      ) : null}
       <ul className={styles.list}>
         {required.map((r, i) => (
-          <li key={i} className={r.passed ? styles.itemPass : styles.itemFail}>
-            {r.passed || r === firstFail ? (
-              <span className={styles.item}>
-                {r.passed ? <PassIcon /> : <FailIcon />}
-                <span>{r.name}</span>
-                <span className="visually-hidden">{r.passed ? "passed" : "failed"}</span>
-              </span>
-            ) : (
-              <details>
-                <summary className={styles.item}>
-                  <FailIcon />
-                  <span>{r.name}</span>
-                  <span className="visually-hidden">failed</span>
-                </summary>
-                <Failure r={r} source={source} onShowLine={onShowLine} />
-              </details>
-            )}
-          </li>
+          <CheckRow key={i} r={r} open={r === firstFail} source={source} onShowLine={onShowLine} />
         ))}
       </ul>
       {stretch.length ? (
         <div className={styles.stretch}>
-          <p className="label">Stretch, not required</p>
+          <h3 className={styles.stretchTitle}>Stretch, not required</h3>
           <ul className={styles.list}>
             {stretch.map((r, i) => (
-              <li key={i}>
-                <details>
-                  <summary className={styles.item}>
-                    {r.passed ? <PassIcon /> : <DotIcon />}
-                    <span>{r.name}</span>
-                    <span className="visually-hidden">{r.passed ? "passed" : "not yet"}</span>
-                  </summary>
-                  {!r.passed ? <Failure r={r} source={source} onShowLine={onShowLine} /> : null}
-                </details>
-              </li>
+              <CheckRow key={i} r={r} open={false} source={source} onShowLine={onShowLine} stretch />
             ))}
           </ul>
         </div>
       ) : null}
     </div>
+  );
+}
+
+/** One check: an icon, its name, and (for a failure) what went in, what was expected and what came out. */
+function CheckRow({ r, open, source, onShowLine, stretch = false }: { r: TestResult; open: boolean; source: string; onShowLine?: (line: number) => void; stretch?: boolean }) {
+  const state = r.passed ? "passed" : r.notRun ? "not run" : stretch ? "not yet" : "failed";
+  const icon = r.passed ? <PassIcon /> : r.notRun || stretch ? <DotIcon /> : <FailIcon />;
+  if (r.passed) {
+    return (
+      <li className={styles.row}>
+        <span className={styles.item}>
+          {icon}
+          <span className={styles.itemName}>{r.name}</span>
+          <span className="visually-hidden">{state}</span>
+        </span>
+      </li>
+    );
+  }
+  return (
+    <li className={[styles.row, styles.rowFail].join(" ")}>
+      <details open={open}>
+        <summary className={styles.item}>
+          {icon}
+          <span className={styles.itemName}>{r.name}</span>
+          <span className="visually-hidden">{state}</span>
+        </summary>
+        <Failure r={r} source={source} onShowLine={onShowLine} />
+      </details>
+    </li>
   );
 }

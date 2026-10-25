@@ -9,7 +9,8 @@ import { PassIcon } from "../../ui/Icons";
 import { Editor } from "../Editor";
 import { Terminal, type TermLine } from "../Terminal";
 import { useWorkbench } from "../context";
-import { JobSummary, NextRow, Prose, StepHeading } from "./common";
+import { NextRow, Prose, StepHeading } from "./common";
+import { Ticket } from "../Ticket";
 import styles from "./steps.module.css";
 import g from "./git.module.css";
 
@@ -74,8 +75,7 @@ export function GitStepView({ step, row }: { step: GitStep; row: StepProgressRow
 
   return (
     <>
-      <div className={areas.brief}>
-        <JobSummary />
+      <Ticket>
         <StepHeading step={step} />
         <Prose html={step.html} />
         <ol className={styles.tasks}>
@@ -94,7 +94,7 @@ export function GitStepView({ step, row }: { step: GitStep; row: StepProgressRow
           ))}
         </ol>
         <NextRow row={row} />
-      </div>
+      </Ticket>
       <div className={areas.stage}>
         <div className={g.split}>
           <div className={g.files}>

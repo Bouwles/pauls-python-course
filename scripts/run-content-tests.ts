@@ -5,7 +5,7 @@
 // - every review card's answer is confirmed by running it
 import path from "node:path";
 import os from "node:os";
-import { loadContent } from "../lib/content/build";
+import { brandText, loadContent } from "../lib/content/build";
 import type { Card, Job } from "../lib/content/types";
 import { NodePython } from "../lib/python/node/runner";
 import type { CheckReport, Files } from "../lib/python/protocol";
@@ -279,7 +279,7 @@ const YAML = (await import("yaml")).default;
 const fs = await import("node:fs");
 const rawCards: Record<string, { verify?: string; options?: { error?: string }[] }> = {};
 for (const name of fs.readdirSync(path.join(root, "content", "concepts"))) {
-  const c = YAML.parse(fs.readFileSync(path.join(root, "content", "concepts", name), "utf8")) as { id: string; cards: { verify?: string; options?: { error?: string }[] }[] };
+  const c = YAML.parse(brandText(fs.readFileSync(path.join(root, "content", "concepts", name), "utf8"))) as { id: string; cards: { verify?: string; options?: { error?: string }[] }[] };
   c.cards.forEach((card, i) => (rawCards[`${c.id}-${i + 1}`] = card));
 }
 

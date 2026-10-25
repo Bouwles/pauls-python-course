@@ -4,7 +4,7 @@ import type { ActSummary, JobSummary } from "@/lib/content/types";
 import type { JobProgressRow } from "@/lib/store/types";
 
 const job = (id: string, act: string, building: string, status: "written" | "outline" = "written"): JobSummary => ({
-  id, title: id, status, client: "moss", building, act, actNumber: 1, number: 1, estimatedMinutes: 10, summary: "", conceptsIntroduced: [], conceptsReviewed: [], shelf: null, stepCount: 3, sidequest: false, placementFor: null, timedMinutes: null,
+  id, title: id, projectName: id, downloadable: true, datasets: [], status, client: "moss", building, act, actNumber: 1, number: 1, estimatedMinutes: 10, summary: "", conceptsIntroduced: [], conceptsReviewed: [], shelf: null, stepCount: 3, sidequest: false, placementFor: null, timedMinutes: null,
 });
 const act = (id: string, number: number, jobs: JobSummary[]): ActSummary => ({ id, number, title: id, district: id, subject: "", hours: 1, summary: "", lockedLine: "", intro: [], jobs });
 const shipped = (jobId: string): JobProgressRow => ({ key: jobId, jobId, status: "shipped", startedAt: 1, shippedAt: 2, stretchDone: [], timeSpent: 0, updatedAt: 2 });

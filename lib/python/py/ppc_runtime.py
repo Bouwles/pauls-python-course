@@ -33,9 +33,9 @@ import types
 import ppc_bridge
 
 try:
-    import saltmarsh  # Living Visualisations the learner's code can draw with
+    import workshop  # Living Visualisations the learner's code can draw with
 except ImportError:  # pragma: no cover - older hosts without the module
-    saltmarsh = None
+    workshop = None
 
 # Plots render off-screen; figures are captured as PNGs after a run (Section 10.4).
 os.environ.setdefault("MPLBACKEND", "Agg")
@@ -245,8 +245,8 @@ class Session:
         if WORKDIR not in sys.path:
             sys.path.insert(0, WORKDIR)
         random.seed(self.seed)
-        if saltmarsh is not None:
-            saltmarsh.reset()
+        if workshop is not None:
+            workshop.reset()
         return self
 
     def __exit__(self, *exc):
@@ -458,15 +458,87 @@ def run(request_json):
     result["output"] = session.transcript.as_terminal()
     result["printed"] = session.transcript.printed()
     result["inputsRequested"] = session.inputs_requested
+    try:
+        result["events"] = code_events(files.get(entry, ""))
+    except BaseException:
+        result["events"] = []
     result["figures"] = capture_figures()
-    if saltmarsh is not None:
+    if workshop is not None:
         try:
-            visuals = saltmarsh.take()
+            visuals = workshop.take()
             if visuals:
                 result["visuals"] = visuals
         except BaseException:
             pass
     return json.dumps(result)
+
+
+# ---------------------------------------------------------------------------
+# code_events(): cheap static facts about the learner's code, so Moss and Pip can
+# react to what was actually written (REDESIGN.md 6.5). Never judged, never shown
+# as notes: they only choose which line a character says.
+# ---------------------------------------------------------------------------
+
+PRICE_WORDS = ("price", "cost", "total", "pence", "pounds", "fare", "amount", "bill", "tip")
+
+
+def code_events(source):
+    try:
+        tree = ast.parse(source)
+    except SyntaxError:
+        return []
+    events = []
+
+    def add(event, **detail):
+        if not any(e["event"] == event for e in events):
+            events.append({"event": event, **detail})
+
+    lines = source.splitlines()
+    if any(len(line) > 100 for line in lines):
+        add("long-line")
+    loops = 0
+    for node in ast.walk(tree):
+        if isinstance(node, ast.JoinedStr):
+            add("fstring")
+        elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            add("function")
+            end = getattr(node, "end_lineno", node.lineno)
+            if end - node.lineno > 25:
+                add("long-function", name=node.name)
+        elif isinstance(node, ast.For):
+            loops += 1
+            it = node.iter
+            # range(0), range(n, n) with literals, or an empty literal: the body never runs.
+            if isinstance(it, ast.Call) and isinstance(it.func, ast.Name) and it.func.id == "range":
+                args = [a.value for a in it.args if isinstance(a, ast.Constant) and isinstance(a.value, int)]
+                if len(args) == len(it.args) and ((len(args) == 1 and args[0] <= 0) or (len(args) >= 2 and args[1] <= args[0])):
+                    add("loop-never-runs")
+            elif isinstance(it, (ast.List, ast.Tuple)) and not it.elts:
+                add("loop-never-runs")
+            if any(isinstance(n, (ast.For, ast.While)) for n in ast.walk(node) if n is not node):
+                add("nested-loop")
+        elif isinstance(node, ast.While):
+            loops += 1
+            if isinstance(node.test, ast.Constant) and not node.test.value:
+                add("loop-never-runs")
+        elif isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id in ("int", "float"):
+            if node.args and isinstance(node.args[0], ast.Call) and isinstance(node.args[0].func, ast.Name) and node.args[0].func.id == "input":
+                add("converts-input")
+        elif isinstance(node, ast.Assign):
+            for target in node.targets:
+                if not isinstance(target, ast.Name):
+                    continue
+                name = target.id
+                value = node.value
+                is_number = isinstance(value, ast.Constant) and isinstance(value.value, (int, float)) and not isinstance(value.value, bool)
+                is_sum = isinstance(value, ast.BinOp)
+                if len(name) == 1 and name not in ("i", "j", "k", "n", "_") and (is_number or is_sum):
+                    add("letter-name", name=name)
+                elif "_" in name.strip("_") and len(name) >= 8 and name.islower() and any(w in name for w in PRICE_WORDS + ("count", "name", "list", "number", "average", "score")):
+                    add("good-name", name=name)
+    if loops == 0 and len([l for l in lines if l.strip() and not l.strip().startswith("#")]) > 25:
+        add("long-no-loop")
+    return events
 
 
 # ---------------------------------------------------------------------------

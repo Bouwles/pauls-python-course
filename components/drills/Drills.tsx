@@ -8,9 +8,11 @@ import { useSession } from "@/lib/store/session";
 import type { DrillBestRow, JobProgressRow } from "@/lib/store/types";
 import { isShipped } from "@/lib/progress-rules";
 import { Button } from "../ui/Button";
-import { Portrait } from "../world/Portrait";
+import { Head } from "../world/CharacterPortrait";
 import { useRunner } from "../workbench/useRunner";
 import { ReviewCard, type CardOutcome } from "../rounds/ReviewCard";
+import { Says } from "../rounds/Says";
+import { Stopwatch } from "./Stopwatch";
 import styles from "./Drills.module.css";
 
 const ROUND = 5;
@@ -60,20 +62,42 @@ export function Drills({ concepts }: { concepts: Concept[] }) {
 
   return (
     <div className={styles.drills}>
-      <h1 className={styles.title}>Drills</h1>
-      <p className={styles.lede}>Five quick tasks against the clock, for speed once you understand something. A concept joins the list once you have used it in a Make step.</p>
-      {unlocked.length === 0 ? <p className={styles.quiet}>Nothing to drill yet. Ship your first job and its ideas turn up here.</p> : null}
-      <ul className={styles.list}>
-        {unlocked.map((c) => (
-          <li key={c.id} className={styles.item}>
-            <span className={styles.name}>{c.title}</span>
-            <span className={styles.best}>{bests[c.id] ? `Best ${fmt(bests[c.id]!.bestMs)}` : "No time yet"}</span>
-            <Button size="sm" variant="secondary" onClick={() => setActive(c)}>
-              Drill
-            </Button>
-          </li>
-        ))}
-      </ul>
+      <header className={styles.head}>
+        <Stopwatch scale={3} />
+        <div className={styles.headText}>
+          <h1 className={styles.title}>Drills</h1>
+          <p className={styles.lede}>Five quick tasks against the clock, for speed once you understand something. A concept joins the list once you have used it in a Make step.</p>
+        </div>
+      </header>
+      <section className={["frame-panel", styles.bench].join(" ")} aria-labelledby="bench-title">
+        <h2 id="bench-title" className={styles.benchTitle}>
+          The speed bench
+        </h2>
+        {unlocked.length === 0 ? (
+          <p className={styles.empty}>Nothing to drill yet. Ship your first job and its ideas turn up here.</p>
+        ) : (
+          <ul className={styles.list}>
+            {unlocked.map((c) => (
+              <li key={c.id} className={styles.item}>
+                <span className={styles.name}>{c.title}</span>
+                <span className={styles.times}>
+                  <span className={styles.best}>{bests[c.id] ? `Best ${fmt(bests[c.id]!.bestMs)}` : "No time yet"}</span>
+                  <span className={styles.pipTime}>
+                    <Head id="pip" sprite="pip" scale={1} />
+                    <span>
+                      <span className="visually-hidden">Pip&apos;s time: </span>
+                      {fmt(pipTime(bests[c.id]?.bestMs ?? null))}
+                    </span>
+                  </span>
+                </span>
+                <Button size="sm" variant="quiet" onClick={() => setActive(c)} aria-label={`Drill ${c.title}`}>
+                  Drill
+                </Button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
       {locked.length ? (
         <details className={styles.locked}>
           <summary>Not yet ({locked.length})</summary>
@@ -128,52 +152,88 @@ function DrillRun({ concept, best, onDone }: { concept: Concept; best: number | 
   };
 
   const elapsed = started ? (result ? result.ms : now - started + misses * MISS_PENALTY_MS) : 0;
+  // Pip's ghost runs the whole course in his time; your lamp segments fill as you finish tasks.
+  const pipAt = Math.min(1, elapsed / pip);
+  const tasksDone = result ? ROUND : started ? index : 0;
+  const pipDone = elapsed >= pip;
 
   return (
     <div className={styles.run}>
-      <header className={styles.runHead}>
-        <div>
-          <p className="label">Drill</p>
-          <h1 className={styles.runTitle}>{concept.title}</h1>
+      <section className={["frame-panel", styles.bench, styles.runBench].join(" ")} aria-labelledby="drill-title">
+        <div className={styles.runHead}>
+          <div className={styles.runWhat}>
+            <h1 id="drill-title" className={styles.runTitle}>
+              {concept.title}
+            </h1>
+            <p className={styles.quietOn}>
+              {ROUND} tasks. Each miss adds {MISS_PENALTY_MS / 1000} seconds.
+            </p>
+          </div>
+          <div className={styles.clock} aria-live="off">
+            <Stopwatch scale={4} step={Math.floor(elapsed / 1000)} />
+            <div className={styles.readout}>
+              <span className={styles.time}>{fmt(elapsed)}</span>
+              <span className={styles.vs}>Pip {fmt(pip)}</span>
+            </div>
+          </div>
         </div>
-        <div className={styles.clock} aria-live="off">
-          <span className={styles.time}>{fmt(elapsed)}</span>
-          <span className={styles.vs}>Pip: {fmt(pip)}</span>
+        <div className={styles.race}>
+          <div className={styles.track} style={{ "--p": pipAt } as React.CSSProperties}>
+            <span className={styles.ghost}>
+              <Head id="pip" sprite="pip" scale={2} />
+            </span>
+            <ol className={styles.lanes} aria-hidden="true">
+              {Array.from({ length: ROUND }, (_, i) => (
+                <li key={i} className={i < tasksDone ? styles.laneDone : started && !result && i === index ? styles.laneNow : undefined} />
+              ))}
+            </ol>
+            <span className={styles.flag} aria-hidden="true" />
+          </div>
+          <p className={styles.raceNote}>
+            {tasksDone} of {ROUND} done.{" "}
+            {result ? (result.beatPip ? `You beat Pip by ${fmt(pip - result.ms)}.` : `Pip finished in ${fmt(pip)}.`) : pipDone ? `Pip finished in ${fmt(pip)}.` : started ? "Pip's head shows his pace." : `Pip takes ${fmt(pip)}.`}
+          </p>
         </div>
-      </header>
-      <div className={styles.pip}>
-        <Portrait sprite="pip" size={48} />
-        <p>{result ? (result.beatPip ? "Fine. Rematch tomorrow." : "Told you. I was warming up, mind.") : pipLine}</p>
-      </div>
+      </section>
+      <Says id="pip" name="Pip" live>
+        {result ? (result.beatPip ? "Fine. Rematch tomorrow." : "Told you. I was warming up, mind.") : pipLine}
+      </Says>
       {!started ? (
         <div className={styles.start}>
-          <p className={styles.quiet}>
-            {ROUND} tasks. Each miss adds {MISS_PENALTY_MS / 1000} seconds. {best ? `Your best is ${fmt(best)}.` : ""}
-          </p>
+          {best ? <p className={styles.quiet}>Your best is {fmt(best)}.</p> : null}
           <Button variant="primary" onClick={() => setStarted(Date.now())}>
             Start the clock
           </Button>
         </div>
       ) : result ? (
-        <div className={styles.result} role="status">
+        <div className={["frame-paper", styles.result].join(" ")} role="status">
           <p className={styles.resultTime}>{fmt(result.ms)}</p>
-          <p>
+          <p className={styles.resultText}>
             {result.newBest ? "A new best." : `Your best is still ${fmt(best!)}.`} {misses ? `${misses} ${misses === 1 ? "miss" : "misses"}.` : "No misses."}
           </p>
+          {result.newBest ? <p className={styles.stamp}>New best</p> : null}
           <div className={styles.row}>
             <Button variant="primary" onClick={onDone}>
               Back to drills
             </Button>
-            <Link href={`/concepts/${concept.id}`}>Read about {concept.title}</Link>
+            <Link href={`/handbook/${concept.id}`}>Read about {concept.title}</Link>
           </div>
         </div>
       ) : (
-        <>
-          <p className={styles.quiet}>
-            Task {index + 1} of {ROUND}
-          </p>
-          <ReviewCard key={`${index}-${tasks[index]!.id}`} card={tasks[index]!} runner={runner} onAnswered={(o) => void answered(o)} />
-        </>
+        <ReviewCard
+          key={`${index}-${tasks[index]!.id}`}
+          card={tasks[index]!}
+          runner={runner}
+          onAnswered={(o) => void answered(o)}
+          label={`Task ${index + 1} of ${ROUND}`}
+          head={
+            <header className={styles.taskHead}>
+              <h2 className={styles.taskTitle}>
+                Task {index + 1} of {ROUND}
+              </h2>
+            </header>
+          }
+        />
       )}
     </div>
   );

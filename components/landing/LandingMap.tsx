@@ -2,6 +2,7 @@
 
 import { TownMap, HIDDEN_DENNISES } from "../world/TownMap";
 import { useNight } from "../world/useNight";
+import { BRAND } from "@/lib/brand";
 
 const none = new Set(HIDDEN_DENNISES.map((d) => d.id));
 
@@ -16,7 +17,7 @@ export function LandingMap() {
       foundDennises={none}
       onFindDennis={() => {}}
       night={night}
-      label="The map of Saltmarsh. Only the Harbour Front is open at the start; the other districts are in shadow until you get there."
+      label={`The map of ${BRAND.townName}. Only the Harbour Front is open at the start; the other districts are in shadow until you get there.`}
     />
   );
 }

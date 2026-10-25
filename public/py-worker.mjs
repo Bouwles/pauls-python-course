@@ -83,7 +83,7 @@ async function init(message) {
   if (interrupt) pyodide.setInterruptBuffer(interrupt);
   pyodide.registerJsModule("ppc_bridge", bridge);
   pyodide.FS.mkdirTree("/home/pyodide/ppc");
-  for (const name of ["saltmarsh.py", "ppc_runtime.py"]) {
+  for (const name of ["workshop.py", "ppc_runtime.py"]) {
     const source = await (await fetch(`/python/${name}?v=${message.version || ""}`)).text();
     pyodide.FS.writeFile(`/home/pyodide/ppc/${name}`, source);
   }

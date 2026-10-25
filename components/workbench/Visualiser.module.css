@@ -106,13 +106,12 @@
   display: inline-block;
   width: 9px;
   height: 9px;
-  border-radius: 50%;
   background: var(--accent-ink);
   vertical-align: middle;
 }
 
 .obj {
-  border: 1px solid var(--rule-strong);
+  border: 2px solid var(--rule-strong);
   padding: var(--s-1) var(--s-2) var(--s-2);
   background: var(--paper-raised);
 }
@@ -134,7 +133,7 @@
   justify-items: center;
   min-width: 34px;
   padding: 2px 4px;
-  border: 1px solid var(--rule);
+  border: 2px solid var(--rule);
   font-family: var(--font-code);
   font-size: var(--step--1);
   font-variant-ligatures: none;
@@ -181,7 +180,16 @@
   position: relative;
   width: 14px;
   height: 44px;
-  background: repeating-linear-gradient(to bottom, #ebe5d5 0 8px, #9b443a 8px 16px);
+  background: var(--art-sail-cloth);
+}
+
+.lampTower::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--art-brick);
+  -webkit-mask: var(--mask-hband-16) repeat 0 0 / 8px 16px;
+  mask: var(--mask-hband-16) repeat 0 0 / 8px 16px;
 }
 
 .beam {
@@ -190,7 +198,7 @@
   left: 7px;
   width: 50px;
   height: 6px;
-  background: #eedb9b;
+  background: var(--art-lamp-glow);
   transform-origin: left center;
   transform: rotate(-8deg);
   transition: transform 300ms var(--ease);
@@ -209,8 +217,8 @@
   display: flex;
   gap: 3px;
   padding: 4px;
-  background: #634330;
-  border: 2px solid #3b2a22;
+  background: var(--art-driftwood);
+  border: 2px solid var(--art-tar);
   flex-wrap: wrap;
 }
 
@@ -220,13 +228,13 @@
   gap: 2px;
   min-width: 40px;
   padding: 4px 3px 2px;
-  background: #3b2a22;
-  color: #ebe5d5;
+  background: var(--art-tar);
+  color: var(--art-sail-cloth);
 }
 
 .parcel {
-  background: #d5b97d;
-  color: #1e1e1c;
+  background: var(--art-sand);
+  color: var(--art-harbour-night);
   font-family: var(--font-code);
   font-size: var(--step--2);
   padding: 2px 4px;
@@ -236,7 +244,7 @@
 .holeNo {
   font-family: var(--font-code);
   font-size: var(--step--2);
-  color: #eedb9b;
+  color: var(--art-lamp-glow);
 }
 
 .out pre {
@@ -274,8 +282,8 @@
 .pile {
   position: relative;
   width: 22px;
-  background: #8e5236;
-  border-top: 2px solid #b8853f;
+  background: var(--art-rust);
+  border-top: 2px solid var(--art-ochre);
 }
 
 .pileLabel {
@@ -302,18 +310,18 @@
   font-size: var(--step--2);
   font-variant-ligatures: none;
   padding: 3px 8px;
-  background: #b8853f;
-  color: #1e1e1c;
-  border: 2px solid #634330;
+  background: var(--art-ochre);
+  color: var(--art-harbour-night);
+  border: 2px solid var(--art-driftwood);
   min-width: 120px;
 }
 
 .crate[data-top="true"] {
-  background: #eedb9b;
+  background: var(--art-lamp-glow);
 }
 
 .crateGives {
-  color: #3b2a22;
+  color: var(--art-tar);
   font-weight: 600;
 }
 
@@ -323,8 +331,8 @@
   grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
   gap: 3px;
   padding: 4px;
-  background: #634330;
-  border: 2px solid #3b2a22;
+  background: var(--art-driftwood);
+  border: 2px solid var(--art-tar);
   max-width: 520px;
 }
 
@@ -332,8 +340,8 @@
   display: grid;
   gap: 2px;
   padding: 3px 4px;
-  background: #d5b97d;
-  color: #1e1e1c;
+  background: var(--art-sand);
+  color: var(--art-harbour-night);
   font-family: var(--font-code);
   font-size: var(--step--2);
   font-variant-ligatures: none;
@@ -341,7 +349,7 @@
 }
 
 .drawerKey {
-  background: #ebe5d5;
+  background: var(--art-sail-cloth);
   padding: 0 3px;
-  border-bottom: 1px solid #8e5236;
+  border-bottom: 2px solid var(--art-rust);
 }

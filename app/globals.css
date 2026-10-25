@@ -1,4 +1,5 @@
 @import "../tokens.css";
+@import "./frames.css";
 
 *,
 *::before,
@@ -9,29 +10,45 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  background: var(--bg);
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  background: var(--paper);
-  color: var(--ink);
-  font-family: var(--font-ui);
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-read);
   font-size: var(--step-0);
   line-height: var(--lh-ui);
   font-kerning: normal;
 }
 
+/* Headings are game chrome: the pixel face, at whole multiples of its 18 px grid. */
 h1,
 h2,
 h3,
 h4 {
-  font-family: var(--font-prose);
-  font-weight: 600;
-  line-height: var(--lh-tight);
-  letter-spacing: -0.005em;
+  font-family: var(--font-pixel);
+  font-weight: 400;
+  line-height: 1;
   margin: 0;
   text-wrap: balance;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+}
+
+h1 {
+  font-size: var(--pixel-3);
+}
+
+h2 {
+  font-size: var(--pixel-2);
+}
+
+h3,
+h4 {
+  font-size: var(--pixel-1);
 }
 
 p {
@@ -39,15 +56,14 @@ p {
 }
 
 a {
-  color: inherit;
+  color: var(--link-text);
   text-decoration-line: underline;
-  text-decoration-thickness: 1px;
+  text-decoration-thickness: 2px;
   text-underline-offset: 3px;
-  text-decoration-color: var(--rule-strong);
 }
 
 a:hover {
-  text-decoration-color: currentColor;
+  color: var(--text);
 }
 
 button,
@@ -66,8 +82,17 @@ button:disabled {
   cursor: not-allowed;
 }
 
+input,
+textarea,
+select {
+  background: var(--code-bg);
+  border: 2px solid var(--frame-hi);
+  border-radius: 0;
+  padding: var(--s-2) var(--s-3);
+}
+
 :focus-visible {
-  outline: 2px solid var(--accent-ink);
+  outline: 2px solid var(--lamp);
   outline-offset: 2px;
 }
 
@@ -93,15 +118,23 @@ canvas.pixel,
   image-rendering: crisp-edges;
 }
 
-/* Lesson prose: a measured column in the book serif. */
+/* The pixel face, for any game-chrome text that isn't a heading. */
+.pixel-text {
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+}
+
+/* Lesson and reference text, in the reading face. */
 .prose {
-  font-family: var(--font-prose);
+  font-family: var(--font-read);
   font-size: var(--prose-size);
   line-height: var(--lh-prose);
   letter-spacing: var(--prose-letter-spacing);
   word-spacing: var(--prose-word-spacing);
   max-width: var(--measure);
-  font-optical-sizing: auto;
 }
 
 .prose > * + * {
@@ -109,20 +142,19 @@ canvas.pixel,
 }
 
 .prose code {
-  font-size: 0.85em;
-  background: var(--paper-sunk);
-  border-radius: var(--r-1);
-  padding: 0.05em 0.3em;
+  font-size: 0.88em;
+  background: var(--frame);
+  padding: 2px;
   white-space: break-spaces;
 }
 
 .prose pre {
-  background: var(--paper-sunk);
-  border-left: 2px solid var(--rule-strong);
+  background: var(--code-bg);
   padding: var(--s-3) var(--s-4);
   overflow-x: auto;
   line-height: 1.5;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
+  box-shadow: inset 0 0 0 2px var(--frame);
 }
 
 .prose pre code {
@@ -135,26 +167,9 @@ canvas.pixel,
 /* ```console and ```text fences are terminal output, not code to type. */
 .prose pre:has(> code.language-console),
 .prose pre:has(> code.language-text) {
-  background: var(--ink);
-  color: var(--paper);
-  border-left: none;
-  border-radius: var(--r-1);
-}
-
-:root[data-theme="dark"] .prose pre:has(> code.language-console),
-:root[data-theme="dark"] .prose pre:has(> code.language-text) {
-  background: var(--paper-sunk);
-  color: var(--ink);
-  border: var(--hairline);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .prose pre:has(> code.language-console),
-  :root:not([data-theme="light"]) .prose pre:has(> code.language-text) {
-    background: var(--paper-sunk);
-    color: var(--ink);
-    border: var(--hairline);
-  }
+  background: var(--night-0);
+  color: var(--chalk);
+  box-shadow: none;
 }
 
 .prose ul,
@@ -163,7 +178,7 @@ canvas.pixel,
 }
 
 .prose strong {
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .visually-hidden {
@@ -183,21 +198,26 @@ canvas.pixel,
   left: var(--s-2);
   top: -100px;
   z-index: 100;
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--lamp);
+  color: var(--night-0);
   padding: var(--s-2) var(--s-3);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
 }
 
 .skip-link:focus {
   top: var(--s-2);
 }
 
-/* Small caps-ish labels for UI sections */
+/*
+  Small section names. No eyebrow labels (REDESIGN.md 2.1): this is plain pixel
+  text, never uppercase, never tracked, and never a repeat of the heading below it.
+*/
 .label {
-  font-family: var(--font-ui);
-  font-size: var(--step--1);
-  font-weight: 500;
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--ink-2);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--text-2);
+  -webkit-font-smoothing: none;
 }

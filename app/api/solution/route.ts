@@ -2,6 +2,7 @@ import { getJob, getSolution } from "@/lib/content/server";
 import { getSessionUser } from "@/lib/server/auth";
 import { getDb } from "@/lib/server/db";
 import { json, readJson, sameOrigin } from "@/lib/server/http";
+import { accessToJob } from "@/lib/server/gate";
 
 export const dynamic = "force-dynamic";
 
@@ -18,6 +19,9 @@ export async function POST(req: Request) {
   if (!job || !step || !["pips", "fix", "modify", "make"].includes(step.type)) return json({ error: "No solution for that step." }, 404);
   // The placement test checks what the learner already knows: no solutions, signed in or not.
   if (job.placementFor) return json({ error: "The placement test has no solutions to show." }, 404);
+  const viewer = await getSessionUser();
+  const access = await accessToJob(job.id, viewer?.id ?? null);
+  if (access === "missing" || !access.open) return json({ error: "This project is part of Pro." }, 403);
 
   let hints = Number(body.hintsUsed ?? 0);
   let seconds = Number(body.timeSpent ?? 0);

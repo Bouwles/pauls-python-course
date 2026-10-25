@@ -15,6 +15,8 @@ for (const f of files) {
 }
 const pyOut = path.join(root, "public", "python");
 fs.mkdirSync(pyOut, { recursive: true });
+// Helpers that no longer exist in lib/python/py are removed, so a renamed module can't linger.
+for (const f of fs.readdirSync(pyOut)) if (f.endsWith(".py") && !fs.existsSync(path.join(root, "lib", "python", "py", f))) fs.rmSync(path.join(pyOut, f));
 for (const f of fs.readdirSync(path.join(root, "lib", "python", "py"))) {
   if (f.endsWith(".py")) fs.copyFileSync(path.join(root, "lib", "python", "py", f), path.join(pyOut, f));
 }

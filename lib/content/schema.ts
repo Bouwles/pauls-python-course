@@ -28,7 +28,7 @@ const misconceptionId = id;
 
 export const actFile = z.object({
   id,
-  number: z.number().int().min(1).max(8),
+  number: z.number().int().min(1).max(9),
   title: z.string(),
   district: z.string(),
   subject: z.string(),
@@ -48,10 +48,29 @@ export const stretchTask = z.object({
   solution: z.string().optional(),
 });
 
+/** A real public dataset a project uses (REDESIGN.md 7.1), with its source and licence. */
+export const dataset = z.object({
+  name: z.string(),
+  /** Where the original lives. */
+  source: z.string().url(),
+  licence: z.string().min(2),
+  /** The cleaned copy bundled in this job's data folder. */
+  file: z.string(),
+  notes: z.string().optional(),
+});
+
 export const jobFile = z.object({
   id,
   title: z.string(),
   status: z.enum(["written", "outline"]).default("written"),
+  /** The plain name of the real program (REDESIGN.md 7.1): "Bill Splitter", "Spam Filter". Shown first; the client second. */
+  project_name: z.string().min(2),
+  /** The README for the learner's portfolio copy (Markdown). {name} and {date} are filled in at download. */
+  portfolio_readme: z.string().min(40).optional(),
+  /** Downloads from the Shelf as a runnable folder with a README. */
+  downloadable: z.boolean().default(true),
+  /** Real public data the project uses, with licences. Every file listed here must exist in data/. */
+  datasets: z.array(dataset).default([]),
   client: id,
   building: id,
   estimated_minutes: z.number().int().positive(),

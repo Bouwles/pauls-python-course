@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { EditorState, StateEffect, StateField, type Extension } from "@codemirror/state";
+import { Compartment, EditorState, RangeSet, StateEffect, StateField, type Extension } from "@codemirror/state";
 import {
   Decoration,
   EditorView,
   drawSelection,
+  gutter,
+  GutterMarker,
   highlightActiveLine,
   highlightActiveLineGutter,
   keymap,
@@ -15,46 +17,23 @@ import {
 } from "@codemirror/view";
 import { defaultKeymap, history, historyKeymap, indentWithTab, insertNewlineAndIndent } from "@codemirror/commands";
 import { python } from "@codemirror/lang-python";
-import { HighlightStyle, bracketMatching, indentOnInput, indentUnit, syntaxHighlighting } from "@codemirror/language";
+import { bracketMatching, indentOnInput, indentUnit, syntaxHighlighting } from "@codemirror/language";
 import { autocompletion, closeBrackets, closeBracketsKeymap, completionKeymap } from "@codemirror/autocomplete";
 import { searchKeymap } from "@codemirror/search";
-import { tags as t } from "@lezer/highlight";
+import { fixwickDay, fixwickHighlight, fixwickNight, resolvedTheme } from "@/lib/editor/theme";
 import styles from "./Editor.module.css";
 
-const highlightStyle = HighlightStyle.define([
-  { tag: [t.keyword, t.controlKeyword, t.definitionKeyword, t.moduleKeyword, t.operatorKeyword], color: "var(--syn-keyword)" },
-  { tag: [t.string, t.special(t.string)], color: "var(--syn-string)" },
-  { tag: [t.number, t.bool, t.null], color: "var(--syn-number)" },
-  { tag: [t.comment, t.lineComment], color: "var(--syn-comment)", fontStyle: "italic" },
-  { tag: [t.function(t.variableName), t.function(t.definition(t.variableName)), t.definition(t.function(t.variableName))], color: "var(--syn-function)" },
-  { tag: [t.standard(t.variableName), t.self], color: "var(--syn-builtin)" },
-]);
-
-const theme = EditorView.theme({
-  "&": {
-    backgroundColor: "var(--paper-raised)",
-    color: "var(--ink)",
-    fontSize: "var(--editor-font-size)",
-    height: "100%",
-  },
-  ".cm-scroller": { fontFamily: "var(--font-code)", lineHeight: "1.6", fontVariantLigatures: "none", fontFeatureSettings: '"liga" 0, "calt" 0' },
-  ".cm-content": { caretColor: "var(--ink)", padding: "8px 0" },
-  ".cm-cursor, .cm-dropCursor": { borderLeftColor: "var(--ink)", borderLeftWidth: "2px" },
-  "&.cm-focused": { outline: "none" },
-  // Line numbers are read (errors and hints point at them), so they get body-text contrast.
-  ".cm-gutters": { backgroundColor: "var(--paper-raised)", color: "var(--ink-2)", border: "none", borderRight: "1px solid var(--rule)" },
-  ".cm-lineNumbers .cm-gutterElement": { padding: "0 10px 0 8px", minWidth: "3ch" },
-  ".cm-activeLine": { backgroundColor: "color-mix(in srgb, var(--highlight-line) 55%, transparent)" },
-  ".cm-activeLineGutter": { backgroundColor: "transparent", color: "var(--ink)" },
-  "&.cm-focused .cm-selectionBackground, .cm-selectionBackground, ::selection": { backgroundColor: "var(--selection) !important" },
-  ".cm-matchingBracket": { backgroundColor: "var(--accent-wash)", outline: "1px solid var(--rule-strong)" },
-  ".cm-errorLine": { backgroundColor: "var(--fail-wash)" },
-  ".cm-markLine": { backgroundColor: "var(--accent-wash)", boxShadow: "inset 3px 0 0 var(--accent)" },
-  ".cm-placeholder": { color: "var(--ink-3)", fontStyle: "italic" },
-  ".cm-tooltip": { backgroundColor: "var(--paper-raised)", border: "1px solid var(--rule-strong)", borderRadius: "var(--r-2)" },
-  ".cm-tooltip-autocomplete > ul > li[aria-selected]": { backgroundColor: "var(--accent-wash)", color: "var(--ink)" },
-  ".cm-completionIcon": { display: "none" },
-});
+// The error line also gets a pixel "!" in its own gutter (REDESIGN.md 4.3).
+class ErrorMarker extends GutterMarker {
+  toDOM() {
+    const span = document.createElement("span");
+    span.className = "cm-errorMark";
+    span.setAttribute("aria-hidden", "true");
+    span.innerHTML = '<svg width="8" height="16" viewBox="0 0 4 8" shape-rendering="crispEdges"><path d="M1 0h2v5H1zM1 6h2v2H1z" fill="currentColor"/></svg>';
+    return span;
+  }
+}
+const errorMarker = new ErrorMarker();
 
 // Line decorations for the error line and for a marked line (Dennis, the visualiser).
 const setLines = StateEffect.define<{ error: number | null; mark: number | null }>();
@@ -77,6 +56,24 @@ const lineField = StateField.define<DecorationSet>({
     return deco;
   },
   provide: (f) => EditorView.decorations.from(f),
+});
+
+const errorLineField = StateField.define<number | null>({
+  create: () => null,
+  update(value, tr) {
+    for (const e of tr.effects) if (e.is(setLines)) return e.value.error;
+    return value;
+  },
+});
+
+const errorGutter = gutter({
+  class: "cm-errorGutter",
+  markers: (view) => {
+    const line = view.state.field(errorLineField);
+    if (!line || line > view.state.doc.lines) return RangeSet.empty;
+    return RangeSet.of([errorMarker.range(view.state.doc.line(line).from)]);
+  },
+  initialSpacer: () => errorMarker,
 });
 
 export interface EditorHandle {
@@ -104,6 +101,7 @@ export interface EditorProps {
 export function Editor({ value, onChange, readOnly = false, onRun, onCheck, errorLine = null, markLine = null, initialCursor, label, placeholder, handleRef, docKey }: EditorProps) {
   const host = useRef<HTMLDivElement>(null);
   const view = useRef<EditorView | null>(null);
+  const themeSlot = useRef(new Compartment());
   const callbacks = useRef({ onChange, onRun, onCheck });
   callbacks.current = { onChange, onRun, onCheck };
 
@@ -115,6 +113,8 @@ export function Editor({ value, onChange, readOnly = false, onRun, onCheck, erro
       { key: "Enter", run: insertNewlineAndIndent },
     ]);
     const extensions: Extension[] = [
+      errorLineField,
+      errorGutter,
       lineNumbers(),
       highlightActiveLineGutter(),
       history(),
@@ -127,8 +127,8 @@ export function Editor({ value, onChange, readOnly = false, onRun, onCheck, erro
       autocompletion({ activateOnTyping: true, icons: false }),
       highlightActiveLine(),
       python(),
-      syntaxHighlighting(highlightStyle),
-      theme,
+      syntaxHighlighting(fixwickHighlight),
+      themeSlot.current.of(resolvedTheme() === "day" ? fixwickDay : fixwickNight),
       lineField,
       runKeys,
       keymap.of([...closeBracketsKeymap, ...defaultKeymap, ...searchKeymap, ...historyKeymap, ...completionKeymap, indentWithTab]),
@@ -181,6 +181,19 @@ export function Editor({ value, onChange, readOnly = false, onRun, onCheck, erro
   useEffect(() => {
     view.current?.dispatch({ effects: setLines.of({ error: errorLine, mark: markLine }) });
   }, [errorLine, markLine, docKey]);
+
+  // Follow the page between night and day (the Settings switch, or the device when following it).
+  useEffect(() => {
+    const apply = () => view.current?.dispatch({ effects: themeSlot.current.reconfigure(resolvedTheme() === "day" ? fixwickDay : fixwickNight) });
+    const observer = new MutationObserver(apply);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    const mq = window.matchMedia("(prefers-color-scheme: light)");
+    mq.addEventListener("change", apply);
+    return () => {
+      observer.disconnect();
+      mq.removeEventListener("change", apply);
+    };
+  }, []);
 
   return <div ref={host} className={styles.editor} data-readonly={readOnly || undefined} />;
 }

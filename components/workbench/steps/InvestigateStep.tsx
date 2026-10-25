@@ -9,7 +9,8 @@ import { Button } from "../../ui/Button";
 import { PassIcon } from "../../ui/Icons";
 import { CodeWorkspace } from "../CodeWorkspace";
 import { useWorkbench } from "../context";
-import { JobSummary, NextRow, Prose, StepHeading } from "./common";
+import { NextRow, Prose, StepHeading } from "./common";
+import { Ticket } from "../Ticket";
 import styles from "./steps.module.css";
 
 export function InvestigateStepView({ step, row }: { step: InvestigateStep; row: StepProgressRow }) {
@@ -29,8 +30,7 @@ export function InvestigateStepView({ step, row }: { step: InvestigateStep; row:
 
   return (
     <>
-      <div className={areas.brief}>
-        <JobSummary />
+      <Ticket>
         <StepHeading step={step} />
         <Prose html={step.html} />
         <ol className={styles.tasks}>
@@ -39,7 +39,7 @@ export function InvestigateStepView({ step, row }: { step: InvestigateStep; row:
           ))}
         </ol>
         <NextRow row={row} />
-      </div>
+      </Ticket>
       <div className={areas.stage}>
         <CodeWorkspace stepId={step.id} files={["main.py"]} starter={{ "main.py": step.code }} checkRef={checkRef} filesRef={filesRef} />
       </div>

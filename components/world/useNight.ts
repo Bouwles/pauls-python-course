@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-/** True when the tool is in its night palette, so the world can show Saltmarsh at night. */
+/** True when the tool is in its night palette, so the world can show the town at night. */
 export function useNight(): boolean {
   const [night, setNight] = useState(false);
   useEffect(() => {

@@ -12,7 +12,7 @@ export function PenhallowNotes({ notes, jobTitles }: { notes: StoryNote[]; jobTi
   const found = notes.filter((n) => earned.has(n.id));
   if (found.length === 0) return null;
   return (
-    <section className={styles.notes} aria-labelledby="notes-title">
+    <section className={`frame-panel ${styles.notes}`} aria-labelledby="notes-title">
       <h2 id="notes-title" className={styles.title}>
         Penhallow&apos;s notes
       </h2>

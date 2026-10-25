@@ -1,53 +1,206 @@
+/* The Python Handbook: a reference, set in the game's frames. */
 .index,
 .page {
+  --slot: var(--panel);
+  --slot-hover: var(--panel-2);
   display: grid;
-  gap: var(--s-5);
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-6);
 }
 
 .head {
   display: grid;
-  gap: var(--s-2);
+  gap: var(--s-3);
 }
 
 .title {
-  font-size: var(--step-4);
+  font-size: var(--pixel-3);
 }
 
 .lede {
-  font-family: var(--font-prose);
   font-size: var(--prose-size);
-  color: var(--ink-2);
-  max-width: 60ch;
+  line-height: var(--lh-prose);
+  color: var(--text-2);
+  max-width: var(--measure);
 }
 
+/* ---- Search ---- */
 .controls {
   display: flex;
-  gap: var(--s-5);
+  gap: var(--s-3) var(--s-6);
   align-items: center;
   flex-wrap: wrap;
 }
 
+.search {
+  flex: 0 1 440px;
+  min-width: 0;
+}
+
 .search input {
-  min-height: 40px;
-  width: min(420px, 100%);
-  border: 1px solid var(--control-border);
-  border-radius: var(--r-2);
-  background: var(--paper-raised);
+  width: 100%;
+  min-height: 44px;
   padding: 0 var(--s-3);
+  background: var(--code-bg);
+  color: var(--text);
+  border: 2px solid var(--frame-hi);
+  box-shadow: inset 0 2px 0 var(--night-0);
   font-size: var(--step-0);
 }
 
+.search input::placeholder {
+  color: var(--text-2);
+}
+
+/* A pixel checkbox: a 2 px box that fills with lamp and a tick when on. */
 .check {
-  display: flex;
+  display: inline-flex;
   gap: var(--s-2);
   align-items: center;
-  font-size: var(--step--1);
   min-height: var(--touch);
+  font-size: var(--step--1);
+  cursor: pointer;
+}
+
+.check input {
+  appearance: none;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  padding: 0;
+  background: var(--code-bg);
+  border: 2px solid var(--frame-hi);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.check input:checked {
+  background: var(--lamp);
+  border-color: var(--lamp-dark);
+}
+
+.check input:checked::after {
+  content: "";
+  width: 12px;
+  height: 12px;
+  background: var(--night-0);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6' shape-rendering='crispEdges'%3E%3Cpath d='M5 0h1v1h-1zM4 1h2v1h-2zM0 2h1v1h-1zM3 2h2v1h-2zM0 3h4v1h-4zM1 4h2v1h-2z'/%3E%3C/svg%3E") no-repeat 0 0 / 12px 12px;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6' shape-rendering='crispEdges'%3E%3Cpath d='M5 0h1v1h-1zM4 1h2v1h-2zM0 2h1v1h-1zM3 2h2v1h-2zM0 3h4v1h-4zM1 4h2v1h-2z'/%3E%3C/svg%3E") no-repeat 0 0 / 12px 12px;
 }
 
 .count {
+  margin-left: auto;
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  color: var(--text-2);
+}
+
+/* ---- Contents and the Act panels ---- */
+.columns {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: var(--s-6);
+  align-items: start;
+}
+
+.contents {
+  position: sticky;
+  top: var(--s-4);
+  display: grid;
+  gap: var(--s-3);
+  max-height: calc(100vh - var(--s-8));
+  overflow: auto;
+}
+
+.contentsTitle {
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  color: var(--text-2);
+}
+
+.contentsList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s-1);
+}
+
+.contentsList a {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0 var(--s-2);
+  padding: var(--s-2);
+  color: var(--text);
+  text-decoration: none;
+  background: var(--slot);
+}
+
+.contentsList a:hover {
+  background: var(--slot-hover);
+}
+
+.contentsList a:hover .contentsName {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
+
+.contentsList .actNo {
+  grid-column: 1 / -1;
+}
+
+.contentsName {
   font-size: var(--step--1);
-  color: var(--ink-2);
+  line-height: 1.35;
+}
+
+.contentsCount {
+  align-self: end;
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  color: var(--text-2);
+}
+
+.actNo {
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  color: var(--accent-text);
+}
+
+.groups {
+  display: grid;
+  gap: var(--s-6);
+  min-width: 0;
+}
+
+.group {
+  display: grid;
+  gap: var(--s-4);
+  box-shadow: var(--shadow-hard);
+  scroll-margin-top: var(--s-4);
+  min-width: 0;
+}
+
+.groupTitle {
+  font-size: var(--pixel-2);
+}
+
+.groupTitle .actNo {
+  font-size: inherit;
+}
+
+.empty {
+  font-size: var(--prose-size);
 }
 
 .list {
@@ -55,37 +208,87 @@
   margin: 0;
   padding: 0;
   display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+  gap: var(--s-2);
 }
 
+/* Each entry is a slot in the panel; the whole slot opens the page. */
 .item {
+  position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) auto;
-  gap: var(--s-4);
-  align-items: baseline;
-  padding: var(--s-3) 0;
-  border-top: var(--hairline);
+  gap: var(--s-1);
+  align-content: start;
+  padding: var(--s-3) var(--s-3) var(--s-3) var(--s-4);
+  background: var(--slot);
+  min-width: 0;
+}
+
+.item:hover {
+  background: var(--slot-hover);
+}
+
+.item:has(.itemTitle:focus-visible) {
+  outline: 2px solid var(--lamp);
+  outline-offset: 2px;
 }
 
 .itemTitle {
-  font-family: var(--font-prose);
-  font-weight: 600;
+  font-weight: 700;
   font-size: var(--step-0);
+  line-height: 1.3;
+  color: var(--text);
   text-decoration: none;
+  overflow-wrap: anywhere;
 }
 
-.itemTitle:hover {
+.itemTitle::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.itemTitle:focus-visible {
+  outline: none;
+}
+
+.item:hover .itemTitle {
   text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
 }
 
 .itemMeta {
   font-size: var(--step--1);
-  color: var(--ink-2);
+  line-height: 1.4;
+  color: var(--text-2);
 }
 
+/* ---- Strength: four pips and a word ---- */
 .strength {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
   font-size: var(--step--1);
-  font-weight: 500;
-  color: var(--ink-2);
+  line-height: 1.4;
+  color: var(--text-2);
+}
+
+.pips {
+  display: inline-flex;
+  gap: 2px;
+  flex: none;
+}
+
+.pip,
+.pipOn {
+  width: 6px;
+  height: 10px;
+  background: var(--frame);
+  box-shadow: inset 0 -2px 0 var(--night-0);
+}
+
+.pipOn {
+  background: currentColor;
 }
 
 .strong,
@@ -99,58 +302,183 @@
 
 .fresh,
 .new {
-  color: var(--accent-ink);
+  color: var(--accent-text);
+}
+
+/* ---- A Handbook page ---- */
+.page {
+  gap: var(--s-8);
+}
+
+.crumbs {
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  margin-bottom: calc(-1 * var(--s-4));
+}
+
+.crumbs a {
+  text-decoration: none;
+}
+
+.crumbs a:hover {
+  text-decoration: underline;
+}
+
+.pageHead {
+  display: grid;
+  gap: var(--s-3);
+  justify-items: start;
+}
+
+.pageTitle {
+  font-size: var(--pixel-3);
+  overflow-wrap: anywhere;
+}
+
+.summary {
+  margin-top: calc(-1 * var(--s-2));
 }
 
 .example {
   display: grid;
-  gap: 0;
-  border: var(--hairline);
-  border-radius: var(--r-2);
-  overflow: hidden;
+  gap: var(--s-3);
+  box-shadow: var(--shadow-hard);
+  min-width: 0;
 }
 
 .exampleBar {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: var(--s-3);
-  padding: var(--s-2) var(--s-3);
-  border-bottom: var(--hairline);
 }
 
-.editor {
-  height: 200px;
-}
-
-.console {
-  height: 140px;
-  border-top: var(--hairline);
+.exampleTitle {
+  font-size: var(--pixel-2);
 }
 
 .hint {
   font-size: var(--step--1);
-  color: var(--ink-2);
+  line-height: 1.45;
+  color: var(--text-2);
+}
+
+/* The editor over its console, cut into the panel. */
+.well {
+  display: grid;
+  min-width: 0;
+  box-shadow: 0 0 0 2px var(--night-0);
+}
+
+.editor {
+  height: 240px;
+  overflow: auto;
+  background: var(--code-bg);
+}
+
+.console {
+  height: 160px;
+  box-shadow: 0 -2px 0 var(--night-0);
+}
+
+.section {
+  display: grid;
+  gap: var(--s-3);
 }
 
 .h2 {
-  font-size: var(--step-1);
-  margin-bottom: var(--s-2);
+  font-size: var(--pixel-2);
 }
 
-.bullets {
+.wrong,
+.bullets,
+.related {
+  list-style: none;
   margin: 0;
-  padding-left: 1.2em;
-  font-family: var(--font-prose);
+  padding: 0;
   display: grid;
-  gap: var(--s-1);
+  gap: var(--s-2);
+  font-size: var(--prose-size);
+  line-height: var(--lh-prose);
+  max-width: var(--measure);
 }
 
-@media (max-width: 700px) {
-  .item {
-    grid-template-columns: 1fr auto;
+.wrong li {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: var(--s-2);
+  align-items: start;
+}
+
+.wrongMark {
+  padding-top: 2px;
+  color: var(--danger-text);
+}
+
+.bullets li {
+  position: relative;
+  padding-left: var(--s-6);
+}
+
+/* A square lamp-coloured bullet, on the pixel grid. */
+.bullets li::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 0.6em;
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+}
+
+.related {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2) var(--s-5);
+}
+
+@media (max-width: 960px) {
+  .columns {
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .itemMeta {
-    grid-column: 1;
+  .contents {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .title,
+  .pageTitle {
+    font-size: var(--pixel-2);
+  }
+
+  .count {
+    margin-left: 0;
+  }
+
+  .search {
+    flex-basis: 100%;
+  }
+
+  .editor {
+    height: 220px;
+  }
+}
+
+/* Day: a day panel's body is the panel colour, so slots step down to the page colour instead. */
+:root[data-theme="light"] .index,
+:root[data-theme="light"] .page {
+  --slot: var(--bg);
+  --slot-hover: var(--frame);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .index,
+  :root[data-theme="system"] .page {
+    --slot: var(--bg);
+    --slot-hover: var(--frame);
   }
 }

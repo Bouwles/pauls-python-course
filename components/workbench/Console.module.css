@@ -1,9 +1,23 @@
+/* The console: output in chalk, what the learner types in lamp, tracebacks in brick. */
 .console {
   display: flex;
   flex-direction: column;
   min-height: 0;
   height: 100%;
-  background: var(--paper-raised);
+  background: var(--night-2);
+  color: var(--chalk);
+}
+
+:root[data-theme="light"] .console {
+  background: var(--code-bg);
+  color: var(--text);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .console {
+    background: var(--code-bg);
+    color: var(--text);
+  }
 }
 
 .scroll {
@@ -29,46 +43,80 @@
 }
 
 .prompt {
-  color: var(--ink);
+  color: inherit;
 }
 
 .input {
-  color: var(--accent-ink);
-  font-weight: 600;
+  color: var(--accent-text);
+  font-weight: 700;
 }
 
 .err {
-  color: var(--fail);
+  color: var(--danger-text);
 }
 
 .inputForm {
   display: inline;
+  position: relative;
+  cursor: text;
 }
 
-.inputForm .input {
+/* The block cursor: two frames, stepped, never a smooth fade. */
+.cursor {
   display: inline-block;
-  min-width: 12ch;
-  width: 40%;
-  border: none;
-  border-bottom: 1px solid var(--accent-ink);
-  background: var(--accent-wash);
-  font-family: var(--font-code);
-  font-variant-ligatures: none;
-  font-feature-settings: "liga" 0, "calt" 0;
-  font-size: var(--editor-font-size);
-  padding: 0 var(--s-1);
-  outline: none;
+  width: 0.6em;
+  height: 1.15em;
+  vertical-align: text-bottom;
+  background: var(--accent);
+  opacity: 0.5;
 }
 
-.inputForm .input:focus-visible {
-  outline: 2px solid var(--accent-ink);
-  outline-offset: 1px;
+.blink {
+  opacity: 1;
+  animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+  0%,
+  49% {
+    visibility: visible;
+  }
+
+  50%,
+  100% {
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blink {
+    animation: none;
+  }
+}
+
+:global(:root[data-motion="reduced"]) .blink {
+  animation: none;
+}
+
+.hiddenInput {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .status {
   margin-top: var(--s-2);
-  font-size: var(--step--1);
-  color: var(--ink-2);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 24px;
+  -webkit-font-smoothing: none;
+  color: var(--text-2);
 }
 
 .error {
@@ -82,33 +130,77 @@
   font-feature-settings: "liga" 0, "calt" 0;
   font-size: var(--editor-font-size);
   line-height: 1.5;
-  color: var(--fail);
+  color: var(--danger-text);
   white-space: pre-wrap;
 }
 
+/* Moss's error panel: a small dialogue box under the traceback. */
+.explainWrap {
+  position: relative;
+  margin-top: var(--s-4);
+  padding-top: 14px;
+  max-width: 860px;
+}
+
+.plate {
+  position: absolute;
+  top: 0;
+  left: calc(16px + 128px + var(--s-4));
+  z-index: 1;
+  height: 28px;
+  padding: 7px var(--s-3) 0;
+  background: var(--moss-green);
+  color: var(--night-0);
+  outline: 2px solid var(--night-0);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+}
+
 .explain {
-  margin-top: var(--s-3);
-  border-left: 2px solid var(--fail);
-  padding: var(--s-2) var(--s-3);
-  background: var(--fail-wash);
-  font-family: var(--font-prose);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--s-4);
+  align-items: start;
+}
+
+.portrait {
+  width: 128px;
+  height: 96px;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--night-2);
+  box-shadow: inset 0 0 0 2px var(--night-0);
+}
+
+.explainText {
+  display: grid;
+  gap: var(--s-2);
+  padding-top: var(--s-2);
+  font-family: var(--font-read);
   font-size: var(--prose-size);
   line-height: var(--lh-prose);
   max-width: var(--measure);
 }
 
-.explain > * + * {
-  margin-top: var(--s-1);
+.mossLine {
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 24px;
+  -webkit-font-smoothing: none;
 }
 
 .explainTitle {
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .loadError {
-  border-left: 2px solid var(--accent);
-  padding: var(--s-2) var(--s-3);
+  padding: var(--s-3);
   margin-bottom: var(--s-3);
+  background: var(--night-1);
+  box-shadow: inset 4px 0 0 var(--lamp);
 }
 
 .loadError pre {
@@ -132,6 +224,20 @@
 .figure {
   max-width: 100%;
   height: auto;
-  border: var(--hairline);
-  background: #fff;
+  background: var(--day-2);
+  box-shadow: 0 0 0 2px var(--night-0);
+}
+
+@media (max-width: 600px) {
+  .explain {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .portrait {
+    display: none;
+  }
+
+  .plate {
+    left: 16px;
+  }
 }

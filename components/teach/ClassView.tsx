@@ -70,12 +70,12 @@ export function ClassView({ cls, students, assignments, groups }: { cls: { id: s
     <div className={styles.page}>
       <header className={styles.head}>
         <Link href="/teach" className={styles.back}>
-          Your classes
+          <span aria-hidden="true">&lt; </span>Your classes
         </Link>
         <div className={styles.titleRow}>
           <h1 className={styles.title}>{cls.name}</h1>
-          <p className={styles.meta}>
-            Join code <CopyCode code={cls.joinCode} />
+          <p className={styles.joinCode}>
+            <span>Join code</span> <CopyCode code={cls.joinCode} />
           </p>
         </div>
         <p className={styles.meta}>
@@ -83,7 +83,7 @@ export function ClassView({ cls, students, assignments, groups }: { cls: { id: s
         </p>
       </header>
 
-      <section className={styles.section} aria-labelledby="students-title">
+      <section className={`frame-panel ${styles.section}`} aria-labelledby="students-title">
         <h2 id="students-title" className={styles.h2}>
           Students
         </h2>
@@ -138,16 +138,12 @@ export function ClassView({ cls, students, assignments, groups }: { cls: { id: s
   );
 }
 
+/** A pixel sort mark: both arrows dim when the column isn't sorted, one lit when it is. */
 function SortMark({ dir }: { dir: 1 | -1 | 0 }) {
   return (
-    <svg className={styles.sortMark} viewBox="0 0 10 10" aria-hidden="true">
-      {dir === 0 ? (
-        <path d="M2 4l3-3 3 3M2 6l3 3 3-3" fill="none" stroke="currentColor" strokeWidth="1.2" opacity="0.5" />
-      ) : dir === 1 ? (
-        <path d="M1.5 7l3.5-4 3.5 4z" fill="currentColor" />
-      ) : (
-        <path d="M1.5 3l3.5 4 3.5-4z" fill="currentColor" />
-      )}
+    <svg className={styles.sortMark} width="10" height="14" viewBox="0 0 5 7" shapeRendering="crispEdges" aria-hidden="true">
+      {dir !== -1 ? <path d="M2 0h1v1h1v1h1v1H0V2h1V1h1z" fill="currentColor" opacity={dir === 1 ? 1 : 0.4} /> : null}
+      {dir !== 1 ? <path d="M0 4h5v1H4v1H3v1H2V6H1V5H0z" fill="currentColor" opacity={dir === -1 ? 1 : 0.4} /> : null}
     </svg>
   );
 }
@@ -182,7 +178,7 @@ function Assignments({ classId, assignments, groups, members }: { classId: strin
   };
 
   return (
-    <section className={styles.section} aria-labelledby="set-title">
+    <section className={`frame-panel ${styles.section}`} aria-labelledby="set-title">
       <h2 id="set-title" className={styles.h2}>
         Jobs set for the class
       </h2>
@@ -226,7 +222,9 @@ function Assignments({ classId, assignments, groups, members }: { classId: strin
       )}
       <form className={styles.form} onSubmit={(e) => void set(e)}>
         <div className={[styles.field, styles.grow].join(" ")}>
-          <label htmlFor="set-job">Job</label>
+          <label htmlFor="set-job" className={styles.fieldLabel}>
+            Job
+          </label>
           <select id="set-job" value={jobId} onChange={(e) => setJobId(e.target.value)}>
             <option value="">Choose a Job</option>
             {groups.map((g) => (
@@ -241,10 +239,12 @@ function Assignments({ classId, assignments, groups, members }: { classId: strin
           </select>
         </div>
         <div className={styles.field}>
-          <label htmlFor="set-due">Due, if any</label>
+          <label htmlFor="set-due" className={styles.fieldLabel}>
+            Due, if any
+          </label>
           <input id="set-due" type="date" value={due} onChange={(e) => setDue(e.target.value)} />
         </div>
-        <Button type="submit" variant="secondary" disabled={!jobId || busy}>
+        <Button type="submit" variant="primary" disabled={!jobId || busy}>
           Set the Job
         </Button>
       </form>

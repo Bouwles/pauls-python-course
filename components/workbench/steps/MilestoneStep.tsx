@@ -8,7 +8,8 @@ import type { MilestoneStep } from "@/lib/content/types";
 import type { StepProgressRow } from "@/lib/store/types";
 import { Button } from "../../ui/Button";
 import { useWorkbench } from "../context";
-import { JobSummary, NextRow, Prose, StepHeading } from "./common";
+import { NextRow, Prose, StepHeading } from "./common";
+import { Ticket } from "../Ticket";
 import styles from "./steps.module.css";
 import th from "./TakeHome.module.css";
 
@@ -81,8 +82,7 @@ export function MilestoneStepView({ step, row }: { step: MilestoneStep; row: Ste
 
   return (
     <>
-      <div className={areas.brief}>
-        <JobSummary />
+      <Ticket>
         <StepHeading step={step} />
         <Prose html={step.html} />
         {step.testPlan ? (
@@ -116,7 +116,7 @@ export function MilestoneStepView({ step, row }: { step: MilestoneStep; row: Ste
           </section>
         ) : null}
         <NextRow row={row} />
-      </div>
+      </Ticket>
       <div className={areas.stage}>
         <div className={styles.stagePad}>
           <div className={th.guide}>

@@ -2,9 +2,9 @@
 // scripts/copy-lint.ts for UI strings. Code (inline or fenced) is ignored.
 
 const BANNED: [RegExp, string][] = [
-  [/unlock (your|their) potential/i, "unlock your potential"],
+  [/unlock (your|their)/i, "unlock your"],
   [/\bembark/i, "embark"],
-  [/(learning|coding|your) journey/i, "journey"],
+  [/\bjourney/i, "journey"],
   [/level[- ]up/i, "level up"],
   [/\bdive in\b|\bdive into\b|let'?s dive/i, "dive in"],
   [/\bseamless/i, "seamless"],
@@ -38,6 +38,9 @@ const AMERICAN: [RegExp, string][] = [
 
 const EMOJI = /\p{Extended_Pictographic}/u;
 
+// The old names (REDESIGN.md 1.1). Checked on the whole text, code included: they mustn't survive anywhere.
+const OLD_NAMES = /saltmarsh|paul('|&apos;|’)?s python course|pauls-python-course/i;
+
 export function stripCode(text: string): string {
   return text
     .replace(/```[\s\S]*?```/g, " ")
@@ -54,6 +57,7 @@ export interface LintOptions {
 
 export function lintText(text: string, opts: LintOptions = {}): string[] {
   const problems: string[] = [];
+  if (OLD_NAMES.test(text)) problems.push(`uses an old name ("${text.match(OLD_NAMES)![0]}"); write {{town}} in content, or BRAND from lib/brand.ts in code`);
   const prose = stripCode(text);
   if (/—|―/.test(prose)) problems.push("contains an em dash");
   if (/\s–\s/.test(prose)) problems.push("uses an en dash as a dash");

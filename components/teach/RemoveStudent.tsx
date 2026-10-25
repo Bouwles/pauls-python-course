@@ -23,7 +23,7 @@ export function RemoveStudent({ classId, className, studentId, name }: { classId
   if (!asking)
     return (
       <div className={styles.row}>
-        <Button variant="secondary" onClick={() => setAsking(true)}>
+        <Button variant="quiet" onClick={() => setAsking(true)}>
           Remove from {className}
         </Button>
       </div>

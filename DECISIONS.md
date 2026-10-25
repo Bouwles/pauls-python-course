@@ -3,11 +3,11 @@
 One line per non-obvious choice: the choice, then the reason.
 
 ## Owner decisions (Section 19, defaults in use)
-- Pricing: free during development; `entitlements` table exists, no payment code. Reason: spec default.
+- Pricing: freemium (REDESIGN.md 8). Act I and the Handbook are free; Pro is US$9 a month or US$72 a year, set in `lib/plans.ts` and the provider's dashboard. No ads anywhere. Reason: the redesign brief.
 - Hosting: Vercel plus Supabase free tiers; the owner supplies keys in `.env.local`. Until then the app runs on the local backend (below). Reason: spec default, and nothing should block on keys.
 - AI tutor: off and not built until Phase 4. Reason: spec default.
-- Spelling: British. Reason: spec default, suits Saltmarsh.
-- Analytics: self-hosted `events` table only. Reason: spec default.
+- Spelling: British. Reason: spec default, suits the town.
+- Analytics: self-hosted only: the learner's `events` table, and `funnel_events` for the owner's funnel (REDESIGN.md 9.3). No third-party trackers, no cookies for it. Reason: spec default.
 
 ## Environment
 - npm uses `registry.yarnpkg.com` (project `.npmrc`). Reason: the development network's Fortinet firewall re-signs TLS for registry.npmjs.org with an untrusted certificate; the Yarn mirror serves identical packages with valid TLS, so certificate checking stays on.
@@ -83,3 +83,28 @@ One line per non-obvious choice: the choice, then the reason.
 - Moss's code style review (Section 5.1) is a small AST-based checker in the harness (`review()` in ppc_runtime.py): Ruff can't run in Pyodide. It covers beginner-sized PEP 8 habits (names, shadowed built-ins, `== None`, `== True`, bare `except`, mutable defaults, unused imports, deep nesting, long lines, semicolons), shows at most three notes on the Ship screen, each with Moss's reason, and never stops a Job shipping.
 - The weekly note from Moss (Section 16) is opt-in in Settings, three lines, and skipped entirely in a quiet week. It's sent by a weekly cron (vercel.json, protected by CRON_SECRET) through Resend when RESEND_API_KEY is set; locally it lands in /dev/mailbox.
 - One-click push to GitHub (Section 8.7) uses the learner's own GitHub account through a GitHub OAuth app (scope public_repo), separate from sign-in, so it works however the learner signed up. The token is encrypted at rest and never reaches the browser. Without the owner's GitHub app the button is hidden and the zip export remains.
+
+## Redesign (REDESIGN.md)
+- Name: Fixwick, for the product and the town. Every brand string lives in `lib/brand.ts`; content writes `{{town}}` (`{{TOWN}}`, `{{town_id}}`) and the content compiler fills it in, so a rebrand is one edit. `npm run build` ends with `scripts/brand-check.ts`, which fails if "Saltmarsh" or "Paul's Python Course" survives in the build, the compiled content or public/. The copy lint fails on both names anywhere in content or UI, code included.
+- The learner's drawing module is now `workshop` (`from workshop import show_grid`), a story name rather than the brand, so it never changes with a rebrand.
+- Palette: one palette for art and interface. `palette.json` gained the UI colours (night-0 to night-4, chalk, fog, lamp, kelp, brick, sea, rust, moss green, plum, the day set) and character ramps; the sprite build's colour cap went from 24 to 64. `tokens.css` is generated from it by `scripts/build-tokens.ts` (`--art-<name>` for the world colours). Components use tokens only; `scripts/style-lint.ts` fails on raw colours, rounded corners, gradients, blurred shadows, backdrop filters, uppercase tracked labels, 1px hairlines and serif fonts.
+- Night is the default theme ("night shift at the workshop"); day is the second, and "Follow my device" is an option.
+- Type: m6x11plus by Daniel Linssen (free with attribution, credited in CREDITS.md) for game chrome at 18, 36 and 54 px only; Atkinson Hyperlegible Next for reading; JetBrains Mono for code with ligatures off. No serif anywhere; the old Source Serif, IBM Plex and first Atkinson packages are removed.
+- Frames are 24x24 9-slice sprites drawn at 2x with `border-image`; the paper's shadow is baked into its sprite. Pixel patterns (dotted paths, stripes, ruled lines) are SVG masks over a token colour, not gradients.
+- Icons are drawn in the sprite grids and bundled as SVG paths (`generated/icons.ts`); chalk pixels become `currentColor` so a button can recolour them.
+- The Workbench: HUD, step path (with Hint and Dennis), the paper job ticket on the left (foldable), the editor taking the rest (at least 60 per cent at 1440 px), Output and Checks under it at 35 per cent of the height, and the dialogue box across the bottom. Hints open inside the dialogue box (portalled from the step); Dennis is a drawer. The room scene only appears in the Ask and Ship cutscenes.
+- Dialogue portraits are 64x64 `portrait-<id>` sheets drawn at 3x and cropped to the box's 128 px, so eyes and mouths are kept in the top 43 rows. Until a character has a portrait, their world sprite stands in.
+- Reactive lines come from a cheap `ast` pass inside every Run (`code_events` in ppc_runtime.py: f-strings, names, loops that never run, long functions and lines) plus run and check results, mapped to pools in `lib/reactions.ts`. The last 30 lines shown are never repeated; a cue with nothing fresh says nothing. "First time" cues are remembered per learner.
+- Recap on return: after four hours away, Moss and the current client each say one line about where the learner was. Never guilt.
+- The Ship demo runs the learner's own program once on the client's "device" with the inputs from the first visible check, then the stamp lands on the ticket and the Shelf object flies to the HUD.
+- Payments: a `PaymentsProvider` interface (`lib/payments`) with Paddle Billing as the default (a merchant of record handles sales tax, VAT, invoices and chargebacks for a solo seller), Stripe Billing behind the same interface (`PAYMENTS_PROVIDER=stripe`), and a sandbox provider for development and tests whose checkout and portal are pages on this site and whose webhooks are signed like Paddle's and go through the same handler. Owner action: create the Paddle account and add its keys.
+- Webhooks are the source of truth. Each event id is stored (`payment_events`) so a repeat delivery is applied once; an event older than the last one applied to an entitlement is ignored. Past due keeps Pro for 7 days (one calm note in Settings); cancelled keeps it to the end of the paid period.
+- Gating is on the server. Pro projects' steps, tests and solutions only leave the server for learners who may open them (`lib/server/gate.ts`); a free learner gets 403s (tested in tests/unit/billing.test.ts). The first project of each Pro Act shows its Ask as a preview. A lapsed learner keeps every project they started, and everything they built stays readable and downloadable.
+- Paywalls appear only where the brief allows: the gate scene after the free Act's last project ships, a locked project or district. Never mid-lesson.
+- Classroom seats: a teacher buys seats for a class; a learner who joins with the class code takes a seat and has Pro until the seats expire.
+- Buying needs the buyer to say they're 18 or over, or under 18 with a parent's or guardian's permission; the answer is kept (`checkout_consents`). "Ask a parent" shares /pricing?for=parent, which explains it plainly for parents.
+- Certificates are a Pro feature for Acts II to IX (Act I is free), issued when every main project in the Act has shipped, with a public verification page, a PNG and a one-page PDF drawn on the server in palette pixels (no image or PDF libraries).
+- The OG image is drawn by the sprite build from the dusk harbour scene and the wordmark. Favicons come from the 16x16 mark.
+- Curriculum: nine Acts of real programs with plain names (content/CURRICULUM.md). Act I's projects got new ids (shop-sign, bill-splitter and so on); the old /job/<id> links redirect. A new Act III (Real-World Python, on the pier) sits between Fluent Python and the Scrapyard; the later Acts kept their ids and were renumbered.
+- Every written project has a `project_name`, a `portfolio_readme` (used for the README in Shelf downloads), `downloadable`, and `datasets` with sources and licences; the content build enforces them.
+

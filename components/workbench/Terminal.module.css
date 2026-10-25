@@ -3,8 +3,8 @@
   flex-direction: column;
   height: 100%;
   min-height: 0;
-  background: #1d2026;
-  color: #ebe5d5;
+  background: var(--art-harbour-night);
+  color: var(--art-sail-cloth);
   font-family: var(--font-code);
   font-size: var(--editor-font-size);
   font-variant-ligatures: none;
@@ -24,27 +24,27 @@
 }
 
 .cmd {
-  color: #eedb9b;
+  color: var(--art-lamp-glow);
 }
 
 .err {
-  color: #e48a78;
+  color: var(--art-tomato-highlight);
 }
 
 .add {
-  color: #a5ba72;
+  color: var(--art-shell-highlight);
 }
 
 .del {
-  color: #e48a78;
+  color: var(--art-tomato-highlight);
 }
 
 .conflict {
-  color: #d8b65a;
+  color: var(--art-lamp);
 }
 
 .prompt {
-  color: #90b0a2;
+  color: var(--art-foam);
   white-space: nowrap;
 }
 
@@ -59,13 +59,13 @@
   flex: 1;
   background: transparent;
   border: none;
-  color: #ebe5d5;
+  color: var(--art-sail-cloth);
   font-family: var(--font-code);
   font-size: var(--editor-font-size);
   outline: none;
-  caret-color: #eedb9b;
+  caret-color: var(--art-lamp-glow);
 }
 
 .input:focus-visible {
-  box-shadow: 0 1px 0 #eedb9b;
+  box-shadow: 0 1px 0 var(--art-lamp-glow);
 }

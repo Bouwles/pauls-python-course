@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Page } from "@/components/site/Page";
 import { Doc } from "@/components/legal/Doc";
+import { BRAND } from "@/lib/brand";
 
 export const metadata: Metadata = { title: "Terms" };
 
@@ -9,7 +10,7 @@ export default function Terms() {
     <Page narrow>
       <Doc title="Terms" draft>
         <h2>The course</h2>
-        <p>Paul&apos;s Python Course is free to use while it is being built. Things may change, break or be rewritten as it grows.</p>
+        <p>{BRAND.name} is free to use while it is being built. Things may change, break or be rewritten as it grows.</p>
         <h2>Your work is yours</h2>
         <p>The programs you write belong to you. You can export them at any time and use them however you like.</p>
         <h2>Using it fairly</h2>

@@ -19,10 +19,10 @@ describe("local store", () => {
 
   it("moves guest work into an account and queues all of it", async () => {
     const guest = new LocalStore(`g-${Math.random()}`);
-    await updateStep(guest, "sign-on-the-door", "make", { status: "passed" });
+    await updateStep(guest, "shop-sign", "make", { status: "passed" });
     const mine = new LocalStore(`u-${Math.random()}`);
     expect(await mine.absorb(guest)).toBeGreaterThan(0);
-    expect((await mine.get("step_progress", "sign-on-the-door/make"))?.status).toBe("passed");
+    expect((await mine.get("step_progress", "shop-sign/make"))?.status).toBe("passed");
     expect(await mine.outboxSize()).toBeGreaterThan(0);
   });
 

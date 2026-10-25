@@ -34,6 +34,21 @@ import type {
 } from "./types";
 import type { Files, TestMeta } from "../python/protocol";
 import { lintText } from "./lint";
+import { BRAND } from "../brand";
+
+/**
+ * Content writes {{town}} where the town's name goes (REDESIGN.md 1.2), so a rebrand is one edit in
+ * lib/brand.ts. {{TOWN}} is the name in capitals (signs, headlines) and {{town_id}} the lowercase
+ * form for file names and Python identifiers.
+ */
+export function brandText(text: string): string {
+  return text
+    .replace(/\{\{town\}\}/g, BRAND.townName)
+    .replace(/\{\{TOWN\}\}/g, BRAND.townName.toUpperCase())
+    .replace(/\{\{town_id\}\}/g, BRAND.townName.toLowerCase().replace(/[^a-z0-9]+/g, "_"));
+}
+
+const read = (file: string): string => brandText(fs.readFileSync(file, "utf8"));
 
 export interface BuildResult {
   index: ContentIndex;
@@ -81,7 +96,7 @@ function proseWords(body: string): number {
 const BROKEN = Symbol("broken yaml");
 
 function readYaml(file: string): unknown {
-  return YAML.parse(fs.readFileSync(file, "utf8"));
+  return YAML.parse(read(file));
 }
 
 function yamlProblem(err: unknown): string {
@@ -106,7 +121,7 @@ function readFilesUnder(dir: string): Files {
     for (const name of listDir(d)) {
       const p = path.join(d, name);
       if (fs.statSync(p).isDirectory()) walk(p);
-      else out[path.relative(dir, p).split(path.sep).join("/")] = fs.readFileSync(p, "utf8");
+      else out[path.relative(dir, p).split(path.sep).join("/")] = read(p);
     }
   };
   walk(dir);
@@ -250,6 +265,19 @@ export async function loadContent(root: string, opts: LoadOptions = {}): Promise
     };
   }
   for (const c of Object.values(concepts)) for (const r of c.related) if (!concepts[r]) errors.push(`concepts/${c.id}.yaml: unknown related concept "${r}"`);
+
+  // -- the Python Handbook's long-form pages (REDESIGN.md 9.1): content/handbook/<concept-id>.md
+  for (const name of listDir(path.join(root, "handbook")).filter((n) => n.endsWith(".md"))) {
+    const id = name.replace(/\.md$/, "");
+    const hFile = path.join(root, "handbook", name);
+    if (!concepts[id]) {
+      errors.push(`${rel(hFile)}: no concept "${id}"`);
+      continue;
+    }
+    const text = read(hFile);
+    lint(text, rel(hFile), true);
+    concepts[id]!.handbookHtml = md(text);
+  }
   for (const m of Object.values(misconceptions)) if (!concepts[m.concept]) errors.push(`misconceptions.yaml ${m.id}: unknown concept "${m.concept}"`);
 
   // -- story -------------------------------------------------------------------
@@ -292,6 +320,9 @@ export async function loadContent(root: string, opts: LoadOptions = {}): Promise
     const summary: JobSummary = {
       id: job.id,
       title: job.title,
+      projectName: job.project_name,
+      downloadable: job.downloadable,
+      datasets: job.datasets,
       status: job.status,
       client: job.client,
       building: job.building,
@@ -314,6 +345,9 @@ export async function loadContent(root: string, opts: LoadOptions = {}): Promise
       errors.push(`${rel(jy)}: a written job needs ask and ship`);
       return null;
     }
+    // REDESIGN.md 7.3: every written project has a portfolio README, and its datasets are real files with licences.
+    if (!job.portfolio_readme && !job.placement_for) errors.push(`${rel(jy)}: a written project needs a portfolio_readme`);
+    for (const d of job.datasets) if (!fs.existsSync(path.join(jobPath, "data", d.file))) errors.push(`${rel(jy)}: dataset ${d.name} names data/${d.file}, which isn't there`);
     if (!job.ship.shelf && !job.placement_for) errors.push(`${rel(jy)}: ship needs a shelf object`);
     for (const cid of job.concepts_introduced) {
       const c = concepts[cid];
@@ -353,7 +387,7 @@ export async function loadContent(root: string, opts: LoadOptions = {}): Promise
       let data: unknown;
       let body: string;
       try {
-        ({ data, body } = splitFrontmatter(fs.readFileSync(stepPathFile, "utf8")));
+        ({ data, body } = splitFrontmatter(read(stepPathFile)));
       } catch (err) {
         errors.push(`${rel(stepPathFile)}: the frontmatter YAML doesn't parse: ${yamlProblem(err)}`);
         continue;
@@ -379,7 +413,7 @@ export async function loadContent(root: string, opts: LoadOptions = {}): Promise
           errors.push(`${where}: missing tests/${st.id}.py`);
           return null;
         }
-        const testSource = fs.readFileSync(testFile, "utf8");
+        const testSource = read(testFile);
         tests[key] = testSource;
         const meta = await describe(testSource, rel(testFile));
         for (const m of meta) if (m.hint) lint(m.hint, `${rel(testFile)} ${m.name}`);
@@ -510,7 +544,7 @@ export async function loadContent(root: string, opts: LoadOptions = {}): Promise
             const testFile = path.join(jobPath, "tests", `${s.id}.py`);
             if (!fs.existsSync(testFile)) errors.push(`${where}: missing tests/${s.id}.py`);
             else {
-              tests[key] = fs.readFileSync(testFile, "utf8");
+              tests[key] = read(testFile);
               await describe(tests[key]!, rel(testFile));
             }
             solutions[key] = { "main.py": keyed.map((b) => "    ".repeat(b.indent) + b.code).join("\n") + "\n" };
@@ -570,7 +604,7 @@ export async function loadContent(root: string, opts: LoadOptions = {}): Promise
             testCount,
             minPassed: s.min_passed ?? testCount,
             heavy: s.heavy,
-            folder: `saltmarsh-${job.id}`,
+            folder: `${BRAND.townName.toLowerCase()}-${job.id}`,
           });
           lastGate = s.id;
           break;
@@ -627,12 +661,12 @@ export async function loadContent(root: string, opts: LoadOptions = {}): Promise
       if (t.tests) {
         const tf = path.join(jobPath, t.tests);
         if (!fs.existsSync(tf)) errors.push(`${rel(jy)}: stretch ${t.id} tests file ${t.tests} not found`);
-        else tests[`${job.id}/stretch-${t.id}`] = fs.readFileSync(tf, "utf8");
+        else tests[`${job.id}/stretch-${t.id}`] = read(tf);
         if (!t.solution) errors.push(`${rel(jy)}: stretch ${t.id} has tests but no solution`);
         else {
           const sf = path.join(jobPath, t.solution);
           if (!fs.existsSync(sf)) errors.push(`${rel(jy)}: stretch ${t.id} solution ${t.solution} not found`);
-          else solutions[`${job.id}/stretch-${t.id}`] = fs.statSync(sf).isDirectory() ? readFilesUnder(sf) : { "main.py": fs.readFileSync(sf, "utf8") };
+          else solutions[`${job.id}/stretch-${t.id}`] = fs.statSync(sf).isDirectory() ? readFilesUnder(sf) : { "main.py": read(sf) };
         }
       }
       return { id: t.id, title: t.title, promptHtml: md(t.prompt), hasTests: Boolean(t.tests) };
@@ -646,6 +680,7 @@ export async function loadContent(root: string, opts: LoadOptions = {}): Promise
       steps,
       stretch,
       storyNote: job.story_note ?? null,
+      portfolioReadme: job.portfolio_readme ?? null,
       data: readFilesUnder(path.join(jobPath, "data")),
     };
     return summary;
@@ -675,7 +710,7 @@ export async function loadContent(root: string, opts: LoadOptions = {}): Promise
       }
       let jid: string | undefined;
       try {
-        jid = (YAML.parse(fs.readFileSync(jy, "utf8")) as { id?: string })?.id;
+        jid = (YAML.parse(read(jy)) as { id?: string })?.id;
       } catch {
         jid = undefined; // reported when the job is loaded
       }

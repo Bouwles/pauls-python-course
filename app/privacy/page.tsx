@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import { Page } from "@/components/site/Page";
 import { Doc } from "@/components/legal/Doc";
+import { BRAND } from "@/lib/brand";
 
 export const metadata: Metadata = { title: "Privacy" };
 
 export default function Privacy() {
   return (
     <Page narrow>
-      <Doc title="Privacy" draft>
-        <p>This page says what Paul&apos;s Python Course keeps about you, why, and how to take it back.</p>
+      <Doc title="Privacy" lede={`What ${BRAND.name} keeps about you, why, and how to take it back.`} draft>
         <h2>What we keep</h2>
         <ul>
           <li>Your email address, so you can log in.</li>

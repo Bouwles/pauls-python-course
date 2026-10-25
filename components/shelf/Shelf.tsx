@@ -1,15 +1,14 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useSession } from "@/lib/store/session";
 import { getCode } from "@/lib/store/progress";
 import type { JobProgressRow } from "@/lib/store/types";
 import { isShipped } from "@/lib/progress-rules";
 import { download, projectFolder, readme, repoReadme, slug, zip, type ShelfItem } from "@/lib/export";
 import type { Files } from "@/lib/python/protocol";
-import { Button } from "../ui/Button";
-import { RunIcon, StopIcon } from "../ui/Icons";
+import { Button, LinkButton } from "../ui/Button";
+import { PixelIcon } from "../ui/PixelIcon";
 import { Editor } from "../workbench/Editor";
 import { Console } from "../workbench/Console";
 import { useRunner } from "../workbench/useRunner";
@@ -17,12 +16,32 @@ import { ShelfObject } from "./ShelfObject";
 import { GitHubPush } from "./GitHubPush";
 import styles from "./Shelf.module.css";
 
-const PER_SHELF = 6;
+/** The narrowest an object's place on a shelf gets, so its paper label stays readable. */
+const SLOT = 150;
+const MAX_PER_SHELF = 6;
+
+/** How many objects fit on one shelf at the wall's current width. Also used by the public profile. */
+export function usePerShelf(ready: boolean) {
+  const wall = useRef<HTMLDivElement>(null);
+  const [per, setPer] = useState(4);
+  useEffect(() => {
+    const el = wall.current;
+    if (!el) return;
+    const fit = (width: number) => setPer(Math.min(MAX_PER_SHELF, Math.max(2, Math.floor(width / SLOT))));
+    fit(el.clientWidth);
+    const ro = new ResizeObserver(([e]) => e && fit(e.contentRect.width));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [ready]);
+  return { wall, per };
+}
 
 export function Shelf({ items }: { items: ShelfItem[] }) {
   const { store, profile, ready } = useSession();
   const [progress, setProgress] = useState<Record<string, JobProgressRow>>({});
   const [selected, setSelected] = useState<string | null>(null);
+  const { wall, per } = usePerShelf(ready);
+  const detail = useRef<HTMLElement>(null);
 
   useEffect(() => {
     if (!store) return;
@@ -51,7 +70,7 @@ export function Shelf({ items }: { items: ShelfItem[] }) {
       const folder = projectFolder(i);
       for (const [f, c] of Object.entries(code)) files[`${folder}/${f}`] = c;
       for (const [f, c] of Object.entries(i.data)) files[`${folder}/${f}`] = c;
-      files[`${folder}/README.md`] = readme(i, progress[i.jobId]?.shippedAt ?? null);
+      files[`${folder}/README.md`] = readme(i, progress[i.jobId]?.shippedAt ?? null, profile.displayName);
       list.push({ item: i, shippedAt: progress[i.jobId]?.shippedAt ?? null });
     }
     files["README.md"] = repoReadme(list, profile.displayName);
@@ -64,10 +83,16 @@ export function Shelf({ items }: { items: ShelfItem[] }) {
     download(`${repoName}.zip`, zip(await repoFiles()), "application/zip");
   };
 
+  const pick = (id: string) => {
+    setSelected(id);
+    // On a phone the panel opens under the shelves: bring it into view.
+    if (window.matchMedia("(max-width: 1000px)").matches) requestAnimationFrame(() => detail.current?.scrollIntoView({ block: "start" }));
+  };
+
   if (!ready) return null;
 
   const shelves: ShelfItem[][] = [];
-  for (let i = 0; i < Math.max(shipped.length, 1); i += PER_SHELF) shelves.push(shipped.slice(i, i + PER_SHELF));
+  for (let i = 0; i < Math.max(shipped.length, 1); i += per) shelves.push(shipped.slice(i, i + per));
 
   return (
     <div className={styles.layout}>
@@ -78,43 +103,54 @@ export function Shelf({ items }: { items: ShelfItem[] }) {
           </h1>
           {shipped.length ? (
             <div className={styles.exportRow}>
-              <Button variant="secondary" onClick={() => void exportAll()}>
+              <Button variant="quiet" onClick={() => void exportAll()}>
                 Export everything as a repository
               </Button>
               <GitHubPush defaultName={repoName} files={repoFiles} />
             </div>
           ) : null}
         </div>
-        <p className={styles.lede}>{shipped.length === 0 ? "Nothing on the shelf yet. Bea's till is first." : `The back room of the workshop. ${shipped.length} ${shipped.length === 1 ? "thing" : "things"} you've made, each one still works.`}</p>
-        <div className={styles.unit}>
+        <p className={styles.lede}>{shipped.length === 0 ? "Nothing on the shelf yet. Bea's till is first." : `The back room of the workshop. ${shipped.length} ${shipped.length === 1 ? "thing" : "things"} you've made, and each one still works.`}</p>
+        <div className={styles.wall} ref={wall}>
           {shelves.map((row, r) => (
-            <ul key={r} className={styles.board} aria-label={`Shelf ${r + 1}`}>
+            <ul key={r} className={styles.board} style={{ "--per": per } as React.CSSProperties} aria-label={`Shelf ${r + 1}`}>
               {row.map((i) => (
-                <li key={i.jobId}>
-                  <button className={[styles.object, selected === i.jobId ? styles.on : ""].join(" ")} onClick={() => setSelected(i.jobId)} aria-pressed={selected === i.jobId}>
-                    <ShelfObject id={i.shelf.object} />
-                    <span className={styles.objectLabel}>{i.shelf.label}</span>
+                <li key={i.jobId} className={styles.slot}>
+                  <button className={[styles.object, selected === i.jobId ? styles.on : ""].join(" ")} onClick={() => pick(i.jobId)} aria-pressed={selected === i.jobId}>
+                    <span className={styles.art}>
+                      <ShelfObject id={i.shelf.object} scale={4} />
+                    </span>
+                    <span className={`frame-paper ${styles.tag}`}>{i.shelf.label}</span>
                   </button>
                 </li>
               ))}
               {row.length === 0 ? (
                 <li className={styles.emptySlot}>
-                  <Link href="/job/sign-on-the-door">Start with the sign on the door</Link>
+                  <LinkButton href="/job/shop-sign" variant="primary">
+                    Start with the sign on the door
+                  </LinkButton>
                 </li>
               ) : null}
             </ul>
           ))}
         </div>
-        <p className={styles.note}>The repository export has a folder for each Act, your code, and a README for each project describing the brief and what it uses. Unzip it and push it to GitHub as it is.</p>
+        {shipped.length ? <p className={styles.note}>The repository export has a folder for each Act, your code, and a README for each project describing the brief and what it uses. Unzip it and push it to GitHub as it is.</p> : null}
       </section>
-      <aside className={styles.detail} aria-live="polite">
-        {item ? <Detail key={item.jobId} item={item} row={progress[item.jobId]!} codeFor={codeFor} /> : shipped.length ? <p className={styles.note}>Pick something off the shelf to see it, run it again, or download it.</p> : null}
+      <aside ref={detail} className={styles.side} aria-live="polite" aria-label="On the bench">
+        {item ? (
+          <Detail key={item.jobId} item={item} row={progress[item.jobId]!} codeFor={codeFor} onClose={() => setSelected(null)} />
+        ) : shipped.length ? (
+          <div className={`frame-panel ${styles.idle}`}>
+            <p className={styles.idleTitle}>On the bench</p>
+            <p className={styles.idleText}>Pick something off the shelf to see its code, run it again, or download it.</p>
+          </div>
+        ) : null}
       </aside>
     </div>
   );
 }
 
-function Detail({ item, row, codeFor }: { item: ShelfItem; row: JobProgressRow; codeFor: (i: ShelfItem) => Promise<Files> }) {
+function Detail({ item, row, codeFor, onClose }: { item: ShelfItem; row: JobProgressRow; codeFor: (i: ShelfItem) => Promise<Files>; onClose: () => void }) {
   const runner = useRunner();
   const [code, setCode] = useState<Files | null>(null);
   const [file, setFile] = useState(item.entry);
@@ -124,52 +160,72 @@ function Detail({ item, row, codeFor }: { item: ShelfItem; row: JobProgressRow; 
   }, [item.jobId]);
   const running = runner.state.phase === "running" || runner.state.phase === "starting";
   const date = row.shippedAt ? new Date(row.shippedAt).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) : "";
+  const projectFiles = (c: Files) => ({ ...Object.fromEntries(Object.entries(c)), ...item.data, "README.md": readme(item, row.shippedAt) });
   const downloadIt = () => {
     if (!code) return;
     const names = Object.keys(code);
     if (names.length === 1 && Object.keys(item.data).length === 0) download(`${item.jobId}.py`, code[names[0]!]!, "text/x-python");
-    else download(`${item.jobId}.zip`, zip({ ...Object.fromEntries(Object.entries(code)), ...item.data, "README.md": readme(item, row.shippedAt) }), "application/zip");
+    else download(`${item.jobId}.zip`, zip(projectFiles(code)), "application/zip");
   };
+  const pushFiles = async () => projectFiles(code ?? (await codeFor(item)));
   return (
-    <div className={styles.detailInner}>
-      <p className="label">
-        Act {item.actNumber}, job {item.number}
-      </p>
-      <h2 className={styles.detailTitle}>{item.title}</h2>
-      <p className={styles.meta}>
-        For {item.client}, {item.building.replace(/^The /, "the ")}. Shipped {date}
-        {row.status === "shipped-stretch" ? ", with a stretch task" : ""}.
-      </p>
-      {code && Object.keys(code).length > 1 ? (
-        <div className={styles.fileTabs} role="tablist">
-          {Object.keys(code).map((f) => (
-            <button key={f} role="tab" aria-selected={f === file} onClick={() => setFile(f)}>
-              {f}
-            </button>
-          ))}
+    <article className={`frame-panel ${styles.detail}`} aria-labelledby="detail-title">
+      <header className={styles.detailHead}>
+        <span className={styles.detailArt}>
+          <ShelfObject id={item.shelf.object} scale={3} />
+        </span>
+        <div className={styles.detailText}>
+          <h2 id="detail-title" className={styles.detailTitle}>
+            {item.title}
+          </h2>
+          <p className={styles.meta}>
+            Act {item.actNumber}, job {item.number}. For {item.client}, {item.building.replace(/^The /, "the ")}.
+          </p>
+          <p className={styles.meta}>
+            Shipped {date}
+            {row.status === "shipped-stretch" ? ", with a stretch task" : ""}.
+          </p>
         </div>
-      ) : null}
-      <div className={styles.code}>{code ? <Editor docKey={`${item.jobId}/${file}`} value={code[file] ?? ""} readOnly label={`${item.title}, ${file}`} /> : null}</div>
+        <button type="button" className={styles.close} onClick={onClose} title="Put it back on the shelf">
+          <PixelIcon name="cross" />
+          <span className="visually-hidden">Put it back on the shelf</span>
+        </button>
+      </header>
+      <div className={styles.codeBlock}>
+        {code && Object.keys(code).length > 1 ? (
+          <div className={styles.fileTabs} role="tablist" aria-label="Files">
+            {Object.keys(code).map((f) => (
+              <button key={f} role="tab" aria-selected={f === file} onClick={() => setFile(f)}>
+                {f}
+              </button>
+            ))}
+          </div>
+        ) : (
+          <p className={styles.fileName}>{item.entry}</p>
+        )}
+        <div className={styles.code}>{code ? <Editor docKey={`${item.jobId}/${file}`} value={code[file] ?? ""} readOnly label={`${item.title}, ${file}`} /> : null}</div>
+      </div>
       <div className={styles.actions}>
         {running ? (
-          <Button size="sm" variant="danger" icon={<StopIcon />} onClick={runner.stop}>
+          <Button variant="danger" pixelIcon="stop" onClick={runner.stop}>
             Stop
           </Button>
         ) : (
-          <Button size="sm" variant="primary" icon={<RunIcon />} onClick={() => code && void runner.run({ ...item.data, ...code }, item.entry)} disabled={!code}>
+          <Button variant="go" pixelIcon="run" onClick={() => code && void runner.run({ ...item.data, ...code }, item.entry)} disabled={!code}>
             Run it again
           </Button>
         )}
-        <Button size="sm" variant="secondary" onClick={downloadIt} disabled={!code}>
+        <Button variant="quiet" onClick={downloadIt} disabled={!code}>
           Download
         </Button>
-        <Link href={`/job/${item.jobId}`} className={styles.meta}>
+        <GitHubPush defaultName={item.jobId} files={pushFiles} />
+        <LinkButton href={`/job/${item.jobId}`} variant="quiet">
           Open the job
-        </Link>
+        </LinkButton>
       </div>
       <div className={styles.console}>
         <Console state={runner.state} source={code?.[item.entry] ?? ""} onInput={runner.provideInput} onRetry={() => void runner.retryLoad()} />
       </div>
-    </div>
+    </article>
   );
 }

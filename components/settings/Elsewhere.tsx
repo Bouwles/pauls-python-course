@@ -1,11 +1,12 @@
 "use client";
 
-// Settings: the account's connections beyond this browser: classes, the public profile, the ppc tool.
+// Settings: the account's connections beyond this browser: classes, the public profile, the command-line tool.
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSession } from "@/lib/store/session";
 import { DEFAULT_SETTINGS } from "@/lib/store/types";
 import { Button } from "../ui/Button";
+import { Choice, Panel } from "./controls";
 import styles from "./Settings.module.css";
 import own from "./Elsewhere.module.css";
 
@@ -18,7 +19,7 @@ interface Token {
 
 const day = (ms: number) => new Date(ms).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
 
-/** ppc tools signed in with a device code (Section 10.5). */
+/** Command-line tools signed in with a device code (Section 10.5). */
 export function ConnectedTools() {
   const [tokens, setTokens] = useState<Token[] | null>(null);
   const load = () =>
@@ -30,7 +31,7 @@ export function ConnectedTools() {
   if (tokens === null) return null;
   return (
     <div className={styles.field}>
-      <span>The ppc tool</span>
+      <span className={styles.legend}>The command-line tool</span>
       {tokens.length === 0 ? (
         <p className={styles.hint}>Not connected. Take It Home Jobs explain how to set it up.</p>
       ) : (
@@ -74,21 +75,8 @@ async function patchProfile(body: { teacher?: boolean; slug?: string | null }): 
 }
 
 /** A two-way setting, drawn like the others on the Settings page. */
-function Switch({ label, name, on, labels, onChange, hint }: { label: string; name: string; on: boolean; labels: [string, string]; onChange: (on: boolean) => void; hint?: string }) {
-  return (
-    <fieldset className={styles.choice}>
-      <legend>{label}</legend>
-      <div className={styles.options}>
-        {([false, true] as const).map((v, i) => (
-          <label key={String(v)} className={[styles.option, on === v ? styles.on : ""].join(" ")}>
-            <input type="radio" name={name} checked={on === v} onChange={() => onChange(v)} />
-            {labels[i]}
-          </label>
-        ))}
-      </div>
-      {hint ? <p className={styles.hint}>{hint}</p> : null}
-    </fieldset>
-  );
+function Switch({ label, name, on, labels, onChange, hint, hideLabel }: { label: string; name: string; on: boolean; labels: [string, string]; onChange: (on: boolean) => void; hint?: string; hideLabel?: boolean }) {
+  return <Choice label={label} name={name} value={on ? "on" : "off"} options={[["off", labels[0]], ["on", labels[1]]]} onChange={(v) => onChange(v === "on")} hint={hint} hideLabel={hideLabel} />;
 }
 
 /** Classes this learner is in, joining with a code, and the teaching switch (Section 8.10). */
@@ -129,14 +117,11 @@ export function Classes({ flags, onFlags }: { flags: Flags; onFlags: (f: Flags) 
   };
 
   return (
-    <section className={styles.section} aria-labelledby="s-classes">
-      <h2 id="s-classes" className={styles.h2}>
-        Classes
-      </h2>
+    <Panel id="s-classes" title="Classes">
       <p className={styles.hint}>If a teacher gave you a class code, join here. Your teacher can see your progress, test results, time and code for as long as you stay in the class.</p>
       <form className={own.joinRow} onSubmit={(e) => void join(e)}>
         <label className={styles.field}>
-          <span>Class code</span>
+          <span className={styles.legend}>Class code</span>
           <input
             className={own.code}
             value={code}
@@ -149,7 +134,7 @@ export function Classes({ flags, onFlags }: { flags: Flags; onFlags: (f: Flags) 
             aria-invalid={error ? true : undefined}
           />
         </label>
-        <Button type="submit" variant="secondary" disabled={busy || code.replace(/[\s-]/g, "").length !== 6}>
+        <Button type="submit" variant="quiet" disabled={busy || code.replace(/[\s-]/g, "").length !== 6}>
           Join
         </Button>
       </form>
@@ -208,7 +193,7 @@ export function Classes({ flags, onFlags }: { flags: Flags; onFlags: (f: Flags) 
           <Link href="/teach">Your classes</Link>: make one, share its code, set Jobs and follow each student.
         </p>
       ) : null}
-    </section>
+    </Panel>
   );
 }
 
@@ -245,17 +230,14 @@ export function PublicProfile({ flags, onFlags }: { flags: Flags; onFlags: (f: F
   const url = flags.slug ? `${origin}/u/${flags.slug}` : "";
 
   return (
-    <section className={styles.section} aria-labelledby="s-public">
-      <h2 id="s-public" className={styles.h2}>
-        Public profile
-      </h2>
+    <Panel id="s-public" title="Public profile">
       <p className={styles.hint}>
         A page anyone with the address can open. It shows your display name, your character, and the Jobs you have shipped with their Shelf objects. Nothing else: no code, no times, no email.
       </p>
-      <Switch label="Public profile" name="public-profile" on={on} labels={["Off", "On"]} onChange={(v) => void toggle(v)} />
+      <Switch hideLabel label="Public profile" name="public-profile" on={on} labels={["Off", "On"]} onChange={(v) => void toggle(v)} />
       <form className={own.joinRow} onSubmit={(e) => void save(e)}>
         <label className={styles.field}>
-          <span>Address</span>
+          <span className={styles.legend}>Address</span>
           <span className={own.address}>
             <span className={own.prefix} aria-hidden="true">
               /u/
@@ -272,7 +254,7 @@ export function PublicProfile({ flags, onFlags }: { flags: Flags; onFlags: (f: F
             />
           </span>
         </label>
-        <Button type="submit" variant="secondary" disabled={!changed || (slug !== "" && !valid)}>
+        <Button type="submit" variant="quiet" disabled={!changed || (slug !== "" && !valid)}>
           {slug === "" && flags.slug ? "Remove address" : "Save address"}
         </Button>
       </form>
@@ -296,7 +278,7 @@ export function PublicProfile({ flags, onFlags }: { flags: Flags; onFlags: (f: F
       ) : url ? (
         <p className={styles.meta}>Switch it on to publish the page at this address.</p>
       ) : null}
-    </section>
+    </Panel>
   );
 }
 
@@ -312,7 +294,7 @@ function GitHubConnection() {
   if (!status?.enabled) return null;
   return (
     <div className={styles.field}>
-      <span>GitHub</span>
+      <span className={styles.legend}>GitHub</span>
       {status.connected ? (
         <ul className={styles.list}>
           <li>
@@ -341,13 +323,10 @@ export function Elsewhere() {
     <>
       {flags ? <Classes flags={flags} onFlags={setFlags} /> : null}
       {flags ? <PublicProfile flags={flags} onFlags={setFlags} /> : null}
-      <section className={styles.section} aria-labelledby="s-elsewhere">
-        <h2 id="s-elsewhere" className={styles.h2}>
-          Connections
-        </h2>
+      <Panel id="s-elsewhere" title="Connections">
         <ConnectedTools />
         <GitHubConnection />
-      </section>
+      </Panel>
     </>
   );
 }

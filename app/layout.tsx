@@ -1,64 +1,56 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import "@fontsource/ibm-plex-sans/latin-400-italic.css";
 import "@fontsource-variable/jetbrains-mono/wght.css";
-import "@fontsource/atkinson-hyperlegible/latin-400.css";
-import "@fontsource/atkinson-hyperlegible/latin-700.css";
 import "./globals.css";
 import { SessionProvider } from "@/lib/store/session";
 import { getSessionUser } from "@/lib/server/auth";
 import { ServiceWorker } from "@/components/site/ServiceWorker";
+import { BRAND } from "@/lib/brand";
 
 export const metadata: Metadata = {
-  title: { default: "Paul's Python Course", template: "%s · Paul's Python Course" },
-  description:
-    "Learn Python by fixing a small harbour town, one real program at a time. From your first print statement to reinforcement learning.",
-  icons: { icon: "/icon.png", apple: "/apple-icon.png" },
+  title: { default: `${BRAND.name}: ${BRAND.tagline}`, template: `%s · ${BRAND.name}` },
+  description: BRAND.description,
+  applicationName: BRAND.name,
+  icons: { icon: [{ url: "/icon-32.png", sizes: "32x32" }, { url: "/icon-16.png", sizes: "16x16" }], apple: "/apple-icon.png" },
+  openGraph: { title: BRAND.name, description: BRAND.description, siteName: BRAND.name, images: [{ url: "/og.png", width: 1200, height: 630 }] },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f4f1ea" },
-    { media: "(prefers-color-scheme: dark)", color: "#161d27" },
+    { media: "(prefers-color-scheme: light)", color: "#0e1218" },
+    { media: "(prefers-color-scheme: dark)", color: "#0e1218" },
   ],
 };
 
-// The serif (lesson text, headings) and Plex Sans (the interface) go through next/font:
-// preloaded, and with fallbacks sized to match, so the page doesn't reflow when they arrive
-// (the landing page's largest text would otherwise repaint late). Mono and Atkinson
-// Hyperlegible stay as plain @font-face rules: they load when something uses them.
-const serif = localFont({
-  src: [
-    { path: "../node_modules/@fontsource-variable/source-serif-4/files/source-serif-4-latin-opsz-normal.woff2", style: "normal", weight: "200 900" },
-    { path: "../node_modules/@fontsource-variable/source-serif-4/files/source-serif-4-latin-opsz-italic.woff2", style: "italic", weight: "200 900" },
-  ],
-  variable: "--font-serif-loaded",
+// Three faces only, and no serif (REDESIGN.md 3.2): m6x11plus for game chrome
+// (headings, buttons, tabs, dialogue), Atkinson Hyperlegible Next for reading,
+// JetBrains Mono for code. Both loaded faces are preloaded with size-matched fallbacks.
+const pixel = localFont({
+  src: [{ path: "./fonts/m6x11plus.ttf", weight: "400", style: "normal" }],
+  variable: "--font-pixel-loaded",
   display: "swap",
-  preload: false,
-  adjustFontFallback: "Times New Roman",
+  adjustFontFallback: false,
 });
 
-const sans = localFont({
+const read = localFont({
   src: [
-    { path: "../node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-400-normal.woff2", style: "normal", weight: "400" },
-    { path: "../node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-500-normal.woff2", style: "normal", weight: "500" },
-    { path: "../node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-600-normal.woff2", style: "normal", weight: "600" },
+    { path: "../node_modules/@fontsource/atkinson-hyperlegible-next/files/atkinson-hyperlegible-next-latin-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "../node_modules/@fontsource/atkinson-hyperlegible-next/files/atkinson-hyperlegible-next-latin-700-normal.woff2", weight: "700", style: "normal" },
   ],
-  variable: "--font-sans-loaded",
+  variable: "--font-read-loaded",
   display: "swap",
-  preload: false,
   adjustFontFallback: "Arial",
 });
 
 // Applies saved display settings before first paint, so there is no flash.
-const settingsScript = `try{var s=JSON.parse(localStorage.getItem("ppc-display")||"{}");var d=document.documentElement;if(s.theme==="light"||s.theme==="dark")d.dataset.theme=s.theme;if(s.prose==="hyperlegible")d.dataset.prose="hyperlegible";if(s.motion==="reduced")d.dataset.motion="reduced";if(s.editorFontSize)d.style.setProperty("--editor-font-size",s.editorFontSize+"px")}catch(e){}`;
+const settingsScript = `try{var s=JSON.parse(localStorage.getItem("ppc-display")||"{}");var d=document.documentElement;if(s.theme)d.dataset.theme=s.theme;if(s.prose==="hyperlegible")d.dataset.prose="hyperlegible";if(s.motion==="reduced")d.dataset.motion="reduced";if(s.editorFontSize)d.style.setProperty("--editor-font-size",s.editorFontSize+"px")}catch(e){}`;
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const user = await getSessionUser().catch(() => null);
   return (
-    <html lang="en-GB" className={`${serif.variable} ${sans.variable}`} suppressHydrationWarning>
+    <html lang="en-GB" className={`${pixel.variable} ${read.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: settingsScript }} />
       </head>

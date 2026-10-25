@@ -31,7 +31,7 @@ export interface Settings {
 export const DEFAULT_SETTINGS: Settings = {
   dialogue: "full",
   sound: false,
-  theme: "system",
+  theme: "dark",
   motion: "system",
   prose: "serif",
   editorFontSize: 14,

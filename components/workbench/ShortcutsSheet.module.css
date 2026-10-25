@@ -1,69 +1,62 @@
 .sheet {
-  position: relative;
+  width: min(520px, calc(100vw - 32px));
+  padding: var(--s-2);
+  box-shadow: var(--shadow-hard);
 }
 
-.summary {
-  list-style: none;
-  cursor: pointer;
-  font-size: var(--step--1);
-  color: var(--ink-2);
-  padding: var(--s-1) var(--s-2);
-  border-radius: var(--r-1);
-  min-height: 28px;
-  display: inline-flex;
+.sheet::backdrop {
+  background: var(--scrim);
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+  margin-bottom: var(--s-4);
 }
 
-.summary::-webkit-details-marker {
-  display: none;
+.title {
+  font-size: var(--pixel-2);
 }
 
-.summary:hover {
-  color: var(--ink);
-  background: var(--paper-sunk);
-}
-
-.panel {
-  position: absolute;
-  right: 0;
-  top: calc(100% + 6px);
-  z-index: 20;
-  width: 320px;
-  padding: var(--s-3) var(--s-4);
-  background: var(--paper);
-  border: 1px solid var(--rule-strong);
-  border-radius: var(--r-2);
-  font-size: var(--step--1);
-}
-
-.panel dl {
+.list {
   margin: 0;
   display: grid;
   gap: var(--s-2);
 }
 
-.panel dl > div {
-  display: flex;
-  justify-content: space-between;
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
   gap: var(--s-3);
+  align-items: baseline;
+  padding: var(--s-2) 0;
+  font-size: var(--step--1);
 }
 
-.panel dd {
+.row + .row {
+  box-shadow: 0 -2px 0 var(--night-2);
+}
+
+.row dd {
   margin: 0;
-  color: var(--ink-2);
-  text-align: right;
+  color: var(--text-2);
 }
 
-.panel kbd {
-  font-size: 0.72rem;
-  border: 1px solid var(--rule-strong);
-  border-radius: var(--r-1);
-  padding: 0 4px;
-  background: var(--paper-raised);
+.row kbd {
+  display: inline-block;
+  min-width: 24px;
+  padding: 2px 6px 4px;
+  background: var(--night-1);
+  color: var(--chalk);
+  box-shadow: inset 0 -2px 0 var(--night-0);
+  font-family: var(--font-code);
+  font-size: var(--step--2);
+  text-align: center;
 }
 
 .note {
-  margin-top: var(--s-3);
-  color: var(--ink-2);
-  line-height: 1.45;
+  margin-top: var(--s-4);
+  font-size: var(--step--1);
+  color: var(--text-2);
 }

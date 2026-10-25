@@ -27,9 +27,9 @@ beforeAll(async () => {
   ] as const) {
     await db.asUser(id, async (q) => {
       await q("insert into public.profiles (id, display_name, updated_at) values ($1, $2, 1)", [id, name]);
-      await q("insert into public.job_progress (user_id, job_id, status, time_spent_seconds, updated_at) values ($1, 'sign-on-the-door', 'shipped', 600, $2)", [id, Date.now()]);
-      await q("insert into public.step_progress (user_id, job_id, step_id, status, attempts, hints_used, time_spent_seconds, updated_at) values ($1, 'sign-on-the-door', 'make', 'passed', 2, 1, 300, $2)", [id, Date.now()]);
-      await q("insert into public.code_files (user_id, job_id, step_id, filename, content, updated_at) values ($1, 'sign-on-the-door', 'make', 'main.py', $2, 1)", [id, `print("${name}")`]);
+      await q("insert into public.job_progress (user_id, job_id, status, time_spent_seconds, updated_at) values ($1, 'shop-sign', 'shipped', 600, $2)", [id, Date.now()]);
+      await q("insert into public.step_progress (user_id, job_id, step_id, status, attempts, hints_used, time_spent_seconds, updated_at) values ($1, 'shop-sign', 'make', 'passed', 2, 1, 300, $2)", [id, Date.now()]);
+      await q("insert into public.code_files (user_id, job_id, step_id, filename, content, updated_at) values ($1, 'shop-sign', 'make', 'main.py', $2, 1)", [id, `print("${name}")`]);
     });
   }
 });
@@ -63,8 +63,8 @@ describe("teacher and class mode with row level security", async () => {
     const students = await classes.roster(db, teacher, classId);
     expect(students.map((s) => s.name)).toEqual(["Alice", "Bob"]);
     expect(students[0]).toMatchObject({ shipped: 1, totalSeconds: 600, weekSeconds: 300 });
-    const detail = await classes.studentDetail(db, teacher, classId, alice, "sign-on-the-door");
-    expect(detail?.jobs[0]).toMatchObject({ jobId: "sign-on-the-door", status: "shipped", stepsPassed: 1, attempts: 2, hints: 1 });
+    const detail = await classes.studentDetail(db, teacher, classId, alice, "shop-sign");
+    expect(detail?.jobs[0]).toMatchObject({ jobId: "shop-sign", status: "shipped", stepsPassed: 1, attempts: 2, hints: 1 });
     expect(detail?.files.map((f) => f.content)).toEqual(['print("Alice")']);
     const raw = await db.asUser(teacher, (q) => q("select content from public.code_files where user_id = $1", [alice]));
     expect(raw).toHaveLength(1);
@@ -94,11 +94,11 @@ describe("teacher and class mode with row level security", async () => {
   });
 
   it("shows members their class's assignments, and only the teacher can set them", async () => {
-    expect(await classes.assign(db, alice, classId, "beas-till-1", null)).toBe(false);
-    expect(await classes.assign(db, teacher, classId, "beas-till-1", Date.UTC(2026, 10, 3, 12))).toBe(true);
-    expect(await classes.assign(db, teacher, classId, "beas-till-1", null)).toBe(true); // changes the date, no duplicate
+    expect(await classes.assign(db, alice, classId, "bill-splitter", null)).toBe(false);
+    expect(await classes.assign(db, teacher, classId, "bill-splitter", Date.UTC(2026, 10, 3, 12))).toBe(true);
+    expect(await classes.assign(db, teacher, classId, "bill-splitter", null)).toBe(true); // changes the date, no duplicate
     const mine = await classes.myAssignments(db, alice);
-    expect(mine).toEqual([expect.objectContaining({ className: "Year 10 Computing", jobId: "beas-till-1", dueAt: null })]);
+    expect(mine).toEqual([expect.objectContaining({ className: "Year 10 Computing", jobId: "bill-splitter", dueAt: null })]);
     expect(await classes.myAssignments(db, carol)).toEqual([]);
   });
 
@@ -128,6 +128,6 @@ describe("teacher and class mode with row level security", async () => {
     expect(hidden[0]!.p).toBeNull();
     await db.asUser(alice, (q) => q(`update public.profiles set settings = '{"publicProfile": true}'::jsonb where id = $1`, [alice]));
     const shown = await db.asService((q) => q<{ p: { displayName: string; shipped: unknown[] } }>("select public.public_profile('alice-at-the-harbour') as p"));
-    expect(shown[0]!.p).toMatchObject({ displayName: "Alice", shipped: [expect.objectContaining({ jobId: "sign-on-the-door" })] });
+    expect(shown[0]!.p).toMatchObject({ displayName: "Alice", shipped: [expect.objectContaining({ jobId: "shop-sign" })] });
   });
 });

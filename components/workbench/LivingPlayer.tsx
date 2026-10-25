@@ -1,6 +1,6 @@
 "use client";
 
-// Living Visualisations the learner's own code sends with the saltmarsh module
+// Living Visualisations the learner's own code sends with the workshop module
 // (Section 7.6): Sir Reginald on his racing grid, the town map as a graph, and
 // the hiker on the observatory hill. One frame per call, played back sped up,
 // with pause and step.

@@ -1,30 +1,189 @@
+/* The Crab League: the course, entering, the replay and the table, each on its own panel. */
 .wrap {
+  --slot: var(--panel);
   display: grid;
-  gap: var(--s-8);
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-6);
 }
 
 .head {
   display: grid;
-  gap: var(--s-2);
-  max-width: 64ch;
+  gap: var(--s-3);
+  max-width: var(--measure);
 }
 
 .title {
-  font-family: var(--font-prose);
-  font-size: var(--step-4);
-  line-height: 1.1;
+  font-size: var(--pixel-3);
 }
 
 .lede {
-  font-size: var(--step-1);
-  color: var(--ink-2);
+  font-size: var(--prose-size);
+  line-height: var(--lh-prose);
+  color: var(--text-2);
 }
 
 .columns {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-  gap: var(--s-8);
+  gap: var(--s-6);
   align-items: start;
+}
+
+.block {
+  display: grid;
+  gap: var(--s-3);
+  min-width: 0;
+  box-shadow: var(--shadow-hard);
+}
+
+.h2 {
+  font-size: var(--pixel-2);
+}
+
+.meta {
+  color: var(--text-2);
+  font-size: var(--step--1);
+  line-height: 1.5;
+  max-width: var(--measure);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+}
+
+.field {
+  display: grid;
+  gap: var(--s-2);
+  justify-items: start;
+  font-size: var(--step--1);
+}
+
+.field > span {
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+}
+
+.field input {
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text-2);
+}
+
+/* The file picker's own button, as a quiet game button. */
+.field input::file-selector-button {
+  height: 40px;
+  margin-right: var(--s-3);
+  padding: 0 var(--s-4) 4px;
+  border: 0;
+  outline: 2px solid var(--night-0);
+  background: var(--quiet);
+  color: var(--quiet-text);
+  box-shadow: inset 0 -4px 0 var(--quiet-dark);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  cursor: pointer;
+}
+
+.field input::file-selector-button:hover {
+  background: var(--quiet-hover);
+}
+
+.field input:disabled::file-selector-button {
+  opacity: 0.45;
+  box-shadow: none;
+}
+
+.error {
+  display: flex;
+  gap: var(--s-2);
+  align-items: flex-start;
+  color: var(--danger-text);
+  font-size: var(--step--1);
+  line-height: 1.5;
+}
+
+.error svg {
+  margin-top: 2px;
+}
+
+/* Your entry this week, on a raised slot. */
+.mine {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-4);
+  background: var(--slot);
+  font-size: var(--step--1);
+}
+
+.tableHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--s-3);
+  flex-wrap: wrap;
+}
+
+.tableWrap {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* The table is a board of slots: no rules, just rows on a step darker than the panel. */
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 var(--s-1);
+  font-size: var(--step--1);
+  font-variant-numeric: tabular-nums;
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: var(--s-2) var(--s-3);
+  white-space: nowrap;
+}
+
+.table thead th {
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  font-weight: 400;
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  color: var(--text-2);
+}
+
+.table tbody td {
+  background: var(--slot);
+}
+
+.place {
+  width: 1%;
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  color: var(--accent-text);
+}
+
+.num {
+  text-align: right !important;
+}
+
+/* Your own row: lit by the lamp. */
+.me td {
+  background: var(--accent-wash);
+  font-weight: 700;
 }
 
 @media (max-width: 900px) {
@@ -33,93 +192,21 @@
   }
 }
 
-.block {
-  display: grid;
-  gap: var(--s-3);
-  min-width: 0;
+@media (max-width: 720px) {
+  .title {
+    font-size: var(--pixel-2);
+  }
 }
 
-.h2 {
-  font-family: var(--font-prose);
-  font-size: var(--step-2);
+/* Day: a day panel's body is the panel colour, so slots step down to the page colour instead. */
+:root[data-theme="light"] .wrap {
+  --slot: var(--bg);
+  --slot-hover: var(--frame);
 }
 
-.meta {
-  color: var(--ink-2);
-  font-family: var(--font-ui);
-  font-size: var(--step--1);
-  max-width: 64ch;
-}
-
-.meta a {
-  color: var(--accent-ink);
-}
-
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-2);
-}
-
-.field {
-  display: grid;
-  gap: var(--s-1);
-  font-family: var(--font-ui);
-  font-size: var(--step--1);
-}
-
-.error {
-  color: var(--fail);
-  font-family: var(--font-ui);
-  font-size: var(--step--1);
-}
-
-.mine {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--s-2);
-  padding: var(--s-3);
-  border: var(--hairline);
-  border-left: 3px solid var(--accent);
-  background: var(--paper-raised);
-  font-family: var(--font-ui);
-  font-size: var(--step--1);
-}
-
-.tableHead {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: var(--s-3);
-}
-
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: var(--font-ui);
-  font-size: var(--step--1);
-  font-variant-numeric: tabular-nums;
-}
-
-.table th,
-.table td {
-  text-align: left;
-  padding: var(--s-2) var(--s-3) var(--s-2) 0;
-  border-bottom: var(--hairline);
-}
-
-.table th {
-  font-weight: 600;
-  color: var(--ink-2);
-}
-
-.me td {
-  font-weight: 600;
-}
-
-.me td:first-child {
-  box-shadow: inset 3px 0 0 var(--accent);
-  padding-left: var(--s-2);
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .wrap {
+    --slot: var(--bg);
+    --slot-hover: var(--frame);
+  }
 }

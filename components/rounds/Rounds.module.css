@@ -1,188 +1,381 @@
+/* Morning Rounds: one small paper repair slip at a time, pinned on the night page. */
 .rounds,
 .summary,
 .empty {
   display: grid;
-  gap: var(--s-6);
-  max-width: 760px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-5);
+  max-width: 720px;
 }
 
 .head {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: var(--s-4);
+  align-items: center;
+  gap: var(--s-3) var(--s-4);
 }
 
 .headRight {
-  text-align: right;
-  display: grid;
-  gap: var(--s-1);
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
 }
 
 .title {
-  font-size: var(--step-4);
+  font-size: var(--pixel-2);
 }
 
 .lede {
-  font-family: var(--font-prose);
+  font-family: var(--font-read);
   font-size: var(--prose-size);
   line-height: var(--lh-prose);
-  color: var(--ink-2);
-  margin-top: var(--s-2);
+  color: var(--text-2);
+  max-width: var(--measure);
 }
 
 .count {
-  font-family: var(--font-code);
-  font-size: var(--step--1);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  color: var(--text);
+  white-space: nowrap;
 }
 
-.skip {
+.quiet {
+  font-family: var(--font-read);
   font-size: var(--step--1);
-  color: var(--ink-2);
+  color: var(--text-2);
 }
 
-.where {
+/* Today's round as a row of pips: checked (kelp), this one (lamp), to come (dim). */
+.pips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-1);
+}
+
+.pips li {
+  width: 16px;
+  height: 8px;
+  background: var(--frame);
+  box-shadow: inset 0 -2px 0 var(--night-0);
+}
+
+.pips .pipDone {
+  background: var(--go);
+  box-shadow: inset 0 -2px 0 var(--go-dark);
+}
+
+.pips .pipNow {
+  width: 24px;
+  background: var(--accent);
+  box-shadow: inset 0 -2px 0 var(--accent-dark);
+}
+
+.next {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+}
+
+/* ---- The slip ---- */
+.cardWrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--s-4);
+  min-width: 0;
+  margin-top: var(--s-3);
+}
+
+.slip {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-4);
+  padding: var(--s-3) var(--s-2) var(--s-2);
+  box-shadow: var(--shadow-hard);
+  min-width: 0;
+}
+
+.tack {
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: block;
+}
+
+/* Who the repair was for, and the idea it leans on. A perforated line runs under it. */
+.slipHead {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  gap: var(--s-2) var(--s-3);
+  padding-bottom: var(--s-4);
 }
 
-.where canvas {
-  background: var(--scene-frame);
-  border-radius: var(--r-1);
+.slipHead::after {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--s-2));
+  right: calc(-1 * var(--s-2));
+  bottom: 0;
+  height: 2px;
+  background: var(--rule-strong);
+  -webkit-mask: var(--mask-dots-8) repeat-x 0 0 / 8px 2px;
+  mask: var(--mask-dots-8) repeat-x 0 0 / 8px 2px;
 }
 
-.concept {
-  font-family: var(--font-prose);
-  font-size: var(--step-1);
-  font-weight: 600;
+.slipFace {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  background: var(--paper-sunk);
+}
+
+.slipWho {
+  flex: 1 1 200px;
+  display: grid;
+  gap: var(--s-1);
+  min-width: 0;
+}
+
+.slipTitle {
+  font-size: var(--pixel-1);
+  line-height: 24px;
+  color: var(--night-0);
+}
+
+.slipMeta {
+  font-family: var(--font-read);
+  font-size: var(--step--1);
+  color: var(--day-fog);
+}
+
+/* The idea under test, written on a little tag in the corner. */
+.tag {
+  flex: none;
+  max-width: 100%;
+  padding: 6px var(--s-2) 4px;
+  background: var(--paper-raised);
+  box-shadow: inset 0 0 0 2px var(--rule-strong);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  color: var(--night-0);
+  overflow-wrap: anywhere;
 }
 
 .card {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--s-4);
-  padding: var(--s-6);
-  border: 1px solid var(--rule-strong);
-  border-radius: var(--r-2);
-  background: var(--paper-raised);
+  min-width: 0;
+}
+
+.card > * {
+  min-width: 0;
 }
 
 .prompt {
-  font-family: var(--font-prose);
-  font-size: var(--step-1);
-  line-height: 1.4;
+  font-family: var(--font-read);
+  font-size: var(--prose-size);
+  line-height: var(--lh-prose);
+  letter-spacing: var(--prose-letter-spacing);
+  word-spacing: var(--prose-word-spacing);
+  color: var(--night-0);
+  max-width: var(--measure);
 }
 
 .prompt code {
-  font-size: 0.85em;
-  background: var(--paper-sunk);
-  padding: 0 0.25em;
+  font-size: 0.88em;
+  padding: 2px;
+}
+
+/* Printed code on the slip is a dark terminal strip: lift its line numbers to match. */
+.slip pre {
+  --ink: var(--chalk);
+  --ink-3: var(--fog);
+  --highlight-line: var(--night-2);
 }
 
 .inputs {
+  font-family: var(--font-read);
   font-size: var(--step--1);
-  color: var(--ink-2);
+  color: var(--day-fog);
 }
 
 .answer {
-  border: 1px solid var(--control-border);
-  border-radius: var(--r-1);
-  background: var(--paper);
+  width: 100%;
+  min-height: 44px;
+  border: 2px solid var(--control-border);
+  box-shadow: inset 0 2px 0 var(--rule);
   font-family: var(--font-code);
   font-size: var(--editor-font-size);
   padding: var(--s-2) var(--s-3);
+  resize: vertical;
   font-variant-ligatures: none;
 }
 
+/* Multiple choice: each answer is a tile with a pixel radio box. */
 .options {
-  border: none;
+  border: 0;
   padding: 0;
   margin: 0;
+  min-width: 0;
   display: grid;
   gap: var(--s-2);
 }
 
 .option {
+  position: relative;
   display: flex;
   gap: var(--s-3);
   align-items: flex-start;
   padding: var(--s-2) var(--s-3);
-  border: 1px solid var(--rule-strong);
-  border-radius: var(--r-2);
+  background: var(--paper-raised);
+  box-shadow: inset 0 0 0 2px var(--rule);
   cursor: pointer;
+  min-width: 0;
+}
+
+.option:hover {
+  box-shadow: inset 0 0 0 2px var(--rule-strong);
+}
+
+.chosen,
+.chosen:hover {
+  background: var(--accent-wash);
+  box-shadow: inset 0 0 0 2px var(--night-0);
+}
+
+.option:has(input:focus-visible) {
+  outline: 2px solid var(--sea-dark);
+  outline-offset: 2px;
+}
+
+.options:disabled .option {
+  cursor: default;
+}
+
+.options:disabled .option:not(.chosen) {
+  opacity: 0.6;
+}
+
+.mark {
+  flex: none;
+  position: relative;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
   background: var(--paper);
+  box-shadow: inset 0 0 0 2px var(--night-0);
 }
 
-.option input {
-  margin-top: 3px;
-  accent-color: var(--accent-ink);
+.chosen .mark::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  background: var(--night-0);
 }
 
-.chosen {
-  border-color: var(--ink);
+.optionText {
+  font-family: var(--font-read);
+  font-size: var(--step-0);
+  line-height: 1.45;
+  color: var(--night-0);
+  min-width: 0;
 }
 
 .mono {
   font-family: var(--font-code);
   font-size: var(--step--1);
+  line-height: 1.5;
   white-space: pre-wrap;
+  overflow-wrap: anywhere;
   font-variant-ligatures: none;
+  color: var(--night-0);
+  min-width: 0;
 }
 
+/* Fill in the gaps: the code is a dark strip, the gaps are lit cells to type in. */
 .fill {
   margin: 0;
   padding: var(--s-3) var(--s-4);
-  background: var(--paper);
-  border: var(--hairline);
   font-family: var(--font-code);
   font-size: var(--editor-font-size);
-  line-height: 1.9;
+  line-height: 2;
   font-variant-ligatures: none;
   white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
-.blank {
+.fill .blank {
   font-family: var(--font-code);
   font-size: var(--editor-font-size);
-  border: none;
-  border-bottom: 2px solid var(--accent-ink);
-  background: var(--accent-wash);
+  border: 0;
+  border-bottom: 2px solid var(--lamp);
+  background: var(--night-3);
+  color: var(--chalk);
   padding: 0 4px;
   margin: 0 2px;
+  max-width: 100%;
 }
 
+.fill .blank:disabled {
+  color: var(--fog);
+}
+
+/* The mini editor stays a dark terminal in both themes, like code printed on a ticket. */
 .editor {
+  --text: var(--chalk);
+  --text-2: var(--fog);
   height: 200px;
-  border: var(--hairline);
+  box-shadow: 0 0 0 2px var(--night-0);
 }
 
-.row,
-.next {
+.row {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--s-2);
 }
 
+/* The verdict, written on the slip in the colour of the result. */
 .feedback {
-  padding: var(--s-3);
-  border-left: 2px solid var(--rule-strong);
-  background: var(--paper-sunk);
   display: grid;
   gap: var(--s-2);
+  padding: var(--s-3);
+  min-width: 0;
 }
 
 .good {
-  border-left-color: var(--pass);
+  background: var(--pass-wash);
+  box-shadow: inset 0 0 0 2px var(--pass);
 }
 
 .bad {
-  border-left-color: var(--fail);
+  background: var(--fail-wash);
+  box-shadow: inset 0 0 0 2px var(--fail);
 }
 
 .fbTitle {
   display: flex;
   align-items: center;
   gap: var(--s-2);
-  font-weight: 600;
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  padding-top: 2px;
 }
 
 .good .fbTitle {
@@ -194,22 +387,71 @@
 }
 
 .fbText {
-  font-family: var(--font-prose);
+  font-family: var(--font-read);
+  font-size: var(--step-0);
+  line-height: 1.5;
+  color: var(--night-0);
   white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
-.quiet {
-  color: var(--ink-2);
-  font-size: var(--step--1);
+/* The check report prints under the slip, on the page, as it does on the Workbench. */
+.printout {
+  min-width: 0;
+  background: var(--panel-2);
+  box-shadow: inset 0 0 0 2px var(--night-0);
+}
+
+/* ---- The end of the round ---- */
+.shaky {
+  display: grid;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-2) var(--s-2);
+  box-shadow: var(--shadow-hard);
 }
 
 .shaky ul {
-  margin: var(--s-2) 0;
-  padding-left: 1.2em;
+  margin: 0;
+  padding: 0;
+  list-style: none;
   display: grid;
   gap: var(--s-2);
+  font-family: var(--font-read);
+  font-size: var(--step-0);
+  line-height: 1.5;
+}
+
+.shaky li {
+  position: relative;
+  padding-left: var(--s-5);
+}
+
+/* A pixel bullet. */
+.shaky li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 8px;
+  height: 8px;
+  background: var(--brick);
+}
+
+.shaky .quiet {
+  color: var(--day-fog);
 }
 
 .conceptName {
-  font-weight: 600;
+  font-weight: 700;
+}
+
+@media (max-width: 520px) {
+  .headRight {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .editor {
+    height: 180px;
+  }
 }

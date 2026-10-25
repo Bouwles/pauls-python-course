@@ -49,6 +49,7 @@ export default function ShelfPage() {
         spec: ask && ask.type === "ask" ? strip(ask.specHtml) : job.summary,
         learned: job.conceptsIntroduced.map((c) => concepts[c]?.title ?? c),
         data: job.data,
+        portfolioReadme: job.portfolioReadme ?? null,
       });
     }
   }
@@ -57,7 +58,7 @@ export default function ShelfPage() {
   const orderedNotes = [...index.story].sort((a, b) => order.indexOf(a.job) - order.indexOf(b.job));
   const jobTitles = Object.fromEntries(index.acts.flatMap((a) => a.jobs.map((j) => [j.id, j.title])));
   return (
-    <Page>
+    <Page wide>
       <Shelf items={items} />
       <PenhallowNotes notes={orderedNotes} jobTitles={jobTitles} />
     </Page>

@@ -1,6 +1,5 @@
 .worked {
   border: var(--hairline);
-  border-radius: var(--r-2);
   background: var(--paper-raised);
   overflow-x: auto;
 }
@@ -11,7 +10,7 @@
 }
 
 .block + .block {
-  border-top: 1px dashed var(--rule);
+  border-top: 2px solid var(--rule);
 }
 
 .label {

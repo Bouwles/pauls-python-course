@@ -2,6 +2,7 @@
 // pytest report they bring back. Shared by the Job page, the server routes and
 // the ppc CLI's endpoints, so the zip is the same whichever way it is fetched.
 import type { Job, TakeHomeStep } from "./content/types";
+import { BRAND } from "./brand";
 import type { Files } from "./python/protocol";
 
 export interface TestCaseResult {
@@ -52,7 +53,7 @@ export function starterFiles(job: Job, step: TakeHomeStep, site: string): Files 
   const readme = [
     `# ${job.title}: Take It Home`,
     "",
-    `From Paul's Python Course (${site}/job/${job.id}). The brief is in BRIEF.md.`,
+    `From ${BRAND.name} (${site}/job/${job.id}). The brief is in BRIEF.md.`,
     "",
     "## Set up (once)",
     "",

@@ -3,7 +3,7 @@
 import type { Step } from "@/lib/content/types";
 import type { StepProgressRow } from "@/lib/store/types";
 import { Button } from "../../ui/Button";
-import { stepKind } from "../StepNav";
+import { stepKind } from "../StepPath";
 import { useWorkbench } from "../context";
 import styles from "./steps.module.css";
 
@@ -12,12 +12,14 @@ export function Prose({ html }: { html: string }) {
   return <div className="prose" dangerouslySetInnerHTML={{ __html: html }} />;
 }
 
+/** "This step: Fix Pip's version", under the ticket's torn edge. No eyebrow label above it. */
 export function StepHeading({ step }: { step: Step }) {
+  const kind = stepKind(step);
   return (
-    <>
-      {stepKind(step) !== step.title ? <p className={`label ${styles.kind}`}>{stepKind(step)}</p> : null}
-      <h2 className={styles.heading}>{step.title}</h2>
-    </>
+    <h2 className={styles.heading}>
+      <span className={styles.thisStep}>This step:</span> {step.title}
+      {kind !== step.title && !step.title.toLowerCase().includes(kind.toLowerCase()) ? <span className="visually-hidden"> ({kind})</span> : null}
+    </h2>
   );
 }
 
@@ -39,21 +41,5 @@ export function NextRow({ row, doneText, allowSkip = true }: { row: StepProgress
       ) : null}
       {done && doneText ? <p className={styles.nextNote}>{doneText}</p> : null}
     </div>
-  );
-}
-
-/** The job's Ask, kept to hand in the brief for every later step. */
-export function JobSummary() {
-  const { job } = useWorkbench();
-  const ask = job.steps.find((s) => s.type === "ask");
-  if (!ask || ask.type !== "ask") return null;
-  return (
-    <details className={styles.job}>
-      <summary>The job</summary>
-      <div className={`${styles.jobBody} prose`}>
-        <div dangerouslySetInnerHTML={{ __html: ask.specHtml }} />
-        {ask.example ? <pre className={styles.terminal}>{ask.example}</pre> : null}
-      </div>
-    </details>
   );
 }

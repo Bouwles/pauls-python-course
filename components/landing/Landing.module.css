@@ -1,317 +1,394 @@
+/* The landing page: the product first, then what you'll build, the town, and the price. */
 .page {
   min-height: 100vh;
+  background: var(--bg);
 }
 
+/* ---- Hero: the harbour at dusk, the wordmark and tagline over the sky ---- */
 .hero {
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  gap: var(--s-12);
-  align-items: center;
-  max-width: 1240px;
-  margin: 0 auto;
-  padding: var(--s-16) var(--s-6) var(--s-12);
+  position: relative;
+  background: var(--night-0);
+  padding: var(--s-6) var(--s-4) var(--s-8);
+  overflow: hidden;
+}
+
+.heroScene {
+  display: flex;
+  justify-content: center;
 }
 
 .heroText {
+  position: absolute;
+  top: var(--s-12);
+  left: max(var(--s-6), calc((100% - 1280px) / 2 + var(--s-8)));
+  max-width: 520px;
   display: grid;
-  gap: var(--s-5);
+  gap: var(--s-4);
+  padding: var(--s-5);
+  background: color-mix(in srgb, var(--night-0) 82%, transparent);
+  box-shadow: var(--shadow-hard), inset 0 0 0 2px var(--night-3);
+  color: var(--chalk);
 }
 
-.headline {
-  font-size: var(--step-6);
-  line-height: 1.02;
-  letter-spacing: -0.015em;
+.wordmark {
+  line-height: 0;
+}
+
+.tagline {
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-2);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  color: var(--chalk);
 }
 
 .lede {
-  font-family: var(--font-prose);
   font-size: var(--step-1);
-  line-height: 1.5;
+  line-height: 1.55;
+  color: var(--chalk);
   max-width: 52ch;
 }
 
 .ctaRow {
   display: flex;
-  gap: var(--s-4);
-  align-items: center;
   flex-wrap: wrap;
-  margin-top: var(--s-2);
+  gap: var(--s-3);
+  margin-top: var(--s-1);
 }
 
-.cta {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  padding: 0 var(--s-5);
-  background: var(--accent);
-  color: var(--on-accent);
-  border: 1px solid color-mix(in srgb, var(--accent) 70%, var(--ink));
-  border-radius: var(--r-2);
-  font-weight: 500;
-  text-decoration: none;
-}
-
-.cta:hover {
-  background: color-mix(in srgb, var(--accent) 88%, var(--ink));
-}
-
-.secondary {
-  font-weight: 500;
-}
-
-.small {
-  font-size: var(--step--1);
-  color: var(--ink-2);
-}
-
-.heroScene {
-  margin: 0;
-  display: grid;
-  gap: var(--s-2);
-  justify-items: center;
-}
-
-.caption {
-  font-family: var(--font-prose);
-  font-size: var(--step--1);
-  color: var(--ink-2);
-}
-
-.section {
-  max-width: 1240px;
+/* ---- Bands ---- */
+.band {
+  width: 100%;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: var(--s-12) var(--s-6);
-  border-top: var(--hairline);
+  padding: var(--s-16) var(--s-6) 0;
 }
 
-.sectionHead {
+.bandHead {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: var(--s-8);
-  margin-bottom: var(--s-6);
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: var(--s-4) var(--s-10);
   align-items: end;
+  margin-bottom: var(--s-6);
 }
 
 .h2 {
-  font-size: var(--step-4);
-  line-height: 1.1;
+  font-size: var(--pixel-2);
+  color: var(--text);
 }
 
-.sectionLede {
-  font-family: var(--font-prose);
-  font-size: var(--prose-size);
-  line-height: var(--lh-prose);
-  color: var(--ink-2);
-  max-width: 56ch;
+.bandLede {
+  font-size: var(--step-1);
+  line-height: 1.55;
+  color: var(--text-2);
+  max-width: 60ch;
+}
+
+/* ---- The playable job, in a game window ---- */
+.window {
+  outline: 2px solid var(--night-0);
+  box-shadow: var(--shadow-hard), inset 0 0 0 2px var(--night-3);
+  background: var(--night-1);
+}
+
+.titleBar {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  height: 36px;
+  padding: 2px var(--s-3) 0;
+  background: var(--night-3);
+  box-shadow: inset 0 -2px 0 var(--night-0), inset 0 2px 0 var(--night-4);
+  color: var(--chalk);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+}
+
+.titleDots {
+  width: 8px;
+  height: 8px;
+  background: var(--brick);
+  box-shadow:
+    14px 0 0 var(--lamp),
+    28px 0 0 var(--kelp);
+  margin-right: 28px;
+}
+
+.titleWhere {
+  margin-left: auto;
+  color: var(--fog);
 }
 
 .playable {
-  min-height: 560px;
+  min-height: 600px;
 }
 
 .waiting {
   display: grid;
   place-items: center;
-  min-height: 560px;
-  border: 1px dashed var(--rule-strong);
-  border-radius: var(--r-2);
-  color: var(--ink-2);
+  min-height: 600px;
+  color: var(--fog);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+}
+
+/* ---- What you'll build: a pixel shelf ---- */
+.shelf {
+  display: grid;
+  gap: var(--s-10);
+  padding: var(--s-6) var(--s-6) var(--s-4);
+  position: relative;
+  background: var(--art-tar);
+  box-shadow: inset 0 0 0 4px var(--night-0), var(--shadow-hard);
+}
+
+/* The back of the shelf: dark boards, 48 px wide. */
+.shelf::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  background: var(--night-0);
+  opacity: 0.14;
+  -webkit-mask: var(--mask-vline-48) repeat 0 0 / 48px 8px;
+  mask: var(--mask-vline-48) repeat 0 0 / 48px 8px;
+  pointer-events: none;
+}
+
+.shelfRow {
+  list-style: none;
+  margin: 0;
+  padding: 0 var(--s-4) 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--s-4);
+  position: relative;
+  /* The plank the objects stand on. */
+  box-shadow: 0 16px 0 var(--art-driftwood), 0 20px 0 var(--night-0);
+}
+
+.shelfItem {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: var(--s-1);
+  padding-bottom: var(--s-1);
+  outline: none;
+}
+
+.shelfItem canvas {
+  margin-bottom: var(--s-2);
+}
+
+.shelfLabel {
+  font-size: var(--step--1);
+  font-weight: 700;
+  color: var(--chalk);
+  text-align: center;
+}
+
+.shelfAct {
+  font-size: var(--step--2);
+  color: var(--fog);
+}
+
+.shelfLine {
+  position: absolute;
+  bottom: calc(100% + var(--s-2));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  width: max-content;
+  max-width: 280px;
+  padding: var(--s-2) var(--s-3);
+  background: var(--chalk);
+  color: var(--night-0);
+  box-shadow: var(--shadow-hard);
+  font-size: var(--step--1);
+  line-height: 1.4;
+  visibility: hidden;
+}
+
+.shelfItem:hover .shelfLine,
+.shelfItem:focus-visible .shelfLine {
+  visibility: visible;
+}
+
+.shelfItem:focus-visible {
+  outline: 2px solid var(--lamp);
+  outline-offset: 4px;
+}
+
+/* ---- The town ---- */
+.townGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(280px, 1fr);
+  gap: var(--s-8);
+  align-items: start;
+}
+
+.townMap {
+  background: var(--night-0);
+  box-shadow: var(--shadow-hard);
+  overflow: hidden;
 }
 
 .acts {
   list-style: none;
-  margin: var(--s-8) 0 0;
+  margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: var(--s-6) var(--s-6);
+  gap: var(--s-3);
 }
 
 .act {
   display: grid;
   gap: var(--s-1);
-  align-content: start;
-  padding-top: var(--s-3);
-  border-top: 2px solid var(--ink);
-}
-
-.actNo {
-  font-family: var(--font-code);
-  font-size: var(--step--1);
-  color: var(--ink-2);
 }
 
 .actTitle {
-  font-size: var(--step-1);
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-2);
+  font-size: var(--pixel-1);
+  color: var(--text);
+}
+
+.actNo {
+  color: var(--lamp);
+  min-width: 1.4em;
+}
+
+.freeTag {
+  margin-left: var(--s-1);
+  padding: 2px 6px 0;
+  background: var(--kelp);
+  color: var(--night-0);
 }
 
 .actSubject {
+  padding-left: calc(1.4em + var(--s-2));
   font-size: var(--step--1);
-  font-weight: 500;
-}
-
-.actSummary {
-  font-family: var(--font-prose);
-  font-size: var(--step--1);
-  line-height: 1.5;
-  color: var(--ink-2);
+  color: var(--text-2);
 }
 
 .syllabus {
-  margin-top: var(--s-8);
-  border-top: var(--hairline);
-  border-bottom: var(--hairline);
+  margin-top: var(--s-6);
 }
 
 .syllabus summary {
-  padding: var(--s-4) 0;
   cursor: pointer;
-  font-weight: 500;
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  color: var(--link-text);
+  -webkit-font-smoothing: none;
 }
 
 .syllabusBody {
-  columns: 2 420px;
-  column-gap: var(--s-10);
-  padding-bottom: var(--s-6);
+  margin-top: var(--s-4);
+  columns: 3 260px;
+  column-gap: var(--s-8);
 }
 
 .syllabusBody > div {
   break-inside: avoid;
-  margin-bottom: var(--s-6);
+  margin-bottom: var(--s-5);
 }
 
 .syllabusAct {
-  font-size: var(--step-0);
+  font-size: var(--pixel-1);
+  color: var(--lamp);
   margin-bottom: var(--s-2);
 }
 
+/* The syllabus as a pixel-font list. */
 .syllabusJobs {
   margin: 0;
-  padding-left: 1.6em;
-  font-size: var(--step--1);
-  line-height: 1.5;
-  color: var(--ink-2);
+  padding-left: 2em;
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 24px;
+  -webkit-font-smoothing: none;
+  color: var(--text-2);
 }
 
-.jobName {
-  color: var(--ink);
-  font-weight: 500;
-}
-
-.jobFor {
-  color: var(--ink-2);
-}
-
-.how {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: var(--s-10);
-}
-
-.howItem {
-  display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-  gap: var(--s-8);
-  align-items: center;
-}
-
-.howItem:nth-child(even) {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
-}
-
-.howItem:nth-child(even) .howShot {
-  order: 2;
-}
-
-.howShot {
-  width: 100%;
-  height: auto;
-  border: 1px solid var(--rule-strong);
-  border-radius: var(--r-2);
-}
-
-.howNo {
-  font-family: var(--font-code);
-  color: var(--accent-ink);
-}
-
-.howTitle {
-  font-size: var(--step-2);
-  margin: var(--s-1) 0 var(--s-2);
-}
-
-.howText {
-  font-family: var(--font-prose);
-  font-size: var(--prose-size);
-  line-height: var(--lh-prose);
-  max-width: 44ch;
-}
-
+/* ---- FAQ ---- */
 .faq {
-  margin: var(--s-6) 0 0;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--s-8) var(--s-10);
+  gap: var(--s-6) var(--s-10);
+  margin: var(--s-6) 0 var(--s-16);
 }
 
 .faqItem dt {
-  font-family: var(--font-prose);
-  font-weight: 600;
-  font-size: var(--step-1);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  color: var(--text);
   margin-bottom: var(--s-2);
 }
 
 .faqItem dd {
   margin: 0;
-  font-family: var(--font-prose);
-  font-size: var(--prose-size);
-  line-height: var(--lh-prose);
-  color: var(--ink-2);
+  font-size: var(--step-0);
+  line-height: 1.55;
+  color: var(--text-2);
+  max-width: 60ch;
 }
 
-@media (max-width: 1000px) {
-  .acts {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+@media (max-width: 1100px) {
+  .heroText {
+    position: static;
+    margin: var(--s-6) auto 0;
+    max-width: 720px;
   }
 }
 
 @media (max-width: 860px) {
-  .hero {
-    grid-template-columns: 1fr;
-    padding: var(--s-8) var(--s-4);
-    gap: var(--s-8);
+  .band {
+    padding: var(--s-12) var(--s-4) 0;
   }
 
-  .headline {
-    font-size: var(--step-5);
-  }
-
-  .lede {
-    font-size: var(--prose-size);
-  }
-
-  .section {
-    padding: var(--s-10) var(--s-4);
-  }
-
-  .sectionHead,
-  .howItem,
-  .howItem:nth-child(even),
+  .bandHead,
+  .townGrid,
   .faq {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .howItem:nth-child(even) .howShot {
-    order: 0;
+  /* The back of the shelf: dark boards, 48 px wide. */
+.shelf::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  background: var(--night-0);
+  opacity: 0.14;
+  -webkit-mask: var(--mask-vline-48) repeat 0 0 / 48px 8px;
+  mask: var(--mask-vline-48) repeat 0 0 / 48px 8px;
+  pointer-events: none;
+}
+
+.shelfRow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: var(--s-10);
   }
 
-  .h2 {
-    font-size: var(--step-3);
+  .hero {
+    padding: var(--s-4) var(--s-2) var(--s-6);
   }
 
-  .acts {
-    grid-template-columns: 1fr;
+  .heroText {
+    padding: var(--s-4);
+  }
+
+  .tagline {
+    font-size: var(--pixel-1);
+    line-height: 24px;
+  }
+
+  .titleWhere {
+    display: none;
   }
 }

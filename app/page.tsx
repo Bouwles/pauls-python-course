@@ -1,124 +1,139 @@
-import fs from "node:fs";
-import path from "node:path";
-import Image from "next/image";
-import Link from "next/link";
 import { redirect } from "next/navigation";
+import { BRAND } from "@/lib/brand";
+import { FREE_ACTS } from "@/lib/plans";
 import { getConcepts, getIndex, getJob } from "@/lib/content/server";
 import { getSessionUser } from "@/lib/server/auth";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { HeroScene } from "@/components/landing/HeroScene";
+import { Wordmark } from "@/components/landing/Wordmark";
 import { PlayableJob } from "@/components/landing/PlayableJob";
 import { LandingMap } from "@/components/landing/LandingMap";
+import { BuildShelf } from "@/components/landing/BuildShelf";
+import { PricingTickets } from "@/components/pricing/PricingTickets";
+import { LinkButton } from "@/components/ui/Button";
+import { Track } from "@/lib/track";
 import styles from "@/components/landing/Landing.module.css";
 
-const HOW = [
-  { file: "ask.png", title: "The Ask", text: "Someone in town comes in with a problem and a clear spec: what goes in, what comes out, one example run." },
-  { file: "predict.png", title: "Predict", text: "Before you run new code, you say what it will do. Each wrong answer is written for a particular mistake, so the feedback explains the one you made." },
-  { file: "pips.png", title: "Pip's Version", text: "Pip, the other apprentice, has a go first. His bugs are the ones beginners really make. You find them and fix them." },
-  { file: "make.png", title: "Make", text: "You write the program yourself, from a nearly empty file. Real tests check it, with values you haven't seen." },
-  { file: "shelf.png", title: "The Shelf", text: "Everything you ship goes on your Shelf. Run it again, download it, or export the lot as a repository." },
-];
-
 const FAQ = [
-  ["Is it free?", "Yes. If that ever changes, everything you have made stays yours and can be exported."],
-  ["Do I need to install anything?", "No. Python runs inside the page. From Act VI you will set up Python on your own computer for PyTorch, with a guide for Windows, macOS and Linux."],
-  ["How long does it take?", "An hour or two a day gets you through the first three Acts (the Python, then the algorithms) in ten to fourteen weeks. The whole course is several hundred hours. Every job shows an honest time estimate."],
-  ["What level does it reach?", "A strong first year of a computer science or AI degree: data structures and algorithms, NumPy and pandas, classical machine learning built from scratch, neural networks with backpropagation, a small transformer, and reinforcement learning up to DQN and policy gradients."],
-  ["Who is it for?", "Anyone 13 or older who wants to get properly good at Python, especially if a computer science or AI degree is next. It assumes you are clever, not that you have written code before."],
+  ["What's free?", `All of Act I: thirteen real projects, review and drills for them, your Shelf, downloads, and the Python Handbook. No card, no trial clock.`],
+  ["What does Pro add?", "The other Acts: real-world Python, algorithms, data science, machine learning, deep learning and reinforcement learning, with Take It Home kits, GitHub push and a certificate for each Act."],
+  ["What happens to my code if I stop paying?", "Nothing. You keep everything you built and all your progress, to read, run and download. Only new Pro projects lock."],
+  ["Do I need to install anything?", "No. Python runs inside the page. Later Acts have Take It Home kits for your own computer, with a guide for Windows, macOS and Linux."],
+  ["How long does it take?", "Act I is about 25 hours. The whole course is several hundred. Every project shows an honest time estimate."],
+  ["What level does it reach?", "A strong first year of a computer science or AI degree: data structures and algorithms, NumPy and pandas, machine learning built from scratch, neural networks, a small transformer, and reinforcement learning."],
+  ["Who is it for?", "Anyone 13 or older who wants to get properly good at Python. It assumes you're clever, not that you've written code before."],
+  ["Is there a student or school price?", "Schools and teachers can buy Classroom seats. Student pricing, where it's offered, is applied at checkout."],
 ];
 
 export default async function Landing() {
   const user = await getSessionUser().catch(() => null);
   if (user) redirect("/map");
   const index = getIndex();
-  const job = getJob("sign-on-the-door")!;
+  const job = getJob("shop-sign")!;
   const concepts = getConcepts();
   const conceptTitles = Object.fromEntries(Object.values(concepts).map((c) => [c.id, c.title]));
-  const how = HOW.filter((h) => fs.existsSync(path.join(process.cwd(), "public", "how", h.file)));
   const harbour = index.acts[0]!;
-  const written = index.acts.reduce((n, a) => n + a.jobs.filter((j) => j.status === "written").length, 0);
-  const total = index.acts.reduce((n, a) => n + a.jobs.length, 0);
+  const free = index.acts.filter((a) => FREE_ACTS.has(a.id));
+  const pro = index.acts.filter((a) => !FREE_ACTS.has(a.id));
+  const count = (acts: typeof index.acts) => acts.reduce((n, a) => n + a.jobs.filter((j) => !j.sidequest && !j.placementFor).length, 0);
 
   return (
     <div className={styles.page}>
       <SiteHeader />
+      <Track event="visit-landing" />
       <main id="main">
-        <section className={styles.hero}>
+        <section className={styles.hero} aria-labelledby="hero-title">
+          <div className={styles.heroScene}>
+            <HeroScene />
+          </div>
           <div className={styles.heroText}>
-            <h1 className={styles.headline}>Saltmarsh is falling apart.</h1>
+            <h1 id="hero-title" className={styles.wordmark}>
+              <Wordmark scale={4} />
+            </h1>
+            <p className={styles.tagline}>{BRAND.tagline}</p>
             <p className={styles.lede}>
-              Its engineer left decades ago and took the manual with her. Half the town still runs on her old Python scripts, and they are breaking one by one. You are the new apprentice at Moss&apos;s repair shop.
-            </p>
-            <p className={styles.lede}>
-              Every job is a real program for someone in town: a till for the bakery, a tide table for the harbour, a weather model for the observatory. By the last one you will have written a neural network and taught a crab to race.
+              A town that runs on old Python scripts, and they&apos;re breaking. You&apos;re the new apprentice at Moss&apos;s repair shop. Every job is a real program: a bill splitter, a to-do list, a weather app, a spam filter, a neural network.
             </p>
             <div className={styles.ctaRow}>
-              <a href="#job-1" className={styles.cta}>
-                Try the first job
-              </a>
-              <Link href="/signup" className={styles.secondary}>
-                Make an account
-              </Link>
+              <LinkButton href="#job-1" variant="primary">
+                Start the first job (free, no sign-up)
+              </LinkButton>
+              <LinkButton href="/syllabus" variant="quiet">
+                See every project
+              </LinkButton>
             </div>
-            <p className={styles.small}>Nothing to install. Python runs in the page.</p>
           </div>
-          <figure className={styles.heroScene}>
-            <HeroScene />
-            <figcaption className={styles.caption}>Moss, and the radio he has been meaning to fix for forty years.</figcaption>
-          </figure>
         </section>
 
-        <section id="job-1" className={styles.section} aria-labelledby="job1-title">
-          <div className={styles.sectionHead}>
+        <section id="job-1" className={styles.band} aria-labelledby="job1-title">
+          <div className={styles.bandHead}>
             <h2 id="job1-title" className={styles.h2}>
-              Job 1: {job.title}
+              Try it here
             </h2>
-            <p className={styles.sectionLede}>
-              The sign blew off Moss&apos;s door again. About twenty minutes, no account needed. Your work stays on this device until you decide to keep it.
-            </p>
+            <p className={styles.bandLede}>The real first job, not a video of it. About twenty minutes. Your work stays on this device until you decide to keep it.</p>
           </div>
-          <PlayableJob job={job} characters={index.characters} conceptTitles={conceptTitles} actTitle={harbour.title} />
+          <div className={styles.window}>
+            <div className={styles.titleBar}>
+              <span className={styles.titleDots} aria-hidden="true" />
+              <span>
+                Job 1: {job.title}
+              </span>
+              <span className={styles.titleWhere}>Moss&apos;s workshop</span>
+            </div>
+            <PlayableJob job={job} characters={index.characters} conceptTitles={conceptTitles} actTitle={harbour.title} />
+          </div>
         </section>
 
-        <section className={styles.section} aria-labelledby="town-title">
-          <div className={styles.sectionHead}>
-            <h2 id="town-title" className={styles.h2}>
-              Eight districts, from the quay to the lighthouse
+        <section className={styles.band} aria-labelledby="build-title">
+          <div className={styles.bandHead}>
+            <h2 id="build-title" className={styles.h2}>
+              What you&apos;ll build
             </h2>
-            <p className={styles.sectionLede}>
-              Each district is an Act. They open one at a time, and the town comes back to life as you fix it: lights on, signs repainted, smoke from the chimneys.
-            </p>
+            <p className={styles.bandLede}>Real programs with plain names, the kind people build and use. Each one goes on your Shelf, downloads as a folder with a README, and can go on GitHub.</p>
           </div>
-          <LandingMap />
-          <ol className={styles.acts}>
-            {index.acts.map((a) => (
-              <li key={a.id} className={styles.act}>
-                <p className={styles.actNo}>Act {a.number}</p>
-                <h3 className={styles.actTitle}>{a.title}</h3>
-                <p className={styles.actSubject}>
-                  {a.subject}. About {a.hours} hours.
-                </p>
-                <p className={styles.actSummary}>{a.summary}</p>
-              </li>
-            ))}
-          </ol>
+          <BuildShelf />
+        </section>
+
+        <section className={styles.band} aria-labelledby="town-title">
+          <div className={styles.bandHead}>
+            <h2 id="town-title" className={styles.h2}>
+              The town, district by district
+            </h2>
+            <p className={styles.bandLede}>Each district is an Act. The town comes back to life as you fix it: lamps on, shutters up, smoke from the chimneys.</p>
+          </div>
+          <div className={styles.townGrid}>
+            <div className={styles.townMap}>
+              <LandingMap />
+            </div>
+            <ol className={styles.acts}>
+              {index.acts.map((a) => (
+                <li key={a.id} className={styles.act}>
+                  <h3 className={styles.actTitle}>
+                    <span className={styles.actNo}>{a.number}</span> {a.title}
+                    {FREE_ACTS.has(a.id) ? <span className={styles.freeTag}>Free</span> : null}
+                  </h3>
+                  <p className={styles.actSubject}>
+                    {a.subject}. About {a.hours} hours.
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </div>
           <details className={styles.syllabus}>
-            <summary>
-              The full syllabus: {total} jobs{written < total ? ` (${written} written so far)` : ""}
-            </summary>
+            <summary>The full syllabus</summary>
             <div className={styles.syllabusBody}>
               {index.acts.map((a) => (
                 <div key={a.id}>
                   <h3 className={styles.syllabusAct}>
-                    Act {a.number}, {a.title}
+                    Act {a.number}: {a.title}
                   </h3>
                   <ol className={styles.syllabusJobs}>
-                    {a.jobs.map((j) => (
-                      <li key={j.id}>
-                        <span className={styles.jobName}>{j.title}</span> <span className={styles.jobFor}>for {index.characters[j.client]?.name ?? j.client}.</span> {j.summary}
-                      </li>
-                    ))}
+                    {a.jobs
+                      .filter((j) => !j.placementFor)
+                      .map((j) => (
+                        <li key={j.id}>{j.title}</li>
+                      ))}
                   </ol>
                 </div>
               ))}
@@ -126,32 +141,19 @@ export default async function Landing() {
           </details>
         </section>
 
-        {how.length ? (
-          <section className={styles.section} aria-labelledby="how-title">
-            <div className={styles.sectionHead}>
-              <h2 id="how-title" className={styles.h2}>
-                How a job goes
-              </h2>
-              <p className={styles.sectionLede}>Every job is a short sequence of steps. Early on there are many; by Act III the Workbench is mostly empty, because you no longer need it.</p>
-            </div>
-            <ol className={styles.how}>
-              {how.map((h, i) => (
-                <li key={h.file} className={styles.howItem}>
-                  <Image src={`/how/${h.file}`} alt={`Screenshot: ${h.title}`} width={720} height={450} className={styles.howShot} />
-                  <div>
-                    <p className={styles.howNo}>{i + 1}</p>
-                    <h3 className={styles.howTitle}>{h.title}</h3>
-                    <p className={styles.howText}>{h.text}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </section>
-        ) : null}
+        <section id="pricing" className={styles.band} aria-labelledby="pricing-title">
+          <div className={styles.bandHead}>
+            <h2 id="pricing-title" className={styles.h2}>
+              Pricing
+            </h2>
+            <p className={styles.bandLede}>Act I is free. Pro opens the rest of the town.</p>
+          </div>
+          <PricingTickets freeProjects={count(free)} proProjects={count(pro)} proActs={pro.length} />
+        </section>
 
-        <section id="faq" className={styles.section} aria-labelledby="faq-title">
+        <section id="faq" className={styles.band} aria-labelledby="faq-title">
           <h2 id="faq-title" className={styles.h2}>
-            Questions
+            FAQ
           </h2>
           <dl className={styles.faq}>
             {FAQ.map(([q, a]) => (

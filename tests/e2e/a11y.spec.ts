@@ -1,7 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
-const PAGES = ["/", "/signup", "/login", "/syllabus", "/privacy", "/terms", "/credits", "/map", "/welcome", "/concepts", "/concepts/print", "/rounds", "/shelf", "/drills", "/settings", "/job/sign-on-the-door", "/job/beas-till-2?step=pips", "/no-such-page", "/teach", "/u/no-such-learner", "/placement", "/league", "/device", "/job/python-at-home?step=at-home", "/job/the-lamp-room?step=tests-for-the-hill", "/job/mosss-radio?step=the-dial"];
+const PAGES = ["/", "/signup", "/login", "/syllabus", "/privacy", "/terms", "/credits", "/map", "/welcome", "/handbook", "/handbook/print", "/rounds", "/shelf", "/drills", "/settings", "/job/sign-on-the-door", "/job/beas-till-2?step=pips", "/no-such-page", "/teach", "/u/no-such-learner", "/placement", "/league", "/device", "/job/python-at-home?step=at-home", "/job/the-lamp-room?step=tests-for-the-hill", "/job/mosss-radio?step=the-dial"];
 
 for (const path of PAGES) {
   test(`axe: ${path}`, async ({ page }) => {

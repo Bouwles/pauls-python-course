@@ -9,7 +9,8 @@ import { Button } from "../../ui/Button";
 import { FailIcon, PassIcon } from "../../ui/Icons";
 import { CodeWorkspace } from "../CodeWorkspace";
 import { useWorkbench } from "../context";
-import { JobSummary, NextRow, Prose, StepHeading } from "./common";
+import { NextRow, Prose, StepHeading } from "./common";
+import { Ticket } from "../Ticket";
 import styles from "./steps.module.css";
 
 /** Screen readers can't hear a line break, so say how many lines an output option has. */
@@ -48,8 +49,7 @@ export function PredictStepView({ step, row }: { step: PredictStep; row: StepPro
 
   return (
     <>
-      <div className={areas.brief}>
-        <JobSummary />
+      <Ticket>
         <StepHeading step={step} />
         <Prose html={step.html} />
         <p className={styles.question} id={`q-${step.id}`} dangerouslySetInnerHTML={{ __html: step.questionHtml }} />
@@ -102,7 +102,7 @@ export function PredictStepView({ step, row }: { step: PredictStep; row: StepPro
         {committed && step.afterHtml ? <Prose html={step.afterHtml} /> : null}
         {committed && !row.data.ran ? <p className={styles.nextNote}>Press Run to see it happen.</p> : null}
         <NextRow row={row} />
-      </div>
+      </Ticket>
       <div className={areas.stage}>
         <CodeWorkspace
           stepId={step.id}

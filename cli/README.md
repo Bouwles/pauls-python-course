@@ -1,6 +1,6 @@
 # ppc
 
-The companion tool for Paul's Python Course. It fetches Take It Home Jobs, runs their pytest suites on your computer, and hands the results in to your account.
+The companion tool for Fixwick. It fetches Take It Home Jobs, runs their pytest suites on your computer, and hands the results in to your account.
 
 Install it from the course site (the Job page shows the exact line):
 

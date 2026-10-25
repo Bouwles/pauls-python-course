@@ -56,7 +56,6 @@
   gap: var(--s-2);
   background: var(--ink);
   color: var(--paper);
-  border-radius: var(--r-1);
   padding: var(--s-2) var(--s-3);
   font-family: var(--font-code);
   font-size: var(--step--1);
@@ -75,8 +74,7 @@
   font-size: var(--step--2);
   background: none;
   color: inherit;
-  border: 1px solid currentColor;
-  border-radius: var(--r-1);
+  border: 2px solid currentColor;
   padding: 1px var(--s-2);
   opacity: 0.8;
   cursor: pointer;
@@ -114,7 +112,6 @@
   font-family: var(--font-code);
   padding: var(--s-2);
   border: var(--hairline);
-  border-radius: var(--r-1);
   background: var(--paper-raised);
   color: var(--ink);
 }

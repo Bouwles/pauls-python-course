@@ -18,6 +18,11 @@ export interface Actor {
   /** A named mark in the scene, or explicit [x, y]. */
   at: string | [number, number];
   flip?: boolean;
+  /** Walk in from here to `at` over `walk` seconds (the Ask: a client comes through the door). */
+  from?: string | [number, number];
+  walk?: number;
+  /** Seconds after the scene starts before the walk begins. */
+  delay?: number;
 }
 
 export interface Hotspot {
@@ -146,7 +151,18 @@ export function SceneCanvas({ scene, actors, label, maxScale = 4, minScale = 1, 
         for (const a of actorsRef.current) {
           const pos = typeof a.at === "string" ? s.meta.marks[a.at] : a.at;
           if (!pos) continue;
-          const [x, y] = pos as [number, number];
+          let [x, y] = pos as [number, number];
+          let anim = a.anim;
+          const fromPos = a.from ? (typeof a.from === "string" ? s.meta.marks[a.from] : a.from) : null;
+          if (fromPos && a.walk && !reduced) {
+            const t = Math.max(0, Math.min(1, (seconds - (a.delay ?? 0)) / a.walk));
+            if (t < 1) {
+              // Whole pixels only, so the walk never lands between pixels.
+              x = Math.round(fromPos[0]! + (x - fromPos[0]!) * t);
+              y = Math.round(fromPos[1]! + (y - fromPos[1]!) * t);
+              anim = t > 0 ? "walk" : "idle";
+            }
+          }
           ctx.save();
           if (a.learner) {
             const pose = a.pose ?? "stand";
@@ -164,7 +180,7 @@ export function SceneCanvas({ scene, actors, label, maxScale = 4, minScale = 1, 
           } else if (a.sprite) {
             const sh = sheets.get(a.sprite);
             if (sh) {
-              const seq = sh.meta.anims[a.anim] ?? sh.meta.anims.idle ?? Object.values(sh.meta.anims)[0] ?? [0];
+              const seq = sh.meta.anims[anim] ?? sh.meta.anims[a.anim] ?? sh.meta.anims.idle ?? Object.values(sh.meta.anims)[0] ?? [0];
               const idx = reduced ? seq[0]! : seq[Math.floor(seconds * sh.meta.fps) % seq.length]!;
               if (a.flip) {
                 ctx.translate(x + sh.meta.w, y);

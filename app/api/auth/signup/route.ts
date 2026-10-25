@@ -1,4 +1,6 @@
 import { signUp } from "@/lib/server/auth";
+import { getDb } from "@/lib/server/db";
+import { recordFunnel } from "@/lib/server/funnel";
 import { json, limited, originOf, readJson, sameOrigin } from "@/lib/server/http";
 
 export async function POST(req: Request) {
@@ -9,5 +11,8 @@ export async function POST(req: Request) {
   if (!body?.email || !body.password) return json({ error: "Email and password, please." }, 400);
   if (!body.ageConfirmed) return json({ error: "You need to be 13 or older to make an account." }, 400);
   const result = await signUp(body.email, body.password, originOf(req));
-  return result.ok ? json({ user: result.user }) : json({ error: result.error }, 400);
+  if (!result.ok) return json({ error: result.error }, 400);
+  const visitor = typeof (body as { visitor?: unknown }).visitor === "string" ? (body as { visitor: string }).visitor.slice(0, 64) : null;
+  await recordFunnel(await getDb(), "sign-up", { userId: result.user.id, visitor });
+  return json({ user: result.user });
 }

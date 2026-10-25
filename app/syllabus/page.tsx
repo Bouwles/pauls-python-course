@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { getConcepts, getIndex } from "@/lib/content/server";
 import { Page } from "@/components/site/Page";
+import { LinkButton } from "@/components/ui/Button";
 import styles from "@/components/legal/Syllabus.module.css";
 
 export const metadata: Metadata = { title: "Syllabus" };
@@ -12,44 +12,66 @@ export default function Syllabus() {
   const totalHours = index.acts.reduce((n, a) => n + a.hours, 0);
   return (
     <Page>
-      <div className={styles.head}>
+      <header className={styles.head}>
         <h1 className={styles.title}>The syllabus</h1>
         <p className={styles.lede}>
           Eight Acts, {index.acts.reduce((n, a) => n + a.jobs.length, 0)} jobs, about {totalHours} hours. From a first print statement to an agent that races crabs. The first three Acts are the Python and the computer science; the next four are data, machine learning, deep learning and reinforcement learning; the last is capstone projects.
         </p>
-      </div>
-      {index.acts.map((act) => (
-        <section key={act.id} className={styles.act} aria-labelledby={`act-${act.id}`}>
-          <div className={styles.actHead}>
-            <p className={styles.actNo}>Act {act.number}</p>
-            <h2 id={`act-${act.id}`} className={styles.actTitle}>
-              {act.title}
-            </h2>
-            <p className={styles.actMeta}>
-              {act.subject}. About {act.hours} hours.
-            </p>
-            <p className={styles.actSummary}>{act.summary}</p>
-          </div>
-          <ol className={styles.jobs}>
-            {act.jobs.map((j) => (
-              <li key={j.id} className={styles.job}>
-                <span className={styles.jobTitle}>{j.title}</span>
-                <span className={styles.jobFor}>for {index.characters[j.client]?.name ?? j.client}</span>
-                <span className={styles.jobSummary}>{j.summary}</span>
-                {j.conceptsIntroduced.length ? (
-                  <span className={styles.concepts}>
-                    {j.conceptsIntroduced.map((c) => concepts[c]?.title ?? c).join(" · ")}
-                  </span>
-                ) : null}
-                {j.status !== "written" ? <span className={styles.writing}>Being written</span> : null}
+        <nav className={styles.contents} aria-label="Acts">
+          <ol>
+            {index.acts.map((act) => (
+              <li key={act.id}>
+                <a href={`#act-${act.id}`}>
+                  <span className={styles.actNo}>Act {act.number}</span> {act.title}
+                </a>
               </li>
             ))}
           </ol>
-        </section>
-      ))}
-      <p className={styles.foot}>
-        <Link href="/signup">Make an account</Link> to keep your work, or <Link href="/#job-1">try the first job</Link> without one.
-      </p>
+        </nav>
+      </header>
+      <div className={styles.acts}>
+        {index.acts.map((act) => (
+          <section key={act.id} id={`act-${act.id}`} className={`frame-panel ${styles.act}`} aria-labelledby={`act-${act.id}-title`}>
+            <div className={styles.actHead}>
+              <h2 id={`act-${act.id}-title`} className={styles.actTitle}>
+                <span className={styles.actNo}>Act {act.number}</span> {act.title}
+              </h2>
+              <p className={styles.actMeta}>
+                {act.subject}. About {act.hours} hours, {act.jobs.length} jobs.
+              </p>
+              <p className={styles.actSummary}>{act.summary}</p>
+            </div>
+            <ol className={styles.jobs}>
+              {act.jobs.map((j) => (
+                <li key={j.id} className={styles.job}>
+                  <span className={styles.jobNo} aria-hidden="true">
+                    {j.number}
+                  </span>
+                  <div className={styles.jobText}>
+                    <p className={styles.jobTitle}>
+                      {j.title} <span className={styles.jobFor}>for {index.characters[j.client]?.name ?? j.client}</span>
+                    </p>
+                    <p className={styles.jobSummary}>{j.summary}</p>
+                    {j.conceptsIntroduced.length ? <p className={styles.concepts}>{j.conceptsIntroduced.map((c) => concepts[c]?.title ?? c).join(" · ")}</p> : null}
+                  </div>
+                  {j.status !== "written" ? <span className={styles.writing}>Being written</span> : null}
+                </li>
+              ))}
+            </ol>
+          </section>
+        ))}
+      </div>
+      <div className={styles.foot}>
+        <p className={styles.footText}>Try the first job without an account, or make one to keep your work.</p>
+        <div className={styles.footButtons}>
+          <LinkButton href="/#job-1" variant="primary">
+            Try the first job
+          </LinkButton>
+          <LinkButton href="/signup" variant="quiet">
+            Make an account
+          </LinkButton>
+        </div>
+      </div>
     </Page>
   );
 }

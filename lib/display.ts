@@ -5,8 +5,8 @@ import type { Settings } from "./store/types";
 export function applyDisplaySettings(s: Settings) {
   if (typeof document === "undefined") return;
   const d = document.documentElement;
-  if (s.theme === "light" || s.theme === "dark") d.dataset.theme = s.theme;
-  else delete d.dataset.theme;
+  // Night is the default; "system" lets the CSS follow the device (light devices get day).
+  d.dataset.theme = s.theme;
   if (s.prose === "hyperlegible") d.dataset.prose = "hyperlegible";
   else delete d.dataset.prose;
   if (s.motion === "reduced") d.dataset.motion = "reduced";

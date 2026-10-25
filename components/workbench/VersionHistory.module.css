@@ -1,8 +1,7 @@
 .dialog {
   width: min(880px, calc(100vw - 32px));
   max-height: calc(100vh - 64px);
-  border: 1px solid var(--rule-strong);
-  border-radius: var(--r-2);
+  border: 2px solid var(--rule-strong);
   background: var(--paper);
   color: var(--ink);
   padding: 0;
@@ -54,7 +53,6 @@
   background: none;
   text-align: left;
   font-size: var(--step--1);
-  border-radius: var(--r-1);
 }
 
 .item[aria-pressed="true"] {

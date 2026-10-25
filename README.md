@@ -13,7 +13,7 @@ npm run dev          # http://localhost:3000
 
 No accounts or keys are needed for development: without Supabase settings the app runs on a local backend (Postgres in WebAssembly, stored in `.data/`, with built-in email and password sign-in). Sign-in links are shown at `/dev/mailbox`.
 
-A demo learner with half of Act I done: `npm run seed:demo` (with the dev server running), then log in as `demo@saltmarsh.test` / `demo-harbour-1987`.
+A demo learner with half of Act I done: `npm run seed:demo` (with the dev server running), then log in as `demo@fixwick.test` / `demo-harbour-1987`.
 
 ## Scripts
 

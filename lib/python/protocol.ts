@@ -29,10 +29,17 @@ export interface RunResult {
   inputsRequested: number;
   /** matplotlib figures, base64 PNG. */
   figures?: string[];
-  /** Frames the program drew with the saltmarsh module (Living Visualisations). */
+  /** Frames the program drew with the workshop module (Living Visualisations). */
   visuals?: Visuals;
   /** Set by the host when the worker had to be restarted to stop the run. */
   restarted?: boolean;
+  /** Static facts about the entry file (f-strings, names, loops), for characters' reactions. */
+  events?: CodeEvent[];
+}
+
+export interface CodeEvent {
+  event: string;
+  name?: string;
 }
 
 export type TraceValue =
@@ -106,7 +113,7 @@ export interface CheckReport {
   tests?: TestMeta[];
 }
 
-// Living Visualisations sent by the learner's code (lib/python/py/saltmarsh.py).
+// Living Visualisations sent by the learner's code (lib/python/py/workshop.py).
 export type Cell = [number, number];
 export type Move = "^" | "v" | "<" | ">" | null;
 

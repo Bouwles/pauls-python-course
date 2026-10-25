@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Page } from "@/components/site/Page";
 import { Doc } from "@/components/legal/Doc";
+import { BRAND } from "@/lib/brand";
 
 export const metadata: Metadata = { title: "Credits" };
 
@@ -17,17 +18,17 @@ const SOFTWARE: [string, string, string][] = [
 ];
 
 const FONTS: [string, string][] = [
-  ["Source Serif 4", "Frank Grießhammer for Adobe, SIL Open Font License 1.1"],
-  ["IBM Plex Sans", "Mike Abbink and Bold Monday for IBM, SIL Open Font License 1.1"],
-  ["JetBrains Mono", "JetBrains, SIL Open Font License 1.1"],
-  ["Atkinson Hyperlegible", "Braille Institute of America, SIL Open Font License 1.1"],
+  ["m6x11plus", "the pixel face for headings, buttons and dialogue, by Daniel Linssen, used under the free licence on his itch.io page, with thanks"],
+  ["Atkinson Hyperlegible Next", "the reading face, by the Braille Institute of America, SIL Open Font License 1.1"],
+  ["JetBrains Mono", "the code face, by JetBrains, SIL Open Font License 1.1"],
 ];
 
 export default function Credits() {
   return (
     <Page narrow>
-      <Doc title="Credits">
-        <p>Every pixel in Saltmarsh was drawn for this course, as text grids you can read in the repository. No artwork was generated.</p>
+      <Doc title="Credits" lede={`Who and what ${BRAND.name} is built from.`}>
+        <h2>Art</h2>
+        <p>Every pixel in {BRAND.townName} was drawn for this course, as text grids you can read in the repository. No artwork was generated.</p>
         <h2>Type</h2>
         <ul>
           {FONTS.map(([name, who]) => (

@@ -1,5 +1,6 @@
+/* The check report (REDESIGN.md 4.5). */
 .report {
-  padding: var(--s-3) var(--s-4);
+  padding: var(--s-3) var(--s-4) var(--s-6);
   overflow: auto;
 }
 
@@ -7,83 +8,28 @@
   display: flex;
   align-items: center;
   gap: var(--s-2);
-  font-weight: 600;
-  font-size: var(--step-0);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  padding-top: 2px;
 }
 
 .good {
-  color: var(--pass);
+  color: var(--go-text);
 }
 
 .bad {
-  color: var(--fail);
+  color: var(--danger-text);
 }
 
 .passLine {
-  margin-top: var(--s-2);
-  font-family: var(--font-prose);
-  font-size: var(--prose-size);
-}
-
-.first {
   margin-top: var(--s-3);
-  padding: var(--s-3);
-  border: var(--hairline);
-  border-left: 2px solid var(--fail);
-  background: var(--paper);
-}
-
-.name {
-  font-family: var(--font-ui);
-  font-size: var(--step--1);
-  font-weight: 600;
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--ink-2);
-}
-
-.failure > * + * {
-  margin-top: var(--s-2);
-}
-
-.message {
-  margin-top: var(--s-2);
-  font-family: var(--font-prose);
-  font-size: var(--prose-size);
-  line-height: var(--lh-prose);
-}
-
-.values {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: var(--s-2) var(--s-4);
-  margin: var(--s-2) 0 0;
-}
-
-.values dt {
-  font-size: var(--step--1);
-  color: var(--ink-2);
-  margin-bottom: var(--s-1);
-}
-
-.values dd {
-  margin: 0;
-}
-
-.values pre {
-  margin: 0;
-  padding: var(--s-2) var(--s-3);
-  background: var(--paper-sunk);
-  font-size: var(--editor-font-size);
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
-.hint {
-  font-family: var(--font-prose);
-  font-size: var(--prose-size);
-  border-left: 2px solid var(--accent);
-  padding-left: var(--s-3);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 24px;
+  -webkit-font-smoothing: none;
+  color: var(--text);
 }
 
 .list {
@@ -94,40 +40,115 @@
   gap: var(--s-1);
 }
 
+/* A step in from whatever it sits on: night, day, or the paper of a repair slip. */
+.row {
+  background: var(--inset);
+  min-width: 0;
+}
+
+.rowFail {
+  box-shadow: inset 4px 0 0 var(--brick);
+}
+
 .item {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: var(--s-2);
+  gap: var(--s-3);
+  min-height: 36px;
+  padding: var(--s-1) var(--s-3) var(--s-1) var(--s-4);
   font-size: var(--step--1);
-  cursor: default;
+  list-style: none;
 }
 
 summary.item {
   cursor: pointer;
 }
 
-.itemPass {
-  color: var(--pass);
+summary.item::-webkit-details-marker {
+  display: none;
 }
 
-.itemPass span:not(:global(.visually-hidden)) {
-  color: var(--ink);
+summary.item::after {
+  content: "+";
+  margin-left: auto;
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  color: var(--text-2);
 }
 
-.itemFail {
-  color: var(--fail);
+details[open] > summary.item::after {
+  content: "-";
 }
 
-.itemFail span:not(:global(.visually-hidden)) {
-  color: var(--ink);
+.itemName {
+  min-width: 0;
 }
 
-.itemFail details > div {
-  margin: var(--s-2) 0 var(--s-3) var(--s-6);
+.failure {
+  padding: 0 var(--s-3) var(--s-3) var(--s-4);
+  display: grid;
+  gap: var(--s-3);
+  min-width: 0;
+}
+
+.message {
+  font-family: var(--font-read);
+  font-size: var(--prose-size);
+  line-height: var(--lh-prose);
+  max-width: var(--measure);
+}
+
+/* Input, expected and got, side by side. Long values scroll inside their own box. */
+.values {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--s-2) var(--s-3);
+  margin: 0;
+  min-width: 0;
+}
+
+.values > div {
+  min-width: 0;
+}
+
+.values dt {
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  color: var(--text-2);
+  margin-bottom: var(--s-1);
+}
+
+.values dd {
+  margin: 0;
+  min-width: 0;
+}
+
+.values pre {
+  margin: 0;
+  padding: var(--s-2) var(--s-3);
+  background: var(--code-bg);
+  font-family: var(--font-code);
+  font-size: var(--step--1);
+  line-height: 1.5;
+  white-space: pre;
+  overflow-x: auto;
+  max-height: 240px;
+}
+
+.hint {
+  font-family: var(--font-read);
+  font-size: var(--step--1);
+  color: var(--text-2);
+  max-width: var(--measure);
 }
 
 .stretch {
-  margin-top: var(--s-4);
-  padding-top: var(--s-3);
-  border-top: var(--hairline);
+  margin-top: var(--s-5);
+}
+
+.stretchTitle {
+  font-size: var(--pixel-1);
+  color: var(--text-2);
 }

@@ -1,18 +1,25 @@
 .sync {
-  font-size: var(--step--1);
-  color: var(--ink-2);
-  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: var(--text-2);
 }
 
-.offline,
+.saved,
+.local {
+  color: var(--text-2);
+}
+
+.saving {
+  color: var(--accent-text);
+}
+
+.offline {
+  color: var(--text-2);
+}
+
 .error {
-  color: var(--accent-ink);
-}
-
-@media (max-width: 600px) {
-  .saved,
-  .local,
-  .saving {
-    font-size: var(--step--2);
-  }
+  color: var(--danger-text);
 }

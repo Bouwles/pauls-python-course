@@ -5,6 +5,8 @@ import type { Files, TestMeta } from "../python/protocol";
 export interface Line {
   who: string;
   text: string;
+  /** The portrait expression for this line ("pleased", "worried"...). Neutral when missing. */
+  face?: string;
 }
 
 export interface Hints {
@@ -13,9 +15,19 @@ export interface Hints {
   shape: string;
 }
 
+export interface Dataset {
+  name: string;
+  source: string;
+  licence: string;
+  file: string;
+  notes?: string;
+}
+
 export interface JobSummary {
   id: string;
   title: string;
+  /** The plain name of the real program: "Bill Splitter". */
+  projectName: string;
   status: "written" | "outline";
   client: string;
   building: string;
@@ -34,6 +46,9 @@ export interface JobSummary {
   placementFor: string | null;
   /** A timed Job (University Readiness): the suggested time, shown as a clock. Never enforced. */
   timedMinutes: number | null;
+  /** Downloads from the Shelf as a runnable folder with a README. */
+  downloadable: boolean;
+  datasets: Dataset[];
 }
 
 export interface ActSummary {
@@ -251,6 +266,8 @@ export interface Job extends JobSummary {
   stretch: StretchTask[];
   storyNote: string | null;
   data: Files;
+  /** The README template for the learner's portfolio copy ({name}, {date}). */
+  portfolioReadme: string | null;
 }
 
 export type Card = CardBody & { files: Files };
@@ -274,6 +291,8 @@ export interface Concept {
   id: string;
   title: string;
   summaryHtml: string;
+  /** The Python Handbook's longer page for this concept (content/handbook/<id>.md), when written. */
+  handbookHtml?: string;
   example: string;
   exampleInputs: string[];
   misconceptions: string[];

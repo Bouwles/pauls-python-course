@@ -9,6 +9,10 @@
 // With --preview, also writes 8x enlargements to sprites/preview/ for review.
 import fs from "node:fs";
 import path from "node:path";
+import { BRAND } from "../lib/brand";
+
+const BRAND_NAME = BRAND.name;
+const BRAND_TAGLINE = BRAND.tagline;
 import { encodePng } from "../lib/pixel/png";
 
 const root = process.cwd();
@@ -29,7 +33,8 @@ interface PaletteFile {
 }
 const palette = JSON.parse(fs.readFileSync(path.join(root, "palette.json"), "utf8")) as PaletteFile;
 const colourCount = Object.keys(palette.colours).length;
-if (colourCount > 24) throw new Error(`palette.json has ${colourCount} colours; the limit is 24`);
+// One palette for the world, the interface and the characters (REDESIGN.md 3.1).
+if (colourCount > 64) throw new Error(`palette.json has ${colourCount} colours; the limit is 64`);
 
 const rgb = (hex: string): [number, number, number] => [parseInt(hex.slice(1, 3), 16), parseInt(hex.slice(3, 5), 16), parseInt(hex.slice(5, 7), 16)];
 const COLOURS = new Map<string, [number, number, number]>();
@@ -381,15 +386,15 @@ if (fs.existsSync(scenesDir)) {
 }
 fs.writeFileSync(path.join(OUT, "index.json"), JSON.stringify({ sprites: index, scenes }));
 
-// Favicons: Dennis, whole-number scaled.
+// Favicons (REDESIGN.md 1.4): the 16x16 mark, nearest-neighbour scaled; Dennis until the mark exists.
 function icon(size: number, k: number, background: string | null, file: string) {
-  const d = all.get("dennis")!;
+  const d = all.get("mark") ?? all.get("dennis")!;
   const rgba = new Uint8Array(size * size * 4);
   if (background) {
     const c = COLOURS.get(background)!;
     for (let i = 0; i < size * size; i++) rgba.set([c[0], c[1], c[2], 255], i * 4);
   }
-  const frame = d.frames.get("idle")!;
+  const frame = d.frames.get("idle") ?? [...d.frames.values()][0]!;
   const ox = Math.floor((size - d.w * k) / 2);
   const oy = Math.floor((size - d.h * k) / 2);
   for (let y = 0; y < d.h * k; y++)
@@ -401,6 +406,120 @@ function icon(size: number, k: number, background: string | null, file: string) 
     }
   fs.writeFileSync(path.join(root, "public", file), encodePng(size, size, rgba));
 }
-icon(32, 2, null, "icon.png");
-icon(180, 12, "6", "apple-icon.png");
+const markScale = all.has("mark") ? 1 : 1;
+icon(16, markScale, null, "icon-16.png");
+icon(32, 2 * markScale, null, "icon-32.png");
+icon(32, 2 * markScale, null, "icon.png");
+icon(180, 11, "G", "apple-icon.png");
+icon(512, 32, "G", "icon-512.png");
+
+// The 5x7 world font and the palette as data, for images the server draws at request time
+// (certificates, share cards): bundled with the app, so no files are read at runtime.
+{
+  const font = all.get("font");
+  const glyphs = font ? Object.fromEntries([...font.frames].map(([k, rows]) => [k, rows])) : {};
+  const colours = Object.fromEntries([...COLOURS].map(([k, c]) => [k, c]));
+  fs.mkdirSync(path.join(root, "generated"), { recursive: true });
+  fs.writeFileSync(path.join(root, "generated", "pixel-data.json"), JSON.stringify({ font: { w: font?.w ?? 5, h: font?.h ?? 7, glyphs }, colours }));
+}
+
+// The OG image (REDESIGN.md 1.4): the town at dusk with the wordmark, 1200x630, rendered here from the
+// same grids as everything else. The scene is drawn at the biggest whole-number scale that fits.
+{
+  const W = 1200;
+  const H = 630;
+  const rgba = new Uint8Array(W * H * 4);
+  const bg = COLOURS.get("G")!;
+  for (let i = 0; i < W * H; i++) rgba.set([bg[0], bg[1], bg[2], 255], i * 4);
+  const plot = (x: number, y: number, ch: string) => {
+    if (x < 0 || y < 0 || x >= W || y >= H || ch === ".") return;
+    const c = COLOURS.get(ch);
+    if (c) rgba.set([c[0], c[1], c[2], 255], (y * W + x) * 4);
+  };
+  const blit = (rows: string[], ox: number, oy: number, k: number, recolour?: string) => {
+    rows.forEach((row, y) => {
+      for (let x = 0; x < row.length; x++) {
+        const ch = row[x]!;
+        if (ch === ".") continue;
+        for (let dy = 0; dy < k; dy++) for (let dx = 0; dx < k; dx++) plot(ox + x * k + dx, oy + y * k + dy, recolour ?? ch);
+      }
+    });
+  };
+  const sceneName = ["harbour-dusk", "harbour", "pier", "workshop2-night", "workshop-night"].find((n) => fs.existsSync(path.join(scenesDir, `${n}.json`)));
+  let titleAt: [number, number] = [48, 48];
+  if (sceneName) {
+    const scene = JSON.parse(fs.readFileSync(path.join(scenesDir, `${sceneName}.json`), "utf8")) as SceneFile;
+    const [sw, sh] = scene.size;
+    const k = Math.max(1, Math.floor(Math.min(W / sw, H / sh)));
+    const ox = Math.floor((W - sw * k) / 2);
+    const oy = Math.floor((H - sh * k) / 2);
+    const back = renderLayer(scene, all, "back");
+    const front = renderLayer(scene, all, "front");
+    blit(back.map((r, y) => r.map((ch, x) => (front[y]![x] !== "." ? front[y]![x]! : ch)).join("")), ox, oy, k);
+    const t = scene.marks?.title;
+    if (t) titleAt = [ox + t[0]! * k + 3 * k, oy + t[1]! * k + 3 * k];
+  }
+  // Text in the 5x7 world font, with a one-unit shadow so it reads over the sky.
+  const font = all.get("font");
+  const glyphName = (c: string) => ({ " ": "space", ".": "period", ",": "comma", "'": "apostrophe", "-": "hyphen", ":": "colon", "&": "ampersand", "?": "question", "/": "slash" })[c] ?? c;
+  const write = (text: string, x: number, y: number, k: number, colour: string) => {
+    if (!font) return;
+    let cx = x;
+    for (const c of text.toUpperCase()) {
+      const g = font.frames.get(glyphName(c));
+      if (g) {
+        blit(g, cx + k, y + k, k, "G");
+        blit(g, cx, y, k, colour);
+      }
+      cx += (font.w + 1) * k;
+    }
+  };
+  const wordmark = all.get("wordmark");
+  if (wordmark) {
+    const frame = [...wordmark.frames.values()][0]!;
+    blit(frame, titleAt[0], titleAt[1], 4);
+    write(BRAND_TAGLINE, titleAt[0], titleAt[1] + wordmark.h * 4 + 18, 3, "M");
+  } else {
+    write(BRAND_NAME, titleAt[0], titleAt[1], 7, "N");
+    write(BRAND_TAGLINE, titleAt[0], titleAt[1] + 7 * 7 + 18, 3, "M");
+  }
+  fs.writeFileSync(path.join(root, "public", "og.png"), encodePng(W, H, rgba));
+}
+
+// Pixel icons as SVG paths (REDESIGN.md 3.6), bundled with the app so they draw
+// crisp at any whole-number size. Chalk (M) pixels become currentColor so a
+// button can recolour its icon; other colours (the heart, the duck) stay as drawn.
+{
+  const iconSprites = [...all.values()].filter((sp) => sp.name.startsWith("icon-") || sp.name === "heart" || sp.name === "mark");
+  const out: Record<string, { w: number; h: number; frames: Record<string, { fill: string; d: string }[]> }> = {};
+  for (const sp of iconSprites) {
+    const frames: Record<string, { fill: string; d: string }[]> = {};
+    for (const [id, rows] of sp.frames) {
+      const byColour = new Map<string, string[]>();
+      rows.forEach((row, y) => {
+        let x = 0;
+        while (x < row.length) {
+          const ch = row[x]!;
+          if (ch === ".") {
+            x++;
+            continue;
+          }
+          let run = 1;
+          while (x + run < row.length && row[x + run] === ch) run++;
+          const fill = ch === "M" ? "currentColor" : `#${COLOURS.get(ch)!.map((n) => n.toString(16).padStart(2, "0")).join("")}`;
+          if (!byColour.has(fill)) byColour.set(fill, []);
+          byColour.get(fill)!.push(`M${x} ${y}h${run}v1h-${run}z`);
+          x += run;
+        }
+      });
+      frames[id] = [...byColour].map(([fill, parts]) => ({ fill, d: parts.join("") }));
+    }
+    out[sp.name.replace(/^icon-/, "")] = { w: sp.w, h: sp.h, frames };
+  }
+  fs.mkdirSync(path.join(root, "generated"), { recursive: true });
+  fs.writeFileSync(
+    path.join(root, "generated", "icons.ts"),
+    `// GENERATED by scripts/build-sprites.ts from sprites/src/ui.txt. Do not edit.\nexport const ICONS: Record<string, { w: number; h: number; frames: Record<string, { fill: string; d: string }[]> }> = ${JSON.stringify(out)};\n`,
+  );
+}
 console.log(`sprites: ${all.size} sheets, ${Object.keys(learner).length} learner parts, ${Object.keys(scenes).length} scenes`);

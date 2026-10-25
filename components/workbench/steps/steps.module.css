@@ -1,10 +1,28 @@
+/*
+  Shared step styles. Most of this sits on the paper ticket, where the colour roles are
+  re-pointed to ink on paper (app/frames.css); the stage parts sit on the night panels.
+*/
+
 .kind {
   margin-bottom: var(--s-2);
 }
 
+/* "This step: ..." under the torn edge. */
 .heading {
-  font-size: var(--step-2);
-  margin-bottom: var(--s-3);
+  font-size: var(--pixel-1);
+  line-height: 24px;
+  color: var(--text);
+}
+
+.thisStep {
+  color: var(--text-2);
+}
+
+.sub {
+  font-size: var(--pixel-1);
+  line-height: 1;
+  color: var(--text);
+  margin-bottom: var(--s-2);
 }
 
 .block + .block {
@@ -12,11 +30,11 @@
 }
 
 .question {
-  font-family: var(--font-prose);
+  font-family: var(--font-read);
   font-size: var(--prose-size);
-  font-weight: 600;
+  font-weight: 700;
   line-height: var(--lh-prose);
-  margin-top: var(--s-5);
+  margin-top: var(--s-4);
 }
 
 .question code {
@@ -31,34 +49,42 @@
   margin: var(--s-3) 0 0;
   display: grid;
   gap: var(--s-2);
+  min-width: 0;
 }
 
+/* An answer to pick: a slip of paper with a hard edge, not a rounded card. */
 .option {
   display: grid;
-  grid-template-columns: 18px 1fr;
+  grid-template-columns: 18px minmax(0, 1fr);
   gap: var(--s-2);
   align-items: start;
   padding: var(--s-2) var(--s-3);
-  border: 1px solid var(--rule-strong);
-  border-radius: var(--r-2);
   cursor: pointer;
   background: var(--paper);
+  box-shadow:
+    inset 0 0 0 2px var(--rule),
+    inset 0 -4px 0 var(--rule);
 }
 
 .option:hover {
-  border-color: var(--control-border);
+  box-shadow:
+    inset 0 0 0 2px var(--rule-strong),
+    inset 0 -4px 0 var(--rule-strong);
 }
 
 .option input {
   margin: 3px 0 0;
-  accent-color: var(--accent-ink);
+  accent-color: var(--night-0);
 }
 
 .option pre {
   margin: 0;
+  padding: 0;
   font-family: var(--font-code);
   font-size: var(--step--1);
   white-space: pre-wrap;
+  background: none;
+  color: inherit;
 }
 
 .optionText {
@@ -66,18 +92,24 @@
 }
 
 .chosen {
-  border-color: var(--ink);
   background: var(--paper-raised);
+  box-shadow:
+    inset 0 0 0 2px var(--night-0),
+    inset 0 -4px 0 var(--night-0);
 }
 
 .right {
-  border-color: var(--pass);
   background: var(--pass-wash);
+  box-shadow:
+    inset 0 0 0 2px var(--pass),
+    inset 0 -4px 0 var(--pass);
 }
 
 .wrong {
-  border-color: var(--fail);
   background: var(--fail-wash);
+  box-shadow:
+    inset 0 0 0 2px var(--fail),
+    inset 0 -4px 0 var(--fail);
 }
 
 .locked {
@@ -87,29 +119,30 @@
 .feedback {
   margin-top: var(--s-3);
   padding: var(--s-3);
-  font-family: var(--font-prose);
+  font-family: var(--font-read);
   font-size: var(--prose-size);
   line-height: var(--lh-prose);
-  border-left: 2px solid var(--rule-strong);
   background: var(--paper-sunk);
+  box-shadow: inset 4px 0 0 var(--rule-strong);
 }
 
 .feedbackGood {
-  border-left-color: var(--pass);
+  box-shadow: inset 4px 0 0 var(--pass);
 }
 
 .feedbackBad {
-  border-left-color: var(--fail);
+  box-shadow: inset 4px 0 0 var(--fail);
 }
 
 .feedbackTitle {
   display: flex;
   align-items: center;
   gap: var(--s-2);
-  font-family: var(--font-ui);
-  font-weight: 600;
-  font-size: var(--step--1);
-  margin-bottom: var(--s-1);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  margin-bottom: var(--s-2);
 }
 
 .feedbackGood .feedbackTitle {
@@ -123,9 +156,6 @@
 .field {
   width: 100%;
   min-height: 36px;
-  border: 1px solid var(--control-border);
-  border-radius: var(--r-1);
-  background: var(--paper-raised);
   padding: var(--s-1) var(--s-2);
   font-family: var(--font-code);
   font-size: var(--step--1);
@@ -140,9 +170,7 @@
 }
 
 .next {
-  margin-top: var(--s-6);
-  padding-top: var(--s-4);
-  border-top: var(--hairline);
+  margin-top: var(--s-5);
   display: flex;
   align-items: center;
   gap: var(--s-3);
@@ -151,12 +179,12 @@
 
 .nextNote {
   font-size: var(--step--1);
-  color: var(--ink-2);
+  color: var(--text-2);
 }
 
 .tasks {
   list-style: none;
-  margin: var(--s-5) 0 0;
+  margin: var(--s-4) 0 0;
   padding: 0;
   display: grid;
   gap: var(--s-4);
@@ -167,25 +195,29 @@
   counter-increment: task;
   display: grid;
   gap: var(--s-2);
+  min-width: 0;
 }
 
 .taskPrompt {
-  font-family: var(--font-prose);
+  font-family: var(--font-read);
   font-size: var(--prose-size);
   line-height: var(--lh-prose);
 }
 
 .taskPrompt::before {
   content: counter(task) ". ";
-  font-family: var(--font-code);
-  color: var(--accent-ink);
-  font-size: var(--step--1);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  color: var(--accent-text);
 }
 
-.taskPrompt code {
-  font-size: 0.85em;
+.taskPrompt code,
+.task code {
+  font-family: var(--font-code);
+  font-size: 0.88em;
+  font-variant-ligatures: none;
   background: var(--paper-sunk);
-  padding: 0 0.25em;
+  padding: 0.05em 0.3em;
 }
 
 .done {
@@ -193,12 +225,14 @@
   display: inline-flex;
   align-items: center;
   gap: var(--s-1);
-  font-size: var(--step--1);
-  font-weight: 600;
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
 }
 
+/* The checks you can see, listed at the bottom of the ticket. */
 .visible {
-  margin-top: var(--s-5);
+  margin-top: var(--s-4);
 }
 
 .visibleList {
@@ -210,45 +244,43 @@
 }
 
 .visibleItem {
-  border: var(--hairline);
-  border-radius: var(--r-2);
   padding: var(--s-2) var(--s-3);
   font-size: var(--step--1);
+  background: var(--paper-sunk);
+  min-width: 0;
 }
 
 .visibleItem pre {
   margin: var(--s-1) 0 0;
   font-family: var(--font-code);
   font-size: var(--step--1);
-  white-space: pre-wrap;
-  background: var(--paper-sunk);
+  white-space: pre;
+  overflow-x: auto;
   padding: var(--s-1) var(--s-2);
 }
 
 .visibleName {
-  font-weight: 600;
+  font-weight: 700;
 }
 
-.job {
-  margin-bottom: var(--s-5);
-  border: var(--hairline);
-  border-radius: var(--r-2);
+.newIdeas {
+  margin-top: var(--s-2);
 }
 
-.job summary {
-  cursor: pointer;
-  padding: var(--s-2) var(--s-3);
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chips li {
   font-size: var(--step--1);
-  font-weight: 500;
-}
-
-.jobBody {
-  padding: 0 var(--s-3) var(--s-3);
-  font-size: var(--step--1);
-}
-
-.jobBody pre {
-  font-size: var(--step--1);
+  padding: 2px var(--s-2);
+  background: var(--paper-sunk);
+  box-shadow: inset 0 -2px 0 var(--rule-strong);
 }
 
 /* ---- stage layouts ---- */
@@ -265,106 +297,22 @@
   }
 }
 
-/* The Ask: a repair ticket pinned to the bench */
-.ticket {
-  max-width: 640px;
-  margin: 0 auto;
-  background: var(--paper-raised);
-  border: 1px solid var(--rule-strong);
-  padding: var(--s-6) var(--s-8) var(--s-8);
-  position: relative;
-}
-
-.ticket::before {
-  content: "";
-  position: absolute;
-  inset: 6px;
-  border: 1px dashed var(--rule);
-  pointer-events: none;
-}
-
-.ticketHead {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: var(--s-4);
-  border-bottom: 1px solid var(--ink);
-  padding-bottom: var(--s-2);
-  margin-bottom: var(--s-4);
-}
-
-.ticketNo {
-  font-family: var(--font-code);
-  font-size: var(--step--1);
-  color: var(--ink-2);
-}
-
-.ticketTitle {
-  font-size: var(--step-3);
-}
-
-.ticketMeta {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: var(--s-1) var(--s-4);
-  font-size: var(--step--1);
-  margin: var(--s-4) 0;
-}
-
-.ticketMeta dt {
-  color: var(--ink-2);
-}
-
-.ticketMeta dd {
-  margin: 0;
-}
-
 .example {
   margin-top: var(--s-4);
 }
 
+/* A terminal transcript: dark in both themes, on paper or off it. */
 .terminal {
   margin: var(--s-2) 0 0;
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--night-1);
+  color: var(--chalk);
   padding: var(--s-3) var(--s-4);
   font-family: var(--font-code);
   font-size: var(--step--1);
   line-height: 1.6;
-  border-radius: var(--r-1);
   white-space: pre-wrap;
   /* Long unbroken output (JSON, URLs) wraps instead of running off a phone screen. */
   overflow-wrap: anywhere;
-}
-
-:global([data-theme="dark"]) .terminal {
-  background: var(--paper-sunk);
-  color: var(--ink);
-  border: var(--hairline);
-}
-
-@media (prefers-color-scheme: dark) {
-  :global(:root:not([data-theme="light"])) .terminal {
-    background: var(--paper-sunk);
-    color: var(--ink);
-    border: var(--hairline);
-  }
-}
-
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-1) var(--s-2);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.chips li {
-  font-size: var(--step--1);
-  border: var(--hairline);
-  border-radius: var(--r-1);
-  padding: 0 var(--s-2);
 }
 
 /* Worked example stage */
@@ -379,14 +327,15 @@
   flex: 1;
   overflow: auto;
   padding: var(--s-5) var(--s-6);
+  background: var(--code-bg);
 }
 
 .workedRun {
-  border-top: var(--hairline);
   display: flex;
   flex-direction: column;
   height: 220px;
   flex: none;
+  box-shadow: inset 0 2px 0 var(--night-0);
 }
 
 .workedBar {
@@ -394,9 +343,11 @@
   align-items: center;
   gap: var(--s-3);
   padding: var(--s-2) var(--s-4);
-  border-bottom: var(--hairline);
-  font-size: var(--step--1);
-  color: var(--ink-2);
+  background: var(--panel-2);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  color: var(--text-2);
 }
 
 .workedConsole {
@@ -405,90 +356,14 @@
   overflow: auto;
 }
 
-/* Ship */
-.ship {
-  max-width: 720px;
-  margin: 0 auto;
-  display: grid;
-  gap: var(--s-5);
-}
-
-.shipScene {
-  position: relative;
-}
-
-.stamp {
-  position: absolute;
-  right: 6%;
-  top: 12%;
-  border: 3px solid var(--fail);
-  color: var(--fail);
-  font-family: var(--font-ui);
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  padding: var(--s-1) var(--s-3);
-  transform: rotate(-8deg);
-  background: color-mix(in srgb, var(--paper) 80%, transparent);
-  text-align: center;
-  line-height: 1.2;
-  animation: stamp 260ms var(--ease) both;
-}
-
-.stamp small {
-  display: block;
-  font-size: var(--step--2);
-  letter-spacing: 0.04em;
-  font-weight: 500;
-}
-
-@keyframes stamp {
-  from {
-    transform: rotate(-8deg) scale(1.6);
-    opacity: 0;
-  }
-  to {
-    transform: rotate(-8deg) scale(1);
-    opacity: 1;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .stamp {
-    animation: none;
-  }
-}
-
-:global([data-motion="reduced"]) .stamp {
-  animation: none;
-}
-
-.shelfNote {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: var(--s-4);
-  align-items: center;
-  padding: var(--s-4);
-  border: var(--hairline);
-  background: var(--paper-raised);
-}
-
 .cards {
   font-size: var(--step--1);
-  color: var(--ink-2);
+  color: var(--text-2);
 }
 
 .reviewWhere {
   font-weight: 400;
   font-family: var(--font-code);
   font-size: var(--step--2);
-  color: var(--ink-2);
-}
-
-.task code {
-  font-family: var(--font-code);
-  font-size: 0.9em;
-  font-variant-ligatures: none;
-  background: var(--paper-sunk);
-  border-radius: var(--r-1);
-  padding: 0.05em 0.3em;
+  color: var(--text-2);
 }

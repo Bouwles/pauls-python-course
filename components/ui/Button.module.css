@@ -1,103 +1,118 @@
+/* Chunky pixel buttons: a face, a 4 px darker bottom edge, a 2 px outline, a real press. */
 .button {
+  --face: var(--quiet);
+  --edge: var(--quiet-dark);
+  --label: var(--quiet-text);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--s-2);
-  border-radius: var(--r-2);
-  border: 1px solid transparent;
-  font-family: var(--font-ui);
-  font-weight: 500;
+  border: 0;
+  border-radius: 0;
+  outline: 2px solid var(--night-0);
+  outline-offset: 0;
+  background: var(--face);
+  color: var(--label);
+  box-shadow: inset 0 -4px 0 var(--edge), inset 0 2px 0 color-mix(in srgb, var(--day-2) 12%, transparent);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  font-weight: 400;
   line-height: 1;
+  -webkit-font-smoothing: none;
   white-space: nowrap;
   text-decoration: none;
-  transition: background-color var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease), color var(--dur-1) var(--ease);
+  transition: transform var(--dur-1) steps(1), box-shadow var(--dur-1) steps(1);
+  position: relative;
 }
 
 .md {
-  min-height: 36px;
-  padding: 0 var(--s-4);
-  font-size: var(--step--1);
+  height: 40px;
+  padding: 0 var(--s-4) 4px;
 }
 
 .sm {
-  min-height: 28px;
-  padding: 0 var(--s-3);
-  font-size: var(--step--1);
+  height: 32px;
+  padding: 0 var(--s-3) 4px;
 }
 
-@media (pointer: coarse) {
-  .md,
+@media (max-width: 720px), (pointer: coarse) {
+  .md {
+    height: var(--touch);
+  }
+
   .sm {
-    min-height: var(--touch);
+    height: 36px;
   }
 }
 
+/* Beats the global link colours when a button is an <a>. */
+.button:link,
+.button:visited,
+.button:hover {
+  color: var(--label);
+  text-decoration: none;
+}
+
+.button:hover:not(:disabled) {
+  filter: brightness(1.12);
+}
+
+.button:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: inset 0 -2px 0 var(--edge);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--lamp);
+  outline-offset: 2px;
+}
+
 .primary {
-  background: var(--accent);
-  color: var(--on-accent);
-  border-color: color-mix(in srgb, var(--accent) 70%, var(--ink));
+  --face: var(--lamp);
+  --edge: var(--lamp-dark);
+  --label: var(--night-0);
 }
 
-.primary:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--accent) 88%, var(--ink));
-}
-
-.secondary {
-  background: transparent;
-  color: var(--ink);
-  border-color: var(--control-border);
-}
-
-.secondary:hover:not(:disabled) {
-  background: var(--paper-sunk);
-}
-
-.quiet {
-  background: transparent;
-  color: var(--ink-2);
-  padding-inline: var(--s-2);
-}
-
-.quiet:hover:not(:disabled) {
-  color: var(--ink);
-  background: var(--paper-sunk);
+.go {
+  --face: var(--kelp);
+  --edge: var(--kelp-dark);
+  --label: var(--night-0);
 }
 
 .danger {
-  background: transparent;
-  color: var(--fail);
-  border-color: var(--fail);
+  --face: var(--brick);
+  --edge: var(--brick-dark);
+  --label: var(--night-0);
 }
 
-.danger:hover:not(:disabled) {
-  background: var(--fail-wash);
+.quiet {
+  --face: var(--quiet);
+  --edge: var(--quiet-dark);
+  --label: var(--quiet-text);
 }
 
+.quiet:hover:not(:disabled) {
+  filter: none;
+  background: var(--quiet-hover);
+}
+
+/* Disabled: dimmed, no bottom edge. */
 .button:disabled {
-  opacity: 0.5;
+  opacity: 0.45;
+  box-shadow: none;
+  padding-bottom: 0;
+  filter: grayscale(0.4);
+}
+
+/* Locked: a normal quiet button with a padlock; it explains itself and doesn't press. */
+.locked {
+  cursor: help;
+}
+
+.locked:active {
+  transform: none;
 }
 
 .icon {
   display: inline-flex;
-  width: 14px;
-  height: 14px;
-}
-
-.icon svg {
-  width: 100%;
-  height: 100%;
-}
-
-.kbd {
-  font-family: var(--font-code);
-  font-size: 0.68rem;
-  color: inherit;
-  opacity: 0.7;
-  font-weight: 400;
-}
-
-@media (max-width: 720px) {
-  .kbd {
-    display: none;
-  }
 }

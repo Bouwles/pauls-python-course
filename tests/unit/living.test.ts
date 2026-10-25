@@ -13,9 +13,9 @@ afterAll(async () => {
 
 const run = (code: string) => py.run({ files: { "main.py": code } });
 
-describe("the saltmarsh module (Living Visualisations)", () => {
+describe("the workshop module (Living Visualisations)", () => {
   it("records grid frames with policies, Q-values and Sir Reginald", async () => {
-    const r = await run(`from saltmarsh import show_grid
+    const r = await run(`from workshop import show_grid
 show_grid([[0, 1], [2, None]], policy=[["up", 3], [">", None]], crab=(0, 1), walls=[(1, 1)], goal=(0, 0), q={(0, 0): [1, 2, 3, 4]}, title="sweep 1")
 `);
     expect(r.status).toBe("ok");
@@ -25,7 +25,7 @@ show_grid([[0, 1], [2, None]], policy=[["up", 3], [">", None]], crab=(0, 1), wal
   });
 
   it("keeps at most 400 frames of each kind, spread over the run, with the last one always kept", async () => {
-    const r = await run(`from saltmarsh import show_grid, show_hill
+    const r = await run(`from workshop import show_grid, show_hill
 for i in range(1000):
     show_grid([[i]])
 for i in range(10):
@@ -41,14 +41,14 @@ for i in range(10):
   });
 
   it("draws graphs from neighbour dicts or weighted edges", async () => {
-    const r = await run(`from saltmarsh import show_graph
+    const r = await run(`from workshop import show_graph
 show_graph({"bakery": {"pub": 3}, "pub": ["lighthouse"]}, visited=["bakery"], current="pub", distances={"bakery": 0, "pub": 3})
 `);
     expect(r.visuals!.frames[0]).toMatchObject({ kind: "graph", edges: [["bakery", "pub", 3], ["pub", "lighthouse", null]], visited: ["bakery"], current: "pub" });
   });
 
   it("explains bad arguments in plain words, and sends nothing when unused", async () => {
-    const bad = await run("from saltmarsh import show_grid\nshow_grid(5)\n");
+    const bad = await run("from workshop import show_grid\nshow_grid(5)\n");
     expect(bad.error?.type).toBe("TypeError");
     expect(bad.error?.message).toMatch(/list of rows/);
     expect((await run("print(1)")).visuals).toBeUndefined();

@@ -10,6 +10,7 @@ import { baselinePolicy, course, courseJson, hash, MAX_STEPS, RACES, raceFrames,
 import type { GridFrame } from "@/lib/python/protocol";
 import { download } from "@/lib/export";
 import { Button } from "../ui/Button";
+import { PixelIcon } from "../ui/PixelIcon";
 import { LivingPlayer } from "../workbench/LivingPlayer";
 import { CodeBlock } from "../workbench/CodeBlock";
 import styles from "./League.module.css";
@@ -113,13 +114,12 @@ export function League() {
   return (
     <div className={styles.wrap}>
       <header className={styles.head}>
-        <p className="label">The Crab Racing Club</p>
         <h1 className={styles.title}>The Crab League</h1>
-        <p className={styles.lede}>A race every week on the Club Course, for the policies you train in Act VII. Entering is the only way onto the table, and the table shows display names and scores. Nothing else.</p>
+        <p className={styles.lede}>The Crab Racing Club runs a race every week on the Club Course, for the policies you train in Act VII. Entering is the only way onto the table, and the table shows display names and scores. Nothing else.</p>
       </header>
 
       <div className={styles.columns}>
-        <section className={styles.block} aria-labelledby="course-title">
+        <section className={`frame-panel ${styles.block}`} aria-labelledby="course-title">
           <h2 id="course-title" className={styles.h2}>
             The course
           </h2>
@@ -128,13 +128,13 @@ export function League() {
             Start top left, finish bottom right. Rocks are hatched; the brick-tinted tiles are rock pools, where Sir Reginald slips sideways {Math.round(SLIP_POOL * 100)}% of the time ({Math.round(SLIP_SAND * 100)}% on sand). Each race is {RACES} runs of at most {MAX_STEPS} moves; your score is the average number of moves, lower is better. The plain shortest path takes {baseline} moves when nothing slips.
           </p>
           <div className={styles.row}>
-            <Button variant="secondary" onClick={() => download("club-course.json", JSON.stringify(courseJson(), null, 2), "application/json")}>
+            <Button variant="quiet" onClick={() => download("club-course.json", JSON.stringify(courseJson(), null, 2), "application/json")}>
               Download the course
             </Button>
           </div>
         </section>
 
-        <section className={styles.block} aria-labelledby="enter-title">
+        <section className={`frame-panel ${styles.block}`} aria-labelledby="enter-title">
           <h2 id="enter-title" className={styles.h2}>
             Enter this week
           </h2>
@@ -170,7 +170,8 @@ export function League() {
               </label>
               {message ? (
                 <p className={styles.error} role="alert">
-                  {message}
+                  <PixelIcon name="cross" />
+                  <span>{message}</span>
                 </p>
               ) : null}
               {data?.mine && isCurrent ? (
@@ -193,7 +194,7 @@ export function League() {
       </div>
 
       {replay ? (
-        <section className={styles.block} aria-labelledby="replay-title">
+        <section className={`frame-panel ${styles.block}`} aria-labelledby="replay-title">
           <h2 id="replay-title" className={styles.h2}>
             Your first race this week
           </h2>
@@ -202,7 +203,7 @@ export function League() {
         </section>
       ) : null}
 
-      <section className={styles.block} aria-labelledby="table-title">
+      <section className={`frame-panel ${styles.block}`} aria-labelledby="table-title">
         <div className={styles.tableHead}>
           <h2 id="table-title" className={styles.h2}>
             {!viewing || isCurrent ? "This week" : `Week ${Number(viewing.split("-W")[1])}, ${viewing.split("-W")[0]}`}
@@ -216,24 +217,27 @@ export function League() {
         {!data ? null : data.table.length === 0 ? (
           <p className={styles.meta}>No entries yet{isCurrent ? ". The first one sets the time to beat." : "."}</p>
         ) : (
+          <div className={styles.tableWrap} role="region" aria-labelledby="table-title" tabIndex={0}>
           <table className={styles.table}>
             <thead>
               <tr>
                 <th scope="col">Place</th>
                 <th scope="col">Name</th>
-                <th scope="col">Average moves</th>
+                <th scope="col" className={styles.num}>
+                  Average moves
+                </th>
                 <th scope="col">Finished</th>
               </tr>
             </thead>
             <tbody>
               {data.table.map((r) => (
                 <tr key={`${r.place}-${r.name}`} className={r.mine ? styles.me : undefined}>
-                  <td>{r.place}</td>
+                  <td className={styles.place}>{r.place}</td>
                   <td>
                     {r.name}
                     {r.mine ? <span className="visually-hidden"> (you)</span> : null}
                   </td>
-                  <td>{r.score.toFixed(2)}</td>
+                  <td className={styles.num}>{r.score.toFixed(2)}</td>
                   <td>
                     {r.finished} of {RACES}
                   </td>
@@ -241,6 +245,7 @@ export function League() {
               ))}
             </tbody>
           </table>
+          </div>
         )}
       </section>
     </div>

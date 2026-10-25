@@ -1,75 +1,82 @@
 /*
-  Desktop, three zones:
-    left:   step list, then the brief for the current step
-    centre: the stage (editor and output, or the worked example, Parsons board, ship scene)
-    right:  the scene strip, then hints and Dennis
-  Phone: the scene shrinks to a line of dialogue; Brief, Code and Output become tabs.
-  Steps render their parts with the brief, stage and side classes; .main uses
+  The Workbench is a game screen (REDESIGN.md 5.1):
+
+    hud    hud       48 px HUD
+    path   path      the step path, with Hint and Dennis
+    brief  stage     the paper ticket | the editor (at least 60 per cent of the width)
+    talk   talk      the dialogue box
+
+  Steps render their parts with the brief and stage classes; .main uses
   `display: contents` so those parts sit directly in this grid.
+  Phone: HUD, the path as a sideways scroller, a one-line dialogue box, then
+  Ticket, Code and Output as three big tabs.
 */
 .wb {
+  --ticket-w: 340px;
   display: grid;
-  grid-template-columns: minmax(260px, 300px) minmax(0, 1fr) minmax(336px, 352px);
-  grid-template-rows: var(--topbar-h) auto minmax(0, 1fr);
+  grid-template-columns: var(--ticket-w) minmax(0, 1fr);
+  grid-template-rows: var(--hud-h) auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    "hud hud"
+    "path path"
+    "brief stage"
+    "talk talk";
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
-  background: var(--paper);
+  background: var(--bg);
+  position: relative;
+}
+
+.wb[data-ticket="folded"] {
+  --ticket-w: 64px;
 }
 
 .main {
   display: contents;
 }
 
-.nav {
-  grid-column: 1;
-  grid-row: 2;
-  border-right: var(--hairline);
-  overflow: auto;
-  max-height: 44vh;
+.path {
+  grid-area: path;
+  min-width: 0;
+  position: relative;
+  z-index: 3;
 }
 
 .brief {
-  grid-column: 1;
-  grid-row: 3;
-  border-right: var(--hairline);
-  border-top: var(--hairline);
+  grid-area: brief;
   overflow: auto;
-  padding: var(--s-5) var(--s-5) var(--s-10);
   min-height: 0;
+  padding: var(--s-8) var(--s-3) var(--s-6) var(--s-4);
+  scrollbar-width: thin;
+}
+
+.wb[data-ticket="folded"] .brief {
+  padding: var(--s-4) var(--s-3);
+  overflow: hidden;
 }
 
 .stage {
-  grid-column: 2;
-  grid-row: 2 / span 2;
+  grid-area: stage;
   display: flex;
   flex-direction: column;
   min-height: 0;
   min-width: 0;
   overflow: hidden;
+  margin: var(--s-3) var(--s-3) 0 var(--s-1);
+  background: var(--panel);
+  box-shadow: inset 0 0 0 2px var(--night-0);
 }
 
-.scene {
-  grid-column: 3;
-  grid-row: 2;
-  border-left: var(--hairline);
-  background: var(--paper-sunk);
+.talk {
+  grid-area: talk;
   min-width: 0;
 }
 
+/* Kept so older step markup still lands somewhere sensible. */
+.output,
 .side {
-  grid-column: 3;
-  grid-row: 3;
-  border-left: var(--hairline);
-  border-top: var(--hairline);
-  overflow: auto;
-  padding: var(--s-4) var(--s-5) var(--s-10);
-  min-height: 0;
-}
-
-/* The side column is empty for some steps; the scene keeps it from looking bare. */
-.output {
-  display: contents;
+  display: none;
 }
 
 .tabs {
@@ -77,134 +84,216 @@
 }
 
 .loading {
-  grid-column: 2;
-  grid-row: 3;
+  grid-area: stage;
   padding: var(--s-8);
-  color: var(--ink-2);
+  color: var(--text-2);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
 }
 
-/* Landing page: a cut-down Workbench in a frame, no top bar. */
+/* Dennis, the 24 px duck button in the path bar. */
+.duck {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 32px;
+  border: 0;
+  outline: 2px solid var(--night-0);
+  background: var(--quiet);
+  box-shadow: inset 0 -4px 0 var(--quiet-dark);
+  color: var(--lamp);
+  padding-bottom: 4px;
+}
+
+.duck:hover {
+  background: var(--quiet-hover);
+}
+
+.duck:active {
+  transform: translateY(2px);
+  box-shadow: inset 0 -2px 0 var(--quiet-dark);
+}
+
+.duck[aria-pressed="true"] {
+  background: var(--lamp);
+  box-shadow: inset 0 -4px 0 var(--lamp-dark);
+  color: var(--night-0);
+}
+
+/* The "Explain it to Dennis" drawer slides in from the right. */
+.drawer {
+  position: absolute;
+  top: calc(var(--hud-h) + 56px);
+  right: var(--s-3);
+  bottom: var(--s-3);
+  z-index: 20;
+  width: min(420px, calc(100vw - 2 * var(--s-3)));
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  transform: translateX(calc(100% + var(--s-6)));
+  visibility: hidden;
+  transition:
+    transform var(--dur-2) linear,
+    visibility 0s linear var(--dur-2);
+}
+
+.drawer[data-open] {
+  transform: none;
+  visibility: visible;
+  transition: transform var(--dur-2) linear;
+}
+
+.drawerHead {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.drawerTitle {
+  flex: 1;
+  font-size: var(--pixel-1);
+}
+
+.drawerClose {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  background: var(--night-2);
+  color: var(--text);
+}
+
+.drawerClose:hover {
+  background: var(--night-4);
+}
+
+.drawerBody {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+/* Landing page: a cut-down Workbench inside a game window, no HUD. */
 .landing {
-  height: min(780px, 92vh);
-  grid-template-rows: auto minmax(0, 1fr);
-  border: 1px solid var(--rule-strong);
-  border-radius: var(--r-2);
+  height: min(820px, 92vh);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    "path path"
+    "brief stage"
+    "talk talk";
 }
 
-.landing .nav,
-.landing .scene {
-  grid-row: 1;
-}
-
-.landing .brief,
-.landing .side {
-  grid-row: 2;
-}
-
-.landing .stage {
-  grid-row: 1 / span 2;
+.landing .drawer {
+  top: 64px;
 }
 
 @media (max-width: 1100px) {
   .wb {
-    grid-template-columns: minmax(240px, 280px) minmax(0, 1fr) minmax(260px, 300px);
+    --ticket-w: 300px;
   }
 }
 
 @media (max-width: 900px) {
   .wb,
   .landing {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: none;
-    grid-auto-rows: auto;
+    display: flex;
+    flex-direction: column;
     height: auto;
-    min-height: 0;
+    min-height: 100dvh;
     overflow: visible;
   }
 
-  .wb:not(.landing) {
-    min-height: 100dvh;
+  .landing {
+    min-height: 0;
   }
 
-  .nav,
-  .brief,
-  .stage,
-  .scene,
-  .side,
-  .tabs,
-  .loading {
-    grid-column: 1;
-    grid-row: auto;
-    border: none;
-    max-height: none;
-  }
-
-  .scene {
+  .path {
     order: 1;
-    border-bottom: var(--hairline);
   }
 
-  .tabs {
+  .talk {
     order: 2;
   }
 
-  .nav {
+  .tabs {
     order: 3;
   }
 
   .brief {
     order: 4;
-    padding: var(--s-4) var(--s-4) var(--s-6);
+    padding: var(--s-6) var(--s-3) var(--s-6);
+    overflow: visible;
   }
 
   .stage {
     order: 5;
     overflow: visible;
+    margin: 0 var(--s-2) var(--s-3);
   }
 
-  .side {
+  .loading {
     order: 6;
-    border-top: var(--hairline);
-    padding: var(--s-4);
   }
 
-  /* Steps that use the editor get tabs. */
+  /* Steps that use the editor get three big pixel tabs. */
   .wb[data-code] .tabs {
     display: flex;
+    gap: var(--s-1);
+    padding: var(--s-2) var(--s-2) 0;
     position: sticky;
     top: 0;
     z-index: 5;
-    background: var(--paper);
-    border-bottom: var(--hairline);
+    background: var(--bg);
   }
 
   .wb[data-code][data-zone="brief"] .stage {
     display: none;
   }
 
-  .wb[data-code]:not([data-zone="brief"]) .nav,
-  .wb[data-code]:not([data-zone="brief"]) .brief,
-  .wb[data-code]:not([data-zone="brief"]) .side {
+  .wb[data-code]:not([data-zone="brief"]) .brief {
     display: none;
   }
 
   .wb[data-code]:not([data-zone="brief"]) .stage {
     min-height: 70dvh;
+    margin-top: 0;
   }
 
   .tab {
     flex: 1;
     min-height: var(--touch);
-    border: none;
-    background: none;
-    font-weight: 500;
-    font-size: var(--step--1);
-    color: var(--ink-2);
-    border-bottom: 2px solid transparent;
+    border: 0;
+    background: var(--panel-2);
+    color: var(--text-2);
+    font-family: var(--font-pixel);
+    font-size: var(--pixel-1);
+    line-height: 1;
+    -webkit-font-smoothing: none;
+    box-shadow: inset 0 -4px 0 var(--bg);
   }
 
+  /* The selected tab joins the panel below it, like a folder tab. */
   .tab[aria-selected="true"] {
-    color: var(--ink);
-    border-bottom-color: var(--accent);
+    background: var(--panel);
+    color: var(--text);
+    box-shadow: inset 0 4px 0 var(--lamp);
+  }
+
+  .wb[data-code][data-zone="brief"] .tab[aria-selected="true"] {
+    background: var(--chalk);
+    color: var(--night-0);
+  }
+
+  .drawer {
+    position: fixed;
+    top: auto;
+    left: var(--s-2);
+    right: var(--s-2);
+    bottom: var(--s-2);
+    width: auto;
+    max-height: 80dvh;
+    transform: translateY(calc(100% + var(--s-6)));
   }
 }

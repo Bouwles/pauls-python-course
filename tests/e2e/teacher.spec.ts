@@ -37,11 +37,11 @@ test("a teacher makes a class, a learner joins with the code, and sees the Job s
   await teacher.getByRole("link", { name: className }).click();
   await expect(teacher.getByRole("heading", { level: 1, name: className })).toBeVisible();
   await expect(teacher.getByRole("link", { name: "Ruth" })).toBeVisible();
-  await teacher.getByLabel("Job", { exact: true }).selectOption("beas-till-2");
+  await teacher.getByLabel("Job", { exact: true }).selectOption("bill-splitter");
   await teacher.getByLabel("Due, if any").fill(due);
   await teacher.getByRole("button", { name: "Set the Job" }).click();
   await expect(teacher.getByRole("status").filter({ hasText: "Set Bea's Till, part 2." })).toBeVisible();
-  await expect(teacher.getByRole("row").filter({ hasText: "Bea's Till, part 2" })).toContainText("0 of 1");
+  await expect(teacher.getByRole("row").filter({ hasText: "Bill Splitter" })).toContainText("0 of 1");
 
   // The teacher can open the learner's page.
   await teacher.getByRole("link", { name: "Ruth" }).click();
@@ -53,7 +53,7 @@ test("a teacher makes a class, a learner joins with the code, and sees the Job s
   await learner.goto("/map");
   const assigned = learner.getByRole("list", { name: "Jobs set by your class" });
   await expect(assigned).toContainText(`Assigned by ${className}:`);
-  await expect(assigned.getByRole("link", { name: "Bea's Till, part 2" })).toHaveAttribute("href", "/job/beas-till-2");
+  await expect(assigned.getByRole("link", { name: "Bill Splitter" })).toHaveAttribute("href", "/job/bill-splitter");
 
   await teacherCtx.close();
   await learnerCtx.close();

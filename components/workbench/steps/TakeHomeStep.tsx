@@ -11,7 +11,8 @@ import { starterFiles, type TestReport } from "@/lib/takehome";
 import { Button } from "../../ui/Button";
 import { PassIcon } from "../../ui/Icons";
 import { useWorkbench } from "../context";
-import { JobSummary, NextRow, Prose, StepHeading } from "./common";
+import { NextRow, Prose, StepHeading } from "./common";
+import { Ticket } from "../Ticket";
 import styles from "./steps.module.css";
 import th from "./TakeHome.module.css";
 
@@ -158,8 +159,7 @@ export function TakeHomeStepView({ step, row }: { step: TakeHomeStep; row: StepP
 
   return (
     <>
-      <div className={areas.brief}>
-        <JobSummary />
+      <Ticket>
         <StepHeading step={step} />
         <Prose html={step.html} />
         <section className={th.section} aria-labelledby="th-get">
@@ -282,7 +282,7 @@ export function TakeHomeStepView({ step, row }: { step: TakeHomeStep; row: StepP
           ) : null}
         </section>
         <NextRow row={row} allowSkip />
-      </div>
+      </Ticket>
       <div className={areas.stage}>
         <div className={styles.stagePad}>
           <div className={th.guide}>

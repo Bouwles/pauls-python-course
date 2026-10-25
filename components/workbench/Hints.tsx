@@ -8,6 +8,7 @@ import { useSession } from "@/lib/store/session";
 import { queueSoon } from "@/lib/review/deck";
 import { Button } from "../ui/Button";
 import { CodeBlock } from "./CodeBlock";
+import { Inline } from "./Inline";
 import { useWorkbench } from "./context";
 import styles from "./Hints.module.css";
 
@@ -57,26 +58,29 @@ export function Hints({ step, hints, row }: { step: CheckableStep; hints: HintsD
   };
 
   return (
-    <section className={styles.hints} aria-labelledby={`hints-${step.id}`}>
-      <h2 id={`hints-${step.id}`} className="label">
-        Moss&apos;s hints
-      </h2>
+    <section className={styles.hints} aria-label="Moss's hints">
       <div className={styles.buttons}>
-        <Button size="sm" variant={used >= 1 ? "quiet" : "secondary"} onClick={() => void reveal(1)} aria-expanded={used >= 1}>
+        <Button variant={used >= 1 ? "quiet" : "primary"} onClick={() => void reveal(1)} aria-expanded={used >= 1}>
           Nudge
         </Button>
-        <Button size="sm" variant={used >= 2 ? "quiet" : "secondary"} onClick={() => void reveal(2)} disabled={used < 1} aria-expanded={used >= 2}>
+        <Button variant={used === 1 ? "primary" : "quiet"} onClick={() => void reveal(2)} locked={used < 1 ? "Use Nudge first." : false} aria-expanded={used >= 2}>
           Plan
         </Button>
-        <Button size="sm" variant={used >= 3 ? "quiet" : "secondary"} onClick={() => void reveal(3)} disabled={used < 2} aria-expanded={used >= 3}>
+        <Button variant={used === 2 ? "primary" : "quiet"} onClick={() => void reveal(3)} locked={used < 2 ? "Use Plan first." : false} aria-expanded={used >= 3}>
           Shape
         </Button>
       </div>
-      {used >= 1 ? <p className={styles.nudge}>{hints.nudge}</p> : null}
+      {used >= 1 ? (
+        <p className={styles.nudge}>
+          <Inline text={hints.nudge} />
+        </p>
+      ) : null}
       {used >= 2 ? (
         <ol className={styles.plan}>
           {hints.plan.map((p, i) => (
-            <li key={i}>{p}</li>
+            <li key={i}>
+              <Inline text={p} />
+            </li>
           ))}
         </ol>
       ) : null}

@@ -1,108 +1,465 @@
+/* Drills: the speed bench. A brass stopwatch, and Pip's ghost racing you along a pixel track. */
 .drills,
 .run {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--s-5);
 }
 
-.title,
-.runTitle {
-  font-size: var(--step-4);
+.head {
+  display: flex;
+  align-items: center;
+  gap: var(--s-5);
 }
 
-.runTitle {
-  font-size: var(--step-3);
+.headText {
+  display: grid;
+  gap: var(--s-3);
+  min-width: 0;
+}
+
+.title {
+  font-size: var(--pixel-2);
 }
 
 .lede {
-  font-family: var(--font-prose);
+  font-family: var(--font-read);
   font-size: var(--prose-size);
-  color: var(--ink-2);
+  line-height: var(--lh-prose);
+  color: var(--text-2);
+  max-width: var(--measure);
 }
 
 .quiet {
+  font-family: var(--font-read);
   font-size: var(--step--1);
-  color: var(--ink-2);
+  color: var(--text-2);
+}
+
+/* ---- The bench ---- */
+.bench {
+  --slot: var(--panel);
+  --dots: var(--frame-hi);
+  --slot-edge: var(--night-0);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-4);
+  padding: var(--s-2) var(--s-3) var(--s-3);
+  min-width: 0;
+}
+
+/* By day the panel is pale, so the slots sink to the page colour instead. */
+:global(:root[data-theme="light"]) .bench {
+  --slot: var(--bg);
+  --dots: var(--frame);
+  --slot-edge: var(--frame);
+}
+
+@media (prefers-color-scheme: light) {
+  :global(:root[data-theme="system"]) .bench {
+    --slot: var(--bg);
+    --dots: var(--frame);
+    --slot-edge: var(--frame);
+  }
+}
+
+/* The bench's name, with a dotted pixel rule running to the edge. */
+.benchTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  font-size: var(--pixel-1);
+  line-height: 24px;
+  color: var(--accent-text);
+}
+
+.benchTitle::after {
+  content: "";
+  flex: 1;
+  height: 4px;
+  background: var(--dots);
+  -webkit-mask: var(--mask-dots-8) repeat-x 0 0 / 8px 4px;
+  mask: var(--mask-dots-8) repeat-x 0 0 / 8px 4px;
+}
+
+.empty {
+  padding: var(--s-4);
+  background: var(--slot);
+  font-family: var(--font-read);
+  font-size: var(--step-0);
+  color: var(--text-2);
 }
 
 .list {
   list-style: none;
   margin: 0;
   padding: 0;
+  display: grid;
+  gap: var(--s-1);
 }
 
 .item {
   display: grid;
-  grid-template-columns: 1fr auto auto;
-  gap: var(--s-4);
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-areas: "name times go";
+  gap: var(--s-2) var(--s-5);
   align-items: center;
-  padding: var(--s-3) 0;
-  border-top: var(--hairline);
+  min-height: 52px;
+  padding: var(--s-2) var(--s-2) var(--s-2) var(--s-4);
+  background: var(--slot);
+  box-shadow: inset 0 -2px 0 var(--slot-edge);
 }
 
 .name {
-  font-family: var(--font-prose);
-  font-weight: 600;
+  grid-area: name;
+  min-width: 0;
+  font-family: var(--font-read);
+  font-weight: 700;
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+.times {
+  grid-area: times;
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+}
+
+.best,
+.pipTime {
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  white-space: nowrap;
 }
 
 .best {
-  font-family: var(--font-code);
-  font-size: var(--step--1);
-  color: var(--ink-2);
+  color: var(--text);
+}
+
+.pipTime {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  color: var(--text-2);
+}
+
+.item > button {
+  grid-area: go;
 }
 
 .locked summary {
   cursor: pointer;
-  font-size: var(--step--1);
+  list-style: none;
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  color: var(--text-2);
+  padding: var(--s-1) 0;
+}
+
+.locked summary::-webkit-details-marker {
+  display: none;
+}
+
+.locked summary::before {
+  content: "+ ";
+}
+
+.locked[open] summary::before {
+  content: "- ";
+}
+
+.locked summary:hover {
+  color: var(--text);
+}
+
+.locked p {
+  margin-top: var(--s-2);
+  max-width: var(--measure);
+  line-height: 1.6;
+}
+
+/* ---- A drill under way ---- */
+.runBench {
+  gap: var(--s-5);
 }
 
 .runHead {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
-  align-items: flex-end;
+  gap: var(--s-4);
 }
 
-.clock {
+.runWhat {
   display: grid;
-  text-align: right;
+  gap: var(--s-2);
+  flex: 1 1 240px;
+  min-width: 0;
+}
+
+.runTitle {
+  font-size: var(--pixel-2);
+  overflow-wrap: anywhere;
+}
+
+.quietOn {
+  font-family: var(--font-read);
+  font-size: var(--step--1);
+  color: var(--text-2);
+}
+
+/* The stopwatch and its readout, on a dark plate. */
+.clock {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  padding: var(--s-2) var(--s-4) var(--s-2) var(--s-3);
+  background: var(--night-0);
+  box-shadow: inset 0 -4px 0 var(--night-1);
+}
+
+.readout {
+  display: grid;
+  gap: var(--s-2);
+  min-width: 4ch;
 }
 
 .time {
-  font-family: var(--font-code);
-  font-size: var(--step-3);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-3);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  color: var(--lamp);
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .vs {
-  font-size: var(--step--1);
-  color: var(--ink-2);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  color: var(--fog);
+  white-space: nowrap;
 }
 
-.pip {
+/* The race: five lanes for the five tasks, a finish flag, and Pip's head riding his pace. */
+.race {
+  display: grid;
+  gap: var(--s-2);
+}
+
+.track {
+  position: relative;
+  padding-top: 40px;
+  min-width: 0;
+}
+
+.ghost {
+  position: absolute;
+  top: 0;
+  left: calc(var(--p, 0) * (100% - 32px));
+  left: round(down, calc(var(--p, 0) * (100% - 32px)), 2px);
+  width: 32px;
+  height: 36px;
+  transition: left 100ms steps(1);
+}
+
+/* A two-pixel stem pointing at Pip's spot on the track. */
+.ghost::after {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 32px;
+  width: 4px;
+  height: 4px;
+  background: var(--sea);
+}
+
+.lanes {
+  list-style: none;
+  margin: 0 12px 0 0;
+  padding: var(--s-1);
   display: flex;
-  gap: var(--s-3);
+  gap: var(--s-1);
+  height: 24px;
+  background: var(--night-0);
+}
+
+.lanes li {
+  flex: 1;
+  background: var(--night-2);
+  box-shadow: inset 0 -4px 0 var(--night-1);
+}
+
+.lanes .laneDone {
+  background: var(--lamp);
+  box-shadow: inset 0 -4px 0 var(--lamp-dark);
+}
+
+/* The task you're on: a dotted lamp-lit lane. */
+.lanes .laneNow {
+  position: relative;
+  background: var(--night-3);
+}
+
+.lanes .laneNow::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 4px;
+  background: var(--lamp-dark);
+  -webkit-mask: var(--mask-dots-8) repeat 0 0 / 8px 4px;
+  mask: var(--mask-dots-8) repeat 0 0 / 8px 4px;
+}
+
+/* The finish post: a pole with a brick pennant. */
+.flag {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 4px;
+  height: 44px;
+  background: var(--text-2);
+}
+
+.flag::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 4px;
+  width: 16px;
+  height: 10px;
+  background: var(--brick);
+  box-shadow: inset 0 -2px 0 var(--brick-dark);
+}
+
+.raceNote {
+  font-family: var(--font-read);
+  font-size: var(--step--1);
+  color: var(--text-2);
+}
+
+.start {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  font-family: var(--font-prose);
+  gap: var(--s-4);
 }
 
-.pip canvas {
-  background: var(--scene-frame);
-  border-radius: var(--r-1);
-}
-
-.start,
+/* The time, written up on a slip, with a rubber stamp for a new best. */
 .result {
+  position: relative;
   display: grid;
   gap: var(--s-3);
   justify-items: start;
+  padding: var(--s-3) var(--s-2) var(--s-2);
+  box-shadow: var(--shadow-hard);
 }
 
 .resultTime {
-  font-family: var(--font-code);
-  font-size: var(--step-5);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-3);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  color: var(--night-0);
+}
+
+.resultText {
+  font-family: var(--font-read);
+  font-size: var(--step-0);
+  color: var(--night-0);
+}
+
+.stamp {
+  position: absolute;
+  top: var(--s-2);
+  right: var(--s-2);
+  padding: 6px 10px 4px;
+  color: var(--brick-dark);
+  box-shadow: inset 0 0 0 4px var(--brick-dark);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-2);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  transform: rotate(-8deg);
+  pointer-events: none;
 }
 
 .row {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--s-4);
   align-items: center;
+}
+
+/* The top of a task slip. */
+.taskHead {
+  position: relative;
+  padding-bottom: var(--s-3);
+}
+
+.taskHead::after {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--s-2));
+  right: calc(-1 * var(--s-2));
+  bottom: 0;
+  height: 2px;
+  background: var(--rule-strong);
+  -webkit-mask: var(--mask-dots-8) repeat-x 0 0 / 8px 2px;
+  mask: var(--mask-dots-8) repeat-x 0 0 / 8px 2px;
+}
+
+.taskTitle {
+  font-size: var(--pixel-1);
+  line-height: 24px;
+  color: var(--night-0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ghost {
+    transition: none;
+  }
+}
+
+:global(:root[data-motion="reduced"]) .ghost {
+  transition: none;
+}
+
+@media (max-width: 600px) {
+  .head {
+    align-items: flex-start;
+  }
+
+  .head > svg {
+    width: 30px;
+    height: 36px;
+  }
+
+  .item {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "name name"
+      "times go";
+    padding-left: var(--s-3);
+  }
+
+  .clock {
+    width: 100%;
+  }
+
+  .time {
+    font-size: var(--pixel-2);
+  }
+
+  .stamp {
+    font-size: var(--pixel-1);
+    box-shadow: inset 0 0 0 2px var(--brick-dark);
+  }
 }

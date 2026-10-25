@@ -3,6 +3,7 @@
 // encrypted, server side only.
 import { createCipheriv, createDecipheriv, createHash, randomBytes } from "node:crypto";
 import { getDb } from "./db";
+import { BRAND } from "../brand";
 
 export const githubEnabled = () => Boolean(process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET);
 
@@ -61,7 +62,7 @@ export async function pushRepository(token: string, name: string, description: s
   const api = async <T,>(method: string, path: string, body?: unknown): Promise<T> => {
     const res = await fetcher(`https://api.github.com${path}`, {
       method,
-      headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28", "Content-Type": "application/json", "User-Agent": "pauls-python-course" },
+      headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28", "Content-Type": "application/json", "User-Agent": BRAND.name.toLowerCase() },
       body: body === undefined ? undefined : JSON.stringify(body),
     });
     if (!res.ok) {
@@ -82,7 +83,7 @@ export async function pushRepository(token: string, name: string, description: s
     tree.push({ path, mode: "100644", type: "blob", sha: blob.sha });
   }
   const newTree = await api<{ sha: string }>("POST", `${base}/git/trees`, { base_tree: parent.tree.sha, tree });
-  const commit = await api<{ sha: string }>("POST", `${base}/git/commits`, { message: "Everything on my Shelf, from Paul's Python Course", tree: newTree.sha, parents: [ref.object.sha] });
+  const commit = await api<{ sha: string }>("POST", `${base}/git/commits`, { message: `Everything on my Shelf, from ${BRAND.name}`, tree: newTree.sha, parents: [ref.object.sha] });
   await api("PATCH", `${base}/git/refs/heads/${repo.default_branch}`, { sha: commit.sha });
   return repo.html_url;
 }

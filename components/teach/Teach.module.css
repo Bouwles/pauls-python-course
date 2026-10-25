@@ -1,63 +1,98 @@
-/* Teacher and class mode: plain tables on paper, hairline rules, nothing floating. */
+/* Teacher and class mode: each part on a panel, tables as boards of slots, nothing hairline. */
 .page {
+  --slot: var(--panel);
+  --slot-hover: var(--panel-2);
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--s-8);
+  gap: var(--s-6);
 }
 
 .head {
   display: grid;
   gap: var(--s-3);
+  min-width: 0;
 }
 
+/* Back to the page above, in the pixel face. */
 .back {
-  font-size: var(--step--1);
-  color: var(--ink-2);
   justify-self: start;
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  text-decoration: none;
+}
+
+.back:hover {
+  text-decoration: underline;
 }
 
 .title {
-  font-size: var(--step-4);
+  font-size: var(--pixel-3);
+  overflow-wrap: anywhere;
 }
 
 .titleRow {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: var(--s-3) var(--s-6);
 }
 
+.joinCode {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  color: var(--text-2);
+}
+
 .lede {
-  font-family: var(--font-prose);
   font-size: var(--prose-size);
   line-height: var(--lh-prose);
-  color: var(--ink-2);
+  color: var(--text-2);
   max-width: var(--measure);
 }
 
 .meta {
   font-size: var(--step--1);
-  color: var(--ink-2);
+  color: var(--text-2);
   line-height: 1.5;
+}
+
+.notice {
+  display: flex;
+  gap: var(--s-3);
+  align-items: center;
+  justify-self: start;
+  padding: var(--s-3) var(--s-4);
+  background: var(--panel-2);
+  font-size: var(--step--1);
+}
+
+.notice svg {
+  color: var(--accent-text);
 }
 
 .section {
   display: grid;
   gap: var(--s-4);
-  padding-top: var(--s-5);
-  border-top: var(--hairline);
   min-width: 0;
+  box-shadow: var(--shadow-hard);
 }
 
 .h2 {
-  font-size: var(--step-2);
+  font-size: var(--pixel-2);
 }
 
 .h3 {
-  font-size: var(--step-0);
-  font-family: var(--font-ui);
-  font-weight: 600;
+  font-size: var(--pixel-1);
+  line-height: 24px;
 }
 
 /* Tables scroll inside their own frame on a phone, never the page. */
@@ -67,12 +102,14 @@
 }
 
 .tableWrap:focus-visible {
-  outline-offset: 0;
+  outline-offset: 2px;
 }
 
+/* Each row is a slot a step darker than the panel; the header is pixel text. */
 .table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0 2px;
   font-size: var(--step--1);
   font-variant-numeric: tabular-nums;
 }
@@ -82,23 +119,31 @@
   text-align: left;
   vertical-align: middle;
   padding: var(--s-2) var(--s-3);
-  border-bottom: var(--hairline);
-}
-
-.table th:first-child,
-.table td:first-child {
-  padding-left: 0;
 }
 
 .table thead th {
-  font-weight: 500;
-  color: var(--ink-2);
-  border-bottom: var(--hairline-strong);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  font-weight: 400;
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  color: var(--text-2);
   white-space: nowrap;
+  padding-bottom: var(--s-1);
+}
+
+.table tbody th,
+.table tbody td {
+  background: var(--slot);
 }
 
 .table tbody th {
-  font-weight: 500;
+  font-weight: 700;
+}
+
+.table tbody tr:hover th,
+.table tbody tr:hover td {
+  background: var(--slot-hover);
 }
 
 .num {
@@ -112,11 +157,13 @@
 
 .end {
   text-align: right !important;
-  padding-right: 0 !important;
 }
 
-.selected {
-  background: var(--paper-sunk);
+.selected th,
+.selected td,
+.table tbody tr.selected:hover th,
+.table tbody tr.selected:hover td {
+  background: var(--accent-wash);
 }
 
 /* A Job's title with its place in the course beneath. */
@@ -132,7 +179,7 @@
 .sort {
   display: inline-flex;
   align-items: center;
-  gap: var(--s-1);
+  gap: var(--s-2);
   min-height: 32px;
   padding: 0;
   border: none;
@@ -142,19 +189,17 @@
 }
 
 .sort:hover {
-  color: var(--ink);
+  color: var(--text);
 }
 
 .sortMark {
-  width: 10px;
-  height: 10px;
   flex: none;
 }
 
 .student {
   display: inline-flex;
   align-items: center;
-  gap: var(--s-2);
+  gap: var(--s-3);
 }
 
 .portrait {
@@ -165,9 +210,11 @@
 }
 
 .code {
+  padding: 4px var(--s-2) 2px;
+  background: var(--code-bg);
+  color: var(--text);
   font-family: var(--font-code);
   font-size: var(--step-0);
-  letter-spacing: 0.14em;
 }
 
 .copy {
@@ -186,10 +233,19 @@
 
 .field {
   display: grid;
-  gap: var(--s-1);
-  font-size: var(--step--1);
-  font-weight: 500;
+  gap: var(--s-2);
   min-width: 0;
+}
+
+.fieldLabel {
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+  -webkit-font-smoothing: none;
+}
+
+.fieldText {
+  font-size: var(--step--1);
 }
 
 .grow {
@@ -199,38 +255,38 @@
 
 .field input,
 .field select {
-  min-height: 40px;
-  border: 1px solid var(--control-border);
-  border-radius: var(--r-2);
-  background: var(--paper-raised);
-  color: var(--ink);
-  padding: 0 var(--s-3);
-  font-size: var(--step-0);
-  font-weight: 400;
+  min-height: 44px;
   max-width: 100%;
+  padding: 0 var(--s-3);
+  background: var(--code-bg);
+  color: var(--text);
+  border: 2px solid var(--night-0);
+  box-shadow: inset 0 2px 0 var(--night-0);
+  font-size: var(--step-0);
 }
 
 .form button {
-  min-height: 40px;
+  min-height: 44px;
 }
 
 .error {
-  color: var(--fail);
+  color: var(--danger-text);
   font-size: var(--step--1);
 }
 
 .status {
   font-size: var(--step--1);
-  color: var(--ink-2);
+  color: var(--text-2);
   min-height: 1.4em;
 }
 
 .empty {
-  font-family: var(--font-prose);
-  color: var(--ink-2);
+  font-size: var(--prose-size);
+  line-height: var(--lh-prose);
+  color: var(--text-2);
 }
 
-/* A student's page */
+/* A student's page: their character on the workshop floor, beside their name. */
 .who {
   display: flex;
   align-items: flex-end;
@@ -238,9 +294,31 @@
   flex-wrap: wrap;
 }
 
+.stage {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 136px;
+  height: 140px;
+  padding-bottom: var(--s-2);
+  background: var(--art-deep-slate);
+  box-shadow:
+    inset 0 -12px 0 var(--art-driftwood),
+    inset 0 -16px 0 var(--art-tar),
+    var(--shadow-hard);
+}
+
+.whoText {
+  display: grid;
+  gap: var(--s-2);
+  min-width: 0;
+  flex: 1 1 280px;
+}
+
 .files {
   display: grid;
-  gap: var(--s-5);
+  gap: var(--s-4);
+  min-width: 0;
 }
 
 .file {
@@ -259,7 +337,7 @@
 }
 
 .fileName code {
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .pre {
@@ -267,8 +345,8 @@
   max-height: 480px;
   overflow: auto;
   padding: var(--s-3) var(--s-4);
-  background: var(--paper-sunk);
-  border-left: 2px solid var(--rule-strong);
+  background: var(--code-bg);
+  box-shadow: 0 0 0 2px var(--night-0);
   font-size: var(--editor-font-size);
   line-height: 1.55;
   tab-size: 4;
@@ -280,14 +358,16 @@
   padding: 0;
   margin: 0;
   display: grid;
-  gap: var(--s-1);
+  gap: 2px;
   font-size: var(--step--1);
 }
 
 .results li {
   display: flex;
   gap: var(--s-2);
-  align-items: baseline;
+  align-items: flex-start;
+  padding: var(--s-2) var(--s-3);
+  background: var(--slot);
 }
 
 .pass {
@@ -303,9 +383,7 @@
   gap: var(--s-3);
   justify-items: start;
   padding: var(--s-4);
-  border: 1px solid var(--rule-strong);
-  border-radius: var(--r-2);
-  background: var(--paper-raised);
+  background: var(--slot);
   max-width: 560px;
 }
 
@@ -316,13 +394,11 @@
   align-items: center;
 }
 
+/* The delete dialog: a floating panel over a dimmed page. */
 .dialog {
   width: min(520px, calc(100vw - 32px));
-  border: 1px solid var(--rule-strong);
-  border-radius: var(--r-2);
-  background: var(--paper);
-  color: var(--ink);
   padding: 0;
+  color: var(--text);
 }
 
 .dialog::backdrop {
@@ -332,11 +408,12 @@
 .dialogBody {
   display: grid;
   gap: var(--s-4);
-  padding: var(--s-6);
+  padding: var(--s-2);
 }
 
 .dialogBody p {
-  font-family: var(--font-prose);
+  font-size: var(--step-0);
+  line-height: var(--lh-prose);
 }
 
 @media (max-width: 720px) {
@@ -344,18 +421,31 @@
     display: none;
   }
 
+  .title {
+    font-size: var(--pixel-2);
+  }
+
   .table td .copy {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0;
+    gap: var(--s-1);
   }
 
   .table th,
   .table td {
     padding-inline: var(--s-2);
   }
+}
 
-  .h2 {
-    font-size: var(--step-1);
+/* Day: a day panel's body is the panel colour, so slots step down to the page colour instead. */
+:root[data-theme="light"] .page {
+  --slot: var(--bg);
+  --slot-hover: var(--frame);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .page {
+    --slot: var(--bg);
+    --slot-hover: var(--frame);
   }
 }

@@ -17,9 +17,8 @@
   grid-auto-columns: minmax(64px, 1fr);
   gap: 4px;
   padding: 6px;
-  background: #634330;
-  border: 2px solid #3b2a22;
-  border-radius: var(--r-1);
+  background: var(--art-driftwood);
+  border: 2px solid var(--art-tar);
   max-width: 100%;
   overflow-x: auto;
 }
@@ -30,25 +29,23 @@
   gap: 2px;
   min-height: 92px;
   padding: 6px 4px 4px;
-  background: #3b2a22;
-  border: 1px solid #2c201a;
-  color: #ebe5d5;
+  background: var(--art-tar);
+  border: 2px solid var(--art-harbour-night);
+  color: var(--art-sail-cloth);
   cursor: pointer;
-  border-radius: 2px;
 }
 
 .hole:hover:not(:disabled) {
-  background: #4a3528;
+  background: var(--art-tar);
 }
 
 .parcel {
   align-self: center;
   justify-self: center;
-  background: #d5b97d;
-  color: #1e1e1c;
+  background: var(--art-sand);
+  color: var(--art-harbour-night);
   font-size: var(--step--2);
   padding: 4px 3px;
-  border-radius: 1px;
   line-height: 1.2;
   max-width: 100%;
   overflow: hidden;
@@ -59,21 +56,21 @@
   font-family: var(--font-code);
   font-size: var(--step--1);
   font-weight: 600;
-  color: #eedb9b;
+  color: var(--art-lamp-glow);
 }
 
 .holeNeg {
   font-family: var(--font-code);
   font-size: var(--step--2);
-  color: #969c9a;
+  color: var(--art-stone);
 }
 
 .good {
-  outline: 3px solid #a5ba72;
+  outline: 3px solid var(--art-shell-highlight);
 }
 
 .bad {
-  outline: 3px solid #e48a78;
+  outline: 3px solid var(--art-tomato-highlight);
 }
 
 .feedback {
@@ -154,7 +151,6 @@
   background: var(--accent);
   color: var(--on-accent);
   padding: 2px 8px;
-  border-radius: var(--r-1);
   position: relative;
 }
 
@@ -172,9 +168,8 @@
   display: flex;
   gap: 4px;
   padding: 8px;
-  border: 2px solid #634330;
-  background: #d5b97d;
-  border-radius: 2px;
+  border: 2px solid var(--art-driftwood);
+  background: var(--art-sand);
   min-width: 120px;
   min-height: 44px;
 }
@@ -182,10 +177,9 @@
 .item {
   font-family: var(--font-code);
   font-size: var(--step--2);
-  background: #ebe5d5;
-  color: #1e1e1c;
+  background: var(--art-sail-cloth);
+  color: var(--art-harbour-night);
   padding: 4px 6px;
-  border-radius: 1px;
 }
 
 .predict {
@@ -230,8 +224,17 @@
   bottom: 0;
   width: 28px;
   height: 116px;
-  background: repeating-linear-gradient(to bottom, #ebe5d5 0 20px, #9b443a 20px 40px);
+  background: var(--art-sail-cloth);
   clip-path: polygon(20% 0, 80% 0, 100% 100%, 0 100%);
+}
+
+.tower::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--art-brick);
+  -webkit-mask: var(--mask-hband-40) repeat 0 0 / 8px 40px;
+  mask: var(--mask-hband-40) repeat 0 0 / 8px 40px;
 }
 
 .lampTop {
@@ -240,8 +243,8 @@
   bottom: 116px;
   width: 24px;
   height: 18px;
-  background: #d8b65a;
-  border: 3px solid #2c3440;
+  background: var(--art-lamp);
+  border: 3px solid var(--art-deep-slate);
   border-bottom: none;
 }
 
@@ -251,7 +254,9 @@
   bottom: 122px;
   width: 140px;
   height: 14px;
-  background: linear-gradient(to right, #eedb9b, transparent);
+  /* A flat cone of light, not a glow. */
+  background: var(--art-lamp-glow);
+  clip-path: polygon(0 35%, 100% 0, 100% 100%, 0 65%);
   transform-origin: left center;
   transform: rotate(-6deg);
   transition: transform 500ms var(--ease);

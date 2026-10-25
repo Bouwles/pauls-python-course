@@ -1,43 +1,47 @@
+/* Sign up and log in: the form on a panel, the workshop waiting beside it. */
 .layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: var(--s-12);
+  grid-template-columns: minmax(0, 440px) minmax(0, 1fr);
+  gap: var(--s-10);
   align-items: start;
 }
 
-.copy {
+.card {
   display: grid;
-  gap: var(--s-5);
+  gap: var(--s-4);
   align-content: start;
+  padding: var(--s-2) var(--s-3) var(--s-3);
+  box-shadow: var(--shadow-hard);
+  min-width: 0;
 }
 
 .title {
-  font-size: var(--step-4);
+  font-size: var(--pixel-2);
 }
 
 .lede {
-  font-family: var(--font-prose);
   font-size: var(--prose-size);
   line-height: var(--lh-prose);
-  max-width: 44ch;
-  color: var(--ink-2);
+  color: var(--text-2);
 }
 
 .scene {
-  padding-top: var(--s-2);
+  min-width: 0;
 }
 
-@media (max-width: 860px) {
+@media (max-width: 960px) {
   .layout {
-    grid-template-columns: 1fr;
-    gap: var(--s-8);
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-6);
   }
 
   .scene {
     order: -1;
   }
+}
 
-  .title {
-    font-size: var(--step-3);
+@media (max-width: 720px) {
+  .card {
+    padding: 0;
   }
 }

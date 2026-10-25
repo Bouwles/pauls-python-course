@@ -23,18 +23,32 @@
   display: grid;
   gap: var(--s-2);
   align-content: start;
-  border: 1px dashed var(--rule-strong);
-  border-radius: var(--r-2);
+  border: 2px solid var(--rule-strong);
   background: var(--paper-sunk);
 }
 
 .program {
   background: var(--paper-raised);
   border-style: solid;
-  background-image: repeating-linear-gradient(to right, transparent 0, transparent 27px, var(--rule) 27px, var(--rule) 28px);
-  background-position: var(--s-3) 0;
-  background-size: calc(28px * 4) 100%;
-  background-repeat: no-repeat;
+  position: relative;
+}
+
+/* Indent guides, every four spaces. */
+.program::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--s-3);
+  width: calc(28px * 4);
+  background: var(--rule);
+  -webkit-mask: var(--mask-vline-28) repeat 0 0 / 28px 8px;
+  mask: var(--mask-vline-28) repeat 0 0 / 28px 8px;
+  pointer-events: none;
+}
+
+.program > * {
+  position: relative;
 }
 
 .empty {
@@ -52,8 +66,7 @@
   text-align: left;
   padding: var(--s-2) var(--s-3);
   background: var(--paper);
-  border: 1px solid var(--control-border);
-  border-radius: var(--r-1);
+  border: 2px solid var(--control-border);
   cursor: grab;
   min-height: 36px;
 }
@@ -98,9 +111,8 @@
 }
 
 .controls button {
-  border: 1px solid var(--rule-strong);
+  border: 2px solid var(--rule-strong);
   background: var(--paper-raised);
-  border-radius: var(--r-1);
   min-width: 26px;
   min-height: 26px;
   font-size: 12px;

@@ -30,7 +30,7 @@ export function HandIn({ submission, job, when }: { submission: StudentSubmissio
 function Report({ results, kind, when }: { results: Record<string, unknown>; kind: string; when: string }) {
   const report = results.report as TestReport | undefined;
   if (!report) return <p className={styles.meta}>Handed in {when}, with no test report.</p>;
-  const how = kind === "local" ? "from the ppc tool" : "as an upload";
+  const how = kind === "local" ? "from the command-line tool" : "as an upload";
   const cases = report.cases.slice(0, MAX_CASES);
   return (
     <>

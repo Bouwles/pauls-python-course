@@ -1,6 +1,6 @@
 // A few diegetic sounds, synthesised with Web Audio (no recordings, nothing to license).
 // Off by default; played only when the learner turns sound on.
-type SoundName = "bell" | "key" | "stamp";
+type SoundName = "bell" | "key" | "stamp" | "blip";
 
 let ctx: AudioContext | null = null;
 
@@ -56,6 +56,15 @@ const SOUNDS: Record<SoundName, (a: AudioContext) => void> = {
     n.connect(f);
     f.connect(envelope(a, 0.18, 0.002, 0.035));
     n.start();
+  },
+  // A short square-wave blip as a new line of dialogue starts, the way old games did.
+  blip(a) {
+    const o = a.createOscillator();
+    o.type = "square";
+    o.frequency.value = 660;
+    o.connect(envelope(a, 0.03, 0.002, 0.05));
+    o.start();
+    o.stop(a.currentTime + 0.06);
   },
   // The stamp thunk when a job ships.
   stamp(a) {

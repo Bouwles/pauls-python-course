@@ -2,7 +2,6 @@
   margin: 0;
   background: var(--paper-raised);
   border: var(--hairline);
-  border-radius: var(--r-2);
   padding: var(--s-3) 0;
   font-family: var(--font-code);
   font-variant-ligatures: none;

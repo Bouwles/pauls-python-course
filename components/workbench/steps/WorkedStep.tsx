@@ -8,7 +8,8 @@ import { Console } from "../Console";
 import { SelfExplain } from "../SelfExplain";
 import { WorkedCode } from "../WorkedCode";
 import { useWorkbench } from "../context";
-import { JobSummary, NextRow, Prose, StepHeading } from "./common";
+import { NextRow, Prose, StepHeading } from "./common";
+import { Ticket } from "../Ticket";
 import styles from "./steps.module.css";
 
 export function WorkedStepView({ step, row }: { step: WorkedStep; row: StepProgressRow }) {
@@ -17,13 +18,12 @@ export function WorkedStepView({ step, row }: { step: WorkedStep; row: StepProgr
   const running = state.phase === "running";
   return (
     <>
-      <div className={areas.brief}>
-        <JobSummary />
+      <Ticket>
         <StepHeading step={step} />
         <Prose html={step.html} />
         <SelfExplain stepId={step.id} promptHtml={step.explain.promptHtml} answer={step.explain.answer} concept={step.explain.concept} row={row} />
         <NextRow row={row} doneText="The labels on the left are worth remembering. You'll use them next." />
-      </div>
+      </Ticket>
       <div className={areas.stage}>
         <div className={styles.workedStage}>
           <div className={styles.workedTop}>

@@ -8,7 +8,7 @@ test("sign up, make a character, finish Job 1, and find it all on another device
   await signUp(page, email, "Ruth");
   await completeJobOne(page);
   // Leave some unfinished work in Job 2 to come back to.
-  await page.goto("/job/beas-till-1?step=make");
+  await page.goto("/job/bill-splitter?step=make");
   await typeCode(page, "loaves = 3\n# half done");
   await expect(page.getByText("Saving", { exact: true })).toBeVisible({ timeout: 10_000 });
   await expect(page.getByText("Saved", { exact: true })).toBeVisible({ timeout: 30_000 });
@@ -21,7 +21,7 @@ test("sign up, make a character, finish Job 1, and find it all on another device
   await expect(again.getByText("1 job shipped.", { exact: false })).toBeVisible();
   await expect(again.getByRole("link", { name: "Back to your desk" })).toBeVisible();
   await again.getByRole("link", { name: "Back to your desk" }).click();
-  await again.waitForURL("**/job/beas-till-1?step=make");
+  await again.waitForURL("**/job/bill-splitter?step=make");
   await expect(again.locator(".cm-content")).toContainText("# half done");
   await again.goto("/shelf");
   await expect(again.getByRole("button", { name: /The workshop sign/ })).toBeVisible();
@@ -29,7 +29,7 @@ test("sign up, make a character, finish Job 1, and find it all on another device
 });
 
 test("answer input() in the console, and stop a loop that never ends", async ({ page }) => {
-  await page.goto("/job/beas-till-2?step=pips");
+  await page.goto("/job/bill-splitter?step=pips");
   await page.getByRole("button", { name: "Run", exact: true }).click();
   const field = page.locator("#console-input");
   await field.waitFor({ timeout: 60_000 });
@@ -39,7 +39,7 @@ test("answer input() in the console, and stop a loop that never ends", async ({ 
   await page.locator("#console-input").press("Enter");
   await expect(page.getByText("A number is still text.")).toBeVisible();
 
-  await page.goto("/job/sign-on-the-door?step=make");
+  await page.goto("/job/shop-sign?step=make");
   await typeCode(page, "while True:\n    pass");
   await page.getByRole("button", { name: "Run", exact: true }).click();
   await page.getByRole("button", { name: "Stop", exact: true }).click({ timeout: 30_000 });
@@ -51,11 +51,11 @@ test("answer input() in the console, and stop a loop that never ends", async ({ 
 });
 
 test("guest work moves into a new account", async ({ page }) => {
-  await page.goto("/job/sign-on-the-door?step=make");
+  await page.goto("/job/shop-sign?step=make");
   await typeCode(page, '# from before I had an account\nprint("MOSS\'S WORKSHOP")');
   await page.waitForTimeout(1200);
   await signUp(page, uniqueEmail(), "Guest Ruth");
-  await page.goto("/job/sign-on-the-door?step=make");
+  await page.goto("/job/shop-sign?step=make");
   await expect(page.locator(".cm-content")).toContainText("from before I had an account");
 });
 

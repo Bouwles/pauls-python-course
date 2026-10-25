@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { TeacherClass } from "@/lib/server/classes";
 import { Button } from "../ui/Button";
+import { PixelIcon } from "../ui/PixelIcon";
 import { CopyCode } from "./CopyCode";
 import styles from "./Teach.module.css";
 
@@ -43,12 +44,16 @@ export function TeachHome({ teacher, classes }: { teacher: boolean; classes: Cla
       </header>
 
       {!teacher ? (
-        <p className={styles.meta}>
-          Switch on &ldquo;I teach a class&rdquo; in <Link href="/settings">Settings</Link> to make a class.
+        <p className={styles.notice}>
+          <PixelIcon name="settings" />
+          <span>
+            Switch on &ldquo;I teach a class&rdquo; in <Link href="/settings">Settings</Link> to make a class.
+          </span>
         </p>
       ) : null}
 
       {classes.length ? (
+        <div className={`frame-panel ${styles.section}`}>
         <div className={styles.tableWrap} role="region" aria-label="Your classes" tabIndex={0}>
           <table className={styles.table}>
             <thead>
@@ -91,18 +96,19 @@ export function TeachHome({ teacher, classes }: { teacher: boolean; classes: Cla
             </tbody>
           </table>
         </div>
+        </div>
       ) : teacher ? (
         <p className={styles.empty}>No classes yet. Make one below; it gets its own six-character code.</p>
       ) : null}
 
       {teacher ? (
-        <section className={styles.section} aria-labelledby="new-class">
+        <section className={`frame-panel ${styles.section}`} aria-labelledby="new-class">
           <h2 id="new-class" className={styles.h2}>
             New class
           </h2>
           <form className={styles.form} onSubmit={(e) => void make(e)}>
             <label className={[styles.field, styles.grow].join(" ")}>
-              <span>Class name</span>
+              <span className={styles.fieldLabel}>Class name</span>
               <input value={name} onChange={(e) => setName(e.target.value)} maxLength={80} autoComplete="off" aria-invalid={error ? true : undefined} aria-describedby={error ? "new-class-error" : undefined} />
             </label>
             <Button type="submit" variant="primary" disabled={busy || !name.trim()}>
@@ -145,7 +151,7 @@ function DeleteClass({ cls, onClose, onDeleted }: { cls: ClassItem | null; onClo
   };
 
   return (
-    <dialog ref={dialog} className={styles.dialog} aria-labelledby="delete-class-title" onClose={onClose}>
+    <dialog ref={dialog} className={`frame-panel float ${styles.dialog}`} aria-labelledby="delete-class-title" onClose={onClose}>
       {cls ? (
         <form
           method="dialog"
@@ -168,7 +174,7 @@ function DeleteClass({ cls, onClose, onDeleted }: { cls: ClassItem | null; onClo
             {cls.students === 0 ? "Nobody has joined it yet." : cls.students === 1 ? "Its one student leaves the class." : `Its ${cls.students} students leave the class.`} Its set Jobs go and the code stops working. Students keep all their own work. This can&apos;t be undone.
           </p>
           <label className={styles.field}>
-            <span>
+            <span className={styles.fieldText}>
               Type <strong>{cls.name}</strong> to confirm
             </span>
             <input value={typed} onChange={(e) => setTyped(e.target.value)} autoComplete="off" />

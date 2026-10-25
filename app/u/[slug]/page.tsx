@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getDb } from "@/lib/server/db";
 import { validSlug } from "@/lib/server/classes";
 import { getIndex } from "@/lib/content/server";
+import { BRAND } from "@/lib/brand";
 import type { CharacterLook } from "@/lib/store/types";
 import { Page } from "@/components/site/Page";
 import { PublicShelf, type PublicAct } from "@/components/profile/PublicShelf";
@@ -35,7 +36,7 @@ export async function generateMetadata(props: PageProps<"/u/[slug]">): Promise<M
   const n = p.shipped.length;
   return {
     title: `${nameOf(p)}'s shelf`,
-    description: `${nameOf(p)} is an apprentice at Moss's repair shop in Saltmarsh, with ${n} ${n === 1 ? "Job" : "Jobs"} shipped.`,
+    description: `${nameOf(p)} is an apprentice at Moss's repair shop in ${BRAND.townName}, with ${n} ${n === 1 ? "Job" : "Jobs"} shipped.`,
     // Opted in to a page, not to search engines.
     robots: { index: false, follow: false },
   };
@@ -56,7 +57,7 @@ export default async function PublicProfilePage(props: PageProps<"/u/[slug]">) {
     .filter((a) => a.items.length > 0);
   return (
     <Page>
-      <PublicShelf name={nameOf(p)} character={p.character} shipped={p.shipped.length} acts={acts} />
+      <PublicShelf name={nameOf(p)} character={p.character} shipped={p.shipped.length} acts={acts} slug={slug} />
     </Page>
   );
 }

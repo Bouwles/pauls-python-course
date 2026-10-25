@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { getSessionUser } from "@/lib/server/auth";
 import { githubEnabled, saveToken } from "@/lib/server/github";
+import { BRAND } from "@/lib/brand";
 
 export const dynamic = "force-dynamic";
 
@@ -22,7 +23,7 @@ export async function GET(req: Request) {
   });
   const body = (await res.json().catch(() => ({}))) as { access_token?: string };
   if (!body.access_token) return back("failed");
-  const me = await fetch("https://api.github.com/user", { headers: { Authorization: `Bearer ${body.access_token}`, Accept: "application/vnd.github+json", "User-Agent": "pauls-python-course" } });
+  const me = await fetch("https://api.github.com/user", { headers: { Authorization: `Bearer ${body.access_token}`, Accept: "application/vnd.github+json", "User-Agent": BRAND.name.toLowerCase() } });
   const login = ((await me.json().catch(() => ({}))) as { login?: string }).login ?? "";
   await saveToken(user.id, body.access_token, login);
   return back("connected");

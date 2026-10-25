@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { strToU8, zipSync } from "fflate";
 import { originOf } from "@/lib/server/http";
+import { BRAND } from "@/lib/brand";
 
 export const dynamic = "force-dynamic";
 
@@ -14,7 +15,7 @@ export async function GET(req: Request) {
   const root = path.join(process.cwd(), "cli");
   const files: Record<string, Uint8Array> = {};
   const version = /version = "([^"]+)"/.exec(fs.readFileSync(path.join(root, "pyproject.toml"), "utf8"))?.[1] ?? "0.0.0";
-  const top = `ppc-saltmarsh-${version}`;
+  const top = `${BRAND.townName.toLowerCase()}-cli-${version}`;
   const walk = (dir: string) => {
     for (const name of fs.readdirSync(dir)) {
       if (name === "__pycache__" || name.startsWith(".") || name.endsWith(".egg-info")) continue;

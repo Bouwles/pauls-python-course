@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { CheckReport, Files, RunResult } from "@/lib/python/protocol";
 import { Button } from "../ui/Button";
-import { CheckIcon, RunIcon, StopIcon } from "../ui/Icons";
+import { Menu } from "../ui/Menu";
+import { PixelIcon } from "../ui/PixelIcon";
 import { Editor, type EditorHandle } from "./Editor";
 import { Console } from "./Console";
 import { TestReport } from "./TestReport";
@@ -27,7 +28,7 @@ export interface CodeWorkspaceProps {
   readOnly?: boolean;
   /** Run is disabled until the learner has committed to a prediction, for example. */
   runDisabledReason?: string | null;
-  /** Tests key for Check, e.g. "sign-on-the-door/make". No Check button without it. */
+  /** Tests key for Check, e.g. "shop-sign/make". No Check button without it. */
   checkKey?: string | null;
   checkLabel?: string;
   timeoutMs?: number;
@@ -81,19 +82,24 @@ export function CodeWorkspace({
   const [pane, setPane] = useState<"output" | "checks" | "steps">("output");
   const [trace, setTrace] = useState<{ result: TraceResult; source: string; startLine: number | null } | null>(null);
   const [history, setHistory] = useState(false);
+  const [keysOpen, setKeysOpen] = useState(false);
   const [outputHeight, setOutputHeight] = useState(260);
+  const workspace = useRef<HTMLDivElement>(null);
   const [args, setArgs] = useState("");
   const editor = useRef<EditorHandle | null>(null);
   const { state } = runner;
   const busy = state.phase !== "idle";
 
+  // Output and Checks take 35 per cent of the height until the learner drags the split.
   useEffect(() => {
+    let saved = 0;
     try {
-      const h = Number(localStorage.getItem(SPLIT_KEY));
-      if (h > 80) setOutputHeight(h);
+      saved = Number(localStorage.getItem(SPLIT_KEY));
     } catch {
       // ignore
     }
+    if (saved > 80) setOutputHeight(saved);
+    else if (workspace.current) setOutputHeight(Math.max(140, Math.round(workspace.current.clientHeight * 0.35)));
   }, []);
 
   // Files the learner's programs have written in this job (Section 10.4).
@@ -210,8 +216,25 @@ export function CodeWorkspace({
   const outputHeightRef = useRef(outputHeight);
   outputHeightRef.current = outputHeight;
 
+  const menu = [
+    ...(showReset && !readOnly
+      ? [
+          {
+            label: "Reset",
+            icon: "reset" as const,
+            onSelect: () => {
+              if (contents && window.confirm("Put the starting code back? Your current code is kept in History.")) void code.replace(active, starter[active] ?? "", "manual");
+            },
+          },
+        ]
+      : []),
+    ...(!readOnly ? [{ label: "History", icon: "history" as const, onSelect: () => setHistory(true) }] : []),
+    { label: "Step through", icon: "next" as const, onSelect: () => void doTrace(), disabled: busy || !contents },
+    { label: "Keys", icon: "keys" as const, onSelect: () => setKeysOpen(true) },
+  ];
+
   return (
-    <div className={styles.workspace}>
+    <div className={styles.workspace} ref={workspace}>
       <div className={styles.editorPane}>
         <div className={styles.toolbar}>
           <div className={styles.tabs} role="tablist" aria-label="Files">
@@ -223,40 +246,29 @@ export function CodeWorkspace({
             {readOnly ? <span className={styles.readonly}>read only</span> : null}
           </div>
           <div className={styles.actions}>
-            {showReset && !readOnly ? (
-              <Button
-                size="sm"
-                variant="quiet"
-                onClick={() => {
-                  if (contents && window.confirm("Put the starting code back? Your current code is kept in History.")) void code.replace(active, starter[active] ?? "", "manual");
-                }}
-              >
-                Reset
-              </Button>
-            ) : null}
-            {!readOnly ? (
-              <Button size="sm" variant="quiet" onClick={() => setHistory(true)}>
-                History
-              </Button>
-            ) : null}
-            <ShortcutsSheet />
-            <Button size="sm" variant="quiet" onClick={() => void doTrace()} disabled={busy || !contents}>
-              Step through
-            </Button>
             {state.phase === "running" || state.phase === "checking" ? (
-              <Button size="sm" variant="danger" icon={<StopIcon />} onClick={runner.stop}>
+              <Button variant="danger" pixelIcon="stop" onClick={runner.stop}>
                 Stop
               </Button>
             ) : (
-              <Button size="sm" variant="primary" icon={<RunIcon />} onClick={() => void doRun()} disabled={Boolean(runDisabledReason) || !contents || state.phase === "starting"} title={runDisabledReason ?? undefined} shortcut="⌘↵" keys="Control+Enter Meta+Enter">
+              <Button
+                variant="go"
+                pixelIcon="run"
+                onClick={() => void doRun()}
+                disabled={Boolean(runDisabledReason) || !contents || state.phase === "starting"}
+                title={runDisabledReason ?? "Run"}
+                shortcut="Ctrl+Enter"
+                keys="Control+Enter Meta+Enter"
+              >
                 Run
               </Button>
             )}
             {checkKey ? (
-              <Button size="sm" variant="secondary" icon={<CheckIcon />} onClick={() => void doCheck()} disabled={busy || !contents} shortcut="⇧⌘↵" keys="Control+Shift+Enter Meta+Shift+Enter">
+              <Button variant="primary" pixelIcon="check" onClick={() => void doCheck()} disabled={busy || !contents} title="Check" shortcut="Ctrl+Shift+Enter" keys="Control+Shift+Enter Meta+Shift+Enter">
                 {checkLabel}
               </Button>
             ) : null}
+            <Menu label="More" items={menu} />
           </div>
         </div>
         {code.conflict ? (
@@ -326,7 +338,12 @@ export function CodeWorkspace({
               Step through
             </button>
           ) : null}
-          {state.runtime.status === "loading" ? <span className={styles.loading}>Starting Python.</span> : null}
+          {state.runtime.status === "loading" ? (
+            <span className={styles.loading}>
+              <PixelIcon name="loader" animate />
+              Starting Python
+            </span>
+          ) : null}
         </div>
         <div className={styles.paneBody}>
           {pane === "steps" && trace ? (
@@ -338,6 +355,7 @@ export function CodeWorkspace({
           )}
         </div>
       </div>
+      {keysOpen ? <ShortcutsSheet onClose={() => setKeysOpen(false)} /> : null}
       {history ? (
         <VersionHistory
           stepId={stepId}

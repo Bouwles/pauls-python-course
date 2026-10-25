@@ -19,7 +19,6 @@
   border: none;
   background: transparent;
   padding: 0;
-  border-radius: var(--r-2);
   cursor: pointer;
 }
 

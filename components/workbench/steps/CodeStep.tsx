@@ -1,15 +1,23 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import type { CheckableStep } from "@/lib/content/types";
 import type { CheckReport, Files, RunResult } from "@/lib/python/protocol";
 import type { StepProgressRow } from "@/lib/store/types";
 import { CodeWorkspace } from "../CodeWorkspace";
 import { DennisPanel } from "../DennisPanel";
 import { Hints } from "../Hints";
+import { InDialogue, InDrawer } from "../Slots";
 import { useWorkbench } from "../context";
-import { JobSummary, NextRow, Prose, StepHeading } from "./common";
+import { cuesFromCheck, cuesFromRun } from "@/lib/reactions";
+import { NextRow, Prose, StepHeading } from "./common";
+import { Ticket } from "../Ticket";
 import styles from "./steps.module.css";
+
+/** Lines that do something: not blank, not a comment. */
+function codeLines(source: string | undefined): number {
+  return (source ?? "").split("\n").filter((l) => l.trim() && !l.trim().startsWith("#")).length;
+}
 
 function allRequiredPassed(report: CheckReport) {
   return report.status === "ok" && report.results.length > 0 && report.results.filter((r) => !r.stretch).every((r) => r.passed);
@@ -17,49 +25,44 @@ function allRequiredPassed(report: CheckReport) {
 
 /** Pip's Version, Fix, Modify and Make: write code, Check it against real tests. */
 export function CodeStepView({ step, row }: { step: CheckableStep; row: StepProgressRow }) {
-  const { areas, job, updateStep, markPassed, react, sayLine, characters } = useWorkbench();
-  void job;
+  const { areas, job, updateStep, markPassed, react, sayLine, cue, characters } = useWorkbench();
   const filesRef = useRef<(() => Files) | null>(null);
-  const firstRunError = useRef(true);
   const passed = row.status === "passed";
   const seen = row.status === "seen-solution";
 
   // Pip says his piece again when the bug is fixed.
   const pipAfter = step.type === "pips" ? step.dialogueAfter : [];
 
-  const onCheck = async (report: CheckReport) => {
+  const onCheck = async (report: CheckReport, files: Files) => {
     const ok = allRequiredPassed(report);
+    const attemptsBefore = row.attempts;
     await updateStep(step.id, (r) => ({ attempts: r.attempts + 1 }));
+    const cues = cuesFromCheck(report, attemptsBefore, ok, {
+      pipsStep: step.type === "pips",
+      shorterThanPip: codeLines(files[step.entry]) < codeLines(step.starter[step.entry]),
+      hintsUsed: row.hintsUsed,
+    });
     if (ok) {
       await markPassed(step.id);
-      if (step.onPass) sayLine(step.onPass.who, step.onPass.text);
-      else if (pipAfter[0]) sayLine(pipAfter[0].who, pipAfter[0].text);
-      else void react("moss", "check-passed");
-    } else if (report.status === "syntax-error") {
-      void react("moss", "run-error");
+      // The step's own line comes first; a reaction to how it went follows it.
+      if (step.onPass) sayLine(step.onPass.who, step.onPass.text, "pleased");
+      else if (pipAfter[0]) sayLine(pipAfter[0].who, pipAfter[0].text, "proud");
+      void cue(step.onPass || pipAfter[0] ? cues.filter((c) => c.event !== "check-passed") : cues, { after: Boolean(step.onPass || pipAfter[0]) });
     } else {
-      void react("moss", "check-failed");
+      void cue(cues);
     }
   };
 
   const onRun = (result: RunResult) => {
     if (result.status === "stopped") void react("moss", "stopped-loop");
-    else if (result.status === "error" && firstRunError.current) {
-      firstRunError.current = false;
-      void react("moss", "run-error");
-    }
+    else void cue(cuesFromRun(result));
   };
-
-  useEffect(() => {
-    firstRunError.current = true;
-  }, [step.id]);
 
   const passLine = passed ? (step.onPass ? `${characters[step.onPass.who]?.name ?? step.onPass.who}: ${step.onPass.text}` : pipAfter[0] ? `Pip: ${pipAfter[0].text}` : null) : null;
 
   return (
     <>
-      <div className={areas.brief}>
-        <JobSummary />
+      <Ticket>
         <StepHeading step={step} />
         <Prose html={step.html} />
         {step.visibleTests.length ? (
@@ -86,7 +89,7 @@ export function CodeStepView({ step, row }: { step: CheckableStep; row: StepProg
         ) : null}
         {seen ? <p className={styles.nextNote}>You&apos;ve seen the solution for this one. A fresh version will turn up in your review.</p> : null}
         <NextRow row={row} doneText={passed && step.type === "make" ? "Next is the Ship." : undefined} />
-      </div>
+      </Ticket>
       <div className={areas.stage}>
         <CodeWorkspace
           stepId={step.id}
@@ -96,17 +99,21 @@ export function CodeStepView({ step, row }: { step: CheckableStep; row: StepProg
           starterFrom={step.starterFrom}
           checkKey={`${job.id}/${step.id}`}
           timeoutMs={step.timeoutMs}
-          onCheck={(r) => void onCheck(r)}
+          onCheck={(r, files) => void onCheck(r, files)}
           onRun={onRun}
           passLine={passLine}
           filesRef={filesRef}
           argvField={step.argvField}
         />
       </div>
-      <div className={areas.side}>
-        {step.hints ? <Hints step={step} hints={step.hints} row={row} /> : null}
+      {step.hints ? (
+        <InDialogue>
+          <Hints step={step} hints={step.hints} row={row} />
+        </InDialogue>
+      ) : null}
+      <InDrawer>
         <DennisPanel stepId={step.id} row={row} source={() => filesRef.current?.()[step.entry] ?? ""} />
-      </div>
+      </InDrawer>
     </>
   );
 }
