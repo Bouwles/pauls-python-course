@@ -1,0 +1,47 @@
+id: penhallows-handwriting
+title: "Penhallow's Handwriting"
+client: wendt
+building: observatory
+estimated_minutes: 120
+summary: "The NumPy brain learns to read the digits in Penhallow's notebooks: softmax, cross-entropy, and a test on digits it has never seen."
+concepts_introduced: [classification-networks]
+concepts_reviewed: [neural-networks, backpropagation, optimisers, weight-initialisation, numerical-gradient-checking, logistic-regression, cross-entropy, train-test-split, overfitting, numpy-arrays, broadcasting, vectorisation, indexing]
+ask:
+  dialogue:
+    - wendt: "Every number in her notebooks is in her own hand. Two hundred notebooks, give or take."
+    - wendt: "I scanned the digits. Eight by eight squares of grey. Her fours look like nines."
+    - wendt: "Her nines look like fours that gave up halfway."
+    - moss: "Ten answers, then, not three. And only one of them right."
+  spec: |
+    In `digits.py`, teach the brain from Training Properly to read her digits. `training.py` holds `init_params`, `batches` and `Adam` from that Job.
+
+    1. `one_hot(labels, classes)`: a row per label, with 1 in that label's column and 0 everywhere else.
+    2. `softmax(Z)`: each row of scores into chances that add up to 1, without overflowing however big the scores are.
+    3. `cross_entropy(P, labels)`: the mean, over the rows, of minus the log of the chance each row gives its right answer.
+    4. `forward(X, params)`: a ReLU hidden layer, then softmax. It returns the chances, one row per image, and a cache, as in Learning Backwards.
+    5. `backward(X, labels, params, cache)`: the gradient for every weight and bias. The blame at the scores is the chances minus the one-hot answers, divided by the number of rows. No loops.
+    6. `accuracy(P, labels)`: the fraction of rows whose biggest chance is on the right digit.
+    7. `train(X, labels, params, optimiser, epochs, batch_size, rng)`: mini-batch training, as in Training Properly. It returns the cross-entropy on every row of `X` after each epoch.
+    8. Run as a program, it learns from 1500 of her digits, then reads the 297 it was never shown.
+  example: |
+    Loss: 0.543 after the first epoch, 0.029 after the last
+    Read 293 of 297 digits it had never seen
+    Misread: 4 as 7, 9 as 5, 9 as 8, 8 as 1
+story_note: before-tom-did
+ship:
+  dialogue:
+    - wendt: "Two hundred and ninety-three of two hundred and ninety-seven, on digits it had never seen."
+    - wendt: "One of its mistakes is a nine it read as a five. I've looked. I'd have read it as a five."
+    - pip: "Mine got every training digit right."
+    - moss: "And the ones in the drawer?"
+  shelf: { object: slate, label: "Penhallow's handwriting, read" }
+  cards: [classification-networks]
+stretch:
+  - id: confusion
+    title: "Which digits get confused"
+    prompt: |
+      Build a 10 by 10 confusion matrix for the held-back digits: row for the true digit, column for the guess. Show it with `plt.imshow` and label both axes. Which pair of digits does it mix up most, and do they look alike in her hand?
+  - id: least-sure
+    title: "The digits it was least sure of"
+    prompt: |
+      Find the eight held-back digits whose biggest chance was smallest, and draw them with `plt.imshow(image, cmap="gray_r")` in a row, each titled with its guess and its chance. Are its unsure digits the ones you'd hesitate over?

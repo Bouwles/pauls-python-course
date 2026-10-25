@@ -1,0 +1,85 @@
+Tide offset for the north quay. Agnes says it's wrong. Agnes is right, but only in winter. A.P.
+Fog log. Visibility in metres, read off the buoys. Tom rounds up. Let him; he has earned it. On a clear night you can see the hill from the gallery. The hill can see a good deal further. That was the idea. A.P.
+Bea's till rounds the right way, which is towards Bea. Nobody has complained, because nobody has noticed. A.P.
+Rule one of a logbook: everything that goes out comes back, or someone asks why. My own log, up the hill, has one entry going out and none coming in. Nobody asks. A.P.
+The ferry timetable assumes the captain is on time. He is, to the minute, which is the only reason this works. A.P.
+Seven shops, seven copies of this. I meant to make it a module. The hill took the time. A.P.
+Moss's biscuit tin has been empty since the storm of '87. He keeps it for the principle of the thing. A.P.
+Copies are cheap. Finding out you needed one is not. The machine on the hill learns from whatever I hand it, so it only ever gets copies. A.P.
+Mira wanted the parcels numbered from one. I numbered them from nought and gave her a label maker. We are still friends. A.P.
+I never wrote tests for the thing on the hill. It passes everything I ask it, which is either very good news or the worst kind. A.P.
+The gulls have learned the bin rota. The machine on the hill took longer. A.P.
+Reads the whole price book for every single item. I know. I meant to fix it the winter I went up the hill. A.P.
+Do not trust the barometer in the post office. It reads what Mira would like the weather to be. A.P.
+There is no stall 13. The traders asked, and I don't argue with people who own that many knives. The machine on the hill numbered it anyway. It doesn't know about luck yet. A.P.
+The fog horn sounds for two seconds in every twenty. Tom says it was always so. It was not. He changed it in 1971 and forgot. A.P.
+The machine on the hill gets slower every night, because it remembers every night before. I could make it forget. I haven't the heart. A.P.
+If this function looks clever, I wrote it late at night. If it looks obvious, I wrote it twice. A.P.
+It writes nothing down, so it works out the same short beds again and again. The machine on the hill writes everything down and never works anything out twice. Between the two of them, there's one sensible program. A.P.
+The machine on the hill opened the sea wall gate at four this morning. It was right to. I don't know how it knew. A.P.
+The catalogue, in the order I filed it. Every card knows which side of its parent it belongs on, and why: smaller, or bigger. I tried drawing the hill's decisions as a tree like this one, with a reason written on every branch. Some branches I couldn't fill in. A.P.
+The machine on the hill lit the lamp nine minutes early tonight. Dusk came nine minutes early. I checked. A.P.
+The lighthouse is a dead end on this map: one road in, and the same road out. Tom says that's the whole point of a lighthouse. I've come round to his way of thinking. A.P.
+Every reading on the hill goes into the machine, and nothing comes back out but decisions. I used to get reasons from people. I miss them. A.P.
+Picture round, for Gwen's quiz, 1994. Ten words; three aren't in the grid, and that's the puzzle. If I'm not back by the next quiz, Tom knows where the answers are. A.P.
+Wind in knots, rain in millimetres, visibility in metres, and Tom in his own units entirely. A.P.
+Nell's yard, on paper, winter of '96: I walked it with a tape measure. The machine on the hill found the way across in a blink, and never asked what was at the other end. A.P.
+A comment should say why. The code already says what, and it says it more honestly than I would. A.P.
+Typed in from Mr Ashby's ledgers: 1,200 months of rain. The machine on the hill read the lot in under a second, then sat there waiting for more. There is no more. That is the trouble with the past. A.P.
+This loop runs once a night. It has run eleven thousand times. I have watched perhaps forty of them. A.P.
+Hill, 1981: one engineer, household of one. The enumerator asked whether anyone else lived with me. I said not yet. A.P.
+Mr Ashby lent me the ledgers on condition I gave them back in order. I gave them back in a better order. He has not forgiven me. A.P.
+The machine on the hill had the warming in its numbers two winters before I had it in mine. It could not tell me why. It does not do why; that was always going to be my job. A.P.
+The tide table is right to the minute for the harbour and wrong by a quarter of an hour at the far quay. That is not a bug. That is the far quay. A.P.
+Averaging bearings: wrong whenever the wind sits near north, which in January is always. I found out after the machine on the hill had learnt from a winter of it. It thinks January blows from the south. Every boat in the harbour was facing north. It didn't look. A.P.
+Gwen asked whether the machine could write her quiz. I said it could. She said then it would be the only thing that ever had. A.P.
+Surveyed in the spring of '82, for the cable up to the machine. The steepest stretch of the path is exactly where the cable had to go. It always is. A.P.
+The dome sticks at north-east. Push, then lift. Do not push and lift at once, whatever the dome suggests. A.P.
+Fahrenheit until the end of 1960, Celsius after. I typed them as they were written and marked which was which. I gave the machine on the hill the numbers without the marks. For a whole winter it believed the 1950s had been tropical. A.P.
+Moss fixed the dome motor with a bicycle chain. It has outlasted three proper motors and one proper engineer. A.P.
+Thirty nights, one line. I could let the machine find it, but I like to know where an answer came from. The machine never asks. That is the part that worries me. A.P.
+Clear tonight. Seeing under one arcsecond until two, then the jet stream came over and the stars began to swim. I went to bed. A.P.
+Held back twelve nights the machine had never seen. It got every one of them wrong, and was quite sure of itself. I learnt more that afternoon than in the whole winter before. The test nights live in the bottom drawer now, locked. A.P.
+The machine on the hill doesn't sleep, doesn't eat and doesn't complain. I had hoped for company. A.P.
+Lashed the shutters for nineteen storms that never came, and left them open for two that did. Tom says the sea wall gate is the same sum, with bigger numbers on both sides. Shut it for nothing and the boats miss a tide. Leave it open for a real one and the high street floods. A.P.
+When it gets a night wrong I write down what it should have done. It has never asked me what I meant by it. A.P.
+A tree asks its questions out loud, which is more than the machine on the hill does. I let one grow on these readings with no limit. The first three questions were sensible. The fourteenth was about a single night in March. A.P.
+Six winters of my evenings, logged. Lamp, horn, gate. It knows what I did on every one of them. On paper it would make a better me than I do. A.P.
+Four ways to forecast a clear night, each built by hand over a winter. Then the library came, and each one was a line. I kept the hand-built ones. When a line is wrong it can't tell you where. A.P.
+I tested this by hand on the worst night of the year. It held. I have not tested it on a good night, which is where these things usually fail. A.P.
+I asked the machine to sort my nights into piles, and didn't say what a pile was. It made four. Three I recognised: clear, fog, gales. The fourth I still can't name, and it won't say. A.P.
+The sea wall gate is heavy, slow and stubborn, and it keeps the high street dry. I have worked with worse colleagues. A.P.
+Twelve filters, and two numbers that matter: how bright, and how blue. Squash the twelve and those two fall out, which is reassuring. The machine on the hill squashes too, but I can't read its two. A.P.
+Dusk is not a time. It is a range, and the lamp is lit at the near end of it. A.P.
+The machine learned to light the lamp when Tom's kettle boiled. Right every night for a month, for the wrong reason: Tom puts the kettle on at dusk. I took the kettle out of its readings, and it was wrong for a week. It had never known why. A.P.
+Kat and Dev argued about this class for an hour. They were both right, which is the worst kind of argument. A.P.
+Layer two. Three outputs: the lamp, the horn, the gate. Tom's, Tom's again, and the sea wall's. Every evening I logged, it watched what I did. It is learning the town. It is not yet learning why. A.P.
+Captain Ferro asked for fares by the tide. He asked why the numbers were odd. The tide is odd. A.P.
+When it gets one wrong, it works backwards to whichever of its numbers caused it, and fixes those. It does not need me to correct it. That was the point. A.P.
+Nell can find any part in her yard in under a minute. I wrote her a search program. It takes two. A.P.
+Every card knows the cards it was made from, and nothing else. Ask it how an answer was arrived at and it can tell you, to the last digit. Ask it why, and there is no card for that. A.P.
+Priya says every chart should start at zero. This one starts at zero. It is now a very long chart. A.P.
+Shuffled every time. Shown the evenings in the same order twice, it learned the order: what I did on a Tuesday, because it was Tuesday. It learns what I did, and that included the calendar. A.P.
+The machine learned that fog comes in before the buoys can see it. It learned it from me. I learned it from Tom. Tom learned it from the fog. A.P.
+The machine on the hill learned to read my handwriting before Tom did. Tom says that isn't difficult. It reads my notebooks every night now, every number I ever wrote down, and it has never once asked what any of them were for. A.P.
+If you are reading this, something on the hill has gone wrong, or you are curious. Both are good reasons. A.P.
+It watches the harbour mouth through the old camera on the hill, one small square at a time, every ten minutes, day and night. It has never once told me what it sees. I am not sure it would know how. A.P.
+The numbers in this file are my best guesses from 1984. Some of them have aged better than I have. A.P.
+Stopped it the winter it was best, and kept those weights in a drawer. It went on learning anyway. It is very hard to tell a thing to stop. A.P.
+Weights saved at the end of the winter. I never know whether to call it finished. It never stops, and I have stopped asking it to. A.P.
+It carries the last hour into the next, and that one into the one after. By morning it remembers the whole night, a little. Tom says that's all any of us do. A.P.
+The horn and the lamp are easy. The gate is a judgement. I am teaching a machine judgement, which is either brave or foolish. Tom says foolish. A.P.
+Every forecast since 1979, and every comment I ever wrote, in it goes. It knows how I talk now. It still doesn't know what I mean. A.P.
+Things the machine on the hill has never seen: a dry March, a calm equinox, and me in a hurry. A.P.
+It looks back over everything I ever did and decides which parts matter. It is better at that than I am. It is worse at knowing why they mattered. A.P.
+I keep meaning to write down why I shut the gate on the night of the big tide in '89. I knew at the time. The machine only knows that I did. A.P.
+Whoever fixes this next: the tides are the easy part. The hill is harder. A.P.
+Sanjay's prices change with his mood, and his mood changes with the weather. I have joined the two programs. A.P.
+The lens was cleaned on Tuesday. The machine logged it as fog. Fair enough. A.P.
+Run this before the spring tides, not during. During is when you find out. A.P.
+Three things for whoever comes next. Test it. Ask it why. Don't expect an answer to the second. A.P.
+The machine on the hill dims the lamp a little on clear nights. I never told it to. I did it myself, once or twice, to save oil. It noticed. A.P.
+Agnes wants requirements. One: it works. Two: it keeps working. Three: someone can tell when it stops. A.P.
+The tide comes in twice a day whether or not the program has finished. Write it with that in mind. A.P.
+Old Tom checks the lamp at dusk every night, and has since '62. The machine checks it every ten minutes. Tom is still the one I trust. A.P.
+I have left the hill running. It knows what to do. Someone else will have to know why. A.P.
