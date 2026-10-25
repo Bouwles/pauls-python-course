@@ -1,0 +1,53 @@
+id: vectors-and-arrows
+title: "Vectors and Arrows"
+client: priya
+building: weather-station
+estimated_minutes: 80
+summary: "A month of wind as arrows: the prevailing wind, how steady it was, and what the ferry feels on the bow and the beam."
+concepts_introduced: [vectors, matrices]
+concepts_reviewed: [numpy-arrays, vectorisation, slicing, functions, return-values, multiple-returns, main-guard, docstrings, f-strings]
+ask:
+  dialogue:
+    - priya: "The vane logs a bearing and a speed every day. Penhallow's summary averages the bearings."
+    - priya: "So January came from the south. Ask anyone on the quay."
+    - ferro: "And I want what's on the bow and what's on the beam. On forty degrees."
+    - moss: "Bearings go round. Numbers don't. Make them arrows."
+  spec: |
+    `vane.csv` has one row per day of January 2024: the `date`, the `bearing` the wind came from (degrees clockwise from north) and its `speed` in knots. `load_vane` and `to_arrows` are written: `to_arrows` gives one arrow per day, `(east, north)` in knots, pointing where the wind came from.
+
+    Write five functions that work on the arrows, with no loops:
+
+    - `to_bearings(arrows)`: the compass bearing of each arrow, from 0 up to 360.
+    - `prevailing(arrows)`: the average wind, `(bearing, speed)`: the direction and length of the mean arrow.
+    - `steadiness(arrows)`: the mean arrow's length divided by the mean speed.
+    - `angle_between(a, b)`: the angle between two arrows in degrees, from 0 to 180.
+    - `along_and_across(arrows, heading)`: for a boat on that heading, one row per wind: the headwind (below 0 if the wind is behind) and the crosswind from starboard (below 0 if it's from port).
+  example: |
+    January 2024: 31 days
+    Average of the bearings: 197 degrees
+    Prevailing wind: from 350 degrees at 11.4 knots
+    Steadiness: 0.81
+    Biggest swing overnight: 120 degrees, 2024-01-28 to 2024-01-29
+    Ferry on 040: worst headwind 25.1 knots on 2024-01-26
+    Ferry on 040: worst crosswind 23.1 knots on 2024-01-15
+ship:
+  dialogue:
+    - priya: "North by a touch west, steadiness 0.81. That's a month I recognise."
+    - ferro: "Twenty-three knots on the port beam on the fifteenth. I cancelled the four o'clock. Rightly, it turns out."
+    - priya: "I've crossed out Penhallow's 197. In pencil. She'd have done the same."
+  shelf: { object: weathervane, label: "Priya's wind report, in arrows" }
+  cards: [vectors, matrices]
+story_note: facing-north
+stretch:
+  - id: windiest-quarter
+    title: "Which way the gales come from"
+    prompt: |
+      Write `strongest_quarter(arrows)`. It returns which quarter of the compass the strongest winds came from, as `"north"`, `"east"`, `"south"` or `"west"`: the quarter whose winds have the highest average speed. North is from 315 up to 45, east from 45 up to 135, and so on.
+
+      `to_bearings` and `np.linalg.norm(arrows, axis=1)` do most of it. Add 45 to each bearing, take `% 360`, then divide by 90 with `//`: north's two halves both land on 0.
+    tests: tests/stretch-windiest-quarter.py
+    solution: solutions/stretch-windiest-quarter.py
+  - id: wind-rose
+    title: "A wind rose"
+    prompt: |
+      Draw January as a wind rose: one arrow per day, all starting from the middle. `plt.quiver(0, 0, east, north, angles="xy", scale_units="xy", scale=1)` draws arrows from the middle; `plt.axis("equal")` keeps north the same length as east. Then add the mean arrow in a different colour, and label the axes in knots.

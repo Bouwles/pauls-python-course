@@ -1,0 +1,62 @@
+id: saltmarsh-weather-report
+title: "The Saltmarsh Weather Report"
+client: priya
+building: weather-station
+estimated_minutes: 480
+summary: "A century of the station book, cleaned once, summed up honestly, drawn fairly and written up: what changed, how sure anyone can be, and what didn't."
+concepts_introduced: []
+concepts_reviewed: [pandas-basics, selecting-filtering, missing-data, data-cleaning, groupby, matplotlib, honest-charts, descriptive-statistics, probability, permutation-tests, numpy-arrays, vectorisation, modules, imports, functions, multiple-returns, default-arguments, docstrings, main-guard, f-strings]
+ask:
+  dialogue:
+    - priya: "A hundred years of the station book. I want it read properly, once, and written up."
+    - priya: "What changed, how sure we are, and what didn't change. That last part gets left out."
+    - ashby: "The ledger is as the volunteers typed it. Fahrenheit until 1960. Some pages twice."
+    - moss: "Four files, each with one job. Then the words."
+  spec: |
+    `ledger.csv` is the station book as it was typed: one row per month from 1925 to 2024, with the month, the temperature and the unit it was written in, the rain in millimetres and the hours of sunshine.
+
+    Build the report in four files. Each one's requirements are at the top of it.
+
+    1. `station.py` cleans the ledger: one unit, real numbers, each month once, in order.
+    2. `summary.py` works out the numbers: each year, each decade, the 1961 to 1990 normals, the warming trend, and a permutation test of the last thirty years against the first thirty.
+    3. `charts.py` draws three honest charts: the temperature as a difference from the 1961 to 1990 average, the rain by decade, and both thirty-year periods month by month.
+    4. `report.py` prints the report and draws the charts, ending with your own conclusion.
+
+    Then Priya reads it against her checklist.
+  example: |
+    The Saltmarsh Weather Report, 1925 to 2024
+    Source: Saltmarsh Weather Station book, 1925 to 2024, at the Records Office
+
+    The record
+      1200 months, missing months: none
+      Warmest year: 2022 (12.99 degrees C). Coldest: 1963 (9.84 degrees C)
+      Wettest year: 1960 (1439 mm). Driest: 1982 (798 mm)
+
+    Then and now: 1995 to 2024 against 1925 to 1954
+      Temperature: +0.86 degrees C (p < 0.001)
+      Rain: -35 mm a year (p = 0.21)
+      Sunshine: +26 hours a year (p = 0.43)
+      Warming over the century: 0.13 degrees C a decade
+      Warmed most on the 1961 to 1990 normal: June, +1.50 degrees C
+
+    Conclusion
+      ...
+ship:
+  dialogue:
+    - priya: "Warmer, and sure of it. Not wetter, and honest about it. I'll read it out on Friday."
+    - ashby: "One copy for the Records Office, filed under W. And one under 1925, where it starts."
+    - pip: "Can my chart go on the back page."
+    - priya: "With the scale from zero, it can go on the front."
+    - moss: "That's the Records Office and the Weather Station both lit. The hill's next."
+  shelf: { object: almanac, label: "The Saltmarsh Weather Report, 1925 to 2024" }
+  cards: []
+story_note: tropical-fifties
+stretch:
+  - id: take-it-home
+    title: "Take it home"
+    prompt: |
+      Copy the four files and `ledger.csv` to your own computer and run `python report.py` in a terminal: the charts open in windows of their own. Then try the report as a Jupyter notebook: one cell per section, with the charts drawn under the numbers they belong to, and your conclusion in a Markdown cell at the end.
+  - id: seasons
+    title: "Winters and summers"
+    prompt: |
+      Add `season_trend(station, months)` to `summary.py`: the warming trend, in degrees C a decade, of the average of just those months each year. `season_trend(station, [6, 7, 8])` is the summers. Have the winters, `[1, 2, 12]`, warmed faster or slower? Add a line to the report, with a permutation test to go with it.
