@@ -31,7 +31,7 @@ export function track(event: FunnelEvent) {
   } catch {
     // Storage refused: send anyway; the server counts distinct visitors.
   }
-  void fetch("/api/funnel", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ event, visitor: visitor() }), keepalive: true }).catch(() => {});
+  void fetch("/api/funnel", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ event, visitor: visitor() }) }).catch(() => {});
 }
 
 /** Drop into a page to record that someone reached it. */

@@ -43,11 +43,11 @@ Remove the "AI product" house style (cream paper, serif body, amber accent, trac
 ## Phase R4: Curriculum (Section 7), after R1 passes
 
 - [x] Nine Acts in the new structure; Act I free
-- [ ] Act I rewritten as the 13 real projects, reusing step content where it fits; every check passing
+- [x] Act I rewritten as the 13 real projects, reusing step content where it fits; every check passing
 - [ ] Every later Act has its full project list, with existing written Jobs mapped onto the new projects where they fit and at least the first project of each fully written
 - [x] New job fields enforced by validation: `project_name`, `client`, `portfolio_readme`, `downloadable`, `datasets` (with licences)
 - [ ] Real public datasets where data is used, recorded in `CREDITS.md`, with small cleaned copies bundled
-- [ ] Every Act I project downloads as a runnable folder with a README
+- [x] Every Act I project downloads as a runnable folder with a README
 
 ## Phase R5: Pro subscriptions (Section 8), after R1 passes
 
@@ -61,7 +61,7 @@ Remove the "AI product" house style (cream paper, serif body, amber accent, trac
 ## Phase R6: Growth basics (Section 9)
 
 - [x] The public Python Handbook at /handbook: static concept pages with runnable examples, titles, descriptions, canonical URLs, sitemap, robots and structured data
-- [ ] The first 60 long-form Handbook pages (content/handbook/) for Act I and II concepts
+- [x] The first 60 long-form Handbook pages (content/handbook/) for Act I and II concepts
 - [x] Shareable project pages (opt-in) with OG images from the pixel art
 - [x] Act certificates (Pro) with verification URLs, PNG and PDF
 - [x] Funnel events and an owner-only `/admin/metrics` page

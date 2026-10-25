@@ -266,7 +266,17 @@ export async function loadContent(root: string, opts: LoadOptions = {}): Promise
   }
   for (const c of Object.values(concepts)) for (const r of c.related) if (!concepts[r]) errors.push(`concepts/${c.id}.yaml: unknown related concept "${r}"`);
 
-  // -- the Python Handbook's long-form pages (REDESIGN.md 9.1): content/handbook/<concept-id>.md
+  // -- the Python Handbook's long-form pages (REDESIGN.md 9.1): content/handbook/<concept-id>.md,
+  // with search titles in content/handbook/titles.yaml.
+  const titlesFile = path.join(root, "handbook", "titles.yaml");
+  const titles = fs.existsSync(titlesFile) ? ((yaml(titlesFile) ?? {}) as Record<string, string>) : {};
+  for (const [id, t] of Object.entries(titles)) {
+    if (!concepts[id]) errors.push(`handbook/titles.yaml: no concept "${id}"`);
+    else {
+      lint(t, `handbook/titles.yaml ${id}`, true);
+      concepts[id]!.handbookTitle = t;
+    }
+  }
   for (const name of listDir(path.join(root, "handbook")).filter((n) => n.endsWith(".md"))) {
     const id = name.replace(/\.md$/, "");
     const hFile = path.join(root, "handbook", name);

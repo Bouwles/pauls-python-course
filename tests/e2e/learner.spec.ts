@@ -10,15 +10,16 @@ test("sign up, make a character, finish Job 1, and find it all on another device
   // Leave some unfinished work in Job 2 to come back to.
   await page.goto("/job/bill-splitter?step=make");
   await typeCode(page, "loaves = 3\n# half done");
-  await expect(page.getByText("Saving", { exact: true })).toBeVisible({ timeout: 10_000 });
-  await expect(page.getByText("Saved", { exact: true })).toBeVisible({ timeout: 30_000 });
+  // The save status is a pixel icon; its words are in the tooltip.
+  await expect(page.getByTitle("Saving", { exact: true })).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByTitle("Saved", { exact: true })).toBeVisible({ timeout: 30_000 });
   await first.close();
 
   // A fresh browser, as if on another device.
   const second = await browser.newContext();
   const again = await second.newPage();
   await logIn(again, email);
-  await expect(again.getByText("1 job shipped.", { exact: false })).toBeVisible();
+  await expect(again.getByText("1 shipped.", { exact: false })).toBeVisible();
   await expect(again.getByRole("link", { name: "Back to your desk" })).toBeVisible();
   await again.getByRole("link", { name: "Back to your desk" }).click();
   await again.waitForURL("**/job/bill-splitter?step=make");

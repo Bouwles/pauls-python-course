@@ -81,15 +81,15 @@ export async function completeJobOne(page: Page) {
   // Pip's Version
   await typeCode(page, 'print("HOLLIS BAKERY")\nprint("Bread, buns and Bea\'s lardy cake")\nprint("Open from 7")');
   await page.getByRole("button", { name: "Check", exact: true }).click();
-  await expect(page.getByText("All checks passed.")).toBeVisible({ timeout: 60_000 });
+  await expect(page.getByText(/^All \d+ checks passed$/)).toBeVisible({ timeout: 60_000 });
   await page.getByRole("button", { name: "Next step" }).click();
 
   // Make
   await typeCode(page, '# The workshop sign\nprint("MOSS\'S WORKSHOP")\nprint("Repairs of all kinds")\nprint("Open Tuesday to Saturday, 9 till 5")\nprint("Closed when the radio is on")');
   await page.getByRole("button", { name: "Check", exact: true }).click();
-  await expect(page.getByText("All checks passed.")).toBeVisible({ timeout: 60_000 });
+  await expect(page.getByText(/^All \d+ checks passed$/)).toBeVisible({ timeout: 60_000 });
   await page.getByRole("button", { name: "Next step" }).click();
 
   // Ship
-  await expect(page.getByRole("heading", { name: /Shipped|Shipping/ })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /shipped|shipping/i })).toBeVisible();
 }

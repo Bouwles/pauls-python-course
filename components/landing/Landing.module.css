@@ -118,7 +118,7 @@
 
 .titleWhere {
   margin-left: auto;
-  color: var(--fog);
+  color: var(--text-on-frame);
 }
 
 .playable {

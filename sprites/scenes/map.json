@@ -134,6 +134,12 @@
       "frame": "moored",
       "x": 140,
       "y": 214
+    },
+    {
+      "sprite": "b-pier-arcade",
+      "frame": "open",
+      "x": 318,
+      "y": 176
     }
   ]
 }

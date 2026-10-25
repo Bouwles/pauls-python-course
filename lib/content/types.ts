@@ -293,6 +293,8 @@ export interface Concept {
   summaryHtml: string;
   /** The Python Handbook's longer page for this concept (content/handbook/<id>.md), when written. */
   handbookHtml?: string;
+  /** The Handbook page's search title ("Python f-strings"), when set in content/handbook/titles.yaml. */
+  handbookTitle?: string;
   example: string;
   exampleInputs: string[];
   misconceptions: string[];

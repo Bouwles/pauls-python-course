@@ -22,11 +22,12 @@ export async function generateMetadata(props: { params: Promise<{ id: string }> 
   const c = getConcepts()[id];
   if (!c) return { title: "Python Handbook" };
   const url = `${siteUrl()}${handbookPath(id)}`;
+  const title = c.handbookTitle ?? `${c.title}: Python Handbook`;
   return {
-    title: `${c.title}: Python Handbook`,
+    title,
     description: describe(c.summaryHtml),
     alternates: { canonical: url },
-    openGraph: { title: `${c.title}: Python Handbook`, description: describe(c.summaryHtml), url, type: "article" },
+    openGraph: { title, description: describe(c.summaryHtml), url, type: "article" },
   };
 }
 
@@ -43,7 +44,7 @@ export default async function HandbookEntry(props: { params: Promise<{ id: strin
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "LearningResource",
-    name: c.title,
+    name: c.handbookTitle ?? c.title,
     description: describe(c.summaryHtml),
     url: `${siteUrl()}${handbookPath(id)}`,
     inLanguage: "en-GB",

@@ -1,0 +1,90 @@
+# The arcade at the end of the pier (Act III, The Pier), on the map at x 318, y 176
+# (lib/world/map.ts). Painted wooden front on stilts, red-and-white awning, a
+# bulb-lit sign and pier lamps when open; roller shutter down and sign dark when
+# closed. Same frames as the other b-* buildings; night frames use the map's
+# darker palette neighbours, with the sign, lamps, windows and screens kept lit.
+@sprite b-pier-arcade 26x20
+@frame closed
+....322212221222122211....
+...32221222122212221221...
+..3222122212221222122211..
+.322212221222122212221221.
+.111111111111111111111111.
+..9aa3333333333333333aa9..
+..9aa3224244224424223aa9..
+..9aa3244224424224243aa9..
+..9aa3333333333333333aa9..
+.k66kk66kk66kk66kk66kk66k.
+.k66kk66kk66kk66kk66kk66k.
+.j55jj55jj55jj55jj55jj55j.
+3.99fff952222222259fff99.3
+2.9aeeea6444444446aeeea9.2
+2.9afffa6333333336afffa9.2
+2.9aaaaa6444444446aaaaa9.2
+hhhhhhhhhhhhhhhhhhhhhhhhhh
+gggggggggggggggggggggggggg
+.fe.....fe......fe.....fe.
+.fe.....fe......fe.....fe.
+@frame open
+....322212221222122211....
+...32221222122212221221...
+..3222122212221222122211..
+.322212221222122212221221.
+.111111111111111111111111.
+..9aalmllmllmmllmllmlaa9..
+..9aalmmkmkkmmkkmkmmlaa9..
+..9aalmkkmmkkmkmmkmklaa9..
+..9aalmllmllmmllmllmlaa9..
+.k66kk66kk66kk66kk66kk66k.
+.k66kk66kk66kk66kk66kk66k.
+.j55jj55jj55jj55jj55jj55j.
+m.99mll95eeeeeeee59mll99.m
+2.9allla6aaemmeaa6allla9.2
+2.9allla6ffeffeff6allla9.2
+2.9aaaaa6hhhhhhhh6aaaaa9.2
+hhhhhhhhhhhhhhhhhhhhhhhhhh
+gggggggggggggggggggggggggg
+.fe.....fe......fe.....fe.
+.fe.....fe......fe.....fe.
+@frame closed-night
+....211101110111011100....
+...21110111011101110110...
+..2111011101110111011100..
+.211101110111011101110110.
+.000000000000000000000000.
+..7882222222222222222887..
+..7882112122112212112887..
+..7882122112212112122887..
+..7882222222222222222887..
+.j44jj44jj44jj44jj44jj44j.
+.j44jj44jj44jj44jj44jj44j.
+.e33ee33ee33ee33ee33ee33e.
+2.77eee731111111137eee77.2
+1.7800084222222224800087.1
+1.78eee841111111148eee87.1
+1.7888884222222224888887.1
+gggggggggggggggggggggggggg
+ffffffffffffffffffffffffff
+.e0.....e0......e0.....e0.
+.e0.....e0......e0.....e0.
+@frame open-night
+....211101110111011100....
+...21110111011101110110...
+..2111011101110111011100..
+.211101110111011101110110.
+.000000000000000000000000.
+..788lmllmllmmllmllml887..
+..788lmmkmkkmmkkmkmml887..
+..788lmkkmmkkmkmmkmkl887..
+..788lmllmllmmllmllml887..
+.j44jj44jj44jj44jj44jj44j.
+.j44jj44jj44jj44jj44jj44j.
+.e33ee33ee33ee33ee33ee33e.
+m.77mll730000000037mll77.m
+1.78lll84aa0mm0aa48lll87.1
+1.78lll84ee0ee0ee48lll87.1
+1.7888884gggggggg4888887.1
+gggggggggggggggggggggggggg
+ffffffffffffffffffffffffff
+.e0.....e0......e0.....e0.
+.e0.....e0......e0.....e0.

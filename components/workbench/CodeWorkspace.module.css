@@ -42,7 +42,7 @@
   height: 36px;
   padding: 2px var(--s-4) 0;
   background: var(--frame);
-  color: var(--text-2);
+  color: var(--text-on-frame);
   box-shadow: inset 0 2px 0 var(--frame-hi);
   font-family: var(--font-pixel);
   font-size: var(--pixel-1);

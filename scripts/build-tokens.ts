@@ -38,6 +38,8 @@ const nightRoles = `
   --frame-hi: var(--night-4);
   --text: var(--chalk);
   --text-2: var(--fog);
+  /* Secondary text on the frame colour (tabs, title bars): fog alone is under 4.5:1 there. */
+  --text-on-frame: var(--fog-on-panel);
   --accent: var(--lamp);
   --accent-dark: var(--lamp-dark);
   --accent-text: var(--lamp);
@@ -81,6 +83,7 @@ const dayRoles = `
   --frame-hi: #ffffff;
   --text: var(--day-ink);
   --text-2: var(--day-fog);
+  --text-on-frame: color-mix(in srgb, var(--day-fog) 80%, var(--day-ink));
   --accent-text: #7d5a12;
   --on-accent: var(--day-ink);
   --go-text: #2a6b2f;
@@ -193,6 +196,9 @@ ${legacy}
   --ease: linear;
   --dur-1: 100ms;
   --dur-2: 120ms;
+
+  /* Fog lifted a quarter of the way to chalk, for secondary text on night panels (5.3:1). */
+  --fog-on-panel: color-mix(in srgb, var(--fog) 75%, var(--chalk));
 
   /* Layout */
   --hud-h: 48px;

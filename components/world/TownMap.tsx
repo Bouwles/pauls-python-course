@@ -237,10 +237,12 @@ const SIZES: Record<string, [number, number]> = {};
 function BuildingHotspot({ b, scale, onSelect, selected, locked }: { b: Building; scale: number; onSelect: (b: Building) => void; selected: boolean; locked: boolean }) {
   const [size, setSize] = useState<[number, number]>(SIZES[b.sprite] ?? [24, 20]);
   useEffect(() => {
-    void loadSheet(b.sprite).then((s) => {
-      SIZES[b.sprite] = [s.meta.w, s.meta.h];
-      setSize([s.meta.w, s.meta.h]);
-    });
+    void loadSheet(b.sprite)
+      .then((s) => {
+        SIZES[b.sprite] = [s.meta.w, s.meta.h];
+        setSize([s.meta.w, s.meta.h]);
+      })
+      .catch(() => {});
   }, [b.sprite]);
   return (
     <button

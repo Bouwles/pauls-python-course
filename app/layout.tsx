@@ -5,9 +5,10 @@ import "./globals.css";
 import { SessionProvider } from "@/lib/store/session";
 import { getSessionUser } from "@/lib/server/auth";
 import { ServiceWorker } from "@/components/site/ServiceWorker";
-import { BRAND } from "@/lib/brand";
+import { BRAND, siteUrl } from "@/lib/brand";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl()),
   title: { default: `${BRAND.name}: ${BRAND.tagline}`, template: `%s · ${BRAND.name}` },
   description: BRAND.description,
   applicationName: BRAND.name,

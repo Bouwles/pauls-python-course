@@ -431,7 +431,7 @@ export function Workbench({ job, characters, conceptTitles, actTitle, landing = 
         data-ticket={ticketFolded ? "folded" : undefined}
       >
         {landing ? null : <Hud job={job} actTitle={actTitle} syncStatus={syncStatus} guest={!user} secondsSpent={jobProgress?.timeSpent ?? 0} />}
-        <nav className={styles.path} aria-label="Steps">
+        <nav className={styles.path} aria-label="Steps in this job">
           <StepPath steps={job.steps} current={stepId} progress={progress} onSelect={goTo} tools={tools} />
         </nav>
         {step ? (

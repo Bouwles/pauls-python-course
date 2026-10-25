@@ -34,7 +34,7 @@ export const BUILDINGS: Building[] = [
   { id: "weather-station", sprite: "b-weather-station", name: "The Weather Station", x: 104, y: 26, act: "records-and-weather" },
   { id: "observatory", sprite: "b-observatory", name: "The Observatory", x: 298, y: 16, act: "observatory-lower" },
   { id: "pier", sprite: "b-pier-arcade", name: "The Pier", x: 318, y: 176, act: "pier" },
-  { id: "crab-club", sprite: "b-crab-club", name: "The Pier Arcade", x: 292, y: 99, act: "crab-club" },
+  { id: "crab-club", sprite: "b-crab-club", name: "The Crab Racing Club", x: 292, y: 99, act: "crab-club" },
   { id: "sea-wall", sprite: "b-crab-club", name: "The Sea Wall", x: -100, y: -100, act: "crab-club" },
 ];
 

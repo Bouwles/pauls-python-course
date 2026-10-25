@@ -60,7 +60,7 @@ export function StepPath({
 
   return (
     <div className={styles.bar}>
-      <ol className={styles.path} ref={list} aria-label="Steps in this job">
+      <ol className={styles.path} ref={list}>
         {steps.map((s, i) => {
           const row = progress[s.id];
           const done = row?.status === "passed" || row?.status === "seen-solution";
