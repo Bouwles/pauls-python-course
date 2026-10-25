@@ -1,0 +1,37 @@
+.page {
+  display: grid;
+  gap: var(--s-6);
+  justify-items: center;
+}
+
+.image {
+  max-width: 100%;
+  height: auto;
+  box-shadow: var(--shadow-hard);
+}
+
+.verify {
+  display: grid;
+  gap: var(--s-3);
+  width: min(960px, 100%);
+}
+
+.title {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-size: var(--pixel-2);
+  color: var(--go-text);
+}
+
+.id {
+  font-family: var(--font-code);
+  font-size: var(--step--1);
+  color: var(--text-2);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+}

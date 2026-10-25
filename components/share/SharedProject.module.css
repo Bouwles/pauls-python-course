@@ -1,0 +1,98 @@
+.page {
+  display: grid;
+  gap: var(--s-6);
+}
+
+.head {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--s-6);
+  flex-wrap: wrap;
+}
+
+.stage {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--s-4);
+  padding: var(--s-4) var(--s-6) 0;
+  background: var(--night-1);
+  box-shadow: inset 0 -8px 0 var(--art-driftwood);
+}
+
+.titles {
+  display: grid;
+  gap: var(--s-2);
+}
+
+.title {
+  font-size: var(--pixel-3);
+}
+
+.meta {
+  color: var(--text-2);
+}
+
+.code {
+  display: grid;
+  gap: var(--s-3);
+}
+
+.bar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s-3);
+}
+
+.tabs {
+  display: flex;
+  gap: var(--s-1);
+  overflow-x: auto;
+}
+
+.tab {
+  border: 0;
+  height: 36px;
+  padding: 0 var(--s-3);
+  background: var(--panel-2);
+  color: var(--text-2);
+  font-family: var(--font-code);
+  font-size: var(--step--1);
+}
+
+.tab[aria-selected="true"] {
+  background: var(--code-bg);
+  color: var(--text);
+  box-shadow: inset 0 2px 0 var(--lamp);
+}
+
+.well {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  min-height: 360px;
+}
+
+.editor {
+  min-width: 0;
+  background: var(--code-bg);
+}
+
+.console {
+  min-width: 0;
+  max-height: 520px;
+  overflow: auto;
+}
+
+.made {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+  color: var(--text-2);
+}
+
+@media (max-width: 860px) {
+  .well {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

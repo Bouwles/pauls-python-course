@@ -1,0 +1,73 @@
+.page {
+  display: grid;
+  gap: var(--s-6);
+}
+
+.title {
+  font-size: var(--pixel-2);
+}
+
+.h2 {
+  font-size: var(--pixel-1);
+  margin-bottom: var(--s-3);
+}
+
+.funnel {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s-1);
+}
+
+.funnel li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 80px 64px;
+  gap: var(--s-3);
+  padding: var(--s-2) var(--s-3);
+  background: var(--inset);
+}
+
+.label {
+  font-size: var(--step--1);
+}
+
+.count {
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  text-align: right;
+}
+
+.conv {
+  font-size: var(--step--1);
+  color: var(--text-2);
+  text-align: right;
+}
+
+.scroll {
+  overflow-x: auto;
+}
+
+.table {
+  border-collapse: collapse;
+  font-size: var(--step--1);
+  min-width: 100%;
+}
+
+.table th,
+.table td {
+  padding: var(--s-2) var(--s-3);
+  text-align: right;
+  box-shadow: inset 0 -2px 0 var(--night-2);
+  white-space: nowrap;
+}
+
+.table th:first-child {
+  text-align: left;
+}
+
+.table thead th {
+  font-family: var(--font-code);
+  font-weight: 400;
+  color: var(--text-2);
+}

@@ -1,0 +1,119 @@
+.locked {
+  display: grid;
+  gap: var(--s-4);
+  justify-items: start;
+  line-height: 1.6;
+}
+
+.lock {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  background: var(--night-0);
+  color: var(--lamp);
+}
+
+.lockedTitle {
+  font-size: var(--pixel-2);
+}
+
+.row {
+  display: flex;
+  gap: var(--s-3);
+  flex-wrap: wrap;
+}
+
+/* The gate scene, under the shipped project's demo. */
+.gate {
+  display: grid;
+  gap: var(--s-4);
+  width: min(720px, 100%);
+}
+
+.mira {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--s-4);
+  align-items: start;
+}
+
+.portrait {
+  width: 128px;
+  height: 112px;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--night-1);
+}
+
+.name {
+  display: inline-block;
+  padding: 4px 8px 2px;
+  margin-bottom: var(--s-2);
+  background: var(--art-mustard);
+  color: var(--night-0);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+}
+
+.line {
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 24px;
+  -webkit-font-smoothing: none;
+}
+
+.offer {
+  display: grid;
+  gap: var(--s-3);
+}
+
+.offerTitle {
+  font-size: var(--pixel-1);
+}
+
+.acts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s-2);
+}
+
+.acts li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s-2);
+  font-family: var(--font-pixel);
+  font-size: var(--pixel-1);
+  line-height: 1;
+}
+
+.actNo {
+  color: var(--lamp);
+  min-width: 1.4em;
+}
+
+.subject {
+  font-family: var(--font-read);
+  font-size: var(--step--1);
+  color: var(--text-2);
+}
+
+.promise {
+  font-size: var(--step--1);
+  color: var(--text-2);
+}
+
+@media (max-width: 600px) {
+  .mira {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .portrait {
+    display: none;
+  }
+}
