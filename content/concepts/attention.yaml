@@ -1,0 +1,137 @@
+id: attention
+title: Scaled dot-product attention
+summary: |
+  In attention, each position makes a query, a key and a value. A query's score against each key is their dot product divided by the square root of the key size, so `Q @ K.T / np.sqrt(d)` scores every query against every key at once, one row per query. Softmax along each row turns the scores into weights that add up to 1, and `weights @ V` mixes the values: a little of every value, more of the best matches. In self-attention, Q, K and V are all made from the same rows of X. A causal mask sets the scores of later positions to minus infinity before softmax, so their weights are exactly 0 and nothing looks ahead; a score of 0 would still get a share.
+example: |
+  import numpy as np
+
+  query = np.array([1.0, 0.0, 2.0, 1.0])
+  keys = np.array([[1.0, 0.0, 1.0, 0.0], [2.0, 0.0, 2.0, 2.0]])
+  values = np.array([[10.0, 0.0], [5.0, 5.0]])
+  scores = keys @ query / np.sqrt(4)
+  weights = np.exp(scores) / np.exp(scores).sum()
+  print(np.round(weights, 2), np.round(weights @ values, 2))
+misconceptions: [attention-picks-best, attention-output-plain-average, mask-with-zero, mask-ignored, softmax-over-queries, scale-by-size, attention-knows-order]
+related: [transformers, embeddings, language-models]
+cards:
+  - type: predict
+    prompt: "One query scored against three keys. What does this print?"
+    code: |
+      import numpy as np
+
+      query = np.array([1.0, 0.0, 2.0, 1.0])
+      keys = np.array([[1.0, 0.0, 1.0, 0.0],
+                       [0.0, 1.0, 0.0, 1.0],
+                       [2.0, 0.0, 2.0, 2.0]])
+      print(np.round(keys @ query / np.sqrt(4), 2))
+    answer: "[1.5 0.5 4. ]"
+  - type: choice
+    prompt: "Masked with minus infinity. What are the second character's weights?"
+    code: |
+      import numpy as np
+
+
+      def softmax(scores):
+          exps = np.exp(scores - scores.max(axis=-1, keepdims=True))
+          return exps / exps.sum(axis=-1, keepdims=True)
+
+
+      scores = np.array([[1.0, 2.0, 3.0]] * 3)
+      future = np.triu(np.ones((3, 3), dtype=bool), k=1)
+      print(np.round(softmax(np.where(future, -np.inf, scores))[1], 2))
+    options:
+      - text: "[0.27 0.73 0.  ]"
+        correct: true
+        feedback: "Right. The second character may look at the first and at itself. The third score is minus infinity, so its weight is exactly 0, and the other two share all of it."
+      - text: "[0.09 0.24 0.67]"
+        misconception: mask-ignored
+        feedback: "That's the row with no mask. Above the diagonal the score is now minus infinity, which softmax turns into a weight of exactly 0."
+      - text: "[0. 1. 0.]"
+        misconception: attention-picks-best
+        feedback: "Softmax shares the weight out. The better score gets more, 0.73, but the first character still gets 0.27."
+  - type: choice
+    prompt: "`weights` is (5, 5): five characters each looking at five. Which should add up to 1?"
+    verify: none
+    options:
+      - text: "Each row: one query sharing its attention between the keys"
+        correct: true
+      - text: "Each column: one key's share across all the queries"
+        misconception: softmax-over-queries
+        feedback: "A row is one query, deciding how much of each value to take. Its weights are a share-out, so they add up to 1. A key can be popular with every query or with none."
+  - type: fill
+    prompt: "Fill the gap to scale the scores properly. The keys have 9 numbers each."
+    code: |
+      import numpy as np
+
+      rng = np.random.default_rng(0)
+      Q = rng.normal(size=(2, 9))
+      K = rng.normal(size=(3, 9))
+      scores = Q @ K.T / np.sqrt(___)
+      print(np.round(scores, 2))
+    blanks: [["K.shape[-1]", "K.shape[1]", "9", "Q.shape[-1]", "Q.shape[1]"]]
+    tests: |
+      TESTS = [output("Divided by 3", expect="[[ 0.75  0.23  1.37]\n [-1.71  1.14 -1.88]]")]
+  - type: fix
+    prompt: "The first character shouldn't look at the two after it, but this mask still gives them weight. Fix the mask."
+    code: |
+      import numpy as np
+
+
+      def softmax(scores):
+          exps = np.exp(scores - scores.max(axis=-1, keepdims=True))
+          return exps / exps.sum(axis=-1, keepdims=True)
+
+
+      scores = np.array([[1.0, 2.0, 3.0]] * 3)
+      future = np.triu(np.ones((3, 3), dtype=bool), k=1)
+      weights = softmax(np.where(future, 0.0, scores))
+      print(np.round(weights[0], 2))
+    tests: |
+      TESTS = [output("The first character looks only at itself", expect="[1. 0. 0.]")]
+    solution: |
+      import numpy as np
+
+
+      def softmax(scores):
+          exps = np.exp(scores - scores.max(axis=-1, keepdims=True))
+          return exps / exps.sum(axis=-1, keepdims=True)
+
+
+      scores = np.array([[1.0, 2.0, 3.0]] * 3)
+      future = np.triu(np.ones((3, 3), dtype=bool), k=1)
+      weights = softmax(np.where(future, -np.inf, scores))
+      print(np.round(weights[0], 2))
+  - type: write
+    prompt: "Write `causal_mask(n)`: an `n` by `n` array of booleans, `True` wherever a column comes after its row."
+    starter: |
+      import numpy as np
+
+
+      def causal_mask(n):
+          return np.zeros((n, n), dtype=bool)
+    tests: |
+      import numpy as np
+
+
+      def three(ctx):
+          m = ctx.module()
+          got = np.asarray(m.causal_mask(3), dtype=bool)
+          want = np.array([[False, True, True], [False, False, True], [False, False, False]])
+          if got.shape != (3, 3) or not np.array_equal(got, want):
+              raise CheckFailed("causal_mask(3)", expected=want.astype(int).tolist(), actual=got.astype(int).tolist())
+
+
+      def one(ctx):
+          m = ctx.module()
+          got = np.asarray(m.causal_mask(1), dtype=bool)
+          if got.shape != (1, 1) or got[0, 0]:
+              raise CheckFailed("causal_mask(1): one character may always look at itself.", actual=got.astype(int).tolist())
+
+
+      TESTS = [custom("Three characters", three), custom("One character", one)]
+    solution: |
+      import numpy as np
+
+
+      def causal_mask(n):
+          return np.triu(np.ones((n, n), dtype=bool), k=1)

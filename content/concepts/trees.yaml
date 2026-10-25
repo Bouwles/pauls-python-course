@@ -1,0 +1,185 @@
+id: trees
+title: Trees
+summary: |
+  A tree is a card with cards below it, each of which has cards below it, down to leaves with nothing below. The top card is the root. The height is how many levels there are from the root down to the deepest leaf: 0 for an empty tree, 1 for a single card. Every side of a tree is a smaller tree, so tree code is usually recursive: an empty side gives the base case, and a card's answer is built from the answers for its sides.
+example: |
+  class Card:
+      def __init__(self, number, left=None, right=None):
+          self.number = number
+          self.left = left
+          self.right = right
+
+
+  def height(card):
+      if card is None:
+          return 0
+      return 1 + max(height(card.left), height(card.right))
+
+
+  root = Card(500, Card(250, Card(101), Card(342)), Card(750))
+  print(height(root))
+misconceptions: [height-counts-cards, empty-tree-height-one, leaves-are-at-the-top]
+related: [binary-search-trees, traversals, recursion, base-cases]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      class Card:
+          def __init__(self, number, left=None, right=None):
+              self.number = number
+              self.left = left
+              self.right = right
+
+
+      def height(card):
+          if card is None:
+              return 0
+          return 1 + max(height(card.left), height(card.right))
+
+
+      root = Card(500, Card(250, None, Card(342, Card(300))), Card(750))
+      print(height(root))
+    answer: "4"
+  - type: choice
+    prompt: "A tree has seven cards: the root, two cards below it, and two below each of those. What is its height?"
+    verify: none
+    options:
+      - text: "3"
+        correct: true
+        feedback: "Three levels: the root, its two, and their four. Height counts levels, not cards."
+      - text: "7"
+        misconception: height-counts-cards
+        feedback: "Seven is how many cards there are. Height is how many levels you pass through going from the root to the deepest leaf: three."
+  - type: choice
+    prompt: "In Penhallow's tree, 500 is at the top with 250 and 750 below it, 101 and 342 below 250, and 977 below 750. Which cards are leaves?"
+    verify: none
+    options:
+      - text: "101, 342 and 977"
+        correct: true
+        feedback: "A leaf has nothing below it. The root is at the top; the leaves are at the ends of the branches."
+      - text: "500, because it's at the top"
+        misconception: leaves-are-at-the-top
+        feedback: "500 is the root. Family trees and catalogue trees are drawn upside down: the leaves are the cards with nothing below them."
+  - type: fix
+    prompt: "A single card should be 1 level high, but this prints `2`. Fix the base case."
+    code: |
+      class Card:
+          def __init__(self, number, left=None, right=None):
+              self.number = number
+              self.left = left
+              self.right = right
+
+
+      def height(card):
+          if card is None:
+              return 1
+          return 1 + max(height(card.left), height(card.right))
+
+
+      print(height(Card(342)))
+    tests: |
+      TESTS = [
+          output("One card, one level", expect="1", hint="An empty side has no levels at all."),
+          function("No tree at all", call="height", args=(None,), expect=0),
+      ]
+    solution: |
+      class Card:
+          def __init__(self, number, left=None, right=None):
+              self.number = number
+              self.left = left
+              self.right = right
+
+
+      def height(card):
+          if card is None:
+              return 0
+          return 1 + max(height(card.left), height(card.right))
+
+
+      print(height(Card(342)))
+  - type: choice
+    prompt: What does this print?
+    code: |
+      class Card:
+          def __init__(self, number, left=None, right=None):
+              self.number = number
+              self.left = left
+              self.right = right
+
+
+      def height(card):
+          if card is None:
+              return 1
+          return 1 + max(height(card.left), height(card.right))
+
+
+      print(height(Card(500, Card(250))))
+    options:
+      - text: "3"
+        correct: true
+        feedback: "Every empty side counts as a level, so every height comes out one too many. An empty tree should be 0."
+      - text: "2"
+        misconception: empty-tree-height-one
+        feedback: "That's the height it should have. But this base case says an empty side is 1 level, so 250 counts as 2 and 500 as 3."
+  - type: fill
+    prompt: "Fill the gap so a card is one level more than its taller side."
+    code: |
+      class Card:
+          def __init__(self, number, left=None, right=None):
+              self.number = number
+              self.left = left
+              self.right = right
+
+
+      def height(card):
+          if card is None:
+              return 0
+          return 1 + max(height(card.left), ___)
+
+
+      print(height(Card(500, Card(250), Card(750, None, Card(977)))))
+    blanks: [["height(card.right)"]]
+    tests: |
+      TESTS = [output("Three levels", expect="3")]
+  - type: write
+    prompt: "Write `leaves(card)`: how many cards in the tree have nothing below them. An empty tree has none."
+    starter: |
+      class Card:
+          def __init__(self, number, left=None, right=None):
+              self.number = number
+              self.left = left
+              self.right = right
+
+
+      def leaves(card):
+          pass
+    tests: |
+      def counts(build, expected, message):
+          def check(ctx):
+              module = ctx.module()
+              got = module.leaves(build(module.Card))
+              if got != expected:
+                  raise CheckFailed(message, expected=expected, actual=got)
+          return check
+
+
+      TESTS = [
+          custom("Penhallow's top three levels", counts(lambda C: C(500, C(250, C(101), C(342)), C(750, None, C(977))), 3,
+                                                        "101, 342 and 977 are the leaves.")),
+          custom("One card", counts(lambda C: C(5), 1, "A single card is a leaf.")),
+          custom("No tree", counts(lambda C: None, 0, "An empty tree has no leaves.")),
+      ]
+    solution: |
+      class Card:
+          def __init__(self, number, left=None, right=None):
+              self.number = number
+              self.left = left
+              self.right = right
+
+
+      def leaves(card):
+          if card is None:
+              return 0
+          if card.left is None and card.right is None:
+              return 1
+          return leaves(card.left) + leaves(card.right)

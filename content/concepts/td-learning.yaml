@@ -1,0 +1,109 @@
+id: td-learning
+title: Temporal difference learning
+summary: |
+  TD(0) learns after every step, without waiting for the episode to end. The **TD target** is the reward just received plus `gamma` times the next state's current estimate (just the reward, if the episode is over). The estimate moves a fraction `alpha` of the way towards it: `V[s] += alpha * (target - V[s])`. Target minus the old estimate is the **TD error**. TD learns a guess from a guess, so news of a reward travels back one state per visit, and with a fixed `alpha` the estimates keep wobbling a little.
+example: |
+  values = {(1, 2): 0.0, (0, 2): 8.0}
+  alpha, gamma = 0.5, 0.9
+  tile, reward, after, over = (1, 2), -1, (0, 2), False
+  target = reward + (0 if over else gamma * values[after])
+  values[tile] += alpha * (target - values[tile])
+  print(values[tile])
+misconceptions: [td-replaces-value, td-ignores-next-value, td-waits-for-end, td-terminal-bootstrap, td-news-instant]
+related: [monte-carlo, policy-evaluation, returns-discounting, q-learning]
+cards:
+  - type: predict
+    prompt: "One TD update. What does this print?"
+    code: |
+      values = {"a": 2.0, "b": 6.0}
+      alpha, gamma = 0.25, 1.0
+      target = -1 + gamma * values["b"]
+      values["a"] += alpha * (target - values["a"])
+      print(values["a"])
+    answer: "2.75"
+  - type: choice
+    prompt: "Sir Reginald steps from the edge into the rock pool. Somebody left 99.0 in the pool's entry. What does this print?"
+    code: |
+      values = {"edge": -4.0, "pool": 99.0}
+      alpha, gamma = 0.5, 0.9
+      reward, over = -10, True
+      target = reward + (0 if over else gamma * values["pool"])
+      values["edge"] += alpha * (target - values["edge"])
+      print(values["edge"])
+    options:
+      - text: "-7.0"
+        correct: true
+        feedback: "The race is over in the pool, so the target is the reward alone, -10. Half way from -4.0 to -10 is -7.0. The 99.0 is never read."
+      - text: "37.55"
+        misconception: td-terminal-bootstrap
+        feedback: "That adds gamma times the pool's entry to the target. Nothing follows the end of a race, which is what `0 if over` is for."
+      - text: "-10.0"
+        misconception: td-replaces-value
+        feedback: "-10 is the target. alpha 0.5 moves the estimate only half way there."
+  - type: predict
+    prompt: "The practice corridor, two races of TD(0) with alpha 1. What does this print?"
+    code: |
+      td = [0.0] * 5   # tile 4 is the finish
+      for race in range(2):
+          for tile in range(4):
+              reward = 10 if tile == 3 else -1
+              target = reward + (0 if tile == 3 else 0.9 * td[tile + 1])
+              td[tile] += 1.0 * (target - td[tile])
+      print([round(v, 2) for v in td])
+    answer: "[-1.9, -1.9, 8.0, 10.0, 0.0]"
+  - type: choice
+    prompt: "Which of these can learn from a race that is still going on?"
+    verify: none
+    options:
+      - text: TD(0)
+        correct: true
+        feedback: "TD updates after every step, using the next state's estimate in place of the rest of the race."
+      - text: Monte Carlo
+        misconception: td-waits-for-end
+        feedback: "Monte Carlo needs the real return, which isn't known until the race ends. That's the difference."
+      - text: Both, as long as alpha is small
+        misconception: mc-learns-mid-race
+        feedback: "alpha doesn't change when an update can happen. Monte Carlo still has to wait for the end."
+  - type: fix
+    prompt: "This TD update throws away everything the tile knew before. Fix it so it moves only a fraction `alpha` of the way, and returns the new estimate."
+    code: |
+      def td_update(values, tile, reward, after, over, alpha=0.1, gamma=0.9):
+          target = reward + (0 if over else gamma * values[after])
+          values[tile] = target
+          return values[tile]
+    tests: |
+      TESTS = [
+          function("Half way", call="td_update", args=({"a": 0.0, "b": 8.0}, "a", -1, "b", False, 0.5, 0.9), expect=3.1, tol=1e-9),
+          function("A small step", call="td_update", args=({"a": 0.0, "b": 2.0}, "a", 0, "b", False, 0.1, 1.0), expect=0.2, tol=1e-9),
+          function("Into the pool", call="td_update", args=({"a": -4.0, "p": 99.0}, "a", -10, "p", True, 0.25, 0.9), expect=-5.5, tol=1e-9),
+      ]
+    solution: |
+      def td_update(values, tile, reward, after, over, alpha=0.1, gamma=0.9):
+          target = reward + (0 if over else gamma * values[after])
+          values[tile] += alpha * (target - values[tile])
+          return values[tile]
+  - type: fill
+    prompt: "Fill the gap: the target counts the reward and what the tile he landed on is thought to be worth."
+    code: |
+      values = {"here": 0.0, "there": 5.0}
+      reward, over = -1, False
+      target = reward + (0 if over else 0.9 * values[___])
+      print(target)
+    blanks: [["\"there\"", "'there'"]]
+    tests: |
+      TESTS = [output("The target", expect="3.5")]
+  - type: write
+    prompt: "Write `td_error(values, tile, reward, after, over, gamma)`: the TD target minus the current estimate for `tile`. It changes nothing."
+    starter: |
+      def td_error(values, tile, reward, after, over, gamma):
+          pass
+    tests: |
+      TESTS = [
+          function("Mid race", call="td_error", args=({"a": 0.0, "b": 8.0}, "a", -1, "b", False, 0.9), expect=6.2, tol=1e-9),
+          function("No surprise", call="td_error", args=({"a": 4.0, "b": 5.0}, "a", -1, "b", False, 1.0), expect=0.0, tol=1e-9),
+          function("At the finish", call="td_error", args=({"a": 9.0, "f": 50.0}, "a", 10, "f", True, 0.9), expect=1.0, tol=1e-9),
+      ]
+    solution: |
+      def td_error(values, tile, reward, after, over, gamma):
+          target = reward + (0 if over else gamma * values[after])
+          return target - values[tile]

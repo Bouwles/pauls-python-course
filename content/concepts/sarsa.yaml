@@ -1,0 +1,112 @@
+id: sarsa
+title: SARSA
+summary: |
+  SARSA is Q-learning's on-policy cousin. Its update uses State, Action, Reward, next State and next Action: it chooses the next action first, exploring or not, and its target is the reward plus `gamma` times the Q-value of *that* action. So it learns what actions are worth if the agent carries on exactly as it is, exploration included. Near a hazard, where one exploring step is costly, SARSA learns to keep its distance; Q-learning learns the best route and walks it while still exploring. As epsilon shrinks towards 0, the two agree.
+example: |
+  Q = {"here": [0.0, 0.0, 0.0, 0.0], "there": [-3.0, -1.0, -4.0, -2.0]}
+  alpha, gamma = 0.5, 1.0
+  action, reward, over = 3, -1, False
+  next_action = 2          # chosen already, by epsilon-greedy: it explored
+  target = reward + (0 if over else gamma * Q["there"][next_action])
+  Q["here"][action] += alpha * (target - Q["here"][action])
+  print(Q["here"])
+misconceptions: [sarsa-uses-max, q-learning-on-policy, sarsa-learns-best-policy]
+related: [q-learning, td-learning, exploration-exploitation]
+cards:
+  - type: predict
+    prompt: "One SARSA update. The next action has already been chosen. What does this print?"
+    code: |
+      Q = {"here": [0.0, 0.0, 0.0, 0.0], "there": [-3.0, -1.0, -4.0, -2.0]}
+      alpha, gamma = 0.5, 1.0
+      action, reward, over = 3, -1, False
+      next_action = 2
+      target = reward + (0 if over else gamma * Q["there"][next_action])
+      Q["here"][action] += alpha * (target - Q["here"][action])
+      print(Q["here"][action])
+    answer: "-2.5"
+  - type: choice
+    prompt: "The same step, learned by SARSA and by Q-learning. The next action chosen was 0. What does this print?"
+    code: |
+      there = [1.0, 7.0, 3.0, 5.0]
+      next_action = 0
+      sarsa = -1 + 1.0 * there[next_action]
+      q_learning = -1 + 1.0 * max(there)
+      print(sarsa, q_learning)
+    options:
+      - text: "0.0 6.0"
+        correct: true
+        feedback: "SARSA uses the move he's about to make, worth 1.0. Q-learning uses the best, 7.0."
+      - text: "6.0 6.0"
+        misconception: sarsa-uses-max
+        feedback: "SARSA doesn't assume the best next move. It uses the one actually chosen, exploring or not."
+      - text: "6.0 0.0"
+        misconception: q-learning-on-policy
+        feedback: "That's the two swapped. Q-learning takes the best next move; SARSA the chosen one."
+  - type: choice
+    prompt: "Both learners explore one move in ten on the harbour wall, with a long drop on one side. Whose learned route keeps away from the edge?"
+    verify: none
+    options:
+      - text: SARSA's
+        correct: true
+        feedback: "SARSA's values include its own exploring, and near the edge one random step is a swim. Keeping a few tiles away is worth the extra walking."
+      - text: Q-learning's
+        misconception: q-explores-in-target
+        feedback: "Q-learning's target always assumes the best move next, so it never counts the cost of exploring. It learns the edge route, and falls in while it practises."
+      - text: Both the same
+        misconception: sarsa-uses-max
+        feedback: "They'd be the same only if SARSA's target took the best move too. It takes the move he'll actually make."
+  - type: choice
+    prompt: "SARSA keeps learning while epsilon is lowered slowly towards 0. What happens to its values?"
+    verify: none
+    options:
+      - text: They come to match Q-learning's
+        correct: true
+        feedback: "With no exploring, the move he'll actually make is the best one, so the two targets become the same."
+      - text: Nothing changes; SARSA was learning the best policy's values all along
+        misconception: sarsa-learns-best-policy
+        feedback: "SARSA learns the values of the policy it follows, exploration included. Only when that policy stops exploring are those the best policy's values."
+  - type: fix
+    prompt: "This is meant to be SARSA but it's Q-learning. Make the target use the next action he chose. It should return the new Q-value."
+    code: |
+      def sarsa_update(Q, tile, action, reward, after, next_action, over, alpha=0.1, gamma=1.0):
+          target = reward + (0 if over else gamma * max(Q[after]))
+          Q[tile][action] += alpha * (target - Q[tile][action])
+          return Q[tile][action]
+    tests: |
+      TESTS = [
+          function("The chosen next action", call="sarsa_update",
+                   args=({"a": [0.0, 0.0, 0.0, 0.0], "b": [-3.0, -1.0, -4.0, -2.0]}, "a", 3, -1, "b", 2, False, 0.5, 1.0),
+                   expect=-2.5, tol=1e-9),
+          function("Onto the finish", call="sarsa_update",
+                   args=({"a": [0.0, -2.0, 0.0, 0.0], "f": [9.0, 9.0, 9.0, 9.0]}, "a", 1, -1, "f", 0, True, 0.5, 1.0),
+                   expect=-1.5, tol=1e-9),
+      ]
+    solution: |
+      def sarsa_update(Q, tile, action, reward, after, next_action, over, alpha=0.1, gamma=1.0):
+          target = reward + (0 if over else gamma * Q[after][next_action])
+          Q[tile][action] += alpha * (target - Q[tile][action])
+          return Q[tile][action]
+  - type: fill
+    prompt: "Fill the gap: SARSA looks ahead to the move he will actually make."
+    code: |
+      Q_after = [-2.0, -6.0, -3.0, -5.0]
+      next_action = 1
+      ahead = Q_after[___]
+      print(-1 + ahead)
+    blanks: [["next_action", "1"]]
+    tests: |
+      TESTS = [output("The SARSA target", expect="-7.0")]
+  - type: write
+    prompt: "Write `sarsa_target(reward, next_values, next_action, over, gamma)`: the SARSA target, given the four Q-values on the next tile."
+    starter: |
+      def sarsa_target(reward, next_values, next_action, over, gamma):
+          pass
+    tests: |
+      TESTS = [
+          function("Mid race", call="sarsa_target", args=(-1, [4.0, 2.0, 8.0, 6.0], 1, False, 0.5), expect=0.0, tol=1e-9),
+          function("At the finish", call="sarsa_target", args=(-1, [4.0, 2.0, 8.0, 6.0], 2, True, 0.9), expect=-1.0, tol=1e-9),
+          function("Not the best move", call="sarsa_target", args=(0, [4.0, 2.0, 8.0, 6.0], 3, False, 1.0), expect=6.0, tol=1e-9),
+      ]
+    solution: |
+      def sarsa_target(reward, next_values, next_action, over, gamma):
+          return reward + (0 if over else gamma * next_values[next_action])

@@ -1,0 +1,140 @@
+id: pca
+title: Principal component analysis
+summary: |
+  PCA finds the directions a set of readings spreads along, biggest first, so many readings can be squashed into a few numbers. Centre each column, work out the covariance matrix, and find its eigenvectors: those are the principal components, new directions that mix the original readings. Each eigenvalue's share of the total says how much of the spread its component explains. Squash with `(X - means) @ components[:, :k]`; rebuild with `Z @ components[:, :k].T + means`, which loses only what the other components held. Like k-means, it learns from the readings alone, with no answers.
+example: |
+  import numpy as np
+
+  X = np.array([[2.0, 4.1], [3.0, 5.9], [4.0, 8.2], [5.0, 9.8]])
+  means = X.mean(axis=0)
+  centred = X - means
+  values, vectors = np.linalg.eigh(centred.T @ centred / (len(X) - 1))
+  order = np.argsort(values)[::-1]
+  values, vectors = values[order], vectors[:, order]
+  print(np.round(values / values.sum(), 3))
+  print(np.round(centred @ vectors[:, :1], 2).ravel())
+misconceptions: [pca-without-centring, pca-picks-columns, rebuild-is-exact, pca-needs-answers]
+related: [eigenvectors, matrices, k-means, feature-scaling]
+cards:
+  - type: predict
+    prompt: "Every point lies exactly on one line. What share of the variance does the first component explain?"
+    code: |
+      import numpy as np
+
+      X = np.array([[1.0, 2.0], [2.0, 4.0], [3.0, 6.0], [5.0, 10.0]])
+      centred = X - X.mean(axis=0)
+      values = np.linalg.eigvalsh(centred.T @ centred / (len(X) - 1))
+      print(round(values.max() / values.sum(), 3))
+    answer: "1.0"
+  - type: choice
+    prompt: "Pip squashes 3 readings onto 1 component, then rebuilds all 3. What does this print?"
+    code: |
+      import numpy as np
+
+      rng = np.random.default_rng(0)
+      X = rng.normal(size=(20, 3)) @ np.array([[2.0, 0.0, 0.0], [1.0, 1.0, 0.0], [0.5, 0.2, 0.3]])
+      means = X.mean(axis=0)
+      values, vectors = np.linalg.eigh(np.cov(X, rowvar=False))
+      first = vectors[:, [-1]]
+      rebuilt = (X - means) @ first @ first.T + means
+      print(np.allclose(rebuilt, X))
+    options:
+      - text: "False"
+        correct: true
+        feedback: "Right. One number per row can only say where it sits along one direction. Whatever the other two components held is gone, so the rebuild is close but not exact."
+      - text: "True"
+        misconception: rebuild-is-exact
+        feedback: "Squashing throws away everything along the components you didn't keep. Rebuilt from all of them, the readings come back exactly; from fewer, only approximately."
+  - type: choice
+    prompt: "Pip runs PCA on star magnitudes, all around 11, without taking off the means. The first component explains 99.8%. What has he found?"
+    verify: none
+    options:
+      - text: "The direction from nothing to the average star. Centre first, and the shares change completely"
+        correct: true
+        feedback: "Right. Without centring, `X.T @ X` is mostly the means multiplied together, so the first direction points at the average, and seems to explain nearly everything."
+      - text: "That one component really does hold almost all of how the stars differ"
+        misconception: pca-without-centring
+        feedback: "PCA is about spread around the middle. Skip the centring and the biggest thing in the sums is how far every star is from zero, which is the same for them all. Take each column's mean off first."
+  - type: choice
+    prompt: "PCA on Mr Okonjo's five measurements gives a first component of `[0.59, 0.63, 0.44, 0.18, 0.17]`. What is it?"
+    verify: none
+    options:
+      - text: "A new direction mixing all five: overall size, mostly chest and waist"
+        correct: true
+        feedback: "Right. Each component is a blend of every reading, weighted by those numbers."
+      - text: "Waist, the most important of the five measurements"
+        misconception: pca-picks-columns
+        feedback: "PCA doesn't choose among the original columns. It builds new directions out of all of them; this one weighs waist most, but chest, hips, arm and neck all count."
+      - text: "The measurements that best predict which suit a customer buys"
+        misconception: pca-needs-answers
+        feedback: "PCA never sees what anyone bought. It only looks at how the measurements spread, with no answers at all."
+  - type: fill
+    prompt: "`eigh` gives the smallest first. Fill the gap so the biggest variance comes first."
+    code: |
+      import numpy as np
+
+      values = np.array([0.2, 5.0, 1.3])
+      order = np.argsort(values)[___]
+      print(values[order])
+    blanks: [["::-1"]]
+    tests: |
+      TESTS = [output("Biggest first", expect="[5.  1.3 0.2]")]
+  - type: fix
+    prompt: "These readings vary along the slant (0.6, 0.8), so the first component should come out as that, or its opposite. Fix the function."
+    code: |
+      import numpy as np
+
+
+      def first_component(X):
+          spread = X.T @ X / (len(X) - 1)
+          values, vectors = np.linalg.eigh(spread)
+          return vectors[:, -1]
+
+
+      rng = np.random.default_rng(2)
+      along = rng.normal(0, 5, 60)
+      X = np.column_stack([0.6 * along, 0.8 * along]) + rng.normal(0, 0.3, (60, 2)) + np.array([100.0, 20.0])
+      print(np.round(np.abs(first_component(X)), 1))
+    tests: |
+      TESTS = [output("Along the slant", expect="[0.6 0.8]")]
+    solution: |
+      import numpy as np
+
+
+      def first_component(X):
+          centred = X - X.mean(axis=0)
+          spread = centred.T @ centred / (len(X) - 1)
+          values, vectors = np.linalg.eigh(spread)
+          return vectors[:, -1]
+
+
+      rng = np.random.default_rng(2)
+      along = rng.normal(0, 5, 60)
+      X = np.column_stack([0.6 * along, 0.8 * along]) + rng.normal(0, 0.3, (60, 2)) + np.array([100.0, 20.0])
+      print(np.round(np.abs(first_component(X)), 1))
+  - type: write
+    prompt: "Write `project(X, means, components, k)`: the rows of `X`, centred with `means`, squashed onto the first `k` columns of `components`."
+    starter: |
+      import numpy as np
+
+
+      def project(X, means, components, k):
+          pass
+    tests: |
+      def check(ctx):
+          import numpy as np
+          X = np.array([[3.0, 1.0, 2.0], [5.0, 3.0, 2.0]])
+          means = np.array([4.0, 2.0, 2.0])
+          components = np.eye(3)[:, [1, 0, 2]]
+          got = ctx.module().project(X, means, components, 2)
+          if got is None or np.asarray(got).shape != (2, 2) or not np.allclose(got, [[-1.0, -1.0], [1.0, 1.0]]):
+              raise CheckFailed("Take the means off, then multiply by the first k columns.", expected=[[-1.0, -1.0], [1.0, 1.0]], actual=None if got is None else np.asarray(got).tolist())
+
+
+      TESTS = [custom("Two rows onto two components", check)]
+    solution: |
+      import numpy as np
+
+
+      def project(X, means, components, k):
+          return (X - means) @ components[:, :k]

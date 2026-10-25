@@ -1,0 +1,109 @@
+id: dynamic-programming
+title: Dynamic programming
+summary: |
+  Dynamic programming solves a problem from the answers to smaller versions of it, and works each smaller answer out only once. If a recursion keeps asking the same questions, either cache the answers as they come (memoisation) or fill a table on purpose, smallest first, so every slot's ingredients are ready when it needs them. The answers don't change, only the work: 27,457 calls for Gwen's 50p become 338. Counting change, fewest coins, edit distance and packing a lorry are all tables.
+example: |
+  def ways_to_pay(amount, coins):
+      ways = [1] + [0] * amount
+      for coin in coins:
+          for pence in range(coin, amount + 1):
+              ways[pence] = ways[pence] + ways[pence - coin]
+      return ways[amount]
+
+
+  print(ways_to_pay(50, [1, 2, 5, 10, 20]))
+misconceptions: [coin-orders-counted-once, dp-changes-answers, dp-table-any-order, greedy-is-fewest]
+related: [memoisation, recursion, backtracking, big-o]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      ways = [1] + [0] * 5
+      for coin in [1, 2]:
+          for pence in range(coin, 6):
+              ways[pence] = ways[pence] + ways[pence - coin]
+      print(ways)
+    answer: "[1, 1, 2, 2, 3, 3]"
+  - type: choice
+    prompt: "Paying 8 in Ferro's tokens of 1, 4 and 6, taking the biggest token that fits each time gives 6, 1, 1. Is that the fewest?"
+    verify: none
+    options:
+      - text: "No: 4 and 4 is two tokens"
+        correct: true
+        feedback: "The biggest first can lead you down the wrong road. A table tries every last token for every amount, so it finds 4, 4."
+      - text: "Yes: the biggest first always uses the fewest"
+        misconception: greedy-is-fewest
+        feedback: "It does for coins like 1, 2, 5 and 10, which is why it feels right. With tokens of 1, 4 and 6 it doesn't."
+  - type: choice
+    prompt: "Pip puts `@functools.cache` on a slow recursive function. What changes?"
+    verify: none
+    options:
+      - text: "Only how much work it does"
+        correct: true
+        feedback: "Each question is worked out once and its answer reused. The answers are the same; there are just far fewer calls."
+      - text: "The answers can change, because old answers are reused"
+        misconception: dp-changes-answers
+        feedback: "Same arguments, same answer: that's why reusing it is safe. A cache never changes what comes back, only how often the work is done."
+  - type: fill
+    prompt: "Turning the first `row` letters of a word into nothing takes one change per letter. Fill the gap."
+    code: |
+      given, correct = "tide", "tides"
+      table = [[0] * (len(correct) + 1) for _ in range(len(given) + 1)]
+      for row in range(len(given) + 1):
+          table[row][0] = ___
+      print([line[0] for line in table])
+    blanks: [["row"]]
+    tests: |
+      TESTS = [output("The first column", expect="[0, 1, 2, 3, 4]")]
+  - type: fix
+    prompt: "`fewest_tokens(8, [1, 4, 6])` should be 2. It gives `None`. Fix the order the table is filled in."
+    code: |
+      def fewest_tokens(fare, tokens):
+          fewest = [0] + [None] * fare
+          for amount in range(fare, 0, -1):
+              for token in tokens:
+                  if token <= amount and fewest[amount - token] is not None:
+                      if fewest[amount] is None or fewest[amount - token] + 1 < fewest[amount]:
+                          fewest[amount] = fewest[amount - token] + 1
+          return fewest[fare]
+
+
+      print(fewest_tokens(8, [1, 4, 6]))
+    tests: |
+      TESTS = [
+          output("Eight in two tokens", expect="2", hint="Each slot is built from smaller amounts. Fill from 1 upwards, so they're ready."),
+          function("Twelve", call="fewest_tokens", args=(12, [1, 4, 6]), expect=2),
+      ]
+    solution: |
+      def fewest_tokens(fare, tokens):
+          fewest = [0] + [None] * fare
+          for amount in range(1, fare + 1):
+              for token in tokens:
+                  if token <= amount and fewest[amount - token] is not None:
+                      if fewest[amount] is None or fewest[amount - token] + 1 < fewest[amount]:
+                          fewest[amount] = fewest[amount - token] + 1
+          return fewest[fare]
+
+
+      print(fewest_tokens(8, [1, 4, 6]))
+  - type: write
+    prompt: "Nell's yard is a grid of `rows` by `cols` squares. Write `routes(rows, cols)`: how many routes go from the top left square to the bottom right, moving only right or down. A table is quickest."
+    starter: |
+      def routes(rows, cols):
+          pass
+    tests: |
+      TESTS = [
+          function("Two by two", call="routes", args=(2, 2), expect=2),
+          function("Three by three", call="routes", args=(3, 3), expect=6),
+          function("One row", call="routes", args=(1, 5), expect=1),
+          function("Twenty by twenty", call="routes", args=(20, 20), expect=35345263800,
+                   hint="Each square's routes are the routes to the square above it plus the square to its left."),
+      ]
+    solution: |
+      def routes(rows, cols):
+          table = [[1] * cols for _ in range(rows)]
+          for row in range(1, rows):
+              for col in range(1, cols):
+                  table[row][col] = table[row - 1][col] + table[row][col - 1]
+          return table[rows - 1][cols - 1]

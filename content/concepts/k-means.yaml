@@ -1,0 +1,126 @@
+id: k-means
+title: k-means clustering
+summary: |
+  k-means sorts points into k groups without being told what the groups are: it learns from the points alone, with no answers. Start with k centres at k different points. Then repeat two steps: every point joins its nearest centre, and every centre moves to the mean of its points. Stop when no point changes group. The inertia, the sum of each point's squared distance to its own centre, can only fall or stay put, so it always stops, though not always in the best place: run it from several starts and keep the lowest. Inertia always falls as k grows, so choose k at the elbow, where one more group stops paying for itself.
+example: |
+  import numpy as np
+
+  stars = np.array([[1.0, 1.0], [2.0, 1.0], [1.0, 2.0], [8.0, 8.0], [9.0, 8.0]])
+  centres = stars[[0, 1]]
+  for step in range(3):
+      distances = np.linalg.norm(stars[:, np.newaxis, :] - centres[np.newaxis, :, :], axis=2)
+      labels = distances.argmin(axis=1)
+      centres = np.array([stars[labels == j].mean(axis=0) for j in range(2)])
+      print(labels, np.round(centres, 2).tolist())
+misconceptions: [k-means-one-step, centres-are-points, lowest-inertia-finds-k, inertia-rises-with-k, k-means-same-every-start, k-means-needs-answers, rng-choice-never-repeats]
+related: [vectors, broadcasting, scikit-learn, pca]
+drill: true
+cards:
+  - type: predict
+    prompt: "Each star joins its nearest centre. What does this print?"
+    code: |
+      import numpy as np
+
+      points = np.array([[0.0, 0.0], [1.0, 1.0], [9.0, 8.0], [10.0, 10.0]])
+      centres = np.array([[2.0, 2.0], [8.0, 8.0]])
+      distances = np.linalg.norm(points[:, np.newaxis, :] - centres[np.newaxis, :, :], axis=2)
+      print(distances.argmin(axis=1))
+    answer: "[0 0 1 1]"
+  - type: choice
+    prompt: "Pip picks four starting stars out of 24. What does this print?"
+    code: |
+      import numpy as np
+
+      rng = np.random.default_rng(11)
+      print(rng.choice(24, size=4))
+    options:
+      - text: "[ 3  3 19 11]"
+        correct: true
+        feedback: "Right. Star 3 was picked twice. `rng.choice` picks with replacement unless you say `replace=False`, and two centres on one star means one of them gets nobody."
+      - text: Four different numbers, whatever the seed
+        misconception: rng-choice-never-repeats
+        feedback: "By default `rng.choice` puts each pick back before the next, so repeats happen: here, 3 twice. For k different starting stars, pass `replace=False`."
+  - type: choice
+    prompt: "Pip runs k-means for every k from 1 to 10 and keeps the k with the lowest inertia. Which k does he always end up with?"
+    verify: none
+    options:
+      - text: "10, the biggest he tried"
+        correct: true
+        feedback: "Right. More centres can only bring points closer to a centre, so inertia keeps falling. Look for the elbow instead."
+      - text: "Whichever number of groups is really there"
+        misconception: lowest-inertia-finds-k
+        feedback: "Inertia keeps falling past the real number of groups, just more slowly: with one centre per point it's 0. The real number shows up as the elbow, where the drops become small."
+      - text: "1, because one centre has the fewest distances to add up"
+        misconception: inertia-rises-with-k
+        feedback: "Fewer distances, but much longer ones. Every point is at least as close to its nearest of k + 1 centres as to its nearest of k."
+  - type: choice
+    prompt: "Pip runs k-means twice on the same plate, with k = 4 and two different seeds. Must the two runs find the same groups?"
+    verify: none
+    options:
+      - text: "No. Each run walks downhill from its own start and can stop in a different hollow"
+        correct: true
+        feedback: "Right. That's why you run it from several starts and keep the lowest inertia."
+      - text: "Yes. The groups are in the stars, so k-means always finds them"
+        misconception: k-means-same-every-start
+        feedback: "k-means only ever lowers the inertia from wherever it starts. A bad start can settle with two centres in one clump and one centre straddling two, and no step will fix it."
+      - text: "No. It needs a few stars labelled with their group first, and the seed decides which"
+        misconception: k-means-needs-answers
+        feedback: "k-means never sees a label. It learns from the positions alone, which is what makes it unsupervised. The seed only decides where the centres start."
+  - type: fill
+    prompt: "Fill the gap so each star gets the position of its nearest centre."
+    code: |
+      import numpy as np
+
+      stars = np.array([[1.0, 1.0], [9.0, 9.0], [2.0, 1.0]])
+      centres = np.array([[0.0, 0.0], [10.0, 10.0]])
+      distances = np.linalg.norm(stars[:, np.newaxis, :] - centres[np.newaxis, :, :], axis=2)
+      labels = distances.___(axis=1)
+      print(labels)
+    blanks: [["argmin"]]
+    tests: |
+      TESTS = [output("Near, far, near", expect="[0 1 0]")]
+  - type: fix
+    prompt: "The third centre has no stars, and its mean comes out as nan. Fix the update so a centre with no stars stays where it was."
+    code: |
+      import numpy as np
+
+      stars = np.array([[0.0, 0.0], [2.0, 0.0], [10.0, 10.0], [12.0, 14.0]])
+      labels = np.array([0, 0, 1, 1])
+      centres = np.array([[1.0, 1.0], [9.0, 9.0], [50.0, 50.0]])
+      centres = np.array([stars[labels == j].mean(axis=0) for j in range(3)])
+      print(centres.tolist())
+    tests: |
+      TESTS = [output("The empty centre stays put", expect="[[1.0, 0.0], [11.0, 12.0], [50.0, 50.0]]")]
+    solution: |
+      import numpy as np
+
+      stars = np.array([[0.0, 0.0], [2.0, 0.0], [10.0, 10.0], [12.0, 14.0]])
+      labels = np.array([0, 0, 1, 1])
+      centres = np.array([[1.0, 1.0], [9.0, 9.0], [50.0, 50.0]])
+      centres = np.array([stars[labels == j].mean(axis=0) if np.any(labels == j) else centres[j]
+                          for j in range(3)])
+      print(centres.tolist())
+  - type: write
+    prompt: "Write `inertia(points, labels, centres)`: the sum of the squared distances from each point to its own centre, as one number."
+    starter: |
+      import numpy as np
+
+
+      def inertia(points, labels, centres):
+          pass
+    tests: |
+      def small(ctx):
+          import numpy as np
+          got = ctx.module().inertia(np.array([[0.0, 0.0], [2.0, 0.0], [10.0, 10.0]]), np.array([0, 0, 1]),
+                                     np.array([[1.0, 0.0], [10.0, 13.0]]))
+          if got is None or abs(float(got) - 11.0) > 1e-9:
+              raise CheckFailed("Squared distances 1, 1 and 9 add up to 11.", expected=11.0, actual=got)
+
+
+      TESTS = [custom("Three stars, two centres", small)]
+    solution: |
+      import numpy as np
+
+
+      def inertia(points, labels, centres):
+          return np.sum((points - centres[labels]) ** 2)

@@ -1,0 +1,106 @@
+id: baselines
+title: Baselines
+summary: |
+  A baseline is the simplest forecast that could possibly work, scored on exactly the same days as the model: always the commonest answer in the training data, tomorrow the same as today, or the rule the old hands use. Accuracy means nothing until you know what a baseline scores. When good days are rare, always saying no can be right most of the time, and a model that only matches it has learnt nothing. Take the commonest answer from the training data, never the test set. A model earns its place by clearly beating every sensible baseline on data it has never seen.
+example: |
+  import numpy as np
+
+  y_train = np.array([0, 0, 1, 0, 0, 1, 0, 0])
+  y_test = np.array([0, 1, 0, 0, 0])
+  commonest = np.bincount(y_train).argmax()
+  print("Always", commonest, "scores", np.mean(y_test == commonest))
+misconceptions: [baseline-is-a-coin, accuracy-without-baseline, baseline-from-test-answers, baselines-on-different-days]
+related: [classification-metrics, train-test-split, cross-validation, feature-engineering]
+drill: true
+cards:
+  - type: predict
+    prompt: "Good fishing on two days in eight. What does always saying no score?"
+    code: |
+      import numpy as np
+
+      good = np.array([0, 0, 0, 1, 0, 1, 0, 0])
+      print(np.mean(good == 0))
+    answer: "0.75"
+  - type: choice
+    prompt: "Another baseline: tomorrow will be like today. What does this print?"
+    code: |
+      import numpy as np
+
+      good = np.array([1, 1, 0, 0, 0, 1, 1, 1, 0, 0])
+      print(np.mean(good[1:] == good[:-1]))
+    options:
+      - text: "0.6666666666666666"
+        correct: true
+        feedback: "Right. Each day is guessed from the one before: six of the nine guesses are right. Good days come in spells, so this beats a coin here."
+      - text: "0.5"
+        misconception: baseline-is-a-coin
+        feedback: "Half the days are good, so a coin would score about 0.5. But good days come in spells, and copying yesterday is right six times in nine. Not every baseline is a coin."
+  - type: choice
+    prompt: "Pip's forecast is right 90 days in 100. Good days are 8 in 100. Is it a good forecast?"
+    verify: none
+    options:
+      - text: "Not yet. Always saying no would score 92. It has to beat that first"
+        correct: true
+        feedback: "Right. Ninety sounds high until you see what doing nothing scores."
+      - text: "Yes. Ninety in a hundred is excellent"
+        misconception: accuracy-without-baseline
+        feedback: "Excellent compared with what? With good days so rare, saying no every day is right 92 times in 100. Pip's forecast is worse than not forecasting."
+      - text: "Yes, if always saying no scored 85 on last year's days"
+        misconception: baselines-on-different-days
+        feedback: "A baseline only means something on the same days as the model. Last year may have had more good days. Score both on exactly the same rows."
+  - type: fill
+    prompt: "scikit-learn has baselines too. Fill the gap so the dummy always guesses the commonest answer."
+    code: |
+      import numpy as np
+      from sklearn.dummy import DummyClassifier
+
+      X = np.zeros((8, 1))
+      y = np.array([0, 0, 0, 1, 0, 1, 0, 0])
+      dummy = DummyClassifier(strategy="___").fit(X, y)
+      print(dummy.score(X, y))
+    blanks: [["most_frequent"]]
+    tests: |
+      TESTS = [output("Always no", expect="0.75")]
+  - type: fix
+    prompt: "The baseline peeks at the test answers to choose what to guess. Fix it to use the training answers."
+    code: |
+      import numpy as np
+
+      y_train = np.array([0, 0, 1, 0])
+      y_test = np.array([1, 1, 0])
+      commonest = np.bincount(y_test).argmax()
+      print(np.mean(y_test == commonest))
+    tests: |
+      TESTS = [output("Guess what training says is commonest", expect="0.3333333333333333")]
+    solution: |
+      import numpy as np
+
+      y_train = np.array([0, 0, 1, 0])
+      y_test = np.array([1, 1, 0])
+      commonest = np.bincount(y_train).argmax()
+      print(np.mean(y_test == commonest))
+  - type: write
+    prompt: "Write `copy_yesterday(good)`: the accuracy of guessing each day's answer from the day before, from the second day on."
+    starter: |
+      import numpy as np
+
+
+      def copy_yesterday(good):
+          pass
+    tests: |
+      def check(ctx):
+          import numpy as np
+          f = ctx.module().copy_yesterday
+          for good, want in (([1, 1, 0, 0, 0, 1], 0.6), ([0, 1, 0, 1], 0.0)):
+              got = f(np.array(good))
+              if got is None or abs(float(got) - want) > 1e-9:
+                  raise CheckFailed(f"For {good}, copying yesterday scores {want}.", expected=want, actual=got)
+
+
+      TESTS = [custom("Two runs of days", check)]
+    solution: |
+      import numpy as np
+
+
+      def copy_yesterday(good):
+          return np.mean(good[1:] == good[:-1])

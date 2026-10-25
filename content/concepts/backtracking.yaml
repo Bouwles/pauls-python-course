@@ -1,0 +1,173 @@
+id: backtracking
+title: Backtracking
+summary: |
+  Backtracking builds an answer one choice at a time, checks each choice the moment it's made, and when nothing fits, undoes the last choice and tries the next one there. A recursive function does it naturally: for each choice, make it, call yourself for the rest, and undo it if the call comes back with nothing. A branch that breaks a rule is dropped at once, so every arrangement that starts that way is never built. Seating plans, word grids, sudoku and mazes all go this way.
+example: |
+  TEAMS = ["Committee", "Spanners", "Crusts"]
+  FEUDS = {("Committee", "Spanners"), ("Spanners", "Committee")}
+
+
+  def seat(row):
+      if len(row) == len(TEAMS):
+          return list(row)
+      for team in TEAMS:
+          if team not in row and not (row and (row[-1], team) in FEUDS):
+              row.append(team)
+              seating = seat(row)
+              if seating:
+                  return seating
+              row.pop()
+      return None
+
+
+  print(seat([]))
+misconceptions: [backtracking-keeps-choices, backtracking-builds-everything, backtracking-stops-at-dead-end]
+related: [recursion, call-stack, dfs, dynamic-programming]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      TEAMS = ["Crusts", "Ledgers", "Spanners"]
+      FEUDS = {("Crusts", "Ledgers")}
+
+
+      def seat(row):
+          if len(row) == len(TEAMS):
+              print(" ".join(row))
+              return
+          for team in TEAMS:
+              if team in row:
+                  continue
+              if row and ((row[-1], team) in FEUDS or (team, row[-1]) in FEUDS):
+                  continue
+              row.append(team)
+              seat(row)
+              row.pop()
+
+
+      seat([])
+    answer: "Crusts Spanners Ledgers\nLedgers Spanners Crusts"
+  - type: choice
+    prompt: "In Moss's seating, the Committee goes at table one, and then nobody can sit at table three without a feud. What happens next?"
+    verify: none
+    options:
+      - text: "The team at table two stands up, and the next team is tried there"
+        correct: true
+        feedback: "Backtracking undoes the most recent choice first. Only when every team has failed at table two does the Committee itself stand up."
+      - text: "The search gives up: there's no seating"
+        misconception: backtracking-stops-at-dead-end
+        feedback: "One dead end only rules out that branch. There are other teams to try at table two, and others at table one after that."
+      - text: "It finishes the row anyway, and checks the feuds at the end"
+        misconception: backtracking-builds-everything
+        feedback: "Backtracking checks each choice as it's made. A row that's already broken is never finished."
+  - type: fill
+    prompt: "Fill the gap so a team that led nowhere is stood up again."
+    code: |
+      TEAMS = ["Committee", "Spanners", "Crusts"]
+      FEUDS = {("Committee", "Spanners"), ("Spanners", "Committee")}
+
+
+      def seat(row):
+          if len(row) == len(TEAMS):
+              return list(row)
+          for team in TEAMS:
+              if team not in row and not (row and (row[-1], team) in FEUDS):
+                  row.append(team)
+                  seating = seat(row)
+                  if seating:
+                      return seating
+                  row.___()
+          return None
+
+
+      print(seat([]))
+    blanks: [["pop"]]
+    tests: |
+      TESTS = [output("The Crusts in the middle", expect="['Committee', 'Crusts', 'Spanners']")]
+  - type: fix
+    prompt: "`crates_for` should find crates that add up to exactly `target` kilos, each crate used at most once. For 7 kg it gives `[5, 4, 3]`. Fix it."
+    code: |
+      def crates_for(weights, target):
+          chosen = []
+
+          def pick(start, left):
+              if left == 0:
+                  return True
+              for position in range(start, len(weights)):
+                  if weights[position] <= left:
+                      chosen.append(weights[position])
+                      if pick(position + 1, left - weights[position]):
+                          return True
+              return False
+
+          if pick(0, target):
+              return chosen
+          return None
+
+
+      print(crates_for([8, 5, 4, 3], 7))
+    tests: |
+      TESTS = [
+          output("Seven kilos", expect="[4, 3]", hint="When a crate leads nowhere, take it back off chosen before trying the next one."),
+          function("Twelve kilos", call="crates_for", args=([8, 5, 4, 3], 12), expect=[8, 4]),
+          function("Can't be done", call="crates_for", args=([6, 5], 4), expect=None),
+      ]
+    solution: |
+      def crates_for(weights, target):
+          chosen = []
+
+          def pick(start, left):
+              if left == 0:
+                  return True
+              for position in range(start, len(weights)):
+                  if weights[position] <= left:
+                      chosen.append(weights[position])
+                      if pick(position + 1, left - weights[position]):
+                          return True
+                      chosen.pop()
+              return False
+
+          if pick(0, target):
+              return chosen
+          return None
+
+
+      print(crates_for([8, 5, 4, 3], 7))
+  - type: write
+    prompt: "Write `all_orders(teams)`, which gives back every order the teams could sit in, as a list of lists. Use backtracking, not `itertools`."
+    starter: |
+      def all_orders(teams):
+          pass
+    tests: |
+      def three(ctx):
+          module = ctx.module()
+          got = module.all_orders(["Crusts", "Ledgers", "Spanners"])
+          expected = [["Crusts", "Ledgers", "Spanners"], ["Crusts", "Spanners", "Ledgers"], ["Ledgers", "Crusts", "Spanners"],
+                      ["Ledgers", "Spanners", "Crusts"], ["Spanners", "Crusts", "Ledgers"], ["Spanners", "Ledgers", "Crusts"]]
+          if not isinstance(got, list) or sorted(map(list, got)) != expected:
+              raise CheckFailed("Three teams sit in six orders.", expected=expected, actual=got)
+
+
+      TESTS = [
+          custom("Three teams", three),
+          function("One team", call="all_orders", args=(["Lamplighters"],), expect=[["Lamplighters"]]),
+          structure("No itertools", forbids_calls=["permutations"], message="Build the orders yourself, one seat at a time."),
+      ]
+    solution: |
+      def all_orders(teams):
+          orders = []
+          row = []
+
+          def seat():
+              if len(row) == len(teams):
+                  orders.append(list(row))
+                  return
+              for team in teams:
+                  if team not in row:
+                      row.append(team)
+                      seat()
+                      row.pop()
+
+          seat()
+          return orders

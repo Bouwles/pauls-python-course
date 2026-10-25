@@ -1,0 +1,242 @@
+id: binary-search-trees
+title: Binary search trees
+summary: |
+  A binary search tree keeps everything down a card's left side smaller than it and everything down its right side bigger. Finding a number walks down from the root, going left or right at each card, so it looks at one card per level. Adding is the same walk; the new card goes in the empty place where the walk ends. Filed in a jumbled order the tree stays bushy, about log n levels; filed in order it becomes a stick n levels high, and searching it is no better than a list.
+example: |
+  class Card:
+      def __init__(self, number):
+          self.number = number
+          self.left = None
+          self.right = None
+
+
+  def add(card, number):
+      if card is None:
+          return Card(number)
+      if number < card.number:
+          card.left = add(card.left, number)
+      else:
+          card.right = add(card.right, number)
+      return card
+
+
+  root = None
+  for number in [500, 250, 750, 342]:
+      root = add(root, number)
+  print(root.left.right.number)
+misconceptions: [bst-always-balanced, bst-checks-both-sides, bst-new-card-at-root]
+related: [trees, traversals, binary-search, recursion]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      class Card:
+          def __init__(self, number):
+              self.number = number
+              self.left = None
+              self.right = None
+
+
+      def add(card, number):
+          if card is None:
+              return Card(number)
+          if number < card.number:
+              card.left = add(card.left, number)
+          else:
+              card.right = add(card.right, number)
+          return card
+
+
+      root = None
+      for number in [40, 20, 60, 30, 10]:
+          root = add(root, number)
+      print(root.left.right.number, root.right.number)
+    answer: "30 60"
+  - type: choice
+    prompt: "Nell files 1,023 cards in number order, smallest first. How many looks does finding the biggest take?"
+    verify: none
+    options:
+      - text: "1,023: every card is on the right of the one before, so the tree is a stick"
+        correct: true
+        feedback: "Each new card is bigger than everything filed, so it goes right, right, right. Filed in a jumbled order, the same cards would make about ten levels."
+      - text: "About 10, since a search tree halves the cards with every look"
+        misconception: bst-always-balanced
+        feedback: "It only halves them if the tree is bushy. The order cards are filed in decides the shape, and number order gives a stick."
+  - type: choice
+    prompt: "To find 342 in Penhallow's tree (500 at the root, 250 to its left, 342 to the right of 250), which cards does find look at?"
+    verify: none
+    options:
+      - text: "500, 250, then 342"
+        correct: true
+        feedback: "Smaller than 500 rules out the whole right side; bigger than 250 rules out 250's left. One card per level."
+      - text: "Every card down both sides of 500, until 342 turns up"
+        misconception: bst-checks-both-sides
+        feedback: "Nothing bigger than 500 is ever on its left, and nothing smaller on its right. The number itself says which side to go down."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      class Card:
+          def __init__(self, number):
+              self.number = number
+              self.left = None
+              self.right = None
+
+
+      def add(card, number):
+          if card is None:
+              return Card(number)
+          if number < card.number:
+              card.left = add(card.left, number)
+          else:
+              card.right = add(card.right, number)
+          return card
+
+
+      root = add(None, 8)
+      root = add(root, 3)
+      root = add(root, 5)
+      print(root.number, root.left.number, root.left.right.number)
+    options:
+      - text: "8 3 5"
+        correct: true
+        feedback: "The first card filed stays the root. 5 is smaller than 8, so it goes left, then bigger than 3, so it goes right of 3."
+      - text: "5 3 8"
+        misconception: bst-new-card-at-root
+        feedback: "A new card never goes at the top. It walks down from the root and takes the empty place where the walk ends."
+  - type: fix
+    prompt: "This files bigger numbers on the left, so the in-order walk comes out backwards. It should print `[10, 20, 30, 40]`. Fix it."
+    code: |
+      class Card:
+          def __init__(self, number):
+              self.number = number
+              self.left = None
+              self.right = None
+
+
+      def add(card, number):
+          if card is None:
+              return Card(number)
+          if number > card.number:
+              card.left = add(card.left, number)
+          else:
+              card.right = add(card.right, number)
+          return card
+
+
+      def in_order(card, numbers):
+          if card is not None:
+              in_order(card.left, numbers)
+              numbers.append(card.number)
+              in_order(card.right, numbers)
+          return numbers
+
+
+      root = None
+      for number in [30, 10, 40, 20]:
+          root = add(root, number)
+      print(in_order(root, []))
+    tests: |
+      TESTS = [output("Smallest first", expect="[10, 20, 30, 40]",
+                      hint="Smaller numbers belong on the left of a card.")]
+    solution: |
+      class Card:
+          def __init__(self, number):
+              self.number = number
+              self.left = None
+              self.right = None
+
+
+      def add(card, number):
+          if card is None:
+              return Card(number)
+          if number < card.number:
+              card.left = add(card.left, number)
+          else:
+              card.right = add(card.right, number)
+          return card
+
+
+      def in_order(card, numbers):
+          if card is not None:
+              in_order(card.left, numbers)
+              numbers.append(card.number)
+              in_order(card.right, numbers)
+          return numbers
+
+
+      root = None
+      for number in [30, 10, 40, 20]:
+          root = add(root, number)
+      print(in_order(root, []))
+  - type: fill
+    prompt: "Fill the gap so the walk goes left for a smaller number."
+    code: |
+      class Card:
+          def __init__(self, number, left=None, right=None):
+              self.number = number
+              self.left = left
+              self.right = right
+
+
+      def looks_for(root, number):
+          looks = 0
+          card = root
+          while card is not None:
+              looks = looks + 1
+              if number == card.number:
+                  return looks
+              card = card.left if number ___ card.number else card.right
+          return looks
+
+
+      root = Card(500, Card(250, Card(101), Card(342)), Card(750))
+      print(looks_for(root, 342), looks_for(root, 999))
+    blanks: [["<"]]
+    tests: |
+      TESTS = [output("Three looks, then two", expect="3 2")]
+  - type: write
+    prompt: "Write `contains(card, number)`: `True` if the number is in the search tree starting at `card`, otherwise `False`. Only go down the side the number belongs on."
+    starter: |
+      class Card:
+          def __init__(self, number, left=None, right=None):
+              self.number = number
+              self.left = left
+              self.right = right
+
+
+      def contains(card, number):
+          pass
+    tests: |
+      def tree(C):
+          return C(500, C(250, C(101), C(342)), C(750, None, C(977)))
+
+
+      def answers(number, expected):
+          def check(ctx):
+              module = ctx.module()
+              got = module.contains(tree(module.Card), number)
+              if got is not expected:
+                  raise CheckFailed(f"contains(tree, {number}) should be {expected}.", expected=expected, actual=got)
+          return check
+
+
+      TESTS = [
+          custom("A card that's there", answers(342, True)),
+          custom("The root", answers(500, True)),
+          custom("A card that isn't", answers(600, False)),
+          function("An empty tree", call="contains", args=(None, 5), expect=False),
+      ]
+    solution: |
+      class Card:
+          def __init__(self, number, left=None, right=None):
+              self.number = number
+              self.left = left
+              self.right = right
+
+
+      def contains(card, number):
+          while card is not None:
+              if number == card.number:
+                  return True
+              card = card.left if number < card.number else card.right
+          return False

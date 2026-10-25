@@ -1,0 +1,146 @@
+id: knn
+title: k nearest neighbours
+summary: |
+  k nearest neighbours learns no weights. It keeps every past case, and to answer a new one it measures the distance to each, takes the k nearest, and lets them decide: a vote for a label, a mean for a number. Straight-line distance is `np.sqrt(((X - point) ** 2).sum(axis=1))`, one per row; Manhattan distance adds the plain differences instead. Scale the readings first, with the training data's means and spreads, or the reading with the biggest numbers decides alone. `np.argsort` gives the positions nearest first. k = 1 is perfect on its own training data, because every case is its own nearest neighbour, and that proves nothing: choose k on validation data, where small k chases odd cases and large k drowns rare ones.
+example: |
+  from collections import Counter
+
+  import numpy as np
+
+  past = np.array([[0.1, 0.2], [0.9, 0.8], [0.2, 0.1], [0.8, 0.9], [0.15, 0.3]])
+  sky = np.array(["fog", "clear", "fog", "clear", "cloud"])
+  tonight = np.array([0.2, 0.2])
+  nearest = np.argsort(np.sqrt(((past - tonight) ** 2).sum(axis=1)))[:3]
+  print(sky[nearest], Counter(sky[nearest]).most_common(1)[0][0])
+misconceptions: [distance-treats-features-fairly, knn-learns-weights, k1-training-is-skill, bigger-k-always-better, argsort-gives-distances, sum-axis-zero-per-row]
+related: [feature-scaling, train-test-split, overfitting, vectors, broadcasting]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      distances = np.array([2.5, 0.4, 3.1, 1.2, 0.9])
+      print(np.argsort(distances)[:3])
+    answer: "[1 4 3]"
+  - type: choice
+    prompt: "Four nights, two readings each. What does this print?"
+    code: |
+      import numpy as np
+
+      nights = np.array([[1.0, 2.0], [4.0, 6.0], [0.0, 0.0], [3.0, 0.0]])
+      tonight = np.array([0.0, 0.0])
+      print(np.sqrt(((nights - tonight) ** 2).sum(axis=0)).shape)
+    options:
+      - text: "(2,)"
+        correct: true
+        feedback: "`axis=0` adds down each column, giving one total per reading. One distance per night needs `axis=1`, which adds along each row and gives (4,)."
+      - text: "(4,)"
+        misconception: sum-axis-zero-per-row
+        feedback: "That would be `axis=1`. `axis=0` collapses the rows, adding down each column, so you get one number per reading, not per night."
+  - type: choice
+    prompt: "Pip's k = 1 forecast scores 1.000 on the training nights. What does that tell Wendt?"
+    verify: none
+    options:
+      - text: "Nothing: each training night's nearest night is itself"
+        correct: true
+      - text: "That k = 1 is the best choice"
+        misconception: k1-training-is-skill
+        feedback: "Asked about a night it already holds, k = 1 finds that night at distance 0 and copies its answer. Only validation nights, which it doesn't hold, can say how well it forecasts."
+  - type: choice
+    prompt: "Pressure in hPa and the dew point spread in degrees. Which night does this say is nearer?"
+    code: |
+      import numpy as np
+
+      tonight = np.array([1015.0, 0.5])
+      foggy = np.array([1003.0, 0.4])
+      clear = np.array([1015.0, 4.5])
+      for name, night in [("foggy", foggy), ("clear", clear)]:
+          print(name, round(float(np.sqrt(((night - tonight) ** 2).sum())), 1))
+    options:
+      - text: |-
+          foggy 12.0
+          clear 4.0
+        correct: true
+        feedback: "Twelve hPa outweighs four degrees of spread, though the spread is what decides fog. Scale both readings first, so a typical difference counts the same in each."
+      - text: |-
+          foggy 0.1
+          clear 4.0
+        misconception: distance-treats-features-fairly
+        feedback: "Distance doesn't know which reading matters. It adds squared differences, and a difference of 12 in pressure squares to 144, whatever the spread says."
+  - type: choice
+    prompt: "Fog comes on 30 nights in 240. Pip sets k = 101 'for more evidence'. What will his forecast mostly say?"
+    verify: none
+    options:
+      - text: "Rarely fog: among 101 neighbours, fog nights are nearly always outvoted"
+        correct: true
+      - text: "Better forecasts than k = 9, because it has more evidence"
+        misconception: bigger-k-always-better
+        feedback: "The extra neighbours are further away and less like tonight. With 101 of them, the commonest sky in the notebook wins most votes, and rare skies like fog vanish."
+  - type: fill
+    prompt: "Fill the gaps so `nearest` holds the positions of the 3 nearest nights."
+    code: |
+      import numpy as np
+
+      past = np.array([[0.0, 1.0], [2.0, 2.0], [0.5, 0.5], [3.0, 1.0], [0.0, 0.2]])
+      tonight = np.array([0.0, 0.0])
+      distances = np.sqrt(((past - tonight) ** 2).sum(axis=___))
+      nearest = np.___(distances)[:3]
+      print(nearest)
+    blanks: [["1"], ["argsort"]]
+    tests: |
+      TESTS = [output("Nearest first", expect="[4 2 0]")]
+  - type: fix
+    prompt: "This should forecast from the 3 nearest nights, but it gives back the 3 furthest. Fix it."
+    code: |
+      from collections import Counter
+
+      import numpy as np
+
+      past = np.array([[0.1], [0.2], [0.3], [2.0], [2.1], [2.2]])
+      sky = np.array(["fog", "fog", "fog", "clear", "clear", "clear"])
+      tonight = np.array([0.15])
+      nearest = np.argsort(np.abs(past - tonight).sum(axis=1))[-3:]
+      print(Counter(sky[nearest]).most_common(1)[0][0])
+    tests: |
+      TESTS = [output("Three foggy neighbours", expect="fog")]
+    solution: |
+      from collections import Counter
+
+      import numpy as np
+
+      past = np.array([[0.1], [0.2], [0.3], [2.0], [2.1], [2.2]])
+      sky = np.array(["fog", "fog", "fog", "clear", "clear", "clear"])
+      tonight = np.array([0.15])
+      nearest = np.argsort(np.abs(past - tonight).sum(axis=1))[:3]
+      print(Counter(sky[nearest]).most_common(1)[0][0])
+  - type: write
+    prompt: "Write `knn_mean(X, values, point, k)`: the mean of `values` for the k rows of `X` nearest to `point`, by straight-line distance."
+    starter: |
+      import numpy as np
+
+
+      def knn_mean(X, values, point, k):
+          return 0.0
+    tests: |
+      import numpy as np
+
+
+      def means(ctx):
+          m = ctx.module()
+          X = np.array([[0.0, 0.0], [1.0, 0.0], [5.0, 5.0], [0.0, 2.0], [6.0, 5.0]])
+          values = np.array([10.0, 20.0, 90.0, 30.0, 70.0])
+          for point, k, want in [([0.1, 0.1], 2, 15.0), ([0.1, 0.1], 3, 20.0), ([5.5, 5.0], 2, 80.0)]:
+              got = m.knn_mean(X, values, np.array(point), k)
+              if got is None or abs(float(got) - want) > 1e-9:
+                  raise CheckFailed(f"point {point}, k = {k}", expected=want, actual=got)
+
+
+      TESTS = [custom("Three questions", means)]
+    solution: |
+      import numpy as np
+
+
+      def knn_mean(X, values, point, k):
+          distances = np.sqrt(((X - point) ** 2).sum(axis=1))
+          return values[np.argsort(distances)[:k]].mean()

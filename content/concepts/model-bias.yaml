@@ -1,0 +1,137 @@
+id: model-bias
+title: Model bias across groups
+summary: |
+  A model can be accurate overall and much worse for one group: usually a group it saw little of, or one whose pattern differs from everyone else's. One overall score hides it, because the bigger group's results swamp the smaller one's. So score each group on its own, with a mask like `groups == "island"`, and look hardest at the mistake that costs people something, counted among those it could happen to: of the visitors who came, how many would have lost their slot? Leaving the group out of the columns doesn't prevent bias. A model only knows its columns; what it was never shown, it can't allow for.
+example: |
+  import numpy as np
+
+  groups = np.array(["town"] * 6 + ["island"] * 3)
+  came = np.array([1, 1, 0, 1, 0, 1, 1, 1, 1])
+  predicted = np.array([1, 1, 0, 1, 0, 1, 0, 0, 1])
+  print("Everyone:", round(np.mean(predicted == came), 2))
+  for name in ["town", "island"]:
+      mine = groups == name
+      print(name, round(np.mean(predicted[mine] == came[mine]), 2))
+misconceptions: [overall-accuracy-is-fair, bias-needs-group-feature, error-rate-over-everyone, more-data-overall-fixes-bias]
+related: [data-leakage, classification-metrics, cross-validation]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      groups = np.array(["town"] * 6 + ["island"] * 4)
+      came = np.array([1, 1, 0, 1, 0, 1, 1, 1, 1, 1])
+      predicted = np.array([1, 1, 0, 1, 0, 1, 0, 1, 0, 1])
+      island = groups == "island"
+      print(np.mean(predicted[island] == came[island]))
+    answer: "0.5"
+  - type: choice
+    prompt: "Of six visitors, four came. What does this print?"
+    code: |
+      import numpy as np
+
+      came = np.array([1, 1, 1, 1, 0, 0])
+      predicted = np.array([0, 1, 1, 0, 0, 0])
+      print(np.mean(predicted[came == 1] == 0))
+    options:
+      - text: "0.5"
+        correct: true
+        feedback: "Right. Of the four who came, two were predicted not to: they'd have lost their slots. The two no-shows can't lose anything, so they're left out."
+      - text: "0.6666666666666666"
+        misconception: error-rate-over-everyone
+        feedback: "That's the share of all six predicted not to come, including two who really didn't. The costly mistake can only happen to people who came, so count among them: two in four."
+  - type: choice
+    prompt: "A model is right 85 times in 100. Ninety of the hundred are townsfolk and ten are islanders. Must it be about 85% right for the islanders?"
+    verify: none
+    options:
+      - text: "No. It could be right for nearly every townsperson and wrong for most islanders, and still score 85"
+        correct: true
+        feedback: "Right. Ninety townsfolk at 90% and ten islanders at 40% make 85 overall. Score each group on its own."
+      - text: "Yes. Overall accuracy is an average, so every group is near it"
+        misconception: overall-accuracy-is-fair
+        feedback: "It's an average weighted by how many people are in each group, so a small group can be badly served while the overall number barely moves."
+  - type: choice
+    prompt: "Wendt's model never sees where anyone lives. Can it still be unfair to the islanders?"
+    verify: none
+    options:
+      - text: "Yes. If islanders differ in ways it learned from the townsfolk, like booking far ahead, its mistakes fall on them"
+        correct: true
+        feedback: "Right. It learned 'far ahead means forgetful' from the town, and islanders book far ahead for the ferry."
+      - text: "No. It can't treat a group differently if the group isn't one of its columns"
+        misconception: bias-needs-group-feature
+        feedback: "Other columns can stand in for the group. Islanders book a month ahead because of the ferry, so 'days ahead' carries where they live into the model whether you meant it to or not."
+  - type: choice
+    prompt: "The model does badly for islanders, who are 13% of the bookings. Which would help most?"
+    verify: none
+    options:
+      - text: "More island bookings, and a column for what matters to them, like whether the ferry runs"
+        correct: true
+        feedback: "Right. The model needs to see the group, and whatever drives the group's choices."
+      - text: "Another season of bookings, whoever made them"
+        misconception: more-data-overall-fixes-bias
+        feedback: "Another season of mostly town bookings teaches it the town's pattern even better. It needs more rows like the islanders, and the information that explains them."
+  - type: fill
+    prompt: "Fill the gap to score the island visitors on their own."
+    code: |
+      import numpy as np
+
+      groups = np.array(["town"] * 5 + ["island"] * 3)
+      came = np.array([1, 0, 1, 1, 0, 1, 1, 0])
+      predicted = np.array([1, 0, 1, 1, 0, 0, 1, 0])
+      mine = groups == ___
+      print(np.mean(predicted[mine] == came[mine]))
+    blanks: [['"island"', "'island'"]]
+    tests: |
+      TESTS = [output("Two of three islanders right", expect="0.6666666666666666")]
+  - type: fix
+    prompt: "`given_away` should be the share of island visitors who came but were predicted not to. Fix it so it counts among the right people."
+    code: |
+      import numpy as np
+
+      groups = np.array(["town"] * 5 + ["island"] * 3)
+      came = np.array([1, 0, 1, 1, 0, 1, 1, 0])
+      predicted = np.array([1, 0, 1, 1, 0, 0, 1, 0])
+      mine = groups == "island"
+      given_away = np.mean(predicted[mine] == 0)
+      print(given_away)
+    tests: |
+      TESTS = [output("One of the two islanders who came", expect="0.5")]
+    solution: |
+      import numpy as np
+
+      groups = np.array(["town"] * 5 + ["island"] * 3)
+      came = np.array([1, 0, 1, 1, 0, 1, 1, 0])
+      predicted = np.array([1, 0, 1, 1, 0, 0, 1, 0])
+      mine = groups == "island"
+      given_away = np.mean(predicted[mine & (came == 1)] == 0)
+      print(given_away)
+  - type: write
+    prompt: "Write `group_accuracy(y_true, y_pred, groups, name)`: the share of right predictions among the rows whose group is `name`."
+    starter: |
+      import numpy as np
+
+
+      def group_accuracy(y_true, y_pred, groups, name):
+          pass
+    tests: |
+      def check(ctx):
+          import numpy as np
+          f = ctx.module().group_accuracy
+          y_true = np.array([1, 0, 1, 1, 0, 1])
+          y_pred = np.array([1, 0, 0, 0, 0, 1])
+          groups = np.array(["a", "a", "b", "b", "a", "b"])
+          for name, want in (("a", 1.0), ("b", 1 / 3)):
+              got = f(y_true, y_pred, groups, name)
+              if got is None or abs(float(got) - want) > 1e-9:
+                  raise CheckFailed(f"For group {name}, the accuracy is off.", expected=round(want, 4), actual=got)
+
+
+      TESTS = [custom("Two groups", check)]
+    solution: |
+      import numpy as np
+
+
+      def group_accuracy(y_true, y_pred, groups, name):
+          mine = groups == name
+          return np.mean(y_pred[mine] == y_true[mine])

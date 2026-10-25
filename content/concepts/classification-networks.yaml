@@ -1,0 +1,118 @@
+id: classification-networks
+title: Softmax and cross-entropy
+summary: |
+  A network that chooses one answer from many ends with a score per class and a softmax: shift each row by its own biggest score, exponentiate, and divide by the row's total, so each row becomes chances that add up to 1. Its loss is cross-entropy: minus the log of the chance given to the right answer, averaged over the rows, which is 2.303 for a brain guessing among ten. Together they have a tidy gradient: at the scores, the chances minus the one-hot answers, over the number of rows. The answer is the biggest column, `argmax(axis=1)`.
+example: |
+  import numpy as np
+
+  scores = np.array([[2.0, 1.0, 0.0]])
+  shifted = scores - scores.max(axis=1, keepdims=True)
+  chances = np.exp(shifted) / np.exp(shifted).sum(axis=1, keepdims=True)
+  print(np.round(chances, 3), -np.log(chances[0, 0]).round(3))
+misconceptions: [softmax-safe-for-big-scores, softmax-wrong-axis, softmax-global-shift, cross-entropy-every-column, confident-wrong-cheap, argmax-wrong-axis]
+related: [cross-entropy, neural-networks, logistic-regression, backpropagation]
+cards:
+  - type: predict
+    prompt: "Two digits, three classes. What does this print?"
+    code: |
+      import numpy as np
+
+      chances = np.array([[0.7, 0.2, 0.1],
+                          [0.1, 0.3, 0.6]])
+      print(chances.argmax(axis=1))
+    answer: "[0 2]"
+  - type: choice
+    prompt: "The right answer is class 0 both times. Which costs more?"
+    code: |
+      import numpy as np
+
+      unsure = -np.log(0.3)      # 0.3 on the right answer
+      sure_and_wrong = -np.log(0.01)
+      print(round(unsure, 2), round(sure_and_wrong, 2))
+    options:
+      - text: "1.2 4.61"
+        correct: true
+        feedback: "Right. Cross-entropy punishes confidence in the wrong answer hardest: as the chance on the right answer heads to 0, minus its log heads to infinity."
+      - text: "1.2 1.5"
+        misconception: confident-wrong-cheap
+        feedback: "Minus the log of 0.01 is 4.61. Being sure and wrong costs far more than being unsure."
+  - type: fill
+    prompt: "Fill the gaps so each row of scores becomes chances that add up to 1, safely."
+    code: |
+      import numpy as np
+
+      Z = np.array([[1000.0, 1001.0], [0.0, 1.0]])
+      shifted = Z - Z.max(axis=___, keepdims=True)
+      chances = np.exp(shifted) / np.exp(shifted).sum(axis=___, keepdims=True)
+      print(np.round(chances, 3))
+    blanks: [["1"], ["1"]]
+    tests: |
+      TESTS = [output("Both rows", expect="0.269 0.731 0.269 0.731", match="numbers", tol=1e-9)]
+  - type: write
+    prompt: "Write `cross_entropy(P, labels)`: the mean, over the rows of `P`, of minus the log of the chance each row gives its right answer, `labels[i]`."
+    starter: |
+      import numpy as np
+
+
+      def cross_entropy(P, labels):
+          pass
+    tests: |
+      import numpy as np
+
+
+      def known(ctx):
+          m = ctx.module()
+          P = np.array([[0.5, 0.5], [0.2, 0.8], [0.9, 0.1]])
+          got = m.cross_entropy(P, np.array([1, 1, 0]))
+          want = -(np.log(0.5) + np.log(0.8) + np.log(0.9)) / 3
+          if got is None or not np.isclose(float(got), want):
+              raise CheckFailed("Three rows.", expected=round(want, 4), actual=got)
+
+
+      TESTS = [custom("Three rows of chances", known)]
+    solution: |
+      import numpy as np
+
+
+      def cross_entropy(P, labels):
+          return -np.mean(np.log(P[np.arange(len(P)), labels]))
+  - type: fix
+    prompt: "These chances should add up to 1 along each row: one digit's chances per row. Fix it."
+    code: |
+      import numpy as np
+
+      Z = np.array([[2.0, 0.0], [1.0, 1.0], [0.0, 3.0]])
+      exps = np.exp(Z - Z.max(axis=1, keepdims=True))
+      chances = exps / exps.sum(axis=0)
+      print(np.round(chances.sum(axis=1), 3))
+    tests: |
+      TESTS = [output("Every row adds up to 1", expect="[1. 1. 1.]")]
+    solution: |
+      import numpy as np
+
+      Z = np.array([[2.0, 0.0], [1.0, 1.0], [0.0, 3.0]])
+      exps = np.exp(Z - Z.max(axis=1, keepdims=True))
+      chances = exps / exps.sum(axis=1, keepdims=True)
+      print(np.round(chances.sum(axis=1), 3))
+  - type: predict
+    prompt: "The blame at the scores, for one digit whose right answer is class 2. What does this print?"
+    code: |
+      import numpy as np
+
+      chances = np.array([[0.1, 0.3, 0.6]])
+      answers = np.eye(3)[[2]]
+      print((chances - answers) / len(chances))
+    answer: "[[ 0.1  0.3 -0.4]]"
+  - type: choice
+    prompt: "Why subtract each row's biggest score before `np.exp`?"
+    verify: none
+    options:
+      - text: "So no exponential overflows, and the chances are unchanged, because shifting a whole row doesn't change its softmax"
+        correct: true
+        feedback: "Right. Every chance in a row gets multiplied and divided by the same factor, so the shift cancels out. It only stops `np.exp(1000)` turning into infinity."
+      - text: "It isn't needed: np.exp copes with any score"
+        misconception: softmax-safe-for-big-scores
+        feedback: "`np.exp(1000)` is infinity to a float, and infinity divided by infinity is nan."
+      - text: "Subtracting the biggest score in the whole batch does the same job, more quickly"
+        misconception: softmax-global-shift
+        feedback: "A row of small scores in a batch with one huge score would be shifted so far down that every exp underflows to 0, and 0 over 0 is nan. Each row needs its own."

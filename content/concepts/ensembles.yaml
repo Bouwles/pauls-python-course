@@ -1,0 +1,160 @@
+id: ensembles
+title: "Ensembles: forests and boosting"
+summary: |
+  An ensemble combines many models into one answer. Averaging helps only when the models are wrong in different ways, so a random forest makes its trees differ: each grows deep on a bootstrap sample (as many rows as the data, drawn with replacement, so some repeat and about a third are left out), and each question may only consider a few random readings. Each tree overfits in its own way; the average cancels much of it. Gradient boosting grows trees one after another instead: start from the mean, fit a small tree to what's left over, `y - prediction`, add a learning rate's worth of its answer, and repeat. Small trees and a small rate keep it careful; a big rate and deep trees drive the training error to nothing and overfit.
+example: |
+  import numpy as np
+
+  rng = np.random.default_rng(0)
+  rows = rng.integers(0, 10, 10)
+  print("A bootstrap sample of 10 rows:", sorted(rows.tolist()))
+
+  y = np.array([3.0, 5.0, 9.0, 11.0])
+  prediction = np.full(4, y.mean())
+  for step in range(3):
+      leftover = y - prediction
+      stump = np.where(np.arange(4) < 2, leftover[:2].mean(), leftover[2:].mean())
+      prediction = prediction + 0.5 * stump
+      print(np.round(prediction, 2))
+misconceptions: [averaging-cannot-help, copies-add-evidence, bootstrap-is-shuffle, boosting-adds-whole-tree, boosting-trees-independent, boosting-cannot-overfit]
+related: [decision-trees, overfitting, gradient-descent, random-module]
+cards:
+  - type: predict
+    prompt: "Three trees forecast the seeing on two nights. What does the forest say?"
+    code: |
+      import numpy as np
+
+      trees = np.array([[1.2, 2.0],
+                        [1.4, 2.3],
+                        [1.0, 1.7]])
+      print(np.round(trees.mean(axis=0), 2))
+    answer: "[1.2 2. ]"
+  - type: choice
+    prompt: "Boosting starts at 40 minutes. The first tree says the crossing needs 6 more. The rate is 0.5. What does this print?"
+    code: |
+      start, rate = 40.0, 0.5
+      first_tree = 6.0
+      print(start + rate * first_tree)
+    options:
+      - text: "43.0"
+        correct: true
+        feedback: "Only a rate's worth of each tree is added: half of 6. The next tree gets to fix what's still left."
+      - text: "46.0"
+        misconception: boosting-adds-whole-tree
+        feedback: "Boosting doesn't take each tree at its word. It adds the learning rate times the tree's answer, so no single tree decides much."
+  - type: choice
+    prompt: "A bootstrap sample of 100 nights, drawn from 100. Roughly how many different nights does it hold?"
+    code: |
+      import numpy as np
+
+      rng = np.random.default_rng(2)
+      rows = rng.integers(0, 100, 100)
+      print(55 <= len(np.unique(rows)) <= 70)
+    options:
+      - text: "True"
+        correct: true
+        feedback: "Drawing with replacement repeats some nights and misses others. On average about 63 in 100 turn up at least once, which is part of what makes each tree different."
+      - text: "False"
+        misconception: bootstrap-is-shuffle
+        feedback: "A bootstrap sample isn't a shuffle. Each draw can pick any night, including ones already picked, so some nights come twice and about a third don't come at all."
+  - type: choice
+    prompt: "In gradient boosting, what is the tenth tree fitted to?"
+    verify: none
+    options:
+      - text: "What the first nine trees, added up, still get wrong"
+        correct: true
+      - text: "The seeing itself, like every other tree"
+        misconception: boosting-trees-independent
+        feedback: "That's a forest. A boosting tree is fitted to the leftovers, y minus the prediction so far, so each one only has to fix what's left."
+  - type: choice
+    prompt: "Pip boosts with a rate of 1.0 and deep trees. After 100 rounds his training error is 0. What should he expect on new nights?"
+    verify: none
+    options:
+      - text: "Worse than careful boosting, most likely: it has fitted the training noise"
+        correct: true
+      - text: "The best results of all, since boosting keeps improving"
+        misconception: boosting-cannot-overfit
+        feedback: "Boosting's training error always falls, and with big steps and deep trees it soon learns the noise too. A small rate and small trees are what keep it honest on new data."
+  - type: choice
+    prompt: "Why does a random forest let each question consider only a few random readings?"
+    verify: none
+    options:
+      - text: "So the trees differ: otherwise most would ask the same first questions and make the same mistakes"
+        correct: true
+      - text: "It doesn't matter: fifty trees on similar samples are fifty pieces of evidence"
+        misconception: copies-add-evidence
+        feedback: "Averaging only cancels errors that differ. Trees that ask the same questions make the same mistakes, and their average keeps them."
+  - type: fill
+    prompt: "Fill the gap so each round's stump is fitted to what's left over."
+    code: |
+      import numpy as np
+
+      y = np.array([2.0, 4.0, 10.0, 12.0])
+      prediction = np.full(4, y.mean())
+      for step in range(20):
+          leftover = y - ___
+          stump = np.where(np.arange(4) < 2, leftover[:2].mean(), leftover[2:].mean())
+          prediction = prediction + 0.3 * stump
+      print(np.round(prediction, 1))
+    blanks: [["prediction"]]
+    tests: |
+      TESTS = [output("Settles on the two halves", expect="[ 3.  3. 11. 11.]")]
+  - type: fix
+    prompt: "Every bootstrap sample in this forest comes out the same. Fix it so each tree gets its own, and the forest can still be grown again exactly."
+    code: |
+      import numpy as np
+
+      samples = []
+      for tree in range(3):
+          rng = np.random.default_rng(5)
+          samples.append(rng.integers(0, 6, 6))
+      print(all(np.array_equal(samples[0], s) for s in samples))
+    tests: |
+      import numpy as np
+
+
+      def different(ctx):
+          r = ctx.run_program()
+          if r.output.strip() != "False":
+              raise CheckFailed("The three samples should differ.", expected="False", actual=r.output.strip())
+          again = ctx.run_program()
+          if again.output != r.output:
+              raise CheckFailed("Run twice, it should give the same forest.")
+
+
+      TESTS = [custom("Three different samples, every time", different)]
+    solution: |
+      import numpy as np
+
+      samples = []
+      rng = np.random.default_rng(5)
+      for tree in range(3):
+          samples.append(rng.integers(0, 6, 6))
+      print(all(np.array_equal(samples[0], s) for s in samples))
+  - type: write
+    prompt: "Write `boosted(start, rate, tree_answers)`: boosting's prediction, where `tree_answers` has one row per tree and one column per night."
+    starter: |
+      import numpy as np
+
+
+      def boosted(start, rate, tree_answers):
+          return start
+    tests: |
+      import numpy as np
+
+
+      def sums(ctx):
+          m = ctx.module()
+          answers = np.array([[2.0, -1.0, 0.0], [1.0, 1.0, -2.0]])
+          got = m.boosted(10.0, 0.5, answers)
+          if got is None or np.shape(got) != (3,) or not np.allclose(got, [11.5, 10.0, 9.0]):
+              raise CheckFailed("Start 10, rate 0.5, two trees", expected=[11.5, 10.0, 9.0], actual=repr(got))
+
+
+      TESTS = [custom("Two trees, three nights", sums)]
+    solution: |
+      import numpy as np
+
+
+      def boosted(start, rate, tree_answers):
+          return start + rate * tree_answers.sum(axis=0)

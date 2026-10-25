@@ -1,0 +1,193 @@
+id: dijkstra
+title: Dijkstra's algorithm
+summary: |
+  Dijkstra's algorithm finds the quickest route in a weighted graph. Keep a heap of `(minutes, place)` waiting to be looked at. Take the nearest; if it's already settled, skip it, because it's an old entry. Otherwise settle it: nothing found later can be quicker, since every other waiting place is at least as far and no road takes less than 0. Then for each road out, if going this way beats the best time so far, note it and push it. Note where each best time came from to walk the route back. With a heap it's O((places + roads) log places). Negative weights break it.
+example: |
+  import heapq
+
+  MINUTES = {"workshop": {"bakery": 2, "scrapyard": 8}, "bakery": {"scrapyard": 4}, "scrapyard": {}}
+  best = {"workshop": 0}
+  settled = set()
+  waiting = [(0, "workshop")]
+  while waiting:
+      minutes, place = heapq.heappop(waiting)
+      if place in settled:
+          continue
+      settled.add(place)
+      for neighbour, road in MINUTES[place].items():
+          if neighbour not in best or minutes + road < best[neighbour]:
+              best[neighbour] = minutes + road
+              heapq.heappush(waiting, (best[neighbour], neighbour))
+  print(best)
+misconceptions: [dijkstra-first-seen-final, dijkstra-old-entries-removed, dijkstra-negative-ok, dijkstra-settles-by-roads]
+related: [weighted-graphs, bfs, heaps, priority-queues, a-star]
+drill: true
+cards:
+  - type: predict
+    prompt: "In what order are the places settled? (`end=\"  \"` keeps it on one line.)"
+    code: |
+      import heapq
+
+      ROADS = {
+          "workshop": {"bakery": 2, "tailor": 3, "scrapyard": 8},
+          "bakery": {"workshop": 2, "library": 3},
+          "tailor": {"workshop": 3, "library": 2, "scrapyard": 4},
+          "library": {"bakery": 3, "tailor": 2},
+          "scrapyard": {"workshop": 8, "tailor": 4},
+      }
+      best = {"workshop": 0}
+      settled = set()
+      waiting = [(0, "workshop")]
+      while waiting:
+          minutes, place = heapq.heappop(waiting)
+          if place in settled:
+              continue
+          settled.add(place)
+          print(place, minutes, end="  ")
+          for neighbour, road in ROADS[place].items():
+              if neighbour not in best or minutes + road < best[neighbour]:
+                  best[neighbour] = minutes + road
+                  heapq.heappush(waiting, (best[neighbour], neighbour))
+    answer: "workshop 0  bakery 2  tailor 3  library 5  scrapyard 7"
+  - type: choice
+    prompt: "A quicker way to the scrapyard turns up, so it's pushed onto the heap again with 7 minutes. What happens to its old entry, with 8?"
+    verify: none
+    options:
+      - text: "It stays in the heap, and is skipped when it comes out"
+        correct: true
+        feedback: "The 7 comes out first and settles the scrapyard. When the 8 comes out later, the scrapyard is already settled, so it's ignored."
+      - text: "heappush replaces it"
+        misconception: dijkstra-old-entries-removed
+        feedback: "heappush only ever adds. Finding and removing the old entry would be slow, so it's left in and skipped later."
+  - type: choice
+    prompt: "From the workshop, the bakery is first reached by a road taking 9 minutes. Is 9 its quickest time?"
+    verify: none
+    options:
+      - text: "Not until the bakery is the nearest place waiting"
+        correct: true
+        feedback: "A road through some other place may still beat 9. The bakery's time is only final when it comes off the heap."
+      - text: "Yes: the first time a place is reached is the quickest"
+        misconception: dijkstra-first-seen-final
+        feedback: "That's true in breadth-first search, where every road counts the same. With minutes on the roads, a longer way round can be quicker."
+      - text: "Yes, if it's one road from the workshop"
+        misconception: dijkstra-settles-by-roads
+        feedback: "Dijkstra goes by minutes, not roads. One slow road can lose to three quick ones."
+  - type: choice
+    prompt: "When can Dijkstra's algorithm give a wrong answer?"
+    verify: none
+    options:
+      - text: "When some roads have negative weights"
+        correct: true
+        feedback: "Settling a place assumes nothing found later can make it quicker. A negative road could, and Dijkstra would never go back."
+      - text: "Never, whatever the weights"
+        misconception: dijkstra-negative-ok
+        feedback: "It relies on roads never taking less than 0. Ferries that pay you to ride them break it."
+      - text: "When two routes tie"
+        feedback: "A tie is fine: either route has the quickest time."
+  - type: fill
+    prompt: "Fill the gap so old entries in the heap are skipped."
+    code: |
+      import heapq
+
+      ROADS = {"pub": {"ferry": 9, "harbour-office": 2}, "harbour-office": {"ferry": 3}, "ferry": {}}
+      best = {"pub": 0}
+      settled = set()
+      waiting = [(0, "pub")]
+      while waiting:
+          minutes, place = heapq.heappop(waiting)
+          if place in ___:
+              continue
+          settled.add(place)
+          print(place, minutes)
+          for neighbour, road in ROADS[place].items():
+              if neighbour not in best or minutes + road < best[neighbour]:
+                  best[neighbour] = minutes + road
+                  heapq.heappush(waiting, (best[neighbour], neighbour))
+    blanks: [["settled"]]
+    tests: |
+      TESTS = [output("Each place settled once", expect="pub 0\nharbour-office 2\nferry 5")]
+  - type: fix
+    prompt: "This gives a place its minutes the first time it's reached and never changes them. The ferry should be 5 minutes from the pub, by the harbour office. Fix it."
+    code: |
+      import heapq
+
+      ROADS = {"pub": {"ferry": 9, "harbour-office": 2}, "harbour-office": {"ferry": 3}, "ferry": {}}
+
+
+      def quickest_times(roads, start):
+          best = {start: 0}
+          waiting = [(0, start)]
+          while waiting:
+              minutes, place = heapq.heappop(waiting)
+              for neighbour, road in roads[place].items():
+                  if neighbour not in best:
+                      best[neighbour] = minutes + road
+                      heapq.heappush(waiting, (best[neighbour], neighbour))
+          return best
+
+
+      print(quickest_times(ROADS, "pub"))
+    tests: |
+      TESTS = [
+          output("By the harbour office", expect="{'pub': 0, 'ferry': 5, 'harbour-office': 2}",
+                 hint="When a quicker way turns up, the minutes should go down and the place go back on the heap."),
+          function("Round a triangle", call="quickest_times",
+                   args=({"a": {"b": 10, "c": 1}, "c": {"b": 1}, "b": {}}, "a"), expect={"a": 0, "b": 2, "c": 1}),
+      ]
+    solution: |
+      import heapq
+
+      ROADS = {"pub": {"ferry": 9, "harbour-office": 2}, "harbour-office": {"ferry": 3}, "ferry": {}}
+
+
+      def quickest_times(roads, start):
+          best = {start: 0}
+          settled = set()
+          waiting = [(0, start)]
+          while waiting:
+              minutes, place = heapq.heappop(waiting)
+              if place in settled:
+                  continue
+              settled.add(place)
+              for neighbour, road in roads[place].items():
+                  if neighbour not in best or minutes + road < best[neighbour]:
+                      best[neighbour] = minutes + road
+                      heapq.heappush(waiting, (best[neighbour], neighbour))
+          return best
+
+
+      print(quickest_times(ROADS, "pub"))
+  - type: write
+    prompt: "Write `quickest_times(roads, start)`: a dictionary of every place that can be reached from `start` and its fewest minutes. Each place has a dictionary of `{neighbour: minutes}`, and a place with none has no roads out."
+    starter: |
+      import heapq
+
+
+      def quickest_times(roads, start):
+          pass
+    tests: |
+      TESTS = [
+          function("The long way round", call="quickest_times",
+                   args=({"gate": {"shed": 1, "boathouse": 10}, "shed": {"yard": 1}, "yard": {"boathouse": 1}}, "gate"),
+                   expect={"gate": 0, "shed": 1, "boathouse": 3, "yard": 2}),
+          function("Nowhere to go", call="quickest_times", args=({}, "lighthouse"), expect={"lighthouse": 0}),
+          function("One way", call="quickest_times", args=({"quay": {"chapel": 4}, "chapel": {}}, "chapel"), expect={"chapel": 0}),
+      ]
+    solution: |
+      import heapq
+
+
+      def quickest_times(roads, start):
+          best = {start: 0}
+          settled = set()
+          waiting = [(0, start)]
+          while waiting:
+              minutes, place = heapq.heappop(waiting)
+              if place in settled:
+                  continue
+              settled.add(place)
+              for neighbour, road in roads.get(place, {}).items():
+                  if neighbour not in best or minutes + road < best[neighbour]:
+                      best[neighbour] = minutes + road
+                      heapq.heappush(waiting, (best[neighbour], neighbour))
+          return best

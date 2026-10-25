@@ -1,0 +1,96 @@
+id: actor-critic
+title: Actor-critic and PPO's clip
+summary: |
+  Actor-critic learns after every move. The critic keeps a value for each state, learned by TD; its verdict on a move is the TD error, `reward + gamma * value(after) - value(before)`, an estimate of how much better the move was than usual from there. The actor is a softmax policy that takes the REINFORCE step with that error in place of the whole return. PPO takes several steps on one batch of moves but caps the reward for change: it maximises the smaller of `ratio * advantage` and the ratio clipped to `1 ± epsilon`, times the advantage.
+example: |
+  gamma = 0.9
+  values = {"here": 2.0, "there": 4.0}
+
+  error = -1 + gamma * values["there"] - values["here"]
+  values["here"] += 0.2 * error                # the critic learns
+  print(round(error, 2), round(values["here"], 2))
+misconceptions: [advantage-is-reward, negative-reward-means-worse, critic-chooses-moves, ppo-always-clips, ppo-clip-ignored, ppo-takes-max]
+related: [policy-gradients, td-learning, dqn]
+cards:
+  - type: predict
+    prompt: "The critic rates the tile he left at 5.0 and the tile he reached at 3.0. What is its verdict?"
+    code: |
+      gamma = 0.5
+      values = {"left": 5.0, "reached": 3.0}
+      reward = -1
+      print(reward + gamma * values["reached"] - values["left"])
+    answer: "-4.5"
+  - type: choice
+    prompt: "In actor-critic, who chooses Sir Reginald's moves?"
+    verify: none
+    options:
+      - text: The actor, from its softmax chances
+        correct: true
+        feedback: "Right. The critic never chooses anything. It only says how each move went compared with what it expected."
+      - text: The critic, by picking the move to the best-valued tile
+        misconception: critic-chooses-moves
+        feedback: "The critic values tiles, not moves, and it has no map to know where a move leads. It judges; the actor acts."
+  - type: choice
+    prompt: "A move cost -1 and took him from a tile the critic rates at 2.0 to one it rates at 4.0, with gamma 0.9. What does the actor do?"
+    verify: none
+    options:
+      - text: Makes the move likelier, because the verdict is +0.6
+        correct: true
+        feedback: "Right. -1 + 0.9 × 4.0 - 2.0 = 0.6: better than the critic expected from that tile."
+      - text: Makes the move less likely, because it cost a point
+        misconception: negative-reward-means-worse
+        feedback: "Every move costs a point. The actor is judged against the critic's expectation, and this move beat it."
+      - text: "Makes the move less likely, by the reward: -1"
+        misconception: advantage-is-reward
+        feedback: "The verdict is the TD error, which adds the discounted value of where he landed and takes away the value of where he was."
+  - type: predict
+    prompt: "PPO's objective for a good move his new policy makes 1.5 times as likely. What does this print?"
+    code: |
+      import numpy as np
+
+      ratio, advantage, epsilon = 1.5, 2.0, 0.2
+      print(round(min(ratio * advantage, np.clip(ratio, 1 - epsilon, 1 + epsilon) * advantage), 2))
+    answer: "2.4"
+  - type: choice
+    prompt: "A bad move (advantage -2) that the new policy makes 1.5 times as likely. What is PPO's objective, with epsilon 0.2?"
+    code: |
+      import numpy as np
+
+      ratio, advantage = 1.5, -2.0
+      print(round(min(ratio * advantage, np.clip(ratio, 0.8, 1.2) * advantage), 2))
+    options:
+      - text: "-3.0"
+        correct: true
+        feedback: "Right. The plain -3.0 is smaller than the clipped -2.4, and the min takes the less flattering one, so the bad move is charged in full."
+      - text: "-2.4"
+        misconception: ppo-always-clips
+        feedback: "The clipped value is only used when it's the smaller. Here the plain -3.0 is smaller, so a move that got likelier and was bad isn't let off."
+  - type: fill
+    prompt: "Fill the gap so the critic's verdict leaves out the future when the race is over."
+    code: |
+      gamma = 0.9
+      values = {"beside": 7.0, "finish": 3.0}     # the critic has a silly opinion of the finish
+      reward, over = 10, True
+      error = reward + (0 if ___ else gamma * values["finish"]) - values["beside"]
+      print(error)
+    blanks: [["over", "over == True", "over is True"]]
+    tests: |
+      TESTS = [output("Stepping onto the finish", expect="3.0")]
+  - type: write
+    prompt: "Write `clipped_objective(ratio, advantage, epsilon=0.2)`, PPO's objective for one move, for single numbers."
+    starter: |
+      def clipped_objective(ratio, advantage, epsilon=0.2):
+          pass
+    tests: |
+      TESTS = [
+          function("A good move, much likelier", call="clipped_objective", args=(1.5, 2.0), expect=2.4, tol=1e-9),
+          function("A good move, much rarer", call="clipped_objective", args=(0.5, 2.0), expect=1.0, tol=1e-9),
+          function("A bad move, much rarer", call="clipped_objective", args=(0.5, -2.0), expect=-1.6, tol=1e-9),
+          function("A bad move, much likelier", call="clipped_objective", args=(1.5, -2.0), expect=-3.0, tol=1e-9),
+          function("Inside the range", call="clipped_objective", args=(1.1, 2.0), expect=2.2, tol=1e-9),
+          function("A tighter clip", call="clipped_objective", args=(1.5, 2.0), kwargs={"epsilon": 0.1}, expect=2.2, tol=1e-9),
+      ]
+    solution: |
+      def clipped_objective(ratio, advantage, epsilon=0.2):
+          clipped = min(max(ratio, 1 - epsilon), 1 + epsilon)
+          return min(ratio * advantage, clipped * advantage)

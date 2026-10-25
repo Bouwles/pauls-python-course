@@ -1,0 +1,186 @@
+id: a-star
+title: A* search
+summary: |
+  A* is Dijkstra's algorithm with a sense of direction. Each waiting tile goes on the heap with the minutes spent reaching it, `g`, plus an estimate of the minutes still to go, `h`, so the search takes the tile with the smallest `g + h` and leans towards the goal. On a grid where no step costs less than 1, the Manhattan distance, rows apart plus columns apart, never overestimates, and an estimate that never overestimates means the first time A* settles the goal, it has the quickest route. Put `h` second in the tuple so ties go to the tile nearer the goal.
+example: |
+  import heapq
+
+
+  def manhattan(tile, goal):
+      return abs(tile[0] - goal[0]) + abs(tile[1] - goal[1])
+
+
+  goal = (0, 4)
+  waiting = []
+  for tile, minutes_so_far in [((2, 0), 1), ((1, 3), 6), ((0, 1), 3)]:
+      estimate = manhattan(tile, goal)
+      heapq.heappush(waiting, (minutes_so_far + estimate, estimate, tile))
+  print(heapq.heappop(waiting))
+misconceptions: [a-star-greedy-to-goal, a-star-cheapest-so-far, a-star-overestimate-ok, manhattan-is-straight-line, a-star-slower-route]
+related: [dijkstra, heaps, priority-queues, bfs]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      def manhattan(tile, goal):
+          return abs(tile[0] - goal[0]) + abs(tile[1] - goal[1])
+
+
+      print(manhattan((2, 3), (5, 1)))
+    answer: "5"
+  - type: predict
+    prompt: "In what order does A* take these tiles?"
+    code: |
+      import heapq
+
+
+      def manhattan(tile, goal):
+          return abs(tile[0] - goal[0]) + abs(tile[1] - goal[1])
+
+
+      goal = (3, 3)
+      waiting = []
+      for tile, minutes_so_far in [((0, 3), 4), ((3, 0), 2), ((2, 2), 5)]:
+          estimate = manhattan(tile, goal)
+          heapq.heappush(waiting, (minutes_so_far + estimate, estimate, tile))
+      print([heapq.heappop(waiting)[2] for _ in range(3)])
+    answer: "[(3, 0), (2, 2), (0, 3)]"
+  - type: choice
+    prompt: "Pip's A* estimates the minutes left as three times the Manhattan distance. It looks at far fewer tiles. What's the catch?"
+    verify: none
+    options:
+      - text: "It can overestimate, so the route it settles on may not be the quickest"
+        correct: true
+        feedback: "Three times the distance can be more than the real trip. Then a slow route that looks close to the goal can be settled before a quicker one is ever looked at."
+      - text: "None: a bigger estimate just finds the same route faster"
+        misconception: a-star-overestimate-ok
+        feedback: "The promise that the first route to the goal is the quickest only holds if the estimate is never more than the real cost."
+  - type: choice
+    prompt: "A* and Dijkstra both search Nell's yard from the gate to the crane. How do their routes compare?"
+    verify: none
+    options:
+      - text: "Both take the same number of minutes; A* looks at fewer tiles"
+        correct: true
+        feedback: "With an estimate that never overestimates, A* finds a quickest route too. It just doesn't waste time behind the gate."
+      - text: "A*'s can be slower, because it looks at fewer tiles"
+        misconception: a-star-slower-route
+        feedback: "The tiles it skips are ones that could never be on a quicker route, because even the estimate says they're too far."
+      - text: "A*'s is always the straightest line to the crane"
+        misconception: manhattan-is-straight-line
+        feedback: "The estimate only orders the search. The route still goes round heaps and through whatever mud is worth it."
+  - type: fill
+    prompt: "Fill the gap so each tile is pushed with its minutes so far plus the estimate."
+    code: |
+      import heapq
+
+
+      def manhattan(tile, goal):
+          return abs(tile[0] - goal[0]) + abs(tile[1] - goal[1])
+
+
+      goal = (0, 4)
+      waiting = []
+      for tile, minutes in [((2, 0), 1), ((1, 3), 6), ((0, 1), 3)]:
+          heapq.heappush(waiting, (minutes + ___(tile, goal), tile))
+      print(heapq.heappop(waiting)[1])
+    blanks: [["manhattan"]]
+    tests: |
+      TESTS = [output("The tile with the smallest total", expect="(0, 1)")]
+  - type: fix
+    prompt: "This search orders tiles by the estimate alone, and it walks straight through the mud. Fix it so it finds the quickest route: 5 minutes, round by the bottom row."
+    code: |
+      import heapq
+
+      TILES = [
+          [1, 3, 3, 1],
+          [1, 1, 1, 1],
+      ]
+
+
+      def manhattan(tile, goal):
+          return abs(tile[0] - goal[0]) + abs(tile[1] - goal[1])
+
+
+      def quickest(tiles, start, goal):
+          best = {start: 0}
+          settled = set()
+          waiting = [(manhattan(start, goal), start)]
+          while waiting:
+              _, tile = heapq.heappop(waiting)
+              if tile in settled:
+                  continue
+              settled.add(tile)
+              if tile == goal:
+                  return best[goal]
+              row, col = tile
+              for next_tile in ((row - 1, col), (row + 1, col), (row, col - 1), (row, col + 1)):
+                  next_row, next_col = next_tile
+                  if 0 <= next_row < len(tiles) and 0 <= next_col < len(tiles[0]):
+                      minutes = best[tile] + tiles[next_row][next_col]
+                      if next_tile not in best or minutes < best[next_tile]:
+                          best[next_tile] = minutes
+                          heapq.heappush(waiting, (manhattan(next_tile, goal), next_tile))
+          return None
+
+
+      print(quickest(TILES, (0, 0), (0, 3)))
+    tests: |
+      TESTS = [output("Round the mud", expect="5", hint="Push each tile with its minutes so far plus the estimate, not the estimate alone.")]
+    solution: |
+      import heapq
+
+      TILES = [
+          [1, 3, 3, 1],
+          [1, 1, 1, 1],
+      ]
+
+
+      def manhattan(tile, goal):
+          return abs(tile[0] - goal[0]) + abs(tile[1] - goal[1])
+
+
+      def quickest(tiles, start, goal):
+          best = {start: 0}
+          settled = set()
+          waiting = [(manhattan(start, goal), start)]
+          while waiting:
+              _, tile = heapq.heappop(waiting)
+              if tile in settled:
+                  continue
+              settled.add(tile)
+              if tile == goal:
+                  return best[goal]
+              row, col = tile
+              for next_tile in ((row - 1, col), (row + 1, col), (row, col - 1), (row, col + 1)):
+                  next_row, next_col = next_tile
+                  if 0 <= next_row < len(tiles) and 0 <= next_col < len(tiles[0]):
+                      minutes = best[tile] + tiles[next_row][next_col]
+                      if next_tile not in best or minutes < best[next_tile]:
+                          best[next_tile] = minutes
+                          heapq.heappush(waiting, (minutes + manhattan(next_tile, goal), next_tile))
+          return None
+
+
+      print(quickest(TILES, (0, 0), (0, 3)))
+  - type: write
+    prompt: "Write `neighbours(tiles, tile)`: the tiles up, down, left and right of `tile`, in that order, that are inside the grid and not `None`."
+    starter: |
+      def neighbours(tiles, tile):
+          pass
+    tests: |
+      N = None
+      TILES = [[1, 1, N], [3, 1, 1]]
+      TESTS = [
+          function("A corner", call="neighbours", args=(TILES, (0, 0)), expect=[(1, 0), (0, 1)]),
+          function("Next to scrap", call="neighbours", args=(TILES, (0, 1)), expect=[(1, 1), (0, 0)]),
+          function("The middle of the bottom row", call="neighbours", args=(TILES, (1, 1)), expect=[(0, 1), (1, 0), (1, 2)]),
+      ]
+    solution: |
+      def neighbours(tiles, tile):
+          row, col = tile
+          found = []
+          for next_row, next_col in ((row - 1, col), (row + 1, col), (row, col - 1), (row, col + 1)):
+              if 0 <= next_row < len(tiles) and 0 <= next_col < len(tiles[next_row]) and tiles[next_row][next_col] is not None:
+                  found.append((next_row, next_col))
+          return found

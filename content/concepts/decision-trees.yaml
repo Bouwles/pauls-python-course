@@ -1,0 +1,169 @@
+id: decision-trees
+title: Decision trees
+summary: |
+  A decision tree forecasts with a chain of yes-or-no questions, each of the form "is this reading at most this threshold?", ending in a leaf that gives the answer. To grow one, measure how mixed a pile is, with Gini impurity (1 minus the sum of each label's share squared: 0 for a pure pile, 0.5 for half and half) or entropy. Try every reading, with thresholds halfway between neighbouring values, and keep the question whose two sides have the lowest Gini, each weighted by its size. Then grow each side the same way, by recursion, until a pile is pure, no question helps, or the tree reaches its maximum depth. With no limit, a tree learns its training data by heart, down to single odd nights; choose the depth on validation data.
+example: |
+  import numpy as np
+
+
+  def gini(y):
+      shares = np.bincount(y) / len(y)
+      return 1 - np.sum(shares ** 2)
+
+
+  spread = np.array([0.5, 1.2, 2.0, 3.1, 4.4, 5.0])
+  dew = np.array([1, 1, 1, 0, 0, 1])
+  yes = spread <= 2.55
+  score = (yes.sum() * gini(dew[yes]) + (~yes).sum() * gini(dew[~yes])) / len(dew)
+  print(round(gini(dew), 3), "before;", round(score, 3), "after asking spread <= 2.55?")
+misconceptions: [gini-is-share, gini-is-minority-share, unweighted-split-score, deeper-tree-always-better, recursion-tracks-depth-itself, split-must-change-decision]
+related: [overfitting, train-test-split, classification-metrics, nested-data]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+
+      def gini(y):
+          shares = np.bincount(y) / len(y)
+          return 1 - np.sum(shares ** 2)
+
+
+      print(round(gini(np.array([1, 1, 1, 0, 0, 0, 0, 0])), 3))
+    answer: "0.469"
+  - type: choice
+    prompt: "Two questions about eight nights. Which does this say is better?"
+    code: |
+      import numpy as np
+
+
+      def gini(y):
+          shares = np.bincount(y, minlength=2) / len(y)
+          return 1 - np.sum(shares ** 2)
+
+
+      def plain(left, right):
+          return gini(left) + gini(right)
+
+
+      def weighted(left, right):
+          return (len(left) * gini(left) + len(right) * gini(right)) / (len(left) + len(right))
+
+
+      odd_one = (np.array([1]), np.array([1, 1, 0, 0, 0, 1, 0]))
+      halves = (np.array([1, 1, 1, 0]), np.array([0, 0, 0, 1]))
+      print("halves" if weighted(*halves) < weighted(*odd_one) else "odd one", "halves" if plain(*halves) < plain(*odd_one) else "odd one")
+    options:
+      - text: "halves odd one"
+        correct: true
+        feedback: "Weighted, the even split wins: it sorts most of the nights. Plain adding prefers splitting off one night, because a pile of one always has a Gini of 0."
+      - text: "halves halves"
+        misconception: unweighted-split-score
+        feedback: "Without weighting, the side with one night scores 0 for free, and the question that peels off one odd night looks best. That's why each side is weighted by its size."
+  - type: choice
+    prompt: "Pip's tree has no depth limit and gets every training night right. What should Wendt expect on new nights?"
+    verify: none
+    options:
+      - text: "Worse than a shallower tree, most likely: it has learnt single odd nights as if they were rules"
+        correct: true
+      - text: "Better than any shallower tree"
+        misconception: deeper-tree-always-better
+        feedback: "Training accuracy always rises with depth, because a deep enough tree can give every night its own leaf. New nights don't follow those one-night rules. Choose the depth on validation nights."
+  - type: choice
+    prompt: "A question splits ten dry-ish nights into two piles. Both piles are still mostly dry. Can a tree still ask it?"
+    verify: none
+    options:
+      - text: "Yes, if the two piles are less mixed than before: Gini counts purity, not decisions"
+        correct: true
+      - text: "No: a question is only worth asking if its answers lead to different labels"
+        misconception: split-must-change-decision
+        feedback: "The tree only looks at impurity. Splitting 7 dry and 3 dew into 5 dry and 3 dry, 2 dew lowers the Gini, so it's a better question, even though both sides still say dry."
+  - type: fill
+    prompt: "Fill the gap so each side is grown one level further down."
+    code: |
+      import numpy as np
+
+
+      def depth_of(tree):
+          if "leaf" in tree:
+              return 0
+          return 1 + max(depth_of(tree["left"]), depth_of(tree["right"]))
+
+
+      def grow(values, max_depth, depth=0):
+          if depth == max_depth or len(values) < 2:
+              return {"leaf": float(np.mean(values))}
+          middle = len(values) // 2
+          return {"left": grow(values[:middle], max_depth, ___),
+                  "right": grow(values[middle:], max_depth, ___)}
+
+
+      print(depth_of(grow(np.arange(16.0), 3)))
+    blanks: [["depth + 1", "depth+1", "1 + depth"], ["depth + 1", "depth+1", "1 + depth"]]
+    tests: |
+      TESTS = [output("Stops at depth 3", expect="3")]
+  - type: fix
+    prompt: "This should follow the tree's questions, with a reading equal to the threshold going to the yes side, `left`. It gets one night wrong. Fix it."
+    code: |
+      tree = {"feature": 0, "threshold": 2.5,
+              "left": {"leaf": "dew"},
+              "right": {"feature": 1, "threshold": 7.5, "left": {"leaf": "dew"}, "right": {"leaf": "dry"}}}
+
+
+      def predict_one(tree, row):
+          if "leaf" in tree:
+              return tree["leaf"]
+          if row[tree["feature"]] < tree["threshold"]:
+              return predict_one(tree["left"], row)
+          return predict_one(tree["right"], row)
+
+
+      for night in [[1.0, 9.0], [2.5, 9.0], [4.0, 3.0], [4.0, 9.0]]:
+          print(predict_one(tree, night))
+    tests: |
+      TESTS = [output("Four nights", expect="dew\ndew\ndew\ndry")]
+    solution: |
+      tree = {"feature": 0, "threshold": 2.5,
+              "left": {"leaf": "dew"},
+              "right": {"feature": 1, "threshold": 7.5, "left": {"leaf": "dew"}, "right": {"leaf": "dry"}}}
+
+
+      def predict_one(tree, row):
+          if "leaf" in tree:
+              return tree["leaf"]
+          if row[tree["feature"]] <= tree["threshold"]:
+              return predict_one(tree["left"], row)
+          return predict_one(tree["right"], row)
+
+
+      for night in [[1.0, 9.0], [2.5, 9.0], [4.0, 3.0], [4.0, 9.0]]:
+          print(predict_one(tree, night))
+  - type: write
+    prompt: "Write `thresholds(values)`: the candidate thresholds for one reading, halfway between each pair of neighbouring distinct values, smallest first, as a NumPy array."
+    starter: |
+      import numpy as np
+
+
+      def thresholds(values):
+          return np.array([])
+    tests: |
+      import numpy as np
+
+
+      def halfway(ctx):
+          m = ctx.module()
+          for values, want in [([3.0, 1.0, 2.0], [1.5, 2.5]), ([5.0, 5.0, 1.0, 9.0], [3.0, 7.0]), ([4.0, 4.0], [])]:
+              got = np.asarray(m.thresholds(np.array(values)), dtype=float)
+              if got.shape != (len(want),) or not np.allclose(got, want):
+                  raise CheckFailed(f"values {values}", expected=want, actual=got.tolist())
+
+
+      TESTS = [custom("Three sets of readings", halfway)]
+    solution: |
+      import numpy as np
+
+
+      def thresholds(values):
+          distinct = np.unique(values)
+          return (distinct[:-1] + distinct[1:]) / 2

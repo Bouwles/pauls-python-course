@@ -1,0 +1,130 @@
+id: policy-gradients
+title: Policy gradients and REINFORCE
+summary: |
+  A policy gradient method learns the choosing directly. Preferences for each move go through a softmax to give chances, so every move keeps some chance and the agent explores by itself. REINFORCE steps the preferences by the return from each move onwards times the gradient of the log of that move's chance: for a softmax, 1 for the move made minus the chances. Taking a baseline, such as the usual return from that state, off every return leaves the long-run average step the same but makes each single step far steadier.
+example: |
+  import numpy as np
+
+  prefs = np.zeros(3)                         # one state, three moves
+  chances = np.exp(prefs - prefs.max())
+  chances = chances / chances.sum()
+  move, ret, baseline = 2, -3.0, -5.0         # better than usual from here
+  prefs += 0.5 * (ret - baseline) * (np.eye(3)[move] - chances)
+  print(prefs.round(2))
+misconceptions: [reinforce-always-reinforces, baseline-only-shifts, bigger-baseline-better, softmax-picks-biggest, policy-gradient-only-chosen]
+related: [dqn, returns-discounting, bandits, monte-carlo]
+cards:
+  - type: predict
+    prompt: "What are the chances of the four moves?"
+    code: |
+      import numpy as np
+
+      prefs = np.log(np.array([1.0, 1.0, 2.0, 4.0]))
+      weights = np.exp(prefs - prefs.max())
+      print(np.round(weights / weights.sum(), 3).tolist())
+    answer: "[0.125, 0.125, 0.25, 0.5]"
+  - type: choice
+    prompt: "On the start tile Sir Reginald's preferences are `[3.0, 1.0, 0.0, 0.0]` for up, down, left and right, and his policy is their softmax. Which moves might he make?"
+    verify: none
+    options:
+      - text: Any of the four, up most often
+        correct: true
+        feedback: "Right. The softmax gives up about 0.84 and the others the rest. That leftover chance is how a policy gradient agent goes on exploring."
+      - text: Only up, the biggest preference
+        misconception: softmax-picks-biggest
+        feedback: "That would be greedy. A softmax turns preferences into chances, and every move gets some chance, however small."
+  - type: choice
+    prompt: "A tile with three moves has chances `[0.2, 0.3, 0.5]`, and he took move 2. What is the gradient of the log of that move's chance, for the tile's three preferences?"
+    code: |
+      import numpy as np
+
+      chances = np.array([0.2, 0.3, 0.5])
+      print((np.eye(3)[2] - chances).tolist())
+    options:
+      - text: "[-0.2, -0.3, 0.5]"
+        correct: true
+        feedback: "Right. The move made goes up by 1 minus its chance; the others go down by their own chances."
+      - text: "[0.0, 0.0, 0.5]"
+        misconception: policy-gradient-only-chosen
+        feedback: "The gradient touches every preference on the tile. Raising one move's chance means lowering the others', so they get minus their chances."
+      - text: "[0.0, 0.0, 1.0]"
+        misconception: policy-gradient-only-chosen
+        feedback: "That leaves out the minus chances part, which moves every preference on the tile, the chosen one included."
+  - type: fix
+    prompt: "After a long training run, Pip's preferences reached 800. Now every chance is nan. Fix the softmax so the chances come out right."
+    code: |
+      import numpy as np
+
+      prefs = np.array([800.0, 790.0, 0.0])
+      chances = np.exp(prefs) / np.exp(prefs).sum()
+      print(np.round(chances, 3).tolist())
+    tests: |
+      TESTS = [output("Sensible chances for big preferences", expect="[1.0, 0.0, 0.0]")]
+    solution: |
+      import numpy as np
+
+      prefs = np.array([800.0, 790.0, 0.0])
+      weights = np.exp(prefs - prefs.max())
+      chances = weights / weights.sum()
+      print(np.round(chances, 3).tolist())
+  - type: fill
+    prompt: "Fill the gap so each step's score is its return less the baseline."
+    code: |
+      import numpy as np
+
+      chances = np.array([0.5, 0.5])
+      returns = [-3.0, -1.0]
+      moves = [1, 0]
+      baseline = -2.0
+      grad = np.zeros(2)
+      for ret, move in zip(returns, moves):
+          grad += (___) * (np.eye(2)[move] - chances)
+      print(grad.tolist())
+    blanks: [["ret - baseline", "(ret - baseline)", "ret-baseline"]]
+    tests: |
+      TESTS = [output("Two scored moves", expect="[1.0, -1.0]")]
+  - type: choice
+    prompt: "Races from a tile are usually worth about -7. Which baseline makes REINFORCE's estimates for that tile steadiest?"
+    verify: none
+    options:
+      - text: "-7"
+        correct: true
+        feedback: "Right. Close to the usual return, each return minus the baseline is small, and so is each estimate's stray."
+      - text: "-50: the bigger the baseline, the more it steadies"
+        misconception: bigger-baseline-better
+        feedback: "Every return minus -50 is about +43, so each estimate is huge and points wherever that one race went. A baseline steadies only when it's near the usual return."
+      - text: "It makes no difference: a baseline never changes anything"
+        misconception: baseline-only-shifts
+        feedback: "It leaves the long-run average alone, but it changes every single estimate, and how far they stray from each other."
+  - type: write
+    prompt: "Write `nudge(prefs, move, ret, baseline, rate)`: one REINFORCE step for a single tile's preferences. Return the new preferences."
+    starter: |
+      import numpy as np
+
+
+      def nudge(prefs, move, ret, baseline, rate):
+          pass
+    tests: |
+      import numpy as np
+
+
+      def check(ctx):
+          m = ctx.module()
+          got = m.nudge(np.zeros(2), 1, -3.0, -5.0, 0.5)
+          if got is None or not np.allclose(got, [-0.5, 0.5]):
+              raise CheckFailed("Better than usual: the move made gets more likely.", expected=[-0.5, 0.5], actual=got)
+          got = m.nudge(np.array([1.0, 0.0, 0.0]), 0, 0.0, 2.0, 1.0)
+          want = np.array([1.0, 0.0, 0.0]) - 2.0 * (np.eye(3)[0] - np.exp([1.0, 0, 0]) / np.exp([1.0, 0, 0]).sum())
+          if got is None or not np.allclose(got, want):
+              raise CheckFailed("Worse than usual: the move made gets less likely.", expected=np.round(want, 3).tolist(), actual=got)
+
+
+      TESTS = [custom("One REINFORCE nudge", check)]
+    solution: |
+      import numpy as np
+
+
+      def nudge(prefs, move, ret, baseline, rate):
+          weights = np.exp(prefs - prefs.max())
+          chances = weights / weights.sum()
+          return prefs + rate * (ret - baseline) * (np.eye(len(prefs))[move] - chances)

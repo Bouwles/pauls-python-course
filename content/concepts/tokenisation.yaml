@@ -1,0 +1,78 @@
+id: tokenisation
+title: Tokens, vocabularies and ids
+summary: |
+  A network takes numbers, so text is cut into tokens first: characters, words, or pieces of words. The vocabulary lists every different token once, often `sorted(set(text))` for characters, and a token's id is its index in that list, counting from 0. Encoding turns text into ids with a dictionary from token to id; decoding turns ids back with the list. Characters make a small vocabulary that can spell any word, even a new one, at the cost of long sequences; words make short sequences, a huge vocabulary, and nothing to say about a word it has never seen.
+example: |
+  text = "gale 8"
+  vocab = sorted(set(text))
+  index = {char: i for i, char in enumerate(vocab)}
+  ids = [index[char] for char in text]
+  print(vocab, ids)
+  print("".join(vocab[i] for i in ids))
+misconceptions: [vocab-first-seen-order, vocab-skips-space, vocab-counts-repeats, ids-count-from-one, word-vocab-covers-new-words, decode-adds-spaces]
+related: [embeddings, language-models, sets, dictionaries]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      vocab = sorted(set("gale 8"))
+      print(len(vocab), vocab[1])
+    answer: "6 8"
+  - type: choice
+    prompt: "Encoding with a vocabulary. What does this print?"
+    code: |
+      vocab = [" ", "a", "e", "s"]
+      index = {char: i for i, char in enumerate(vocab)}
+      print([index[char] for char in "sea"])
+    options:
+      - text: "[3, 2, 1]"
+        correct: true
+        feedback: "Right. Each character's id is its place in the vocabulary, counting from 0: 's' is fourth, so 3."
+      - text: "[4, 3, 2]"
+        misconception: ids-count-from-one
+        feedback: "`enumerate` counts from 0, so the space is 0 and 's' is 3. Ids are indexes, ready to pick a row of a table."
+  - type: choice
+    prompt: "Pip's word vocabulary was built from thirty forecasts. Tonight's forecast says \"quay fog\", and \"quay\" isn't in any of the thirty. What can a character vocabulary do that his can't?"
+    verify: none
+    options:
+      - text: "Spell \"quay\" out of characters it already knows"
+        correct: true
+      - text: "Nothing: both vocabularies can encode any word"
+        misconception: word-vocab-covers-new-words
+        feedback: "A word vocabulary only has ids for the words it was built from. \"quay\" has no id, so it can't be encoded at all. Characters can spell it."
+  - type: fill
+    prompt: "Fill the gap so `index` maps each character to its id."
+    code: |
+      vocab = ["\n", " ", "a", "f", "g", "o"]
+      index = {char: i for i, char in ___(vocab)}
+      print(index["f"], index["o"])
+    blanks: [["enumerate"]]
+    tests: |
+      TESTS = [output("f is 3, o is 5", expect="3 5")]
+  - type: fix
+    prompt: "Decoding should give back exactly the text that was encoded. Fix it."
+    code: |
+      vocab = [" ", "a", "e", "s", "t"]
+      ids = [3, 2, 1, 0, 3, 4, 1, 4, 2]
+      print(" ".join(vocab[i] for i in ids))
+    tests: |
+      TESTS = [output("The forecast comes back as it was", expect="sea state")]
+    solution: |
+      vocab = [" ", "a", "e", "s", "t"]
+      ids = [3, 2, 1, 0, 3, 4, 1, 4, 2]
+      print("".join(vocab[i] for i in ids))
+  - type: write
+    prompt: "Write `encode(text, vocab)`: the list of ids for the characters of `text`, each its index in `vocab`."
+    starter: |
+      def encode(text, vocab):
+          return []
+    tests: |
+      TESTS = [
+          function("sea, with a four-character vocabulary", call="encode", args=("sea", [" ", "a", "e", "s"]), expect=[3, 2, 1]),
+          function("A vocabulary in an odd order", call="encode", args=("abba", ["b", "a"]), expect=[1, 0, 0, 1]),
+          function("Nothing to encode", call="encode", args=("", ["a"]), expect=[]),
+      ]
+    solution: |
+      def encode(text, vocab):
+          index = {char: i for i, char in enumerate(vocab)}
+          return [index[char] for char in text]

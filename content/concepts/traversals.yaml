@@ -1,0 +1,221 @@
+id: traversals
+title: Tree traversals
+summary: |
+  A traversal visits every card in a tree once, going all the way down the left side before starting on the right. The three usual ones differ only in when a card is written down: before its two sides (pre-order), between them (in-order) or after both (post-order). In-order on a binary search tree gives the numbers sorted. Pre-order puts each card before everything under it, so filing cards in that order rebuilds the same tree. Post-order finishes everything below a card first, like weighing a crate's contents before the crate.
+example: |
+  class Card:
+      def __init__(self, number, left=None, right=None):
+          self.number = number
+          self.left = left
+          self.right = right
+
+
+  def in_order(card, numbers):
+      if card is None:
+          return
+      in_order(card.left, numbers)
+      numbers.append(card.number)
+      in_order(card.right, numbers)
+
+
+  root = Card(500, Card(250, Card(101), Card(342)), Card(750, None, Card(977)))
+  numbers = []
+  in_order(root, numbers)
+  print(numbers)
+misconceptions: [every-walk-is-sorted, walk-goes-level-by-level, post-order-is-reversed-pre-order]
+related: [trees, binary-search-trees, recursion, call-stack]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      class Card:
+          def __init__(self, number, left=None, right=None):
+              self.number = number
+              self.left = left
+              self.right = right
+
+
+      def walk(card, numbers):
+          if card is None:
+              return
+          walk(card.left, numbers)
+          numbers.append(card.number)
+          walk(card.right, numbers)
+
+
+      root = Card(40, Card(20, Card(10), Card(30)), Card(60, Card(50)))
+      numbers = []
+      walk(root, numbers)
+      print(numbers)
+    answer: "[10, 20, 30, 40, 50, 60]"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      class Card:
+          def __init__(self, number, left=None, right=None):
+              self.number = number
+              self.left = left
+              self.right = right
+
+
+      def post_order(card, numbers):
+          if card is None:
+              return
+          post_order(card.left, numbers)
+          post_order(card.right, numbers)
+          numbers.append(card.number)
+
+
+      root = Card(500, Card(250, Card(101), Card(342)), Card(750, None, Card(977)))
+      numbers = []
+      post_order(root, numbers)
+      print(numbers)
+    options:
+      - text: "[101, 342, 250, 977, 750, 500]"
+        correct: true
+        feedback: "Every card waits until both its sides are written down. The left side still goes first, so 101 and 342 come before anything on the right."
+      - text: "[977, 750, 342, 101, 250, 500]"
+        misconception: post-order-is-reversed-pre-order
+        feedback: "That's pre-order backwards, which visits the right side first. Post-order still goes left before right; it just writes each card down last."
+      - text: "[101, 250, 342, 500, 750, 977]"
+        misconception: every-walk-is-sorted
+        feedback: "Only in-order comes out sorted, because only in-order writes a card down between its smaller side and its bigger side."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      class Card:
+          def __init__(self, number, left=None, right=None):
+              self.number = number
+              self.left = left
+              self.right = right
+
+
+      def pre_order(card, numbers):
+          if card is None:
+              return
+          numbers.append(card.number)
+          pre_order(card.left, numbers)
+          pre_order(card.right, numbers)
+
+
+      root = Card(1, Card(2, Card(4), Card(5)), Card(3))
+      numbers = []
+      pre_order(root, numbers)
+      print(numbers)
+    options:
+      - text: "[1, 2, 4, 5, 3]"
+        correct: true
+        feedback: "The left call goes all the way down card 2's side, 4 and 5, before the right call reaches 3."
+      - text: "[1, 2, 3, 4, 5]"
+        misconception: walk-goes-level-by-level
+        feedback: "A recursive walk finishes one side completely before it starts the other. Level by level needs a queue, not recursion."
+  - type: fix
+    prompt: "This should list the cards smallest first: `[101, 250, 342, 500, 750]`. Move one line to fix it."
+    code: |
+      class Card:
+          def __init__(self, number, left=None, right=None):
+              self.number = number
+              self.left = left
+              self.right = right
+
+
+      def in_order(card, numbers):
+          if card is None:
+              return
+          numbers.append(card.number)
+          in_order(card.left, numbers)
+          in_order(card.right, numbers)
+
+
+      root = Card(500, Card(250, Card(101), Card(342)), Card(750))
+      numbers = []
+      in_order(root, numbers)
+      print(numbers)
+    tests: |
+      TESTS = [output("Smallest first", expect="[101, 250, 342, 500, 750]",
+                      hint="In-order writes each card down after its left side and before its right side.")]
+    solution: |
+      class Card:
+          def __init__(self, number, left=None, right=None):
+              self.number = number
+              self.left = left
+              self.right = right
+
+
+      def in_order(card, numbers):
+          if card is None:
+              return
+          in_order(card.left, numbers)
+          numbers.append(card.number)
+          in_order(card.right, numbers)
+
+
+      root = Card(500, Card(250, Card(101), Card(342)), Card(750))
+      numbers = []
+      in_order(root, numbers)
+      print(numbers)
+  - type: fill
+    prompt: "Fill the gap so the walk covers the right side too."
+    code: |
+      class Card:
+          def __init__(self, number, left=None, right=None):
+              self.number = number
+              self.left = left
+              self.right = right
+
+
+      def pre_order(card, numbers):
+          if card is None:
+              return
+          numbers.append(card.number)
+          pre_order(card.left, numbers)
+          pre_order(card.___, numbers)
+
+
+      root = Card(500, Card(250), Card(750, None, Card(977)))
+      numbers = []
+      pre_order(root, numbers)
+      print(numbers)
+    blanks: [["right"]]
+    tests: |
+      TESTS = [output("Every card", expect="[500, 250, 750, 977]")]
+  - type: write
+    prompt: "Write `post_order(card)`, which returns a list of the numbers in post-order: the left side, then the right side, then the card. An empty tree gives `[]`."
+    starter: |
+      class Card:
+          def __init__(self, number, left=None, right=None):
+              self.number = number
+              self.left = left
+              self.right = right
+
+
+      def post_order(card):
+          pass
+    tests: |
+      def gives(build, expected):
+          def check(ctx):
+              module = ctx.module()
+              got = module.post_order(build(module.Card))
+              if got != expected:
+                  raise CheckFailed("Left side, right side, then the card.", expected=expected, actual=got)
+          return check
+
+
+      TESTS = [
+          custom("Penhallow's top cards", gives(lambda C: C(500, C(250, C(101), C(342)), C(750, None, C(977))),
+                                                [101, 342, 250, 977, 750, 500])),
+          custom("One card", gives(lambda C: C(7), [7])),
+          custom("No tree", gives(lambda C: None, [])),
+      ]
+    solution: |
+      class Card:
+          def __init__(self, number, left=None, right=None):
+              self.number = number
+              self.left = left
+              self.right = right
+
+
+      def post_order(card):
+          if card is None:
+              return []
+          return post_order(card.left) + post_order(card.right) + [card.number]

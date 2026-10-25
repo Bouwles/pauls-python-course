@@ -1,0 +1,106 @@
+id: q-learning
+title: Q-learning
+summary: |
+  A Q-value, `Q[state][action]`, is what an action is worth in a state if you play your best afterwards. With Q-values the best action is simply the biggest one, so no model of the world is needed to choose. Q-learning is TD learning for Q-values: after each step, the target is the reward plus `gamma` times the best Q-value in the next state (just the reward if the episode is over), and `Q[state][action]` moves a fraction `alpha` of the way towards it. Exploration, usually epsilon-greedy, gathers the experience; because the target always assumes the best next action, Q-learning learns the best policy's values while following an exploring one (off-policy).
+example: |
+  Q = {"here": [0.0, 0.0, 0.0, 0.0], "there": [-3.0, -1.0, -4.0, -2.0]}
+  alpha, gamma = 0.5, 1.0
+  action, reward, over = 3, -1, False
+  target = reward + (0 if over else gamma * max(Q["there"]))
+  Q["here"][action] += alpha * (target - Q["here"][action])
+  print(Q["here"])
+misconceptions: [q-target-same-action, q-target-average, q-needs-model, q-explores-in-target]
+related: [td-learning, sarsa, exploration-exploitation, value-iteration]
+cards:
+  - type: predict
+    prompt: "One Q-learning update. What does this print?"
+    code: |
+      Q = {"here": [0.0, 0.0, 0.0, 0.0], "there": [-3.0, -1.0, -4.0, -2.0]}
+      alpha, gamma = 0.5, 1.0
+      action, reward, over = 3, -1, False
+      target = reward + (0 if over else gamma * max(Q["there"]))
+      Q["here"][action] += alpha * (target - Q["here"][action])
+      print(Q["here"][action])
+    answer: "-1.0"
+  - type: choice
+    prompt: "He moved right (action 3) and landed on a tile whose four Q-values are shown. What does this print?"
+    code: |
+      there = [2.0, 6.0, 4.0, 0.0]
+      target = -1 + 0.5 * max(there)
+      print(target)
+    options:
+      - text: "2.0"
+        correct: true
+        feedback: "Q-learning's target takes the best move on the next tile, 6.0, discounted by gamma 0.5, plus the reward."
+      - text: "-1.0"
+        misconception: q-target-same-action
+        feedback: "That would use the next tile's value for right, the move he just made. The target asks what the next tile is worth if he plays his best there."
+      - text: "0.5"
+        misconception: q-target-average
+        feedback: "That averages the next tile's four values. Q-learning assumes the best one."
+  - type: choice
+    prompt: "Sir Reginald has a trained Q-table and no map of the slip chances. What does he need to choose his move on a tile?"
+    verify: none
+    options:
+      - text: Only that tile's four Q-values. The biggest wins.
+        correct: true
+        feedback: "That's the point of Q-values: each one already includes where the move tends to lead."
+      - text: The four Q-values and the chances of where each move leads
+        misconception: q-needs-model
+        feedback: "That's what choosing from tile values needs. A Q-value is already the worth of the move, chances and all."
+      - text: "The Q-values, adjusted for how often he'll explore"
+        misconception: q-explores-in-target
+        feedback: "Q-learning's values assume the best move next, never the exploring. Choosing on race day is just the biggest."
+  - type: fix
+    prompt: "This update uses the next tile's value for the same action he just took. Make it Q-learning: the best action on the next tile. It should return the new Q-value."
+    code: |
+      def q_update(Q, tile, action, reward, after, over, alpha=0.1, gamma=1.0):
+          target = reward + (0 if over else gamma * Q[after][action])
+          Q[tile][action] += alpha * (target - Q[tile][action])
+          return Q[tile][action]
+    tests: |
+      TESTS = [
+          function("The best next action", call="q_update",
+                   args=({"a": [0.0, 0.0, 0.0, 0.0], "b": [-3.0, -1.0, -4.0, -2.0]}, "a", 3, -1, "b", False, 0.5, 1.0),
+                   expect=-1.0, tol=1e-9),
+          function("Onto the finish", call="q_update",
+                   args=({"a": [0.0, 0.0, 0.0, -2.0], "f": [9.0, 9.0, 9.0, 9.0]}, "a", 3, -1, "f", True, 0.5, 1.0),
+                   expect=-1.5, tol=1e-9),
+      ]
+    solution: |
+      def q_update(Q, tile, action, reward, after, over, alpha=0.1, gamma=1.0):
+          target = reward + (0 if over else gamma * max(Q[after]))
+          Q[tile][action] += alpha * (target - Q[tile][action])
+          return Q[tile][action]
+  - type: fill
+    prompt: "Fill the gap so he takes the move with the biggest Q-value when he isn't exploring."
+    code: |
+      import numpy as np
+
+      Q = np.zeros((2, 2, 4))
+      Q[1, 0] = [-4.0, -2.5, -3.0, -1.5]
+      action = int(np.___(Q[(1, 0)]))
+      print(action)
+    blanks: [["argmax"]]
+    tests: |
+      TESTS = [output("The best move on (1, 0)", expect="3")]
+  - type: write
+    prompt: "Write `greedy_policy(Q)` for a NumPy Q-table of shape (rows, columns, 4): the best action on every tile, as a list of lists of whole numbers."
+    starter: |
+      import numpy as np
+
+
+      def greedy_policy(Q):
+          pass
+    tests: |
+      import numpy as np
+      TESTS = [
+          function("A 1 by 2 course", call="greedy_policy", args=(np.array([[[0.0, 1.0, 0.0, 0.0], [0.0, 0.0, 0.0, 2.0]]]),), expect=[[1, 3]]),
+          function("Ties go to the first", call="greedy_policy", args=(np.zeros((2, 1, 4)),), expect=[[0], [0]]),
+      ]
+    solution: |
+      import numpy as np
+
+
+      def greedy_policy(Q):
+          return Q.argmax(axis=2).tolist()

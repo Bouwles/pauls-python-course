@@ -1,0 +1,116 @@
+id: distributions
+title: Distributions, quartiles and outliers
+summary: |
+  A **distribution** is how readings are spread out, and a histogram shows its shape. Daily rain is **skewed** right: most days pile up near zero and a few wet ones stretch away in a long tail, which drags the mean out past the median. `values.quantile(0.25)` is the value a quarter of the way up the sorted readings; the first and third quartiles hold the middle half between them. One rule for **outliers** sets fences one and a half middle-halves beyond the quartiles and flags anything outside. It's a question, not a verdict: a stuck sensor is an error, but in a skewed distribution plenty of real days fall outside too.
+example: |
+  import pandas as pd
+
+  melt = pd.Series([12, 14, 13, 15, 12, 58, 14, 13, 16])
+  q1, q3 = melt.quantile(0.25), melt.quantile(0.75)
+  low, high = q1 - 1.5 * (q3 - q1), q3 + 1.5 * (q3 - q1)
+  print(q1, q3, low, high)
+  print(melt[(melt < low) | (melt > high)].tolist())
+misconceptions: [outlier-is-error, tail-names-the-bulk, quantile-is-share-of-max]
+related: [descriptive-statistics, matplotlib, honest-charts]
+cards:
+  - type: predict
+    prompt: "Nine readings. What does this print?"
+    code: |
+      import pandas as pd
+
+      readings = pd.Series([3, 9, 1, 7, 5, 2, 8, 4, 6])
+      print(readings.quantile(0.25), readings.quantile(0.75))
+    answer: "3.0 7.0"
+  - type: choice
+    prompt: "What does this print?"
+    code: |
+      import pandas as pd
+
+      readings = pd.Series([10, 20, 30, 40, 200])
+      print(readings.quantile(0.25))
+    options:
+      - text: "20.0"
+        correct: true
+        feedback: "Sorted, the readings are 10, 20, 30, 40, 200. A quarter of the way up that list is the second one, 20."
+      - text: "50.0"
+        misconception: quantile-is-share-of-max
+        feedback: "A quartile isn't a fraction of the biggest reading. It's the value a quarter of the way up the sorted readings: 20."
+  - type: choice
+    prompt: "A week of rain, skewed right. Where do most of the days sit?"
+    code: |
+      import pandas as pd
+
+      week = pd.Series([0.0, 0.0, 0.2, 0.4, 1.0, 1.8, 24.0])
+      print((week < week.mean()).sum())
+    options:
+      - text: "6"
+        correct: true
+        feedback: "Six of the seven days are below the mean. Skewed right means the long tail is on the right; the bulk of the readings is on the left."
+      - text: "1"
+        misconception: tail-names-the-bulk
+        feedback: "The skew is named after the tail, not the bulk. One very wet day drags the mean up, and the other six sit below it."
+  - type: choice
+    prompt: "The fences flag 38 days of Saltmarsh rain in 2024, out of 366. What should Priya do with them?"
+    verify: none
+    options:
+      - text: "Keep them. Daily rain has a long tail, so wet days fall outside fences built for tidy readings. Check any that look impossible."
+        correct: true
+        feedback: "An outlier rule asks a question. A 41-degree June day is a fault; a 20 mm day in November is Saltmarsh."
+      - text: "Delete them. They're outside the fences, so they're errors."
+        misconception: outlier-is-error
+        feedback: "Being outside the fences only means being far from the middle half. In skewed data like rain, plenty of real days are. Delete a reading only when you know why it's wrong."
+  - type: fill
+    prompt: "Fill the gap so `outside` keeps readings below the low fence or above the high one."
+    code: |
+      import pandas as pd
+
+      melt = pd.Series([12, 14, 13, 15, 12, 58, 14, 13, 2])
+      low, high = 9.0, 19.0
+      outside = melt[(melt < low) ___ (melt > high)]
+      print(outside.tolist())
+    blanks: [["|"]]
+    tests: |
+      TESTS = [output("Both ends", expect="[58, 2]")]
+  - type: fix
+    prompt: "Pip flags anything three standard deviations from the mean. The 58 drags the mean and the spread out so far that it isn't caught. Build the fences from the quartiles instead, so it prints `[58]`."
+    code: |
+      import pandas as pd
+
+      melt = pd.Series([12, 14, 13, 15, 12, 58, 14, 13, 16])
+      low, high = melt.mean() - 3 * melt.std(), melt.mean() + 3 * melt.std()
+      print(melt[(melt < low) | (melt > high)].tolist())
+    tests: |
+      TESTS = [output("The morning the stove went out", expect="[58]")]
+    solution: |
+      import pandas as pd
+
+      melt = pd.Series([12, 14, 13, 15, 12, 58, 14, 13, 16])
+      q1, q3 = melt.quantile(0.25), melt.quantile(0.75)
+      low, high = q1 - 1.5 * (q3 - q1), q3 + 1.5 * (q3 - q1)
+      print(melt[(melt < low) | (melt > high)].tolist())
+  - type: write
+    prompt: "Write `middle_half(values)`: how wide the middle half of the readings is, the third quartile minus the first."
+    starter: |
+      import pandas as pd
+
+
+      def middle_half(values):
+          pass
+    tests: |
+      def check(ctx):
+          import pandas as pd
+
+          module = ctx.module()
+          for readings, expected in [([3, 9, 1, 7, 5, 2, 8, 4, 6], 4.0), ([12, 14, 13, 15, 12, 58, 14, 13, 16], 2.0)]:
+              got = module.middle_half(pd.Series(readings))
+              if got is None or abs(float(got) - expected) > 1e-9:
+                  raise CheckFailed(f"The middle half of {readings}.", expected=expected, actual=got)
+
+
+      TESTS = [custom("Nine readings, twice", check)]
+    solution: |
+      import pandas as pd
+
+
+      def middle_half(values):
+          return values.quantile(0.75) - values.quantile(0.25)

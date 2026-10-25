@@ -1,0 +1,106 @@
+id: feature-engineering
+title: Feature engineering
+summary: |
+  Feature engineering is rewriting readings so a model can use what they mean. A compass direction wraps round, so 350 and 10 degrees look far apart as numbers: write the wind as an arrow, `speed * sin(angle)` east and `speed * cos(angle)` north, with the angle in radians. A clock time can become hours from the moment that matters, like dawn. A reading's change, `days["pressure"].diff()`, can say more than the reading itself. A model can only find a pattern that's there in its columns. In a forecast, build features only from what's known by then: never from later rows.
+example: |
+  import numpy as np
+  import pandas as pd
+
+  days = pd.DataFrame({"wind_speed": [15, 15], "wind_dir": [350, 10], "pressure": [1012, 1005]})
+  angle = np.radians(days["wind_dir"])
+  days["wind_east"] = days["wind_speed"] * np.sin(angle)
+  days["wind_north"] = days["wind_speed"] * np.cos(angle)
+  days["pressure_change"] = days["pressure"].diff()
+  print(days.round(1))
+misconceptions: [numbers-know-the-compass, features-change-nothing, engineer-with-the-future, more-columns-always-help]
+related: [baselines, data-leakage, pandas-basics, vectors]
+drill: true
+cards:
+  - type: predict
+    prompt: "High water at 09:30. How many hours is that from dawn, at 06:00?"
+    code: |
+      clock = "09:30"
+      hour, minute = clock.split(":")
+      hours = int(hour) + int(minute) / 60
+      print(abs(hours - 6))
+    answer: "3.5"
+  - type: choice
+    prompt: "A 10-knot wind from 90 degrees, due east. What does this print?"
+    code: |
+      import numpy as np
+
+      speed, direction = 10, 90
+      angle = np.radians(direction)
+      print(np.round([speed * np.sin(angle), speed * np.cos(angle)], 1))
+    options:
+      - text: "[10.  0.]"
+        correct: true
+        feedback: "Right. All of it east, none of it north."
+      - text: "[ 0. 10.]"
+        misconception: features-change-nothing
+        feedback: "The sine of 90 degrees is 1 and its cosine is 0, so the east part is the whole 10 knots. The two parts say which way it blows in a form a model can add and compare."
+  - type: choice
+    prompt: "Pip adds forty more columns to the fishing forecast: the day of the week, Gwen's quiz score, the phase of the moon. Will the forecast get better?"
+    verify: none
+    options:
+      - text: "Not necessarily. Columns that know nothing give the model more noise to fit. Cross-validate and see"
+        correct: true
+        feedback: "Right. Extra columns can hurt as easily as help. Only a score on data the model hasn't seen can tell."
+      - text: "Yes. More information can only help"
+        misconception: more-columns-always-help
+        feedback: "A model can find patterns in noise that aren't there, as Pip's three hundred dials showed. Every column has to earn its place in cross-validation."
+      - text: "Yes, as long as it can see 350 and 10 degrees are close"
+        misconception: numbers-know-the-compass
+        feedback: "Nothing tells a model that the compass goes round: to it, 350 and 10 are 340 apart. That's a separate problem, fixed by writing the wind as an arrow."
+  - type: fill
+    prompt: "Fill the gap to get each day's pressure change since the day before."
+    code: |
+      import pandas as pd
+
+      pressure = pd.Series([1012, 1008, 1003, 1006])
+      print(pressure.___().tolist())
+    blanks: [["diff"]]
+    tests: |
+      TESTS = [output("Missing on the first day", expect="[nan, -4.0, -5.0, 3.0]")]
+  - type: fix
+    prompt: "This forecast is made at dawn, but `pressure_change` uses tomorrow's pressure. Fix it to use the change since yesterday."
+    code: |
+      import pandas as pd
+
+      days = pd.DataFrame({"pressure": [1012, 1008, 1003, 1006]})
+      days["pressure_change"] = days["pressure"].shift(-1) - days["pressure"]
+      print(days["pressure_change"].tolist())
+    tests: |
+      TESTS = [output("Since yesterday", expect="[nan, -4.0, -5.0, 3.0]")]
+    solution: |
+      import pandas as pd
+
+      days = pd.DataFrame({"pressure": [1012, 1008, 1003, 1006]})
+      days["pressure_change"] = days["pressure"].diff()
+      print(days["pressure_change"].tolist())
+  - type: write
+    prompt: "Write `arrow(speed, direction)`: the wind as `(east, north)`, using the sine and the cosine of the direction in radians."
+    starter: |
+      import numpy as np
+
+
+      def arrow(speed, direction):
+          pass
+    tests: |
+      def check(ctx):
+          import numpy as np
+          f = ctx.module().arrow
+          for speed, direction, want in ((10, 90, (10.0, 0.0)), (20, 180, (0.0, -20.0)), (5, 0, (0.0, 5.0))):
+              got = f(speed, direction)
+              if got is None or not np.allclose(np.asarray(got, dtype=float), want, atol=1e-9):
+                  raise CheckFailed(f"A {speed}-knot wind from {direction} degrees.", expected=want, actual=got)
+
+
+      TESTS = [custom("East, south and north", check)]
+    solution: |
+      import numpy as np
+
+
+      def arrow(speed, direction):
+          angle = np.radians(direction)
+          return speed * np.sin(angle), speed * np.cos(angle)

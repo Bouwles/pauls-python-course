@@ -1,0 +1,182 @@
+id: data-leakage
+title: Data leakage
+summary: |
+  Data leakage is when the training data gives the answer away in a way that won't be there when the model is used for real, so its scores look far better than it will ever do. The commonest leak is a column filled in after the event, like how long the dome was open, which is only known once the night has turned out well: ask when each column is known. The other is preprocessing that saw the answers: choosing columns, scaling or filling gaps using every row, test rows included, before cross-validating. Put every step that learns anything inside the pipeline. Cross-validation can't catch either; a score that seems too good is the clue.
+example: |
+  import numpy as np
+  from sklearn.feature_selection import SelectKBest, f_classif
+  from sklearn.linear_model import LogisticRegression
+  from sklearn.model_selection import cross_val_score
+  from sklearn.pipeline import make_pipeline
+
+  rng = np.random.default_rng(4)
+  readings = rng.normal(size=(40, 200))     # 200 columns of pure noise
+  answers = rng.integers(0, 2, 40)
+
+  best = SelectKBest(f_classif, k=5).fit(readings, answers).transform(readings)
+  print("Chosen on every row:", round(cross_val_score(LogisticRegression(), best, answers, cv=4).mean(), 2))
+  model = make_pipeline(SelectKBest(f_classif, k=5), LogisticRegression())
+  print("Chosen inside each fold:", round(cross_val_score(model, readings, answers, cv=4).mean(), 2))
+misconceptions: [leak-still-forecasts, cross-validation-catches-leaks, choose-columns-on-everything, high-score-means-good-model, leak-only-in-training]
+related: [cross-validation, pipelines, train-test-split, model-bias]
+cards:
+  - type: predict
+    prompt: "Gwen's model forecasts a busy quiz night from the rain and the pints sold. What does this print?"
+    code: |
+      import numpy as np
+      from sklearn.model_selection import cross_val_score
+      from sklearn.tree import DecisionTreeClassifier
+
+      rng = np.random.default_rng(8)
+      busy = rng.integers(0, 2, 60)
+      rain = rng.integers(0, 2, 60)
+      pints = busy * 100 + rng.integers(20, 60, 60)    # counted at closing time
+      X = np.column_stack([rain, pints])
+      print(round(cross_val_score(DecisionTreeClassifier(max_depth=2, random_state=0), X, busy, cv=5).mean(), 2))
+    answer: "1.0"
+  - type: choice
+    prompt: "Gwen wants the forecast at noon, so she knows how many staff to call in. Which column can it use?"
+    verify: none
+    options:
+      - text: "The rain forecast at noon"
+        correct: true
+        feedback: "Right. Only what's known at the moment of forecasting can go in."
+      - text: "Pints sold that night: it scored perfectly"
+        misconception: leak-still-forecasts
+        feedback: "Pints are counted at closing time, long after noon, and they're high because the night was busy. At noon there's nothing in that column, and the perfect score evaporates."
+  - type: choice
+    prompt: "Pip picks the 5 columns, out of 200, that best match the answers on all 40 rows, then cross-validates a model on those 5. Is the score honest?"
+    verify: none
+    options:
+      - text: "No. The test folds helped choose the columns. Choose them inside each fold, in a pipeline"
+        correct: true
+        feedback: "Right. On 200 columns of pure noise, choosing on every row scores 0.65; choosing inside each fold scores 0.52, about a coin toss, which is the truth."
+      - text: "Yes. Cross-validation always scores on rows the model hasn't seen"
+        misconception: choose-columns-on-everything
+        feedback: "The model hasn't seen them, but the chooser has. It picked the columns that happen to match every row's answer, test rows included, so the folds are marked partly by their own answers."
+      - text: "Yes, and if it weren't, cross-validation would show it as a low score"
+        misconception: cross-validation-catches-leaks
+        feedback: "Cross-validation can't see where the columns came from. A leak lifts every fold together, so it shows as a high score, not a low one."
+  - type: choice
+    prompt: "Pip's model forecasts tomorrow's catch with 99% accuracy. Nobody in town has ever managed better than 70%. What should he do first?"
+    verify: none
+    options:
+      - text: "Go through every column and ask when it's known. A score that good usually means a leak"
+        correct: true
+        feedback: "Right. A score far beyond anyone's experience is a reason to look harder, not to celebrate."
+      - text: "Use it at once. A high score means a good model"
+        misconception: high-score-means-good-model
+        feedback: "A leak looks exactly like brilliance until the model is used for real. When a score is much better than anyone expected, check first."
+  - type: choice
+    prompt: "Wendt's held-back drawer of bookings also has the `signed_book` column, filled in the same way. Will the leaky model score badly on the drawer?"
+    verify: none
+    options:
+      - text: "No. The drawer leaks the same way, so it scores well there too, and it still can't forecast next week"
+        correct: true
+        feedback: "Right. A test set only catches what's different about it. Only asking when each column is known catches a leak."
+      - text: "Yes. A held-back test set always shows up a leak"
+        misconception: leak-only-in-training
+        feedback: "The drawer's bookings were written down the same way, signatures and all, so the leak is there too. The test score is high, and the model is still useless at booking time."
+  - type: choice
+    prompt: "Gwen's model with the pints counted at closing time, then without them. What does this print?"
+    code: |
+      import numpy as np
+      from sklearn.model_selection import cross_val_score
+      from sklearn.tree import DecisionTreeClassifier
+
+      rng = np.random.default_rng(8)
+      busy = rng.integers(0, 2, 60)
+      rain = rng.integers(0, 2, 60)
+      pints = busy * 100 + rng.integers(20, 60, 60)
+      stump = DecisionTreeClassifier(max_depth=2, random_state=0)
+      for X in (np.column_stack([rain, pints]), rain.reshape(-1, 1)):
+          print(round(cross_val_score(stump, X, busy, cv=5).mean(), 2))
+    options:
+      - text: |-
+          1.0
+          0.48
+        correct: true
+        feedback: "Right. With the pints it's perfect; without them, the rain alone is no better than a coin. The perfect score was the closing-time count talking."
+      - text: |-
+          0.48
+          0.48
+        misconception: cross-validation-catches-leaks
+        feedback: "Cross-validation doesn't strip out a leak. The pints are in every fold, training and scoring alike, so every fold scores perfectly."
+  - type: write
+    prompt: "Write `alone_score(X, y, j)`: the 5-fold cross-validated accuracy of `DecisionTreeClassifier(max_depth=2, random_state=0)` on column `j` of `X` alone. A column that scores near 1 by itself is a suspect."
+    starter: |
+      from sklearn.model_selection import cross_val_score
+      from sklearn.tree import DecisionTreeClassifier
+
+
+      def alone_score(X, y, j):
+          pass
+    tests: |
+      def check(ctx):
+          import numpy as np
+          from sklearn.model_selection import cross_val_score
+          from sklearn.tree import DecisionTreeClassifier
+          rng = np.random.default_rng(8)
+          busy = rng.integers(0, 2, 60)
+          X = np.column_stack([rng.integers(0, 2, 60), busy * 100 + rng.integers(20, 60, 60)])
+          stump = DecisionTreeClassifier(max_depth=2, random_state=0)
+          for j in (0, 1):
+              want = cross_val_score(stump, X[:, [j]], busy, cv=5).mean()
+              got = ctx.module().alone_score(X, busy, j)
+              if got is None or abs(float(got) - want) > 1e-9:
+                  raise CheckFailed(f"Column {j} alone should score {want:.2f}. Keep it a table: X[:, [j]].", expected=round(want, 4), actual=got)
+
+
+      TESTS = [custom("Rain alone, then pints alone", check)]
+    solution: |
+      from sklearn.model_selection import cross_val_score
+      from sklearn.tree import DecisionTreeClassifier
+
+
+      def alone_score(X, y, j):
+          stump = DecisionTreeClassifier(max_depth=2, random_state=0)
+          return cross_val_score(stump, X[:, [j]], y, cv=5).mean()
+  - type: fill
+    prompt: "Fill the gap so the columns are chosen inside each fold."
+    code: |
+      import numpy as np
+      from sklearn.feature_selection import SelectKBest, f_classif
+      from sklearn.linear_model import LogisticRegression
+      from sklearn.model_selection import cross_val_score
+      from sklearn.pipeline import make_pipeline
+
+      rng = np.random.default_rng(4)
+      readings = rng.normal(size=(40, 200))
+      answers = rng.integers(0, 2, 40)
+      model = ___(SelectKBest(f_classif, k=5), LogisticRegression())
+      print(round(cross_val_score(model, readings, answers, cv=4).mean(), 2))
+    blanks: [["make_pipeline"]]
+    tests: |
+      TESTS = [output("About a coin toss, honestly", expect="0.52")]
+  - type: fix
+    prompt: "This chooses 5 of 200 noise columns using every row, so its score flatters. Make it honest: the choosing happens inside each fold."
+    code: |
+      import numpy as np
+      from sklearn.feature_selection import SelectKBest, f_classif
+      from sklearn.linear_model import LogisticRegression
+      from sklearn.model_selection import cross_val_score
+
+      rng = np.random.default_rng(4)
+      readings = rng.normal(size=(40, 200))
+      answers = rng.integers(0, 2, 40)
+      best = SelectKBest(f_classif, k=5).fit(readings, answers).transform(readings)
+      print(round(cross_val_score(LogisticRegression(), best, answers, cv=4).mean(), 2))
+    tests: |
+      TESTS = [output("Chosen inside each fold", expect="0.52")]
+    solution: |
+      import numpy as np
+      from sklearn.feature_selection import SelectKBest, f_classif
+      from sklearn.linear_model import LogisticRegression
+      from sklearn.model_selection import cross_val_score
+      from sklearn.pipeline import make_pipeline
+
+      rng = np.random.default_rng(4)
+      readings = rng.normal(size=(40, 200))
+      answers = rng.integers(0, 2, 40)
+      model = make_pipeline(SelectKBest(f_classif, k=5), LogisticRegression())
+      print(round(cross_val_score(model, readings, answers, cv=4).mean(), 2))

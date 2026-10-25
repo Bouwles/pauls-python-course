@@ -1,0 +1,116 @@
+id: language-models
+title: Language models and perplexity
+summary: |
+  A language model gives the chances of each possible next token. A bigram model looks one token back: count each pair, add a little smoothing to every count so nothing is impossible, and divide each row by its own total. Score it on text it never saw with the average of minus the log of the chance it gave each real next token; perplexity is e to that, and it reads as how many tokens the model is choosing between. Guessing evenly scores the vocabulary size, and lower is better. To write, start from a boundary token and draw each next token from the row of the one before, with a seeded generator so the same seed gives the same text.
+example: |
+  import numpy as np
+
+  counts = np.array([[0.0, 3.0], [1.0, 1.0]])
+  probs = (counts + 0.1) / (counts + 0.1).sum(axis=1, keepdims=True)
+  chances = [probs[0, 1], probs[1, 0], probs[0, 1]]
+  print(round(float(np.exp(-np.mean(np.log(chances)))), 3))
+misconceptions: [normalise-columns, unseen-pair-small-chance, unseen-pair-costs-nothing, sample-from-start-row, perplexity-higher-better]
+related: [tokenisation, embeddings, probability, cross-entropy]
+cards:
+  - type: predict
+    prompt: "A model that gives every one of four characters the same chance. What is its perplexity?"
+    code: |
+      import numpy as np
+
+      chance = 0.25
+      print(round(float(np.exp(-np.log(chance))), 2))
+    answer: "4.0"
+  - type: choice
+    prompt: "Turning counts into chances. What does this print?"
+    code: |
+      import numpy as np
+
+      counts = np.array([[1.0, 3.0], [2.0, 2.0]])
+      probs = counts / counts.sum(axis=1, keepdims=True)
+      print(probs.sum(axis=1))
+    options:
+      - text: "[1. 1.]"
+        correct: true
+        feedback: "Right. Each row is divided by its own total, so each row of chances adds up to 1."
+      - text: "[1.33 0.67]"
+        misconception: normalise-columns
+        feedback: "That's what dividing by the column totals would leave. `axis=1, keepdims=True` divides each row by its own total."
+  - type: choice
+    prompt: "A pair the counts never saw. What happens?"
+    code: |
+      import math
+
+      counts = {"qu": 3, "qa": 0}
+      chance = counts["qa"] / 3
+      print(-math.log(chance))
+    verify: error
+    options:
+      - text: A ValueError
+        correct: true
+        error: ValueError
+        feedback: "Right. The log of 0 is minus infinity, and `math.log` refuses it. NumPy's `np.log` gives `-inf` instead, and one such pair makes the whole perplexity infinite. That's why every count gets a little smoothing."
+      - text: "It prints 0.0"
+        misconception: unseen-pair-costs-nothing
+        feedback: "A chance of 0 for something that happened is infinitely wrong, not free: minus the log of a chance grows without limit as the chance shrinks."
+      - text: "It prints a large but finite number"
+        misconception: unseen-pair-small-chance
+        feedback: "The chance is exactly 0, because nothing added anything to the count. Only smoothing would give it a small chance."
+  - type: fill
+    prompt: "Fill the gap: perplexity from the average negative log likelihood."
+    code: |
+      import numpy as np
+
+      chances = np.array([0.5, 0.25, 0.5])
+      average_nll = -np.mean(np.log(chances))
+      print(round(float(np.exp(___)), 3))
+    blanks: [["average_nll"]]
+    tests: |
+      TESTS = [output("About 2.5 characters to choose between", expect="2.52")]
+  - type: fix
+    prompt: "This sampler keeps drawing from the start character's row, so it never gets past one letter. Fix it so each character comes from the row of the one before."
+    code: |
+      import numpy as np
+
+      probs = np.array([[0.0, 1.0, 0.0], [0.0, 0.0, 1.0], [1.0, 0.0, 0.0]])
+      rng = np.random.default_rng(0)
+      start = 0
+      current = start
+      ids = []
+      for _ in range(5):
+          current = int(rng.choice(3, p=probs[start]))
+          ids.append(current)
+      print(ids)
+    tests: |
+      TESTS = [output("Each character followed by the next", expect="[1, 2, 0, 1, 2]")]
+    solution: |
+      import numpy as np
+
+      probs = np.array([[0.0, 1.0, 0.0], [0.0, 0.0, 1.0], [1.0, 0.0, 0.0]])
+      rng = np.random.default_rng(0)
+      start = 0
+      current = start
+      ids = []
+      for _ in range(5):
+          current = int(rng.choice(3, p=probs[current]))
+          ids.append(current)
+      print(ids)
+  - type: write
+    prompt: "Write `perplexity(chances)`: e to the average of minus the log of each chance in the list."
+    starter: |
+      import numpy as np
+
+
+      def perplexity(chances):
+          return 0.0
+    tests: |
+      TESTS = [
+          function("Even chances of a quarter", call="perplexity", args=([0.25, 0.25],), expect=4.0, tol=1e-9),
+          function("Certain every time", call="perplexity", args=([1.0, 1.0, 1.0],), expect=1.0, tol=1e-9),
+          function("A half and an eighth", call="perplexity", args=([0.5, 0.125],), expect=4.0, tol=1e-9),
+      ]
+    solution: |
+      import numpy as np
+
+
+      def perplexity(chances):
+          return float(np.exp(-np.mean(np.log(chances))))

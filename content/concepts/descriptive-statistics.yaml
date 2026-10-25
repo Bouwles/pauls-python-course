@@ -1,0 +1,119 @@
+id: descriptive-statistics
+title: Mean, median, mode and spread
+summary: |
+  The **mean** shares the total out equally; the **median** is the middle reading once they're sorted; the **mode** is the most common value. With a few very large readings the mean is dragged up and the median hardly moves, so for skewed things like daily rain the median is the typical day. Spread matters as much as the centre: two towns with the same mean can have very different years. The **variance** is the average squared distance from the mean and the **standard deviation** is its square root; pandas' `std()` divides by one less than the count, NumPy's `np.std` by the count itself unless given `ddof=1`.
+example: |
+  import pandas as pd
+
+  week = pd.Series([0.0, 31.0, 0.0, 0.4, 1.2, 0.0, 2.0])
+  print(week.mean(), week.median(), week.mode().iloc[0])
+  print(round(week.std(), 2), round(week.var(), 2))
+  print(week.max() - week.min())
+misconceptions: [median-is-midrange, median-is-mode, mean-is-typical, extreme-moves-median, std-same-everywhere, same-mean-same-spread]
+related: [distributions, pandas-basics, numpy-arrays]
+drill: true
+cards:
+  - type: predict
+    prompt: "Five fares on the ferry. What does this print?"
+    code: |
+      import numpy as np
+
+      fares = [2, 2, 3, 4, 19]
+      print(np.mean(fares), np.median(fares))
+    answer: "6.0 3.0"
+  - type: choice
+    prompt: "Pip types one reading as 1200 instead of 12.0. What does this print?"
+    code: |
+      import pandas as pd
+
+      right = pd.Series([11.0, 12.0, 12.0, 13.0, 14.0])
+      typo = pd.Series([11.0, 12.0, 1200.0, 13.0, 14.0])
+      print(typo.median() - right.median(), typo.mean() - right.mean() > 100)
+    options:
+      - text: "1.0 True"
+        correct: true
+        feedback: "The median only cares about order: 1200 is still just the biggest, so the middle moves from 12 to 13. The mean shares 1200 among five readings and jumps by more than 230."
+      - text: "237.6 True"
+        misconception: extreme-moves-median
+        feedback: "One huge reading drags the mean, but the median is just the middle of the sorted list. Sorted, the middle moves from 12 to 13."
+  - type: choice
+    prompt: "What does this print?"
+    code: |
+      import numpy as np
+      import pandas as pd
+
+      readings = [4.0, 8.0]
+      print(np.std(readings), round(pd.Series(readings).std(), 2))
+    options:
+      - text: "2.0 2.83"
+        correct: true
+        feedback: "Both start from squared distances of 4 and 4. NumPy divides by 2, pandas by 1, before the square root."
+      - text: "2.0 2.0"
+        misconception: std-same-everywhere
+        feedback: "pandas' `std()` divides by one less than the count, so with two readings it divides by 1, not 2. NumPy's doesn't, unless you pass `ddof=1`."
+  - type: choice
+    prompt: "Two weeks of temperatures. What does this print?"
+    code: |
+      import pandas as pd
+
+      saltmarsh = pd.Series([11, 12, 12, 13, 12])
+      thornby = pd.Series([4, 18, 12, 20, 6])
+      print(saltmarsh.mean() == thornby.mean(), saltmarsh.std() < thornby.std())
+    options:
+      - text: "True True"
+        correct: true
+        feedback: "Both average 12. Thornby's readings sit much further from 12, so its standard deviation is far bigger."
+      - text: "True False"
+        misconception: same-mean-same-spread
+        feedback: "The same mean says nothing about spread. Thornby swings from 4 to 20 around its 12; Saltmarsh barely moves."
+  - type: fill
+    prompt: "Fill the gap so `typical` is the middle day's rain, not the mean."
+    code: |
+      import pandas as pd
+
+      week = pd.Series([0.0, 31.0, 0.0, 0.4, 1.2, 0.0, 2.0])
+      typical = week.___()
+      print(typical)
+    blanks: [["median"]]
+    tests: |
+      TESTS = [output("The middle day", expect="0.4")]
+  - type: fix
+    prompt: "Pip wants the most common catch, but `mode()` gives back a Series. Fix it so it prints `3`."
+    code: |
+      import pandas as pd
+
+      crates = pd.Series([3, 5, 3, 4, 3, 5])
+      usual = crates.mode()
+      print(usual + 0)
+    tests: |
+      TESTS = [output("The usual catch", expect="3")]
+    solution: |
+      import pandas as pd
+
+      crates = pd.Series([3, 5, 3, 4, 3, 5])
+      usual = crates.mode().iloc[0]
+      print(usual + 0)
+  - type: write
+    prompt: "Write `spread(values)`: the gap between the largest and smallest reading, and the standard deviation as pandas works it out, returned as a pair."
+    starter: |
+      import pandas as pd
+
+
+      def spread(values):
+          pass
+    tests: |
+      def check(ctx):
+          import pandas as pd
+
+          gap, std = ctx.module().spread(pd.Series([10.0, 12.0, 14.0]))
+          if abs(gap - 4.0) > 1e-9 or abs(std - 2.0) > 1e-9:
+              raise CheckFailed("10, 12 and 14 run over 4, with a standard deviation of 2.", expected="(4.0, 2.0)", actual=f"({gap}, {std})")
+
+
+      TESTS = [custom("Three readings", check)]
+    solution: |
+      import pandas as pd
+
+
+      def spread(values):
+          return values.max() - values.min(), values.std()

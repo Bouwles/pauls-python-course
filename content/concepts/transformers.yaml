@@ -1,0 +1,117 @@
+id: transformers
+title: Transformer blocks
+summary: |
+  A transformer is a stack of blocks, and each block does two things, each with a way round. First, multi-head attention: several heads, each with its own `Wq`, `Wk` and `Wv`, their outputs put side by side with `np.concatenate(..., axis=1)` and mixed by `Wo`. Then a feed-forward network, a ReLU layer and a second layer, used on every position's row on its own. Before each, layer norm brings every row to mean 0 and spread 1, then applies a gain and shift: batch norm turned round, so it needs no batch. After each, the result is added to what came in, `X = X + ...`, a residual connection that lets blame flow straight back. Position embeddings are added at the start, because attention alone ignores order.
+example: |
+  import numpy as np
+
+  X = np.array([[1.0, 2.0, 3.0, 4.0]])
+  normed = (X - X.mean(axis=1, keepdims=True)) / np.sqrt(X.var(axis=1, keepdims=True) + 1e-5)
+  print(np.round(normed, 2))
+misconceptions: [heads-are-added, concat-stacks-rows, layernorm-over-batch, residual-replaces, attention-knows-order]
+related: [attention, batch-normalisation, embeddings, neural-networks]
+cards:
+  - type: predict
+    prompt: "Layer norm on one row. What does this print?"
+    code: |
+      import numpy as np
+
+      X = np.array([[1.0, 2.0, 3.0, 4.0]])
+      out = (X - X.mean(axis=1, keepdims=True)) / np.sqrt(X.var(axis=1, keepdims=True) + 1e-5)
+      print(np.round(out, 2))
+    answer: "[[-1.34 -0.45  0.45  1.34]]"
+  - type: choice
+    prompt: "Three heads, each giving back 2 numbers for each of 5 characters. What does this print?"
+    code: |
+      import numpy as np
+
+      heads = [np.ones((5, 2)), np.ones((5, 2)), np.ones((5, 2))]
+      print(np.concatenate(heads, axis=1).shape)
+    options:
+      - text: "(5, 6)"
+        correct: true
+        feedback: "Right. Side by side: each character gets 2 numbers from each head, 6 in all."
+      - text: "(5, 2)"
+        misconception: heads-are-added
+        feedback: "The heads aren't added together. Each keeps its own columns, and `Wo` learns how to combine them."
+      - text: "(15, 2)"
+        misconception: concat-stacks-rows
+        feedback: "That would be `axis=0`, stacking the heads as extra characters. `axis=1` joins along the columns."
+  - type: choice
+    prompt: "Why does a block write `X = X + multi_head(...)` rather than `X = multi_head(...)`?"
+    verify: none
+    options:
+      - text: "Each character keeps what it had and adds what attention found, and blame flows straight back along the addition"
+        correct: true
+      - text: "It makes no difference: attention's output replaces the input either way"
+        misconception: residual-replaces
+        feedback: "Without the `X +`, each block would throw away what came in and keep only what it computed. The residual connection keeps the original and adds to it, which is what lets deep stacks train."
+  - type: fill
+    prompt: "Fill the gap so layer norm works along each row, one character at a time."
+    code: |
+      import numpy as np
+
+      X = np.array([[1.0, 3.0], [10.0, 30.0]])
+      mean = X.mean(axis=___, keepdims=True)
+      var = X.var(axis=1, keepdims=True)
+      print(np.round((X - mean) / np.sqrt(var + 1e-5), 2))
+    blanks: [["1", "-1"]]
+    tests: |
+      TESTS = [output("Each row to mean 0, spread 1", expect="[[-1.  1.]\n [-1.  1.]]")]
+  - type: fix
+    prompt: "This block throws away what came in. Fix it so the result is added on to `X`."
+    code: |
+      import numpy as np
+
+
+      def think(X):
+          return 0.5 * X
+
+
+      X = np.array([[2.0, 0.0], [1.0, 3.0]])
+      out = think(X)
+      print(out)
+    tests: |
+      TESTS = [output("What came in, plus what was found", expect="[[3.  0. ]\n [1.5 4.5]]")]
+    solution: |
+      import numpy as np
+
+
+      def think(X):
+          return 0.5 * X
+
+
+      X = np.array([[2.0, 0.0], [1.0, 3.0]])
+      out = X + think(X)
+      print(out)
+  - type: write
+    prompt: "Write `layer_norm(X, gain, shift, eps=1e-5)`: each row brought to mean 0 and spread 1, then multiplied by `gain` and added to `shift`."
+    starter: |
+      import numpy as np
+
+
+      def layer_norm(X, gain, shift, eps=1e-5):
+          return X
+    tests: |
+      import numpy as np
+
+
+      def rows(ctx):
+          m = ctx.module()
+          X = np.array([[1.0, 2.0, 3.0, 4.0], [10.0, 10.0, 10.0, 50.0]])
+          gain, shift = np.array([1.0, 2.0, 1.0, 0.5]), np.array([0.0, 1.0, 0.0, -1.0])
+          want = gain * (X - X.mean(axis=1, keepdims=True)) / np.sqrt(X.var(axis=1, keepdims=True) + 1e-5) + shift
+          got = m.layer_norm(X.copy(), gain, shift)
+          if got is None or np.shape(got) != want.shape or not np.allclose(got, want):
+              raise CheckFailed("Two rows, with a gain and a shift.", expected=np.round(want, 3).tolist(), actual=repr(got))
+
+
+      TESTS = [custom("Two rows", rows)]
+    solution: |
+      import numpy as np
+
+
+      def layer_norm(X, gain, shift, eps=1e-5):
+          mean = X.mean(axis=1, keepdims=True)
+          var = X.var(axis=1, keepdims=True)
+          return gain * (X - mean) / np.sqrt(var + eps) + shift

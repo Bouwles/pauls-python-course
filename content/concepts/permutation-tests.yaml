@@ -1,0 +1,148 @@
+id: permutation-tests
+title: Permutation tests and p-values
+summary: |
+  A permutation test asks whether a difference between two groups could be luck. Measure the real difference; then suppose the labels didn't matter, pool the readings, shuffle them with a seeded `rng.permutation`, deal them back into groups of the same sizes, and measure the difference again, thousands of times. The **p-value** is the share of shuffles that do at least as well as the real one. A small p-value says luck rarely makes a gap that big; it doesn't say how big the effect is, or why. A large one says luck could easily have done it, so the data can't tell, which is not the same as proving there's no difference.
+example: |
+  import numpy as np
+
+  old_bait = np.array([5, 7, 4, 6, 5, 8, 6, 5])
+  new_bait = np.array([7, 6, 9, 8, 6, 10, 7, 8])
+  real = new_bait.mean() - old_bait.mean()
+  pooled = np.concatenate([old_bait, new_bait])
+  rng = np.random.default_rng(8)
+  gaps = []
+  for _ in range(5000):
+      dealt = rng.permutation(pooled)
+      gaps.append(dealt[8:].mean() - dealt[:8].mean())
+  print(real, np.mean(np.array(gaps) >= real))
+misconceptions: [counts-only-bigger, p-value-is-chance-true, big-p-means-no-difference, small-p-means-big-effect]
+related: [probability, descriptive-statistics, correlation-causation]
+cards:
+  - type: predict
+    prompt: "Six readings, shuffled and dealt into two threes. How many different ways can the first three be chosen?"
+    code: |
+      from itertools import combinations
+
+      readings = [1, 2, 3, 4, 5, 6]
+      print(len(list(combinations(readings, 3))))
+    answer: "20"
+  - type: choice
+    prompt: "The real split is 1 2 3 against 4 5 6, a difference of 3. Counting every one of the 20 possible splits, what does this print?"
+    code: |
+      from itertools import combinations
+
+      readings = {1, 2, 3, 4, 5, 6}
+      real = 3.0
+      as_big = 0
+      bigger = 0
+      for first in combinations(sorted(readings), 3):
+          second = readings - set(first)
+          gap = sum(second) / 3 - sum(first) / 3
+          as_big += gap >= real
+          bigger += gap > real
+      print(as_big / 20, bigger / 20)
+    options:
+      - text: "0.05 0.0"
+        correct: true
+        feedback: "The real split is one of the twenty, so one split does at least as well: p is 0.05. Counting only bigger differences would claim luck never manages it."
+      - text: "0.0 0.0"
+        misconception: counts-only-bigger
+        feedback: "The real arrangement is one of the possible shuffles, and it ties with itself. `>=` counts it; only `>` gives 0."
+  - type: choice
+    prompt: "Priya's test of the rain gives p = 0.11. What can she say?"
+    verify: none
+    options:
+      - text: "Luck alone makes a difference this big about one time in nine, so the data can't tell whether it's drier."
+        correct: true
+        feedback: "That's all a p-value says: how often luck does as well. 0.11 is often enough that the difference could easily be luck."
+      - text: "There's an 11% chance that it really is drier."
+        misconception: p-value-is-chance-true
+        feedback: "The p-value is worked out by supposing nothing changed, so it can't be the chance that something did. It's how often luck alone makes a gap this big."
+      - text: "It proves the rain hasn't changed."
+        misconception: big-p-means-no-difference
+        feedback: "A large p-value means the data can't tell, not that there's nothing there. Thirty more years might settle it either way."
+  - type: choice
+    prompt: "A hundred thousand bakes on each oven. The new one is 0.01 minutes quicker, and p is 0.0001. What does that tell Bea?"
+    verify: none
+    options:
+      - text: "The difference is almost certainly not luck, and it's less than a second."
+        correct: true
+        feedback: "With enough readings, even a tiny difference stands out from luck. Whether it matters is a separate question, answered by the difference itself."
+      - text: "The new oven is much quicker."
+        misconception: small-p-means-big-effect
+        feedback: "A tiny p-value says luck rarely matches the difference, not that the difference is large. Here it's a hundredth of a minute."
+  - type: fill
+    prompt: "Fill the gap so the p-value counts shuffles that do at least as well as the real difference."
+    code: |
+      import numpy as np
+
+      real = 3.0
+      shuffled = np.array([1.0, -3.0, 3.0, 0.3, -1.0, 3.0, 2.3, -0.3, 0.0, 1.7])
+      print(np.mean(shuffled ___ real))
+    blanks: [[">="]]
+    tests: |
+      TESTS = [output("Two of ten", expect="0.2")]
+  - type: fix
+    prompt: "Pip's shuffles never change anything: his p-value is always 1. Fix it so it prints a small p-value."
+    code: |
+      import numpy as np
+
+      before = np.array([10.9, 11.0, 10.8, 11.1, 10.7, 11.0])
+      after = np.array([11.8, 11.6, 12.0, 11.7, 11.9, 11.5])
+      real = after.mean() - before.mean()
+      pooled = np.concatenate([before, after])
+      rng = np.random.default_rng(1)
+      as_big = 0
+      for _ in range(2000):
+          dealt = rng.permutation(pooled)
+          gap = after.mean() - before.mean()
+          as_big += gap >= real
+      print(as_big / 2000 < 0.01)
+    tests: |
+      TESTS = [output("Luck rarely does as well", expect="True")]
+    solution: |
+      import numpy as np
+
+      before = np.array([10.9, 11.0, 10.8, 11.1, 10.7, 11.0])
+      after = np.array([11.8, 11.6, 12.0, 11.7, 11.9, 11.5])
+      real = after.mean() - before.mean()
+      pooled = np.concatenate([before, after])
+      rng = np.random.default_rng(1)
+      as_big = 0
+      for _ in range(2000):
+          dealt = rng.permutation(pooled)
+          gap = dealt[6:].mean() - dealt[:6].mean()
+          as_big += gap >= real
+      print(as_big / 2000 < 0.01)
+  - type: write
+    prompt: "Write `p_value(before, after, rng, shuffles)`: the share of shuffles, dealt with `rng.permutation`, whose difference of means (second group minus first) is at least the real one."
+    starter: |
+      import numpy as np
+
+
+      def p_value(before, after, rng, shuffles):
+          pass
+    tests: |
+      def check(ctx):
+          import numpy as np
+
+          p = ctx.module().p_value(np.array([1.0, 2.0, 3.0]), np.array([4.0, 5.0, 6.0]), np.random.default_rng(2), 4000)
+          if p is None or abs(float(p) - 0.05) > 0.015:
+              raise CheckFailed("Only one of the 20 splits of 1 to 6 does as well as the real one.", expected="about 0.05", actual=p)
+
+
+      TESTS = [custom("1 2 3 against 4 5 6", check)]
+    solution: |
+      import numpy as np
+
+
+      def p_value(before, after, rng, shuffles):
+          real = np.mean(after) - np.mean(before)
+          pooled = np.concatenate([before, after])
+          size = len(before)
+          as_big = 0
+          for _ in range(shuffles):
+              dealt = rng.permutation(pooled)
+              if dealt[size:].mean() - dealt[:size].mean() >= real:
+                  as_big += 1
+          return as_big / shuffles

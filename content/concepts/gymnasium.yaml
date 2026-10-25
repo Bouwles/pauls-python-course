@@ -1,0 +1,236 @@
+id: gymnasium
+title: Gymnasium environments
+summary: |
+  Gymnasium is the standard shape for reinforcement learning environments. `reset(seed=...)` starts an episode and returns `(observation, info)`; `step(action)` returns `(observation, reward, terminated, truncated, info)`. `terminated` means the episode ended in its own right (a goal, a fall, a flood); `truncated` means it was stopped from outside, usually by a time limit, so the last state still has a future worth counting. `action_space` and `observation_space` (`Discrete`, `Box`) say what's allowed. A custom environment subclasses `gym.Env`, calls `super().reset(seed=seed)`, and draws every random number from `self.np_random`, so a seed repeats a run exactly.
+example: |
+  class Kettle:
+      def reset(self, seed=None, options=None):
+          self.temperature, self.steps = 30, 0
+          return self.temperature, {}
+
+      def step(self, action):
+          self.temperature += 20
+          self.steps += 1
+          terminated = self.temperature >= 100
+          truncated = not terminated and self.steps >= 3
+          return self.temperature, 1.0, terminated, truncated, {}
+
+
+  env = Kettle()
+  observation, info = env.reset()
+  while True:
+      observation, reward, terminated, truncated, info = env.step(0)
+      if terminated or truncated:
+          break
+  print(observation, terminated, truncated)
+misconceptions: [truncated-is-terminated, loop-ignores-truncated, step-returns-four, reset-returns-observation-only, unseeded-reset-repeats, truncated-state-worthless]
+related: [q-learning, td-learning, classes]
+cards:
+  - type: predict
+    prompt: "A kettle that's done at 100 degrees, and a landlady who waits five steps. What does this print?"
+    code: |
+      class Kettle:
+          def reset(self, seed=None, options=None):
+              self.temperature, self.steps = 20, 0
+              return self.temperature, {}
+
+          def step(self, action):
+              self.temperature += 25
+              self.steps += 1
+              terminated = self.temperature >= 100
+              truncated = not terminated and self.steps >= 5
+              return self.temperature, 1.0, terminated, truncated, {}
+
+
+      env = Kettle()
+      observation, info = env.reset()
+      total = 0.0
+      while True:
+          observation, reward, terminated, truncated, info = env.step(0)
+          total += reward
+          if terminated or truncated:
+              break
+      print(observation, total, terminated, truncated)
+    answer: "120 4.0 True False"
+  - type: choice
+    prompt: "What happens?"
+    code: |
+      class Corridor:
+          def reset(self, seed=None, options=None):
+              self.tile = 0
+              return self.tile, {}
+
+
+      env = Corridor()
+      observation = env.reset()
+      print(observation + 1)
+    verify: error
+    options:
+      - text: A TypeError
+        correct: true
+        error: TypeError
+        feedback: "reset returns two things, the observation and an info dictionary, so `observation` here is the tuple `(0, {})`. Unpack it: `observation, info = env.reset()`."
+      - text: It prints 1
+        misconception: reset-returns-observation-only
+        feedback: "That would be right if reset returned only the observation. In Gymnasium's shape it returns `(observation, info)`."
+  - type: choice
+    prompt: "A practice race hits its time limit with Sir Reginald on (1, 2), so `truncated` is True. What should the Q-learning target for that last step be?"
+    verify: none
+    options:
+      - text: The reward plus gamma times the best Q-value on (1, 2)
+        correct: true
+        feedback: "The race was stopped, not finished. (1, 2) still has a future; only the committee's clock ran out."
+      - text: The reward alone
+        misconception: truncated-state-worthless
+        feedback: "That's right for terminated, at the finish or the pool. After a truncation, leaving the future out teaches him that (1, 2) is a dead end."
+  - type: predict
+    prompt: "A seeded die, in Gymnasium's shape. What does this print?"
+    code: |
+      import numpy as np
+
+
+      class Die:
+          def reset(self, seed=None, options=None):
+              if seed is not None:
+                  self.rng = np.random.default_rng(seed)
+              return 0, {}
+
+          def step(self, action):
+              roll = int(self.rng.integers(1, 7))
+              return roll, float(roll), True, False, {}
+
+
+      env = Die()
+      env.reset(seed=3)
+      first = env.step(0)[0]
+      env.reset()
+      second = env.step(0)[0]
+      env.reset(seed=3)
+      again = env.step(0)[0]
+      print(first == again, first == second)
+    answer: "True False"
+  - type: fix
+    prompt: "This loop only stops when the episode terminates. On the pacing yard, which never terminates, it runs 1000 steps instead of stopping at the time limit. Fix it so `run` returns the number of steps the episode really had."
+    code: |
+      class PacingYard:
+          """Sir Reginald paces up and down. Nothing ends it but the clock: 5 steps."""
+
+          def reset(self, seed=None, options=None):
+              self.steps = 0
+              return 0, {}
+
+          def step(self, action):
+              self.steps += 1
+              return 0, -1.0, False, self.steps >= 5, {}
+
+
+      def run(env):
+          observation, info = env.reset()
+          for steps in range(1, 1001):
+              observation, reward, terminated, truncated, info = env.step(0)
+              if terminated:
+                  break
+          return steps
+    tests: |
+      def stops(ctx):
+          m = ctx.module()
+          got = m.run(m.PacingYard())
+          if got != 5:
+              raise CheckFailed("run should return 5: the episode is truncated after 5 steps.", expected=5, actual=got)
+
+
+      TESTS = [custom("Stops at the time limit", stops)]
+    solution: |
+      class PacingYard:
+          """Sir Reginald paces up and down. Nothing ends it but the clock: 5 steps."""
+
+          def reset(self, seed=None, options=None):
+              self.steps = 0
+              return 0, {}
+
+          def step(self, action):
+              self.steps += 1
+              return 0, -1.0, False, self.steps >= 5, {}
+
+
+      def run(env):
+          observation, info = env.reset()
+          for steps in range(1, 1001):
+              observation, reward, terminated, truncated, info = env.step(0)
+              if terminated or truncated:
+                  break
+          return steps
+  - type: fill
+    prompt: "Fill the gap: one move in any Gymnasium environment."
+    code: |
+      class Corridor:
+          def reset(self, seed=None, options=None):
+              self.tile = 0
+              return self.tile, {}
+
+          def step(self, action):
+              self.tile += 1
+              return self.tile, -1.0, self.tile == 3, False, {}
+
+
+      env = Corridor()
+      observation, info = env.reset()
+      observation, reward, terminated, truncated, info = env.___(1)
+      print(observation, reward)
+    blanks: [["step"]]
+    tests: |
+      TESTS = [output("One step along", expect="1 -1.0")]
+  - type: write
+    prompt: "Write `run_episode(env, policy, seed=None)`: reset with the seed, step with `policy(observation)` until the episode is terminated or truncated, and return the total reward. `corridor.py` has an environment to try it on."
+    files:
+      corridor.py: |
+        class Corridor:
+            """Walk right to the end of a corridor of `length` tiles; every step costs 1. Truncated at `limit`."""
+
+            def __init__(self, length=4, limit=10):
+                self.length, self.limit = length, limit
+
+            def reset(self, seed=None, options=None):
+                self.tile, self.steps = 0, 0
+                return self.tile, {}
+
+            def step(self, action):
+                self.tile = max(0, self.tile + (1 if action == 1 else -1))
+                self.steps += 1
+                terminated = self.tile == self.length
+                truncated = not terminated and self.steps >= self.limit
+                return self.tile, -1.0, terminated, truncated, {}
+    starter: |
+      from corridor import Corridor
+
+
+      def run_episode(env, policy, seed=None):
+          pass
+    tests: |
+      def straight(ctx):
+          m = ctx.module()
+          got = m.run_episode(m.Corridor(), lambda observation: 1)
+          if got != -4.0:
+              raise CheckFailed("Walking right down a corridor of 4 costs -4.0.", expected=-4.0, actual=got)
+
+
+      def clock(ctx):
+          m = ctx.module()
+          got = m.run_episode(m.Corridor(limit=6), lambda observation: 0)
+          if got != -6.0:
+              raise CheckFailed("Walking into the wall, the clock stops him after 6 steps: -6.0.", expected=-6.0, actual=got)
+
+
+      TESTS = [custom("Straight to the end", straight), custom("Stopped by the clock", clock)]
+    solution: |
+      from corridor import Corridor
+
+
+      def run_episode(env, policy, seed=None):
+          observation, info = env.reset(seed=seed)
+          total = 0.0
+          while True:
+              observation, reward, terminated, truncated, info = env.step(policy(observation))
+              total += reward
+              if terminated or truncated:
+                  return total

@@ -1,0 +1,128 @@
+id: eigenvectors
+title: Eigenvectors and eigenvalues
+summary: |
+  Multiply a direction by a matrix and it usually turns. An eigenvector is a direction that doesn't: `matrix @ v` comes out as `value * v`, the same arrow stretched by its eigenvalue. For a covariance matrix, the eigenvectors are the directions the readings spread along, and each eigenvalue is the variance along its direction. `values, vectors = np.linalg.eigh(matrix)`, for symmetric matrices like covariances, gives the eigenvalues smallest first, and each eigenvector as a column: `vectors[:, j]` goes with `values[j]`. An eigenvector and its negative are the same line, so `eigh` may hand back either.
+example: |
+  import numpy as np
+
+  spread = np.array([[9.0, 6.0],
+                     [6.0, 9.0]])
+  values, vectors = np.linalg.eigh(spread)
+  print(values)
+  print(vectors[:, 1])
+  print(spread @ vectors[:, 1], values[1] * vectors[:, 1])
+misconceptions: [eigh-biggest-first, eigenvalues-are-diagonal, eigenvectors-are-rows, eigenvector-sign-matters, matrix-turns-everything]
+related: [matrices, vectors, pca]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      stretch = np.array([[3.0, 1.0],
+                          [1.0, 3.0]])
+      print(stretch @ np.array([1.0, 1.0]))
+    answer: "[4. 4.]"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      spread = np.array([[4.0, 0.0],
+                         [0.0, 1.0]])
+      values, vectors = np.linalg.eigh(spread)
+      print(values)
+    options:
+      - text: "[1. 4.]"
+        correct: true
+        feedback: "Right. `eigh` gives the eigenvalues smallest first. Reorder them, and their columns, if you want the biggest first."
+      - text: "[4. 1.]"
+        misconception: eigh-biggest-first
+        feedback: "`np.linalg.eigh` sorts the eigenvalues from smallest to biggest. For PCA you want the biggest first, so reverse them, and the eigenvectors' columns with them."
+  - type: choice
+    prompt: "`values, vectors = np.linalg.eigh(spread)`. Where is the eigenvector that goes with `values[0]`?"
+    verify: none
+    options:
+      - text: "`vectors[:, 0]`, the first column"
+        correct: true
+        feedback: "Right. Each eigenvector is a column, in the same order as the values."
+      - text: "`vectors[0]`, the first row"
+        misconception: eigenvectors-are-rows
+        feedback: "`eigh` stands each eigenvector up as a column. The first row mixes a piece of every eigenvector, and isn't a direction of anything."
+  - type: choice
+    prompt: "Pip's covariance gives a first eigenvector of `[0.71, 0.71]`. The same readings on Professor Wendt's computer give `[-0.71, -0.71]`. Is one of them wrong?"
+    verify: none
+    options:
+      - text: "No. They're the same line, pointing opposite ways, and either is an eigenvector"
+        correct: true
+        feedback: "Right. If `v` only gets stretched, so does `-v`. Squashed readings come out with their signs flipped, and nothing else changes."
+      - text: "Yes. An eigenvector has one true direction, and the sign tells you which"
+        misconception: eigenvector-sign-matters
+        feedback: "`matrix @ (-v)` is `value * (-v)`, so `-v` is just as much an eigenvector. Which sign you get depends on the arithmetic inside `eigh`. Choose a sign yourself if it matters to you."
+      - text: "Both. A matrix turns every arrow, so no direction stays put"
+        misconception: matrix-turns-everything
+        feedback: "Most arrows turn, but not all. `[0.71, 0.71]` comes out of this covariance pointing exactly the same way, only longer. Those are the directions PCA is looking for."
+  - type: fill
+    prompt: "Fill the gap to find the eigenvalues and eigenvectors of the covariance."
+    code: |
+      import numpy as np
+
+      spread = np.array([[9.0, 6.0],
+                         [6.0, 9.0]])
+      values, vectors = np.linalg.___(spread)
+      print(values)
+    blanks: [["eigh"]]
+    tests: |
+      TESTS = [output("Three and fifteen", expect="[ 3. 15.]")]
+  - type: write
+    prompt: "Write `biggest_direction(spread)`: the eigenvector of `spread` with the biggest eigenvalue."
+    starter: |
+      import numpy as np
+
+
+      def biggest_direction(spread):
+          pass
+    tests: |
+      def check(ctx):
+          import numpy as np
+          spread = np.array([[2.0, 0.0, 0.0], [0.0, 7.0, 1.0], [0.0, 1.0, 3.0]])
+          got = ctx.module().biggest_direction(spread)
+          if got is None:
+              raise CheckFailed("biggest_direction gave back None.")
+          got = np.asarray(got, dtype=float)
+          values, vectors = np.linalg.eigh(spread)
+          want = vectors[:, -1]
+          if got.shape != (3,) or abs(abs(got @ want) - 1) > 1e-6:
+              raise CheckFailed("That isn't the direction with the biggest eigenvalue.", expected=np.round(want, 3).tolist(), actual=np.round(got, 3).tolist())
+
+
+      TESTS = [custom("A 3 by 3 covariance", check)]
+    solution: |
+      import numpy as np
+
+
+      def biggest_direction(spread):
+          values, vectors = np.linalg.eigh(spread)
+          return vectors[:, np.argmax(values)]
+  - type: fix
+    prompt: "This should print the direction that goes with the biggest eigenvalue, but it takes a row. Fix it."
+    code: |
+      import numpy as np
+
+      spread = np.array([[4.0, 2.0, 0.6],
+                         [2.0, 3.0, 0.4],
+                         [0.6, 0.4, 1.0]])
+      values, vectors = np.linalg.eigh(spread)
+      direction = vectors[-1]
+      print(np.round(np.abs(direction), 2))
+    tests: |
+      TESTS = [output("The last column", expect="[0.78 0.61 0.15]")]
+    solution: |
+      import numpy as np
+
+      spread = np.array([[4.0, 2.0, 0.6],
+                         [2.0, 3.0, 0.4],
+                         [0.6, 0.4, 1.0]])
+      values, vectors = np.linalg.eigh(spread)
+      direction = vectors[:, -1]
+      print(np.round(np.abs(direction), 2))

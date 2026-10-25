@@ -1,0 +1,84 @@
+id: pytorch
+title: PyTorch
+summary: |
+  PyTorch is the brain you built upstairs, made big and fast. Tensors are arrays that can remember how they were made (`requires_grad=True`), and `loss.backward()` fills in every `.grad`, adding to what's there. A model is an `nn.Module`: layers in `__init__`, the route in `forward`, called as `model(X)`; `nn.Linear` keeps its weight as (outputs, inputs). Every training step is zero, forward, loss, backward, step. `nn.CrossEntropyLoss` takes raw scores and does its own softmax, and a trained model is asked questions under `torch.no_grad()`.
+example: |
+  # At home, not in the workshop:
+  # optimiser.zero_grad()
+  # loss = loss_fn(model(X_batch), labels_batch)
+  # loss.backward()
+  # optimiser.step()
+  layers = [(64, 32), (32, 10)]           # nn.Linear(64, 32), nn.Linear(32, 10)
+  print(sum(n_in * n_out + n_out for n_in, n_out in layers), "parameters")
+misconceptions: [softmax-twice-harmless, loss-wants-chances, zero-grad-optional, linear-weight-in-out, step-computes-gradients]
+related: [autograd, classification-networks, optimisers]
+cards:
+  - type: choice
+    prompt: "Which order do the lines of one PyTorch training step go in?"
+    verify: none
+    options:
+      - text: "optimiser.zero_grad(), loss = loss_fn(model(X), y), loss.backward(), optimiser.step()"
+        correct: true
+        feedback: "Right: clear the old gradients, forward and loss, fill in the new gradients, then move the weights."
+      - text: "loss = loss_fn(model(X), y), optimiser.step(), loss.backward(), optimiser.zero_grad()"
+        misconception: step-computes-gradients
+        feedback: "step uses the gradients that backward fills in, so backward has to come first. step doesn't work them out itself."
+      - text: "loss = loss_fn(model(X), y), loss.backward(), optimiser.step(), and zero_grad only once, before the loop"
+        misconception: zero-grad-optional
+        feedback: "backward adds to every .grad. Zeroed once, the second step's gradient includes the first's, the third includes both, and so on."
+  - type: choice
+    prompt: "`layer = nn.Linear(64, 32)`. What is `layer.weight.shape`?"
+    verify: none
+    options:
+      - text: "(32, 64)"
+        correct: true
+        feedback: "Right. PyTorch keeps a row of weights per output and works out `x @ weight.T + bias`. The NumPy brain's W1 was (64, 32): the same numbers, turned round."
+      - text: "(64, 32)"
+        misconception: linear-weight-in-out
+        feedback: "That's how the NumPy brain kept W1. nn.Linear stores (outputs, inputs) and turns it round itself when it multiplies."
+  - type: predict
+    prompt: "A DigitReader with 32 hidden neurons: `nn.Linear(64, 32)` then `nn.Linear(32, 10)`. How many numbers does `model.parameters()` hand to Adam?"
+    code: |
+      layers = [(64, 32), (32, 10)]
+      print(sum(n_in * n_out + n_out for n_in, n_out in layers))
+    answer: "2410"
+  - type: predict
+    prompt: "Pip's loop never calls `optimiser.zero_grad()`. Each step's backward finds a slope of 2.0 for one weight. This copies what that weight's `.grad` holds. What does it print?"
+    code: |
+      grad = 0.0
+      for step in range(3):
+          grad += 2.0          # loss.backward() adds this step's slope
+      print(grad)
+    answer: "6.0"
+  - type: fill
+    prompt: "nn.CrossEntropyLoss starts from raw scores. Fill the gap so this copy of it does the softmax's division inside the log."
+    code: |
+      import numpy as np
+
+      scores = np.array([2.0, 0.5, -1.0])          # raw scores; the right answer is 0
+      shifted = scores - scores.max()
+      log_chances = shifted - np.log(np.exp(shifted).___())
+      print(round(-log_chances[0], 3))
+    blanks: [["sum"]]
+    tests: |
+      TESTS = [output("The loss for the right answer", expect="0.241")]
+  - type: choice
+    prompt: "Pip's `forward` ends with `torch.softmax(scores, dim=1)`, and he trains with `nn.CrossEntropyLoss()`. What happens?"
+    verify: none
+    options:
+      - text: "It trains, badly: the loss softmaxes his chances again, so it can never get near 0, even when the brain is sure and right"
+        correct: true
+        feedback: "Right. Leave forward at the raw scores and let the loss do the softmax. Use torch.softmax only when you want to show chances to a person."
+      - text: "Nothing goes wrong: a softmax of chances gives back the same chances"
+        misconception: softmax-twice-harmless
+        feedback: "A softmax of numbers squeezed between 0 and 1 comes out nearly even, so the right answer gets far less than it should."
+  - type: choice
+    prompt: "Why ask a trained model questions inside `with torch.no_grad():`?"
+    verify: none
+    options:
+      - text: "So PyTorch doesn't record every sum for a backward pass that will never come"
+        correct: true
+        feedback: "Right. The answers are the same either way; no_grad just stops the bookkeeping, which saves memory and time."
+      - text: "Because otherwise asking the model questions would change its weights"
+        misconception: step-computes-gradients
+        feedback: "Only optimiser.step() changes the weights. A forward pass on its own, with or without no_grad, leaves them alone."

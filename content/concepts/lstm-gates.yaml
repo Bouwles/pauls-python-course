@@ -1,0 +1,108 @@
+id: lstm-gates
+title: LSTM gates
+summary: |
+  An LSTM keeps a second memory, the cell `c`, beside its hidden state, and controls it with gates: numbers from 0 to 1, made by sigmoids, that multiply what passes through. Each step makes four weighted sums from the reading and the hidden state: the forget, input and output gates (sigmoid) and a candidate (tanh). Then `c = forget * c + inp * candidate` and `h = out * np.tanh(c)`. A forget gate near 1 means keep. Because the cell is only multiplied by a gate and added to, never squashed every step, a memory, and the blame flowing back to it, can last far longer than in a plain recurrent network.
+example: |
+  c, forget, inp, candidate = 2.0, 0.5, 0.25, 0.8
+  c = forget * c + inp * candidate       # keep half, add a quarter of 0.8
+  print(round(c, 2))
+misconceptions: [forget-gate-forgets, tanh-keeps-memory, lstm-cell-is-hidden]
+related: [rnns, activation-functions]
+cards:
+  - type: predict
+    prompt: "One update of an LSTM's cell. What does this print?"
+    code: |
+      c, forget, inp, candidate = 2.0, 0.5, 0.25, 0.8
+      c = forget * c + inp * candidate
+      print(round(c, 2))
+    answer: "1.2"
+  - type: choice
+    prompt: "A hundred hours with the forget gate wide open and the input gate shut. What does this print?"
+    code: |
+      import numpy as np
+
+
+      def sigmoid(z):
+          return 1 / (1 + np.exp(-z))
+
+
+      c = 0.7
+      for hour in range(100):
+          forget, inp = sigmoid(40.0), sigmoid(-40.0)
+          c = forget * c + inp * 0.9
+      print(round(float(c), 3))
+    options:
+      - text: "0.7"
+        correct: true
+        feedback: "Right. The forget gate is 1, so all of the cell is kept, and the input gate is 0, so nothing is added. A hundred hours later the memory is exactly where it was."
+      - text: "0.0"
+        misconception: forget-gate-forgets
+        feedback: "A forget gate of 1 keeps everything. It's named for what it does when it closes."
+      - text: "0.9"
+        misconception: lstm-cell-is-hidden
+        feedback: "The candidate 0.9 only gets in through the input gate, and that is shut: 0.9 times 0 adds nothing."
+  - type: choice
+    prompt: "What does an LSTM hand on to the next step and the layer above as its hidden state?"
+    verify: none
+    options:
+      - text: "`out * np.tanh(c)`: the output gate's share of the squashed cell"
+        correct: true
+      - text: "The cell `c` itself"
+        misconception: lstm-cell-is-hidden
+        feedback: "The cell is kept inside. The output gate decides how much of it to show, after tanh squashes it."
+  - type: fill
+    prompt: "Fill the gap: the hidden state shows some of the cell."
+    code: |
+      import numpy as np
+
+      c = np.array([2.0, -1.0])
+      out = np.array([1.0, 0.5])
+      h = out * np.tanh(___)
+      print(np.round(h, 3))
+    blanks: [["c"]]
+    tests: |
+      TESTS = [output("Half of the second neuron's cell shows", expect="[ 0.964 -0.381]")]
+  - type: fix
+    prompt: "The gates here should each be between 0 and 1, but they go in raw. Fix the line that updates `c` so the forget and input gates are squashed by `sigmoid`, and the candidate by `np.tanh`."
+    code: |
+      import numpy as np
+
+
+      def sigmoid(z):
+          return 1 / (1 + np.exp(-z))
+
+
+      forget, inp, out, candidate = 2.0, -1.0, 0.0, 0.5
+      c = 1.0
+      c = forget * c + inp * candidate
+      h = sigmoid(out) * np.tanh(c)
+      print(round(float(c), 3), round(float(h), 3))
+    tests: |
+      TESTS = [output("Gates between 0 and 1", expect="1.005 0.382")]
+    solution: |
+      import numpy as np
+
+
+      def sigmoid(z):
+          return 1 / (1 + np.exp(-z))
+
+
+      forget, inp, out, candidate = 2.0, -1.0, 0.0, 0.5
+      c = 1.0
+      c = sigmoid(forget) * c + sigmoid(inp) * np.tanh(candidate)
+      h = sigmoid(out) * np.tanh(c)
+      print(round(float(c), 3), round(float(h), 3))
+  - type: write
+    prompt: "Write `cell_update(c, forget, inp, candidate)`: the new cell, keeping the forget gate's share of the old one and adding the input gate's share of the candidate."
+    starter: |
+      def cell_update(c, forget, inp, candidate):
+          return c
+    tests: |
+      TESTS = [
+          function("Keep half, add a quarter", call="cell_update", args=(2.0, 0.5, 0.25, 0.8), expect=1.2, tol=1e-9),
+          function("Gate wide open, input shut", call="cell_update", args=(0.7, 1.0, 0.0, 0.9), expect=0.7, tol=1e-9),
+          function("Forget everything, take the candidate", call="cell_update", args=(5.0, 0.0, 1.0, -0.3), expect=-0.3, tol=1e-9),
+      ]
+    solution: |
+      def cell_update(c, forget, inp, candidate):
+          return forget * c + inp * candidate

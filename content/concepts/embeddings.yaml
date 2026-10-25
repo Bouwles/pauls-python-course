@@ -1,0 +1,107 @@
+id: embeddings
+title: One-hot rows and embeddings
+summary: |
+  A one-hot row stands for a single token: zeros, with a 1 at the token's id. Multiplying it by a matrix `E` picks out one row, so `one_hot(ids) @ E` is the same as `E[ids]`, only slower. That row is the token's embedding: a short list of numbers learnt like any other weight. Training moves tokens that keep similar company, such as digits that are all followed by spaces and commas, towards embeddings that point the same way. Compare embeddings by direction: divide each by its length, then take `@`.
+example: |
+  import numpy as np
+
+  E = np.array([[0.1, 0.9], [0.8, 0.2], [0.7, 0.3]])
+  one_hot = np.array([0, 0, 1])
+  print(one_hot @ E, E[2])
+misconceptions: [onehot-sums-all, onehot-position-from-one, onehot-shape-error, embedding-lookup-differs, embeddings-know-meaning]
+related: [tokenisation, language-models, matrices, neural-networks]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      import numpy as np
+
+      E = np.array([[0.5, -1.0], [2.0, 0.25], [-0.5, 1.5]])
+      print(np.array([0, 0, 1]) @ E)
+    answer: "[-0.5  1.5]"
+  - type: choice
+    prompt: "A one-hot matrix times `E`, against looking the rows up. What does this print?"
+    code: |
+      import numpy as np
+
+      E = np.array([[0.5, -1.0], [2.0, 0.25], [-0.5, 1.5]])
+      ids = [2, 0, 2]
+      X = np.zeros((3, 3))
+      X[np.arange(3), ids] = 1
+      print(np.array_equal(X @ E, E[ids]))
+    options:
+      - text: "True"
+        correct: true
+        feedback: "Right. Each one-hot row picks out one row of `E`, so the product is exactly the rows looked up by id."
+      - text: "False"
+        misconception: embedding-lookup-differs
+        feedback: "Every other row is multiplied by 0, so only the id's row survives, unchanged. Lookup and multiplication give the same numbers."
+  - type: choice
+    prompt: "After training on the forecasts, the embeddings for '4' and '6' point nearly the same way. Why?"
+    verify: none
+    options:
+      - text: "Both are followed by the same sorts of characters, so the same embedding serves both"
+        correct: true
+      - text: "The model has learnt that they are numbers"
+        misconception: embeddings-know-meaning
+        feedback: "It knows nothing about numbers. It only ever sees which character comes next, and '4' and '6' keep the same company: spaces, commas, ' or'."
+  - type: fill
+    prompt: "Fill the gap to look up the embeddings of ids 1 and 2."
+    code: |
+      import numpy as np
+
+      E = np.array([[0.0, 1.0], [3.0, 4.0], [5.0, 6.0]])
+      ids = [1, 2]
+      print(E[___])
+    blanks: [["ids", "[1, 2]"]]
+    tests: |
+      TESTS = [output("Rows 1 and 2", expect="[[3. 4.]\n [5. 6.]]")]
+  - type: fix
+    prompt: "This one-hot row should stand for the token with id 2. Fix it so it picks out `E`'s row for that token."
+    code: |
+      import numpy as np
+
+      E = np.array([[0.1, 0.9], [0.8, 0.2], [0.7, 0.3], [0.0, 1.0]])
+      token = 2
+      one_hot = np.zeros(4)
+      one_hot[token + 1] = 1
+      print(one_hot @ E)
+    tests: |
+      TESTS = [output("Row 2 of E", expect="[0.7 0.3]")]
+    solution: |
+      import numpy as np
+
+      E = np.array([[0.1, 0.9], [0.8, 0.2], [0.7, 0.3], [0.0, 1.0]])
+      token = 2
+      one_hot = np.zeros(4)
+      one_hot[token] = 1
+      print(one_hot @ E)
+  - type: write
+    prompt: "Write `one_hot(ids, size)`: one row per id, all zeros except a 1 in that id's column."
+    starter: |
+      import numpy as np
+
+
+      def one_hot(ids, size):
+          return np.zeros((len(ids), size))
+    tests: |
+      import numpy as np
+
+
+      def rows(ctx):
+          m = ctx.module()
+          got = np.asarray(m.one_hot([2, 0, 2], 4), dtype=float)
+          want = np.array([[0, 0, 1, 0], [1, 0, 0, 0], [0, 0, 1, 0]], dtype=float)
+          if got.shape != want.shape or not np.array_equal(got, want):
+              raise CheckFailed("one_hot([2, 0, 2], 4)", expected=want.tolist(), actual=got.tolist())
+
+
+      TESTS = [custom("Three ids, four columns", rows)]
+    solution: |
+      import numpy as np
+
+
+      def one_hot(ids, size):
+          X = np.zeros((len(ids), size))
+          X[np.arange(len(ids)), ids] = 1
+          return X

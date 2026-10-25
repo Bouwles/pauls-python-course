@@ -1,0 +1,96 @@
+id: rnns
+title: Recurrent networks
+summary: |
+  A recurrent neural network reads a sequence one item at a time and keeps a hidden state between items. Each step mixes the new reading with the old state, `h = np.tanh(x * Wx + h @ Wh + b)`, and reads its answer off the new state, `guess = h @ Wy + by`. The same weights are used at every step, the state starts as zeros, and it is carried from one step to the next, never reset inside the loop. A guess made after reading `t` is about reading `t + 1`, so mark it against that. Training runs backpropagation through time: blame flows back step by step, multiplied by each step's slopes, so it fades (or explodes) over long stretches.
+example: |
+  import numpy as np
+
+  fog = [0, 1, 1, 0, 0]
+  memory = 0.0
+  for reading in fog:
+      memory = np.tanh(1.5 * reading + 0.9 * memory - 0.3)
+      print(round(float(memory), 2))
+misconceptions: [rnn-memory-resets, rnn-memory-permanent, rnn-new-weights-each-step, rnn-guess-same-hour, bptt-blame-unchanged, bptt-one-step-only, bptt-blame-adds]
+related: [lstm-gates, neural-networks, backpropagation]
+cards:
+  - type: predict
+    prompt: "A memory that keeps 0.8 of itself each hour. What does this print?"
+    code: |
+      memory = 0.0
+      for reading in [2.0, 0.0, 1.0]:
+          memory = 0.8 * memory + reading
+      print(round(memory, 2))
+    answer: "2.28"
+  - type: choice
+    prompt: "Each guess was made just after reading that hour. What does this print?"
+    code: |
+      readings = [1.0, 2.0, 3.0, 4.0]
+      guesses = [2.1, 2.9, 4.2, 5.0]
+      errors = [abs(g - r) for g, r in zip(guesses[:-1], readings[1:])]
+      print(round(sum(errors) / len(errors), 2))
+    options:
+      - text: "0.13"
+        correct: true
+        feedback: "Right. Each guess is lined up with the reading an hour later: out by 0.1, 0.1 and 0.2. The last guess has nothing to be marked against yet."
+      - text: "1.05"
+        misconception: rnn-guess-same-hour
+        feedback: "That marks each guess against the reading it had just seen. The guess is about the next hour, so the slices shift by one."
+  - type: choice
+    prompt: "Penhallow's network reads 288 hours. How many sets of weights does it use?"
+    verify: none
+    options:
+      - text: "One set, used again at every hour"
+        correct: true
+      - text: "288 sets, one for each hour"
+        misconception: rnn-new-weights-each-step
+        feedback: "The same `Wx`, `Wh` and `b` are used at every step. That's why it can read a roll of any length, and why blame from every hour lands on the same weights."
+  - type: fill
+    prompt: "Fill the gap so the new memory depends on the old one."
+    code: |
+      import numpy as np
+
+      Wx, Wh, b = np.array([1.0, -1.0]), np.array([[0.5, 0.0], [0.0, 0.5]]), np.zeros(2)
+      h = np.zeros(2)
+      for x in [1.0, 0.0]:
+          h = np.tanh(x * Wx + h @ ___ + b)
+      print(np.round(h, 3))
+    blanks: [["Wh"]]
+    tests: |
+      TESTS = [output("The first hour still shows in the second", expect="[ 0.363 -0.363]")]
+  - type: fix
+    prompt: "This network forgets every hour. Fix it so the memory carries from one hour to the next."
+    code: |
+      memories = []
+      for reading in [1.0, 0.0, 0.0]:
+          memory = 0.0
+          memory = 0.5 * memory + reading
+          memories.append(memory)
+      print(memories)
+    tests: |
+      TESTS = [output("The first reading fades rather than vanishing", expect="[1.0, 0.5, 0.25]")]
+    solution: |
+      memories = []
+      memory = 0.0
+      for reading in [1.0, 0.0, 0.0]:
+          memory = 0.5 * memory + reading
+          memories.append(memory)
+      print(memories)
+  - type: write
+    prompt: "Write `run_memory(readings, keep)`: start a memory at 0, and for each reading set it to `keep * memory + reading`. Return the list of memories, one per reading."
+    starter: |
+      def run_memory(readings, keep):
+          return []
+    tests: |
+      TESTS = [
+          function("Halving each hour", call="run_memory", args=([1.0, 0.0, 0.0], 0.5), expect=[1.0, 0.5, 0.25], tol=1e-9),
+          function("No memory at all", call="run_memory", args=([3.0, 1.0], 0.0), expect=[3.0, 1.0], tol=1e-9),
+          function("Nothing to read", call="run_memory", args=([], 0.9), expect=[]),
+      ]
+    solution: |
+      def run_memory(readings, keep):
+          memory = 0.0
+          memories = []
+          for reading in readings:
+              memory = keep * memory + reading
+              memories.append(memory)
+          return memories
