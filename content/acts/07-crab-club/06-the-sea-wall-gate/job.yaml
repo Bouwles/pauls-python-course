@@ -1,0 +1,46 @@
+id: the-sea-wall-gate
+title: "The Sea Wall Gate"
+client: committee
+building: sea-wall
+estimated_minutes: 120
+summary: "The tide gate as a Gymnasium environment, kept by a keeper that learned it: balancing a harbour between the mud and the quay, at home."
+concepts_introduced: [gymnasium]
+concepts_reviewed: [q-learning, td-learning, exploration-exploitation, classes, init, self, numpy-arrays, pytest, virtual-environments]
+ask:
+  dialogue:
+    - committee: "The sea wall gate. Shut it at high water and the river fills the harbour..."
+    - committee: "...open it at low water and the harbour drains onto the mud."
+    - committee: "Leave it alone and both happen, in turn, by teatime."
+    - moss: "A balancing job. Like a pole on a cart, only wetter."
+  spec: |
+    First, in the workshop: the racing grid in Gymnasium's shape, `reset` and `step`, as a plain class.
+
+    Then, at home, with real Gymnasium:
+
+    1. `gate_env.py`: `TideGateEnv`, a `gymnasium.Env`. Every quarter of an hour the keeper winds the gate down a notch, leaves it, or winds it up (actions 0, 1, 2). The observation is four numbers: harbour level, sea level, the gate's notch, and how far the sea rose since the last step. The reward is 1.0 for each quarter hour the harbour stays between 2 m and 4 m. Outside that, the episode is terminated; after 200 quarter hours, truncated.
+    2. `agent.py`: a keeper that learns the gate by tabular Q-learning and beats leaving it alone.
+  example: |
+    (.venv) $ python agent.py
+    Do nothing: safe for 34.5 of 200 quarter hours, on average
+    The keeper: safe for 200.0 of 200 quarter hours, on average
+    (.venv) $ pytest
+    ....................                                       [100%]
+    20 passed in 16.75s
+ship:
+  dialogue:
+    - committee: "Two hundred quarter hours. Four tides, springs and neaps, and not a wet boot."
+    - committee: "And when we ask it why it wound the gate down..."
+    - committee: "...there is a table we can read. Article nine is satisfied."
+    - moss: "The hill's machine does the same job. Nobody's ever asked it why."
+  shelf: { object: gate-wheel, label: "The sea wall gate, kept by a keeper you can question" }
+  cards: [gymnasium]
+story_note: cannot-practise-on-a-harbour
+stretch:
+  - id: storm-surge
+    title: "Storm surge"
+    prompt: |
+      Add an option to `reset`, `options={"surge": 0.5}`, that raises every tide by half a metre. Does your keeper, trained on ordinary tides, still keep the harbour? Train one with surges in some of its tides and compare the two.
+  - id: wrapped
+    title: "Registered, wrapped and timed"
+    prompt: |
+      Register the gate with `gymnasium.register(id="Saltmarsh/TideGate-v0", entry_point="gate_env:TideGateEnv", max_episode_steps=200)`, make it with `gymnasium.make`, and take the time limit out of your own `step`. Gymnasium's `TimeLimit` wrapper now truncates for you. Do all twenty tests still pass?

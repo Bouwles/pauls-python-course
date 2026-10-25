@@ -1,0 +1,55 @@
+id: q-crab
+title: "Q-Crab"
+client: committee
+building: crab-club
+estimated_minutes: 100
+summary: "Sir Reginald learns the Club Course by racing it, with Q-learning, and goes into the Crab League. SARSA walks the harbour wall."
+concepts_introduced: [q-learning, sarsa]
+concepts_reviewed: [td-learning, exploration-exploitation, bandits, value-iteration, numpy-arrays, list-aliasing, json-module, with-statement]
+ask:
+  dialogue:
+    - committee: "The Crab League. Every club in the county, the same course, the same rules."
+    - committee: "Seven rows, nine columns, two rock pools and a great many rocks."
+    - committee: "Nobody gives you a map of the chances. You race it..."
+    - committee: "...until you know it."
+    - moss: "Then he learns the worth of every move, not just every tile."
+  spec: |
+    The Club Course is in `club-course.json`, and Moss has copied the League's rules into `course.py`. Sir Reginald starts at S, top left, and races to F, bottom right. He slips sideways one move in ten on sand and 35 in a hundred in a rock pool. Into a rock or off the course, he stays put. A race stops at 100 moves, and the League's score is the average number of moves: lower is better.
+
+    Write `crab.py`:
+
+    1. `choose(Q, tile, epsilon, rng)`: epsilon-greedy over the four actions. Ties go to the first, as `np.argmax` does.
+    2. `q_update(Q, tile, action, reward, after, over, alpha=0.1, gamma=1.0)`: one Q-learning update, in place; returns the TD error.
+    3. `train(races, rng, alpha=0.1, gamma=1.0, epsilon=0.1)`: Q-learning. Practice races alternate: one from `START`, the next from `random_start(rng)`. Returns the Q-table, a 7 by 9 by 4 array.
+    4. `greedy_policy(Q)`: the best action on every tile, as 7 lists of 9.
+    5. `save_entry(Q, path="league.json")`: `{"format": "ppc-league-1", "q": ...}`, the League's entry format.
+
+    Run as a program, it trains for 3000 practice races, shows the policy, races it 50 times, and saves `league.json`.
+  example: |
+    > > v v # < > v v
+    v # v v # v > v v
+    v # v > > v v v <
+    > > v # # v > v #
+    > > > > > v # v v
+    v > # > > v # v v
+    > > > ^ # > > > F
+    50 races: 15.72 moves on average, 50 finished
+    Saved league.json
+ship:
+  dialogue:
+    - committee: "Fifteen point seven moves. The Club record is..."
+    - committee: "...also fifteen point seven moves. As of this afternoon."
+    - committee: "Take league.json down to the Crab League. The new week's races start on Monday."
+    - moss: "Same course and same luck for every crab. Only the training differs."
+  shelf: { object: rosette, label: "Sir Reginald's Crab League entry" }
+  cards: [q-learning, sarsa]
+story_note: wrong-first
+stretch:
+  - id: sarsa-on-the-course
+    title: "SARSA on the Club Course"
+    prompt: |
+      Write `sarsa_update` and a `train_sarsa` that chooses the next action before updating and uses it in the target. Train both for 3000 and for 6000 practice races and race each greedy policy 50 times. Which learns the course faster? Is there anywhere on the Club Course that SARSA would be wise to give a wide berth?
+  - id: calmer-exploring
+    title: "Exploring less as he learns"
+    prompt: |
+      Let epsilon fall from 0.3 to 0.01 over the practice races. Does Sir Reginald need fewer races to get under 16 moves? Plot the 50-race average every 250 races for fixed and falling epsilon, on one chart.
