@@ -1,0 +1,13 @@
+# Ada Penhallow's notes from the Crab Racing Club and the sea wall, Act VII Jobs 4 to 6.
+# Each note is a comment in a starter file; finding it sets a story flag.
+notes:
+  - id: wrong-first
+    job: q-crab
+    title: "Wrong first"
+    text: "Lady Agatha learned the old course the way crabs do: wrong first, a few hundred times. The committee asked whether she could simply be told. She could not. The machine on the hill can't be told either. It can only be shown, which is not the same thing. A.P."
+    where: "A pencilled note pinned inside the club's 1995 race book, copied into the top of crab.py in the Make step of Q-Crab."
+  - id: cannot-practise-on-a-harbour
+    job: the-sea-wall-gate
+    title: "You cannot practise on a harbour"
+    text: "The machine on the hill learned this gate by watching me work it, six winters of spring tides. I never once let it learn by trying. You cannot practise on a harbour: the quay only has to flood once. A.P."
+    where: "A pencilled note in the margin of the sea wall's logbook, copied into the top of agent.py in the take-home project of The Sea Wall Gate."
