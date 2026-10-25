@@ -1,0 +1,53 @@
+id: the-fishing-forecast
+title: "The Fishing Forecast"
+client: wendt
+building: observatory
+estimated_minutes: 600
+summary: "Good fishing or not, from what's known at dawn: three years of the fleet's log, features a skipper would recognise, a model chosen by cross-validation, one honest look at the last year, and a write-up of what worked and what didn't."
+concepts_introduced: [baselines, feature-engineering]
+concepts_reviewed: [scikit-learn, pipelines, cross-validation, data-leakage, train-test-split, logistic-regression, ensembles, classification-metrics, feature-scaling, overfitting, pandas-basics, selecting-filtering, missing-data, modules, imports, dictionaries, functions, main-guard, f-strings]
+ask:
+  dialogue:
+    - ferro: "The fleet wants a forecast. Good fishing or not, by the weather and the tide. Not by guesswork."
+    - gwen: "If the boats come in full, I put fish pie on. If they don't, I've forty pies and no fish."
+    - wendt: "Three years of the fleet's log. Two to learn from, one in the drawer. You know how this goes now."
+    - moss: "This one's yours, start to finish. Then write down what worked, and what didn't."
+  spec: |
+    The fleet's log is in `fishing.csv`: every day from 2023 to 2025, with what was known at dawn and how many boxes each boat landed. A good day is eight boxes a boat or more.
+
+    1. In `features.py`, turn the log into what a dawn forecast can use: the wind as an arrow, the high water as hours from dawn, the pressure's change since yesterday, and whether each day was good. Nothing that's only known later.
+    2. In `forecast.py`, lock 2025 away, choose between three models by cross-validation on 2023 and 2024, then test the chosen one on 2025, once, beside Ferro's rule and always saying no.
+    3. Write it up: what worked, what didn't, and what the forecast can't know.
+  example: |
+    Training days: 730, test days: 365
+    logistic   0.860
+    forest     0.842
+    boosting   0.853
+    Chosen: logistic
+    On 2025: 0.852
+    Ferro's rule: 0.723
+    Always saying no: 0.575
+    When it says good, it's right: 0.81
+    Good days it caught: 0.85
+ship:
+  dialogue:
+    - gwen: "Fish pie on Thursday. It said good, the boats came in full, and every pie went."
+    - ferro: "Eighty-five in a hundred. My rule gets seventy-two. I'll take the forecast, and keep the rule in my head."
+    - wendt: "It beat the captain on a year it never saw, and the write-up says how we know."
+    - moss: "A model, a test it hadn't seen, and a page a stranger could check. That's the job done properly."
+  shelf: { object: catch-board, label: "The fishing forecast, tested on a year it never saw" }
+  cards: [baselines, feature-engineering]
+story_note: the-fish-moved
+stretch:
+  - id: boats-out
+    title: "The column that comes later"
+    prompt: |
+      Add `boats_out` to `FEATURES` and cross-validate again. Watch the score jump. Then put it back out, and add a paragraph to the write-up saying why it jumped and why it can't stay.
+  - id: raw-columns
+    title: "What the features were worth"
+    prompt: |
+      Cross-validate the logistic regression on the raw columns instead: `wind_speed`, `wind_dir`, `pressure`, `sea_temp`, `swell`, `tide_range`, `cloud` and `rain`. How much did your three rewritten features add? Put the number in the write-up.
+  - id: tuned
+    title: "Tune the forest"
+    prompt: |
+      Grid search the forest's `min_samples_leaf` and the boosting's `learning_rate`, on 2023 and 2024 only. Does either beat logistic regression in cross-validation? Open 2025 for the winner only, and say in the write-up how many things you tried.

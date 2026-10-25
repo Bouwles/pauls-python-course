@@ -1,0 +1,50 @@
+id: meet-scikit-learn
+title: "Meet scikit-learn"
+client: wendt
+building: observatory
+estimated_minutes: 80
+summary: "Penhallow's four clear-night forecasts, a line each in scikit-learn, compared honestly: a pipeline, five folds, a grid search, and one look at the test evenings."
+concepts_introduced: [scikit-learn, pipelines, cross-validation, grid-search]
+concepts_reviewed: [linear-regression, logistic-regression, knn, decision-trees, ensembles, feature-scaling, train-test-split, overfitting, numpy-arrays, imports, inheritance, super, dictionaries, dict-set-comprehensions, functions, main-guard, docstrings, f-strings]
+ask:
+  dialogue:
+    - wendt: "Penhallow forecast clear nights four different ways. She never wrote down which was best."
+    - wendt: "She built each one by hand. You've built them too. Now there's a library with all four in it."
+    - pip: "So we run all four and keep the highest score."
+    - moss: "Scored on nights none of them has seen. Or it isn't a score."
+  spec: |
+    Penhallow's seeing log is in `seeing.csv`: 320 evenings of cloud (oktas), humidity (%), wind (knots), pressure (hPa) and visibility (metres), each with whether the night turned out usable (1) or not (0).
+
+    In `seeing.py`, compare four scikit-learn models honestly:
+
+    1. Lock a quarter of the evenings away for testing.
+    2. On the rest, find the best number of neighbours for k-NN by grid search.
+    3. Cross-validate logistic regression, k-NN, a decision tree and a random forest, and choose the best.
+    4. Fit it on all the training evenings, then test it once, beside always guessing the commonest answer.
+  example: |
+    Best number of neighbours: 5
+    logistic     0.908
+    neighbours   0.892
+    tree         0.875
+    forest       0.896
+    Chosen: logistic
+    Test accuracy: 0.938
+    Always guessing the commonest: 0.662
+ship:
+  dialogue:
+    - wendt: "Ninety-four in a hundred, on evenings it had never seen. The folds said ninety-one. Close enough to trust."
+    - wendt: "Logistic regression, by a whisker. Well, by a fold."
+    - pip: "I still like the forest."
+    - moss: "Four tools, one bench, the same test for each. That's a fair trial."
+  shelf: { object: seeing-dial, label: "Wendt's clear-night forecast, fairly chosen" }
+  cards: [scikit-learn, pipelines, cross-validation, grid-search]
+story_note: a-line-each
+stretch:
+  - id: your-own-neighbours
+    title: "Your k-NN against theirs"
+    prompt: |
+      Bring your k-NN from Nearest Neighbours. Scale the training evenings with a `StandardScaler`, then give your k-NN and `KNeighborsClassifier` the same training evenings and the same k. Do they agree on every test evening? Where they don't, look for ties.
+  - id: fold-spread
+    title: "Ahead by more than the wobble?"
+    prompt: |
+      Print each model's five fold scores as well as the mean, and their standard deviation. Is the winner ahead of the forest by more than the folds disagree with each other? Try `cv=10` too.
