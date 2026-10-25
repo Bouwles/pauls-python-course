@@ -1,0 +1,11 @@
+The Arcade Committee: review rounds (00 = old sprite, 01-02 = drafts, 03 = final)
+One gull is drawn once and stamped three times (they are identical); the variants (eyes, bills) are drawn once too.
+Round 1
+1. Round egg heads and stubby bills read as chicks. Fixed: flatter crown, forehead sloping into a hooked bill.
+2. Eye read as a red target. Fixed: small pale glaring eye under a heavy slanted brow.
+3. Bodies merged into one green wall. Fixed: shadow side on each blazer, club tie and gold badge per gull.
+Round 2 (dialogue crop)
+1. Bills still deep and duck-like. Fixed: slimmer, longer bill with a clear hook and red gonys spot.
+2. No sign of age. Fixed: grey streaks on each nape.
+3. Talk: front gull opens on talk-1, middle on talk-2 (checked).
+Round 3: world sprite 48x48, all three in a row, walking in step; head icon is one gull in its collar.

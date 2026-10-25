@@ -1,0 +1,570 @@
+# The interface kit (REDESIGN.md 3.3, 3.6, 1.3, 1.4): pixel frames, icons, the heart and the brand.
+#
+# Frames are 24x24 9-slices with 8 px corners, applied with CSS border-image at 2x
+# (border-image-slice: 8 fill; border-width: 16px). The middle third of every edge is
+# the same pixel all the way along, so stretch and round both work. Pixels outside the
+# stepped corners are transparent.
+#
+# Icons are 12x12 and drawn in chalk (M) only: the page recolours M to currentColor.
+# The heart, the duck, the tack and the mark keep their own colours (the mark uses no M).
+
+# --- Frames ------------------------------------------------------------------
+
+# Dark wood panel with riveted iron corner straps: night-3 body, night-4 highlight, night-0 shadow.
+@sprite frame-panel 24x24
+@frame idle
+..GGGGGGGGGGGGGGGGGGGG..
+.GKKKKKGKKKKKKKKGKKKKKG.
+GKMLIIIGJJJJJJJJGIIIMLHG
+GKLGHHHGIIIIIIIIGHHHLGHG
+GKIHGGGGHHHHHHHHGGGGKIHG
+GKIHGJJJJJJJJJJJJJJGKIHG
+GKIHGJJJJJJJJJJJJJJGKIHG
+GGGGGJJJJJJJJJJJJJJGGGGG
+GKJIHJJJJJJJJJJJJJJKJIGG
+GKJIHJJJJJJJJJJJJJJKJIGG
+GKJIHJJJJJJJJJJJJJJKJIGG
+GKJIHJJJJJJJJJJJJJJKJIGG
+GKJIHJJJJJJJJJJJJJJKJIGG
+GKJIHJJJJJJJJJJJJJJKJIGG
+GKJIHJJJJJJJJJJJJJJKJIGG
+GKJIHJJJJJJJJJJJJJJKJIGG
+GGGGGJJJJJJJJJJJJJJGGGGG
+GKIHGJJJJJJJJJJJJJJGKIHG
+GKIHGJJJJJJJJJJJJJJGKIHG
+GKIHGGGGKKKKKKKKGGGGKIHG
+GKMLKKKGJJJJJJJJGKKKMLHG
+GKLGIIIGIIIIIIIIGIIILGHG
+.GHHHHHGGGGGGGGGGHHHHHG.
+..GGGGGGGGGGGGGGGGGGGG..
+
+# The job ticket: chalk paper, torn top-left, dog-eared top-right, a hard shadow bottom-right.
+@sprite frame-paper 24x24
+@frame idle
+......qqqqqqqqqqqq......
+...qqqwwwwwwwwwwwqq.....
+....qwMMMMMMMMMMMq5q....
+.qqqwMMMMMMMMMMMMq55q...
+qwwMMMMMMMMMMMMMMq555q..
+qwMMMMMMMMMMMMMMMqqqqqq.
+qwMMMMMMMMMMMMMMMM5555qG
+qwMMMMMMMMMMMMMMMMMMM5qG
+qwMMMMMMMMMMMMMMMMMMM5qG
+qwMMMMMMMMMMMMMMMMMMM5qG
+qwMMMMMMMMMMMMMMMMMMM5qG
+qwMMMMMMMMMMMMMMMMMMM5qG
+qwMMMMMMMMMMMMMMMMMMM5qG
+qwMMMMMMMMMMMMMMMMMMM5qG
+qwMMMMMMMMMMMMMMMMMMM5qG
+qwMMMMMMMMMMMMMMMMMMM5qG
+qwMMMMMMMMMMMMMMMMMMM5qG
+qwMMMMMMMMMMMMMMMMMMM5qG
+qwMMMMMMMMMMMMMMMMMMM5qG
+qwMMMMMMMMMMMMMMMMMMM5qG
+qwMMMMMMMMMMMMMMMMMMM5qG
+q555q55555555555555555qG
+.qqq.qqqqqqqqqqqqqqqqqqG
+..GGGGGGGGGGGGGGGGGGGGGG
+
+# The dialogue box: warm wood rails, a brass inlay and brass corner caps around a night-2 field.
+@sprite frame-dialogue 24x24
+@frame idle
+..eeeeeeeeeeeeeeeeeeee..
+.eNNNOeVVVVVVVVVVeONNNe.
+eNwmOeggggggggggggeOwmOe
+eNmqeggggggggggggggemqOe
+eNOeffffffffffffffffeOOe
+eOegfeeeeeeeeeeeeeeVgeOe
+eeggfeNNNNNNNNNNNNeVggee
+eVggfeNHHHHHHHHHHOeVggfe
+eVggfeNHIIIIIIIIIOeVggfe
+eVggfeNHIIIIIIIIIOeVggfe
+eVggfeNHIIIIIIIIIOeVggfe
+eVggfeNHIIIIIIIIIOeVggfe
+eVggfeNHIIIIIIIIIOeVggfe
+eVggfeNHIIIIIIIIIOeVggfe
+eVggfeNHIIIIIIIIIOeVggfe
+eVggfeNHIIIIIIIIIOeVggfe
+eVggfeNHIIIIIIIIIOeVggfe
+eeggfeNOOOOOOOOOOOeVggee
+eNegfeeeeeeeeeeeeeeVgeOe
+eNOeVVVVVVVVVVVVVVVVeNOe
+eNwmeggggggggggggggewmOe
+eNmqOeggggggggggggeNmqOe
+.eOOOOeffffffffffeOOOOe.
+..eeeeeeeeeeeeeeeeeeee..
+
+# Daytime panel: day-1 body, white highlight, fog iron corners.
+@sprite frame-panel-day 24x24
+@frame idle
+..%%%%%%%%%%%%%%%%%%%%..
+.%*****%********%*****%.
+%**%===%++++++++%===*%=%
+%*%~===%--------%===%~=%
+%*==%%%%========%%%%*==%
+%*==%++++++++++++++%*==%
+%*==%++++++++++++++%*==%
+%%%%%++++++++++++++%%%%%
+%*+-=++++++++++++++*+-=%
+%*+-=++++++++++++++*+-=%
+%*+-=++++++++++++++*+-=%
+%*+-=++++++++++++++*+-=%
+%*+-=++++++++++++++*+-=%
+%*+-=++++++++++++++*+-=%
+%*+-=++++++++++++++*+-=%
+%*+-=++++++++++++++*+-=%
+%%%%%++++++++++++++%%%%%
+%*==%++++++++++++++%*==%
+%*==%++++++++++++++%*==%
+%*==%%%%********%%%%*==%
+%**%***%++++++++%****%=%
+%*%~===%--------%===%~=%
+.%=====%========%=====%.
+..%%%%%%%%%%%%%%%%%%%%..
+
+# Daytime ticket: white paper with a fog outline and a day-3 shadow.
+@sprite frame-paper-day 24x24
+@frame idle
+......%%%%%%%%%%%%......
+...%%%***********%%.....
+....%************%=%....
+.%%%*************%==%...
+%****************%===%..
+%****************%%%%%%.
+%*****************====%=
+%********************=%=
+%********************=%=
+%********************=%=
+%********************=%=
+%********************=%=
+%********************=%=
+%********************=%=
+%********************=%=
+%********************=%=
+%********************=%=
+%********************=%=
+%********************=%=
+%********************=%=
+%********************=%=
+%===%=================%=
+.%%%.%%%%%%%%%%%%%%%%%%=
+..======================
+
+# Daytime dialogue box: pale rails with an ink outline, the same brass inlay and caps.
+@sprite frame-dialogue-day 24x24
+@frame idle
+..~~~~~~~~~~~~~~~~~~~~..
+.~NNNO~**********~ONNN~.
+~NwmO~============~OwmO~
+~Nmq~==============~mqO~
+~NO~%%%%%%%%%%%%%%%%~OO~
+~O~=%~~~~~~~~~~~~~~*=~O~
+~~==%~NNNNNNNNNNNN~*==~~
+~*==%~N----------O~*==%~
+~*==%~N-+++++++++O~*==%~
+~*==%~N-+++++++++O~*==%~
+~*==%~N-+++++++++O~*==%~
+~*==%~N-+++++++++O~*==%~
+~*==%~N-+++++++++O~*==%~
+~*==%~N-+++++++++O~*==%~
+~*==%~N-+++++++++O~*==%~
+~*==%~N-+++++++++O~*==%~
+~*==%~N-+++++++++O~*==%~
+~~==%~NOOOOOOOOOOO~*==~~
+~N~=%~~~~~~~~~~~~~~*=~O~
+~NO~****************~NO~
+~Nwm~==============~wmO~
+~NmqO~============~NmqO~
+.~OOOO~%%%%%%%%%%~OOOO~.
+..~~~~~~~~~~~~~~~~~~~~..
+
+# --- Icons: 12x12, chalk (M) only so the page can recolour them -------------
+
+@sprite icon-run 12x12
+@frame idle
+............
+..M.........
+..MMM.......
+..MMMMM.....
+..MMMMMMM...
+..MMMMMMMMM.
+..MMMMMMMMM.
+..MMMMMMM...
+..MMMMM.....
+..MMM.......
+..M.........
+............
+
+@sprite icon-check 12x12
+@frame idle
+............
+............
+..........MM
+.........MMM
+........MMM.
+MM.....MMM..
+MMM...MMM...
+.MMM.MMM....
+..MMMMM.....
+...MMM......
+............
+............
+
+@sprite icon-stop 12x12
+@frame idle
+............
+............
+..MMMMMMMM..
+..MMMMMMMM..
+..MMMMMMMM..
+..MMMMMMMM..
+..MMMMMMMM..
+..MMMMMMMM..
+..MMMMMMMM..
+..MMMMMMMM..
+............
+............
+
+@sprite icon-hint 12x12
+@frame idle
+..........M.
+.........MM.
+.........MMM
+.........MMM
+..........M.
+.....MM.....
+.MM.MMMM.MMM
+M..MMMMMMMM.
+M..MMMMMMM..
+.MMMMMMMMM..
+...MMMMMM...
+..MMMMMMMM..
+
+@sprite icon-history 12x12
+@frame idle
+....MMMM....
+..MMMMMMMM..
+.MMM....MMM.
+.MM..MM..MM.
+MM...MM...MM
+MM...MMMM.MM
+MM...MMMM.MM
+MM........MM
+.MM......MM.
+.MMM....MMM.
+..MMMMMMMM..
+....MMMM....
+
+@sprite icon-reset 12x12
+@frame idle
+............
+...M........
+..MM........
+.MMMMMMMM...
+MMMMMMMMMM..
+.MMM.....MM.
+..MM......MM
+...M......MM
+..........MM
+.........MM.
+...MMMMMMMM.
+...MMMMMMM..
+
+@sprite icon-keys 12x12
+@frame idle
+............
+............
+.MMMMMMMMMM.
+MM.M.M.M.M.M
+MMMMMMMMMMMM
+M.M.M.M.M.MM
+MMMMMMMMMMMM
+MMM......MMM
+MMMMMMMMMMMM
+.MMMMMMMMMM.
+............
+............
+
+@sprite icon-settings 12x12
+@frame idle
+........MM..
+.......MMM..
+.......MM...
+.......MM.MM
+.......MMMMM
+......MMMMM.
+.....MMM....
+....MMM.....
+...MMM......
+..MMM.......
+.MMM........
+.MM.........
+
+@sprite icon-shelf 12x12
+@frame idle
+MMMMMMMMMMMM
+M..........M
+M.M..M..MM.M
+M.MM.MM.MM.M
+M.MM.MM.MM.M
+MMMMMMMMMMMM
+M..........M
+M....MMM...M
+M.MM.MMM.M.M
+M.MM.MMM.MMM
+MMMMMMMMMMMM
+MM........MM
+
+@sprite icon-map 12x12
+@frame idle
+............
+MMMM....MMMM
+M..MMMMMM..M
+M..M....M..M
+M..M....M..M
+M..M....M..M
+M..M....M..M
+M..M....M..M
+M..M....M..M
+MMMMM..MMMMM
+...MMMMMM...
+............
+
+@sprite icon-lock 12x12
+@frame idle
+............
+....MMMM....
+...MMMMMM...
+...MM..MM...
+...MM..MM...
+..MMMMMMMM..
+..MMMMMMMM..
+..MMM..MMM..
+..MMM..MMM..
+..MMMMMMMM..
+..MMMMMMMM..
+............
+
+@sprite icon-tick 12x12
+@frame idle
+............
+............
+..........MM
+.........MMM
+........MMM.
+.MM....MMM..
+.MMM..MMM...
+..MMMMMM....
+...MMMM.....
+....MM......
+............
+............
+
+@sprite icon-cross 12x12
+@frame idle
+............
+............
+..MM....MM..
+..MMM..MMM..
+...MMMMMM...
+....MMMM....
+....MMMM....
+...MMMMMM...
+..MMM..MMM..
+..MM....MM..
+............
+............
+
+@sprite icon-dash 12x12
+@frame idle
+............
+............
+............
+............
+............
+..MMMMMMMM..
+..MMMMMMMM..
+............
+............
+............
+............
+............
+
+@sprite icon-saved 12x12
+@frame idle
+............
+.MMMMMMMMM..
+.MMM...MMMM.
+.MMM...MMMM.
+.MMMMMMMMMM.
+.MMMMMMMMMM.
+.MM......MM.
+.MM......MM.
+.MM......MM.
+.MM......MM.
+.MMMMMMMMMM.
+............
+
+@sprite icon-offline 12x12
+@frame idle
+............
+....MMMM....
+...MMMMMM...
+.MMMMMMMMMM.
+MMMMMMMMMMMM
+MMMMMMMMMMM.
+.MMMM.......
+......MM..MM
+.......MMMM.
+........MM..
+.......MMMM.
+......MM..MM
+
+@sprite icon-loader 12x12
+@fps 4
+@frame a
+........MM..
+.......MMM..
+.......MM...
+.......MM.MM
+.......MMMMM
+......MMMMM.
+.....MMM....
+....MMM.....
+...MMM......
+..MMM.......
+.MMM........
+.MM.........
+@frame b
+............
+MM..........
+MMM.........
+.MMM........
+..MMM.......
+...MMM......
+....MMM.....
+.....MMMMMM.
+......MMMMMM
+......MM..MM
+......MMM...
+.......MM...
+@anim spin a b
+
+@sprite icon-more 12x12
+@frame idle
+............
+............
+............
+............
+............
+.MM..MM..MM.
+.MM..MM..MM.
+............
+............
+............
+............
+............
+
+@sprite icon-next 12x12
+@frame idle
+............
+............
+............
+.MMMMMMMMMM.
+.MMMMMMMMMM.
+..MMMMMMMM..
+...MMMMMM...
+....MMMM....
+.....MM.....
+............
+............
+............
+
+# Dennis's icon: the one multicolour icon besides the heart.
+@sprite icon-duck 12x12
+@frame idle
+............
+.....qqqq...
+....qwwNNq..
+....qwNxNqq.
+....qNNNNrrq
+.q...qNNOqq.
+qwq..qNNOq..
+qNNqqwNNNNq.
+qNNNNNNNNNNq
+qONNNNNNNNOq
+.qOOOOOOOOq.
+..qqqqqqqq..
+
+# --- Brand ---------------------------------------------------------------------
+
+# The credit heart (REDESIGN.md 1.3): 8x7, shown at 2x. Hover plays beat once.
+@sprite heart 8x7
+@fps 8
+@frame idle
+.SS..SS.
+SwrSSRRS
+SrRRRRRS
+SRRRRRSS
+.SRRRSS.
+..SRRS..
+...SS...
+@frame beat
+........
+.SS..SS.
+SwrSSRRS
+SrRRRRSS
+.SRRRSS.
+..SRSS..
+...SS...
+@anim idle idle
+@anim beat beat idle
+
+# The tack that pins the job ticket, placed by the page at the paper's top centre.
+@sprite tack 8x8
+@frame idle
+..SSSS..
+.SwrRRS.
+.SrRRRSL
+.SRRRRSL
+.SRRRSSL
+..SSSSLL
+...LLLL.
+........
+
+# The mark: Fixwick's fish weathervane crossed with a spanner. Favicons are made from it.
+@sprite mark 16x16
+@frame idle
+..qqqq.qq..G6G..
+.qmmmmqmq.G66G..
+qNeNNNNq.G665GG.
+qNNNNNOq.G65566G
+.qOOOOqOq.G6555G
+..qqqq.qqG655GG.
+....Vg..G65GG...
+.....VgG65G.....
+......G65G......
+.....G65G.......
+....G65GVg......
+...G65G..Vg.....
+..G65G....Vg....
+.G65G......Vg...
+G65G........Vg..
+.GG..........Vg.
+
+# The wordmark: Fixwick in chunky 2 px pixel letters, chalk with lamp-flame dots on the i's,
+# a night-0 outline and a 1 px drop shadow, so it reads on night and day grounds alike.
+@sprite wordmark 50x12
+@frame idle
+GGGGGGGGGGG....................GGGG.......GGGG....
+GMMMMMMGNNG....................GNNG.......GMMG....
+GMMMMMMGNNG....................GNNG.......GMMG....
+GMMGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG.GGGGGGGMMGGGGG
+GMMGGGGGMMGGMMGGMMGGMMGGMMGGMMGGMMGGGMMMMGGMMGGMMG
+GMMMMMGGMMGGGMMMMGGGMMGGMMGGMMGGMMGGMMGGGGGMMGMMGG
+GMMMMMGGMMG.GGMMGG.GMMGGMMGGMMGGMMGGMMGGG.GMMMMGG.
+GMMGGGGGMMG.GGMMGG.GMMGGMMGGMMGGMMGGMMG...GMMMMGG.
+GMMGGG.GMMGGGMMMMGGGMMGMMMMGMMGGMMGGMMGGGGGMMGMMGG
+GMMG...GMMGGMMGGMMGGGMMMGGMMMGGGMMGGGMMMMGGMMGGMMG
+GGGG...GGGGGGGGGGGG.GGGGGGGGGG.GGGG.GGGGGGGGGGGGGG
+.GG.....GG..GG..GG...GGG..GGG...GG...GGGG..GG..GG.

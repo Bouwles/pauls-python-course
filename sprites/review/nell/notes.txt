@@ -1,0 +1,13 @@
+Nell Brannigan: review rounds (00 = old sprite, 01-02 = drafts, 03 = final; sheets show night, day, silhouette, 1x)
+Round 1
+1. Face blank and stern: small, far-apart dot eyes. Fixed: 3x4 eyes with lighter sockets, far eye moved in.
+2. Head a box with a hard vertical light/shadow seam. Fixed: rounder skull, curved shading, cheek tufts, soot on the muzzle.
+3. No orange near the face (lost at 16x16); glove a blob. Fixed: orange welder's neckerchief; glove rebuilt with fingers and thumb.
+Round 2 (checked in the dialogue crop, rows 0-42)
+1. The crop cut off both gloves, so her signature vanished. Fixed: huge near glove raised in a wave beside her face.
+2. Flat-topped skull. Fixed: rounded crown between the ears.
+3. World sprite: apron too long, legs thin, a box. Fixed: shorter apron, thick bear legs, work boots.
+Round 3
+1. Delighted read as polite. Fixed: jaw dropped 3 px, full teeth, big tongue, laugh tear.
+2. Neutral brows were hard dark bars. Fixed: softer, gently arched brows.
+3. World puzzled pose missing. Fixed: glove scratching the back of her head.

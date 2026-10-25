@@ -1,0 +1,7 @@
+Dennis: three problems per round, then fixed.
+
+Before (00): 12x12, faded to near-ochre, chip a single sand pixel that read as a highlight.
+ Round 1 (01): head a narrow box with a flat back; beak small; the pale "chip" pixel read as shine, not damage.
+ Round 2 (02): chip needed to read in silhouette (now a notch out of the beak's top corner); faded patch too regular; squash/stretch missing.
+ Round 3 (03): squeak-1 squashes with eyes squeezed shut, squeak-2 stretches up; head icon frames the chipped beak.
+ After (10-13): round head, chubby body, wing, orange beak with the chip notch, faded paint on his back (sand), 1 px clear border in idle for the favicons.

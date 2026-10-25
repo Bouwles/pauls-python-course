@@ -1,0 +1,19 @@
+Bea Hollis (hedgehog). Review notes, one round per sheet.
+
+Round 1 (01-round1-sheet.png): problems found
+1. Idle: the brushing arm is a thin white stick, not a forearm; the flour puffs are too faint to read.
+2. Expressions are too subtle at 3x: pleased, worried and confused look almost like neutral. Brows need to be bolder, mouths bigger, lids used.
+3. The spoon is a tiny lollipop on the bib and the right shoulder is a big empty grey area; apron straps barely read. World walk cycle barely moves the feet; head icon is weak (scarf dominates, snout lost).
+Fixed in round 2: hand-drawn forearm and paw for the idle with bigger flour puffs; brows, lids and mouths redrawn per expression (raised and arched for pleased, slanted for worried, one up one down for confused, closed arcs and an open grin for delighted); the spoon now sits in a bib pocket with the bowl over her shoulder, a second apron strap breaks up the blouse; the walk cycle swaps the feet.
+
+Round 2 (02-round2-sheet.png): problems found
+1. The dialogue box shows only rows 0 to 42, and the idle paw and flour sit at rows 46 to 58, so the idle is invisible in the game.
+2. Pleased still reads close to neutral at 3x; talk-1 opens the mouth only a crack.
+3. World sprite: the handprint on the apron reads as a heart, and the body is a very wide egg.
+Fixed in round 3: the idle brush moved up to her collar so the paw and the flour cloud show inside the dialogue crop; pleased has a happy squint and a wider smile; the world body is slimmer.
+
+Round 3 (03-round3-sheet.png): problems found
+1. The world-sprite handprint now reads as a little crown.
+2. Worried and confused are still close to neutral in the dialogue crop; the worried mouth is just a line.
+3. In the crop the idle paw is a pale stick that merges with her cheek.
+Fixed in round 4 (04-round4-final-sheet.png, final): a clearer handprint on the world apron; worried gets an open, downturned mouth; the idle paw has a darker outline so it separates from her cheek in the crop. Checked: eyes on rows 24 to 28, mouths and the idle inside rows 0 to 42, no enclosed holes in any silhouette.

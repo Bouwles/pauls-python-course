@@ -1,0 +1,19 @@
+Dev (ferret, sea-blue cap). Review notes, one round per sheet.
+
+Round 1 (01-round1-sheet.png): problems found
+1. Head reads like a skull or a goggled bird: the mask is one wide dark slab and the muzzle edge is a straight line. A ferret needs a mask round each eye joined over the nose, with cream brows and cheeks.
+2. The neck is a stiff brown pillar and the jersey a white dome with an odd zip line; no spanner, so nothing says "bike hire" or separates him from Kat.
+3. World sprite: the mask reads as a beak, the body is a white egg with a stripe, the tail floats loose, arms do not read.
+Fixed in round 2: a mask patch round each eye joined over the nose, cream brows and cheeks, a slender ferret neck, a rolled jersey collar, broad shoulders, and a spanner resting on his near shoulder; the world sprite has the same mask, a long tail joined to his back, and slimmer proportions.
+
+Round 2 (02-round2-sheet.png): problems found
+1. The neck is a straight dark post under a cream head; a ferret has a cream throat curving into the chest.
+2. Pleased and neutral barely differ, and the grin's tooth is lost.
+3. World sprite: the spanner is drawn in the jersey colour so it vanishes; the torso is a white block and the arms do not read.
+Fixed in round 3: a cream throat curves into the collar; the forehead under the cap is filled so the far brow sits on the head; the spanner is held upright in his paw so jaw, handle and paw show in the dialogue crop (and he taps it for the idle); pleased has its own eyes; the world sprite's spanner is steel grey and the arms are outlined.
+
+Round 3 (03-round3-sheet.png): problems found
+1. His eyes are dark dots inside a dark mask, so expressions vanish at dialogue size.
+2. The mouth is stone grey on cream and too faint.
+3. The forearm under the spanner is a thick white tube.
+Fixed in round 4 (04-round4-final-sheet.png, final): the mask is mostly the mid fur tone, so the eyes and their highlights stand out; mouths are drawn in the dark fur colour, so the grin and its tooth read; the sleeve under the spanner is narrower. Checked: eyes on rows 24 to 28, spanner, paw and face inside the dialogue crop.

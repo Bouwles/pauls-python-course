@@ -1,4 +1,4 @@
-# The map of Saltmarsh: terrain plus buildings with closed and open frames.
+# The town map: terrain plus buildings with closed and open frames.
 # Buildings open as the learner ships jobs. Positions are in sprites/scenes/map.json.
 @sprite map-terrain 400x240
 @frame base

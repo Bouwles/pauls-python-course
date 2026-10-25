@@ -1,0 +1,19 @@
+Kat (ferret, brick-red cap). Review notes, one round per sheet.
+
+Round 1 (01-round1-sheet.png): problems found
+1. She is Dev with the colours swapped. She needs her own read: crossed arms, a raised sceptical brow, an earring, lighter fur.
+2. Same skull-like head as Dev (one dark mask slab, straight muzzle edge).
+3. The backwards cap peak reads as a red flag stuck to the back of her head; world sprite has the same problems as Dev.
+Fixed in round 2: same new ferret head as Dev but lighter cinnamon fur, the cap worn backwards with a short flat brim at the back, folded arms, a gold hoop earring, and a raised sceptical brow with a smirk.
+
+Round 2 (02-round2-sheet.png): problems found
+1. Her folded arms sit below the dialogue crop (rows 0 to 42), so in the dialogue box she is Dev in red; she needs her own face: half-lidded sceptical eyes, a stronger brow, lashes, a bigger earring.
+2. Same post-like neck as Dev.
+3. World sprite: the folded arms are a white bar and the torso a block.
+Fixed in round 3: half-lidded sceptical eyes with a lash, a bigger gold hoop, the same filled forehead and cream throat as Dev; her idle is a sideways look (at Dev) with drumming fingers; world arms outlined.
+
+Round 3 (03-round3-sheet.png): problems found
+1. Same as Dev: eyes lost in the dark mask.
+2. Same faint mouth.
+3. The cap's blue stripe runs into the brim and muddies the back of the cap.
+Fixed in round 4 (04-round4-final-sheet.png, final): the same lighter mask and darker mouths as Dev; the blue cap stripe stops before the brim. In the dialogue crop she now reads as herself: backwards red cap, half-lidded eyes with a lash, a raised brow, a gold hoop. Checked: eyes on rows 24 to 28, no enclosed holes.

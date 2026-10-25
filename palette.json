@@ -1,5 +1,5 @@
 {
-  "description": "The Saltmarsh world palette. Every sprite uses only these colours. One character per pixel in sprites/src grids; '.' is transparent. Pip's neck patch (X, Y) is the only deliberate exception.",
+  "description": "The Fixwick palette. One palette for the pixel art and the interface: the world colours (0-9, a-n), the interface colours (G-W, Z; tokens.css is generated from them), the daytime interface colours (symbols), and hue-shifted character ramps (o-z). One character per pixel in sprites/src grids; '.' is transparent. Pip's neck (X, Y) is the deliberate exception.",
   "colours": {
     "0": {
       "name": "harbour night",
@@ -96,6 +96,150 @@
     "n": {
       "name": "rose",
       "hex": "#b5786a"
+    },
+    "G": {
+      "name": "night-0",
+      "hex": "#0E1218"
+    },
+    "H": {
+      "name": "night-1",
+      "hex": "#161C25"
+    },
+    "I": {
+      "name": "night-2",
+      "hex": "#1F2733"
+    },
+    "J": {
+      "name": "night-3",
+      "hex": "#2C3747"
+    },
+    "K": {
+      "name": "night-4",
+      "hex": "#3D4B60"
+    },
+    "L": {
+      "name": "fog",
+      "hex": "#8E9AAB"
+    },
+    "M": {
+      "name": "chalk",
+      "hex": "#ECE6D6"
+    },
+    "N": {
+      "name": "lamp",
+      "hex": "#F4C04E"
+    },
+    "O": {
+      "name": "lamp-dark",
+      "hex": "#B5852A"
+    },
+    "P": {
+      "name": "kelp",
+      "hex": "#5DBB63"
+    },
+    "Q": {
+      "name": "kelp-dark",
+      "hex": "#3A7F3F"
+    },
+    "R": {
+      "name": "brick",
+      "hex": "#E0563F"
+    },
+    "S": {
+      "name": "brick-dark",
+      "hex": "#9E3526"
+    },
+    "T": {
+      "name": "sea",
+      "hex": "#4FA3C7"
+    },
+    "U": {
+      "name": "sea-dark",
+      "hex": "#2F6E8C"
+    },
+    "V": {
+      "name": "rust",
+      "hex": "#A8613A"
+    },
+    "W": {
+      "name": "moss-green",
+      "hex": "#6E8B3D"
+    },
+    "Z": {
+      "name": "plum",
+      "hex": "#7A4E6E"
+    },
+    "-": {
+      "name": "day-0",
+      "hex": "#DCE6EC"
+    },
+    "+": {
+      "name": "day-1",
+      "hex": "#EEF3F6"
+    },
+    "*": {
+      "name": "day-2",
+      "hex": "#FFFFFF"
+    },
+    "=": {
+      "name": "day-3",
+      "hex": "#BCC9D3"
+    },
+    "~": {
+      "name": "day-ink",
+      "hex": "#18202A"
+    },
+    "%": {
+      "name": "day-fog",
+      "hex": "#4D5A69"
+    },
+    "o": {
+      "name": "shell highlight",
+      "hex": "#A9C46C"
+    },
+    "p": {
+      "name": "shell shadow",
+      "hex": "#2E4A3A"
+    },
+    "q": {
+      "name": "brass shadow",
+      "hex": "#7A5A2E"
+    },
+    "r": {
+      "name": "tomato highlight",
+      "hex": "#F08A5D"
+    },
+    "s": {
+      "name": "tomato shadow",
+      "hex": "#6B2337"
+    },
+    "t": {
+      "name": "navy deep",
+      "hex": "#1E2F5A"
+    },
+    "u": {
+      "name": "navy",
+      "hex": "#3B5A9A"
+    },
+    "v": {
+      "name": "navy light",
+      "hex": "#6E8FCB"
+    },
+    "w": {
+      "name": "warm white",
+      "hex": "#FFF6D8"
+    },
+    "x": {
+      "name": "ink shadow",
+      "hex": "#12141F"
+    },
+    "y": {
+      "name": "mustard",
+      "hex": "#E2A93B"
+    },
+    "z": {
+      "name": "sea glass",
+      "hex": "#9FD3E6"
     }
   },
   "special": {
@@ -186,5 +330,35 @@
     "D": "jumper light",
     "E": "jumper mid",
     "F": "jumper dark"
+  },
+  "ui": {
+    "night": {
+      "night-0": "G",
+      "night-1": "H",
+      "night-2": "I",
+      "night-3": "J",
+      "night-4": "K",
+      "fog": "L",
+      "chalk": "M",
+      "lamp": "N",
+      "lamp-dark": "O",
+      "kelp": "P",
+      "kelp-dark": "Q",
+      "brick": "R",
+      "brick-dark": "S",
+      "sea": "T",
+      "sea-dark": "U",
+      "rust": "V",
+      "moss-green": "W",
+      "plum": "Z"
+    },
+    "day": {
+      "day-0": "-",
+      "day-1": "+",
+      "day-2": "*",
+      "day-3": "=",
+      "day-ink": "~",
+      "day-fog": "%"
+    }
   }
 }
