@@ -1,0 +1,55 @@
+id: puzzles-from-the-pub
+title: "Puzzles from the Pub"
+client: gwen
+building: pub
+estimated_minutes: 120
+summary: "Gwen's puzzle round, solved two ways: try everything carefully and back out of dead ends, or never work anything out twice."
+concepts_introduced: [backtracking, dynamic-programming]
+concepts_reviewed: [recursion, base-cases, call-stack, memoisation, decorators, closures, sets, tuples, nested-data, strip-replace, big-o, edge-cases]
+ask:
+  dialogue:
+    - gwen: "Penhallow wrote my puzzle round in 1994. She never left me the answers."
+    - gwen: "Which words aren't in the grid, and how many ways to make 50p in change. Nobody knows either."
+    - gwen: "And Mr Ashby wrote 'Lighthose'. I'd give it him. He says that's how it's spelt."
+    - moss: "Two sorts of puzzle. Try everything, carefully. Or never work anything out twice."
+  spec: |
+    Two files.
+
+    In `grid.py`, a grid is a list of strings, one per row, in capitals, and so are the words.
+
+    1. `find_word(grid, word)` gives back the squares that spell `word`, as a list of `(row, col)` pairs. The first letter can be anywhere; each letter after it is up, down, left or right of the one before; no square is used twice. `None` if the word isn't there. If it's there more than one way, any will do.
+    2. `missing(grid, words)` gives back the words that aren't in the grid, in the order they were given.
+
+    In `answers.py`:
+
+    3. `ways_to_pay(amount, coins)` is how many ways there are to make `amount` pence from `coins`, using as many of each as you like. A handful is a handful: 1p then 2p is the same as 2p then 1p. 500p from all eight coins should take a blink.
+    4. `edit_distance(given, correct)` is the fewest changes that turn one word into the other, where a change puts in a letter, takes one out, or swaps one letter for another.
+    5. `mark(given, correct)` gives back `"right"`, `"near enough"` or `"wrong"`, ignoring capitals and spaces at either end. Near enough is Gwen's rule: no more than one change for every five letters of the right answer.
+  example: |
+    In the grid: 7 of 10
+    Not in the grid: WHELK, BUOY, ROPE
+
+    50p in change: 450 ways
+    'Lighthose' for 'Lighthouse': near enough
+    'Whelk' for 'Whale': wrong
+ship:
+  dialogue:
+    - gwen: "Whelk, buoy and rope. All those years, and the answer was three words that weren't there."
+    - gwen: "Four hundred and fifty ways to make fifty pence. I'm not checking."
+    - gwen: "Mr Ashby got his point. He's been insufferable about it."
+  shelf: { object: quiz-sheet, label: "Gwen's puzzle round, with the answers" }
+  cards: [backtracking, dynamic-programming]
+story_note: tom-knows-where
+stretch:
+  - id: round-table
+    title: "The round table"
+    prompt: |
+      Gwen has bought a round table for the final. Write `count_round_seatings(teams, feuds)`, where the first and last seats are neighbours too, and seatings that are the same turned round count once: fix the first team in the first seat and seat the rest.
+  - id: fewest-coins
+    title: "Change from the till"
+    prompt: |
+      Gwen's till pays change in the fewest coins. Write `change(amount, coins)`, which gives back the coins themselves, not just how many, as a list from biggest to smallest. Keep Moss's table, plus a second table of which coin went in last for each amount, and follow it back from the top. Try 8p in ferry tokens of 1, 4 and 6.
+  - id: biggest-crate
+    title: "The biggest load"
+    prompt: |
+      Nell's lorry takes 50 kg. Write `best_load(crates, limit)` for a list of `(name, kg, pounds)` crates: the most money she can carry without going over the limit, each crate taken whole or left. It's the knapsack problem: a table with a row for each crate and a column for every kilo from 0 to the limit.

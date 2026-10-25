@@ -1,0 +1,57 @@
+id: family-tree-of-parts
+title: "The Family Tree of Parts"
+client: nell
+building: scrapyard
+estimated_minutes: 90
+summary: "Penhallow filed Nell's parts catalogue as a binary search tree. Add the pier's cards, find any part in a handful of looks, and copy the tree out three ways."
+concepts_introduced: [trees, binary-search-trees, traversals]
+concepts_reviewed: [recursion, base-cases, call-stack, classes, none, tuples, binary-search, linked-lists, big-o, dunder-methods]
+story_note: branches-without-reasons
+ask:
+  dialogue:
+    - nell: "Penhallow kept the catalogue as a tree. Smaller numbers down the left of every card, bigger down the right."
+    - nell: "She called it the family tree of parts. Ten thousand cards, and fourteen looks to find any of them."
+    - nell: "Now the pier's cards need filing, the merchant wants them in order, and the office wants a copy."
+    - moss: "A tree is a card with two smaller trees under it. You've met that shape in the junk tower."
+  spec: |
+    In `catalogue.py`, two classes.
+
+    `Card(number, name)` is one catalogue card: its `number`, its `name`, and `left` and `right`, the cards just below it, or `None`.
+
+    `Catalogue()` starts empty; `root` is the top card, or `None`.
+
+    1. `add(number, name)` files a card: from the root, go left for a smaller number and right for a bigger one, until there's no card there; the new card goes in that place. If the number is already filed, its name is replaced instead.
+    2. `find(number)` returns the name filed under that number, or `None`. `looks`, starting at 0, goes up by one for every card `find` looks at.
+    3. `len(catalogue)` is how many cards are filed.
+    4. `height()` is how many levels the tree has: 0 when it's empty, 1 for a single card.
+    5. `in_order()` returns a list of `(number, name)` pairs, smallest number first.
+    6. `pre_order()` returns a list of the numbers with each card before the cards below it, its left side before its right.
+    7. `post_order()` returns a list of the numbers with each card after the cards below it, left side before right.
+    8. `between(low, high)` returns the `(number, name)` pairs with numbers from `low` to `high`, both included, smallest first.
+  example: |
+    Catalogue: 15 cards, 5 levels
+    Card 342: brass valve, in 3 looks
+    Card 999: not in the catalogue, 3 looks
+    In order: 101 bolt tin first, 977 winch handle last
+    Brass section, 300 to 399: [(342, 'brass valve'), (377, 'brass bell')]
+    Copied out: [500, 250, 101, 188, 133, 342, 377, 430, 750, 621, 555, 702, 977, 850, 915]
+ship:
+  dialogue:
+    - nell: "Three looks for the brass valve. I'd have walked past it twice."
+    - nell: "The office copied it out top first, and built the same tree back from the copy. Card for card."
+    - moss: "Every card a smaller tree. That's why each of those methods was only a few lines long."
+  shelf: { object: catalogue-card, label: "The family tree of parts, filed and copied out" }
+  cards: [trees, binary-search-trees, traversals]
+stretch:
+  - id: take-a-card-out
+    title: "Take a card out"
+    prompt: |
+      Write `remove(number)`. A card with nothing below it just goes. A card with one side below it is replaced by that side. A card with both sides is the hard one: replace its number and name with the smallest card down its right side, then remove that card from the right side instead. Check `in_order()` after every removal.
+  - id: fourteen-looks
+    title: "Fourteen looks"
+    prompt: |
+      File ten thousand cards in number order and the tree is a stick ten thousand levels high, which is too deep for recursion. Write `from_sorted(pairs)`, which builds a catalogue from pairs already in order by putting the middle pair at the root and building each side the same way. Check that ten thousand cards come out fourteen levels high, as Penhallow said.
+  - id: rebuild
+    title: "Built back from the copy"
+    prompt: |
+      The office rebuilds the tree by adding the cards in the order `pre_order()` lists them. Check that the rebuilt tree has exactly the same shape. Then rebuild it from `in_order()` instead, and measure its height.
