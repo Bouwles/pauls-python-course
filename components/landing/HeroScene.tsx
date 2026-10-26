@@ -8,16 +8,17 @@ import { loadIndex } from "../world/sprites";
 const PREFERRED = ["harbour-dusk", "harbour", "pier"];
 
 export function HeroScene() {
-  const [scene, setScene] = useState<{ name: string; marks: Record<string, number[]> } | null>(null);
+  const [scene, setScene] = useState<{ name: string; marks: Record<string, number[]>; size: [number, number] } | null>(null);
   const [sprites, setSprites] = useState<Set<string>>(new Set());
   useEffect(() => {
     void loadIndex().then((i) => {
       const name = PREFERRED.find((s) => i.scenes[s]) ?? "workshop-night";
-      setScene({ name, marks: i.scenes[name]?.marks ?? {} });
+      const meta = i.scenes[name];
+      setScene({ name, marks: meta?.marks ?? {}, size: [meta?.w ?? 320, meta?.h ?? 180] });
       setSprites(new Set(Object.keys(i.sprites)));
     });
   }, []);
-  if (!scene) return <div style={{ aspectRatio: "16 / 9", width: "100%" }} />;
+  if (!scene) return null;
   const inWorkshop = scene.name.startsWith("workshop");
   const actors: Actor[] = inWorkshop
     ? [
@@ -39,6 +40,7 @@ export function HeroScene() {
       }
       maxScale={4}
       minScale={1}
+      size={scene.size}
     />
   );
 }

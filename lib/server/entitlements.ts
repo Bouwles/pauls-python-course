@@ -80,12 +80,19 @@ export type JobAccess =
 /**
  * Can this learner open this project? Free projects always. Pro projects with Pro, or if they
  * started it while they had Pro: your work is always yours, so a lapsed learner keeps what they began.
+ * Started means some progress on it, or code of theirs saved in it.
  */
 export async function jobAccess(db: Db, userId: string | null, job: JobSummary, firstInAct: boolean): Promise<JobAccess> {
   if (!isProJob(job)) return { open: true };
   if ((await getAccess(db, userId)).pro) return { open: true };
   if (userId) {
-    const started = await db.asService((q) => q("select 1 from public.job_progress where user_id = $1 and job_id = $2 and status <> 'not-started' limit 1", [userId, job.id]));
+    const started = await db.asService((q) =>
+      q(
+        `select 1 from public.job_progress where user_id = $1 and job_id = $2 and status <> 'not-started'
+         union all select 1 from public.code_files where user_id = $1 and job_id = $2 limit 1`,
+        [userId, job.id],
+      ),
+    );
     if (started.length) return { open: true };
   }
   return { open: false, preview: firstInAct };

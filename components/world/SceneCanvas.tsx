@@ -2,7 +2,7 @@
 
 // Draws a pixel scene: background, animated characters, rain on the window.
 // Whole-number scaling only, no smoothing. Still when motion is reduced.
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { composeLearner, LEARNER_H, LEARNER_W, type LearnerData } from "@/lib/pixel/learner";
 import { prefersReducedMotion } from "@/lib/display";
 import type { CharacterLook } from "@/lib/store/types";
@@ -43,21 +43,23 @@ interface Props {
   minScale?: number;
   rain?: boolean;
   className?: string;
+  /** The scene's size, when the caller already knows it: the canvas is sized before the first paint. */
+  size?: [number, number];
 }
 
 const TICK_MS = 1000 / 12;
 
-export function SceneCanvas({ scene, actors, label, maxScale = 4, minScale = 1, rain = true, className, hotspots = [] }: Props) {
+export function SceneCanvas({ scene, actors, label, maxScale = 4, minScale = 1, rain = true, className, hotspots = [], size: knownSize }: Props) {
   const wrap = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
   const [scale, setScale] = useState(0);
-  const [size, setSize] = useState<[number, number] | null>(null);
+  const [size, setSize] = useState<[number, number] | null>(knownSize ?? null);
   const [marks, setMarks] = useState<Record<string, number[]>>({});
   const actorsRef = useRef(actors);
   actorsRef.current = actors;
 
-  // Fit the canvas to its container at a whole-number scale.
-  useEffect(() => {
+  // Fit the canvas to its container at a whole-number scale, before the browser paints.
+  useLayoutEffect(() => {
     if (!wrap.current || !size) return;
     const el = wrap.current;
     const fit = () => setScale(Math.max(minScale, integerScale(size[0], el.clientWidth, maxScale)));

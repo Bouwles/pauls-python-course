@@ -155,6 +155,13 @@ describe("server-side gating", () => {
     expect((await content(laterPro.id)).status).toBe(200);
     expect((await content(proJobs[2]!.id)).status).toBe(403);
   });
+
+  it("counts code a lapsed learner saved in a project as theirs, even with no step done", async () => {
+    const job = proJobs[3]!;
+    await db.asUser(lapsed, (q) => q("insert into public.code_files (user_id, job_id, step_id, filename, content, updated_at) values ($1, $2, 'make', 'main.py', 'print(1)', $3)", [lapsed, job.id, Date.now()]));
+    signedIn = { id: lapsed, email: "lapsed@x.test" };
+    expect((await content(job.id)).status).toBe(200);
+  });
 });
 
 describe("classroom seats", () => {

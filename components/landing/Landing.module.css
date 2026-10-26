@@ -12,9 +12,17 @@
   overflow: hidden;
 }
 
+/* The scene's box has its final shape from the first paint (320x180 is 16:9), so nothing below
+   it moves while the art loads; the canvas draws at a whole-number scale inside it. */
 .heroScene {
   display: flex;
   justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
 }
 
 .heroText {
@@ -358,21 +366,24 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
-  /* The back of the shelf: dark boards, 48 px wide. */
-.shelf::before {
-  content: "";
-  position: absolute;
-  inset: 4px;
-  background: var(--night-0);
-  opacity: 0.14;
-  -webkit-mask: var(--mask-vline-48) repeat 0 0 / 48px 8px;
-  mask: var(--mask-vline-48) repeat 0 0 / 48px 8px;
-  pointer-events: none;
-}
-
-.shelfRow {
+  .shelfRow {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     row-gap: var(--s-10);
+  }
+
+  /* Two to a row: each line opens towards the middle, so none runs off the screen. */
+  .shelfLine {
+    max-width: min(280px, calc(100vw - 48px));
+    transform: none;
+  }
+
+  .shelfItem:nth-child(odd) .shelfLine {
+    left: 0;
+  }
+
+  .shelfItem:nth-child(even) .shelfLine {
+    left: auto;
+    right: 0;
   }
 
   .hero {

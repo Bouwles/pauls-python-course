@@ -357,9 +357,22 @@ export function Workbench({ job, characters, conceptTitles, actTitle, landing = 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready, user]);
 
-  // Warm Python up as soon as the Workbench opens.
+  // Warm Python up as soon as the Workbench opens. On the landing page it waits a few seconds,
+  // or until someone touches the job, so the page itself loads first.
   useEffect(() => {
-    runner.preload();
+    if (!landing) {
+      runner.preload();
+      return;
+    }
+    const start = () => runner.preload();
+    const timer = setTimeout(start, 4000);
+    window.addEventListener("pointerdown", start, { once: true });
+    window.addEventListener("keydown", start, { once: true });
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("pointerdown", start);
+      window.removeEventListener("keydown", start);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
