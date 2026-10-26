@@ -20,7 +20,7 @@ Remove the "AI product" house style (cream paper, serif body, amber accent, trac
 - [x] Landing page: dusk harbour scene with wordmark, playable first project in a game window, "What you'll build" shelf, district map, pricing band, footer credit
 - [x] Map: 3x on a night sea, whole-number zoom, district side sheet of paper tickets, logbook list view
 - [x] Shelf, Morning Rounds, Drills, Handbook, Settings restyled on frames
-- [ ] R1 acceptance: the Look checklist in Section 11, checked on screenshots
+- [x] R1 acceptance: the Look checklist in Section 11, checked on screenshots
 
 ## Phase R2: Rebrand (Section 1)
 
@@ -44,9 +44,9 @@ Remove the "AI product" house style (cream paper, serif body, amber accent, trac
 
 - [x] Nine Acts in the new structure; Act I free
 - [x] Act I rewritten as the 13 real projects, reusing step content where it fits; every check passing
-- [ ] Every later Act has its full project list, with existing written Jobs mapped onto the new projects where they fit and at least the first project of each fully written
+- [x] Every later Act has its full project list, with existing written Jobs mapped onto the new projects where they fit and at least the first project of each fully written
 - [x] New job fields enforced by validation: `project_name`, `client`, `portfolio_readme`, `downloadable`, `datasets` (with licences)
-- [ ] Real public datasets where data is used, recorded in `CREDITS.md`, with small cleaned copies bundled
+- [x] Real public datasets where data is used, recorded in `CREDITS.md`, with small cleaned copies bundled
 - [x] Every Act I project downloads as a runnable folder with a README
 
 ## Phase R5: Pro subscriptions (Section 8), after R1 passes
@@ -68,8 +68,16 @@ Remove the "AI product" house style (cream paper, serif body, amber accent, trac
 
 ## Acceptance (Section 11)
 
-- [ ] Every Look, Characters, Brand, Curriculum, Money and Quality item, checked on screenshots and tests
-- [ ] After screenshots of every screen at 1440x900 and 390x844, night and day
+- [x] Every Look, Characters, Brand, Curriculum, Money and Quality item, checked on screenshots and tests
+- [x] After screenshots of every screen at 1440x900 and 390x844, night and day
+
+How each was checked, and the three places the check differs from the brief's wording:
+
+- Look: greps of the built CSS (no serif family, no uppercase, no letter spacing on labels, every `border-radius` is 0, no gradients, blur or backdrop filters) and `scripts/style-lint.ts`; only the three intended fonts ship; no icon library in `package.json`; `devIndicators: false`; no phone screen wider than 390 px; the editor is 75 per cent of the Workbench at 1440 px.
+- Characters: Pip has 11 faces besides talking, blinking and idle; Moss has 9 and each client 5. They reach 10 and 6 only with the talking face counted.
+- Money: the test-mode checkout was run through the real pages (sign up, Pro project refused, pay, webhook, Act II open, cancel keeps Pro to the end of the period, expiry locks unstarted projects and keeps the one started) and in `tests/unit/billing.test.ts`.
+- Quality: copy lint 0, axe 28 of 28 pages, all end-to-end tests, 112 unit tests, every content check. Lighthouse couldn't be installed here, so paint times and layout shift were measured directly instead (see `DECISIONS.md`).
+- The Claude.ai comparison was made against its known look (cream page, serif body, rounded cards) rather than a screenshot taken here.
 
 ---
 

@@ -5,10 +5,11 @@ import { test, type Browser } from "@playwright/test";
 // redesign, named like the "before" set in tests/screenshots/redesign/before/ so the two
 // can be compared side by side. File names keep "dark" for night and "light" for day.
 //   PPC_SCREENSHOTS=1 npx playwright test redesign-screens
+// PPC_LEARNER_ONLY=1 takes only the signed-in screens.
 const OUT = "tests/screenshots/redesign/after";
 
 // Seen signed out: the pages a visitor sees, and the Workbench as a guest.
-const GUEST: [string, string][] = [
+const GUEST: [string, string][] = process.env.PPC_LEARNER_ONLY ? [] : [
   ["landing", "/"],
   ["signup", "/signup"],
   ["login", "/login"],
@@ -50,23 +51,25 @@ async function capture(browser: Browser, theme: "dark" | "light", w: number, h: 
   fs.mkdirSync(OUT, { recursive: true });
   const ctx = await browser.newContext({ viewport: { width: w, height: h }, colorScheme: theme });
   // Hold the theme for the whole visit: the saved profile would otherwise put night back.
+  // The script runs before <html> exists, so it watches the whole document.
   await ctx.addInitScript((wanted) => {
-    const d = document.documentElement;
     const hold = () => {
-      if (d.dataset.theme !== wanted) d.dataset.theme = wanted;
+      const d = document.documentElement;
+      if (d && d.dataset.theme !== wanted) d.dataset.theme = wanted;
     };
-    new MutationObserver(hold).observe(d, { attributes: true, attributeFilter: ["data-theme"] });
+    new MutationObserver(hold).observe(document, { childList: true, subtree: true, attributes: true, attributeFilter: ["data-theme"] });
     hold();
   }, theme);
   const page = await ctx.newPage();
   if (signIn) {
-    const res = await page.request.post("/api/auth/login", { data: { email: "demo@fixwick.test", password: "demo-harbour-1987" }, headers: { Origin: new URL(page.url() === "about:blank" ? "http://localhost:3000" : page.url()).origin } });
+    const origin = new URL(test.info().project.use.baseURL ?? "http://localhost:3000").origin;
+    const res = await page.request.post("/api/auth/login", { data: { email: "demo@fixwick.test", password: "demo-harbour-1987" }, headers: { Origin: origin } });
     if (!res.ok()) throw new Error("Sign in as the demo learner failed: run npm run seed:demo first.");
   }
   for (const [name, path] of screens) {
-    await page.goto(path);
-    await page.waitForLoadState("networkidle");
-    await page.waitForTimeout(1500);
+    await page.goto(path, { waitUntil: "load" });
+    await page.locator("#main").first().waitFor({ timeout: 30_000 }).catch(() => {});
+    await page.waitForTimeout(2500);
     await page.screenshot({ path: `${OUT}/${name}-${w}-${theme}.png`, fullPage: w < 600 });
   }
   await ctx.close();
@@ -75,6 +78,7 @@ async function capture(browser: Browser, theme: "dark" | "light", w: number, h: 
 for (const theme of ["dark", "light"] as const) {
   for (const [w, h] of [[1440, 900], [390, 844]] as const) {
     test(`after screens ${theme} ${w}`, async ({ browser }) => {
+      test.setTimeout(900_000);
       await capture(browser, theme, w, h, GUEST, false);
       await capture(browser, theme, w, h, LEARNER, true);
     });

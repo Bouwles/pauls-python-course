@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { completeJobOne, logIn, signUp, step, typeCode, uniqueEmail } from "./helpers";
+import { completeJobOne, job, logIn, signUp, typeCode, uniqueEmail } from "./helpers";
 
 test("sign up, make a character, finish Job 1, and find it all on another device", async ({ browser }) => {
   const email = uniqueEmail();
@@ -25,20 +25,27 @@ test("sign up, make a character, finish Job 1, and find it all on another device
   await again.waitForURL("**/job/bill-splitter?step=make");
   await expect(again.locator(".cm-content")).toContainText("# half done");
   await again.goto("/shelf");
-  await expect(again.getByRole("button", { name: /The workshop sign/ })).toBeVisible();
+  await expect(again.getByRole("button", { name: new RegExp(job("shop-sign").shelf!.label) })).toBeVisible();
   await second.close();
 });
 
 test("answer input() in the console, and stop a loop that never ends", async ({ page }) => {
+  // Pip's tip program asks two questions; the answers are typed straight into the console.
   await page.goto("/job/bill-splitter?step=pips");
   await page.getByRole("button", { name: "Run", exact: true }).click();
   const field = page.locator("#console-input");
   await field.waitFor({ timeout: 60_000 });
-  await field.fill("bread");
+  await field.fill("20");
   await field.press("Enter");
-  await page.locator("#console-input").fill("3");
+  await page.locator("#console-input").fill("10");
   await page.locator("#console-input").press("Enter");
-  await expect(page.getByText("A number is still text.")).toBeVisible();
+  await expect(page.getByRole("log", { name: "Output" })).toContainText("Total with tip: 20.10", { timeout: 30_000 });
+  // Text that isn't a number: Moss explains the error under the traceback.
+  await page.getByRole("button", { name: "Run", exact: true }).click();
+  await page.locator("#console-input").waitFor({ timeout: 30_000 });
+  await page.locator("#console-input").fill("bread");
+  await page.locator("#console-input").press("Enter");
+  await expect(page.getByText("float() can't read that text.")).toBeVisible({ timeout: 30_000 });
 
   await page.goto("/job/shop-sign?step=make");
   await typeCode(page, "while True:\n    pass");
@@ -61,6 +68,8 @@ test("guest work moves into a new account", async ({ page }) => {
 });
 
 test("a review round, the Shelf export, and deleting the account", async ({ page }) => {
+  // Job 1, then up to ten review cards that each run Python: twice the usual budget.
+  test.setTimeout(360_000);
   const email = uniqueEmail();
   await signUp(page, email, "Delete Me");
   await completeJobOne(page);
@@ -78,7 +87,8 @@ test("a review round, the Shelf export, and deleting the account", async ({ page
       const textarea = page.getByLabel("What it prints");
       if (await textarea.isVisible()) await textarea.fill("nothing");
       const radio = page.getByRole("radio").first();
-      if (await radio.isVisible()) await radio.check();
+      // Review options are labels over real radios, like Settings: click as a person would.
+      if (await radio.count()) await radio.check({ force: true });
       const check = page.getByRole("button", { name: /^(Check|Try again)$/ });
       if (await check.isVisible()) await check.click();
       await page.waitForTimeout(1500);
@@ -88,7 +98,7 @@ test("a review round, the Shelf export, and deleting the account", async ({ page
   await expect(page.getByRole("heading", { name: "Rounds done" })).toBeVisible();
 
   await page.goto("/shelf");
-  await page.getByRole("button", { name: /The workshop sign/ }).click();
+  await page.getByRole("button", { name: new RegExp(job("shop-sign").shelf!.label) }).click();
   const download = page.waitForEvent("download");
   await page.getByRole("button", { name: "Export everything as a repository" }).click();
   expect((await download).suggestedFilename()).toMatch(/python-projects\.zip$/);

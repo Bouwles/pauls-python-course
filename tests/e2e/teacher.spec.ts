@@ -12,7 +12,8 @@ test("a teacher makes a class, a learner joins with the code, and sees the Job s
   const teacher = await teacherCtx.newPage();
   await signUp(teacher, uniqueEmail(), "Ms Penrose");
   await teacher.goto("/settings");
-  await teacher.getByRole("radio", { name: "I teach a class" }).check();
+  // The choices are pixel toggles over real radios; a person clicks the toggle, so force the check.
+  await teacher.getByRole("radio", { name: "I teach a class" }).check({ force: true });
   await teacher.getByRole("link", { name: "Your classes" }).click();
   await teacher.waitForURL("**/teach");
   await teacher.getByLabel("Class name").fill(className);
@@ -40,7 +41,7 @@ test("a teacher makes a class, a learner joins with the code, and sees the Job s
   await teacher.getByLabel("Job", { exact: true }).selectOption("bill-splitter");
   await teacher.getByLabel("Due, if any").fill(due);
   await teacher.getByRole("button", { name: "Set the Job" }).click();
-  await expect(teacher.getByRole("status").filter({ hasText: "Set Bea's Till, part 2." })).toBeVisible();
+  await expect(teacher.getByRole("status").filter({ hasText: "Set Bill Splitter." })).toBeVisible();
   await expect(teacher.getByRole("row").filter({ hasText: "Bill Splitter" })).toContainText("0 of 1");
 
   // The teacher can open the learner's page.
