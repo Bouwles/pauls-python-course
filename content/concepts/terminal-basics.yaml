@@ -13,13 +13,13 @@ related: [virtual-environments]
 drill: false
 cards:
   - type: choice
-    prompt: "The terminal is in your home folder. hello.py is in Downloads/saltmarsh-python-at-home. You type `python hello.py`. What happens?"
+    prompt: "The terminal is in your home folder. hello.py is in Downloads/{{town_id}}-python-at-home. You type `python hello.py`. What happens?"
     options:
       - text: "Python can't find hello.py: the terminal looks in the folder it's in"
         correct: true
       - text: "Python finds hello.py and runs it"
         misconception: terminal-folder-irrelevant
-        feedback: "Commands look in the terminal's current folder. `cd Downloads/saltmarsh-python-at-home` first."
+        feedback: "Commands look in the terminal's current folder. `cd Downloads/{{town_id}}-python-at-home` first."
   - type: choice
     prompt: "Which command runs hello.py with Python?"
     options:
@@ -32,13 +32,13 @@ cards:
         misconception: file-name-is-a-command
         feedback: "There's no `run` command. `python` is the program, and hello.py is what it runs."
   - type: choice
-    prompt: "You're in Downloads/saltmarsh-python-at-home/tests. Which command takes you back up to the project folder?"
+    prompt: "You're in Downloads/{{town_id}}-python-at-home/tests. Which command takes you back up to the project folder?"
     options:
       - text: "cd .."
         correct: true
-      - text: "cd saltmarsh-python-at-home"
+      - text: "cd {{town_id}}-python-at-home"
         misconception: terminal-folder-irrelevant
-        feedback: "That looks for a folder called saltmarsh-python-at-home *inside* tests. `..` always means the folder above."
+        feedback: "That looks for a folder called {{town_id}}-python-at-home *inside* tests. `..` always means the folder above."
   - type: predict
     prompt: "A program is run with no extra words after its name. What does it print?"
     code: |

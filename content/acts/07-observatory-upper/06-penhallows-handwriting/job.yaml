@@ -1,0 +1,90 @@
+id: penhallows-handwriting
+title: "Handwritten Digit Recogniser"
+project_name: "Handwritten Digit Recogniser"
+portfolio_readme: |
+  # Handwritten Digit Recogniser
+
+  A neural network written from scratch in NumPy that reads handwritten digits. Each digit is an 8 by 8 grid of greys; the network has a ReLU hidden layer and a softmax output over the ten digits, learns by backpropagation and Adam in mini-batches, and is tested on digits it was never shown.
+
+  Written by {name} in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  pip install numpy scikit-learn
+  python digits.py
+  ```
+
+  ```
+  Loss: 0.543 after the first epoch, 0.029 after the last
+  Read 293 of 297 digits it had never seen
+  Misread: 4 as 7, 9 as 5, 9 as 8, 8 as 1
+  ```
+
+  `training.py` holds the weight initialisation, the mini-batches and Adam; `notebooks.py` loads the digits.
+
+  ## What it shows
+
+  - Softmax and cross-entropy for choosing one answer out of ten, with a softmax that can't overflow
+  - One-hot answers, and the gradient at the scores worked out by hand: the chances minus the one-hot answers
+  - A full training loop for a classifier, and an honest test on held-back images
+
+  ## Data
+
+  The 1,797 handwritten digits that scikit-learn ships as `load_digits`: a copy of the test set of the UCI "Optical Recognition of Handwritten Digits" data (Alpaydin and Kaynak, 1998), licensed CC BY 4.0. `notebooks.py` loads them; nothing else is bundled.
+downloadable: true
+datasets:
+  - name: "Optical Recognition of Handwritten Digits (scikit-learn's load_digits)"
+    source: "https://archive.ics.uci.edu/dataset/80/optical+recognition+of+handwritten+digits"
+    licence: "CC BY 4.0"
+    file: "notebooks.py"
+    notes: "Not copied: notebooks.py loads the 1,797 digits scikit-learn bundles with load_digits, each 8 by 8 with greys from 0 to 16. In the story, Wendt scanned them from Penhallow's notebooks."
+client: wendt
+building: observatory
+estimated_minutes: 120
+summary: "A NumPy network learns to read 1,797 real handwritten digits, 8 by 8 greys: softmax, cross-entropy, mini-batches and Adam, and a test on 297 digits it has never seen."
+concepts_introduced: [classification-networks]
+concepts_reviewed: [neural-networks, backpropagation, optimisers, weight-initialisation, numerical-gradient-checking, logistic-regression, cross-entropy, train-test-split, overfitting, numpy-arrays, broadcasting, vectorisation, indexing]
+ask:
+  dialogue:
+    - wendt: "Every number in her notebooks is in her own hand. Two hundred notebooks, give or take."
+    - wendt: "I scanned the digits. Eight by eight squares of grey. Her fours look like nines."
+    - wendt: "Her nines look like fours that gave up halfway."
+    - moss: "Ten answers, then, not three. And only one of them right."
+  spec: |
+    In `digits.py`, teach the network from the Optimiser Benchmark to read her digits: 1,797 of them, each an 8 by 8 grid of greys from 0 to 16, loaded by `notebooks.py`. `training.py` holds `init_params`, `batches` and `Adam` from that Job.
+
+    1. `one_hot(labels, classes)`: a row per label, with 1 in that label's column and 0 everywhere else.
+    2. `softmax(Z)`: each row of scores into chances that add up to 1, without overflowing however big the scores are.
+    3. `cross_entropy(P, labels)`: the mean, over the rows, of minus the log of the chance each row gives its right answer.
+    4. `forward(X, params)`: a ReLU hidden layer, then softmax. It returns the chances, one row per image, and a cache, as in Neural Network from Scratch.
+    5. `backward(X, labels, params, cache)`: the gradient for every weight and bias. The blame at the scores is the chances minus the one-hot answers, divided by the number of rows. No loops.
+    6. `accuracy(P, labels)`: the fraction of rows whose biggest chance is on the right digit.
+    7. `train(X, labels, params, optimiser, epochs, batch_size, rng)`: mini-batch training, as in the Optimiser Benchmark. It returns the cross-entropy on every row of `X` after each epoch.
+    8. Run as a program, it learns from 1500 of her digits, then reads the 297 it was never shown.
+  example: |
+    Loss: 0.543 after the first epoch, 0.029 after the last
+    Read 293 of 297 digits it had never seen
+    Misread: 4 as 7, 9 as 5, 9 as 8, 8 as 1
+story_note: before-tom-did
+ship:
+  dialogue:
+    - wendt: "Two hundred and ninety-three of two hundred and ninety-seven, on digits it had never seen."
+    - wendt: "One of its mistakes is a nine it read as a five. I've looked. I'd have read it as a five."
+    - pip: "Mine got every training digit right."
+    - moss: "And the ones in the drawer?"
+  shelf: { object: slate, label: "Penhallow's handwriting, read" }
+  cards: [classification-networks]
+stretch:
+  - id: confusion
+    title: "Which digits get confused"
+    prompt: |
+      Build a 10 by 10 confusion matrix for the held-back digits: row for the true digit, column for the guess. Show it with `plt.imshow` and label both axes. Which pair of digits does it mix up most, and do they look alike in her hand?
+  - id: draw-a-digit
+    title: "Draw a digit"
+    prompt: |
+      Draw a digit of your own as eight strings of eight characters, `.` for paper and `#` for ink, turn it into an 8 by 8 array of 0s and 16s, and have the trained network read it. Then soften the edges with some 8s and see if it grows surer. Which of your digits does it get wrong, and is your hand or its training to blame?
+  - id: least-sure
+    title: "The digits it was least sure of"
+    prompt: |
+      Find the eight held-back digits whose biggest chance was smallest, and draw them with `plt.imshow(image, cmap="gray_r")` in a row, each titled with its guess and its chance. Are its unsure digits the ones you'd hesitate over?

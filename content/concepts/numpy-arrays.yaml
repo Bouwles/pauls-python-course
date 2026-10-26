@@ -1,16 +1,16 @@
 id: numpy-arrays
 title: NumPy arrays
 summary: |
-  `np.array()` turns a list of numbers into an array: a block of numbers of one type, stored side by side. An array has a `shape`, the number of items along each axis, so a hundred years of twelve months is `(100, 12)`. `rain[0, 9]` is row 0, column 9, and `rain[:, 0]` is every row of column 0. Methods like `sum` and `mean` take `axis=`, and the axis you name is the one that collapses.
+  `np.array()` turns a list of numbers into an array: a block of numbers of one type, stored side by side. An array has a `shape`, the number of items along each axis, so 395 students with three marks each is `(395, 3)`. `marks[3, 2]` is row 3, column 2, and `marks[:, 0]` is every row of column 0. Methods like `sum` and `mean` take `axis=`, and the axis you name is the one that collapses.
 example: |
   import numpy as np
 
-  rain = np.array([[80, 60, 40],
-                   [90, 50, 30]])
-  print(rain.shape)
-  print(rain[1, 0])
-  print(rain[:, 2])
-  print(rain.sum(axis=1))
+  marks = np.array([[12, 14, 15],
+                    [8, 6, 4]])
+  print(marks.shape)
+  print(marks[1, 0])
+  print(marks[:, 2])
+  print(marks.mean(axis=1))
 misconceptions: [list-times-doubles, array-is-a-list, axis-names-what-remains]
 related: [vectorisation, broadcasting, lists, indexing, slicing]
 drill: true

@@ -1,0 +1,83 @@
+id: contact-book
+title: "Contact Book"
+project_name: "Contact Book"
+portfolio_readme: |
+  # Contact Book
+
+  A contact book for the command line. It keeps a phone number and an address for each person, looks people up by name, suggests who you might mean when you only type part of a name, and adds new contacts from a single typed line.
+
+  Written by {name} for the post office in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  python main.py
+  ```
+
+  Type a full name to look someone up. Type part of a name, like `tom`, to see who it might be. Type `add`, then a line like `Nell Brannigan, 01632 960733, The Scrapyard`, to add someone. A blank line stops it.
+
+  ```
+  Name? mr
+  No contact called mr.
+  Try: Mr Okonjo, Mr Ashby
+  ```
+
+  ## What it shows
+
+  - A dictionary of dictionaries: each name holds its own record, with a phone and an address.
+  - `.get()` for names that might not be there, so a missing name never crashes it.
+  - A search through every name, word by word, with `.split()`.
+  - One typed line turned into a record with `.split(", ")`, and a list turned back into one line with `", ".join()`.
+
+  The phone numbers are from the range set aside for fiction, so none of them will ring anyone.
+downloadable: true
+datasets: []
+client: mira
+building: post-office
+estimated_minutes: 55
+summary: "Look people up, find them from half a name, and add new ones from one typed line."
+concepts_introduced: [dictionaries, dict-get, dict-items, nested-data, split-join]
+concepts_reviewed: [while-loops, sentinels, lists, append-pop, in-operator, string-methods, f-strings, list-aliasing]
+ask:
+  dialogue:
+    - mira: "Half the town rings the post office for the other half's number."
+    - mira: "The numbers are on cards. Pip put the cards in order. By street."
+    - mira: "I want a contact book. A name in, a number out. Even for people who only know half a name."
+    - moss: "Names to details. That wants a dictionary."
+  spec: |
+    `contacts` holds a record for each name: a dictionary with a `phone` and an `address`. Ask `Name? ` until a blank line.
+
+    1. A name in the book gets its record: `Bea Hollis: 01632 960101, The Bakery`.
+    2. `add` asks `New contact? ` for a whole contact on one line, like `Nell Brannigan, 01632 960733, The Scrapyard`. Split it at each `, `, add the record, and print `Added Nell Brannigan.` A line that doesn't split into exactly three parts gets `Name, phone, address, please.`
+    3. Any other name gets `No contact called tom.` Then, if what was typed is one of the words in any contact's name, ignoring capitals, print `Try: ` and those names, in book order, with `, ` between them.
+  example: |
+    Name? Bea Hollis
+    Bea Hollis: 01632 960101, The Bakery
+    Name? mr
+    No contact called mr.
+    Try: Mr Okonjo, Mr Ashby
+    Name? add
+    New contact? Nell Brannigan, 01632 960733, The Scrapyard
+    Added Nell Brannigan.
+    Name? Nell Brannigan
+    Nell Brannigan: 01632 960733, The Scrapyard
+    Name?
+ship:
+  dialogue:
+    - mira: "Mr Okonjo, then Mr Ashby. Both of them, in the order they're filed."
+    - mira: "Nell is in a book for the first time. She asked for a copy."
+  shelf: { object: address-book, label: "Mira's contact book" }
+  cards: [dictionaries, dict-get, dict-items, nested-data, split-join]
+stretch:
+  - id: nicknames
+    title: "Tom, not Old Tom"
+    prompt: |
+      Nobody types the full name. Add a dictionary of nicknames, `{"Bea": "Bea Hollis", "Tom": "Old Tom", "Agnes": "Agnes Rook"}`, and turn each typed name into the full one before looking it up. Names that aren't nicknames stay as they are.
+
+      `nicknames.get(name, name)` does exactly that in one line.
+    tests: tests/stretch-nicknames.py
+    solution: solutions/stretch-nicknames.py
+  - id: everyone
+    title: "The whole book"
+    prompt: |
+      Mira wants to see who's in it. Typing `list` prints `Contacts: ` and every name in alphabetical order, with `, ` between them. `sorted(contacts)` gives the names of a dictionary in order.

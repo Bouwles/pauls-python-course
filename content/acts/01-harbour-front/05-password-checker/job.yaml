@@ -1,0 +1,93 @@
+id: password-checker
+title: "Password Checker"
+project_name: "Password Checker"
+portfolio_readme: |
+  # Password Checker
+
+  A command-line password checker. It asks for a username and a password, tests the password against six rules, and prints a reason for every rule it breaks, so whoever is typing knows exactly what to change. Then it gives a verdict: accepted or rejected.
+
+  Written by {name} for the harbour office in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  python main.py
+  ```
+
+  ```
+  Username? tom
+  Password? Lamp1962
+  Too short: at least 10 characters.
+  Ends in a year.
+  Password rejected.
+  ```
+
+  ## The rules
+
+  1. At least 10 characters.
+  2. At least one capital and one lower-case letter.
+  3. Not only letters: a number or a symbol somewhere.
+  4. The username isn't inside it, in any case.
+  5. The word `password` isn't inside it, even written `passw0rd`.
+  6. It doesn't end in four digits, like a year.
+
+  ## What it shows
+
+  - String methods: `.lower()`, `.upper()`, `.isalpha()`, `.isdigit()`, `.strip()` and `.replace()`
+  - `len()`, slicing (`password[-4:]`) and `in` for finding text inside text
+  - Booleans, and conditions combined with `and`, `or` and `not`
+  - Every rule checked on its own, so every problem is reported, not just the first
+downloadable: true
+datasets: []
+client: agnes
+building: harbour-office
+estimated_minutes: 45
+summary: "Six rules for the harbour office passwords, and a reason for every one a password breaks."
+concepts_introduced: [string-methods, string-slicing, immutability, strip-replace, boolean-operators, in-operator]
+concepts_reviewed: [strings, bool, comparisons, if-elif-else, input-returns-text, variables, f-strings]
+ask:
+  dialogue:
+    - agnes: "The harbour office is going on the computer. Everyone needs a password."
+    - agnes: "Last time, four people chose harbour1. One chose password. That was my deputy."
+    - agnes: "Requirements attached. Six of them. When it says no, it says why."
+    - moss: "She numbers her shopping as well."
+  spec: |
+    Requirements, from Agnes Rook, harbour master.
+
+    Ask for a username (`Username? `) and a password (`Password? `). For every rule the password breaks, print the reason, in this order:
+
+    1. At least 10 characters. `Too short: at least 10 characters.`
+    2. At least one capital and one lower-case letter. `Needs capitals and lower case.`
+    3. Not only letters. `Needs a number or a symbol.`
+    4. The username isn't inside it, in any case. `Contains your username.`
+    5. The word `password` isn't inside it, in any case, even with a `0` for the `o`. `Contains the word password.`
+    6. It doesn't end in four digits. `Ends in a year.`
+
+    The last line is `Password accepted.` if it broke no rules, and `Password rejected.` if it broke any.
+  example: |
+    Username? tom
+    Password? Lamp1962
+    Too short: at least 10 characters.
+    Ends in a year.
+    Password rejected.
+ship:
+  dialogue:
+    - agnes: "Lamp1962. Too short, and it ends in a year. It told Tom both. Correct."
+    - agnes: "He has chosen a new one. He won't tell me what it is. Also correct."
+  shelf: { object: notice, label: "Agnes's password rules, pinned up" }
+  cards: [string-methods, string-slicing, immutability, strip-replace, boolean-operators, in-operator]
+stretch:
+  - id: passphrase
+    title: "Long beats clever"
+    prompt: |
+      Agnes has read that four ordinary words make a stronger password than one short clever one. A password of 20 characters or more is a **passphrase**: for a passphrase, skip rules 2, 3 and 6. Rules 4 and 5 still apply.
+
+      `the lamp goes round all night` is accepted. `tom keeps the lamp lit all night`, typed by `tom`, is not.
+    tests: tests/stretch-passphrase.py
+    solution: solutions/stretch-passphrase.py
+  - id: usual-suspects
+    title: "The usual suspects"
+    prompt: |
+      Also reject anything containing `harbour`, `qwerty` or `123456`, in any case, with `Too common.` as a seventh reason.
+
+      Careful: `if "harbour" or "qwerty" in low:` reads well and is wrong. Each side of an `or` is a whole question.

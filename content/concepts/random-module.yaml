@@ -1,12 +1,12 @@
 id: random-module
 title: Random numbers
 summary: |
-  `random.randint(1, 20)` picks a whole number from 1 to 20, and unlike `range` it includes both ends. It picks once each time it is called. A variable that holds the result keeps that number until you call `randint` again.
+  `random.randint(1, 100)` picks a whole number from 1 to 100, and unlike `range` it includes both ends. It picks once each time it is called. A variable that holds the result keeps that number until you call `randint` again.
 example: |
   import random
 
-  catch = random.randint(1, 20)
-  print(catch, catch)
+  secret = random.randint(1, 100)
+  print(secret, secret)
 misconceptions: [randint-excludes-end, random-changes-on-use]
 related: [imports, range]
 cards:

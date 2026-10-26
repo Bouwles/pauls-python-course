@@ -1,14 +1,14 @@
 id: broadcasting
 title: Broadcasting
 summary: |
-  When arrays of different shapes meet in arithmetic, NumPy stretches the smaller one to fit, without copying it. Shapes are compared from the right-hand end: each pair of sizes must match, or one of them must be 1. So `(100, 12)` minus `(12,)` takes twelve monthly averages off every year, but `(100, 12)` minus `(100,)` fails. To work row by row, keep the totals as a column with `keepdims=True`, which gives shape `(100, 1)`.
+  When arrays of different shapes meet in arithmetic, NumPy stretches the smaller one to fit, without copying it. Shapes are compared from the right-hand end: each pair of sizes must match, or one of them must be 1. So `(395, 3)` minus `(3,)` takes three assessment averages off every student, but `(395, 3)` minus `(395,)` fails. To work row by row, keep the averages as a column with `keepdims=True`, which gives shape `(395, 1)`.
 example: |
   import numpy as np
 
-  rain = np.array([[80, 60],
-                   [100, 40]])
-  print(rain - rain.mean(axis=0))
-  print(rain / rain.sum(axis=1, keepdims=True))
+  marks = np.array([[12, 16],
+                    [8, 14]])
+  print(marks - marks.mean(axis=0))
+  print(marks - marks.mean(axis=1, keepdims=True))
 misconceptions: [broadcast-matches-rows, broadcast-needs-same-shape]
 related: [numpy-arrays, vectorisation]
 cards:

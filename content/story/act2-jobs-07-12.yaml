@@ -5,9 +5,9 @@ notes:
     job: the-mutable-mess
     title: "Copies are cheap"
     text: "Copies are cheap. Finding out you needed one is not. The machine on the hill learns from whatever I hand it, so it only ever gets copies. A.P."
-    where: "A comment inside new_day() in stock.py, on the line above the shallow copy that causes Bea's trouble, in the Fix the stock sheets step of The Mutable Mess."
+    where: "A comment inside new_day() in stock.py, on the line above the shallow copy that causes Bea's trouble, in the Fix the stock sheets step of the Order Book."
   - id: passes-everything
     job: testing-the-tide-table
     title: "It passes everything"
     text: "I never wrote tests for the thing on the hill. It passes everything I ask it, which is either very good news or the worst kind. A.P."
-    where: "A comment at the top of tides.py, in Pip's Version of Testing the Tide Table."
+    where: "A comment at the top of bank.py, in Pip's Version of Testing the Bank. Mira found the note pinned inside the post office safe."

@@ -1,14 +1,14 @@
 id: vectorisation
 title: Vectorisation
 summary: |
-  Arithmetic and comparisons on an array happen to every item at once, with no loop: `rain / 25.4` converts every month, and `rain > 100` gives an array of `True` and `False`. Functions like `np.abs` work the same way, and `.sum()` on a `True`/`False` array counts the `True`s. It is shorter, and far faster, because the work runs as compiled code over numbers of one type stored side by side, instead of Python handling each number in turn.
+  Arithmetic and comparisons on an array happen to every item at once, with no loop: `marks / 20 * 100` turns every mark into a percentage, and `marks == 0` gives an array of `True` and `False`. Functions like `np.abs` work the same way, and `.sum()` on a `True`/`False` array counts the `True`s. It is shorter, and far faster, because the work runs as compiled code over numbers of one type stored side by side, instead of Python handling each number in turn.
 example: |
   import numpy as np
 
-  rain = np.array([116.0, 84.0, 81.0, 58.0])
-  print(rain / 25.4)
-  print(rain > 80)
-  print((rain > 80).sum())
+  finals = np.array([15.0, 0.0, 11.0, 6.0])
+  print(finals / 20 * 100)
+  print(finals == 0)
+  print((finals < 10).sum())
 misconceptions: [array-needs-loop, comparison-gives-one-bool, array-is-a-list]
 related: [numpy-arrays, broadcasting, for-loops]
 drill: true

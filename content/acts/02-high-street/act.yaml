@@ -1,29 +1,32 @@
 id: high-street
 number: 2
-title: "The High Street"
+title: "The Post Office and the High Street"
 district: high-street
 subject: "Fluent Python"
 hours: 45
-summary: "Seventeen jobs for the shops on the High Street. Tuples, sets, files, exceptions, comprehensions, modules, classes, testing, generators, decorators, command-line tools and git."
+summary: "Twenty real programs for the post office and the High Street, from a password generator to a personal finance app, with a word counter, a quiz, a bank, a library manager, a to-do tool and a log streamer on the way. Tuples, sets, files, JSON, exceptions, comprehensions, modules, classes, tests, generators, decorators, the command line and git."
 locked_line: "The shops are shuttered until the harbour is sorted."
 intro:
   - moss: "The High Street's heard about you."
   - moss: "Their problems are bigger. So are their programs."
 jobs:
+  - password-generator
   - tuples-at-the-tailors
   - lost-property-box
   - library-catalogue
+  - file-organiser
   - penhallows-logs
+  - habit-tracker
   - greengrocers-labels
   - opening-hours-properly
-  - function-workshop
   - the-mutable-mess
   - bike-hire-shed-1
   - bike-hire-shed-2
-  - postcards
+  - text-adventure-engine
   - testing-the-tide-table
+  - csv-budget-report
+  - command-line-tools
   - recipe-generator
   - the-shop-timer
-  - command-line-tools
   - version-control
   - high-street-market-app

@@ -1,0 +1,105 @@
+{
+  "transactions": [
+    {
+      "day": "2026-10-01",
+      "pence": 145000,
+      "category": "income",
+      "note": "shop wages"
+    },
+    {
+      "day": "2026-10-02",
+      "pence": -45000,
+      "category": "home",
+      "note": "rent"
+    },
+    {
+      "day": "2026-10-04",
+      "pence": -2380,
+      "category": "food",
+      "note": "the big shop"
+    },
+    {
+      "day": "2026-10-09",
+      "pence": -1250,
+      "category": "fun",
+      "note": "quiz night"
+    },
+    {
+      "day": "2026-10-15",
+      "pence": -3460,
+      "category": "food",
+      "note": "the big shop"
+    },
+    {
+      "day": "2026-10-21",
+      "pence": -880,
+      "category": "travel",
+      "note": "bus to Truro"
+    },
+    {
+      "day": "2026-10-28",
+      "pence": -2990,
+      "category": "shop",
+      "note": "new apron"
+    },
+    {
+      "day": "2026-11-01",
+      "pence": 145000,
+      "category": "income",
+      "note": "shop wages"
+    },
+    {
+      "day": "2026-11-02",
+      "pence": -45000,
+      "category": "home",
+      "note": "rent"
+    },
+    {
+      "day": "2026-11-03",
+      "pence": -450,
+      "category": "food",
+      "note": "chips"
+    },
+    {
+      "day": "2026-11-05",
+      "pence": -4120,
+      "category": "food",
+      "note": "the big shop"
+    },
+    {
+      "day": "2026-11-06",
+      "pence": -2500,
+      "category": "fun",
+      "note": "fireworks"
+    },
+    {
+      "day": "2026-11-12",
+      "pence": -1250,
+      "category": "fun",
+      "note": "quiz night"
+    },
+    {
+      "day": "2026-11-14",
+      "pence": -3270,
+      "category": "food",
+      "note": "the big shop"
+    },
+    {
+      "day": "2026-11-19",
+      "pence": -1645,
+      "category": "fun",
+      "note": "the pier arcade"
+    },
+    {
+      "day": "2026-11-21",
+      "pence": -2000,
+      "category": "travel",
+      "note": "train to Plymouth"
+    }
+  ],
+  "budgets": {
+    "food": 12000,
+    "fun": 4000,
+    "home": 45000
+  }
+}

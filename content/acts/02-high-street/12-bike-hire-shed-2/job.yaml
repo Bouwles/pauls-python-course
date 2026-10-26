@@ -1,0 +1,95 @@
+id: bike-hire-shed-2
+title: "Library Manager"
+project_name: "Library Manager"
+portfolio_readme: |
+  # Library Manager
+
+  A small library system. Every book is a record with its title, author and year, and knows whether it's on the shelf or on loan, and to whom. Reference books never leave the building. The library keeps one card per book, refusing a second copy of a title, and can say which books are on the shelf right now.
+
+  Written by {name} for the library in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  python library.py
+  ```
+
+  ```
+  The library has 3 books
+  Emma, Jane Austen (1815): on loan
+  Tide Tables 2026, Agnes Rook (2025): on the shelf, reference only
+  On the shelf: The Riddle of the Sands, Tide Tables 2026
+  ```
+
+  ## Use it in your own programs
+
+  ```python
+  from library import Book, Library, ReferenceBook
+
+  library = Library()
+  library.add(Book("Emma", "Jane Austen", 1815))      # True
+  library.add(Book("EMMA", "Jane Austen", 1815))      # False: one card per book
+  library.find("emma").lend("Bea")                     # True
+  print(len(library), library.on_shelf())
+  ```
+
+  ## What it shows
+
+  - A dataclass with type hints, and an `Enum` for a fixed set of choices
+  - Inheritance, for something that is a kind of another thing: a reference book is a book, built on with `super()`
+  - Composition, for something that has other things: a library has books, kept in a list inside it
+  - Choosing between the two, with a reason: "is a" or "has a"
+  - Needs Python 3.10 or later, for the `str | None` type hints
+downloadable: true
+datasets: []
+client: vance
+building: library
+estimated_minutes: 120
+summary: "Books, loans and reference copies for Mrs Vance, with Dev and Kat arguing about whether a library is a kind of list."
+concepts_introduced: [inheritance, super, composition, dataclasses, type-hints, enums]
+concepts_reviewed: [classes, init, attributes, methods, self, dunder-methods, is-vs-equals, list-comprehensions, mutable-default, immutability, lists, none, f-strings, docstrings, main-guard]
+ask:
+  dialogue:
+    - vance: "Penhallow's catalogue knows what we have. It has no idea what's out, or who has it."
+    - vance: "I asked Dev and Kat to write me something. They've been arguing in the reading room for an hour."
+    - dev: "A reference book is a book. A library is a list of books. Done."
+    - kat: "A library is not a list. A library has books. And rules."
+    - moss: "You're each right once. Write it and find out where."
+  spec: |
+    In `library.py`, with type hints throughout:
+
+    1. `Status`, an `Enum` with two members: `ON_SHELF` (`"on the shelf"`) and `ON_LOAN` (`"on loan"`).
+    2. `Book`, a dataclass: `title`, `author`, `year`, then `status` (default `Status.ON_SHELF`) and `borrower` (default `None`).
+       - `lend(member)` puts it on loan to `member` and returns `True`. If it's already on loan, it changes nothing and returns `False`.
+       - `give_back()` puts it back on the shelf, with no borrower.
+       - `str(book)` gives `Emma, Jane Austen (1815): on loan`.
+    3. `ReferenceBook`, a kind of `Book` that never leaves the library: `lend` always returns `False`, and it shows itself as a book does, then `, reference only`, building on `Book`'s line with `super()`.
+    4. `Library`, which has books, kept in a list called `books`:
+       - `add(book)` adds it and returns `True`, unless a book with that title is already there, whatever its capitals: then `False`.
+       - `find(title)` returns the book with that title, whatever its capitals, or `None`.
+       - `on_shelf()` returns the books that aren't on loan, in the order they were added.
+       - `len(library)` is how many books it has.
+  example: |
+    The library has 3 books
+    Emma, Jane Austen (1815): on loan
+    Tide Tables 2026, Agnes Rook (2025): on the shelf, reference only
+    On the shelf: The Riddle of the Sands, Tide Tables 2026
+ship:
+  dialogue:
+    - dev: "ReferenceBook inherits from Book. As I said."
+    - kat: "And the library has books. As I said."
+    - vance: "Three books, one card each. The second Emma was turned away at the door. Good."
+    - moss: "Both right, once each. Now stop arguing in her reading room."
+  shelf: { object: catalogue-card, label: "Mrs Vance's library, with loans" }
+  cards: [inheritance, super, composition, dataclasses, type-hints, enums]
+stretch:
+  - id: overdue
+    title: "Overdue"
+    prompt: |
+      Give `Book` a `due: int | None = None` field, the day of the year it's due back, and give `lend` a keyword argument, `today=0`: a book lent today is due 21 days later. `give_back` clears `due`. Then write `Library.overdue(today)`: the books on loan whose due day has passed, in the order they were added, as a comprehension. Mrs Vance's fine is ten pence a day, and she has never let one off.
+    tests: tests/stretch-overdue.py
+    solution: solutions/stretch-overdue.py
+  - id: by-year
+    title: "Oldest first"
+    prompt: |
+      Add `__lt__` to `Book`, so that `book_a < book_b` compares their years. Then `sorted(library.books)` puts them oldest first without a `key=`. A dataclass can write this for you, too: what does `@dataclass(order=True)` compare, and why would that be wrong here?

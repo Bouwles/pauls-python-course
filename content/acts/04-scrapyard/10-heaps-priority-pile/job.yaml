@@ -1,0 +1,84 @@
+id: heaps-priority-pile
+title: "Task Scheduler"
+project_name: "Task Scheduler"
+portfolio_readme: |
+  # Task Scheduler
+
+  Schedules jobs by priority: whatever is most urgent comes out first, and of two jobs equally urgent, the one that came in first. Underneath is a binary heap written by hand in a plain list, so adding a job and taking the next one each cost O(log n), however long the list of jobs gets.
+
+  Written by {name} for Nell Brannigan's scrapyard in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  python scheduler.py
+  ```
+
+  It replays a day of repair jobs from `day.txt`, where `add 1 the ferry winch` adds a job at priority 1 (the most urgent) and `take` hands out the next one:
+
+  ```
+  Mending the ferry winch
+  Mending Bea's oven door
+  Mending Mrs Vance's trolley
+  Mending Tom's lamp bracket
+  Mending Mira's parcel scales
+  Mending Mr Ashby's ladder
+  Still waiting: 1
+  ```
+
+  Edit `day.txt` to schedule your own jobs, or use `TaskScheduler` from your own code: `add(task, priority)`, `take()` and `len()`.
+
+  ## What it shows
+
+  - A binary heap kept in a list: an item's children at `2 * i + 1` and `2 * i + 2`, its parent at `(i - 1) // 2`
+  - `push` that climbs and `pop` that sinks, each O(log n), with no `heapq`
+  - A priority queue built on the heap, with ties broken fairly by order of arrival, because tuples compare item by item
+  - A class with `__len__`, and an `IndexError` when there's nothing left to take
+downloadable: true
+# day.txt is a day of repairs invented for the story: the scheduler's behaviour is the
+# point, and no public dataset of a scrapyard's repair jobs exists. See the README.
+datasets: []
+client: nell
+building: scrapyard
+estimated_minutes: 70
+summary: "A task scheduler for the town's repairs: the most urgent job always next, first come first served on a tie, on a heap built by hand from a list."
+concepts_introduced: [heaps, priority-queues]
+concepts_reviewed: [trees, big-o, tuples, classes, methods, dunder-methods, while-loops, standard-library, sort-stability, files, main-guard]
+ask:
+  dialogue:
+    - nell: "Half the town wants something mended out of the pier lot. All of them want it first."
+    - nell: "Ferro's winch can't wait for the tide. Mrs Vance's trolley can wait a week."
+    - nell: "Same urgency, they're done in the order they came. That's only fair."
+    - moss: "Then you want a scheduler that keeps the most urgent on top, whatever comes in."
+  spec: |
+    A task scheduler for the yard's repair jobs. Repairs come in all day with a priority: 1 is the most urgent. Nell always mends the most urgent one waiting, and of two with the same priority, the one that came in first. In `scheduler.py`, by hand, with no `heapq`:
+
+    1. `push(heap, item)` adds an item to a heap kept in a list, with the smallest item always at `heap[0]`.
+    2. `pop(heap)` removes the smallest item and hands it back. On an empty heap it raises `IndexError`.
+    3. `TaskScheduler`, built on your `push` and `pop`: `add(repair, priority)` schedules a repair, `take()` hands back the one to mend next (raising `IndexError` if there isn't one), and `len(scheduler)` says how many are waiting.
+
+    Both `push` and `pop` should take O(log n) steps, so a thousand repairs waiting cost about ten swaps a time. The main block replays Nell's day from `day.txt`.
+  example: |
+    Mending the ferry winch
+    Mending Bea's oven door
+    Mending Mrs Vance's trolley
+    Mending Tom's lamp bracket
+    Mending Mira's parcel scales
+    Mending Mr Ashby's ladder
+    Still waiting: 1
+ship:
+  dialogue:
+    - nell: "Ferro's winch first, and Tom's bracket the minute it came in. Mrs Vance before Mr Ashby."
+    - nell: "Mr Ashby didn't mind. Mrs Vance would have."
+    - moss: "That's heapq, more or less. Now you know what it's doing when you use it."
+  shelf: { object: ticket-spike, label: "Nell's task scheduler, most urgent on top" }
+  cards: [heaps, priority-queues]
+stretch:
+  - id: heapify
+    title: "A whole pile at once"
+    prompt: |
+      When the pier lorry tips out a thousand repairs at once, pushing them one by one costs O(n log n). Write `heapify(items)`, which turns a list into a heap in place by sinking every item that has children, starting from the last one and working back to the top. Count the comparisons for 10,000 parts both ways. It's O(n), and the reason is that most items start near the bottom and have nowhere to sink.
+  - id: heaviest
+    title: "The three heaviest"
+    prompt: |
+      The scrap merchant only wants the three heaviest parts of the day's ten thousand. Write `heaviest(weights, k)` with `heapq`, keeping a heap of the k heaviest so far: push each weight, and pop whenever the heap holds more than k. Why does this keep the heaviest, when `heappop` takes the smallest? Check it against `sorted(weights)[-k:]` and `heapq.nlargest`.

@@ -1,0 +1,8 @@
+id: habit-tracker
+title: "Habit Tracker"
+project_name: "Habit Tracker"
+status: outline
+client: agnes
+building: harbour-office
+estimated_minutes: 90
+summary: "Agnes's daily rounds, ticked off and remembered: dates with datetime, a JSON file saved and loaded, streaks, and a plan for the day the file is broken."

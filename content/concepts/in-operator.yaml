@@ -1,87 +1,96 @@
 id: in-operator
 title: in
 summary: |
-  `x in parcels` is `True` if `x` is one of the items in the list, and `False` if not. It compares whole items: `"Tom" in ["Old Tom"]` is `False`. `not in` asks the opposite question. It tells you whether, not where.
+  `a in b` asks whether the text `a` appears anywhere inside `b`: `"tide" in "riptide"` is `True`. It answers `True` or `False`, never where. Capitals count, so `"Tide" in "riptide"` is `False`; to ignore case, compare lower-case copies. `not in` asks the opposite question. On a list, `in` asks about whole items: `"Tom" in ["Old Tom"]` is `False`.
 example: |
-  parcels = ["Bea", "Old Tom"]
-  print("Bea" in parcels)
-  print("Tom" in parcels)
-  print("Gwen" not in parcels)
-misconceptions: [in-checks-part-of-item, in-gives-position]
-related: [lists, looping-lists, boolean-operators]
+  password = "Harbour1987"
+  print("bour" in password)
+  print("harbour" in password)
+  print("harbour" in password.lower())
+  print(" " not in password)
+misconceptions: [in-gives-position, string-compare-ignores-case, in-checks-part-of-item]
+related: [string-methods, boolean-operators, lists]
 cards:
   - type: predict
     prompt: What does this print?
     code: |
-      print("Tom" in ["Bea", "Tom"])
+      print("tide" in "riptide")
     answer: "True"
+  - type: predict
+    prompt: What does this print?
+    code: |
+      print("Tide" in "riptide")
+      print("Tide".lower() in "riptide")
+    answer: "False\nTrue"
   - type: choice
     prompt: What does this print?
     code: |
-      parcels = ["Old Tom", "Bea"]
-      print("Tom" in parcels)
+      password = "Harbour1987"
+      print("harbour" in password)
     options:
       - text: "False"
         correct: true
-        feedback: "`in` on a list compares whole items. \"Tom\" isn't an item; \"Old Tom\" is."
+        feedback: "`in` looks for exactly those letters. The password has a capital H, and `H` isn't `h`."
       - text: "True"
-        misconception: in-checks-part-of-item
-        feedback: "On a list, `in` looks for an item that is exactly \"Tom\". Being part of \"Old Tom\" doesn't count."
+        misconception: string-compare-ignores-case
+        feedback: "To Python, `H` and `h` are different characters, so `\"harbour\"` isn't in `\"Harbour1987\"`."
+      - text: "0"
+        misconception: in-gives-position
+        feedback: "`in` only answers yes or no. It never says where the text starts."
   - type: choice
     prompt: What does this print?
     code: |
-      parcels = ["Bea", "Tom", "Agnes"]
-      print("Agnes" in parcels)
+      print("1987" in "Lamp1987")
     options:
       - text: "True"
         correct: true
-      - text: "2"
+      - text: "4"
         misconception: in-gives-position
-        feedback: "`in` only answers yes or no. To find where, you need the index."
+        feedback: "`in` answers `True` or `False`. The 1987 does start at position 4, but `in` doesn't say so."
   - type: fix
-    prompt: "Gwen has no parcel, so this should say `Nothing for Gwen.` Fix the test."
+    prompt: "This should print `No spaces, please.` when the password has a space in it. It never does. Fix the test."
     code: |
-      parcels = ["Bea", "Tom"]
-      name = "Gwen"
-      if name in parcels:
-          print(f"Nothing for {name}.")
+      password = "Mary Rose 42"
+      if password in " ":
+          print("No spaces, please.")
       else:
-          print(f"One for {name}.")
+          print("Fine.")
     tests: |
       TESTS = [
-          output("Gwen", expect="Nothing for Gwen."),
-          output("Tom", set_vars={"name": "Tom"}, expect="One for Tom."),
+          output("A space in the middle", expect="No spaces, please."),
+          output("No spaces", set_vars={"password": "Kittiwake-42"}, expect="Fine."),
       ]
     solution: |
-      parcels = ["Bea", "Tom"]
-      name = "Gwen"
-      if name not in parcels:
-          print(f"Nothing for {name}.")
+      password = "Mary Rose 42"
+      if " " in password:
+          print("No spaces, please.")
       else:
-          print(f"One for {name}.")
+          print("Fine.")
   - type: fill
-    prompt: "Fill the gap so this checks whether there's crab in the catch."
+    prompt: "Fill the gap so this spots an email address."
     code: |
-      catch = ["mackerel", "crab", "cod"]
-      if "crab" ___ catch:
-          print("Crab tonight")
+      contact = "mira@post.office"
+      if "@" ___ contact:
+          print("Email")
     blanks: [["in"]]
     tests: |
-      TESTS = [output("Crab", expect="Crab tonight")]
+      TESTS = [output("Email", expect="Email")]
   - type: write
-    prompt: "Ask `Name? ` and print `Regular` if the name is in `regulars`, or `Stranger` if it isn't."
+    prompt: "Print `Contains your name` if `username` appears anywhere in `password`, ignoring capitals. Otherwise print `Fine`."
     starter: |
-      regulars = ["Gwen", "Old Tom", "Captain Ferro"]
+      username = "agnes"
+      password = "AgnesRook-99"
     tests: |
       TESTS = [
-          output("Old Tom", inputs=["Old Tom"], expect="Regular"),
-          output("Pip", inputs=["Pip"], expect="Stranger"),
-          output("Tom on his own", inputs=["Tom"], expect="Stranger"),
+          output("Agnes in capitals", expect="Contains your name"),
+          output("No name", set_vars={"password": "Tide-Table-7"}, expect="Fine"),
+          output("Name in the middle", set_vars={"username": "rook"}, expect="Contains your name",
+                 hint="Compare lower-case copies, and work from the variables."),
       ]
     solution: |
-      regulars = ["Gwen", "Old Tom", "Captain Ferro"]
-      name = input("Name? ")
-      if name in regulars:
-          print("Regular")
+      username = "agnes"
+      password = "AgnesRook-99"
+      if username.lower() in password.lower():
+          print("Contains your name")
       else:
-          print("Stranger")
+          print("Fine")

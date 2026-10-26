@@ -70,7 +70,7 @@ cards:
     tests: |
       TESTS = [
           function("The default width", call="trim", args=("Lighthouse lamp",), expect="Lighthouse"),
-          function("Width 4", call="trim", args=("Saltmarsh",), kwargs={"width": 4}, expect="Salt"),
+          function("Width 4", call="trim", args=("Harbour",), kwargs={"width": 4}, expect="Harb"),
           function("Shorter than the width", call="trim", args=("Bun",), expect="Bun"),
       ]
     solution: |

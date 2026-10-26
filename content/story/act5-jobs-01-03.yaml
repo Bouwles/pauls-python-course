@@ -1,13 +1,13 @@
-# Ada Penhallow's notes in Act V, Jobs 1 to 3: her notebooks on the observatory's lower floors.
+# Ada Penhallow's notes in Act VI, Jobs 1 to 3: her notebooks on the observatory's lower floors.
 # Each note is a comment in a starter file; finding it sets a story flag.
 notes:
   - id: the-machine-never-asks
     job: drawing-the-best-line
     title: "Where an answer came from"
-    text: "Thirty nights, one line. I could let the machine find it, but I like to know where an answer came from. The machine never asks. That is the part that worries me. A.P."
-    where: "A comment near the top of line.py, copied by Professor Wendt from the inside cover of the focus notebook, in the first Make of Drawing the Best Line."
+    text: "Least squares by hand, on the back of an envelope, twice. I could let the machine find the line, but I like to know where an answer came from. The machine never asks. That is the part that worries me. A.P."
+    where: "A comment near the top of house_prices.py, copied by Professor Wendt from the flyleaf of Penhallow's statistics book, in the first Make of the House Price Predictor."
   - id: the-bottom-drawer
     job: training-and-testing
     title: "The bottom drawer"
     text: "Held back twelve nights the machine had never seen. It got every one of them wrong, and was quite sure of itself. I learnt more that afternoon than in the whole winter before. The test nights live in the bottom drawer now, locked. A.P."
-    where: "A comment at the top of mirror.py, copied by Professor Wendt from a card in the bottom drawer of Penhallow's desk, in the Make step of Training and Testing."
+    where: "A comment at the top of exam_scores.py, copied by Professor Wendt from a card in the bottom drawer of Penhallow's desk, in the Make steps of the Exam Score Model."

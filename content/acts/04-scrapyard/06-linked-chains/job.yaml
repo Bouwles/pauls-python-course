@@ -1,0 +1,87 @@
+id: linked-chains
+title: "Linked List"
+project_name: "Linked List"
+portfolio_readme: |
+  # Linked List
+
+  A singly linked list built from two classes: `Crate`, a node holding one part and a link to the next crate, and `Round`, the list itself, which knows only its first crate. It appends, inserts after a given part, removes, counts, lists its parts in order and reverses itself in place, all by changing links, never by moving anything along.
+
+  Written by {name} for Nell Brannigan's scrapyard in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  python chalk_round.py
+  ```
+
+  It builds the scrap merchant's round, the crates he collects in order, then changes it:
+
+  ```
+  Round: ['anchor', 'bell', 'chain', 'drum']
+  After the bell, a gong: ['anchor', 'bell', 'gong', 'chain', 'drum']
+  The merchant took the anchor: ['bell', 'gong', 'chain', 'drum']
+  From the far gate: ['drum', 'chain', 'gong', 'bell']
+  4 crates
+  ```
+
+  ## What it shows
+
+  - Nodes and references: each object pointing at the next, with `None` at the end
+  - Walking a chain with a `while` loop, and inserting or removing in O(1) once you're in the right place
+  - Reversing a list in place by turning every link round, with no new nodes
+  - Classes with `__len__`, and a `ValueError` for a part that isn't on the round
+downloadable: true
+datasets: []
+client: nell
+building: scrapyard
+estimated_minutes: 70
+summary: "A linked list from scratch. Penhallow chalked the merchant's round on the crates, each one pointing at the next: build it from two classes, add crates, take them off, and turn the round round."
+concepts_introduced: [linked-lists]
+concepts_reviewed: [classes, init, methods, self, references, is-vs-equals, none, while-loops, dunder-methods, raising-errors, big-o]
+ask:
+  dialogue:
+    - nell: "Penhallow chalked the merchant's round on the crates. Each crate says which crate comes next."
+    - nell: "Start at the gate crate, follow the chalk. I've done it for years without thinking."
+    - nell: "Now he wants crates put in, crates taken off, and the whole round backwards from the far gate."
+    - moss: "Then each crate needs to know one thing: the crate after it. Build it from that."
+  spec: |
+    In `chalk_round.py`, two classes.
+
+    `Crate(part)` is one crate on the round: `part` is what's in it, and `next` is the next `Crate`, or `None` at the end of the round.
+
+    `Round()` is the merchant's round, which starts empty. `head` is its first crate, or `None`.
+
+    1. `append(part)` puts a new crate at the end of the round.
+    2. `parts()` returns a list of the parts, in round order.
+    3. `len(round)` is how many crates are on it.
+    4. `insert_after(existing, part)` puts a new crate straight after the first crate holding `existing`, and raises `ValueError` if there isn't one.
+    5. `remove(part)` takes the first crate holding `part` off the round, and raises `ValueError` if there isn't one.
+    6. `reverse()` turns the round round in place, by changing where the crates point. No new crates.
+
+    The crates are linked to each other, not kept in a Python list.
+  example: |
+    Round: ['anchor', 'bell', 'chain', 'drum']
+    After the bell, a gong: ['anchor', 'bell', 'gong', 'chain', 'drum']
+    The merchant took the anchor: ['bell', 'gong', 'chain', 'drum']
+    From the far gate: ['drum', 'chain', 'gong', 'bell']
+    4 crates
+ship:
+  dialogue:
+    - nell: "Gong in after the bell, anchor off, and round we go from the far gate. Not one crate moved."
+    - nell: "I just changed the chalk. Same as Penhallow did, I suppose."
+    - moss: "Two arrows for a change, and nothing shuffled. That's what a chain is for."
+  shelf: { object: chalk-arrow, label: "The merchant's round, chalked crate to crate" }
+  cards: [linked-lists]
+stretch:
+  - id: walk-with-for
+    title: "Walk it with for"
+    prompt: |
+      Give `Round` an `__iter__` method that walks the crates and `yield`s each part, so `for part in round:` works, and `list(round)` too. Then write `parts()` in one line.
+  - id: middle-crate
+    title: "The middle crate"
+    prompt: |
+      The merchant stops for tea at the middle crate. Write `middle()`, which returns its part in one walk of the round, without counting first: walk two names along it, one a crate at a time and one two crates at a time. When the fast one runs out, where's the slow one?
+  - id: two-rounds
+    title: "Two rounds into one"
+    prompt: |
+      Two merchants' rounds, each in alphabetical order, have to become one. Write `merge_rounds(first, second)`, which returns a `Round` holding every crate from both, in order, made by relinking the crates you already have rather than making new ones. It's Moss's merge from the sorting job, with arrows instead of lists.

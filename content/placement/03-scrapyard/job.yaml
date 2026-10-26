@@ -1,5 +1,6 @@
 id: placement-scrapyard
 title: "Placement: The Scrapyard"
+project_name: "Placement: The Scrapyard"
 client: moss
 building: workshop
 estimated_minutes: 35
@@ -15,7 +16,7 @@ ask:
   spec: |
     Three Make tasks for Nell Brannigan's scrapyard. There are no hints: each task has its brief, two visible checks and a good many hidden ones. Some checks hand your functions big piles that count every look, so the right algorithm matters as much as the right answer.
 
-    Pass all three and the Scrapyard is placed: its Jobs are marked as placed, and Act III's ideas join your review deck.
+    Pass all three and the Scrapyard is placed: its projects are marked as placed, and its ideas join your review deck.
 ship:
   dialogue:
     - moss: "Sorted, searched, climbed and routed. Nell says she could have told you where it all was."

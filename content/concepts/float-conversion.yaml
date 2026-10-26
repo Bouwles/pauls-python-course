@@ -1,10 +1,11 @@
 id: float-conversion
 title: float() makes decimal numbers
 summary: |
-  `float()` turns text like `"2.5"` into a number with a decimal point. Floats are stored in binary, so some decimals can't be held exactly: `0.1 + 0.2` is `0.30000000000000004`. Round them when you show them.
+  `float()` turns text like `"2.5"` into a number with a decimal point. Floats are stored in binary, so some decimals can't be held exactly: `2.40 * 3` is `7.199999999999999`. `round(x, 2)` rounds the number but won't add a trailing zero; for money, show it with an f-string and `:.2f`.
 example: |
   price = float("2.40")
   print(price * 3)
+  print(round(price * 3, 2))
   print(f"{price * 3:.2f}")
 misconceptions: [float-is-exact, int-reads-decimals]
 related: [int-conversion, f-strings]
@@ -29,6 +30,11 @@ cards:
         feedback: "Floats are stored in binary, and 0.1 can't be held exactly. The tiny error shows up here."
       - text: "0.30000000000000004"
         correct: true
+  - type: predict
+    prompt: What does this print?
+    code: |
+      print(round(2.40 * 3, 2))
+    answer: "7.2"
   - type: fix
     prompt: "This crashes when someone types `1.5`. Fix it."
     code: |

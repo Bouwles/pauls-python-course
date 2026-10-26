@@ -8,3 +8,7 @@ pools:
   waiting:
     - "I've got loaves in. Take your time, but not too much."
     - "I can wait. The dough can't."
+  # Where you'd got to, when you come back after a break (REDESIGN.md 6.5).
+  recap:
+    - "You were on {step}. The till's still adding up wrong, if that helps."
+    - "Back again. We'd got as far as {step}."

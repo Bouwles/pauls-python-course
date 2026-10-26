@@ -1,0 +1,59 @@
+---
+id: make
+type: make
+title: Make the to-do list
+on_pass: { mira: "Number two done, and three moved up to two. Correct." }
+hints:
+  nudge: "Which command has to turn a person's number into an index? And what should happen before you use a number that might not be on the list?"
+  plan:
+    - Start with an empty list
+    - Keep asking for a command
+    - Stop on the quit word
+    - Add to the end
+    - Take one out, if there is one
+    - Show each item with its number from 1
+    - Catch anything else
+    - Report after the loop
+  shape: |
+    tasks = ___
+    while True:
+        command = input("Command? ")
+        if command == "quit":
+            ___
+        elif command == "add":
+            tasks.___(input("Task? "))
+        elif command == "done":
+            number = int(input("Number? "))
+            if number >= 1 and number <= ___:
+                print("Done:", tasks.pop(___))
+            else:
+                print(f"No task {number}.")
+        elif command == "list":
+            if len(tasks) == 0:
+                print("Nothing to do.")
+            for spot in range(___):
+                print(f"{spot + 1}. {tasks[spot]}")
+        else:
+            print("Commands: add, list, done, quit.")
+    print(f"Left to do: {___}")
+---
+Write Mira's to-do list: `add`, `list`, `done` and `quit`.
+
+```
+Command? add
+Task? Sort the second post
+Command? add
+Task? Mend the franking machine
+Command? list
+1. Sort the second post
+2. Mend the franking machine
+Command? done
+Number? 1
+Done: Sort the second post
+Command? quit
+Left to do: 1
+```
+
+An empty list prints `Nothing to do.` A number that isn't on the list, like 0 or 7, gets `No task 7.` and nothing comes off. Any other command gets `Commands: add, list, done, quit.`
+
+Moss's labels from the workshop queue are in the file.

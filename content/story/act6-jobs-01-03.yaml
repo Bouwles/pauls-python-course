@@ -1,13 +1,8 @@
-# Ada Penhallow's notes from the observatory's upper floors, Act VI Jobs 1 to 3.
+# Ada Penhallow's notes from the observatory's upper floors, Act VII Job 1.
 # Each note is a comment in a starter file; finding it sets a story flag.
 notes:
-  - id: learning-the-town
-    job: a-small-brain
-    title: "Lamp, horn, gate"
-    text: "Layer two. Three outputs: the lamp, the horn, the gate. Tom's, Tom's again, and the sea wall's. Every evening I logged, it watched what I did. It is learning the town. It is not yet learning why. A.P."
-    where: "A comment above W2 in brain.py, copied by Professor Wendt from the second page of numbers in Penhallow's notebook, in the Make step of A Small Brain."
   - id: it-does-not-need-me
     job: learning-backwards
     title: "It does not need me"
     text: "When it gets one wrong, it works backwards to whichever of its numbers caused it, and fixes those. It does not need me to correct it. That was the point. A.P."
-    where: "A comment above backward() in backprop.py, copied from the half rubbed out blackboard on the top floor, in the Make step of Learning Backwards."
+    where: "A comment above backward() in learn.py, copied from the half rubbed out blackboard on the top floor, in the last Make of Neural Network from Scratch."

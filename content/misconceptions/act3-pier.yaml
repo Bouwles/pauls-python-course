@@ -1,0 +1,23 @@
+# Misconceptions for the Pier (Act III), starting with the Weather App.
+
+url-keeps-spaces:
+  concept: web-apis
+  description: Thinks a URL carries spaces and punctuation exactly as typed, so a query string needs no encoding.
+query-needs-text:
+  concept: web-apis
+  description: Thinks every value must already be text before urlencode will put it in a query string.
+empty-reply-is-error:
+  concept: web-apis
+  description: Thinks a web service that finds nothing raises an error, when it sends back an answer with nothing in it.
+reply-arrives-as-text:
+  concept: web-apis
+  description: Thinks the JSON a service sends is still one long string after json.load, so keys can't be looked up.
+except-picks-best-match:
+  concept: exceptions
+  description: Thinks Python chooses the except clause that names the error most exactly, rather than the first one that matches.
+except-needs-exact-type:
+  concept: exceptions
+  description: Thinks except catches only the exact error it names, not the more particular kinds of that error.
+nested-loops-pair-lists:
+  concept: zip
+  description: Thinks a loop inside a loop pairs two lists item by item, when it pairs every item with every other.

@@ -1,0 +1,99 @@
+id: counter
+title: Counting with Counter
+summary: |
+  `Counter` from `collections` counts things for you. Hand it a list and it gives back a kind of dictionary: each different item, with how many times it turned up. Something it never saw counts as 0, not an error. `.most_common(3)` gives the three commonest as `(item, count)` pairs, commonest first, and things with the same count stay in the order they were first seen. Hand it a string and it counts the letters, so split the text into words first.
+example: |
+  from collections import Counter
+
+  orders = ["bread", "buns", "bread", "lardy cake", "bread", "buns"]
+  counts = Counter(orders)
+  print(counts["bread"], counts["scones"])
+  print(counts.most_common(2))
+misconceptions: [counter-missing-raises, counter-missing-is-none, most-common-alphabetical, counter-counts-words]
+related: [dictionaries, dict-get, tuples, standard-library]
+drill: true
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      from collections import Counter
+
+      counts = Counter(["kale", "plums", "kale", "leeks", "kale"])
+      print(counts["kale"], counts["figs"])
+    answer: "3 0"
+  - type: choice
+    prompt: What does this print?
+    code: |
+      from collections import Counter
+
+      print(Counter("leek")["e"])
+    options:
+      - text: "2"
+        correct: true
+        feedback: "Right. A string is a sequence of letters, so `Counter` counts the letters: two e's in leek."
+      - text: "0"
+        misconception: counter-counts-words
+        feedback: "Given a string, `Counter` counts its characters, not its words. `leek` has two e's in it."
+  - type: choice
+    prompt: What does this print?
+    code: |
+      from collections import Counter
+
+      votes = Counter(["Bea", "Gwen", "Agnes", "Gwen", "Bea", "Gwen"])
+      print(votes.most_common(2))
+    options:
+      - text: "[('Gwen', 3), ('Bea', 2)]"
+        correct: true
+        feedback: "Right. Commonest first, as `(item, count)` pairs."
+      - text: "[('Agnes', 1), ('Bea', 2)]"
+        misconception: most-common-alphabetical
+        feedback: "`most_common` sorts by the count, biggest first. The names' spelling doesn't come into it."
+  - type: fix
+    prompt: "Counting the catch by hand crashes on the first fish. Fix it so it prints the counts. `Counter` is one way; `.get` is another."
+    code: |
+      catch = ["mackerel", "pollock", "mackerel"]
+      counts = {}
+      for fish in catch:
+          counts[fish] = counts[fish] + 1
+      print(counts)
+    tests: |
+      TESTS = [output("Two mackerel, one pollock", expect="{'mackerel': 2, 'pollock': 1}", match="contains")]
+    solution: |
+      catch = ["mackerel", "pollock", "mackerel"]
+      counts = {}
+      for fish in catch:
+          counts[fish] = counts.get(fish, 0) + 1
+      print(counts)
+  - type: fill
+    prompt: "Print the commonest word and how many times it came up."
+    code: |
+      from collections import Counter
+
+      words = "the tide the moon the harbour".split()
+      word, times = Counter(words).___(1)[0]
+      print(word, times)
+    blanks: [["most_common"]]
+    tests: |
+      TESTS = [output("The commonest", expect="the 3")]
+  - type: write
+    prompt: "Write `commonest(items)`: the item that turns up most often, or `None` if the list is empty. If two tie, the one seen first."
+    starter: |
+      from collections import Counter
+
+
+      def commonest(items):
+          pass
+    tests: |
+      TESTS = [
+          function("Gwen wins", call="commonest", args=(["Bea", "Gwen", "Gwen"],), expect="Gwen"),
+          function("A tie goes to the first seen", call="commonest", args=(["leeks", "kale", "kale", "leeks"],), expect="leeks"),
+          function("Nothing to count", call="commonest", args=([],), expect=None),
+      ]
+    solution: |
+      from collections import Counter
+
+
+      def commonest(items):
+          if not items:
+              return None
+          return Counter(items).most_common(1)[0][0]

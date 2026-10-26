@@ -1,0 +1,8 @@
+id: ai-app
+title: "AI App"
+project_name: "AI App"
+status: outline
+client: wendt
+building: observatory
+estimated_minutes: 150
+summary: "Take It Home: a small app built on a large language model API. A prompt kept in a file, a test set of questions with the answers they should get, an evaluation that scores every change, and a limit on what it may spend."

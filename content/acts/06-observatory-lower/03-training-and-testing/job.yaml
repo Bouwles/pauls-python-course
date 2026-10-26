@@ -1,0 +1,118 @@
+id: training-and-testing
+title: "Exam Score Model"
+project_name: "Exam Score Model"
+portfolio_readme: |
+  # Exam Score Model
+
+  Predicts a student's final maths grade, out of 20, from what is known after the first term: the first-term grade, weekly study time, past failures, how often they go out, and absences. It uses 357 real students from two Portuguese secondary schools. The model is multiple linear regression written from scratch in NumPy: every column standardised, the weights learnt by gradient descent and checked against least squares. Then it is tested honestly: a fifth of the students locked away until the end, a validation pile to decide whether absences need a curve, and the test students opened once.
+
+  Written by {name} in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  pip install numpy pandas
+  python exam_scores.py
+  ```
+
+  ```
+  Learning from 214 students, choosing with 72, testing with 71
+  first_term   +2.71
+  study_time   -0.11
+  failures     -0.02
+  going_out    -0.08
+  absences     -0.32
+  Least squares agrees: True
+  degree  training  validation
+       1     2.124       1.973
+       2     2.119       1.947
+       ...
+       8     2.036      32.619
+  Chosen degree: 2
+  Test error: 1.29 marks
+  Guessing the average: 3.32 marks
+  A new student, 12 after the first term: about 12.2 out of 20
+  ```
+
+  ## What it shows
+
+  - Multiple linear regression with matrix products: one weight per column, every slope at once
+  - Feature scaling, and why new data must be scaled with the training data's ruler
+  - Gradient descent checked against the exact least squares answer
+  - Polynomial features, overfitting seen on a validation curve, and a train, validation and test split used properly
+  - An honest result beside a baseline: about 1.3 marks out, against 3.3 for guessing the average
+
+  ## Data
+
+  `students.csv` comes from "Student Performance" (Cortez and Silva, 2008) in the UCI Machine Learning Repository, licensed CC BY 4.0: the maths course at two schools in Portugal in 2005 and 2006. The 38 students with a final grade of 0, who most likely didn't sit the final exam, are left out.
+downloadable: true
+datasets:
+  - name: "Student Performance (maths course)"
+    source: "https://archive.ics.uci.edu/dataset/320/student+performance"
+    licence: "CC BY 4.0"
+    file: "students.csv"
+    notes: "From student-mat.csv (395 students). Kept the 357 with a final grade above 0; the 38 with a final grade of 0 most likely didn't sit the final exam. Kept and renamed: school, sex, age, study_time (studytime, 1 to 4), failures, going_out (goout, 1 to 5), absences, higher (1 if they want to go on to higher education), first_term (G1), second_term (G2), final (G3). Grades are out of 20. Rows in the original order, numbered from 1."
+client: wendt
+building: observatory
+estimated_minutes: 150
+summary: "Predict a student's final maths grade from what's known after the first term: five columns scaled, five weights learnt by gradient descent, then a curve for absences chosen on validation and tested once, honestly, on 357 real students."
+concepts_introduced: [multivariate-regression, feature-scaling, train-test-split, polynomial-features, overfitting]
+concepts_reviewed: [linear-regression, mean-squared-error, gradient-descent, numpy-arrays, vectorisation, broadcasting, matrices, numerical-gradients, pandas-basics, matplotlib, functions, multiple-returns, main-guard, docstrings, list-comprehensions, zip, f-strings]
+ask:
+  dialogue:
+    - wendt: "Thursdays, I tutor maths downstairs. By Christmas I want to know who needs me most."
+    - wendt: "Houses behaved. People, less so. Three hundred and fifty-seven real students, two schools, one year."
+    - pip: "I've done one already. It's perfect on every student I gave it."
+    - moss: "Perfect on the ones you gave it. And the rest?"
+  spec: |
+    `students.csv` holds 357 real maths students from two schools in Portugal: their first-term grade, weekly study time (1 to 4), past failures, how often they go out (1 to 5) and absences, and their final grade, all grades out of 20.
+
+    In `exam_scores.py`, predict the final grade from those five columns:
+
+    1. Scale each column, learn the five weights by gradient descent, and check them against least squares.
+    2. Lock a fifth of the students away for testing. Split the rest into training and validation, and learn only from the training students.
+    3. Ask whether absences need a curve: add powers of absences up to 8, score each on validation, and choose.
+    4. Open the test students once, and compare with guessing the average. Then predict for a new student.
+  example: |
+    Learning from 214 students, choosing with 72, testing with 71
+    first_term   +2.71
+    study_time   -0.11
+    failures     -0.02
+    going_out    -0.08
+    absences     -0.32
+    Least squares agrees: True
+    degree  training  validation
+         1     2.124       1.973
+         2     2.119       1.947
+         3     2.118       1.958
+         4     2.117       1.970
+         5     2.117       1.969
+         6     2.093       2.663
+         7     2.066       5.016
+         8     2.036      32.619
+    Chosen degree: 2
+    Test error: 1.29 marks
+    Guessing the average: 3.32 marks
+    A new student, 12 after the first term: about 12.2 out of 20
+ship:
+  dialogue:
+    - wendt: "One and a third marks out, on students it had never seen. The first term says most of it."
+    - wendt: "Degree eight was sure of itself on two hundred students. On the rest it was off by thirty."
+    - pip: "Degree eight had more columns. I liked that about it."
+    - moss: "Sure and right are different trades."
+  shelf: { object: exam-paper, label: "Wendt's exam score model, tested honestly" }
+  cards: [multivariate-regression, feature-scaling, train-test-split, polynomial-features, overfitting]
+story_note: the-bottom-drawer
+stretch:
+  - id: start-of-year
+    title: "Before the first term"
+    prompt: |
+      In September there is no first-term grade. Drop `first_term`, and add `higher` and `age` from `students.csv` instead. Train and test the same way. How far off is it now, against guessing the average? What would you tell a teacher about a forecast that good?
+  - id: real-units
+    title: "Weights in real units"
+    prompt: |
+      Turn the scaled weights back into marks per unit of each column: divide each by its column's spread. Work out the matching `b` too, then check both against least squares on the unscaled columns. What is one extra absence worth, in marks?
+  - id: five-folds
+    title: "Five folds"
+    prompt: |
+      One validation pile is the luck of the draw. Cut the 286 students who aren't for testing into five folds. For each degree, train on four folds and validate on the fifth, five times round, and average the five errors. Does it still choose degree 2?

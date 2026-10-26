@@ -1,0 +1,8 @@
+id: snake
+title: "Snake"
+project_name: "Snake"
+status: outline
+client: dev
+building: pier
+estimated_minutes: 120
+summary: "A real-time game loop on a small canvas in the browser: the snake, the food, the walls and the score. Then the Pygame version at home."

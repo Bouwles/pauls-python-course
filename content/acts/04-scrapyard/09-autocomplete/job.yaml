@@ -1,0 +1,8 @@
+id: autocomplete
+title: "Autocomplete"
+project_name: "Autocomplete"
+status: outline
+client: nell
+building: scrapyard
+estimated_minutes: 90
+summary: "Type three letters of a part at the yard's counter and see every part that starts that way, most asked-for first: a trie built by hand from Nell's parts list, a letter to a node, with counts at the ends."

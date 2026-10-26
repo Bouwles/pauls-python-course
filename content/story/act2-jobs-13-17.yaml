@@ -4,9 +4,9 @@ notes:
     job: the-shop-timer
     title: "The winter I went up the hill"
     text: "Reads the whole price book for every single item. I know. I meant to fix it the winter I went up the hill. A.P."
-    where: "A comment inside look_up_price, in Sanjay's till, in the starter for the Shop Timer's Make step."
-  - id: no-stall-thirteen
+    where: "A comment inside look_up_price, in Sanjay's till, in the starter for the Make step of Timing and Retry Decorators."
+  - id: every-penny
     job: high-street-market-app
-    title: "There is no stall 13"
-    text: "There is no stall 13. The traders asked, and I don't argue with people who own that many knives. The machine on the hill numbered it anyway. It doesn't know about luck yet. A.P."
-    where: "A comment at the top of stalls.py in the Market App, copied in by Moss from the old market ledger."
+    title: "Every penny"
+    text: "Every penny in, every penny out, in pencil, since 1979. One line a month has no category: the hill. I stopped writing down what it cost the second winter. A.P."
+    where: "Inside the front cover of the money book Sanjay bought at the jumble sale, its pages still blank. He copied it to the top of money.py in the Personal Finance App."

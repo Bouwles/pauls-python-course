@@ -1,0 +1,18 @@
+[
+  {"round": "Local", "question": "Since what year has Old Tom kept the lighthouse?", "answer": "1962", "also": ["62", "'62"]},
+  {"round": "Local", "question": "Which crab won the autumn cup on whelks?", "answer": "Lady Agatha", "also": ["Agatha"]},
+  {"round": "Local", "question": "What is the pub on the harbour front called?", "answer": "The Drowned Anchor", "also": ["Drowned Anchor"]},
+  {"round": "Local", "question": "What frequency was the old harbour radio on?", "answer": "96.4", "also": ["96.4 FM"]},
+  {"round": "Sea", "question": "What do you call a speed of one nautical mile an hour?", "answer": "a knot", "also": ["knot", "knots", "one knot"]},
+  {"round": "Sea", "question": "How many hearts does an octopus have?", "answer": "3", "also": ["three"]},
+  {"round": "Sea", "question": "What is a baby seal called?", "answer": "a pup", "also": ["pup", "seal pup"]},
+  {"round": "Sea", "question": "What is the lowest point of the tide called?", "answer": "low water", "also": ["low tide"]},
+  {"round": "Science", "question": "What is the chemical symbol for gold?", "answer": "Au"},
+  {"round": "Science", "question": "How many legs does a spider have?", "answer": "8", "also": ["eight"]},
+  {"round": "Science", "question": "Which gas do plants take in from the air?", "answer": "carbon dioxide", "also": ["CO2"]},
+  {"round": "Science", "question": "At how many degrees Celsius does water freeze?", "answer": "0", "also": ["zero"]},
+  {"round": "Words", "question": "What is a word that reads the same backwards, like level, called?", "answer": "a palindrome", "also": ["palindrome"]},
+  {"round": "Words", "question": "What is a group of crows called?", "answer": "a murder", "also": ["murder"]},
+  {"round": "Words", "question": "How many letters are in the English alphabet?", "answer": "26", "also": ["twenty-six", "twenty six"]},
+  {"round": "Words", "question": "What is the plural of mongoose?", "answer": "mongooses"}
+]

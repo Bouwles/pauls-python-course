@@ -1,0 +1,29 @@
+id: portfolio-builder
+title: "Portfolio Builder"
+project_name: "Portfolio Builder"
+status: outline
+client: pip
+building: lighthouse
+estimated_minutes: 180
+summary: "A program that turns every project on your Shelf into a GitHub profile README and a public portfolio page: read the projects, choose the best, write them up honestly, and publish."
+# Outline, for whoever writes it in full:
+# - The client is Pip, whose satchel of printouts has finally shrunk, and who
+#   wants his projects to look as good on GitHub as they are. (They are not,
+#   yet. He credits the learner for showing him.)
+# - The program: portfolio.py reads shelf.json, the learner's own export of
+#   shipped projects (id, plain name, client, date, what it shows, a link),
+#   and writes two files. README.md, for a GitHub profile repository: a short
+#   introduction, the pinned projects, and a table of the rest by subject.
+#   index.html, a portfolio page built from a template with escaping, every
+#   project with its one-line summary, its "what it shows" list and a link to
+#   its repository.
+# - In the workshop: the reading and the writing, checked, with a made-up
+#   shelf of eight projects including awkward ones (no link, a title with an
+#   ampersand, two shipped the same day). Pip's version builds the HTML with
+#   f-strings and a project called "<Snake>" breaks the page.
+# - Take It Home: a real profile repository pushed with git, and the page
+#   published with GitHub Pages. Milestones: choose the three projects that
+#   show the most, rewrite each README for a stranger, and have someone who
+#   doesn't code read the page and say what you can do.
+# - Reviews concepts from the Git and GitHub, Flask and capstone projects;
+#   introduces nothing new.

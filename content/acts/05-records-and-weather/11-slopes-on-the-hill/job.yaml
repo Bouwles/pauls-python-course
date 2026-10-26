@@ -1,0 +1,85 @@
+id: slopes-on-the-hill
+title: "Calculus for ML"
+project_name: "Calculus for ML"
+portfolio_readme: |
+  # Calculus for ML
+
+  Measures slopes numerically, the way machine learning needs them: the slope of a function of one number from a small step either side, the two partial slopes of a function of two numbers, the direction straight uphill and how steep it is, and the slopes of a squared-error loss for a thermometer's two calibration dials, worked out with the chain rule and checked against the measured ones.
+
+  Written by {name} for Priya Lund at the Weather Station in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  python main.py
+  ```
+
+  It surveys the hill path, the hilltop and the way up from the gorse, then checks the new thermometer:
+
+  ```
+  Steepest on the path: 650 m from the station, slope 0.243, about 1 in 4
+  At the top: slopes 0.000 east, 0.000 north
+  From the gorse: straight uphill is 340 degrees, slope 0.212
+  Thermometer check (reads 8.5, should be 10.0):
+    gain slope -25.5: turn the gain up
+    offset slope -3.0: turn the offset up
+  ```
+
+  The hill is a formula made up for the story. The slope functions work on any function you hand them.
+
+  ## What it shows
+
+  - Derivatives measured numerically, with a central difference, and functions passed to functions
+  - Partial derivatives, and the gradient as an arrow pointing straight uphill
+  - The chain rule, giving the gradient of a squared-error loss with respect to a model's two parameters, which is what training a model follows downhill
+  - Checking worked-out slopes against measured ones, the way gradient code is tested
+downloadable: true
+# The hill is Penhallow's survey, a formula invented for the story. See the README.
+datasets: []
+client: priya
+building: weather-station
+estimated_minutes: 80
+summary: "Calculus for machine learning, on the observatory hill: slopes measured numerically, the gradient straight uphill, and the chain rule saying which way to turn the new thermometer's dials."
+concepts_introduced: [derivatives, chain-rule, numerical-gradients]
+concepts_reviewed: [vectors, numpy-arrays, vectorisation, slicing, functions, functions-as-values, multiple-returns, default-arguments, main-guard, docstrings]
+ask:
+  dialogue:
+    - priya: "I'm taking a thermometer screen up to the observatory. Penhallow surveyed the hill. It's a formula."
+    - priya: "I need to know how steep, not how high. And which way is straight up from the gorse."
+    - wendt: "And our new thermometer reads low. One and a half degrees. Or the air's wrong. The thermometer, then."
+    - moss: "Slopes, all three. Measure them, and work out the ones you can."
+  spec: |
+    `hill_height(east, north)` is Penhallow's survey: the hill's height in metres, at a point that many metres east and north of the station. The path runs due north to the top, and `path_height(metres)` gives its height that far along. Both are written.
+
+    Write four functions:
+
+    - `slope(f, x, step=1e-5)`: the slope of the function `f` at `x`, measured a small step either side.
+    - `partial_slopes(f, east, north, step=1e-5)`: the two slopes of `f(east, north)`, stepping east with north held still, then stepping north with east held still, as `(east_slope, north_slope)`.
+    - `uphill(f, east, north)`: the way straight uphill, as `(bearing, steepness)`: the bearing of the arrow `(east_slope, north_slope)`, from 0 up to 360, and its length.
+    - `miss_slopes(gain, offset, reading, true)`: the thermometer's corrected reading is `gain * reading + offset`. Return the slopes of its squared miss, `(gain * reading + offset - true) ** 2`, for `gain` and for `offset`, worked out with the chain rule.
+  example: |
+    Steepest on the path: 650 m from the station, slope 0.243, about 1 in 4
+    At the top: slopes 0.000 east, 0.000 north
+    From the gorse: straight uphill is 340 degrees, slope 0.212
+    Thermometer check (reads 8.5, should be 10.0):
+      gain slope -25.5: turn the gain up
+      offset slope -3.0: turn the offset up
+ship:
+  dialogue:
+    - priya: "One in four at the stile. We'll carry the screen up in two halves."
+    - wendt: "Gain up, offset up. Up a little, I mean. The slopes say which way, not how far."
+    - moss: "Measured where you could, worked out where you couldn't, and the two agree."
+  shelf: { object: clinometer, label: "Priya's survey of the hill" }
+  cards: [derivatives, chain-rule, numerical-gradients]
+story_note: where-the-cable-goes
+stretch:
+  - id: path-profile
+    title: "The path, as Priya would draw it"
+    prompt: |
+      Draw the path with matplotlib: height against distance on one chart, and the slope against distance on a second chart underneath, sharing the same distance axis (`plt.subplots(2, 1, sharex=True)`). Label both axes with their units. Mark the stile on both with `axvline`. The slope chart crosses 0 at the top: that's the flat bit.
+  - id: steepest-anywhere
+    title: "The steepest ground on the hill"
+    prompt: |
+      Write `steepest_point(f, size, spacing)`: check every point on a grid from `-size` to `size` metres east and from 0 to `size` metres north, every `spacing` metres, and return the `(east, north)` where `uphill` is steepest. `steepest_point(hill_height, 1000, 50)` finds the steepest ground on Penhallow's hill. Is it on the path?
+    tests: tests/stretch-steepest-anywhere.py
+    solution: solutions/stretch-steepest-anywhere.py

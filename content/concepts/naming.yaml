@@ -62,7 +62,7 @@ cards:
       buns = 6
       print(bun_price * buns)
   - type: write
-    prompt: "Store the harbour's name, `Saltmarsh`, in a well-named variable, then print the variable."
+    prompt: "Store the harbour's name, `{{town}}`, in a well-named variable, then print the variable."
     tests: |
       import ast as _ast
       def named(tree, source):
@@ -72,7 +72,7 @@ cards:
           prints = [n for n in _ast.walk(tree) if isinstance(n, _ast.Call) and getattr(n.func, "id", "") == "print"]
           if not any(any(isinstance(a, _ast.Name) for a in p.args) for p in prints):
               return "Print the variable, not the text."
-      TESTS = [output("Saltmarsh", expect="Saltmarsh"), structure("Uses a variable", check=named)]
+      TESTS = [output("{{town}}", expect="{{town}}"), structure("Uses a variable", check=named)]
     solution: |
-      harbour_name = "Saltmarsh"
+      harbour_name = "{{town}}"
       print(harbour_name)

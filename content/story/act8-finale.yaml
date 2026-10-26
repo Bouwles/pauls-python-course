@@ -2,8 +2,8 @@
 notes:
   - id: the-radio-speaks
     job: mosss-radio
-    title: "Saltmarsh lighthouse to the workshop"
-    text: "Saltmarsh lighthouse to the workshop. If you can hear this, Moss, your apprentice fixed the tuning. Come up to the lamp room, both of you. Bring the biscuits. A.P."
+    title: "{{town}} lighthouse to the workshop"
+    text: "{{town}} lighthouse to the workshop. If you can hear this, Moss, your apprentice fixed the tuning. Come up to the lamp room, both of you. Bring the biscuits. A.P."
     where: "On the old harbour frequency, 96.4, the night Moss's radio was tuned."
   - id: tested-at-last
     job: the-lamp-room

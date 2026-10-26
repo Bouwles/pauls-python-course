@@ -24,7 +24,7 @@ plus-cannot-join-text:
   description: Thinks + only works on numbers, not text.
 comments-run:
   concept: comments
-  description: Thinks lines starting with # are run or printed.
+  description: "Thinks lines starting with # are run or printed."
 left-to-right-always:
   concept: operator-precedence
   description: Thinks arithmetic is always worked out strictly from left to right.
@@ -37,6 +37,9 @@ floor-division-rounds:
 percent-is-percentage:
   concept: arithmetic
   description: Thinks % works out a percentage rather than a remainder.
+floor-division-is-remainder:
+  concept: arithmetic
+  description: Mixes up // and %, expecting // to give the remainder.
 caret-is-power:
   concept: arithmetic
   description: Thinks ^ raises to a power. In Python, ** does.
@@ -54,7 +57,7 @@ assignment-links-variables:
   description: Thinks b = a ties b to a, so changing a number in a later changes b too.
 names-can-have-spaces:
   concept: naming
-  description: Thinks variable names may contain spaces or start with a digit.
+  description: Thinks variable names may contain spaces or hyphens, or start with a digit.
 input-returns-number:
   concept: input-returns-text
   description: Thinks input() gives back a number when digits are typed.

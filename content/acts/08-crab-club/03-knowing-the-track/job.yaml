@@ -1,0 +1,98 @@
+id: knowing-the-track
+title: "Gridworld Solver"
+project_name: "Gridworld Solver"
+portfolio_readme: |
+  # Gridworld Solver
+
+  Solves a gridworld exactly, without simulating a single race. Given the map and the chances of every move, it works out what each tile is worth under a policy, finds the best value of every tile by value iteration, finds the best policy by policy iteration, and checks that the two agree.
+
+  Written by {name} for the Arcade Committee, on the pier at {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  pip install numpy
+  python dp.py
+  ```
+
+  ```
+  The traditional line
+     4.5   6.7   9.1   0.0
+     2.7     #   5.1   0.0
+    -7.6  -8.6  -8.4  -9.8
+
+  The best line
+     4.5   6.7   9.1   0.0
+     2.7     #   5.1   0.0
+     1.2   1.2   2.8   0.1
+  > > > F
+  ^ # ^ P
+  ^ > ^ <
+
+  Policy iteration agrees: True
+  ```
+
+  `track.py` is the gridworld itself; `dp.py` is the solver.
+
+  ## What it shows
+
+  - Policy evaluation: sweeping the Bellman expectation equation until no value changes by more than a small `theta`
+  - Value iteration, and a greedy policy read off the values by looking one step ahead
+  - Policy iteration: evaluate, improve, repeat until the policy stops changing
+  - Dynamic programming on a model of the world, with every value and policy kept in dictionaries keyed by tile
+downloadable: true
+datasets: []
+client: committee
+building: crab-club
+estimated_minutes: 90
+summary: "The worth of every tile on the racing grid, without a single race: policy evaluation, value iteration and policy iteration."
+concepts_introduced: [policy-evaluation, value-iteration, policy-iteration]
+concepts_reviewed: [mdps, returns-discounting, dictionaries, dict-items, while-loops, functions, default-arguments, lambda]
+ask:
+  dialogue:
+    - committee: "We have raced the traditional line for forty years."
+    - committee: "We should like to know, mathematically..."
+    - committee: "...whether we have been wrong for forty years."
+    - moss: "You know every tile and every chance. Work it out. Don't race it."
+  spec: |
+    Write `dp.py`, using your racing grid in `track.py`. Values and policies are dictionaries keyed by tile; `gamma` is 0.9 unless you're told otherwise.
+
+    1. `q_value(values, tile, action, gamma=0.9)`: what an action is worth on a tile, given the values of the tiles it can lead to.
+    2. `evaluate(policy, gamma=0.9, theta=1e-6)`: the value of every tile under a policy, by sweeping until no value changes by more than `theta`. The finish and the pool stay at 0.
+    3. `greedy(values, gamma=0.9)`: the best action on every tile still racing, looking one step ahead.
+    4. `value_iteration(gamma=0.9, theta=1e-6)`: the best values.
+    5. `policy_iteration(policy, gamma=0.9)`: evaluate and improve until the policy stops changing; returns `(policy, values)`.
+
+    Run as a program, it prints the traditional line's values, the best values, the best line, and whether policy iteration agrees.
+  example: |
+    The traditional line
+       4.5   6.7   9.1   0.0
+       2.7     #   5.1   0.0
+      -7.6  -8.6  -8.4  -9.8
+
+    The best line
+       4.5   6.7   9.1   0.0
+       2.7     #   5.1   0.0
+       1.2   1.2   2.8   0.1
+    > > > F
+    ^ # ^ P
+    ^ > ^ <
+
+    Policy iteration agrees: True
+ship:
+  dialogue:
+    - committee: "The start is worth one point two. Under tradition it was worth minus seven point six."
+    - committee: "And the tile under the pool says go left. Away from the finish..."
+    - committee: "...on purpose. We have been racing it wrong since 1974."
+    - moss: "You had the map. Next, he learns the track with no map at all."
+  shelf: { object: track-map, label: "The racing grid, every tile known" }
+  cards: [policy-evaluation, value-iteration, policy-iteration]
+stretch:
+  - id: heat-map
+    title: "A chart for the clubhouse wall"
+    prompt: |
+      Draw the best values with matplotlib: `plt.imshow` on a 3 by 4 array of values (use `np.nan` for the rock), a number written on each tile with `plt.text`, and an arrow for each action. The committee want it framed.
+  - id: how-patient
+    title: "How patient is patient"
+    prompt: |
+      Set `STEP_REWARD = 0` in `track.py` and run value iteration with `gamma` at 0.9, 0.95, 0.99 and 0.999. At which gamma does the arrow on (1, 2) turn to face the rock? Explain why to Dennis.

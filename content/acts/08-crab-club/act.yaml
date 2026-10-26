@@ -1,0 +1,23 @@
+id: crab-club
+number: 8
+title: "The Pier Arcade"
+district: crab-club
+subject: "Reinforcement learning"
+hours: 50
+summary: "The Arcade Committee want winners: the best handbill, the best line round the racing grid, and a crab for the Arcade League. Bandits, Markov decision processes, dynamic programming, Monte Carlo and TD learning, Q-learning, DQN, policy gradients, actor-critic and PPO, with Sir Reginald doing the racing."
+locked_line: "The Crab Racing Club. Members only. Very serious members."
+intro:
+  - committee: "Sir Reginald has potential. Unrealised potential."
+jobs:
+  - which-bucket
+  - the-racing-grid
+  - knowing-the-track
+  - learning-by-racing
+  - tic-tac-toe-agent
+  - q-crab
+  - snake-ai
+  - the-sea-wall-gate
+  - deep-q
+  - learning-the-policy
+  - actor-and-critic
+  - the-championship

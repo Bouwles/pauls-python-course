@@ -1,0 +1,110 @@
+id: fair-and-honest-models
+title: "Model Evaluation Clinic"
+project_name: "Model Evaluation Clinic"
+portfolio_readme: |
+  # Model Evaluation Clinic
+
+  Examines a model before it is trusted with a decision that matters: here, which booked visitors to an observatory's open night will turn up, so that empty telescope slots can go to the waiting list. The clinic finds the column that leaks the answer and drops it, keeps the scaling inside every fold with scikit-learn pipelines, compares four models fairly by cross-validation with a grid search for one of them, tests the chosen model once on a season it never saw, and then asks who it is wrong about.
+
+  Written by {name} in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  pip install numpy scikit-learn
+  python clinic.py
+  ```
+
+  ```
+  Each column alone:
+  days_ahead   0.68
+  party        0.60
+  cloud        0.67
+  first_visit  0.60
+  signed_book  0.98
+  Dropped: signed_book
+  Best number of neighbours: 5
+  logistic     0.736
+  neighbours   0.764
+  tree         0.750
+  forest       0.778
+  Chosen: forest
+  Bottom drawer accuracy: 0.77
+  Always guessing the commonest: 0.71
+  island   accuracy 0.35, slot given away 0.64
+  town     accuracy 0.85, slot given away 0.09
+  ```
+
+  ## What it shows
+
+  - Finding data leakage: a column that is only known after the event scores almost perfectly on its own
+  - Pipelines, so preprocessing is refitted inside every cross-validation fold
+  - Cross-validation and grid search to compare and tune models without touching the test data
+  - One honest test against a baseline, then a fairness audit: accuracy and the costly mistake, group by group
+
+  ## Data
+
+  The bookings are invented for the story, deliberately: a planted leak (`signed_book`, filled in on the night) and a group the model can't see the reason for (island visitors, who book far ahead because of the ferry) need data where the truth is known. `saturdays.csv` and `dials.csv`, used by the worked example and Pip's Version, are invented too.
+downloadable: true
+datasets: []
+client: wendt
+building: observatory
+estimated_minutes: 130
+summary: "Before a model gives away anyone's place at the open nights, a clinic: the column that knows the answer, preprocessing kept inside the folds, four models compared by cross-validation and a grid search, one look in the bottom drawer, and who the model is wrong about."
+concepts_introduced: [pipelines, cross-validation, grid-search, data-leakage, model-bias]
+concepts_reviewed: [scikit-learn, train-test-split, feature-scaling, logistic-regression, knn, decision-trees, ensembles, classification-metrics, overfitting, numpy-arrays, inheritance, super, sets, dictionaries, dict-set-comprehensions, functions, main-guard, docstrings, f-strings]
+ask:
+  dialogue:
+    - wendt: "Open nights. Twelve telescope slots, always booked, and always somebody who doesn't come."
+    - wendt: "I'd like a model to say whose slot to offer the waiting list. Pip has built one."
+    - pip: "Ninety-eight per cent. I'd like that on a certificate."
+    - moss: "First we see what it's using, which model deserves the job, and who it's wrong about. Before anyone loses a seat."
+  spec: |
+    Two seasons of open-night bookings are in `bookings.csv`. This season's are locked in the bottom drawer, `drawer.csv`. Each booking says how many days ahead it was made, the size of the party, the cloud forecast on the day, whether it was a first visit, whether the visitor lives on the island across the water, whether they signed the visitors' book on the night, and whether they came.
+
+    In `clinic.py`, examine the model before it gives anyone's slot away:
+
+    1. Find any column that knows the answer by scoring each one alone, and drop it.
+    2. On what's left, find the best number of neighbours for k-NN by grid search, then cross-validate logistic regression, k-NN, a decision tree and a random forest, with the scaling inside a pipeline wherever there is scaling. Choose the best.
+    3. Fit it on every booking, open the drawer once, and score it beside always guessing the commonest answer.
+    4. Report the accuracy for island and town visitors separately, with the share of those who came who would have lost their slot.
+  example: |
+    Each column alone:
+    days_ahead   0.68
+    party        0.60
+    cloud        0.67
+    first_visit  0.60
+    signed_book  0.98
+    Dropped: signed_book
+    Best number of neighbours: 5
+    logistic     0.736
+    neighbours   0.764
+    tree         0.750
+    forest       0.778
+    Chosen: forest
+    Bottom drawer accuracy: 0.77
+    Always guessing the commonest: 0.71
+    island   accuracy 0.35, slot given away 0.64
+    town     accuracy 0.85, slot given away 0.09
+ship:
+  dialogue:
+    - wendt: "Islanders book a month ahead, for the ferry. Townsfolk who book that far ahead forget. It only learned the town."
+    - wendt: "So it would have given away nearly two in three of the islanders' places. The ones who came."
+    - moss: "It can't know about the ferry. Nobody told it."
+    - wendt: "Then nobody's slot goes on its say-so. I'm putting the ferry times on the booking form."
+  shelf: { object: visitors-book, label: "Wendt's open-night clinic" }
+  cards: [pipelines, cross-validation, grid-search, data-leakage, model-bias]
+story_note: the-kettle
+stretch:
+  - id: fold-spread
+    title: "Ahead by more than the wobble?"
+    prompt: |
+      Print each model's five fold scores as well as the mean, and their standard deviation. Is the forest ahead of k-NN by more than the folds disagree with each other? Try `cv=10` too.
+  - id: island-feature
+    title: "Where someone lives"
+    prompt: |
+      Add the island column to the model's columns and run the clinic again. Does the gap between the groups close? Is it fair to decide someone's slot by where they live? Write down, in three sentences, what you'd tell Professor Wendt.
+  - id: leaky-drawer
+    title: "Brilliant on the drawer"
+    prompt: |
+      Leave `signed_book` in and score the drawer. Why does the leaky model still look brilliant there, and why does that tell you nothing about next week's bookings?

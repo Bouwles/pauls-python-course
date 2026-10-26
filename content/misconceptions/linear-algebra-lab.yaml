@@ -1,0 +1,7 @@
+# Misconceptions for the Linear Algebra Lab (Act V), images as matrices.
+comma-slice-flips-rows:
+  concept: matrices
+  description: Thinks image[:, ::-1] reverses the order of the rows. The slice after the comma is for the columns, so it reverses each row instead.
+transpose-keeps-shape:
+  concept: matrices
+  description: Thinks .T leaves an array's shape as it was. Transposing swaps the rows and columns, so a (2, 3) array becomes (3, 2).

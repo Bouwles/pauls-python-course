@@ -1,0 +1,8 @@
+id: text-adventure-engine
+title: "Text Adventure Engine"
+project_name: "Text Adventure Engine"
+status: outline
+client: tom
+building: lighthouse
+estimated_minutes: 120
+summary: "Old Tom's story of the 1987 storm, as a game you play: rooms in a dictionary of exits, a game loop, and everything the player carries kept in a class."

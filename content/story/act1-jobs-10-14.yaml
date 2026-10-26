@@ -1,7 +1,7 @@
 # Ada Penhallow's notes for Act I, Jobs 10 to 14.
 notes:
   - id: nobody-asks
-    job: harbour-logbook
+    job: expense-tracker
     title: "Everything that goes out"
-    text: "Rule one of a logbook: everything that goes out comes back, or someone asks why. My own log, up the hill, has one entry going out and none coming in. Nobody asks. A.P."
-    where: "A comment at the top of the starter file for The Harbour Logbook."
+    text: "Rule one of accounts: every penny that goes out is written down, or someone asks where it went. My own accounts, up the hill, have one large sum going out and nothing written against it. Nobody asks. A.P."
+    where: "A comment at the top of the starter file for the Expense Tracker, under a line about the Hollis bakery's accounts in 1979."

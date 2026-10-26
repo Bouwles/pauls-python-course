@@ -1,0 +1,92 @@
+id: deep-q
+title: "CartPole with DQN"
+project_name: "CartPole with DQN"
+portfolio_readme: |
+  # CartPole with DQN
+
+  A Deep Q-Network written from scratch in NumPy that learns to balance Gymnasium's CartPole-v1. A small network gives a Q-value for pushing the cart left or right from the four numbers that describe it; a replay buffer of 50,000 steps and a target network refreshed every 500 steps keep the learning steady. After 100,000 steps of practice it keeps the pole up for the full 500 steps. Pushing at random manages about 22.
+
+  Written by {name} for the Arcade Committee, on the pier at {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  python -m venv .venv
+  source .venv/bin/activate        # on Windows: .venv\Scripts\activate
+  pip install -r requirements.txt
+  python cartpole_dqn.py
+  pytest
+  ```
+
+  ```
+  Pushing at random: 21.7 steps, on average
+  The network: 500.0 steps of 500, on average
+  ```
+
+  `cartpole_dqn.py` lives in the Take It Home project folder, with its tests. `dqn.py` and `track.py`, here, are the first version, built in the workshop on a small racing grid where every Q-value can be checked against the exact answer: `python dqn.py` trains it and races the result.
+
+  ## What it shows
+
+  - Deep Q-learning: a network trained by regression on targets made from its own frozen copy
+  - Experience replay, kept in NumPy arrays and sampled at random, so the network doesn't learn only from the last few steps
+  - The difference between an episode that is terminated (the pole fell) and one that is truncated (time ran out), and why only one of them stops the target
+  - A forward pass and backpropagation by hand, Adam, the Huber loss, and the best network kept by checking it on episodes it never trains on
+downloadable: true
+datasets: []
+client: committee
+building: crab-club
+estimated_minutes: 210
+summary: "Q-values from a small network instead of a table, kept steady by a replay buffer and a frozen target network: built on the racing grid, then taken home to balance Gymnasium's CartPole."
+concepts_introduced: [dqn]
+concepts_reviewed: [q-learning, td-learning, neural-networks, activation-functions, backpropagation, numerical-gradient-checking, gradient-descent, optimisers, mean-squared-error, mdps, returns-discounting, exploration-exploitation, gymnasium, classes, copying, numpy-arrays, pytest, virtual-environments]
+ask:
+  dialogue:
+    - committee: "Sir Reginald's Q-values live in a table. A number for every tile and every move."
+    - committee: "Professor Wendt says a network could hold them instead..."
+    - committee: "...and would hold them better. We are open to persuasion."
+    - moss: "A network that sets its own homework wobbles. There are two old tricks for that."
+    - moss: "Learn them on the grid. Then take them home to the standard test: a pole on a cart."
+  spec: |
+    First, in the workshop, write `dqn.py`, Deep Q on the racing grid in `track.py`. A memory is `(tile, action, reward, after, over)`, with `action` a number from 0 to 3, in the order of `ACTIONS`.
+
+    1. `features(tile)`: seven numbers, a 1 for the tile's row among three, then a 1 for its column among four.
+    2. `q_values(params, X)`: a ReLU hidden layer, then four Q-values, for every row of `X` at once.
+    3. `ReplayBuffer(capacity)`: `add(tile, action, reward, after, over)`; `len(buffer)`; `sample(size, rng)`, a list of `size` different memories picked at random. Past `capacity`, the oldest memory goes.
+    4. `targets(target_params, rewards, X_after, overs, gamma=0.9)`: the reward, plus `gamma` times the frozen copy's best Q-value after the move, unless the move ended the race.
+    5. `train_step(params, target_params, batch, gamma=0.9, rate=0.05)`: one gradient step on a batch of memories. Returns the loss before the step.
+    6. `epsilon_at(episode, decay=100)`: 1.0 at race 0, falling in a straight line to 0.05 at race `decay`, then 0.05.
+    7. `copy_params(params)`: a frozen copy that training doesn't touch.
+    8. `train(episodes, rng)`: epsilon-greedy races; every move remembered; once there are 32 memories, one `train_step` per move on a batch picked at random; the frozen copy refreshed every 50 moves.
+
+    Run as a program, it trains for 150 races, then shows the network's line and races it 1000 times, against a crab who moves at random.
+
+    Then, at home, `cartpole_dqn.py`: the same DQN on Gymnasium's `CartPole-v1`, four numbers in and two actions out, with a replay buffer of 50,000 steps and a target network refreshed every 500. Trained for 100,000 steps, it must balance the pole for at least 195 steps on average, over 20 episodes it never trained on.
+  example: |
+    The network's line
+    > > > F
+    ^ # ^ P
+    ^ > ^ v
+    Average return over 1000 races: 1.02
+    At random: -9.18
+
+    (.venv) $ python cartpole_dqn.py
+    Pushing at random: 21.7 steps, on average
+    The network: 500.0 steps of 500, on average
+ship:
+  dialogue:
+    - committee: "Nine points better than tradition on the grid, and the pole stays up for all five hundred steps."
+    - committee: "Professor Wendt has asked for her cart back. We have said..."
+    - committee: "...not yet."
+    - moss: "Next, he stops valuing moves and learns which ones to make."
+  shelf: { object: abacus, label: "The Q-network that balanced the pole" }
+  cards: [dqn]
+story_note: every-night-was-the-night-before
+stretch:
+  - id: double-q
+    title: "Double Deep Q"
+    prompt: |
+      The `max` in the target picks whichever Q-value happens to be guessed highest, so Deep Q tends to think too well of itself. Double Deep Q picks the best move after with the network being trained, and values it with the frozen copy: `q_values(target_params, X_after)[rows, best_moves]`. Train ten seeds each way. Which gives Q-values for the start closer to the 1.2 from the Gridworld Solver?
+  - id: in-order
+    title: "Learning in order"
+    prompt: |
+      Replace `memory.sample(...)` with the last 32 memories, in the order they happened. Train ten seeds each way and compare what the lines are worth. Then explain to Dennis what went wrong.

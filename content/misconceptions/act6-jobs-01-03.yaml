@@ -1,4 +1,4 @@
-# Misconceptions for Act VI, Jobs 1 to 3: One Neuron, A Small Brain and Learning Backwards.
+# Misconceptions for the start of Act VII: Neural Network from Scratch (which took in One Neuron and A Small Brain).
 
 # -- One Neuron ----------------------------------------------------------------
 neuron-knows-cloud-is-bad:
@@ -40,7 +40,7 @@ linear-layers-add-power:
   concept: activation-functions
   description: Thinks stacking layers with no activation between them lets a network draw curves one layer cannot.
 
-# -- Learning Backwards -----------------------------------------------------------
+# -- Neural Network from Scratch -----------------------------------------------------------
 relu-gate-ignored:
   concept: backpropagation
   description: Thinks blame passes back through a ReLU even where it cut its input to 0.

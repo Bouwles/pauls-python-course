@@ -1,5 +1,5 @@
 # Misconceptions for Act V, Jobs 1 to 3: Drawing the Best Line, Many Features,
-# and Training and Testing.
+# and the Exam Score Model.
 
 # -- Drawing the Best Line -------------------------------------------------------
 best-line-through-most-points:
@@ -74,7 +74,7 @@ numpy-checks-units:
   concept: feature-scaling
   description: Thinks NumPy refuses to combine columns measured in different units.
 
-# -- Training and Testing ----------------------------------------------------------
+# -- Exam Score Model ----------------------------------------------------------
 training-error-measures-skill:
   concept: train-test-split
   description: Thinks a low error on the training data shows the model will do well on data it has not seen.

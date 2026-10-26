@@ -1,0 +1,25 @@
+id: observatory-upper
+number: 7
+title: "The Observatory, upper floors"
+district: observatory-upper
+subject: "Deep learning and AI"
+hours: 60
+summary: "A neural network from scratch, an autograd engine, a digit recogniser, PyTorch, an image classifier, a tide predictor, a text generator and a tiny GPT, built up from the chain rule and checked at every step."
+locked_line: "The upper floors. Penhallow's notebooks are up there somewhere."
+intro:
+  - wendt: "Upstairs is where it gets strange. In a good way, mostly."
+jobs:
+  - learning-backwards
+  - the-tiny-engine
+  - training-properly
+  - penhallows-handwriting
+  - hello-pytorch
+  - seeing
+  - regularising
+  - sequences
+  - words-as-numbers
+  - sentiment-analyser
+  - paying-attention
+  - using-pretrained-models
+  - ai-app
+  - penhallows-notebook-reader

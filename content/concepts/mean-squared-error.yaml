@@ -1,7 +1,7 @@
 id: mean-squared-error
 title: Mean squared error
 summary: |
-  The mean squared error says how wrong a set of predictions is, in one number: square each miss (prediction minus actual), then take the mean. Squaring stops misses above and below from cancelling, and makes one big miss cost more than several small ones. It's in the readings' units squared, millimetres squared for focus; its square root is back in millimetres. Lower is better, and 0 means every prediction was exact.
+  The mean squared error says how wrong a set of predictions is, in one number: square each miss (prediction minus actual), then take the mean. Squaring stops misses above and below from cancelling, and makes one big miss cost more than several small ones. It's in the answers' units squared, dollars squared for house prices; its square root, the root mean squared error, is back in dollars. Lower is better, and 0 means every prediction was exact.
 example: |
   import numpy as np
 
@@ -58,7 +58,7 @@ cards:
         misconception: fewer-misses-lower-error
         feedback: "Four exact nights don't make up for one miss of 4: squared, that's 16, and 16 over five nights is 3.2. Squaring makes the big miss count most."
   - type: choice
-    prompt: "Wendt's focus line has a mean squared error of 0.0026. The focus is measured in millimetres. What units is 0.0026 in?"
+    prompt: "A line for the focus of the telescope has a mean squared error of 0.0026. The focus is measured in millimetres. What units is 0.0026 in?"
     verify: none
     options:
       - text: "Millimetres squared"

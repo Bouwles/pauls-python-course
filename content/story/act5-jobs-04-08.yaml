@@ -6,9 +6,9 @@ notes:
     job: was-it-right
     title: "Bigger numbers on both sides"
     text: "Lashed the shutters for nineteen storms that never came, and left them open for two that did. Tom says the sea wall gate is the same sum, with bigger numbers on both sides. Shut it for nothing and the boats miss a tide. Leave it open for a real one and the high street floods. A.P."
-    where: "A comment at the top of storms.py, copied by Professor Wendt from the back page of the storm notebook, in the Make step of Was It Right?"
+    where: "A comment at the top of diabetes.py, copied by Professor Wendt from the back page of Penhallow's storm notebook, in the Make steps of the Diabetes Risk Classifier."
   - id: the-fourteenth-question
-    job: the-question-tree
+    job: forests-and-boosting
     title: "The fourteenth question"
     text: "A tree asks its questions out loud, which is more than the machine on the hill does. I let one grow on these readings with no limit. The first three questions were sensible. The fourteenth was about a single night in March. A.P."
-    where: "A comment at the top of dew.py, copied by Professor Wendt from a page torn out of the dew log, in the Make step of The Question Tree."
+    where: "A comment at the top of loans.py, copied by Professor Wendt from a page torn out of Penhallow's dew log, in the Make steps of the Loan Approval Tree."

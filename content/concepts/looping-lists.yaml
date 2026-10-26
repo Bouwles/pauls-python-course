@@ -6,8 +6,8 @@ example: |
   parcels = ["Bea", "Tom", "Agnes"]
   for parcel in parcels:
       print("Parcel for", parcel)
-  for hole in range(len(parcels)):
-      print(hole, parcels[hole])
+  for i in range(len(parcels)):
+      print(i, parcels[i])
 misconceptions: [loop-gives-index, loop-var-changes-list]
 related: [lists, for-loops, indexing]
 drill: true
@@ -52,14 +52,14 @@ cards:
     prompt: "Each line should show the hole and the name in it: `Hole 0: Bea` and so on. Fix it."
     code: |
       parcels = ["Bea", "Tom", "Agnes"]
-      for hole in range(len(parcels)):
-          print(f"Hole {hole}: {hole}")
+      for i in range(len(parcels)):
+          print(f"Hole {i}: {i}")
     tests: |
       TESTS = [output("Three holes", expect="Hole 0: Bea\nHole 1: Tom\nHole 2: Agnes")]
     solution: |
       parcels = ["Bea", "Tom", "Agnes"]
-      for hole in range(len(parcels)):
-          print(f"Hole {hole}: {parcels[hole]}")
+      for i in range(len(parcels)):
+          print(f"Hole {i}: {parcels[i]}")
   - type: fill
     prompt: "Fill the gap so this adds up the weights."
     code: |

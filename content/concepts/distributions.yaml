@@ -50,12 +50,12 @@ cards:
         misconception: tail-names-the-bulk
         feedback: "The skew is named after the tail, not the bulk. One very wet day drags the mean up, and the other six sit below it."
   - type: choice
-    prompt: "The fences flag 38 days of Saltmarsh rain in 2024, out of 366. What should Priya do with them?"
+    prompt: "The fences flag 38 days of {{town}} rain in 2024, out of 366. What should Priya do with them?"
     verify: none
     options:
       - text: "Keep them. Daily rain has a long tail, so wet days fall outside fences built for tidy readings. Check any that look impossible."
         correct: true
-        feedback: "An outlier rule asks a question. A 41-degree June day is a fault; a 20 mm day in November is Saltmarsh."
+        feedback: "An outlier rule asks a question. A 41-degree June day is a fault; a 20 mm day in November is {{town}}."
       - text: "Delete them. They're outside the fences, so they're errors."
         misconception: outlier-is-error
         feedback: "Being outside the fences only means being far from the middle half. In skewed data like rain, plenty of real days are. Delete a reading only when you know why it's wrong."

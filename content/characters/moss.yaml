@@ -43,3 +43,66 @@ pools:
     - "Wrong guesses are the useful ones."
   predict-right:
     - "Right. Run it and watch."
+  # Reactive lines (REDESIGN.md 6.5): fired by what the learner's code actually does.
+  error-name:
+    - "Python's never met that name. Spelling first, then whether you set it."
+    - "A name it doesn't know. Usually a typo. Sometimes it's used before it's made."
+    - "Check the letters. `totl` and `total` are strangers to Python."
+  error-text-number:
+    - "Text and a number, trying to share a sum. Turn the text into a number first."
+    - "input() always hands you text. Even when someone types 3."
+    - "That's '3' and 3. They look the same. Python disagrees."
+  error-zero:
+    - "Something underneath that division went to nothing. Find out what."
+    - "Dividing by zero. Ask what that number is when it breaks."
+  error-index:
+    - "It reached for a shelf that isn't there. Count from zero."
+    - "One past the end. The last item is at len minus one."
+  error-int-text:
+    - "int() was handed something that isn't a whole number. Check what was typed."
+    - "int() reads digits. Anything else and it gives up."
+  ran-nothing:
+    - "It ran. It just didn't say anything. Nothing printed."
+    - "Quiet program. Was there meant to be a print?"
+  loop-never-runs:
+    - "That loop never goes round once. Look at the range."
+    - "The loop's there. It just never starts."
+  first-fstring:
+    - "An f-string. The value goes where you want it. Good."
+    - "f-strings. You'll use those every day now."
+  converts-input:
+    - "int() round the input. That's the bit people forget."
+    - "Turning text into a number before you use it. Right order."
+  first-function:
+    - "Your first def. Now it has a name, you can call it whenever."
+    - "A function. Name it for what it does and it'll last."
+  good-name:
+    - "`{name}`. Good. I know what it holds."
+    - "`{name}`. You'll thank yourself in a month."
+    - "`{name}`. Honest name."
+  letter-name:
+    - "`{name}` holding a price. What's `{name}` in a week's time?"
+    - "`{name}` tells me nothing. Name it for what it is."
+    - "Single letters are for loops. `{name}` deserves a word."
+  long-function:
+    - "That function does four jobs. Give three of them away."
+    - "`{name}` is getting long. Split it where the comments are."
+  long-line:
+    - "That line runs off the bench. Break it up."
+    - "Long line. If you have to scroll to read it, it's too long."
+  pass-first-try:
+    - "First try. Don't get used to it."
+    - "Passed first time. Read it again anyway."
+  pass-after-many:
+    - "Took a few goes. That's how it usually goes."
+    - "Got there. The stubborn ones teach you most."
+  pass-no-hints:
+    - "No hints. Your own work, start to finish."
+    - "You didn't need me for that one."
+  third-fail:
+    - "Third go. Read the first failed check out loud."
+    - "Three misses. Step away for a minute, or ask Dennis."
+  recap:
+    - "You were on {step}. It's where you left it."
+    - "{step}, last time. Pick it up from there."
+    - "We'd got to {step}. No rush."

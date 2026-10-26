@@ -1,0 +1,113 @@
+id: weather-app
+title: "Weather App"
+project_name: "Weather App"
+portfolio_readme: |
+  # Weather App
+
+  A weather forecast for anywhere, on the command line. Type a place: it looks the place up with Open-Meteo's geocoding service, asks Open-Meteo's forecast service for the next three days, and prints them in plain words, with the weather, the low and the high, the chance of rain and the strongest wind. It needs no API key.
+
+  Written by {name} for the weather station and the pier in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  python weather.py
+  ```
+
+  ```
+  Where? Penzance
+  Penzance, England, United Kingdom
+  Sun 25 Oct: Light drizzle, 10 to 13°C, 90% chance of rain, wind up to 37 km/h
+  Mon 26 Oct: Rain, 12 to 16°C, 100% chance of rain, wind up to 46 km/h
+  Tue 27 Oct: Rain, 10 to 16°C, 96% chance of rain, wind up to 45 km/h
+  Weather data by Open-Meteo.com
+  ```
+
+  It needs the internet. To try it without, set `OFFLINE = True` at the top of `weather.py`, and it reads the saved replies in the same folder, `places.json` and `forecast.json`, instead.
+
+  ## What it shows
+
+  - Calling a real web API: a URL with a query string built by `urlencode`, and JSON back
+  - Reading nested JSON, and walking Open-Meteo's lists of daily values together with `zip`
+  - Three things that go wrong, each handled on purpose: no connection (an `OSError`), no such place (an empty answer, so `None`), and a reply without a field (a `KeyError`)
+  - The one function that uses the internet kept apart from the rest, so everything else can be tested with saved replies
+
+  ## Credits
+
+  Weather data by Open-Meteo.com (https://open-meteo.com/), under CC BY 4.0. Place names and positions come from GeoNames (https://www.geonames.org/), through Open-Meteo's geocoding service, also under CC BY 4.0. Open-Meteo's free service is for non-commercial use, at fewer than 10,000 requests a day.
+downloadable: true
+datasets:
+  - name: "Open-Meteo forecast for Penzance (a saved reply)"
+    source: "https://open-meteo.com/en/docs"
+    licence: "CC BY 4.0 (https://open-meteo.com/en/licence)"
+    file: forecast.json
+    notes: "Saved on 25 October 2026 from api.open-meteo.com/v1/forecast: three days of the daily weather code, lowest and highest temperature, chance of rain and strongest wind. Indented for reading; no values changed."
+  - name: "Open-Meteo geocoding search for Penzance (a saved reply)"
+    source: "https://open-meteo.com/en/docs/geocoding-api"
+    licence: "CC BY 4.0 (location data from GeoNames, https://www.geonames.org/)"
+    file: places.json
+    notes: "Saved on 25 October 2026 from geocoding-api.open-meteo.com/v1/search with name=Penzance and count=1. Indented for reading; no values changed."
+  - name: "Open-Meteo daylight times for Penzance (a saved reply)"
+    source: "https://open-meteo.com/en/docs"
+    licence: "CC BY 4.0 (https://open-meteo.com/en/licence)"
+    file: daylight.json
+    notes: "Saved on 25 October 2026: three days of sunrise, sunset and daylight duration, for Moss's worked example. Indented for reading; no values changed."
+client: priya
+building: pier
+estimated_minutes: 110
+summary: "A forecast for anywhere, from a real weather service: ask Open-Meteo, read the JSON it sends back, cope when it goes wrong, and print three plain days."
+concepts_introduced: [web-apis, http-basics]
+concepts_reviewed: [json-module, nested-data, dictionaries, dict-get, zip, tuples, unpacking, functions, return-values, none, exceptions, try-except, raising-errors, standard-library, main-guard, f-strings, string-methods, with-statement, files]
+ask:
+  dialogue:
+    - priya: "Priya Lund, from the weather station. The pier asks me the weather forty times a day."
+    - priya: "I'd like them to ask a program. A real forecast, from a real service. Not my knees."
+    - priya: "And it says where the numbers came from. A forecast without a source is a rumour."
+    - moss: "A program that talks to another computer. It fails in new ways. Plan for every one."
+  spec: |
+    Write `weather.py`. It asks `Where? `, looks the place up with Open-Meteo's geocoding service, asks Open-Meteo's forecast service about the next three days, and prints a plain forecast.
+
+    `fetch_json(url)` is written for you. It makes the real request and hands back the JSON as dictionaries and lists, or raises an `OSError` if it can't. Everything else works on replies that have already arrived:
+
+    1. `describe(code)` returns the words for a weather code from `WEATHER`, or `Unknown weather (code 42)` for a code that isn't there.
+    2. `find_place(reply)` takes the geocoding reply and returns `(label, latitude, longitude)` for the first place in its `results`. The label is the `name`, `admin1` and `country`, leaving out any that are missing: `Penzance, England, United Kingdom`. If there are no results, it returns `None`.
+    3. `forecast_url(latitude, longitude)` returns `FORECAST`, then a query string with `latitude`, `longitude`, `daily` set to `DAILY`, `timezone` set to `auto` and `forecast_days` set to `3`.
+    4. `forecast_lines(forecast)` returns one line per day, like `Sun 25 Oct: Light drizzle, 10 to 13°C, 90% chance of rain, wind up to 37 km/h`. Temperatures and wind are rounded with `round()`. A missing field raises a `KeyError`.
+    5. `main()` puts them together and ends with `Weather data by Open-Meteo.com`. When something goes wrong it prints one line, and only that:
+       - nothing typed: `Type the name of a place.`, without asking the internet anything
+       - no such place: `No place called Lyonesse.`
+       - no connection, or the service says no: `Can't reach the weather service. Try again later.`
+       - a field missing: `The forecast came back without 'wind_speed_10m_max'.`
+  example: |
+    Where? Penzance
+    Penzance, England, United Kingdom
+    Sun 25 Oct: Light drizzle, 10 to 13°C, 90% chance of rain, wind up to 37 km/h
+    Mon 26 Oct: Rain, 12 to 16°C, 100% chance of rain, wind up to 46 km/h
+    Tue 27 Oct: Rain, 10 to 16°C, 96% chance of rain, wind up to 45 km/h
+    Weather data by Open-Meteo.com
+ship:
+  dialogue:
+    - priya: "Penzance, three days, rain on all of them. It agrees with my barometer, which agrees with my knees."
+    - priya: "And it says where the numbers came from, every time. I'm putting it on the pier."
+    - moss: "It asks another computer and stays calm when nobody answers. That's most of the trade."
+  shelf: { object: weathervane, label: "Priya's forecast for the pier" }
+  cards: [web-apis, http-basics]
+stretch:
+  - id: not-known
+    title: "Not known"
+    prompt: |
+      When Open-Meteo has no value for a day, it sends `null`, which arrives in Python as `None`, and `round(None)` crashes. Make `forecast_lines` say so instead of guessing: a chance of rain of `None` becomes `chance of rain not known`, and a wind of `None` becomes `wind not known`.
+
+      ```
+      Wed 28 Oct: Rain, 9 to 14°C, chance of rain not known, wind not known
+      ```
+    tests: tests/stretch-not-known.py
+    solution: solutions/stretch-not-known.py
+  - id: knots
+    title: "Knots, for the Captain"
+    prompt: |
+      Captain Ferro reads wind in knots. Open-Meteo will send knots if the URL asks for them with `wind_speed_unit=kn`. Give `forecast_url` a keyword argument, `wind_unit="kmh"`, add it to the query string, and make the line say `knots` when that's what came back. The reply's `daily_units` says which it is.
+  - id: which-penzance
+    title: "Which Penzance"
+    prompt: |
+      There are three places called Penzance: one in Cornwall, one in Arizona and one in Saskatchewan. Ask the geocoding service for up to five with `count=5`, number them, and let the person choose, unless there's only one.

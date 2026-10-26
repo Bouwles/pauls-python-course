@@ -1,0 +1,110 @@
+id: expense-tracker
+title: "Expense Tracker"
+project_name: "Expense Tracker"
+portfolio_readme: |
+  # Expense Tracker
+
+  A menu-driven expense tracker for the command line. Add each expense with what it was for, a category and an amount; list them; see the total for each category; and find the biggest single expense. An amount that isn't an amount gets refused, not crashed on.
+
+  Written by {name} for the bakery in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  python main.py
+  ```
+
+  Then choose from the menu, as often as you like:
+
+  ```
+  1 add, 2 list, 3 totals, 4 biggest, 5 quit: 3
+  ingredients: 42.90
+  van: 272.00
+  Total: 314.90
+  ```
+
+  ## What it shows
+
+  - A list of dictionaries: one dictionary per expense, each with an `item`, a `category` and an `amount`.
+  - Functions that each do one job with the list they're given: `category_totals` builds a dictionary of totals, and `biggest` finds the largest expense, or `None` when there aren't any.
+  - A menu loop that keeps going until it's told to stop, and has an answer for every choice, including the wrong ones.
+  - `try` and `except`, so an amount typed as `twenty` gets a polite refusal.
+
+  It keeps the expenses for as long as it runs. Saving them to a file is the next thing to add.
+downloadable: true
+datasets: []
+client: bea
+building: bakery
+estimated_minutes: 180
+summary: "The Act I capstone: a menu-driven expense tracker, built from a list of dictionaries and functions."
+concepts_reviewed: [while-loops, if-elif-else, break-continue, lists, append-pop, sorted-vs-sort, list-aliasing, dictionaries, dict-get, dict-items, nested-data, string-methods, strip-replace, functions, parameters, return-values, none, scope, exceptions, try-except, float-conversion, f-strings]
+ask:
+  dialogue:
+    - bea: "The accountant wants my year's expenses. By category. By the end of the month."
+    - bea: "They're on the spike by the oven. Four hundred receipts, and some of them are floury."
+    - bea: "I want to type them in, see what's what, and know where the money went."
+    - moss: "Biggest job yet. Plan it before you build it."
+  spec: |
+    Requirements, from Bea, on the back of a flour bag:
+
+    1. Ask `1 add, 2 list, 3 totals, 4 biggest, 5 quit: ` over and over, until the choice is `5`.
+    2. **Add** asks `What for? `, `Category? ` and `Amount? `, then prints `Added flour.` Each expense is a dictionary with an `item`, a `category` and an `amount` (a number), kept in a list in the order they were added.
+    3. Tidy what's typed: no spaces at the ends of anything, and categories in lower case, so ` Van` and `van` are one category.
+    4. An amount that isn't a number, or isn't more than 0, gets `That's not an amount.` and nothing is added.
+    5. **List** prints a line for each expense, in the order they were added: `flour: 18.40 (ingredients)`.
+    6. **Totals** prints a line for each category, alphabetical, `ingredients: 42.90`, and then `Total: 102.90`.
+    7. **Biggest** prints `Biggest: van insurance, 212.00 (van)`. If two tie, the one added first.
+    8. With no expenses yet, list, totals and biggest each print `No expenses yet.`
+    9. **Quit** prints `3 expenses, 102.90 in all.` (`1 expense` for one) and stops.
+    10. Any other choice gets `Choose 1 to 5.`
+
+    Two functions are checked on their own. `category_totals(expenses)` returns a dictionary of each category's total. `biggest(expenses)` returns the dictionary of the biggest expense, or `None` if the list is empty.
+  example: |
+    1 add, 2 list, 3 totals, 4 biggest, 5 quit: 1
+    What for? flour
+    Category? Ingredients
+    Amount? 18.40
+    Added flour.
+    1 add, 2 list, 3 totals, 4 biggest, 5 quit: 1
+    What for? van insurance
+    Category? van
+    Amount? 212
+    Added van insurance.
+    1 add, 2 list, 3 totals, 4 biggest, 5 quit: 1
+    What for? butter
+    Category? ingredients
+    Amount? twenty
+    That's not an amount.
+    1 add, 2 list, 3 totals, 4 biggest, 5 quit: 2
+    flour: 18.40 (ingredients)
+    van insurance: 212.00 (van)
+    1 add, 2 list, 3 totals, 4 biggest, 5 quit: 3
+    ingredients: 18.40
+    van: 212.00
+    Total: 230.40
+    1 add, 2 list, 3 totals, 4 biggest, 5 quit: 4
+    Biggest: van insurance, 212.00 (van)
+    1 add, 2 list, 3 totals, 4 biggest, 5 quit: 5
+    2 expenses, 230.40 in all.
+ship:
+  dialogue:
+    - bea: "Ingredients, two hundred and six pounds forty. The van, three hundred and twelve. I did it on paper too."
+    - bea: "Same both times. Same as the machine. I'm keeping the machine."
+    - moss: "That's the whole quay. The radio still doesn't work, mind."
+  shelf: { object: till-receipt, label: "Bea's expense tracker" }
+  cards: []
+  awards: [name-plate]
+story_note: nobody-asks
+stretch:
+  - id: pound-sign
+    title: "The pound sign"
+    prompt: |
+      Bea types `£18.40` about half the time. Let an amount start with a pound sign: take it off before you try `float()`. `£twenty` is still not an amount.
+    tests: tests/stretch-pound-sign.py
+    solution: solutions/stretch-pound-sign.py
+  - id: undo
+    title: "Take it back"
+    prompt: |
+      Add a sixth option, undo. It takes off the last expense added and prints `Removed flour.`, or `Nothing to remove.` if there isn't one. The menu becomes `1 add, 2 list, 3 totals, 4 biggest, 5 quit, 6 undo: ` and the wrong-choice line `Choose 1 to 6.` A list's `.pop()` hands back what it removes.
+    tests: tests/stretch-undo.py
+    solution: solutions/stretch-undo.py

@@ -1,7 +1,7 @@
 id: memoisation
 title: Memoisation
 summary: |
-  Some recursive functions ask the same question many times: Penhallow's lorry packer works out the 2 m bed millions of times for one long lorry. Memoisation writes each answer down the first time, filed by its arguments, and reads it back after that. The answers don't change, only the work: from millions of calls to a few dozen. Use a dictionary, or put `@functools.cache` above the `def`. Its arguments must be things a dictionary could use as keys, so not lists.
+  Some recursive functions ask the same question many times: a file tree printer that shows every folder's size measures each folder again for every folder above it. Memoisation writes each answer down the first time, filed by its arguments, and reads it back after that. The answers don't change, only the work: from millions of calls to a few dozen. Use a dictionary, or put `@functools.cache` above the `def`. Its arguments must be things a dictionary could use as keys, so not lists.
 example: |
   import functools
 

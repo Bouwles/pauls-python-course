@@ -1,0 +1,24 @@
+id: tic-tac-toe-agent
+title: "Tic-Tac-Toe Agent"
+project_name: "Tic-Tac-Toe Agent"
+status: outline
+client: committee
+building: crab-club
+estimated_minutes: 120
+summary: "An agent for the arcade's noughts and crosses table that learns by playing itself: Monte Carlo control from whole games, then self-play until it never loses."
+# Outline, for whoever writes it in full:
+# - Comes after the Value Estimator (learning-by-racing), which introduces
+#   monte-carlo; this project reviews it and introduces self-play.
+# - The program: ttt.py, a board as a string of nine characters, legal moves,
+#   a winner check, and an agent whose Q-values are a dictionary keyed by
+#   (board, move). Monte Carlo control: play a whole game epsilon-greedy, then
+#   nudge every move's value towards the game's result. Self-play: both sides
+#   share one table, with the board flipped so the agent always plays X.
+# - Run as a program: train for 20000 games, then play 1000 against a random
+#   player and 1000 against the perfect player (a small minimax, provided),
+#   and print wins, draws and losses. Then a game against the learner at the
+#   keyboard.
+# - Pip's version: rewards only wins, so his agent never learns that a draw
+#   is better than a loss against the perfect player.
+# - The committee have a table by the change machine; Sir Reginald plays O
+#   and is not good at it.

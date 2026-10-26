@@ -1,0 +1,129 @@
+id: web-apis
+title: Calling a web API
+summary: |
+  A web API is a program on someone else's computer that answers questions asked as URLs. The question goes in the query string after the `?`, and `urlencode` writes it for you, punctuation and all. The answer usually comes back as JSON, which `json.load` turns into dictionaries and lists. Three things go wrong, and each wants its own answer: the request never gets through (an `OSError`), the service has nothing for you (an empty answer, not an error), or the answer is missing a field you need (a `KeyError`). Keep the asking in one function and let everything else work on data that has already arrived, so it can be checked with a saved reply and no internet.
+example: |
+  import json
+  from urllib.parse import urlencode
+
+  url = "https://geocoding-api.open-meteo.com/v1/search?" + urlencode({"name": "St Ives", "count": 1})
+  print(url)
+
+  reply = json.loads('{"generationtime_ms": 0.2}')
+  print(reply.get("results", []))
+misconceptions: [url-keeps-spaces, query-needs-text, empty-reply-is-error, reply-arrives-as-text]
+related: [http-basics, json-module, nested-data, try-except]
+cards:
+  - type: predict
+    prompt: What does this print?
+    code: |
+      from urllib.parse import urlencode
+
+      print(urlencode({"name": "Land's End", "count": 2}))
+    answer: "name=Land%27s+End&count=2"
+  - type: choice
+    prompt: "The geocoding service found nothing called Atlantis. What does this print?"
+    code: |
+      reply = {"generationtime_ms": 0.13}
+      found = reply.get("results", [])
+      print(len(found))
+    options:
+      - text: "0"
+        correct: true
+        feedback: "Right. Finding nothing isn't an error to the service: it sends an answer with no `results` in it, and `.get` with a default of `[]` gives you an empty list to count."
+      - text: A KeyError
+        misconception: empty-reply-is-error
+        error: KeyError
+        feedback: "`reply[\"results\"]` would raise one. `.get(\"results\", [])` asks politely and gets the default instead."
+  - type: predict
+    prompt: "A forecast keeps each field as its own list, one value per day. What does this print?"
+    code: |
+      daily = {"time": ["2026-10-25", "2026-10-26"], "temperature_2m_max": [12.7, 16.5]}
+      for day, high in zip(daily["time"], daily["temperature_2m_max"]):
+          print(day[-2:], round(high))
+    answer: |-
+      25 13
+      26 16
+  - type: choice
+    prompt: "`fetch` can fail in the browser or at home. What does this print?"
+    code: |
+      from urllib.error import URLError
+
+
+      def fetch(url):
+          raise URLError("no route to the pier")
+
+
+      try:
+          fetch("https://api.open-meteo.com/v1/forecast")
+      except OSError:
+          print("Can't reach the weather service.")
+    options:
+      - text: "Can't reach the weather service."
+        correct: true
+        feedback: "Right. A `URLError` is one kind of `OSError`, so `except OSError` catches it, along with every other way a request can fail to get through."
+      - text: A URLError traceback
+        misconception: except-needs-exact-type
+        error: URLError
+        feedback: "`except OSError` catches every error in the `OSError` family, and `URLError` is one of them."
+  - type: fix
+    prompt: "This crashes when the service finds nothing. Fix `first_place` so it gives back `None` instead, and the program prints `No such place.`"
+    code: |
+      def first_place(reply):
+          return reply["results"][0]["name"]
+
+
+      reply = {"generationtime_ms": 0.1}
+      place = first_place(reply)
+      if place is None:
+          print("No such place.")
+      else:
+          print(place)
+    tests: |
+      TESTS = [
+          output("Nothing found", expect="No such place."),
+          function("Something found", call="first_place", args=({"results": [{"name": "Truro"}]},), expect="Truro"),
+          function("An empty list", call="first_place", args=({"results": []},), expect=None),
+      ]
+    solution: |
+      def first_place(reply):
+          found = reply.get("results", [])
+          if not found:
+              return None
+          return found[0]["name"]
+
+
+      reply = {"generationtime_ms": 0.1}
+      place = first_place(reply)
+      if place is None:
+          print("No such place.")
+      else:
+          print(place)
+  - type: fill
+    prompt: "Build the query string so the URL asks for two days of forecast."
+    code: |
+      from urllib.parse import ___
+
+      url = "https://api.open-meteo.com/v1/forecast?" + urlencode({"latitude": 50.1, "longitude": -5.5, "forecast_days": 2})
+      print(url)
+    blanks: [["urlencode"]]
+    tests: |
+      TESTS = [output("Two days", expect="https://api.open-meteo.com/v1/forecast?latitude=50.1&longitude=-5.5&forecast_days=2")]
+  - type: write
+    prompt: "Write `wind_report(reply)`. It returns `Wind up to 37 km/h` from a forecast's first day, rounded, or `No wind in this forecast.` if the reply has no `wind_speed_10m_max`."
+    starter: |
+      def wind_report(reply):
+          pass
+    tests: |
+      TESTS = [
+          function("A windy day", call="wind_report", args=({"daily": {"wind_speed_10m_max": [36.7, 46.1]}},), expect="Wind up to 37 km/h"),
+          function("No wind field", call="wind_report", args=({"daily": {"time": ["2026-10-25"]}},), expect="No wind in this forecast."),
+          function("A still day", call="wind_report", args=({"daily": {"wind_speed_10m_max": [2.2]}},), expect="Wind up to 2 km/h"),
+      ]
+    solution: |
+      def wind_report(reply):
+          try:
+              wind = reply["daily"]["wind_speed_10m_max"][0]
+          except KeyError:
+              return "No wind in this forecast."
+          return f"Wind up to {round(wind)} km/h"

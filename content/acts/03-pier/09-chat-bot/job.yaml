@@ -1,0 +1,8 @@
+id: chat-bot
+title: "Chat Bot"
+project_name: "Chat Bot"
+status: outline
+client: dev
+building: pier
+estimated_minutes: 150
+summary: "A Discord or Telegram bot at home that answers with your quiz or your weather app."

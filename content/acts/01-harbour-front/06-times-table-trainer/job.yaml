@@ -1,0 +1,99 @@
+id: times-table-trainer
+title: "Times Table Trainer"
+project_name: "Times Table Trainer"
+portfolio_readme: |
+  # Times Table Trainer
+
+  A times table trainer for the command line. Choose a table and it prints it from 1 to 12 in neat, lined-up columns. Then it asks the five hardest questions, 8 to 12, marks each answer and gives a score out of 5.
+
+  Written by {name} in {{town}}, for Old Tom's great-niece. Finished {date}.
+
+  ## Run it
+
+  ```
+  python main.py
+  ```
+
+  ```
+  Which table? 7
+   1 x 7 =   7
+   2 x 7 =  14
+  ...
+  12 x 7 =  84
+  Quiz time.
+  8 x 7? 56
+  Right.
+  9 x 7? 62
+  No, 63.
+  ...
+  Score: 4 out of 5
+  ```
+
+  ## What it shows
+
+  - `for` loops over `range`, counting from 1 and stopping in the right place
+  - Columns lined up with f-string widths: `{n:2}` takes two characters, `{answer:3}` takes three
+  - A loop that asks questions and keeps a running score, set to zero once, before the loop
+downloadable: true
+datasets: []
+client: tom
+building: lighthouse
+estimated_minutes: 50
+summary: "Any times table from 1 to 12, lined up neatly, then a quiz on the hard end of it."
+concepts_introduced: [for-loops, range, loop-variables, tracing-loops]
+concepts_reviewed: [int-conversion, input-returns-text, f-strings, if-elif-else, comparisons, variables]
+ask:
+  dialogue:
+    - tom: "My great-niece Ellie has her times tables test on Friday."
+    - tom: "I learned mine on the lighthouse stairs. One step, one answer. Twelves by the top."
+    - tom: "She wants the table written out neat, then some questions. The hard ones."
+    - moss: "Twelve lines that look the same. That's what loops are for."
+  spec: |
+    Ask which table to practise. Print it from 1 to 12, one line each, with the columns lined up: the first number takes 2 characters and the answer takes 3.
+
+    Then print `Quiz time.` and ask the five hard ones, 8 to 12, in order. After each answer print `Right.`, or `No, 63.` with the real answer. Last of all, print the score out of 5.
+  example: |
+    Which table? 7
+     1 x 7 =   7
+     2 x 7 =  14
+     3 x 7 =  21
+     4 x 7 =  28
+     5 x 7 =  35
+     6 x 7 =  42
+     7 x 7 =  49
+     8 x 7 =  56
+     9 x 7 =  63
+    10 x 7 =  70
+    11 x 7 =  77
+    12 x 7 =  84
+    Quiz time.
+    8 x 7? 56
+    Right.
+    9 x 7? 62
+    No, 63.
+    10 x 7? 70
+    Right.
+    11 x 7? 77
+    Right.
+    12 x 7? 84
+    Right.
+    Score: 4 out of 5
+ship:
+  dialogue:
+    - tom: "Four out of five on the sevens. Ellie says nine sevens is a trick question."
+    - tom: "It isn't. It's sixty-three. Same as it was in '62."
+  shelf: { object: lamp, label: "Ellie's times tables, from the lighthouse" }
+  cards: [for-loops, range, loop-variables, tracing-loops]
+stretch:
+  - id: square
+    title: "The whole square"
+    prompt: |
+      If Ellie types `0` for the table, print the whole multiplication square instead, 12 rows of 12, each number 4 characters wide, and skip the quiz. Any other table works as before.
+
+      It's the square from the parsons step, with `size` fixed at 12.
+    tests: tests/stretch-square.py
+    solution: solutions/stretch-square.py
+  - id: every-third
+    title: "Every third one"
+    prompt: |
+      Ellie's teacher tests every third one: 3, 6, 9 and 12. Change the quiz to ask those four, using the third number in `range`, and give the score out of 4.

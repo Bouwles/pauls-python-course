@@ -1,0 +1,103 @@
+id: high-street-market-app
+title: "Personal Finance App"
+project_name: "Personal Finance App"
+portfolio_readme: |
+  # Personal Finance App
+
+  A personal finance app for the command line. It records every penny in and out with a category and a note, keeps a monthly budget for each kind of spending, and prints a report for any month: money in, money out, what went on each category against its budget, and what was left over. Everything is kept in a JSON file. It's a Python package, with the rules, the file and the command line in separate modules, and a test suite that was checked against deliberately broken copies of the rules.
+
+  Written by {name} for Sanjay, of Sanjay's greengrocer in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  python -m finance report 2026-11
+  python -m finance add 2026-11-22 -3.20 food --note pasty
+  python -m finance budget travel 15
+  python -m finance balance
+  pytest
+  ```
+
+  ```
+  November 2026
+  Money in: £1,450.00
+  Money out: £602.35
+  food: £78.40 of £120.00
+  fun: £53.95 of £40.00, over by £13.95
+  home: £450.00 of £450.00
+  travel: £20.00
+  Left over: £847.65
+  ```
+
+  ## What it shows
+
+  - Classes and frozen dataclasses for the rules, with every refusal raised as one exception with a plain message
+  - Money kept in whole pence, and turned into pounds only for people to read
+  - JSON storage, with dates written as text and read back as dates
+  - A command line with `argparse` subcommands, exit codes, and errors on standard error
+  - Tests written by me, and checked: they catch every one of eight planted bugs
+  - A real package layout: `finance/` with `__init__.py` and `__main__.py`, and `tests/` beside it
+
+  The transactions in `money.json` are invented.
+downloadable: true
+datasets: []
+client: sanjay
+building: greengrocer
+estimated_minutes: 480
+summary: "The Act II capstone: a personal finance app with budgets and monthly reports, in four modules with their own tests, taken home as a real package."
+concepts_introduced: []
+concepts_reviewed: [classes, init, attributes, methods, dataclasses, type-hints, exceptions, raising-errors, try-except, json-module, files, with-statement, modules, main-guard, docstrings, mutable-default, copying, list-comprehensions, dict-set-comprehensions, sort-key, lambda, argparse, exit-codes, assert, pytest, edge-cases, standard-library]
+ask:
+  dialogue:
+    - sanjay: "The shop's books are fine now. Mira saw to that. My own money is in a biscuit tin."
+    - sanjay: "Moss says that's a very old tradition, and his tin is empty. I'd like to know where mine goes."
+    - sanjay: "In, out, a budget for each thing, and a page a month I can understand. I'm told that's an app."
+    - moss: "Classes, a file, a command line and tests. Everything you've got. Then make it a proper package."
+  spec: |
+    A personal finance app for Sanjay, in four files, then a package:
+
+    1. Every transaction has a day, an amount in whole pence (more than 0 in, less than 0 out), one of six categories, and a note. Income is the only money in.
+    2. An amount of 0, a category that isn't one of the six, income that's money out and spending that's money in are all refused, with a reason.
+    3. Each kind of spending can have a monthly budget of more than 0.
+    4. The balance is everything in, less everything out.
+    5. A month's report shows money in, money out, what went on each category against its budget, anything over, and what was left over.
+    6. Everything is kept in `money.json`, so it's still there next time.
+    7. It runs from the command line. A refusal says why, on stderr, and exits with code 1.
+    8. It has tests, written by you, that would catch anyone breaking rules 2 to 5.
+    9. At home, it's a package: `python -m finance` runs it, and `pytest` runs its tests.
+  example: |
+    $ python cli.py add 2026-11-22 -3.20 food --note pasty
+    Spent £3.20 on food on 2026-11-22.
+    $ python cli.py add 2026-11-22 -1 sweets
+    There's no category called sweets.
+    $ python cli.py report 2026-11
+    November 2026
+    Money in: £1,450.00
+    Money out: £605.55
+    food: £81.60 of £120.00
+    fun: £53.95 of £40.00, over by £13.95
+    home: £450.00 of £450.00
+    travel: £20.00
+    Left over: £844.45
+ship:
+  dialogue:
+    - sanjay: "Fun, fifty-three ninety-five, against a budget of forty. That's the pier arcade. I'd have said ten."
+    - sanjay: "Eight hundred and forty-four pounds forty-five left over. I'd have said six hundred, and spent the difference."
+    - sanjay: "The biscuit tin is going back to Moss. Empty. He says that's how he likes them."
+    - moss: "Four files, and each one knows its job. Then one package that knows it's a program. That's the whole trade."
+  shelf: { object: till-receipt, label: "Sanjay's personal finance app" }
+  cards: []
+story_note: every-penny
+stretch:
+  - id: what-if
+    title: "What if"
+    prompt: |
+      Add `python -m finance forecast 3`: if every month to come is like the average of the months so far, what will the balance be in three months? Write the sum in `money.py`, test it there first, and keep the printing in `cli.py`.
+  - id: undo
+    title: "Take it back"
+    prompt: |
+      Sanjay typed a pasty twice. Add `python -m finance undo`, which removes the last transaction added and says what it was, or `Nothing to undo.` Which file does each part belong in?
+  - id: csv-export
+    title: "For the accountant"
+    prompt: |
+      Add `python -m finance export 2026-11 november.csv`, which writes that month's transactions to a CSV file with the `csv` module, header first, amounts in pounds. Then open it in a spreadsheet.

@@ -13,6 +13,10 @@ npm run lint:copy        # banned phrases, em dashes, emoji, exclamation marks
 
 A job is finished only when `npm run content` reports 0 errors and `npm run test:content` passes.
 
+## The town's name
+
+Never type the town's name. Write `{{town}}` and the content compiler puts in the name from `lib/brand.ts`, so a rebrand is one edit. `{{TOWN}}` gives it in capitals (a sign, a headline in a program's output) and `{{town_id}}` gives the lowercase form for file names and Python identifiers. The tokens work in every content file, including starters, solutions, tests and data, so a program's expected output and its tests always agree. The copy lint fails if the old name or the product name appears anywhere.
+
 ## Files
 
 ```
@@ -33,8 +37,19 @@ The Ask is always the first step and the Ship always the last; both come from `j
 ## job.yaml
 
 ```yaml
-id: beas-till-2                 # unique across the course; also the URL
-title: "Bea's Till, part 2"
+id: bill-splitter               # unique across the course; also the URL
+title: "Bill Splitter"          # the plain name of the real program
+project_name: "Bill Splitter"   # required; shown first on tickets, the client second (CURRICULUM.md)
+portfolio_readme: |             # required for written projects: the README in the learner's download
+  # Bill Splitter
+  Splits a bill between customers and rounds each share to the penny.
+  Written by {name} in {{town}}. Finished {date}.
+downloadable: true              # downloads from the Shelf as a runnable folder
+datasets:                       # real public data used, each bundled in data/ (also listed in CREDITS.md)
+  - name: "Open-Meteo forecast (saved response)"
+    source: "https://open-meteo.com/"
+    licence: "CC BY 4.0"
+    file: "forecast.json"
 client: bea                     # a character id from content/characters
 building: bakery                # where it sits on the map
 estimated_minutes: 30
@@ -208,12 +223,12 @@ A non-code activity before the code (Section 3.7). Available widgets:
 
 The step-through visualiser (Step through, in every editor) also draws Living Visualisations from the learner's own code: lists as Mira's pigeonholes, lists of numbers as Nell's piles (bars, so sorting code animates), dictionaries as the post office drawers, recursive calls as Nell's junk tower (one crate per waiting call, with what each gives back), and Old Tom's lamp for loops.
 
-### The `saltmarsh` module: drawings the learner's code sends
+### The `workshop` module: drawings the learner's code sends
 
 For algorithms that run too long to step through, the learner's program calls a drawing function each time round its loop, and the output panel plays the frames back (Play, Pause, Back, Forward, a speed menu). It works in Run only; checks ignore it, and it never changes what is printed, so tests stay the same.
 
 ```python
-from saltmarsh import show_grid, show_graph, show_hill
+from workshop import show_grid, show_graph, show_hill
 
 show_grid(values, policy=None, crab=None, walls=(), goal=(), q=None, title=None)
 show_graph(edges, positions=None, visited=(), frontier=(), path=(), current=None, distances=None, title=None)

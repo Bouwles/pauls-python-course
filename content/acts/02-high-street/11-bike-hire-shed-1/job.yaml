@@ -1,0 +1,84 @@
+id: bike-hire-shed-1
+title: "Bank Account System"
+project_name: "Bank Account System"
+portfolio_readme: |
+  # Bank Account System
+
+  Savings accounts as a Python class. Each account knows its holder, its number, its balance and every payment in and out. It refuses a withdrawal bigger than the balance, and raises an error for a payment of nothing or less than nothing, so a mistake can't quietly become money. Amounts are kept in whole pence, so nothing is ever lost to rounding.
+
+  Written by {name} for the post office in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  python bank.py
+  ```
+
+  ```
+  Account 1042, Bea Hollis: £12.50
+  False
+  [2000, -750]
+  ```
+
+  ## Use it in your own programs
+
+  ```python
+  from bank import Account
+
+  savings = Account("Bea Hollis", 1042)
+  savings.deposit(2000)        # £20.00, in pence
+  savings.withdraw(750)        # True
+  savings.withdraw(5000)       # False: there isn't enough
+  print(savings)               # Account 1042, Bea Hollis: £12.50
+  savings.deposit(-500)        # ValueError
+  ```
+
+  ## What it shows
+
+  - A class with `__init__`, attributes and methods, and what `self` is
+  - Validation: refusing bad requests before anything changes, by returning `False` or raising a `ValueError`
+  - `__str__`, so an account can be printed in plain words
+  - Money kept in whole pence, never in floats
+downloadable: true
+datasets: []
+client: mira
+building: post-office
+estimated_minutes: 75
+summary: "Savings accounts for the post office, each one a Python object that keeps its own balance and says no for itself."
+concepts_introduced: [classes, init, attributes, methods, self, dunder-methods]
+concepts_reviewed: [functions, parameters, return-values, none, f-strings, raising-errors, exceptions, references, is-vs-equals, docstrings, main-guard, lists, append-pop]
+ask:
+  dialogue:
+    - mira: "The post office keeps savings accounts. Two hundred of them, in ledgers older than I am."
+    - mira: "Last month Pip paid in minus five pounds. The ledger let him. Then he took it out again."
+    - mira: "An account should know its own balance. And nobody takes out more than they put in."
+    - moss: "Then each account should know that about itself, and say no for itself."
+  spec: |
+    Write a class `Account` in `bank.py`. Money is kept in whole pence, so 2000 is £20.
+
+    - `Account(holder, number)` opens an account: the holder's name, the account number, a `balance` of 0, and `history`, an empty list.
+    - `deposit(pence)` pays money in: it adds to the balance and appends the amount to `history`. An amount that isn't more than 0 raises a `ValueError` and changes nothing.
+    - `withdraw(pence)` takes money out, appends it to `history` as a negative number, and returns `True`. More than the balance changes nothing and returns `False`: the post office doesn't lend. An amount that isn't more than 0 raises a `ValueError`.
+    - `str(account)` gives one line, the balance in pounds: `Account 1042, Bea Hollis: £12.50`.
+  example: |
+    Account 1042, Bea Hollis: £12.50
+    False
+    [2000, -750]
+ship:
+  dialogue:
+    - mira: "Bea, twelve pounds fifty. Pip, minus nothing, which is an improvement."
+    - mira: "Every penny in the history, in the order it moved. Pigeonhole three for the ledgers. They're retired."
+    - moss: "Each account looks after itself. Next time, we find out if it really does. With tests."
+  shelf: { object: abacus, label: "The post office savings accounts" }
+  cards: [classes, init, attributes, methods, self, dunder-methods]
+stretch:
+  - id: statement
+    title: "A statement"
+    prompt: |
+      Give `Account` a method `statement()` that returns a list of lines, one for each payment in `history`, then the balance: `In: £20.00`, `Out: £7.50`, `Balance: £12.50`. Write a small helper for turning pence into `£7.50`, and use it in `__str__` as well, so it's written once.
+    tests: tests/stretch-statement.py
+    solution: solutions/stretch-statement.py
+  - id: a-year-on
+    title: "A bit of interest"
+    prompt: |
+      The post office pays 2% a year. Add `add_interest(percent)`, which pays in the interest on the balance, rounded to the nearest penny with `round()`, and records it in the history like any deposit. What should it do for an account with nothing in it?

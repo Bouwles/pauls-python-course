@@ -1,0 +1,119 @@
+id: ab-testing
+title: A/B tests and what they cost
+summary: |
+  An A/B test hands each version of something to a share of the people who see it, and compares how often each one works. A plain test splits them evenly and waits until the end, so it keeps handing out the losers right up to the last day. What that costs is the **regret**: for each version, the people handed it times the gap between its rate and the best rate, added up. Only a simulation knows the true rates, so only a simulation can count regret exactly. A bandit test shifts people towards the likely winner as it learns, which costs far less, but it ends knowing the losers' rates only roughly.
+example: |
+  rates = [0.10, 0.17]          # the truth, known only in a simulation
+  handed_out = [500, 500]
+  best = max(rates)
+  lost = sum(n * (best - rate) for n, rate in zip(handed_out, rates))
+  print(round(lost, 1))
+misconceptions: [fair-test-is-free, regret-uses-worst-gap, bandit-knows-every-version]
+related: [bandits, exploration-exploitation, permutation-tests]
+cards:
+  - type: predict
+    prompt: "Two versions, an even split. What does this print?"
+    code: |
+      rates = [0.20, 0.25]
+      handed_out = [400, 400]
+      best = max(rates)
+      lost = sum(n * (best - rate) for n, rate in zip(handed_out, rates))
+      print(round(lost))
+    answer: "20"
+  - type: choice
+    prompt: "This test handed 900 visitors the better version and 100 the worse one. What does it print?"
+    code: |
+      rates = [0.30, 0.10]
+      handed_out = [900, 100]
+      best = max(rates)
+      lost = sum(n * (best - rate) for n, rate in zip(handed_out, rates))
+      print(round(lost, 1))
+    options:
+      - text: "20.0"
+        correct: true
+        feedback: "Only the 100 handed the weaker version cost anything, 0.2 each. The 900 handed the best one cost nothing."
+      - text: "200.0"
+        misconception: regret-uses-worst-gap
+        feedback: "That charges all 1000 visitors the 0.2 gap. Each version's visitors cost its own gap to the best, and the best version's gap is zero."
+      - text: "0.0"
+        misconception: fair-test-is-free
+        feedback: "A hundred visitors were handed a version a fifth less likely to bring them in. That's a cost, even if most visitors got the better one."
+  - type: choice
+    prompt: "After 5000 visitors, which test knows the worst version's rate most precisely?"
+    verify: none
+    options:
+      - text: The even split
+        correct: true
+        feedback: "It handed the worst version to a quarter of the visitors, so its estimate rests on 1250 of them. That precision is what the extra regret paid for."
+      - text: Thompson sampling
+        misconception: bandit-knows-every-version
+        feedback: "Thompson sampling stops handing out a version once it's fairly sure it isn't the best, so the worst one may get a hundred visitors. It knows the winner well and the losers roughly."
+      - text: Both equally, since both saw 5000 visitors
+        misconception: bandit-knows-every-version
+        feedback: "Both saw 5000 visitors, but not on the same versions. An estimate is only as good as the visitors handed that version."
+  - type: fix
+    prompt: "This regret charges every visitor the biggest gap. Fix it so each version's visitors cost its own gap to the best."
+    code: |
+      def regret(handed_out, rates):
+          gap = max(rates) - min(rates)
+          return sum(handed_out) * gap
+
+
+      print(regret([250, 250, 250, 250], [0.10, 0.14, 0.08, 0.17]))
+    tests: |
+      TESTS = [
+          function("A quarter each", call="regret", args=([250, 250, 250, 250], [0.10, 0.14, 0.08, 0.17]), expect=47.5, tol=1e-6),
+          function("Everyone handed the best", call="regret", args=([10, 0], [0.5, 0.2]), expect=0.0, tol=1e-9),
+          function("Everyone handed the worse", call="regret", args=([0, 10], [0.5, 0.2]), expect=3.0, tol=1e-9),
+      ]
+    solution: |
+      def regret(handed_out, rates):
+          best = max(rates)
+          return sum(n * (best - rate) for n, rate in zip(handed_out, rates))
+
+
+      print(regret([250, 250, 250, 250], [0.10, 0.14, 0.08, 0.17]))
+  - type: fill
+    prompt: "The plain A/B test hands the versions out in turn. Fill the gap so the next visitor gets the next version, and the first again after the last."
+    code: |
+      def even_split(handed_out):
+          """The version for the next visitor, given how many each version has had."""
+          return sum(handed_out) % ___
+
+
+      print(even_split([3, 3, 2]))
+    blanks: [["len(handed_out)", "3"]]
+    tests: |
+      TESTS = [
+          function("Nobody yet", call="even_split", args=([0, 0, 0],), expect=0),
+          function("One handed out", call="even_split", args=([1, 0, 0],), expect=1),
+          function("Round again", call="even_split", args=([2, 2, 2],), expect=0),
+          output("Three, three, two", expect="2"),
+      ]
+  - type: write
+    prompt: "Write `rates_so_far(came_in, handed_out)`: each version's share of visitors who came in, as a list, with `None` for a version nobody has been handed yet."
+    starter: |
+      def rates_so_far(came_in, handed_out):
+          pass
+    tests: |
+      TESTS = [
+          function("Two versions", call="rates_so_far", args=([5, 12], [50, 60]), expect=[0.1, 0.2]),
+          function("One not handed out yet", call="rates_so_far", args=([3, 0], [12, 0]), expect=[0.25, None]),
+          function("Nobody came in", call="rates_so_far", args=([0], [40]), expect=[0.0]),
+      ]
+    solution: |
+      def rates_so_far(came_in, handed_out):
+          rates = []
+          for wins, total in zip(came_in, handed_out):
+              rates.append(wins / total if total else None)
+          return rates
+  - type: predict
+    prompt: "Ten thousand plausible rates for two handbills, one clearly better. What does this print?"
+    code: |
+      import numpy as np
+
+      rng = np.random.default_rng(0)
+      clear_winner = rng.beta(90 + 1, 10 + 1, size=10000)
+      clear_loser = rng.beta(10 + 1, 90 + 1, size=10000)
+      print((clear_winner > clear_loser).mean())
+    answer: "1.0"

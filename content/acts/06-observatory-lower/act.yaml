@@ -1,0 +1,21 @@
+id: observatory-lower
+number: 6
+title: "The Observatory, lower floors"
+district: observatory
+subject: "Machine learning"
+hours: 45
+summary: "Professor Wendt has inherited Penhallow's unfinished learning machine, and tries every method on real public data first. House prices, exam scores, diabetes risk, penguins, loans and customers: regression, classification, trees, ensembles, clustering and PCA, built from scratch, then with scikit-learn, and tested honestly."
+locked_line: "The observatory door is locked. There is a light on upstairs."
+intro:
+  - wendt: "She was building something up here. Well, she was building several things."
+jobs:
+  - drawing-the-best-line
+  - training-and-testing
+  - spam-filter
+  - was-it-right
+  - nearest-neighbours
+  - forests-and-boosting
+  - movie-recommender
+  - squashing-dimensions
+  - fair-and-honest-models
+  - the-fishing-forecast

@@ -1,7 +1,7 @@
 id: negative-indices
 title: Counting from the end
 summary: |
-  Negative indexes count back from the end of a list. `parcels[-1]` is always the last item and `parcels[-2]` the one before it, however long the list is. There is no -0: index 0 is still the first item.
+  Negative indexes count back from the end of a list. `parcels[-1]` is always the last item and `parcels[-2]` the one before it, however long the list is. Counting from the end starts at -1, because -0 is just 0, and index 0 is still the first item.
 example: |
   parcels = ["Bea", "Tom", "Agnes", "Gwen"]
   print(parcels[-1])

@@ -1,4 +1,4 @@
-"""The roads of Saltmarsh: each place, and the places one road away."""
+"""The roads of {{town}}: each place, and the places one road away."""
 from collections import deque
 
 TOWN = {

@@ -1,12 +1,12 @@
 id: string-slicing
 title: Slicing strings
 summary: |
-  A string is a row of characters, and positions work as in a list: `name[0]` is the first, `name[-1]` the last, `name[:3]` the first three. Slicing text gives text. One position past the end is an IndexError; a slice past the end just stops.
+  A string is a row of characters, each with a position counted from 0: `name[0]` is the first character, `name[-1]` the last. A slice takes part of it: `name[:3]` is the first three, `name[-4:]` the last four, and the slice stops just before its second number. Slicing text gives text. Any single position past the end is an IndexError; a slice past the end just stops at the end.
 example: |
-  boat = "Kittiwake"
-  print(boat[0], boat[-1])
-  print(boat[:4])
-  print(boat[4:])
+  password = "Harbour1987"
+  print(password[0], password[-1])
+  print(password[:7])
+  print(password[-4:])
 misconceptions: [string-index-from-one, slice-includes-stop, slice-counts-from-one]
 related: [slicing, string-methods]
 drill: true

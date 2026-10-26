@@ -1,0 +1,24 @@
+id: snake-ai
+title: "Snake AI"
+project_name: "Snake AI"
+status: outline
+client: committee
+building: crab-club
+estimated_minutes: 150
+summary: "Q-learning plays Snake, the learner's own game from the Pier: a state small enough for a table, rewards that teach the right thing, and a snake that beats its first thousand games."
+# Outline, for whoever writes it in full:
+# - Comes after the Q-Learning Crab; reviews q-learning and
+#   exploration-exploitation, and introduces reward-shaping.
+# - The program: snake_env.py wraps the rules of the learner's Snake from
+#   Act III (a grid, a snake as a list of cells, food) as reset() and step(),
+#   with no drawing. The state is eleven true-or-false facts: danger straight
+#   ahead, to the left and to the right, the direction of travel, and which way
+#   the food lies. 2048 states, three actions: straight on, turn left, turn
+#   right. snake_ai.py trains a Q-table and plays.
+# - Run as a program: train for 3000 games, then print the average and best
+#   score over 100 games against a snake that moves at random, and save the
+#   table. The workshop module's show_grid can draw each game.
+# - Pip's version is reward hacking: +1 for every move survived, so his snake
+#   learns to chase its own tail for ever and never eats. The fix is a reward
+#   for food, a cost for dying, and a step limit.
+# - Take It Home: the same agent driving the learner's Pygame Snake.

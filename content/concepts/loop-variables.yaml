@@ -1,7 +1,7 @@
 id: loop-variables
 title: The loop variable
 summary: |
-  The name after `for` is the loop variable. Each pass, Python puts the next value in it, and the body can use it like any other variable. Changing it inside the body doesn't change how many passes there are. After the loop, it keeps the last value it had.
+  The name after `for` is the loop variable. Each pass, Python puts the next value in it, and the body can use it like any other variable. Changing it inside the body doesn't change how many passes there are. After the loop, it keeps the last value it was given, as long as the loop ran at least once. A loop with no passes never sets it at all, and using the name afterwards is a NameError.
 example: |
   for night in range(1, 4):
       print(f"Night {night}")

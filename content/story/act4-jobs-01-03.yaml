@@ -1,7 +1,7 @@
-# Ada Penhallow's notes in Act IV, Jobs 1 to 3.
+# Ada Penhallow's notes in Act V (the Weather Station and the Records Office), Jobs 1 to 3.
 notes:
-  - id: waiting-for-more
+  - id: nought-in-the-book
     job: arrays-not-lists
-    title: "Waiting for more"
-    text: "Typed in from Mr Ashby's ledgers: 1,200 months of rain. The machine on the hill read the lot in under a second, then sat there waiting for more. There is no more. That is the trouble with the past. A.P."
-    where: "A comment inside load_rainfall, in the starter for the Make step of Arrays, Not Lists."
+    title: "A nought in the book"
+    text: "A nought in the book can mean a dry day, or a day nobody read the gauge. The machine on the hill can't tell them apart. On paper, neither can I. A.P."
+    where: "A comment inside load_marks, in the starter for the Make step of NumPy Grade Book, copied by Priya from the margin of Penhallow's station book, beside a reading of 0.0."

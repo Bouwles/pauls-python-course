@@ -1,7 +1,7 @@
 id: sentinels
 title: Sentinels
 summary: |
-  A sentinel is a special value that means stop, like `done` or `clear`. The pattern: ask once before the loop, test for the sentinel at the top, and ask again at the bottom of the body. That way the sentinel is never counted or added as if it were real data.
+  A sentinel is a special value that means stop, like `done` or `clear`. The pattern: ask once before the loop, test for the sentinel at the top, and ask again at the bottom of the body. That way the sentinel is never counted or added as if it were real data. In a `while True:` loop, check for the sentinel straight after asking and leave with `break`, before the entry is counted or turned into a number.
 example: |
   count = 0
   name = input("Ship? ")

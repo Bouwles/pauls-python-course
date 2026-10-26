@@ -1,0 +1,71 @@
+id: reading-tracebacks
+title: "Reading Tracebacks"
+project_name: "Reading Tracebacks"
+portfolio_readme: |
+  # Reading Tracebacks
+
+  The tide table for the north quay, put back together from five broken scripts. Each script crashed in a different way, and each one was fixed by reading its traceback.
+
+  Written by {name} for the harbour office in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  python main.py
+  ```
+
+  It prints the morning's tides:
+
+  ```
+  Tides for the north quay
+  High water 06:42
+  Low water 12:55
+  ```
+
+  ## What it shows
+
+  The five scripts between them failed with the four errors a Python programmer meets most often:
+
+  - `SyntaxError`: a bracket left open, so Python couldn't read the file at all
+  - `NameError`: one variable spelt two ways
+  - `TypeError`: text and a number joined with `+`, fixed with `str()`
+  - `ValueError`: `int()` asked to read `"4.5"`, fixed with `float()`
+
+  The habit behind all four: read a traceback from the bottom. The last line says what went wrong; the line number above it says where.
+downloadable: true
+datasets: []
+client: moss
+building: workshop
+estimated_minutes: 35
+summary: "Five broken scripts, the tracebacks that explain them, and the four errors every Python programmer meets."
+concepts_introduced: [reading-tracebacks, syntax-error, name-error, type-error, value-error, str-conversion]
+concepts_reviewed: [print, strings, variables, input-returns-text, int-conversion, float-conversion, f-strings]
+ask:
+  dialogue:
+    - moss: "Penhallow's tide table has stopped printing. Agnes has been guessing the tides since Tuesday."
+    - moss: "It's five scripts, and each one breaks a different way."
+    - moss: "When Python breaks, it leaves a note. Learn to read the note."
+  spec: |
+    Penhallow's tide table is five small scripts, and each one crashes.
+    Read the traceback, find the line, fix it. Between them they hold the four errors you will meet most: SyntaxError, NameError, TypeError and ValueError.
+    When the last script runs, the tide table prints again.
+  example: |
+    Tides for the north quay
+    High water 06:42
+    Low water 12:55
+ship:
+  dialogue:
+    - agnes: "Six forty-two. Same as my guess. I'm keeping the program anyway."
+    - moss: "Five scripts, six tracebacks. Most people never read one."
+  shelf: { object: tide-table, label: "Penhallow's tide table, working again" }
+  cards: [reading-tracebacks, syntax-error, name-error, type-error, value-error, str-conversion]
+story_note: the-hill-is-harder
+stretch:
+  - id: on-purpose
+    title: "Break it on purpose"
+    prompt: |
+      Write four tiny programs, each one line long, that cause a SyntaxError, a NameError, a TypeError and a ValueError. Read each traceback. Knowing how to cause an error is most of knowing how to fix it.
+  - id: dennis
+    title: "Tell Dennis"
+    prompt: |
+      Pick the script you found hardest and explain it to Dennis: what it should have done, what it did, and the first line that surprised you.

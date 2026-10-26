@@ -7,7 +7,7 @@ example: |
   print(7 // 2)
   print(7 % 2)
   print(2 ** 3)
-misconceptions: [division-gives-whole-number, floor-division-rounds, percent-is-percentage, caret-is-power]
+misconceptions: [division-gives-whole-number, floor-division-rounds, floor-division-is-remainder, percent-is-percentage, caret-is-power]
 related: [operator-precedence, variables]
 drill: true
 cards:
@@ -33,7 +33,7 @@ cards:
         misconception: floor-division-rounds
         feedback: "`//` doesn't round. It drops the remainder, so 1.9 becomes 1."
       - text: "9"
-        misconception: percent-is-percentage
+        misconception: floor-division-is-remainder
         feedback: "9 is the remainder. That's what `%` gives, not `//`."
   - type: fill
     prompt: Fill the gap so this prints how many whole dozens are in 50 buns.

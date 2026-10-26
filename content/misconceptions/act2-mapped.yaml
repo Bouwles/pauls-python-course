@@ -1,0 +1,29 @@
+# Misconceptions for the High Street projects as mapped to the new list (REDESIGN.md 7.2).
+
+counter-missing-raises:
+  concept: counter
+  description: Thinks a Counter raises a KeyError for something it hasn't counted, the way a dictionary does.
+most-common-alphabetical:
+  concept: counter
+  description: Thinks most_common puts things in alphabetical order rather than commonest first.
+counter-counts-words:
+  concept: counter
+  description: Thinks Counter given a string counts its words, when it counts its characters.
+counter-missing-is-none:
+  concept: counter
+  description: Thinks a Counter gives None for something it hasn't counted, when it gives 0.
+write-mode-inside-loop:
+  concept: files
+  description: Thinks opening a file with "w" inside a loop adds to it each time round, when each open empties it first.
+shuffle-returns-list:
+  concept: random-module
+  description: Thinks random.shuffle hands back a shuffled list, when it shuffles the list in place and returns None.
+shuffle-works-on-copy:
+  concept: random-module
+  description: Thinks random.shuffle shuffles a copy and leaves the list it was given as it was.
+print-ignores-str:
+  concept: dunder-methods
+  description: Thinks print shows an object's type and address even when the class has a __str__ method.
+fstring-shows-first-attribute:
+  concept: dunder-methods
+  description: Thinks an f-string shows one of an object's attributes, rather than asking the object for its text with __str__.

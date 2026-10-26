@@ -1,0 +1,8 @@
+id: earth-data-map
+title: "Earth Data Map"
+project_name: "Earth Data Map"
+status: outline
+client: ashby
+building: records-office
+estimated_minutes: 120
+summary: "Real geographic data on a map: Mr Ashby's question about where the lifeboat launches happened, answered with points plotted by latitude and longitude, coloured by year, over a public coastline, with an honest note on what a map projection does to distances."

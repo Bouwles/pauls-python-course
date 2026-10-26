@@ -1,0 +1,100 @@
+id: drawing-the-best-line
+title: "House Price Predictor"
+project_name: "House Price Predictor"
+portfolio_readme: |
+  # House Price Predictor
+
+  Predicts what a house will sell for from its floor area, using a year of real sales from King County, Washington (the county around Seattle). It fits the best straight line through 1,000 sales three ways: by the least squares formula, by gradient descent written from scratch, and with scikit-learn's `LinearRegression`. All three agree. Then it prices any floor area you type, and refuses to guess outside the sizes it has seen.
+
+  Written by {name} in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  pip install numpy pandas scikit-learn
+  python house_prices.py
+  ```
+
+  ```
+  By formula: w = 3515.36, b = -140390
+  By descent: w = 3515.36, b = -140390
+  scikit-learn: w = 3515.36, b = -140390
+  Root mean squared error: $288,893
+  Floor area in square metres? 150
+  A house of 150 square metres: about $387,000
+  ```
+
+  `w` is dollars per square metre and `b` is where the line crosses zero. A typical price is still nearly $290,000 off, because floor area is only part of what a house is worth.
+
+  ## What it shows
+
+  - Linear regression from scratch with NumPy: predictions, the mean squared error, and the closed-form least squares fit, all on whole arrays with no loops
+  - Gradient descent written by hand, with its gradients checked against numerical ones, and why the units of a feature decide which learning rate is safe
+  - The same model in scikit-learn: `fit`, `coef_`, `intercept_`, and why `X` is always a table
+  - A predictor that handles bad input and won't extrapolate
+
+  ## Data
+
+  `king_county_houses.csv` is a random sample of 1,000 of the 21,613 sales in "House Sales in King County, USA" (Kaggle, harlfoxem), released into the public domain under CC0. Floor areas were converted from square feet to square metres.
+downloadable: true
+datasets:
+  - name: "House Sales in King County, USA (a sample of 1,000 sales)"
+    source: "https://www.kaggle.com/datasets/harlfoxem/housesalesprediction"
+    licence: "CC0 1.0 (public domain)"
+    file: "king_county_houses.csv"
+    notes: "Taken from the OpenML copy (dataset 42092, also CC0). Dropped the sales with 0 bedrooms or 0 bathrooms and the one with 33 bedrooms; kept each house's latest sale; drew 1,000 at random (NumPy default_rng(2015)) and sorted them by date. Square feet were converted to square metres (floor area to 0.1 m2, plot to 1 m2). Columns kept: date, price, area_m2, lot_m2, bedrooms, bathrooms, floors, waterfront, grade, year_built, zipcode."
+client: wendt
+building: observatory
+estimated_minutes: 120
+summary: "Predict a house's price from its floor area, from 1,000 real sales: the best straight line found by formula, on foot by gradient descent, and by scikit-learn."
+concepts_introduced: [linear-regression, mean-squared-error, gradient-descent, scikit-learn]
+concepts_reviewed: [numpy-arrays, vectorisation, broadcasting, derivatives, numerical-gradients, pandas-basics, functions, return-values, multiple-returns, main-guard, docstrings, for-loops, lists, try-except, f-strings]
+ask:
+  dialogue:
+    - wendt: "Before anything goes near her machine, I want the methods tried on data the whole world has checked."
+    - wendt: "A thousand house sales from King County, by Seattle. One year, all public record."
+    - wendt: "Floor area against price. I want a line through them. No, not a line. The best line."
+    - moss: "Best by what measure?"
+    - wendt: "That is exactly the question. Come upstairs."
+  spec: |
+    `king_county_houses.csv` holds 1,000 real house sales from King County, Washington, between May 2014 and May 2015: the date, the price in dollars, the floor area in square metres, and some columns for later.
+
+    In `house_prices.py`, fit the line `price = w * area + b` three ways, and check they agree:
+
+    1. By formula: the `w` and `b` with the smallest mean squared error.
+    2. By gradient descent: start at `w = 0`, `b = 0` and walk downhill on the mean squared error.
+    3. With scikit-learn's `LinearRegression`.
+
+    Print how far off the line typically is: the root mean squared error, in dollars. Then ask for a floor area and give the line's price for it, to the nearest thousand dollars. An area outside the sizes in the sales gets a warning instead of a price, and an answer that isn't a number gets told so.
+  example: |
+    By formula: w = 3515.36, b = -140390
+    By descent: w = 3515.36, b = -140390
+    scikit-learn: w = 3515.36, b = -140390
+    Root mean squared error: $288,893
+    Floor area in square metres? 150
+    A house of 150 square metres: about $387,000
+ship:
+  dialogue:
+    - wendt: "Three methods, one line. Three and a half thousand dollars a square metre, give or take."
+    - wendt: "Give or take two hundred and ninety thousand. Floor area isn't the whole of a house. Well, it isn't nearly."
+    - moss: "Measured three times, then. By formula, on foot, and by the library."
+  shelf: { object: price-label, label: "Wendt's house price line" }
+  cards: [linear-regression, mean-squared-error, gradient-descent, scikit-learn]
+story_note: the-machine-never-asks
+stretch:
+  - id: draw-the-line
+    title: "Draw the line"
+    prompt: |
+      Plot the thousand sales with matplotlib, floor area along the bottom and price up the side, as small dots. Draw the line over them. Where do the dots sit furthest from it, and which way?
+  - id: the-smallest-house
+    title: "The smallest house"
+    prompt: |
+      Price a house of 38 square metres. It's inside the sales, and the line gives a price below nothing. Work out where the line crosses zero, then decide what the predictor should say there, and make it say it.
+  - id: walk-one-setting
+    title: "Watch the slope alone"
+    prompt: |
+      Fix `b` at the formula's value and walk `w` on its own, in hundreds of square metres, from 0, calling `show_hill(w, loss, curve=loss_at)` once a step, where `loss_at(w)` is the mean squared error with that `w` and the fixed `b`. Find the largest rate that still walks down, then one that overshoots.
+  - id: more-than-area
+    title: "More than floor area"
+    prompt: |
+      `LinearRegression` takes as many columns as you give it. Fit it on `area_m2`, `bedrooms`, `bathrooms` and `grade` together, from `houses[["area_m2", "bedrooms", "bathrooms", "grade"]]`. Does the root mean squared error fall? Look at `coef_`: does a bedroom add value, or take it away, once the floor area is known?

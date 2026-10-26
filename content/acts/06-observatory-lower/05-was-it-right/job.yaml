@@ -1,0 +1,117 @@
+id: was-it-right
+title: "Diabetes Risk Classifier"
+project_name: "Diabetes Risk Classifier"
+portfolio_readme: |
+  # Diabetes Risk Classifier
+
+  Gives the chance that a person has diabetes or prediabetes from six answers to a health survey: body mass index, age band, high blood pressure, high cholesterol, general health and exercise. It is logistic regression written from scratch in NumPy, trained on 1,500 real respondents to the US CDC's 2015 health survey and tested on 500 it never saw. Only about one respondent in eight has diabetes or prediabetes, so it is scored the honest way: a confusion matrix, precision and recall, an ROC curve and its area, and a screening threshold chosen on the training data.
+
+  This is a teaching project on survey data. It is not a medical tool and says nothing about any real person's health.
+
+  Written by {name} in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  pip install numpy
+  python diabetes.py
+  ```
+
+  ```
+  bmi              +0.39
+  age_band         +0.30
+  high_bp          +0.58
+  high_chol        +0.27
+  general_health   +0.79
+  exercise         -0.04
+  At a threshold of 0.5, on 500 respondents it never saw:
+                diabetes   none
+  flagged              8      8
+  not flagged         67    417
+  Accuracy 0.85, precision 0.50, recall 0.11, F1 0.18
+  Saying no to everyone: accuracy 0.85, recall 0.00
+  AUC: 0.811
+  To catch 85% of cases in training, flag at 0.10 or more.
+  On the test respondents: recall 0.77, precision 0.32, 183 of 500 flagged
+  Respondent: 27% chance. Flag for a test.
+  ```
+
+  `tools.py` loads, splits and scales the data.
+
+  ## What it shows
+
+  - Logistic regression from scratch: the sigmoid, the log loss (cross-entropy) and its gradients, gradient descent
+  - Why accuracy flatters a model when one class is rare, and what the confusion matrix, precision, recall and F1 say instead
+  - An ROC curve and its area, worked out by hand, and what the area means
+  - A threshold chosen for a purpose, on training data, then checked honestly on the test data
+
+  ## Data
+
+  `diabetes.csv` is a random sample of 2,000 of the 253,680 respondents in "CDC Diabetes Health Indicators", built from the 2015 BRFSS, the yearly health survey of the US CDC, as released on Kaggle (alexteboul) under CC0 and listed in the UCI Machine Learning Repository.
+downloadable: true
+datasets:
+  - name: "CDC Diabetes Health Indicators (a sample of 2,000 respondents)"
+    source: "https://www.kaggle.com/datasets/alexteboul/diabetes-health-indicators-dataset"
+    licence: "CC0 1.0 (public domain)"
+    file: "diabetes.csv"
+    notes: "From the UCI copy (https://archive.ics.uci.edu/dataset/891/cdc+diabetes+health+indicators), the binary version built from the CDC's BRFSS 2015 survey, a US government work. Drew 2,000 respondents at random without replacement (NumPy default_rng(2015)), kept in their original order and numbered from 1. Kept and renamed: BMI as bmi, Age as age_band (1 is 18 to 24, up to 13 for 80 and over), HighBP as high_bp, HighChol as high_chol, GenHlth as general_health (1 excellent to 5 poor), PhysActivity as exercise (any in the last 30 days), Diabetes_binary as diabetes (1 for diabetes or prediabetes). 263 of the 2,000 are 1."
+client: wendt
+building: observatory
+estimated_minutes: 150
+summary: "The chance of diabetes from six survey answers, by logistic regression from scratch on 2,000 real respondents. Then scored honestly, because only one in eight has it: a confusion matrix, precision and recall, an ROC curve, and a screening threshold."
+concepts_introduced: [logistic-regression, cross-entropy, classification-metrics, roc-auc]
+concepts_reviewed: [linear-regression, gradient-descent, multivariate-regression, feature-scaling, train-test-split, numerical-gradients, scikit-learn, numpy-arrays, vectorisation, broadcasting, matrices, boolean-operators, imports, functions, multiple-returns, default-arguments, main-guard, docstrings, zip, f-strings]
+ask:
+  dialogue:
+    - wendt: "The surgery in town wants to offer a free blood test. They can't test everyone, so whom do they ask first?"
+    - wendt: "Two thousand answers from a big public health survey. Six questions each, and whether they had diabetes."
+    - pip: "Mine is eighty-seven per cent right. It says no to everybody."
+    - moss: "Then it's eighty-seven per cent useless. Count what it misses."
+  spec: |
+    `diabetes.csv` holds 2,000 real respondents to the US CDC's 2015 health survey: body mass index, age band (1 to 13), high blood pressure, high cholesterol, general health (1 excellent to 5 poor) and exercise, each 1 or 0 where it's a yes or no, and whether they have diabetes or prediabetes. About one in eight does.
+
+    In `diabetes.py`, build the classifier from scratch, then score it honestly:
+
+    1. Lock a quarter of the respondents away for testing. Scale with the training respondents' ruler, and learn the chance by logistic regression and gradient descent on the log loss.
+    2. On the test respondents at a threshold of 0.5: the confusion matrix, accuracy, precision, recall and F1, against saying no to everyone.
+    3. The ROC curve and the area under it.
+    4. The threshold that would catch 85% of the training respondents with diabetes, and what it does on the test respondents. Then the chance for one respondent, and whether to flag them.
+  example: |
+    bmi              +0.39
+    age_band         +0.30
+    high_bp          +0.58
+    high_chol        +0.27
+    general_health   +0.79
+    exercise         -0.04
+    At a threshold of 0.5, on 500 respondents it never saw:
+                  diabetes   none
+    flagged              8      8
+    not flagged         67    417
+    Accuracy 0.85, precision 0.50, recall 0.11, F1 0.18
+    Saying no to everyone: accuracy 0.85, recall 0.00
+    AUC: 0.811
+    To catch 85% of cases in training, flag at 0.10 or more.
+    On the test respondents: recall 0.77, precision 0.32, 183 of 500 flagged
+    Respondent: 27% chance. Flag for a test.
+ship:
+  dialogue:
+    - wendt: "At a half it found eight cases in seventy-five. At one in ten, fifty-eight. Same model, different question."
+    - wendt: "A hundred and eighty-three letters for five hundred people, and three in four of the real cases among them."
+    - pip: "Mine was more accurate than yours at a half. By nought."
+    - moss: "That's what accuracy hides when the thing you're after is rare."
+  shelf: { object: storm-glass, label: "Wendt's screening model, scored honestly" }
+  cards: [logistic-regression, cross-entropy, classification-metrics, roc-auc]
+story_note: bigger-numbers-both-sides
+stretch:
+  - id: draw-the-curve
+    title: "Draw the curve, mark the choice"
+    prompt: |
+      Plot the ROC curve with matplotlib, with a dashed diagonal for a coin. Mark the points for thresholds of 0.5 and 0.10, each with its threshold written beside it.
+  - id: cost-of-a-miss
+    title: "Put a price on it"
+    prompt: |
+      Say a missed case costs as much as ten unnecessary tests. Give a miss a cost of 10 and a false alarm a cost of 1, and find the threshold with the lowest total cost on the training respondents. Then use it on the test respondents. Is it near 0.10?
+  - id: one-hot-age
+    title: "Age as bands, not a number"
+    prompt: |
+      `age_band` runs from 1 to 13, so one weight treats every step between bands as the same. Replace it with 13 columns of 0s and 1s, one per band, and train again. Does the AUC move?

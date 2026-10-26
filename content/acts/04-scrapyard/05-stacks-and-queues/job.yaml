@@ -1,0 +1,95 @@
+id: stacks-and-queues
+title: "Undo/Redo Text Editor"
+project_name: "Undo/Redo Text Editor"
+portfolio_readme: |
+  # Undo/Redo Text Editor
+
+  A one-line text editor for the command line, with undo and redo. Every edit goes on an undo stack; undo takes back the latest and puts it on a redo stack; redo does it again; and a new edit empties the redo stack, because what it held belonged to a text that's gone. Several commands typed on one line are queued and run in the order they were typed, and only the latest twenty edits are kept.
+
+  Written by {name} for Nell Brannigan's scrapyard in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  python editor.py
+  ```
+
+  Then type commands, one or several to a line with `;` between them:
+
+  ```
+  Edit? type Bolts 20p each
+  Edit? type , nuts 10p
+  Edit? delete 10; show
+  Board: Bolts 20p each
+  Edit? undo; show
+  Board: Bolts 20p each, nuts 10p
+  Edit? redo; redo; show
+  Nothing to redo.
+  Board: Bolts 20p each
+  Edit? quit
+  ```
+
+  ## What it shows
+
+  - Two stacks working together for undo and redo, each edit stored as what it did, so it can be undone exactly
+  - A queue, `collections.deque`, running commands first in, first out
+  - A bounded history with `deque(maxlen=...)`, which drops the oldest edit when a new one arrives
+  - A class whose methods keep its stacks and its text in step, and a command loop that turns text into method calls
+downloadable: true
+datasets: []
+client: nell
+building: scrapyard
+estimated_minutes: 80
+summary: "An undo/redo text editor for the price board by Nell's gate: a stack of edits to undo, a stack of undos to redo, and a queue of commands run in the order they were typed."
+concepts_introduced: [stacks, queues, deque]
+concepts_reviewed: [classes, init, methods, self, append-pop, tuples, unpacking, string-methods, slicing, imports, big-o, call-stack]
+ask:
+  dialogue:
+    - nell: "The price board by the gate. I chalk it, rub it out, chalk it again. Every Saturday."
+    - nell: "I want to try it out first. With a button that takes the last bit back."
+    - nell: "And one that puts it back, for when I change my mind about changing my mind."
+    - moss: "A stack of what you did, and a stack of what you took back. Two piles, used from the top."
+  spec: |
+    In `editor.py`, an `Editor` holds one line of text, `text`, which starts empty. Its `__init__(limit=20)` is written: `undo_stack` is a `deque(maxlen=limit)`, so only the latest `limit` edits are kept, and `redo_stack` is a list.
+
+    1. `type(words)` adds the words to the end of the text.
+    2. `delete(count)` deletes the last `count` characters, or all of them if there are fewer.
+    3. Each `type` or `delete` that changes the text is an edit: it goes on the undo stack as a pair, `("type", words)` or `("delete", removed)`, where `removed` is the characters really deleted, and it empties the redo stack. Typing nothing, or deleting nothing, isn't an edit.
+    4. `undo()` takes back the latest edit still standing and puts it on the redo stack. `redo()` does the latest undone edit again and puts it back on the undo stack. Each returns `True`, or `False`, changing nothing, if there's nothing to do.
+    5. `run(editor, line)` carries out a line of commands, split on `;`, in the order they were typed, using a `deque` as the queue. It returns a list of what to print: `show` gives `Board: ` and the text; an `undo` or `redo` with nothing to do gives `Nothing to undo.` or `Nothing to redo.`; `delete` with no whole number after it gives `Delete how many?`; any other word gives the line of commands, `COMMANDS`; a blank command gives nothing.
+
+    The loop at the bottom asks `Edit? ` until it's told `quit`.
+  example: |
+    Commands: type <words>, delete <how many>, undo, redo, show, quit. Several at once: put ; between them.
+    Edit? type Bolts 20p each
+    Edit? type , nuts 10p
+    Edit? show
+    Board: Bolts 20p each, nuts 10p
+    Edit? delete 10; show
+    Board: Bolts 20p each
+    Edit? undo; show
+    Board: Bolts 20p each, nuts 10p
+    Edit? redo; redo; show
+    Nothing to redo.
+    Board: Bolts 20p each
+    Edit? quit
+ship:
+  dialogue:
+    - nell: "Bolts twenty pence each, nuts ten. Chalked once, and it's right."
+    - nell: "I took the nuts off and put them back four times. Nobody saw."
+    - moss: "One stack remembers what you did, the other what you took back. Each does one job."
+  shelf: { object: chalkboard, label: "Nell's price board, with undo and redo" }
+  cards: [stacks, queues, deque]
+stretch:
+  - id: replace
+    title: "Change a price"
+    prompt: |
+      Add `replace(old, new)`, which swaps the first `old` in the text for `new`, as an edit that undo and redo understand: store it as `("replace", old, new, position)`, so undo can put `old` back exactly where it was. Add a `replace <old> with <new>` command to `run`.
+  - id: crane-check
+    title: "Check the crane script"
+    prompt: |
+      Moss's bracket checker says yes or no. Penhallow's crane script is three hundred lines long. Write `unclosed(text)`, which returns a list of the brackets still open at the end, in the order they were opened, and make `show` warn when the board has one open.
+  - id: save-the-board
+    title: "Keep it till Saturday"
+    prompt: |
+      Add `save` and `load` commands that write the text to `board.txt` and read it back. Should loading be an edit that undo can take back? Decide, then make it so.

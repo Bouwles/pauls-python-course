@@ -1,7 +1,7 @@
 id: split-join
 title: split() and join()
 summary: |
-  `text.split()` cuts text into a list of words at every run of spaces, and ignores spaces at the ends. `text.split(",")` cuts at each comma instead, keeping any spaces. `" ".join(words)` goes the other way: one string, with `" "` between the items. `.join()` belongs to the separator, and every item must be a string.
+  `text.split()` cuts text into a list of words at every run of whitespace (spaces, tabs or new lines), and ignores any at the ends. `text.split(",")` cuts at each comma instead, keeping any spaces. `" ".join(words)` goes the other way: one string, with `" "` between the items. `.join()` belongs to the separator, and every item must be a string.
 example: |
   notice = "  Lost   one oar  "
   words = notice.split()

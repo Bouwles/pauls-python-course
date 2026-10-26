@@ -1,0 +1,90 @@
+id: calculator
+title: "Four-Function Calculator"
+project_name: "Four-Function Calculator"
+portfolio_readme: |
+  # Four-Function Calculator
+
+  A calculator for the command line. Type a sum the way you'd write it, like `12.5 * 4`, and it prints the answer. It adds, takes away, multiplies and divides, and a sum it can't do gets a plain explanation instead of a crash. It keeps going until you type `quit`.
+
+  Written by {name} in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  python main.py
+  ```
+
+  ```
+  Sum? 12.5 * 4
+  = 50.00
+  Sum? 30 / 0
+  Nothing divides by zero.
+  Sum? quit
+  Fair winds.
+  ```
+
+  Put a space either side of the `+`, `-`, `*` or `/`. Negative numbers and decimals are fine.
+
+  ## What it shows
+
+  - Typed text turned into a sum: `.split()` into three parts, and `float()` for the numbers.
+  - `try` and `except` to survive what people really type: a word where a number should be (`ValueError`) and dividing by zero (`ZeroDivisionError`), each caught by name.
+  - A `calculate(a, op, b)` function that returns the answer, or `None` for an operator it doesn't know.
+  - A loop that keeps going until it's told to stop.
+downloadable: true
+datasets: []
+client: ferro
+building: ferry-dock
+estimated_minutes: 60
+summary: "Type a sum as text, get the answer, and survive bad input with try and except, until quit."
+concepts_introduced: [exceptions, try-except]
+concepts_reviewed: [reading-tracebacks, value-error, float-conversion, split-join, functions, parameters, return-values, none, while-loops, break-continue, if-elif-else, f-strings]
+ask:
+  dialogue:
+    - ferro: "The purser's adding machine went over the side at Easter. Gulls."
+    - ferro: "Fuel, fares, tonnage. I do the sums in my head, and my head is not shipshape."
+    - ferro: "Type the sum, get the answer. Type it wrong, and it says so and stays afloat."
+    - moss: "It'll need to take a bad sum without sinking. That's new."
+  spec: |
+    Ask `Sum? ` over and over. `quit` prints `Fair winds.` and stops. Spaces at the ends don't matter.
+
+    A sum is a number, a space, one of `+ - * /`, a space, and a number: `12.5 * 4`.
+
+    1. Write `calculate(a, op, b)`. It returns `a` and `b` added, taken away, multiplied or divided, depending on `op`, and `None` for any other `op`.
+    2. A sum that works prints `= 50.00`, always with two decimal places.
+    3. A sum that doesn't split into exactly three parts gets `Write it like 12 * 4, with spaces.`
+    4. If either number isn't a number, print `Those aren't both numbers.`
+    5. Dividing by zero gets `Nothing divides by zero.`
+    6. Any other operator gets `Use +, -, * or /.`
+
+    Catch the errors with `try` and `except`, each by name. Nothing typed at it should stop the program.
+  example: |
+    Sum? 12.5 * 4
+    = 50.00
+    Sum? 30 / 0
+    Nothing divides by zero.
+    Sum? twelve + 4
+    Those aren't both numbers.
+    Sum? 7 % 2
+    Use +, -, * or /.
+    Sum? 12*4
+    Write it like 12 * 4, with spaces.
+    Sum? quit
+    Fair winds.
+ship:
+  dialogue:
+    - ferro: "Twelve and a half tonnes at four pounds. Fifty. The purser's machine said forty-nine, for years."
+    - ferro: "I typed rubbish at it for ten minutes. It never once went down. More than the purser's machine can say."
+  shelf: { object: abacus, label: "Captain Ferro's calculator" }
+  cards: [exceptions, try-except]
+stretch:
+  - id: times-x
+    title: "Ferro's x"
+    prompt: |
+      Ferro writes multiply as `x`, the way he was taught at sea school. Make `calculate` accept `x` as well as `*`, so `6 x 7` gives `= 42.00`.
+    tests: tests/stretch-times-x.py
+    solution: solutions/stretch-times-x.py
+  - id: carry
+    title: "Carry the answer"
+    prompt: |
+      Fuel sums come in chains. Let `ans` stand for the last answer, on either side of a sum: `ans * 2` doubles it. Before there's been an answer, `ans` is 0. Swap `ans` for the number before you try `float()`.

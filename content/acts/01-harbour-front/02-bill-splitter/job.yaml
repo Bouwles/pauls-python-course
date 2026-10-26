@@ -1,0 +1,80 @@
+id: bill-splitter
+title: "Bill Splitter"
+project_name: "Bill Splitter"
+portfolio_readme: |
+  # Bill Splitter
+
+  Splits one bill between a table of people. It adds the tip, then shows the total and what each person pays, to the penny.
+
+  Written by {name} for Bea Hollis's bakery in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  python main.py
+  ```
+
+  It asks three questions, then shows the total and the share:
+
+  ```
+  Bill? 41.40
+  People? 6
+  Tip (%)? 10
+  Total with tip: 45.54
+  Each pays: 7.59
+  ```
+
+  The tip can have a decimal point, so a 12.5 per cent service charge works too.
+
+  ## What it shows
+
+  - Asking questions with `input()`, and turning the answers from text into numbers with `float()` and `int()`
+  - Variables with honest names, and arithmetic done in the right order, with brackets where the order matters
+  - Money shown with exactly two decimal places using an f-string, because a float is rarely exact: in Python, `2.40 * 3` is `7.199999999999999`
+downloadable: true
+datasets: []
+client: bea
+building: bakery
+estimated_minutes: 60
+summary: "Split a bill between a table of people, tip included, and show every share to the penny."
+concepts_introduced: [arithmetic, operator-precedence, variables, naming, input-returns-text, int-conversion, float-conversion, f-strings, type-function]
+concepts_reviewed: [print, strings, comments]
+ask:
+  dialogue:
+    - bea: "The bell-ringers come in after practice on Thursdays. Six of them, one bill."
+    - bea: "Then twenty minutes of who had the extra scone."
+    - bea: "They add a tip for the lifeboat tin, too. Nobody can work that out either."
+    - moss: "It'll have to do sums, and it'll have to listen. Both new."
+  spec: |
+    Ask for the bill in pounds, the number of people sharing it, and the tip as a percentage. The bill and the tip can have a decimal point.
+
+    Add the tip to the bill, then split the total equally. Print the total with the tip, then what each person pays, both with two decimal places, the way money is written.
+  example: |
+    Bill? 41.40
+    People? 6
+    Tip (%)? 10
+    Total with tip: 45.54
+    Each pays: 7.59
+ship:
+  dialogue:
+    - bea: "Forty-one forty, and ten per cent is four fourteen. Forty-five fifty-four."
+    - bea: "Six ways, seven fifty-nine each. I make it the same. Twice."
+  shelf: { object: till-receipt, label: "Bea's bill splitter" }
+  cards: [arithmetic, operator-precedence, variables, naming, input-returns-text, int-conversion, float-conversion, f-strings, type-function]
+stretch:
+  - id: collected
+    title: "Does it add up?"
+    prompt: |
+      Split 25.85 four ways and everyone pays 6.46. Four people paying 6.46 hand over 25.84: Bea is a penny short, and Bea counts.
+
+      Add a third line showing what the table actually hands over: each share rounded with `round(each, 2)`, times the number of people.
+
+      ```
+      Collected: 25.84
+      ```
+    tests: tests/stretch-collected.py
+    solution: solutions/stretch-collected.py
+  - id: penny
+    title: "Make it add up"
+    prompt: |
+      Fix the missing penny properly. Work in whole pence: `round(total * 100)` turns 25.85 into 2585. Then `2585 // 4` is what everyone pays, in pence, and `2585 % 4` is how many of them pay one penny more. Print who pays what, so the shares always add up to the total.

@@ -1,0 +1,70 @@
+id: shop-sign
+title: "Shop Sign"
+project_name: "Shop Sign"
+portfolio_readme: |
+  # Shop Sign
+
+  A first program. It prints the sign for a shop window: the shop's name, its trade, its opening hours and a note for customers, one line each.
+
+  Written by {name} for Moss's workshop in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  python main.py
+  ```
+
+  It prints:
+
+  ```
+  MOSS'S WORKSHOP
+  Repairs of all kinds
+  Open Tuesday to Saturday, 9 till 5
+  Closed when the radio is on
+  ```
+
+  To make the sign for another shop, change the text inside the quotes.
+
+  ## What it shows
+
+  - A program runs from the top down, one line at a time
+  - `print()` and strings, including an apostrophe kept safe inside double quotes
+  - A comment at the top saying what the program is for
+downloadable: true
+datasets: []
+client: moss
+building: workshop
+estimated_minutes: 20
+summary: "A first program: print the shop sign for Moss's workshop."
+concepts_introduced: [program-order, print, strings, comments]
+ask:
+  dialogue:
+    - moss: "The shop sign blew off the door again. Third time this month."
+    - moss: "Penhallow left a machine in the window that prints signs. It wants a program, not a pencil."
+    - moss: "Name, trade, hours, and a warning. Four lines. Nothing clever."
+  spec: |
+    Write a program that prints the shop sign for Moss's workshop: the name, the trade, the opening hours and a note for customers.
+
+    Four lines, exactly as below, in this order.
+  example: |
+    MOSS'S WORKSHOP
+    Repairs of all kinds
+    Open Tuesday to Saturday, 9 till 5
+    Closed when the radio is on
+ship:
+  dialogue:
+    - moss: "Straight lines. No spelling mistakes. Apostrophe in the right place."
+    - moss: "I'll put it up with the good tape."
+  shelf: { object: workshop-sign, label: "The shop sign" }
+  cards: [program-order, print, strings, comments]
+stretch:
+  - id: border
+    title: "A border"
+    prompt: |
+      Put a line of `=` signs above and below the sign, exactly as long as the longest line (34 characters). Then the sign looks finished from across the street.
+    tests: tests/stretch-border.py
+    solution: solutions/stretch-border.py
+  - id: second-sign
+    title: "One for the back door"
+    prompt: |
+      Moss wants a smaller sign for the back door: `DELIVERIES` on the first line and `Knock twice. Moss is slow.` on the second. Add it under the main sign, with an empty line between them. `print()` with nothing inside prints an empty line.

@@ -1,0 +1,33 @@
+---
+id: predict-class-call
+type: predict
+title: The class or the account
+concept: self
+code: |
+  class Account:
+      def __init__(self, holder):
+          self.holder = holder
+          self.balance = 0
+
+      def deposit(self, pence):
+          self.balance = self.balance + pence
+
+
+  bea = Account("Bea")
+  Account.deposit(500)
+  print(bea.balance)
+question: What happens?
+verify: error
+options:
+  - text: It prints 500
+    misconception: class-call-reaches-objects
+    feedback: "`Account.deposit` has no idea which account you mean. Called on the class, a method is a plain function, and you'd have to pass the account yourself."
+  - text: It prints 0, because the 500 went into a new account
+    misconception: class-call-makes-new-object
+    feedback: "Calling a method on the class doesn't open an account. It runs the function with exactly what you pass it."
+  - text: A TypeError
+    correct: true
+    error: TypeError
+    feedback: "Right. On the class, `deposit` is a function with two parameters. `500` became `self`, and `pence` was never given. Call it on an account: `bea.deposit(500)`."
+---
+Calling a method on the class instead of on one of its objects. It happens more than you'd think, usually at the end of a long day at the counter.

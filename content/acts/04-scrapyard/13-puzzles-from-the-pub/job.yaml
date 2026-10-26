@@ -1,0 +1,119 @@
+id: puzzles-from-the-pub
+title: "Sudoku Solver"
+project_name: "Sudoku Solver"
+portfolio_readme: |
+  # Sudoku Solver
+
+  Solves sudoku puzzles by backtracking: fill the next blank square with the first digit that fits its row, its column and its box, carry on, and when a square has nothing left that fits, rub out the last digit and try the next one there. It solves any puzzle that can be solved, and says so plainly when one can't be.
+
+  Written by {name} for Gwen's puzzle round at The Drowned Anchor in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  python sudoku.py
+  ```
+
+  It solves the three puzzles in `puzzles.txt`:
+
+  ```
+  Puzzle 1
+  4 5 7 | 2 8 1 | 6 9 3
+  9 3 6 | 7 5 4 | 2 1 8
+  1 8 2 | 6 3 9 | 7 4 5
+  ------+-------+------
+  7 1 5 | 8 9 2 | 3 6 4
+  2 9 8 | 3 4 6 | 5 7 1
+  6 4 3 | 5 1 7 | 8 2 9
+  ------+-------+------
+  3 7 4 | 1 2 5 | 9 8 6
+  8 6 9 | 4 7 3 | 1 5 2
+  5 2 1 | 9 6 8 | 4 3 7
+  ...
+  Puzzle 3
+  No solution. It can't be done.
+  ```
+
+  Add your own puzzles to `puzzles.txt`: nine lines of nine, `.` or `0` for a blank, and a blank line between puzzles.
+
+  ## What it shows
+
+  - Backtracking: building an answer one choice at a time, checking each choice at once, and undoing it when it leads nowhere
+  - Recursion that changes a grid in place and puts it back exactly as it was on the way out of a dead end
+  - Checking a row, a column and a 3 by 3 box, and finding the next blank in a fixed order
+  - Printing a grid as text with separators
+downloadable: true
+# The three puzzles were made for the story: Penhallow's 1994 round for Gwen, two with
+# one solution each and one with none. See the README.
+datasets: []
+client: gwen
+building: pub
+estimated_minutes: 90
+summary: "A sudoku solver for Gwen's puzzle round: fill a square, check it, and back out of every dead end, until the puzzle is solved or shown to be impossible."
+concepts_introduced: [backtracking]
+concepts_reviewed: [recursion, base-cases, call-stack, sets, tuples, nested-data, list-methods, files, big-o, edge-cases]
+ask:
+  dialogue:
+    - gwen: "Penhallow wrote my puzzle round in 1994. Three sudokus. She never left me the answers."
+    - gwen: "Two have been done, by the vicar, in pencil. Nobody's finished the third."
+    - gwen: "I'd like to know before Thursday whether that's the vicar's fault or the puzzle's."
+    - moss: "Try everything, carefully, and back out of every dead end. A program doesn't mind dead ends."
+  spec: |
+    `puzzles.txt` holds Penhallow's three puzzles. `read_puzzles` is written: it gives back each puzzle as nine rows of nine numbers, with 0 for a blank. In `sudoku.py`, write:
+
+    1. `can_place(grid, row, col, digit)`: `True` if `digit` isn't already in that square's row, its column, or its 3 by 3 box; `False` if it is.
+    2. `next_blank(grid)`: the `(row, col)` of the first blank square, reading along each row from the top, or `None` if there are no blanks.
+    3. `solve(grid)`: fill in every blank so the puzzle is solved, changing `grid` itself, and give back `True`; or, if it can't be solved, give back `False` with `grid` exactly as it was. Use backtracking: put the first digit that fits in the next blank and carry on; when a square has no digit that fits, rub out the last digit you wrote and try the next one there.
+    4. `show(grid)`: the grid as nine lines of text, `.` for a blank, a space between squares, ` | ` between boxes, and a line of `------+-------+------` between each band of three rows.
+
+    The main block solves each puzzle in turn and prints it, or says it can't be done.
+  example: |2
+    Puzzle 1
+    4 5 7 | 2 8 1 | 6 9 3
+    9 3 6 | 7 5 4 | 2 1 8
+    1 8 2 | 6 3 9 | 7 4 5
+    ------+-------+------
+    7 1 5 | 8 9 2 | 3 6 4
+    2 9 8 | 3 4 6 | 5 7 1
+    6 4 3 | 5 1 7 | 8 2 9
+    ------+-------+------
+    3 7 4 | 1 2 5 | 9 8 6
+    8 6 9 | 4 7 3 | 1 5 2
+    5 2 1 | 9 6 8 | 4 3 7
+
+    Puzzle 2
+    3 5 8 | 7 2 9 | 1 6 4
+    9 7 2 | 4 6 1 | 3 8 5
+    1 4 6 | 5 8 3 | 9 2 7
+    ------+-------+------
+    4 8 1 | 2 3 5 | 7 9 6
+    7 6 9 | 8 1 4 | 5 3 2
+    5 2 3 | 6 9 7 | 4 1 8
+    ------+-------+------
+    8 3 4 | 9 5 2 | 6 7 1
+    2 9 5 | 1 7 6 | 8 4 3
+    6 1 7 | 3 4 8 | 2 5 9
+
+    Puzzle 3
+    No solution. It can't be done.
+ship:
+  dialogue:
+    - gwen: "The third one can't be done. Not by the vicar, not by anyone. That's the puzzle."
+    - gwen: "Thirty years, and the answer was that there isn't one. That's very her."
+    - moss: "It tried every digit in every square it had to, and rubbed out every one it got wrong."
+  shelf: { object: quiz-sheet, label: "Gwen's sudoku round, with the answers" }
+  cards: [backtracking]
+story_note: tom-knows-where
+stretch:
+  - id: count-guesses
+    title: "How hard was it"
+    prompt: |
+      Count the digits `solve` writes in, wrong ones included, and print the count under each puzzle. Pass a list like `[0]` into `solve` and add to it, or make the count a second thing `solve` gives back. Which of Penhallow's puzzles took the most guesses? Then try filling the blank with the fewest digits that fit first, instead of the next blank along, and count again.
+  - id: one-answer
+    title: "Only one answer"
+    prompt: |
+      A fair puzzle has exactly one solution. Write `count_solutions(grid, limit=2)`, which keeps going after the first solution, counting, and stops as soon as it reaches `limit`. Check that Penhallow's first two have one each, then take a square out of the first and count again.
+  - id: round-table
+    title: "The round table"
+    prompt: |
+      Gwen has bought a round table for the final. Write `count_round_seatings(teams, feuds)` from Moss's seating, where the first and last seats are neighbours too, and seatings that are the same turned round count once: fix the first team in the first seat and seat the rest.

@@ -1,5 +1,6 @@
 id: placement-high-street
 title: "Placement: The High Street"
+project_name: "Placement: The High Street"
 client: moss
 building: workshop
 estimated_minutes: 35
@@ -15,7 +16,7 @@ ask:
   spec: |
     Three Make tasks for the shops on the High Street. There are no hints: each task has its brief, two visible checks and a good many hidden ones.
 
-    Pass all three and the High Street is placed. The Scrapyard opens, and Act II's ideas join your review deck.
+    Pass all three and the High Street is placed. The Pier opens, and Act II's ideas join your review deck.
 ship:
   dialogue:
     - moss: "Six broken copies, six caught. Mrs Vance wants them framed."

@@ -1,0 +1,80 @@
+id: number-guessing-game
+title: "Number Guessing Game"
+project_name: "Number Guessing Game"
+portfolio_readme: |
+  # Number Guessing Game
+
+  The computer picks a whole number from 1 to 100 and you try to find it. After each guess it says too high or too low, and when you get it, it says how many guesses you took. Type `q` to give up and see the number. A guess outside 1 to 100 is turned away and doesn't count.
+
+  Written by {name} for the Drowned Anchor in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  python main.py
+  ```
+
+  ```
+  Guess? 50
+  Too high.
+  Guess? 25
+  Too low.
+  Guess? 37
+  Got it in 3.
+  ```
+
+  Halve what's left each time and you'll find any number in seven guesses or fewer.
+
+  ## What it shows
+
+  - The `random` module, imported and used to pick a fresh number each game
+  - A `while True` loop that keeps going until something stops it
+  - `break` to stop on a win or a quit, and `continue` to skip a guess that doesn't count
+  - A counter for the guesses, set before the loop and added to inside it
+  - A quit word (a sentinel), checked while it's still text, before anything turns it into a number
+downloadable: true
+datasets: []
+client: gwen
+building: pub
+estimated_minutes: 55
+summary: "The machine picks a number from 1 to 100. The regulars guess, and nobody can say it was fiddled."
+concepts_introduced: [while-loops, sentinels, running-totals, infinite-loops, random-module, imports, break-continue]
+concepts_reviewed: [comparisons, if-elif-else, boolean-operators, int-conversion, f-strings, for-loops]
+ask:
+  dialogue:
+    - gwen: "Quiet nights, the regulars play guess the number. I think of one, they guess."
+    - gwen: "Every week somebody says I changed it halfway. I didn't. Mostly."
+    - gwen: "I want a machine to pick it. Nobody can say a machine fiddled it."
+    - moss: "They'll say it. But they'll say it to the machine."
+  spec: |
+    The machine picks a whole number from 1 to 100 with `random.randint(1, 100)`. Then it asks `Guess? ` until the game is over.
+
+    - Too low or too high: say so.
+    - Right: print `Got it in 4.` (however many guesses it took) and stop.
+    - `q` instead of a number: print `It was 37.` (the real number) and stop. The regulars give up a lot.
+    - A guess below 1 or above 100 gets `Between 1 and 100.` and doesn't count as a guess.
+  example: |
+    Guess? 50
+    Too high.
+    Guess? 25
+    Too low.
+    Guess? 37
+    Got it in 3.
+ship:
+  dialogue:
+    - gwen: "Thirty-seven, got in three by the vicar. Nobody said I'd fiddled it."
+    - gwen: "They said the machine fiddled it. That's an improvement. Seven or fewer wins a mackerel."
+  shelf: { object: fish, label: "Gwen's guessing game, mackerel for a prize" }
+  cards: [while-loops, sentinels, running-totals, infinite-loops, random-module, imports, break-continue]
+stretch:
+  - id: close
+    title: "Warm"
+    prompt: |
+      When a wrong guess is within 5 of the number, print `Close.` on the line after `Too low.` or `Too high.`
+    tests: tests/stretch-close.py
+    solution: solutions/stretch-close.py
+  - id: again
+    title: "Another round"
+    prompt: |
+      After a win or a `q`, ask `Again? `. If the answer is `yes`, pick a new number and start a new game, with the count back at 0. That's the whole game inside another `while` loop.
+story_note: the-hill-sees-further

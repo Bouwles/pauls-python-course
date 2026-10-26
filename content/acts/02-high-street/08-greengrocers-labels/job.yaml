@@ -1,0 +1,103 @@
+id: greengrocers-labels
+title: "Quiz App"
+project_name: "Quiz App"
+portfolio_readme: |
+  # Quiz App
+
+  A pub quiz on the command line. The questions live in a JSON file, each with its round, its answer and any other answers the quizmaster will accept. It shows the rounds, asks which one to play, shuffles that round's questions so no two nights are the same, asks them, and then reads out the answers and the score, the way a quizmaster does at the end of a round.
+
+  Written by {name} for Gwen's Thursday quiz at the Drowned Anchor in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  python quiz.py
+  ```
+
+  ```
+  Rounds: Local (4), Science (4), Sea (4), Words (4)
+  Which round? sea
+  1. What is the lowest point of the tide called?
+  > low water
+  ...
+  Answers:
+  1. low water: right
+  2. a pup: you said kitten
+  ...
+  Score: 3 out of 4
+  ```
+
+  Write your own questions in `questions.json`: a list of `{"round": ..., "question": ..., "answer": ..., "also": [...]}`, where `also` is optional.
+
+  ## What it shows
+
+  - A question bank kept as JSON and read with `json.load`
+  - List, set and dictionary comprehensions, with an `if` at the end to keep only some items and an `if ... else` at the front to choose what each item becomes
+  - Shuffling with `random.shuffle`, which changes the list it's given and returns `None`
+  - Marking that forgives capitals and spaces, and accepts more than one right answer
+downloadable: true
+datasets: []
+client: gwen
+building: pub
+estimated_minutes: 90
+summary: "Gwen's pub quiz: questions in a JSON file, shuffled every week, asked, marked and scored, mostly with lists made out of other lists."
+concepts_introduced: [list-comprehensions, dict-set-comprehensions, conditional-comprehensions, json-module]
+concepts_reviewed: [random-module, files, with-statement, dictionaries, dict-get, sets, tuples, unpacking, enumerate, zip, string-methods, functions, return-values, while-loops, main-guard, f-strings, docstrings]
+ask:
+  dialogue:
+    - gwen: "Quiz night's Thursday. My question book has a pint ring over half the answers."
+    - gwen: "I want the questions in a file, a different order every week, and the marking done by something that can't be bought a drink."
+    - gwen: "Last week the Lifeboat Crew said seal pup and pup were different answers. They won the argument. Not the quiz."
+    - moss: "Load them, shuffle them, mark them. Most of it is lists made out of other lists."
+  spec: |
+    Gwen's questions are in `questions.json`: a list of dictionaries, each with a `round`, a `question`, an `answer`, and sometimes `also`, a list of other answers she'll accept. Write `quiz.py`, with a comprehension at the heart of each of the first four:
+
+    1. `round_names(questions)` returns the different rounds, in alphabetical order.
+    2. `round_sizes(questions)` returns a dictionary of each round's name and how many questions it has, in the same order.
+    3. `in_round(questions, name)` returns the questions in that round, in the order they're in the book. Capitals, and spaces at the ends of `name`, don't matter.
+    4. `answer_sheet(questions, answers)` returns a line for each question, numbered from 1: `1. low water: right`, or `2. a pup: you said kitten`.
+    5. `is_right(given, question)` is `True` if `given` is the answer or one of its `also`, ignoring capitals and spaces at the ends. `score(questions, answers)` says how many are right.
+    6. `main()` prints the rounds, then asks `Which round? ` until the answer is one of them; anything else gets `No round called Sport.` It shuffles that round's questions with `random.shuffle`, prints each one numbered and reads the answer after `> `, then prints `Answers:`, the answer sheet, and `Score: 3 out of 4`.
+  example: |
+    Rounds: Local (4), Science (4), Sea (4), Words (4)
+    Which round? sea
+    1. What is the lowest point of the tide called?
+    > low water
+    2. What is a baby seal called?
+    > kitten
+    3. How many hearts does an octopus have?
+    > three
+    4. What do you call a speed of one nautical mile an hour?
+    > knots
+    Answers:
+    1. low water: right
+    2. a pup: you said kitten
+    3. 3: right
+    4. a knot: right
+    Score: 3 out of 4
+ship:
+  dialogue:
+    - gwen: "Three out of four for the Lifeboat Crew. They said kitten. For a seal. I've written that down."
+    - gwen: "Different order next week, and they can't learn it. I tried learning it myself. Couldn't."
+    - moss: "Every function's a list made from a list. Hardly a loop in it, and you can still read it."
+  shelf: { object: quiz-sheet, label: "Gwen's quiz, marked fairly" }
+  cards: [list-comprehensions, dict-set-comprehensions, conditional-comprehensions, json-module]
+stretch:
+  - id: missed
+    title: "The ones they missed"
+    prompt: |
+      At the end of the night, Gwen reads out the questions nobody got, so the arguing can start. Write `missed(questions, answers)`: the text of each question that was answered wrong, in the order they were asked. One comprehension, with an `if` at the end.
+    tests: tests/stretch-missed.py
+    solution: solutions/stretch-missed.py
+  - id: untangle
+    title: "Untangle the one-liner"
+    prompt: |
+      Gwen's cousin runs the quiz at the pub in Penzance, and sent this:
+
+      `marks = [q["round"].upper() + (" EASY" if len(q["answer"]) < 4 else " FAIR" if len(q["answer"]) < 10 else "") for q in questions if "also" in q and q["round"] != "Words"]`
+
+      Rewrite it as a plain `for` loop with an `if`, `elif` and `else`, so the next person can read it. Check it makes the same list.
+  - id: league
+    title: "The league table"
+    prompt: |
+      Ask for the team's name before the round, and after the score add it to `league.json`, a dictionary of team to total points: `json.load` it if it's there, add the score, `json.dump` it back. Then print the table, the most points first. On the workbench, files the program writes are still there next time you press Run.

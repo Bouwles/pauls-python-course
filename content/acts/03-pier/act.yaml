@@ -1,0 +1,22 @@
+id: pier
+number: 3
+title: "The Pier"
+district: pier
+subject: "Real-World Python"
+hours: 40
+summary: "Programs that talk to the world: a weather app on a real API, a scraper, automation, games, and a web app you put online."
+locked_line: "The pier, where the arcade lights flicker and the tourists ask for things."
+intro:
+  - moss: "The pier wants things that talk to the outside world. Weather, websites, games."
+  - moss: "Some of it runs here. Some of it you take home and run properly."
+jobs:
+  - weather-app
+  - web-scraper
+  - automation-pack
+  - snake
+  - arcade-shooter
+  - flask-web-app
+  - web-app-with-accounts
+  - deploy-it
+  - chat-bot
+  - deployed-web-app

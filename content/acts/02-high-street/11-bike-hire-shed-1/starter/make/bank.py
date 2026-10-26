@@ -1,0 +1,21 @@
+"""The post office savings accounts. Money is kept in whole pence."""
+
+
+class Account:
+    """One savings account."""
+
+    # Give each new one its starting attributes: holder, number, balance, history
+
+    # Methods that change the object: deposit(pence), withdraw(pence)
+    #   Say no before you change anything
+
+    # Methods that answer a question about it: __str__
+
+
+if __name__ == "__main__":
+    savings = Account("Bea Hollis", 1042)
+    savings.deposit(2000)
+    savings.withdraw(750)
+    print(savings)
+    print(savings.withdraw(5000))
+    print(savings.history)

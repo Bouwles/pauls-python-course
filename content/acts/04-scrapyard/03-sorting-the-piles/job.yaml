@@ -1,0 +1,143 @@
+id: sorting-the-piles
+title: "Sorting Visualiser"
+project_name: "Sorting Visualiser"
+portfolio_readme: |
+  # Sorting Visualiser
+
+  Four sorting algorithms, written by hand, each one shown at work. Selection sort and insertion sort sort a pile in place, pass by pass; merge sort merges piles of one up into a single pile, round by round; quick sort splits one pile down round a pivot, round by round. Every sort records a frame after each pass or round, and the visualiser plays the frames back as bars, then checks the two fast sorts against Python's `sorted()` on ten thousand parts and times all three.
+
+  Written by {name} for Nell Brannigan's scrapyard in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  python sorter.py
+  ```
+
+  It draws a pile of seven weights, asks which sort to show, then plays it:
+
+  ```
+    7 #######
+    3 ###
+    9 #########
+    3 ###
+    1 #
+   12 ############
+    5 #####
+  Which sort: selection, insertion, merge or quick? quick
+  Step 1
+    3 ###
+    3 ###
+    1 #
+    5 #####
+    7 #######
+    9 #########
+   12 ############
+  Step 2
+    1 #
+    3 ###
+    3 ###
+    5 #####
+    7 #######
+    9 #########
+   12 ############
+  Quick sort: 2 steps
+  Pier lot: 10000 parts, merge and quick agree with sorted(): True
+  sorted() 0.002 s, merge 0.033 s, quick 0.016 s
+  ```
+
+  `piles.py` holds the two simple sorts and `draw`; `sorter.py` holds merge sort, quick sort and the visualiser. The timings change from run to run.
+
+  ## What it shows
+
+  - Selection, insertion, merge and quick sort written without `sorted()` or `.sort()`, and why the first two are O(n²) and the second two O(n log n) on a jumbled pile
+  - Merge sort and quick sort done in rounds, without recursion: one merges up from piles of one, the other splits down from one pile
+  - Stable sorting with a `key`, so parts of the same weight keep the order they arrived in
+  - Recording copies of a list as it changes, and drawing each one as a text bar chart
+downloadable: true
+# The pile and the pier lot are invented for the story: the pier lot is generated in code
+# from a seeded random generator, so every run sorts the same ten thousand parts.
+datasets: []
+client: nell
+building: scrapyard
+estimated_minutes: 110
+summary: "A sorting visualiser for Nell's piles: selection, insertion, merge and quick sort, each played back frame by frame as bars, then raced against sorted()."
+concepts_introduced: [simple-sorts, quicksort, merge-sort, sort-stability]
+concepts_reviewed: [big-o, timing-code, sorted-vs-sort, sort-key, lambda, list-comprehensions, slicing, tuples, mutability, default-arguments, none, copying]
+ask:
+  dialogue:
+    - nell: "The scrap merchant comes Thursday. He pays by weight, and he wants the pier's lot lightest first."
+    - nell: "By hand I'd sort it by feel. Ten thousand parts is a lot of feel."
+    - moss: "There are four ways worth knowing. After that, you'll see why nobody writes their own."
+  spec: |
+    A sorting visualiser, in two files, each sort written by hand: no `sorted()` or `.sort()` inside your functions. Every sort takes a `frames` list (or `None`, the default) and, if it's a list, puts a copy of the pile on it after each pass or round, so the work can be played back.
+
+    In `piles.py`, two sorts that change the list they're given, lightest first, and hand back `None`, like `.sort()`, and a way to draw a pile:
+
+    1. `draw(pile)` gives back the pile as text, one line per weight: the weight right-aligned in three places, a space, and a `#` for each kilo.
+    2. `selection_sort(weights, frames=None)`: find the lightest of what's left and swap it into place. A frame after every pass.
+    3. `insertion_sort(weights, frames=None)`: take each weight in turn and slide it left past every heavier one. A frame after every pass.
+
+    In `sorter.py`, two faster sorts for the merchant, which hand back a new list sorted by `key` and leave `items` as it was. Both are stable: on a tie, items keep the order they came in.
+
+    4. `merge(left, right, key)` takes two lists already sorted by `key` and gives back one, sorted by `key`. On a tie, the item from `left` comes first.
+    5. `merge_sort(items, key=lambda item: item, frames=None)`: every item starts as a pile of one; neighbouring piles are merged in pairs, round after round, until one pile is left.
+    6. `quick_sort(items, key=lambda item: item, frames=None)`: everything starts in one pile; each round, every pile of two or more is split round its first item into the lighter ones, then each item the same as the pivot as a pile of its own, then the heavier ones, until no pile has two items.
+
+    For merge and quick sort, a frame is every pile after the round, laid end to end. The visualiser at the bottom of `sorter.py` is written.
+  example: |2
+      7 #######
+      3 ###
+      9 #########
+      3 ###
+      1 #
+     12 ############
+      5 #####
+    Which sort: selection, insertion, merge or quick? merge
+    Step 1
+      3 ###
+      7 #######
+      3 ###
+      9 #########
+      1 #
+     12 ############
+      5 #####
+    Step 2
+      3 ###
+      3 ###
+      7 #######
+      9 #########
+      1 #
+      5 #####
+     12 ############
+    Step 3
+      1 #
+      3 ###
+      3 ###
+      5 #####
+      7 #######
+      9 #########
+     12 ############
+    Merge sort: 3 steps
+    Pier lot: 10000 parts, merge and quick agree with sorted(): True
+    sorted() 0.002 s, merge 0.033 s, quick 0.016 s
+ship:
+  dialogue:
+    - nell: "Ten thousand parts, lightest first. The four-kilo hubcaps still in the order they came off the pier."
+    - nell: "The merchant asked how I'd sorted them. I said merge sort. He nodded like he knew."
+    - moss: "Now use sorted(). It's merge sort and insertion sort working together, in C. You've seen inside it."
+  shelf: { object: weighing-scales, label: "Nell's sorting visualiser, lightest first" }
+  cards: [simple-sorts, quicksort, merge-sort, sort-stability]
+stretch:
+  - id: middle-pivot
+    title: "A better pivot"
+    prompt: |
+      `quick_sort` takes each pile's first part as its pivot. Hand it a pile that's already in order and every split leaves one side empty, so it takes a round for every part: O(n²). Count the frames for `quick_sort(list(range(2000)), frames=frames)`, then make it take the middle part of each pile as the pivot and count again.
+  - id: count-the-work
+    title: "Count the work"
+    prompt: |
+      Give each of your three sorts a counter for comparisons, and make a table for 1,000 weights in random order, already in order, and back to front. Which sort cares what order it was given? Which doesn't care at all?
+  - id: watch-it
+    title: "Quick sort in place"
+    prompt: |
+      Write a quicksort that sorts a list of numbers in place, as the simple sorts do: pick the last weight as the pivot, walk along swapping lighter weights to the front, swap the pivot in after them, then sort each side the same way, calling itself. Record a frame after each split, play it in the visualiser, and press Step through on a pile of twelve to watch the bars split.

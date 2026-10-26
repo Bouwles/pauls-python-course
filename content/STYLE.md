@@ -6,7 +6,7 @@ Read `CHARACTERS.md` first. This file covers everything that is not dialogue.
 
 - Dry, warm, understated. Funny the way a good teacher is funny: deadpan and specific.
 - Assume intelligence, not prior knowledge. Never talk down. Never gush.
-- Every sentence should be specific to Saltmarsh, its people or the program being built. If a sentence could appear on any other learning site, rewrite it.
+- Every sentence should be specific to {{town}}, its people or the program being built. If a sentence could appear on any other learning site, rewrite it.
 
 ## Length
 

@@ -1,0 +1,103 @@
+id: library-catalogue
+title: "Word Counter and Text Analyser"
+project_name: "Word Counter and Text Analyser"
+portfolio_readme: |
+  # Word Counter and Text Analyser
+
+  Reads a whole book from a text file and reports on its words: how many there are, how many different ones, and the ten it uses most, leaving out the small words that every book uses. Then it saves every word and its count to a CSV file that opens in any spreadsheet. It was written for a reading group working through *Alice's Adventures in Wonderland*, and it works on any plain-text book.
+
+  Written by {name} for the library in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  python words.py
+  ```
+
+  ```
+  Which book? alice.txt
+  Words: 26,628
+  Different words: 2,669
+  Most common, leaving out the small words:
+  1. said: 462
+  2. alice: 386
+  3. little: 129
+  ...
+  10. time: 68
+  Every count is in counts.csv.
+  ```
+
+  Any plain-text file in the same folder will do. Project Gutenberg (https://www.gutenberg.org/) has tens of thousands of out-of-copyright books.
+
+  ## What it shows
+
+  - Reading a file inside `with`, and tidying every word: punctuation off the ends, all in lower case
+  - `collections.Counter` and `most_common` to count and rank the words, with ties kept in the order they first appear
+  - Writing a CSV file with the `csv` module, header first
+  - Checking for a missing file with `pathlib` before trying to open it
+
+  ## Credits
+
+  *Alice's Adventures in Wonderland* by Lewis Carroll (1865) is in the public domain. The text is Project Gutenberg's eBook #11, with the Project Gutenberg header, licence and trademark taken out, the illustration markers removed, and curly quotes and dashes made plain.
+downloadable: true
+datasets:
+  - name: "Alice's Adventures in Wonderland, by Lewis Carroll (Project Gutenberg eBook #11)"
+    source: "https://www.gutenberg.org/ebooks/11"
+    licence: "Public domain (Project Gutenberg header, licence and trademark removed)"
+    file: alice.txt
+    notes: "Cleaned from pg11.txt: only the text between the START and END markers is kept; the [Illustration] markers are taken out; curly quotes and apostrophes become straight ones; each em dash becomes a spaced double hyphen; runs of blank lines are squeezed to one. 145 KB."
+client: vance
+building: library
+estimated_minutes: 90
+summary: "Count every word in a real book, report the ten it uses most, and save every count to a file a spreadsheet can open."
+concepts_introduced: [files, with-statement, paths, csv-module, counter]
+concepts_reviewed: [string-methods, strip-replace, split-join, lists, dictionaries, sets, tuples, unpacking, enumerate, default-arguments, functions, return-values, main-guard, f-strings, docstrings]
+ask:
+  dialogue:
+    - vance: "The reading group is doing Alice. They want to know which words Carroll used most."
+    - vance: "I said I'd count them. Then I weighed the book."
+    - vance: "Every word gets one card, with how many times it's used. One card. Not two."
+    - moss: "Read the file, count the words, write the counts down. The counting is the easy bit."
+  spec: |
+    The library's copy of the book is `alice.txt`. Write `words.py`:
+
+    1. `read_words(path)` returns every word in the file, in order. A word is a piece of what `split()` gives, with any punctuation (`string.punctuation`) stripped from both ends, in lower case. A piece with nothing left isn't a word.
+    2. `top_words(words, count=10)` returns the `count` commonest words as `(word, times)` pairs, commonest first, leaving out every word in `SMALL_WORDS`. Words with the same count stay in the order they first turned up.
+    3. `save_counts(words, path)` writes a CSV file: the header `word,times`, then a row for every different word, commonest first.
+    4. `main()` asks `Which book? `, prints the report and saves every count in `counts.csv`. If there's no such file, it says `There's no book called alice.text.` and stops. A file with no words in it gets `empty.txt has no words in it.`
+  example: |
+    Which book? alice.txt
+    Words: 26,628
+    Different words: 2,669
+    Most common, leaving out the small words:
+    1. said: 462
+    2. alice: 386
+    3. little: 129
+    4. down: 103
+    5. know: 87
+    6. like: 85
+    7. went: 83
+    8. again: 83
+    9. thought: 74
+    10. time: 68
+    Every count is in counts.csv.
+ship:
+  dialogue:
+    - vance: "Said, four hundred and sixty-two. Alice, three hundred and eighty-six. She's outnumbered in her own book."
+    - vance: "Little, a hundred and twenty-nine. For a book about growing, that's a lot of little."
+    - moss: "And the counts are in a file. Next week nobody has to count them again."
+  shelf: { object: card-index, label: "Mrs Vance's word counter" }
+  cards: [files, with-statement, paths, csv-module, counter]
+stretch:
+  - id: chapters
+    title: "Chapter by chapter"
+    prompt: |
+      The reading group does a chapter a week, and wants to know how long each one is. Write `chapter_lengths(path)`: a list of how many words are in each chapter, in order. A chapter starts at a line that begins with `CHAPTER`, and that line itself isn't counted. Anything before the first chapter, like the contents, isn't counted either.
+
+      For `alice.txt` the first three are 2,146, 2,115 and 1,703. Which chapter is the longest?
+    tests: tests/stretch-chapters.py
+    solution: solutions/stretch-chapters.py
+  - id: two-books
+    title: "Words only Carroll uses"
+    prompt: |
+      Find another book on Project Gutenberg, save it as plain text next to `alice.txt`, and print the words that turn up in Alice but never in the other book. Two sets and a `-` will do it, from Mrs Vance's lost property days.

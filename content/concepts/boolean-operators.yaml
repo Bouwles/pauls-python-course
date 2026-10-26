@@ -3,10 +3,12 @@ title: and, or, not
 summary: |
   `and` is `True` only when both sides are. `or` is `True` when at least one side is, including when both are. `not` turns `True` into `False` and back. Each side has to be a whole comparison: `hour < 7 or hour >= 19`, never `hour < 7 or >= 19`.
 example: |
-  hour = 20
-  print(hour < 7 or hour >= 19)
-  print(hour < 7 and hour >= 19)
-  print(not hour < 7)
+  password = "harbour1987"
+  has_capital = password != password.lower()
+  has_lower = password != password.upper()
+  print(has_capital and has_lower)
+  print(has_capital or has_lower)
+  print(not has_capital or not has_lower)
 misconceptions: [and-or-swapped, or-shares-comparison, or-is-exclusive]
 related: [comparisons, if-elif-else]
 drill: true

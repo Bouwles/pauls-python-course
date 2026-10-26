@@ -1,0 +1,119 @@
+id: town-weather-report
+title: "Data Story"
+project_name: "Data Story"
+portfolio_readme: |
+  # Data Story
+
+  A full analysis of a century of weather records, told as a story and published as a web page. It cleans a ledger typed by volunteers (Fahrenheit before 1961, pages typed twice), works out the yearly and decade figures, the 1961 to 1990 normals and the warming trend, tests the last thirty years against the first thirty by shuffling them, draws three honest charts, and writes the whole report, conclusion and all, as one web page with the charts inside it. Then the same method on a public dataset of my own choosing, published online.
+
+  Written by {name} for Priya Lund at the Weather Station in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  pip install pandas matplotlib
+  python report.py
+  ```
+
+  It prints the report, draws the charts, and writes `story.html`:
+
+  ```
+  The {{town}} Weather Report, 1925 to 2024
+  Source: {{town}} Weather Station book, 1925 to 2024, at the Records Office
+
+  The record
+    1200 months, missing months: none
+    Warmest year: 2022 (12.99 degrees C). Coldest: 1963 (9.84 degrees C)
+    Wettest year: 1960 (1439 mm). Driest: 1982 (798 mm)
+
+  Then and now: 1995 to 2024 against 1925 to 1954
+    Temperature: +0.86 degrees C (p < 0.001)
+    Rain: -35 mm a year (p = 0.21)
+    Sunshine: +26 hours a year (p = 0.43)
+  ...
+  Saved story.html
+  ```
+
+  Open `story.html` in any browser. The ledger is the {{town}} station book, made up for the story; my own data story, from a public dataset, is linked from my portfolio.
+
+  ## What's in the folder
+
+  - `station.py`: reads and cleans the ledger: one unit, real numbers, each month once, in order.
+  - `summary.py`: the numbers: years, decades, normals, the trend, and a permutation test.
+  - `charts.py`: three charts, each with honest scales, units, a key and its source.
+  - `page.py`: the report as a web page, with the charts saved as PNG inside it.
+  - `report.py`: puts it together, prints it, and writes `story.html`.
+
+  ## What it shows
+
+  - A whole analysis split into modules that each do one job and can each be checked on their own
+  - Cleaning real-shaped mess: mixed units, duplicates, text where numbers should be
+  - Saying how sure a finding is, and saying plainly what didn't change
+  - Publishing: one self-contained web page, its text escaped and its pictures inside it
+downloadable: true
+# ledger.csv is invented for the story: a century of the {{town}} station book, typed by
+# volunteers, Fahrenheit before 1961 and some pages twice. The final milestone is a data
+# story from a real public dataset of the learner's own choice. See the README.
+datasets: []
+client: priya
+building: weather-station
+estimated_minutes: 600
+summary: "The Act V capstone: a data story. A century of the station book cleaned once, summed up honestly, drawn fairly, written up and published as a web page; then a story of your own, from a public dataset of your choice."
+concepts_introduced: []
+concepts_reviewed: [pandas-basics, selecting-filtering, missing-data, data-cleaning, groupby, matplotlib, honest-charts, descriptive-statistics, probability, permutation-tests, numpy-arrays, vectorisation, modules, imports, functions, multiple-returns, default-arguments, docstrings, main-guard, f-strings]
+ask:
+  dialogue:
+    - priya: "A hundred years of the station book. I want it read properly, once, and written up."
+    - priya: "What changed, how sure we are, and what didn't change. That last part gets left out."
+    - ashby: "The ledger is as the volunteers typed it. Fahrenheit until 1960. Some pages twice."
+    - moss: "Four files, each with one job. Then the words, then a page anyone can open."
+  spec: |
+    `ledger.csv` is the station book as it was typed: one row per month from 1925 to 2024, with the month, the temperature and the unit it was written in, the rain in millimetres and the hours of sunshine.
+
+    Build the report in four files. Each one's requirements are at the top of it.
+
+    1. `station.py` cleans the ledger: one unit, real numbers, each month once, in order.
+    2. `summary.py` works out the numbers: each year, each decade, the 1961 to 1990 normals, the warming trend, and a permutation test of the last thirty years against the first thirty.
+    3. `charts.py` draws three honest charts: the temperature as a difference from the 1961 to 1990 average, the rain by decade, and both thirty-year periods month by month.
+    4. `report.py` prints the report and draws the charts, ending with your own conclusion.
+    5. `page.py` turns the report into a web page, `story.html`, with the charts inside it, and `report.py` writes it from the same lines it prints.
+
+    Then Priya reads it against her checklist. Last of all, tell a data story of your own: a question, a public dataset of your choice that can answer it, the same pieces, and a page published online.
+  example: |
+    The {{town}} Weather Report, 1925 to 2024
+    Source: {{town}} Weather Station book, 1925 to 2024, at the Records Office
+
+    The record
+      1200 months, missing months: none
+      Warmest year: 2022 (12.99 degrees C). Coldest: 1963 (9.84 degrees C)
+      Wettest year: 1960 (1439 mm). Driest: 1982 (798 mm)
+
+    Then and now: 1995 to 2024 against 1925 to 1954
+      Temperature: +0.86 degrees C (p < 0.001)
+      Rain: -35 mm a year (p = 0.21)
+      Sunshine: +26 hours a year (p = 0.43)
+      Warming over the century: 0.13 degrees C a decade
+      Warmed most on the 1961 to 1990 normal: June, +1.50 degrees C
+
+    Conclusion
+      ...
+ship:
+  dialogue:
+    - priya: "Warmer, and sure of it. Not wetter, and honest about it. I'll read it out on Friday."
+    - ashby: "One copy for the Records Office, filed under W. And one under 1925, where it starts."
+    - pip: "Can my chart go on the back page."
+    - priya: "With the scale from zero, it can go on the front."
+    - priya: "And yours, about your own question. The source is named and the scales start at zero. I've no notes."
+    - moss: "That's the Records Office and the Weather Station both lit. The hill's next."
+  shelf: { object: almanac, label: "The {{town}} Weather Report, a data story, and one of your own" }
+  cards: []
+story_note: tropical-fifties
+stretch:
+  - id: take-it-home
+    title: "Take it home"
+    prompt: |
+      Copy the five files and `ledger.csv` to your own computer and run `python report.py` in a terminal: the charts open in windows of their own, and `story.html` opens in a browser. Then try the report as a Jupyter notebook: one cell per section, with the charts drawn under the numbers they belong to, and your conclusion in a Markdown cell at the end.
+  - id: seasons
+    title: "Winters and summers"
+    prompt: |
+      Add `season_trend(station, months)` to `summary.py`: the warming trend, in degrees C a decade, of the average of just those months each year. `season_trend(station, [6, 7, 8])` is the summers. Have the winters, `[1, 2, 12]`, warmed faster or slower? Add a line to the report, with a permutation test to go with it.

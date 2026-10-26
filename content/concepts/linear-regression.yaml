@@ -64,14 +64,14 @@ cards:
         misconception: best-line-through-most-points
         feedback: "y = x goes exactly through three points but misses the fourth by 4: squared, 16, a mean of 4. The tilted line misses everything a little and scores 1.5. Best means smallest squared error, not most points hit."
   - type: choice
-    prompt: "Wendt's focus line was fitted to nights between -2.5 and 13.7 degrees. A visiting astronomer wants the setting for 35 degrees. How far should she trust the line there?"
+    prompt: "Wendt's house price line was fitted to sales between 36 and 919 square metres. An agent wants a price for a 2,000 square metre estate. How far should she trust the line there?"
     verify: none
     options:
-      - text: "Much less than inside the readings: nothing in them says the brass behaves the same at 35 degrees"
+      - text: "Much less than inside the sales: nothing in them says a house that size is priced the same way"
         correct: true
       - text: "Just as much: a straight line carries on the same everywhere"
         misconception: extrapolation-is-safe
-        feedback: "The line carries on; the telescope might not. Every reading it learnt from was below 14 degrees, so beyond that it is guessing in a straight line."
+        feedback: "The line carries on; the market might not. Every sale it learnt from was under 920 square metres, so beyond that it is guessing in a straight line."
   - type: fill
     prompt: "Fill the gaps so `b` puts the best line through the middle of the readings."
     code: |

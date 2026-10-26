@@ -150,7 +150,7 @@ Each client owns an Act (the curriculum is in `REDESIGN.md` Section 7). The town
 
 Later projects must agree with these.
 
-- Moss is very old: the 2011 census (Act IV, The Census Tables) gives him as 121. The biscuit tin has been empty since 1987.
+- Moss is very old: the 2011 census (Act V, Census Explorer) gives him as 121. The biscuit tin has been empty since 1987.
 - Mr Ashby's first name is Kenneth (the census).
 - The Hollis family have been the bakers in every census since 1921.
 - Penhallow appears in the 1981 census as an engineer living "on the Hill". She went up the hill to build the learning machine, then left it running and moved into the lighthouse, where Old Tom has kept her secret for fifteen years. The 2011 census missed her: Tom told the enumerator the lamp room was storage.

@@ -1,0 +1,23 @@
+id: records-and-weather
+number: 5
+title: "The Weather Station and the Records Office"
+district: records-office
+subject: "Data science"
+hours: 40
+summary: "A century of town records and real weather, as real programs: a grade book in NumPy, a cleaning pipeline and pivot tables in pandas, a weather dashboard, a statistics toolkit, a linear algebra lab, the calculus machine learning leans on, and a data story of your own."
+locked_line: "A century of records, filed and unread."
+intro:
+  - ashby: "A hundred years of it. Nobody has asked before."
+jobs:
+  - arrays-not-lists
+  - the-census-tables
+  - cleaning-the-records
+  - group-by-the-parish
+  - drawing-the-weather
+  - interactive-charts
+  - earth-data-map
+  - averages-lie
+  - is-it-really-warmer
+  - vectors-and-arrows
+  - slopes-on-the-hill
+  - town-weather-report

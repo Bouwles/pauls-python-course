@@ -1,0 +1,105 @@
+id: arrays-not-lists
+title: "NumPy Grade Book"
+project_name: "NumPy Grade Book"
+portfolio_readme: |
+  # NumPy Grade Book
+
+  A grade book for a whole class, worked out with NumPy and without a single loop. It reads three marks out of 20 for every student, then gives each student's average, each assessment's average, a curve, z-scores, the students whose marks fell away, and a band for every final mark.
+
+  Written by {name} for Priya Lund's Tuesday statistics class at the Weather Station in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  pip install numpy
+  python main.py
+  ```
+
+  It reads `marks.csv` from the same folder and prints the report:
+
+  ```
+  395 students, 3 assessments
+  Average by assessment: [10.9 10.7 10.4]
+  Best average: student 48, 19.3
+  After a curve to 12: [12. 12. 12.]
+  Finals more than two deviations below average: 38
+  Dropped 3 marks or more, first to final: 47
+  Final bands: A 40, B 60, C 62, D 103, F 130
+  ```
+
+  The functions take any array of marks with one row per student, so another class's marks work as well, as long as they're out of 20.
+
+  ## What's in the folder
+
+  - `main.py`: the grade book's functions, and the report at the bottom.
+  - `marks.csv`: real marks. The maths marks of 395 students at two secondary schools in Portugal, from the Student Performance dataset by Paulo Cortez (2008), collected for Cortez and Silva's study of school results, UCI Machine Learning Repository, doi:10.24432/C5TG7T, under CC BY 4.0. Only an anonymous row number, the school, the three marks and the absences are kept. The 38 finals of 0 belong to students who all had a mark in the first period, which looks much more like a missed final than a failed one.
+
+  ## What it shows
+
+  - Holding a whole class's marks as one two-dimensional NumPy array, and choosing the axis to work along
+  - Broadcasting: a curve that moves every assessment by its own amount, and z-scores per assessment, in a line each
+  - Boolean arrays: flagging the students whose final fell well below their first mark, and counting them
+  - Turning marks into grade bands with `np.digitize` and array indexing
+  - Vectorised code: arithmetic on whole arrays at once, with no Python loops
+downloadable: true
+datasets:
+  - name: "Student Performance (maths course)"
+    source: "https://archive.ics.uci.edu/dataset/320/student+performance"
+    licence: "CC BY 4.0"
+    file: marks.csv
+    notes: "Cortez, P. (2008), Student Performance [dataset], UCI Machine Learning Repository, doi:10.24432/C5TG7T, collected for Cortez and Silva (2008), Using Data Mining to Predict Secondary School Student Performance. From student-mat.csv (395 students, semicolon-separated) in the download, read with Python's csv module. Kept only the school (GP or MS), the marks G1, G2 and G3 (renamed first, second and final, each 0 to 20) and absences; every personal and family attribute was dropped, and each row was given an anonymous number from 1 in the original order. Values checked to be in range and against the original; nothing else changed. The 38 finals of 0 are as published."
+client: priya
+building: weather-station
+estimated_minutes: 75
+summary: "A grade book for a whole class, in one NumPy array: averages, a curve, z-scores, dropped marks and grade bands, without a loop. On real marks from two schools in Portugal."
+concepts_introduced: [numpy-arrays, vectorisation, broadcasting]
+concepts_reviewed: [lists, slicing, functions, return-values, multiple-returns, main-guard, docstrings, for-loops, comparisons]
+ask:
+  dialogue:
+    - priya: "The school has asked me to look at its marks. Properly, for once."
+    - priya: "Theirs are private. So my Tuesday class practises on real marks that aren't."
+    - priya: "Two schools in Portugal published theirs. Three hundred and ninety-five students, three marks each."
+    - moss: "One block of numbers. Nothing done one student at a time."
+  spec: |
+    `marks.csv` is real data, and not from {{town}}: the maths marks of 395 students at two secondary schools in Portugal, published by Paulo Cortez and Alice Silva in 2008. One row per student: an anonymous number, the school, and three marks out of 20, the `first` period, the `second` period and the `final`. `load_marks` is written. It gives back `students`, the 395 numbers, and `marks`, an array of 395 rows and 3 columns.
+
+    Write six functions. None of them needs a loop.
+
+    - `student_means(marks)`: each student's average, one number per student.
+    - `assessment_means(marks)`: each assessment's average, one number per column.
+    - `curve(marks, target)`: add to every mark in an assessment the amount that would bring that assessment's average to `target`, then keep every mark between 0 and 20. Leave `marks` as it was.
+    - `z_scores(marks)`: how many standard deviations each mark is above or below its assessment's average, as an array the same shape as `marks`.
+    - `dropped(marks, by)`: `True` for each student whose final (the last column) is at least `by` marks below their first (column 0), `False` for everyone else.
+    - `bands(final)`: the band of each final mark, as an array of letters: `A` from 16, `B` from 14, `C` from 12, `D` from 10, `F` below 10.
+
+    The report at the bottom of the file is written too. It uses your functions.
+  example: |
+    395 students, 3 assessments
+    Average by assessment: [10.9 10.7 10.4]
+    Best average: student 48, 19.3
+    After a curve to 12: [12. 12. 12.]
+    Finals more than two deviations below average: 38
+    Dropped 3 marks or more, first to final: 47
+    Final bands: A 40, B 60, C 62, D 103, F 130
+ship:
+  dialogue:
+    - priya: "Thirty-eight noughts in the final. Not one in the first period."
+    - priya: "Every one of those students had a first-period mark. I don't think they failed. I think they weren't there."
+    - moss: "So the averages fall over the year for a reason that isn't maths."
+    - priya: "That goes at the top of the school's report. Before any of the numbers."
+  shelf: { object: exam-paper, label: "Priya's grade book, three marks each, no loops" }
+  cards: [numpy-arrays, vectorisation, broadcasting]
+story_note: nought-in-the-book
+stretch:
+  - id: missing-finals
+    title: "A nought that means missing"
+    prompt: |
+      Write `sat_final(marks)`. It returns only the rows of students whose final isn't 0, as a smaller array with three columns.
+
+      A boolean array inside square brackets keeps the rows marked `True`: `marks[dropped(marks, 3)]` is the 47 students who dropped three marks or more. Then print `assessment_means(sat_final(marks))`. Over the year, do the marks of the students who stayed rise or fall?
+    tests: tests/stretch-missing-finals.py
+    solution: solutions/stretch-missing-finals.py
+  - id: two-schools
+    title: "Two schools"
+    prompt: |
+      The second column of `marks.csv` is the school: `GP` or `MS`. `np.loadtxt("marks.csv", delimiter=",", skiprows=1, usecols=1, dtype=str)` reads it as an array of text; call it `schools`. Print each school's `assessment_means`, using `marks[schools == "MS"]` and the same for `GP`. One school has more than seven times as many students as the other. Which average would you trust more, and why?

@@ -7,3 +7,7 @@ voice: Wry. Runs the worst pub quiz in the county and knows it.
 pools:
   waiting:
     - "Question four is the same as question two. Nobody's noticed in eleven years."
+  # Where you'd got to, when you come back after a break (REDESIGN.md 6.5).
+  recap:
+    - "{step}, wasn't it? Pub's quiet. Take your time."
+    - "You were halfway through {step}. Pint of lemonade while you remember?"

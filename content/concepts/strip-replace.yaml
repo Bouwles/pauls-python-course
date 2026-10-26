@@ -1,11 +1,12 @@
 id: strip-replace
 title: strip() and replace()
 summary: |
-  `.strip()` takes spaces off both ends of a string, never from the middle. Give it characters, as in `.strip(".,")`, and it takes those off the ends instead. `.replace(old, new)` swaps every `old` for `new`. Both hand back a new string, so keep it with `=`.
+  `.strip()` takes all the whitespace off both ends of a string: spaces, tabs, and the newline at the end of a line read from a file. It never touches the middle. Give it characters, as in `.strip(".,")`, and it takes those off the ends instead. `.replace(old, new)` swaps every `old` for `new`. Both hand back a new string, so keep it with `=`.
 example: |
-  reply = "  yes please  "
-  print(reply.strip() + "|")
+  username = "  Agnes "
+  print(username.strip() + "|")
   print("...lost oar...".strip("."))
+  print("passw0rd".replace("0", "o"))
   print("gale, gale, gale".replace("gale", "storm"))
 misconceptions: [strip-removes-inner-spaces, replace-first-only, string-method-changes-in-place]
 related: [split-join, immutability, string-methods]

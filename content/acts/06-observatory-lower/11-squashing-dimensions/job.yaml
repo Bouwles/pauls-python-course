@@ -1,0 +1,101 @@
+id: squashing-dimensions
+title: "Customer Segmentation"
+project_name: "Customer Segmentation"
+portfolio_readme: |
+  # Customer Segmentation
+
+  Sorts a wholesaler's 440 real customers into segments by what they spend a year on six kinds of goods, with k-means clustering written from scratch in NumPy, and the number of segments chosen at the elbow. Then principal component analysis, also from scratch, finds the two directions the customers differ along most and says what each one means. The clusters never see whether a customer is a restaurant or a shop; checking that afterwards shows the segments are real.
+
+  Written by {name} in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  pip install numpy pandas scikit-learn
+  python segments.py
+  ```
+
+  ```
+  Chosen k: 2
+  Segment 1: 251 customers, 3% retail, above average on fresh, frozen
+  Segment 2: 189 customers, 71% retail, above average on milk, grocery, detergents_paper, delicatessen
+  scikit-learn agrees: True
+  Component 1 explains 44%: milk, grocery, detergents_paper
+  Component 2 explains 27%: fresh, frozen, delicatessen
+  ```
+
+  ## What it shows
+
+  - Preparing skewed money data: a log transform, then standardising
+  - k-means from scratch: assign, update, inertia, several random starts, and choosing k at the elbow, checked against scikit-learn
+  - PCA from scratch: centring, the covariance matrix, eigenvectors biggest first, explained variance, and reading what a component means
+  - Checking unsupervised results against a label the model never saw
+
+  ## Data
+
+  `customers.csv` is "Wholesale customers" (Cardoso, 2014) from the UCI Machine Learning Repository, licensed CC BY 4.0: 440 clients of a wholesale distributor in Portugal, with a year's spending in monetary units on each kind of goods, and their channel (hotel, restaurant and cafe, or retail) and region.
+downloadable: true
+datasets:
+  - name: "Wholesale customers"
+    source: "https://archive.ics.uci.edu/dataset/292/wholesale+customers"
+    licence: "CC BY 4.0"
+    file: "customers.csv"
+    notes: "All 440 rows, in the original order and numbered from 1. Channel 1 and 2 written as horeca and retail, Region 1 to 3 as lisbon, oporto and other; the six spending columns renamed in lower case, Delicassen as delicatessen. measurements.csv, used only by Moss's worked example, is invented."
+client: wendt
+building: observatory
+estimated_minutes: 140
+summary: "Sort a wholesaler's 440 real customers into segments by what they buy, with k-means from scratch and k at the elbow, then find the two directions they differ along most with PCA from scratch, and check both against what the clusters never saw."
+concepts_introduced: [k-means, pca, eigenvectors]
+concepts_reviewed: [scikit-learn, feature-scaling, matrices, vectors, numpy-arrays, broadcasting, vectorisation, random-module, lambda, while-loops, list-comprehensions, zip, dictionaries, pandas-basics, matplotlib, functions, multiple-returns, main-guard, docstrings, f-strings]
+ask:
+  dialogue:
+    - sanjay: "My wholesaler says I'm a type. A type of what, I asked. He didn't know."
+    - wendt: "A wholesaler in Portugal published a year of spending for 440 customers. No labels on what they are."
+    - wendt: "Group them, then find the two numbers that say most about how they differ."
+    - moss: "And then say in words what each group is. That part's yours."
+  spec: |
+    `customers.csv` holds 440 real customers of a wholesaler: a year's spending on fresh food, milk, grocery, frozen food, detergents and paper, and delicatessen, and whether each is a hotel, restaurant or cafe (`horeca`) or a shop (`retail`).
+
+    In `segments.py`:
+
+    1. Take the log of the spending and standardise each column.
+    2. Sort the customers into groups with k-means, written from scratch: the best of ten random starts for each k from 1 to 8, then k chosen at the elbow and checked against scikit-learn.
+    3. Describe each segment: how many customers, what share are shops, and which goods it buys more of than average.
+    4. Find the principal components, written from scratch, and say what the first two explain and which goods each leans on.
+  example: |
+    k   inertia
+    1    2640.0
+    2    1848.0
+    3    1558.0
+    4    1391.9
+    5    1272.8
+    6    1182.7
+    7    1102.7
+    8    1032.1
+    Chosen k: 2
+    Segment 1: 251 customers, 3% retail, above average on fresh, frozen
+    Segment 2: 189 customers, 71% retail, above average on milk, grocery, detergents_paper, delicatessen
+    scikit-learn agrees: True
+    Component 1 explains 44%: milk, grocery, detergents_paper
+    Component 2 explains 27%: fresh, frozen, delicatessen
+ship:
+  dialogue:
+    - sanjay: "Fresh and frozen, that's restaurants. And greengrocers, it turns out. I'm segment one."
+    - wendt: "It never saw which customers were shops, and still put seven in ten of them together."
+    - moss: "It found the groups. You said what they were. That's the right way round."
+  shelf: { object: stock-sheet, label: "Sanjay's wholesaler, in two segments" }
+  cards: [k-means, pca, eigenvectors]
+story_note: the-fourth-pile
+stretch:
+  - id: three-segments
+    title: "Three segments"
+    prompt: |
+      Ask for k = 3 instead of the elbow's choice. Describe the three segments the same way. Is the new one a real kind of customer, or the old segments split in half?
+  - id: the-map
+    title: "The map"
+    prompt: |
+      Squash the customers onto the first two components and plot them with matplotlib, coloured by segment, with the shops drawn as crosses and the rest as dots. Label each axis with what its component leans on.
+  - id: careful-starts
+    title: "Starts that spread out"
+    prompt: |
+      Pick the first centre at random, then each next one with a chance in proportion to its squared distance from the nearest centre picked so far: `rng.choice(len(points), p=chances)`, where `chances` adds up to 1. This is k-means++. How many tries does it need to find the best inertia for k = 4, against plain random starts?

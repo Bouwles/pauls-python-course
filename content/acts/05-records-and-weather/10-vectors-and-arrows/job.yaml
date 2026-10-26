@@ -1,0 +1,125 @@
+id: vectors-and-arrows
+title: "Linear Algebra Lab"
+project_name: "Linear Algebra Lab"
+portfolio_readme: |
+  # Linear Algebra Lab
+
+  Two experiments in linear algebra with NumPy, each one something you can see. The first treats a month of wind as vectors: bearings become arrows, the average wind is the average arrow, and dot products split each wind into what a ferry feels on the bow and on the beam. The second treats a photograph as a matrix: mirrored and turned by slicing and transposing, brightened and blurred by arithmetic, and the outline of a house turned by a rotation matrix and turned back again.
+
+  Written by {name} for Priya Lund at the Weather Station in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  pip install numpy matplotlib
+  python main.py
+  python lighthouse.py
+  ```
+
+  `main.py` reads `vane.csv`, a month of wind:
+
+  ```
+  January 2024: 31 days
+  Average of the bearings: 197 degrees
+  Prevailing wind: from 350 degrees at 11.4 knots
+  ```
+
+  `lighthouse.py` reads `lighthouse.csv`, a photograph 48 pixels wide and 64 high:
+
+  ```
+  Cape Lookout: 64 rows by 48 columns, brightness 0 to 229
+  Turned a quarter: 48 rows by 64 columns
+  Brightened by 60: average 211.2, against 154.5
+  ```
+
+  ## The data
+
+  `lighthouse.csv` is made from a real photograph: "Cape Lookout Lighthouse October 2024" by Mrmichaeltomato, from Wikimedia Commons, released under CC0 (https://commons.wikimedia.org/wiki/File:Cape_Lookout_Lighthouse_October_2024.jpg). It was cropped to the lighthouse and the keeper's house, turned to greyscale and shrunk to 48 by 64 pixels. `vane.csv`, the month of wind, is made up for the story.
+
+  ## What it shows
+
+  - Vectors: bearings and speeds as (east, north) arrows, their mean, their length, and the angle between two of them
+  - Dot products and matrix multiplication, splitting every wind into two directions at once
+  - Images as matrices: slicing, transposing, clipping and averaging neighbouring pixels, with no loop over pixels
+  - Rotation matrices: turning points with `@`, undoing a turn, and two turns multiplying into one
+downloadable: true
+datasets:
+  - name: "Cape Lookout Lighthouse October 2024 (photograph)"
+    source: "https://commons.wikimedia.org/wiki/File:Cape_Lookout_Lighthouse_October_2024.jpg"
+    licence: "CC0 1.0"
+    file: lighthouse.csv
+    notes: "Photograph by Mrmichaeltomato (own work), Wikimedia Commons, dedicated to the public domain under CC0 1.0. The 250-pixel-wide thumbnail Wikimedia serves was cropped to its middle 140 by 187 pixels, converted to greyscale with Pillow's standard luma (mode L), and resized to 48 wide by 64 high with Lanczos resampling. Each row of the CSV is a row of pixels, 0 black to 255 white. vane.csv, the month of wind, is invented for the story."
+client: priya
+building: weather-station
+estimated_minutes: 130
+summary: "A linear algebra lab in two parts: a month of wind as vectors, for the prevailing wind and what the ferry feels on the bow and the beam; then a photograph of a lighthouse as a matrix, mirrored, turned, blurred, with a rotation matrix to finish."
+concepts_introduced: [vectors, matrices]
+concepts_reviewed: [numpy-arrays, vectorisation, broadcasting, slicing, negative-indices, matplotlib, functions, return-values, multiple-returns, main-guard, docstrings, f-strings]
+ask:
+  dialogue:
+    - priya: "The vane logs a bearing and a speed every day. Penhallow's summary averages the bearings."
+    - priya: "So January came from the south. Ask anyone on the quay."
+    - ferro: "And I want what's on the bow and what's on the beam. On forty degrees."
+    - moss: "Bearings go round. Numbers don't. Make them arrows."
+    - wendt: "And after that, a photograph of a lighthouse. As numbers. You'll see why."
+  spec: |
+    `vane.csv` has one row per day of January 2024: the `date`, the `bearing` the wind came from (degrees clockwise from north) and its `speed` in knots. `load_vane` and `to_arrows` are written: `to_arrows` gives one arrow per day, `(east, north)` in knots, pointing where the wind came from.
+
+    Write five functions that work on the arrows, with no loops:
+
+    - `to_bearings(arrows)`: the compass bearing of each arrow, from 0 up to 360.
+    - `prevailing(arrows)`: the average wind, `(bearing, speed)`: the direction and length of the mean arrow.
+    - `steadiness(arrows)`: the mean arrow's length divided by the mean speed.
+    - `angle_between(a, b)`: the angle between two arrows in degrees, from 0 to 180.
+    - `along_and_across(arrows, heading)`: for a boat on that heading, one row per wind: the headwind (below 0 if the wind is behind) and the crosswind from starboard (below 0 if it's from port).
+
+    Then the second experiment, in `lighthouse.py`. `lighthouse.csv` is a real photograph, a lighthouse in North Carolina, as a matrix: 64 rows of 48 brightnesses, 0 black to 255 white. `load_image` is written. Write seven more functions, each giving back a new array:
+
+    - `mirror(image)`: each row back to front. `upside_down(image)`: the rows in reverse order.
+    - `quarter_turn(image)`: turned a quarter turn clockwise.
+    - `brighten(image, amount)`: every pixel `amount` brighter, kept between 0 and 255.
+    - `blur(image)`: each pixel the average of the 3 by 3 block around it, with the edge pixels repeated to fill the block.
+    - `rotation(degrees)`: the 2 by 2 matrix that turns an arrow `degrees` anticlockwise.
+    - `turn_points(points, degrees)`: points, one `(x, y)` per row, turned `degrees` anticlockwise about `(0, 0)`, by multiplying by the rotation matrix with `@`.
+
+  example: |
+    January 2024: 31 days
+    Average of the bearings: 197 degrees
+    Prevailing wind: from 350 degrees at 11.4 knots
+    Steadiness: 0.81
+    Biggest swing overnight: 120 degrees, 2024-01-28 to 2024-01-29
+    Ferry on 040: worst headwind 25.1 knots on 2024-01-26
+    Ferry on 040: worst crosswind 23.1 knots on 2024-01-15
+
+    Cape Lookout: 64 rows by 48 columns, brightness 0 to 229
+    Turned a quarter: 48 rows by 64 columns
+    Brightened by 60: average 211.2, against 154.5
+    Blurred: brightness 8 to 226
+    House turned 30 degrees and back: True
+    Roof, turned 90 degrees: [-12.  10.]
+ship:
+  dialogue:
+    - priya: "North by a touch west, steadiness 0.81. That's a month I recognise."
+    - ferro: "Twenty-three knots on the port beam on the fifteenth. I cancelled the four o'clock. Rightly, it turns out."
+    - priya: "I've crossed out Penhallow's 197. In pencil. She'd have done the same."
+    - wendt: "And the lighthouse turned and blurred and put back. Pictures are matrices. Mostly they're more interesting."
+  shelf: { object: weathervane, label: "The linear algebra lab: wind in arrows, a lighthouse in numbers" }
+  cards: [vectors, matrices]
+story_note: facing-north
+stretch:
+  - id: edges
+    title: "Find the edges"
+    prompt: |
+      Write `edges(image)`: how much each pixel differs from the one to its right, `np.abs(image[:, 1:] - image[:, :-1])`, and the same downwards, added together where they overlap. Show it with `imshow`. The lighthouse's diamonds come out as outlines: that's the first thing a camera that recognises things looks for.
+  - id: windiest-quarter
+    title: "Which way the gales come from"
+    prompt: |
+      Write `strongest_quarter(arrows)`. It returns which quarter of the compass the strongest winds came from, as `"north"`, `"east"`, `"south"` or `"west"`: the quarter whose winds have the highest average speed. North is from 315 up to 45, east from 45 up to 135, and so on.
+
+      `to_bearings` and `np.linalg.norm(arrows, axis=1)` do most of it. Add 45 to each bearing, take `% 360`, then divide by 90 with `//`: north's two halves both land on 0.
+    tests: tests/stretch-windiest-quarter.py
+    solution: solutions/stretch-windiest-quarter.py
+  - id: wind-rose
+    title: "A wind rose"
+    prompt: |
+      Draw January as a wind rose: one arrow per day, all starting from the middle. `plt.quiver(0, 0, east, north, angles="xy", scale_units="xy", scale=1)` draws arrows from the middle; `plt.axis("equal")` keeps north the same length as east. Then add the mean arrow in a different colour, and label the axes in knots.

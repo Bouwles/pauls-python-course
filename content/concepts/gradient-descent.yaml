@@ -102,7 +102,7 @@ cards:
         error: OverflowError
         feedback: "Nothing complains. w just swings further from 3 each step, and the program prints False without a murmur."
   - type: choice
-    prompt: "Wendt trained her focus line with a learning rate of 0.01. Where did the 0.01 come from?"
+    prompt: "Wendt walked her house price line with a learning rate of 0.1. Where did the 0.1 come from?"
     verify: none
     options:
       - text: "She chose it, and could have tried others"

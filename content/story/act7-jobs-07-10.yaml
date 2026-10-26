@@ -5,12 +5,12 @@ notes:
     job: deep-q
     title: "The night before"
     text: "The machine on the hill does its learning at night, from memory: six winters of my evenings, shuffled. When it learned only from the night before, it decided every night was the night before. A.P."
-    where: "A comment above the ReplayBuffer class in dqn.py, in the Make step of Deep Q."
+    where: "A comment above the ReplayBuffer class in dqn.py, in the Make step of CartPole with DQN."
   - id: what-went-well
     job: learning-the-policy
     title: "What went well"
     text: "I gave the machine on the hill the simplest rule there is: do more of whatever went well. It got very good at what went well. I never found a way to tell it why it had. A.P."
-    where: "A comment above reinforce_gradient() in reinforce.py, in the Make step of Learning the Policy Directly."
+    where: "A comment above reinforce_gradient() in reinforce.py, in the Make step of Policy Gradients."
   - id: lady-agatha-sat-down
     job: the-championship
     title: "When they moved the rocks"

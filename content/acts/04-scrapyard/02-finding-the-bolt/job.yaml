@@ -1,0 +1,98 @@
+id: finding-the-bolt
+title: "Search Engine for a Parts List"
+project_name: "Search Engine for a Parts List"
+portfolio_readme: |
+  # Search Engine for a Parts List
+
+  Searches a parts list three ways and says how much work each search took. A whole name is found by binary search, in a handful of looks however long the list is. A name's beginning, like `bolt-*`, is found with `bisect`, which jumps straight to where those names start. A word anywhere in a name, like `brass`, has to be checked against every name, and the count of looks shows it. New parts go into the list in their place, so it stays in order.
+
+  Written by {name} for Nell Brannigan's scrapyard in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  python parts_search.py
+  ```
+
+  It loads `parts.txt`, the yard's parts book, and asks for searches until you press Enter on a blank line:
+
+  ```
+  Parts list: 188 parts, anchor-chain to wireless-dial
+  A name, the start of one with *, or +name to add one. Blank to stop.
+  Search? valve-brass
+  valve-brass: part 159, found in 7 looks
+  Search? bolt-M1*
+  bolt-M1*: 5 parts: bolt-M10, bolt-M10-brass, bolt-M12, bolt-M12-brass, bolt-M16
+  Search? copper
+  copper: no part by that name. 8 parts with it in the name (188 looks): bracket-copper, gasket-copper, hinge-copper, pipe-copper, plate-copper, rod-copper, sheet-copper, washer-copper
+  Search? +gear-64t
+  gear-64t: added as part 82
+  ```
+
+  Put your own list in `parts.txt`, one name a line, in any order: it is sorted as it loads.
+
+  ## What it shows
+
+  - Binary search written by hand: O(log n), seven looks for 188 names and twenty for a million
+  - Linear search, and why a word anywhere in a name can't do better than O(n)
+  - `bisect` on text: finding a range of names that share a beginning, and inserting in order
+  - A command loop that decides which search each query needs
+downloadable: true
+# parts.txt is invented for the story: the parts in Nell's yard are hers, and searching
+# works the same on any sorted list of names. See the README.
+datasets: []
+client: nell
+building: scrapyard
+estimated_minutes: 75
+summary: "A search engine for Nell's parts book: whole names by binary search, beginnings with bisect, words anywhere one name at a time, and the looks each one took."
+concepts_introduced: [linear-search, binary-search, bisect]
+concepts_reviewed: [big-o, while-loops, indexing, return-values, multiple-returns, imports, list-methods, string-methods, edge-cases]
+ask:
+  dialogue:
+    - nell: "Penhallow kept a parts book. Every part in the yard, in alphabetical order."
+    - nell: "I read it from the top till I find the right line. Some days that's the whole book."
+    - nell: "She said a book in order should take seven looks, not a hundred and eighty-eight. I never asked her how."
+    - moss: "Because it's in order. Order is worth a great deal, if you use it."
+  spec: |
+    `parts.txt` is the parts book: one part a line, like `bolt-M8` or `valve-brass`. `load_parts` reads it into a list in alphabetical order. In `parts_search.py`, write:
+
+    1. `find_part(parts, name)` returns `(position, looks)`: where the name is in the list, or `-1` if it isn't there, and how many names were looked at. Write the binary search yourself, with a `while` loop, looking in the middle, `(low + high) // 2`, each time. On a list of a million names it looks at about twenty.
+    2. `starting_with(parts, prefix)` returns every name that starts with `prefix`, in order. Use `bisect` to find where they start, so it stays quick on a huge list.
+    3. `containing(parts, word)` returns `(names, looks)`: every name with `word` anywhere in it, in order, and how many names it looked at, which is all of them.
+    4. `add_part(parts, name)` puts the name into the list in its place and returns its position. A name that's already there isn't added twice: its position is returned and the list is left alone.
+    5. `search(parts, query)` returns the answer to one query as a line of text:
+       - `+gear-64t` adds a part: `gear-64t: added as part 82`, or `gear-12t: already part 75`.
+       - A query ending in `*` is a beginning: `bolt-M1*: 5 parts: bolt-M10, ...` with the names joined by `, `, `hub*: 1 part: hubcap`, or `zinc*: no parts`.
+       - Anything else is a whole name: `valve-brass: part 159, found in 7 looks`. If there's no such part, it searches for the query as a word: `copper: no part by that name. 8 parts with it in the name (188 looks): bracket-copper, ...`, or `piston: no part by that name, and none with it in the name (188 looks)`.
+
+    `how_many(count)` gives `1 part` or `8 parts`, and the loop at the bottom, which asks `Search? ` until the answer is blank, is written.
+  example: |
+    Parts list: 188 parts, anchor-chain to wireless-dial
+    A name, the start of one with *, or +name to add one. Blank to stop.
+    Search? valve-brass
+    valve-brass: part 159, found in 7 looks
+    Search? bolt-M1*
+    bolt-M1*: 5 parts: bolt-M10, bolt-M10-brass, bolt-M12, bolt-M12-brass, bolt-M16
+    Search? piston
+    piston: no part by that name, and none with it in the name (188 looks)
+    Search? +gear-64t
+    gear-64t: added as part 82
+    Search? gear-*
+    gear-*: 8 parts: gear-12t, gear-16t, gear-20t, gear-24t, gear-32t, gear-40t, gear-48t, gear-64t
+    Search?
+ship:
+  dialogue:
+    - nell: "Valve, brass. Seven looks. I counted them on my fingers and had three left over."
+    - nell: "And brass anywhere in the name takes the whole book. That's the bit I do every day."
+    - moss: "Order buys you the first kind of search. Nothing buys you the second."
+  shelf: { object: catalogue-card, label: "Nell's parts book, searchable" }
+  cards: [linear-search, binary-search, bisect]
+stretch:
+  - id: nearest
+    title: "Did you mean"
+    prompt: |
+      Customers ask for `bolt-M9`, and there's no such thing. When a whole name isn't found and no name contains it, have `search` suggest the names either side of where it would go: `bisect_left` gives the place, and the answer is the name before it and the name at it. Watch the two ends of the list.
+  - id: any-case
+    title: "Brass, BRASS or brass"
+    prompt: |
+      Nell types in capitals when she's cross. Make every kind of search ignore case, without losing the `M` in `bolt-M8` in what's printed. Keep a second list of lower-case names alongside, in the same order, and search that.

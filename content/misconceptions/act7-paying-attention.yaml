@@ -1,0 +1,7 @@
+# Misconceptions for Act VII, Tiny GPT: sampling with a temperature.
+high-temperature-sharpens:
+  concept: language-models
+  description: Thinks a higher sampling temperature makes the most likely character even more likely, rather than spreading the chances out.
+temperature-changes-nothing:
+  concept: language-models
+  description: Thinks dividing every score by the same temperature leaves the chances unchanged, as it would leave their order unchanged.

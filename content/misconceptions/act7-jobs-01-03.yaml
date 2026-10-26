@@ -1,7 +1,16 @@
-# Misconceptions for Act VII, Jobs 1 to 3: bandits, Markov decision processes
-# and dynamic programming at the Crab Racing Club.
+# Misconceptions for the Pier Arcade's first projects: bandits, A/B tests,
+# Markov decision processes and dynamic programming at the Crab Racing Club.
 
-# -- Which Bucket? ----------------------------------------------------------------
+# -- A/B Test Bandit ---------------------------------------------------------------
+fair-test-is-free:
+  concept: ab-testing
+  description: Thinks an even-split A/B test costs nothing because it is fair, when every visitor handed a weaker version is a conversion the test expects to lose.
+regret-uses-worst-gap:
+  concept: ab-testing
+  description: Works out regret as every visitor times the gap between the best and the worst versions, rather than each version's visitors times its own gap to the best.
+bandit-knows-every-version:
+  concept: ab-testing
+  description: Thinks a bandit test ends knowing every version's rate as precisely as an even split, when it hands the losing versions far fewer visitors.
 greedy-finds-best:
   concept: bandits
   description: Thinks an agent that always takes the best estimate so far will discover the best arm on its own, without exploring.

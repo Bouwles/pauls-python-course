@@ -3,7 +3,7 @@ title: NameError
 summary: |
   A NameError means Python met a name it hasn't been told about. Usually it's a typo, a variable used before it was given a value, or text that's missing its quotes. Python often suggests the name you meant.
 example: |
-  harbour = "Saltmarsh"
+  harbour = "{{town}}"
   print(harbor)
 misconceptions: [name-without-quotes-is-text]
 related: [reading-tracebacks, variables]

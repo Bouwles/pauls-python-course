@@ -56,16 +56,16 @@ cards:
     code: |
       import pandas as pd
 
-      saltmarsh = pd.Series([11, 12, 12, 13, 12])
+      {{town_id}} = pd.Series([11, 12, 12, 13, 12])
       thornby = pd.Series([4, 18, 12, 20, 6])
-      print(saltmarsh.mean() == thornby.mean(), saltmarsh.std() < thornby.std())
+      print({{town_id}}.mean() == thornby.mean(), {{town_id}}.std() < thornby.std())
     options:
       - text: "True True"
         correct: true
         feedback: "Both average 12. Thornby's readings sit much further from 12, so its standard deviation is far bigger."
       - text: "True False"
         misconception: same-mean-same-spread
-        feedback: "The same mean says nothing about spread. Thornby swings from 4 to 20 around its 12; Saltmarsh barely moves."
+        feedback: "The same mean says nothing about spread. Thornby swings from 4 to 20 around its 12; {{town}} barely moves."
   - type: fill
     prompt: "Fill the gap so `typical` is the middle day's rain, not the mean."
     code: |

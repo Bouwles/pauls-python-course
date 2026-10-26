@@ -1,0 +1,97 @@
+id: unit-converter
+title: "Unit Converter"
+project_name: "Unit Converter"
+portfolio_readme: |
+  # Unit Converter
+
+  A small menu-driven converter for speeds and distances, at sea and on land: knots to miles per hour, knots to kilometres per hour, and miles to kilometres, sea miles or land miles.
+
+  Written by {name} for Captain Ferro's ferry in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  python main.py
+  ```
+
+  Pick a conversion from the menu, then type the amount:
+
+  ```
+  1. Knots to mph
+  2. Knots to km/h
+  3. Miles to km
+  Choose 1, 2 or 3: 3
+  How many? 11
+  Sea miles (yes or no)? yes
+  That's 20.37 km.
+  ```
+
+  A knot is one sea mile an hour. A sea mile (a nautical mile) is 1.852 km; a land mile is 1.609344 km.
+
+  ## What it shows
+
+  - A menu that chooses what to do with `if`, `elif` and `else`, and catches any choice that isn't on it
+  - Comparisons, and the `True` or `False` each one gives back
+  - A decision inside a decision, for the one option that needs a second question
+  - Comparing what `input()` gives back as text, and turning amounts into floats for the arithmetic
+downloadable: true
+datasets: []
+client: ferro
+building: ferry-dock
+estimated_minutes: 45
+summary: "A menu that converts knots, miles and kilometres, for a ferry captain whose passengers think in all three."
+concepts_introduced: [bool, comparisons, if-elif-else, nested-conditions]
+concepts_reviewed: [print, input-returns-text, float-conversion, f-strings, variables, arithmetic]
+ask:
+  dialogue:
+    - ferro: "Passengers ask how fast we're going. I say twelve knots. They look at me."
+    - ferro: "Then they ask how far to the island. Eleven miles. Sea miles. They mean the other sort."
+    - ferro: "I want a machine that converts. Knots, miles, kilometres. Shipshape."
+    - moss: "It'll have to choose what to do. That's new."
+  spec: |
+    Print a menu of three conversions and ask which one (`Choose 1, 2 or 3: `). Then ask for the amount (`How many? `), which may have a decimal point.
+
+    - 1: knots to miles per hour. One knot is 1.15078 mph.
+    - 2: knots to kilometres per hour. One knot is 1.852 km/h.
+    - 3: miles to kilometres. Ask `Sea miles (yes or no)? `. A sea mile is 1.852 km; a land mile is 1.609344 km.
+    - Anything else: print `No such option.`
+
+    Show the answer with two decimal places.
+  example: |
+    1. Knots to mph
+    2. Knots to km/h
+    3. Miles to km
+    Choose 1, 2 or 3: 3
+    How many? 11
+    Sea miles (yes or no)? yes
+    That's 20.37 km.
+ship:
+  dialogue:
+    - ferro: "Twelve knots. Twenty-two kilometres an hour, thirteen point eight miles an hour. Correct."
+    - ferro: "Eleven sea miles to the island, twenty kilometres. Tested, so shipshape."
+    - moss: "He said thank you. It went into the beard."
+  shelf: { object: compass, label: "Ferro's unit converter" }
+  cards: [bool, comparisons, if-elif-else, nested-conditions]
+stretch:
+  - id: yes-or-no
+    title: "Yes or no"
+    prompt: |
+      At the moment anything but `yes` counts as land miles, including `yse`. Make option 3 accept only `yes` or `no`, and print `Yes or no, please.` for anything else.
+    tests: tests/stretch-yes-or-no.py
+    solution: solutions/stretch-yes-or-no.py
+  - id: both-ways
+    title: "Both ways"
+    prompt: |
+      The children want to go back the other way. Add a fourth option, `4. Km to miles`, that turns kilometres into land miles: divide by 1.609344.
+
+      ```
+      Choose 1, 2, 3 or 4: 4
+      How many? 10
+      That's 6.21 miles.
+      ```
+    tests: tests/stretch-both-ways.py
+    solution: solutions/stretch-both-ways.py
+  - id: below-zero
+    title: "Below zero"
+    prompt: |
+      A speed or a distance below zero is a typing mistake. Before converting, check the amount, and print `Can't be below zero.` instead of an answer.

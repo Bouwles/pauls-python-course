@@ -1,0 +1,24 @@
+{
+  "results": [
+    {
+      "id": 2640377,
+      "name": "Penzance",
+      "latitude": 50.11861,
+      "longitude": -5.53715,
+      "elevation": 32.0,
+      "feature_code": "PPLA3",
+      "country_code": "GB",
+      "admin1_id": 6269131,
+      "admin2_id": 2652355,
+      "admin3_id": 7294638,
+      "timezone": "Europe/London",
+      "population": 19872,
+      "country_id": 2635167,
+      "country": "United Kingdom",
+      "admin1": "England",
+      "admin2": "Cornwall",
+      "admin3": "Penzance"
+    }
+  ],
+  "generationtime_ms": 0.14400482
+}

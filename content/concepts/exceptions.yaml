@@ -1,7 +1,7 @@
 id: exceptions
 title: Exceptions
 summary: |
-  An exception is Python stopping because something went wrong. It has a type, like `ValueError` or `KeyError`, and a message. It travels back up through every function that was called to get there, and if nothing catches it on the way, the whole program stops and prints the traceback. The bottom of the traceback is where it started.
+  An exception is Python stopping because something went wrong as the program ran. It has a type, like `ValueError` or `ZeroDivisionError`, and a message. It travels back up through every function that was called to get there, and if nothing catches it on the way, the whole program stops and prints the traceback. The bottom of the traceback is where it started.
 example: |
   def parse_depth(text):
       return float(text)
@@ -95,7 +95,7 @@ cards:
           except ValueError:
               print("bad reading")
   - type: write
-    prompt: "Under `Problem:`, print the caught error itself, so its message appears."
+    prompt: "`as error` gives the caught exception a name. Under `Problem:`, print it, so its message appears."
     starter: |
       try:
           depth = float("deep")

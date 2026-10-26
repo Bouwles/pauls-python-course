@@ -1,0 +1,8 @@
+id: movie-recommender
+title: "Movie Recommender"
+project_name: "Movie Recommender"
+status: outline
+client: wendt
+building: observatory
+estimated_minutes: 120
+summary: "What to watch next, from what people like you rated: collaborative filtering by user and by film similarity, then a matrix factorisation learnt by gradient descent. MovieLens's terms forbid passing the data on, so this needs GroupLens's permission, a Take It Home download of MovieLens, or another openly licensed set of ratings."

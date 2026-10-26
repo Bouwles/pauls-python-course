@@ -1,0 +1,12 @@
+id: interview-prep-set
+title: "Interview Prep Set"
+project_name: "Interview Prep Set"
+status: outline
+client: nell
+building: scrapyard
+estimated_minutes: 600
+summary: "The Act IV capstone: twenty timed problems at the level of a first-year computer science course and a junior developer's interview, each with a brief, hidden checks and a clock. Moss's whiteboard questions first: pairs that add up, islands of scrap, and merging sorted piles."
+# Moss's whiteboard questions (pair_for, islands, merge_piles) are kept in steps/, starter/,
+# solutions/ and tests/ as the first three problems; they came from the old Scrapyard Route
+# Planner job, whose A* planner is now the second half of the Route Planner. Outlines aren't
+# built, so they wait here for whoever writes the set.

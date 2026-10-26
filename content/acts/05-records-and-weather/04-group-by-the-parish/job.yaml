@@ -1,0 +1,113 @@
+id: group-by-the-parish
+title: "Census Pivot Tables"
+project_name: "Census Pivot Tables"
+portfolio_readme: |
+  # Census Pivot Tables
+
+  Turns a census into the tables a council asks for, with pandas: people in each parish in each census year, a summary of each year (people, households, average age, people per household), and people in each sector of work, by merging a separate index of trades onto the census. Every table leaves the data it was made from as it was.
+
+  Written by {name} for Mr Ashby at the Records Office in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  pip install pandas
+  python main.py
+  ```
+
+  It reads `census.csv` and `trades.csv` and prints three tables:
+
+  ```
+  People by parish
+  year         1921  1951  1981  2011
+  parish
+  Harbour        29    35    21    18
+  High Street    35    31    18    25
+  Hill           14    18     9    12
+  Marsh          12    14    15    13
+  ```
+
+  The census and the trades index are {{town}}'s, made up for the story.
+
+  ## What it shows
+
+  - `groupby` to split a table into piles and count or average each one
+  - Pivot tables with `pivot_table`, filling the gaps with 0
+  - Merging two tables on a shared column, keeping every row of the first and labelling what the second lacks
+  - Counting distinct values with `nunique`, and building a summary table column by column
+downloadable: true
+# census.csv and trades.csv are invented for the story: the {{town}} census and Mr Ashby's
+# father's index of trades. See the README.
+datasets: []
+client: ashby
+building: records-office
+estimated_minutes: 70
+summary: "Pivot tables of the census for the council: by parish, by year and by trade, with Mr Ashby's father's trades index merged in."
+concepts_introduced: [groupby, merging]
+concepts_reviewed: [pandas-basics, selecting-filtering, missing-data, data-cleaning, functions, return-values, docstrings, main-guard, f-strings]
+ask:
+  dialogue:
+    - ashby: "The council meets on Thursday. They want the census by parish, by year and by trade."
+    - ashby: "My father kept a trades index. Fisherman, sea. Baker, trade. Forty years of cards."
+    - moss: "Sort it into piles, then count each pile. Same as screws."
+    - ashby: "He'd have liked that. He sorted screws too."
+  spec: |
+    `census.csv` is the census from The Census Tables. `trades.csv` is the trades index: one card per line, with an `occupation` and its `sector`.
+
+    Write four functions. Each leaves the tables it's given as they were.
+
+    - `parish_table(census)`: how many people lived in each parish in each census year, as a DataFrame with parishes down the side, years across the top, and 0 where there was nobody.
+    - `year_summary(census)`: a DataFrame with one row per census year and four columns: `people`, `households` (how many different households), `average_age`, and `per_household` (people divided by households).
+    - `with_sectors(census, trades)`: the census with a `sector` column from the index. Everyone stays, once each, in the census's order. An occupation the index hasn't got has the sector `unlisted`.
+    - `sector_table(census, trades)`: how many people were in each sector in each census year, laid out like `parish_table`.
+  example: |
+    People by parish
+    year         1921  1951  1981  2011
+    parish
+    Harbour        29    35    21    18
+    High Street    35    31    18    25
+    Hill           14    18     9    12
+    Marsh          12    14    15    13
+
+    By census
+          people  households  average_age  per_household
+    year
+    1921      90          23         27.1            3.9
+    1951      98          26         25.3            3.8
+    1981      63          26         39.5            2.4
+    2011      68          26         33.2            2.6
+
+    By sector
+    year      1921  1951  1981  2011
+    sector
+    at home     15    15     7     2
+    children    37    44    11    20
+    land         5     5     3     9
+    sea         17    16    16    11
+    service      4     9    15     9
+    trade       12     9    11    12
+    unlisted     0     0     0     5
+ship:
+  dialogue:
+    - ashby: "Five the index never heard of. A barista, three pharmacists and a web designer."
+    - ashby: "I'll write them cards tonight. In ink."
+    - moss: "Take the spare net maker out while you're in there."
+    - ashby: "My father filed that one twice in 1962. I've never had the heart."
+  shelf: { object: parish-ledger, label: "The census by parish and by trade, for the council" }
+  cards: [groupby, merging]
+story_note: not-yet
+stretch:
+  - id: oldest-by-parish
+    title: "The oldest in each parish"
+    prompt: |
+      Write `oldest_by_parish(census, year)`. It returns a Series, one entry per parish, of the name of the oldest person in that parish that year.
+
+      `rows.groupby("parish")["age"].idxmax()` gives, for each parish, the row label of its oldest person. `.loc` can take a whole Series of labels at once.
+
+      In 1951 the Pennants in the Marsh were both 63. Whichever of them comes first in the census will do.
+    tests: tests/stretch-oldest-by-parish.py
+    solution: solutions/stretch-oldest-by-parish.py
+  - id: shares
+    title: "A share, not a count"
+    prompt: |
+      Ninety people in 1921 and sixty-three in 1981 make counts hard to compare. Make a version of `sector_table` that shows each sector as a share of that year's people, so every column adds up to 1. Dividing a DataFrame by a Series of column totals, `table / table.sum()`, lines the totals up with the columns.

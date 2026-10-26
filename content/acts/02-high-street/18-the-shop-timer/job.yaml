@@ -1,0 +1,95 @@
+id: the-shop-timer
+title: "Timing and Retry Decorators"
+project_name: "Timing and Retry Decorators"
+portfolio_readme: |
+  # Timing and Retry Decorators
+
+  Two decorators that can go on any function. `@timed` logs how long every call takes, so the slow one can be found by measuring instead of guessing; `slowest` and `slow_calls` read the log. `@retry` calls a function again when it fails with a `ConnectionError`, up to three times, then lets the error out. Both were put on a greengrocer's till: the timer found the dawdling price look-up, and retry kept the card reader from turning a customer away.
+
+  Written by {name} for Sanjay's greengrocer in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  python main.py
+  ```
+
+  ```
+  Plums: £3.15
+  Leeks: £1.80
+  Figs: £1.60
+  Paid £6.55 by card
+  Slowest: ['look_up_price']
+  look_up_price took 0.30 s
+  ```
+
+  ## Use them in your own programs
+
+  ```python
+  from main import timed, retry, log, slowest
+
+  @timed
+  @retry
+  def fetch_prices():
+      ...
+  ```
+
+  ## What it shows
+
+  - Functions as values: passed in, wrapped and handed back
+  - Decorators with `functools.wraps`, closures, and `*args, **kwargs` passed straight through
+  - `lambda`, `sorted(key=...)` and `filter` for reading the log
+  - Retrying only the error that's worth another go, and giving up honestly
+downloadable: true
+datasets: []
+client: sanjay
+building: greengrocer
+estimated_minutes: 80
+summary: "Two decorators for Sanjay's till: one times every call and finds the slow one, one tries the card reader again when it doesn't answer."
+concepts_introduced: [functions-as-values, lambda, map-filter, sort-key, closures, decorators]
+concepts_reviewed: [functions, parameters, return-values, tuples, unpacking, args-kwargs, list-comprehensions, dictionaries, standard-library, main-guard, f-strings, slicing, sorted-vs-sort]
+ask:
+  dialogue:
+    - sanjay: "Saturday mornings the till goes slow. The queue goes right out past the leeks."
+    - sanjay: "Lovely queue, mind. Great chats. But Mrs Vance timed me. Four minutes for two plums."
+    - sanjay: "Penhallow's till has a function for everything. One of them is dawdling."
+    - sanjay: "And the card reader in the corner only answers if you ask it twice. I ask it twice. Out loud."
+    - moss: "Don't guess which is slow. Measure. And let the till do the asking twice."
+  spec: |
+    Write a decorator `timed` that times a function every time it runs, appends `(name, seconds)` to the list `log`, and hands back the function's own result. Read the time with `clock()`: it starts as `time.perf_counter`, and the checks swap it for a clock that ticks in known steps.
+
+    Put `@timed` on Sanjay's three till functions. Then write two helpers for the report:
+
+    - `slowest(entries, count)`: a list of the names of the `count` slowest calls, slowest first
+    - `slow_calls(entries, limit)`: a list of the entries that took longer than `limit` seconds, in the order they happened
+
+    Then a second decorator, `retry`, for the card reader. When the function raises a `ConnectionError`, it calls it again, up to `TRIES` calls in all, and hands back the first answer that comes. If the last try fails too, the error comes out. Any other error comes straight out, with no second go. Put `@retry` on `take_card`.
+  example: |
+    Plums: £3.15
+    Leeks: £1.80
+    Figs: £1.60
+    Paid £6.55 by card
+    Slowest: ['look_up_price']
+    look_up_price took 0.30 s
+    look_up_price took 0.30 s
+    look_up_price took 0.30 s
+ship:
+  dialogue:
+    - sanjay: "Look up price. Three tenths of a second, every single time."
+    - sanjay: "Ten things a customer, that's three seconds of standing about. I knew it wasn't my chatting."
+    - sanjay: "And the card reader got asked twice without me shouting at it. Nobody in the queue noticed."
+    - moss: "Some of it was your chatting."
+  shelf: { object: stopwatch, label: "Sanjay's till, timed and patient" }
+  cards: [functions-as-values, lambda, map-filter, sort-key, closures, decorators]
+story_note: the-winter-i-went-up
+stretch:
+  - id: remembered
+    title: "Fix the dawdler"
+    prompt: |
+      Penhallow's note says `look_up_price` reads the whole price book every time. Write a second decorator, `remembered`, that keeps each answer in a dictionary inside a closure, so asking for plums twice only looks once.
+
+      Put `@timed` above `@remembered`. The log shows the second lookup taking almost nothing.
+  - id: timed-as
+    title: "Timed, with a label"
+    prompt: |
+      Write `timed_as(label)`, a decorator that takes an argument: `@timed_as("till")` logs `("till: weigh", seconds)`. It's one more function wrapped around the decorator you already have, and a closure keeps hold of `label`.

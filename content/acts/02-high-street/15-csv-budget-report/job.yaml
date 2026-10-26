@@ -1,0 +1,8 @@
+id: csv-budget-report
+title: "CSV Budget Report"
+project_name: "CSV Budget Report"
+status: outline
+client: bea
+building: bakery
+estimated_minutes: 75
+summary: "Bea's bank statement arrives as a CSV file. Read it with the csv module, group it by month and category, and print the report her accountant asked for."

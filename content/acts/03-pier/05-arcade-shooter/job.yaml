@@ -1,0 +1,8 @@
+id: arcade-shooter
+title: "Arcade Shooter"
+project_name: "Arcade Shooter"
+status: outline
+client: committee
+building: pier
+estimated_minutes: 300
+summary: "A full 2D arcade shooter in Pygame at home: sprites, classes, collisions, levels, scores and sound."

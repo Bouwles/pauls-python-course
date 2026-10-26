@@ -1,0 +1,87 @@
+id: testing-the-tide-table
+title: "Testing the Bank"
+project_name: "Testing the Bank"
+portfolio_readme: |
+  # Testing the Bank
+
+  A test suite for a savings account class, and two new features built tests first. The tests check deposits, withdrawals, refusals, the history and the printed balance, and they were themselves checked: run against copies of the code with a bug planted in each method, every bug was caught. Then `transfer` and `add_interest` were added, with their tests written and seen to fail before the code existed.
+
+  Written by {name} for the post office in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  python test_bank.py
+  ```
+
+  runs every test with the small runner at the bottom of the file. With pytest installed, delete those lines and run:
+
+  ```
+  pytest
+  ```
+
+  ```
+  test_bank.py .............                                     [100%]
+  13 passed in 0.02s
+  ```
+
+  ## What it shows
+
+  - Tests as plain `test_` functions with `assert`, one behaviour each, with answers worked out by hand
+  - Edge cases: exactly the balance, nothing at all, interest that rounds to nothing
+  - Tests that expect an error, and fail if it doesn't come
+  - Test-first changes: a test seen to fail before the code that makes it pass
+  - Tests that can fail: each one was run against deliberately broken code
+downloadable: true
+datasets: []
+client: mira
+building: post-office
+estimated_minutes: 80
+summary: "Tests for the post office accounts that pass on the real thing and fail on broken copies, then two new features written tests first."
+concepts_introduced: [assert, pytest, edge-cases, test-first]
+concepts_reviewed: [classes, methods, attributes, self, dunder-methods, functions, return-values, modules, imports, exceptions, try-except, raising-errors, default-arguments, f-strings]
+ask:
+  dialogue:
+    - mira: "Agnes audits the savings accounts for the parish. Every March, with a red pen."
+    - agnes: "Requirements. One: the accounts are right. Two: they stay right."
+    - agnes: "Three: if someone breaks them, we find out by lunchtime. Not in March."
+    - moss: "That's three requirements, and one of them is tests."
+    - agnes: "All three are tests."
+  spec: |
+    The post office's `Account` is in `bank.py`, the class you wrote for Mira. Write tests for it in `test_bank.py`: plain functions whose names start with `test_`, each checking one thing with `assert`. Your tests must pass on the real `bank.py` and fail on broken ones.
+
+    Then Agnes's two new requirements, tests first:
+
+    1. `transfer(other, pence)` moves money from one account into another and returns `True`. If there isn't enough, nothing moves and it returns `False`. An amount that isn't more than 0 raises a `ValueError`.
+    2. `add_interest(percent)` pays in that much interest on the balance, rounded to the nearest penny, and returns it. Interest that rounds to nothing isn't paid in at all.
+  example: |
+    passed test_deposit
+    passed test_withdraw
+    passed test_withdraw_everything
+    passed test_too_much
+    passed test_str
+    passed test_deposit_nothing
+    passed test_transfer
+    passed test_transfer_too_much
+    passed test_transfer_everything
+    passed test_transfer_nothing
+    passed test_interest
+    passed test_interest_rounds_to_the_penny
+    passed test_no_interest_on_nothing
+ship:
+  dialogue:
+    - agnes: "I broke bank.py on purpose, seven different ways. Your tests caught all seven."
+    - agnes: "Two per cent on Old Tom's twelve pounds fifty is twenty-five pence. He'll want it in coins."
+    - moss: "At home you'll run these with pytest. They won't need changing."
+  shelf: { object: ticket-spike, label: "The post office accounts, with their tests" }
+  cards: [assert, pytest, edge-cases, test-first]
+story_note: passes-everything
+stretch:
+  - id: statement-tests
+    title: "Test the statement"
+    prompt: |
+      If you wrote `statement()` for Mira's accounts, bring it here and write its tests first this time: an empty account, one payment each way, and a refused withdrawal that mustn't appear. Then break it on purpose, one way at a time, and check a test fails each time.
+  - id: no-floats
+    title: "A float sneaks in"
+    prompt: |
+      `deposit(12.5)` is accepted, and now the balance isn't whole pence. Write a test that expects a `TypeError` for a deposit that isn't a whole number, watch it fail, then make `deposit` raise one. `isinstance(pence, int)` asks the question.

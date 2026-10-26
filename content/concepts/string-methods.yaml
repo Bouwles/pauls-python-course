@@ -1,18 +1,24 @@
 id: string-methods
 title: String methods
 summary: |
-  Strings come with methods, called with a dot and brackets. `.upper()`, `.lower()` and `.title()` change the case, and `.center(40)` pads with spaces to 40 characters. `.count("o")` counts, and `.startswith("Lost")` answers `True` or `False`. None of them change the string: each hands back a new one, or an answer.
+  Strings come with methods, called with a dot and brackets. `.upper()` and `.lower()` hand back a copy in capitals or lower case. Methods whose names start with `is` answer a question: `.isdigit()` is `True` only if every character is a digit, `.isalpha()` only if every character is a letter, and `.isupper()` only if every letter is a capital. `.title()` capitalises each word, `.center(40)` pads to 40 characters, `.count("o")` counts, and `.startswith("Harbour")` checks the beginning, capitals and all. None of them change the string: each hands back a new one, or an answer.
 example: |
-  title = "lost: one oar"
-  print(title.upper())
-  print(title.title())
-  print(title.count("o"))
-  print(title.startswith("lost"))
-  print(title.center(21, "*"))
+  password = "Harbour1987"
+  print(password.lower())
+  print(password.isalpha(), password.isdigit())
+  print(password.isupper())
+  print(password[-4:].isdigit())
+  print(password.startswith("Harbour"))
 misconceptions: [string-compare-ignores-case, center-adds-width, method-without-brackets]
-related: [immutability, strip-replace, split-join]
+related: [immutability, strip-replace, in-operator]
 drill: true
 cards:
+  - type: predict
+    prompt: "One capital, plenty of small letters. What does this print?"
+    code: |
+      print("Harbour1987".isupper())
+      print("HARBOUR1987".isupper())
+    answer: "False\nTrue"
   - type: predict
     prompt: What does this print?
     code: |

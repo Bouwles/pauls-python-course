@@ -3,7 +3,7 @@ title: Autograd
 summary: |
   An autograd engine works out gradients for you. Every value remembers the values it was made from and leaves behind a small `_backward` function holding its operation's local slope. `backward()` puts every value in topological order, each after its parents, sets the answer's gradient to 1, and walks the order backwards so each value's blame is complete before it is passed on. Blame is added with `+=`, so a value used twice gets both shares, and so gradients must be set back to 0 before each training step.
 example: |
-  # Using the engine from The Tiny Engine
+  # Using the engine from the Tiny Autograd Engine
   from engine import Value
 
   side = Value(3.0)

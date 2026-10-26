@@ -1,0 +1,37 @@
+{
+  "latitude": 50.12696,
+  "longitude": -5.5283356,
+  "generationtime_ms": 0.2994537353515625,
+  "utc_offset_seconds": 0,
+  "timezone": "Europe/London",
+  "timezone_abbreviation": "GMT",
+  "elevation": 38.0,
+  "daily_units": {
+    "time": "iso8601",
+    "sunrise": "iso8601",
+    "sunset": "iso8601",
+    "daylight_duration": "s"
+  },
+  "daily": {
+    "time": [
+      "2026-10-25",
+      "2026-10-26",
+      "2026-10-27"
+    ],
+    "sunrise": [
+      "2026-10-25T07:00",
+      "2026-10-26T07:02",
+      "2026-10-27T07:03"
+    ],
+    "sunset": [
+      "2026-10-25T17:11",
+      "2026-10-26T17:09",
+      "2026-10-27T17:07"
+    ],
+    "daylight_duration": [
+      36650.85,
+      36440.7,
+      36232.64
+    ]
+  }
+}

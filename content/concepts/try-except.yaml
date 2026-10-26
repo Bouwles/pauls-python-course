@@ -1,17 +1,18 @@
 id: try-except
 title: try and except
 summary: |
-  `try:` runs a block that might fail. `except ValueError:` runs only if that kind of error happens, and then the program carries on underneath. `else:` runs if nothing went wrong, and `finally:` runs either way. Catch the error you expect, by name: `except Exception:` catches your own mistakes too, and hides them.
+  `try:` runs a block that might fail. If a line in it fails, the rest of the block is skipped, and `except ValueError:` runs if the error was that kind; then the program carries on underneath. Add another `except` for each other error you expect. `else:` runs only if nothing went wrong, and `finally:` runs either way. Catch errors by name: `except Exception:` catches your own mistakes too, and hides them.
 example: |
-  for text in ["4.2", "deep"]:
+  for text in ["12 / 4", "12 / 0", "twelve / 4"]:
+      parts = text.split()
       try:
-          depth = float(text)
-      except ValueError as error:
-          print("Skipped:", error)
+          answer = float(parts[0]) / float(parts[2])
+      except ValueError:
+          print("Not a number:", text)
+      except ZeroDivisionError:
+          print("Nothing divides by zero.")
       else:
-          print("Depth:", depth)
-      finally:
-          print("Checked", text)
+          print("=", answer)
 misconceptions: [try-finishes-block, except-ends-program, try-cannot-catch, finally-only-on-success, finally-runs-at-end, broad-except-safe]
 related: [exceptions, raising-errors]
 drill: true
@@ -19,16 +20,14 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      for text in ["4.2", "deep"]:
+      for text in ["4", "deep", "0"]:
           try:
-              depth = float(text)
+              print(10 / float(text))
           except ValueError:
               print("Skipped", text)
-          else:
-              print("Depth:", depth)
-          finally:
-              print("Checked", text)
-    answer: "Depth: 4.2\nChecked 4.2\nSkipped deep\nChecked deep"
+          except ZeroDivisionError:
+              print("Zero")
+    answer: "2.5\nSkipped deep\nZero"
   - type: predict
     prompt: What does this print?
     code: |

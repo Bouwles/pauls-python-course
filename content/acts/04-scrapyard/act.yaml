@@ -1,0 +1,26 @@
+id: scrapyard
+number: 4
+title: "The Scrapyard"
+district: scrapyard
+subject: "Algorithms and data structures"
+hours: 45
+summary: "Nell Brannigan knows where everything is in her piles and cannot say how. Real programs turn that into algorithms: a speed tester, a search engine, a sorting visualiser, an undo button, a hash map, a scheduler, a maze solver, a route planner, a sudoku solver and a spell checker."
+locked_line: "Nell's piles, waiting for someone who can explain them."
+intro:
+  - nell: "Everything's here. Finding it is the trick."
+jobs:
+  - how-long-will-it-take
+  - finding-the-bolt
+  - sorting-the-piles
+  - recursion-junk-tower
+  - stacks-and-queues
+  - linked-chains
+  - the-hash-pile
+  - family-tree-of-parts
+  - autocomplete
+  - heaps-priority-pile
+  - the-road-map
+  - the-cheapest-route
+  - puzzles-from-the-pub
+  - spell-checker
+  - interview-prep-set

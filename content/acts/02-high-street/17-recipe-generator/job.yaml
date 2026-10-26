@@ -1,0 +1,75 @@
+id: recipe-generator
+title: "Log Streamer"
+project_name: "Log Streamer"
+portfolio_readme: |
+  # Log Streamer
+
+  Searches a log file that's far too long to read all at once. It's a chain of generators: one reads the file a line at a time, one turns each line into a record, one passes on only the records you asked for, and the last stops as soon as it has enough. However long the log is, only one line is ever in hand, and it reads only as far as it needs to.
+
+  Written by {name} for Moss's workshop in {{town}}, where every machine in town writes to one log. Finished {date}.
+
+  ## Run it
+
+  ```
+  $ python logstream.py --level ERROR --machine fog-horn --first 3
+  06:12 ERROR fog-horn: no air pressure
+  06:37 ERROR fog-horn: no air pressure
+  07:57 ERROR fog-horn: no air pressure
+  ```
+
+  `python logstream.py --help` lists the options. It reads `machines.log` from the same folder: each line is `time | level | machine | message`.
+
+  ## What it shows
+
+  - Iterators and generators: `yield`, `next()`, and functions that pause between values
+  - Lazy evaluation: nothing is read or worked out until something asks for it
+  - Generators chained into a pipeline, each asking the one before it for one item at a time
+  - Stopping early, so the end of a file nobody needed is never read
+
+  The log in this folder is invented: a day of one line a minute from the town's machines.
+downloadable: true
+datasets: []
+client: moss
+building: workshop
+estimated_minutes: 75
+summary: "Search a log too long to read all at once: a chain of generators that reads a line at a time and stops as soon as it has enough."
+concepts_introduced: [iterators, generators, lazy-evaluation]
+concepts_reviewed: [files, with-statement, functions, return-values, tuples, unpacking, split-join, strip-replace, keyword-arguments, none, argparse, main-guard, f-strings, list-comprehensions]
+ask:
+  dialogue:
+    - moss: "Every machine in town writes a line a minute to that log now. It's years long."
+    - moss: "The old report reads the whole lot into a list before it tells you anything. It took a quarter of an hour this morning."
+    - moss: "I only ever want the first few that matter. Fog horn errors, this morning."
+    - moss: "So don't read what you don't need. Hand it over a line at a time."
+  spec: |
+    `machines.log` has a line for each event, `time | level | machine | message`, and the odd line that doesn't. Write `logstream.py` as a chain of generators, so it never reads further than it has to:
+
+    1. `read_lines(path)` yields each line of the file without its newline, skipping blank lines.
+    2. `parse(lines)` yields `(time, level, machine, message)` for each line with all four parts, each part stripped and the level in capitals. Split with `split("|", 3)`, so a message with `|` in it stays whole. Lines without four parts are skipped.
+    3. `matching(entries, level=None, machine=None)` yields only the entries at that level (whatever its capitals) and from that machine. `None` means any.
+    4. `first(entries, count)` returns a list of the first `count` entries, taking no more than that from `entries`.
+
+    `main` takes `--level`, `--machine` and `--first` (a number, 10 if it's not given), chains the four together and prints each entry as `06:12 ERROR fog-horn: no air pressure`, or `Nothing found.`
+  example: |
+    $ python logstream.py --level ERROR --machine fog-horn --first 3
+    06:12 ERROR fog-horn: no air pressure
+    06:37 ERROR fog-horn: no air pressure
+    07:57 ERROR fog-horn: no air pressure
+ship:
+  dialogue:
+    - moss: "Fog horn errors, the first three, before I'd put the kettle on. It never read past eight o'clock."
+    - moss: "And at two in the morning, the hill again. Still learning. Same as every night."
+    - moss: "One line at a time. That's how you read anything long. Ask Mrs Vance."
+  shelf: { object: logbook, label: "The log streamer" }
+  cards: [iterators, generators, lazy-evaluation]
+stretch:
+  - id: hours
+    title: "Errors by the hour"
+    prompt: |
+      Write `by_hour(entries)`, which counts the entries in each hour, using the first two characters of the time, and returns a dictionary in the order the hours turned up: `{"06": 2, "07": 1}`. It has to read every entry, so it can't stop early. Does that mean it needs a list?
+    tests: tests/stretch-hours.py
+    solution: solutions/stretch-hours.py
+  - id: follow
+    title: "Following the log"
+    prompt: |
+      At home, the log keeps growing while you watch it. Write `follow(path)`, a generator that yields each new line as it's written: read to the end, then `time.sleep(1)` and try again, forever. Stop it with Ctrl+C. It's what `tail -f` does on a real server.

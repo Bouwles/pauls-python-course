@@ -1,0 +1,83 @@
+id: the-hash-pile
+title: "Hash Map from Scratch"
+project_name: "Hash Map from Scratch"
+portfolio_readme: |
+  # Hash Map from Scratch
+
+  A dictionary built by hand, the way Python's own `dict` works inside. Names are filed in piles (buckets) by a hash function; two names in one pile share it as a short list; when the piles fill past three-quarters, it doubles them and moves every name to its new pile. It counts its probes, so you can see why a lookup stays quick however many names there are.
+
+  Written by {name} for Nell Brannigan's scrapyard in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  python hash_map.py
+  ```
+
+  It files the yard's two hundred parts, finds every one of them again, and compares the work with searching one long list:
+
+  ```
+  200 parts in 512 piles, 0.39 to a pile
+  Finding every part: 235 probes
+  Finding every part along one long list: 20100 probes
+  ```
+
+  `HashMap` works for any names and any values: `put`, `get` with a default, `remove`, `len()`, `in` and `load()`.
+
+  ## What it shows
+
+  - Hashing: turning a key into a number, the same number every time, and a remainder to pick its bucket
+  - Collisions handled by chaining, and replacing a key's value where it stands
+  - Resizing at a load factor of 0.75, which keeps lookups O(1) on average
+  - A class that behaves like a built-in, with `__len__` and `__contains__`, and a `KeyError` for a missing key
+downloadable: true
+# The part names are generated in code for the story; a hash map's behaviour doesn't
+# depend on which names it holds, so no public dataset is needed. See the README.
+datasets: []
+client: nell
+building: scrapyard
+estimated_minutes: 80
+summary: "Nell finds any part in one walk because her piles follow a rule she can't explain. Write the rule down as a hash map built from scratch: piles, collisions, doubling, and every probe counted."
+concepts_introduced: [hashing, hash-maps]
+concepts_reviewed: [dictionaries, membership-speed, sets, tuples, immutability, classes, dunder-methods, raising-errors, big-o, linked-lists]
+ask:
+  dialogue:
+    - nell: "Ask me for a brass valve and I walk straight to pile four. Every time."
+    - moss: "She works it out from the letters. She doesn't know she does it. I watched her for a week."
+    - nell: "Penhallow wrote it down as a sum. Now the pier's coming, and pile four's taller than the shed."
+    - moss: "Then you'll want more piles, and a rule for when to make them."
+  spec: |
+    In `hash_map.py`, Penhallow's `scrap_hash(name)` turns a name into a number, the same number every time. Build a `HashMap`: a dictionary made by hand, from names to anything, filed the way Nell files her piles.
+
+    `HashMap(piles=8)` starts with that many empty piles in `self.piles`, a list of lists of `(name, value)` pairs. A name lives in pile number `scrap_hash(name) % len(self.piles)`.
+
+    1. `put(name, value)` stores the value under the name. If the name is there already, its pair is replaced where it stands.
+    2. `get(name, default=None)` returns the value stored under the name, or `default` if there isn't one.
+    3. `remove(name)` takes the name out and returns its value, or raises `KeyError` if it isn't there.
+    4. `len(parts)` is how many names are stored, `name in parts` says whether one is, and `load()` is how many names there are to a pile.
+    5. When a `put` adds a new name and there are then more than 0.75 names to a pile, double the number of piles and move every pair to its new pile: the old piles in order, each from front to back, onto the end of its new pile.
+    6. `probes` counts the work: one for every comparison of a stored name with the name being looked for, in any method. Moving pairs costs none.
+  example: |
+    200 parts in 512 piles, 0.39 to a pile
+    Finding every part: 235 probes
+    Finding every part along one long list: 20100 probes
+ship:
+  dialogue:
+    - nell: "Two hundred and thirty-five looks for two hundred parts. Some piles have two in. None has more than three."
+    - nell: "And that's what I do in my head, is it. Well. I always said I had a system."
+    - moss: "Every dict in Python works that way. Yours counts its probes out loud."
+  shelf: { object: numbered-pile, label: "Nell's hash map, the system written down" }
+  cards: [hashing, hash-maps]
+stretch:
+  - id: square-brackets
+    title: "parts[name]"
+    prompt: |
+      Python calls `__getitem__(self, name)` for `parts[name]`, `__setitem__(self, name, value)` for `parts[name] = value`, and `__delitem__` for `del parts[name]`. Add all three, so `HashMap` reads like a dict. `parts["kettle"]` for a missing name should raise `KeyError`, as a dict does.
+  - id: bad-hash
+    title: "Nell's first rule"
+    prompt: |
+      Nell's own rule, before Penhallow tidied it up, was the length of the name. Make `HashMap` take the hash function as an argument, with `scrap_hash` as the default, and fill it with the two hundred parts using `len` instead. Count the probes to find them all, and look at how big the biggest pile is.
+  - id: shrink
+    title: "When the pier's gone"
+    prompt: |
+      After the merchant takes the pier's lot, most piles are empty. Make `remove` halve the number of piles when there are fewer than 0.2 names to a pile, never going below 8, and moving every pair as `put` does. Check that a thousand puts followed by a thousand removes leaves eight piles.

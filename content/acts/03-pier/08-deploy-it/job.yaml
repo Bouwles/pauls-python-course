@@ -1,0 +1,8 @@
+id: deploy-it
+title: "Deploy It"
+project_name: "Deploy It"
+status: outline
+client: kat
+building: pier
+estimated_minutes: 90
+summary: "The Flask app online on a free host, with its own address."

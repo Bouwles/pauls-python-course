@@ -1,18 +1,18 @@
-# Ada Penhallow's notes in Act IV, Jobs 8 to 10.
+# Ada Penhallow's notes in Act V (the Weather Station and the Records Office), Jobs 10 to 12.
 # Each note is a comment in a starter file; finding it sets a story flag.
 notes:
   - id: facing-north
     job: vectors-and-arrows
     title: "Facing north"
     text: "Averaging bearings: wrong whenever the wind sits near north, which in January is always. I found out after the machine on the hill had learnt from a winter of it. It thinks January blows from the south. Every boat in the harbour was facing north. It didn't look. A.P."
-    where: "A comment inside load_vane, in the starter for the Make step of Vectors and Arrows."
+    where: "A comment inside load_vane, in the starter for the wind Make step of Linear Algebra Lab."
   - id: where-the-cable-goes
     job: slopes-on-the-hill
     title: "Where the cable goes"
     text: "Surveyed in the spring of '82, for the cable up to the machine. The steepest stretch of the path is exactly where the cable had to go. It always is. A.P."
-    where: "A comment inside hill_height, Penhallow's survey of the hill, in the starter for the Make step of Slopes on the Hill."
+    where: "A comment inside hill_height, Penhallow's survey of the hill, in the starter for the Make step of Calculus for ML."
   - id: tropical-fifties
-    job: saltmarsh-weather-report
+    job: town-weather-report
     title: "The tropical fifties"
     text: "Fahrenheit until the end of 1960, Celsius after. I typed them as they were written and marked which was which. I gave the machine on the hill the numbers without the marks. For a whole winter it believed the 1950s had been tropical. A.P."
-    where: "A comment under the requirements at the top of station.py, in the first Make step of The Saltmarsh Weather Report."
+    where: "A comment under the requirements at the top of station.py, in the first Make step of Data Story."

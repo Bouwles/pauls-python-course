@@ -1,0 +1,8 @@
+id: using-pretrained-models
+title: "Using Pretrained Models"
+project_name: "Using Pretrained Models"
+status: outline
+client: wendt
+building: observatory
+estimated_minutes: 120
+summary: "Take It Home with Hugging Face: a pretrained sentiment model run through a pipeline, scored against the Sentiment Analyser on the same sentences, then a small model fine-tuned on them."

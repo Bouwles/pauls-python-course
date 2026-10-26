@@ -1,0 +1,99 @@
+id: drawing-the-weather
+title: "Weather History Dashboard"
+project_name: "Weather History Dashboard"
+portfolio_readme: |
+  # Weather History Dashboard
+
+  A century of real weather from one station, on one page. It resamples a hundred years of monthly Met Office readings into years, leaving out any year with a month missing rather than passing eleven months off as twelve, prints the headline numbers, and draws a dashboard of four honest charts: the warming as a difference from the century's average with a ten-year average, each year's rain as bars from zero, a histogram of every month's rain, and July's sunshine against its temperature.
+
+  Written by {name} for Priya Lund at the Weather Station in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  pip install pandas matplotlib
+  python dashboard.py
+  ```
+
+  It reads `stornoway.csv`, prints the headlines, and saves the dashboard as `dashboard.png`:
+
+  ```
+  Stornoway, 1925 to 2024: 1200 months
+  Warmest year: 2014 (9.52 degrees C). Coldest: 1979 (7.19 degrees C)
+  Wettest year: 1999 (1547 mm). Driest: 1968 (800 mm)
+  Last thirty years against the first thirty: +0.56 degrees C
+  Left out for a missing month: temperature 1927; sunshine 1925, 1926, 1927, 1928, 2004, 2007
+  Saved dashboard.png
+  ```
+
+  ## The data
+
+  `stornoway.csv` is real: the Met Office's historic station data for Stornoway Airport, in the Outer Hebrides, from January 1925 to December 2024: the mean daily maximum and minimum temperature, days of air frost, rain and hours of sunshine for each month. Contains public sector information licensed under the Open Government Licence v3.0. Crown copyright, Met Office. The temperature is the mean of the daily maximum and minimum. Months the Met Office marks as estimated are noted in the `estimated` column.
+
+  ## What it shows
+
+  - Resampling a date-indexed table into years with pandas, and refusing to count a year that's missing a month
+  - matplotlib figures with several axes, each chart a function that draws on the axes it's given
+  - Honest charts: bars from zero, a change drawn as a difference from a named average, every axis labelled with its units, and the source on the page
+  - A histogram and a scatter plot, and a figure saved as a picture
+downloadable: true
+datasets:
+  - name: "Met Office historic station data: Stornoway"
+    source: "https://www.metoffice.gov.uk/research/climate/maps-and-data/historic-station-data"
+    licence: "Open Government Licence v3.0"
+    file: stornoway.csv
+    notes: "From https://www.metoffice.gov.uk/pub/data/weather/uk/climate/stationdata/stornowaydata.txt, downloaded October 2026. Contains public sector information licensed under the Open Government Licence v3.0, Crown copyright, Met Office. Kept January 1925 to December 2024 (1,200 months, none of them marked provisional) and every column as published: tmax and tmin (mean daily maximum and minimum, degrees C), frost (days of air frost), rain (mm) and sun (hours). The Met Office's markers were taken off the numbers: * for an estimated value is recorded instead as the column's name in a new estimated column, and # for sunshine from the automatic Kipp & Zonen sensor (used from 2002) was dropped. Missing values, shown by the Met Office as ---, are left empty: all of April 1927 but its rain, and the sunshine for 1925 to 1928, May 2004 and January 2007. The month became a single column, YYYY-MM. Nothing else was changed."
+client: priya
+building: weather-station
+estimated_minutes: 100
+summary: "A weather history dashboard for the station noticeboard: a century of real Met Office readings resampled into years and drawn as four honest charts on one page."
+concepts_introduced: [matplotlib, honest-charts]
+concepts_reviewed: [pandas-basics, selecting-filtering, groupby, missing-data, data-provenance, numpy-arrays, functions, return-values, docstrings, main-guard, f-strings]
+ask:
+  dialogue:
+    - priya: "A hundred years of weather, and the station noticeboard has one chart. From 1974."
+    - priya: "Our own book has gaps and Fahrenheit in it. For the board I want a record anyone can check."
+    - priya: "The Met Office has kept a station at Stornoway since 1873. Another harbour, further north. One page, four charts."
+    - moss: "And honest, I expect."
+    - priya: "Bars start at zero. Every axis says what it measures. Anyone who wants drama can read a novel."
+  spec: |
+    `stornoway.csv` is real: the Met Office's monthly readings at Stornoway from 1925 to 2024, one row a month: `month`, `tmax` and `tmin` (the mean daily high and low, degrees C), `frost` (days), `rain` (mm), `sun` (hours) and `estimated`. A few months are missing a reading. `load_station` is written: it reads the file with the month as a date index and adds `temp`, the mean of `tmax` and `tmin`.
+
+    Write six functions in `dashboard.py`:
+
+    - `yearly(station)`: a DataFrame with one row a year, labelled by the year as a number, and three columns: `temp`, the mean of the year's twelve months; `rain` and `sun`, the year's totals. A year with a month missing for a reading gets `NaN` for that reading.
+    - `warming_chart(ax, temps)`: draws on `ax`. Take the century's average off every year, then draw three lines with a key: the differences (`each year`), their ten-year rolling average (`ten-year average`), and a line right across at 0 (`century average`). Labels: `year` and `difference from average (degrees C)`.
+    - `rain_bars(ax, totals)`: one bar a year, on a scale that starts at zero. Labels: `year` and `rain (mm)`.
+    - `rain_histogram(ax, rain)`: how many months had each amount of rain, in bins 20 mm wide from 0 to 300. Labels: `rain in the month (mm)` and `months`.
+    - `july_scatter(ax, station)`: one dot for each July with a sunshine record, its sunshine across and its temperature up. Labels: `sunshine (hours)` and `temperature (degrees C)`.
+    - `dashboard(station)`: a figure of four axes, two by two, with each chart on one of them, a title on every chart, and a title for the whole page that names the station and the source. It returns the figure.
+
+    The headlines at the bottom are written; they save the dashboard as `dashboard.png`.
+  example: |
+    Stornoway, 1925 to 2024: 1200 months
+    Warmest year: 2014 (9.52 degrees C). Coldest: 1979 (7.19 degrees C)
+    Wettest year: 1999 (1547 mm). Driest: 1968 (800 mm)
+    Last thirty years against the first thirty: +0.56 degrees C
+    Left out for a missing month: temperature 1927; sunshine 1925, 1926, 1927, 1928, 2004, 2007
+    Saved dashboard.png
+ship:
+  dialogue:
+    - priya: "Half a degree warmer than the first thirty years, drawn as half a degree. That goes in the middle of the board."
+    - priya: "And sunny Julys are warm Julys, mostly. The one furthest right is 1955."
+    - moss: "Pip would like his chart up as well."
+    - priya: "When the 2020s are seven times warmer than the 1960s, it can go up."
+  shelf: { object: noticeboard, label: "A century at Stornoway, on one honest page" }
+  cards: [matplotlib, honest-charts]
+stretch:
+  - id: sunshine-gap
+    title: "Leave the gap"
+    prompt: |
+      Write `sunshine_chart(ax, sun)`: one line of each year's total sunshine, from `yearly`, with the axes labelled and a title, and give it a fifth panel on the dashboard: `plt.subplots(3, 2)`, with `axes[2, 1].axis("off")` for the empty sixth.
+
+      Stornoway's sunshine record starts in 1929 and misses two months later on. Plain `sum()` would add up those years as if nobody had seen the sun. `yearly` gives `NaN` for them instead, and matplotlib leaves a gap in the line wherever there's a `NaN`. A line drawn across the gap would be a claim nobody measured.
+    tests: tests/stretch-sunshine-gap.py
+    solution: solutions/stretch-sunshine-gap.py
+  - id: twelve-panels
+    title: "Twelve panels"
+    prompt: |
+      `plt.subplots(3, 4, figsize=(12, 7), sharey=True)` gives a grid of twelve axes, as a 3 by 4 array; `axes.flat` goes through them one at a time. Draw each month's temperature over the century in its own panel, all on one scale. Which month at Stornoway has warmed the most?

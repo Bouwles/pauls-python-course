@@ -1,0 +1,118 @@
+id: how-long-will-it-take
+title: "Speed Tester"
+project_name: "Speed Tester"
+portfolio_readme: |
+  # Speed Tester
+
+  Measures how the work a function does grows as its input grows. It counts the steps at three sizes, draws them as a bar chart in the terminal, names the growth they fit (O(1), O(log n), O(n), O(n log n) or O(n²)), times the function with a clock, and scales the time up to a size that hasn't happened yet.
+
+  Written by {name} for Nell Brannigan's scrapyard in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  python speed_tester.py
+  ```
+
+  It tests two ways of finding the spare parts in `yard.txt`, the 200 parts in Nell's yard, and says what ten thousand more would do:
+
+  ```
+  Yard today: 200 parts, 56 kinds with spares
+
+  By pairs, comparisons:
+     200 | ##                                       19900
+     400 | ##########                               79800
+     800 | ######################################## 319600
+  Growth: O(n^2)
+
+  By set, lookups:
+     200 | ##########                               200
+     400 | ####################                     400
+     800 | ######################################## 800
+  Growth: O(n)
+
+  By pairs, seconds:
+     200 | ##                                       0.0006
+     400 | ##########                               0.003
+     800 | ######################################## 0.0125
+  Growth: O(n^2)
+
+  By pairs on the yard: 0.0007 s. With the pier: about 1.8 s, every time a part comes in.
+  ```
+
+  The seconds change from run to run and from computer to computer. The step counts never do, which is why the growth is worked out from them first.
+
+  `time_once`, `scale`, `guess_growth` and `chart` work on any function, not only spares checks: pass in your own and its inputs at a few sizes.
+
+  ## What it shows
+
+  - Big-O: counting the steps an algorithm takes and naming how they grow, including the loop hidden inside `in` on a list
+  - Timing code with `time.perf_counter()`, and why one timing is never the whole truth
+  - Telling growths apart by what doubling the input does, and predicting a bigger case from a smaller one
+  - Functions passed to other functions, a `ValueError` for a growth it doesn't know, and a text chart built with f-string alignment
+downloadable: true
+# yard.txt is invented: the parts in Nell's yard are part of the story, and the program
+# measures how the work grows, which no real dataset would change. See the README.
+datasets: []
+client: nell
+building: scrapyard
+estimated_minutes: 90
+summary: "A speed tester for Nell's spares check: count the steps at three sizes, chart them, name the growth, time it, and say what the pier's ten thousand parts will do."
+concepts_introduced: [big-o, timing-code]
+concepts_reviewed: [for-loops, while-loops, membership-speed, sets, tuples, functions-as-values, raising-errors, main-guard, files, f-strings, zip]
+ask:
+  dialogue:
+    - nell: "The council's clearing the old pier. All of it's coming here. Ten thousand parts, give or take."
+    - nell: "Penhallow's stock program checks for spares every time a part comes in. Two hundred parts, no bother."
+    - nell: "Will it cope with ten thousand? And don't tell me it depends."
+    - moss: "It depends on how the steps grow. So build something that measures that."
+  spec: |
+    A speed tester runs a function on bigger and bigger inputs, measures the work, and says how it grows. Build one in `speed_tester.py` and point it at Penhallow's spares check, which finds the parts Nell has more than one of. `yard.txt` lists the 200 parts in the yard today.
+
+    1. `spares_by_pairs(parts)` compares every part with every part after it, as Penhallow's does. It returns `(spares, comparisons)`: the names that appear more than once, in alphabetical order, each named once, and how many times two parts were compared.
+    2. `spares_by_set(parts)` goes through the parts once, keeping a set of the ones it has seen. It returns `(spares, lookups)`, counting each time it checks the set.
+    3. `time_once(function, data)` calls `function(data)` once and returns how many seconds it took.
+    4. `scale(n_now, n_later, growth)` returns how many times more work `n_later` items take than `n_now`, for a `growth` of `"O(1)"`, `"O(log n)"`, `"O(n)"`, `"O(n log n)"` or `"O(n^2)"`. Anything else raises `ValueError`.
+    5. `guess_growth(n, steps_n, steps_2n)` returns the growth, out of those five, whose `scale` from `n` to `2 * n` is nearest to `steps_2n / steps_n`.
+    6. `chart(sizes, values)` returns a bar chart as one string, a line per size: the size right-aligned in six characters, ` | `, a bar of `#`s padded to 40 characters, a space, and the value. The biggest value's bar is 40 long and the others are in proportion, rounded. If every value is 0, every bar is empty.
+
+    The main block is written. It charts the steps each check takes on 200, 400 and 800 different parts, times the pairs check at the same sizes, guesses each growth, and scales today's time up for the pier.
+  example: |
+    Yard today: 200 parts, 56 kinds with spares
+
+    By pairs, comparisons:
+       200 | ##                                       19900
+       400 | ##########                               79800
+       800 | ######################################## 319600
+    Growth: O(n^2)
+
+    By set, lookups:
+       200 | ##########                               200
+       400 | ####################                     400
+       800 | ######################################## 800
+    Growth: O(n)
+
+    By pairs, seconds:
+       200 | ##                                       0.0006
+       400 | ##########                               0.003
+       800 | ######################################## 0.0125
+    Growth: O(n^2)
+
+    By pairs on the yard: 0.0007 s. With the pier: about 1.8 s, every time a part comes in.
+ship:
+  dialogue:
+    - nell: "Two seconds every time a part comes in, and ten thousand parts coming. I'd be quicker by hand."
+    - nell: "By the set, it's done before I've put the part down."
+    - moss: "Same answer. Different growth. That's the whole of it."
+  shelf: { object: stopwatch, label: "Nell's speed tester, the pier worked out" }
+  cards: [big-o, timing-code]
+story_note: every-night-before
+stretch:
+  - id: readable
+    title: "Hours, not seconds"
+    prompt: |
+      Nell doesn't think in seconds. Write `readable(seconds)` that gives back `"45 seconds"`, `"12 minutes"` or `"3.5 hours"`: seconds under a minute, minutes under an hour, hours above that, with hours to one decimal place. Then work out the whole pier: ten thousand parts arriving, and the check running once for each.
+  - id: in-both
+    title: "Already got one"
+    prompt: |
+      Before the lorries come, Nell wants to know which kinds of part she has already. Write `in_both(yard, pier)` twice, once with a loop inside a loop and once with a set, each returning the shared names in alphabetical order and a count of steps. Put both through the speed tester: `chart` their steps at three sizes, `guess_growth` each one, then `time_once` both with 5,000 parts each and `scale` the times up to 50,000.

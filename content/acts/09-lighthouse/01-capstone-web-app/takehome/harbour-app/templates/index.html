@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{town}} Harbour: visitor berths</title>
+</head>
+<body>
+  <h1>{{town}} Harbour: visitor berths</h1>
+  <ul>
+    {% for berth in berths %}
+      <li>{{ berth.name }}: boats up to {{ berth.max_length }} m</li>
+    {% endfor %}
+  </ul>
+</body>
+</html>

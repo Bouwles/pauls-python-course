@@ -1,13 +1,13 @@
-# Ada Penhallow's notes in Act IV, Jobs 4 to 7.
+# Ada Penhallow's notes in Act V (the Weather Station and the Records Office), Jobs 4 to 9.
 # Each note is a comment in a starter file; finding it sets a story flag.
 notes:
   - id: not-yet
     job: group-by-the-parish
     title: "Not yet"
     text: "Hill, 1981: one engineer, household of one. The enumerator asked whether anyone else lived with me. I said not yet. A.P."
-    where: "A comment at the top of the starter for the Make step of Group By the Parish, under Penhallow's note that she typed up the census."
+    where: "A comment at the top of the starter for the Make step of Census Pivot Tables, under Penhallow's note that she typed up the census."
   - id: it-does-not-do-why
     job: is-it-really-warmer
     title: "It does not do why"
     text: "The machine on the hill had the warming in its numbers two winters before I had it in mine. It could not tell me why. It does not do why; that was always going to be my job. A.P."
-    where: "A comment at the top of the starter for the Make step of Is It Really Warmer?, copied by Priya from the inside cover of the 1998 station book."
+    where: "A comment at the top of the starter for the Make step of Statistics Toolkit, copied by Priya from the inside cover of the 1998 station book."

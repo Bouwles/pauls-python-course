@@ -1,0 +1,8 @@
+id: web-scraper
+title: "Web Scraper"
+project_name: "Web Scraper"
+status: outline
+client: mira
+building: pier
+estimated_minutes: 90
+summary: "Read HTML with BeautifulSoup on saved pages, then a polite real scraper at home: robots.txt, rate limits, manners."

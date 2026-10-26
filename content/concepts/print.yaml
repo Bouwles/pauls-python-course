@@ -3,7 +3,7 @@ title: print() shows things
 summary: |
   `print()` writes whatever is inside the brackets to the output, then starts a new line. Text goes in quotes. Several values separated by commas print in a row with a space between each. `print()` with nothing inside prints an empty line.
 example: |
-  print("Saltmarsh")
+  print("{{town}}")
   print("Tides", 2, "a day")
   print()
   print("End")

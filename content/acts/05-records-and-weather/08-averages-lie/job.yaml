@@ -1,0 +1,93 @@
+id: averages-lie
+title: "Summary Statistics Report"
+project_name: "Summary Statistics Report"
+portfolio_readme: |
+  # Summary Statistics Report
+
+  Describes a year of daily weather in more than one number: the mean, the median, the mode, the standard deviation and the quartiles, the fences that mark readings out of line, the readings outside them, and the dry days. It shows why one average can mislead: on a typical day it barely rains, and the mean day of rain never happened.
+
+  Written by {name} for Priya Lund at the Weather Station in {{town}}. Finished {date}.
+
+  ## Run it
+
+  ```
+  pip install pandas
+  python main.py
+  ```
+
+  It reads `daily.csv`, a year of daily rain and temperature at two stations, and prints the report:
+
+  ```
+  Rain on an average day: 2.6 mm. On the middle day: 0.3 mm.
+  Most common: 0.0 mm. Dry days: 160 of 366
+  {{town}}: average 12.7 degrees C, standard deviation 4.3
+  Thornby: average 12.7 degrees C, standard deviation 6.3
+  Outside the fences:
+    {{town}}, 2024-06-14: 41.3 degrees C
+    Thornby: 0 readings
+    Rain: 38 days
+  ```
+
+  The readings are made up for the story, for {{town}} and Thornby, twenty miles inland.
+
+  ## What it shows
+
+  - The mean, median and mode, and when each is the honest summary
+  - Spread: the standard deviation, the quartiles and the interquartile range
+  - Outliers found with Tukey's fences, kept with their dates, and checked before anything is struck out
+  - Skewed distributions, like daily rain, where the mean sits far from most of the readings
+downloadable: true
+# daily.csv is invented for the story: a year at the {{town}} station and at Thornby, with
+# one faulty reading put in on purpose. See the README.
+datasets: []
+client: priya
+building: weather-station
+estimated_minutes: 70
+summary: "A summary statistics report on the station's 2024 for the parish magazine: the middle day, the usual day, the spread and the readings that don't fit."
+concepts_introduced: [descriptive-statistics, distributions]
+concepts_reviewed: [pandas-basics, selecting-filtering, vectorisation, matplotlib, dictionaries, functions, return-values, multiple-returns, default-arguments, docstrings, main-guard, f-strings]
+ask:
+  dialogue:
+    - priya: "The parish magazine prints our year in one line. Average daily rain: 2.6 millimetres."
+    - priya: "Most days it didn't rain at all. The average day never happened."
+    - moss: "Then give them more than one number."
+    - priya: "Six, and say which is which. And find me the readings that don't belong."
+  spec: |
+    `daily.csv` is the station's 2024, one row per day: `date`, `rain` (mm), `temp` (degrees C) and `thornby`, the temperature at Thornby's station, twenty miles inland.
+
+    Write four functions. Each takes a Series of readings and leaves it as it was.
+
+    - `summary(values)`: a dictionary with the keys `mean`, `median`, `mode` (the most common value; the smallest, if several tie), `std` (the standard deviation, as pandas works it out), `q1` and `q3` (the quartiles: a quarter of the readings are at or below `q1`, three quarters at or below `q3`).
+    - `fences(values)`: the low and high fences, as a pair: `q1` minus one and a half times `q3 - q1`, and `q3` plus the same.
+    - `outliers(values)`: the readings below the low fence or above the high one, as a Series that keeps their labels.
+    - `dry_days(rain, threshold=0.2)`: how many days had less rain than the threshold.
+  example: |
+    Rain on an average day: 2.6 mm. On the middle day: 0.3 mm.
+    Most common: 0.0 mm. Dry days: 160 of 366
+    {{town}}: average 12.7 degrees C, standard deviation 4.3
+    Thornby: average 12.7 degrees C, standard deviation 6.3
+    Outside the fences:
+      {{town}}, 2024-06-14: 41.3 degrees C
+      Thornby: 0 readings
+      Rain: 38 days
+ship:
+  dialogue:
+    - priya: "Two point six on the mean day. Nought point three on the middle one. Nothing on the most common."
+    - priya: "Thornby has our average and half as much swing again. They'll have that in the magazine too."
+    - priya: "Forty-one degrees on the fourteenth of June was the screen door, left open. Struck out, in ink, with a note."
+    - moss: "With a note. That's the part people forget."
+  shelf: { object: parish-magazine, label: "The station's year in more than one number" }
+  cards: [descriptive-statistics, distributions]
+stretch:
+  - id: z-scores
+    title: "How many spreads away"
+    prompt: |
+      Write `z_scores(values)`: each reading's distance from the mean, measured in standard deviations, as a Series with the same labels. `(values - values.mean()) / values.std()` does it in one line.
+
+      A reading with a z-score beyond 3 or below -3 is rare in tidy, even data. What is the screen door's? And why are z-scores a poor way to find odd rain days?
+    tests: tests/stretch-z-scores.py
+    solution: solutions/stretch-z-scores.py
+  - id: two-towns
+    title: "Two towns, one scale"
+    prompt: |
+      Draw {{town}}'s and Thornby's daily temperatures as two histograms, one above the other, with `plt.subplots(2, 1, sharex=True)` and the same bins. Leave the screen door out of {{town}}'s, and say so in the title.

@@ -1,0 +1,21 @@
+id: lighthouse
+number: 9
+title: "The Lighthouse"
+district: lighthouse
+subject: "Capstones and portfolio"
+hours: 60
+summary: "Where Penhallow's story ends. Two capstones from a short list, or one of your own: a booking web app, a weather data investigation, a paper reproduction, an arcade game. Then a portfolio, a timed paper and practice interviews, and the radio."
+locked_line: "The lamp room. Old Tom keeps the key."
+intro:
+  - tom: "She used to come up here at night. Said the view helped her think."
+  - moss: "Five projects on the list. Pick two, and do them properly. Or bring your own."
+jobs:
+  - capstone-web-app
+  - capstone-investigation
+  - capstone-paper
+  - capstone-game
+  - capstone-own
+  - portfolio-builder
+  - university-readiness
+  - mosss-radio
+  - the-lamp-room
