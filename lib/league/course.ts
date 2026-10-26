@@ -1,4 +1,4 @@
-// The Crab League (Section 13.5): the Club Course, the entry format, and the races.
+// The Arcade League (Section 13.5): the Club Course, the entry format, and the races.
 // The same code scores entries on the server and replays them in the browser, so
 // a replay always matches the score on the leaderboard.
 import type { GridFrame, Move } from "../python/protocol";

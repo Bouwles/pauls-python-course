@@ -261,7 +261,7 @@ export function MapView({ acts, characters, placements = [] }: { acts: ActSummar
         ) : null}
         {open.has("crab-club") ? (
           <p className={styles.panelMeta}>
-            <Link href="/league">The Crab League</Link>: this week&apos;s races on the Club Course.
+            <Link href="/league">The Arcade League</Link>: this week&apos;s races on the Club Course.
           </p>
         ) : null}
         {profile.experience && profile.experience !== "none" && !open.has("high-street") ? (

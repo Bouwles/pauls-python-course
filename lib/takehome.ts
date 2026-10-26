@@ -3,6 +3,7 @@
 // the ppc CLI's endpoints, so the zip is the same whichever way it is fetched.
 import type { Job, TakeHomeStep } from "./content/types";
 import { BRAND } from "./brand";
+import { withWorkshopStub } from "./export";
 import type { Files } from "./python/protocol";
 
 export interface TestCaseResult {
@@ -92,7 +93,7 @@ export function starterFiles(job: Job, step: TakeHomeStep, site: string): Files 
     ".gitignore": ".venv/\n__pycache__/\n.pytest_cache/\nreport.xml\n",
   };
   for (const [name, content] of Object.entries(step.files)) out[name] = content;
-  return Object.fromEntries(Object.entries(out).map(([name, content]) => [`${step.folder}/${name}`, content]));
+  return Object.fromEntries(Object.entries(withWorkshopStub(out)).map(([name, content]) => [`${step.folder}/${name}`, content]));
 }
 
 function attr(tag: string, name: string): string | null {

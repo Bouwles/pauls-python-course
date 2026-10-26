@@ -1,4 +1,4 @@
-/* The Crab League: the course, entering, the replay and the table, each on its own panel. */
+/* The Arcade League: the course, entering, the replay and the table, each on its own panel. */
 .wrap {
   --slot: var(--panel);
   display: grid;

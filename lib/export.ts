@@ -89,3 +89,56 @@ export function repoReadme(items: { item: ShelfItem; shippedAt: number | null }[
   }
   return lines.join("\n");
 }
+
+// Programs that draw with the workshop module (show_grid, show_graph, show_hill) only draw in the
+// browser. Downloads get this stand-in beside them, so the same program runs anywhere: the calls
+// are accepted and do nothing, with one note so nobody wonders where the picture went.
+const WORKSHOP_STUB = `"""A stand-in for the workshop module, which draws only in the browser editor.
+
+The show_ functions accept the same arguments and do nothing here, so the
+program runs the same way on your own computer.
+"""
+
+_told = False
+
+
+def _note():
+    global _told
+    if not _told:
+        _told = True
+        print("(The workshop drawings only show in the browser editor.)")
+
+
+def show_grid(*args, **kwargs):
+    _note()
+
+
+def show_graph(*args, **kwargs):
+    _note()
+
+
+def show_hill(*args, **kwargs):
+    _note()
+
+
+def reset():
+    pass
+
+
+def take():
+    return None
+`;
+
+const USES_WORKSHOP = /^\s*(from\s+workshop\s+import|import\s+workshop\b)/m;
+
+/** Adds workshop.py beside any program that imports it (files are keyed by path; folders are respected). */
+export function withWorkshopStub(files: Record<string, string>): Record<string, string> {
+  const out = { ...files };
+  for (const [name, content] of Object.entries(files)) {
+    if (!name.endsWith(".py") || !USES_WORKSHOP.test(content)) continue;
+    const dir = name.includes("/") ? name.slice(0, name.lastIndexOf("/") + 1) : "";
+    if (!out[`${dir}workshop.py`]) out[`${dir}workshop.py`] = WORKSHOP_STUB;
+  }
+  return out;
+}
+

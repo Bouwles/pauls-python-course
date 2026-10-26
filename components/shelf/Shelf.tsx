@@ -5,7 +5,7 @@ import { useSession } from "@/lib/store/session";
 import { getCode } from "@/lib/store/progress";
 import type { JobProgressRow } from "@/lib/store/types";
 import { isShipped } from "@/lib/progress-rules";
-import { download, projectFolder, readme, repoReadme, slug, zip, type ShelfItem } from "@/lib/export";
+import { download, projectFolder, readme, repoReadme, slug, withWorkshopStub, zip, type ShelfItem } from "@/lib/export";
 import type { Files } from "@/lib/python/protocol";
 import { Button, LinkButton } from "../ui/Button";
 import { PixelIcon } from "../ui/PixelIcon";
@@ -75,7 +75,7 @@ export function Shelf({ items }: { items: ShelfItem[] }) {
     }
     files["README.md"] = repoReadme(list, profile.displayName);
     files[".gitignore"] = "__pycache__/\n*.pyc\n.venv/\n";
-    return files;
+    return withWorkshopStub(files);
   };
   const repoName = `${slug(profile.displayName || "my")}-python-projects`;
 
@@ -160,12 +160,14 @@ function Detail({ item, row, codeFor, onClose }: { item: ShelfItem; row: JobProg
   }, [item.jobId]);
   const running = runner.state.phase === "running" || runner.state.phase === "starting";
   const date = row.shippedAt ? new Date(row.shippedAt).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) : "";
-  const projectFiles = (c: Files) => ({ ...Object.fromEntries(Object.entries(c)), ...item.data, "README.md": readme(item, row.shippedAt) });
+  const projectFiles = (c: Files) => withWorkshopStub({ ...Object.fromEntries(Object.entries(c)), ...item.data, "README.md": readme(item, row.shippedAt) });
   const downloadIt = () => {
     if (!code) return;
     const names = Object.keys(code);
-    if (names.length === 1 && Object.keys(item.data).length === 0) download(`${item.jobId}.py`, code[names[0]!]!, "text/x-python");
-    else download(`${item.jobId}.zip`, zip(projectFiles(code)), "application/zip");
+    const files = projectFiles(code);
+    // One file and nothing else it needs: the .py on its own. Anything more is a folder.
+    if (names.length === 1 && Object.keys(item.data).length === 0 && !files["workshop.py"]) download(`${item.jobId}.py`, code[names[0]!]!, "text/x-python");
+    else download(`${item.jobId}.zip`, zip(files), "application/zip");
   };
   const pushFiles = async () => projectFiles(code ?? (await codeFor(item)));
   return (

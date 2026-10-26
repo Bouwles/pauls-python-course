@@ -38,6 +38,16 @@ const nextConfig: NextConfig = {
       { source: "/job/the-address-book", destination: "/job/contact-book", permanent: true },
       { source: "/job/pub-quiz-night", destination: "/job/grade-calculator", permanent: true },
       { source: "/job/harbour-logbook", destination: "/job/expense-tracker", permanent: true },
+      { source: "/job/postcards", destination: "/job/bike-hire-shed-2", permanent: true },
+      // Acts VI and VII: jobs folded into the projects they fed.
+      { source: "/job/many-features", destination: "/job/training-and-testing", permanent: true },
+      { source: "/job/rain-or-no-rain", destination: "/job/was-it-right", permanent: true },
+      { source: "/job/the-question-tree", destination: "/job/forests-and-boosting", permanent: true },
+      { source: "/job/grouping-stars", destination: "/job/squashing-dimensions", permanent: true },
+      { source: "/job/meet-scikit-learn", destination: "/job/fair-and-honest-models", permanent: true },
+      { source: "/job/one-neuron", destination: "/job/learning-backwards", permanent: true },
+      { source: "/job/a-small-brain", destination: "/job/learning-backwards", permanent: true },
+      { source: "/job/scrapyard-route-planner", destination: "/job/interview-prep-set", permanent: true },
       // The Concept Index became the public Python Handbook (REDESIGN.md 9.1).
       { source: "/concepts", destination: "/handbook", permanent: true },
       { source: "/concepts/:id", destination: "/handbook/:id", permanent: true },

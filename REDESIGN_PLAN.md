@@ -79,5 +79,6 @@ Remove the "AI product" house style (cream paper, serif body, amber accent, trac
 2. Create a payments provider account (the default is a merchant of record: Paddle or Lemon Squeezy) and add its keys to `.env`.
 3. Set the final prices and the founder offer in `lib/plans.ts` and in the provider's dashboard.
 4. Review the drafted terms, privacy and refund policy pages.
+5. Decide whether the Weather App (Act III) may use Open-Meteo's free API. Its free tier is for non-commercial use, and its terms count educational content as non-commercial, but Fixwick is a paid product. Only learners' own Runs call it, and the checks never do. If it doesn't count, Open-Meteo sells an inexpensive API plan; the code needs no change.
 
 Everything else is built against a sandbox payments provider and test data, so it works end to end before any of these.
