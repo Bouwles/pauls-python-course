@@ -6,6 +6,8 @@ import styles from "@/components/legal/Syllabus.module.css";
 
 export const metadata: Metadata = { title: "Syllabus" };
 
+const ACT_WORDS: Record<number, string> = { 8: "Eight", 9: "Nine", 10: "Ten" };
+
 export default function Syllabus() {
   const index = getIndex();
   const concepts = getConcepts();
@@ -15,7 +17,7 @@ export default function Syllabus() {
       <header className={styles.head}>
         <h1 className={styles.title}>The syllabus</h1>
         <p className={styles.lede}>
-          Eight Acts, {index.acts.reduce((n, a) => n + a.jobs.length, 0)} jobs, about {totalHours} hours. From a first print statement to an agent that races crabs. The first three Acts are the Python and the computer science; the next four are data, machine learning, deep learning and reinforcement learning; the last is capstone projects.
+          {ACT_WORDS[index.acts.length] ?? index.acts.length} Acts, {index.acts.reduce((n, a) => n + a.jobs.length, 0)} jobs, about {totalHours} hours. From a first print statement to an agent that races crabs. The first four Acts are the Python and the computer science; the next four are data, machine learning, deep learning and reinforcement learning; the last is capstone projects.
         </p>
         <nav className={styles.contents} aria-label="Acts">
           <ol>

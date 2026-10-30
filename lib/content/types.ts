@@ -211,7 +211,7 @@ export interface TakeHomeStep extends StepCommon {
   folder: string;
 }
 
-/** A capstone milestone (Act VIII): the learner's test plan, evidence, and Moss's checklist. */
+/** A capstone milestone (Act IX): the learner's test plan, evidence, and Moss's checklist. */
 export interface MilestoneStep extends StepCommon {
   type: "milestone";
   checklist: { id: string; textHtml: string; whyHtml: string }[];

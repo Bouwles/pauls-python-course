@@ -1,7 +1,7 @@
 "use client";
 
 // The Arcade League (Section 13.5): a weekly race on the Club Course for policies
-// trained in Act VII. Opt-in by entering; the table shows display names and
+// trained in Act VIII. Opt-in by entering; the table shows display names and
 // scores only. Every race is seeded, so the replay here is the race that was scored.
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
@@ -115,7 +115,7 @@ export function League() {
     <div className={styles.wrap}>
       <header className={styles.head}>
         <h1 className={styles.title}>The Arcade League</h1>
-        <p className={styles.lede}>The Crab Racing Club runs a race every week on the Club Course, for the policies you train in Act VII. Entering is the only way onto the table, and the table shows display names and scores. Nothing else.</p>
+        <p className={styles.lede}>The Crab Racing Club runs a race every week on the Club Course, for the policies you train in Act VIII. Entering is the only way onto the table, and the table shows display names and scores. Nothing else.</p>
       </header>
 
       <div className={styles.columns}>

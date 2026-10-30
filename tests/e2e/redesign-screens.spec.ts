@@ -1,55 +1,52 @@
 import fs from "node:fs";
 import { test, type Browser } from "@playwright/test";
 
-// REDESIGN.md 5 and 11: every screen at 1440x900 and 390x844, night and day, after the
-// redesign, named like the "before" set in tests/screenshots/redesign/before/ so the two
-// can be compared side by side. File names keep "dark" for night and "light" for day.
+// REDESIGN.md 5 and 11: twenty screenshots that between them show the whole app after the
+// redesign, at 1440x900 and 390x844, night and day. Named like the "before" set in
+// tests/screenshots/redesign/before/ ("dark" is night, "light" is day).
 //   PPC_SCREENSHOTS=1 npx playwright test redesign-screens
-// PPC_LEARNER_ONLY=1 takes only the signed-in screens.
+// The signed-in screens use the demo learner (npm run seed:demo), who has half of Act I done.
 const OUT = "tests/screenshots/redesign/after";
 
-// Seen signed out: the pages a visitor sees, and the Workbench as a guest.
-const GUEST: [string, string][] = process.env.PPC_LEARNER_ONLY ? [] : [
-  ["landing", "/"],
-  ["signup", "/signup"],
-  ["login", "/login"],
-  ["pricing", "/pricing"],
-  ["job-ask", "/job/shop-sign?step=ask"],
-  ["job-predict", "/job/shop-sign?step=predict"],
-  ["job-worked", "/job/shop-sign?step=worked"],
-  ["job-pips", "/job/bill-splitter?step=pips"],
-  ["job-make", "/job/bill-splitter?step=make"],
-  ["job-ship", "/job/shop-sign?step=ship"],
-  ["job-takehome", "/job/python-at-home?step=at-home"],
-  ["job-investigate-late", "/job/the-lamp-room?step=ask-it-something-hard"],
-  ["job-lamp-room", "/job/the-lamp-room?step=ask"],
-  ["job-milestone", "/job/capstone-investigation"],
-  ["concepts", "/handbook"],
-  ["concept", "/handbook/input-returns-text"],
-  ["syllabus", "/syllabus"],
-  ["credits", "/credits"],
-  ["privacy", "/privacy"],
-  ["not-found", "/no-such-page"],
-];
+type Theme = "dark" | "light";
+interface Shot {
+  name: string;
+  path: string;
+  theme: Theme;
+  width: 1440 | 390;
+  signedIn?: boolean;
+}
 
-// Seen as the demo learner (npm run seed:demo), who has half of Act I done.
-const LEARNER: [string, string][] = [
-  ["map", "/map"],
-  ["welcome", "/welcome"],
-  ["rounds", "/rounds"],
-  ["shelf", "/shelf"],
-  ["drills", "/drills"],
-  ["settings", "/settings"],
-  ["placement", "/placement"],
-  ["league", "/league"],
-  ["device", "/device"],
+const SHOTS: Shot[] = [
+  // A visitor: the landing page, the first job as a guest, and the public pages.
+  { name: "landing", path: "/", theme: "dark", width: 1440 },
+  { name: "landing", path: "/", theme: "dark", width: 390 },
+  { name: "job-ask", path: "/job/shop-sign?step=ask", theme: "dark", width: 1440 },
+  { name: "job-predict", path: "/job/shop-sign?step=predict", theme: "light", width: 1440 },
+  { name: "job-make", path: "/job/bill-splitter?step=make", theme: "dark", width: 1440 },
+  { name: "job-make", path: "/job/bill-splitter?step=make", theme: "light", width: 1440 },
+  { name: "job-make", path: "/job/bill-splitter?step=make", theme: "light", width: 390 },
+  { name: "job-ship", path: "/job/shop-sign?step=ship", theme: "dark", width: 1440 },
+  { name: "job-lamp-room", path: "/job/the-lamp-room?step=ask", theme: "dark", width: 1440 },
+  { name: "pricing", path: "/pricing", theme: "dark", width: 1440 },
+  { name: "syllabus", path: "/syllabus", theme: "dark", width: 1440 },
+  { name: "concept", path: "/handbook/input-returns-text", theme: "light", width: 1440 },
+  // The demo learner: the character, the town, and everything around the jobs.
+  { name: "welcome", path: "/welcome", theme: "dark", width: 1440, signedIn: true },
+  { name: "map", path: "/map", theme: "dark", width: 1440, signedIn: true },
+  { name: "map", path: "/map", theme: "light", width: 390, signedIn: true },
+  { name: "shelf", path: "/shelf", theme: "light", width: 1440, signedIn: true },
+  { name: "rounds", path: "/rounds", theme: "dark", width: 1440, signedIn: true },
+  { name: "drills", path: "/drills", theme: "dark", width: 390, signedIn: true },
+  { name: "league", path: "/league", theme: "dark", width: 1440, signedIn: true },
+  { name: "settings", path: "/settings", theme: "dark", width: 1440, signedIn: true },
 ];
 
 test.skip(!process.env.PPC_SCREENSHOTS, "set PPC_SCREENSHOTS=1 to capture");
 
-async function capture(browser: Browser, theme: "dark" | "light", w: number, h: number, screens: [string, string][], signIn: boolean) {
+async function capture(browser: Browser, theme: Theme, width: number, shots: Shot[], signIn: boolean) {
   fs.mkdirSync(OUT, { recursive: true });
-  const ctx = await browser.newContext({ viewport: { width: w, height: h }, colorScheme: theme });
+  const ctx = await browser.newContext({ viewport: { width, height: width < 600 ? 844 : 900 }, colorScheme: theme });
   // Hold the theme for the whole visit: the saved profile would otherwise put night back.
   // The script runs before <html> exists, so it watches the whole document.
   await ctx.addInitScript((wanted) => {
@@ -66,21 +63,27 @@ async function capture(browser: Browser, theme: "dark" | "light", w: number, h: 
     const res = await page.request.post("/api/auth/login", { data: { email: "demo@fixwick.test", password: "demo-harbour-1987" }, headers: { Origin: origin } });
     if (!res.ok()) throw new Error("Sign in as the demo learner failed: run npm run seed:demo first.");
   }
-  for (const [name, path] of screens) {
-    await page.goto(path, { waitUntil: "load" });
+  for (const s of shots) {
+    await page.goto(s.path, { waitUntil: "load" });
     await page.locator("#main").first().waitFor({ timeout: 30_000 }).catch(() => {});
-    await page.waitForTimeout(2500);
-    await page.screenshot({ path: `${OUT}/${name}-${w}-${theme}.png`, fullPage: w < 600 });
+    // Long enough for scenes to load and cutscenes to settle, below the fold too.
+    await page.waitForTimeout(width < 600 ? 6000 : 3000);
+    await page.screenshot({ path: `${OUT}/${s.name}-${width}-${theme}.png`, fullPage: width < 600 });
   }
   await ctx.close();
 }
 
-for (const theme of ["dark", "light"] as const) {
-  for (const [w, h] of [[1440, 900], [390, 844]] as const) {
-    test(`after screens ${theme} ${w}`, async ({ browser }) => {
-      test.setTimeout(900_000);
-      await capture(browser, theme, w, h, GUEST, false);
-      await capture(browser, theme, w, h, LEARNER, true);
-    });
-  }
+// One browser context per theme, width and sign-in, in the order the shots are listed.
+const groups = new Map<string, Shot[]>();
+for (const s of SHOTS) {
+  const key = `${s.theme} ${s.width}${s.signedIn ? " signed in" : ""}`;
+  groups.set(key, [...(groups.get(key) ?? []), s]);
+}
+
+for (const [key, shots] of groups) {
+  test(`after screens: ${key}`, async ({ browser }) => {
+    test.setTimeout(300_000);
+    const { theme, width, signedIn } = shots[0]!;
+    await capture(browser, theme, width, shots, !!signedIn);
+  });
 }

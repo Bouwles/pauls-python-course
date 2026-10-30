@@ -1,7 +1,7 @@
 "use client";
 
 // What has changed in the workshop because of what the learner has done:
-// Moss's radio, once tuned (Act VIII), and the brass name plate on the
+// Moss's radio, once tuned (Act IX), and the brass name plate on the
 // learner's desk (earned at the end of Act I). Drawn over the scene as actors.
 import { useEffect, useState } from "react";
 import { useSession } from "@/lib/store/session";

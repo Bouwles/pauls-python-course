@@ -180,6 +180,17 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
     });
   }, [characters, job.client]);
 
+  const clientName = characters[job.client]?.name ?? job.client;
+  const actors: Actor[] = [
+    { key: "moss", sprite: "moss", anim: "nod", at: "moss" },
+    { key: "learner", learner: profile.character ?? defaultLook(), pose: "sit", anim: "sit", at: "learner" },
+    { key: "dennis", sprite: "dennis", anim: "idle", at: "dennis" },
+  ];
+  if (job.client !== "moss" && hasClientSprite) actors.push({ key: "client", sprite: characters[job.client]!.sprite, anim: "happy", at: "client", flip: true });
+  const scene = sceneFor(job.scene, night, scenes ?? new Set());
+  if (scene.startsWith("workshop")) actors.push(...workshopExtras(earned, scene));
+  const waiting = actors.map((a) => (a.key === "moss" || a.key === "client" ? { ...a, anim: "idle" } : a));
+
   if (!ready) {
     return (
       <>
@@ -203,21 +214,15 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
           ) : null}
         </Ticket>
         <div className={areas.stage}>
-          <div className={styles.stagePad} />
+          <div className={cs.stage}>
+            <div className={cs.shipStage}>
+              <SceneCanvas scene={scene} actors={waiting} label={`${clientName} is waiting for the finished program.`} maxScale={3} />
+            </div>
+          </div>
         </div>
       </>
     );
   }
-
-  const clientName = characters[job.client]?.name ?? job.client;
-  const actors: Actor[] = [
-    { key: "moss", sprite: "moss", anim: "nod", at: "moss" },
-    { key: "learner", learner: profile.character ?? defaultLook(), pose: "sit", anim: "sit", at: "learner" },
-    { key: "dennis", sprite: "dennis", anim: "idle", at: "dennis" },
-  ];
-  if (job.client !== "moss" && hasClientSprite) actors.push({ key: "client", sprite: characters[job.client]!.sprite, anim: "happy", at: "client", flip: true });
-  const scene = sceneFor(job.scene, night, scenes ?? new Set());
-  if (scene.startsWith("workshop")) actors.push(...workshopExtras(earned, scene));
 
   const onStretchCheck = async (task: StretchTask, report: CheckReport) => {
     const ok = report.status === "ok" && report.results.filter((r) => !r.stretch).every((r) => r.passed);

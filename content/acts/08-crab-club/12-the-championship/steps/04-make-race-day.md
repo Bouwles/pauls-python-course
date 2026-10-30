@@ -8,7 +8,7 @@ starter_from: make-crab
 timeout_ms: 40000
 on_pass: { committee: "Two baselines, a table, courses held back, and an entry for the League. Very proper." }
 hints:
-  nudge: "The shortest line needs to know how far every tile is from the finish. Which search, from Act III, finds that from one starting point?"
+  nudge: "The shortest line needs to know how far every tile is from the finish. Which search, from Act IV, finds that from one starting point?"
   plan:
     - "gull_line: close the bigger gap to the finish, across on a tie"
     - "shortest_line: breadth-first from the finish, then on each tile the move whose landing tile is nearest it"

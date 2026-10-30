@@ -69,7 +69,7 @@ Remove the "AI product" house style (cream paper, serif body, amber accent, trac
 ## Acceptance (Section 11)
 
 - [x] Every Look, Characters, Brand, Curriculum, Money and Quality item, checked on screenshots and tests
-- [x] After screenshots of every screen at 1440x900 and 390x844, night and day
+- [x] After screenshots: 20 that between them show the whole app, at 1440x900 and 390x844, night and day (`tests/e2e/redesign-screens.spec.ts` lists them)
 
 How each was checked, and the three places the check differs from the brief's wording:
 

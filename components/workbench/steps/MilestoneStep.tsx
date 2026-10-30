@@ -1,6 +1,6 @@
 "use client";
 
-// A capstone milestone (Act VIII): the learner writes their own test plan,
+// A capstone milestone (Act IX): the learner writes their own test plan,
 // shows their work, and goes through Moss's checklist. Moss's review is the
 // checklist: anything not yet true comes back with why it matters.
 import { useEffect, useRef, useState } from "react";
