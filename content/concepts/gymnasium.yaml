@@ -27,7 +27,7 @@ misconceptions: [truncated-is-terminated, loop-ignores-truncated, step-returns-f
 related: [q-learning, td-learning, classes]
 cards:
   - type: predict
-    prompt: "A kettle that's done at 100 degrees, and a landlady who waits five steps. What does this print?"
+    prompt: "A kettle that's done at 100 degrees, and a timer that stops it after five steps. What does this print?"
     code: |
       class Kettle:
           def reset(self, seed=None, options=None):
@@ -74,15 +74,15 @@ cards:
         misconception: reset-returns-observation-only
         feedback: "That would be right if reset returned only the observation. In Gymnasium's shape it returns `(observation, info)`."
   - type: choice
-    prompt: "A practice race hits its time limit with Sir Reginald on (1, 2), so `truncated` is True. What should the Q-learning target for that last step be?"
+    prompt: "A practice race hits its time limit with the crab on (1, 2), so `truncated` is True. What should the Q-learning target for that last step be?"
     verify: none
     options:
       - text: The reward plus gamma times the best Q-value on (1, 2)
         correct: true
-        feedback: "The race was stopped, not finished. (1, 2) still has a future; only the committee's clock ran out."
+        feedback: "The race was stopped, not finished. (1, 2) still has a future; only the race clock ran out."
       - text: The reward alone
         misconception: truncated-state-worthless
-        feedback: "That's right for terminated, at the finish or the pool. After a truncation, leaving the future out teaches him that (1, 2) is a dead end."
+        feedback: "That's right for terminated, at the finish or the pool. After a truncation, leaving the future out teaches it that (1, 2) is a dead end."
   - type: predict
     prompt: "A seeded die, in Gymnasium's shape. What does this print?"
     code: |
@@ -113,7 +113,7 @@ cards:
     prompt: "This loop only stops when the episode terminates. On the pacing yard, which never terminates, it runs 1000 steps instead of stopping at the time limit. Fix it so `run` returns the number of steps the episode really had."
     code: |
       class PacingYard:
-          """Sir Reginald paces up and down. Nothing ends it but the clock: 5 steps."""
+          """The crab paces up and down. Nothing ends it but the clock: 5 steps."""
 
           def reset(self, seed=None, options=None):
               self.steps = 0
@@ -142,7 +142,7 @@ cards:
       TESTS = [custom("Stops at the time limit", stops)]
     solution: |
       class PacingYard:
-          """Sir Reginald paces up and down. Nothing ends it but the clock: 5 steps."""
+          """The crab paces up and down. Nothing ends it but the clock: 5 steps."""
 
           def reset(self, seed=None, options=None):
               self.steps = 0
@@ -218,7 +218,7 @@ cards:
           m = ctx.module()
           got = m.run_episode(m.Corridor(limit=6), lambda observation: 0)
           if got != -6.0:
-              raise CheckFailed("Walking into the wall, the clock stops him after 6 steps: -6.0.", expected=-6.0, actual=got)
+              raise CheckFailed("Walking into the wall, the clock stops it after 6 steps: -6.0.", expected=-6.0, actual=got)
 
 
       TESTS = [custom("Straight to the end", straight), custom("Stopped by the clock", clock)]

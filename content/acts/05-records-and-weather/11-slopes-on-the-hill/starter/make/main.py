@@ -1,4 +1,4 @@
-# Priya's hill survey: the path, the hill, and the thermometer on top.
+# Riya's hill survey: the path, the hill, and Aaesha's thermometer.
 import math
 
 try:
@@ -8,19 +8,17 @@ except ImportError:
     def show_hill(*args, **kwargs):
         pass
 
-GORSE = (300.0, 600.0)  # where the thermometer cable leaves the path, metres east and north
+GORSE = (300.0, 600.0)  # a patch of gorse east of the path, metres east and north
 
 
 def hill_height(east, north):
-    """Penhallow's survey: the hill's height in metres, at metres east and north of the station."""
-    # Surveyed in the spring of '82, for the cable up to the machine. The
-    # steepest stretch of the path is exactly where the cable had to go.
-    # It always is. A.P.
+    """The park hill's survey: its height in metres, at metres east and north of the park gate."""
+    # A formula fitted to the city survey's contour lines for the park.
     return 140 * math.exp(-((east / 500) ** 2 + ((north - 1000) / 350) ** 2) / 2)
 
 
 def path_height(metres):
-    """The path runs due north from the station to the top. Its height, this many metres along."""
+    """The path runs due north from the park gate to the top. Its height, this many metres along."""
     return hill_height(0.0, metres)
 
 
@@ -53,7 +51,7 @@ if __name__ == "__main__":
         if rise > slope(path_height, steepest):
             steepest = metres
     rise = slope(path_height, steepest)
-    print(f"Steepest on the path: {steepest} m from the station, slope {rise:.3f}, about 1 in {1 / rise:.0f}")
+    print(f"Steepest on the path: {steepest} m from the gate, slope {rise:.3f}, about 1 in {1 / rise:.0f}")
 
     east_slope, north_slope = partial_slopes(hill_height, 0.0, 1000.0)
     print(f"At the top: slopes {abs(east_slope):.3f} east, {abs(north_slope):.3f} north")

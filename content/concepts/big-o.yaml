@@ -70,7 +70,7 @@ cards:
         misconception: one-loop-is-linear
         feedback: "There's only one `for`, but `in` on a list is a loop of its own. If `stock` were a set, it would be O(n)."
   - type: choice
-    prompt: "Pip's report takes `3 * n + 50` steps for n parts. What is its Big-O?"
+    prompt: "Yahya's report takes `3 * n + 50` steps for n parts. What is its Big-O?"
     verify: none
     options:
       - text: "O(n)"
@@ -93,7 +93,7 @@ cards:
     tests: |
       TESTS = [output("Sixteen steps", expect="16")]
   - type: fix
-    prompt: "Pip wants to count every pass of the inner loop. For n = 10 his count says 10. Fix it so it prints 100."
+    prompt: "Yahya wants to count every pass of the inner loop. For n = 10 his count says 10. Fix it so it prints 100."
     code: |
       def count_pairs(n):
           steps = 0

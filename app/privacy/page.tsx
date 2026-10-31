@@ -12,7 +12,7 @@ export default function Privacy() {
         <h2>What we keep</h2>
         <ul>
           <li>Your email address, so you can log in.</li>
-          <li>The display name and character you choose.</li>
+          <li>The display name and avatar you choose.</li>
           <li>Your work: the code you write in each step, earlier versions of it, your answers, hints used, time spent on each step, your review deck and its history.</li>
           <li>Simple usage events (a step started, a step passed, a hint used) so we can see where the course is too hard or too easy. They are stored with the rest of your data, not sent to anyone else.</li>
         </ul>

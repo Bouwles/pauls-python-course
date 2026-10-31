@@ -52,11 +52,6 @@ checking <= 1.5?
 Test accuracy: 0.745
 Approving everyone: 0.645
 """
-# Copied by Professor Wendt from a page torn out of Penhallow's dew log:
-# A tree asks its questions out loud, which is more than the machine on
-# the hill does. I let one grow on these readings with no limit. The first
-# three questions were sensible. The fourteenth was about a single night
-# in March. A.P.
 
 import numpy as np
 

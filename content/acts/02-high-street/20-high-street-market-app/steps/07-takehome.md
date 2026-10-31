@@ -4,7 +4,7 @@ type: takehome
 title: A proper package
 python: "3.10"
 dialogue:
-  - moss: "On the workbench it's four files in a row. At home it's a package: a folder that knows it's one program."
+  - paul: "On the workbench it's four files in a row. At home it's a package: a folder that knows it's one program."
 setup: |
   A **package** is a folder of modules with an `__init__.py` in it. Its modules import each other by the package's name, `from finance.money import Ledger`, so it works from wherever it's run. `__main__.py` is what `python -m finance` runs.
 ---

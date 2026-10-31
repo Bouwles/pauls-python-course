@@ -50,7 +50,7 @@ export default async function ClassPage(props: PageProps<"/teach/[classId]">) {
       id: a.id,
       jobId: a.jobId,
       title: job?.title ?? a.jobId,
-      act: job ? `Act ${job.actNumber}, Job ${job.number}` : "",
+      act: job ? `Act ${job.actNumber}, project ${job.number}` : "",
       due: a.dueAt ? dueDate(a.dueAt, now) : null,
       shipped: a.shipped,
     };
@@ -58,8 +58,8 @@ export default async function ClassPage(props: PageProps<"/teach/[classId]">) {
 
   const groups: JobGroup[] = getIndex()
     .acts.map((act) => ({
-      label: `Act ${act.number}: ${act.title}`,
-      jobs: act.jobs.filter((j) => j.status === "written" && !j.placementFor).map((j) => ({ id: j.id, title: `${j.number}. ${j.title}` })),
+      label: `Act ${act.number}: ${act.subject || act.title}`,
+      jobs: act.jobs.filter((j) => j.status === "written" && !j.placementFor).map((j) => ({ id: j.id, title: `${j.number}. ${j.projectName || j.title}` })),
     }))
     .filter((g) => g.jobs.length > 0);
 

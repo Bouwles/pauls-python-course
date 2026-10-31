@@ -53,7 +53,7 @@ def brain(seed, readings, hidden, answers, n):
     return X, T, params
 
 
-def ferro():
+def stairs_light():
     X = np.array([[0.0, 0.0], [0.0, 1.0], [1.0, 0.0], [1.0, 1.0]])
     T = np.array([[1.0], [0.0], [0.0], [1.0]])
     rng = np.random.default_rng(2)
@@ -208,17 +208,17 @@ def one_step(ctx):
 
 def learns(ctx):
     m = load(ctx)
-    X, T, params = ferro()
+    X, T, params = stairs_light()
     losses = m.train(X, T, params, 2.0, 300)
     if losses is None or len(losses) != 300:
         raise CheckFailed("300 steps should give back 300 losses.", actual=None if losses is None else len(losses))
     first, last = float(losses[0]), float(losses[-1])
     if not first > last or last > 0.01:
-        raise CheckFailed("Training on the captain's crossings should bring the loss right down.",
+        raise CheckFailed("Training on the stairs light should bring the loss right down.",
                           expected="from 0.2181 to below 0.01", actual=f"from {first:.4f} to {last:.4f}")
     P, _ = ref_forward(X, params)
     if ((P > 0.5) != (T > 0.5)).any():
-        raise CheckFailed("After training, the brain should sail on the right crossings.", expected=[1, 0, 0, 1], actual=(P.ravel() > 0.5).astype(int).tolist())
+        raise CheckFailed("After training, the network should turn the light on for the right settings.", expected=[1, 0, 0, 1], actual=(P.ravel() > 0.5).astype(int).tolist())
 
 
 def program(ctx):
@@ -238,9 +238,9 @@ def program(ctx):
     if int(found[0].group(1)) < 180:
         raise CheckFailed("After training, it should get all three answers right on most of the evenings it never saw.",
                           expected="at least 180 of 200", actual=found[0].group(0))
-    if "Tonight: lamp, horn, gate" not in lines:
-        raise CheckFailed("Thick fog, a gale, a spring tide, after dark: every answer should be yes.",
-                          expected="Tonight: lamp, horn, gate", actual=r.output)
+    if "Tonight: lights, beacon, shutters" not in lines:
+        raise CheckFailed("Thick fog, a gale, heavy rain, after dark: every answer should be yes.",
+                          expected="Tonight: lights, beacon, shutters", actual=r.output)
 
 
 TESTS = [
@@ -261,7 +261,7 @@ TESTS = [
     custom("check_gradients leaves the weights as they were", check_leaves_weights),
     custom("One step of training, every number", one_step,
            hint="Note the loss before updating, then subtract rate times each gradient from its weight."),
-    custom("Training learns the captain's rule", learns,
+    custom("Training learns the stairs light", learns,
            hint="Move against the gradient: subtract it. Adding it climbs the hill instead of going down."),
     custom("The program checks, trains, then answers", program),
 ]

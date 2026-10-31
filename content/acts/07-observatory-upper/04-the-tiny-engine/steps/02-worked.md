@@ -1,12 +1,12 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "The dome shutter. Six jobs, and some can't start until others are done."
-  - moss: "Same problem as her cards. Each one needs its parents done first."
+  - paul: "The little door to the clock's gears sticks. Six jobs, and some can't start until others are done."
+  - neil: "Same problem as the cards. Each one needs its parents done first."
 code: |
-  # The dome shutter repair: each job, and the jobs it needs done first.
+  # Mending the clock-room door: each job, and the jobs it needs done first.
   needs = {
       "rehang": ["varnish"],
       "varnish": ["sand", "glue"],
@@ -54,4 +54,4 @@ A list with every job after the jobs it needs is in **topological order**. `visi
 
 For the engine, a value's parents are what it needs. Walk that list backwards and you start at the answer, and no value passes its blame back until every value made from it has handed its share over.
 
-Press Step through and watch Nell's junk tower: each crate is a job waiting for the jobs it needs.
+Press Step through and watch the stack of calls: each block is a job waiting for the jobs it needs.

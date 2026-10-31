@@ -1,64 +1,70 @@
+/* Take It Home and the capstone milestones. */
 .section {
   display: grid;
-  gap: var(--s-2);
-  margin-top: var(--s-6);
+  gap: var(--s-3);
+}
+
+.section + .section {
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--line);
 }
 
 .small {
-  font-size: var(--step--1);
-  color: var(--ink-2);
-  font-family: var(--font-ui);
-}
-
-.small a {
-  color: var(--accent-ink);
+  font-size: var(--fs-2);
+  color: var(--text-2);
+  line-height: 1.5;
 }
 
 .tabs {
   display: flex;
   gap: var(--s-1);
-  border-bottom: var(--hairline);
   flex-wrap: wrap;
+  border-bottom: 1px solid var(--line);
 }
 
 .tab {
-  font: inherit;
-  font-family: var(--font-ui);
-  font-size: var(--step--1);
-  padding: var(--s-1) var(--s-3);
+  height: 40px;
+  padding: 0 var(--s-3);
   background: none;
   border: none;
-  border-bottom: 2px solid transparent;
-  color: var(--ink-2);
-  cursor: pointer;
+  color: var(--text-2);
+  font-size: var(--fs-2);
+  font-weight: 700;
+  box-shadow: inset 0 -2px 0 transparent;
   margin-bottom: -1px;
 }
 
+.tab:hover {
+  color: var(--text);
+}
+
 .tab[aria-selected="true"] {
-  color: var(--ink);
-  border-bottom-color: var(--accent-ink);
+  color: var(--text);
+  box-shadow: inset 0 -2px 0 var(--sun);
 }
 
 .tab:focus-visible {
-  outline: 2px solid var(--accent-ink);
-  outline-offset: 2px;
+  outline-offset: -2px;
 }
 
 .panel {
   display: grid;
-  gap: var(--s-2);
+  gap: var(--s-3);
   padding-top: var(--s-2);
 }
 
+/* Commands stay dark in both themes, like the terminal they're typed into. */
 .command {
   display: flex;
   align-items: center;
   gap: var(--s-2);
-  background: var(--ink);
-  color: var(--paper);
-  padding: var(--s-2) var(--s-3);
+  padding: var(--s-2) var(--s-2) var(--s-2) var(--s-3);
+  border-radius: var(--r-md);
+  background: var(--editor);
+  border: 1px solid var(--line);
+  color: var(--text);
   font-family: var(--font-code);
-  font-size: var(--step--1);
+  font-size: 14px;
   font-variant-ligatures: none;
 }
 
@@ -69,93 +75,79 @@
 }
 
 .copy {
-  font: inherit;
-  font-family: var(--font-ui);
-  font-size: var(--step--2);
-  background: none;
-  color: inherit;
-  border: 2px solid currentColor;
-  padding: 1px var(--s-2);
-  opacity: 0.8;
-  cursor: pointer;
+  flex: none;
+  height: 28px;
+  padding: 0 var(--s-2);
+  border: 0;
+  border-radius: var(--r-sm);
+  background: var(--surface-3);
+  color: var(--text);
+  font-family: var(--font-text);
+  font-size: 13px;
+  font-weight: 700;
 }
 
-.copy:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
-:global([data-theme="dark"]) .command {
-  background: var(--paper-sunk);
-  color: var(--ink);
-  border: var(--hairline);
-}
-
-@media (prefers-color-scheme: dark) {
-  :global(:root:not([data-theme="light"])) .command {
-    background: var(--paper-sunk);
-    color: var(--ink);
-    border: var(--hairline);
-  }
+.copy:hover {
+  background: var(--line);
 }
 
 .field {
   display: grid;
   gap: var(--s-1);
-  font-family: var(--font-ui);
-  font-size: var(--step--1);
+  font-size: var(--fs-1);
+  font-weight: 700;
 }
 
 .field input[type="text"],
 .field textarea {
-  font: inherit;
   font-family: var(--font-code);
-  padding: var(--s-2);
-  border: var(--hairline);
-  background: var(--paper-raised);
-  color: var(--ink);
+  font-weight: 400;
+  font-size: 14px;
+  width: 100%;
 }
 
 .field textarea {
-  font-family: var(--font-prose);
+  font-family: var(--font-text);
+  font-size: var(--fs-2);
   min-height: 7em;
   resize: vertical;
 }
 
 .message {
-  font-family: var(--font-ui);
-  font-size: var(--step--1);
-  color: var(--fail);
+  font-size: var(--fs-2);
+  color: var(--fail-text);
 }
 
 .result {
-  margin-top: var(--s-3);
-  padding: var(--s-3);
-  border: var(--hairline);
-  border-left: 3px solid var(--fail);
-  background: var(--paper-raised);
+  padding: var(--s-4);
+  border-radius: var(--r-lg);
+  background: var(--fail-wash);
   display: grid;
-  gap: var(--s-1);
+  gap: var(--s-2);
 }
 
 .resultGood {
-  border-left-color: var(--pass);
+  background: var(--pass-wash);
 }
 
 .resultTitle {
-  font-family: var(--font-ui);
-  font-weight: 600;
+  font-weight: 700;
   display: flex;
-  gap: var(--s-1);
+  gap: var(--s-2);
   align-items: center;
+}
+
+.resultGood .resultTitle svg {
+  color: var(--pass-text);
 }
 
 .failing {
   list-style: none;
+  margin: 0;
   padding: 0;
   display: grid;
-  gap: var(--s-1);
-  font-size: var(--step--1);
+  gap: var(--s-2);
+  font-size: var(--fs-1);
 }
 
 .failing li {
@@ -164,33 +156,40 @@
 }
 
 .failing span {
-  color: var(--ink-2);
+  color: var(--text-2);
   font-family: var(--font-code);
-  font-size: var(--step--2);
+  font-size: 13px;
   overflow-wrap: anywhere;
 }
 
 .guide {
   display: grid;
-  gap: var(--s-3);
-  max-width: 640px;
+  gap: var(--s-4);
+  max-width: 680px;
 }
 
 .steps {
   display: grid;
-  gap: var(--s-4);
+  gap: var(--s-5);
+  margin: 0;
   padding-left: 1.4em;
-  font-family: var(--font-prose);
 }
 
 .steps li {
   display: grid;
   gap: var(--s-2);
+  padding-left: var(--s-1);
+}
+
+.steps li::marker {
+  font-weight: 700;
+  color: var(--text-2);
 }
 
 /* Milestones */
 .checklist {
   list-style: none;
+  margin: 0;
   padding: 0;
   display: grid;
   gap: var(--s-2);
@@ -198,46 +197,60 @@
 
 .check {
   display: grid;
-  gap: var(--s-1);
-  padding: var(--s-3);
-  border: var(--hairline);
-  background: var(--paper-raised);
+  gap: var(--s-2);
+  padding: var(--s-4);
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+}
+
+:root[data-theme="light"] .check {
+  background: var(--surface-1);
+  border: 1px solid var(--line);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .check {
+    background: var(--surface-1);
+    border: 1px solid var(--line);
+  }
 }
 
 .check label {
   display: flex;
-  gap: var(--s-2);
+  gap: var(--s-3);
   align-items: flex-start;
-  font-family: var(--font-prose);
   cursor: pointer;
 }
 
 .check input {
-  margin-top: 0.3em;
-  accent-color: var(--accent-ink);
+  width: 18px;
+  height: 18px;
+  margin-top: 0.2em;
+  flex: none;
+  accent-color: var(--sun);
 }
 
 .check details {
-  font-size: var(--step--1);
-  color: var(--ink-2);
-  padding-left: 1.6em;
+  font-size: var(--fs-1);
+  color: var(--text-2);
+  padding-left: calc(18px + var(--s-3));
 }
 
 .check summary {
   cursor: pointer;
-  font-family: var(--font-ui);
+  font-weight: 700;
 }
 
 .review {
-  padding: var(--s-3);
-  border: var(--hairline);
-  border-left: 3px solid var(--accent);
-  background: var(--paper-raised);
+  padding: var(--s-4);
+  border-radius: var(--r-lg);
+  background: var(--sun-wash);
   display: grid;
   gap: var(--s-2);
 }
 
 .review ul {
+  margin: 0;
   padding-left: 1.2em;
   display: grid;
   gap: var(--s-1);

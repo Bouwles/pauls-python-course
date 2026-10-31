@@ -27,7 +27,7 @@ Choosing and shuffling work on lists:
 import random
 
 random.seed(5)
-stops = ["Quay", "Market", "Pier", "Chapel"]
+stops = ["Station", "Market", "Park", "Chapel"]
 print(random.choice(stops))
 result = random.shuffle(stops)
 print(result)
@@ -35,9 +35,9 @@ print(stops)
 ```
 
 ```text
-Pier
+Park
 None
-['Market', 'Quay', 'Chapel', 'Pier']
+['Market', 'Station', 'Chapel', 'Park']
 ```
 
 `choice` returns one item and leaves the list alone. `shuffle` rearranges the list itself and returns `None`, which is why `result` is `None`. If you need a shuffled copy and want to keep the original order, use `random.sample(stops, len(stops))`, which returns a new list.

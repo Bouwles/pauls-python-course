@@ -3,13 +3,13 @@ title: Mutable and immutable
 summary: |
   Lists, dictionaries and sets are mutable: they can be changed in place, and every reference to them sees the change. Numbers, strings and tuples are immutable: an operation that looks like a change makes a new value and moves the label. A tuple can't be changed, but a list inside it still can.
 example: |
-  loaves = 40
-  count = loaves
+  seats = 40
+  count = seats
   count -= 5
-  tray = [40]
-  same_tray = tray
-  same_tray[0] -= 5
-  print(loaves, tray)
+  row = [40]
+  same_row = row
+  same_row[0] -= 5
+  print(seats, row)
 misconceptions: [assignment-links-variables, numbers-change-in-place, tuple-contents-frozen, string-methods-change-string]
 related: [references, copying]
 cards:
@@ -59,12 +59,12 @@ cards:
       item = item.upper()
       print(item)
   - type: fill
-    prompt: "Fill the gap with a list method that changes the tray in place, so both names see the new batch."
+    prompt: "Fill the gap with a list method that changes the row in place, so both names see the new batch."
     code: |
-      tray = [40, 60]
-      same_tray = tray
-      tray.___(12)
-      print(same_tray)
+      row = [40, 60]
+      same_row = row
+      row.___(12)
+      print(same_row)
     blanks: [["append"]]
     tests: |
       TESTS = [output("Both names see it", expect="[40, 60, 12]")]

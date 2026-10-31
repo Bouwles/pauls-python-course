@@ -1,4 +1,4 @@
-"""Pip's tide checker: run Penhallow's network over the roll and see how far out it is."""
+"""Caitlin's tide checker: run Neil's network over the roll and see how far out it is."""
 
 import csv
 import json
@@ -19,7 +19,7 @@ def load_weights(path="rnn_weights.json"):
 
 
 def step(x, h, params):
-    """One hour. Returns (h, guess). Wendt's, and it works."""
+    """One hour. Returns (h, guess). Neil's, and it works."""
     h = np.tanh(x * params["Wx"] + h @ params["Wh"] + params["b"])
     return h, float(h @ params["Wy"] + params["by"])
 

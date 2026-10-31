@@ -1,10 +1,10 @@
 ---
 id: predict
 type: predict
-title: Moss's guess at Nell's rule
+title: A first guess at a rule
 concept: hashing
 dialogue:
-  - moss: "Here's my first guess at her rule. Add up the letters, as numbers. Keep the remainder."
+  - paul: "A first guess at a rule. Add up the letters, as numbers. Keep the remainder."
 code: |
   def letter_sum(name):
       total = 0
@@ -41,4 +41,4 @@ options:
 after: |
   Run it. Then try a few names of your own, and find two different words that land in the same pile.
 ---
-Nell's piles are numbered 0 to 7. A **hash function** turns a name into a number, the same number every time for the same name; the remainder by the number of piles picks the pile. To find a name again, work out the same sum and go straight to that pile.
+Eight piles, numbered 0 to 7. A **hash function** turns a name into a number, the same number every time for the same name; the remainder by the number of piles picks the pile. To find a name again, work out the same sum and go straight to that pile.

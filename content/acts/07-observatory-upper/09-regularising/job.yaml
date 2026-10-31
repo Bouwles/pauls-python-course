@@ -6,7 +6,7 @@ portfolio_readme: |
 
   Forecasts the astronomical seeing (how much the stars shimmer, in arcseconds) from the evening's weather, with a small neural network that has been taught not to memorise. Trained as it was, it fits its 24 training nights perfectly and new nights badly; weight decay, dropout and early stopping, each written from scratch in NumPy, are compared on nights it never learnt from. Batch normalisation is written too, for training and for evaluation.
 
-  Written by {name} in {{town}}. Finished {date}.
+  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -17,7 +17,7 @@ portfolio_readme: |
 
   ```
                         training  validation
-  Pip's                   0.0000      0.2455
+  Riya's                  0.0000      0.2455
   weight decay 0.02       0.0451      0.1340
   dropout 0.5             0.0106      0.1890
   early stopping          0.0603      0.1842
@@ -35,44 +35,43 @@ portfolio_readme: |
 
   ## Data
 
-  `seeing.csv` is invented for the story: nights of weather readings, each with the seeing measured that night.
+  `seeing.csv` is invented for the project: nights of weather readings, each with the seeing measured that night.
 downloadable: true
 datasets: []
-client: wendt
+client: aaesha
 building: observatory
 estimated_minutes: 90
-summary: "A network that forecasts the seeing from the weather, taught not to memorise: Pip's fits 24 nights perfectly and the rest badly, until weight decay, dropout, early stopping and batch norm teach it to hold back."
+summary: "A network that forecasts the seeing from the weather, taught not to memorise: Riya's fits 24 nights perfectly and the rest badly, until weight decay, dropout, early stopping and batch norm teach it to hold back."
 concepts_introduced: [regularisation, dropout, batch-normalisation]
 concepts_reviewed: [overfitting, train-test-split, neural-networks, backpropagation, gradient-descent, mean-squared-error, feature-scaling, copying, mutability, dictionaries, numpy-arrays, broadcasting, matplotlib, default-arguments]
 ask:
   dialogue:
-    - wendt: "Penhallow rated the seeing every night she could. How much the stars shimmer, in arcseconds."
-    - wendt: "Under one, and she'd stay up until dawn. Over three, she'd go to bed."
-    - pip: "I've trained a network on it. Training loss: zero. I've done it again."
-    - moss: "And on the nights it hasn't seen?"
-    - pip: "I haven't asked it those. On purpose."
+    - aaesha: "I rate the seeing before every stargazing night. How much the stars shimmer, in arcseconds."
+    - aaesha: "Under one, and we stay up late. Over three, everyone goes home."
+    - riya: "I've trained a network on it. Training loss: zero. Wait."
+    - aaesha: "And on the nights it hasn't seen?"
+    - riya: "I haven't asked it those yet. That's the suspicious part, isn't it."
   spec: |
-    In `regular.py`, add three regularisers to Wendt's seeing network in `net.py`, and compare them on the nights it never learnt from.
+    In `regular.py`, add three regularisers to the seeing network in `net.py`, and compare them on the nights it never learnt from.
 
     1. `dropout_mask(shape, rate, rng)`: an array of that shape in which each entry is 0 with chance `rate`, and otherwise `1 / (1 - rate)`.
     2. `with_weight_decay(grads, params, decay)`: a new dict of gradients, with `decay` times each weight matrix added to its gradient. The biases, `b1` and `b2`, are left alone.
     3. `train(X, T, X_val, T_val, params, rate, epochs, decay=0.0, drop=0.0, patience=None, seed=0)`: gradient descent that changes `params` in place. Each epoch: a fresh dropout mask for the hidden layer if `drop` is above 0, one step with weight decay, then the training and validation losses with no mask. With `patience`, stop once the validation loss hasn't improved for `patience` epochs, and put the best epoch's weights back. It returns the training losses, the validation losses and the best epoch.
-    4. Run as a program, it compares Pip's network with each regulariser.
+    4. Run as a program, it compares Riya's network with each regulariser.
     5. In `batchnorm.py`, `batch_norm` for training and for evaluation.
   example: |2
                           training  validation
-    Pip's                   0.0000      0.2455
+    Riya's                  0.0000      0.2455
     weight decay 0.02       0.0451      0.1340
     dropout 0.5             0.0106      0.1890
     early stopping          0.0603      0.1842
     Guessing the average                0.4213
-story_note: hard-to-stop
 ship:
   dialogue:
-    - wendt: "Weight decay: 0.134 on nights it never saw. Pip's scored 0.246, and guessing scored 0.421."
-    - wendt: "So it's out by a third of an arcsecond. The square root, yes. I did it in my head. Twice."
-    - pip: "Mine was perfect for 24 nights. That's nearly a month."
-    - moss: "A joint that only fits one board isn't a joint."
+    - aaesha: "Weight decay: 0.134 on nights it never saw. Riya's scored 0.246, and guessing scored 0.421."
+    - aaesha: "So it's out by a third of an arcsecond. The square root, yes. I did it in my head. Twice."
+    - riya: "Mine was perfect for 24 nights. That's nearly a month."
+    - paul: "A model that only fits the nights it's seen isn't a forecast. It's a diary."
   shelf: { object: seeing-chart, label: "The seeing network, held back" }
   cards: [regularisation, dropout, batch-normalisation]
 stretch:
@@ -83,8 +82,8 @@ stretch:
   - id: more-nights
     title: "More nights from the same nights"
     prompt: |
-      Penhallow's readings are only good to about 0.02 either way. Make four extra copies of each training night with `rng.normal(0, 0.02, X.shape)` added to its readings, keeping its seeing, and train Pip's network on all 120. Does the validation loss improve? Making more training data out of the data you have is **data augmentation**.
+      The readings are only good to about 0.02 either way. Make four extra copies of each training night with `rng.normal(0, 0.02, X.shape)` added to its readings, keeping its seeing, and train Riya's network on all 120. Does the validation loss improve? Making more training data out of the data you have is **data augmentation**.
   - id: choose-the-decay
     title: "Choose the decay"
     prompt: |
-      Try weight decay of 0.005, 0.01, 0.02, 0.05 and 0.1, each with patience 100, and choose the one with the lowest validation loss. Then remember the bottom drawer downstairs: the nights you chose with are no longer a fair test. What would you need to report an honest error?
+      Try weight decay of 0.005, 0.01, 0.02, 0.05 and 0.1, each with patience 100, and choose the one with the lowest validation loss. Then remember Aaesha's bottom drawer: the nights you chose with are no longer a fair test. What would you need to report an honest error?

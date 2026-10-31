@@ -3,9 +3,9 @@ id: ten-times
 type: explain
 title: "Interview: ten times as many"
 dialogue:
-  - moss: "A guess is fine. Say how you'd find out if it's right."
+  - paul: "A guess is fine. Say how you'd find out if it's right."
 prompt: "What would break first if ten times as many people used your project, and how would you know?"
-answer: "The market app. Ten times the traders is about 130 stalls and 6,800 bookings a year. Speed isn't the problem: `save_bookings` rewrites the whole file each time, and 6,800 rows takes a blink. What breaks first is two traders booking at the same moment. Both load the file, both add a booking, and the second save wipes out the first. With thirteen stalls that's rare; with a hundred and thirty on a busy Saturday morning, it will happen. I'd know by logging every booking and checking the log against the rows in the file each week. The fix is a lock around loading and saving, or a database that does the locking for me."
+answer: "The berth booking app. Ten times the marina is fifty berths and about 4,000 bookings a year. Speed isn't the problem: saving rewrites the whole JSON file each time, and 4,000 rows take a blink. What breaks first is two skippers booking at the same moment. Both requests load the file, both add a booking, and the second save wipes out the first. With five berths that's rare; with fifty on a busy Saturday morning, it will happen. I'd know by logging every booking and checking the log against the file each week. The fix is a lock around loading and saving, or SQLite, which does the locking for me."
 ---
 This question has a trap in it. Most people say "it would get slow" and stop. Slow is sometimes the answer, but then say what gets slow, by how much, and starting from which number.
 

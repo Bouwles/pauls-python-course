@@ -4,28 +4,28 @@ summary: |
   A sentinel is a special value that means stop, like `done` or `clear`. The pattern: ask once before the loop, test for the sentinel at the top, and ask again at the bottom of the body. That way the sentinel is never counted or added as if it were real data. In a `while True:` loop, check for the sentinel straight after asking and leave with `break`, before the entry is counted or turned into a number.
 example: |
   count = 0
-  name = input("Ship? ")
-  while name != "dawn":
+  order = input("Order? ")
+  while order != "done":
       count = count + 1
-      name = input("Ship? ")
+      order = input("Order? ")
   print(count)
-example_inputs: ["Kestrel", "Mary Rose", "dawn"]
+example_inputs: ["pizza", "curry", "done"]
 misconceptions: [sentinel-counted, loop-asks-by-itself]
 related: [while-loops, running-totals]
 cards:
   - type: predict
-    prompt: "Tom types `Kestrel`, `Mary Rose`, `Plover`, then `dawn`. What does this print?"
+    prompt: "Riya types `pizza`, `curry`, `sushi`, then `done`. What does this print?"
     code: |
       count = 0
-      name = input("Ship? ")
-      while name != "dawn":
+      order = input("Order? ")
+      while order != "done":
           count = count + 1
-          name = input("Ship? ")
+          order = input("Order? ")
       print(count)
-    inputs: ["Kestrel", "Mary Rose", "Plover", "dawn"]
+    inputs: ["pizza", "curry", "sushi", "done"]
     answer: "3"
   - type: choice
-    prompt: "Tom types `300`, `200`, then `clear`. What does this print?"
+    prompt: "Aaesha types `300`, `200`, then `clear`. What does this print?"
     code: |
       readings = 0
       entry = input("Reading? ")
@@ -42,7 +42,7 @@ cards:
         misconception: sentinel-counted
         feedback: "`clear` is checked at the top of the loop before anything is counted, so it never gets a pass."
   - type: fix
-    prompt: "Mira types parcel names, then `done`. This counts `done` as a parcel. Fix it so it doesn't."
+    prompt: "Aaesha types parcel names, then `done`. This counts `done` as a parcel. Fix it so it doesn't."
     code: |
       count = 0
       entry = ""
@@ -52,7 +52,7 @@ cards:
       print(count)
     tests: |
       TESTS = [
-          output("Two parcels", inputs=["Bea", "Tom", "done"], expect="2", timeout=2),
+          output("Two parcels", inputs=["Caitlin", "Yahya", "done"], expect="2", timeout=2),
           output("No parcels", inputs=["done"], expect="0", timeout=2),
       ]
     solution: |
@@ -63,24 +63,24 @@ cards:
           entry = input("Parcel? ")
       print(count)
   - type: fill
-    prompt: "Fill the gap so the loop stops when Tom types `clear`."
+    prompt: "Fill the gap so the loop stops when Aaesha types `clear`."
     code: |
       entry = input("Reading? ")
       while entry != ___:
           print("Noted.")
           entry = input("Reading? ")
-      print("Fog gone.")
+      print("All noted.")
     blanks: [["\"clear\"", "'clear'"]]
     tests: |
       TESTS = [
-          output("One reading", inputs=["300", "clear"], expect="Noted.\nFog gone.", timeout=2),
-          output("Clear first", inputs=["clear"], expect="Fog gone.", timeout=2),
+          output("One reading", inputs=["300", "clear"], expect="Noted.\nAll noted.", timeout=2),
+          output("Clear first", inputs=["clear"], expect="All noted.", timeout=2),
       ]
   - type: write
     prompt: "Ask `Word? ` over and over until someone types `stop`. Then print how many words came before it."
     tests: |
       TESTS = [
-          output("Two words", inputs=["mackerel", "cod", "stop"], expect="2", timeout=2),
+          output("Two words", inputs=["tabs", "spaces", "stop"], expect="2", timeout=2),
           output("Stop straight away", inputs=["stop"], expect="0", timeout=2),
           output("Four words", inputs=["a", "b", "c", "d", "stop"], expect="4", timeout=2),
       ]

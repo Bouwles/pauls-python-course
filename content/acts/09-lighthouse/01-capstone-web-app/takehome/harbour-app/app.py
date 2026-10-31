@@ -1,20 +1,15 @@
-"""{{town}} Harbour's visitor berths: a web app for Agnes Rook.
+"""The marina's visitor berths: a web app, built for Riya's client.
 
 Start it with:   flask --app app run
 then open http://127.0.0.1:5000 in a browser. Ctrl+C stops it.
 Add --debug while you're working on it, and only then.
 """
-# Pencilled inside the door of the old server cabinet under the lighthouse
-# stairs, and copied here by Agnes:
-# Every address on this server answers in under a second but one, and that
-# one goes up to the lamp room. Tom keeps the key. Ask him nicely, and not
-# before you're ready. A.P.
 
 from flask import Flask, jsonify, render_template
 
 from berths import BERTHS
 
-# Agnes's rules: put the rules.py you wrote before downloading this beside
+# The marina's rules: put the rules.py you wrote before downloading this beside
 # app.py, and import what you need from it here.
 
 
@@ -33,9 +28,9 @@ def create_app(data_file="bookings.json"):
     def list_berths():
         return jsonify(BERTHS)
 
-    # Agnes's other routes go here: the list is in BRIEF.md.
+    # The other agreed routes go here: the list is in BRIEF.md.
     # request.get_json() answers anything that isn't JSON with an error page
     # of its own; request.get_json(silent=True) gives you None instead, so
-    # you can answer with Agnes's 400 and a JSON message.
+    # you can answer with the agreed 400 and a JSON message.
 
     return app

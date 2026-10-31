@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the decorators
-on_pass: { sanjay: "There it is. look_up_price, dawdling. I'd never have guessed. I'd have blamed the scales." }
+on_pass: { yahya: "There it is: look_up_price, dawdling. Riya blamed the scales. Measured beats guessed." }
 hints:
   nudge: "Where in the wrapper do you read `clock()`, and what has to come back out of it at the end?"
   plan:
@@ -46,7 +46,7 @@ hints:
                         raise
         return wrapper
 ---
-The subgoals are in the file, above Sanjay's till. Run it: the card reader fails once and `retry` tries again, and the report names the dawdler:
+The subgoals are in the file, above the till. Run it: the card reader fails once and `retry` tries again, and the report names the dawdler:
 
 ```
 Paid £6.55 by card

@@ -40,7 +40,7 @@ def _close(got, want, message, call):
         raise CheckFailed(message, expected=f"{call} = ({want[0]:.6f}, {want[1]:.6f})", actual=f"({got[0]:.6f}, {got[1]:.6f})")
 
 
-def wendts_numbers(ctx):
+def neils_numbers(ctx):
     mod = _module(ctx, "run_once")
     got = _errors(mod.run_once(15, 3), "run_once")
     _close(got, _reference(15, 3), "Draw from default_rng(seed) in exactly the agreed order, and the numbers will match.", "run_once(15, 3)")
@@ -109,7 +109,7 @@ def peak_moves(ctx):
 
 
 TESTS = [
-    custom("run_once(15, 3) matches Professor Wendt's numbers", wendts_numbers, visible=True),
+    custom("run_once(15, 3) matches Neil's numbers", neils_numbers, visible=True),
     custom("From 40 features up, the training error is 0", zero_training_error, visible=True),
     custom("Same seed, same errors; another seed, others", same_seed),
     custom("n_train, noise and n_test are passed on", other_settings,

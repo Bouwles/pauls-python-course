@@ -1,11 +1,11 @@
-In Python, `split()` turns a string into a list of smaller strings, and `join()` turns a list of strings back into one string. `"cod eel bass".split()` gives `['cod', 'eel', 'bass']`, and `", ".join(names)` gives one line with a comma and a space between the names. Between them they cover most everyday text handling: breaking a sentence into words, reading the fields of a comma-separated line, tidying stray spaces, and building output such as `Bea, Mira, Gwen` from a list.
+In Python, `split()` turns a string into a list of smaller strings, and `join()` turns a list of strings back into one string. `"tea milk sugar".split()` gives `['tea', 'milk', 'sugar']`, and `", ".join(names)` gives one line with a comma and a space between the names. Between them they cover most everyday text handling: breaking a sentence into words, reading the fields of a comma-separated line, tidying stray spaces, and building output such as `Emma, Sam, Rosa` from a list.
 
 ## How it works
 
 With nothing in the brackets, `split()` breaks at any run of whitespace and ignores whitespace at the ends. Give it a separator and it breaks at exactly that text, every time it appears, and keeps everything else, spaces included:
 
 ```python
-line = "Kittiwake, Mary Rose, Gull"
+line = "Leeds, York, Hull"
 print(line.split(","))
 print(line.split(", "))
 print("a,,b".split(","))
@@ -14,8 +14,8 @@ print(entry.split(maxsplit=1))
 ```
 
 ```text
-['Kittiwake', ' Mary Rose', ' Gull']
-['Kittiwake', 'Mary Rose', 'Gull']
+['Leeds', ' York', ' Hull']
+['Leeds', 'York', 'Hull']
 ['a', '', 'b']
 ['2026-10-25', 'Gale warning from the north']
 ```

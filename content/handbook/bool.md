@@ -6,20 +6,20 @@ A comparison gives back a bool, so you can save the answer and use it later, as 
 
 ```python
 hour = 20
-tide = 1.5
+temp = 1.5
 is_night = hour >= 19
-can_sail = tide >= 2
-print(is_night, can_sail)
+is_warm = temp >= 2
+print(is_night, is_warm)
 if is_night:
     print("Lights on")
-if not can_sail:
-    print("Stay in harbour")
+if not is_warm:
+    print("Wear a coat")
 ```
 
 ```text
 True False
 Lights on
-Stay in harbour
+Wear a coat
 ```
 
 `if is_night:` is enough on its own. Writing `if is_night == True:` works, but the comparison only gives back the bool you already had. Names that start with `is_`, `has_` or `can_` make the code read like a sentence.
@@ -44,7 +44,7 @@ False
 
 ## Common mistakes
 
-- **Putting quotes round `True`.** `sailing = "True"` stores four letters of text. It prints the same as the bool, which hides the problem, but `sailing == True` is `False`. Leave the quotes off.
+- **Putting quotes round `True`.** `running = "True"` stores four letters of text. It prints the same as the bool, which hides the problem, but `running == True` is `False`. Leave the quotes off.
 - **Writing `true` or `false` in lower case.** Python only knows the capitalised versions. Lower-case `true` is an unknown name, so you get `NameError: name 'true' is not defined. Did you mean: 'True'?`.
 - **Turning typed answers into a bool with `bool()`.** [input()](/handbook/input-returns-text) always gives back text, and any non-empty text, including `"no"` and `"False"`, becomes `True`. Compare the text instead: `wants_ticket = answer == "yes"`.
 

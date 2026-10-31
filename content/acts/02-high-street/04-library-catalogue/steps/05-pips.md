@@ -1,14 +1,14 @@
 ---
 id: pips
 type: pips
-title: Pip's Version
+title: Fix Riya's version
 dialogue:
-  - pip: "I've saved every word and its count. Done in four lines, more or less."
-  - pip: "The file's got one word in it. Hatter. I'm told there were others."
+  - riya: "Every word and its count, saved for Aaesha. Four lines, more or less."
+  - riya: "The file's got one word in it. Hatter. Can you look? I'm told there were others."
 dialogue_after:
-  - pip: "So w wipes it every time I open it. I opened it every time. Fair enough."
+  - riya: "So w wipes the file every time it opens. And I opened it every time. Got it."
 hints:
-  nudge: "What does opening a file with \"w\" do to what's already in it? How many times does Pip's program open it?"
+  nudge: "What does opening a file with \"w\" do to what's already in it? How many times does Riya's program open it?"
   plan:
     - Run it and count the rows
     - Open the file once, before the loop
@@ -21,7 +21,7 @@ hints:
             for word, times in counts.most_common():
                 writer.writerow(___)
 ---
-Pip's `save_counts` should write a header, then one row for each word, commonest first. Run it.
+Riya's `save_counts` should write a header, then one row for each word, commonest first. Run it.
 
 Files open in three main modes: `"r"` reads (the default), `"w"` writes, and `"a"` appends. Fix it so `counts.csv` comes out like this:
 

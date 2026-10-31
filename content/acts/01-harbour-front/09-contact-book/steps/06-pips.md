@@ -1,12 +1,12 @@
 ---
 id: pips
 type: pips
-title: Pip's Version
+title: Fix Riya's version
 dialogue:
-  - pip: "Mira's phone list. Missing names come back empty, so I check for empty."
-  - pip: "It says KeyError. I never said Key anything."
+  - riya: "I made Aaesha a quick phone list first. Every name I tried worked."
+  - riya: "Then she typed Yahya, and it said KeyError. Can you look? Something's off."
 dialogue_after:
-  - pip: "So a missing key isn't blank. It's a crash. .get is the polite way to ask."
+  - riya: "So a missing name isn't blank. It's a crash. I only ever tried the names I'd typed in."
 hints:
   nudge: "What does `phones[name]` do when the name isn't a key at all? Read the traceback."
   plan:
@@ -21,10 +21,10 @@ hints:
             print(f"{name}: {phones[name]}")
         name = input("Name? ")
 ---
-Run Pip's lookup and type `Captain Ferro`, then a blank line. It should say:
+Run Riya's lookup and type `Yahya`, then a blank line. It should say:
 
 ```
-No number for Captain Ferro.
+No number for Yahya.
 ```
 
-Fix it so names that aren't in the book don't crash it.
+Fix it so names that aren't in the list don't crash it.

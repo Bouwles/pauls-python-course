@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the guessing game
-on_pass: { gwen: "Got it in three. Better than anyone managed last night." }
+on_pass: { caitlin: "Got it in three. That's the score to beat. It needs a leaderboard next." }
 hints:
   nudge: "The game can end two ways, a win or a `q`. Where does each one `break`? And which guesses shouldn't be counted?"
   plan:
@@ -36,7 +36,7 @@ hints:
         else:
             print("Too high.")
 ---
-Write Gwen's game. The number is from 1 to 100, picked with `random.randint(1, 100)`.
+Write Caitlin's game. The number is from 1 to 100, picked with `random.randint(1, 100)`.
 
 ```
 Guess? 50

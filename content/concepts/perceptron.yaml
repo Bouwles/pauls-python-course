@@ -64,7 +64,7 @@ cards:
     tests: |
       TESTS = [output("It moves towards the night", expect="[0.15 0.3 ] 0.5")]
   - type: fix
-    prompt: "A neuron with every weight at 0 should keep the dome shut, but this one opens it. Fix `predict`."
+    prompt: "A neuron with every weight at 0 should say no, but this one says yes. Fix `predict`."
     code: |
       import numpy as np
 
@@ -77,7 +77,7 @@ cards:
       print(predict(np.zeros(2), 0.0, np.array([0.4, 0.4])))
       print(predict(np.array([1.0, 1.0]), -0.5, np.array([0.4, 0.4])))
     tests: |
-      TESTS = [output("Shut at exactly 0, open above it", expect="0\n1")]
+      TESTS = [output("No at exactly 0, yes above it", expect="0\n1")]
     solution: |
       import numpy as np
 
@@ -127,10 +127,10 @@ cards:
     prompt: "Which rule can one perceptron never learn, however many epochs it gets?"
     verify: none
     options:
-      - text: "Open the dome when the cloud is under 0.3."
+      - text: "Go stargazing when the cloud is under 0.3."
         feedback: "One reading and a threshold: a straight line does that easily."
-      - text: "Open when cloud plus humidity is under 0.8."
+      - text: "Go when cloud plus humidity is under 0.8."
         feedback: "That is a straight line through the readings, exactly what a perceptron draws."
-      - text: "Cross when the tide and the wind agree: both high or both low."
+      - text: "Cycle when the rain and the wind agree: both high or both low."
         correct: true
         feedback: "Right. The yeses sit at opposite corners, and no single straight line splits them from the noes."

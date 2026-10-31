@@ -1,4 +1,4 @@
-# The census tables, for Mr Ashby and the council.
+# The census tables, from the Archive's cabinets.
 import pandas as pd
 
 

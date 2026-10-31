@@ -20,8 +20,8 @@ cards:
   - type: choice
     prompt: What does this print?
     code: |
-      sailing = True
-      print(type(sailing))
+      running = True
+      print(type(running))
     options:
       - text: "<class 'bool'>"
         correct: true
@@ -34,8 +34,8 @@ cards:
   - type: choice
     prompt: What happens?
     code: |
-      sailing = true
-      print(sailing)
+      running = true
+      print(running)
     verify: error
     options:
       - text: It prints True
@@ -45,18 +45,18 @@ cards:
         correct: true
         error: NameError
   - type: fix
-    prompt: "The ferry is sailing, so this should print `All aboard`. Fix the first line."
+    prompt: "The bus is running, so this should print `All aboard`. Fix the first line."
     code: |
-      sailing = "True"
-      if sailing == True:
+      running = "True"
+      if running == True:
           print("All aboard")
       else:
           print("Not today")
     tests: |
-      TESTS = [output("Sailing", expect="All aboard")]
+      TESTS = [output("Running", expect="All aboard")]
     solution: |
-      sailing = True
-      if sailing == True:
+      running = True
+      if running == True:
           print("All aboard")
       else:
           print("Not today")
@@ -73,17 +73,17 @@ cards:
           output("Age 5", set_vars={"age": 5}, expect="False"),
       ]
   - type: write
-    prompt: "`tide` holds a height in metres. Make `can_sail` hold `True` when the tide is 2 metres or more, and `False` otherwise. Print it."
+    prompt: "`rain` holds tomorrow's forecast in millimetres. Make `umbrella` hold `True` when it's 2 mm or more, and `False` otherwise. Print it."
     starter: |
-      tide = 2.5
+      rain = 2.5
     tests: |
       TESTS = [
-          output("2.5 metres", expect="True"),
-          output("1.8 metres", set_vars={"tide": 1.8}, expect="False"),
-          output("Exactly 2 metres", set_vars={"tide": 2}, expect="True"),
-          variable("can_sail is a bool", variable="can_sail", expect=True),
+          output("2.5 mm", expect="True"),
+          output("1.8 mm", set_vars={"rain": 1.8}, expect="False"),
+          output("Exactly 2 mm", set_vars={"rain": 2}, expect="True"),
+          variable("umbrella is a bool", variable="umbrella", expect=True),
       ]
     solution: |
-      tide = 2.5
-      can_sail = tide >= 2
-      print(can_sail)
+      rain = 2.5
+      umbrella = rain >= 2
+      print(umbrella)

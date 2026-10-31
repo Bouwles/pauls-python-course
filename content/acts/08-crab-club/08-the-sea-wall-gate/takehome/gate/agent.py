@@ -1,16 +1,10 @@
-"""The gate keeper: learns when to wind the gate, by tabular Q-learning.
-
-From the sea wall's logbook, in the margin, in pencil:
-The machine on the hill learned this gate by watching me work it, six
-winters of spring tides. I never once let it learn by trying. You cannot
-practise on a harbour: the quay only has to flood once. A.P.
-"""
+"""The gate keeper: learns when to wind the gate, by tabular Q-learning."""
 
 import numpy as np
 
 from gate_env import TideGateEnv
 
-# Moss's suggestion for cutting the four numbers into bins. Change them if you like.
+# Paul's suggestion for cutting the four numbers into bins. Change them if you like.
 LEVELS = [2.25, 2.5, 2.75, 3.0, 3.25, 3.5, 3.75]   # harbour level: 8 bins
 DIFFERENCES = [-0.5, 0.0, 0.5]                      # sea minus harbour: 4 bins
 # With the gate's 5 notches and rising or falling: 8 x 4 x 5 x 2 rows of 3 actions.

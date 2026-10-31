@@ -1,8 +1,8 @@
 TESTS = [
-    output("High tide, light wind", inputs=["high", "12"], expect="Sailing", visible=True),
-    output("High tide, a gale", inputs=["high", "40"], expect="No sailing. Gale.", visible=True),
-    output("Low tide, light wind", inputs=["low", "12"], expect="No sailing. Wait for the tide.",
-           hint="At low tide the wind doesn't matter. That else lines up with the tide test."),
-    output("Low tide, a gale", inputs=["low", "40"], expect="No sailing. Wait for the tide."),
-    output("High tide, exactly 34 knots", inputs=["high", "34"], expect="No sailing. Gale."),
+    output("Dry and mild", inputs=["dry", "12"], expect="Run outside", visible=True),
+    output("Dry and a heatwave", inputs=["dry", "34"], expect="Treadmill. Too hot.", visible=True),
+    output("Wet and mild", inputs=["wet", "12"], expect="Treadmill. Wait for the rain to stop.",
+           hint="When it's wet the temperature doesn't matter. That else lines up with the weather test."),
+    output("Wet and a heatwave", inputs=["wet", "34"], expect="Treadmill. Wait for the rain to stop."),
+    output("Dry, exactly 30 degrees", inputs=["dry", "30"], expect="Treadmill. Too hot."),
 ]

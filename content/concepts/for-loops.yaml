@@ -3,9 +3,9 @@ title: for loops
 summary: |
   A `for` loop repeats the indented lines under it, once for each value it is given: `for i in range(3):` runs its body three times. The colon starts the body. The first line back at the left edge is after the loop, and runs once.
 example: |
-  for sweep in range(3):
-      print("Sweep")
-  print("Lamp lit")
+  for tick in range(3):
+      print("Tick")
+  print("Still 3:14")
 misconceptions: [unindented-line-in-loop, indented-line-runs-once, loop-body-runs-once]
 related: [range, loop-variables, tracing-loops]
 drill: true
@@ -56,20 +56,20 @@ cards:
       for check in range(3):
           print("All well")
   - type: fill
-    prompt: "Fill the gap so this prints `Lamp turning` four times."
+    prompt: "Fill the gap so this prints `Fan spinning` four times."
     code: |
       ___ turn in range(4):
-          print("Lamp turning")
+          print("Fan spinning")
     blanks: [["for"]]
     tests: |
-      TESTS = [output("Four times", expect="Lamp turning\nLamp turning\nLamp turning\nLamp turning")]
+      TESTS = [output("Four times", expect="Fan spinning\nFan spinning\nFan spinning\nFan spinning")]
   - type: write
-    prompt: "Print `Gull` five times, one per line, using a loop."
+    prompt: "Print `Lap` five times, one per line, using a loop."
     tests: |
       TESTS = [
-          output("Five gulls", expect="Gull\nGull\nGull\nGull\nGull"),
+          output("Five laps", expect="Lap\nLap\nLap\nLap\nLap"),
           structure("Uses a for loop", requires=["For"], message="Use a for loop rather than five prints."),
       ]
     solution: |
-      for gull in range(5):
-          print("Gull")
+      for lap in range(5):
+          print("Lap")

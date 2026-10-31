@@ -4,9 +4,9 @@ type: milestone
 title: "Milestone 3: one thing the paper didn't try"
 evidence: link
 dialogue:
-  - wendt: "Now ask it something the authors didn't. That's where reproducing turns into finding out."
-  - pip: "I'll change everything at once. Faster."
-  - moss: "Then you'll know something changed, and nothing else."
+  - neil: "Now ask it something the authors didn't. That's where reproducing turns into finding out."
+  - yahya: "I'll change everything at once. Faster."
+  - paul: "Then you'll know something changed, and nothing else."
 checklist:
   - id: one-change
     text: "You've changed exactly one thing, and kept everything else as it was."

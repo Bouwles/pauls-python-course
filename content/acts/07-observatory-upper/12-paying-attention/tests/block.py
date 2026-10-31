@@ -33,7 +33,7 @@ def ref_block(X, p):
     return X + ref_feed_forward(ref_layer_norm(X, p["ln2_gain"], p["ln2_shift"]), p["W1"], p["b1"], p["W2"], p["b2"])
 
 
-def her_weights():
+def test_weights():
     with open("block_weights.json") as f:
         raw = json.load(f)
     params = {name: np.array(value) for name, value in raw.items() if name not in ("heads", "vocab")}
@@ -75,9 +75,9 @@ def rows_normed(ctx):
     close("layer_norm on two rows, gain 1 and shift 0: each row to mean 0, spread 1", m.layer_norm(X.copy(), gain, shift), ref_layer_norm(X, gain, shift))
 
 
-def her_block(ctx):
+def test_block(ctx):
     m = load(ctx)
-    params, vocab = her_weights()
+    params, vocab = test_weights()
     X = embed(params, vocab, "the hill.")
     close("The block on \"the hill.\"", m.transformer_block(X.copy(), params), ref_block(X, params))
 
@@ -109,7 +109,7 @@ def thinks(ctx):
 
 def way_round(ctx):
     m = load(ctx)
-    params, vocab = her_weights()
+    params, vocab = test_weights()
     quiet = dict(params)
     quiet["Wo"] = np.zeros_like(params["Wo"])
     quiet["W2"] = np.zeros_like(params["W2"])
@@ -120,14 +120,14 @@ def way_round(ctx):
 
 def other_text(ctx):
     m = load(ctx)
-    params, vocab = her_weights()
+    params, vocab = test_weights()
     X = embed(params, vocab, "gale. rough sea")
     close("The block on fifteen characters", m.transformer_block(X.copy(), params), ref_block(X, params))
 
 
 def no_peeking(ctx):
     m = load(ctx)
-    params, vocab = her_weights()
+    params, vocab = test_weights()
     first = np.asarray(m.transformer_block(embed(params, vocab, "the hill."), params), dtype=float)
     second = np.asarray(m.transformer_block(embed(params, vocab, "the hilly"), params), dtype=float)
     if not np.allclose(first[:-1], second[:-1]):
@@ -146,7 +146,7 @@ def program(ctx):
 TESTS = [
     custom("Layer norm works along each row", rows_normed, visible=True,
            hint="Layer norm is batch norm turned round: the mean and variance of each row, axis=1, keepdims=True."),
-    custom("The block on \"the hill.\"", her_block, visible=True),
+    custom("The block on \"the hill.\"", test_block, visible=True),
     custom("Layer norm with a gain and a shift", gain_shift),
     custom("Several heads side by side", heads,
            hint="np.concatenate(outputs, axis=1) puts the heads' outputs side by side: (n, 2) three times makes (n, 6)."),

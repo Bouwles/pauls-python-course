@@ -11,8 +11,8 @@ const KEYS: [React.ReactNode, string][] = [
   [<><kbd>Esc</kbd> then <kbd>Tab</kbd></>, "Leave the editor"],
   [<><kbd>Ctrl</kbd> or <kbd>Cmd</kbd> + <kbd>Z</kbd></>, "Undo"],
   [<><kbd>Ctrl</kbd> or <kbd>Cmd</kbd> + <kbd>F</kbd></>, "Find"],
-  [<kbd>Space</kbd>, "Next line of dialogue (outside the editor)"],
-  [<kbd>Esc</kbd>, "Close Dennis's drawer"],
+  [<><kbd>Alt</kbd> + arrows, <kbd>Tab</kbd></>, "Move and indent a block when arranging lines"],
+  [<kbd>Esc</kbd>, "Put the duck away"],
 ];
 
 /** The Keys sheet: every keyboard shortcut in one place, so buttons never have to show them. */
@@ -22,12 +22,12 @@ export function ShortcutsSheet({ onClose }: { onClose: () => void }) {
     dialog.current?.showModal();
   }, []);
   return (
-    <dialog ref={dialog} className={`frame-panel ${styles.sheet}`} onClose={onClose} aria-labelledby="keys-title">
+    <dialog ref={dialog} className={`float ${styles.sheet}`} onClose={onClose} aria-labelledby="keys-title">
       <div className={styles.head}>
         <h2 id="keys-title" className={styles.title}>
           Keys
         </h2>
-        <Button size="sm" variant="quiet" onClick={() => dialog.current?.close()}>
+        <Button size="sm" variant="ghost" icon="close" onClick={() => dialog.current?.close()}>
           Close
         </Button>
       </div>

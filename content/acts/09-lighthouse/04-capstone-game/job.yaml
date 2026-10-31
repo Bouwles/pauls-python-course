@@ -4,9 +4,9 @@ project_name: "Arcade Catch Game"
 portfolio_readme: |
   # Arcade Catch Game
 
-  Mackerel Night, a Pygame arcade game for a cabinet on the pier. Mackerel and old boots fall; the player slides a bucket along the pier to catch the fish and dodge the boots. Three lives, nine levels that fall faster, and the best five scores kept on the cabinet overnight. The rules live in their own module with no Pygame in it, so every rule is tested without opening a window.
+  Mackerel Night, a Pygame arcade game for a cabinet in the Arcade. Mackerel and old boots fall off a pier; the player slides a bucket along it to catch the fish and dodge the boots. Three lives, nine levels that fall faster, and the best five scores kept on the cabinet overnight. The rules live in their own module with no Pygame in it, so every rule is tested without opening a window.
 
-  Written by {name} for Gwen at The Drowned Anchor, {{town}}. Finished {date}.
+  Written by {name} for Caitlin, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -30,21 +30,21 @@ portfolio_readme: |
   - A game handed to real players, with what they found written down and fixed
 downloadable: true
 datasets: []
-client: gwen
+client: caitlin
 building: lighthouse
 estimated_minutes: 1200
-summary: "Mackerel Night, a Pygame game for the new cabinet on the pier: rules you can test without a window, drawing kept apart, played by real people and handed to Gwen."
+summary: "Mackerel Night, a Pygame game for a new cabinet in the Arcade: rules you can test without a window, drawing kept apart, played by real people and handed to Caitlin."
 concepts_introduced: [game-loop]
 concepts_reviewed: [classes, init, attributes, methods, self, dataclasses, random-module, while-loops, if-elif-else, modules, main-guard, argparse, files, json-module, pytest, assert, edge-cases, test-first, virtual-environments, git-basics]
 ask:
   dialogue:
-    - gwen: "The pier's getting a cabinet. A proper one, with a joystick, and a coin slot I've taped over."
-    - gwen: "Mackerel fall, you catch them in a bucket, boots cost you a life. Like a Saturday at the Anchor."
-    - pip: "I'll make the mackerel spin. And explode."
-    - gwen: "Make them land first. Then we'll talk about exploding."
-    - moss: "The rules in one file, the drawing in another. Then the rules can be tested."
+    - caitlin: "A new cabinet for the Arcade. Proper joystick, and a coin slot I've taped over."
+    - caitlin: "Mackerel fall off a pier, you catch them in a bucket, and boots cost you a life."
+    - yahya: "Make the mackerel faster every level. Twice as fast."
+    - caitlin: "Make them land first. Then we'll talk about twice as fast."
+    - paul: "The rules in one file, the drawing in another. Then the rules can be tested."
   spec: |
-    Gwen's rules, written down at last:
+    Caitlin's rules, written down at last:
 
     1. Mackerel and old boots fall from the top of the screen. The player slides a bucket along the pier at the bottom.
     2. A mackerel in the bucket scores 1. A boot in the bucket costs a life. Anything missed falls in the sea and costs nothing.
@@ -69,13 +69,12 @@ ask:
     {'bucket_x': 208, 'items': [], 'score': 1, 'lives': 3, 'level': 1, 'over': False}
 ship:
   dialogue:
-    - gwen: "Tom got forty-two on the first night. He says he's had practice."
-    - gwen: "Nobody's said it's fiddled. They've said it's unfair, which is different, and good for trade."
-    - pip: "The mackerel don't explode. I've made my peace with it."
-    - moss: "Rules tested, drawing kept apart, strangers playing it. That's a game, not a demo."
-  shelf: { object: pier-cabinet, label: "Mackerel Night, on the cabinet at the end of the pier" }
+    - caitlin: "Yahya got forty-two on the first night. He says he's had practice."
+    - yahya: "I've had practice."
+    - caitlin: "Nobody's said it's fiddled. They've said it's unfair, which is different, and good for the leaderboard."
+    - paul: "Rules tested, drawing kept apart, strangers playing it. That's a game, not a demo."
+  shelf: { object: pier-cabinet, label: "Mackerel Night, on a new cabinet in the Arcade" }
   cards: [game-loop]
-story_note: the-hard-version
 stretch:
   - id: splash
     title: "A splash and a clunk"

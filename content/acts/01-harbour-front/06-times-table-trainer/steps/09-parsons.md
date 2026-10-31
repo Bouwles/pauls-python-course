@@ -3,7 +3,7 @@ id: parsons
 type: parsons
 title: The whole square
 dialogue:
-  - tom: "Ellie wants the square for her bedroom wall. Rows and columns, all of it."
+  - riya: "He wants the whole square too. Rows and columns, all of it."
 blocks:
   - { code: 'size = int(input("Size? "))', indent: 0 }
   - { code: "for row in range(1, size + 1):", indent: 0 }

@@ -1,0 +1,84 @@
+id: notebook-reader
+title: "Notebook Reader"
+project_name: "Notebook Reader"
+portfolio_readme: |
+  # Notebook Reader
+
+  A character-level neural language model, built from scratch in NumPy, that learns a writer's voice from 85 short notes and finishes a note when you start one. It looks at the four characters before each one through learnt embeddings and a tanh layer, is trained on mini-batches, beats a bigram baseline on notes it never saw, and samples the rest of a note with a temperature. A test plan and a write-up of what worked come with it.
+
+  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
+
+  ## Run it
+
+  ```
+  pip install numpy
+  python model.py
+  python reader.py
+  ```
+
+  `model.py` trains the network and saves `my_weights.json`; `reader.py` finishes notes with those weights, or with the weights that came with the project if you haven't trained your own.
+
+  ```
+  The duck. P.
+  Always the likeliest: The clock and the code it has not a the code it has not a the code it
+  ```
+
+  ## What it shows
+
+  - A whole deep learning project in four modules: data windows, a baseline, a model, and an app that uses it
+  - Embeddings, a hidden layer, softmax and cross-entropy, with backpropagation written by hand and checked numerically
+  - Perplexity on held-back text, beside a counting baseline, so the improvement is measured rather than claimed
+  - Sampling with a seed and a temperature, saving and loading weights as JSON, and a written test plan
+
+  ## Data
+
+  `notes.txt` is invented for the project: 85 one-line notes in Paul's voice, the comments he leaves on code and in the margins of his notebook, each signed P.
+downloadable: true
+datasets: []
+client: aaesha
+building: observatory
+estimated_minutes: 600
+summary: "The Act VII capstone, a deep learning project from start to finish: a small network learns Paul's notes four characters at a time, beats the bigram on notes it never saw, and finishes a note when you start one. With a write-up."
+concepts_introduced: []
+concepts_reviewed: [language-models, embeddings, tokenisation, backpropagation, numerical-gradient-checking, optimisers, activation-functions, neural-networks, train-test-split, overfitting, regularisation, random-module, json-module, files, modules, docstrings]
+ask:
+  dialogue:
+    - aaesha: "Every comment Paul has left on our code, and the notes in the margins of his notebook. Eighty-five, one a line."
+    - aaesha: "I'd like a machine that reads them, and finishes a note when you start one. In his voice."
+    - paul: "And when it finishes one I never wrote?"
+    - aaesha: "Then we'll know how well it learnt you. How you sound, anyway. Not what you mean."
+    - caitlin: "I can do his voice. Name it properly. P."
+  spec: |
+    The Notebook Reader, in four files, built in this order. Each starter is almost empty: a docstring listing what to write.
+
+    1. `notes.py`: load the 85 notes, hold every fifth back, build the vocabulary (with the newline), and cut the notes into windows: the ids of the characters before each character, padded with newlines, and its own id.
+    2. `baseline.py`: perplexity, and the bigram, counted from the last character of each window. The scores to beat.
+    3. `model.py`: a network that looks up the embeddings of four characters, lays them in a row, and guesses the fifth through a tanh layer and softmax. Forward, backward, and training on mini-batches. Run as a program, it trains and saves `my_weights.json`.
+    4. `reader.py`: `complete(start, params, vocab, rng, temperature=1.0, limit=200)` finishes a note, with the same note every time for the same seed. Run as a program, it reads with your weights if you've trained them, and Aaesha's if not.
+    5. A write-up and a test plan, through Paul's checklist.
+  example: |
+    Reading with Aaesha's weights.
+    Good names one a you came test poen thing, the code that are in the code. P.
+    The duck. P.
+    Whoever reads this nrom the son. P.
+ship:
+  dialogue:
+    - aaesha: "Perplexity 6.9 on notes it never saw. The bigram managed 10.7, and guessing 55."
+    - neil: "Start a note with the duck, and it writes: 'The duck.' Full stop. It's learnt that the duck never says anything."
+    - yahya: "Ask it for the likeliest every time and it says 'the code it has not' for ever. Like the clock."
+    - paul: "It's learnt how I sound. Nobody's learnt what I mean. Not yet."
+  shelf: { object: lectern, label: "Paul's Notebook Reader" }
+  cards: []
+stretch:
+  - id: early-stopping
+    title: "Stop it when it was best"
+    prompt: |
+      Hold back every fourth of the 68 learning notes as a validation set. Train for 5000 steps, measuring the validation perplexity every 100, and keep the weights from the best, as in the Seeing Forecaster. Does it beat 6.89 on the held-back notes? You chose with the validation notes, not the held-back ones, so the held-back score is still fair.
+  - id: wider-window
+    title: "Further back"
+    prompt: |
+      Try windows of 2, 3, 6 and 8 characters, retraining each time, and compare the held-back perplexities. Longer should know more. Does it, with only 68 notes to learn from? Write down what you find, and a guess at why.
+  - id: attention-instead
+    title: "Attention instead of a window, at home"
+    prompt: |
+      On your own computer, with PyTorch: replace the window with the transformer block from Tiny GPT, two blocks of four heads over the last 32 characters, and train it on `notes.txt`. Compare its held-back perplexity with your window's, and its notes with your reader's.

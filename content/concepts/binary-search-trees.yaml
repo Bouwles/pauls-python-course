@@ -53,7 +53,7 @@ cards:
       print(root.left.right.number, root.right.number)
     answer: "30 60"
   - type: choice
-    prompt: "Nell files 1,023 cards in number order, smallest first. How many looks does finding the biggest take?"
+    prompt: "Aaesha files 1,023 cards in number order, smallest first. How many looks does finding the biggest take?"
     verify: none
     options:
       - text: "1,023: every card is on the right of the one before, so the tree is a stick"
@@ -63,7 +63,7 @@ cards:
         misconception: bst-always-balanced
         feedback: "It only halves them if the tree is bushy. The order cards are filed in decides the shape, and number order gives a stick."
   - type: choice
-    prompt: "To find 342 in Penhallow's tree (500 at the root, 250 to its left, 342 to the right of 250), which cards does find look at?"
+    prompt: "To find 342 in this tree (500 at the root, 250 to its left, 342 to the right of 250), which cards does find look at?"
     verify: none
     options:
       - text: "500, 250, then 342"

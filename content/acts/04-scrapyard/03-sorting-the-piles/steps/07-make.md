@@ -5,7 +5,7 @@ title: Make the sorting visualiser
 files: [piles.py, sorter.py]
 entry: sorter.py
 starter_from: make-piles
-on_pass: { nell: "Lightest first, and every tie in the order it came off the lorry. The merchant can't argue with that." }
+on_pass: { yahya: "Merge, quick and sorted() all agree, ties and all. sorted() still wins. Of course it does." }
 hints:
   nudge: "Merge sort starts with every part as a pile of one and merges them up. Quick sort starts with one pile and splits it down. How many piles are there after one round of each?"
   plan:
@@ -42,8 +42,8 @@ hints:
                 lighter = [item for item in pile if key(item) < pivot]
                 ...
 ---
-The second half, in `sorter.py`: `merge`, `merge_sort` and `quick_sort`, each taking a `key` as `sorted` does. Your `piles.py` comes with you, and the visualiser at the bottom is written: it asks which sort to show, plays its frames, then races merge and quick against `sorted()` on the pier lot.
+The second half, in `sorter.py`: `merge`, `merge_sort` and `quick_sort`, each taking a `key` as `sorted` does. Your `piles.py` comes with you, and the visualiser at the bottom is written: it asks which sort to show, plays its frames, then races merge and quick against `sorted()` on the clockmaker's lot.
 
-Both new sorts work in rounds, and a frame is every pile after a round, laid end to end. Merge sort merges piles of one in pairs until one is left, comparing `key(...)` of the front parts. Quick sort is Pip's, fixed, by rounds: split every pile of two or more round its first part. A part that weighs the same as the pivot is finished: a pile of one.
+Both new sorts work in rounds, and a frame is every pile after a round, laid end to end. Merge sort merges piles of one in pairs until one is left, comparing `key(...)` of the front parts. Quick sort is Yahya's, fixed, by rounds: split every pile of two or more round its first part. A part that weighs the same as the pivot is finished: a pile of one.
 
 Ties keep their order in both. The hidden checks sort empty, odd, ordered and back-to-front piles, check every tie, and count how often merge sort calls `key`.

@@ -6,7 +6,7 @@ example: |
   def label(*lines, border="-", **notes):
       print(lines, border, notes)
 
-  label("Kettle", "Bea", border="=", spout="rewelded")
+  label("Kettle", "Neil", border="=", spout="descaled")
 misconceptions: [star-args-is-list, star-args-takes-one, positional-reaches-keyword-only, kwargs-gathers-values-only]
 related: [keyword-arguments, default-arguments]
 drill: true
@@ -17,7 +17,7 @@ cards:
       def count(*items):
           return len(items)
 
-      print(count("bread", "buns", "cake"), count())
+      print(count("tea", "coffee", "cake"), count())
     answer: "3 0"
   - type: choice
     prompt: What does this print?
@@ -43,7 +43,7 @@ cards:
 
       print(total(240, 85, 85))
     tests: |
-      TESTS = [output("A loaf and two buns", expect="410")]
+      TESTS = [output("A sandwich and two cookies", expect="410")]
     solution: |
       def total(*prices):
           return sum(prices)
@@ -58,18 +58,18 @@ cards:
               lines.append(f"{name}: {value}")
           return "\n".join(lines)
 
-      print(tag("kettle", spout="rewelded"))
+      print(tag("kettle", spout="descaled"))
     blanks: [["**"]]
     tests: |
-      TESTS = [output("The kettle's note", expect="kettle\nspout: rewelded")]
+      TESTS = [output("The kettle's note", expect="kettle\nspout: descaled")]
   - type: write
     prompt: "Write `shout(*words)`, which returns all the words in capitals, joined with spaces."
     starter: |
       # shout(*words)
     tests: |
       TESTS = [
-          function("Four words", call="shout", args=("fog", "on", "the", "quay"), expect="FOG ON THE QUAY"),
-          function("One word", call="shout", args=("gulls",), expect="GULLS"),
+          function("Four words", call="shout", args=("tabs", "are", "not", "spaces"), expect="TABS ARE NOT SPACES"),
+          function("One word", call="shout", args=("python",), expect="PYTHON"),
           function("No words", call="shout", args=(), expect=""),
       ]
     solution: |

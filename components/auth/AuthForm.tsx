@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "@/lib/store/session";
 import { Button, LinkButton } from "../ui/Button";
-import { PixelIcon } from "../ui/PixelIcon";
+import { Icon } from "../ui/Icon";
 import styles from "./AuthForm.module.css";
 
 export function AuthForm({ mode }: { mode: "signup" | "login" }) {
@@ -76,17 +76,17 @@ export function AuthForm({ mode }: { mode: "signup" | "login" }) {
     <form className={styles.form} onSubmit={submit} noValidate>
       {keep ? (
         <p className={styles.keep}>
-          <PixelIcon name="saved" />
+          <Icon name="saved" />
           <span>Your work so far moves into the new account.</span>
         </p>
       ) : null}
       <label className={styles.field}>
-        <span className={styles.label}>Email</span>
+        <span className="label">Email</span>
         <input type="email" autoComplete="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
       </label>
       {!useLink ? (
         <label className={styles.field}>
-          <span className={styles.label}>Password</span>
+          <span className="label">Password</span>
           <input
             type="password"
             autoComplete={mode === "signup" ? "new-password" : "current-password"}
@@ -114,26 +114,28 @@ export function AuthForm({ mode }: { mode: "signup" | "login" }) {
       ) : null}
       {error ? (
         <p className={styles.error} role="alert">
-          <PixelIcon name="cross" />
+          <Icon name="warning" />
           <span>{error}</span>
         </p>
       ) : null}
       <Button type="submit" variant="primary" className={styles.submit} disabled={busy || !email || (!useLink && !password) || (mode === "signup" && !age)}>
         {busy ? "One moment" : useLink ? "Email me a link" : mode === "signup" ? "Make the account" : "Log in"}
       </Button>
-      <Button type="button" variant="quiet" className={styles.toggle} onClick={() => setUseLink((v) => !v)}>
+      <Button type="button" variant="ghost" className={styles.toggle} onClick={() => setUseLink((v) => !v)}>
         {useLink ? "Use a password instead" : "Email me a sign-in link instead"}
       </Button>
       {oauth.length ? (
         <div className={styles.oauth}>
-          <p className={styles.or}>Or</p>
+          <p className={styles.or}>
+            <span>or</span>
+          </p>
           {oauth.includes("google") ? (
-            <LinkButton variant="quiet" className={styles.provider} href={mode === "signup" && !age ? undefined : "/api/auth/oauth/google"} aria-disabled={mode === "signup" && !age}>
+            <LinkButton variant="secondary" className={styles.provider} href={mode === "signup" && !age ? undefined : "/api/auth/oauth/google"} aria-disabled={mode === "signup" && !age}>
               Continue with Google
             </LinkButton>
           ) : null}
           {oauth.includes("github") ? (
-            <LinkButton variant="quiet" className={styles.provider} href={mode === "signup" && !age ? undefined : "/api/auth/oauth/github"} aria-disabled={mode === "signup" && !age}>
+            <LinkButton variant="secondary" icon="github" className={styles.provider} href={mode === "signup" && !age ? undefined : "/api/auth/oauth/github"} aria-disabled={mode === "signup" && !age}>
               Continue with GitHub
             </LinkButton>
           ) : null}

@@ -3,8 +3,8 @@ title: Backtracking
 summary: |
   Backtracking builds an answer one choice at a time, checks each choice the moment it's made, and when nothing fits, undoes the last choice and tries the next one there. A recursive function does it naturally: for each choice, make it, call yourself for the rest, and undo it if the call comes back with nothing. A branch that breaks a rule is dropped at once, so every arrangement that starts that way is never built. Seating plans, word grids, sudoku and mazes all go this way.
 example: |
-  TEAMS = ["Committee", "Spanners", "Crusts"]
-  FEUDS = {("Committee", "Spanners"), ("Spanners", "Committee")}
+  TEAMS = ["Back Row", "Tabs", "Debuggers"]
+  FEUDS = {("Back Row", "Tabs"), ("Tabs", "Back Row")}
 
 
   def seat(row):
@@ -28,8 +28,8 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      TEAMS = ["Crusts", "Ledgers", "Spanners"]
-      FEUDS = {("Crusts", "Ledgers")}
+      TEAMS = ["Debuggers", "Night Owls", "Tabs"]
+      FEUDS = {("Debuggers", "Night Owls")}
 
 
       def seat(row):
@@ -47,14 +47,14 @@ cards:
 
 
       seat([])
-    answer: "Crusts Spanners Ledgers\nLedgers Spanners Crusts"
+    answer: "Debuggers Tabs Night Owls\nNight Owls Tabs Debuggers"
   - type: choice
-    prompt: "In Moss's seating, the Committee goes at table one, and then nobody can sit at table three without a feud. What happens next?"
+    prompt: "In Paul's quiz seating, the Back Row goes at table one, and then nobody can sit at table three without a feud. What happens next?"
     verify: none
     options:
       - text: "The team at table two stands up, and the next team is tried there"
         correct: true
-        feedback: "Backtracking undoes the most recent choice first. Only when every team has failed at table two does the Committee itself stand up."
+        feedback: "Backtracking undoes the most recent choice first. Only when every team has failed at table two does the Back Row itself stand up."
       - text: "The search gives up: there's no seating"
         misconception: backtracking-stops-at-dead-end
         feedback: "One dead end only rules out that branch. There are other teams to try at table two, and others at table one after that."
@@ -64,8 +64,8 @@ cards:
   - type: fill
     prompt: "Fill the gap so a team that led nowhere is stood up again."
     code: |
-      TEAMS = ["Committee", "Spanners", "Crusts"]
-      FEUDS = {("Committee", "Spanners"), ("Spanners", "Committee")}
+      TEAMS = ["Back Row", "Tabs", "Debuggers"]
+      FEUDS = {("Back Row", "Tabs"), ("Tabs", "Back Row")}
 
 
       def seat(row):
@@ -84,7 +84,7 @@ cards:
       print(seat([]))
     blanks: [["pop"]]
     tests: |
-      TESTS = [output("The Crusts in the middle", expect="['Committee', 'Crusts', 'Spanners']")]
+      TESTS = [output("The Debuggers in the middle", expect="['Back Row', 'Debuggers', 'Tabs']")]
   - type: fix
     prompt: "`crates_for` should find crates that add up to exactly `target` kilos, each crate used at most once. For 7 kg it gives `[5, 4, 3]`. Fix it."
     code: |
@@ -142,16 +142,16 @@ cards:
     tests: |
       def three(ctx):
           module = ctx.module()
-          got = module.all_orders(["Crusts", "Ledgers", "Spanners"])
-          expected = [["Crusts", "Ledgers", "Spanners"], ["Crusts", "Spanners", "Ledgers"], ["Ledgers", "Crusts", "Spanners"],
-                      ["Ledgers", "Spanners", "Crusts"], ["Spanners", "Crusts", "Ledgers"], ["Spanners", "Ledgers", "Crusts"]]
+          got = module.all_orders(["Debuggers", "Night Owls", "Tabs"])
+          expected = [["Debuggers", "Night Owls", "Tabs"], ["Debuggers", "Tabs", "Night Owls"], ["Night Owls", "Debuggers", "Tabs"],
+                      ["Night Owls", "Tabs", "Debuggers"], ["Tabs", "Debuggers", "Night Owls"], ["Tabs", "Night Owls", "Debuggers"]]
           if not isinstance(got, list) or sorted(map(list, got)) != expected:
               raise CheckFailed("Three teams sit in six orders.", expected=expected, actual=got)
 
 
       TESTS = [
           custom("Three teams", three),
-          function("One team", call="all_orders", args=(["Lamplighters"],), expect=[["Lamplighters"]]),
+          function("One team", call="all_orders", args=(["Spaces"],), expect=[["Spaces"]]),
           structure("No itertools", forbids_calls=["permutations"], message="Build the orders yourself, one seat at a time."),
       ]
     solution: |

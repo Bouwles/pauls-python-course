@@ -4,7 +4,7 @@ type: predict
 title: Something to fall back on
 concept: default-arguments
 dialogue:
-  - mira: "Locker codes are six digits. Unless I say otherwise, which I sometimes do."
+  - neil: "Locker codes are six digits. Unless I say otherwise, which I sometimes do."
 code: |
   def test_code(length=6):
       return "0" * length
@@ -34,4 +34,4 @@ options:
 ---
 A **default argument** gives a parameter a value to use when the call leaves it out. `length=6` in the `def` line is one.
 
-This is Mira's test code for a locker that has just been fitted: all zeros, so the engineer can open it. Commit to an answer, then run it.
+This is Neil's test code for a new locker on the Studio landing: all zeros, so whoever fits it can open it. Lock in your answer, then run it.

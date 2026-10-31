@@ -6,7 +6,7 @@ portfolio_readme: |
 
   A command-line password checker. It asks for a username and a password, tests the password against six rules, and prints a reason for every rule it breaks, so whoever is typing knows exactly what to change. Then it gives a verdict: accepted or rejected.
 
-  Written by {name} for the harbour office in {{town}}. Finished {date}.
+  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -15,8 +15,8 @@ portfolio_readme: |
   ```
 
   ```
-  Username? tom
-  Password? Lamp1962
+  Username? paul
+  Password? Clock0314
   Too short: at least 10 characters.
   Ends in a year.
   Password rejected.
@@ -39,20 +39,20 @@ portfolio_readme: |
   - Every rule checked on its own, so every problem is reported, not just the first
 downloadable: true
 datasets: []
-client: agnes
+client: aaesha
 building: harbour-office
 estimated_minutes: 45
-summary: "Six rules for the harbour office passwords, and a reason for every one a password breaks."
+summary: "Six rules for the class's shared accounts, and a reason for every one a password breaks."
 concepts_introduced: [string-methods, string-slicing, immutability, strip-replace, boolean-operators, in-operator]
 concepts_reviewed: [strings, bool, comparisons, if-elif-else, input-returns-text, variables, f-strings]
 ask:
   dialogue:
-    - agnes: "The harbour office is going on the computer. Everyone needs a password."
-    - agnes: "Last time, four people chose harbour1. One chose password. That was my deputy."
-    - agnes: "Requirements attached. Six of them. When it says no, it says why."
-    - moss: "She numbers her shopping as well."
+    - aaesha: "The class has shared accounts now. The server, the shared drive, the printer."
+    - aaesha: "Last year, all three had the password clocktower1. Four people knew it. Then everyone did."
+    - aaesha: "Six rules, numbered. When it says no, it says why."
+    - paul: "Numbered requirements. Every programmer's favourite kind."
   spec: |
-    Requirements, from Agnes Rook, harbour master.
+    Requirements, from Aaesha. Numbered, naturally.
 
     Ask for a username (`Username? `) and a password (`Password? `). For every rule the password breaks, print the reason, in this order:
 
@@ -65,29 +65,30 @@ ask:
 
     The last line is `Password accepted.` if it broke no rules, and `Password rejected.` if it broke any.
   example: |
-    Username? tom
-    Password? Lamp1962
+    Username? paul
+    Password? Clock0314
     Too short: at least 10 characters.
     Ends in a year.
     Password rejected.
 ship:
   dialogue:
-    - agnes: "Lamp1962. Too short, and it ends in a year. It told Tom both. Correct."
-    - agnes: "He has chosen a new one. He won't tell me what it is. Also correct."
-  shelf: { object: notice, label: "Agnes's password rules, pinned up" }
+    - aaesha: "Clock0314. Too short, and it ends in four digits. It told Paul both. Correct."
+    - paul: "I typed that one to test it."
+    - aaesha: "He's chosen a new one. He won't tell me what it is. Also correct."
+  shelf: { object: notice, label: "Aaesha's password rules, numbered" }
   cards: [string-methods, string-slicing, immutability, strip-replace, boolean-operators, in-operator]
 stretch:
   - id: passphrase
     title: "Long beats clever"
     prompt: |
-      Agnes has read that four ordinary words make a stronger password than one short clever one. A password of 20 characters or more is a **passphrase**: for a passphrase, skip rules 2, 3 and 6. Rules 4 and 5 still apply.
+      Aaesha has read that four ordinary words make a stronger password than one short clever one. A password of 20 characters or more is a **passphrase**: for a passphrase, skip rules 2, 3 and 6. Rules 4 and 5 still apply.
 
-      `the lamp goes round all night` is accepted. `tom keeps the lamp lit all night`, typed by `tom`, is not.
+      `the clock is stuck at three fourteen` is accepted. `yahya runs five km every morning`, typed by `yahya`, is not.
     tests: tests/stretch-passphrase.py
     solution: solutions/stretch-passphrase.py
   - id: usual-suspects
     title: "The usual suspects"
     prompt: |
-      Also reject anything containing `harbour`, `qwerty` or `123456`, in any case, with `Too common.` as a seventh reason.
+      Also reject anything containing `clocktower`, `qwerty` or `123456`, in any case, with `Too common.` as a seventh reason.
 
-      Careful: `if "harbour" or "qwerty" in low:` reads well and is wrong. Each side of an `or` is a whole question.
+      Careful: `if "clocktower" or "qwerty" in low:` reads well and is wrong. Each side of an `or` is a whole question.

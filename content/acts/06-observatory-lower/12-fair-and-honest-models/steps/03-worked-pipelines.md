@@ -1,10 +1,10 @@
 ---
 id: worked-pipelines
 type: worked
-title: How Moss would choose
+title: How Paul would choose
 dialogue:
-  - bea: "Some Saturdays I'm sold out by noon. Some I'm feeding the gulls at four."
-  - moss: "Passengers, rain and temperature. Let's see if it can tell which Saturday is which."
+  - riya: "Some open days the coffee's gone by noon. Some, there's a full pot left at four."
+  - paul: "Visitors, rain and temperature. Let's see if it can tell which Saturday is which."
 code: |
   import numpy as np
   from sklearn.model_selection import GridSearchCV, cross_val_score, train_test_split
@@ -12,13 +12,13 @@ code: |
   from sklearn.pipeline import make_pipeline
   from sklearn.preprocessing import StandardScaler
 
-  # Bea's Saturdays: ferry passengers, rain (mm), temperature, sold out by noon
+  # Open days: visitors, rain (mm), temperature, coffee gone by noon
   saturdays = np.loadtxt("saturdays.csv", delimiter=",", skiprows=1)
   X = saturdays[:, 1:4]
-  sold_out = saturdays[:, 4].astype(int)
+  ran_out = saturdays[:, 4].astype(int)
 
   X_train, X_test, y_train, y_test = train_test_split(
-      X, sold_out, test_size=0.25, random_state=1, stratify=sold_out)
+      X, ran_out, test_size=0.25, random_state=1, stratify=ran_out)
 
   model = make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=5))
 
@@ -50,7 +50,7 @@ explain:
   answer: "In each fold, the whole pipeline is fitted on four fifths of the training Saturdays and scored on the fifth, so the fifth is scaled with means and spreads measured without it, exactly as a new Saturday will be. Scaled beforehand, every fold's ruler would be measured partly on the Saturdays it's scored on."
   concept: pipelines
 ---
-`train_test_split` is your split from the Exam Score Model, from the library; `stratify` keeps the share of sell-outs the same in both parts.
+`train_test_split` is your split from the Exam Score Model, from the library; `stratify` keeps the share of days the coffee ran out the same in both parts.
 
 A **pipeline** chains steps into one model: `fit` scales, then teaches the k-NN; `predict` scales new readings with the same means and spreads, then asks.
 

@@ -1,5 +1,5 @@
 TESTS = [
-    output("The bell-ringers", inputs=["41.40", "6", "10"], expect="Total with tip: 45.54\nEach pays: 7.59", visible=True),
+    output("The class dinner", inputs=["41.40", "6", "10"], expect="Total with tip: 45.54\nEach pays: 7.59", visible=True),
     output("Two people, no tip", inputs=["30", "2", "0"], expect="Total with tip: 30.00\nEach pays: 15.00", visible=True),
     output("Three ways, no tip", inputs=["11", "3", "0"], expect="Total with tip: 11.00\nEach pays: 3.67",
            hint="11 shared three ways is 3.666..., which has to be rounded to two places when it's shown."),

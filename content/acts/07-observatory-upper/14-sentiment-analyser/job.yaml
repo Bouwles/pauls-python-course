@@ -2,7 +2,7 @@ id: sentiment-analyser
 title: "Sentiment Analyser"
 project_name: "Sentiment Analyser"
 status: outline
-client: wendt
+client: riya
 building: observatory
 estimated_minutes: 150
-summary: "For or against: 3,000 labelled sentences from film, product and restaurant reviews (Sentiment Labelled Sentences, UCI, CC BY 4.0). Tokenise them, learn word embeddings, and read each sentence with an LSTM, with a NumPy forward pass in the browser and training in PyTorch at home."
+summary: "Riya wants to know what customers really think, not just the star rating. For or against: 3,000 labelled sentences from film, product and restaurant reviews (Sentiment Labelled Sentences, UCI, CC BY 4.0). Tokenise them, learn word embeddings, and read each sentence with an LSTM, with a NumPy forward pass in the browser and training in PyTorch at home."

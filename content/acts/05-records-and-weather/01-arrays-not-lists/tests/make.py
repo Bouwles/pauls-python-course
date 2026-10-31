@@ -158,8 +158,8 @@ def no_loops(ctx):
 
 
 TESTS = [
-    custom("Priya's class: averages by student and by assessment", class_averages, visible=True),
-    custom("Priya's class: a curve to 12", class_curve, visible=True),
+    custom("The class: averages by student and by assessment", class_averages, visible=True),
+    custom("The class: a curve to 12", class_curve, visible=True),
     custom("z-scores for the class", class_z_scores,
            hint="Take each assessment's average off, then divide by marks.std(axis=0). Both are one number per column."),
     custom("The curve leaves the marks alone", leaves_marks_alone,
@@ -175,6 +175,6 @@ TESTS = [
     custom("Marks on the edge of a band", band_edges,
            hint="16 is an A and 15 is a B. np.digitize(final, [10, 12, 14, 16]) puts a mark of exactly 10 in group 1, with the D's."),
     custom("Four students of three marks", small_class,
-           hint="Work everything out from the array you're given. Nothing about Priya's 395 students should be written in."),
+           hint="Work everything out from the array you're given. Nothing about the 395 students should be written in."),
     custom("No loops", no_loops, hint="Every one of these is a line or two of array arithmetic. No for, no while."),
 ]

@@ -75,20 +75,20 @@ cards:
               break
           print("Trying", guess)
   - type: fill
-    prompt: "Fill the gap so the even-numbered fish are skipped."
+    prompt: "Fill the gap so the even-numbered seats are skipped."
     code: |
-      for fish in range(1, 6):
-          if fish % 2 == 0:
+      for seat in range(1, 6):
+          if seat % 2 == 0:
               ___
-          print("Keep", fish)
+          print("Keep", seat)
     blanks: [["continue"]]
     tests: |
-      TESTS = [output("Odd fish", expect="Keep 1\nKeep 3\nKeep 5")]
+      TESTS = [output("Odd seats", expect="Keep 1\nKeep 3\nKeep 5")]
   - type: write
     prompt: "Ask `Word? ` up to five times, printing each word back. If the word is `stop`, stop asking straight away, without printing it."
     tests: |
       TESTS = [
-          output("Stop after two", inputs=["cod", "crab", "stop"], expect="cod\ncrab"),
+          output("Stop after two", inputs=["tea", "cake", "stop"], expect="tea\ncake"),
           output("Five words", inputs=["a", "b", "c", "d", "e"], expect="a\nb\nc\nd\ne"),
           output("Stop first", inputs=["stop"], expect=""),
       ]

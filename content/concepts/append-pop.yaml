@@ -1,12 +1,12 @@
 id: append-pop
 title: append and pop
 summary: |
-  `parcels.append(x)` adds `x` to the end of the list. `parcels.pop()` takes the last item off and gives it back; `parcels.pop(0)` takes the first, and the rest move along. `append` changes the list itself and gives back `None`, so never write `parcels = parcels.append(x)`.
+  `queue.append(x)` adds `x` to the end of the list. `queue.pop()` takes the last item off and gives it back; `queue.pop(0)` takes the first, and the rest move along. `append` changes the list itself and gives back `None`, so never write `queue = queue.append(x)`.
 example: |
-  parcels = ["Bea", "Tom"]
-  parcels.append("Gwen")
-  taken = parcels.pop(0)
-  print(taken, parcels)
+  queue = ["Riya", "Yahya"]
+  queue.append("Caitlin")
+  served = queue.pop(0)
+  print(served, queue)
 misconceptions: [append-returns-list, pop-takes-first, append-adds-to-front]
 related: [lists, indexing]
 drill: true
@@ -14,76 +14,76 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      parcels = ["Bea", "Tom"]
-      parcels.append("Gwen")
-      print(parcels)
-    answer: "['Bea', 'Tom', 'Gwen']"
+      queue = ["Riya", "Yahya"]
+      queue.append("Caitlin")
+      print(queue)
+    answer: "['Riya', 'Yahya', 'Caitlin']"
   - type: predict
     prompt: What does this print?
     code: |
-      parcels = ["Bea", "Tom", "Gwen"]
-      taken = parcels.pop()
-      print(taken, len(parcels))
-    answer: "Gwen 2"
+      queue = ["Riya", "Yahya", "Caitlin"]
+      taken = queue.pop()
+      print(taken, len(queue))
+    answer: "Caitlin 2"
   - type: choice
     prompt: What does this print?
     code: |
-      parcels = ["Bea", "Tom"]
-      parcels = parcels.append("Gwen")
-      print(parcels)
+      queue = ["Riya", "Yahya"]
+      queue = queue.append("Caitlin")
+      print(queue)
     options:
       - text: None
         correct: true
-        feedback: "`append` changes the list and gives back `None`. That `None` is what `parcels` now holds."
-      - text: "['Bea', 'Tom', 'Gwen']"
+        feedback: "`append` changes the list and gives back `None`. That `None` is what `queue` now holds."
+      - text: "['Riya', 'Yahya', 'Caitlin']"
         misconception: append-returns-list
-        feedback: "`append` gives back `None`, not the list. Just write `parcels.append(\"Gwen\")` on its own."
-      - text: "['Gwen', 'Bea', 'Tom']"
+        feedback: "`append` gives back `None`, not the list. Just write `queue.append(\"Caitlin\")` on its own."
+      - text: "['Caitlin', 'Riya', 'Yahya']"
         misconception: append-adds-to-front
         feedback: "`append` adds to the end, and here it also gives back `None`."
   - type: choice
     prompt: What does this print?
     code: |
-      parcels = ["Bea", "Tom", "Agnes"]
-      print(parcels.pop())
+      queue = ["Riya", "Yahya", "Aaesha"]
+      print(queue.pop())
     options:
-      - text: Agnes
+      - text: Aaesha
         correct: true
-      - text: Bea
+      - text: Riya
         misconception: pop-takes-first
         feedback: "With nothing in the brackets, `pop` takes the last item. `pop(0)` takes the first."
   - type: fix
     prompt: "This should print 2. Fix it."
     code: |
-      parcels = ["Bea"]
-      parcels = parcels.append("Tom")
-      print(len(parcels))
+      queue = ["Riya"]
+      queue = queue.append("Yahya")
+      print(len(queue))
     tests: |
-      TESTS = [output("Two parcels", expect="2")]
+      TESTS = [output("Two in the queue", expect="2")]
     solution: |
-      parcels = ["Bea"]
-      parcels.append("Tom")
-      print(len(parcels))
+      queue = ["Riya"]
+      queue.append("Yahya")
+      print(len(queue))
   - type: fill
-    prompt: "Fill the gap so Gwen's parcel goes on the end."
+    prompt: "Fill the gap so Caitlin joins the end of the queue."
     code: |
-      parcels = ["Bea", "Tom"]
-      parcels.___("Gwen")
-      print(parcels)
+      queue = ["Riya", "Yahya"]
+      queue.___("Caitlin")
+      print(queue)
     blanks: [["append"]]
     tests: |
-      TESTS = [output("Three parcels", expect="['Bea', 'Tom', 'Gwen']")]
+      TESTS = [output("Three in the queue", expect="['Riya', 'Yahya', 'Caitlin']")]
   - type: write
-    prompt: "Start `row` as an empty list. Append `Bea`, `Tom` and `Agnes`, then pop the last one off and print the list."
+    prompt: "Start `row` as an empty list. Append `Riya`, `Yahya` and `Aaesha`, then pop the last one off and print the list."
     tests: |
       TESTS = [
-          output("Two left", expect="['Bea', 'Tom']"),
+          output("Two left", expect="['Riya', 'Yahya']"),
           structure("Uses append and pop", calls=["append", "pop"], message="Build the row with append, then use pop."),
       ]
     solution: |
       row = []
-      row.append("Bea")
-      row.append("Tom")
-      row.append("Agnes")
+      row.append("Riya")
+      row.append("Yahya")
+      row.append("Aaesha")
       row.pop()
       print(row)

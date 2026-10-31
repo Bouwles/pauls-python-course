@@ -4,14 +4,13 @@ import { useRef } from "react";
 import type { CheckableStep } from "@/lib/content/types";
 import type { CheckReport, Files, RunResult } from "@/lib/python/protocol";
 import type { StepProgressRow } from "@/lib/store/types";
-import { CodeWorkspace } from "../CodeWorkspace";
-import { DennisPanel } from "../DennisPanel";
-import { Hints } from "../Hints";
-import { InDialogue, InDrawer } from "../Slots";
-import { useWorkbench } from "../context";
 import { cuesFromCheck, cuesFromRun } from "@/lib/reactions";
-import { NextRow, Prose, StepHeading } from "./common";
-import { Ticket } from "../Ticket";
+import { CodeWorkspace } from "../CodeWorkspace";
+import { DuckPanel } from "../DuckPanel";
+import { Hints } from "../Hints";
+import { Instructions } from "../Instructions";
+import { useWorkbench } from "../context";
+import { NextRow, isDone } from "./common";
 import styles from "./steps.module.css";
 
 /** Lines that do something: not blank, not a comment. */
@@ -23,73 +22,54 @@ function allRequiredPassed(report: CheckReport) {
   return report.status === "ok" && report.results.length > 0 && report.results.filter((r) => !r.stretch).every((r) => r.passed);
 }
 
-/** Pip's Version, Fix, Modify and Make: write code, Check it against real tests. */
+/** Fix a classmate's version, Fix, Modify and Build: write code, Check it against real tests. */
 export function CodeStepView({ step, row }: { step: CheckableStep; row: StepProgressRow }) {
-  const { areas, job, updateStep, markPassed, react, sayLine, cue, characters } = useWorkbench();
+  const { areas, job, updateStep, markPassed, react, say, cue, classmate } = useWorkbench();
   const filesRef = useRef<(() => Files) | null>(null);
   const passed = row.status === "passed";
   const seen = row.status === "seen-solution";
 
-  // Pip says his piece again when the bug is fixed.
-  const pipAfter = step.type === "pips" ? step.dialogueAfter : [];
+  // The classmate says their piece again when their version is fixed.
+  const after = step.type === "pips" ? step.dialogueAfter : [];
 
   const onCheck = async (report: CheckReport, files: Files) => {
     const ok = allRequiredPassed(report);
     const attemptsBefore = row.attempts;
     await updateStep(step.id, (r) => ({ attempts: r.attempts + 1 }));
     const cues = cuesFromCheck(report, attemptsBefore, ok, {
-      pipsStep: step.type === "pips",
-      shorterThanPip: codeLines(files[step.entry]) < codeLines(step.starter[step.entry]),
+      classmateStep: step.type === "pips",
+      shorterThanTheirs: codeLines(files[step.entry]) < codeLines(step.starter[step.entry]),
       hintsUsed: row.hintsUsed,
+      classmate,
     });
     if (ok) {
       await markPassed(step.id);
-      // The step's own line comes first; a reaction to how it went follows it.
-      if (step.onPass) sayLine(step.onPass.who, step.onPass.text, "pleased");
-      else if (pipAfter[0]) sayLine(pipAfter[0].who, pipAfter[0].text, "proud");
-      void cue(step.onPass || pipAfter[0] ? cues.filter((c) => c.event !== "check-passed") : cues, { after: Boolean(step.onPass || pipAfter[0]) });
-    } else {
-      void cue(cues);
+      // One line when it passes: the step's own, or the classmate's thanks, or a reaction.
+      if (step.onPass) say(step.onPass.who, step.onPass.text, { face: "pleased", kind: "pass" });
+      else if (after[0]) say(after[0].who, after.filter((l) => l.who === after[0]!.who).slice(0, 2).map((l) => l.text), { face: "pleased", kind: "pass" });
+      else void cue(cues);
+    } else if (attemptsBefore >= 1 || report.status === "syntax-error") {
+      // The coach stays quiet on a first miss: the checks already say what happened.
+      void cue(cues, "error");
     }
   };
 
   const onRun = (result: RunResult) => {
-    if (result.status === "stopped") void react("moss", "stopped-loop");
+    if (result.status === "stopped") void react("stopped-loop");
     else void cue(cuesFromRun(result));
   };
 
-  const passLine = passed ? (step.onPass ? `${characters[step.onPass.who]?.name ?? step.onPass.who}: ${step.onPass.text}` : pipAfter[0] ? `Pip: ${pipAfter[0].text}` : null) : null;
-
   return (
     <>
-      <Ticket>
-        <StepHeading step={step} />
-        <Prose html={step.html} />
-        {step.visibleTests.length ? (
-          <section className={styles.visible} aria-labelledby={`visible-${step.id}`}>
-            <h3 id={`visible-${step.id}`} className="label">
-              Checks you can see
-            </h3>
-            <ul className={styles.visibleList}>
-              {step.visibleTests.map((t) => (
-                <li key={t.name} className={styles.visibleItem}>
-                  <span className={styles.visibleName}>{t.name}</span>
-                  {t.kind === "output" && t.inputs && t.inputs.length ? <pre aria-label="Typed in">{t.inputs.join("\n")}</pre> : null}
-                  {t.kind === "output" && t.expect !== undefined && t.match !== "regex" ? <pre aria-label="Prints">{t.expect}</pre> : null}
-                  {(t.kind === "function" || t.kind === "variable") && t.call ? <pre aria-label="Call">{`${t.call}  gives  ${t.expect}`}</pre> : null}
-                </li>
-              ))}
-            </ul>
-            {step.requiredCount > step.visibleTests.length ? (
-              <p className={styles.nextNote}>
-                Plus {step.requiredCount - step.visibleTests.filter((t) => !t.stretch).length} more with different values when you press Check.
-              </p>
-            ) : null}
-          </section>
-        ) : null}
-        {seen ? <p className={styles.nextNote}>You&apos;ve seen the solution for this one. A fresh version will turn up in your review.</p> : null}
-        <NextRow row={row} doneText={passed && step.type === "make" ? "Next is the Ship." : undefined} />
-      </Ticket>
+      <Instructions
+        step={step}
+        hints={step.hints ? <Hints stepId={step.id} hints={step.hints} row={row} /> : null}
+        duck={<DuckPanel stepId={step.id} row={row} source={() => filesRef.current?.()[step.entry] ?? ""} />}
+        checks={step.visibleTests.length ? { tests: step.visibleTests, required: step.requiredCount } : null}
+        footer={<NextRow row={row} editor doneText={passed && step.type === "make" ? "Next is the Ship." : undefined} />}
+      >
+        {seen ? <p className={styles.note}>You&apos;ve seen the solution for this one. A fresh version will turn up in your review.</p> : null}
+      </Instructions>
       <div className={areas.stage}>
         <CodeWorkspace
           stepId={step.id}
@@ -98,22 +78,15 @@ export function CodeStepView({ step, row }: { step: CheckableStep; row: StepProg
           starter={step.starter}
           starterFrom={step.starterFrom}
           checkKey={`${job.id}/${step.id}`}
+          checkCount={step.requiredCount}
           timeoutMs={step.timeoutMs}
           onCheck={(r, files) => void onCheck(r, files)}
           onRun={onRun}
-          passLine={passLine}
           filesRef={filesRef}
           argvField={step.argvField}
+          done={isDone(row)}
         />
       </div>
-      {step.hints ? (
-        <InDialogue>
-          <Hints step={step} hints={step.hints} row={row} />
-        </InDialogue>
-      ) : null}
-      <InDrawer>
-        <DennisPanel stepId={step.id} row={row} source={() => filesRef.current?.()[step.entry] ?? ""} />
-      </InDrawer>
     </>
   );
 }

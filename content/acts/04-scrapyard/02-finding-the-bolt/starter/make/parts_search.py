@@ -1,11 +1,11 @@
-"""Search engine for Nell's parts list: whole names, beginnings, and words anywhere."""
+"""Search engine for the store room's parts list: whole names, beginnings, and words anywhere."""
 import bisect
 
 PARTS_FILE = "parts.txt"
 
 
 def load_parts(path):
-    """Penhallow's parts book: one name a line, kept in alphabetical order."""
+    """The parts list: one name a line, kept in alphabetical order."""
     with open(path) as book:
         return sorted(line.strip() for line in book if line.strip())
 

@@ -1,6 +1,6 @@
-"""Nell's junk tower: crates inside crates. A part is a (name, kg) pair; a crate is a list."""
+"""Paul's cupboard: crates inside crates. A part is a (name, kg) pair; a crate is a list."""
 
-TOWER = [("bell", 1), [("gear", 2), [("anvil", 30)]], ("lamp", 3)]
+TOWER = [("bell", 1), [("gear", 2), [("clock-weight", 30)]], ("lamp", 3)]
 
 
 def total_weight(crate):
@@ -38,4 +38,4 @@ def path_to(crate, name):
 if __name__ == "__main__":
     print(f"Total: {total_weight(TOWER)} kg")
     print(f"Depth: {depth(TOWER)} crates")
-    print(f"The anvil: {path_to(TOWER, 'anvil')}")
+    print(f"The clock weight: {path_to(TOWER, 'clock-weight')}")

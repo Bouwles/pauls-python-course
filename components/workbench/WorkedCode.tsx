@@ -7,9 +7,10 @@ export function WorkedCode({ code, subgoals, language = "python" }: { code: stri
   const lines = highlightLines(code, language);
   const groupOf = (n: number) => subgoals.findIndex((g) => n >= g.lines[0] && n <= g.lines[1]);
   const blocks: { group: number; start: number; end: number }[] = [];
-  lines.forEach((_, i) => {
+  lines.forEach((segs, i) => {
     const n = i + 1;
-    const g = groupOf(n);
+    // A blank line stays with the block above it rather than making a block of its own.
+    const g = segs.length === 0 && blocks.length ? blocks[blocks.length - 1]!.group : groupOf(n);
     const last = blocks[blocks.length - 1];
     if (last && last.group === g) last.end = n;
     else blocks.push({ group: g, start: n, end: n });

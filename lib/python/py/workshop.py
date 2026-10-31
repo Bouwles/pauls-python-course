@@ -7,19 +7,19 @@ call, with play, pause and step controls under the output:
     from workshop import show_grid, show_graph, show_hill
 
     show_grid(values, policy=None, crab=None, walls=(), goal=(), q=None, title=None)
-        Sir Reginald's racing grid. `values` is a list of rows of numbers (or a
+        the crab's racing grid. `values` is a list of rows of numbers (or a
         2D NumPy array); each tile is tinted by its value. `policy` is a grid of
         moves ("up", "down", "left", "right", "^", "v", "<", ">", or 0 to 3 in
         that order). `q` is a grid of lists of action values, shown on hover.
 
     show_graph(edges, positions=None, visited=(), frontier=(), path=(), current=None, distances=None, title=None)
-        A graph drawn on the town map. `edges` is a dict of neighbours
-        ({"bakery": ["pub", ...]} or {"bakery": {"pub": 3, ...}}) or a list of
-        pairs or (a, b, weight) triples. Nodes named after buildings
-        ("bakery", "post-office", "lighthouse"...) sit where the building is.
+        A graph of nodes and edges. `edges` is a dict of neighbours
+        ({"lobby": ["stairs", ...]} or {"lobby": {"stairs": 3, ...}}) or a list
+        of pairs or (a, b, weight) triples. Pass `positions` ({name: (x, y)})
+        to place the nodes yourself; otherwise they're laid out for you.
 
     show_hill(x, loss, curve=None, title=None)
-        The hiker on the observatory hill. Call it once per step of gradient
+        A point rolling down a loss curve. Call it once per step of gradient
         descent with the current position and loss. Pass `curve` (the loss
         function) once and the hill is drawn from it.
 
@@ -221,7 +221,7 @@ def show_hill(x, loss, curve=None, title=None):
 
 
 def _sample_curve():
-    """Sample the loss function over the ground the hiker covered, with a margin."""
+    """Sample the loss function over the ground the point covered, with a margin."""
     xs = [x for x in _hill_xs if x is not None and abs(x) < 1e6]
     if _curve is None or not xs:
         return None

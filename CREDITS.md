@@ -1,16 +1,27 @@
 # Credits
 
-All pixel art was drawn for this project as text grids in `sprites/src` (see `sprites/README.md`). No external or generated artwork is used. If CC0 art is ever added, record its source and licence here and recolour it to `palette.json`.
+## Art
+
+The six characters (Paul, Neil, Aaesha, Caitlin, Riya and Yahya), the Clocktower, the learner's avatar parts and the Shelf objects are **placeholders until the illustrator's work arrives**: flat shapes in each character's colour with their initial, and Phosphor icons for things. The illustrations are being commissioned from a human illustrator (see `art/ARTIST_BRIEF.md`); when they arrive, the artist is credited here and on the Credits page under their name. No artwork is AI-generated.
+
+The logo, a snake curled into a P, was drawn for this project as an SVG (`public/brand/mark.svg`). The small pixel heart in the "Made with love" credit line is the one piece of pixel art kept, also drawn for this project. The rough pixel portraits in `art/pixel-reference/` are a reference for the illustrator, drawn from written descriptions; the app doesn't use them.
 
 ## Fonts (self-hosted)
 
-| Font | Author | Licence |
-| --- | --- | --- |
-| m6x11plus | Daniel Linssen | Free to use with attribution ("a font by Daniel Linssen") |
-| Atkinson Hyperlegible Next | Braille Institute of America | SIL OFL 1.1 |
-| JetBrains Mono | JetBrains | SIL OFL 1.1 |
+| Font | Use | Author | Licence |
+| --- | --- | --- | --- |
+| Bricolage Grotesque | Display: titles, names, big numbers, the wordmark, certificates and share cards | Mathieu Triay (The Bricolage Grotesque Project Authors) | SIL OFL 1.1 |
+| Atkinson Hyperlegible Next | Text and interface | Braille Institute of America | SIL OFL 1.1 |
+| JetBrains Mono | Code | JetBrains | SIL OFL 1.1 |
 
-The pixel display face, m6x11plus, is by Daniel Linssen and used with the attribution he asks for.
+All three come from Fontsource (`@fontsource-variable/bricolage-grotesque`, `@fontsource/bricolage-grotesque` for the static files the server-drawn images need, `@fontsource/atkinson-hyperlegible-next`, `@fontsource-variable/jetbrains-mono`).
+
+## Icons
+
+| Icons | Licence |
+| --- | --- |
+| Phosphor Icons (regular weight), by Helena Zhang and Tobias Fried, through `@phosphor-icons/react` | MIT |
+| The duck and the crab, drawn for this project on Phosphor's grid to match (`components/ui/Icon.tsx`) | Part of this project |
 
 ## Software
 
@@ -26,6 +37,7 @@ The pixel display face, m6x11plus, is by Daniel Linssen and used with the attrib
 | zod, yaml, marked | Content validation and rendering | MIT, ISC, MIT |
 | idb | IndexedDB wrapper | ISC |
 | fflate | Zip export | MIT |
+| next/og (@vercel/og: Satori and resvg) | Certificates and share cards, drawn on the server | MPL-2.0 |
 
 ## Sound
 
@@ -37,6 +49,7 @@ Every real public dataset a project uses, with its source and licence. Each proj
 
 | Dataset | Project | Source | Licence | Bundled as |
 | --- | --- | --- | --- | --- |
+| The SMS Spam Collection, by Tiago A. Almeida and José María Gómez Hidalgo | The spam filter results shown on the home page | https://archive.ics.uci.edu/dataset/228/sms+spam+collection | CC BY 4.0 | Not bundled: the home page shows only a confusion matrix worked out from it (150, 9, 16 and 940 on 1,115 held-out messages) |
 | Met Office historic station data, Stornoway Airport, monthly, 1873 to 2026 | Weather Data Investigation (Act IX) | https://www.metoffice.gov.uk/pub/data/weather/uk/climate/stationdata/stornowaydata.txt | Open Government Licence v3.0, Crown copyright, Met Office. "Contains public sector information licensed under the Open Government Licence v3.0. Source: Met Office." | `content/acts/09-lighthouse/02-capstone-investigation/data/stornowaydata.txt`, unchanged from the download |
 | EFF short word list for passphrases (Short Wordlist 1, 1,296 words) | Password Generator (Act II) | https://www.eff.org/dice | CC BY 4.0, Electronic Frontier Foundation (https://www.eff.org/copyright) | `content/acts/02-high-street/01-password-generator/data/wordlist.txt`: dice numbers removed, and yo-yo taken out so a hyphen always separates words (1,295 words) |
 | *Alice's Adventures in Wonderland*, by Lewis Carroll, Project Gutenberg eBook #11 | Word Counter and Text Analyser (Act II) | https://www.gutenberg.org/ebooks/11 | Public domain. The Project Gutenberg header, licence and trademark were removed, which leaves the public-domain text. | `content/acts/02-high-street/04-library-catalogue/data/alice.txt`: only the text between the START and END markers, [Illustration] markers removed, curly quotes made straight, each em dash made a spaced double hyphen, runs of blank lines squeezed (145 KB) |

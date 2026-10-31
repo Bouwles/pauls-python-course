@@ -1,38 +1,37 @@
-/* Chunky pixel buttons: a face, a 4 px darker bottom edge, a 2 px outline, a real press. */
+/* Buttons (REDESIGN-2.md 3): 6 px corners, a 1 px press with a darker fill, a sun focus ring. */
 .button {
-  --face: var(--quiet);
-  --edge: var(--quiet-dark);
-  --label: var(--quiet-text);
+  --face: var(--surface-3);
+  --face-hover: var(--line);
+  --face-press: var(--line);
+  --label: var(--text);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--s-2);
   border: 0;
-  border-radius: 0;
-  outline: 2px solid var(--night-0);
-  outline-offset: 0;
+  border-radius: var(--r-md);
   background: var(--face);
   color: var(--label);
-  box-shadow: inset 0 -4px 0 var(--edge), inset 0 2px 0 color-mix(in srgb, var(--day-2) 12%, transparent);
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  font-weight: 400;
+  font-family: var(--font-text);
+  font-size: var(--fs-2);
+  font-weight: 700;
   line-height: 1;
-  -webkit-font-smoothing: none;
   white-space: nowrap;
   text-decoration: none;
-  transition: transform var(--dur-1) steps(1), box-shadow var(--dur-1) steps(1);
-  position: relative;
+  transition:
+    background-color var(--dur) var(--ease-out),
+    transform var(--dur) var(--ease-out);
 }
 
 .md {
   height: 40px;
-  padding: 0 var(--s-4) 4px;
+  padding: 0 var(--s-4);
 }
 
 .sm {
   height: 32px;
-  padding: 0 var(--s-3) 4px;
+  padding: 0 var(--s-3);
+  font-size: var(--fs-1);
 }
 
 @media (max-width: 720px), (pointer: coarse) {
@@ -54,62 +53,65 @@
 }
 
 .button:hover:not(:disabled) {
-  filter: brightness(1.12);
+  background: var(--face-hover);
 }
 
 .button:active:not(:disabled) {
-  transform: translateY(2px);
-  box-shadow: inset 0 -2px 0 var(--edge);
+  transform: translateY(1px);
+  background: var(--face-press);
 }
 
 .button:focus-visible {
-  outline: 2px solid var(--lamp);
+  outline: 2px solid var(--sun);
   outline-offset: 2px;
 }
 
 .primary {
-  --face: var(--lamp);
-  --edge: var(--lamp-dark);
-  --label: var(--night-0);
+  --face: var(--sun);
+  --face-hover: var(--sun-hover);
+  --face-press: var(--sun-press);
+  --label: var(--sun-ink);
 }
 
-.go {
-  --face: var(--kelp);
-  --edge: var(--kelp-dark);
-  --label: var(--night-0);
+.secondary {
+  --face: var(--surface-3);
+  --face-hover: var(--line);
+  --face-press: var(--line);
+  --label: var(--text);
+}
+
+.ghost {
+  --face: transparent;
+  --face-hover: var(--surface-3);
+  --face-press: var(--line);
+  --label: var(--text-2);
+}
+
+.run {
+  --face: var(--pass);
+  --face-hover: color-mix(in srgb, var(--pass) 88%, var(--text));
+  --face-press: color-mix(in srgb, var(--pass) 85%, var(--pass-ink));
+  --label: var(--pass-ink);
 }
 
 .danger {
-  --face: var(--brick);
-  --edge: var(--brick-dark);
-  --label: var(--night-0);
+  --face: var(--fail);
+  --face-hover: color-mix(in srgb, var(--fail) 88%, var(--text));
+  --face-press: color-mix(in srgb, var(--fail) 85%, var(--fail-ink));
+  --label: var(--fail-ink);
 }
 
-.quiet {
-  --face: var(--quiet);
-  --edge: var(--quiet-dark);
-  --label: var(--quiet-text);
-}
-
-.quiet:hover:not(:disabled) {
-  filter: none;
-  background: var(--quiet-hover);
-}
-
-/* Disabled: dimmed, no bottom edge. */
 .button:disabled {
-  opacity: 0.45;
-  box-shadow: none;
-  padding-bottom: 0;
-  filter: grayscale(0.4);
+  opacity: 0.4;
 }
 
-/* Locked: a normal quiet button with a padlock; it explains itself and doesn't press. */
+/* Locked: a secondary button with a padlock; it explains itself in a tooltip and doesn't press. */
 .locked {
   cursor: help;
+  color: var(--text-2);
 }
 
-.locked:active {
+.locked:active:not(:disabled) {
   transform: none;
 }
 

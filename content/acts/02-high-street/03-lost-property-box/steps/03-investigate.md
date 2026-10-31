@@ -42,6 +42,6 @@ tasks:
     feedback: "All 100,000, every time. A list can only say no after checking everything. That's the case that hurts, and a set doesn't have it."
     wrong: "Think about how the list looks for it: from the front, one at a time. When can it stop?"
 ---
-The summer fete sold 100,000 raffle tickets. This checks whether one number is among them, 100 times over: once with a list, once with a set. `time.perf_counter()` reads a stopwatch.
+Picture a raffle with 100,000 tickets. This checks whether one number is among them, 100 times over: once with a list, once with a set. `time.perf_counter()` reads a stopwatch.
 
 `100_000` is just 100000; the underscore is there for your eyes. Your times will differ from anyone else's. The comparison is what counts.

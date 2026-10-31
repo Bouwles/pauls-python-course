@@ -4,38 +4,38 @@ type: predict
 title: What's inside the loop
 concept: for-loops
 code: |
-  for sweep in range(3):
-      print("Sweep")
-  print("Lamp lit")
+  for question in range(3):
+      print("Question")
+  print("Quiz done")
 question: What does this print?
 options:
   - text: |-
-      Sweep
-      Sweep
-      Sweep
-      Lamp lit
+      Question
+      Question
+      Question
+      Quiz done
     correct: true
     feedback: "Right. The indented line is the body, and it runs once per pass. The last line isn't indented, so it runs once, after the loop is done."
   - text: |-
-      Sweep
-      Lamp lit
-      Sweep
-      Lamp lit
-      Sweep
-      Lamp lit
+      Question
+      Quiz done
+      Question
+      Quiz done
+      Question
+      Quiz done
     misconception: unindented-line-in-loop
-    feedback: "Only the indented lines repeat. `print(\"Lamp lit\")` starts at the left edge, so it waits until the loop has finished."
+    feedback: "Only the indented lines repeat. `print(\"Quiz done\")` starts at the left edge, so it waits until the loop has finished."
   - text: |-
-      Sweep
-      Sweep
-      Sweep
-      Sweep
-      Lamp lit
+      Question
+      Question
+      Question
+      Question
+      Quiz done
     misconception: range-includes-end
-    feedback: "`range(3)` gives 0, 1 and 2. Three numbers, three sweeps. It stops before 3."
+    feedback: "`range(3)` gives 0, 1 and 2. Three numbers, three questions. It stops before 3."
   - text: |-
-      Sweep
-      Lamp lit
+      Question
+      Quiz done
     misconception: loop-body-runs-once
     feedback: "A `for` loop runs its body once for every number in the range. Three numbers, three passes."
 after: |

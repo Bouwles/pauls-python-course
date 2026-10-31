@@ -19,7 +19,7 @@ export function CopyCode({ code }: { code: string }) {
   return (
     <span className={styles.copy}>
       <code className={styles.code}>{code}</code>
-      <Button size="sm" variant="quiet" onClick={() => void copy()} aria-label={`Copy the code ${code.split("").join(" ")}`}>
+      <Button size="sm" variant="ghost" icon={copied ? "check" : "copy"} onClick={() => void copy()} aria-label={`Copy the code ${code.split("").join(" ")}`}>
         {copied ? "Copied" : "Copy"}
       </Button>
       <span className="visually-hidden" role="status">

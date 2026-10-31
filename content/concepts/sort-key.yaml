@@ -13,9 +13,9 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      stalls = [("Bea", 3), ("Gwen", 1), ("Sanjay", 2)]
+      stalls = [("Riya", 3), ("Caitlin", 1), ("Yahya", 2)]
       print(sorted(stalls, key=lambda stall: stall[1]))
-    answer: "[('Gwen', 1), ('Sanjay', 2), ('Bea', 3)]"
+    answer: "[('Caitlin', 1), ('Yahya', 2), ('Riya', 3)]"
   - type: choice
     prompt: What does this print?
     code: |
@@ -30,15 +30,15 @@ cards:
       - text: "['fig', 'plum', 'leek']"
         feedback: "Leek and plum tie on length, and a tie keeps the order they started in: leek was first."
   - type: fix
-    prompt: "This should print the trays, shortest name first. It crashes. Fix it."
+    prompt: "This should print the snacks, shortest name first. It crashes. Fix it."
     code: |
-      trays = ["shortbread", "bun", "loaf"]
-      print(sorted(trays, key=len()))
+      snacks = ["flapjack", "tea", "cake"]
+      print(sorted(snacks, key=len()))
     tests: |
-      TESTS = [output("Shortest first", expect="['bun', 'loaf', 'shortbread']", hint="key= wants the function itself: key=len.")]
+      TESTS = [output("Shortest first", expect="['tea', 'cake', 'flapjack']", hint="key= wants the function itself: key=len.")]
     solution: |
-      trays = ["shortbread", "bun", "loaf"]
-      print(sorted(trays, key=len))
+      snacks = ["flapjack", "tea", "cake"]
+      print(sorted(snacks, key=len))
   - type: fill
     prompt: "Fill the gap so this prints the crate with the most in it."
     code: |
@@ -50,9 +50,9 @@ cards:
   - type: write
     prompt: "Print a list of the names in `scores`, highest score first. A dictionary's `.get` makes a good key."
     starter: |
-      scores = {"Gwen": 7, "Agnes": 9, "Tom": 4}
+      scores = {"Caitlin": 7, "Yahya": 9, "Riya": 4}
     tests: |
-      TESTS = [output("Agnes, Gwen, Tom", expect="['Agnes', 'Gwen', 'Tom']")]
+      TESTS = [output("Yahya, Caitlin, Riya", expect="['Yahya', 'Caitlin', 'Riya']")]
     solution: |
-      scores = {"Gwen": 7, "Agnes": 9, "Tom": 4}
+      scores = {"Caitlin": 7, "Yahya": 9, "Riya": 4}
       print(sorted(scores, key=scores.get, reverse=True))

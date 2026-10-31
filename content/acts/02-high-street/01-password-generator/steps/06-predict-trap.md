@@ -4,29 +4,29 @@ type: predict
 title: The default that remembers
 concept: mutable-default
 dialogue:
-  - moss: "One more default. This one bites."
+  - paul: "One more default. This one bites."
 code: |
   def issue(name, register={}):
       register[name] = "issued"
       return register
 
-  print(issue("Mira"))
-  print(issue("Pip"))
+  print(issue("Riya"))
+  print(issue("Yahya"))
 question: What does this print?
 options:
   - text: |-
-      {'Mira': 'issued'}
-      {'Pip': 'issued'}
+      {'Riya': 'issued'}
+      {'Yahya': 'issued'}
     misconception: default-made-fresh-each-call
     feedback: "That's what it looks as if it should do. But the default dictionary is made once, when Python reads the `def` line, and every call without a register shares it."
   - text: |-
-      {'Mira': 'issued'}
-      {'Mira': 'issued', 'Pip': 'issued'}
+      {'Riya': 'issued'}
+      {'Riya': 'issued', 'Yahya': 'issued'}
     correct: true
     feedback: "Right, and it surprises nearly everyone. There is one default dictionary, made when the function was defined. Every call that leaves out `register` adds to that same one."
   - text: |-
-      {'Mira': 'issued', 'Pip': 'issued'}
-      {'Mira': 'issued', 'Pip': 'issued'}
+      {'Riya': 'issued', 'Yahya': 'issued'}
+      {'Riya': 'issued', 'Yahya': 'issued'}
     misconception: later-line-changes-earlier-output
     feedback: "The first `print` ran before the second call. It showed the dictionary as it was at that moment."
 after: |

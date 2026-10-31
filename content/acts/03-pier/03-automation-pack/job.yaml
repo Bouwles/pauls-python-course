@@ -2,7 +2,7 @@ id: automation-pack
 title: "Automation Pack"
 project_name: "Automation Pack"
 status: outline
-client: kat
+client: neil
 building: pier
 estimated_minutes: 120
-summary: "An Excel report with openpyxl, merged PDFs, and hundreds of files renamed in one go. Take It Home."
+summary: "Neil's end-of-term paperwork, done by a program: an Excel report with openpyxl, merged PDFs, and hundreds of files renamed in one go. Take It Home."

@@ -2,7 +2,7 @@ id: flask-web-app
 title: "Flask Web App"
 project_name: "Flask Web App"
 status: outline
-client: kat
+client: riya
 building: pier
 estimated_minutes: 180
-summary: "A link shortener with routes, templates, forms and SQLite. Take It Home."
+summary: "A link shortener for Riya's first web client, the tailor, so her new site gets links short enough for a business card: routes, templates, forms and SQLite. Take It Home."

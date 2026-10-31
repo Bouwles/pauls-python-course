@@ -1,4 +1,4 @@
-"""Agnes's agreed routes, as tests. Leave these as they are: they're the
+"""The agreed routes, as tests. Leave these as they are: they're the
 contract. Your own tests go in test_mine.py.
 """
 from app import create_app
@@ -12,7 +12,7 @@ def book(client, **changes):
 
 
 def assert_error(response, status):
-    """The status Agnes asked for, and a JSON object with a message in "error"."""
+    """The status the brief asks for, and a JSON object with a message in "error"."""
     assert response.status_code == status
     body = response.get_json(silent=True)
     assert isinstance(body, dict), "An error should come back as JSON too."
@@ -147,7 +147,7 @@ def test_booking_numbers_are_never_reused(client):
 
 
 def test_bookings_survive_a_restart(tmp_path):
-    data_file = tmp_path / "harbour-data"
+    data_file = tmp_path / "marina-data"
     before = create_app(data_file).test_client()
     book(before)
     book(before, boat="Puffin", berth=3)

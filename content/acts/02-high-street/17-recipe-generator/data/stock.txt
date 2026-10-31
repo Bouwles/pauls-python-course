@@ -1,4 +1,4 @@
-# Workshop stock. Counted by Moss, slowly.
+# Workshop stock. Counted by Paul, slowly.
 hinges,12
 brass screws,3
 sandpaper,4

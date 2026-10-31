@@ -49,4 +49,4 @@ after: |
 ---
 `while True:` is a loop whose test can never be `False`. It only stops when something inside it says so, and `break` means stop looping, now.
 
-Gwen's game needs exactly that. It doesn't know how many guesses it will take, but it knows when to stop.
+Caitlin's game needs exactly that. It doesn't know how many guesses it will take, but it knows when to stop.

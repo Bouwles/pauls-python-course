@@ -1,15 +1,15 @@
 ---
 id: investigate
 type: investigate
-title: The harbour wall walk
+title: The clifftop walk
 concept: sarsa
 dialogue:
-  - committee: "Before the League, Sir Reginald walks the harbour wall. For his constitution."
-  - moss: "There's a long drop on one side."
+  - caitlin: "Bonus level. The crab walks along a clifftop to the flag."
+  - paul: "There's a long drop on one side."
 code: |
   import numpy as np
 
-  # Start at S, finish at F. Between them, the edge of the quay.
+  # Start at S, finish at F. Between them, the edge of the cliff.
   WALK = [
       "........",
       "........",
@@ -21,7 +21,7 @@ code: |
 
 
   def step(tile, action):
-      """No slipping on the wall. Over the edge: -100, and he's fished out at the start."""
+      """No slipping on the clifftop. Over the edge: -100, and it's back to the start."""
       row = min(max(tile[0] + MOVES[action][0], 0), 3)
       col = min(max(tile[1] + MOVES[action][1], 0), 7)
       if WALK[row][col] == "~":
@@ -48,9 +48,9 @@ code: |
               falls += reward == -100
               next_action = choose(Q, after, epsilon, rng)
               if method == "sarsa":
-                  ahead = Q[after][next_action]     # what he will actually do next
+                  ahead = Q[after][next_action]     # what it will actually do next
               else:
-                  ahead = Q[after].max()            # the best he could do next
+                  ahead = Q[after].max()            # the best it could do next
               target = reward + (0 if over else ahead)
               Q[tile][action] += alpha * (target - Q[tile][action])
               tile, action = after, next_action
@@ -58,7 +58,7 @@ code: |
 
 
   def route(Q):
-      """Follow the best moves from the start and mark the tiles he crosses."""
+      """Follow the best moves from the start and mark the tiles it crosses."""
       rows = [list(line) for line in WALK]
       tile = START
       for _ in range(30):
@@ -76,7 +76,7 @@ code: |
       print()
 tasks:
   - id: edge
-    prompt: "Run it. Whose route runs right along the edge of the quay?"
+    prompt: "Run it. Whose route runs right along the edge of the cliff?"
     kind: answer
     accept: ["q-learning", "q learning", "q", "qlearning", "q-learning's", "the q-learning one"]
     feedback: "Q-learning's. Along the edge is the shortest walk, and Q-learning learns what the best walker would do. The best walker never explores, so never falls."
@@ -85,7 +85,7 @@ tasks:
     prompt: "Which one fell in more often while it was learning?"
     kind: answer
     accept: ["q-learning", "q learning", "q", "qlearning", "the q-learning one"]
-    feedback: "Q-learning. It walks the edge while still exploring one move in ten, and a random step down is a swim. SARSA counted its own exploring into its values, so it learned to keep a few tiles between itself and the water."
+    feedback: "Q-learning. It walks the edge while still exploring one move in ten, and a random step down is a fall. SARSA counted its own exploring into its values, so it learned to keep a few tiles between itself and the water."
     wrong: "Read the numbers on the two 'fell in' lines."
   - id: less-exploring
     prompt: "Change `epsilon=0.1` to `epsilon=0.01` in the line that starts `def learn`, and run it again. Does SARSA's route move closer to the edge, or further away?"
@@ -94,4 +94,4 @@ tasks:
     feedback: "Closer. Exploring less makes a random step down rarer, so walking near the edge costs SARSA less. As epsilon shrinks towards 0, SARSA's route and Q-learning's become the same."
     wrong: "Compare the row of stars before and after."
 ---
-A path along the top of the harbour wall, with the quay edge along the bottom. Both learners explore one move in ten. Only one line of `learn` differs between them.
+A path along a clifftop, with the edge along the bottom. Both learners explore one move in ten. Only one line of `learn` differs between them.

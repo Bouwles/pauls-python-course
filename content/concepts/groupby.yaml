@@ -6,7 +6,7 @@ example: |
   import pandas as pd
 
   people = pd.DataFrame({
-      "parish": ["Marsh", "Harbour", "Marsh", "Harbour", "Hill"],
+      "parish": ["Marsh", "Market", "Marsh", "Market", "Hill"],
       "year": [1921, 1921, 1951, 1951, 1951],
       "age": [88, 34, 52, 9, 40],
   })
@@ -18,16 +18,16 @@ related: [pandas-basics, selecting-filtering, merging]
 drill: true
 cards:
   - type: predict
-    prompt: "Three boats' catches, in crates. What does this print?"
+    prompt: "Three players' scores, in points. What does this print?"
     code: |
       import pandas as pd
 
-      landings = pd.DataFrame({
-          "boat": ["Kittiwake", "Dolly", "Kittiwake", "Dolly", "Kittiwake"],
-          "crates": [12, 5, 8, 7, 4],
+      games = pd.DataFrame({
+          "player": ["Yahya", "Caitlin", "Yahya", "Caitlin", "Yahya"],
+          "points": [12, 5, 8, 7, 4],
       })
-      print(landings.groupby("boat")["crates"].sum().to_dict())
-    answer: "{'Dolly': 12, 'Kittiwake': 24}"
+      print(games.groupby("player")["points"].sum().to_dict())
+    answer: "{'Caitlin': 12, 'Yahya': 24}"
   - type: choice
     prompt: "Two ages are missing. What does this print?"
     code: |
@@ -55,7 +55,7 @@ cards:
       bakes = pd.DataFrame({
           "day": ["Mon", "Mon", "Mon", "Tue", "Tue"],
           "batch": [1, 1, 2, 1, 2],
-          "loaves": [10, 12, 9, 11, 8],
+          "cookies": [10, 12, 9, 11, 8],
       })
       print(len(bakes.groupby("batch").size()), len(bakes.groupby(["day", "batch"]).size()))
     options:
@@ -80,7 +80,7 @@ cards:
     tests: |
       TESTS = [output("Nobody on the Hill in 1951", expect="0")]
   - type: fix
-    prompt: "Pip averaged the two parishes' averages to get the town's average age. Fix it so it prints the average age of all four people, `48.5`."
+    prompt: "Riya averaged the two parishes' averages to get the overall average age. Fix it so it prints the average age of all four people, `48.5`."
     code: |
       import pandas as pd
 
@@ -91,7 +91,7 @@ cards:
       parish_averages = people.groupby("parish")["age"].mean()
       print(parish_averages.mean())
     tests: |
-      TESTS = [output("The town's average age", expect="48.5")]
+      TESTS = [output("The overall average age", expect="48.5")]
     solution: |
       import pandas as pd
 
@@ -101,35 +101,35 @@ cards:
       })
       print(people["age"].mean())
   - type: write
-    prompt: "Write `crates_by_boat(landings)`: a Series of each boat's total crates, the biggest total first."
+    prompt: "Write `points_by_player(games)`: a Series of each player's total points, the biggest total first."
     starter: |
       import pandas as pd
 
 
-      def crates_by_boat(landings):
+      def points_by_player(games):
           pass
     tests: |
       def check(ctx):
           import pandas as pd
 
-          landings = pd.DataFrame({
-              "boat": ["Kittiwake", "Dolly", "Kittiwake", "Dolly", "Gull"],
-              "crates": [12, 5, 8, 7, 30],
+          games = pd.DataFrame({
+              "player": ["Yahya", "Caitlin", "Yahya", "Caitlin", "Riya"],
+              "points": [12, 5, 8, 7, 30],
           })
-          result = ctx.module().crates_by_boat(landings)
+          result = ctx.module().points_by_player(games)
           found = [(str(k), int(v)) for k, v in result.items()]
-          expected = [("Gull", 30), ("Kittiwake", 20), ("Dolly", 12)]
+          expected = [("Riya", 30), ("Yahya", 20), ("Caitlin", 12)]
           if found != expected:
-              raise CheckFailed("Each boat's total, biggest first.", expected=str(expected), actual=str(found))
+              raise CheckFailed("Each player's total, biggest first.", expected=str(expected), actual=str(found))
 
 
-      TESTS = [custom("Three boats", check)]
+      TESTS = [custom("Three players", check)]
     solution: |
       import pandas as pd
 
 
-      def crates_by_boat(landings):
-          return landings.groupby("boat")["crates"].sum().sort_values(ascending=False)
+      def points_by_player(games):
+          return games.groupby("player")["points"].sum().sort_values(ascending=False)
   - type: predict
     prompt: "What does this print?"
     code: |

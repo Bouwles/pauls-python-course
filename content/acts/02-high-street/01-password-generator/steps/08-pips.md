@@ -1,12 +1,12 @@
 ---
 id: pips
 type: pips
-title: Pip's Version
+title: Fix Yahya's version
 dialogue:
-  - pip: "Locker codes. Random, and I can check them, because they come out the same every run."
-  - pip: "Mira says Monday's codes opened Tuesday's lockers. That has to be a coincidence."
+  - yahya: "Locker codes. I seeded it, so every run does the same work. Fair timing."
+  - yahya: "Neil says Monday's codes opened Tuesday's lockers. Can you look at mine?"
 dialogue_after:
-  - pip: "So the seed made them the same every run. On purpose. That was the clever bit."
+  - yahya: "So the seed made every run the same. Great for timing. Terrible for locks."
 hints:
   nudge: "Run it twice. What does `random.seed(2026)` do to the numbers that come after it?"
   plan:
@@ -25,6 +25,6 @@ hints:
             code += ___.choice(string.digits)
         return code
 ---
-Pip's program gives three parcel lockers a code each. Run it twice and compare.
+Yahya's program gives three lockers a code each. Run it twice and compare.
 
 Fix it so every run gives new codes nobody could work out. Use `secrets` for the digits: it has the same `choice`, but it can't be seeded, and nobody can predict what it picks next.

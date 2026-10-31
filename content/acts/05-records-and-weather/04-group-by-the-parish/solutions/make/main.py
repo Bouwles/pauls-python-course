@@ -1,7 +1,4 @@
-# The census, by parish and by trade, for Mr Ashby and the council.
-# Typed up from the enumerators' books by A. Penhallow, 1983.
-# Hill, 1981: one engineer, household of one. The enumerator asked
-# whether anyone else lived with me. I said not yet. A.P.
+# The census, by parish and by trade, for the wall chart in the Archive.
 import pandas as pd
 
 

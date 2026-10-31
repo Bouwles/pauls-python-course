@@ -49,7 +49,7 @@ cards:
         misconception: counts-only-bigger
         feedback: "The real arrangement is one of the possible shuffles, and it ties with itself. `>=` counts it; only `>` gives 0."
   - type: choice
-    prompt: "Priya's test of the rain gives p = 0.11. What can she say?"
+    prompt: "Aaesha's test of the rain gives p = 0.11. What can she say?"
     verify: none
     options:
       - text: "Luck alone makes a difference this big about one time in nine, so the data can't tell whether it's drier."
@@ -62,13 +62,13 @@ cards:
         misconception: big-p-means-no-difference
         feedback: "A large p-value means the data can't tell, not that there's nothing there. Thirty more years might settle it either way."
   - type: choice
-    prompt: "A hundred thousand bakes on each oven. The new one is 0.01 minutes quicker, and p is 0.0001. What does that tell Bea?"
+    prompt: "A hundred thousand coffees from each machine. The new one is 0.01 minutes quicker, and p is 0.0001. What does that tell Riya?"
     verify: none
     options:
       - text: "The difference is almost certainly not luck, and it's less than a second."
         correct: true
         feedback: "With enough readings, even a tiny difference stands out from luck. Whether it matters is a separate question, answered by the difference itself."
-      - text: "The new oven is much quicker."
+      - text: "The new machine is much quicker."
         misconception: small-p-means-big-effect
         feedback: "A tiny p-value says luck rarely matches the difference, not that the difference is large. Here it's a hundredth of a minute."
   - type: fill
@@ -83,7 +83,7 @@ cards:
     tests: |
       TESTS = [output("Two of ten", expect="0.2")]
   - type: fix
-    prompt: "Pip's shuffles never change anything: his p-value is always 1. Fix it so it prints a small p-value."
+    prompt: "Yahya's shuffles never change anything: his p-value is always 1. Fix it so it prints a small p-value."
     code: |
       import numpy as np
 

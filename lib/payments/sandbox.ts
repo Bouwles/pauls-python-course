@@ -7,7 +7,7 @@ import { hmacHex, safeEqual, verifyPaddle } from "./signing";
 import { ProviderError, SignatureError, type BillingEvent, type CheckoutInput, type PaymentsProvider } from "./types";
 
 export function sandboxSecret(): string {
-  return process.env.SANDBOX_PAYMENTS_SECRET ?? "fixwick-sandbox-not-for-production";
+  return process.env.SANDBOX_PAYMENTS_SECRET ?? "ppc-sandbox-not-for-production";
 }
 
 export function sandboxAllowed(): boolean {

@@ -13,9 +13,9 @@ code: |
           self.balance = self.balance + pence
 
 
-  bea = Account("Bea")
+  riya = Account("Riya")
   Account.deposit(500)
-  print(bea.balance)
+  print(riya.balance)
 question: What happens?
 verify: error
 options:
@@ -28,6 +28,6 @@ options:
   - text: A TypeError
     correct: true
     error: TypeError
-    feedback: "Right. On the class, `deposit` is a function with two parameters. `500` became `self`, and `pence` was never given. Call it on an account: `bea.deposit(500)`."
+    feedback: "Right. On the class, `deposit` is a function with two parameters. `500` became `self`, and `pence` was never given. Call it on an account: `riya.deposit(500)`."
 ---
-Calling a method on the class instead of on one of its objects. It happens more than you'd think, usually at the end of a long day at the counter.
+Calling a method on the class instead of on one of its objects. It happens more than you'd think, usually at the end of a long day.

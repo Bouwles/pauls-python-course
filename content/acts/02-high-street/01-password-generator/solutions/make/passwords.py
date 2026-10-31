@@ -1,4 +1,4 @@
-"""Passwords and passphrases for the post office."""
+"""Passwords and passphrases for the Studio."""
 import secrets
 import string
 
@@ -88,8 +88,8 @@ def make_passwords(*names, issued=None, **options):
 
 # The demo: it runs when you run this file, but not when another program imports it.
 if __name__ == "__main__":
-    clerks = make_passwords("Mira", "Pip", "Sanjay")
-    print("Passwords for the counter:")
-    for name, password in clerks.items():
+    classmates = make_passwords("Aaesha", "Caitlin", "Yahya")
+    print("Passwords for the Studio:")
+    for name, password in classmates.items():
         print(f"  {name}: {password}")
-    print("Passphrase for the safe:", make_passphrase())
+    print("Passphrase for the Wi-Fi:", make_passphrase())

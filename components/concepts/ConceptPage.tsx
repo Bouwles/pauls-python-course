@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useSession } from "@/lib/store/session";
 import type { ReviewCardRow } from "@/lib/store/types";
 import { strengthOf } from "@/lib/review/strength";
 import { Button, LinkButton } from "../ui/Button";
-import { PixelIcon } from "../ui/PixelIcon";
-import { Editor } from "../workbench/Editor";
+import { Icon } from "../ui/Icon";
+import { Editor, type EditorHandle } from "../workbench/Editor";
 import { Console } from "../workbench/Console";
 import { useRunner } from "../workbench/useRunner";
 import { Strength } from "./Strength";
@@ -20,54 +20,59 @@ interface Props {
   related: { id: string; title: string }[];
 }
 
+/** A Handbook page (REDESIGN-2.md 6): the title, the explanation, a runnable example in an editor card. */
 export function ConceptPage({ concept, jobsUsing, misconceptions, related }: Props) {
   const { store } = useSession();
   const runner = useRunner();
+  const editor = useRef<EditorHandle | null>(null);
   const [code, setCode] = useState(concept.example);
   const [card, setCard] = useState<ReviewCardRow | undefined>(undefined);
   useEffect(() => {
     if (store) void store.get("review_cards", concept.id).then(setCard);
   }, [store, concept.id]);
-  const s = strengthOf(card);
+  const level = strengthOf(card);
   const running = runner.state.phase === "running" || runner.state.phase === "starting";
+  const run = () => void runner.run({ "main.py": code });
+  const ran = runner.state.phase !== "idle" || runner.state.output.length > 0 || Boolean(runner.state.result);
+  const detail = [card && card.reps > 0 ? `Reviewed ${card.reps} ${card.reps === 1 ? "time" : "times"}` : null, card ? `next due ${new Date(card.due).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}` : null].filter(Boolean).join(", ");
   return (
     <article className={styles.page}>
       <nav className={styles.crumbs} aria-label="Breadcrumb">
-        <Link href="/handbook">
-          <span aria-hidden="true">&lt; </span>Python Handbook
-        </Link>
+        <Link href="/handbook">Python Handbook</Link>
       </nav>
       <header className={styles.pageHead}>
         <h1 className={styles.pageTitle}>{concept.title}</h1>
-        <Strength level={s}>
-          {card && card.reps > 0 ? `, reviewed ${card.reps} ${card.reps === 1 ? "time" : "times"}` : ""}
-          {card ? `, next due ${new Date(card.due).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}` : ""}
-        </Strength>
+        <p className={styles.standing}>
+          <Strength level={level} />
+          {detail ? <span>{detail.charAt(0).toUpperCase() + detail.slice(1)}.</span> : null}
+        </p>
       </header>
-      <div className={`prose ${styles.summary}`} dangerouslySetInnerHTML={{ __html: concept.summaryHtml }} />
-      <section className={`frame-panel ${styles.example}`} aria-labelledby="ex-title">
+      <div className={`prose ${styles.explain}`} dangerouslySetInnerHTML={{ __html: concept.summaryHtml }} />
+      <section className={styles.example} aria-labelledby="ex-title">
         <div className={styles.exampleBar}>
-          <h2 id="ex-title" className={styles.exampleTitle}>
-            Try it
-          </h2>
+          <div className={styles.exampleName}>
+            <h2 id="ex-title" className={styles.exampleTitle}>
+              Try it
+            </h2>
+            <span className={styles.file}>main.py</span>
+          </div>
           {running ? (
-            <Button variant="danger" pixelIcon="stop" onClick={runner.stop}>
+            <Button variant="danger" size="sm" icon="stop" onClick={runner.stop}>
               Stop
             </Button>
           ) : (
-            <Button variant="go" pixelIcon="run" onClick={() => void runner.run({ "main.py": code })}>
+            <Button variant="run" size="sm" onClick={run} keys="Control+Enter Meta+Enter">
               Run
             </Button>
           )}
         </div>
         {concept.exampleInputs.length ? <p className={styles.hint}>When it asks, try typing {concept.exampleInputs.map((i) => `"${i}"`).join(", ")}.</p> : null}
-        <div className={styles.well}>
-          <div className={styles.editor}>
-            <Editor docKey={concept.id} value={code} onChange={(v) => setCode(v)} label={`Example for ${concept.title}`} onRun={() => void runner.run({ "main.py": code })} />
-          </div>
-          <div className={styles.console}>
-            <Console state={runner.state} source={code} onInput={runner.provideInput} onRetry={() => void runner.retryLoad()} />
-          </div>
+        <div className={styles.editor}>
+          <Editor docKey={concept.id} value={code} onChange={(v) => setCode(v)} label={`Example for ${concept.title}`} onRun={run} handleRef={editor} />
+        </div>
+        <div className={styles.console} data-ran={ran || undefined}>
+          <p className={styles.consoleLabel}>Output</p>
+          <Console state={runner.state} source={code} onInput={runner.provideInput} onRetry={() => void runner.retryLoad()} onShowLine={(line) => editor.current?.goToLine(line)} />
         </div>
       </section>
       {misconceptions.length ? (
@@ -78,9 +83,7 @@ export function ConceptPage({ concept, jobsUsing, misconceptions, related }: Pro
           <ul className={styles.wrong}>
             {misconceptions.map((m) => (
               <li key={m}>
-                <span className={styles.wrongMark}>
-                  <PixelIcon name="cross" />
-                </span>
+                <Icon name="warning" className={styles.wrongMark} />
                 <span>{m}</span>
               </li>
             ))}
@@ -115,7 +118,7 @@ export function ConceptPage({ concept, jobsUsing, misconceptions, related }: Pro
       ) : null}
       {concept.drill && card && card.reps > 0 ? (
         <p>
-          <LinkButton href={`/drills?concept=${concept.id}`} variant="quiet">
+          <LinkButton href={`/drills?concept=${concept.id}`} variant="secondary" icon="timer">
             Drill it for speed
           </LinkButton>
         </p>

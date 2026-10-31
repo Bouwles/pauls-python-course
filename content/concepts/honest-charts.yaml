@@ -20,7 +20,7 @@ misconceptions: [axis-starts-at-zero, bars-zoom-to-fit, truncated-bars-honest, s
 related: [matplotlib]
 cards:
   - type: predict
-    prompt: "Pip's bars start at 10.8. How many times taller does the 2020s bar look than the 1960s one?"
+    prompt: "Caitlin's bars start at 10.8. How many times taller does the 2020s bar look than the 1960s one?"
     code: |
       bottom = 10.8
       sixties, twenties = 10.9, 12.3
@@ -98,7 +98,7 @@ cards:
         misconception: gap-joined-up
         feedback: "matplotlib doesn't fill in or skip over a missing value. The NaN stays, and the line has a gap at 1942."
   - type: fix
-    prompt: "Pip zoomed in on his bars to make the change dramatic. Fix it so the scale starts at 0."
+    prompt: "Caitlin zoomed in on her bars to make the change dramatic. Fix it so the scale starts at 0."
     code: |
       import matplotlib
       matplotlib.use("Agg")
@@ -135,19 +135,19 @@ cards:
           import matplotlib.pyplot as plt
 
           try:
-              fig, ax = ctx.module().honest_bars(["Mon", "Sat"], [40, 96], "loaves sold")
+              fig, ax = ctx.module().honest_bars(["Mon", "Sat"], [40, 96], "coffees sold")
               heights = [b.get_height() for b in ax.patches]
               if heights != [40, 96]:
                   raise CheckFailed("One bar per value.", expected=[40, 96], actual=heights)
               if ax.get_ylim()[0] != 0:
                   raise CheckFailed("The scale starts at 0.", expected=0, actual=ax.get_ylim()[0])
-              if ax.get_ylabel() != "loaves sold":
-                  raise CheckFailed("The y axis says what it measures.", expected="loaves sold", actual=ax.get_ylabel())
+              if ax.get_ylabel() != "coffees sold":
+                  raise CheckFailed("The y axis says what it measures.", expected="coffees sold", actual=ax.get_ylabel())
           finally:
               plt.close("all")
 
 
-      TESTS = [custom("Two days of loaves", check)]
+      TESTS = [custom("Two days of coffees", check)]
     solution: |
       import matplotlib
       matplotlib.use("Agg")

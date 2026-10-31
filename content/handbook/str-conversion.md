@@ -5,9 +5,9 @@ Python's `str()` function converts a value to a string: `str(4)` gives the text 
 `str()` builds a new piece of text from the value you give it. Once you have text, everything that works on text works on it: joining with `+`, measuring with `len()`, looking at single characters.
 
 ```python
-boats = 4
+laps = 4
 price = 2.4
-print("Boats in: " + str(boats))
+print("Laps run: " + str(laps))
 print("Total: " + str(price * 3))
 print(f"Total: {price * 3:.2f}")
 print(str(True), str(None), str([1, 2]))
@@ -15,7 +15,7 @@ print(len(str(2026)))
 ```
 
 ```text
-Boats in: 4
+Laps run: 4
 Total: 7.199999999999999
 Total: 7.20
 True None [1, 2]
@@ -47,7 +47,7 @@ True
 ## Common mistakes
 
 - **Thinking `str(2) + str(3)` adds the numbers.** After conversion they are text, and `+` on text joins: the result is `"23"`. If you want the sum as text, do the arithmetic first and convert the answer: `str(2 + 3)` is `"5"`.
-- **Expecting `+` to join text and a number without converting.** `"Boats in: " + 4` stops with a [TypeError](/handbook/type-error). Python won't guess whether you meant to join or to add, so you have to say: `str(4)` for text, or `int("4")` for a number.
+- **Expecting `+` to join text and a number without converting.** `"Laps run: " + 4` stops with a [TypeError](/handbook/type-error). Python won't guess whether you meant to join or to add, so you have to say: `str(4)` for text, or `int("4")` for a number.
 
 ## When to use it
 

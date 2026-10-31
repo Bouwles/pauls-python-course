@@ -1,11 +1,11 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 language: text
 dialogue:
-  - moss: "Captain Ferro's ballast tanks. Passengers board on whichever side they like. He pumps to keep her level."
-  - moss: "This one needs Gymnasium itself, so it runs at home, not here. Read it for the shape."
+  - paul: "A ship's ballast tanks. Passengers board on whichever side they like. The crew pump to keep her level."
+  - paul: "This one needs Gymnasium itself, so it runs at home, not here. Read it for the shape."
 code: |
   import gymnasium as gym
   import numpy as np
@@ -13,7 +13,7 @@ code: |
 
 
   class BallastEnv(gym.Env):
-      """Keep the ferry level while the passengers board. Past 8 degrees, the cars slide."""
+      """Keep the ship level while the passengers board. Past 8 degrees, the cars slide."""
 
       def __init__(self):
           self.observation_space = spaces.Box(
@@ -56,7 +56,7 @@ code: |
           break
   print(f"Level for {level:.0f} of 120 minutes")
 subgoals:
-  - label: Say what he sees and what he can do
+  - label: Say what the agent sees and what it can do
     lines: [9, 15]
   - label: Seed, then set the scene
     lines: [17, 21]
@@ -79,4 +79,4 @@ explain:
 ---
 A Gymnasium environment is a class that inherits from `gym.Env`. `__init__` declares the two spaces; `reset` and `step` do the rest. Every random number comes from `self.np_random`, which `super().reset(seed=seed)` seeds.
 
-The loop at the bottom is Moss's rule of thumb at the pumps: pump against the tilt, allowing for the drift. Doing nothing lasts about half an hour; this lasts the full two.
+The loop at the bottom is Paul's rule of thumb at the pumps: pump against the tilt, allowing for the drift. Doing nothing lasts about half an hour; this lasts the full two.

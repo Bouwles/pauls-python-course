@@ -1,15 +1,15 @@
 ---
 id: what-she-built
 type: reading
-title: What she was building
+title: Why the clock stopped
 dialogue:
-  - penhallow: "Thirty years ago this town needed someone awake at two in the morning. That was me."
-  - penhallow: "So I built something that could stay awake instead."
+  - paul: "Before my time, someone fitted the clock with a controller that learned instead of being told."
+  - paul: "It watched three winters of logs. Nobody ever wrote the rules down."
 ---
-"It watched me run the lamp at dusk, the horn in fog, the gate at the spring tides, and it learned to do them. In some ways it learned the town better than I did.
+The controller learned to light the face at dusk, switch on the fog lamp when the city disappears, and heat the hands when ice builds up on them. On the ordinary nights it learned from, it was right.
 
-"But it only ever learned *what*, never *why*. It passed every question I asked it, because I never asked it anything hard. A town run by a thing nobody understands is one odd night away from trouble.
+But it only ever learned *what*, never *why*. It passed every question anyone asked it, because nobody asked it anything hard.
 
-"So I stopped feeding it, and came up here where I could see the hill, to find out whether {{town}} would learn to read its own code. One entry going out, none coming back. Nobody asked.
+Then came a gale, with ice on the hands. The heater stayed off. The hands froze at 3:14, the motor's cut-out tripped, and the clock has stood there ever since.
 
-"Then the scripts started breaking, and somebody fixed them properly, and read my comments, and fixed the radio. That was you."
+I could have reset it any week. I didn't want to start it until we knew why it stopped, so I kept saying next week. Neil found the clockmaker's rules in the Engine Room, and Aaesha typed them up. Tonight we find out where the controller breaks them.

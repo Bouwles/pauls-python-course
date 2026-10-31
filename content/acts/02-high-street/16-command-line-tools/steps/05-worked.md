@@ -1,26 +1,26 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "Old Tom's lamp oil. He wanted to work it out without walking down here."
+  - paul: "Neil's milk order. He wanted to work it out without coming down to ask me."
 code: |
   import argparse
   import sys
 
 
   def main():
-      parser = argparse.ArgumentParser(description="Lamp oil for the lighthouse.")
-      parser.add_argument("nights", type=int, help="how many nights to cover")
-      parser.add_argument("--wicks", type=int, default=1, help="wicks lit")
+      parser = argparse.ArgumentParser(description="Milk for the Studio kettle.")
+      parser.add_argument("days", type=int, help="how many days to cover")
+      parser.add_argument("--people", type=int, default=1, help="people drinking tea")
       args = parser.parse_args()
 
-      if args.nights < 1:
-          print("Nights must be 1 or more.", file=sys.stderr)
+      if args.days < 1:
+          print("Days must be 1 or more.", file=sys.stderr)
           sys.exit(1)
 
-      litres = args.nights * args.wicks * 0.4
-      print(f"{litres:.1f} litres of oil for {args.nights} nights")
+      litres = args.days * args.people * 0.4
+      print(f"{litres:.1f} litres of milk for {args.days} days")
 
 
   if __name__ == "__main__":
@@ -39,12 +39,12 @@ subgoals:
   - label: Run only when started as a program
     lines: [19, 20]
 explain:
-  prompt: "Why does Moss use `type=int` rather than calling `int()` on the text himself?"
-  answer: "argparse does the converting, and if Tom types `three` it stops with a usage message and exit code 2 before Moss's code runs. Otherwise Moss would need his own try and except."
+  prompt: "Why does Paul use `type=int` rather than calling `int()` on the text himself?"
+  answer: "argparse does the converting, and if Neil types `three` it stops with a usage message and exit code 2 before Paul's code runs. Otherwise Paul would need his own try and except."
   concept: argparse
 ---
-On a terminal, Tom types `python oil.py 3 --wicks 2` and gets `2.4 litres of oil for 3 nights`.
+On a terminal, Neil types `python milk.py 3 --people 2` and gets `2.4 litres of milk for 3 days`.
 
-Run it here with no arguments at all. Moss wrote none of the message you get: argparse did, and it finished with exit code 2, the usual code for "used wrongly". It writes `--help` too.
+Run it here with no arguments at all. Paul wrote none of the message you get: argparse did, and it finished with exit code 2, the usual code for "used wrongly". It writes `--help` too.
 
 Messages about problems go to `sys.stderr`, a second output kept for trouble, so they never get mixed up with the results.

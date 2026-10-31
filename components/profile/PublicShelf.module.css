@@ -1,31 +1,14 @@
-/* A learner's public page: who they are on a panel, and their shelves by Act. */
+/* The public profile: the avatar and name, then shipped projects as clean cards by Act. */
 .layout {
   display: grid;
-  grid-template-columns: 280px minmax(0, 1fr);
-  gap: var(--s-8);
-  align-items: start;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-10);
 }
 
 .who {
-  display: grid;
-  gap: var(--s-4);
-  position: sticky;
-  top: var(--s-4);
-  box-shadow: var(--shadow-hard);
-}
-
-/* The character on the workshop floorboards. */
-.stage {
   display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  min-height: 200px;
-  padding-bottom: var(--s-4);
-  background: var(--art-deep-slate);
-  box-shadow:
-    inset 0 -20px 0 var(--art-driftwood),
-    inset 0 -24px 0 var(--art-tar),
-    0 0 0 2px var(--night-0);
+  align-items: center;
+  gap: var(--s-6);
 }
 
 .text {
@@ -35,69 +18,132 @@
 }
 
 .name {
-  font-size: var(--pixel-2);
+  font-size: var(--fs-7);
   overflow-wrap: anywhere;
 }
 
 .line {
-  font-size: var(--prose-size);
-  line-height: var(--lh-prose);
-}
-
-.meta {
-  font-size: var(--step--1);
+  font-size: var(--fs-4);
   color: var(--text-2);
 }
 
-.shelf {
-  display: grid;
-  gap: var(--s-8);
-  min-width: 0;
-}
-
-.h2 {
-  font-size: var(--pixel-3);
+.meta {
+  font-size: var(--fs-2);
+  color: var(--text-2);
 }
 
 .act {
   display: grid;
-  gap: var(--s-3);
+  gap: var(--s-4);
 }
 
 .actTitle {
-  font-size: var(--pixel-1);
-  line-height: 24px;
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  font-size: var(--fs-5);
 }
 
-.actNo {
-  color: var(--accent-text);
+.marker {
+  width: 12px;
+  height: 12px;
+  flex: none;
+  border-radius: var(--r-sm);
 }
 
-/* Under the object's own label, the Job it came from, quieter. */
-.job {
-  display: block;
-  margin-top: var(--s-1);
-  font-weight: 400;
-  color: var(--text-2);
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--s-4);
 }
 
-@media (max-width: 860px) {
+.card {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  height: 100%;
+  padding: var(--s-4) var(--s-5);
+  background: var(--surface-2);
+  border-radius: var(--r-lg);
+  color: var(--text);
+  text-decoration: none;
+  transition: background-color var(--dur) var(--ease-out);
+}
+
+:global(:root[data-theme="light"]) .card {
+  border: 1px solid var(--line);
+}
+
+@media (prefers-color-scheme: light) {
+  :global(:root[data-theme="system"]) .card {
+    border: 1px solid var(--line);
+  }
+}
+
+.link:link,
+.link:visited {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.link:hover {
+  background: var(--surface-3);
+}
+
+.link:hover .project {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.cardText {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.project {
+  font-family: var(--font-display);
+  font-size: var(--fs-4);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s-2) var(--s-4);
+  padding-top: var(--s-6);
+  border-top: 1px solid var(--line);
+  font-size: var(--fs-2);
+}
+
+@media (max-width: 720px) {
   .layout {
-    grid-template-columns: minmax(0, 1fr);
     gap: var(--s-8);
   }
 
   .who {
-    position: static;
-    grid-template-columns: 140px minmax(0, 1fr);
-    align-items: end;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-4);
   }
 
-  .stage {
-    min-height: 120px;
+  .name {
+    font-size: var(--fs-6);
   }
 
-  .h2 {
-    font-size: var(--pixel-2);
+  .line {
+    font-size: var(--fs-3);
+  }
+
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-3);
   }
 }

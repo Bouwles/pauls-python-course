@@ -74,11 +74,6 @@ A forest of 50 trees        0.740  1.200
 Boosting, 100 rounds        0.750  1.130
 The forest, 5 in 6 sure     0.655  0.665
 """
-# Copied by Professor Wendt from a page torn out of Penhallow's dew log:
-# A tree asks its questions out loud, which is more than the machine on
-# the hill does. I let one grow on these readings with no limit. The first
-# three questions were sensible. The fourteenth was about a single night
-# in March. A.P.
 
 import numpy as np
 from sklearn.ensemble import GradientBoostingClassifier

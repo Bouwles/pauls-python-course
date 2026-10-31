@@ -4,11 +4,11 @@ type: make
 title: Make the speed tester
 files: [speed_tester.py]
 entry: speed_tester.py
-on_pass: { nell: "Four times the work for twice the parts. That's my old wheelbarrow, that is." }
+on_pass: { yahya: "Twice the parts, four times the comparisons. I said it would fall over." }
 hints:
-  nudge: "Where, in Penhallow's loops, do two parts actually get compared? That's where the counting goes. And what does `scale` say for each growth when n doubles?"
+  nudge: "Where, in Paul's loops, do two parts actually get compared? That's where the counting goes. And what does `scale` say for each growth when n doubles?"
   plan:
-    - "spares_by_pairs: her loops, plus a count that goes up at every comparison"
+    - "spares_by_pairs: his loops, plus a count that goes up at every comparison"
     - "spares_by_set: one loop, a set of parts seen, a count for every lookup"
     - "time_once: read the clock, do the job once, read the clock again and subtract"
     - "scale: one branch per growth, and a ValueError for anything else"
@@ -43,7 +43,7 @@ hints:
             lines.append(f"{size:>6} | {bar:<{BAR_WIDTH}} {value}")
         return "\n".join(___)
 ---
-Build the speed tester in `speed_tester.py`. Penhallow's spares check is at the top, with her notes. Write the six functions from the brief below it. The report and the main block are written, and Moss's timing subgoals are in there as comments.
+Build the speed tester in `speed_tester.py`. Paul's spares check is at the top, with his notes. Write the six functions from the brief below it. The report and the main block are written, and Paul's timing subgoals are in there as comments.
 
 ```
 By pairs, comparisons:
@@ -57,4 +57,4 @@ Growth: O(n^2)
 
 `chart` gives back one string, its lines joined with `"\n"`. In an f-string, `{size:>6}` right-aligns a number in six characters and `{bar:<40}` pads text out to forty.
 
-Your seconds will differ from the brief's, and from one run to the next. The hidden checks try empty yards, three of a kind, every growth and a hundred thousand parts, and count every comparison your code makes.
+Your seconds will differ from the brief's, and from one run to the next. The hidden checks try empty stock lists, three of a kind, every growth and a hundred thousand parts, and count every comparison your code makes.

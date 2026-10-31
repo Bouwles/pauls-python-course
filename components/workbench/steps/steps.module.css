@@ -1,369 +1,393 @@
-/*
-  Shared step styles. Most of this sits on the paper ticket, where the colour roles are
-  re-pointed to ink on paper (app/frames.css); the stage parts sit on the night panels.
-*/
+/* Shared pieces of the step views: predict cards, task lists, the worked example's stage. */
 
-.kind {
-  margin-bottom: var(--s-2);
-}
-
-/* "This step: ..." under the torn edge. */
-.heading {
-  font-size: var(--pixel-1);
-  line-height: 24px;
-  color: var(--text);
-}
-
-.thisStep {
+.note {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-size: var(--fs-2);
   color: var(--text-2);
+  line-height: 1.45;
 }
 
-.sub {
-  font-size: var(--pixel-1);
-  line-height: 1;
-  color: var(--text);
-  margin-bottom: var(--s-2);
+.note svg {
+  flex: none;
 }
 
-.block + .block {
-  margin-top: var(--s-5);
+.skip {
+  margin-left: calc(var(--s-3) * -1);
 }
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.stagePad {
+  flex: 1;
+  overflow: auto;
+  padding: var(--s-8);
+  background: var(--surface-1);
+}
+
+/* ---- Predict ---------------------------------------------------------- */
 
 .question {
-  font-family: var(--font-read);
-  font-size: var(--prose-size);
+  font-size: var(--fs-3);
   font-weight: 700;
-  line-height: var(--lh-prose);
-  margin-top: var(--s-4);
+  line-height: var(--lh-text);
 }
 
 .question code {
-  font-size: 0.85em;
-  background: var(--paper-sunk);
-  padding: 0 0.25em;
+  font-size: 0.88em;
+  font-weight: 400;
+  background: var(--surface-3);
+  border-radius: var(--r-sm);
+  padding: 1px 5px;
+}
+
+.field {
+  width: 100%;
+  font-family: var(--font-code);
+  font-size: var(--fs-2);
+  line-height: 1.5;
+  resize: vertical;
 }
 
 .options {
-  border: none;
-  padding: 0;
-  margin: var(--s-3) 0 0;
   display: grid;
   gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  border: 0;
   min-width: 0;
 }
 
-/* An answer to pick: a slip of paper with a hard edge, not a rounded card. */
+/* Big, clearly selectable answer cards. The real radio sits underneath. */
 .option {
+  position: relative;
   display: grid;
-  grid-template-columns: 18px minmax(0, 1fr);
-  gap: var(--s-2);
+  grid-template-columns: 22px minmax(0, 1fr);
   align-items: start;
-  padding: var(--s-2) var(--s-3);
+  gap: var(--s-3);
+  padding: var(--s-4);
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--line);
   cursor: pointer;
-  background: var(--paper);
-  box-shadow:
-    inset 0 0 0 2px var(--rule),
-    inset 0 -4px 0 var(--rule);
+  transition:
+    box-shadow var(--dur) var(--ease-out),
+    background-color var(--dur) var(--ease-out);
 }
 
-.option:hover {
-  box-shadow:
-    inset 0 0 0 2px var(--rule-strong),
-    inset 0 -4px 0 var(--rule-strong);
+:root[data-theme="light"] .option {
+  background: var(--surface-1);
 }
 
-.option input {
-  margin: 3px 0 0;
-  accent-color: var(--night-0);
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .option {
+    background: var(--surface-1);
+  }
 }
 
-.option pre {
+.option:hover:not(.locked) {
+  box-shadow: inset 0 0 0 1px var(--text-2);
+}
+
+.option:has(.radio:focus-visible) {
+  outline: 2px solid var(--sun);
+  outline-offset: 2px;
+}
+
+.radio {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   margin: 0;
-  padding: 0;
-  font-family: var(--font-code);
-  font-size: var(--step--1);
-  white-space: pre-wrap;
-  background: none;
-  color: inherit;
+  opacity: 0;
+  cursor: pointer;
 }
 
-.optionText {
-  font-size: var(--step--1);
-}
-
-.chosen {
-  background: var(--paper-raised);
-  box-shadow:
-    inset 0 0 0 2px var(--night-0),
-    inset 0 -4px 0 var(--night-0);
-}
-
-.right {
-  background: var(--pass-wash);
-  box-shadow:
-    inset 0 0 0 2px var(--pass),
-    inset 0 -4px 0 var(--pass);
-}
-
-.wrong {
-  background: var(--fail-wash);
-  box-shadow:
-    inset 0 0 0 2px var(--fail),
-    inset 0 -4px 0 var(--fail);
-}
-
-.locked {
+.locked,
+.locked .radio {
   cursor: default;
 }
 
+.marker {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 2px var(--text-2);
+  color: var(--pass-ink);
+}
+
+.chosen {
+  box-shadow: inset 0 0 0 2px var(--sun);
+  background: var(--sun-wash);
+}
+
+:root[data-theme="light"] .chosen {
+  background: var(--sun-wash);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .chosen {
+    background: var(--sun-wash);
+  }
+}
+
+.chosen .marker {
+  box-shadow: inset 0 0 0 7px var(--sun);
+}
+
+.right {
+  box-shadow: inset 0 0 0 2px var(--pass);
+  background: var(--pass-wash);
+}
+
+.right .marker {
+  background: var(--pass);
+  box-shadow: none;
+  color: var(--pass-ink);
+}
+
+.wrong {
+  box-shadow: inset 0 0 0 2px var(--fail);
+  background: var(--fail-wash);
+}
+
+.wrong .marker {
+  background: var(--fail);
+  box-shadow: none;
+  color: var(--fail-ink);
+}
+
+:root[data-theme="light"] .right {
+  background: var(--pass-wash);
+}
+
+:root[data-theme="light"] .wrong {
+  background: var(--fail-wash);
+}
+
+.locked:not(.right):not(.wrong) {
+  opacity: 0.6;
+}
+
+.optionText {
+  font-size: var(--fs-3);
+  line-height: 1.45;
+}
+
+.optionCode {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
 .feedback {
-  margin-top: var(--s-3);
-  padding: var(--s-3);
-  font-family: var(--font-read);
-  font-size: var(--prose-size);
-  line-height: var(--lh-prose);
-  background: var(--paper-sunk);
-  box-shadow: inset 4px 0 0 var(--rule-strong);
+  display: grid;
+  gap: var(--s-2);
+  padding: var(--s-4) var(--s-5);
+  border-radius: var(--r-lg);
+  font-size: var(--fs-3);
+  line-height: var(--lh-text);
+}
+
+.feedback code {
+  font-size: 0.88em;
+  background: var(--surface-3);
+  border-radius: var(--r-sm);
+  padding: 1px 5px;
 }
 
 .feedbackGood {
-  box-shadow: inset 4px 0 0 var(--pass);
+  background: var(--pass-wash);
 }
 
 .feedbackBad {
-  box-shadow: inset 4px 0 0 var(--fail);
+  background: var(--fail-wash);
 }
 
 .feedbackTitle {
   display: flex;
   align-items: center;
   gap: var(--s-2);
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 1;
-  -webkit-font-smoothing: none;
-  margin-bottom: var(--s-2);
-}
-
-.feedbackGood .feedbackTitle {
-  color: var(--pass);
-}
-
-.feedbackBad .feedbackTitle {
-  color: var(--fail);
-}
-
-.field {
-  width: 100%;
-  min-height: 36px;
-  padding: var(--s-1) var(--s-2);
-  font-family: var(--font-code);
-  font-size: var(--step--1);
-}
-
-.row {
-  display: flex;
-  gap: var(--s-2);
-  align-items: center;
-  flex-wrap: wrap;
-  margin-top: var(--s-3);
-}
-
-.next {
-  margin-top: var(--s-5);
-  display: flex;
-  align-items: center;
-  gap: var(--s-3);
-  flex-wrap: wrap;
-}
-
-.nextNote {
-  font-size: var(--step--1);
-  color: var(--text-2);
-}
-
-.tasks {
-  list-style: none;
-  margin: var(--s-4) 0 0;
-  padding: 0;
-  display: grid;
-  gap: var(--s-4);
-  counter-reset: task;
-}
-
-.task {
-  counter-increment: task;
-  display: grid;
-  gap: var(--s-2);
-  min-width: 0;
-}
-
-.taskPrompt {
-  font-family: var(--font-read);
-  font-size: var(--prose-size);
-  line-height: var(--lh-prose);
-}
-
-.taskPrompt::before {
-  content: counter(task) ". ";
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  color: var(--accent-text);
-}
-
-.taskPrompt code,
-.task code {
-  font-family: var(--font-code);
-  font-size: 0.88em;
-  font-variant-ligatures: none;
-  background: var(--paper-sunk);
-  padding: 0.05em 0.3em;
-}
-
-.done {
-  color: var(--pass);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--s-1);
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 1;
-}
-
-/* The checks you can see, listed at the bottom of the ticket. */
-.visible {
-  margin-top: var(--s-4);
-}
-
-.visibleList {
-  list-style: none;
-  margin: var(--s-2) 0 0;
-  padding: 0;
-  display: grid;
-  gap: var(--s-2);
-}
-
-.visibleItem {
-  padding: var(--s-2) var(--s-3);
-  font-size: var(--step--1);
-  background: var(--paper-sunk);
-  min-width: 0;
-}
-
-.visibleItem pre {
-  margin: var(--s-1) 0 0;
-  font-family: var(--font-code);
-  font-size: var(--step--1);
-  white-space: pre;
-  overflow-x: auto;
-  padding: var(--s-1) var(--s-2);
-}
-
-.visibleName {
+  font-family: var(--font-display);
+  font-size: var(--fs-4);
   font-weight: 700;
 }
 
-.newIdeas {
-  margin-top: var(--s-2);
+.feedbackGood .feedbackTitle svg {
+  color: var(--pass-text);
 }
 
-.chips {
-  display: flex;
-  flex-wrap: wrap;
+.feedbackBad .feedbackTitle svg {
+  color: var(--fail-text);
+}
+
+/* ---- Tasks (investigate, terminal) ------------------------------------- */
+
+.tasks {
+  display: grid;
   gap: var(--s-2);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.chips li {
-  font-size: var(--step--1);
-  padding: 2px var(--s-2);
-  background: var(--paper-sunk);
-  box-shadow: inset 0 -2px 0 var(--rule-strong);
+.task {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: var(--s-3);
+  padding: var(--s-4);
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
 }
 
-/* ---- stage layouts ---- */
-
-.stagePad {
-  flex: 1;
-  overflow: auto;
-  padding: var(--s-6) var(--s-8) var(--s-10);
+:root[data-theme="light"] .task {
+  background: var(--bg);
 }
 
-@media (max-width: 900px) {
-  .stagePad {
-    padding: var(--s-4);
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .task {
+    background: var(--bg);
   }
 }
 
-.example {
-  margin-top: var(--s-4);
+.taskMark {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin-top: 2px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 2px var(--line);
 }
 
-/* A terminal transcript: dark in both themes, on paper or off it. */
-.terminal {
-  margin: var(--s-2) 0 0;
-  background: var(--night-1);
-  color: var(--chalk);
-  padding: var(--s-3) var(--s-4);
+.taskDone .taskMark {
+  background: var(--pass);
+  box-shadow: none;
+  color: var(--pass-ink);
+}
+
+.taskBody {
+  display: grid;
+  gap: var(--s-3);
+  min-width: 0;
+}
+
+.taskPrompt {
+  font-size: var(--fs-3);
+  line-height: var(--lh-text);
+}
+
+.taskPrompt code,
+.taskFeedback code {
+  font-size: 0.88em;
+  background: var(--surface-3);
+  border-radius: var(--r-sm);
+  padding: 1px 5px;
+}
+
+.answerRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  align-items: center;
+}
+
+.answer {
+  width: 200px;
+  max-width: 100%;
+  height: 32px;
   font-family: var(--font-code);
-  font-size: var(--step--1);
-  line-height: 1.6;
-  white-space: pre-wrap;
-  /* Long unbroken output (JSON, URLs) wraps instead of running off a phone screen. */
-  overflow-wrap: anywhere;
+  font-size: var(--fs-2);
 }
 
-/* Worked example stage */
+.taskFeedback {
+  font-size: var(--fs-2);
+  line-height: 1.5;
+}
+
+.good {
+  color: var(--pass-text);
+}
+
+.bad {
+  color: var(--fail-text);
+}
+
+/* ---- Worked example --------------------------------------------------- */
+
 .workedStage {
   flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  min-height: 0;
+  background: var(--editor);
 }
 
 .workedTop {
   flex: 1;
+  min-height: 0;
   overflow: auto;
-  padding: var(--s-5) var(--s-6);
-  background: var(--code-bg);
 }
 
 .workedRun {
+  flex: none;
   display: flex;
   flex-direction: column;
-  height: 220px;
-  flex: none;
-  box-shadow: inset 0 2px 0 var(--night-0);
+  border-top: 1px solid var(--line);
+}
+
+.workedRun[data-ran] {
+  height: 38%;
+  min-height: 180px;
 }
 
 .workedBar {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--s-3);
+  min-height: 52px;
   padding: var(--s-2) var(--s-4);
-  background: var(--panel-2);
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 1;
+  background: var(--surface-1);
+}
+
+.workedRun[data-ran] .workedBar {
+  border-bottom: 1px solid var(--line);
+}
+
+.workedTip {
+  font-size: var(--fs-1);
   color: var(--text-2);
 }
 
 .workedConsole {
   flex: 1;
   min-height: 0;
-  overflow: auto;
+  display: flex;
 }
 
-.cards {
-  font-size: var(--step--1);
-  color: var(--text-2);
-}
+@container wb (max-width: 860px) {
+  .stagePad {
+    padding: var(--s-5) var(--s-4);
+  }
 
-.reviewWhere {
-  font-weight: 400;
-  font-family: var(--font-code);
-  font-size: var(--step--2);
-  color: var(--text-2);
+  .workedStage {
+    min-height: 480px;
+  }
+
+  .workedRun[data-ran] {
+    height: 280px;
+  }
 }

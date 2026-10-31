@@ -3,9 +3,9 @@ id: requests-and-answers
 type: reading
 title: How a web app answers
 dialogue:
-  - moss: "A web app is a function someone calls from across the harbour. That's most of it."
+  - paul: "A web app is a function someone calls from across the city. That's most of it."
 code: |
-  # Lost property, as the harbour office might keep it.
+  # Lost property, as the marina office might keep it.
   from flask import Flask, jsonify, request
 
   app = Flask(__name__)

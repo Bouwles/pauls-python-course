@@ -6,23 +6,23 @@ portfolio_readme: |
 
   A to-do list you run from a terminal, with commands the way `git` has them: `add` a task, `list` them, tick one off with `done`. The list is kept in a JSON file, so it's still there tomorrow. A mistake gets a plain message on standard error and an exit code of 1; a command it doesn't know gets argparse's usage message and exit code 2.
 
-  Written by {name} for Moss's workshop in {{town}}. Finished {date}.
+  Written by {name} for Paul's Workshop, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
   ```
-  $ python todo.py add "fix the radio"
-  Added 4: fix the radio
+  $ python todo.py add "fix the clock"
+  Added 4: fix the clock
   $ python todo.py list
   1 [ ] oil the bench vice
   2 [x] sharpen the chisels
   3 [ ] order more biscuits
-  4 [ ] fix the radio
+  4 [ ] fix the clock
   $ python todo.py done 3
   Done: order more biscuits
   $ python todo.py list --open
   1 [ ] oil the bench vice
-  4 [ ] fix the radio
+  4 [ ] fix the clock
   ```
 
   `python todo.py --help` shows every command. `--file other.json` keeps a different list.
@@ -34,21 +34,21 @@ portfolio_readme: |
   - Exit codes, and problems sent to `sys.stderr` so they never mix with the results
 downloadable: true
 datasets: []
-client: moss
+client: paul
 building: workshop
 estimated_minutes: 75
-summary: "A to-do list for the workshop terminal: add, list and done, kept in a file between runs, and polite when it's used wrongly."
+summary: "A to-do list for the Workshop terminal: add, list and done, kept in a file between runs, and polite when it's used wrongly."
 concepts_introduced: [sys-argv, exit-codes, argparse]
 concepts_reviewed: [json-module, files, with-statement, paths, dictionaries, lists, list-comprehensions, exceptions, try-except, main-guard, standard-library, f-strings, functions]
 ask:
   dialogue:
-    - moss: "Pip asks me ten times a day what's left to do. I tell him ten times."
-    - moss: "I want a list he can run himself. Add a job, see the list, tick one off."
-    - moss: "And it's still there tomorrow. And when it can't help, it says so. In words, and in the exit code."
+    - paul: "Neil asks me ten times a day what's left to do in the Workshop. I tell him ten times."
+    - paul: "I want a list he can run himself. Add a job, see the list, tick one off."
+    - paul: "And it's still there tomorrow. And when it can't help, it says so. In words, and in the exit code."
   spec: |
     Write `todo.py`, a command-line to-do list kept in `todo.json`: a JSON list of tasks, each `{"number": 1, "task": "oil the bench vice", "done": false}`. Use `argparse`, with three commands:
 
-    - `add TASK` puts the task on the end, numbered one more than the highest so far (1 for the first), saves the list, and prints `Added 4: fix the radio`.
+    - `add TASK` puts the task on the end, numbered one more than the highest so far (1 for the first), saves the list, and prints `Added 4: fix the clock`.
     - `list` prints every task as `1 [ ] oil the bench vice`, or `[x]` when it's done. `list --open` leaves out the done ones. An empty list prints `Nothing on the list.`
     - `done NUMBER` ticks that task off, saves the list, and prints `Done: order more biscuits`, or `Already done: sharpen the chisels`.
 
@@ -59,21 +59,21 @@ ask:
 
     A command it doesn't know, or a number that isn't one, is a usage error: argparse deals with those, with exit code 2.
   example: |
-    $ python todo.py add "fix the radio"
-    Added 4: fix the radio
+    $ python todo.py add "fix the clock"
+    Added 4: fix the clock
     $ python todo.py done 3
     Done: order more biscuits
     $ python todo.py list
     1 [ ] oil the bench vice
     2 [x] sharpen the chisels
     3 [x] order more biscuits
-    4 [ ] fix the radio
+    4 [ ] fix the clock
 ship:
   dialogue:
-    - pip: "Four things on the list. I added one, ticked one, and nobody had to tell me anything."
-    - pip: "Then I asked it to finish task two. It said finish isn't a command. Exit code two. Fair."
-    - moss: "So it can say no. Most tools can't."
-  shelf: { object: workshop-ledger, label: "The workshop to-do tool" }
+    - neil: "Four things on the list. I added one, ticked one, and nobody had to tell me anything."
+    - neil: "Then I asked it to finish task two. It said finish isn't a command. Exit code two. Fair."
+    - paul: "So it can say no. Most tools can't. And yes, the clock is on the list."
+  shelf: { object: workshop-ledger, label: "Paul's Workshop to-do tool" }
   cards: [sys-argv, exit-codes, argparse]
 stretch:
   - id: clear-done
@@ -83,6 +83,6 @@ stretch:
     tests: tests/stretch-clear-done.py
     solution: solutions/stretch-clear-done.py
   - id: how-behind
-    title: "How far behind is Moss"
+    title: "How far behind is Paul"
     prompt: |
-      Add `--count` to `list`, which prints `3 to do` instead of the tasks. Try it on Moss's list. Then don't mention it to him.
+      Add `--count` to `list`, which prints `3 to do` instead of the tasks. Try it on Paul's list. Then don't mention the clock.

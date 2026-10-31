@@ -1,7 +1,7 @@
 id: descriptive-statistics
 title: Mean, median, mode and spread
 summary: |
-  The **mean** shares the total out equally; the **median** is the middle reading once they're sorted; the **mode** is the most common value. With a few very large readings the mean is dragged up and the median hardly moves, so for skewed things like daily rain the median is the typical day. Spread matters as much as the centre: two towns with the same mean can have very different years. The **variance** is the average squared distance from the mean and the **standard deviation** is its square root; pandas' `std()` divides by one less than the count, NumPy's `np.std` by the count itself unless given `ddof=1`.
+  The **mean** shares the total out equally; the **median** is the middle reading once they're sorted; the **mode** is the most common value. With a few very large readings the mean is dragged up and the median hardly moves, so for skewed things like daily rain the median is the typical day. Spread matters as much as the centre: two places with the same mean can have very different years. The **variance** is the average squared distance from the mean and the **standard deviation** is its square root; pandas' `std()` divides by one less than the count, NumPy's `np.std` by the count itself unless given `ddof=1`.
 example: |
   import pandas as pd
 
@@ -14,7 +14,7 @@ related: [distributions, pandas-basics, numpy-arrays]
 drill: true
 cards:
   - type: predict
-    prompt: "Five fares on the ferry. What does this print?"
+    prompt: "Five bus fares. What does this print?"
     code: |
       import numpy as np
 
@@ -22,7 +22,7 @@ cards:
       print(np.mean(fares), np.median(fares))
     answer: "6.0 3.0"
   - type: choice
-    prompt: "Pip types one reading as 1200 instead of 12.0. What does this print?"
+    prompt: "Aaesha's test data has a typo: one reading is 1200 instead of 12.0. What does this print?"
     code: |
       import pandas as pd
 
@@ -56,16 +56,16 @@ cards:
     code: |
       import pandas as pd
 
-      {{town_id}} = pd.Series([11, 12, 12, 13, 12])
-      thornby = pd.Series([4, 18, 12, 20, 6])
-      print({{town_id}}.mean() == thornby.mean(), {{town_id}}.std() < thornby.std())
+      city = pd.Series([11, 12, 12, 13, 12])
+      moors = pd.Series([4, 18, 12, 20, 6])
+      print(city.mean() == moors.mean(), city.std() < moors.std())
     options:
       - text: "True True"
         correct: true
-        feedback: "Both average 12. Thornby's readings sit much further from 12, so its standard deviation is far bigger."
+        feedback: "Both average 12. The moors' readings sit much further from 12, so its standard deviation is far bigger."
       - text: "True False"
         misconception: same-mean-same-spread
-        feedback: "The same mean says nothing about spread. Thornby swings from 4 to 20 around its 12; {{town}} barely moves."
+        feedback: "The same mean says nothing about spread. The moors swing from 4 to 20 around their 12; the city barely moves."
   - type: fill
     prompt: "Fill the gap so `typical` is the middle day's rain, not the mean."
     code: |
@@ -78,20 +78,20 @@ cards:
     tests: |
       TESTS = [output("The middle day", expect="0.4")]
   - type: fix
-    prompt: "Pip wants the most common catch, but `mode()` gives back a Series. Fix it so it prints `3`."
+    prompt: "Riya wants the most common order size, but `mode()` gives back a Series. Fix it so it prints `3`."
     code: |
       import pandas as pd
 
-      crates = pd.Series([3, 5, 3, 4, 3, 5])
-      usual = crates.mode()
+      orders = pd.Series([3, 5, 3, 4, 3, 5])
+      usual = orders.mode()
       print(usual + 0)
     tests: |
-      TESTS = [output("The usual catch", expect="3")]
+      TESTS = [output("The usual order", expect="3")]
     solution: |
       import pandas as pd
 
-      crates = pd.Series([3, 5, 3, 4, 3, 5])
-      usual = crates.mode().iloc[0]
+      orders = pd.Series([3, 5, 3, 4, 3, 5])
+      usual = orders.mode().iloc[0]
       print(usual + 0)
   - type: write
     prompt: "Write `spread(values)`: the gap between the largest and smallest reading, and the standard deviation as pandas works it out, returned as a pair."

@@ -7,7 +7,7 @@ import type { ContentIndex, Job } from "../lib/content/types";
 import { newCardRow } from "../lib/review/deck";
 
 const base = process.argv[2] ?? "http://localhost:3000";
-const email = "demo@fixwick.test";
+const email = "demo@ppc.test";
 const password = "demo-harbour-1987";
 const content = path.join(process.cwd(), "generated", "content");
 const index = JSON.parse(fs.readFileSync(path.join(content, "index.json"), "utf8")) as ContentIndex;

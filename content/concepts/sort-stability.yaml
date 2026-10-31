@@ -13,10 +13,10 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      orders = [("Bea", 2), ("Tom", 1), ("Gwen", 2), ("Mira", 1)]
-      by_loaves = sorted(orders, key=lambda order: order[1])
-      print([name for name, loaves in by_loaves])
-    answer: "['Tom', 'Mira', 'Bea', 'Gwen']"
+      orders = [("Riya", 2), ("Yahya", 1), ("Caitlin", 2), ("Neil", 1)]
+      by_count = sorted(orders, key=lambda order: order[1])
+      print([name for name, count in by_count])
+    answer: "['Yahya', 'Neil', 'Riya', 'Caitlin']"
   - type: choice
     prompt: What does this print?
     code: |

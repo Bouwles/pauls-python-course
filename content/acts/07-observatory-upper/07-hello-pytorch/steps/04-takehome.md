@@ -16,11 +16,11 @@ setup: |
   (.venv) $ pip install -r requirements.txt
   ```
 
-  Check it worked with `python -c "import torch; print(torch.__version__)"`. scikit-learn is there only for Wendt's scans of the digits.
+  Check it worked with `python -c "import torch; print(torch.__version__)"`. scikit-learn is there only to load the digits.
 dialogue:
-  - wendt: "Same digits, same split, a different engine. If it disagrees with ours, I want to know which one is wrong."
+  - aaesha: "Same digits, same split, a different engine. If it disagrees with ours, I want to know which one is wrong."
 ---
-The project has three files: `notebooks.py` loads the digits and splits them exactly as upstairs, `reader.py` is yours to fill in, and `tests/` is the agreement. The comments in `reader.py` are the subgoals from Moss's focus line.
+The project has three files: `notebooks.py` loads the digits and splits them exactly as in the Digit Recogniser, `reader.py` is yours to fill in, and `tests/` is the agreement. The comments in `reader.py` are the subgoals from Paul's focus line.
 
 ```console
 (.venv) $ python reader.py

@@ -19,17 +19,17 @@ def expect_order(events, expected, message):
     return check
 
 
-VANCE_FIRST = [("add", "Mrs Vance's trolley", 3), ("add", "Mr Ashby's ladder", 3), ("add", "the ferry winch", 1),
+HEADPHONES_FIRST = [("add", "Riya's headphones", 3), ("add", "Paul's desk lamp", 3), ("add", "the arcade cabinet", 1),
                ("take",), ("take",), ("take",)]
 
-URGENT_FIRST = [("add", "the crab club's bell", 4), ("add", "Bea's oven door", 2), ("add", "Tom's lamp bracket", 1),
+URGENT_FIRST = [("add", "the Studio kettle", 4), ("add", "Neil's keyboard", 2), ("add", "Yahya's stopwatch", 1),
                 ("take",), ("take",), ("take",)]
 
-THREE_TIED = [("add", "the weather vane", 2), ("add", "the post bag", 2), ("add", "an anchor chain", 2),
+THREE_TIED = [("add", "the soldering iron", 2), ("add", "the projector", 2), ("add", "an extension lead", 2),
               ("take",), ("take",), ("take",)]
 
-MIXED = [("add", "the town hall clock", 3), ("add", "a bike chain", 3), ("take",), ("add", "the ferry winch", 1),
-         ("add", "a library ladder", 3), ("take",), ("take",), ("take",)]
+MIXED = [("add", "the printer", 3), ("add", "a bike light", 3), ("take",), ("add", "the arcade cabinet", 1),
+         ("add", "a desk fan", 3), ("take",), ("take",), ("take",)]
 
 
 def counts_waiting(ctx):
@@ -51,28 +51,28 @@ def empty_pile(ctx):
 
 def dictionaries(ctx):
     module = ctx.module()
-    first = {"what": "rudder", "for": "Captain Ferro"}
-    second = {"what": "rolling pin", "for": "Bea"}
+    first = {"what": "joystick", "for": "Yahya"}
+    second = {"what": "kettle lid", "for": "Neil"}
     events = [("add", first, 2), ("add", second, 2), ("take",), ("take",)]
     try:
         _pile, taken = replay(module, events)
     except TypeError as problem:
         raise CheckFailed(f"Two repairs with the same priority made Python compare the repairs themselves, and it can't compare dictionaries: {problem}")
     if taken != [first, second]:
-        raise CheckFailed("Same priority, so the rudder, which came in first, is mended first.", expected=[first, second], actual=taken)
+        raise CheckFailed("Same priority, so the joystick, which came in first, is mended first.", expected=[first, second], actual=taken)
 
 
 TESTS = [
-    custom("Mrs Vance was in first", expect_order(VANCE_FIRST, ["the ferry winch", "Mrs Vance's trolley", "Mr Ashby's ladder"],
-                                                  "The winch is most urgent. Then Mrs Vance and Mr Ashby tie on 3, and she came in first."),
+    custom("The headphones were in first", expect_order(HEADPHONES_FIRST, ["the arcade cabinet", "Riya's headphones", "Paul's desk lamp"],
+                                                        "The cabinet is most urgent. Then the headphones and the lamp tie on 3, and the headphones came in first."),
            visible=True),
-    custom("Most urgent first", expect_order(URGENT_FIRST, ["Tom's lamp bracket", "Bea's oven door", "the crab club's bell"],
+    custom("Most urgent first", expect_order(URGENT_FIRST, ["Yahya's stopwatch", "Neil's keyboard", "the Studio kettle"],
                                              "Priority 1, then 2, then 4."), visible=True),
-    custom("Three the same", expect_order(THREE_TIED, ["the weather vane", "the post bag", "an anchor chain"],
+    custom("Three the same", expect_order(THREE_TIED, ["the soldering iron", "the projector", "an extension lead"],
                                           "Three repairs all at priority 2 are mended in the order they came in."),
            hint="Ties go to whoever came in first, not whoever comes first in the alphabet. Count the arrivals."),
-    custom("Taking while they come in", expect_order(MIXED, ["the town hall clock", "the ferry winch", "a bike chain", "a library ladder"],
-                                                     "The clock, then the winch the moment it arrives, then the other two 3s in the order they came.")),
+    custom("Taking while they come in", expect_order(MIXED, ["the printer", "the arcade cabinet", "a bike light", "a desk fan"],
+                                                     "The printer, then the cabinet the moment it arrives, then the other two 3s in the order they came.")),
     custom("Counting what's waiting", counts_waiting),
     custom("An empty pile", empty_pile),
     custom("Repairs written as dictionaries", dictionaries,

@@ -1,7 +1,7 @@
 id: dataclasses
 title: Dataclasses
 summary: |
-  `@dataclass` above a class with typed fields writes `__init__`, `__repr__` and `__eq__` for you. Fields with defaults go after those without. `@dataclass(frozen=True)` makes the record read-only, and `replace(card, to="Truro")` makes a changed copy. A list default needs `field(default_factory=list)`, for the same reason as the mutable default trap.
+  `@dataclass` above a class with typed fields writes `__init__`, `__repr__` and `__eq__` for you. Fields with defaults go after those without. `@dataclass(frozen=True)` makes the record read-only, and `replace(card, to="York")` makes a changed copy. A list default needs `field(default_factory=list)`, for the same reason as the mutable default trap.
 example: |
   from dataclasses import dataclass, replace
 
@@ -11,8 +11,8 @@ example: |
       to: str
       message: str = ""
 
-  card = Postcard("Bea", "Truro")
-  print(card, replace(card, to="Tresco"))
+  card = Postcard("Riya", "Leeds")
+  print(card, replace(card, to="York"))
 misconceptions: [dataclass-eq-is-identity, dataclass-needs-init, frozen-is-advice, frozen-blocks-replace, dataclass-list-default-ok]
 related: [type-hints, enums]
 drill: true
@@ -23,12 +23,12 @@ cards:
       from dataclasses import dataclass
 
       @dataclass
-      class Loaf:
+      class Coffee:
           kind: str
           pence: int = 240
 
-      print(Loaf("sourdough"))
-    answer: "Loaf(kind='sourdough', pence=240)"
+      print(Coffee("flat white"))
+    answer: "Coffee(kind='flat white', pence=240)"
   - type: choice
     prompt: What happens?
     code: |
@@ -38,15 +38,15 @@ cards:
       class Ticket:
           route: str
 
-      ticket = Ticket("Truro")
-      ticket.route = "Bodmin"
+      ticket = Ticket("Leeds")
+      ticket.route = "York"
       print(ticket.route)
     verify: error
     options:
       - text: A FrozenInstanceError
         correct: true
         error: FrozenInstanceError
-      - text: It prints Bodmin
+      - text: It prints York
         misconception: frozen-is-advice
         feedback: "`frozen=True` really does stop changes: assigning to a field raises FrozenInstanceError."
   - type: choice
@@ -59,7 +59,7 @@ cards:
           route: str
           price: int
 
-      ticket = Ticket("Truro", 3)
+      ticket = Ticket("Leeds", 3)
       dearer = replace(ticket, price=4)
       print(ticket.price, dearer.price)
     options:
@@ -78,20 +78,20 @@ cards:
           owner: str
           cards: list = []
 
-      bag = Bag("Mira")
-      bag.cards.append("Truro")
+      bag = Bag("Neil")
+      bag.cards.append("Leeds")
       print(bag)
     tests: |
       def separate_bags(ctx):
           m = ctx.module()
-          a = m.Bag("Bea")
+          a = m.Bag("Riya")
           a.cards.append("x")
-          if m.Bag("Tom").cards != []:
+          if m.Bag("Yahya").cards != []:
               raise CheckFailed("Each new bag should start with an empty list of its own.")
 
 
       TESTS = [
-          output("Mira's bag", expect="Bag(owner='Mira', cards=['Truro'])"),
+          output("Neil's bag", expect="Bag(owner='Neil', cards=['Leeds'])"),
           custom("Bags don't share a list", separate_bags),
       ]
     solution: |
@@ -102,23 +102,23 @@ cards:
           owner: str
           cards: list = field(default_factory=list)
 
-      bag = Bag("Mira")
-      bag.cards.append("Truro")
+      bag = Bag("Neil")
+      bag.cards.append("Leeds")
       print(bag)
   - type: fill
-    prompt: "Fill the gap so Python writes `__init__` and `__repr__` for `Boat`."
+    prompt: "Fill the gap so Python writes `__init__` and `__repr__` for `Team`."
     code: |
       from dataclasses import dataclass
 
       ___
-      class Boat:
+      class Team:
           name: str
-          crew: int
+          size: int
 
-      print(Boat("Kittiwake", 3))
+      print(Team("Debuggers", 3))
     blanks: [["@dataclass", "@dataclass()"]]
     tests: |
-      TESTS = [output("The Kittiwake", expect="Boat(name='Kittiwake', crew=3)")]
+      TESTS = [output("The Debuggers", expect="Team(name='Debuggers', size=3)")]
   - type: write
     prompt: "Write a dataclass `Measurement` with `name: str` and `cm: float`, so two measurements with the same values are equal."
     starter: |
@@ -134,7 +134,7 @@ cards:
               raise CheckFailed("Two sleeves of 61.5 cm should be equal, and show as Measurement(name='sleeve', cm=61.5).")
 
 
-      TESTS = [custom("Mr Okonjo's sleeve", measured)]
+      TESTS = [custom("A sleeve, measured", measured)]
     solution: |
       from dataclasses import dataclass
 

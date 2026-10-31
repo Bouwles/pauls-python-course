@@ -1,6 +1,6 @@
 # Misconceptions for Act I, Jobs 10 to 14: lists, strings, functions and dictionaries.
 
-# -- The Shopping List Fixer --------------------------------------------------
+# -- To-Do List, more ---------------------------------------------------------
 remove-deletes-every-match:
   concept: list-methods
   description: Thinks .remove(x) takes out every copy of x, not just the first.
@@ -44,7 +44,7 @@ assignment-copies-list:
   concept: list-aliasing
   description: Thinks b = a makes a separate copy of a list, so changing b leaves a alone.
 
-# -- The Harbour Noticeboard --------------------------------------------------
+# -- Password Checker ---------------------------------------------------------
 string-compare-ignores-case:
   concept: string-methods
   description: Thinks Python treats capital and lower-case letters as the same when comparing text.
@@ -85,7 +85,7 @@ replace-first-only:
   concept: strip-replace
   description: Thinks .replace() changes only the first match rather than every one.
 
-# -- Pub Quiz Night -----------------------------------------------------------
+# -- Grade Calculator ---------------------------------------------------------
 def-runs-body:
   concept: functions
   description: Thinks the lines inside a def run when Python reaches the def, before the function is called.
@@ -129,7 +129,7 @@ local-visible-outside:
   concept: scope
   description: Thinks a variable made inside a function can still be used after the function has finished.
 
-# -- The Address Book ---------------------------------------------------------
+# -- Contact Book -------------------------------------------------------------
 dict-existing-key-ignored:
   concept: dictionaries
   description: Thinks giving a value to a key that is already in a dictionary is ignored or refused, rather than replacing the old value.

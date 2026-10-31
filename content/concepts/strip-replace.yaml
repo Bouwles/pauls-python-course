@@ -3,9 +3,9 @@ title: strip() and replace()
 summary: |
   `.strip()` takes all the whitespace off both ends of a string: spaces, tabs, and the newline at the end of a line read from a file. It never touches the middle. Give it characters, as in `.strip(".,")`, and it takes those off the ends instead. `.replace(old, new)` swaps every `old` for `new`. Both hand back a new string, so keep it with `=`.
 example: |
-  username = "  Agnes "
+  username = "  Aaesha "
   print(username.strip() + "|")
-  print("...lost oar...".strip("."))
+  print("...lost hat...".strip("."))
   print("passw0rd".replace("0", "o"))
   print("gale, gale, gale".replace("gale", "storm"))
 misconceptions: [strip-removes-inner-spaces, replace-first-only, string-method-changes-in-place]
@@ -15,25 +15,25 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      print("fog fog fog".replace("fog", "sun"))
+      print("rain rain rain".replace("rain", "sun"))
     answer: "sun sun sun"
   - type: predict
     prompt: What does this print?
     code: |
-      print("...ahoy!!".strip(".!"))
-    answer: "ahoy"
+      print("...hello!!".strip(".!"))
+    answer: "hello"
   - type: choice
     prompt: What does this print?
     code: |
-      print("  Sea  Holly  ".strip())
+      print("  Back  Row  ".strip())
     options:
-      - text: "SeaHolly"
+      - text: "BackRow"
         misconception: strip-removes-inner-spaces
         feedback: "`.strip()` only works on the ends. The spaces between words stay."
-      - text: "Sea Holly"
+      - text: "Back Row"
         misconception: strip-removes-inner-spaces
         feedback: "The two spaces in the middle survive. `.strip()` never looks past the first and last letters."
-      - text: "Sea  Holly"
+      - text: "Back  Row"
         correct: true
   - type: choice
     prompt: What does this print?

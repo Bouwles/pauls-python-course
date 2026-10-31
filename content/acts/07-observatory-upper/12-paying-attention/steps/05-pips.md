@@ -1,28 +1,29 @@
 ---
 id: pips
 type: pips
-title: Pip's Version
+title: Fix Aaesha's version
 files: [peek.py]
 entry: peek.py
 dialogue:
-  - pip: "Attention, all in one go. Every column of weights adds up to 1. Very tidy."
-  - pip: "And I scaled it by the size, 4. Moss used 2. Mine's twice as scaled."
+  - aaesha: "Can you look at mine? I wrote the test before the attention. Every query's weights add up to 1."
+  - aaesha: "The test fails, and I've checked the attention twice. Something's off."
 dialogue_after:
-  - pip: "Each query shares its attention out over the keys. So it's the rows that add up."
-  - pip: "And the square root of 4 is 2. I knew that. I'd just stopped believing it."
+  - aaesha: "Each query shares its attention out along its row. My test added up the columns."
+  - aaesha: "The code was right. The test had the typo. That's the most annoying kind."
 hints:
-  nudge: "Which way does one query's attention run: along a row of `weights`, or down a column? And what did Moss divide by?"
+  nudge: "Which way does one query's attention run: along a row of `weights`, or down a column? Which way does the test add up?"
   plan:
-    - Compare the row sums with the column sums
-    - Softmax along the last axis, across the keys
-    - Divide the scores by the square root of the key size
-    - Check every row adds up to 1
+    - Run it and read the row sums and the column sums
+    - Find which assert fails
+    - Point the sum along each row, one query at a time
+    - Leave the attention, and the second assert, as they are
   shape: |
-    scores = Q @ K.T / np.sqrt(___)
-    if mask is not None:
-        scores = np.where(mask, -np.inf, scores)
-    weights = softmax(scores, axis=___)
+    def check_weights(weights):
+        assert np.allclose(weights.sum(axis=___), 1), "every query's weights should add up to 1"
+        assert np.all(weights[np.triu_indices(len(weights), k=1)] == 0), "nothing should look ahead"
 ---
-Pip's `attention` runs every query at once. Run it and read the last two lines.
+Aaesha's `attention` runs every query at once, and `check_weights` is the test she wrote first. Run it and read the two lines of sums before the traceback.
 
-Each row of `weights` is one query: how it shares its attention between the keys. Which should add up to 1, the rows or the columns? There are two bugs.
+Each row of `weights` is one query: how it shares its attention between the keys. Which should add up to 1, the rows or the columns?
+
+Fix the test, not the attention. The checks make sure it still catches weights that are wrong.

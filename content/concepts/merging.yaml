@@ -20,71 +20,71 @@ cards:
     code: |
       import pandas as pd
 
-      boats = pd.DataFrame({"boat": ["Kittiwake", "Dolly", "Gull"], "skipper": ["Kerrow", "Nance", "Pascoe"]})
-      berths = pd.DataFrame({"boat": ["Dolly", "Kittiwake"], "berth": [4, 7]})
-      print(len(boats.merge(berths, on="boat")))
+      players = pd.DataFrame({"player": ["Caitlin", "Yahya", "Riya"], "colour": ["violet", "blue", "green"]})
+      lockers = pd.DataFrame({"player": ["Yahya", "Caitlin"], "locker": [4, 7]})
+      print(len(players.merge(lockers, on="player")))
     options:
       - text: "2"
         correct: true
-        feedback: "A plain merge keeps only the rows that match. The Gull has no berth, so she isn't in the result."
+        feedback: "A plain merge keeps only the rows that match. Riya has no locker, so she isn't in the result."
       - text: "3"
         misconception: merge-keeps-all-rows
-        feedback: "The default is an inner merge: rows without a match are dropped. `how=\"left\"` would keep the Gull, with `NaN` for a berth."
+        feedback: "The default is an inner merge: rows without a match are dropped. `how=\"left\"` would keep Riya, with `NaN` for a locker."
   - type: choice
-    prompt: "The berths list has the Dolly in twice. What does this print?"
+    prompt: "The lockers list has Yahya in twice. What does this print?"
     code: |
       import pandas as pd
 
-      boats = pd.DataFrame({"boat": ["Kittiwake", "Dolly", "Gull"], "skipper": ["Kerrow", "Nance", "Pascoe"]})
-      berths = pd.DataFrame({"boat": ["Dolly", "Dolly", "Kittiwake"], "berth": [4, 4, 7]})
-      print(len(boats.merge(berths, on="boat", how="left")))
+      players = pd.DataFrame({"player": ["Caitlin", "Yahya", "Riya"], "colour": ["violet", "blue", "green"]})
+      lockers = pd.DataFrame({"player": ["Yahya", "Yahya", "Caitlin"], "locker": [4, 4, 7]})
+      print(len(players.merge(lockers, on="player", how="left")))
     options:
       - text: "4"
         correct: true
-        feedback: "The Dolly matches two rows, so she comes out twice. The Kittiwake matches one and the Gull, kept by `how=\"left\"`, matches none."
+        feedback: "Yahya matches two rows, so he comes out twice. Caitlin matches one and Riya, kept by `how=\"left\"`, matches none."
       - text: "3"
         misconception: merge-duplicate-key-ignored
-        feedback: "merge makes one row for every match. Two rows for the Dolly in `berths` means two Dollys in the result."
+        feedback: "merge makes one row for every match. Two rows for Yahya in `lockers` means two Yahyas in the result."
   - type: predict
     prompt: "What does this print?"
     code: |
       import pandas as pd
 
-      boats = pd.DataFrame({"boat": ["Kittiwake", "Dolly", "Gull"]})
-      berths = pd.DataFrame({"boat": ["Dolly", "Kittiwake"], "berth": ["north", "south"]})
-      both = boats.merge(berths, on="boat", how="left")
-      print(both["berth"].fillna("at sea").tolist())
-    answer: "['south', 'north', 'at sea']"
+      players = pd.DataFrame({"player": ["Caitlin", "Yahya", "Riya"]})
+      lockers = pd.DataFrame({"player": ["Yahya", "Caitlin"], "locker": ["top", "bottom"]})
+      both = players.merge(lockers, on="player", how="left")
+      print(both["locker"].fillna("no locker").tolist())
+    answer: "['bottom', 'top', 'no locker']"
   - type: fill
-    prompt: "Fill the gap so the Gull keeps her row."
+    prompt: "Fill the gap so Riya keeps her row."
     code: |
       import pandas as pd
 
-      boats = pd.DataFrame({"boat": ["Kittiwake", "Dolly", "Gull"]})
-      berths = pd.DataFrame({"boat": ["Dolly", "Kittiwake"], "berth": [4, 7]})
-      both = boats.merge(berths, on="boat", how=___)
+      players = pd.DataFrame({"player": ["Caitlin", "Yahya", "Riya"]})
+      lockers = pd.DataFrame({"player": ["Yahya", "Caitlin"], "locker": [4, 7]})
+      both = players.merge(lockers, on="player", how=___)
       print(len(both))
     blanks: [["\"left\"", "'left'"]]
     tests: |
-      TESTS = [output("All three boats", expect="3")]
+      TESTS = [output("All three players", expect="3")]
   - type: fix
-    prompt: "Pip's merge counts the Kittiwake's landings twice, because her berth card is in twice. Fix it so the total is `20`."
+    prompt: "Aaesha's merge counts Caitlin's points twice, because her locker card is in twice. Fix it so the total is `20`."
     code: |
       import pandas as pd
 
-      landings = pd.DataFrame({"boat": ["Kittiwake", "Dolly", "Kittiwake"], "crates": [8, 5, 7]})
-      berths = pd.DataFrame({"boat": ["Kittiwake", "Kittiwake", "Dolly"], "berth": [7, 7, 4]})
-      both = landings.merge(berths, on="boat", how="left")
-      print(both["crates"].sum())
+      scores = pd.DataFrame({"player": ["Caitlin", "Yahya", "Caitlin"], "points": [8, 5, 7]})
+      lockers = pd.DataFrame({"player": ["Caitlin", "Caitlin", "Yahya"], "locker": [7, 7, 4]})
+      both = scores.merge(lockers, on="player", how="left")
+      print(both["points"].sum())
     tests: |
-      TESTS = [output("Every crate once", expect="20")]
+      TESTS = [output("Every point once", expect="20")]
     solution: |
       import pandas as pd
 
-      landings = pd.DataFrame({"boat": ["Kittiwake", "Dolly", "Kittiwake"], "crates": [8, 5, 7]})
-      berths = pd.DataFrame({"boat": ["Kittiwake", "Kittiwake", "Dolly"], "berth": [7, 7, 4]})
-      both = landings.merge(berths.drop_duplicates("boat"), on="boat", how="left")
-      print(both["crates"].sum())
+      scores = pd.DataFrame({"player": ["Caitlin", "Yahya", "Caitlin"], "points": [8, 5, 7]})
+      lockers = pd.DataFrame({"player": ["Caitlin", "Caitlin", "Yahya"], "locker": [7, 7, 4]})
+      both = scores.merge(lockers.drop_duplicates("player"), on="player", how="left")
+      print(both["points"].sum())
   - type: write
     prompt: "Write `with_streets(parcels, addresses)`: the parcels with a `street` column from `addresses`, matched on `name`. Keep every parcel, in order; a name with no address gets the street `unknown`."
     starter: |
@@ -97,13 +97,13 @@ cards:
       def check(ctx):
           import pandas as pd
 
-          parcels = pd.DataFrame({"name": ["Bea", "Tom", "Ada", "Bea"], "weight": [2.0, 0.5, 1.2, 3.1]})
-          addresses = pd.DataFrame({"name": ["Tom", "Bea"], "street": ["Lighthouse Lane", "High Street"]})
+          parcels = pd.DataFrame({"name": ["Riya", "Yahya", "Neil", "Riya"], "weight": [2.0, 0.5, 1.2, 3.1]})
+          addresses = pd.DataFrame({"name": ["Yahya", "Riya"], "street": ["Station Road", "High Street"]})
           result = ctx.module().with_streets(parcels, addresses)
           if len(result) != 4:
               raise CheckFailed("Every parcel, once each.", expected="4 rows", actual=f"{len(result)} rows")
           streets = result["street"].tolist()
-          expected = ["High Street", "Lighthouse Lane", "unknown", "High Street"]
+          expected = ["High Street", "Station Road", "unknown", "High Street"]
           if streets != expected:
               raise CheckFailed("The streets, in parcel order.", expected=str(expected), actual=str(streets))
 

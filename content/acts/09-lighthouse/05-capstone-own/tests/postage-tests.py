@@ -117,7 +117,7 @@ def passes_on_real(ctx):
         raise CheckFailed("There are no test functions yet. Their names start with test_.")
     failed = _outcomes(mod, tests, real)
     if failed:
-        raise CheckFailed("These fail on Mira's real postage, so they test something the docstring doesn't say.",
+        raise CheckFailed("These fail on the real postage, so they test something the docstring doesn't say.",
                           expected="every test passes", actual=", ".join(failed))
 
 
@@ -139,7 +139,7 @@ def _catches(version, what):
 
 
 TESTS = [
-    custom("Your tests pass on Mira's real postage", passes_on_real, visible=True),
+    custom("Your tests pass on the real postage", passes_on_real, visible=True),
     custom("They catch a postage that never doubles for away", _catches(never_doubles, "never doubles the price for away"), visible=True),
     custom("At least six tests", at_least_six),
     custom("They catch 100 g charged at 90", _catches(boundary_at_100, "charges 90 for exactly 100 g"),

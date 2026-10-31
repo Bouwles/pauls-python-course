@@ -6,7 +6,7 @@ files: [attention.py, block.py, gpt.py]
 entry: gpt.py
 starter_from: block
 timeout_ms: 30000
-on_pass: { wendt: "Montmorency would have stopped half a man. It has never read a word. Well, it has read every word, and understood none." }
+on_pass: { aaesha: "Montmorency would have stopped half a man. It has never read a word. Well, it has read every word, and understood none." }
 hints:
   nudge: "Which row of the last block's output belongs to the character that comes next? And how many characters can the position table take at once?"
   plan:

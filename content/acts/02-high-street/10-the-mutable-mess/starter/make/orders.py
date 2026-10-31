@@ -1,9 +1,9 @@
-"""Bea's Saturday orders."""
+"""Saturday's bake sale orders."""
 import copy
 
 STANDING = {
-    "Ashby": {"bread": 3, "buns": 4},
-    "Drowned Anchor": {"bread": 6, "lardy cake": 2},
+    "Paul": {"bread": 3, "buns": 4},
+    "The Studio": {"bread": 6, "lardy cake": 2},
 }
 
 
@@ -18,7 +18,7 @@ def saturday_orders(standing, extras):
 
 
 if __name__ == "__main__":
-    extras = {"Ashby": {"buns": 2}, "Mira": {"lardy cake": 1}}
+    extras = {"Paul": {"buns": 2}, "Yahya": {"lardy cake": 1}}
     for customer, order in saturday_orders(STANDING, extras).items():
         print(customer, order)
     print("Standing:", STANDING)

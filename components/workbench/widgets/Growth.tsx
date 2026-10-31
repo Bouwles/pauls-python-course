@@ -39,12 +39,13 @@ export function Growth({ params, onDone, done }: { params: { max?: number; show?
             onDone();
           }
         }}
-        style={{ width: "100%", maxWidth: W, accentColor: "var(--accent-ink)" }}
+        className={styles.range}
+        style={{ width: "100%", maxWidth: W }}
       />
-      <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ maxWidth: W, border: "1px solid var(--rule)", background: "var(--paper-raised)" }} role="img" aria-label={`Steps for n = ${n}: ${shown.map((c) => `${c.label} ${Math.round(c.f(n))}`).join(", ")}`}>
+      <svg viewBox={`0 0 ${W} ${H}`} width="100%" className={styles.chart} style={{ maxWidth: W }} role="img" aria-label={`Steps for n = ${n}: ${shown.map((c) => `${c.label} ${Math.round(c.f(n))}`).join(", ")}`}>
         {shown.map((c, k) => {
           const pts = xs.map((x, i) => `${(i / (xs.length - 1)) * (W - 20) + 10},${H - 10 - (c.f(x) / top) * (H - 30)}`).join(" ");
-          const colours = ["var(--ink-3)", "var(--pass)", "var(--syn-function)", "var(--accent-ink)", "var(--fail)"];
+          const colours = ["var(--text-2)", "var(--c-neil)", "var(--blue-text)", "var(--sun)", "var(--fail)"];
           return <polyline key={c.id} points={pts} fill="none" stroke={colours[k % colours.length]} strokeWidth={2} />;
         })}
       </svg>

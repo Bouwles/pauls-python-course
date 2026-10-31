@@ -2,7 +2,7 @@ id: arcade-shooter
 title: "Arcade Shooter"
 project_name: "Arcade Shooter"
 status: outline
-client: committee
+client: caitlin
 building: pier
 estimated_minutes: 300
-summary: "A full 2D arcade shooter in Pygame at home: sprites, classes, collisions, levels, scores and sound."
+summary: "A full 2D arcade shooter in Pygame at home, for Caitlin's cabinet in the Makerspace: sprites, classes, collisions, levels, scores and sound. It has a high-score table."

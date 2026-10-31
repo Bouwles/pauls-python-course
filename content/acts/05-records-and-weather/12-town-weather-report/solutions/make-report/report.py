@@ -1,11 +1,11 @@
-"""The {{town}} Weather Report, for Priya Lund. Run it, and it prints the report
+"""The Clocktower Weather Report, for Aaesha. Run it, and it prints the report
 and draws its three charts.
 
 It prints this, in this order, with every number worked out from ledger.csv
 by your own functions, never typed in:
 
-The {{town}} Weather Report, 1925 to 2024
-Source: {{town}} Weather Station book, 1925 to 2024, at the Records Office
+The Clocktower Weather Report, 1925 to 2024
+Source: Clocktower weather station book, 1925 to 2024, in the Archive
 
 The record
   1200 months, missing months: none
@@ -50,7 +50,7 @@ station = load_station("ledger.csv")
 years = yearly(station)
 gaps = missing_months(station)
 
-print("The {{town}} Weather Report, 1925 to 2024")
+print("The Clocktower Weather Report, 1925 to 2024")
 print(SOURCE)
 print()
 print("The record")
@@ -78,12 +78,12 @@ print(f"  Warmed most on the 1961 to 1990 normal: {MONTHS[warmed.idxmax() - 1]},
 print()
 
 print("Conclusion")
-print(f"  {{town}} is warmer than it was. The last thirty years averaged {temp_change:.2f} degrees C")
+print(f"  The Clocktower is warmer than it was. The last thirty years averaged {temp_change:.2f} degrees C")
 print(f"  above the first thirty ({p_text(temp_p)}): shuffling the years almost never comes as")
 print(f"  far by chance. Most of the warming has come since the 1970s, and {MONTHS[warmed.idxmax() - 1]} has warmed most.")
 print("  Rain and sunshine have moved too, but no further than shuffling often moves them")
 print(f"  ({p_text(rain_p)} and {p_text(sun_p)}), so this record shows no clear change in either.")
-print("  It is one station in one town: it can say that {{town}} has warmed, not why.")
+print("  It is one station on one building: it can say that the Clocktower has warmed, not why.")
 print("  Temperatures before 1961 were converted from Fahrenheit, and there is no sunshine")
 print("  record for 1941 to 1945.")
 

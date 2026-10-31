@@ -1,18 +1,21 @@
 id: observatory-upper
 number: 7
-title: "The Observatory, upper floors"
+title: "The Engine Room"
 district: observatory-upper
 subject: "Deep learning and AI"
 hours: 60
-summary: "A neural network from scratch, an autograd engine, a digit recogniser, PyTorch, an image classifier, a tide predictor, a text generator and a tiny GPT, built up from the chain rule and checked at every step."
-locked_line: "The upper floors. Penhallow's notebooks are up there somewhere."
+summary: "The floor behind the clock's gears, beside a rack of servers. A neural network from scratch, an autograd engine, a digit recogniser, PyTorch, an image classifier, a tide predictor, a text generator and a tiny GPT, built up from the chain rule and checked at every step."
+locked_line: "The Engine Room, sixth floor. The servers hum behind the door. The gears don't move."
 intro:
-  - wendt: "Upstairs is where it gets strange. In a good way, mostly."
+  - paul: "Sixth floor. The clock's gears are behind that glass. Still stuck at 3:14. I'm getting to it."
+  - paul: "Aaesha and Neil run this room. Neural networks, from one neuron up."
+  - aaesha: "Every network gets a test before it gets trained."
+  - neil: "And when it learns nothing, we find out why. That's the fun part."
 jobs:
   - learning-backwards
   - the-tiny-engine
   - training-properly
-  - penhallows-handwriting
+  - handwritten-digits
   - hello-pytorch
   - seeing
   - regularising
@@ -22,4 +25,4 @@ jobs:
   - paying-attention
   - using-pretrained-models
   - ai-app
-  - penhallows-notebook-reader
+  - notebook-reader

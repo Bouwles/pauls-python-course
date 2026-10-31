@@ -4,7 +4,7 @@ type: make
 title: Make the picture lab
 files: [lighthouse.py]
 entry: lighthouse.py
-on_pass: { wendt: "Mirrored, turned, blurred, and the house turned and back where it started. That's linear algebra. Well, most of it." }
+on_pass: { caitlin: "Mirrored, turned, blurred, and the house turned and back where it started. That's my phone's filters, explained." }
 hints:
   nudge: "Which slice reverses the rows, and which reverses each row? And for a turn, what does the matrix do to the arrow (1, 0)?"
   plan:

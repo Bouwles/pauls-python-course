@@ -5,14 +5,14 @@ title: Make the quiz
 files: [quiz.py]
 entry: quiz.py
 timeout_ms: 15000
-on_pass: { gwen: "Seal pup, pup, a pup. All three right. The Lifeboat Crew will have to find something else to argue about." }
+on_pass: { caitlin: "Seal pup, pup, a pup. All three right. Yahya will have to find something else to argue about." }
 hints:
   nudge: "Which of these functions keep every item, and which keep only some? That decides where each comprehension's `if` goes."
   plan:
     - "Only some items: if at the end, and curly brackets for a set"
     - "key: value for a dictionary"
     - Keep the round's questions in the book's order
-    - Every answer Gwen allows, in lower case
+    - Every answer Caitlin allows, in lower case
     - "A value for every item: if-else at the front"
     - Ask until the round is a real one
     - Shuffle, ask, then mark
@@ -43,7 +43,7 @@ hints:
             for number, (question, given) in enumerate(zip(questions, answers), start=1)
         ]
 ---
-Write the functions from the brief in `quiz.py`, then `main`. The comments are Moss's subgoals from Bea's orders.
+Write the functions from the brief in `quiz.py`, then `main`. The comments are Paul's subgoals from the trip snacks.
 
 ```
 Rounds: Local (4), Science (4), Sea (4), Words (4)

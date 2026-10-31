@@ -1,4 +1,4 @@
-# Gwen's rock paper scissors. First to three. The loser washes the glasses.
+# Rock paper scissors for Caitlin and Yahya. First to three. The loser does the coffee run.
 import random
 
 HANDS = ["rock", "paper", "scissors"]

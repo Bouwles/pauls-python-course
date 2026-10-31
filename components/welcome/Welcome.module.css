@@ -1,10 +1,10 @@
-/* Taking a desk: make your character, say what Moss should call you, and how much code you've written. */
+/* /welcome: three short sections on the page, then the one button. */
 .welcome {
-  --slot: var(--panel);
-  --slot-hover: var(--panel-2);
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--s-8);
+  gap: var(--s-10);
+  max-width: 960px;
+  margin: 0 auto;
 }
 
 .head {
@@ -13,94 +13,108 @@
 }
 
 .title {
-  font-size: var(--pixel-3);
+  font-size: var(--fs-7);
 }
 
 .lede {
-  font-size: var(--prose-size);
-  line-height: var(--lh-prose);
+  font-size: var(--fs-4);
+  line-height: 1.45;
   color: var(--text-2);
+  max-width: 56ch;
 }
 
-.rows {
+.section {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
-  gap: var(--s-8);
-  box-shadow: var(--shadow-hard);
+  gap: var(--s-5);
+  padding-top: var(--s-8);
+  border-top: 1px solid var(--line);
+}
+
+.h2 {
+  font-family: var(--font-display);
+  font-size: var(--fs-5);
+  font-weight: 700;
+  line-height: var(--lh-title);
+  letter-spacing: var(--tracking-display);
+  padding: 0;
 }
 
 .field {
   display: grid;
   gap: var(--s-2);
-  align-content: start;
-  min-width: 0;
-}
-
-.labelText {
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  font-weight: 400;
-  line-height: 24px;
-  -webkit-font-smoothing: none;
+  max-width: 420px;
 }
 
 .field input {
-  width: 100%;
-  min-height: 44px;
-  padding: 0 var(--s-3);
-  background: var(--code-bg);
-  color: var(--text);
-  border: 2px solid var(--night-0);
-  box-shadow: inset 0 2px 0 var(--night-0);
-  font-size: var(--step-0);
-}
-
-.field input::placeholder {
-  color: var(--text-2);
+  height: 44px;
+  font-size: var(--fs-3);
 }
 
 .hint {
-  font-size: var(--step--1);
-  line-height: 1.45;
+  font-size: var(--fs-1);
   color: var(--text-2);
 }
 
 .experience {
-  border: none;
-  padding: 0;
+  border: 0;
   margin: 0;
-  display: grid;
-  gap: var(--s-2);
+  padding: 0;
   min-width: 0;
 }
 
 .experience legend {
-  padding: 0;
-  margin-bottom: var(--s-2);
+  margin-bottom: var(--s-5);
 }
 
-/* Each answer is a slot that lights up when chosen, with a pixel radio mark. */
-.option {
+.options {
   display: grid;
-  grid-template-columns: 20px minmax(0, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--s-3);
-  align-items: start;
-  padding: var(--s-3) var(--s-4) var(--s-4) var(--s-3);
-  background: var(--slot);
-  box-shadow: inset 0 -4px 0 var(--quiet-dark);
+}
+
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-3);
+  padding: var(--s-4);
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+  border: 1px solid transparent;
   cursor: pointer;
+  transition: background-color var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
+}
+
+:global(:root[data-theme="light"]) .option {
+  border-color: var(--line);
 }
 
 .option:hover {
-  background: var(--slot-hover);
+  border-color: var(--line);
+}
+
+.option:focus-within {
+  outline: 2px solid var(--sun);
+  outline-offset: 2px;
+}
+
+.option.on,
+:global(:root[data-theme="light"]) .option.on {
+  background: var(--blue-wash);
+  border-color: var(--blue);
 }
 
 .mark {
-  width: 20px;
-  height: 20px;
-  margin-top: 2px;
-  background: var(--code-bg);
-  box-shadow: inset 0 0 0 2px var(--night-0);
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-top: 3px;
+  border-radius: 50%;
+  border: 2px solid var(--text-3);
+}
+
+.on .mark {
+  border: 5px solid var(--blue);
+  background: var(--surface-1);
 }
 
 .optionText {
@@ -108,64 +122,55 @@
   gap: var(--s-1);
 }
 
-.option strong {
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  font-weight: 400;
-  line-height: 1;
-  -webkit-font-smoothing: none;
-  padding-top: 3px;
+.optionText strong {
+  font-size: var(--fs-3);
 }
 
 .note {
-  font-size: var(--step--1);
+  font-size: var(--fs-2);
   line-height: 1.45;
   color: var(--text-2);
 }
 
-.on,
-.on:hover {
-  background: var(--accent-wash);
-  box-shadow: inset 0 0 0 2px var(--lamp), inset 0 -4px 0 var(--lamp);
-}
-
-.on .mark {
-  background: var(--lamp);
-  box-shadow: inset 0 0 0 2px var(--night-0), inset 0 0 0 6px var(--code-bg);
-}
-
-.option:focus-within {
-  outline: 2px solid var(--lamp);
-  outline-offset: 2px;
-}
-
 .go {
   display: flex;
-  gap: var(--s-4);
-  align-items: center;
   flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-4);
+  padding-top: var(--s-6);
+  border-top: 1px solid var(--line);
 }
 
-@media (max-width: 760px) {
-  .rows {
+.submit {
+  height: 52px;
+  padding: 0 var(--s-8);
+  font-size: var(--fs-3);
+}
+
+@media (max-width: 860px) {
+  .options {
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--s-6);
+  }
+}
+
+@media (max-width: 720px) {
+  .welcome {
+    gap: var(--s-8);
   }
 
   .title {
-    font-size: var(--pixel-2);
+    font-size: var(--fs-6);
   }
-}
 
-/* Day: a day panel's body is the panel colour, so slots step down to the page colour instead. */
-:root[data-theme="light"] .welcome {
-  --slot: var(--bg);
-  --slot-hover: var(--frame);
-}
+  .lede {
+    font-size: var(--fs-3);
+  }
 
-@media (prefers-color-scheme: light) {
-  :root[data-theme="system"] .welcome {
-    --slot: var(--bg);
-    --slot-hover: var(--frame);
+  .section {
+    padding-top: var(--s-6);
+  }
+
+  .submit {
+    width: 100%;
   }
 }

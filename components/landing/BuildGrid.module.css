@@ -1,0 +1,440 @@
+/* "What you'll build": an asymmetric grid. Row one a small card and a wide one; below, a large
+   card on the left beside two stacked on the right. Each card is its artefact, then a caption. */
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--s-6);
+}
+
+.bill {
+  grid-column: 1 / span 4;
+  grid-row: 1;
+}
+
+.weather {
+  grid-column: 5 / span 8;
+  grid-row: 1;
+}
+
+.flask {
+  grid-column: 1 / span 7;
+  grid-row: 2 / span 2;
+}
+
+.spam {
+  grid-column: 8 / span 5;
+  grid-row: 2;
+}
+
+.snake {
+  grid-column: 8 / span 5;
+  grid-row: 3;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--surface-2);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+
+:root[data-theme="light"] .card {
+  border: 1px solid var(--line);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .card {
+    border: 1px solid var(--line);
+  }
+}
+
+.artefact {
+  flex: 1;
+  display: grid;
+  align-items: center;
+  min-height: 0;
+  padding: var(--s-5) var(--s-5) 0;
+}
+
+.caption {
+  display: grid;
+  gap: var(--s-1);
+  padding: var(--s-5) var(--s-6) var(--s-6);
+}
+
+.name {
+  font-size: var(--fs-5);
+}
+
+.line {
+  color: var(--text-2);
+  font-size: var(--fs-2);
+  line-height: 1.5;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin-top: var(--s-2);
+  font-size: var(--fs-1);
+  font-weight: 700;
+  color: var(--text-2);
+}
+
+/* ---- A terminal ---- */
+.terminal {
+  margin: 0;
+  height: 100%;
+  min-width: 0;
+  background: var(--editor);
+  border-radius: var(--r-md);
+}
+
+.termText {
+  margin: 0;
+  padding: var(--s-4) var(--s-5);
+  font-family: var(--font-code);
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--text);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.prompt {
+  color: var(--text-3);
+}
+
+.typed {
+  color: var(--syn-number);
+}
+
+/* ---- The Flask app's page, in a small browser of its own ---- */
+.web {
+  margin: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--surface-3);
+}
+
+.webBar {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  height: 32px;
+  padding: 0 var(--s-3);
+  flex: none;
+}
+
+.webDots {
+  display: flex;
+  gap: 5px;
+}
+
+.webDots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line);
+}
+
+.webAddress {
+  flex: 1;
+  min-width: 0;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--s-3);
+  border-radius: var(--r-sm);
+  background: var(--bg);
+  color: var(--text-2);
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+:root[data-theme="light"] .webAddress {
+  background: var(--surface-1);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .webAddress {
+    background: var(--surface-1);
+  }
+}
+
+/* The learner's page keeps its own look: these sizes are its template's, scaled down. */
+.webPage {
+  flex: 1;
+  padding: var(--s-4) var(--s-6) 0;
+  font-size: 13px;
+  line-height: 1.4;
+  overflow: hidden;
+}
+
+.webH1 {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: var(--s-3);
+}
+
+.webH2 {
+  font-size: 17px;
+  font-weight: 700;
+  margin: var(--s-4) 0 var(--s-2);
+}
+
+.webBooked {
+  padding-left: 0.6em;
+  margin-bottom: var(--s-3);
+}
+
+.webForm {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.webInput {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  min-width: 96px;
+  padding: 0 4px;
+  border: 1px solid color-mix(in srgb, currentColor 45%, transparent);
+  border-radius: var(--r-sm);
+  font-size: 12px;
+}
+
+.webWide {
+  min-width: 180px;
+}
+
+.webButton {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 6px;
+  border: 1px solid color-mix(in srgb, currentColor 60%, transparent);
+  border-radius: var(--r-sm);
+  font-size: 12px;
+}
+
+.webFields {
+  display: grid;
+  gap: 0.5em;
+}
+
+.webSelect {
+  min-width: 170px;
+}
+
+.webSelect::after {
+  content: "";
+  margin-left: auto;
+  width: 0;
+  height: 0;
+  border: 4px solid transparent;
+  border-top-color: currentColor;
+  transform: translateY(2px);
+}
+
+.webShort {
+  min-width: 48px;
+}
+
+.webTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.webTable th,
+.webTable td {
+  padding: 0.4em;
+  text-align: left;
+}
+
+/* ---- The confusion matrix ---- */
+.matrix {
+  margin: 0;
+  display: grid;
+  gap: var(--s-4);
+  align-content: center;
+}
+
+.matrixTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 4px;
+  table-layout: fixed;
+  font-size: var(--fs-1);
+}
+
+.matrixTable th {
+  font-weight: 700;
+  color: var(--text-2);
+  text-align: left;
+  padding: 0 var(--s-2);
+}
+
+.matrixTable thead th {
+  padding-bottom: var(--s-1);
+}
+
+.matrixTable thead td,
+.matrixTable tbody th {
+  width: 26%;
+}
+
+/* One hue, light to dark with the count. The number is always written, in text colour. */
+.cell {
+  height: 68px;
+  padding: 0 var(--s-4);
+  border-radius: var(--r-md);
+  background: color-mix(in oklab, var(--blue) var(--share), var(--surface-3));
+  font-family: var(--font-display);
+  font-size: var(--fs-6);
+  font-weight: 700;
+  letter-spacing: var(--tracking-display);
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+
+.matrixStats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-1) var(--s-5);
+  font-size: var(--fs-1);
+  color: var(--text-2);
+}
+
+.matrixStats strong {
+  color: var(--text);
+}
+
+/* ---- Snake ---- */
+.snakeBox {
+  margin: 0;
+  display: grid;
+  place-items: center;
+  height: 100%;
+  padding: var(--s-4);
+  background: var(--editor);
+  border-radius: var(--r-md);
+}
+
+.snakeSvg {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+}
+
+.score {
+  font-family: var(--font-code);
+  font-size: 13px;
+  fill: var(--text-2);
+}
+
+.board {
+  fill: var(--active-line);
+}
+
+.body {
+  fill: var(--pass);
+}
+
+.head {
+  fill: color-mix(in oklab, var(--pass) 62%, var(--text));
+}
+
+.eye {
+  fill: var(--pass-ink);
+}
+
+.food {
+  fill: var(--fail);
+}
+
+/* Narrower windows: two columns, the wide cards across both. */
+@media (max-width: 1080px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s-5);
+  }
+
+  .bill {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .spam {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .weather {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .flask {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .snake {
+    grid-column: 2;
+    grid-row: 3;
+  }
+}
+
+@media (max-width: 720px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-4);
+  }
+
+  .bill,
+  .weather,
+  .flask,
+  .spam,
+  .snake {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .artefact {
+    padding: var(--s-4) var(--s-4) 0;
+  }
+
+  .caption {
+    padding: var(--s-4) var(--s-5) var(--s-5);
+  }
+
+  .termText {
+    padding: var(--s-3) var(--s-4);
+    font-size: 12px;
+  }
+
+  .webPage {
+    padding: var(--s-3) var(--s-4) var(--s-3);
+  }
+
+  .cell {
+    height: 56px;
+    font-size: var(--fs-5);
+  }
+}

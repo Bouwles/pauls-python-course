@@ -4,12 +4,12 @@ type: predict
 title: The trades index
 concept: merging
 dialogue:
-  - ashby: "My father's trades index. Every occupation on a card, and the sector it belongs to."
+  - aaesha: "The Archive's trades index. Every occupation on a card, and the sector it belongs to."
 code: |
   import pandas as pd
 
   people = pd.DataFrame({
-      "name": ["Walter Rook", "Edith Hollis", "Ella Hocking", "Sam Rook"],
+      "name": ["Walter Rook", "Edith Rowe", "Ella Hocking", "Sam Rook"],
       "occupation": ["fisherman", "baker", "pharmacist", "fisherman"],
   })
   trades = pd.DataFrame({
@@ -38,4 +38,4 @@ after: |
 ---
 `people.merge(trades, on="occupation")` lines the two tables up by occupation and gives back one table with the columns of both: each person gets the sector from the card that matches.
 
-Nobody has added a card since 1990, and there were no pharmacists in {{town}} then.
+Nobody has added a card since 1990, and there were no pharmacists in these streets then.

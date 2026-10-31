@@ -4,9 +4,9 @@ type: milestone
 title: "Milestone 3: the whole project"
 evidence: link
 dialogue:
-  - moss: "Everything the proposal promised. If something changed, say what and why."
-  - pip: "Mine changed a lot."
-  - moss: "Then the README will be interesting."
+  - paul: "Everything the proposal promised. If something changed, say what and why."
+  - caitlin: "Mine changed a lot."
+  - paul: "Then the README will be interesting."
 checklist:
   - id: promised
     text: "Everything the proposal promised works, or the README says what changed and why."
@@ -31,6 +31,6 @@ Thicken the slice, one piece at a time: each piece tested, committed, and shown 
 
 When the proposal turns out wrong, and part of it will, change the plan on purpose. Write down what changed and why, and keep it for the README.
 
-Then the README itself: what it is, who it's for, how to install it, how to use it, how to run the tests. Write it for the person it's for, not for Moss.
+Then the README itself: what it is, who it's for, how to install it, how to use it, how to run the tests. Write it for the person it's for, not for Paul.
 
 Last, go through the code as a stranger would. Rename anything whose name you had to explain to yourself.

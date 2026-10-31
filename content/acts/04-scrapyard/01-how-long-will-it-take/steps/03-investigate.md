@@ -41,13 +41,13 @@ tasks:
     prompt: "And `keep_halving`? What happens to its steps when n doubles?"
     kind: answer
     accept: ["1", "one", "+1", "one more", "1 more", "goes up by one", "goes up by 1", "up by one", "up by 1", "it goes up by one", "it goes up by 1", "adds one", "adds 1", "plus one", "plus 1", "increases by one", "increases by 1", "one more step"]
-    feedback: "One more step. Doubling the pile adds only one halving. That's O(log n): it barely notices the pier."
+    feedback: "One more step. Doubling the pile adds only one halving. That's O(log n): it barely notices the clockmaker's lot."
     wrong: "Compare the last number on each row."
   - id: million
     prompt: "Without running it: how many steps would `keep_halving(1_000_000)` take? Then check."
     kind: answer
     accept: ["19", "nineteen"]
-    feedback: "Nineteen. A million parts, nineteen halvings. Keep that number in mind for the next job."
+    feedback: "Nineteen. A million parts, nineteen halvings. Keep that number in mind for the next project."
     wrong: "A thousand took 9. Each doubling adds one, and it takes about ten doublings to get from a thousand to a million."
   - id: twice
     prompt: "Add a second `for` loop to `look_at_each`, after the first one and not inside it, so it counts each part twice. Run it."

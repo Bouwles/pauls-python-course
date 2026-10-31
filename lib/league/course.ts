@@ -190,7 +190,7 @@ export function isoWeek(date = new Date()): string {
   return `${d.getUTCFullYear()}-W${String(week).padStart(2, "0")}`;
 }
 
-/** Frames of one race for the Living player: Sir Reginald's path over the course. */
+/** Frames of one race for the Living player: the crab's path over the course. */
 export function raceFrames(policy: Policy, seed: number): GridFrame[] {
   const c = course();
   const result = race(policy, seed);

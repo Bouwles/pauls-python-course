@@ -1,12 +1,12 @@
 ---
 id: pips
 type: pips
-title: Pip's Version
+title: Fix Yahya's version
 dialogue:
-  - pip: "January as arrows. Due north at ten knots: nought east, ten north. Spot on."
-  - pip: "Due east comes out pointing south-east. And January's average is a westerly. I think the vane's bent."
+  - yahya: "Can you look at mine? January as arrows. I skipped np.radians: one call fewer per reading."
+  - yahya: "Due north at ten knots, spot on. Due east comes out pointing south-east. Something's off."
 dialogue_after:
-  - pip: "Degrees in, radians wanted. NumPy took my 90 as ninety radians and never said a word."
+  - yahya: "Degrees in, radians wanted. NumPy took my 90 as ninety radians and never said a word. Very quickly."
 hints:
   nudge: "What does `np.sin` think 90 means: 90 degrees, or something else?"
   plan:
@@ -20,6 +20,6 @@ hints:
         north = speeds * np.cos(___)
         return np.column_stack([east, north])
 ---
-Pip has written `to_arrows` for the wind report. North works. Nothing else does.
+Yahya has written `to_arrows` for the wind report, as fast as he could make it. North works. Nothing else does.
 
 Run it, then fix `to_arrows`. The vane isn't bent.

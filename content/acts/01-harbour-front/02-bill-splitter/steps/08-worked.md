@@ -1,22 +1,22 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "Captain Ferro's boats share their rope. Same shape of problem, different quay."
+  - paul: "The Clocktower's floors share the cost of new cable. Same shape of problem, different bill."
 code: |
-  # Rope for the north quay, shared between the boats that use it
-  metres = input("Metres of rope? ")
-  boats = input("Boats sharing it? ")
+  # Cable for the Clocktower, shared between the floors that use it
+  metres = input("Metres of cable? ")
+  floors = input("Floors sharing it? ")
 
   metres = float(metres)
-  boats = int(boats)
+  floors = int(floors)
 
   cost = metres * 1.20
-  each = cost / boats
+  each = cost / floors
 
-  print(f"Rope: {cost:.2f}")
-  print(f"Each boat pays {each:.2f}")
+  print(f"Cable: {cost:.2f}")
+  print(f"Each floor pays {each:.2f}")
 inputs: ["4.5", "2"]
 subgoals:
   - label: Ask for the text
@@ -28,12 +28,12 @@ subgoals:
   - label: Show it, rounded
     lines: [11, 12]
 explain:
-  prompt: "Why does Moss use `float` for the metres but `int` for the boats?"
-  answer: "Rope comes in parts of a metre, like 4.5, and `int` can't read \"4.5\". Boats only come whole: nobody shares rope with half a boat."
+  prompt: "Why does Paul use `float` for the metres but `int` for the floors?"
+  answer: "Cable comes in parts of a metre, like 4.5, and `int` can't read \"4.5\". Floors only come whole: nobody shares cable with half a floor."
   concept: float-conversion
 ---
-The rope costs 1.20 a metre. Run it with `4.5` and `2`: each boat pays 2.70. Without the f-string, Python would say 2.6999999999999997.
+The cable costs 1.20 a metre. Run it with `4.5` and `2`: each floor pays 2.70. Without the f-string, Python would say 2.6999999999999997.
 
 Notice the names. `each` says what it holds; `x` wouldn't. The sums stay as floats right to the end, and only the f-strings round, so no penny is lost on the way.
 
-The labels in the margin are Moss's steps. They're in your starter file for the Make.
+The labels in the margin are Paul's steps. They're in your starter file for the Make.

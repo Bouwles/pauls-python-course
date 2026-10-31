@@ -6,7 +6,7 @@ portfolio_readme: |
 
   Answers questions about a census with pandas: everyone in one year, how many lived in a parish, who followed a trade and how old they were, the oldest person, and the size of every parish, largest first. Each question is a function of a line or two that takes the whole census as a DataFrame and leaves it as it was.
 
-  Written by {name} for Mr Ashby at the Records Office in {{town}}. Finished {date}.
+  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -15,17 +15,17 @@ portfolio_readme: |
   python main.py
   ```
 
-  It reads `census.csv` and answers the council's usual questions about 1951:
+  It reads `census.csv` and answers the usual questions about 1951:
 
   ```
   Census of 1951: 98 people
-  By parish: Harbour 35, High Street 31, Hill 18, Marsh 14
+  By parish: Bankside 35, Church Street 31, Hill 18, Northgate 14
   On the Hill: 18
   Fishermen: 6
   Oldest of all: Walter Rook
   ```
 
-  The census is {{town}}'s, made up for the story: one row a person, for 1921, 1951, 1981 and 2011.
+  The census is made up for the story: the streets round the Clocktower, one row a person, for 1921, 1951, 1981 and 2011.
 
   ## What it shows
 
@@ -34,21 +34,21 @@ portfolio_readme: |
   - Sorting, counting with `value_counts`, and finding the row with the largest value
   - Functions that answer one question each and never change the table they're given
 downloadable: true
-# census.csv is invented for the story: one in three of {{town}}'s households from four
-# censuses, as Penhallow typed them up. No real census fits a town that isn't on a map.
+# census.csv is invented for the story: one in three households in the streets round the
+# Clocktower, from four censuses. No real census fits streets that aren't on a map.
 datasets: []
-client: ashby
+client: aaesha
 building: records-office
 estimated_minutes: 70
-summary: "A census explorer for the Records Office: ninety years of {{town}} census in one pandas table, and the council's questions answered in a line each."
+summary: "A census explorer for the Archive: ninety years of census returns for the streets round the Clocktower in one pandas table, and the usual questions answered in a line each."
 concepts_introduced: [pandas-basics, selecting-filtering]
 concepts_reviewed: [numpy-arrays, vectorisation, csv-module, functions, return-values, comparisons, boolean-operators, main-guard, docstrings, sorted-vs-sort]
 ask:
   dialogue:
-    - ashby: "The census. Penhallow typed up one in three, from 1921 to 2011."
-    - ashby: "Not every household. A tenth of them, and anyone she found interesting."
-    - ashby: "The council asks the same things every time. How many on the Hill. Who fished."
-    - moss: "A table with names on its columns. That's what pandas is for."
+    - aaesha: "One drawer in the Archive is census returns for the streets round here, 1921 to 2011."
+    - aaesha: "Someone typed up one household in three, and anyone they found interesting."
+    - aaesha: "I keep asking it the same things. How many on the Hill. Who fished."
+    - paul: "A table with names on its columns. That's what pandas is for."
   spec: |
     `census.csv` has one row per person: `year`, `parish`, `household`, `name`, `relation`, `age` and `occupation`. The years are 1921, 1951, 1981 and 2011.
 
@@ -63,21 +63,21 @@ ask:
     The report at the bottom of the file is written for you.
   example: |
     Census of 1951: 98 people
-    By parish: Harbour 35, High Street 31, Hill 18, Marsh 14
+    By parish: Bankside 35, Church Street 31, Hill 18, Northgate 14
     On the Hill: 18
     Fishermen: 6
     Oldest of all: Walter Rook
 ship:
   dialogue:
-    - ashby: "Thirty-five at the harbour in 1951. Eighteen in 2011. I knew that. I'd just never counted."
-    - ashby: "Oldest in 2011: Moss, aged 121."
-    - moss: "The enumerator rounded up. I was 120."
-    - ashby: "Hollis, baker, in every census since 1921. Bea will want a copy."
-  shelf: { object: census-ledger, label: "The {{town}} census, in one table" }
+    - aaesha: "Thirty-five in Bankside in 1951. Eighteen in 2011. A street that halved, in one line."
+    - aaesha: "Oldest in 2011: Albert Moyle, aged 121. That's either a record or a typo."
+    - paul: "Hold that thought. The next project is about exactly that."
+    - aaesha: "And a Rowe, baker, in every census since 1921. Same street, same trade."
+  shelf: { object: census-ledger, label: "The Archive's census, in one table" }
   cards: [pandas-basics, selecting-filtering]
 stretch:
   - id: share-under
-    title: "How young was the town"
+    title: "How young were the streets"
     prompt: |
       Write `share_under(census, year, age)`. It returns the share of that year's people who were younger than `age`, as a number between 0 and 1. `share_under(census, 1921, 16)` is about 0.41.
 
@@ -87,4 +87,4 @@ stretch:
   - id: still-here
     title: "Still here"
     prompt: |
-      Who is in the 1981 census and the 2011 one too? `column.isin(other_column)` gives `True` for each value that also appears in the other. Print their names. There are three, and one of them won't be a surprise.
+      Who is in the 1981 census and the 2011 one too? `column.isin(other_column)` gives `True` for each value that also appears in the other. Print their names. There are three, and one of them is 121 by the end.

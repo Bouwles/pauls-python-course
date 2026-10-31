@@ -52,11 +52,6 @@ Test error: 1.29 marks
 Guessing the average: 3.32 marks
 A new student, 12 after the first term: about 12.2 out of 20
 """
-# Copied by Professor Wendt from a card in the bottom drawer of the desk:
-# Held back twelve nights the machine had never seen. It got every one
-# of them wrong, and was quite sure of itself. I learnt more that
-# afternoon than in the whole winter before. The test nights live in
-# the bottom drawer now, locked. A.P.
 
 import numpy as np
 import pandas as pd

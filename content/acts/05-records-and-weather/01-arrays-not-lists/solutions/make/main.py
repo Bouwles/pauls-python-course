@@ -1,14 +1,11 @@
-# The grade book, for Priya's Tuesday class at the Weather Station.
+# The grade book: a whole class's marks in one array.
 import numpy as np
 
 
 def load_marks(path):
     """Read the marks file. Returns (students, marks): 395 numbers, and 395 rows of 3 marks."""
-    # Priya copied this from the margin of Penhallow's station book, beside a
-    # reading of 0.0. It goes for marks as well. P.L.
-    #   A nought in the book can mean a dry day, or a day nobody read the
-    #   gauge. The machine on the hill can't tell them apart. On paper,
-    #   neither can I. A.P.
+    # A nought can mean a mark of nothing, or a student who wasn't there.
+    # On paper the two look the same, so look twice before averaging them.
     data = np.loadtxt(path, delimiter=",", skiprows=1, usecols=(0, 2, 3, 4))
     students = data[:, 0].astype(int)
     marks = data[:, 1:]

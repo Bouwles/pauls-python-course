@@ -1,4 +1,4 @@
-"""Agnes's booking rules: no Flask and no files, only the rules.
+"""The marina's booking rules: no Flask and no files, only the rules.
 
 BookingError(message, status=400)
         raised for a booking the rules refuse. .message says why, in words a
@@ -39,7 +39,7 @@ MAX_NIGHTS = 14
 
 
 class BookingError(Exception):
-    """A booking Agnes's rules refuse, with the HTTP status it deserves."""
+    """A booking the rules refuse, with the HTTP status it deserves."""
 
     def __init__(self, message, status=400):
         super().__init__(message)
@@ -58,7 +58,7 @@ def parse_date(text):
 
 
 def check_booking(body, berths):
-    """Agnes's rules, one at a time: a tidy booking, or a BookingError."""
+    """The rules, one at a time: a tidy booking, or a BookingError."""
     return body
 
 

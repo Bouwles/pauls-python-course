@@ -1,4 +1,4 @@
-"""Mrs Vance's library."""
+"""The Studio's lending library."""
 from dataclasses import dataclass
 from enum import Enum
 
@@ -90,10 +90,10 @@ if __name__ == "__main__":
     library = Library()
     library.add(Book("Emma", "Jane Austen", 1815))
     library.add(Book("The Riddle of the Sands", "Erskine Childers", 1903))
-    library.add(ReferenceBook("Tide Tables 2026", "Agnes Rook", 2025))
+    library.add(ReferenceBook("House Style", "Paul", 2025))
     library.add(Book("emma", "Jane Austen", 1815))
-    library.find("Emma").lend("Bea")
+    library.find("Emma").lend("Aaesha")
     print(f"The library has {len(library)} books")
     print(library.find("Emma"))
-    print(library.find("tide tables 2026"))
+    print(library.find("house style"))
     print("On the shelf: " + ", ".join(book.title for book in library.on_shelf()))

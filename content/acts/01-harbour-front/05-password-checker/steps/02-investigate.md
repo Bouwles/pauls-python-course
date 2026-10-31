@@ -4,7 +4,7 @@ type: investigate
 title: Asking the password questions
 concept: string-methods
 code: |
-  password = "Harbour1987"
+  password = "Clocktower1987"
   print(len(password))
   print(password.isalpha())
   print(password[-4:])
@@ -13,8 +13,8 @@ tasks:
   - id: length
     prompt: "Run it. What does `len(password)` give?"
     kind: answer
-    accept: ["11", "eleven"]
-    feedback: "11. `len` counts every character: letters, digits, spaces, everything."
+    accept: ["14", "fourteen"]
+    feedback: "14. `len` counts every character: letters, digits, spaces, everything."
   - id: isalpha
     prompt: "`.isalpha()` asks: is every character a letter? What does it answer here?"
     kind: answer
@@ -27,7 +27,7 @@ tasks:
     accept: ["1987"]
     feedback: "`1987`. A negative position counts from the end, and leaving out the second number runs the slice to the end."
   - id: isupper
-    prompt: "Add `print(password.isupper())` at the end. The password has a capital H, so you might expect `True`. What does it print?"
+    prompt: "Add `print(password.isupper())` at the end. The password has a capital C, so you might expect `True`. What does it print?"
     kind: answer
     accept: ["False"]
     feedback: "`False`. `.isupper()` asks whether every letter is a capital. One capital isn't enough."
@@ -37,14 +37,14 @@ tasks:
     kind: run
     tests: |
       TESTS = [
-          output("Harbour1987 has a capital", expect="True", match="last_line",
+          output("Clocktower1987 has a capital", expect="True", match="last_line",
                  hint="Compare password with password.lower(). If they're different, something was a capital."),
-          output("harbour1987 has none", set_vars={"password": "harbour1987"}, expect="False", match="last_line",
+          output("clocktower1987 has none", set_vars={"password": "clocktower1987"}, expect="False", match="last_line",
                  hint="Work from the variable password, so the answer changes when the password does."),
-          output("All capitals", set_vars={"password": "GALE-1987"}, expect="True", match="last_line"),
+          output("All capitals", set_vars={"password": "CLOCK-1987"}, expect="True", match="last_line"),
       ]
     solution: |
-      password = "Harbour1987"
+      password = "Clocktower1987"
       print(len(password))
       print(password.isalpha())
       print(password[-4:])

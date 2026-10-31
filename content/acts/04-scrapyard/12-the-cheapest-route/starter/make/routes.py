@@ -1,29 +1,29 @@
-"""The quickest way round {{town}} for Nell's lorry, in minutes."""
+"""The quickest way round the city for Riya, in minutes."""
 import heapq
 
 from workshop import show_graph
 
 MINUTES = {
-    "scrapyard": {"workshop": 8, "tailor": 4, "records-office": 7},
-    "workshop": {"scrapyard": 8, "bakery": 2, "tailor": 3},
-    "bakery": {"workshop": 2, "post-office": 2, "library": 3},
-    "post-office": {"bakery": 2, "pub": 3, "town-hall": 2, "ferry": 4},
-    "pub": {"post-office": 3, "harbour-office": 2, "greengrocer": 3},
-    "harbour-office": {"pub": 2, "ferry": 3, "crab-club": 4, "lighthouse": 9},
-    "ferry": {"post-office": 4, "harbour-office": 3},
-    "lighthouse": {"harbour-office": 9},
-    "tailor": {"scrapyard": 4, "workshop": 3, "library": 2},
-    "library": {"tailor": 2, "bakery": 3, "town-hall": 2},
-    "town-hall": {"library": 2, "post-office": 2, "greengrocer": 3, "weather-station": 8},
-    "greengrocer": {"town-hall": 3, "pub": 3, "bike-shed": 2},
-    "bike-shed": {"greengrocer": 2, "crab-club": 3, "observatory": 10},
-    "crab-club": {"bike-shed": 3, "harbour-office": 4},
-    "records-office": {"scrapyard": 7, "weather-station": 3},
-    "weather-station": {"records-office": 3, "town-hall": 8, "observatory": 6},
-    "observatory": {"weather-station": 6, "bike-shed": 10},
+    "market": {"clocktower": 8, "bookshop": 4, "museum": 7},
+    "clocktower": {"market": 8, "cafe": 2, "bookshop": 3},
+    "cafe": {"clocktower": 2, "station": 2, "library": 3},
+    "station": {"cafe": 2, "cinema": 3, "city-hall": 2, "theatre": 4},
+    "cinema": {"station": 3, "bridge": 2, "school": 3},
+    "bridge": {"cinema": 2, "theatre": 3, "pool": 4, "stadium": 9},
+    "theatre": {"station": 4, "bridge": 3},
+    "stadium": {"bridge": 9},
+    "bookshop": {"market": 4, "clocktower": 3, "library": 2},
+    "library": {"bookshop": 2, "cafe": 3, "city-hall": 2},
+    "city-hall": {"library": 2, "station": 2, "school": 3, "gallery": 8},
+    "school": {"city-hall": 3, "cinema": 3, "gym": 2},
+    "gym": {"school": 2, "pool": 3, "park": 10},
+    "pool": {"gym": 3, "bridge": 4},
+    "museum": {"market": 7, "gallery": 3},
+    "gallery": {"museum": 3, "city-hall": 8, "park": 6},
+    "park": {"gallery": 6, "gym": 10},
 }
 
-FEWEST_ROADS_TO_FERRY = ["scrapyard", "workshop", "bakery", "post-office", "ferry"]
+FEWEST_ROADS_TO_THEATRE = ["market", "clocktower", "cafe", "station", "theatre"]
 
 
 def route_minutes(roads, route):
@@ -45,9 +45,9 @@ def quickest_route(roads, start, goal):
 
 
 if __name__ == "__main__":
-    print(f"Fewest roads to the ferry: {route_minutes(MINUTES, FEWEST_ROADS_TO_FERRY)} minutes")
-    minutes, route = quickest_route(MINUTES, "scrapyard", "ferry")
-    print(f"Quickest to the ferry: {minutes} minutes, by {', '.join(route)}")
-    times = quickest_times(MINUTES, "scrapyard")
+    print(f"Fewest roads to the theatre: {route_minutes(MINUTES, FEWEST_ROADS_TO_THEATRE)} minutes")
+    minutes, route = quickest_route(MINUTES, "market", "theatre")
+    print(f"Quickest to the theatre: {minutes} minutes, by {', '.join(route)}")
+    times = quickest_times(MINUTES, "market")
     furthest = max(times, key=times.get)
-    print(f"Furthest from the yard: {furthest}, {times[furthest]} minutes")
+    print(f"Furthest from the market: {furthest}, {times[furthest]} minutes")

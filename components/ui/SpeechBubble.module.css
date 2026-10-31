@@ -1,0 +1,68 @@
+.bubble {
+  position: relative;
+  display: grid;
+  gap: var(--s-2);
+  justify-items: start;
+  background: var(--surface-2);
+  border-radius: var(--r-lg);
+  padding: var(--s-3) var(--s-4);
+  min-width: 0;
+}
+
+:root[data-theme="light"] .bubble {
+  background: var(--surface-3);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .bubble {
+    background: var(--surface-3);
+  }
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: var(--fs-1);
+  font-weight: 700;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: var(--r-sm);
+}
+
+.text {
+  font-size: var(--fs-2);
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.text > * + * {
+  margin-top: var(--s-2);
+}
+
+/* The tail: a small square turned 45 degrees, in the bubble's colour. */
+.bubble::before {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: inherit;
+  transform: rotate(45deg);
+}
+
+.tail-left::before {
+  left: -5px;
+  top: 18px;
+}
+
+.tail-top::before {
+  top: -5px;
+  left: 24px;
+}
+
+.tail-bottom::before {
+  bottom: -5px;
+  left: 24px;
+}
+
+.tail-none::before {
+  display: none;
+}

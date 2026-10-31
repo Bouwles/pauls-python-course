@@ -1,4 +1,4 @@
-"""Penhallow's digit reader, rebuilt in PyTorch."""
+"""The digit reader, rebuilt in PyTorch."""
 
 import torch
 from torch import nn

@@ -23,9 +23,9 @@ options:
     feedback: "Right. The first move cost -1 and led to a tile whose best move is worth 5.0, so -1 + 0.9 × 5.0. The second ended the race: `1 - over` is 0, so the target is the reward alone, whatever the network thinks of the finish tile."
   - text: "[3.5, 13.6]"
     misconception: td-terminal-bootstrap
-    feedback: "Once he's on the finish there's nothing left to be worth anything. `(1 - over)` is 0 for that move, so the 4.0s are ignored. The network never gets a target for the finish tile, which is why its guesses there are nonsense."
+    feedback: "Once the crab is on the finish there's nothing left to be worth anything. `(1 - over)` is 0 for that move, so the 4.0s are ignored. The network never gets a target for the finish tile, which is why its guesses there are nonsense."
   - text: "[1.7, 10.0]"
     misconception: q-target-same-action
-    feedback: "The target asks what the next tile is worth if he plays it well from there: its best Q-value, `max`, which is 5.0. Which move got him there doesn't come into it."
+    feedback: "The target asks what the next tile is worth if the crab plays it well from there: its best Q-value, `max`, which is 5.0. Which move got the crab there doesn't come into it."
 ---
 Two memories, and the network's opinion of where each move led. `axis=1` takes the biggest of each row's four.

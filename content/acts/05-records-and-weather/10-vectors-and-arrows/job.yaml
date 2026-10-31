@@ -4,9 +4,9 @@ project_name: "Linear Algebra Lab"
 portfolio_readme: |
   # Linear Algebra Lab
 
-  Two experiments in linear algebra with NumPy, each one something you can see. The first treats a month of wind as vectors: bearings become arrows, the average wind is the average arrow, and dot products split each wind into what a ferry feels on the bow and on the beam. The second treats a photograph as a matrix: mirrored and turned by slicing and transposing, brightened and blurred by arithmetic, and the outline of a house turned by a rotation matrix and turned back again.
+  Two experiments in linear algebra with NumPy, each one something you can see. The first treats a month of wind as vectors: bearings become arrows, the average wind is the average arrow, and dot products split each wind into what a cyclist feels head-on and from the side. The second treats a photograph as a matrix: mirrored and turned by slicing and transposing, brightened and blurred by arithmetic, and the outline of a house turned by a rotation matrix and turned back again.
 
-  Written by {name} for Priya Lund at the Weather Station in {{town}}. Finished {date}.
+  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -49,19 +49,19 @@ datasets:
     licence: "CC0 1.0"
     file: lighthouse.csv
     notes: "Photograph by Mrmichaeltomato (own work), Wikimedia Commons, dedicated to the public domain under CC0 1.0. The 250-pixel-wide thumbnail Wikimedia serves was cropped to its middle 140 by 187 pixels, converted to greyscale with Pillow's standard luma (mode L), and resized to 48 wide by 64 high with Lanczos resampling. Each row of the CSV is a row of pixels, 0 black to 255 white. vane.csv, the month of wind, is invented for the story."
-client: priya
+client: aaesha
 building: weather-station
 estimated_minutes: 130
-summary: "A linear algebra lab in two parts: a month of wind as vectors, for the prevailing wind and what the ferry feels on the bow and the beam; then a photograph of a lighthouse as a matrix, mirrored, turned, blurred, with a rotation matrix to finish."
+summary: "A linear algebra lab in two parts: a month of wind from the Archive's vane as vectors, for the prevailing wind and what a cyclist feels head-on and from the side; then a real photograph of a lighthouse as a matrix, mirrored, turned, blurred, with a rotation matrix to finish."
 concepts_introduced: [vectors, matrices]
 concepts_reviewed: [numpy-arrays, vectorisation, broadcasting, slicing, negative-indices, matplotlib, functions, return-values, multiple-returns, main-guard, docstrings, f-strings]
 ask:
   dialogue:
-    - priya: "The vane logs a bearing and a speed every day. Penhallow's summary averages the bearings."
-    - priya: "So January came from the south. Ask anyone on the quay."
-    - ferro: "And I want what's on the bow and what's on the beam. On forty degrees."
-    - moss: "Bearings go round. Numbers don't. Make them arrows."
-    - wendt: "And after that, a photograph of a lighthouse. As numbers. You'll see why."
+    - aaesha: "The vane outside the window logs a bearing and a speed every day. The old summary script averages the bearings."
+    - aaesha: "So January came from the south. The vane spent the month pointing north."
+    - riya: "And I cycle in on forty degrees. I want what's in my face and what's from the side."
+    - paul: "Bearings go round. Numbers don't. Make them arrows."
+    - caitlin: "And after that, a photograph of a lighthouse. As numbers. You'll see why."
   spec: |
     `vane.csv` has one row per day of January 2024: the `date`, the `bearing` the wind came from (degrees clockwise from north) and its `speed` in knots. `load_vane` and `to_arrows` are written: `to_arrows` gives one arrow per day, `(east, north)` in knots, pointing where the wind came from.
 
@@ -71,7 +71,7 @@ ask:
     - `prevailing(arrows)`: the average wind, `(bearing, speed)`: the direction and length of the mean arrow.
     - `steadiness(arrows)`: the mean arrow's length divided by the mean speed.
     - `angle_between(a, b)`: the angle between two arrows in degrees, from 0 to 180.
-    - `along_and_across(arrows, heading)`: for a boat on that heading, one row per wind: the headwind (below 0 if the wind is behind) and the crosswind from starboard (below 0 if it's from port).
+    - `along_and_across(arrows, heading)`: for a bike on that heading, one row per wind: the headwind (below 0 if the wind is behind) and the crosswind from the right (below 0 if it's from the left).
 
     Then the second experiment, in `lighthouse.py`. `lighthouse.csv` is a real photograph, a lighthouse in North Carolina, as a matrix: 64 rows of 48 brightnesses, 0 black to 255 white. `load_image` is written. Write seven more functions, each giving back a new array:
 
@@ -88,8 +88,8 @@ ask:
     Prevailing wind: from 350 degrees at 11.4 knots
     Steadiness: 0.81
     Biggest swing overnight: 120 degrees, 2024-01-28 to 2024-01-29
-    Ferry on 040: worst headwind 25.1 knots on 2024-01-26
-    Ferry on 040: worst crosswind 23.1 knots on 2024-01-15
+    Cycling on 040: worst headwind 25.1 knots on 2024-01-26
+    Cycling on 040: worst crosswind 23.1 knots on 2024-01-15
 
     Cape Lookout: 64 rows by 48 columns, brightness 0 to 229
     Turned a quarter: 48 rows by 64 columns
@@ -99,13 +99,12 @@ ask:
     Roof, turned 90 degrees: [-12.  10.]
 ship:
   dialogue:
-    - priya: "North by a touch west, steadiness 0.81. That's a month I recognise."
-    - ferro: "Twenty-three knots on the port beam on the fifteenth. I cancelled the four o'clock. Rightly, it turns out."
-    - priya: "I've crossed out Penhallow's 197. In pencil. She'd have done the same."
-    - wendt: "And the lighthouse turned and blurred and put back. Pictures are matrices. Mostly they're more interesting."
+    - aaesha: "North by a touch west, steadiness 0.81. That's a month I recognise."
+    - riya: "Twenty-three knots from the left on the fifteenth. I took the bus that day. Rightly, it turns out."
+    - aaesha: "I've crossed out the old summary's 197. In pencil. It did its best."
+    - caitlin: "And the lighthouse turned and blurred and put back. Every filter on my phone, more or less."
   shelf: { object: weathervane, label: "The linear algebra lab: wind in arrows, a lighthouse in numbers" }
   cards: [vectors, matrices]
-story_note: facing-north
 stretch:
   - id: edges
     title: "Find the edges"

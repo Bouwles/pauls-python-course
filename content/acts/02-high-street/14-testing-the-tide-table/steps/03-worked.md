@@ -1,9 +1,9 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "Bea's till, with its tests. Every repair should come with a way to check it."
+  - paul: "Neil's bake sale till, with its tests. Every program should come with a way to check it."
 code: |
   def price(item, quantity):
       """Price of an order in pence. Bread is 240; anything else is a bun at 85."""
@@ -57,8 +57,8 @@ subgoals:
   - label: Run every test_ function (pytest does this part)
     lines: [30, 38]
 explain:
-  prompt: "Why does Moss work out 720 by hand, instead of writing `assert price(\"bread\", 3) == price(\"bread\", 3)`?"
-  answer: "A test that compares the code with itself always passes, even when the code is wrong. The expected answer has to come from somewhere else: your own arithmetic, Bea's paper bag, Mira's ledger."
+  prompt: "Why does Paul work out 720 by hand, instead of writing `assert price(\"bread\", 3) == price(\"bread\", 3)`?"
+  answer: "A test that compares the code with itself always passes, even when the code is wrong. The expected answer has to come from somewhere else: your own arithmetic, the price list, a receipt."
   concept: assert
 ---
 In a real project the tests live in their own file, `test_till.py`, which starts with `from till import price`. Here they share a file so you can see both at once.

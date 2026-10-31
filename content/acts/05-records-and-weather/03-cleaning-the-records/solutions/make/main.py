@@ -1,4 +1,4 @@
-# The lifeboat crew register, through a cleaning pipeline: one step at a time, each written down.
+# The river rescue crew register, through a cleaning pipeline: one step at a time, each written down.
 import numpy as np
 import pandas as pd
 
@@ -43,7 +43,7 @@ def make_numbers(register):
 
 
 def drop_impossible(register):
-    """Ages over 100 made missing: nobody joined the lifeboat at 412."""
+    """Ages over 100 made missing: nobody joined the crew at 412."""
     clean = register.copy()
     # Throw out the impossible
     clean.loc[clean["age"] > 100, "age"] = np.nan
@@ -56,7 +56,7 @@ def drop_duplicates(register):
     return register.drop_duplicates().reset_index(drop=True)
 
 
-# Moss's steps, in his order. Duplicates last, once the copies look alike.
+# Paul's steps, in his order. Duplicates last, once the copies look alike.
 PIPELINE = [tidy_text, read_dates, make_numbers, drop_impossible, drop_duplicates]
 
 

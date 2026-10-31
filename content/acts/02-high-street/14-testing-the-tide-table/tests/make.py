@@ -49,7 +49,7 @@ def catches(source, what, old, new):
     return check
 
 
-REFERENCE = '# The post office savings accounts. Money is kept in whole pence.\n# Mira pinned this inside the safe door. She found it in Penhallow\'s handwriting:\n# "I never wrote tests for the thing on the hill. It passes everything\n#  I ask it, which is either very good news or the worst kind. A.P."\n\n\nclass Account:\n    """One savings account."""\n\n    def __init__(self, holder, number):\n        self.holder = holder\n        self.number = number\n        self.balance = 0\n        self.history = []\n\n    def deposit(self, pence):\n        """Pay pence in. Raises ValueError unless it\'s more than 0."""\n        if pence <= 0:\n            raise ValueError("A deposit must be more than 0.")\n        self.balance += pence\n        self.history.append(pence)\n\n    def withdraw(self, pence):\n        """Take pence out and return True, or return False if there isn\'t enough."""\n        if pence <= 0:\n            raise ValueError("A withdrawal must be more than 0.")\n        if pence > self.balance:\n            return False\n        self.balance -= pence\n        self.history.append(-pence)\n        return True\n\n    def __str__(self):\n        return f"Account {self.number}, {self.holder}: £{self.balance / 100:.2f}"\n\n    def transfer(self, other, pence):\n        """Move pence from this account into other, and return True.\n\n        If this account hasn\'t enough, nothing moves and it returns False.\n        An amount that isn\'t more than 0 raises ValueError.\n        """\n        if not self.withdraw(pence):\n            return False\n        other.deposit(pence)\n        return True\n\n    def add_interest(self, percent):\n        """Pay in percent interest on the balance, to the nearest penny, and return it.\n\n        Interest that rounds to nothing isn\'t paid in, and isn\'t in the history.\n        """\n        interest = round(self.balance * percent / 100)\n        if interest > 0:\n            self.deposit(interest)\n        return interest\n'
+REFERENCE = '# Savings accounts for the class trip fund. Money is kept in whole pence.\n# Aaesha\'s note, at the top of the file:\n# "Before you change it, how will you know it still works? A."\n\n\nclass Account:\n    """One savings account."""\n\n    def __init__(self, holder, number):\n        self.holder = holder\n        self.number = number\n        self.balance = 0\n        self.history = []\n\n    def deposit(self, pence):\n        """Pay pence in. Raises ValueError unless it\'s more than 0."""\n        if pence <= 0:\n            raise ValueError("A deposit must be more than 0.")\n        self.balance += pence\n        self.history.append(pence)\n\n    def withdraw(self, pence):\n        """Take pence out and return True, or return False if there isn\'t enough."""\n        if pence <= 0:\n            raise ValueError("A withdrawal must be more than 0.")\n        if pence > self.balance:\n            return False\n        self.balance -= pence\n        self.history.append(-pence)\n        return True\n\n    def __str__(self):\n        return f"Account {self.number}, {self.holder}: £{self.balance / 100:.2f}"\n\n    def transfer(self, other, pence):\n        """Move pence from this account into other, and return True.\n\n        If this account hasn\'t enough, nothing moves and it returns False.\n        An amount that isn\'t more than 0 raises ValueError.\n        """\n        if not self.withdraw(pence):\n            return False\n        other.deposit(pence)\n        return True\n\n    def add_interest(self, percent):\n        """Pay in percent interest on the balance, to the nearest penny, and return it.\n\n        Interest that rounds to nothing isn\'t paid in, and isn\'t in the history.\n        """\n        interest = round(self.balance * percent / 100)\n        if interest > 0:\n            self.deposit(interest)\n        return interest\n'
 
 
 def their_account(ctx):
@@ -67,56 +67,56 @@ def same(what, got, want):
 
 def money_moves(ctx):
     Account = their_account(ctx)
-    bea, gwen = Account("Bea", 1), Account("Gwen", 2)
-    bea.deposit(2000)
-    same("bea.transfer(gwen, 500)", bea.transfer(gwen, 500), True)
-    same("Bea's balance afterwards", bea.balance, 1500)
-    same("Gwen's balance afterwards", gwen.balance, 500)
-    same("Bea's history", bea.history, [2000, -500])
-    same("Gwen's history", gwen.history, [500])
+    aaesha, caitlin = Account("Aaesha", 1), Account("Caitlin", 2)
+    aaesha.deposit(2000)
+    same("aaesha.transfer(caitlin, 500)", aaesha.transfer(caitlin, 500), True)
+    same("Aaesha's balance afterwards", aaesha.balance, 1500)
+    same("Caitlin's balance afterwards", caitlin.balance, 500)
+    same("Aaesha's history", aaesha.history, [2000, -500])
+    same("Caitlin's history", caitlin.history, [500])
 
 
 def not_enough(ctx):
     Account = their_account(ctx)
-    pip, mira = Account("Pip", 13), Account("Mira", 1)
-    pip.deposit(300)
-    same("pip.transfer(mira, 301)", pip.transfer(mira, 301), False)
-    same("Pip's balance afterwards", pip.balance, 300)
-    same("Mira's balance afterwards", mira.balance, 0)
-    same("pip.transfer(mira, 300), exactly everything", pip.transfer(mira, 300), True)
-    same("Mira's balance after that", mira.balance, 300)
+    yahya, riya = Account("Yahya", 13), Account("Riya", 1)
+    yahya.deposit(300)
+    same("yahya.transfer(riya, 301)", yahya.transfer(riya, 301), False)
+    same("Yahya's balance afterwards", yahya.balance, 300)
+    same("Riya's balance afterwards", riya.balance, 0)
+    same("yahya.transfer(riya, 300), exactly everything", yahya.transfer(riya, 300), True)
+    same("Riya's balance after that", riya.balance, 300)
 
 
 def bad_transfer(ctx):
     Account = their_account(ctx)
-    bea, gwen = Account("Bea", 1), Account("Gwen", 2)
-    bea.deposit(100)
+    aaesha, caitlin = Account("Aaesha", 1), Account("Caitlin", 2)
+    aaesha.deposit(100)
     try:
-        bea.transfer(gwen, -50)
+        aaesha.transfer(caitlin, -50)
     except ValueError:
-        same("A refused transfer leaves Gwen alone", gwen.balance, 0)
+        same("A refused transfer leaves Caitlin alone", caitlin.balance, 0)
         return
-    raise CheckFailed("transfer(gwen, -50) should raise a ValueError.", expected="ValueError", actual="no error")
+    raise CheckFailed("transfer(caitlin, -50) should raise a ValueError.", expected="ValueError", actual="no error")
 
 
 def interest(ctx):
     Account = their_account(ctx)
-    tom = Account("Old Tom", 7)
-    tom.deposit(1250)
-    same("add_interest(2) on £12.50", tom.add_interest(2), 25)
-    same("and the balance", tom.balance, 1275)
-    same("and the history", tom.history, [1250, 25])
-    odd = Account("Old Tom", 8)
+    paul = Account("Paul", 7)
+    paul.deposit(1250)
+    same("add_interest(2) on £12.50", paul.add_interest(2), 25)
+    same("and the balance", paul.balance, 1275)
+    same("and the history", paul.history, [1250, 25])
+    odd = Account("Paul", 8)
     odd.deposit(1999)
     same("add_interest(2) on £19.99, to the nearest penny", odd.add_interest(2), 40)
 
 
 def no_interest(ctx):
     Account = their_account(ctx)
-    pip = Account("Pip", 13)
-    same("add_interest(2) on nothing", pip.add_interest(2), 0)
-    same("leaves the history empty", pip.history, [])
-    small = Account("Pip", 14)
+    yahya = Account("Yahya", 13)
+    same("add_interest(2) on nothing", yahya.add_interest(2), 0)
+    same("leaves the history empty", yahya.history, [])
+    small = Account("Yahya", 14)
     small.deposit(49)
     same("add_interest(1) on 49p rounds to nothing", small.add_interest(1), 0)
     same("and pays nothing in", small.history, [49])
@@ -135,7 +135,7 @@ TESTS = [
            hint="round(self.balance * percent / 100) is the interest in whole pence. Pay it in with deposit."),
     custom("No interest on nothing", no_interest,
            hint="Interest that rounds to 0 isn't paid in: deposit(0) would raise a ValueError, and quite right too."),
-    custom("Your tests agree with the brief", passes_on(REFERENCE, "Moss's reference bank.py"),
+    custom("Your tests agree with the brief", passes_on(REFERENCE, "Paul's reference bank.py"),
            hint="One of your tests expects something the requirements don't say. Check its answer against the brief."),
     custom("Your tests notice interest that isn't rounded",
            catches(REFERENCE, "add_interest pays in fractions of a penny", "        interest = round(self.balance * percent / 100)", "        interest = self.balance * percent / 100"),

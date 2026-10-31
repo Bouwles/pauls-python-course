@@ -1,10 +1,10 @@
 ---
 id: lstm
 type: modify
-title: Penhallow's sluice
+title: Neil's sluice
 files: [lstm.py]
 entry: lstm.py
-on_pass: { wendt: "Forty-eight quiet hours, and the cell still holds most of it. The plain memory holds nothing." }
+on_pass: { neil: "Forty-eight quiet hours, and the cell still holds most of it. The plain memory holds nothing." }
 hints:
   nudge: "There are four gates, and each is a weighted sum like the plain step. Which ones are squashed by sigmoid, and which by tanh?"
   plan:
@@ -31,4 +31,4 @@ h = out * np.tanh(c)                 # show some
 
 The program at the bottom holds the forget gate open and the input gate shut for 48 quiet hours, and compares the cell with a plain memory.
 
-There are no trained LSTM weights in her notebook. Training one is for your own computer, in the stretch.
+There are no trained LSTM weights in Neil's notebook. Training one is for your own computer, in the stretch.

@@ -6,7 +6,7 @@ portfolio_readme: |
 
   A character-level GPT, written from scratch in NumPy, that writes in the style of Jerome K. Jerome's Three Men in a Boat. It has self-attention with a causal mask, several heads, layer norm, a feed-forward network and residual connections, in two transformer blocks, each piece checked number by number against a reference. The weights were trained beforehand on the book; this code runs the model and samples from it, a character at a time, with a temperature.
 
-  Written by {name} in {{town}}. Finished {date}.
+  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -40,7 +40,7 @@ datasets:
     licence: "Public domain"
     file: "gpt_weights.json"
     notes: "The book is not bundled, only a model trained on it. From pg308.txt: kept the text between the START and END lines, from the first chapter on; lower case; ! ? ; and : as full stops; every other character outside a to z, space, full stop, comma and apostrophe as a space; runs of spaces as one. 355,292 characters, a vocabulary of 30. Trained in PyTorch for 12,000 steps of AdamW (batches of 64, a context of 32, cosine schedule from 0.003): two blocks of four heads, 32 numbers a character, a feed-forward layer of 128, validation perplexity 4.75 on the last 5% of the book. Weights rounded to 3 decimal places; the NumPy forward pass matches PyTorch's on the rounded weights."
-client: wendt
+client: aaesha
 building: observatory
 estimated_minutes: 220
 summary: "A character-level GPT from scratch: self-attention with a causal mask, several heads, a transformer block checked number by number, then two trained blocks that write in the style of Three Men in a Boat."
@@ -48,10 +48,10 @@ concepts_introduced: [attention, transformers]
 concepts_reviewed: [embeddings, language-models, batch-normalisation, neural-networks, activation-functions, matrices, numpy-arrays, broadcasting, json-module]
 ask:
   dialogue:
-    - wendt: "The top floor. Her last blackboard. Three letters across the top: Q, K, V."
-    - wendt: "Underneath: every letter asks the ones before it a question. Then a block, boxed, and the word stack."
-    - moss: "The forecast model looked one letter back. This looks at all of them?"
-    - wendt: "All of them, and it decides how much each one counts. That's attention."
+    - aaesha: "Neil's blackboard, this morning. Three letters across the top: Q, K, V."
+    - neil: "Underneath: every letter asks the ones before it a question. Then a block, boxed, and the word stack."
+    - yahya: "The forecast model looked one letter back. This looks at all of them?"
+    - aaesha: "All of them, and it decides how much each one counts. That's attention."
   spec: |
     In `attention.py`:
 
@@ -60,21 +60,20 @@ ask:
     3. `attention(Q, K, V, mask=None)`: the scores `Q @ K.T`, divided by the square root of the key size; scores where `mask` is `True` set to minus infinity; softmax along each row into weights. Returns `(weights @ V, weights)`.
     4. `self_attention(X, Wq, Wk, Wv, causal=True)`: queries, keys and values all made from `X`, with the causal mask unless `causal` is `False`. Returns `(output, weights)`.
 
-    Then in `block.py`, one transformer block: `multi_head`, `layer_norm` (row by row), `feed_forward` and `transformer_block`, checked against a reference with Wendt's test weights.
+    Then in `block.py`, one transformer block: `multi_head`, `layer_norm` (row by row), `feed_forward` and `transformer_block`, checked against a reference with Neil's test weights.
 
     Then in `gpt.py`, the whole model, with weights trained on Jerome K. Jerome's Three Men in a Boat: `embed`, `next_scores` through both blocks, `sample_next` with a temperature, and `generate`, which writes a character at a time.
   example: |
     the river to day, and the strange of the work the busin't so a morning from before on the
     george said, and a not a sing to much as real the partice, and the man who had the sland wa
     montmorency would have stopped half a man on the back that it was a since to be in a methin
-story_note: which-parts-matter
 ship:
   dialogue:
-    - wendt: "Nine characters in, nine out, and nothing looks ahead. Then two blocks that had read a whole book."
-    - pip: "Montmorency would have stopped half a man. That's literature."
-    - wendt: "It's spelling, Pip. It learnt which letters keep company. Not what any of them mean."
-    - moss: "Her machine on the hill is this, bigger. Now you know what's inside it."
-  shelf: { object: magnifier, label: "A tiny GPT, from her last blackboard" }
+    - aaesha: "Nine characters in, nine out, and nothing looks ahead. Then two blocks that had read a whole book."
+    - caitlin: "Montmorency would have stopped half a man. That's literature."
+    - aaesha: "It's spelling. It learnt which letters keep company. Not what any of them mean."
+    - paul: "The big models are this, only bigger. Now you know what's inside them."
+  shelf: { object: magnifier, label: "A tiny GPT, from Neil's blackboard" }
   cards: [attention, transformers]
 stretch:
   - id: draw-the-weights
@@ -88,4 +87,4 @@ stretch:
   - id: take-it-home
     title: "A tiny transformer at home"
     prompt: |
-      On your own computer, with PyTorch: build a character-level transformer, two blocks of four heads, with `torch.nn.Embedding` for the characters and the positions, and train it to guess the next character of the shipping forecasts from the Text Generator, with a causal mask. A few minutes on a laptop is enough. Make it write forecasts, and compare its perplexity on `held_back.txt` with the bigram's 7.34.
+      On your own computer, with PyTorch: build a character-level transformer, two blocks of four heads, with `torch.nn.Embedding` for the characters and the positions, and train it to guess the next character of the shipping forecasts from the Text Generator, with a causal mask. A few minutes on a laptop is enough. Make it write forecasts, and compare its perplexity on `held_back.txt` with the bigram's 7.05.

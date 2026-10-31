@@ -4,7 +4,7 @@ type: predict
 title: Most like this one
 concept: knn
 dialogue:
-  - wendt: "A penguin from the Palmer data I've hidden the name of. Shallow bill, long flippers. I'd say Gentoo."
+  - aaesha: "A penguin from the Palmer data. I've hidden its name. Shallow bill, long flippers. I'd say Gentoo."
 code: |
   import numpy as np
 

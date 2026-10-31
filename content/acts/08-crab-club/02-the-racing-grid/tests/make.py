@@ -1,6 +1,6 @@
 import numpy as np
 
-# Moss's own copy of the track, to check against.
+# Paul's own copy of the track, to check against.
 TRACK = ["...F", ".#.P", "S..."]
 STEPS = {"up": (-1, 0), "down": (1, 0), "left": (0, -1), "right": (0, 1)}
 SIDEWAYS = {"up": ["left", "right"], "down": ["left", "right"], "left": ["up", "down"], "right": ["up", "down"]}
@@ -16,7 +16,7 @@ LONG_WAY = {
 }
 
 
-def moss_outcomes(tile, action, slip=0.2):
+def paul_outcomes(tile, action, slip=0.2):
     result = []
     for chance, way in [(1 - slip, action)] + [(slip / 2, side) for side in SIDEWAYS[action]]:
         r, c = tile[0] + STEPS[way][0], tile[1] + STEPS[way][1]
@@ -26,17 +26,17 @@ def moss_outcomes(tile, action, slip=0.2):
     return result
 
 
-def moss_value(policy, gamma=0.9):
+def paul_value(policy, gamma=0.9):
     """The exact expected return from the start, by sweeping until nothing changes."""
     values = {tile: 0.0 for tile in TILES}
     for _ in range(500):
         for tile in RACING:
             values[tile] = sum(p * (r + (0 if over else gamma * values[after]))
-                               for p, after, r, over in moss_outcomes(tile, policy[tile]))
+                               for p, after, r, over in paul_outcomes(tile, policy[tile]))
     return values[(2, 0)]
 
 
-def moss_return(rewards, gamma):
+def paul_return(rewards, gamma):
     return sum(gamma ** t * reward for t, reward in enumerate(rewards))
 
 
@@ -59,7 +59,7 @@ def same_outcomes(m, tile, action, slip=None):
     got = m.outcomes(tile, action) if slip is None else m.outcomes(tile, action, slip=slip)
     if got is None:
         raise CheckFailed("outcomes should return a list of (probability, next tile, reward, over).", actual="None")
-    want = gathered(moss_outcomes(tile, action, 0.2 if slip is None else slip))
+    want = gathered(paul_outcomes(tile, action, 0.2 if slip is None else slip))
     have = gathered(got)
     call = f"outcomes({tile}, {action!r}" + ("" if slip is None else f", slip={slip}") + ")"
     if set(have) != set(want) or any(abs(have[k][0] - want[k][0]) > 1e-9 for k in want):
@@ -77,7 +77,7 @@ def first_steps(ctx):
         got = m.move(tile, direction)
         if got is None or tuple(got) != want:
             reason = {(2, 0): "off the edge", (2, 1): "into the rock"}.get(want, "")
-            raise CheckFailed(f"move({tile}, {direction!r}) should give {want}" + (f": a step {reason} leaves him where he was." if reason else "."), expected=want, actual=got)
+            raise CheckFailed(f"move({tile}, {direction!r}) should give {want}" + (f": a step {reason} leaves it where it was." if reason else "."), expected=want, actual=got)
 
 
 def up_from_start(ctx):
@@ -151,14 +151,14 @@ def race_limit(ctx):
     stubborn = {tile: "left" for tile in RACING}
     got = raced(m, stubborn, np.random.default_rng(2), slip=0.0, limit=7)
     if list(got) != [-1] * 7:
-        raise CheckFailed("Told left at the start and never slipping, he bumps the edge for ever. With limit=7 the race should stop after 7 rewards.", expected=[-1] * 7, actual=got)
+        raise CheckFailed("Told left at the start and never slipping, it bumps the edge for ever. With limit=7 the race should stop after 7 rewards.", expected=[-1] * 7, actual=got)
 
 
 def race_on_average(ctx):
     m = ctx.module()
     rng = np.random.default_rng(3)
     for name, policy, want, tol in [("the traditional line", TRADITIONAL, -7.61, 0.5), ("the long way", LONG_WAY, 1.04, 0.3)]:
-        average = np.mean([moss_return(raced(m, policy, rng), 0.9) for _ in range(2000)])
+        average = np.mean([paul_return(raced(m, policy, rng), 0.9) for _ in range(2000)])
         if abs(average - want) > tol:
             raise CheckFailed(f"Over 2000 races, {name} should average a discounted return of about {want}.", expected=want, actual=round(float(average), 2))
 
@@ -178,11 +178,11 @@ def my_line(ctx):
         raise CheckFailed("Write MY_LINE: a dictionary from each tile to an action.")
     missing = [tile for tile in RACING if tile not in line]
     if missing:
-        raise CheckFailed(f"MY_LINE needs an action for every tile he could be on, wherever he slips to. It has none for {missing}.")
+        raise CheckFailed(f"MY_LINE needs an action for every tile it could be on, wherever it slips to. It has none for {missing}.")
     wrong = [line[tile] for tile in RACING if line[tile] not in STEPS]
     if wrong:
         raise CheckFailed(f"Actions are 'up', 'down', 'left' and 'right'. MY_LINE has {wrong[0]!r}.")
-    yours, theirs = moss_value(line), moss_value(TRADITIONAL)
+    yours, theirs = paul_value(line), paul_value(TRADITIONAL)
     if yours < theirs + 1:
         raise CheckFailed(f"MY_LINE is worth {yours:.2f} from the start; the traditional line is worth {theirs:.2f}. Beat it by more than 1.", expected=f"more than {theirs + 1:.2f}", actual=round(yours, 2))
 
@@ -201,7 +201,7 @@ TESTS = [
     custom("More steps, edges and the rock", more_steps),
     custom("Next to the finish", next_to_finish, hint="Stepping onto the finish is worth +10 and ends the race: over is True."),
     custom("Under the rock pool", under_the_pool, hint="Stepping into the pool is worth -10 and ends the race."),
-    custom("In the corner", in_the_corner, hint="Two different slips can both leave him where he is. Keep both outcomes; their chances add up."),
+    custom("In the corner", in_the_corner, hint="Two different slips can both leave it where it is. Keep both outcomes; their chances add up."),
     custom("Other amounts of slipping", no_slipping, hint="Use the slip you're given: 1 - slip straight on, slip / 2 each way sideways."),
     custom("Every tile, every action", adds_up),
     custom("Nothing follows the end of a race", race_over, hint="On the finish or in the pool, return an empty list."),

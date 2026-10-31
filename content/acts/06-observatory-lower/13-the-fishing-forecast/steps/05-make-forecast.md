@@ -6,7 +6,7 @@ files: [features.py, forecast.py]
 entry: forecast.py
 starter_from: make-features
 timeout_ms: 60000
-on_pass: { gwen: "Right four times in five when it says good. I can bake to that." }
+on_pass: { riya: "Right four times in five when it says good. The café can cook to that." }
 hints:
   nudge: "Which days may the cross-validation see, and when, exactly, do the 2025 days get looked at?"
   plan:
@@ -15,14 +15,14 @@ hints:
     - Choose a model by cross-validation
     - Fit it on every training day
     - Open the last year, once, beside the baselines
-    - The mistakes that cost Gwen and the fleet
+    - The mistakes that cost the café and the fleet
   shape: |
     def split_by_year(days, year):
         years = days["date"].str[:4].astype(___)
         return days[years ___ year], days[years ___ year]
 
 
-    def ferros_rule(days):
+    def skippers_rule(days):
         return ((days["tide_range"] >= ___) & (days["wind_speed"] < ___)).astype(int).to_numpy()
 
 
@@ -36,7 +36,7 @@ hints:
 TEST_YEAR = 2025
 split_by_year(days, year)   (train, test): the days before that year, and
                             the days in it
-ferros_rule(days)           an array: 1 where tide_range is 4.0 or more and
+skippers_rule(days)         an array: 1 where tide_range is 4.0 or more and
                             wind_speed is under 20, else 0
 always_commonest(y_train, y_test)
                             accuracy on y_test of always guessing the
@@ -61,7 +61,7 @@ forest     0.842
 boosting   0.853
 Chosen: logistic
 On 2025: 0.852
-Ferro's rule: 0.723
+Skipper's rule: 0.723
 Always saying no: 0.575
 When it says good, it's right: 0.81
 Good days it caught: 0.85

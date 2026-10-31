@@ -4,7 +4,7 @@ type: make
 title: Three ways to hold back
 files: [net.py, regular.py]
 entry: regular.py
-on_pass: { wendt: "Weight decay: 0.134 on the nights it never saw, against Pip's 0.246. That one I'll believe." }
+on_pass: { aaesha: "Weight decay: 0.134 on the nights it never saw, against Riya's 0.246. That one I'll believe." }
 hints:
   nudge: "Which of the three changes the forward pass, which changes the gradients, and which only watches?"
   plan:
@@ -34,11 +34,11 @@ hints:
         train_losses.append(mse(forward(X, params)[0], T))
         val_losses.append(___)
 ---
-Write the two helpers and `train` in `regular.py`. The comments in `train` are the subgoals from the mirror. In `net.py`, `forward` takes a dropout mask as `keep` and keeps it in the cache, so `backward` uses the same one.
+Write the two helpers and `train` in `regular.py`. The comments in `train` are the subgoals from the radiator. In `net.py`, `forward` takes a dropout mask as `keep` and keeps it in the cache, so `backward` uses the same one.
 
 ```
                       training  validation
-Pip's                   0.0000      0.2455
+Riya's                  0.0000      0.2455
 weight decay 0.02       0.0451      0.1340
 dropout 0.5             0.0106      0.1890
 early stopping          0.0603      0.1842

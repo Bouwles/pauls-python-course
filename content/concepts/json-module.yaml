@@ -5,7 +5,7 @@ summary: |
 example: |
   import json
 
-  booking = {"boat": "Kittiwake", "berth": 2, "paid": True, "notes": None}
+  booking = {"room": "Studio", "desk": 2, "paid": True, "notes": None}
   text = json.dumps(booking)
   print(text)
   print(json.loads(text) == booking)
@@ -17,15 +17,15 @@ cards:
     code: |
       import json
 
-      print(json.dumps({"boat": "Kittiwake", "paid": True, "notes": None}))
-    answer: '{"boat": "Kittiwake", "paid": true, "notes": null}'
+      print(json.dumps({"room": "Studio", "paid": True, "notes": None}))
+    answer: '{"room": "Studio", "paid": true, "notes": null}'
   - type: choice
     prompt: What does this print?
     code: |
       import json
 
-      taken = {"berths": (2, 3)}
-      print(json.loads(json.dumps(taken))["berths"])
+      taken = {"desks": (2, 3)}
+      print(json.loads(json.dumps(taken))["desks"])
     options:
       - text: "[2, 3]"
         correct: true
@@ -38,49 +38,49 @@ cards:
     code: |
       import json
 
-      names = {1: "Pontoon A", 2: "Pontoon B"}
+      names = {1: "Desk A", 2: "Desk B"}
       again = json.loads(json.dumps(names))
       print(again.get(1))
     options:
       - text: None
         correct: true
-        feedback: "JSON keys are always text, so 1 went in and `\"1\"` came back. `again.get(\"1\")` would find Pontoon A."
-      - text: Pontoon A
+        feedback: "JSON keys are always text, so 1 went in and `\"1\"` came back. `again.get(\"1\")` would find Desk A."
+      - text: Desk A
         misconception: json-keeps-int-keys
         feedback: "In JSON every key is text. After the round trip the key is `\"1\"`, and `get(1)` finds nothing."
   - type: fix
-    prompt: "Agnes's bookings should be saved as JSON, then read back. Fix the saving so this prints `Kittiwake`."
+    prompt: "Neil's bookings should be saved as JSON, then read back. Fix the saving so this prints `Studio`."
     code: |
       import json
 
-      bookings = [{"boat": "Kittiwake", "berth": 2}]
+      bookings = [{"room": "Studio", "desk": 2}]
       with open("bookings.json", "w") as data_file:
           data_file.write(bookings)
 
       with open("bookings.json") as data_file:
-          print(json.load(data_file)[0]["boat"])
+          print(json.load(data_file)[0]["room"])
     tests: |
-      TESTS = [output("Saved and read back", expect="Kittiwake")]
+      TESTS = [output("Saved and read back", expect="Studio")]
     solution: |
       import json
 
-      bookings = [{"boat": "Kittiwake", "berth": 2}]
+      bookings = [{"room": "Studio", "desk": 2}]
       with open("bookings.json", "w") as data_file:
           json.dump(bookings, data_file)
 
       with open("bookings.json") as data_file:
-          print(json.load(data_file)[0]["boat"])
+          print(json.load(data_file)[0]["room"])
   - type: fill
     prompt: "The text came from a request. Fill the gap to turn it into a dictionary."
     code: |
       import json
 
-      text = '{"boat": "Puffin", "length": 7.5}'
+      text = '{"room": "Archive", "hours": 7.5}'
       booking = json.___(text)
-      print(booking["length"] * 2)
+      print(booking["hours"] * 2)
     blanks: [["loads"]]
     tests: |
-      TESTS = [output("Twice the length", expect="15.0")]
+      TESTS = [output("Twice the hours", expect="15.0")]
   - type: write
     prompt: "Write `save(bookings, path)`, which writes the list to a JSON file, and `load(path)`, which reads it back, or gives `[]` if the file isn't there yet."
     starter: |
@@ -97,7 +97,7 @@ cards:
     tests: |
       def round_trip(ctx):
           mod = ctx.module()
-          bookings = [{"boat": "Kittiwake", "berth": 2}, {"boat": "Puffin", "berth": 1}]
+          bookings = [{"room": "Studio", "desk": 2}, {"room": "Archive", "desk": 1}]
           mod.save(bookings, "saved.json")
           back = mod.load("saved.json")
           if back != bookings:

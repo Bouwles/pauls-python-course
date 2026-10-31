@@ -4,7 +4,7 @@ type: predict
 title: One pass
 concept: simple-sorts
 dialogue:
-  - nell: "That's how I'd do it. Find the lightest, put it at the front. Then the next."
+  - yahya: "The obvious way. Find the lightest, put it at the front. Then the next."
 code: |
   weights = [5, 2, 8, 1, 9]
   lightest = 0
@@ -33,4 +33,4 @@ after: |
 ---
 **Selection sort**: find the lightest part and swap it to the front. Then find the lightest of the rest and swap it into second place, and so on down the pile. This code is the first pass.
 
-The step-through draws a list of numbers as Nell's piles, one bar per weight, so you can watch a sort happen.
+The step-through draws a list of numbers as a row of bars, one per weight, so you can watch a sort happen.

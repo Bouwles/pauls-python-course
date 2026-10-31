@@ -22,7 +22,7 @@ export function AskAParent() {
   return (
     <p className={styles.ask}>
       Under 18? Buying needs a parent or guardian to say yes.{" "}
-      <Button variant="quiet" size="sm" onClick={() => void share()}>
+      <Button variant="secondary" size="sm" onClick={() => void share()}>
         Ask a parent
       </Button>
       {copied ? <span className={styles.copied}> Link copied. Send it to them.</span> : null}

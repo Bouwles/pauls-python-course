@@ -4,7 +4,7 @@ type: make
 title: Two sorts, frame by frame
 files: [piles.py]
 entry: piles.py
-on_pass: { nell: "Six passes each, and you can see every one. One of them barely broke a sweat on the tidy pile." }
+on_pass: { yahya: "Six passes each. Insertion sort barely touched the tidy pile. Selection sort never noticed it was tidy." }
 hints:
   nudge: "Selection sort needs a loop inside a loop. What does the outer one count, and what does the inner one look for? And where in the outer loop is a pass finished?"
   plan:
@@ -40,6 +40,6 @@ The first half of the visualiser, in `piles.py`. `draw(pile)` gives back the pil
 
 `selection_sort` and `insertion_sort` sort lightest first, change the list they're given and hand back `None`, like `.sort()`. Each also takes a `frames` list: after every pass, a copy of the pile goes on it, `list(weights)`, so the passes can be played back. Without the copy, every frame would be the same pile, showing only the end.
 
-Selection sort is the predict, done for every place in turn; insertion sort is Moss's spanners, the other way round. Press Step through to watch them too.
+Selection sort is the predict, done for every place in turn; insertion sort is Paul's spanners, the other way round. Press Step through to watch them too.
 
 The hidden checks sort empty piles, repeats, piles in order and back to front, count how often selection sort writes to the pile, and how often insertion sort compares weights on a pile already sorted.

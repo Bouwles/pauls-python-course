@@ -15,29 +15,29 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      tides = [4, 6, 9, 7, 3]
-      print(tides[1:3])
+      temps = [4, 6, 9, 7, 3]
+      print(temps[1:3])
     answer: "[6, 9]"
   - type: predict
     prompt: What does this print?
     code: |
-      boats = ["Kittiwake", "Mary Rose", "Sea Holly"]
-      print(boats[-2:])
-    answer: "['Mary Rose', 'Sea Holly']"
+      floors = ["Workshop", "Studio", "Makerspace"]
+      print(floors[-2:])
+    answer: "['Studio', 'Makerspace']"
   - type: choice
     prompt: What does this print?
     code: |
-      crew = ["Ferro", "Tom", "Agnes"]
-      print(crew[1:10])
+      team = ["Riya", "Yahya", "Aaesha"]
+      print(team[1:10])
     options:
       - text: An IndexError
         misconception: slice-past-end-errors
         feedback: "Asking for one item past the end crashes. A slice past the end just stops at the end."
-      - text: "['Tom', 'Agnes']"
+      - text: "['Yahya', 'Aaesha']"
         correct: true
-      - text: "['Ferro', 'Tom', 'Agnes']"
+      - text: "['Riya', 'Yahya', 'Aaesha']"
         misconception: slice-counts-from-one
-        feedback: "Positions count from 0, so position 1 is Tom. Ferro, at position 0, isn't included."
+        feedback: "Positions count from 0, so position 1 is Yahya. Riya, at position 0, isn't included."
   - type: choice
     prompt: What does this print?
     code: |
@@ -56,12 +56,12 @@ cards:
   - type: fix
     prompt: "This should print the first three names. It prints two. Fix the slice."
     code: |
-      names = ["Bea", "Mira", "Gwen", "Agnes", "Tom"]
+      names = ["Riya", "Neil", "Caitlin", "Aaesha", "Yahya"]
       print(names[0:2])
     tests: |
-      TESTS = [output("First three", expect="['Bea', 'Mira', 'Gwen']")]
+      TESTS = [output("First three", expect="['Riya', 'Neil', 'Caitlin']")]
     solution: |
-      names = ["Bea", "Mira", "Gwen", "Agnes", "Tom"]
+      names = ["Riya", "Neil", "Caitlin", "Aaesha", "Yahya"]
       print(names[0:3])
   - type: fill
     prompt: "Fill the gap so it prints the last three readings."

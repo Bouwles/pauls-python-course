@@ -2,7 +2,7 @@ id: web-app-with-accounts
 title: "Web App with Accounts"
 project_name: "Web App with Accounts"
 status: outline
-client: dev
+client: riya
 building: pier
 estimated_minutes: 150
-summary: "User accounts, sessions and properly hashed passwords for the Flask app."
+summary: "User accounts, sessions and properly hashed passwords for Riya's link shortener, so each client sees only their own links."

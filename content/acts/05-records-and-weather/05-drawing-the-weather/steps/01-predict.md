@@ -4,7 +4,7 @@ type: predict
 title: Two years on one chart
 concept: matplotlib
 dialogue:
-  - priya: "January to April, 1925 and 2024, on one chart. Then I want the rest of the century."
+  - aaesha: "January to April, 1925 and 2024, on one chart. Then I want the rest of the century."
 code: |
   import matplotlib.pyplot as plt
 

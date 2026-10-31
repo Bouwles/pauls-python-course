@@ -76,32 +76,32 @@ def big_pair(ctx):
     check_pair(plain, 20_011, got)
 
 
-def true_islands(yard):
+def true_islands(grid):
     visited = set()
-    heaps = 0
-    for row in range(len(yard)):
-        for col in range(len(yard[row])):
-            if yard[row][col] == "#" and (row, col) not in visited:
-                heaps += 1
+    count = 0
+    for row in range(len(grid)):
+        for col in range(len(grid[row])):
+            if grid[row][col] == "#" and (row, col) not in visited:
+                count += 1
                 visited.add((row, col))
                 queue = _deque([(row, col)])
                 while queue:
                     r, c = queue.popleft()
                     for nr, nc in ((r - 1, c), (r + 1, c), (r, c - 1), (r, c + 1)):
-                        if 0 <= nr < len(yard) and 0 <= nc < len(yard[nr]) and yard[nr][nc] == "#" and (nr, nc) not in visited:
+                        if 0 <= nr < len(grid) and 0 <= nc < len(grid[nr]) and grid[nr][nc] == "#" and (nr, nc) not in visited:
                             visited.add((nr, nc))
                             queue.append((nr, nc))
-    return heaps
+    return count
 
 
-def big_yard(ctx):
+def big_grid(ctx):
     module = ctx.module()
     rng = _random.Random(29)
-    yard = ["".join("#" if rng.random() < 0.3 else "." for _ in range(60)) for _ in range(60)]
-    got = module.islands(list(yard))
-    expected = true_islands(yard)
+    grid = ["".join("#" if rng.random() < 0.3 else "." for _ in range(60)) for _ in range(60)]
+    got = module.islands(list(grid))
+    expected = true_islands(grid)
     if got != expected:
-        raise CheckFailed("A yard of 60 by 60 tiles, about a third of them scrap.", expected=expected, actual=got)
+        raise CheckFailed("A grid of 60 by 60 tiles, about a third of them #.", expected=expected, actual=got)
 
 
 def piles_left_alone(ctx):
@@ -126,7 +126,7 @@ def big_piles(ctx):
 
 TESTS = [
     function("Two parts for 23 kg", call="pair_for", args=([12, 7, 30, 4, 19], 23), expect=(3, 4), visible=True),
-    function("Four heaps", call="islands", args=(["##..#", "#...#", "..#..", "##..."],), expect=4, visible=True),
+    function("Four count", call="islands", args=(["##..#", "#...#", "..#..", "##..."],), expect=4, visible=True),
     function("Three piles", call="merge_piles", args=([[1, 4, 9], [2, 3], [5, 8, 10]],), expect=[1, 2, 3, 4, 5, 8, 9, 10]),
     function("No pair", call="pair_for", args=([5, 11, 2], 9), expect=None,
              hint="When you've looked at every weight and found no partner, give back None."),
@@ -137,13 +137,13 @@ TESTS = [
     custom("Several pairs", pair([3, 8, 5, 6, 2, 9], 11)),
     custom("Twenty thousand parts", big_pair,
            hint="A dictionary of weights you've already seen, and where, answers 'is its partner here?' without walking the list."),
-    function("An empty yard", call="islands", args=([],), expect=0),
-    function("No scrap", call="islands", args=(["....", "...."],), expect=0),
-    function("All scrap", call="islands", args=(["###", "###"],), expect=1),
+    function("An empty grid", call="islands", args=([],), expect=0),
+    function("No # at all", call="islands", args=(["....", "...."],), expect=0),
+    function("All #", call="islands", args=(["###", "###"],), expect=1),
     function("Corners don't join", call="islands", args=(["#.", ".#"],), expect=2,
-             hint="Only up, down, left and right join two tiles of scrap. Diagonals don't."),
+             hint="Only up, down, left and right join two # tiles. Diagonals don't."),
     function("A snake", call="islands", args=(["#####", "....#", "#####", "#....", "#####"],), expect=1),
-    custom("A yard of 3,600 tiles", big_yard),
+    custom("A grid of 3,600 tiles", big_grid),
     function("No piles", call="merge_piles", args=([],), expect=[]),
     function("Empty piles", call="merge_piles", args=([[], [3, 7], []],), expect=[3, 7],
              hint="A pile with nothing in it adds nothing. Watch for it before looking at its first weight."),

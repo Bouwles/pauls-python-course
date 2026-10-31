@@ -1,4 +1,4 @@
-"""Tests for Mrs Vance's fines. Run this file to run them all."""
+"""Tests for the library's fines. Run this file to run them all."""
 from fines import fine
 
 

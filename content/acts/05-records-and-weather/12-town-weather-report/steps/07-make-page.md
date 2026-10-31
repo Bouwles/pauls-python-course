@@ -7,9 +7,9 @@ entry: report.py
 starter_from: make-report
 timeout_ms: 40000
 dialogue:
-  - priya: "The harbour office wants it on their computer. And Mr Ashby wants one he can file."
-  - moss: "One page, the pictures inside it. Then it can go anywhere a page can."
-on_pass: { priya: "One file, and the charts come with it. Mr Ashby has printed it twice." }
+  - aaesha: "Riya wants it on her phone. And I want a copy I can file."
+  - paul: "One page, the pictures inside it. Then it can go anywhere a page can."
+on_pass: { aaesha: "One file, and the charts come with it. I've printed it twice. Once to file, once for the wall." }
 hints:
   nudge: "The page has to say exactly what the report prints. Where can both come from, so they can never disagree?"
   plan:
@@ -27,7 +27,7 @@ hints:
 
 
     lines = []
-    lines.append("The {{town}} Weather Report, 1925 to 2024")
+    lines.append("The Clocktower Weather Report, 1925 to 2024")
     ...
     print("\n".join(___))
     ...

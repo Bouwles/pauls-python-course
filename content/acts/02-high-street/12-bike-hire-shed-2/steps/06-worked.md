@@ -1,9 +1,9 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "Dev's way, done properly, on his own bikes. Sanjay wants a cargo bike for deliveries."
+  - paul: "Yahya's way, done properly, on a bike hire. A cargo bike really is a kind of bike."
 code: |
   class Bike:
       def __init__(self, number, rate):
@@ -17,7 +17,7 @@ code: |
 
 
   class CargoBike(Bike):
-      """A bike with a box on the front. Sanjay hires it for deliveries."""
+      """A bike with a box on the front, hired for deliveries."""
 
       def __init__(self, number, rate, box_litres):
           super().__init__(number, rate)

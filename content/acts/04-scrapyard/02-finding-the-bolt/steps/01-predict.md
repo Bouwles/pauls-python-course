@@ -41,6 +41,6 @@ options:
 after: |
   Run it. Then add four more parts to the pile and search for the piston again.
 ---
-This is how Nell searches a pile: pick up each part in turn until it's the one she wants. It's called a **linear search**, and it works on any pile, in any order.
+This is how Riya searches the list: look at each part in turn until it's the one she wants. It's called a **linear search**, and it works on any pile, in any order.
 
 `find` gives back two things: where it found the part, or `-1` if it didn't, and how many parts it looked at.

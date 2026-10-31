@@ -1,4 +1,4 @@
-# Pip's pier board. Every day's high, from the saved forecast.
+# Caitlin's board for the Makerspace screen. Every day's high, from the saved forecast.
 import json
 
 with open("forecast.json") as file:

@@ -1,22 +1,26 @@
-import { STRENGTH_LABEL, type Strength as Level } from "@/lib/review/strength";
-import styles from "./Concepts.module.css";
+import type { Strength as Level } from "@/lib/review/strength";
+import { Badge, type BadgeTone } from "../ui/Badge";
 
-const PIPS: Record<Level, number> = { unseen: 0, new: 1, shaky: 1, fresh: 2, steady: 3, strong: 4 };
+// How well an idea is holding (REDESIGN-2.md 6): a small text badge, never a bar or colour alone.
+// The review deck's six levels read as three words here.
+const WORDS: Record<Level, { text: string; tone: BadgeTone }> = {
+  unseen: { text: "Not met yet", tone: "neutral" },
+  new: { text: "Getting there", tone: "progress" },
+  shaky: { text: "Getting there", tone: "progress" },
+  fresh: { text: "Getting there", tone: "progress" },
+  steady: { text: "Solid", tone: "shipped" },
+  strong: { text: "Solid", tone: "shipped" },
+};
 
-/** How well a concept is holding: four pixel pips and the word for it (never colour alone). */
-export function Strength({ level, children }: { level: Level; children?: React.ReactNode }) {
-  const lit = PIPS[level];
+export function strengthWords(level: Level): string {
+  return WORDS[level].text;
+}
+
+export function Strength({ level, className }: { level: Level; className?: string }) {
+  const w = WORDS[level];
   return (
-    <span className={[styles.strength, styles[level]].join(" ")}>
-      <span className={styles.pips} aria-hidden="true">
-        {[0, 1, 2, 3].map((i) => (
-          <span key={i} className={i < lit ? styles.pipOn : styles.pip} />
-        ))}
-      </span>
-      <span>
-        {STRENGTH_LABEL[level]}
-        {children}
-      </span>
-    </span>
+    <Badge tone={w.tone} className={className}>
+      {w.text}
+    </Badge>
   );
 }

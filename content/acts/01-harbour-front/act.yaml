@@ -1,14 +1,16 @@
 id: harbour-front
 number: 1
-title: "The Harbour Front"
+title: "The Workshop"
 district: harbour-front
 subject: "Foundations"
 hours: 25
-summary: "Thirteen real programs along the quay, from a shop sign to an expense tracker. Printing, numbers, input, decisions, loops, lists, strings, functions, dictionaries and handling errors."
-locked_line: "The quay, where the first repairs are waiting."
+summary: "Thirteen real programs on the ground floor, from a door sign to an expense tracker. Printing, numbers, input, decisions, loops, lists, strings, functions, dictionaries and handling errors."
+locked_line: "The ground floor, where Paul's class begins."
 intro:
-  - moss: "Desk's in the back. Mind the radio."
-  - moss: "People bring me things that are broken. Lately it's mostly programs."
+  - paul: "Welcome to the Clocktower. This is the Workshop. Every class starts here."
+  - paul: "You'll build real programs for real people. Mostly the people in this room."
+  - neil: "I'm Neil. When you're stuck, ask me. Or the duck on my desk."
+  - paul: "Build it ugly first. Then make it good. And ignore the clock. It's been 3:14 for years."
 jobs:
   - shop-sign
   - bill-splitter

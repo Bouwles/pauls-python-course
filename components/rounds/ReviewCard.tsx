@@ -1,20 +1,20 @@
 "use client";
 
-// One review card: a tiny retrieval task (predict, choose, fix, fill in, write), on a small
-// paper repair slip pinned with a tack. The check report, when there is one, prints below
-// the slip on the page itself, the way it does on the Workbench.
+// One review card: a tiny retrieval task (predict, choose, fix, fill in, write) on a plain card,
+// with "Check" under it. Morning Rounds and the Drills both use it. When a check fails, the
+// report prints under the card, the way it does on the Workbench.
 import { useMemo, useState } from "react";
 import type { Card } from "@/lib/content/types";
 import type { CheckReport } from "@/lib/python/protocol";
 import { outputMatches } from "@/lib/content/answers";
 import { Button } from "../ui/Button";
-import { FailIcon, PassIcon } from "../ui/Icons";
+import { Icon } from "../ui/Icon";
 import { CodeBlock } from "../workbench/CodeBlock";
 import { Editor } from "../workbench/Editor";
 import { TestReport } from "../workbench/TestReport";
 import { optionLabel } from "../workbench/steps/PredictStep";
 import type { Runner } from "../workbench/useRunner";
-import styles from "./Rounds.module.css";
+import styles from "./ReviewCard.module.css";
 
 export interface CardOutcome {
   correct: boolean;
@@ -26,17 +26,8 @@ function passed(r: CheckReport | null) {
   return Boolean(r && r.status === "ok" && r.results.filter((x) => !x.stretch).every((x) => x.passed));
 }
 
-/** A pixel drawing-pin, 8x10 at 2x. */
-function Tack() {
-  return (
-    <svg className={styles.tack} width="16" height="20" viewBox="0 0 8 10" shapeRendering="crispEdges" aria-hidden="true">
-      <path d="M2 0h4v1H2zM1 1h6v3H1zM2 4h4v1H2z" fill="var(--brick-dark)" />
-      <path d="M2 1h3v1H2zM2 2h1v1H2z" fill="var(--brick)" />
-      <path d="M3 1h1v1H3z" fill="var(--chalk)" />
-      <path d="M3 5h2v1H3zM4 6h1v4H4z" fill="var(--fog)" />
-    </svg>
-  );
-}
+/** Options that are code (or printed output) are set in the code face. */
+const isCode = (text: string) => /\n|^[\d"'<[(]/.test(text);
 
 export function ReviewCard({
   card,
@@ -49,24 +40,21 @@ export function ReviewCard({
   card: Card;
   runner: Runner;
   onAnswered: (o: CardOutcome) => void;
-  /** The top of the slip: who it's for and what it's about. */
+  /** The top of the card: the project it comes from, or the task number. */
   head?: React.ReactNode;
-  /** The foot of the slip, under the feedback (the "next" button). */
+  /** The foot of the card, under the feedback (the "next" button). */
   children?: React.ReactNode;
-  /** The slip's accessible name. */
+  /** The card's accessible name. */
   label?: string;
 }) {
   const [attempts, setAttempts] = useState(0);
-  const [result, setResult] = useState<{
-    correct: boolean;
-    text: string;
-  } | null>(null);
+  const [result, setResult] = useState<{ correct: boolean; text: string } | null>(null);
   const [typed, setTyped] = useState("");
   const [choice, setChoice] = useState<number | null>(null);
   const [code, setCode] = useState(card.type === "fix" ? card.code : card.type === "write" ? card.starter : "");
   const [blanks, setBlanks] = useState<string[]>(card.type === "fill" ? card.blanks.map(() => "") : []);
   const [report, setReport] = useState<CheckReport | null>(null);
-  const done = result?.correct || (result && attempts >= 2);
+  const done = Boolean(result?.correct || (result && attempts >= 2));
   const busy = runner.state.phase !== "idle";
 
   const finish = (correct: boolean, text: string, misconception: string | null = null) => {
@@ -118,43 +106,56 @@ export function ReviewCard({
     }
   };
 
+  // When any option is code or printed output, all of them are set in the code face, so they compare.
+  const codeOptions = card.type === "choice" && card.options.some((o) => isCode(o.text));
+  const canCheck = !busy && !(card.type === "choice" && choice === null) && !(card.type === "predict" && !typed.trim());
+
   return (
-    <div className={styles.cardWrap}>
-      <article className={["frame-paper", styles.slip].join(" ")} aria-label={label}>
-        <Tack />
+    <div className={styles.wrap}>
+      <article className={styles.card} aria-label={label}>
         {head}
-        <div className={styles.card}>
+        <div className={styles.task}>
           <p className={styles.prompt} dangerouslySetInnerHTML={{ __html: card.promptHtml }} />
-          {card.type !== "fix" && card.type !== "write" && card.type !== "fill" && card.code ? <CodeBlock code={card.code} /> : null}
-          {card.inputs.length && card.type !== "fix" && card.type !== "write" ? <p className={styles.inputs}>Typed in: {card.inputs.map((i) => `"${i}"`).join(", ")}</p> : null}
+          {card.type !== "fix" && card.type !== "write" && card.type !== "fill" && card.code ? (
+            <div className={styles.code}>
+              <CodeBlock code={card.code} />
+            </div>
+          ) : null}
+          {card.inputs.length && card.type !== "fix" && card.type !== "write" ? (
+            <p className={styles.inputs}>
+              <span className="label">Typed in</span> <code>{card.inputs.map((i) => `"${i}"`).join(", ")}</code>
+            </p>
+          ) : null}
 
           {card.type === "predict" ? (
-            <textarea
-              className={styles.answer}
-              rows={Math.max(1, card.answer.split("\n").length)}
-              value={typed}
-              onChange={(e) => setTyped(e.target.value)}
-              disabled={Boolean(done)}
-              aria-label="What it prints"
-              spellCheck={false}
-            />
+            <label className={styles.answerField}>
+              <span className="label">What it prints</span>
+              <textarea
+                className={styles.answer}
+                rows={Math.max(2, card.answer.split("\n").length)}
+                value={typed}
+                onChange={(e) => setTyped(e.target.value)}
+                disabled={done}
+                spellCheck={false}
+              />
+            </label>
           ) : null}
 
           {card.type === "choice" ? (
-            <fieldset className={styles.options} disabled={Boolean(done)}>
+            <fieldset className={styles.options} disabled={done}>
               <legend className="visually-hidden">Choose one</legend>
               {card.options.map((o, i) => (
                 <label key={i} className={[styles.option, choice === i ? styles.chosen : ""].join(" ")}>
-                  <input type="radio" className="visually-hidden" name={card.id} checked={choice === i} onChange={() => setChoice(i)} aria-label={optionLabel(o.text, !/\n|^[\d"'<]/.test(o.text))} />
+                  <input type="radio" className="visually-hidden" name={card.id} checked={choice === i} onChange={() => setChoice(i)} aria-label={optionLabel(o.text, !codeOptions)} />
                   <span className={styles.mark} aria-hidden="true" />
-                  <span className={/\n|^[\d"'<]/.test(o.text) ? styles.mono : styles.optionText}>{o.text}</span>
+                  <span className={codeOptions ? styles.mono : styles.optionText}>{o.text}</span>
                 </label>
               ))}
             </fieldset>
           ) : null}
 
           {card.type === "fill" ? (
-            <pre className={styles.fill}>
+            <pre className={`code-dark ${styles.fill}`}>
               <code>
                 {fillParts.map((part, i) => (
                   <span key={i}>
@@ -166,7 +167,7 @@ export function ReviewCard({
                         onChange={(e) => setBlanks(blanks.map((b, j) => (j === i ? e.target.value : b)))}
                         size={Math.max(4, (card.blanks[i]![0] ?? "").length + 1)}
                         aria-label={`Gap ${i + 1}`}
-                        disabled={Boolean(done)}
+                        disabled={done}
                         spellCheck={false}
                       />
                     ) : null}
@@ -177,14 +178,14 @@ export function ReviewCard({
           ) : null}
 
           {card.type === "fix" || card.type === "write" ? (
-            <div className={["code-night", styles.editor].join(" ")}>
-              <Editor docKey={card.id} value={code} onChange={(v) => setCode(v)} label="Code for this card" onCheck={() => void check()} readOnly={Boolean(done)} />
+            <div className={styles.editor}>
+              <Editor docKey={card.id} value={code} onChange={(v) => setCode(v)} label="Code for this card" onCheck={() => void check()} readOnly={done} />
             </div>
           ) : null}
 
           {!done ? (
             <div className={styles.row}>
-              <Button variant="primary" onClick={() => void check()} disabled={busy || (card.type === "choice" && choice === null) || (card.type === "predict" && !typed.trim())}>
+              <Button variant="primary" icon="check" onClick={() => void check()} disabled={!canCheck}>
                 {busy ? "Checking" : result ? "Try again" : "Check"}
               </Button>
             </div>
@@ -193,23 +194,25 @@ export function ReviewCard({
           {result ? (
             <div className={[styles.feedback, result.correct ? styles.good : styles.bad].join(" ")} role="status">
               <p className={styles.fbTitle}>
-                {result.correct ? <PassIcon /> : <FailIcon />}
+                <Icon name={result.correct ? "tick" : "cross"} />
                 <span>{result.correct ? (attempts > 1 ? "Got there." : "Right.") : done ? "Not this time." : "Not quite. One more go."}</span>
               </p>
               {result.text !== "Right." ? <p className={styles.fbText}>{result.text}</p> : null}
               {done && !result.correct && (card.type === "fix" || card.type === "write") ? (
                 <>
                   <p className={styles.fbText}>One way to do it:</p>
-                  <CodeBlock code={card.solution} />
+                  <div className={styles.code}>
+                    <CodeBlock code={card.solution} />
+                  </div>
                 </>
               ) : null}
             </div>
           ) : null}
         </div>
-        {children}
+        {children ? <div className={styles.foot}>{children}</div> : null}
       </article>
       {report && !passed(report) && !done ? (
-        <div className={styles.printout}>
+        <div className={styles.report}>
           <TestReport report={report} progress={null} source={code} />
         </div>
       ) : null}

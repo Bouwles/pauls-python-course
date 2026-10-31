@@ -1,4 +1,4 @@
-"""Dev and Kat's bike shed."""
+"""Caitlin's bike hire: the bikes, and the shed that has them."""
 
 
 class Bike:
@@ -54,7 +54,7 @@ class Shed:
 
 if __name__ == "__main__":
     shed = Shed([Bike(5, "road", 4.0), Bike(2, "tandem", 6.0), Bike(9, "cargo", 5.0)])
-    shed.bikes[1].hire("Gwen")
+    shed.bikes[1].hire("Riya")
     for bike in sorted(shed.bikes):
         print(bike)
     print(f"In the shed: {[bike.number for bike in shed.available()]}")

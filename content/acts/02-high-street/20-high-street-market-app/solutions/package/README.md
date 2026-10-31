@@ -1,6 +1,6 @@
 # Personal Finance App
 
-Sanjay's money, kept properly: every penny in and out, a monthly budget for each kind of spending, and a report that says where it all went. It runs from a terminal and keeps everything in `money.json`.
+Personal money, kept properly: every penny in and out, a monthly budget for each kind of spending, and a report that says where it all went. It runs from a terminal and keeps everything in `money.json`.
 
 ## Run it
 

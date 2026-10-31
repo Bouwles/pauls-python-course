@@ -21,7 +21,7 @@ cards:
       print(average([4, 6]), average([]))
     answer: "5.0 0"
   - type: choice
-    prompt: "Sanjay opens at 9 and shuts at 17. What does this print?"
+    prompt: "The café opens at 9 and shuts at 17. What does this print?"
     code: |
       def is_open(hour):
           return 9 < hour < 17
@@ -32,9 +32,9 @@ cards:
         correct: true
       - text: True True False
         misconception: code-knows-what-you-meant
-        feedback: "Python does what's written: `9 < 9` is False. The shop is open at 9, so the code is wrong at its edge, and only a test at 9 would show it."
+        feedback: "Python does what's written: `9 < 9` is False. The café is open at 9, so the code is wrong at its edge, and only a test at 9 would show it."
   - type: fix
-    prompt: "Old Tom checks the lamp at every whole hour from `start` to `end`, both included. The last check is missing. Fix it."
+    prompt: "Paul checks the clock at every whole hour from `start` to `end`, both included. The last check is missing. Fix it."
     code: |
       def check_hours(start, end):
           return list(range(start, end))

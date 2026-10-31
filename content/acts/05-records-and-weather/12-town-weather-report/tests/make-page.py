@@ -1,6 +1,6 @@
 LINES = [
-    "The Harbour Wall Report, 1990 to 1999",
-    "Source: the harbour master's tide book",
+    "The Canal Lock Report, 1990 to 1999",
+    "Source: the lock keeper's log book",
     "",
     "The record",
     "  120 months, missing months: none",
@@ -12,10 +12,10 @@ LINES = [
 
 PAGE = """<!DOCTYPE html>
 <html lang="en">
-<head><meta charset="utf-8"><title>The Harbour Wall Report, 1990 to 1999</title></head>
+<head><meta charset="utf-8"><title>The Canal Lock Report, 1990 to 1999</title></head>
 <body>
-<h1>The Harbour Wall Report, 1990 to 1999</h1>
-<p class="source">Source: the harbour master&#x27;s tide book</p>
+<h1>The Canal Lock Report, 1990 to 1999</h1>
+<p class="source">Source: the lock keeper&#x27;s log book</p>
 <h2>The record</h2>
 <p>120 months, missing months: none</p>
 <p>Highest tide: 1990 (5.2 m)</p>
@@ -88,7 +88,7 @@ def page_of_the_report(ctx):
     output, page = the_story(ctx)
     if not page.startswith("<!DOCTYPE html>"):
         raise CheckFailed("story.html should start with <!DOCTYPE html>.", actual=page[:40])
-    if "<h1>The {{town}} Weather Report, 1925 to 2024</h1>" not in page:
+    if "<h1>The Clocktower Weather Report, 1925 to 2024</h1>" not in page:
         raise CheckFailed("The page's heading is the report's first line.")
     if page.count('<img src="data:image/png;base64,') != 3:
         raise CheckFailed("The page should hold the report's three charts.", expected=3, actual=page.count("<img"))

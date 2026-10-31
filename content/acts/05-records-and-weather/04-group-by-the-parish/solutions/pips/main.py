@@ -1,4 +1,4 @@
-# Households in the census, for the council's housing committee. By Pip.
+# Households in the census, for the wall chart. By Riya.
 import pandas as pd
 
 

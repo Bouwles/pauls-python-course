@@ -22,4 +22,4 @@ options:
 ---
 An `if` can go in two places in a comprehension, and the two places do different jobs.
 
-Four teams' scores from last Thursday. The Lifeboat Crew didn't turn up. Work out how long each new list is.
+Four tables' scores from last Thursday. One table didn't turn up. Work out how long each new list is.

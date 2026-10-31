@@ -1,10 +1,10 @@
 # Misconceptions for Act IV, Jobs 8 to 10: wind as arrows, slopes on the hill,
-# and the {{town}} Weather Report.
+# and the Data Story.
 
 # -- Vectors and Arrows ---------------------------------------------------------
 dot-ignores-direction:
   concept: vectors
-  description: Thinks the dot product depends only on how long the two arrows are, not on how they line up, so a wind gives the same headwind whichever way the boat points.
+  description: Thinks the dot product depends only on how long the two arrows are, not on how they line up, so a wind gives the same headwind whichever way the cyclist faces.
 dot-never-negative:
   concept: vectors
   description: Thinks a dot product can't be below 0, when arrows pointing more apart than a right angle give a negative one.

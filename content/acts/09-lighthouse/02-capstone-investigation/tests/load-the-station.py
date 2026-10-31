@@ -4,7 +4,7 @@ GAPS = {"tmax": 3, "tmin": 6, "frost_days": 6, "rain": 2, "sun": 668}
 
 # Smaller files from two other stations: one with more lines of notes before
 # the table than Stornoway's, one with fewer, as the Met Office's files vary.
-OTHER_STATION = """Gullhaven / Gullhaven Pier from March 1998
+OTHER_STATION = """Gullhaven / Gullhaven Point from March 1998
 Location 123400E 567800N 12m amsl to Feb 1998
 & from March 1998 123500E 567900N, Lat 55.000 Lon -2.000, 9m amsl
 Estimated data is marked with a * after the value.

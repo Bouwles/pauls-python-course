@@ -33,29 +33,29 @@ cards:
     prompt: "Someone types `four`, then `4b`, then `4`. What does this print?"
     code: |
       while True:
-          text = input("Berth number? ")
+          text = input("Desk number? ")
           try:
-              berth = int(text)
+              desk = int(text)
           except ValueError:
               print("Numbers only.")
               continue
           break
-      print("Berth", berth)
+      print("Desk", desk)
     inputs: ["four", "4b", "4"]
-    answer: "Numbers only.\nNumbers only.\nBerth 4"
+    answer: "Numbers only.\nNumbers only.\nDesk 4"
   - type: choice
-    prompt: "Captain Ferro's fare machine is told there are `-3` passengers. What should it do?"
+    prompt: "Riya's ticket desk is told there are `-3` visitors. What should it do?"
     verify: none
     options:
       - text: Refuse it, and say why
         correct: true
-        feedback: "A clear refusal can be put right. A wrong fare can't, once the ferry's gone."
+        feedback: "A clear refusal can be put right. A wrong total can't, once the tickets are sold."
       - text: Quietly treat it as 0
         misconception: skip-silently-fine
-        feedback: "Then nobody ever finds out something went wrong. The fare is wrong and looks right."
+        feedback: "Then nobody ever finds out something went wrong. The total is wrong and looks right."
       - text: Carry on with -3
         misconception: input-is-clean
-        feedback: "A negative number of passengers makes a negative fare. Check the value before you use it."
+        feedback: "A negative number of visitors makes a negative total. Check the value before you use it."
   - type: fix
     prompt: "Customers type `Bread`, ` bread ` and `BREAD`. Make the check accept all of them."
     code: |

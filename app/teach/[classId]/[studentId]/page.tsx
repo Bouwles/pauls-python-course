@@ -6,8 +6,11 @@ import { getDb } from "@/lib/server/db";
 import { getClass, studentDetail } from "@/lib/server/classes";
 import { getJob, getJobSummary } from "@/lib/content/server";
 import { duration, lastActive, shortDate, statusLabel } from "@/lib/teaching";
+import { readAvatar } from "@/lib/avatar";
 import { Page } from "@/components/site/Page";
-import { LearnerSprite } from "@/components/world/LearnerSprite";
+import { Avatar } from "@/components/ui/Avatar";
+import { Badge } from "@/components/ui/Badge";
+import { Icon } from "@/components/ui/Icon";
 import { HandIn } from "@/components/teach/HandIn";
 import { RemoveStudent } from "@/components/teach/RemoveStudent";
 import styles from "@/components/teach/Teach.module.css";
@@ -54,27 +57,23 @@ export default async function StudentPage(props: PageProps<"/teach/[classId]/[st
       <div className={styles.page}>
         <header className={styles.head}>
           <Link href={`/teach/${cls.id}`} className={styles.back}>
-            <span aria-hidden="true">&lt; </span>
+            <Icon name="caretRight" size={16} className={styles.backIcon} />
             {cls.name}
           </Link>
           <div className={styles.who}>
-            {student.character ? (
-              <div className={styles.stage}>
-                <LearnerSprite look={student.character} scale={3} label={`${student.name}'s character`} />
-              </div>
-            ) : null}
+            <Avatar name={student.name} colour={readAvatar(student.character).colour} size={64} />
             <div className={styles.whoText}>
               <h1 className={styles.title}>{student.name}</h1>
               <p className={styles.meta}>
-                Joined {shortDate(student.joinedAt, now)}. Last active: {lastActive(latest, now).toLowerCase()}. {shipped} {shipped === 1 ? "Job" : "Jobs"} shipped.
+                Joined {shortDate(student.joinedAt, now)}. Last active: {lastActive(latest, now).toLowerCase()}. {shipped} {shipped === 1 ? "project" : "projects"} shipped.
               </p>
             </div>
           </div>
         </header>
 
-        <section className={`frame-panel ${styles.section}`} aria-labelledby="jobs-title">
+        <section className={styles.section} aria-labelledby="jobs-title">
           <h2 id="jobs-title" className={styles.h2}>
-            Jobs
+            Projects
           </h2>
           {jobs.length === 0 ? (
             <p className={styles.empty}>Nothing started yet.</p>
@@ -83,7 +82,7 @@ export default async function StudentPage(props: PageProps<"/teach/[classId]/[st
               <table className={styles.table}>
                 <thead>
                   <tr>
-                    <th scope="col">Job</th>
+                    <th scope="col">Project</th>
                     <th scope="col">Status</th>
                     <th scope="col" className={styles.num}>
                       Steps passed
@@ -111,11 +110,13 @@ export default async function StudentPage(props: PageProps<"/teach/[classId]/[st
                           </Link>{" "}
                           {summary ? (
                             <span className={styles.meta}>
-                              Act {summary.actNumber}, Job {summary.number}
+                              Act {summary.actNumber}, project {summary.number}
                             </span>
                           ) : null}
                         </th>
-                        <td className={styles.nowrap}>{statusLabel(j.status)}</td>
+                        <td className={styles.nowrap}>
+                          <Badge tone={j.status === "shipped" || j.status === "shipped-stretch" ? "shipped" : j.status === "in-progress" ? "progress" : "neutral"}>{statusLabel(j.status)}</Badge>
+                        </td>
                         <td className={styles.num}>
                           {summary ? `${j.stepsPassed} of ${summary.stepCount}` : j.stepsPassed}
                           {j.stepsSeenSolution ? <span className={styles.meta}>, {j.stepsSeenSolution} {j.stepsSeenSolution === 1 ? "solution" : "solutions"} seen</span> : null}
@@ -130,16 +131,16 @@ export default async function StudentPage(props: PageProps<"/teach/[classId]/[st
               </table>
             </div>
           )}
-          {jobs.length ? <p className={styles.meta}>Pick a Job to see the code saved for it and anything handed in.</p> : null}
+          {jobs.length ? <p className={styles.meta}>Pick a project to see the code saved for it and anything handed in.</p> : null}
         </section>
 
         {student.jobId ? (
-          <section className={`frame-panel ${styles.section}`} aria-labelledby="code-title">
+          <section className={styles.section} aria-labelledby="code-title">
             <h2 id="code-title" className={styles.h2}>
               Code for {jobTitle}
             </h2>
             {student.files.length === 0 ? (
-              <p className={styles.empty}>No code saved for this Job yet.</p>
+              <p className={styles.empty}>No code saved for this project yet.</p>
             ) : (
               <div className={styles.files}>
                 <p className={styles.meta}>The latest saved version of each file. Read-only.</p>
@@ -154,7 +155,7 @@ export default async function StudentPage(props: PageProps<"/teach/[classId]/[st
                             <code>{f.filename}</code>
                             <span className={styles.meta}>saved {shortDate(f.updatedAt, now)}</span>
                           </figcaption>
-                          <pre className={styles.pre} tabIndex={0} aria-label={`${f.filename}, ${job?.steps.find((s) => s.id === stepId)?.title ?? stepId}`}>
+                          <pre className={`code-dark ${styles.pre}`} tabIndex={0} aria-label={`${f.filename}, ${job?.steps.find((s) => s.id === stepId)?.title ?? stepId}`}>
                             <code>{f.content || " "}</code>
                           </pre>
                         </figure>
@@ -167,7 +168,7 @@ export default async function StudentPage(props: PageProps<"/teach/[classId]/[st
           </section>
         ) : null}
 
-        <section className={`frame-panel ${styles.section}`} aria-labelledby="membership-title">
+        <section className={styles.section} aria-labelledby="membership-title">
           <h2 id="membership-title" className={styles.h2}>
             In this class
           </h2>

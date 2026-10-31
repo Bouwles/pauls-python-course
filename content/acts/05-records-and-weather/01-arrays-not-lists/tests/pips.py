@@ -37,9 +37,34 @@ def square(ctx):
     same_array(module.assessment_means(marks), marks.mean(axis=0), "assessment_means on three students")
 
 
+def checks_pass(ctx):
+    result = ctx.run_program()
+    if result.error is not None:
+        raise CheckFailed(f"The program stops with {type(result.error).__name__}: {result.error}. One of Aaesha's checks disagrees with the code. Which of the two is right?",
+                          actual=result.output)
+    if "All checks pass." not in result.output:
+        raise CheckFailed("The program should run to the end and print All checks pass.", expected="All checks pass.", actual=result.output)
+
+
+def checks_kept(ctx):
+    import ast
+
+    asserts = [node for node in ast.walk(ctx.tree) if isinstance(node, ast.Assert)]
+    if len(asserts) < 2:
+        raise CheckFailed("Keep both of Aaesha's checks. Mend the one that's wrong rather than taking it out.",
+                          expected="2 checks", actual=f"{len(asserts)} checks")
+    for node in asserts:
+        if isinstance(node.test, ast.Constant) and node.test.value:
+            raise CheckFailed("A check that's always true checks nothing. Make it compare the shape again.")
+
+
 TESTS = [
     custom("One average for each of the 395 students", per_student, visible=True),
     custom("One average for each of the 3 assessments", per_assessment, visible=True),
+    custom("Aaesha's checks pass", checks_pass, visible=True,
+           hint="An AssertionError means a check and the code disagree. Work out the right shape first, then fix whichever is wrong."),
+    custom("Both checks kept", checks_kept,
+           hint="Fix the check that's wrong. Taking it out would hide the next mistake too."),
     custom("Three students of three marks", square,
            hint="With three students, both axes have three items, so the shape can't tell you which way you averaged. The axis you name is the one that disappears."),
 ]

@@ -1,12 +1,12 @@
 ---
 id: pips
 type: pips
-title: Pip's Version
+title: Fix Yahya's version
 dialogue:
-  - pip: "I built Gwen's machine already. Three rounds. I played it ten times."
-  - pip: "Paper every round. Won every game. I don't think it's a very good machine."
+  - yahya: "I built the machine already. Calling random every round is wasteful, so it picks once."
+  - yahya: "Caitlin played paper three times and won every round. That's not chance. Can you look?"
 dialogue_after:
-  - pip: "It picked once and kept it all night. That's not a machine. That's me with paper."
+  - yahya: "It picked once and kept it all game. Fast, and no use. A fresh hand every round."
 hints:
   nudge: "How many times does `random.choice` run, and where is it compared with the loop?"
   plan:
@@ -22,6 +22,6 @@ hints:
             result = winner(player, machine)
             ...
 ---
-Pip's game plays three rounds. Run it and play `paper` three times, and watch what the machine chooses.
+Yahya's game plays three rounds. Run it and play `paper` three times, and watch what the machine chooses.
 
 Fix it so the machine picks a fresh hand every round. The checks decide in advance what the machine will pick, and expect it to change.

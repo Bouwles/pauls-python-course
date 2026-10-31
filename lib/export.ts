@@ -41,12 +41,12 @@ export function readme(item: ShelfItem, shippedAt: number | null, name = ""): st
   // The project's own portfolio README (REDESIGN.md 7.1), with the learner's name and the date filled in.
   if (item.portfolioReadme) {
     const filled = item.portfolioReadme.replace(/\{name\}/g, name.trim() || "me").replace(/\{date\}/g, date ?? "recently").trim();
-    return `${filled}\n\n---\n\nFor ${item.client}, ${BRAND.townName}. Act ${item.actNumber}, ${item.actTitle}, of ${BRAND.name}.\n`;
+    return `${filled}\n\n---\n\nFor ${item.client}. Act ${item.actNumber}, ${item.actTitle}, of ${BRAND.name}.\n`;
   }
   return [
     `# ${item.title}`,
     "",
-    `For ${item.client}, ${BRAND.townName}.${date ? ` Shipped ${date}.` : ""} Act ${item.actNumber}, ${item.actTitle}, of ${BRAND.name}.`,
+    `For ${item.client}.${date ? ` Shipped ${date}.` : ""} Act ${item.actNumber}, ${item.actTitle}, of ${BRAND.name}.`,
     "",
     "## The brief",
     "",
@@ -81,7 +81,7 @@ export function download(name: string, data: Uint8Array | string, type = "applic
 export function repoReadme(items: { item: ShelfItem; shippedAt: number | null }[], name: string): string {
   const byAct = new Map<string, { item: ShelfItem; shippedAt: number | null }[]>();
   for (const x of items) byAct.set(x.item.actTitle, [...(byAct.get(x.item.actTitle) ?? []), x]);
-  const lines = [`# ${name ? `${name}'s` : "My"} Python projects`, "", `Programs I wrote for ${BRAND.name}: ${items.length} of them, each for someone in the town of ${BRAND.townName}.`, ""];
+  const lines = [`# ${name ? `${name}'s` : "My"} Python projects`, "", `Programs I wrote for ${BRAND.name}: ${items.length} of them, each a real program with a README.`, ""];
   for (const [act, xs] of byAct) {
     lines.push(`## ${act}`, "");
     for (const { item } of xs.sort((a, b) => a.item.number - b.item.number)) lines.push(`- [${item.title}](${projectFolder(item)}/): ${item.spec.split("\n")[0]}`);

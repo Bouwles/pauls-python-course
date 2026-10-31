@@ -1,4 +1,4 @@
-"""Gwen's rules, as tests. Leave these as they are: they're the agreement.
+"""Caitlin's rules, as tests. Leave these as they are: they're the agreement.
 Your own tests go in test_mine.py.
 """
 import pytest

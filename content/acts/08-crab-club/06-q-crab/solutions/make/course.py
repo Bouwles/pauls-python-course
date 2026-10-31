@@ -1,5 +1,5 @@
-# The Club Course, raced by the Arcade League's own rules, from club-course.json.
-# Moss copied them out and checked them against the League's notes. Twice.
+# The League course, raced by the Arcade League's own rules, from club-course.json.
+# Yahya copied them out and checked them against the League's notes. Twice.
 
 import json
 
@@ -21,12 +21,12 @@ TILES = [(row, col) for row in range(ROWS) for col in range(COLS) if LAYOUT[row]
 
 
 def slip_chance(tile):
-    """How often he slips sideways from this tile: more in a rock pool than on sand."""
+    """How often the crab slips sideways from this tile: more in a rock pool than on sand."""
     return COURSE["slip"]["pool"] if tile in POOLS else COURSE["slip"]["sand"]
 
 
 def move(tile, action):
-    """Where one move leads. Into a rock or off the course, he stays put."""
+    """Where one move leads. Into a rock or off the course, it stays put."""
     row, col = tile[0] + STEPS[action][0], tile[1] + STEPS[action][1]
     if 0 <= row < ROWS and 0 <= col < COLS and LAYOUT[row][col] != "#":
         return (row, col)
@@ -34,7 +34,7 @@ def move(tile, action):
 
 
 def step(tile, action, rng):
-    """One move: (where he ends up, the reward, whether the race is over).
+    """One move: (where it ends up, the reward, whether the race is over).
 
     Every move costs -1, because the League counts moves. Reaching the finish ends the race.
     """
@@ -52,7 +52,7 @@ def random_start(rng):
 def race(policy, rng):
     """One League race from the start, following policy (rows of actions, 0 to 3).
 
-    Returns the number of moves it took: MAX_MOVES if he never got there.
+    Returns the number of moves it took: MAX_MOVES if it never got there.
     """
     tile = START
     for moves in range(1, MAX_MOVES + 1):

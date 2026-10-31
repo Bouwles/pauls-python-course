@@ -6,7 +6,7 @@ portfolio_readme: |
 
   Learns what every tile of a gridworld is worth from experience alone, with no map of the chances. It races a policy two thousand times and estimates each tile's value two ways, Monte Carlo and temporal difference learning, then compares both with the exact answer worked out from the map.
 
-  Written by {name} for the Arcade Committee, on the pier at {{town}}. Finished {date}.
+  Written by {name} for Yahya, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -39,7 +39,7 @@ portfolio_readme: |
   - Measuring a learner against the exact answer, and seeing the difference between Monte Carlo's noise and TD's bias
 downloadable: true
 datasets: []
-client: committee
+client: yahya
 building: crab-club
 estimated_minutes: 90
 summary: "The worth of every tile, learned from races alone, with no map: Monte Carlo and temporal difference learning."
@@ -47,12 +47,12 @@ concepts_introduced: [monte-carlo, td-learning]
 concepts_reviewed: [policy-evaluation, returns-discounting, mdps, bandits, dictionaries, tuples, zip, default-arguments, numpy-arrays]
 ask:
   dialogue:
-    - committee: "Your figures for the grid are very fine. On paper."
-    - committee: "Sir Reginald has never seen the paper. He..."
-    - committee: "...cannot read. He learns by racing."
-    - moss: "Then race him, and see if the races agree with the paper."
+    - yahya: "Your figures for the grid are very nice. On paper."
+    - yahya: "The crab in the cabinet never sees the paper. It just races."
+    - aaesha: "Then let it race, and check the races against the paper. That's how you'll know."
+    - paul: "Two ways to learn from races alone. Both should land near the map."
   spec: |
-    Write `learn.py`. Sir Reginald gets no map: nothing in it may read `outcomes`. All he has is `step(tile, action, rng)` from `track.py`, which takes one real step and tells him where he landed, what it earned, and whether the race is over. Practice races start on a random tile, `random_start(rng)`.
+    Write `learn.py`. The crab gets no map: nothing in it may read `outcomes`. All it has is `step(tile, action, rng)` from `track.py`, which takes one real step and tells it where it landed, what it earned, and whether the race is over. Practice races start on a random tile, `random_start(rng)`.
 
     1. `episode(policy, rng, start, limit=100)`: one race, as a list of `(tile, action, reward)`.
     2. `returns_from(rewards, gamma=0.9)`: the return from every step of a race.
@@ -80,17 +80,17 @@ ask:
     Furthest from the map: 1.45
 ship:
   dialogue:
-    - committee: "Two thousand races, and he knows the grid to within a fifth of a point."
-    - committee: "Without reading a word. We always said he was..."
-    - committee: "...a natural."
-    - moss: "He knows what a line is worth. Next, he finds a better one himself."
+    - yahya: "Two thousand races, and it knows the grid to within a fifth of a point."
+    - caitlin: "Without ever seeing the map. It's a natural."
+    - aaesha: "Monte Carlo's closer. TD learns as it goes. I'd want both."
+    - paul: "It knows what a line is worth. Next, it finds a better one itself."
   shelf: { object: race-card, label: "Two thousand practice races, written up" }
   cards: [monte-carlo, td-learning]
 stretch:
   - id: first-visit
     title: "First visits only"
     prompt: |
-      When Sir Reginald bumps the rock and stays put, one race gives a tile several returns. First-visit Monte Carlo counts only the return after his first visit to each tile in a race. Write `mc_first_visit` and compare the two on the traditional line with `SLIP = 0.4` in `track.py`. Do they settle in the same place?
+      When the crab bumps the rock and stays put, one race gives a tile several returns. First-visit Monte Carlo counts only the return after its first visit to each tile in a race. Write `mc_first_visit` and compare the two on the traditional line with `SLIP = 0.4` in `track.py`. Do they settle in the same place?
   - id: falling-alpha
     title: "Calming down"
     prompt: |

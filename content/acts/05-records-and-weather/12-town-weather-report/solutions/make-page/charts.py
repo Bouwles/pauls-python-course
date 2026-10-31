@@ -1,7 +1,7 @@
 """The report's charts. Each makes its own figure and returns (fig, ax), or
 (fig, axes) for two panels side by side. No printing.
 
-Priya's rules, for every chart:
+Aaesha's rules, for every chart:
 - every axis says what it measures, and in what units
 - a title that says what the chart shows
 - a key wherever there's more than one line
@@ -28,7 +28,7 @@ months_chart(then, now)
 """
 import matplotlib.pyplot as plt
 
-SOURCE = "Source: {{town}} Weather Station book, 1925 to 2024, at the Records Office"
+SOURCE = "Source: Clocktower weather station book, 1925 to 2024, in the Archive"
 
 
 def temperature_chart(years, normal):
@@ -40,7 +40,7 @@ def temperature_chart(years, normal):
     ax.axhline(0, color="grey", label="1961 to 1990 average")
     ax.set_xlabel("year")
     ax.set_ylabel("difference from the 1961 to 1990 average (degrees C)")
-    ax.set_title("{{town}} temperature, year by year")
+    ax.set_title("Clocktower temperature, year by year")
     ax.legend()
     fig.text(0.01, 0.01, SOURCE, fontsize=8)
     return fig, ax
@@ -53,7 +53,7 @@ def rain_chart(tens):
     ax.set_ylim(bottom=0)
     ax.set_xlabel("decade")
     ax.set_ylabel("rain in an average year (mm)")
-    ax.set_title("{{town}} rain, decade by decade (the 1920s and 2020s are five years each)")
+    ax.set_title("Clocktower rain, decade by decade (the 1920s and 2020s are five years each)")
     fig.text(0.01, 0.01, SOURCE, fontsize=8)
     return fig, ax
 

@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the grade book
-on_pass: { priya: "Thirty-eight finals more than two deviations down. Every one of them a nought." }
+on_pass: { aaesha: "Thirty-eight finals more than two deviations down. Every one of them a nought." }
 hints:
   nudge: "Which axis disappears to leave one number per assessment? And what shape is `target - assessment_means(marks)`?"
   plan:

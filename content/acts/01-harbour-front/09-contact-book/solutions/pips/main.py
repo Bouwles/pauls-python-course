@@ -1,7 +1,7 @@
 phones = {
-    "Bea Hollis": "01632 960101",
-    "Agnes Rook": "01632 960245",
-    "Old Tom": "01632 960412",
+    "Paul": "01632 960101",
+    "Neil": "01632 960245",
+    "Caitlin": "01632 960412",
 }
 
 name = input("Name? ")

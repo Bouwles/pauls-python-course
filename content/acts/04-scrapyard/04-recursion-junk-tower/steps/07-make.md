@@ -5,7 +5,7 @@ title: Make the file tree printer
 files: [tree.py]
 entry: tree.py
 argv_field: true
-on_pass: { nell: "Four folders deep. I'd have said three, and I'd have been wrong." }
+on_pass: { neil: "Four folders deep. I'd have said three, and I'd have said it confidently." }
 hints:
   nudge: "What's the answer for an empty folder? How does a folder's answer come from the answers for the folders inside it? And for `tree_lines`, what changes in front of the lines one folder further in?"
   plan:
@@ -39,13 +39,13 @@ hints:
                 lines.append(___)
         return lines
 ---
-Write the printer in `tree.py`. Penhallow's `folder_size` is there: right, and wasteful. The printer shows every folder's size, so `winters` is measured for itself, then again for `machine`, `hill` and `penhallow`. Memoise it: `sizes` is the book to write each folder's total in, filed by its path, and read first. Moss's subgoals are the plan.
+Write the printer in `tree.py`. Neil's `folder_size` is there: right, and wasteful. The printer shows every folder's size, so `versions` is measured for itself, then again for `snake`, `games` and `backup`. Memoise it: `sizes` is the book to write each folder's total in, filed by its path, and read first. Paul's subgoals are the plan.
 
 ```
-penhallow/ (799 bytes)
+backup/ (799 bytes)
 ├── README.txt (89 bytes)
-├── hill/ (198 bytes)
-│   └── machine/ (198 bytes)
+├── games/ (198 bytes)
+│   └── snake/ (198 bytes)
 │       ├── notes.txt (64 bytes)
 ```
 

@@ -40,7 +40,7 @@ cards:
         misconception: features-change-nothing
         feedback: "The sine of 90 degrees is 1 and its cosine is 0, so the east part is the whole 10 knots. The two parts say which way it blows in a form a model can add and compare."
   - type: choice
-    prompt: "Pip adds forty more columns to the fishing forecast: the day of the week, Gwen's quiz score, the phase of the moon. Will the forecast get better?"
+    prompt: "Riya adds forty more columns to the rain forecast: the day of the week, Paul's quiz scores, the phase of the moon. Will the forecast get better?"
     verify: none
     options:
       - text: "Not necessarily. Columns that know nothing give the model more noise to fit. Cross-validate and see"
@@ -48,7 +48,7 @@ cards:
         feedback: "Right. Extra columns can hurt as easily as help. Only a score on data the model hasn't seen can tell."
       - text: "Yes. More information can only help"
         misconception: more-columns-always-help
-        feedback: "A model can find patterns in noise that aren't there, as Pip's three hundred dials showed. Every column has to earn its place in cross-validation."
+        feedback: "A model can find patterns in noise that aren't there. Every column has to earn its place in cross-validation."
       - text: "Yes, as long as it can see 350 and 10 degrees are close"
         misconception: numbers-know-the-compass
         feedback: "Nothing tells a model that the compass goes round: to it, 350 and 10 are 340 apart. That's a separate problem, fixed by writing the wind as an arrow."

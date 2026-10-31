@@ -5,9 +5,9 @@ A string is how Python stores text: a name, a message, a line read from a file, 
 The quotes tell Python where the text starts and ends. They are not stored as part of it, which is why `len()` counts only the characters in between. When the text contains one kind of quote, wrap it in the other kind; when it contains both, put a backslash before the one that matches the outside quotes.
 
 ```python
-shop = "Bea's bakery"
-quote = 'Agnes said "no"'
-both = "Agnes said \"it's shut\""
+shop = "Emma's café"
+quote = 'Lena said "no"'
+both = "Lena said \"it's shut\""
 print(shop)
 print(quote)
 print(both)
@@ -19,10 +19,10 @@ print("ha" * 3)
 ```
 
 ```text
-Bea's bakery
-Agnes said "no"
-Agnes said "it's shut"
-12
+Emma's café
+Lena said "no"
+Lena said "it's shut"
+11
 seaweed
 sea weed
 34
@@ -49,9 +49,9 @@ Line two
 
 ## Common mistakes
 
-- **Expecting the quotes to print.** `print("Moss")` shows `Moss`. The quotes are part of the code, not part of the text. If you want quote marks in the output, put them inside: `'Agnes said "no"'`.
-- **Opening with one kind of quote and closing with the other.** `"Bea's bakery'` never ends, because Python is still looking for a closing `"`, and the program stops with `SyntaxError: unterminated string literal`. The same error comes from `'Bea's bakery'`, where the apostrophe closes the string early. Make both ends match, and choose the outside quotes so they differ from any quote inside.
-- **Thinking `+` only works on numbers.** On two strings, `+` joins them. What it can't do is join a string to a number: `"Boats: " + 4` is a [TypeError](/handbook/type-error). Turn the number into text with [str()](/handbook/str-conversion) first, or use an [f-string](/handbook/f-strings).
+- **Expecting the quotes to print.** `print("Emma")` shows `Emma`. The quotes are part of the code, not part of the text. If you want quote marks in the output, put them inside: `'Lena said "no"'`.
+- **Opening with one kind of quote and closing with the other.** `"Emma's café'` never ends, because Python is still looking for a closing `"`, and the program stops with `SyntaxError: unterminated string literal`. The same error comes from `'Emma's café'`, where the apostrophe closes the string early. Make both ends match, and choose the outside quotes so they differ from any quote inside.
+- **Thinking `+` only works on numbers.** On two strings, `+` joins them. What it can't do is join a string to a number: `"Laps: " + 4` is a [TypeError](/handbook/type-error). Turn the number into text with [str()](/handbook/str-conversion) first, or use an [f-string](/handbook/f-strings).
 
 ## Related
 

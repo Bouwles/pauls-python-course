@@ -35,6 +35,6 @@ tasks:
       for n in range(8, 13):
           print(f"{n:2} x 7 = {n * 7:3}")
 ---
-Ellie's teacher wants the table neat: every `x` and every `=` in a column.
+Riya wants the table neat for her cousin: every `x` and every `=` in a column.
 
 In an f-string, a colon and a number after the name, like `{n:2}`, sets a **width**: the least number of characters the value will take up. Spaces fill the rest.

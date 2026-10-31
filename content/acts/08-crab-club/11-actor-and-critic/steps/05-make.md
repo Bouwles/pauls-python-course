@@ -5,11 +5,11 @@ title: Make the actor and the critic
 files: [track.py, actor_critic.py]
 entry: actor_critic.py
 timeout_ms: 20000
-on_pass: { committee: "He is judged on every move, and he improves. Unlike certain members of this committee." }
+on_pass: { yahya: "Judged on every move, and it improves every race. I'm a very good critic." }
 hints:
   nudge: "In `update`, the critic's verdict feeds both learners. What do you need to work out before either `values` or `theta` changes?"
   plan:
-    - "td_error: the reward, plus gamma times the critic's value of where he landed unless the race is over, minus the value of where he was"
+    - "td_error: the reward, plus gamma times the critic's value of where it landed unless the race is over, minus the value of where it was"
     - "update: the error and the gradient first; then the critic, then the actor; both in place"
     - "train: from the start, pick by chance, update after every move, until the race is over or 50 moves"
     - "clipped_objective: np.minimum of the plain and the np.clip version"

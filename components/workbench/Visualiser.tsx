@@ -1,10 +1,10 @@
 "use client";
 
 // Step-through visualiser (Section 9.4): the current line, the variables in
-// each frame, and objects drawn as boxes with arrows. Living Visualisations
-// (Section 7.6) read the same trace: lists become Mira's pigeonholes (or
-// Nell's piles, for numbers), dictionaries the post office drawers, recursive
-// calls Nell's junk tower, and Old Tom's lamp sweeps once for each loop pass.
+// each frame, and objects drawn as boxes with arrows. Below them, plain
+// pictures from the same trace: a count of loop passes, a list slot by slot
+// (or as bars, for numbers), a dictionary's keys and values, and the stack of
+// calls still waiting in a recursive function.
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { HeapObject, TraceResult, TraceStep, TraceValue } from "@/lib/python/protocol";
 import { Button } from "../ui/Button";
@@ -44,13 +44,13 @@ export function Visualiser({ trace, source, startLine, onLine }: { trace: TraceR
   return (
     <div className={styles.vis} ref={host} tabIndex={0} onKeyDown={onKey} aria-label="Step-through visualiser. Use the arrow keys to move between steps.">
       <div className={styles.bar}>
-        <Button size="sm" variant="secondary" onClick={() => setI(0)} disabled={i === 0}>
+        <Button size="sm" variant="ghost" onClick={() => setI(0)} disabled={i === 0}>
           First
         </Button>
-        <Button size="sm" variant="secondary" onClick={() => setI((x) => Math.max(0, x - 1))} disabled={i === 0}>
+        <Button size="sm" variant="secondary" icon="caretLeft" onClick={() => setI((x) => Math.max(0, x - 1))} disabled={i === 0}>
           Back
         </Button>
-        <Button size="sm" variant="primary" onClick={() => setI((x) => Math.min(steps.length - 1, x + 1))} disabled={i >= steps.length - 1}>
+        <Button size="sm" variant="primary" icon="caretRight" onClick={() => setI((x) => Math.min(steps.length - 1, x + 1))} disabled={i >= steps.length - 1}>
           Forward
         </Button>
         <input className={styles.slider} type="range" min={0} max={steps.length - 1} value={i} onChange={(e) => setI(Number(e.target.value))} aria-label="Step" />
@@ -215,7 +215,7 @@ function short(v: TraceValue, heap: Record<string, HeapObject>) {
   return text.length > 24 ? `${text.slice(0, 23)}...` : text;
 }
 
-/** Old Tom's lamp, Mira's pigeonholes, Nell's piles and junk tower, and the post office drawers, drawn from the same steps. */
+/** Loop passes, a list slot by slot or as bars, a dictionary, and the calls waiting, drawn from the same steps. */
 function Living({ steps, index, trace }: { steps: TraceStep[]; index: number; trace: TraceResult }) {
   const step = steps[index]!;
   const loop = trace.loops[0];
@@ -242,18 +242,24 @@ function Living({ steps, index, trace }: { steps: TraceStep[]; index: number; tr
   return (
     <div className={styles.living}>
       {loop ? (
-        <div className={styles.lamp} aria-label={`Old Tom's lamp: ${passes} ${passes === 1 ? "pass" : "passes"} of the loop on line ${loop.line}`}>
-          <div className={styles.lampTower} aria-hidden="true">
-            <div className={styles.beam} data-pass={passes % 2} />
-          </div>
-          <p>
-            Old Tom&apos;s lamp: {passes} {passes === 1 ? "pass" : "passes"} of the {loop.kind} loop on line {loop.line}.
+        <div className={styles.holesWrap}>
+          <p className={styles.livingTitle}>
+            Loop passes: {passes} of the {loop.kind} loop on line {loop.line}
           </p>
+          <div className={styles.passes} aria-hidden="true">
+            {Array.from({ length: Math.min(passes, 40) }, (_, k) => (
+              <span key={k} className={[styles.pass, k === passes - 1 ? styles.passNow : ""].join(" ")} />
+            ))}
+            {passes > 40 ? <span className={styles.dim}>and {passes - 40} more</span> : null}
+            {passes === 0 ? <span className={styles.dim}>Not started.</span> : null}
+          </div>
         </div>
       ) : null}
       {recursive ? (
         <div className={styles.holesWrap}>
-          <p>Nell&apos;s junk tower: {calls.length} {calls.length === 1 ? "call" : "calls"} waiting</p>
+          <p className={styles.livingTitle}>
+            Calls waiting: {calls.length}
+          </p>
           <div className={styles.tower}>
             {calls.map((f, k) => {
               const top = k === calls.length - 1;
@@ -269,7 +275,7 @@ function Living({ steps, index, trace }: { steps: TraceStep[]; index: number; tr
       ) : null}
       {numeric && listVar ? (
         <div className={styles.holesWrap}>
-          <p>Nell&apos;s piles: {listVar}</p>
+          <p className={styles.livingTitle}>{listVar}, as bars</p>
           <div className={styles.bars} aria-label={`${listVar}: ${list!.items.map((v) => primText(v)).join(", ")}`}>
             {(() => {
               const nums = list!.items.map((v) => Number(primText(v) || 0));
@@ -284,9 +290,9 @@ function Living({ steps, index, trace }: { steps: TraceStep[]; index: number; tr
         </div>
       ) : list && listVar ? (
         <div className={styles.holesWrap}>
-          <p>Mira&apos;s pigeonholes: {listVar}</p>
+          <p className={styles.livingTitle}>{listVar}, slot by slot</p>
           <div className={styles.holes}>
-            {list.items.length === 0 ? <span className={styles.dim}>All empty.</span> : null}
+            {list.items.length === 0 ? <span className={styles.dim}>Empty.</span> : null}
             {list.items.map((v, k) => (
               <span key={k} className={styles.hole}>
                 <span className={styles.parcel}>{v.k === "prim" ? v.v : "..."}</span>
@@ -298,7 +304,7 @@ function Living({ steps, index, trace }: { steps: TraceStep[]; index: number; tr
       ) : null}
       {dictFound ? (
         <div className={styles.holesWrap}>
-          <p>The post office drawers: {dictFound[0]}</p>
+          <p className={styles.livingTitle}>{dictFound[0]}, key by key</p>
           <div className={styles.drawers}>
             {(dictFound[1] as { pairs: [TraceValue, TraceValue][]; more: number }).pairs.slice(0, 24).map(([k, v], n) => (
               <span key={n} className={styles.drawer}>

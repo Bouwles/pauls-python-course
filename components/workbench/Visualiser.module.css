@@ -1,57 +1,75 @@
+/* The step-through: the program with the current line marked, the variables, the objects. */
 .vis {
   display: grid;
-  gap: var(--s-3);
-  padding: var(--s-3) var(--s-4) var(--s-6);
+  gap: var(--s-4);
+  padding: var(--s-4) var(--s-5) var(--s-6);
+  align-content: start;
   outline: none;
 }
 
 .vis:focus-visible {
-  outline: 2px solid var(--accent-ink);
+  outline: 2px solid var(--sun);
   outline-offset: -2px;
 }
 
 .bar {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--s-2);
-  flex-wrap: wrap;
 }
 
 .slider {
   flex: 1;
   min-width: 120px;
-  accent-color: var(--accent-ink);
+  padding: 0;
+  border: 0;
+  background: none;
+  accent-color: var(--sun);
 }
 
 .count {
-  font-family: var(--font-code);
-  font-size: var(--step--1);
-  color: var(--ink-2);
+  font-size: var(--fs-1);
+  font-weight: 700;
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
 }
 
 .note,
 .empty {
-  font-size: var(--step--1);
-  color: var(--accent-ink);
+  font-size: var(--fs-1);
+  color: var(--text-2);
+}
+
+.empty {
+  padding: var(--s-4) var(--s-5);
 }
 
 .where {
-  font-family: var(--font-prose);
+  font-family: var(--font-display);
+  font-size: var(--fs-4);
+  font-weight: 700;
+  letter-spacing: var(--tracking-display);
 }
 
 .grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: var(--s-4);
   align-items: start;
+}
+
+.code {
+  min-width: 0;
 }
 
 .memory {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
-  gap: var(--s-10);
-  color: var(--accent-ink);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--s-6);
+  align-items: start;
+  min-width: 0;
 }
 
 .frames,
@@ -59,95 +77,98 @@
   display: grid;
   gap: var(--s-2);
   align-content: start;
-  color: var(--ink);
+  min-width: 0;
 }
 
 .frame {
-  border: var(--hairline);
-  padding: var(--s-2) var(--s-3);
-  background: var(--paper);
+  padding: var(--s-3);
+  border-radius: var(--r-lg);
+  background: var(--surface-1);
+  border: 1px solid var(--line);
 }
 
 .top {
-  border-color: var(--ink);
+  border-color: var(--sun);
 }
 
 .frameName {
-  font-size: var(--step--1);
-  font-weight: 600;
-  margin-bottom: var(--s-1);
+  font-size: var(--fs-1);
+  font-weight: 700;
+  margin-bottom: var(--s-2);
 }
 
 .vars {
   border-collapse: collapse;
+  width: 100%;
   font-family: var(--font-code);
-  font-size: var(--step--1);
-  font-variant-ligatures: none;
+  font-size: 13px;
 }
 
 .vars th {
-  text-align: right;
+  text-align: left;
   font-weight: 400;
-  color: var(--ink-2);
-  padding: 2px var(--s-2) 2px 0;
+  color: var(--text-2);
+  padding: 3px var(--s-3) 3px 0;
+  white-space: nowrap;
 }
 
 .vars td {
-  padding: 2px 0;
+  padding: 3px 0;
 }
 
 .prim {
   font-family: var(--font-code);
-  font-size: var(--step--1);
-  font-variant-ligatures: none;
+  font-size: 13px;
+  color: var(--text);
+  overflow-wrap: anywhere;
 }
 
 .dot {
   display: inline-block;
-  width: 9px;
-  height: 9px;
-  background: var(--accent-ink);
-  vertical-align: middle;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--blue-text);
 }
 
 .obj {
-  border: 2px solid var(--rule-strong);
-  padding: var(--s-1) var(--s-2) var(--s-2);
-  background: var(--paper-raised);
+  padding: var(--s-3);
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
 }
 
 .objType {
-  font-size: var(--step--2);
-  color: var(--ink-2);
-  margin-bottom: 2px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-2);
+  margin-bottom: var(--s-2);
 }
 
 .cells {
   display: flex;
   flex-wrap: wrap;
-  gap: 2px;
+  gap: 3px;
 }
 
 .cell {
   display: grid;
   justify-items: center;
-  min-width: 34px;
-  padding: 2px 4px;
-  border: 2px solid var(--rule);
+  min-width: 32px;
+  padding: 2px 6px 4px;
+  border-radius: var(--r-sm);
+  background: var(--surface-3);
   font-family: var(--font-code);
-  font-size: var(--step--1);
-  font-variant-ligatures: none;
-  background: var(--paper);
+  font-size: 13px;
 }
 
 .idx {
-  font-size: var(--step--2);
-  color: var(--ink-3);
+  font-size: 11px;
+  color: var(--text-2);
 }
 
 .dim {
-  font-size: var(--step--1);
-  color: var(--ink-2);
+  font-size: var(--fs-1);
+  color: var(--text-2);
 }
 
 .arrows {
@@ -157,199 +178,180 @@
   height: 100%;
   pointer-events: none;
   overflow: visible;
+  color: var(--blue-text);
 }
 
+/* Plain pictures of the same steps. */
 .living {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-6);
-  padding: var(--s-3);
-  background: var(--paper-sunk);
-  border: var(--hairline);
-  font-size: var(--step--1);
-  font-family: var(--font-prose);
-}
-
-.lamp {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: var(--s-3);
-  align-items: center;
-}
-
-.lampTower {
-  position: relative;
-  width: 14px;
-  height: 44px;
-  background: var(--art-sail-cloth);
-}
-
-.lampTower::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--art-brick);
-  -webkit-mask: var(--mask-hband-16) repeat 0 0 / 8px 16px;
-  mask: var(--mask-hband-16) repeat 0 0 / 8px 16px;
-}
-
-.beam {
-  position: absolute;
-  top: 0;
-  left: 7px;
-  width: 50px;
-  height: 6px;
-  background: var(--art-lamp-glow);
-  transform-origin: left center;
-  transform: rotate(-8deg);
-  transition: transform 300ms var(--ease);
-}
-
-.beam[data-pass="1"] {
-  transform: rotate(188deg);
 }
 
 .holesWrap {
   display: grid;
-  gap: var(--s-1);
+  gap: var(--s-2);
+  align-content: start;
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--r-lg);
+  background: var(--surface-1);
+  border: 1px solid var(--line);
+}
+
+.livingTitle {
+  font-size: var(--fs-1);
+  font-weight: 700;
+}
+
+.passes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+
+.pass {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--c-neil);
+}
+
+.passNow {
+  background: var(--sun);
 }
 
 .holes {
   display: flex;
-  gap: 3px;
-  padding: 4px;
-  background: var(--art-driftwood);
-  border: 2px solid var(--art-tar);
   flex-wrap: wrap;
+  gap: 3px;
 }
 
 .hole {
   display: grid;
   justify-items: center;
   gap: 2px;
-  min-width: 40px;
-  padding: 4px 3px 2px;
-  background: var(--art-tar);
-  color: var(--art-sail-cloth);
+  min-width: 44px;
+  padding: var(--s-2) var(--s-1) 4px;
+  border-radius: var(--r-sm);
+  background: var(--surface-3);
 }
 
 .parcel {
-  background: var(--art-sand);
-  color: var(--art-harbour-night);
   font-family: var(--font-code);
-  font-size: var(--step--2);
-  padding: 2px 4px;
-  font-variant-ligatures: none;
+  font-size: 13px;
+  max-width: 96px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .holeNo {
   font-family: var(--font-code);
-  font-size: var(--step--2);
-  color: var(--art-lamp-glow);
-}
-
-.out pre {
-  margin: var(--s-1) 0 0;
-  background: var(--paper-raised);
-  border: var(--hairline);
-  padding: var(--s-2) var(--s-3);
-  font-family: var(--font-code);
-  font-size: var(--editor-font-size);
-  white-space: pre-wrap;
-}
-
-@media (max-width: 1200px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .beam {
-    transition: none;
-  }
+  font-size: 11px;
+  color: var(--text-2);
 }
 
 .bars {
   display: flex;
   align-items: flex-end;
-  gap: 3px;
-  height: 120px;
-  padding: 4px 6px 20px;
-  background: var(--paper-raised);
-  border: var(--hairline);
+  gap: 4px;
+  height: 110px;
+  padding-top: var(--s-4);
 }
 
 .pile {
   position: relative;
-  width: 22px;
-  background: var(--art-rust);
-  border-top: 2px solid var(--art-ochre);
+  flex: 1;
+  max-width: 32px;
+  min-width: 12px;
+  border-radius: var(--r-sm) var(--r-sm) 0 0;
+  background: var(--c-neil);
 }
 
 .pileLabel {
   position: absolute;
-  bottom: -16px;
-  left: 0;
-  right: 0;
-  text-align: center;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
   font-family: var(--font-code);
-  font-size: var(--step--2);
-  color: var(--ink-2);
+  font-size: 11px;
+  color: var(--text-2);
+  white-space: nowrap;
 }
 
-/* Nell's junk tower: one crate per call, the newest on top. */
 .tower {
   display: flex;
   flex-direction: column-reverse;
-  align-items: flex-start;
-  gap: 2px;
+  gap: 3px;
 }
 
 .crate {
+  padding: var(--s-1) var(--s-2);
+  border-radius: var(--r-sm);
+  background: var(--surface-3);
   font-family: var(--font-code);
-  font-size: var(--step--2);
-  font-variant-ligatures: none;
-  padding: 3px 8px;
-  background: var(--art-ochre);
-  color: var(--art-harbour-night);
-  border: 2px solid var(--art-driftwood);
-  min-width: 120px;
+  font-size: 13px;
+  overflow-wrap: anywhere;
 }
 
 .crate[data-top="true"] {
-  background: var(--art-lamp-glow);
+  box-shadow: inset 0 0 0 2px var(--sun);
 }
 
 .crateGives {
-  color: var(--art-tar);
-  font-weight: 600;
+  color: var(--pass-text);
 }
 
-/* The post office's drawers, one per key. */
 .drawers {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
   gap: 3px;
-  padding: 4px;
-  background: var(--art-driftwood);
-  border: 2px solid var(--art-tar);
-  max-width: 520px;
 }
 
 .drawer {
   display: grid;
-  gap: 2px;
-  padding: 3px 4px;
-  background: var(--art-sand);
-  color: var(--art-harbour-night);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--s-2);
+  padding: var(--s-1) var(--s-2);
+  border-radius: var(--r-sm);
+  background: var(--surface-3);
   font-family: var(--font-code);
-  font-size: var(--step--2);
-  font-variant-ligatures: none;
-  overflow-wrap: anywhere;
+  font-size: 13px;
 }
 
 .drawerKey {
-  background: var(--art-sail-cloth);
-  padding: 0 3px;
-  border-bottom: 2px solid var(--art-rust);
+  color: var(--text-2);
+  overflow-wrap: anywhere;
+}
+
+.out {
+  display: grid;
+  gap: var(--s-2);
+}
+
+.out pre {
+  margin: 0;
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--r-md);
+  background: var(--surface-1);
+  border: 1px solid var(--line);
+  font-size: 14px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+@container wb (max-width: 1100px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@container wb (max-width: 860px) {
+  .vis {
+    padding: var(--s-4);
+  }
+
+  .memory {
+    grid-template-columns: 1fr;
+  }
 }

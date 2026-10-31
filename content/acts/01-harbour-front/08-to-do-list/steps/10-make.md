@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the to-do list
-on_pass: { mira: "Number two done, and three moved up to two. Correct." }
+on_pass: { neil: "Number two done, and three moved up to two. That's my whole week, sorted." }
 hints:
   nudge: "Which command has to turn a person's number into an index? And what should happen before you use a number that might not be on the list?"
   plan:
@@ -37,23 +37,23 @@ hints:
             print("Commands: add, list, done, quit.")
     print(f"Left to do: {___}")
 ---
-Write Mira's to-do list: `add`, `list`, `done` and `quit`.
+Write Neil's to-do list: `add`, `list`, `done` and `quit`.
 
 ```
 Command? add
-Task? Sort the second post
+Task? Mark the quizzes
 Command? add
-Task? Mend the franking machine
+Task? Fix the projector
 Command? list
-1. Sort the second post
-2. Mend the franking machine
+1. Mark the quizzes
+2. Fix the projector
 Command? done
 Number? 1
-Done: Sort the second post
+Done: Mark the quizzes
 Command? quit
 Left to do: 1
 ```
 
 An empty list prints `Nothing to do.` A number that isn't on the list, like 0 or 7, gets `No task 7.` and nothing comes off. Any other command gets `Commands: add, list, done, quit.`
 
-Moss's labels from the workshop queue are in the file.
+Paul's labels from the questions queue are in the file.

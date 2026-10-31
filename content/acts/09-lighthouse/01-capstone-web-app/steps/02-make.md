@@ -5,9 +5,9 @@ title: The rules, before the routes
 files: [rules.py, berths.py]
 entry: rules.py
 dialogue:
-  - agnes: "Before the web pages, the rules. I've had them in my head for twenty years."
-  - moss: "Then write them down where a test can reach them."
-on_pass: { agnes: "Too long, too many nights, a berth that isn't there, and a clash. Every one refused, with a reason." }
+  - riya: "Before the web pages, the rules. The marina has kept them in people's heads for twenty years."
+  - paul: "Then write them down where a test can reach them."
+on_pass: { riya: "Too long, too many nights, a berth that isn't there, and a clash. Every one refused, with a reason." }
 hints:
   nudge: "What has to be true of each of the five fields before a booking is kept, and what should the refusal say when one isn't?"
   plan:
@@ -43,7 +43,7 @@ hints:
 ---
 A web app is mostly a thin layer over plain functions, and plain functions can be checked here, where Flask can't run. So the rules come first.
 
-`rules.py` holds Agnes's rules and nothing else: no Flask, no files. `BookingError` and `parse_date` are written; write `check_booking`, `nights_of` and `check_clash` from the docstring at the top.
+`rules.py` holds the marina's rules and nothing else: no Flask, no files. `BookingError` and `parse_date` are written; write `check_booking`, `nights_of` and `check_clash` from the docstring at the top.
 
 A refusal is an exception, `BookingError`, carrying a message in words and the status it deserves: 400 for anything wrong with what was sent, 409 for a clash. The routes will catch it and answer with JSON; the form will catch it and answer with a sentence.
 

@@ -1,15 +1,15 @@
 import random as _random
 
-STREETS = ["Anchor Lane", "Chapel Steps", "Ferry Road", "High Street", "Quay Row", "Rope Walk"]
+STREETS = ["Ash Grove", "Clock Lane", "Foundry Road", "High Street", "Queen's Row", "River Walk"]
 
 
 def leaves_parcels_alone(ctx):
     module = ctx.module()
-    parcels = [("A", "Quay Row", 4), ("B", "Quay Row", 1), ("C", "Ferry Road", 3)]
+    parcels = [("A", "Queen's Row", 4), ("B", "Queen's Row", 1), ("C", "Foundry Road", 3)]
     module.round_order(parcels)
-    if parcels != [("A", "Quay Row", 4), ("B", "Quay Row", 1), ("C", "Ferry Road", 3)]:
-        raise CheckFailed("round_order should hand back a new list and leave Mira's parcels as they came.",
-                          expected=[("A", "Quay Row", 4), ("B", "Quay Row", 1), ("C", "Ferry Road", 3)], actual=parcels)
+    if parcels != [("A", "Queen's Row", 4), ("B", "Queen's Row", 1), ("C", "Foundry Road", 3)]:
+        raise CheckFailed("round_order should hand back a new list and leave the courier's parcels as they came.",
+                          expected=[("A", "Queen's Row", 4), ("B", "Queen's Row", 1), ("C", "Foundry Road", 3)], actual=parcels)
 
 
 def comes_before(first, second):
@@ -46,33 +46,33 @@ def whole_town(ctx):
 
 TESTS = [
     function("Up the odd side, down the even", call="round_order",
-             args=([("A", "Quay Row", 4), ("B", "Quay Row", 1), ("C", "Quay Row", 3), ("D", "Quay Row", 2)],),
+             args=([("A", "Queen's Row", 4), ("B", "Queen's Row", 1), ("C", "Queen's Row", 3), ("D", "Queen's Row", 2)],),
              expect=["B", "C", "A", "D"], visible=True),
     function("Two streets, and two parcels for one house", call="round_order",
-             args=([("E", "Quay Row", 2), ("F", "High Street", 5), ("G", "Quay Row", 2), ("H", "High Street", 2)],),
+             args=([("E", "Queen's Row", 2), ("F", "High Street", 5), ("G", "Queen's Row", 2), ("H", "High Street", 2)],),
              expect=["F", "H", "E", "G"], visible=True),
     function("An empty sack", call="round_order", args=([],), expect=[],
              hint="No parcels, no round: an empty list."),
-    function("One parcel", call="round_order", args=([("K", "Rope Walk", 12)],), expect=["K"]),
+    function("One parcel", call="round_order", args=([("K", "River Walk", 12)],), expect=["K"]),
     function("Only the odd side", call="round_order",
-             args=([("A", "Rope Walk", 9), ("B", "Rope Walk", 1), ("C", "Rope Walk", 5)],), expect=["B", "C", "A"]),
+             args=([("A", "River Walk", 9), ("B", "River Walk", 1), ("C", "River Walk", 5)],), expect=["B", "C", "A"]),
     function("Only the even side", call="round_order",
-             args=([("A", "Rope Walk", 2), ("B", "Rope Walk", 10), ("C", "Rope Walk", 6)],), expect=["B", "C", "A"],
+             args=([("A", "River Walk", 2), ("B", "River Walk", 10), ("C", "River Walk", 6)],), expect=["B", "C", "A"],
              hint="Coming back down the even side, the numbers go down: 10, 6, 2."),
     function("Numbers, not text", call="round_order",
-             args=([("A", "Ferry Road", 11), ("B", "Ferry Road", 9), ("C", "Ferry Road", 10), ("D", "Ferry Road", 12)],),
+             args=([("A", "Foundry Road", 11), ("B", "Foundry Road", 9), ("C", "Foundry Road", 10), ("D", "Foundry Road", 12)],),
              expect=["B", "A", "D", "C"],
              hint="9 comes before 11, and 12 before 10 on the way back. Compare the house numbers as numbers."),
     function("Three parcels for one house", call="round_order",
-             args=([("Z", "Chapel Steps", 3), ("M", "Chapel Steps", 3), ("A", "Chapel Steps", 3)],), expect=["Z", "M", "A"],
+             args=([("Z", "Clock Lane", 3), ("M", "Clock Lane", 3), ("A", "Clock Lane", 3)],), expect=["Z", "M", "A"],
              hint="Parcels for the same house stay in the order they came. Leave the label out of the key, and let a stable sort keep them."),
     function("Same number, different streets", call="round_order",
-             args=([("A", "Rope Walk", 4), ("B", "Anchor Lane", 4), ("C", "Ferry Road", 4)],), expect=["B", "C", "A"]),
+             args=([("A", "River Walk", 4), ("B", "Ash Grove", 4), ("C", "Foundry Road", 4)],), expect=["B", "C", "A"]),
     function("Streets in alphabetical order", call="round_order",
-             args=([("A", "Quay Row", 1), ("B", "High Street", 2), ("C", "Anchor Lane", 8), ("D", "High Street", 1)],),
+             args=([("A", "Queen's Row", 1), ("B", "High Street", 2), ("C", "Ash Grove", 8), ("D", "High Street", 1)],),
              expect=["C", "D", "B", "A"]),
-    custom("Mira's parcels stay as they came", leaves_parcels_alone,
-           hint="parcels.sort() reorders Mira's own list. sorted(parcels) makes a new one."),
-    custom("The whole town's post", whole_town, timeout=8,
+    custom("The courier's parcels stay as they came", leaves_parcels_alone,
+           hint="parcels.sort() reorders the courier's own list. sorted(parcels) makes a new one."),
+    custom("The whole city's post", whole_town, timeout=8,
            hint="If only this fails, look at parcels for the same house: they must keep the order they came in."),
 ]

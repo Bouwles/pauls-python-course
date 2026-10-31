@@ -5,21 +5,21 @@ summary: |
 example: |
   import sys
 
-  # Run as: python hello.py Ferro
-  # sys.argv is ["hello.py", "Ferro"]; here it has only the file name.
+  # Run as: python hello.py Riya
+  # sys.argv is ["hello.py", "Riya"]; here it has only the file name.
   print(sys.argv[1:])
 misconceptions: [terminal-folder-irrelevant, file-name-is-a-command]
 related: [virtual-environments]
 drill: false
 cards:
   - type: choice
-    prompt: "The terminal is in your home folder. hello.py is in Downloads/{{town_id}}-python-at-home. You type `python hello.py`. What happens?"
+    prompt: "The terminal is in your home folder. hello.py is in Downloads/ppc-python-at-home. You type `python hello.py`. What happens?"
     options:
       - text: "Python can't find hello.py: the terminal looks in the folder it's in"
         correct: true
       - text: "Python finds hello.py and runs it"
         misconception: terminal-folder-irrelevant
-        feedback: "Commands look in the terminal's current folder. `cd Downloads/{{town_id}}-python-at-home` first."
+        feedback: "Commands look in the terminal's current folder. `cd Downloads/ppc-python-at-home` first."
   - type: choice
     prompt: "Which command runs hello.py with Python?"
     options:
@@ -32,13 +32,13 @@ cards:
         misconception: file-name-is-a-command
         feedback: "There's no `run` command. `python` is the program, and hello.py is what it runs."
   - type: choice
-    prompt: "You're in Downloads/{{town_id}}-python-at-home/tests. Which command takes you back up to the project folder?"
+    prompt: "You're in Downloads/ppc-python-at-home/tests. Which command takes you back up to the project folder?"
     options:
       - text: "cd .."
         correct: true
-      - text: "cd {{town_id}}-python-at-home"
+      - text: "cd ppc-python-at-home"
         misconception: terminal-folder-irrelevant
-        feedback: "That looks for a folder called {{town_id}}-python-at-home *inside* tests. `..` always means the folder above."
+        feedback: "That looks for a folder called ppc-python-at-home *inside* tests. `..` always means the folder above."
   - type: predict
     prompt: "A program is run with no extra words after its name. What does it print?"
     code: |
@@ -46,15 +46,15 @@ cards:
       print(len(sys.argv))
     answer: "1"
   - type: choice
-    prompt: "`python hello.py Ferro` runs this. What does it print?"
+    prompt: "`python hello.py Riya` runs this. What does it print?"
     code: |
       import sys
       print(sys.argv)
     # Run with a command-line word, which a card can't do; the answer is checked by hand.
     verify: none
     options:
-      - text: "['hello.py', 'Ferro']"
+      - text: "['hello.py', 'Riya']"
         correct: true
-      - text: "['Ferro']"
+      - text: "['Riya']"
         misconception: file-name-is-a-command
         feedback: "The first item is always the program's own name. The words you typed after it follow."

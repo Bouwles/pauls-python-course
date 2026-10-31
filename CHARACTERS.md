@@ -1,159 +1,151 @@
 # Characters
 
-The bible for every line of dialogue and every sprite in Fixwick (content writes the town's name as `{{town}}`; see `content/AUTHORING.md`). Content must follow it. When a line feels generic, it is wrong: make it specific to the person, the town or the program. How the art is drawn (sizes, frames, palette) is in `sprites/README.md`; this file is who everyone is.
+The bible for every line of dialogue in Paul's Python Course. Content must follow it. When a line feels generic, it is wrong: make it specific to the person, the room or the program. How everyone looks is in `art/CAST_APPEARANCE.md` and `art/ARTIST_BRIEF.md`; this file is who they are and how they talk.
+
+**These are real people the owner knows.** Write them warmly and respectfully. Nobody is the butt of the joke. Everyone makes mistakes sometimes and everyone is good at something. Never base a personality, a voice or a look on assumptions about anyone's name, background or culture. Don't invent personal details beyond this file and REDESIGN-2.md: no family, health, religion, relationships or money troubles. An invented detail is small, neutral and about the work: a class dinner, a running app, a tutoring session.
 
 ## Rules for everyone
 
 - Short lines. Most are under 20 words. Nobody gives speeches.
-- At most one exclamation mark per project, across all dialogue, and only when it is earned.
+- At most one exclamation mark per project, across all its dialogue, and only when it is earned.
 - No emoji. No em dashes. Commas, full stops and colons.
-- No fourth-wall breaks. Nobody mentions AI, apps, screens, "your learning journey", levels or progress bars. The town is real to them.
-- No generic praise. Praise is specific and understated: "The till balanced. Bea counted twice."
-- British spelling and British understatement.
-- **Reactive lines.** Characters react to real events in the learner's code: a check passed first time, the third miss in a row, a loop that never runs, the first f-string, a variable called `x` holding a price, a well-named `total_price`, a function doing four jobs. The events come from cheap static checks (Python's `ast`, run inside each Run) and from run and check results. The rules are in `lib/reactions.ts`; the lines are pools in `content/characters/*.yaml`. A line may name something from the learner's code with `{name}`.
-- **No repeats.** The last 30 lines shown to each learner are remembered and never repeated. When every line in a pool has been said lately, the character says nothing.
-- **Recap on return.** After a break of four hours or more, Moss says one line and the current client says where the learner had got to (`recap` pools, with `{step}`). Never guilt, never a streak, never "we missed you".
-- **Expressions.** Every line has a portrait expression. Reactions pick one (a first-try pass is `proud`, a traceback `squinting`); authored lines can set `face:`. Clients are `delighted` when their project ships.
+- No fourth-wall talk. Nobody mentions AI, "your learning journey", levels or progress bars. The Clocktower is real to them.
+- No generic praise. Praise is specific: "Your names say what they hold. That's half of good code."
+- British spelling, sentence case.
+- Dialogue speakers are cast ids only: `paul`, `neil`, `aaesha`, `caitlin`, `riya`, `yahya`, or `narrator`, sparingly.
+
+## The setting: the Clocktower
+
+An old brick clocktower in a city that is never named. Paul has turned it into a code school. The learner is a student in Paul's class, alongside four classmates. Everyone is a human young adult.
+
+Each Act is a floor, and each floor has a resident:
+
+| Floor | Act | Room | Resident |
+|---|---|---|---|
+| Ground | I. Foundations | The Workshop: Paul's classroom, a big desk, a chalkboard, and Neil's desk with the duck on it | Paul |
+| 1 | II. Fluent Python | The Studio: desks, shelves of notebooks, a kettle | Neil |
+| 2 | III. Real-World Python | The Makerspace: a soldering bench, a small arcade cabinet, a server under the desk | Caitlin |
+| 3 | IV. Algorithms | The Puzzle Room: a wall of sticky notes and string, a chess table | Yahya |
+| 4 | V. Data Science | The Archive: filing cabinets, a huge wall chart, a weather station outside the window | Aaesha |
+| 5 | VI. Machine Learning | The Model Room: whiteboards full of graphs, a coffee machine | Riya |
+| 6 | VII. Deep Learning | The Engine Room: the clock's gears behind glass, a rack of servers | Aaesha and Neil |
+| 7 | VIII. Reinforcement Learning | The Arcade: a row of cabinets, a leaderboard, a prize shelf | Yahya and Caitlin |
+| Roof | IX. Capstones | The Roof Terrace, under the clock face: the city at night, string lights | everyone |
+
+Paul introduces every Act. The floor's resident brings most of its projects; the others bring the ones that fit them: Riya the practical ones, Caitlin games and the web, Aaesha data and tests, Yahya algorithms and speed. Paul and Neil can be clients too. No Act is all one voice.
 
 ---
 
-## The core three
+## Paul, the professor
 
-### Moss (mentor)
+**Colour:** sun yellow `#FFB627`. **Floor:** the Workshop. **Look, in a line:** a black cap worn backwards with a little wavy dark-brown hair showing underneath, light stubble, a navy-and-cream varsity jacket.
 
-**An old tortoise. Owns the workshop. Act I to the end.**
+- **Role:** introduces each Act and project, gives the worked examples ("How Paul would do it"), reviews code at the end of a project, and runs Morning Rounds.
+- **Personality:** calm, sharp, dryly funny. High standards, delivered kindly. Believes the fastest way to learn is to build something real and break it. Obsessed with good names and readable code.
+- **Says things like:** "Build it ugly first. Then make it good." / "That works. Now make it so the next person can read it." / "Read the error from the bottom. The last line is where it hurt."
+- **Never:** hurries, gushes, or writes the answer before the learner has had a proper go.
+- **Reacts to:** the first f-string, input turned into a number, the first `def`, a good name, a single letter holding something that deserves a word, a function doing too many jobs, a line too long to read, a passed check, a pass with no hints, a prediction right or wrong, a look at the solution, the start and end of Morning Rounds ("Ten quick ones before anything new."), and coming back after a break.
 
-- **Look:** broad and low. A domed moss-green shell with hexagonal plates outlined in darker green, and **one cracked plate repaired with a riveted brass patch**: his signature, and it catches the light. A brown leather apron with a spanner in the pocket. Round brass-rimmed glasses pushed up on his head, which slip down when he concentrates (his idle). Heavy-lidded, kind eyes. A slow, deliberate head tilt.
-- **Signature colours:** moss green and brass.
-- **Personality:** patient, dry, exact. Loves good tools and honest names. Distrusts anything clever. Secretly delighted by the learner's progress and bad at saying so.
-- **Role:** the teacher. Gives the three hints (Nudge, Plan, Shape) in the dialogue box, the worked examples, the error explanations under a traceback, and the code reviews when a project ships.
-- **Arc:** he has been failing to fix an old valve radio for years. Over the course the learner helps him read its schematic, which is a program in disguise. In the final Act it plays music, and he finally says something warm.
-- **Reacts to the learner's code:** good names ("`total_price`. Good. I know what it holds."), single letters holding money ("`x` holding a price. What's `x` in a week's time?"), long functions ("That function does four jobs. Give three of them away."), loops that never run, the first f-string, the first `def`.
-- **Says things like:** "Read it from the bottom. The last line is where it hurt." / "Name it for what it holds, not what you hope it holds." / "Measure twice."
-- **Never:** hurries, exclaims, explains for longer than three lines, writes the full answer before the learner has had a proper go.
-- **Portrait expressions:** neutral, pleased, proud, worried, confused, annoyed, laughing, squinting, surprised, plus talk, blink and the glasses-slip idle.
+## Neil, the teaching assistant
 
-### Pip (rival and friend)
+**Colour:** teal `#1FB5A8`. **Floor:** the Studio. **Look, in a line:** short black hair swept up, black rectangular glasses, a white shirt with the sleeves rolled up.
 
-**A city pigeon. The other apprentice. Writes "Pip's Version".**
+- **Role:** gives the three hints (Nudge, Plan, Shape), explains errors, and owns "Explain it to the duck".
+- **Personality:** energetic and approachable, the one you ask when you're stuck. Explains it a second way when the first didn't land. Loves a good bug hunt.
+- **Says things like:** "Okay. What did you expect it to print? What did it actually print?" / "Close. Look at line 4 again." / "Every programmer has written this exact bug. Including Paul."
+- **Never:** makes a learner feel slow. A third failed check gets a calmer Neil, not a louder one.
+- **Reacts to:** failed checks (and the third in a row), the third hint, a long fight finally won, tracebacks of every common kind (a name Python doesn't know, text where a number should be, dividing by zero, an index past the end, `int()` given something it can't read, indentation), a loop stopped by hand, a program that printed nothing, a loop that never runs, a learner who has gone quiet, and what the learner told the duck.
 
-- **Look:** scruffy, compact, puffed chest. Slate-grey feathers with a darker wing bar, and an **iridescent neck that shifts teal to violet** (a two-frame shimmer when he's proud). A stubby pencil behind one eye, and a satchel overflowing with crumpled printouts. Bright orange eyes, a lot of attitude. Leans forward when he talks.
-- **Signature colours:** slate grey with a teal-violet neck.
-- **Personality:** fast, confident, funny, usually wrong in specific and believable ways. Never stupid. Competitive with the learner in Drills.
-- **Role:** gets the task wrong in a believable way so the learner can find and fix it. His ghost time races the learner in Drills.
-- **Arc:** he starts by "fixing" everything with extra `if` statements. His bugs grow up with the learner: off-by-one, mutable defaults, train/test leakage, reward hacking in the RL Act. By the end he writes his first test before his code, and he credits the learner for it in his own clumsy way.
-- **Reacts to the learner's code:** a first-try pass ("That was luck. Do it again."), a fix shorter than his version ("Mine had more features."), nested loops, a long program with no loop in it.
-- **Says things like:** "Done already. Well. Mostly done." / "I fixed it by adding an if. Then another one."
-- **Never:** is mocked by the narration. He is a peer, and he learns.
+## Aaesha, classmate
 
-### Dennis (debugging duck)
+**Colour:** coral `#FF7A6B`. **Floor:** the Archive, and the Engine Room with Neil. **Look, in a line:** very long dark hair, a warm smile, small gold jewellery.
 
-**A yellow rubber duck. 16x16. Never speaks.**
+- **Role:** brings data projects, and from Act II on is the one who writes tests first.
+- **Personality:** precise, organised, quietly funny. Hates duplicated data and charts that lie. Numbers her requirements.
+- **Says things like:** "Before you run it, how will you know it worked?" / "That chart starts at 40. It's lying to you."
+- **Her "fix my version" mistakes:** her code is right and her test (or her one deciding condition) has a typo. In Act I: `and` where the rule needed `or`, and a list given a second name instead of a copy, because she didn't want duplicated data.
 
-- **Look:** a classic yellow rubber duck with an orange beak, a **chip out of the beak** and slightly faded paint on one side.
-- **Role:** "Explain it to Dennis". The duck button in the step path opens a drawer; the learner explains what the code should do, what it does, and which line surprises them. Then one narration line, with no name plate: "Dennis listens." / "Dennis tilts, very slightly." / "Dennis has heard worse."
-- **Collectible:** twelve Dennises hide around the map. Finding them all earns a note from Moss at the end and nothing else.
+## Caitlin, classmate
 
-### The learner
+**Colour:** violet `#8C6BF2`, as a flat colour only. **Floor:** the Makerspace, and the Arcade with Yahya. **Look, in a line:** long dark-brown hair turning purple towards the ends, round black glasses.
 
-- Built at sign-up from layered parts: species (otter, hare, badger, fox, heron, frog, mole, seal), fur or feather colour, jumper, accessory (scarf, beanie, round glasses, cap, headphones, none). Their head is the avatar in the HUD.
-- The learner's portrait appears in the dialogue box only when they speak, which is rare: choices in story moments.
-- These species are kept for learners, so nobody in town looks like you by accident.
+- **Role:** brings games, web apps and creative projects.
+- **Personality:** creative, fast, impatient. Builds the fun version first. Bored by anything without a screen.
+- **Says things like:** "Can it have a high score?" / "It works. It's ugly. Shipping it."
+- **Her "fix my version" mistakes:** she ships fast and skips the edge cases. In Act I: mismatched quotes, a function that prints when it should return, and a catch-all `except` hiding a typo.
 
----
+## Riya, classmate
 
-## Clients: one per Act, each with a small arc
+**Colour:** leaf green `#4CC36F`. **Floor:** the Model Room. **Look, in a line:** long jet-black hair falling behind her shoulders, a cream varsity jacket.
 
-Each client owns an Act (the curriculum is in `REDESIGN.md` Section 7). The town's people are animals, like Moss and Pip, and each has one signature colour that nobody else uses as a main colour.
+- **Role:** brings practical, real-life projects, and leads the machine learning floor.
+- **Personality:** practical and entrepreneurial. Always asks what something is for. Good at explaining things simply.
+- **Says things like:** "Who's actually going to use this?" / "My model's 99% accurate. Wait. That's suspicious."
+- **Her "fix my version" mistakes:** she builds for the happy path, and in the ML Acts she overfits. In Act I: text compared with a number, a score reset on every question (she tested with one), and a lookup that crashes on a name she never tried.
 
-| Client | Species | Signature colour | Acts |
-| --- | --- | --- | --- |
-| Bea Hollis, baker | hedgehog | tomato red | I |
-| Captain Ferro, ferry captain | walrus | navy | I, IV |
-| Mira Tan, postmistress | mouse | mustard | II |
-| Dev and Kat, bike and boat hire | ferrets | caps in opposite colours | II, III |
-| Nell Brannigan, scrapyard | brown bear | welding orange and soot | IV |
-| Priya Lund, weather station | puffin | raincoat yellow and lab white | V |
-| Professor Ines Wendt, observatory | hoopoe | plum, starry | VI, VII |
-| The Arcade Committee | three herring gulls | green blazers | VIII |
-| Sir Reginald, the committee's crab | shore crab, with a monocle | crab red | VIII |
-| Ada Penhallow, the missing engineer | stoat in her white winter coat | white fur, ochre oilskin | IX |
+## Yahya, classmate
 
-### Bea Hollis, baker (Act I)
-- **Look:** round and rosy, a tomato-red headscarf, flour handprints on her apron, a wooden spoon.
-- **Voice:** practical, warm, suspicious of computers. Counts everything twice.
-- **Arc:** from "I don't trust it" to running her whole bakery on the learner's programs.
-- **Lines:** "I don't need it fancy. I need it right on a Saturday." / "Seven twenty for three loaves. That's what I'd have said."
-- **Ship reaction:** she checks the program's answer against her own arithmetic, out loud.
+**Colour:** blue `#3B6FD8`. **Floor:** the Puzzle Room, and the Arcade with Caitlin. **Look, in a line:** short dark curls piled on top with a few on his forehead, clean-shaven, a black jacket, a deadpan look.
 
-### Captain Ferro, ferry captain (Act I, Act IV)
-- **Look:** a huge navy greatcoat, an enormous white beard that hides his mouth (so his expressions are all eyebrows), and a pipe.
-- **Voice:** nautical terms he expects you to know already. Wants everything "shipshape", which means tested.
-- **Running joke:** the beard eats his words.
-- **Lines:** "Fares, by the tide. Not by guesswork." / "Shipshape means it's been tested. Has it been tested."
-
-### Mira Tan, postmistress (Act II)
-- **Look:** neat and small, round glasses, a mustard cardigan with a pen in every pocket.
-- **Voice:** loves labels, lists and order. Becomes the learner's ally for files and data.
-- **Lines:** "Pigeonhole three. Not four. Three." / "Everything has a place. Mostly it is in the place."
-
-### Dev and Kat, bike and boat hire (Act II, Act III)
-- **Look:** sibling ferrets in matching cycling caps of opposite colours, a spanner each.
-- **Voice:** they argue constantly, which makes them perfect for inheritance against composition, and Flask against "just a script".
-- **Lines:** Dev: "A tandem is a bike." Kat: "A tandem has a bike. Two, arguably."
-
-### Nell Brannigan, scrapyard (Act IV)
-- **Look:** huge gloves, welding goggles on her forehead, a booming laugh.
-- **Voice:** knows where everything is in her piles and can't explain how. That is the point of the algorithms Act.
-- **Lines:** "It's in the third pile from the gate. Don't ask me how I know."
-
-### Priya Lund, weather station (Act V)
-- **Look:** a lab coat over a raincoat, a clipboard, a careful squint.
-- **Voice:** a careful scientist who objects to dishonest charts.
-- **Lines:** "That axis starts at forty. Start it at zero, or tell people you didn't."
-
-### Professor Ines Wendt, observatory (Acts VI and VII)
-- **Look:** wild grey hair (the hoopoe's crest), a star-patterned scarf, chalk on her hands.
-- **Voice:** enthusiastic and rigorous. Corrects herself mid-sentence.
-- **Lines:** "The model is learning. Well, it is minimising a loss, which is not the same thing."
-
-### The Arcade Committee and Sir Reginald (Act VIII)
-- **Look:** three identical old gulls in matching green blazers who run the pier arcade and take its leaderboards far too seriously. Their crab mascot, Sir Reginald, is the RL agent sprite: monocle, rosette.
-- **Voice:** they finish each other's sentences.
-
-### Ada Penhallow, the missing engineer (Act IX)
-- Seen only in an old photo until the end. Her sprite at the reveal is the most detailed in the game.
-- Present through code comments, notes and photographs. Her comments are witty, precise and occasionally sad, and they show what good comments look like.
-- Example: `# Tide offset for the north quay. Agnes says it's wrong. Agnes is right, but only in winter.`
-
-### Recurring townsfolk
-- **Old Tom, lighthouse keeper** (old grey tomcat): slow, gentle, repeats his story about the 1987 storm. Loves routine, so he owns loops. "Same check every night. Has been since '62."
-- **Agnes Rook, harbour master** (rook): efficient; her requests read like real requirements. "Requirements. One: it logs boats in. Two: it logs them out. Three: it does not lose any."
-- **Gwen, landlady of The Drowned Anchor** (goose): wry; runs the worst pub quiz in the county and knows it.
-- **Mr Okonjo, tailor** (owl): precise to the millimetre. "A measurement written down wrong is worse than one not taken."
-- **Mrs Vance, librarian** (sheep): fierce about duplicate records. "Two cards for the same book. Two. In my library."
-- **Sanjay, greengrocer** (red squirrel): chatty, optimistic, terrible at maths. "Three for a pound, or is it four. Customers like four."
-- **Mr Ashby, Records Office clerk** (lop-eared rabbit): quiet, dry, secretly delighted when someone asks about his data.
+- **Role:** brings algorithm puzzles, sets the Drill times as the learner's rival, and runs the Arcade League.
+- **Personality:** competitive, quick, a good sport. Loves elegant solutions and hates slow code. His smile is rare and earned.
+- **Says things like:** "Mine runs in 0.02 seconds. Yours?" / "That's O(n squared). We can do better."
+- **His "fix my version" mistakes:** he optimises before it works. In Act I: one-letter names and a sum squeezed onto one line, a "duplicate" `input()` removed from a loop, and `random.choice` called once to save time.
 
 ---
 
-## Running jokes that pay off
+## Fix my version
 
-- **Moss's biscuit tin** is empty every time the learner looks. It is full in the final scene.
-- **Ferro's beard** eats his words: his lines sometimes trail off into it.
-- **Pip's satchel** grows as his printouts pile up, then shrinks once he starts testing.
-- **The radio** on Moss's back bench, finally fixed in the last Act with the learner's help.
+The "fix my version" step (`type: pips`) rotates between the four classmates. Its title is "Fix Caitlin's version" (or Aaesha's, Riya's, Yahya's), and the first dialogue line is the classmate's. Each mistake fits the person, as above. The tone is always friendly: "Can you look at mine? Something's off." The classmate's `dialogue_after` shows they understood what went wrong.
 
----
+## The duck
 
-## Facts established in the content
+A yellow rubber duck with a chipped beak, on Neil's desk. It has no name and never speaks. Clicking it opens "Explain it to the duck": the learner says what the code should do, what it does, and which line surprised them. Then Neil says one line.
 
-Later projects must agree with these.
+## The learner
 
-- Moss is very old: the 2011 census (Act V, Census Explorer) gives him as 121. The biscuit tin has been empty since 1987.
-- Mr Ashby's first name is Kenneth (the census).
-- The Hollis family have been the bakers in every census since 1921.
-- Penhallow appears in the 1981 census as an engineer living "on the Hill". She went up the hill to build the learning machine, then left it running and moved into the lighthouse, where Old Tom has kept her secret for fifteen years. The 2011 census missed her: Tom told the enumerator the lamp room was storage.
-- Penhallow once raced a crab, Lady Agatha, who won the autumn cup on whelks.
-- The machine on the hill runs the lamp, the fog horn and the sea wall gate. It learned what Penhallow did over six winters, never why, and had no tests until the lamp room.
-- The old harbour radio frequency is 96.4.
+A student in Paul's class. They build a human avatar from layered parts (REDESIGN-2.md 7.3). They rarely speak.
+
+## Running threads
+
+Light touches, never the main thing.
+
+- **The clock.** The Clocktower's clock has been stuck at 3:14 for years. Paul keeps promising to fix it. It is on the Course Sign ("Ignore the clock. It says 3:14."), in Neil's oldest script, and in Aaesha's contact book (Clock Repairs, Clock Parts). In Act IX, with the learner's help, it finally runs.
+- **Tabs and spaces.** Neil and Paul disagree, good-naturedly. Paul settles it with a coin in Act I's worked example. Python uses four spaces, and Neil eventually admits Paul was right.
+
+## Reactive lines
+
+Characters react to real events in the learner's code. The events come from cheap static checks run inside each Run and from run and check results (`lib/reactions.ts`). Who says what is one table in `lib/cast.ts`; the lines are pools in `content/characters/<id>.yaml`.
+
+| Who | Events |
+|---|---|
+| Paul | first-fstring, converts-input, first-function, good-name, letter-name, long-function, long-line, check-passed, pass-no-hints, predict-right, predict-wrong, returning, solution-seen, rounds-start, rounds-done |
+| Neil | check-failed, third-fail, third-hint, pass-after-many, run-error, error-name, error-text-number, error-zero, error-index, error-int-text, error-indent, stopped-loop, ran-nothing, loop-never-runs, idle, after-explain |
+| Yahya | nested-loop, one-left, drill-start, drill-beaten, and pass-first-try (shared with Caitlin) |
+| Caitlin | long-no-loop, and pass-first-try (shared with Yahya) |
+| The classmate on a "fix my version" step | fixed-by-learner, shorter-than-mine |
+| The project's client | waiting, recap |
+
+- A line may name something from the learner's code with `{name}` (in backticks). Recap lines may use `{step}` (the step's title) and `{job}` (the project's name); put `{step}` last, since a title can end in a question mark.
+- **Fit the event exactly.** A line fires on a real event, so it has to be true when it does: a first-try line says nothing about hints, an `error-zero` line is about the zero.
+- **No repeats.** The last 30 lines shown to each learner are remembered and never repeated. When every line in a pool has been said lately, the character says nothing. Two to four lines per pool.
+- **Recap on return.** After a break of four hours or more, Paul says one `returning` line and the current client says where the learner had got to. Never guilt, never a streak, never "we missed you".
+- **Expressions.** Portraits come in ten expressions: neutral, talking, pleased, proud, thinking, confused, worried, surprised, laughing, unimpressed. Reactions pick one; authored lines can set `face:`.
+
+## Facts established in Act I
+
+Later Acts must agree with these.
+
+- The sign on the Clocktower's front door reads: PAUL'S PYTHON COURSE / Python, from the ground floor up / Open Monday to Friday, 9 till 5 / Ignore the clock. It says 3:14.
+- Six of the class went to the class dinner. Riya split the bill.
+- Neil kept five broken scripts from his first term, including a help-desk board for the Studio door and a script comparing the clock's 3:14 with the real time.
+- Yahya runs. His app counts kilometres, his training plans want miles, and he does track laps (200 metres indoors, 400 outdoors). He also times his laps.
+- The class has shared accounts (a server, a shared drive, the printer). Aaesha wrote the password rules. Paul tested them with `Clock0314`.
+- Riya tutors her younger cousin, who stays offstage and unnamed. He had a times tables test on a Friday.
+- Neil keeps his to-do list on sticky notes, and does the Studio's tea round.
+- Aaesha keeps one contact book for the class, with numbers for Clock Repairs and Clock Parts.
+- Paul marked the class's first test blind, by candidate number. Yahya wanted to know if he was Candidate 2.
+- Caitlin and Yahya play rock paper scissors for who does the coffee run. Caitlin says it's skill; Yahya says it's chance.
+- The class has an end-of-term trip fund. Aaesha keeps its accounts; the coach is the biggest cost.
+
+Pixel references of everyone, drawn from these descriptions, are in `art/pixel-reference/` (a rough guide only; the real art comes from the illustrator).

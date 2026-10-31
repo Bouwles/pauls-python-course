@@ -2,7 +2,7 @@ import copy as _copy
 import heapq as _heapq
 import random as _random
 
-YARD = """\
+PARK = """\
 S.....#.......#.....
 .####.#.~~~~~.#.###.
 .#....#.~###~...#...
@@ -94,7 +94,7 @@ def check_route(tiles, start, goal, got):
         if abs(row - next_row) + abs(col - next_col) != 1:
             raise CheckFailed(f"{(next_row, next_col)} isn't up, down, left or right of {(row, col)}.", actual=repr(route)[:200])
         if not (0 <= next_row < len(tiles) and 0 <= next_col < len(tiles[next_row])) or tiles[next_row][next_col] is None:
-            raise CheckFailed(f"The route goes onto {(next_row, next_col)}, which is scrap or outside the yard.", actual=repr(route)[:200])
+            raise CheckFailed(f"The route goes onto {(next_row, next_col)}, which is hedge or outside the park.", actual=repr(route)[:200])
         total += tiles[next_row][next_col]
     if total != minutes:
         raise CheckFailed(f"The minutes say {minutes}, but stepping along that route costs {total}.", expected=minutes, actual=total)
@@ -110,9 +110,9 @@ def route(tiles, start, goal):
     return check
 
 
-def nells_yard(ctx):
+def the_park(ctx):
     module = quiet(ctx.module())
-    tiles, start, goal = module.read_yard(YARD)
+    tiles, start, goal = module.read_park(PARK)
     check_route(tiles, start, goal, module.a_star(tiles, start, goal))
 
 
@@ -120,7 +120,7 @@ def bad_map(text, message):
     def check(ctx):
         module = quiet(ctx.module())
         try:
-            got = module.read_yard(text)
+            got = module.read_park(text)
         except ValueError:
             return
         raise CheckFailed(message, expected="ValueError", actual=repr(got)[:200])
@@ -134,13 +134,13 @@ def leans_to_goal(ctx):
     try:
         got = module.a_star(tiles, (15, 0), (15, 29))
     except TooMany:
-        raise CheckFailed("Crossing an empty yard 30 tiles wide looked round more than 100 tiles. A* with the Manhattan estimate should head straight for the goal, as Nell does.")
+        raise CheckFailed("Crossing an empty park 30 tiles wide looked round more than 100 tiles. A* with the Manhattan estimate should head straight for the goal, as Riya does.")
     if box["calls"] == 0:
         raise CheckFailed("a_star should find the way on with your neighbours function.")
     check_route(tiles, (15, 0), (15, 29), got)
 
 
-def big_yard(ctx):
+def big_park(ctx):
     module = quiet(ctx.module())
     rng = _random.Random(41)
     tiles = [[None if rng.random() < 0.25 else (3 if rng.random() < 0.2 else 1) for _ in range(50)] for _ in range(50)]
@@ -179,24 +179,24 @@ WALLED = [
 ]
 
 TESTS = [
-    function("A small map", call="read_yard", args=("S.#\n~.G\n",), expect=([[1, 1, None], [3, 1, 1]], (0, 0), (1, 2)), visible=True),
-    custom("Gate to crane in Nell's yard", nells_yard, visible=True),
-    function("Nell's yard, drawn", call="draw_route",
-             args=([[None if c == "#" else 3 if c == "~" else 1 for c in line] for line in YARD.splitlines()],
+    function("A small map", call="read_park", args=("S.#\n~.G\n",), expect=([[1, 1, None], [3, 1, 1]], (0, 0), (1, 2)), visible=True),
+    custom("Gate to cafe in the park", the_park, visible=True),
+    function("The park, drawn", call="draw_route",
+             args=([[None if c == "#" else 3 if c == "~" else 1 for c in line] for line in PARK.splitlines()],
                    [(0, 0), (1, 0), (2, 0), (3, 0), (4, 0), (5, 0), (6, 0), (6, 1), (6, 2), (6, 3), (6, 4), (6, 5), (6, 6),
                     (6, 7), (6, 8), (6, 9), (6, 10), (5, 10), (4, 10), (3, 10)]),
              expect=DRAWN, visible=True),
-    function("Blank lines ignored", call="read_yard", args=("\nS.\n.G\n\n",), expect=([[1, 1], [1, 1]], (0, 0), (1, 1)),
+    function("Blank lines ignored", call="read_park", args=("\nS.\n.G\n\n",), expect=([[1, 1], [1, 1]], (0, 0), (1, 1)),
              hint="Skip any line with nothing on it, before it becomes a row."),
     custom("No gate", bad_map("...\n..G\n", "A map with no S should raise ValueError.")),
-    custom("Two cranes", bad_map("S.G\n..G\n", "A map with two Gs should raise ValueError."),
+    custom("Two cafes", bad_map("S.G\n..G\n", "A map with two Gs should raise ValueError."),
            hint="Count the Ss and Gs as you go, and check there's exactly one of each at the end."),
     custom("Ragged rows", bad_map("S..\n.G\n", "Rows of different lengths should raise ValueError.")),
-    custom("A letter not on the key", bad_map("S.X\n..G\n", "An X isn't on Penhallow's key, so it should raise ValueError.")),
+    custom("A letter not on the key", bad_map("S.X\n..G\n", "An X isn't on the map's key, so it should raise ValueError.")),
     function("In a corner", call="neighbours", args=(SMALL, (0, 0)), expect=[(1, 0), (0, 1)]),
     function("Up, down, left, right", call="neighbours", args=(OPEN, (1, 1)), expect=[(0, 1), (2, 1), (1, 0), (1, 2)],
              hint="Up, then down, then left, then right."),
-    function("Next to scrap", call="neighbours", args=(SMALL, (0, 1)), expect=[(1, 1), (0, 0)]),
+    function("Next to a hedge", call="neighbours", args=(SMALL, (0, 1)), expect=[(1, 1), (0, 0)]),
     function("Boxed in", call="neighbours", args=([[N, N, N], [N, 1, N], [N, N, N]], (1, 1)), expect=[]),
     function("Manhattan", call="manhattan", args=((2, 3), (5, 1)), expect=5),
     function("No distance at all", call="manhattan", args=((4, 4), (4, 4)), expect=0),
@@ -204,18 +204,18 @@ TESTS = [
              hint="If the start is the goal, there's nothing to pay: (0, [start])."),
     function("Walled off", call="a_star", args=(WALLED, (0, 0), (2, 3)), expect=None,
              hint="When nothing is left waiting and the goal was never settled, give back None."),
-    function("The goal is scrap", call="a_star", args=(WALLED, (0, 0), (1, 2)), expect=None),
+    function("The goal is a hedge", call="a_star", args=(WALLED, (0, 0), (1, 2)), expect=None),
     custom("Straight through the mud", route(THROUGH_MUD, (0, 0), (0, 4)),
            hint="Each step costs the tile it lands on. One mud tile at 3 beats eight clear ones."),
     custom("Round the mud", route(ROUND_MUD, (0, 0), (0, 4)),
            hint="Three mud tiles cost 9. Going round costs 6."),
     custom("Equally quick routes", route(OPEN, (0, 0), (2, 2))),
-    custom("Heading for the crane", leans_to_goal,
+    custom("Heading for the cafe", leans_to_goal,
            hint="Push each tile with its minutes so far plus manhattan(tile, goal), so the heap hands out the tile with the smallest total."),
-    custom("A yard of 2,500 tiles", big_yard),
+    custom("A park of 2,500 tiles", big_park),
     function("Drawing one tile", call="draw_route", args=([[1, N], [3, 1]], [(1, 0)]), expect=[".#", "G."]),
     function("Drawing nothing", call="draw_route", args=([[1, N], [3, 1]], []), expect=[".#", "~."]),
     function("Left and up", call="draw_route", args=(OPEN, [(2, 2), (2, 1), (1, 1), (0, 1), (0, 0)]), expect=["G<.", ".^.", ".^<"],
              hint="Each tile shows the way out of it: ^ for up, v for down, < for left, > for right."),
-    output("The main block", expect="Gate to crane: 23 minutes, 19 steps\n" + "\n".join(DRAWN)),
+    output("The main block", expect="Gate to cafe: 23 minutes, 19 steps\n" + "\n".join(DRAWN)),
 ]

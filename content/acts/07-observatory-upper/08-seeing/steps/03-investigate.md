@@ -4,7 +4,7 @@ type: investigate
 title: Edges
 concept: convolutions
 dialogue:
-  - wendt: "Penhallow drew the lighthouse in ones and noughts. Then she drew this kernel underneath, twice. Once on its side."
+  - neil: "The Clocktower in ones and noughts, and a kernel underneath. Then the same kernel on its side."
 code: |
   import numpy as np
   from workshop import show_grid
@@ -20,8 +20,8 @@ code: |
       return out
 
 
-  # The lighthouse at dusk: 1 is the white tower and the quay, 0 is the sky
-  lighthouse = np.array([
+  # The Clocktower at dusk: 1 is the tower and the street, 0 is the sky
+  tower = np.array([
       [0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 1, 1, 1, 0, 0, 0],
       [0, 0, 1, 1, 1, 1, 1, 0, 0],
@@ -35,7 +35,7 @@ code: |
                      [-2, 0, 2],
                      [-1, 0, 1]])      # right minus left, the middle row counted twice
 
-  edges = convolve(lighthouse, kernel)
+  edges = convolve(tower, kernel)
   show_grid(edges, title="What the kernel sees")
   print(edges.astype(int))
 tasks:
@@ -54,10 +54,10 @@ tasks:
   - id: turned
     prompt: "Change the kernel to `kernel.T`, the same grid turned on its side, and run it again. Which edges now: sides or tops?"
     kind: answer
-    accept: ["tops", "top", "the tops", "the top", "top and bottom", "horizontal", "the top and the quay"]
-    feedback: "The tops: the lantern gallery and the line of the quay. The same weights, turned, look for a different edge. A brain with a few kernels can look for several things at once."
+    accept: ["tops", "top", "the tops", "the top", "top and bottom", "horizontal", "the top and the street"]
+    feedback: "The tops: the ledge under the roof and the line of the street. The same weights, turned, look for a different edge. A network with a few kernels can look for several things at once."
     wrong: "Find the rows with big numbers in them. What is in the picture there?"
 ---
 The kernel is a small picture of what it's looking for: dark on the left, light on the right. Wherever the patch underneath looks like that, the sum is big. Wherever it looks the opposite way, it's big and negative.
 
-`show_grid` draws `edges` on Sir Reginald's racing grid, tinted by value. It's for looking; nothing checks it.
+`show_grid` draws `edges` as a grid of tiles, tinted by value. It's for looking; nothing checks it.

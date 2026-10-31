@@ -25,4 +25,4 @@ options:
 after: |
   Run it. Then change line 2 to `result = "draw"` and run it again.
 ---
-Gwen's machine will keep score in a dictionary, with a key for each side and one for draws. Here the key is chosen by a variable.
+The machine will keep score in a dictionary, with a key for each side and one for draws. Here the key is chosen by a variable.

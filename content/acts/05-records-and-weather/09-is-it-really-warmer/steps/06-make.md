@@ -3,7 +3,7 @@ id: make
 type: make
 title: Make the station's answer
 timeout_ms: 30000
-on_pass: { priya: "Warmer, and not by luck. Drier, perhaps: luck does that one time in ten. I'll say exactly that." }
+on_pass: { yahya: "Warmer, and not by luck. Drier, perhaps: luck does that one time in ten. I'll tell Paul exactly that." }
 hints:
   nudge: "If the label didn't matter, any of the readings could have been 'after'. How do you deal the pooled readings out again at random, and which part of the dealt array is 'before'?"
   plan:
@@ -41,7 +41,7 @@ First thirty years: 11.06 degrees C. Last thirty: 11.92.
 Warmer by 0.86 degrees C. Shuffled 10,000 times, chance did as well 0 times.
 Drier by 35 mm a year. Shuffled 10,000 times, chance did as well 1,090 times.
 Year and temperature: r = 0.63
-Moss's age and temperature: r = 0.63
+The Clocktower's age and temperature: r = 0.63
 ```
 
 Shuffle with the `rng` you're given, so the same seed always gives the same answer. Your counts may differ a little from these, depending on how you deal.

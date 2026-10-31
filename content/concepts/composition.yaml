@@ -1,7 +1,7 @@
 id: composition
 title: Composition
 summary: |
-  Composition builds an object out of other objects it keeps in its attributes: a shed has a list of bikes; a ferry has an engine. Inheritance says one thing is a kind of another. Ask "is a" or "has a": inherit when "is a" is true, compose when "has a" is. The shed holds the very bikes you added, not copies.
+  Composition builds an object out of other objects it keeps in its attributes: a shed has a list of bikes; a car has an engine. Inheritance says one thing is a kind of another. Ask "is a" or "has a": inherit when "is a" is true, compose when "has a" is. The shed holds the very bikes you added, not copies.
 example: |
   class Shed:
       def __init__(self):
@@ -33,9 +33,9 @@ cards:
       red = Bike(7)
       shed = Shed()
       shed.add(red)
-      red.rider = "Bea"
+      red.rider = "Yahya"
       print(shed.bikes[0].rider)
-    answer: Bea
+    answer: Yahya
   - type: choice
     prompt: What happens?
     code: |
@@ -55,7 +55,7 @@ cards:
         misconception: composed-methods-come-free
         feedback: "The shed has a list; it isn't one. `append` belongs to `shed.bikes`, so the shed needs its own `add` method."
   - type: fix
-    prompt: "Kat wants the shed to have a list, not be one. Fix the class so `add` works."
+    prompt: "Caitlin wants the shed to have a list, not be one. Fix the class so `add` works."
     code: |
       class Shed(list):
           def add(self, bike):
@@ -65,7 +65,7 @@ cards:
       shed.add("Bike 7")
       print(shed.bikes)
     tests: |
-      def kats_way(ctx):
+      def caitlins_way(ctx):
           m = ctx.module()
           if isinstance(m.Shed(), list):
               raise CheckFailed("The shed should have a list, not be one.")
@@ -73,7 +73,7 @@ cards:
 
       TESTS = [
           output("One bike in the shed", expect="['Bike 7']"),
-          custom("Kat's way", kats_way),
+          custom("Caitlin's way", caitlins_way),
       ]
     solution: |
       class Shed:
@@ -87,25 +87,25 @@ cards:
       shed.add("Bike 7")
       print(shed.bikes)
   - type: fill
-    prompt: "Fill the gap so every ferry is built with an engine of its own."
+    prompt: "Fill the gap so every car is built with an engine of its own."
     code: |
       class Engine:
           def start(self):
-              return "chug"
+              return "vroom"
 
-      class Ferry:
+      class Car:
           def __init__(self):
               self.engine = ___()
 
           def leave(self):
               return self.engine.start()
 
-      print(Ferry().leave())
+      print(Car().leave())
     blanks: [["Engine"]]
     tests: |
-      TESTS = [output("The ferry leaves", expect="chug")]
+      TESTS = [output("The car leaves", expect="vroom")]
   - type: write
-    prompt: "Write `Tandem`, Kat's way: `Tandem(bike)` keeps the bike in `self.bike` and starts with an empty list `riders`. `board(name)` adds a rider."
+    prompt: "Write `Tandem`, Caitlin's way: `Tandem(bike)` keeps the bike in `self.bike` and starts with an empty list `riders`. `board(name)` adds a rider."
     starter: |
       class Bike:
           def __init__(self, number):
@@ -115,15 +115,15 @@ cards:
           m = ctx.module()
           bike = m.Bike(5)
           t = m.Tandem(bike)
-          t.board("Dev")
-          t.board("Kat")
-          if t.bike is not bike or t.riders != ["Dev", "Kat"]:
+          t.board("Riya")
+          t.board("Caitlin")
+          if t.bike is not bike or t.riders != ["Riya", "Caitlin"]:
               raise CheckFailed("The tandem should keep the bike it was given and both riders.")
           if m.Tandem(m.Bike(6)).riders != []:
               raise CheckFailed("A new tandem has no riders.")
 
 
-      TESTS = [custom("Dev and Kat on one tandem", tandem)]
+      TESTS = [custom("Riya and Caitlin on one tandem", tandem)]
     solution: |
       class Bike:
           def __init__(self, number):

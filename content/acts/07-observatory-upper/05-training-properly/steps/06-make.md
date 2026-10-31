@@ -5,7 +5,7 @@ title: Training properly
 files: [optimisers.py, brain.py]
 entry: optimisers.py
 timeout_ms: 20000
-on_pass: { wendt: "Lamp at dusk, horn at the first fog, gate an hour before the spring tide. That's Tom's whole year." }
+on_pass: { yahya: "Adam, ninety-seven in a hundred, thirty epochs, same start as the others. A fair win. My favourite kind." }
 hints:
   nudge: "Momentum and Adam both need to remember something about each weight between one step and the next. Where can an object keep that?"
   plan:
@@ -35,7 +35,7 @@ hints:
             optimiser.step(params, backward(___, ___, params, cache))
         losses.append(loss(forward(___, params)[0], T))
 ---
-Fill in `optimisers.py`. `SGD` is the pattern: an object with a `step(params, grads)` that moves every weight. The momentum comments are the subgoals from Moss's focus line; Adam's steps are in the reading.
+Fill in `optimisers.py`. `SGD` is the pattern: an object with a `step(params, grads)` that moves every weight. The momentum comments are the subgoals from Paul's focus line; Adam's steps are in the reading.
 
 ```
 sgd       loss 0.0468, every answer right on 89% of evenings

@@ -1,9 +1,9 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "Same shape as Sanjay's timer. I count instead of time."
+  - paul: "Same shape as Yahya's timer. I count instead of time."
 code: |
   import functools
 
@@ -45,6 +45,6 @@ explain:
   answer: "None. Calling `plane` now runs `wrapper`, and a function with no return gives back None. The planed board would be thrown away."
   concept: decorators
 ---
-Moss counts how often he uses each tool. `wrapper` is a closure: it keeps hold of `func` long after `counted` has finished.
+Paul counts how often he uses each tool in the Workshop. `wrapper` is a closure: it keeps hold of `func` long after `counted` has finished.
 
 `*args, **kwargs` lets the wrapper take whatever the real function takes and pass it straight through. `functools.wraps` copies the real function's name onto the wrapper, so `plane` still calls itself `plane`.

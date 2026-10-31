@@ -60,7 +60,7 @@ cards:
         misconception: generator-expression-is-list
         feedback: "Round brackets here don't make a tuple. They make a generator, and `next` takes one value."
   - type: fix
-    prompt: "Bea only wants the first ingredient over a kilo. This weighs every one first. Make it stop weighing as soon as it finds one."
+    prompt: "The recipe only needs the first ingredient over a kilo. This weighs every one first. Make it stop weighing as soon as it finds one."
     code: |
       def weigh(amounts):
           for grams in amounts:

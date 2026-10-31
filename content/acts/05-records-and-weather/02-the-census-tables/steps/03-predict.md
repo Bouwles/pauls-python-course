@@ -7,7 +7,7 @@ code: |
   import pandas as pd
 
   people = pd.DataFrame({
-      "name": ["Edith Hollis", "Walter Rook", "Mary Rook", "Sam Rook"],
+      "name": ["Edith Rowe", "Walter Rook", "Mary Rook", "Sam Rook"],
       "age": [34, 88, 52, 9],
   })
   older = people[people["age"] > 50]
@@ -18,7 +18,7 @@ options:
   - text: "It prints Walter Rook"
     misconception: filter-renumbers-rows
     feedback: "Walter is the first row of `older`, but filtering doesn't renumber anything. He keeps his label, 1, and there's no row labelled 0 left."
-  - text: "It prints Edith Hollis"
+  - text: "It prints Edith Rowe"
     misconception: loc-reads-original
     feedback: "`older` is a table of its own. `.loc` only looks in `older`, and Edith was filtered out of it."
   - text: A KeyError

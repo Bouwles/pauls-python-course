@@ -4,12 +4,12 @@ type: investigate
 title: The night the glass fell
 concept: derivatives
 dialogue:
-  - tom: "Did I tell you about the storm of '87. The glass fell all evening. The lamp never once went out."
-  - priya: "How low it went is the headline. How fast it fell is the warning."
+  - paul: "The Clocktower's barograph, the night of the great storm in 1987. The glass fell all evening."
+  - aaesha: "How low it went is the headline. How fast it fell is the warning."
 code: |
   import numpy as np
 
-  # The station barograph from noon on 15 October 1987: hours since noon, pressure in hPa
+  # The Clocktower's barograph from noon on 15 October 1987: hours since noon, pressure in hPa
   readings = np.loadtxt("barometer.csv", delimiter=",", skiprows=1)
   hours = readings[:, 0]
   pressure = readings[:, 1]
@@ -40,7 +40,7 @@ tasks:
     feedback: "Close to 0. At the bottom of a dip the pressure has stopped falling and not yet started rising: the slope is flat. The fall before it is negative, the rise after it positive."
     wrong: "`rate` starts at hour 1, so hour 13 is the thirteenth number in the list."
   - id: warning
-    prompt: "Priya's warning goes up when the glass falls faster than 3 hPa an hour. Add `warning_hours`: the hours, from `hours[1:-1]`, when `rate` was below -3."
+    prompt: "Aaesha's warning goes up when the glass falls faster than 3 hPa an hour. Add `warning_hours`: the hours, from `hours[1:-1]`, when `rate` was below -3."
     kind: run
     tests: |
       def warning(ctx):
@@ -58,7 +58,7 @@ tasks:
     solution: |
       import numpy as np
 
-      # The station barograph from noon on 15 October 1987: hours since noon, pressure in hPa
+      # The Clocktower's barograph from noon on 15 October 1987: hours since noon, pressure in hPa
       readings = np.loadtxt("barometer.csv", delimiter=",", skiprows=1)
       hours = readings[:, 0]
       pressure = readings[:, 1]

@@ -11,7 +11,7 @@ def loss(P, T):
 
 
 def numerical_gradient(f, array, step=1e-5):
-    """The slope of f() for every entry of array, measured by nudging it. Pip's, fixed."""
+    """The slope of f() for every entry of array, measured by nudging it. Aaesha's, fixed."""
     grad = np.zeros_like(array)
     for index in np.ndindex(array.shape):
         original = array[index]
@@ -25,8 +25,7 @@ def numerical_gradient(f, array, step=1e-5):
 
 
 # When it gets one wrong, it works backwards to whichever of its numbers
-# caused it, and fixes those. It does not need me to correct it.
-# That was the point. A.P.
+# caused it, and fixes those.
 def backward(X, T, params, cache):
     """The gradient of the loss for every weight and bias, keyed like params."""
     Z1, H, P = cache["Z1"], cache["H"], cache["P"]
@@ -79,7 +78,7 @@ def train(X, T, params, rate, steps):
 
 if __name__ == "__main__":
     log = np.loadtxt("evenings.csv", delimiter=",", skiprows=1)
-    X, T = log[:, :4], log[:, 4:]          # visibility, wind, tide, dark; lamp, horn, gate
+    X, T = log[:, :4], log[:, 4:]          # visibility, wind, rain, dark; lights, beacon, shutters
     X_learn, T_learn = X[:600], T[:600]
     X_new, T_new = X[600:], T[600:]        # 200 evenings it never sees until the end
 
@@ -101,6 +100,6 @@ if __name__ == "__main__":
     right = int(np.all((P > 0.5) == (T_new > 0.5), axis=1).sum())
     print(f"All three right on {right} of {len(X_new)} evenings it never saw")
 
-    tonight = np.array([[0.15, 0.8, 0.9, 1.0]])    # thick fog, a gale, a spring tide, dark
+    tonight = np.array([[0.15, 0.8, 0.9, 1.0]])    # thick fog, a gale, heavy rain, dark
     P, _ = forward(tonight, params)
     print(f"Tonight: {', '.join(decisions(P)[0]) or 'nothing'}")

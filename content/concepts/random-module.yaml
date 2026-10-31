@@ -20,14 +20,14 @@ cards:
     prompt: What does this print?
     code: |
       import random
-      catch = random.randint(1, 20)
-      first = catch
-      second = catch
+      ticket = random.randint(1, 20)
+      first = ticket
+      second = ticket
       print(first == second)
     options:
       - text: "True"
         correct: true
-        feedback: "`catch` holds one number. Reading it twice gives the same number twice."
+        feedback: "`ticket` holds one number. Reading it twice gives the same number twice."
       - text: "False, most of the time"
         misconception: random-changes-on-use
         feedback: "Only calling `randint` picks again. The variable keeps the number it was given."
@@ -77,11 +77,11 @@ cards:
       roll = random.randint(1, 6)
       print(f"You rolled {roll}.")
   - type: fill
-    prompt: "Fill the gap so the catch is a random number from 1 to 20."
+    prompt: "Fill the gap so the ticket is a random number from 1 to 20."
     code: |
       import random
-      catch = random.___(1, 20)
-      print(catch)
+      ticket = random.___(1, 20)
+      print(ticket)
     blanks: [["randint"]]
     tests: |
       def fixed(ctx):
@@ -97,7 +97,7 @@ cards:
 
       TESTS = [custom("Picks with randint", fixed)]
   - type: write
-    prompt: "Pick a random hour of sailing from 0 to 23 and print it like `Sailing at 14.`"
+    prompt: "Pick a random hour for the quiz from 0 to 23 and print it like `Quiz at 14.`"
     tests: |
       def hour(number):
           def check(ctx):
@@ -114,12 +114,12 @@ cards:
                   random.randint = old
               if calls != [(0, 23)]:
                   raise CheckFailed("Pick once, with random.randint(0, 23).", expected="randint(0, 23)", actual=str(calls))
-              if norm_lines(r.output) != [f"Sailing at {number}."]:
-                  raise CheckFailed("Print the hour.", expected=f"Sailing at {number}.", actual=r.output)
+              if norm_lines(r.output) != [f"Quiz at {number}."]:
+                  raise CheckFailed("Print the hour.", expected=f"Quiz at {number}.", actual=r.output)
           return check
 
       TESTS = [custom("Hour 14", hour(14)), custom("Hour 0", hour(0))]
     solution: |
       import random
       hour = random.randint(0, 23)
-      print(f"Sailing at {hour}.")
+      print(f"Quiz at {hour}.")

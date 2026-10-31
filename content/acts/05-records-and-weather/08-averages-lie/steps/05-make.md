@@ -1,9 +1,9 @@
 ---
 id: make
 type: make
-title: Make the magazine's numbers
+title: Make the summary sheet's numbers
 timeout_ms: 20000
-on_pass: { priya: "Nought point three on the middle day. That's the number people will recognise." }
+on_pass: { riya: "Nought point three on the middle day. That's the day I'd recognise. I'm cycling in tomorrow." }
 hints:
   nudge: "What does `values.mode()` give you back, and how do you get one number out of it? And which two conditions make a reading an outlier?"
   plan:
@@ -38,10 +38,10 @@ Write the four functions. The report at the bottom is done.
 ```
 Rain on an average day: 2.6 mm. On the middle day: 0.3 mm.
 Most common: 0.0 mm. Dry days: 160 of 366
-{{town}}: average 12.7 degrees C, standard deviation 4.3
+Clocktower: average 12.7 degrees C, standard deviation 4.3
 Thornby: average 12.7 degrees C, standard deviation 6.3
 Outside the fences:
-  {{town}}, 2024-06-14: 41.3 degrees C
+  Clocktower, 2024-06-14: 41.3 degrees C
   Thornby: 0 readings
   Rain: 38 days
 ```

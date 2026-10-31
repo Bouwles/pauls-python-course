@@ -4,7 +4,7 @@ type: make
 title: Five columns, five weights
 files: [exam_scores.py]
 entry: exam_scores.py
-on_pass: { wendt: "Twelve point three for our new student. The first term matters most. Well, obviously. Now it's a number." }
+on_pass: { paul: "Twelve point three for our new student. The first term matters most. Well, obviously. Now it's a number." }
 hints:
   nudge: "Which function works out the means and spreads, and which one only uses them? Which of the two does the new student need?"
   plan:

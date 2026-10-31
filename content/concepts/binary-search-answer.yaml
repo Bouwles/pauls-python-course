@@ -1,22 +1,22 @@
 id: binary-search-answer
 title: Binary search on the answer
 summary: |
-  Sometimes there's no list to search, only a question whose answer is a number: the lightest load limit, the slowest speed, the fewest crossings. If you can check one guess quickly, and the check switches from no to yes only once as the guesses grow, binary search the guesses themselves. Check the middle of what's possible, and throw away the half the answer can't be in. When the middle works, keep it, since it may be the answer: `high = middle`. A hundred million possible limits take about 27 checks.
+  Sometimes there's no list to search, only a question whose answer is a number: the lightest load limit, the slowest speed, the fewest trips. If you can check one guess quickly, and the check switches from no to yes only once as the guesses grow, binary search the guesses themselves. Check the middle of what's possible, and throw away the half the answer can't be in. When the middle works, keep it, since it may be the answer: `high = middle`. A hundred million possible limits take about 27 checks.
 example: |
-  def crossings_needed(crates, limit):
-      crossings, load = 1, 0
+  def trips_needed(crates, limit):
+      trips, load = 1, 0
       for weight in crates:
           if load + weight > limit:
-              crossings, load = crossings + 1, 0
+              trips, load = trips + 1, 0
           load += weight
-      return crossings
+      return trips
 
 
   def smallest_limit(crates, days):
       low, high = max(crates), sum(crates)
       while low < high:
           middle = (low + high) // 2
-          if crossings_needed(crates, middle) <= days:
+          if trips_needed(crates, middle) <= days:
               high = middle
           else:
               low = middle + 1
@@ -31,17 +31,17 @@ cards:
   - type: predict
     prompt: "What does this print?"
     code: |
-      def crossings_needed(crates, limit):
-          crossings, load = 1, 0
+      def trips_needed(crates, limit):
+          trips, load = 1, 0
           for weight in crates:
               if load + weight > limit:
-                  crossings, load = crossings + 1, 0
+                  trips, load = trips + 1, 0
               load += weight
-          return crossings
+          return trips
 
 
       crates = [4, 8, 3, 5, 6]
-      print([crossings_needed(crates, limit) for limit in [8, 10, 11, 14, 26]])
+      print([trips_needed(crates, limit) for limit in [8, 10, 11, 14, 26]])
     answer: "[4, 4, 3, 2, 1]"
   - type: choice
     prompt: "Binary search on the answer needs one thing to be true of the check. What?"
@@ -82,7 +82,7 @@ cards:
         misconception: answer-search-drops-the-yes
         feedback: "10 is the last limit that fails. low = middle + 1 steps past every no, so low ends on a yes."
   - type: fill
-    prompt: "Fill the gaps so this finds the slowest whole speed, in knots, that covers 100 nautical miles in 7 hours."
+    prompt: "Fill the gaps so this finds the slowest whole speed, in km an hour, that covers 100 km in 7 hours."
     code: |
       def works(speed):
           return speed * 7 >= 100
@@ -98,57 +98,57 @@ cards:
       print(low)
     blanks: [["middle"], ["middle + 1", "middle+1", "1 + middle"]]
     tests: |
-      TESTS = [output("15 knots", expect="15")]
+      TESTS = [output("15 km an hour", expect="15")]
   - type: fix
-    prompt: "Pip's search sometimes answers a kilo or so too light. Fix it."
+    prompt: "Yahya's search sometimes answers a kilo or so too light. Fix it."
     code: |
-      def crossings_needed(crates, limit):
-          crossings, load = 1, 0
+      def trips_needed(crates, limit):
+          trips, load = 1, 0
           for weight in crates:
               if load + weight > limit:
-                  crossings, load = crossings + 1, 0
+                  trips, load = trips + 1, 0
               load += weight
-          return crossings
+          return trips
 
 
       def smallest_limit(crates, days):
           low, high = max(crates), sum(crates)
           while low < high:
               middle = (low + high) // 2
-              if crossings_needed(crates, middle) <= days:
+              if trips_needed(crates, middle) <= days:
                   high = middle - 1
               else:
                   low = middle + 1
           return low
     tests: |
       TESTS = [
-          function("Five crates in two crossings", call="smallest_limit", args=([4, 8, 3, 5, 6], 2), expect=14,
+          function("Five crates in two trips", call="smallest_limit", args=([4, 8, 3, 5, 6], 2), expect=14,
                    hint="When the middle works, it might be the answer. Keep it in the range."),
-          function("Six crates in three crossings", call="smallest_limit", args=([3, 2, 2, 4, 1, 4], 3), expect=6),
-          function("Five crates in three crossings", call="smallest_limit", args=([4, 8, 3, 5, 6], 3), expect=11),
+          function("Six crates in three trips", call="smallest_limit", args=([3, 2, 2, 4, 1, 4], 3), expect=6),
+          function("Five crates in three trips", call="smallest_limit", args=([4, 8, 3, 5, 6], 3), expect=11),
           function("One crate", call="smallest_limit", args=([9], 1), expect=9),
       ]
     solution: |
-      def crossings_needed(crates, limit):
-          crossings, load = 1, 0
+      def trips_needed(crates, limit):
+          trips, load = 1, 0
           for weight in crates:
               if load + weight > limit:
-                  crossings, load = crossings + 1, 0
+                  trips, load = trips + 1, 0
               load += weight
-          return crossings
+          return trips
 
 
       def smallest_limit(crates, days):
           low, high = max(crates), sum(crates)
           while low < high:
               middle = (low + high) // 2
-              if crossings_needed(crates, middle) <= days:
+              if trips_needed(crates, middle) <= days:
                   high = middle
               else:
                   low = middle + 1
           return low
   - type: choice
-    prompt: "Nell has 50,000 crates of up to 10,000 kg each. Roughly how many load limits does binary search on the answer check?"
+    prompt: "A warehouse has 50,000 crates of up to 10,000 kg each. Roughly how many load limits does binary search on the answer check?"
     verify: none
     options:
       - text: "About 30"
@@ -161,15 +161,15 @@ cards:
         misconception: answer-search-needs-a-list
         feedback: "The search isn't over the crates. It's over the possible limits, and each check goes through all the crates once."
   - type: choice
-    prompt: "Crates of 4, 8 and 3 kg, and as many crossings as you like. Can a load limit of 7 kg get them all across?"
+    prompt: "Crates of 4, 8 and 3 kg, and as many trips as you like. Can a load limit of 7 kg get them all across?"
     verify: none
     options:
-      - text: "No: the 8 kg crate can't go on any crossing"
+      - text: "No: the 8 kg crate can't go on any trip"
         correct: true
         feedback: "Crates are never split, so the limit is at least the heaviest crate. That's why the search starts with low = max(crates)."
-      - text: "Yes, with enough crossings"
+      - text: "Yes, with enough trips"
         misconception: limit-below-heaviest
-        feedback: "More crossings help with the total, not with one crate. An 8 kg crate needs a limit of at least 8 kg, however many trips there are."
+        feedback: "More trips help with the total, not with one crate. An 8 kg crate needs a limit of at least 8 kg, however many trips there are."
   - type: write
     prompt: "Write `first_yes(works, low, high)`: the smallest whole number from `low` to `high` for which `works(number)` is `True`. `works` is no, then yes, and `works(high)` is always `True`. Check as few numbers as you can."
     starter: |

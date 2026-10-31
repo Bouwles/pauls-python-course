@@ -4,56 +4,55 @@ project_name: "Acceptance Test Suite"
 portfolio_readme: |
   # Acceptance Test Suite
 
-  Tests for a machine that was never tested. The machine decides each night whether to light the lighthouse lamp, sound the fog horn and shut the sea wall gate. Its rules were written down for the first time, and these pytest tests check `decide` against every one of them, edges included, so they pass on a machine that follows the rules and fail on one that only learned what usually happens.
+  Tests for a controller that was never tested. The controller decides through every winter night whether to light a clock face, switch on its fog lamp and heat its hands against ice. Its rules were written down for the first time, and these pytest tests check `decide` against every one of them, edges included, so they pass on a controller that follows the rules and fail on one that only learned what usually happens.
 
-  Written by {name} for Ada Penhallow, in the lamp room at {{town}}. Finished {date}.
+  Written by {name} for Paul, on the roof of the Clocktower, the night the clock started again. Finished {date}.
 
   ## Run it
 
   ```
   pip install pytest
-  pytest test_hill.py
+  pytest test_clock.py
   ```
 
-  Run against `hill.py`, the machine as it learned, the tests fail, and the failures show which of the rules it breaks. That is what they're for.
+  Run against `clock.py`, the controller as it learned, the tests fail, and the failures show which of the rules it breaks. That is what they're for.
 
   ## What it shows
 
   - Acceptance tests: requirements turned into checks, one rule at a time
-  - Testing at the edges: the visibility just under 2000 m and just over, the tide at exactly 4.4 m
+  - Testing at the edges: the visibility just under 2000 m and just over, the ice at exactly 4.4 mm
   - Tests that tell a correct implementation from a learned one that only matches the usual nights
 downloadable: true
 datasets: []
-client: penhallow
+client: paul
 building: lighthouse
 scene: lamp-room
 estimated_minutes: 75
-summary: "At the top of the lighthouse, someone has been waiting for the radio to work. The machine on the hill gets its first tests."
+summary: "On the roof, by the clock face, the clock's controller gets its first tests. Then the clock runs."
 concepts_reviewed: [assert, pytest, edge-cases, test-first, train-test-split, overfitting, neural-networks]
 ask:
   dialogue:
-    - tom: "She asked me not to say. I haven't, for fifteen years. It's been very restful."
-    - penhallow: "You read the comments. Hardly anyone reads the comments."
-    - penhallow: "Sit down. The kettle's on, and there's something on the hill you should see."
-    - moss: "Ada."
-    - penhallow: "Moss. You brought the tin, at least."
+    - paul: "Everyone's here. Good. The clock."
+    - paul: "It's said 3:14 since before I had the keys. Tonight it runs."
+    - neil: "The gears are fine. Aaesha and I checked every one in the Engine Room."
+    - aaesha: "It's the controller. It learned the clock from old logs, and nobody ever tested it."
+    - paul: "So we test it. Then we start it."
   spec: |
-    The machine on the hill runs the lamp, the fog horn and the sea wall gate from each night's readings. It has never had a single test.
+    The clock's controller decides, from the readings outside, whether to light the clock face, switch on the fog lamp and heat the hands so ice can't stop them. It learned this from three winters of logs and has never had a single test.
 
-    Write the tests, in `test_hill.py`: test functions that check `decide` against Old Tom's rules, written down here for the first time, and that catch what the machine never learned. Your tests should pass on a machine that follows the rules, and fail on this one.
+    Write the tests, in `test_clock.py`: test functions that check `decide` against the clockmaker's rules, written down here for the first time, and that catch what the controller never learned. Your tests should pass on a controller that follows the rules, and fail on this one.
   example: |
     lamp: lit when it's dark, or when visibility is under 2000 m
-    horn: sounding when visibility is under 500 m, whatever the tide
-    gate: shut when the tide is 4.4 m or more, or 4.0 m or more in wind force 8 or above
+    fog lamp: on when visibility is under 500 m, whatever the ice
+    heater: on with 4.4 mm of ice on the hands or more, or 4.0 mm or more in wind force 8 or above
 ship:
   dialogue:
-    - penhallow: "It fails your tests. Good. Now we know where it stands, and so will whoever comes next."
-    - moss: "Measure twice."
-    - penhallow: "You taught me that. I never told you it stuck."
-    - tom: "Lamp's lit. Same as every night. Only now somebody knows why."
-    - pip: "I'd have added an if. Several, probably."
-    - narrator: "Dennis sits on the lamp room sill, looking out at the hill."
-  shelf: { object: lamp-room-key, label: "The key to the lamp room" }
+    - narrator: "Paul throws the switch. Below the roof, the gears take up the slack."
+    - narrator: "The minute hand leaves 3:14 for the first time in years."
+    - yahya: "It's running. It's actually running."
+    - narrator: "Caitlin puts a gold paper crown on Paul's head. He leaves it there."
+    - neil: "Four spaces, by the way. Every file. You were right."
+    - paul: "Thank you. All of you. Especially whoever wrote the tests."
+  shelf: { object: lamp-room-key, label: "The key to the clock, the night it started again" }
   cards: []
   awards: [keeper-coat]
-story_note: tested-at-last

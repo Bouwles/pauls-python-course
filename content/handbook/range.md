@@ -27,16 +27,16 @@ With one number, it is the stop and the start is 0. With two, they are start and
 The numbers must be whole numbers. Counting positions in a list is a common use, and a decimal step is a common error:
 
 ```python
-crates = ["rope", "nets", "tar"]
-for i in range(len(crates)):
-    print(i, crates[i])
+kit = ["tent", "rope", "torch"]
+for i in range(len(kit)):
+    print(i, kit[i])
 print(range(0, 1, 0.5))
 ```
 
 ```text
-0 rope
-1 nets
-2 tar
+0 tent
+1 rope
+2 torch
 Traceback (most recent call last):
   File "main.py", line 4, in <module>
     print(range(0, 1, 0.5))
@@ -44,7 +44,7 @@ Traceback (most recent call last):
 TypeError: 'float' object cannot be interpreted as an integer
 ```
 
-`range(len(crates))` gives exactly the valid positions, 0 to 2, because it stops before the length. For steps of 0.5, loop over whole numbers and divide inside the body: `range(3)` with `n / 2` gives 0.0, 0.5 and 1.0.
+`range(len(kit))` gives exactly the valid positions, 0 to 2, because it stops before the length. For steps of 0.5, loop over whole numbers and divide inside the body: `range(3)` with `n / 2` gives 0.0, 0.5 and 1.0.
 
 ## Common mistakes
 

@@ -1,123 +1,164 @@
-/* The site HUD: the same 48 px bar as the Workbench's. */
+/* The site header (REDESIGN-2.md 6): the same bar height as the Workbench's, on the page colour,
+   with one line under it where it meets the page. Nav in the text face, 15 px bold. */
 .header {
+  position: relative;
+  z-index: 10;
   display: flex;
   align-items: center;
-  gap: var(--s-6);
-  min-height: var(--hud-h);
-  padding: 0 var(--s-3) 0 var(--s-4);
-  background: var(--night-0);
-  box-shadow: inset 0 -4px 0 var(--night-1);
-  color: var(--chalk);
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 1;
-  -webkit-font-smoothing: none;
+  gap: var(--s-8);
+  height: var(--header-h);
+  padding: 0 var(--s-6);
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
 }
 
-:root[data-theme="light"] .header {
-  background: var(--day-ink);
-  box-shadow: inset 0 -4px 0 var(--night-2);
-}
-
-@media (prefers-color-scheme: light) {
-  :root[data-theme="system"] .header {
-    background: var(--day-ink);
-    box-shadow: inset 0 -4px 0 var(--night-2);
-  }
-}
-
-.mark {
+.home {
   display: inline-flex;
   align-items: center;
-  gap: var(--s-2);
-  color: var(--lamp);
-  text-decoration: none;
   flex: none;
+  height: 40px;
+  border-radius: var(--r-md);
+  color: var(--text);
+  text-decoration: none;
 }
 
-.mark:hover {
-  color: var(--chalk);
-}
-
-.brand {
-  padding-top: 2px;
+.home:hover {
+  color: var(--text);
 }
 
 .nav {
   display: flex;
   align-items: stretch;
-  gap: var(--s-1);
+  gap: var(--s-6);
   flex: 1;
   min-width: 0;
   align-self: stretch;
 }
 
-.link {
+.link,
+.login {
   display: inline-flex;
   align-items: center;
-  padding: 2px var(--s-3) 0;
-  color: var(--fog);
+  color: var(--text-2);
+  font-size: var(--fs-2);
+  font-weight: 700;
+  line-height: 1;
   text-decoration: none;
   white-space: nowrap;
+  transition: color var(--dur) var(--ease-out);
 }
 
-.link:hover {
-  color: var(--chalk);
-  background: var(--night-1);
+.link:hover,
+.login:hover,
+.link:link:hover,
+.login:link:hover {
+  color: var(--text);
+  text-decoration: none;
 }
 
-/* The current page is a tab joined to the page below. */
-.link[aria-current="page"] {
-  color: var(--chalk);
-  background: var(--night-2);
-  box-shadow: inset 0 4px 0 var(--lamp);
+.link:link,
+.link:visited,
+.login:link,
+.login:visited {
+  color: var(--text-2);
+}
+
+/* The current page: full-strength text and a 2 px sun line along the header's foot. */
+.link[aria-current="page"],
+.link[aria-current="page"]:link,
+.link[aria-current="page"]:visited {
+  color: var(--text);
+  box-shadow: inset 0 -2px 0 var(--sun);
+}
+
+.link:focus-visible,
+.login:focus-visible {
+  outline-offset: -2px;
+  border-radius: var(--r-sm);
 }
 
 .right {
   display: flex;
   align-items: center;
-  gap: var(--s-2);
+  gap: var(--s-5);
   flex: none;
 }
 
-.icon,
+.login {
+  height: 40px;
+}
+
+.login[aria-current="page"] {
+  color: var(--text);
+}
+
 .avatar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-grid;
+  place-items: center;
   width: 40px;
   height: 40px;
-  color: var(--fog);
+  border-radius: 50%;
+  text-decoration: none;
 }
 
-.icon:hover,
-.avatar:hover,
-.icon[aria-current="page"] {
-  color: var(--chalk);
-  background: var(--night-2);
+.avatarArt {
+  display: inline-flex;
+  border-radius: 50%;
 }
 
-.avatar {
-  background: var(--night-2);
+.avatar:hover .avatarArt,
+.avatar[aria-current="page"] .avatarArt {
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--line);
 }
 
+/* Phones and narrow windows: the nav moves to a second row that scrolls sideways. */
 @media (max-width: 860px) {
   .header {
     flex-wrap: wrap;
-    gap: 0 var(--s-3);
-    padding: 0 var(--s-2);
+    height: auto;
+    gap: 0 var(--s-4);
+    padding: 0 var(--s-4);
+  }
+
+  .home,
+  .right {
+    height: var(--header-h);
   }
 
   .nav {
     order: 3;
-    width: 100%;
     flex: none;
+    width: calc(100% + 2 * var(--s-4));
+    margin: 0 calc(-1 * var(--s-4));
+    padding: 0 var(--s-4);
+    height: var(--touch);
+    gap: var(--s-5);
     overflow-x: auto;
     scrollbar-width: none;
-    min-height: var(--touch);
+    border-top: 1px solid var(--line);
+  }
+
+  .nav::-webkit-scrollbar {
+    display: none;
   }
 
   .right {
     margin-left: auto;
+    gap: var(--s-4);
+  }
+}
+
+/* "PPC" where the full name and the guest's two buttons don't both fit (REDESIGN-2.md 1). */
+.home .short {
+  display: none;
+}
+
+@media (max-width: 440px) {
+  .header[data-guest] .home .full {
+    display: none;
+  }
+
+  .header[data-guest] .home .short {
+    display: inline-flex;
   }
 }

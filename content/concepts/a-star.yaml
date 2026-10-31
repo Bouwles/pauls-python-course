@@ -47,7 +47,7 @@ cards:
       print([heapq.heappop(waiting)[2] for _ in range(3)])
     answer: "[(3, 0), (2, 2), (0, 3)]"
   - type: choice
-    prompt: "Pip's A* estimates the minutes left as three times the Manhattan distance. It looks at far fewer tiles. What's the catch?"
+    prompt: "Yahya's A* estimates the minutes left as three times the Manhattan distance. It looks at far fewer tiles. What's the catch?"
     verify: none
     options:
       - text: "It can overestimate, so the route it settles on may not be the quickest"
@@ -57,7 +57,7 @@ cards:
         misconception: a-star-overestimate-ok
         feedback: "The promise that the first route to the goal is the quickest only holds if the estimate is never more than the real cost."
   - type: choice
-    prompt: "A* and Dijkstra both search Nell's yard from the gate to the crane. How do their routes compare?"
+    prompt: "A* and Dijkstra both search a park from the gate to the fountain. How do their routes compare?"
     verify: none
     options:
       - text: "Both take the same number of minutes; A* looks at fewer tiles"
@@ -66,9 +66,9 @@ cards:
       - text: "A*'s can be slower, because it looks at fewer tiles"
         misconception: a-star-slower-route
         feedback: "The tiles it skips are ones that could never be on a quicker route, because even the estimate says they're too far."
-      - text: "A*'s is always the straightest line to the crane"
+      - text: "A*'s is always the straightest line to the fountain"
         misconception: manhattan-is-straight-line
-        feedback: "The estimate only orders the search. The route still goes round heaps and through whatever mud is worth it."
+        feedback: "The estimate only orders the search. The route still goes round the pond and through whatever mud is worth it."
   - type: fill
     prompt: "Fill the gap so each tile is pushed with its minutes so far plus the estimate."
     code: |
@@ -173,7 +173,7 @@ cards:
       TILES = [[1, 1, N], [3, 1, 1]]
       TESTS = [
           function("A corner", call="neighbours", args=(TILES, (0, 0)), expect=[(1, 0), (0, 1)]),
-          function("Next to scrap", call="neighbours", args=(TILES, (0, 1)), expect=[(1, 1), (0, 0)]),
+          function("Next to a gap", call="neighbours", args=(TILES, (0, 1)), expect=[(1, 1), (0, 0)]),
           function("The middle of the bottom row", call="neighbours", args=(TILES, (1, 1)), expect=[(0, 1), (1, 0), (1, 2)]),
       ]
     solution: |

@@ -9,7 +9,7 @@ example: |
           self.price = price
           self.used = False
 
-  t = Ticket("Truro", 3)
+  t = Ticket("Leeds", 3)
   print(t.route, t.price, t.used)
 misconceptions: [attributes-fixed-by-init, init-called-by-hand]
 related: [classes, attributes, self]
@@ -22,11 +22,11 @@ cards:
               print("printing a ticket")
               self.route = route
 
-      t = Ticket("Truro")
+      t = Ticket("Leeds")
       print(t.route)
     answer: |-
       printing a ticket
-      Truro
+      Leeds
   - type: choice
     prompt: What happens?
     code: |
@@ -35,7 +35,7 @@ cards:
               self.route = route
               self.price = price
 
-      t = Ticket("Truro")
+      t = Ticket("Leeds")
       print(t.price)
     verify: error
     options:
@@ -44,7 +44,7 @@ cards:
         error: TypeError
       - text: It prints None
         misconception: missing-argument-is-none
-        feedback: "`price` has no default, so `Ticket(\"Truro\")` is missing an argument. Python stops with a TypeError."
+        feedback: "`price` has no default, so `Ticket(\"Leeds\")` is missing an argument. Python stops with a TypeError."
   - type: choice
     prompt: What does this print?
     code: |
@@ -67,34 +67,34 @@ cards:
   - type: fix
     prompt: "`__init__` is misspelt, so Python never runs it. Fix it."
     code: |
-      class Lamp:
-          def _init_(self, keeper):
-              self.keeper = keeper
+      class Laptop:
+          def _init_(self, owner):
+              self.owner = owner
 
-      lamp = Lamp("Tom")
-      print(lamp.keeper)
+      laptop = Laptop("Riya")
+      print(laptop.owner)
     tests: |
-      TESTS = [output("Tom's lamp", expect="Tom")]
+      TESTS = [output("Riya's laptop", expect="Riya")]
     solution: |
-      class Lamp:
-          def __init__(self, keeper):
-              self.keeper = keeper
+      class Laptop:
+          def __init__(self, owner):
+              self.owner = owner
 
-      lamp = Lamp("Tom")
-      print(lamp.keeper)
+      laptop = Laptop("Riya")
+      print(laptop.owner)
   - type: fill
-    prompt: "Fill the gap so every new boat starts with its name and nobody aboard."
+    prompt: "Fill the gap so every new room starts with its name and nobody in it."
     code: |
-      class Boat:
+      class Room:
           def ___(self, name):
               self.name = name
-              self.aboard = 0
+              self.people = 0
 
-      boat = Boat("Kittiwake")
-      print(boat.name, boat.aboard)
+      room = Room("Studio")
+      print(room.name, room.people)
     blanks: [["__init__"]]
     tests: |
-      TESTS = [output("The Kittiwake, empty", expect="Kittiwake 0")]
+      TESTS = [output("The Studio, empty", expect="Studio 0")]
   - type: write
     prompt: "Write `Stamp`, so `Stamp(\"first\", 135)` makes a stamp with attributes `kind` and `pence`."
     starter: |

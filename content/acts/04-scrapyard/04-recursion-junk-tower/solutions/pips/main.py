@@ -1,7 +1,7 @@
 def pulls(height):
-    """How many pulls of the crane lever bring the hook down from height metres.
+    """How many pulls of the hoist rope bring the basket down from height metres.
 
-    Each pull lowers it 2 m, and the hook stops when it reaches the ground.
+    Each pull lowers it 2 m, and the basket stops when it reaches the ground.
     """
     if height <= 0:
         return 0

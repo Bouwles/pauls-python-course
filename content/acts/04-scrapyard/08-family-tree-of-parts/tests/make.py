@@ -14,7 +14,7 @@ class _Card:
 
 
 class _Reference:
-    """Moss's catalogue, kept on the back bench to check yours against."""
+    """Paul's catalogue, kept on the back bench to check yours against."""
 
     def __init__(self, cards=()):
         self.root = None
@@ -157,7 +157,7 @@ def looks_add_up(ctx):
 
 
 def heights(ctx):
-    same(filed(ctx, CARDS).height(), 5, "Penhallow's fifteen cards make five levels: 500, 250, 101, 188, 133 is the longest way down.")
+    same(filed(ctx, CARDS).height(), 5, "The clockmaker's fifteen cards make five levels: 500, 250, 101, 188, 133 is the longest way down.")
     same(filed(ctx, [(2, "b"), (1, "a"), (3, "c")]).height(), 2, "A card with one card on each side is two levels.")
     same(filed(ctx, [(1, "a"), (2, "b"), (3, "c"), (4, "d")]).height(), 4, "Four cards filed in order make a stick, four levels high.")
 

@@ -1,9 +1,9 @@
 ---
 id: worked-records
 type: worked
-title: How Moss would keep a record
+title: How Paul would keep a record
 dialogue:
-  - moss: "Old Tom's lamp log. A record for each night, and only three kinds of weather."
+  - paul: "Yahya's running log. A record for each run, and only three kinds of weather."
 code: |
   from dataclasses import dataclass
   from enum import Enum
@@ -16,28 +16,28 @@ code: |
 
 
   @dataclass(frozen=True)
-  class LampCheck:
-      """One night's check at the lighthouse."""
+  class Run:
+      """One of Yahya's morning runs."""
 
-      night: int
+      day: int
       weather: Weather
-      hours_lit: float = 12.0
+      km: float = 5.0
 
-      def needs_horn(self) -> bool:
+      def needs_lights(self) -> bool:
           return self.weather == Weather.FOG
 
 
-  def foggy_nights(checks: list[LampCheck]) -> int:
-      return len([check for check in checks if check.needs_horn()])
+  def foggy_runs(runs: list[Run]) -> int:
+      return len([run for run in runs if run.needs_lights()])
 
 
   log = [
-      LampCheck(1, Weather.CLEAR),
-      LampCheck(2, Weather.FOG, 14.5),
-      LampCheck(3, Weather.FOG),
+      Run(1, Weather.CLEAR),
+      Run(2, Weather.FOG, 7.5),
+      Run(3, Weather.FOG),
   ]
   print(log[1])
-  print(foggy_nights(log))
+  print(foggy_runs(log))
 subgoals:
   - label: List the choices
     lines: [5, 8]
@@ -54,6 +54,6 @@ explain:
   answer: "A string could be \"Fog\", \"foggy\" or \"fgo\", and a typo would quietly never match. `Weather` has exactly three members, and a misspelt one is an error the first time the line runs."
   concept: enums
 ---
-A dataclass can have methods like any class. `frozen=True` means a night's record can't be changed once it's written. `list[LampCheck]` is the type hint for a list of lamp checks.
+A dataclass can have methods like any class. `frozen=True` means a run's record can't be changed once it's written. `list[Run]` is the type hint for a list of runs.
 
-Old Tom says the log hasn't had a STORM since 1987, when the lamp never once went out.
+Yahya's log has no STORM runs in it yet. He says that's a choice, not luck.

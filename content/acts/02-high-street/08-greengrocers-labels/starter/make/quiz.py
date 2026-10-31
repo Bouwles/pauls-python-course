@@ -1,4 +1,4 @@
-# Gwen's pub quiz, Thursdays at the Drowned Anchor.
+# Caitlin's class quiz, Thursdays at the Clocktower.
 import json
 import random
 

@@ -1,9 +1,9 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "The old grid, learned from scratch. No map, no outcomes. Just races."
+  - paul: "The old grid, learned from scratch. No map, no outcomes. Just races."
 code: |
   import numpy as np
   from workshop import show_grid
@@ -14,7 +14,7 @@ code: |
 
 
   def step(tile, action, rng):
-      """The grid as Sir Reginald meets it: one move, slipping sideways two times in ten."""
+      """The grid as the crab meets it: one move, slipping sideways two times in ten."""
       if rng.random() < 0.2:
           action = SIDEWAYS[action][0 if rng.random() < 0.5 else 1]
       row, col = tile[0] + MOVES[action][0], tile[1] + MOVES[action][1]
@@ -48,7 +48,7 @@ code: |
       print(" ".join("^v<>"[Q[row, col].argmax()] if TRACK[row][col] in ".S" else TRACK[row][col] for col in range(4)))
   print(f"Start: {Q[2, 0].max():.1f}. Value iteration said 1.2.")
 subgoals:
-  - label: The grid as he meets it, one step at a time
+  - label: The grid as the crab meets it, one step at a time
     lines: [9, 17]
   - label: "A Q-table of zeros: every tile, every action"
     lines: [20, 23]
@@ -67,8 +67,8 @@ subgoals:
   - label: Read off the best move on each tile
     lines: [40, 42]
 explain:
-  prompt: "Line 34 uses `Q[after].max()`, the best move on the next tile, even though one time in ten he will explore and do something else. So what is Q-learning learning the worth of?"
-  answer: "The best policy, not the one he's following. Each Q-value is what that move is worth if he plays his best from then on. He explores to gather races, but the exploring never gets into the target. That's called off-policy learning."
+  prompt: "Line 34 uses `Q[after].max()`, the best move on the next tile, even though one time in ten the crab will explore and do something else. So what is Q-learning learning the worth of?"
+  answer: "The best policy, not the one the crab is following. Each Q-value is what that move is worth if it plays its best from then on. The crab explores to gather races, but the exploring never gets into the target. That's called off-policy learning."
   concept: q-learning
 ---
 Lines 28 to 32 are epsilon-greedy from the A/B test bandit, one tile at a time. Line 34 is last week's TD target, with the next tile's best Q-value standing in for its value.

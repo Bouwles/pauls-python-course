@@ -1,7 +1,7 @@
 """The report's charts. Each makes its own figure and returns (fig, ax), or
 (fig, axes) for two panels side by side. No printing.
 
-Priya's rules, for every chart:
+Aaesha's rules, for every chart:
 - every axis says what it measures, and in what units
 - a title that says what the chart shows
 - a key wherever there's more than one line
@@ -28,4 +28,4 @@ months_chart(then, now)
 """
 import matplotlib.pyplot as plt
 
-SOURCE = "Source: {{town}} Weather Station book, 1925 to 2024, at the Records Office"
+SOURCE = "Source: Clocktower weather station book, 1925 to 2024, in the Archive"

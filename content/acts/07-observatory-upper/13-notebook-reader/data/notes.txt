@@ -1,0 +1,85 @@
+Build it ugly first. Then make it good. The first half is the part most people skip, and then they never reach the second. P.
+That works. Now make it so the next person can read it. The next person is usually you, three weeks from now, and tired. P.
+Read the error from the bottom. The last line is where it hurt. The lines above it are how it got there. P.
+A variable called x that holds a price is a small lie. Call it price. Small lies add up to large programs that nobody trusts. P.
+The clock on the tower says 3:14. It has said 3:14 for years. I will fix it. I have a plan, and the plan has a list. P.
+Neil uses tabs in his notes and spaces in his code. I asked him to explain this. He says it is a style. P.
+Four spaces. Not a tab, not three, not five. Python will not argue with you about it, but it will stop listening. P.
+Good names do half the work. A function called do_stuff is a function that nobody will ever dare to delete. P.
+Every test that passes on the first run deserves one suspicious look. Most of them are fine. One of them is lying. P.
+Aaesha writes the test before the code. I used to think that was slow. Then I timed how long I spent finding my own bugs. P.
+Caitlin asked if the grade calculator could have a high score. It cannot. I have thought about it more than I should. P.
+Yahya's version runs in a tenth of the time and reads like a ransom note. Fast is good. Readable is better. Both is the job. P.
+Riya asked who is actually going to use this. Nobody had an answer. That is the right question to ask before the first line. P.
+The duck on Neil's desk has heard more bugs explained than anyone in this building. It has never once interrupted. P.
+If you have to write a comment to explain a name, change the name. Then delete the comment. It has nothing left to say. P.
+A loop that never runs is still a loop. It just does nothing, very politely. Print the list before you blame the loop. P.
+The third step on the stairs to the Engine Room is missing. Everyone knows. Nobody has written it down. Consider it written down. P.
+Copying the same five lines into three places is how bugs learn to breed. Make it a function. Give it a name. Call it once. P.
+The coffee machine in the Model Room has run every day since September. Riya says it is the most reliable system in the building. She is right. P.
+A program that works on the example and nothing else has not been tested. It has been rehearsed. P.
+Read the whole function before you change one line of it. Then change one line. Then run it. Then change the next. P.
+I wrote this late at night. If it looks clever, that is why. If it looks obvious, I wrote it twice. P.
+Short functions, honest names, one job each. It sounds dull. It is the least dull way to spend a week. P.
+The marks for the first test are in. Everyone passed. Three of you named a variable thing. We will talk about thing. P.
+Neil says the error message was confusing. He is right. Error messages are for people. Write them for people. P.
+Delete the code you commented out. It is in the history if you ever need it. You will not need it. P.
+The bigger the number on the screen, the more I want to know where it came from, and who it has been talking to. P.
+A chart that starts at forty is not a chart. It is an opinion. Aaesha caught it before I did, which she will mention. P.
+When two functions do nearly the same thing, the word nearly is where the bug lives. P.
+Run it. Then run it again with something you did not expect. Then you know something you did not know before. P.
+Caitlin shipped the game on Friday. It was ugly. People played it all weekend. There is a lesson there, and it is not about ugly. P.
+I promised to fix the clock this term. The term is not over. I would like that written down as well. P.
+A model that is right ninety nine times in a hundred has told you something about the data first. Ask it what. P.
+Every random number in this course comes from a seed. If nobody can get your result again, nobody can check it. Including you. P.
+I counted the stairs to the roof twice and got two different answers. That is why we write tests, and why I use a loop. P.
+Do not trust a function that prints its answer. Make it return the answer. Then you can test it, and so can anyone else. P.
+Yahya beat my time on the sorting drill by two seconds. I have asked for a rematch. He agreed at once, and smiled. P.
+Indentation is not decoration. In Python it is the meaning. Line it up, and the meaning lines up with it. P.
+The best bug report I ever had said: I expected this, I got that, and here is how. Write yours like that. P.
+A list of names called list1 is a list that nobody will ever understand. Call it names. Then it explains itself. P.
+Explain it to the duck. If you cannot explain it to the duck, you cannot explain it to the computer either. P.
+This should have been a dictionary. It was a list of lists, and every index was a small guess about what lived there. P.
+Neil and I have agreed to disagree about tabs. Python has not agreed to anything. Python wants four spaces. P.
+The test failed because the test was wrong. That happens. Fix the test, then thank it. It was trying to help. P.
+Before you make it faster, make it right. Before you make it right, make it run. Before you make it run, make it exist. P.
+Riya's model got every training example right and half of the new ones wrong. It had learnt the list, not the rule. P.
+A function should fit on one screen. If it does not, it is two functions wearing one coat. P.
+Aaesha labelled every folder in the Archive. I found my old notes in four seconds. I have never found anything in four seconds. P.
+Name your files for what is in them. final_final_two.py is not a name. It is a story about a long week. P.
+The servers in the Engine Room are louder in the afternoon. Neil says they are thinking. I say it is the fans. We are both right. P.
+Every time you copy a number into your code, ask where it came from. Then write that down too, next to the number. P.
+Caitlin wants every program to have a screen. Most of mine have a terminal. We have agreed that a terminal is a screen. P.
+The worked example is not there to copy. It is there so you can see the steps with their names on. P.
+If the output looks right, check it by hand once. If it still looks right, check one more case, the awkward one. P.
+The clock stopped at 3:14 long before this was a school. I have the gears. I have the oil. I have, so far, lacked the afternoon. P.
+The bill splitter rounded every share up after the class dinner. The restaurant was delighted. Riya was not. We fixed it. P.
+A good error message names the line, the value and the thing you expected. Anything less is a riddle. P.
+Python reads your code from the top, one line at a time. So should you, when you are lost. P.
+The snake on the course logo is curled into a P. It took three goes to draw. Like most things worth keeping. P.
+Yahya asked if the slow version is ever the right one. Sometimes. When nobody needs it fast and everybody needs to read it. P.
+Tests are not a chore you do at the end. They are how you know you are finished, and how the next person knows too. P.
+I keep a list of the bugs I have written more than once. It is a long list. It is also the most useful thing I own. P.
+Neil fixed the stairs light. Two switches, one bulb, and an afternoon of logic. It works from both ends now. P.
+A dictionary is the right answer more often than you think. A list is the right answer more often than I think. P.
+Never use eval on anything a user typed. Not once. Not as a test. Not even on a Friday afternoon. P.
+When someone asks why, the answer is never because I said so. It is because of the error you will get if you don't. P.
+Aaesha found the test with the typo. It was mine. She was very kind about it, which somehow made it worse. P.
+Comments should say why. The code already says what. If the code does not say what, fix the code. P.
+The Clocktower has nine floors and one kettle that works. The kettle is on the first floor. Plan your day around it. P.
+The Makerspace smells of solder and toast. Caitlin says that is the smell of things getting made. I have no better theory. P.
+A program you cannot run twice and get the same answer is a program you cannot test. Seed it, and write the seed down. P.
+Riya asked whether the model knows what it is doing. It does not. It knows what usually comes next. That is not the same thing. P.
+Nobody writes good code the first time. Good code is bad code that someone was patient with. P.
+If a check is hard to write, the code is hard to use. Change the code, then write the check. P.
+Yahya's maze solver found the way out in three milliseconds and then printed it upside down. Fast, and nearly right. P.
+The answer to most questions in this building is the same: print it, and look at what comes out. P.
+Neil's blackboard says do not rub out. It has said that since March. I have stopped asking what it is for. P.
+The first program anyone writes here prints a sign for the door. It is still my favourite program in the building. P.
+Big numbers are where floats go to be wrong quietly. Round at the end, never in the middle. P.
+Aaesha's rule: before you run it, say how you will know it worked. I have it on the wall of the Workshop now. P.
+The roof terrace is the best room in the building, and it has no wifi. That is not a coincidence. P.
+Four of you finished the capstone this week. Four programs, four ways to do it, and every one of them readable. P.
+If you cannot name it, you do not understand it yet. Go back and look again until the name arrives. P.
+Whoever reads this, the tests are in the folder called tests. Run them first. Then read the code. P.
+Last note of the term. The clock still says 3:14. I have ordered a new spring. This time I mean it. P.

@@ -1,4 +1,4 @@
-"""The post office savings accounts. Money is kept in whole pence."""
+"""Savings accounts for the class trip fund. Money is kept in whole pence."""
 
 
 class Account:
@@ -36,7 +36,7 @@ class Account:
 
 
 if __name__ == "__main__":
-    savings = Account("Bea Hollis", 1042)
+    savings = Account("Aaesha", 1042)
     savings.deposit(2000)
     savings.withdraw(750)
     print(savings)

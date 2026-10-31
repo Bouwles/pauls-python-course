@@ -4,7 +4,7 @@ type: make
 title: The chance, from scratch
 files: [diabetes.py, tools.py]
 entry: diabetes.py
-on_pass: { wendt: "Twenty-seven per cent for our respondent. And general health counts most. People know, it seems." }
+on_pass: { riya: "Twenty-seven per cent for our respondent. And general health counts most. People know, it seems." }
 hints:
   nudge: "Which number goes into the miss: the score `X @ w + b`, or the chance after the sigmoid? And which side of the log loss does a respondent without diabetes pay?"
   plan:
@@ -32,7 +32,7 @@ hints:
     def decide(p, threshold=0.5):
         return (p ___ threshold).astype(int)
 ---
-The requirements are at the top of `diabetes.py`; Moss's `tools.py` holds the loading, splitting and scaling, so you can spend your effort on the new part.
+The requirements are at the top of `diabetes.py`; Paul's `tools.py` holds the loading, splitting and scaling, so you can spend your effort on the new part.
 
 ```text
 bmi              +0.39

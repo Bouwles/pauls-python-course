@@ -5,7 +5,7 @@ title: "Milestone 1: the question and the plan"
 test_plan: true
 evidence: none
 dialogue:
-  - priya: "A good question can come back no. If yours can't, it's a slogan."
+  - aaesha: "A good question can come back no. If yours can't, it's a slogan."
 checklist:
   - id: one-sentence
     text: "Your question is one sentence, and it could come back yes or no."
@@ -21,7 +21,7 @@ checklist:
     why: "The notes above the table were written by someone who knew where it goes wrong. Read them like a warning."
   - id: plan
     text: "Your test plan has at least three checks on the data your answer stands on, each with the result you expect."
-    why: "Moss reads the plan before the code. A check with no expected result can't fail, so it can't help."
+    why: "Paul reads the plan before the code. A check with no expected result can't fail, so it can't help."
   - id: limits
     text: "You've written one thing this data can't tell anyone, whatever the answer turns out to be."
     why: "One airport isn't the Hebrides, and 150 years isn't for ever. Say so first and you won't be caught saying otherwise."

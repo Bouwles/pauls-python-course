@@ -7,7 +7,7 @@ example: |
 
   pile = []
   arrival = 0
-  for repair, priority in [("Mrs Vance's trolley", 3), ("Mr Ashby's ladder", 3), ("the ferry winch", 1)]:
+  for repair, priority in [("Neil's kettle", 3), ("Caitlin's joystick", 3), ("the Studio's wifi", 1)]:
       heapq.heappush(pile, (priority, arrival, repair))
       arrival = arrival + 1
   while pile:
@@ -24,10 +24,10 @@ cards:
 
       pile = []
       heapq.heappush(pile, (2, "kettle"))
-      heapq.heappush(pile, (1, "winch"))
-      heapq.heappush(pile, (2, "anchor"))
+      heapq.heappush(pile, (1, "wifi"))
+      heapq.heappush(pile, (2, "fridge"))
       print([heapq.heappop(pile)[1] for _ in range(3)])
-    answer: "['winch', 'anchor', 'kettle']"
+    answer: "['wifi', 'fridge', 'kettle']"
   - type: choice
     prompt: What happens?
     code: |
@@ -63,28 +63,28 @@ cards:
         misconception: heap-ties-keep-arrival
         feedback: "Arrival order counts for nothing unless it's in the tuple. The heap compares what's in the pairs."
   - type: fill
-    prompt: "The scrap merchant wants the heaviest part first. Fill the gap so `heapq` hands them out heaviest first."
+    prompt: "Caitlin wants the heaviest part first. Fill the gap so `heapq` hands them out heaviest first."
     code: |
       import heapq
 
       pile = []
-      for name, kg in [("hubcap", 4), ("anvil", 30), ("spring", 1)]:
+      for name, kg in [("monitor", 4), ("printer", 30), ("mouse", 1)]:
           heapq.heappush(pile, (___kg, name))
       while pile:
           kg, name = heapq.heappop(pile)
           print(name)
     blanks: [["-", "- "]]
     tests: |
-      TESTS = [output("Heaviest first", expect="anvil\nhubcap\nspring")]
+      TESTS = [output("Heaviest first", expect="printer\nmonitor\nmouse")]
   - type: fix
     prompt: "`take` crashes now that each repair carries an arrival number. Fix it so it hands back the repair."
     code: |
       import heapq
 
       pile = []
-      heapq.heappush(pile, (3, 0, "Mrs Vance's trolley"))
-      heapq.heappush(pile, (3, 1, "Mr Ashby's ladder"))
-      heapq.heappush(pile, (1, 2, "the ferry winch"))
+      heapq.heappush(pile, (3, 0, "Neil's kettle"))
+      heapq.heappush(pile, (3, 1, "Caitlin's joystick"))
+      heapq.heappush(pile, (1, 2, "the Studio's wifi"))
 
 
       def take(pile):
@@ -95,15 +95,15 @@ cards:
       print(take(pile))
       print(take(pile))
     tests: |
-      TESTS = [output("The winch, then Mrs Vance", expect="the ferry winch\nMrs Vance's trolley",
+      TESTS = [output("The wifi, then Neil's kettle", expect="the Studio's wifi\nNeil's kettle",
                       hint="Each tuple has three things in it now. Unpack all three.")]
     solution: |
       import heapq
 
       pile = []
-      heapq.heappush(pile, (3, 0, "Mrs Vance's trolley"))
-      heapq.heappush(pile, (3, 1, "Mr Ashby's ladder"))
-      heapq.heappush(pile, (1, 2, "the ferry winch"))
+      heapq.heappush(pile, (3, 0, "Neil's kettle"))
+      heapq.heappush(pile, (3, 1, "Caitlin's joystick"))
+      heapq.heappush(pile, (1, 2, "the Studio's wifi"))
 
 
       def take(pile):
@@ -114,7 +114,7 @@ cards:
       print(take(pile))
       print(take(pile))
   - type: write
-    prompt: "Write `serve(orders)`. `orders` is a list of `(name, priority)` in the order they came in. Return the names in the order Nell serves them: lowest priority number first, ties in the order they came. Use `heapq`."
+    prompt: "Write `serve(orders)`. `orders` is a list of `(name, priority)` in the order they came in. Return the names in the order the café serves them: lowest priority number first, ties in the order they came. Use `heapq`."
     starter: |
       import heapq
 
@@ -123,7 +123,7 @@ cards:
           pass
     tests: |
       TESTS = [
-          function("Urgent first", call="serve", args=([("bell", 4), ("winch", 1), ("oven door", 2)],), expect=["winch", "oven door", "bell"]),
+          function("Urgent first", call="serve", args=([("bell", 4), ("wifi", 1), ("oven door", 2)],), expect=["wifi", "oven door", "bell"]),
           function("Ties in the order they came", call="serve", args=([("trolley", 3), ("ladder", 3), ("anchor", 3)],),
                    expect=["trolley", "ladder", "anchor"]),
           function("Nothing to serve", call="serve", args=([],), expect=[]),

@@ -1,13 +1,15 @@
 id: records-and-weather
 number: 5
-title: "The Weather Station and the Records Office"
+title: "The Archive"
 district: records-office
 subject: "Data science"
 hours: 40
-summary: "A century of town records and real weather, as real programs: a grade book in NumPy, a cleaning pipeline and pivot tables in pandas, a weather dashboard, a statistics toolkit, a linear algebra lab, the calculus machine learning leans on, and a data story of your own."
-locked_line: "A century of records, filed and unread."
+summary: "Aaesha's floor: filing cabinets that came with the building, a chart that takes up a whole wall, and a weather station outside the window that has kept a book since 1925. Real data, as real programs: a grade book in NumPy, a cleaning pipeline and pivot tables in pandas, a weather dashboard, a statistics toolkit, a linear algebra lab, the calculus machine learning leans on, and a data story of your own."
+locked_line: "A century of records in the cabinets, and nobody has asked them a question."
 intro:
-  - ashby: "A hundred years of it. Nobody has asked before."
+  - paul: "Fourth floor. Aaesha's. The cabinets came with the building."
+  - paul: "A century of records, and a weather station that never stopped writing things down."
+  - aaesha: "Before you run anything up here, tell me how you'll know it worked."
 jobs:
   - arrays-not-lists
   - the-census-tables

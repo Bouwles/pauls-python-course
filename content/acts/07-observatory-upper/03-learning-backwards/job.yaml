@@ -4,9 +4,9 @@ project_name: "Neural Network from Scratch"
 portfolio_readme: |
   # Neural Network from Scratch
 
-  A two-layer neural network written in NumPy alone: the forward pass, backpropagation, a gradient checker, and gradient descent. It learns three yes-or-no decisions from four readings, checks every gradient it works out against one measured by nudging the weights, then trains from random numbers and is tested on evenings it never saw.
+  A two-layer neural network written in NumPy alone: the forward pass, backpropagation, a gradient checker, and gradient descent. It learns three yes-or-no decisions from four readings, checks every gradient it works out against one measured by nudging the weights, then trains from random numbers and is tested on evenings it never saw. It learns which of the Clocktower's lights, beacon and storm shutters to switch on, from a log of what was done by hand.
 
-  Written by {name} in {{town}}. Finished {date}.
+  Written by {name} for Neil, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -19,7 +19,7 @@ portfolio_readme: |
   Gradients: W1 ok, b1 ok, W2 ok, b2 ok
   Loss: 0.2952 at the start, 0.0051 at the end
   All three right on 195 of 200 evenings it never saw
-  Tonight: lamp, horn, gate
+  Tonight: lights, beacon, shutters
   ```
 
   `python network.py` runs the forward pass alone, with a set of weights already learnt.
@@ -34,10 +34,10 @@ portfolio_readme: |
 
   ## Data
 
-  `evenings.csv` is invented for the story: 800 evenings of visibility, wind, tide and darkness, each scaled from 0 to 1, with whether the lamp, the fog horn and the sea wall gate were used.
+  `evenings.csv` is invented for the project: 800 evenings of visibility, wind, rain and darkness, each scaled from 0 to 1, with whether the clock-face lights, the beacon and the storm shutters were used.
 downloadable: true
 datasets: []
-client: wendt
+client: neil
 building: observatory
 estimated_minutes: 180
 summary: "A two-layer network in NumPy: one neuron and its limits, the forward pass, backpropagation on paper and in code, every gradient checked by measurement, then trained and tested on evenings it never saw."
@@ -45,30 +45,29 @@ concepts_introduced: [perceptron, neural-networks, activation-functions, backpro
 concepts_reviewed: [chain-rule, numerical-gradients, gradient-descent, mean-squared-error, logistic-regression, train-test-split, feature-scaling, numpy-arrays, vectors, matrices, broadcasting, dictionaries, mutability, functions, multiple-returns, zip, enumerate, for-loops]
 ask:
   dialogue:
-    - wendt: "Upstairs. Mind the third step. It isn't there."
-    - wendt: "Her notebook has a brain in it. A small one. Four readings in, three answers out: lamp, horn, gate."
-    - wendt: "Her weights came from somewhere. Nobody types 12.9 by hand. Well, she might. She didn't."
-    - pip: "I've already written a checker."
-    - moss: "Then we'll check that too."
+    - neil: "Welcome to the Engine Room. Mind the third step. It isn't there."
+    - neil: "Paul switches the tower's lights, beacon and shutters by hand, and he's logged every evening for years."
+    - neil: "I trained a small network on his log once. Four readings in, three answers out. I kept the weights, not the code."
+    - aaesha: "I've already written a gradient checker."
+    - neil: "Then we'll check that too."
   spec: |
-    Penhallow's log, `evenings.csv`, has 800 evenings. Each is four readings from 0 to 1, visibility, wind, tide and dark, and three answers: whether the lamp was lit, the horn sounded and the sea wall gate shut. Her network has a ReLU hidden layer and a sigmoid output, with its weights in a dict under `"W1"`, `"b1"`, `"W2"` and `"b2"`.
+    Paul's log, `evenings.csv`, has 800 evenings. Each is four readings from 0 to 1, visibility, wind, rain and dark, and three answers: whether the clock-face lights came on, the beacon flashed and the storm shutters closed. Neil's network has a ReLU hidden layer and a sigmoid output, with its weights in a dict under `"W1"`, `"b1"`, `"W2"` and `"b2"`.
 
-    1. In `network.py`: `relu`, `sigmoid`, and `forward(X, params)`, which returns the answers for every row of `X` and a dict of the values on the way. Then `decisions`, which names the answers above 0.5. Run as a program, it puts four evenings through her weights.
+    1. In `network.py`: `relu`, `sigmoid`, and `forward(X, params)`, which returns the answers for every row of `X` and a dict of the values on the way. Then `decisions`, which names the answers above 0.5. Run as a program, it puts four evenings through Neil's weights.
     2. In `learn.py`: `backward`, the gradient of the mean squared error for every weight and bias, with no loops; `check_gradients`, which compares each one with a measured gradient; and `train`, gradient descent.
     3. Run as a program, `learn.py` checks every gradient, trains a network from random weights on 600 evenings, tests it on the other 200, and answers for tonight.
   example: |
     Gradients: W1 ok, b1 ok, W2 ok, b2 ok
     Loss: 0.2952 at the start, 0.0051 at the end
     All three right on 195 of 200 evenings it never saw
-    Tonight: lamp, horn, gate
-story_note: it-does-not-need-me
+    Tonight: lights, beacon, shutters
 ship:
   dialogue:
-    - wendt: "Four gradients, four oks. Then it learned her log from random numbers."
-    - wendt: "A hundred and ninety-five evenings out of two hundred it had never seen. Lamp, horn, gate, all three right."
-    - wendt: "She was teaching it the town. Why teach a machine that? I'd like to know."
-    - moss: "Worked out one way, measured another, and they agree. That's measuring twice."
-  shelf: { object: chalkboard, label: "Penhallow's network, backwards and checked" }
+    - neil: "Four gradients, four oks. Then it learnt Paul's log from random numbers."
+    - neil: "A hundred and ninety-five evenings out of two hundred it had never seen. Lights, beacon, shutters, all three right."
+    - paul: "It switches things the way I do. It doesn't know why. Fair. Some evenings, neither do I."
+    - aaesha: "Worked out one way, measured another, and they agree. That's a test I trust."
+  shelf: { object: chalkboard, label: "Neil's network, backwards and checked" }
   cards: [perceptron, neural-networks, activation-functions, backpropagation, numerical-gradient-checking]
 stretch:
   - id: watch-it-learn
@@ -76,10 +75,10 @@ stretch:
     prompt: |
       Plot the list of losses from `train` with matplotlib, with a log scale on the loss (`plt.yscale("log")`). Then try `rate=0.5` and `rate=20.0` from the same starting weights. One crawls; what does the other do?
   - id: her-weights-or-yours
-    title: "Her weights, or yours"
+    title: "Neil's weights, or yours"
     prompt: |
-      Train a 4-5-3 network, the same shape as hers, from random weights on all 800 evenings. Put the four evenings from `network.py` through both. Do they give the same answers? Now compare the weights themselves. Why can two networks agree on every evening and share almost no numbers?
+      Train a 4-5-3 network, the same shape as Neil's, from random weights on all 800 evenings. Put the four evenings from `network.py` through both. Do they give the same answers? Now compare the weights themselves. Why can two networks agree on every evening and share almost no numbers?
   - id: probe-the-fog
     title: "Walk into the fog"
     prompt: |
-      Hold wind at 0.3, tide at 0.4 and dark at 0, and slide visibility from 1 down to 0 in steps of 0.05 through her weights. Plot the three answers against visibility with matplotlib. Where does the horn come on? Is it a sudden switch or a slope, and which part of her network decides?
+      Hold wind at 0.3, rain at 0.4 and dark at 0, and slide visibility from 1 down to 0 in steps of 0.05 through Neil's weights. Plot the three answers against visibility with matplotlib. Where does the beacon come on? Is it a sudden switch or a slope, and which part of the network decides?

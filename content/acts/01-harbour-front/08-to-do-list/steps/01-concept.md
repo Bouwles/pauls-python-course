@@ -5,13 +5,13 @@ title: Hole number three
 concept: indexing
 widget: pigeonholes
 params:
-  items: ["Letter for Bea", "Parcel for Tom", "Postcard for Agnes", "Parcel for Gwen", "Seed packet for Moss", "Parcel for A. Penhallow"]
+  items: ["Quiz for Aaesha", "Quiz for Caitlin", "Quiz for Riya", "Quiz for Yahya", "Chalk for Paul", "Notes for Neil"]
   ask: 3
   negative: false
 dialogue:
-  - mira: "Hole three, please. And leave the last one. It's been there a while."
+  - neil: "Pigeonhole three, please. I'm handing the quizzes back."
 ---
-Mira's pigeonholes are numbered from 0. The first hole is hole 0, so hole 3 is the fourth one along.
+The pigeonholes in the Workshop are numbered from 0. The first hole is hole 0, so hole 3 is the fourth one along.
 
 Find hole 3. Go by the numbers on the holes, not by counting from one.
 

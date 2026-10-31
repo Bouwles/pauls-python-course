@@ -1,10 +1,10 @@
-# Race-day courses, by the committee's rules.
+# Race-day courses, by the Arcade League's rules.
 #
 # A course is a list of strings, one per row: S the start, F the finish,
 # # a rock, ~ a rock pool, . sand. Every move costs -1 and the finish ends
-# the race. Sir Reginald slips sideways one move in ten on sand, and
+# the race. The crab slips sideways one move in ten on sand, and
 # thirty-five in a hundred in a rock pool, either way with equal chance.
-# Into a rock or off the course, he stays put. A race stops at 100 moves.
+# Into a rock or off the course, it stays put. A race stops at 100 moves.
 
 from collections import deque
 

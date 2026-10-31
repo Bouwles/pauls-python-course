@@ -1,17 +1,17 @@
-"""Hash map from scratch: a dictionary made by hand, for Nell's piles."""
+"""Hash map from scratch: a dictionary made by hand, to see how dict does it."""
 
 KINDS = ["bolt", "nut", "washer", "spring", "hinge", "valve", "gear", "chain", "hubcap", "bell"]
 
 
-def yard_parts(count):
-    """count different part names, the way Nell's stock list writes them."""
+def stock_parts(count):
+    """count different part names, the way the store room's stock list writes them."""
     return [f"{KINDS[number % len(KINDS)]}-{number // len(KINDS) + 1}" for number in range(count)]
 
 
-# Nell's rule, written down. She does it by eye and won't hear of a sum.
-# Thirty-one because it's prime, and because she was thirty-one the year
-# she took the yard on. Either reason will do. A.P.
-def scrap_hash(name):
+# The rule for which pile a name goes in: times thirty-one, add the next letter,
+# and keep the remainder by 1,000,003. Thirty-one because it's prime. Java's
+# strings hash with the same number.
+def part_hash(name):
     number = 0
     for character in name:
         number = (number * 31 + ord(character)) % 1_000_003
@@ -19,4 +19,4 @@ def scrap_hash(name):
 
 
 if __name__ == "__main__":
-    parts = yard_parts(200)
+    parts = stock_parts(200)

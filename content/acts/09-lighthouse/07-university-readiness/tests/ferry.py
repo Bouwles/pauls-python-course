@@ -15,8 +15,8 @@ def _crossings(crates, limit):
 def smallest_and_enough(seed, count, days, heaviest):
     def check(ctx):
         module = ctx.module()
-        quay = _random.Random(seed)
-        crates = [quay.randint(1, heaviest) for _ in range(count)]
+        stack = _random.Random(seed)
+        crates = [stack.randint(1, heaviest) for _ in range(count)]
         got = module.smallest_limit(list(crates), days)
         if not isinstance(got, int):
             raise CheckFailed(f"smallest_limit should give back a whole number of kilos, for {count:,} crates.", actual=got)

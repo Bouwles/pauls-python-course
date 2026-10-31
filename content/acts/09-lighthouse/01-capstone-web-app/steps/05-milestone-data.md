@@ -4,14 +4,14 @@ type: milestone
 title: "Milestone 2: the data, kept"
 evidence: link
 dialogue:
-  - agnes: "I switch everything off at six. The boats stay booked overnight. So must the bookings."
+  - riya: "The marina switches everything off at six. The boats stay booked overnight. So must the bookings."
 checklist:
   - id: choice
     text: "You've chosen a JSON file or SQLite, and written one sentence on why."
     why: "Either will carry five berths for a century. Not knowing why you chose one is the problem."
   - id: restart
     text: "Bookings survive a restart: stop the server, start it, and they're all still there."
-    why: "Requirement four. Agnes will test it the first evening, by accident."
+    why: "Requirement four. The marina will test it the first evening, by accident."
   - id: one-module
     text: "Only one module reads and writes the data, and the routes call it."
     why: "When the storage changes, you change one module, not every route that ever touched a file."
@@ -23,7 +23,7 @@ checklist:
     why: "A number on a receipt has to mean one booking for ever. SQLite reuses them unless you tell it not to."
   - id: first-run
     text: "With no data file yet, the app starts with no bookings instead of crashing."
-    why: "The first run on Agnes's computer is the one that matters most, and it has no file."
+    why: "The first run on the marina's computer is the one that matters most, and it has no file."
   - id: own-tests
     text: "At least three of your own tests in tests/test_mine.py check the data, and pass."
     why: "You know where your storage is weakest. Write the test there."
@@ -34,4 +34,4 @@ A **JSON file**: read the whole file, change it, write it back. `json.load` and 
 
 **SQLite**: a real database in one file, with `sqlite3.connect(path)`. You write SQL; it handles the rest, including two requests at once. Declare the id `INTEGER PRIMARY KEY AUTOINCREMENT`, or it will reuse numbers.
 
-Whichever you choose, `create_app(data_file)` gets the path, so each test has its own. Agnes's link: wherever your repository lives.
+Whichever you choose, `create_app(data_file)` gets the path, so each test has its own. Riya's link: wherever your repository lives.

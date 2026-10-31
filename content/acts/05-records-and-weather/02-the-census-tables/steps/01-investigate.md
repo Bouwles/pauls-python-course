@@ -4,7 +4,7 @@ type: investigate
 title: The census as a table
 concept: pandas-basics
 dialogue:
-  - ashby: "Four censuses, three hundred and nineteen people. I've read every one of them by hand."
+  - aaesha: "Four censuses, three hundred and nineteen people. I've read every one of them by hand."
 code: |
   import pandas as pd
 
@@ -43,8 +43,8 @@ tasks:
   - id: engineer
     prompt: "Change your filter to find everyone whose `occupation` is `\"engineer\"`. Who is it?"
     kind: answer
-    accept: ["Ada Penhallow", "Penhallow", "A. Penhallow", "A Penhallow"]
-    feedback: "Ada Penhallow, 31, on the Hill, in 1981. A household of one. She isn't in the 2011 census."
+    accept: ["Joan Treloar", "Treloar", "J. Treloar", "J Treloar"]
+    feedback: "Joan Treloar, 31, on the Hill, in 1981. A household of one. She isn't in the 2011 census."
     wrong: "Filter on `census[\"occupation\"] == \"engineer\"` and print what's left."
 ---
 **pandas** is the library for tables, and everyone imports it as `pd`. `pd.read_csv` reads a CSV file, header and all, into a **DataFrame**: rows, and named columns that each hold one type.

@@ -1,353 +1,352 @@
-/* Settings: a stack of framed panels, one per group, with the credit line at the foot. */
+/* Settings: sections with headings and hairlines between rows. No frames. */
 .settings {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--s-6);
-}
-
-.head {
-  display: flex;
-  align-items: center;
-  gap: var(--s-4);
+  gap: var(--s-8);
 }
 
 .title {
-  font-size: var(--pixel-2);
+  font-size: var(--fs-7);
 }
 
-/* "Saved.": a small toast in the corner, so it shows wherever you are on the page. */
-.saved {
-  position: fixed;
-  right: var(--s-4);
-  bottom: var(--s-4);
-  z-index: 30;
-  padding: 10px var(--s-3) 8px;
-  background: var(--night-2);
-  color: var(--chalk);
-  outline: 2px solid var(--night-0);
-  box-shadow: inset 0 -4px 0 var(--night-0), var(--shadow-hard);
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 1;
-  -webkit-font-smoothing: none;
-  pointer-events: none;
+.layout {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: var(--s-12);
+  align-items: start;
 }
 
-.saved:empty {
+/* The list of sections, held in place while the page scrolls. */
+.nav {
+  position: sticky;
+  top: calc(var(--header-h) + var(--s-6));
+}
+
+.nav ul {
+  list-style: none;
+  margin: 0;
   padding: 0;
-  outline: 0;
-  box-shadow: none;
+  display: grid;
+  gap: 2px;
 }
 
-/* ---- Panels ---- */
-.panel {
-  --slot: var(--panel);
-  --dots: var(--frame-hi);
+.nav a {
+  display: block;
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-md);
+  font-size: var(--fs-2);
+  font-weight: 700;
+  color: var(--text-2);
+  text-decoration: none;
+}
+
+.nav a:hover {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.sections {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--s-5);
-  padding: var(--s-2) var(--s-3) var(--s-4);
+  max-width: 800px;
   min-width: 0;
 }
 
-/* By day the panel is pale, so toggles and list rows sink to the page colour instead. */
-:global(:root[data-theme="light"]) .panel {
-  --slot: var(--bg);
-  --dots: var(--frame);
+.section {
+  display: grid;
+  gap: var(--s-4);
+  padding: var(--s-10) 0;
+  border-top: 1px solid var(--line);
+  scroll-margin-top: calc(var(--header-h) + var(--s-4));
 }
 
-@media (prefers-color-scheme: light) {
-  :global(:root[data-theme="system"]) .panel {
-    --slot: var(--bg);
-    --dots: var(--frame);
-  }
+.section:first-child {
+  padding-top: 0;
+  border-top: 0;
 }
 
-/* The panel name, with a dotted pixel rule running to the right edge. */
+.sectionHead {
+  display: grid;
+  gap: var(--s-2);
+}
+
 .h2 {
-  display: flex;
-  align-items: center;
-  gap: var(--s-3);
-  font-size: var(--pixel-1);
-  line-height: 24px;
-  color: var(--accent-text);
+  font-size: var(--fs-5);
 }
 
-.h2::after {
-  content: "";
-  flex: 1;
-  height: 4px;
-  background: var(--dots);
-  -webkit-mask: var(--mask-dots-8) repeat-x 0 0 / 8px 4px;
-  mask: var(--mask-dots-8) repeat-x 0 0 / 8px 4px;
-}
-
-.legend {
-  display: block;
-  font-family: var(--font-read);
-  font-size: var(--step-0);
-  font-weight: 700;
-  line-height: var(--lh-ui);
-  color: var(--text);
-}
-
-.hint,
-.meta,
-.body {
-  font-family: var(--font-read);
-  font-size: var(--step--1);
-  line-height: 1.5;
+.intro {
+  font-size: var(--fs-2);
   color: var(--text-2);
-  max-width: var(--measure);
+  max-width: 62ch;
 }
 
-.meta,
-.body {
-  font-size: var(--step-0);
-  color: var(--text);
+.rows {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
 }
 
-.error {
-  font-size: var(--step--1);
-  color: var(--danger-text);
-}
-
+/* A row: words on the left, the control on the right. */
 .row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--s-3) var(--s-8);
+  padding: var(--s-4) 0;
+}
+
+.row + .row,
+.rows > * + .row {
+  border-top: 1px solid var(--line);
+}
+
+.rowWide {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.rowText {
+  display: grid;
+  gap: var(--s-1);
+  min-width: 0;
+}
+
+.rowLabel {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--s-3);
-}
-
-/* Deleting sits apart from the everyday account buttons. */
-.danger {
-  display: flex;
-  padding-top: var(--s-4);
-  position: relative;
-}
-
-.danger::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: var(--dots);
-  -webkit-mask: var(--mask-dots-8) repeat-x 0 0 / 8px 4px;
-  mask: var(--mask-dots-8) repeat-x 0 0 / 8px 4px;
-}
-
-/* ---- Fields ---- */
-.field {
-  display: grid;
   gap: var(--s-2);
-  max-width: 420px;
+  font-size: var(--fs-3);
+  font-weight: 700;
+  color: var(--text);
+}
+
+.rowControl {
+  display: grid;
+  gap: var(--s-3);
+  justify-items: start;
   min-width: 0;
 }
 
-.field input:not([type="range"]) {
-  min-height: 40px;
-  width: 100%;
-  padding: 0 var(--s-3);
-  background: var(--code-bg);
+.row:not(.rowWide) .rowControl {
+  justify-items: end;
+}
+
+.hint {
+  font-size: var(--fs-2);
+  line-height: 1.45;
+  color: var(--text-2);
+  max-width: 60ch;
+}
+
+.note {
+  font-size: var(--fs-2);
+  color: var(--text-2);
+  padding: var(--s-2) 0;
+}
+
+.value {
+  font-size: var(--fs-2);
+  color: var(--text-2);
+  overflow-wrap: anywhere;
+}
+
+.error {
+  font-size: var(--fs-2);
+  color: var(--fail-text);
+}
+
+.notice {
+  font-size: var(--fs-2);
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--r-md);
+  background: var(--sun-wash);
   color: var(--text);
-  border: 2px solid var(--night-0);
-  box-shadow: inset 0 2px 0 var(--frame);
-  font-size: var(--step-0);
+}
+
+/* The segmented choice: real radios, the chosen one in blue. */
+.segmented {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 3px;
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+}
+
+:global(:root[data-theme="light"]) .segmented {
+  background: var(--surface-3);
+}
+
+@media (prefers-color-scheme: light) {
+  :global(:root[data-theme="system"]) .segmented {
+    background: var(--surface-3);
+  }
+}
+
+.segment {
+  display: inline-flex;
+  align-items: center;
+  height: 34px;
+  padding: 0 var(--s-3);
+  border-radius: var(--r-sm);
+  border: 1px solid transparent;
+  font-size: var(--fs-2);
+  font-weight: 700;
+  color: var(--text-2);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color var(--dur) var(--ease-out), color var(--dur) var(--ease-out);
+}
+
+.segment:hover {
+  color: var(--text);
+}
+
+.segment:focus-within {
+  outline: 2px solid var(--sun);
+  outline-offset: 1px;
+}
+
+.segment.on {
+  background: var(--blue-wash);
+  border-color: var(--blue);
+  color: var(--blue-text);
+}
+
+/* Inputs. */
+.text {
+  width: 280px;
+  max-width: 100%;
+  height: 40px;
+}
+
+.field {
+  display: grid;
+  gap: var(--s-1);
+  max-width: 360px;
+}
+
+.field input {
+  height: 40px;
 }
 
 .inline {
   display: grid;
-  gap: var(--s-4);
-  justify-items: stretch;
+  gap: var(--s-3);
+  padding: var(--s-4);
+  margin-bottom: var(--s-4);
+  border-radius: var(--r-lg);
+  background: var(--surface-1);
 }
 
-/* ---- The segmented choice: pixel toggles on a dark strip ---- */
-.choice {
-  border: 0;
-  padding: 0;
-  margin: 0;
-  min-width: 0;
-  display: grid;
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
   gap: var(--s-2);
 }
 
-.choice legend {
-  margin-bottom: var(--s-2);
-  padding: 0;
-}
-
-.toggle {
-  display: flex;
-  flex-wrap: wrap;
-  justify-self: start;
-  gap: var(--s-1);
-  padding: var(--s-1);
-  background: var(--slot);
-  outline: 2px solid var(--night-0);
-  max-width: 100%;
-}
-
-.option {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  min-height: 36px;
-  padding: 2px var(--s-3);
-  color: var(--text-2);
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 1;
-  -webkit-font-smoothing: none;
-  cursor: pointer;
-  user-select: none;
-}
-
-.option:hover:not(.on) {
-  color: var(--text);
-  background: var(--frame);
-}
-
-.on {
-  background: var(--lamp);
-  color: var(--night-0);
-  box-shadow: inset 0 -4px 0 var(--lamp-dark);
-}
-
-.option:has(input:focus-visible) {
-  outline: 2px solid var(--lamp);
-  outline-offset: 2px;
-  z-index: 1;
-}
-
-/* ---- Character ---- */
-.you {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-5);
-  align-items: flex-start;
-}
-
-/* A little floor for the character to stand on. */
-.stage {
-  flex: none;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  width: 128px;
-  height: 144px;
-  padding-bottom: 12px;
-  background: var(--night-1);
-  box-shadow:
-    inset 0 -10px 0 var(--art-driftwood),
-    inset 0 -12px 0 var(--art-tar),
-    inset 0 0 0 2px var(--night-0);
-}
-
-.youFields {
-  flex: 1 1 260px;
-  display: grid;
-  gap: var(--s-3);
-  min-width: 0;
-}
-
-.creator {
-  min-width: 0;
-}
-
-/* ---- Editor ---- */
 .range {
   width: 100%;
-  max-width: 420px;
-  height: 24px;
-  margin: 0;
+  max-width: 360px;
   padding: 0;
   border: 0;
   background: none;
-  appearance: none;
-  -webkit-appearance: none;
-  cursor: pointer;
+  accent-color: var(--sun);
 }
 
-.range::-webkit-slider-runnable-track {
-  height: 8px;
-  background: var(--night-0);
-}
-
-.range::-moz-range-track {
-  height: 8px;
-  background: var(--night-0);
-}
-
-.range::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 16px;
-  height: 24px;
-  margin-top: -8px;
-  border: 0;
-  border-radius: 0;
-  background: var(--lamp);
-  box-shadow: inset 0 -4px 0 var(--lamp-dark), 0 0 0 2px var(--night-0);
-}
-
-.range::-moz-range-thumb {
-  width: 16px;
-  height: 24px;
-  border: 0;
-  border-radius: 0;
-  background: var(--lamp);
-  box-shadow: inset 0 -4px 0 var(--lamp-dark), 0 0 0 2px var(--night-0);
-}
-
-.range:focus-visible {
-  outline: 2px solid var(--lamp);
-  outline-offset: 4px;
-}
-
-/* A line of code at the chosen size. */
 .sample {
   margin: 0;
+  width: 100%;
   padding: var(--s-3) var(--s-4);
-  background: var(--code-bg);
-  color: var(--syn-function);
-  box-shadow: inset 0 0 0 2px var(--night-0);
-  font-size: var(--editor-font-size);
-  line-height: 1.6;
+  border-radius: var(--r-md);
+  background: var(--editor);
+  color: var(--text);
   overflow-x: auto;
 }
 
-/* ---- Lists (classes, connected tools) ---- */
-.list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: var(--s-2);
+.synFn {
+  font-weight: 700;
+  color: var(--syn-function);
 }
 
-.list > li {
+.synStr {
+  color: var(--syn-string);
+}
+
+/* Your avatar. */
+.you {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  padding-bottom: var(--s-4);
+}
+
+.youText {
+  display: grid;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.youName {
+  font-family: var(--font-display);
+  font-size: var(--fs-4);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+}
+
+.youButton {
+  flex: none;
+}
+
+.creator {
+  padding: var(--s-5);
+  margin-bottom: var(--s-4);
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+}
+
+:global(:root[data-theme="light"]) .creator {
+  border: 1px solid var(--line);
+}
+
+/* Lists inside rows: classes, connected tools. */
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s-2);
+  width: 100%;
+}
+
+.list li {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--s-2) var(--s-3);
-  padding: var(--s-2) var(--s-3);
-  background: var(--slot);
-  font-family: var(--font-read);
-  font-size: var(--step--1);
+  gap: var(--s-2) var(--s-4);
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  font-size: var(--fs-2);
 }
 
-/* ---- The delete dialog ---- */
+:global(:root[data-theme="light"]) .list li {
+  background: var(--surface-3);
+}
+
+.foot {
+  padding-top: var(--s-8);
+  border-top: 1px solid var(--line);
+}
+
+/* Delete your account. */
 .dialog {
-  --dots: var(--frame-hi);
   width: min(520px, calc(100vw - 32px));
-  max-height: calc(100dvh - 32px);
-  margin: auto;
+  border: 0;
   padding: 0;
   color: var(--text);
-  box-shadow: var(--shadow-hard);
 }
 
 .dialog::backdrop {
@@ -357,30 +356,71 @@
 .dialogBody {
   display: grid;
   gap: var(--s-4);
-  padding: var(--s-2) var(--s-3) var(--s-3);
+  padding: var(--s-6);
+  font-size: var(--fs-2);
 }
 
-/* ---- The credit line ---- */
-.foot {
-  display: flex;
-  justify-content: center;
-  padding-top: var(--s-4);
+.dialogTitle {
+  font-size: var(--fs-5);
+}
+
+.strong {
+  color: var(--text);
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-6);
+  }
+
+  .nav {
+    display: none;
+  }
 }
 
 @media (max-width: 720px) {
-  .panel {
-    padding: var(--s-1) var(--s-1) var(--s-3);
+  .title {
+    font-size: var(--fs-6);
   }
 
-  .option {
-    min-height: 40px;
+  .section {
+    padding: var(--s-8) 0;
   }
-}
 
-/* One calm note when a payment fails: in Settings only, never on every screen. */
-.notice {
-  padding: var(--s-2) var(--s-3);
-  background: var(--inset);
-  box-shadow: inset 4px 0 0 var(--lamp);
-  font-size: var(--step--1);
+  .row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .row:not(.rowWide) .rowControl {
+    justify-items: stretch;
+  }
+
+  .rowControl > button,
+  .rowControl > a {
+    justify-self: start;
+  }
+
+  .segmented {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
+  .segment {
+    flex: 1 1 auto;
+    justify-content: center;
+    padding: 0 var(--s-2);
+  }
+
+  .you {
+    flex-wrap: wrap;
+  }
+
+  .youButton {
+    width: 100%;
+  }
+
+  .creator {
+    padding: var(--s-4);
+  }
 }

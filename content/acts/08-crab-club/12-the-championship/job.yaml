@@ -6,7 +6,7 @@ portfolio_readme: |
 
   A racing agent that learns a course it has never seen. Each course is generated from a seed, with rocks, rock pools and groynes; the agent gets a fixed budget of practice moves and no map, then races. It is judged on courses held back from training, against two baselines, and saves an entry for the weekly Arcade League.
 
-  Written by {name} for the Arcade Committee, on the pier at {{town}}. Finished {date}.
+  Written by {name} for Yahya, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -19,10 +19,10 @@ portfolio_readme: |
   Training courses
   Course 1: 19.1 moves, 200 of 200 finished (par 18.9, the gull 98.3)
   ...
-  Courses he has never seen
+  Courses it has never seen
   Course 101: 18.1 moves, 200 of 200 finished (par 18.0, the gull 99.1)
   Course 102: 13.6 moves, 200 of 200 finished (par 14.1, the gull 81.1)
-  The Club Course: 15.5 moves, 200 of 200 finished
+  The League course: 15.5 moves, 200 of 200 finished
   Saved league.json for the Arcade League.
   ```
 
@@ -36,26 +36,26 @@ portfolio_readme: |
   - Averages over hundreds of races, and an entry in an agreed JSON format
 downloadable: true
 datasets: []
-client: committee
+client: yahya
 building: crab-club
 estimated_minutes: 600
-summary: "The capstone: a crab that learns whatever course the stewards lay out, on a budget of practice, judged on courses nobody has seen, and entered in the weekly Arcade League."
+summary: "The capstone: a crab that learns whatever course the League lays out, on a budget of practice, judged on courses nobody has seen, and entered in the weekly Arcade League."
 concepts_introduced: []
 concepts_reviewed: [q-learning, dqn, policy-gradients, actor-critic, exploration-exploitation, td-learning, mdps, bfs, classes, exceptions, raising-errors, try-except, train-test-split, overfitting, numpy-arrays]
 ask:
   dialogue:
-    - committee: "The Arcade League. A race every week, every club on the coast, the table on the pier."
-    - committee: "And the season ends with the Championship. One course, laid out on the morning..."
-    - committee: "...five thousand practice moves, then the races. Fewest moves wins."
-    - moss: "So he can't learn the course beforehand. He has to learn how to learn one."
+    - yahya: "The Arcade League. A race every week, everyone's crab, one leaderboard."
+    - yahya: "Term ends with the final. A new course, made that morning from a seed nobody knows."
+    - yahya: "Five thousand practice moves, then the races. Fewest moves wins."
+    - paul: "So the crab can't learn the course beforehand. It has to learn how to learn one."
   spec: |
-    A crab who races well on a course nobody has seen, in three files.
+    A crab that races well on a course nobody has seen, in three files.
 
-    1. `course.py`, the committee's rules. `generate(seed, rows=7, cols=9)` lays out rocks, rock pools and two groynes, the same course for the same seed, always with a way through. `Course(layout)` knows its rules; `race(course, policy, rng)` counts the moves of one race; `Practice(course, budget, rng)` is the course as Sir Reginald meets it, with no map and a budget of moves.
-    2. `crab.py`. `train(practice, rng)` practises until the stewards say stop, and returns a policy: rows of actions from 0 to 3, a move for every tile.
-    3. `race_day.py`. Two baselines, the gull line and the shortest line; a table of results on courses he trained on and on courses kept back; a race to watch; and `league.json`, his entry for the Arcade League on the Club Course.
+    1. `course.py`, the League's rules. `generate(seed, rows=7, cols=9)` lays out rocks, rock pools and two groynes, the same course for the same seed, always with a way through. `Course(layout)` knows its rules; `race(course, policy, rng)` counts the moves of one race; `Practice(course, budget, rng)` is the course as the crab meets it, with no map and a budget of moves.
+    2. `crab.py`. `train(practice, rng)` practises until the League says stop, and returns a policy: rows of actions from 0 to 3, a move for every tile.
+    3. `race_day.py`. Two baselines, the gull line and the shortest line; a table of results on courses it trained on and on courses kept back; a race to watch; and `league.json`, its entry for the Arcade League on the League course.
 
-    On a course he has never seen, given 5000 practice moves, he must finish at least 190 races in 200, and average within a quarter of par: the moves the shortest line takes.
+    On a course it has never seen, given 5000 practice moves, it must finish at least 190 races in 200, and average within a quarter of par: the moves the shortest line takes.
 
     Entering the Arcade League is up to you. Any `league.json` you save appears on the league page, /league, and only goes into the weekly table if you enter it.
   example: |
@@ -63,30 +63,30 @@ ask:
     Course 1: 19.1 moves, 200 of 200 finished (par 18.9, the gull 98.3)
     Course 2: 17.4 moves, 200 of 200 finished (par 18.1, the gull 92.5)
     Course 3: 12.7 moves, 200 of 200 finished (par 14.2, the gull 43.1)
-    Courses he has never seen
+    Courses it has never seen
     Course 101: 18.1 moves, 200 of 200 finished (par 18.0, the gull 99.1)
     Course 102: 13.6 moves, 200 of 200 finished (par 14.1, the gull 81.1)
-    The Club Course: 15.5 moves, 200 of 200 finished
+    The League course: 15.5 moves, 200 of 200 finished
     Saved league.json for the Arcade League.
 ship:
   dialogue:
-    - committee: "Eighteen point one moves, on a course laid out at dawn. Par was eighteen."
-    - committee: "The Cockle Bay crab sat down at the first groyne and..."
-    - committee: "...would not be moved. We did not laugh. Not in public."
-    - moss: "He learned a course nobody had seen. That's the whole trade, in a crab."
-  shelf: { object: trophy, label: "The Championship cup, won on an unseen course" }
+    - yahya: "Eighteen point one moves, on a course made this morning. Par was eighteen."
+    - caitlin: "Another crab sat down at the first groyne and wouldn't move. Not ours."
+    - paul: "It learned a course nobody had seen. That's the whole trade, in a crab."
+    - caitlin: "One floor left. And the clock still says 3:14."
+    - paul: "I know. I haven't forgotten."
+  shelf: { object: trophy, label: "The Arcade League final, won on an unseen course" }
   cards: []
-story_note: lady-agatha-sat-down
 stretch:
   - id: the-league
     title: "Into the League"
     prompt: |
-      Enter `league.json` on the league page, /league. The League races the Club Course fifty times a week on its own seeds. Then try to climb: more replay, a better first guess, or a crab built on Deep Q or actor-critic instead. Keep every change honest by racing your testing courses, not the Club Course, before you decide.
+      Enter `league.json` on the league page, /league. The League races the League course fifty times a week on its own seeds. Then try to climb: more replay, a better first guess, or a crab built on Deep Q or actor-critic instead. Keep every change honest by racing your testing courses, not the League course, before you decide.
   - id: what-carries-over
     title: "What carries over"
     prompt: |
-      He starts every course with nothing but the gull's guess. Train a small network, as in Deep Q, on features that mean the same on any course: rocks beside him, pools, which way the finish lies. Use it as his first guess on a new course. Does he need fewer practice moves to reach par? Try a budget of 1500.
+      It starts every course with nothing but the gull's guess. Train a small network, as in Deep Q, on features that mean the same on any course: rocks beside it, pools, which way the finish lies. Use it as the crab's first guess on a new course. Does it need fewer practice moves to reach par? Try a budget of 1500.
   - id: half-the-practice
     title: "Half the practice"
     prompt: |
-      Rumour says next year's Championship allows 2500 practice moves. Find the smallest budget at which he still averages within a quarter of par on ten testing courses, and which of your settings matter most when practice is short.
+      Yahya says next term's final allows 2500 practice moves. Find the smallest budget at which the crab still averages within a quarter of par on ten testing courses, and which of your settings matter most when practice is short.

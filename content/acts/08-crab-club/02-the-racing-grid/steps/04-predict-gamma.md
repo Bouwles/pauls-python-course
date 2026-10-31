@@ -4,8 +4,8 @@ type: predict
 title: Now or later
 concept: returns-discounting
 dialogue:
-  - committee: "Sir Reginald can have a crumb of whelk at the start line..."
-  - committee: "...or race the full straight for the prize. Patience is a virtue, in crabs."
+  - caitlin: "In my version, the crab can eat a crumb at the start line..."
+  - caitlin: "...or race the full straight for the prize. Patience is a virtue, in crabs."
 code: |
   def discounted_return(rewards, gamma):
       total = 0

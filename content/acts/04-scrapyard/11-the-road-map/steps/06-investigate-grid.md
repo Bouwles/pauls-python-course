@@ -4,8 +4,8 @@ type: investigate
 title: A maze is a graph
 concept: graphs
 dialogue:
-  - nell: "Since the pier lot went in, the yard's a maze. Lorries go in at the gate and come out at the chip shop."
-  - moss: "Every open bit of ground is a place, and its roads are the four ways off it."
+  - yahya: "My maze, off the Puzzle Room wall. The class races it every Friday."
+  - paul: "Every open square is a place, and its roads are the four ways off it."
 code: |
   maze = ["S.#",
           "..#",
@@ -68,7 +68,7 @@ tasks:
     prompt: "Before your change, the neighbours of `(0, 0)` looked right, by luck. Which tile did `grid[-1][0]` look at?"
     kind: answer
     accept: ["(2, 0)", "2, 0", "(2,0)", "the bottom left", "bottom left", "the bottom-left tile", "the bottom row", "bottom row", "the last row", "last row", "#"]
-    feedback: "`(2, 0)`, the bottom left: a negative index counts from the end. It happened to be a wall, so nobody noticed. In a maze with an open bottom corner, the gate would have had a neighbour off the top of the map."
+    feedback: "`(2, 0)`, the bottom left: a negative index counts from the end. It happened to be a wall, so nobody noticed. In a maze with an open bottom corner, the start would have had a neighbour off the top of the map."
     wrong: "A negative index counts from the end of the list."
 ---
 A maze drawn as text is a graph too. Each open tile is a place, and its neighbours are the open tiles up, down, left and right of it. There's no dictionary of roads to keep: the neighbours can be worked out from the drawing whenever they're needed.

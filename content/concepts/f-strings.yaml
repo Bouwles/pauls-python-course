@@ -25,10 +25,10 @@ cards:
   - type: choice
     prompt: What does this print?
     code: |
-      name = "Bea"
+      name = "Riya"
       print("Morning, {name}")
     options:
-      - text: "Morning, Bea"
+      - text: "Morning, Riya"
         misconception: f-prefix-optional
         feedback: "Without the f, the braces are just characters in the text."
       - text: "Morning, {name}"

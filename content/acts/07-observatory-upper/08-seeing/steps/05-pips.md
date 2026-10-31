@@ -1,17 +1,17 @@
 ---
 id: pips
 type: pips
-title: Pip's Version
+title: Fix Riya's version
 dialogue:
-  - pip: "Convolution. Two loops and a slice. I did it on the back of a bus ticket."
-  - pip: "It found the tower's edge. Twice. I'd say that's thorough."
+  - riya: "Can you look at mine? Convolution. Two loops and a slice. Done on the back of a receipt."
+  - riya: "It found the tower's edge. Something's off with the size, though."
 dialogue_after:
-  - pip: "So a window fits one more time than the difference. I always forget the one."
-  - pip: "And kernels aren't always square. Wendt's got one that's three wide and one high. Who does that."
+  - riya: "So a window fits one more time than the difference. I always forget the one."
+  - riya: "And kernels aren't always square. Neil's got one that's three wide and one high. I only tried the easy case."
 hints:
   nudge: "A 2 by 2 window on a 4 by 5 picture: how many places does it fit down, and how many across? Count them on the predict step's answer."
   plan:
-    - Compare the shape Pip gets with the (3, 4) from A window on the lighthouse
+    - Compare the shape Riya gets with the (3, 4) from A window on the Clocktower
     - Count the last place the window fits, as well as the first
     - Take the kernel's height and width separately
     - Use the height for the rows and the width for the columns, in the slice too
@@ -26,6 +26,6 @@ hints:
                 out[i, j] = np.sum(image[i:i + ___, j:j + ___] * kernel)
         return out
 ---
-Pip's `convolve` on the lighthouse should give the (3, 4) feature map from the first step: three rows of `0 2 0 -2`. Run it and compare.
+Riya's `convolve` on the Clocktower should give the (3, 4) feature map from the first step: three rows of `0 2 0 -2`. Run it and compare.
 
-There's a second bug, which the lighthouse can't show: try `convolve(image, np.array([[-1, 0, 1]]))`, a kernel one row high and three wide.
+There's a second bug, which the Clocktower can't show: try `convolve(image, np.array([[-1, 0, 1]]))`, a kernel one row high and three wide.

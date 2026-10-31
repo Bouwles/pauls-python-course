@@ -4,7 +4,7 @@ Low water, at six.
 CHAPTER TWO
 -- nothing --
 CHAPTER THREE
-High water: 4.1 metres, at noon; the ferry ran.
+High water: 4.1 metres, at noon; the bus ran.
 """
 
 TESTS = [

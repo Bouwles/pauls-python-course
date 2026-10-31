@@ -15,59 +15,76 @@ def shown(value):
     return array.tolist() if np.all(np.isfinite(array)) else str(array.tolist())
 
 
-def call(ctx, Q, K, V, mask=None):
-    m = ctx.module()
-    got = m.attention(Q, K, V, mask)
-    if not isinstance(got, tuple) or len(got) != 2:
-        raise CheckFailed("attention should return (output, weights).", actual=repr(got)[:120])
-    return np.asarray(got[0], dtype=float), np.asarray(got[1], dtype=float)
-
-
 def qkv(seed, n=4, size=4):
     rng = np.random.default_rng(seed)
     return rng.normal(size=(n, size)), rng.normal(size=(n, size)), rng.normal(size=(n, size))
 
 
-def rows_sum(ctx):
-    Q, K, V = qkv(1)
-    output, weights = call(ctx, Q, K, V)
-    if not np.allclose(weights.sum(axis=1), 1):
-        raise CheckFailed("Each query shares out its attention over the keys: every row of weights adds up to 1.",
-                          expected=[1.0] * 4, actual=shown(weights.sum(axis=1)))
+def causal(n):
+    return np.triu(np.ones((n, n), dtype=bool), k=1)
 
 
-def scaled(ctx):
-    Q, K, V = qkv(2)
-    output, weights = call(ctx, Q, K, V)
-    want_out, want_w = ref_attention(Q, K, V)
-    if not np.allclose(weights, want_w):
-        raise CheckFailed("The weights, with the scores divided by the square root of the key size, 4.", expected=shown(want_w), actual=shown(weights))
-    if not np.allclose(output, want_out):
-        raise CheckFailed("The output: the weights times the values.", expected=shown(want_out), actual=shown(output))
+def passes(ctx, weights, why):
+    m = ctx.module()
+    try:
+        m.check_weights(weights)
+    except AssertionError as error:
+        raise CheckFailed(why, expected="no AssertionError", actual=f"AssertionError: {error}")
 
 
-def masked(ctx):
-    Q, K, V = qkv(5, n=5, size=8)
-    mask = np.triu(np.ones((5, 5), dtype=bool), k=1)
-    output, weights = call(ctx, Q, K, V, mask)
-    want_out, want_w = ref_attention(Q, K, V, mask)
-    if not np.allclose(weights, want_w) or not np.allclose(output, want_out):
-        raise CheckFailed("Five characters, key size 8, nothing looking ahead.", expected=shown(want_w), actual=shown(weights))
+def fails(ctx, weights, why):
+    m = ctx.module()
+    try:
+        m.check_weights(weights)
+    except AssertionError:
+        return
+    raise CheckFailed(why, expected="an AssertionError", actual="check_weights let it through")
 
 
-def other_size(ctx):
+def runs_clean(ctx):
+    r = ctx.run_program()
+    if r.error is not None:
+        raise CheckFailed(f"The program stopped: {type(r.error).__name__}: {r.error}. Is the attention wrong, or the test?")
+    if "Every check passed." not in r.output:
+        raise CheckFailed("The program should end by saying every check passed.", expected="Every check passed.", actual=r.output)
+
+
+def right_weights_pass(ctx):
+    Q, K, V = qkv(1, n=5, size=8)
+    weights = ref_attention(Q, K, V, causal(5))[1]
+    passes(ctx, weights, "Five characters, nothing looking ahead, every row adding up to 1: the test should pass these.")
+
+
+def columns_caught(ctx):
+    # Every column adds up to 1, but the rows don't: the weights a softmax down the columns would give
+    weights = np.array([[1.0, 0.0, 0.0], [0.0, 0.5, 0.0], [0.0, 0.5, 1.0]])
+    fails(ctx, weights, "These weights' columns add up to 1, but the second row adds up to 0.5. The test should catch them.")
+
+
+def looking_ahead_caught(ctx):
+    weights = np.array([[0.5, 0.5, 0.0], [0.5, 0.5, 0.0], [0.2, 0.3, 0.5]])
+    fails(ctx, weights, "Every row adds up to 1, but the first character looks at the second. The test should catch that.")
+
+
+def attention_unchanged(ctx):
+    m = ctx.module()
     Q, K, V = qkv(9, n=3, size=9)
-    output, weights = call(ctx, Q, K, V)
-    want_out, want_w = ref_attention(Q, K, V)
-    if not np.allclose(output, want_out):
-        raise CheckFailed("Key size 9: divide by 3.", expected=shown(want_out), actual=shown(output))
+    got = m.attention(Q, K, V, causal(3))
+    if not isinstance(got, tuple) or len(got) != 2:
+        raise CheckFailed("attention should return (output, weights).", actual=repr(got)[:120])
+    want_out, want_w = ref_attention(Q, K, V, causal(3))
+    if not np.allclose(np.asarray(got[1], dtype=float), want_w) or not np.allclose(np.asarray(got[0], dtype=float), want_out):
+        raise CheckFailed("Aaesha's attention was right all along. Leave it as it was.", expected=shown(want_w), actual=shown(got[1]))
 
 
 TESTS = [
-    custom("Every row of weights adds up to 1", rows_sum, visible=True,
-           hint="A row is one query. Softmax along the last axis, across the keys."),
-    custom("Scores scaled by the square root of the key size", scaled, visible=True,
-           hint="Moss divided by np.sqrt(4), which is 2. Pip divides by 4."),
-    custom("With the causal mask", masked),
-    custom("A key size of 9", other_size),
+    custom("Every check passes", runs_clean, visible=True,
+           hint="Read which assert fails, then the two lines above it. Which way does one query's attention run?"),
+    custom("The test passes weights that are right", right_weights_pass, visible=True,
+           hint="A row is one query. Its weights run along the row, axis=1."),
+    custom("The test still catches columns that add up instead of rows", columns_caught,
+           hint="Keep the check that each query adds up to 1. Just point it the right way."),
+    custom("The test still catches looking ahead", looking_ahead_caught,
+           hint="Keep the second assert as it was."),
+    custom("The attention itself is unchanged", attention_unchanged),
 ]

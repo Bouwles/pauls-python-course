@@ -1,5 +1,5 @@
 TESTS = [
-    output("Sanjay's line", expect="Sanjay: 53.7 (C)", visible=True,
+    output("Candidate 1's line", expect="Candidate 1: 53.7 (C)", visible=True,
            hint="A None in the brackets, and a stray letter above, mean grade printed when it should have returned."),
     function("grade(75)", call="grade", args=(75,), expect="A"),
     function("grade(45)", call="grade", args=(45,), expect="D",

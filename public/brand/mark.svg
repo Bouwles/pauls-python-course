@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>Paul's Python Course</title>
+  <!-- A snake curled into a P: the tail curls at the foot of the stem, the body loops round the bowl, the head rests inside it. -->
+  <path d="M14 59c4 0 7-2.4 7-6.5V22c0-9.4 6.6-16 15-16 8.6 0 15 6.4 15 14.5S44.6 35 39 35" fill="none" stroke="#FFB627" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <ellipse cx="38" cy="35" rx="8" ry="6.8" fill="#FFB627"/>
+  <circle cx="35.6" cy="33" r="1.8" fill="#2A1E00"/>
+  <path d="M30.6 37.2h-1.9m0 0l-1.3-1.1m1.3 1.1l-1.3 1.1" fill="none" stroke="#F2545B" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

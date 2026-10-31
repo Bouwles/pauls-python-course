@@ -1,4 +1,4 @@
-# The lost property report, for Mrs Vance.
+# The lost property report, for Neil.
 
 found = ["black umbrella", "red scarf", "blue glove", "red scarf", "library book", "black umbrella"]
 reported = ["red scarf", "green bicycle bell", "black umbrella"]

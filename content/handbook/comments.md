@@ -7,7 +7,7 @@ A comment can take a whole line, or sit at the end of a line of code after two s
 ```python
 # Crate prices include a deposit, refunded when the crate comes back.
 crate_price = 12
-deposit = 3  # set by the harbour office, not by us
+deposit = 3  # set by the supplier, not by us
 # print("checking:", deposit)
 print("Order #4 of the day")
 print(crate_price + deposit)

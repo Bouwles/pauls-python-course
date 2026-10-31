@@ -1,4 +1,4 @@
-# Captain Ferro's calculator. The purser's machine is at the bottom of the harbour.
+# Riya's calculator. Type a sum, get the answer, and never fall over.
 
 
 def calculate(a, op, b):
@@ -18,7 +18,7 @@ def main():
         # Ask, tidy, and leave on the word that ends it
         text = input("Sum? ").strip()
         if text == "quit":
-            print("Fair winds.")
+            print("Done for today.")
             break
         # Check the shape before anything else
         parts = text.split()

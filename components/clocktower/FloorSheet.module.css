@@ -1,0 +1,227 @@
+/* The side sheet: a modal panel from the right edge, full height, the floor's projects as cards. */
+.sheet {
+  position: fixed;
+  inset: 0 0 0 auto;
+  width: min(460px, 100vw);
+  height: 100dvh;
+  max-width: 100vw;
+  max-height: 100dvh;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--surface-1);
+  color: var(--text);
+  box-shadow: var(--shadow-float);
+  overflow: hidden;
+}
+
+.sheet[open] {
+  animation: sheet-in var(--dur-slow) var(--ease-out);
+}
+
+.sheet::backdrop {
+  background: var(--scrim);
+}
+
+@keyframes sheet-in {
+  from {
+    transform: translateX(32px);
+    opacity: 0;
+  }
+}
+
+.inner {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  height: 100%;
+}
+
+.top {
+  padding: var(--s-6) var(--s-6) 0;
+}
+
+.top .banner {
+  height: 88px;
+  border-radius: var(--r-lg);
+}
+
+.headRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  margin-top: calc(-1 * var(--s-2));
+}
+
+.close {
+  margin-right: calc(-1 * var(--s-2));
+}
+
+.body {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--s-5) var(--s-6) var(--s-8);
+  display: grid;
+  align-content: start;
+  gap: var(--s-5);
+}
+
+.heading {
+  display: grid;
+  gap: var(--s-1);
+}
+
+.title {
+  font-size: var(--fs-6);
+  font-weight: 800;
+}
+
+.residents {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-top: var(--s-2);
+  font-size: var(--fs-2);
+  color: var(--text-2);
+}
+
+.faces {
+  display: flex;
+}
+
+.face {
+  box-shadow: 0 0 0 2px var(--surface-1);
+  font-size: 13px;
+}
+
+.face + .face {
+  margin-left: -6px;
+}
+
+.note {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: var(--s-2) var(--s-3);
+  padding: var(--s-4);
+  background: var(--surface-3);
+  border-radius: var(--r-lg);
+  font-size: var(--fs-2);
+  color: var(--text-2);
+}
+
+.note > :global(svg) {
+  margin-top: 2px;
+  color: var(--text);
+}
+
+.note > :nth-child(3) {
+  grid-column: 2;
+}
+
+.cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s-2);
+}
+
+.card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: var(--s-4);
+  padding: var(--s-4);
+  background: var(--surface-2);
+  border-radius: var(--r-lg);
+  color: var(--text);
+  text-decoration: none;
+}
+
+:root[data-theme="light"] .card {
+  border: 1px solid var(--line);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .card {
+    border: 1px solid var(--line);
+  }
+}
+
+.cardLink {
+  transition: background var(--dur) var(--ease-out);
+}
+
+.cardLink:hover {
+  background: var(--surface-3);
+}
+
+.cardLink:hover .cardName {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.card[data-dim] .cardName,
+.card[data-dim] .cardLine {
+  color: var(--text-2);
+}
+
+.cardText {
+  display: grid;
+  gap: var(--s-1);
+  min-width: 0;
+}
+
+.cardName {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-4);
+  line-height: var(--lh-title);
+  letter-spacing: -0.01em;
+}
+
+.cardLine {
+  font-size: var(--fs-2);
+  line-height: 1.45;
+  color: var(--text-2);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cardMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2) var(--s-3);
+  margin-top: var(--s-1);
+  font-size: var(--fs-1);
+  color: var(--text-2);
+}
+
+.foot {
+  display: grid;
+  gap: var(--s-3);
+  padding: var(--s-4) var(--s-6) var(--s-5);
+  background: var(--surface-2);
+  border-top: 1px solid var(--line);
+  font-size: var(--fs-2);
+  color: var(--text-2);
+}
+
+@media (max-width: 720px) {
+  .top {
+    padding: var(--s-4) var(--s-4) 0;
+  }
+
+  .body {
+    padding: var(--s-4) var(--s-4) var(--s-6);
+  }
+
+  .foot {
+    padding: var(--s-4);
+  }
+}

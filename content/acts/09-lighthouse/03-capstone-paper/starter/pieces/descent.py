@@ -10,11 +10,6 @@ fit_min_norm(features, y)
 mse(predicted, actual)
         the mean squared error
 """
-# Copied by Professor Wendt from the margin of Penhallow's copy of the paper,
-# found on the lighthouse stairs:
-# If this holds, a machine should be made bigger, not cleverer. I wrote that
-# here, then went up to the lamp room to think about what it meant. Tom
-# keeps the key. I left the rest of my working up there. A.P.
 
 import numpy as np
 

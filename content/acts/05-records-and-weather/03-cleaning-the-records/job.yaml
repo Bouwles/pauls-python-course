@@ -6,7 +6,7 @@ portfolio_readme: |
 
   A pandas pipeline that cleans a messy register in five written-down steps: tidy the text, read dates typed three different ways, turn text into numbers, throw out the impossible, and drop the duplicates. Each step is a function that takes a table and gives back a cleaner copy, so each can be checked on its own, and the original is never written on. It reports what every step did, then saves the clean table.
 
-  Written by {name} for Mr Ashby at the Records Office in {{town}}. Finished {date}.
+  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -15,7 +15,7 @@ portfolio_readme: |
   python main.py
   ```
 
-  It reads `register.csv`, the lifeboat crew register as three volunteers typed it, and writes `register_clean.csv`:
+  It reads `register.csv`, the river rescue crew register as three volunteers typed it, and writes `register_clean.csv`:
 
   ```
   Read register.csv: 133 rows, 13 values missing
@@ -32,7 +32,7 @@ portfolio_readme: |
   Most launches: Walter Kerrow, 251
   ```
 
-  The register is invented, for the {{town}} lifeboat, and its mistakes were put in on purpose: the kinds real registers have.
+  The register is invented, for a river rescue crew in the city, and its mistakes were put in on purpose: the kinds real registers have.
 
   ## What it shows
 
@@ -41,21 +41,21 @@ portfolio_readme: |
   - Missing data kept missing (`NaN`, `NaT`) rather than filled with guesses, and impossible values found and removed
   - Text tidied with `.str` methods, numbers read with `pd.to_numeric`, and copies made so the raw table is never changed
 downloadable: true
-# register.csv is invented for the story: a {{town}} lifeboat register, typed three ways
+# register.csv is invented for the story: a river rescue crew register, typed three ways
 # by three volunteers, with its mistakes chosen to teach cleaning. See the README.
 datasets: []
-client: ashby
+client: aaesha
 building: records-office
 estimated_minutes: 85
-summary: "Three volunteers typed up the lifeboat register three different ways. A pandas pipeline cleans it once, in five written-down steps, so nobody has to again."
+summary: "Three volunteers typed up the river rescue crew register three different ways. A pandas pipeline cleans it once, in five written-down steps, so nobody has to again."
 concepts_introduced: [missing-data, data-cleaning]
 concepts_reviewed: [pandas-basics, selecting-filtering, vectorisation, string-methods, strip-replace, copying, none, functions, functions-as-values, docstrings, main-guard]
 ask:
   dialogue:
-    - ashby: "The lifeboat crew register. Everyone who has volunteered since 1925."
-    - ashby: "Three volunteers typed it up. Each had their own ideas about dates."
-    - ashby: "My grandfather is in it twice. And a Samuel Vosper joined at 412."
-    - moss: "Clean it once, properly, and write down how. Then nobody does it again."
+    - aaesha: "The river rescue crew register, from the Archive. Everyone who has volunteered since 1925."
+    - aaesha: "Three volunteers typed it up. Each had their own ideas about dates."
+    - aaesha: "Arthur Abbott is in it twice. Samuel Vosper joined at 412. I've counted, and I'm upset."
+    - paul: "Clean it once, properly, and write down how. Then nobody does it again."
   spec: |
     `register.csv` has the columns `name`, `joined`, `age` (on joining), `parish` and `launches`, all as the volunteers typed them.
 
@@ -63,7 +63,7 @@ ask:
 
     Write `parse_dates(column)`, which reads a column of text dates written any of three ways (`1960-01-09`, `09/01/1960` or `9 Jan 1960`) and leaves any it can't read missing. Then the steps:
 
-    1. `tidy_text(register)`: `name` and `parish` with no spaces at either end, and in title case, like `High Street`.
+    1. `tidy_text(register)`: `name` and `parish` with no spaces at either end, and in title case, like `Church Street`.
     2. `read_dates(register)`: `joined` as real dates, read with `parse_dates`.
     3. `make_numbers(register)`: `age` as a number, with blanks and `unknown` missing; `launches` as whole numbers, where `none` means 0.
     4. `drop_impossible(register)`: any age over 100 made missing.
@@ -71,7 +71,7 @@ ask:
 
     Each step changes only its own columns. Then `clean_register(raw)` runs the register through every step in `PIPELINE`, in order, and gives back the result.
 
-    No step changes the table it's given. Mr Ashby never writes on an original.
+    No step changes the table it's given. Aaesha never writes on an original.
   example: |
     Read register.csv: 133 rows, 13 values missing
       tidy_text        133 rows, 13 values missing
@@ -87,11 +87,11 @@ ask:
     Most launches: Walter Kerrow, 251
 ship:
   dialogue:
-    - ashby: "A hundred and twenty-eight of them. Twenty-six and a half, on average, when they joined."
-    - ashby: "Arthur Ashby, 1931, aged thirty-eight. Once, now. As he should be."
-    - ashby: "Twenty ages we'll never know. I'd rather keep a gap than file a guess."
-    - moss: "And the steps are written down, one function each. That's the part that lasts."
-  shelf: { object: crew-register, label: "The lifeboat register, cleaned once and properly" }
+    - aaesha: "A hundred and twenty-eight of them. Twenty-six and a half, on average, when they joined."
+    - aaesha: "Arthur Abbott, 1931, aged thirty-eight. Once, now. As he should be."
+    - aaesha: "Twenty ages we'll never know. I'd rather keep a gap than file a guess."
+    - paul: "And the steps are written down, one function each. That's the part that lasts."
+  shelf: { object: crew-register, label: "Aaesha's crew register, cleaned once and properly" }
   cards: [missing-data, data-cleaning]
 stretch:
   - id: joined-in
@@ -99,10 +99,10 @@ stretch:
     prompt: |
       Write `joined_in(crew, year)`. It takes the cleaned register and returns a list of the names of everyone who joined in that year, earliest first. `crew["joined"].dt.year` gives the year of every date in the column.
 
-      `joined_in(crew, 1987)` should find a volunteer who joined the morning after the storm.
+      `joined_in(crew, 1987)` should find a volunteer who joined the morning after the great storm.
     tests: tests/stretch-joined-in.py
     solution: solutions/stretch-joined-in.py
   - id: cleaning-log
     title: "A cleaning log"
     prompt: |
-      The report says how many values are missing after each step, not what each step changed. Write `changes(before, after)`, which counts the values that differ between two tables of the same shape, counting a gap in both as no change, and print it for every step but the last. For `drop_duplicates`, print the rows dropped instead. Mr Ashby would like the log pinned to the register's folder.
+      The report says how many values are missing after each step, not what each step changed. Write `changes(before, after)`, which counts the values that differ between two tables of the same shape, counting a gap in both as no change, and print it for every step but the last. For `drop_duplicates`, print the rows dropped instead. Aaesha would like the log pinned to the register's folder.

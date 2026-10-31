@@ -4,7 +4,7 @@ import json
 def cleared(ctx):
     first = ctx.run_program(argv=["clear"])
     if "Cleared 1 done task." not in first.output:
-        raise CheckFailed("Moss's list has one done task.", expected="Cleared 1 done task.", actual=first.output.strip())
+        raise CheckFailed("Paul's list has one done task.", expected="Cleared 1 done task.", actual=first.output.strip())
     second = ctx.run_program(argv=["list"], files=first.files_out)
     want = "1 [ ] oil the bench vice\n3 [ ] order more biscuits"
     if second.output.strip() != want:

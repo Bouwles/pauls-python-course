@@ -97,7 +97,7 @@ cards:
       print(axes.shape, len(fig.axes))
     answer: "(2, 3) 6"
   - type: fill
-    prompt: "Priya wants the temperature scale to start at 0. Fill the gap."
+    prompt: "Aaesha wants the temperature scale to start at 0. Fill the gap."
     code: |
       import matplotlib
       matplotlib.use("Agg")
@@ -111,7 +111,7 @@ cards:
     tests: |
       TESTS = [output("The scale starts at 0", expect="0.0")]
   - type: fix
-    prompt: "Pip's chart crashes before it is labelled. Fix it."
+    prompt: "Caitlin's chart crashes before it is labelled. Fix it."
     code: |
       import matplotlib
       matplotlib.use("Agg")

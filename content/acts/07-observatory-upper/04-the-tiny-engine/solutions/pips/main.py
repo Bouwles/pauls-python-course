@@ -1,4 +1,4 @@
-"""Pip's tiny engine. Like Penhallow's, but faster: he took the visited set out."""
+"""Yahya's tiny engine. Like Neil's, but faster: he took the visited set out."""
 
 
 class Value:
@@ -48,21 +48,21 @@ class Value:
             value._backward()
 
 
-def wendts_check(a, b):
+def neils_check(a, b):
     return a * b + a
 
 
 if __name__ == "__main__":
     a, b = Value(2.0), Value(-3.0)
-    wendts_check(a, b).backward()
+    neils_check(a, b).backward()
     print("Engine:  ", a.grad, b.grad)
 
     # Measure each slope by nudging, as on the blackboard
     step = 1e-6
-    up = wendts_check(Value(2.0 + step), Value(-3.0)).data
-    down = wendts_check(Value(2.0 - step), Value(-3.0)).data
+    up = neils_check(Value(2.0 + step), Value(-3.0)).data
+    down = neils_check(Value(2.0 - step), Value(-3.0)).data
     slope_a = (up - down) / (2 * step)
-    up = wendts_check(Value(2.0), Value(-3.0 + step)).data
-    down = wendts_check(Value(2.0), Value(-3.0 - step)).data
+    up = neils_check(Value(2.0), Value(-3.0 + step)).data
+    down = neils_check(Value(2.0), Value(-3.0 - step)).data
     slope_b = (up - down) / (2 * step)
     print("Measured:", round(slope_a, 4), round(slope_b, 4))

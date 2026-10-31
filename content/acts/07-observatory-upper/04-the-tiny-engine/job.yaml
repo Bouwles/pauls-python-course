@@ -6,7 +6,7 @@ portfolio_readme: |
 
   A small automatic differentiation engine in plain Python, in the style of micrograd. Every `Value` remembers the values it was made from and how, so one call to `backward()` works out the gradient of a result with respect to everything that went into it. A sigmoid neuron built on the engine then learns from a log of 24 nights, with no backward pass written by hand.
 
-  Written by {name} in {{town}}. Finished {date}.
+  Written by {name} for Neil, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -17,7 +17,7 @@ portfolio_readme: |
   ```
   Loss: 0.2500 at the start, 0.0476 at the end
   Agrees with 24 of 24 nights
-  Tonight: 0.90, open the dome
+  Tonight: 0.90, go ahead
   ```
 
   `engine.py` is the engine on its own: `+`, `*`, `**`, `exp` and `relu`, each with the rule that passes blame back to its parents, and `backward()`, which puts the graph in order and walks it from the answer back. `drawing.py` draws the graph with every gradient on it, but only in the browser workshop it was written in.
@@ -30,10 +30,10 @@ portfolio_readme: |
 
   ## Data
 
-  `nights.csv` is invented for the story: 24 nights of cloud, humidity and moon, each scaled from 0 to 1, and whether the dome was opened.
+  `nights.csv` is invented for the project: 24 nights of cloud, humidity and moon, each scaled from 0 to 1, and whether the stargazing night on the roof went ahead.
 downloadable: true
 datasets: []
-client: wendt
+client: neil
 building: observatory
 estimated_minutes: 120
 summary: "A micrograd-style autograd engine: numbers that remember how they were made, so one backward() works out every gradient, drawn as a graph. Then a neuron that trains on it."
@@ -41,10 +41,10 @@ concepts_introduced: [autograd]
 concepts_reviewed: [backpropagation, numerical-gradient-checking, chain-rule, classes, init, self, dunder-methods, closures, functions-as-values, sets, recursion, activation-functions, gradient-descent, mean-squared-error, perceptron]
 ask:
   dialogue:
-    - wendt: "Every time we change the brain, somebody rewrites backward by hand. Usually me. Usually wrong."
-    - wendt: "Penhallow didn't. In her desk drawer, a shoebox of index cards. One number on each."
-    - wendt: "On the back of every card, the cards it was made from. That's the whole trick, I think."
-    - moss: "Every number with its receipt. I approve of receipts."
+    - neil: "Every time we change the network, somebody rewrites backward by hand. Usually me. Usually wrong."
+    - neil: "So picture a shoebox of index cards. One number on each."
+    - neil: "On the back of every card, the cards it was made from. That's the whole trick."
+    - aaesha: "Every number with its receipt. I approve of receipts."
   spec: |
     In `engine.py`, finish `Value`: one number that remembers how it was made. `+` is already written, as the pattern for the rest.
 
@@ -56,19 +56,19 @@ ask:
 
     4. `Neuron(n_inputs)` keeps a list of `Value` weights in `.weights`, one per input, and a `Value` in `.bias`, all starting at 0. `parameters()` gives back the weights, then the bias. Calling the neuron on a night's readings gives the sigmoid of the weighted sum, as a `Value`.
     5. `train(neuron, nights, labels, rate, steps)`: each step, set every gradient to 0, work out the mean squared error over every night, call `backward()`, and move each weight against its gradient. It returns the loss at each step.
-    6. Run as a program, it learns Penhallow's dome log and gives tonight's chance.
+    6. Run as a program, it learns the stargazing log and gives tonight's chance.
   example: |
     Loss: 0.2500 at the start, 0.0476 at the end
     Agrees with 24 of 24 nights
-    Tonight: 0.90, open the dome
-story_note: no-card-for-why
+    Tonight: 0.90, go ahead
 ship:
   dialogue:
-    - wendt: "Twenty-four nights out of twenty-four, and nobody wrote a backward pass. The cards did."
-    - wendt: "Her perceptron jumped from shut to open. This one slides, so there's a slope to follow."
-    - pip: "Mine was faster."
-    - moss: "Yours was wrong faster."
-  shelf: { object: shoebox, label: "Penhallow's shoebox engine" }
+    - neil: "Twenty-four nights out of twenty-four, and nobody wrote a backward pass. The cards did."
+    - neil: "The perceptron jumped from no to yes. This one slides, so there's a slope to follow."
+    - yahya: "Mine was faster."
+    - aaesha: "Yours was wrong faster."
+    - yahya: "Fair. The set's back in."
+  shelf: { object: shoebox, label: "Neil's shoebox engine" }
   cards: [autograd]
 stretch:
   - id: tanh
@@ -76,6 +76,6 @@ stretch:
     prompt: |
       Add `a.tanh()` to `Value`, with its own `_backward`. The slope of tanh at a value is `1 - tanh ** 2`, and `out.data` already holds the tanh. Check it against a measurement at three points, one of them negative. Then build `tanh` again from `exp` alone, `(e ** 2x - 1) / (e ** 2x + 1)`, and check both give the same gradient.
   - id: little-brain
-    title: "A brain from cards"
+    title: "A network from cards"
     prompt: |
-      Build a `Layer` (a list of neurons, each seeing every input) and a two-layer brain from it, with ReLU in the hidden layer. Train it on Captain Ferro's four crossings from Neural Network from Scratch. Start the weights at small random numbers rather than 0, and work out why the neuron could start at 0 and the brain can't.
+      Build a `Layer` (a list of neurons, each seeing every input) and a two-layer network from it, with ReLU in the hidden layer. Train it on the stairs light from Neural Network from Scratch. Start the weights at small random numbers rather than 0, and work out why the neuron could start at 0 and the network can't.

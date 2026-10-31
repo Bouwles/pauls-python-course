@@ -1,11 +1,11 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "Mira prices postage the same way. A menu, and one option that needs a second question."
+  - paul: "This is how I price the Workshop's post. A menu, and one option that needs a second question."
 code: |
-  # Postage at the post office counter
+  # Postage for the Workshop's letters and parcels
   print("1. Letter")
   print("2. Parcel")
   choice = input("Choose 1 or 2: ")
@@ -33,9 +33,9 @@ subgoals:
     lines: [15, 16]
 explain:
   prompt: "Why is the weight question inside the `elif`, and not up at the top with the menu?"
-  answer: "Only parcels get weighed. Asked at the top, it would make Mira weigh every letter too. Inside the `elif`, it's only asked once Python knows it's a parcel."
+  answer: "Only parcels get weighed. Asked at the top, it would weigh every letter too. Inside the `elif`, it's only asked once Python knows it's a parcel."
   concept: nested-conditions
 ---
 An `if` inside another `if` is **nested**. The inner test is only asked when the outer one has let Python in, and the extra indent shows which is which.
 
-The `else` at the bottom catches anything that isn't on the menu: a `3`, a typo, an empty answer. The labels in the margin are Moss's steps; your starter file has them.
+The `else` at the bottom catches anything that isn't on the menu: a `3`, a typo, an empty answer. The labels in the margin are Paul's steps; your starter file has them.

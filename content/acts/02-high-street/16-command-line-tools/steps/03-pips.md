@@ -1,17 +1,17 @@
 ---
 id: pips
 type: pips
-title: Pip's Version
+title: Fix Aaesha's version
 argv_field: true
 dialogue:
-  - pip: "I made Moss's tool already. You type a name after it. Very professional."
-  - pip: "It says no jobs for main.py. We haven't got a customer called main.py."
+  - aaesha: "I made Paul's hours tool. You type a name after it, and it adds up their repairs."
+  - aaesha: "It says no jobs for main.py. Nobody here is called main.py. Can you look?"
 dialogue_after:
-  - pip: "So argv starts with its own name. Bit vain, for a list."
+  - aaesha: "So argv starts with the program's own name. Noted. Twice."
 hints:
-  nudge: "What's in `sys.argv[0]`? And what does finishing with 0 tell Moss's backup script?"
+  nudge: "What's in `sys.argv[0]`? And what does finishing with 0 tell Paul's backup script?"
   plan:
-    - Run it with Ferro and see which name it searched for
+    - Run it with Yahya and see which name it searched for
     - Read the customer from the first word after the program's name
     - Exit with 1 when there are no jobs
   shape: |
@@ -21,6 +21,6 @@ hints:
         print(f"No jobs for {customer}.")
         sys.exit(___)
 ---
-Pip's tool adds up a customer's hours from `jobs.csv`. Type `Ferro` in the Arguments box and run it. It should print `Ferro: 7.0 hours`.
+Aaesha's tool adds up someone's repair hours from `jobs.csv`, the Workshop's repair list. Type `Yahya` in the Arguments box and run it. It should print `Yahya: 7.0 hours`.
 
-Then try `Gwen`, who has no jobs. The backup script only copies the ledger if the tools before it finish with 0, so a tool that fails must say so with 1.
+Then try `Aaesha`, who has no jobs. The backup script only copies the ledger if the tools before it finish with 0, so a tool that fails must say so with 1.

@@ -4,7 +4,7 @@ type: make
 title: Counting the forecasts
 files: [words.py]
 entry: words.py
-on_pass: { wendt: "Perplexity 7.30 on forecasts it never saw. As unsure as picking from seven letters, not thirty-nine." }
+on_pass: { caitlin: "Perplexity 7.05 on forecasts it never saw. As unsure as picking from seven letters, not thirty-nine." }
 hints:
   nudge: "Which functions does the program at the bottom call, and in what order? Write them in that order."
   plan:
@@ -28,16 +28,17 @@ hints:
             ids.append(current)
         return ids
 ---
-Write the counting model in `words.py`. The subgoals are Moss's, from the lamp log, plus two more: the score and the sampling.
+Write the counting model in `words.py`. The subgoals are Paul's, from the lights log, plus two more: the score and the sampling.
 
 ```
 Vocabulary: 39 characters
-Perplexity on forecasts it never saw: 7.30
+Perplexity on forecasts it never saw: 7.05
 Guessing evenly would be 39
--we rly odeaweaing. n fas.
-ly t pponder. gout ooughterterbester.
+-we rngor. fy d. od. 4 5.
+thes. qsherr. gout ooubesinoord.kk. am d. or windwes. eveck3nars.
+6 hesaiomo mon sherly omorigherough-weshea9-3 goorably norstester. e. orsththor.
 ```
 
 To make up a forecast, start from the newline and draw each next character from the row of the one before: `rng.choice(len(probs), p=probs[current])`, once per character, with the `rng` you're given. The same seed then always gives the same forecast.
 
-It knows only one character back, so it spells like a gull that has heard the radio.
+It knows only one character back, so it spells like a parrot that has heard the radio.

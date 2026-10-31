@@ -1,5 +1,5 @@
-# The committee's racing grid, as a Markov decision process.
-# Moss's copy, as last week, with step() added: the grid as Sir Reginald meets it.
+# The Arcade's racing grid, as a Markov decision process.
+# Paul's copy, as last week, with step() added: the grid as the crab meets it.
 
 try:
     from workshop import show_grid  # draws in the workshop's output panel
@@ -19,14 +19,14 @@ SIDEWAYS = {"up": ["left", "right"], "down": ["left", "right"], "left": ["up", "
 STEP_REWARD = -1
 FINISH_REWARD = 10
 POOL_REWARD = -10
-SLIP = 0.2   # how often he goes sideways instead, half each way
+SLIP = 0.2   # how often it goes sideways instead, half each way
 
-# Every tile he can stand on, rock excluded, finish and pool included.
+# Every tile it can stand on, rock excluded, finish and pool included.
 TILES = [(row, col) for row in range(len(TRACK)) for col in range(len(TRACK[0])) if TRACK[row][col] != "#"]
 # The tiles where a race can still be going on: everything but the finish and the pool.
 RACING = [tile for tile in TILES if TRACK[tile[0]][tile[1]] not in "FP"]
 
-# Along the bottom and up the far side, as the club has raced since 1951.
+# Along the bottom and up the far side, the way everyone in the League races it.
 TRADITIONAL = {
     (0, 0): "right", (0, 1): "right", (0, 2): "right",
     (1, 0): "up", (1, 2): "up",
@@ -55,7 +55,7 @@ def reward_for(tile):
 
 
 def move(tile, direction):
-    """Where one step in direction leads. Off the edge or into the rock, he stays put."""
+    """Where one step in direction leads. Off the edge or into the rock, it stays put."""
     row, col = tile
     d_row, d_col = STEPS[direction]
     new_row, new_col = row + d_row, col + d_col
@@ -76,7 +76,7 @@ def outcomes(tile, action, slip=SLIP):
 
 
 def step(tile, action, rng):
-    """One step on the real grid: (where he ends up, the reward, whether the race is over).
+    """One step on the real grid: (where it ends up, the reward, whether the race is over).
 
     This is all a racing crab ever finds out. It reads outcomes() so you don't have to:
     the same as rng.choice with the chances, only quicker.

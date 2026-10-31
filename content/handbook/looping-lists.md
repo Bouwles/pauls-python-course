@@ -1,4 +1,4 @@
-To loop over a list in Python, write `for parcel in parcels:`. The indented body then runs once for each item, from the first to the last, and each time `parcel` holds the current item. There is no counter to set up and no index to get wrong, which is why this is the usual way to process every item in a Python list: adding up prices, printing names, picking out the ones that match. When you need each item's position as well, `enumerate()` or `range(len(parcels))` gives you the index.
+To loop over a list in Python, write `for guest in guests:`. The indented body then runs once for each item, from the first to the last, and each time `guest` holds the current item. There is no counter to set up and no index to get wrong, which is why this is the usual way to process every item in a Python list: adding up prices, printing names, picking out the ones that match. When you need each item's position as well, `enumerate()` or `range(len(guests))` gives you the index.
 
 ## How it works
 
@@ -47,9 +47,9 @@ If `weights` were empty, the body would run zero times: `total` would stay 0 and
 
 ## Common mistakes
 
-- **Expecting the indexes.** `for parcel in parcels:` gives the items themselves, `"Bea"`, `"Tom"` and so on, not 0, 1, 2. Writing `parcels[parcel]` inside it is a TypeError, because the item is not a number. If you want positions, loop over `enumerate(parcels)` or `range(len(parcels))`.
+- **Expecting the indexes.** `for guest in guests:` gives the items themselves, `"Emma"`, `"Ivo"` and so on, not 0, 1, 2. Writing `guests[guest]` inside it is a TypeError, because the item is not a number. If you want positions, loop over `enumerate(guests)` or `range(len(guests))`.
 - **Assigning to the loop variable to change the list.** `price = price * 2` changes only the variable. Assign through the index with `prices[i] = ...`, or build a new list and use that.
-- **Adding or removing items during the loop.** Removing an item while looping over the same list shifts the rest along, so the loop skips the item after it. Loop over a copy, `for parcel in parcels[:]:`, or build a new list of the items you want to keep.
+- **Adding or removing items during the loop.** Removing an item while looping over the same list shifts the rest along, so the loop skips the item after it. Loop over a copy, `for guest in guests[:]:`, or build a new list of the items you want to keep.
 
 ## Related
 

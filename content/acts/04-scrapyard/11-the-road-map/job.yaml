@@ -6,7 +6,7 @@ portfolio_readme: |
 
   Reads a maze drawn as text, `#` for walls and `.` for open ground with an `S` and a `G`, and solves it. Breadth-first search finds the shortest way through; depth-first search walks every tile it can reach, as deep as it can go first; and anything the walk never reaches is reported as cut off. The answer is drawn back onto the maze.
 
-  Written by {name} for Nell Brannigan's scrapyard in {{town}}. Finished {date}.
+  Written by {name} for Yahya, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -14,10 +14,10 @@ portfolio_readme: |
   python maze.py
   ```
 
-  It solves `maze.txt`, Nell's yard with the scrap heaps as walls:
+  It solves `maze.txt`, Yahya's maze from the Puzzle Room wall:
 
   ```
-  Gate to crane: 19 steps
+  Start to goal: 19 steps
   S.....#.......#.....
   *####.#.......#.###.
   *#....#..###....#...
@@ -27,7 +27,7 @@ portfolio_readme: |
   ***********.....#.#.
   .####.#######.#.#...
   ......#.#...#.#...#.
-  Penhallow's round reaches 111 tiles
+  Depth first reaches 111 tiles
   Cut off: (8, 7), (8, 9), (8, 10), (8, 11)
   ```
 
@@ -40,33 +40,33 @@ portfolio_readme: |
   - Depth-first search by recursion, and using it to find what can't be reached at all
   - Edge cases a maze is full of: corners, edges, no way through, and a start that is the goal
 downloadable: true
-# maze.txt is invented for the story: Nell's yard, drawn from Penhallow's map. Mazes are
+# maze.txt is invented for the story: Yahya's maze, from the Puzzle Room wall. Mazes are
 # drawn, not measured, so no public dataset is needed. See the README.
 datasets: []
-client: nell
+client: yahya
 building: scrapyard
 estimated_minutes: 100
-summary: "A maze solver for Nell's yard: graphs first, on the town's roads, then the yard as a grid, solved breadth first for the fewest steps and depth first for everywhere that can be reached."
+summary: "A maze solver for Yahya's maze: graphs first, on his running routes across the city, then the maze as a grid, solved breadth first for the fewest steps and depth first for everywhere that can be reached."
 concepts_introduced: [graphs, bfs, dfs]
 concepts_reviewed: [dictionaries, dict-get, sets, lists, tuples, negative-indices, while-loops, queues, deque, stacks, recursion, big-o, list-comprehensions, edge-cases, files]
 ask:
   dialogue:
-    - nell: "Since the pier lot went in, the yard's a maze. Lorries come in at the gate and get lost."
-    - nell: "Penhallow's round went down every path to the end before it turned back. Nobody wrote it down."
-    - nell: "I want the fewest steps to the crane, and to know if there's anywhere nobody can get to."
-    - moss: "Places, and the ways between them. Write it down like that and it's a graph."
+    - yahya: "I drew a maze on the Puzzle Room wall. The class races it. Caitlin's best is twenty-three steps."
+    - yahya: "I say nineteen is possible. She says prove it."
+    - yahya: "And I want to know if there's anywhere in it nobody can get to."
+    - paul: "Places, and the ways between them. Write it down like that and it's a graph."
   spec: |
-    `maze.txt` is Nell's yard, drawn as text: `#` is a scrap heap, `.` is open ground, `S` is the gate and `G` is the crane. A tile is a `(row, col)` pair. `read_maze` is written: it gives back `(grid, start, goal)`, where `grid` is the list of lines. In `maze.py`, write:
+    `maze.txt` is Yahya's maze, drawn as text: `#` is a wall, `.` is open floor, `S` is the start and `G` is the goal. A tile is a `(row, col)` pair. `read_maze` is written: it gives back `(grid, start, goal)`, where `grid` is the list of lines. In `maze.py`, write:
 
     1. `neighbours(grid, tile)`: the tiles up, down, left and right of `tile`, in that order, that are inside the maze and not walls.
     2. `shortest_path(grid, start, goal)`: the list of tiles from `start` to `goal` in the fewest steps, found by breadth-first search; `[start]` if they're the same tile; `None` if there's no way through. If two ways tie, either will do.
-    3. `explore(grid, start)`: every tile Penhallow's round reaches from `start`, in the order it first reaches them. From each tile, try its neighbours in order; go to the first one not reached yet and carry on from there; when a tile has nowhere new, go back the way you came and try the next.
+    3. `explore(grid, start)`: every tile a depth-first walk reaches from `start`, in the order it first reaches them. From each tile, try its neighbours in order; go to the first one not reached yet and carry on from there; when a tile has nowhere new, go back the way you came and try the next.
     4. `unreachable(grid, start)`: every open tile (`.`, `S` or `G`) that can't be reached from `start`, row by row, left to right.
     5. `draw_path(grid, path)`: the maze as a list of lines, with `*` on every tile of the path except the `S` and the `G`; the maze as it is if `path` is `None`.
 
-    The main block solves the yard, draws the way, and reports the round and what's cut off.
+    The main block solves the maze, draws the way, and reports how far depth first got and what's cut off.
   example: |
-    Gate to crane: 19 steps
+    Start to goal: 19 steps
     S.....#.......#.....
     *####.#.......#.###.
     *#....#..###....#...
@@ -76,25 +76,24 @@ ask:
     ***********.....#.#.
     .####.#######.#.#...
     ......#.#...#.#...#.
-    Penhallow's round reaches 111 tiles
+    Depth first reaches 111 tiles
     Cut off: (8, 7), (8, 9), (8, 10), (8, 11)
 ship:
   dialogue:
-    - nell: "Nineteen steps to the crane. The lorry did it in reverse and never touched a heap."
-    - nell: "Four tiles behind the old boiler. I'll have them cleared by Thursday."
-    - moss: "One maze, three questions. Breadth first for the nearest, depth first for everywhere."
-  shelf: { object: track-map, label: "Nell's yard, solved" }
+    - yahya: "Nineteen steps, start to goal. Caitlin checked every one. She's racing it again tomorrow."
+    - yahya: "Four squares in the bottom corner nobody can reach. I'll have a door in by Friday."
+    - paul: "One maze, three questions. Breadth first for the nearest, depth first for everywhere."
+  shelf: { object: track-map, label: "Yahya's maze, solved" }
   cards: [graphs, bfs, dfs]
-story_note: one-road-in
 stretch:
   - id: every-step
     title: "How far is everywhere"
     prompt: |
-      Write `steps_from(grid, start)`, a dictionary of every tile you can reach and how many steps away it is. It's Moss's walk round the town, on tiles. Then draw the maze with each open tile's distance, last digit only, and find the tile furthest from the gate.
+      Write `steps_from(grid, start)`, a dictionary of every tile you can reach and how many steps away it is. It's Paul's walk round the city, on tiles. Then draw the maze with each open tile's distance, last digit only, and find the tile furthest from the start.
   - id: watch-it
     title: "Watch it spread"
     prompt: |
-      Call `show_grid` inside `shortest_path` every time a tile comes off the queue: values of 1 for every tile reached so far, `crab=tile` for where the search is, and `walls` for the heaps. Press Run and play it. Then do the same in `explore`. One spreads like a ripple; the other runs down a corridor.
+      Call `show_grid` inside `shortest_path` every time a tile comes off the queue: values of 1 for every tile reached so far, `crab=tile` to mark where the search is, and `walls` for the walls. Press Run and play it. Then do the same in `explore`. One spreads like a ripple; the other runs down a corridor.
   - id: every-route
     title: "Every way through"
     prompt: |

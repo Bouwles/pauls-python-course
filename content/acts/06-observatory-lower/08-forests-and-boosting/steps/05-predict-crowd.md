@@ -4,7 +4,7 @@ type: predict
 title: Fifty guessers
 concept: ensembles
 dialogue:
-  - wendt: "Ask fifty loan officers and average their guesses. Better than asking one? It depends who the fifty are."
+  - riya: "Ask fifty loan officers and average their guesses. Better than asking one? It depends who the fifty are."
 code: |
   import numpy as np
 
@@ -31,6 +31,6 @@ options:
 after: |
   Run it, then print `one` and `fifty`. Averaging only helps when the errors differ. That's the whole design of a **random forest**: make many trees, and make sure they're wrong in different ways.
 ---
-An **ensemble** is a committee of models whose answers are combined. Here, instead of models, fifty loan officers each guess the chance that a thousand applicants repay. Each is out by about 0.2, at random.
+An **ensemble** is a panel of models whose answers are combined. Here, instead of models, fifty loan officers each guess the chance that a thousand applicants repay. Each is out by about 0.2, at random.
 
 `np.tile` repeats a row; `guessers.mean(axis=0)` averages the fifty guesses for each applicant.

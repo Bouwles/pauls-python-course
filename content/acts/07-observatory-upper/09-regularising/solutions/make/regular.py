@@ -16,8 +16,6 @@ def with_weight_decay(grads, params, decay):
             for name, grad in grads.items()}
 
 
-# Stopped it the winter it was best, and kept those weights in a drawer.
-# It went on learning anyway. It is very hard to tell a thing to stop. A.P.
 def train(X, T, X_val, T_val, params, rate, epochs, decay=0.0, drop=0.0, patience=None, seed=0):
     """Gradient descent with weight decay, dropout and early stopping.
     Changes params in place. Returns (train_losses, val_losses, best)."""
@@ -51,7 +49,7 @@ def train(X, T, X_val, T_val, params, rate, epochs, decay=0.0, drop=0.0, patienc
 if __name__ == "__main__":
     X, T, X_val, T_val = load_nights()
     runs = [
-        ("Pip's", {}),
+        ("Riya's", {}),
         ("weight decay 0.02", {"decay": 0.02}),
         ("dropout 0.5", {"drop": 0.5}),
         ("early stopping", {"patience": 100}),

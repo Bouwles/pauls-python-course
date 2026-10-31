@@ -18,21 +18,21 @@ cards:
       def greet(name, greeting="Morning"):
           return f"{greeting}, {name}"
 
-      print(greet("Agnes"))
-    answer: "Morning, Agnes"
+      print(greet("Aaesha"))
+    answer: "Morning, Aaesha"
   - type: choice
     prompt: What does this print?
     code: |
-      def loaves(count=12):
+      def coffees(count=12):
           return count * 2
 
-      print(loaves(), loaves(5))
+      print(coffees(), coffees(5))
     options:
       - text: "24 10"
         correct: true
       - text: "24 24"
         misconception: default-overrides-argument
-        feedback: "The default is only used when the call leaves the argument out. `loaves(5)` uses 5."
+        feedback: "The default is only used when the call leaves the argument out. `coffees(5)` uses 5."
       - text: An error, because the first call passes nothing
         misconception: default-still-required
         feedback: "`count=12` makes the argument optional. With nothing passed, `count` is 12."
@@ -69,9 +69,9 @@ cards:
       # trim(text, width=10)
     tests: |
       TESTS = [
-          function("The default width", call="trim", args=("Lighthouse lamp",), expect="Lighthouse"),
-          function("Width 4", call="trim", args=("Harbour",), kwargs={"width": 4}, expect="Harb"),
-          function("Shorter than the width", call="trim", args=("Bun",), expect="Bun"),
+          function("The default width", call="trim", args=("Clocktower stairs",), expect="Clocktower"),
+          function("Width 4", call="trim", args=("Station",), kwargs={"width": 4}, expect="Stat"),
+          function("Shorter than the width", call="trim", args=("Tea",), expect="Tea"),
       ]
     solution: |
       def trim(text, width=10):
@@ -82,5 +82,5 @@ cards:
       def order(item, qty=1, paid=False):
           return f"{qty} {item}, paid: {paid}"
 
-      print(order("bun", 6))
-    answer: "6 bun, paid: False"
+      print(order("cookie", 6))
+    answer: "6 cookie, paid: False"

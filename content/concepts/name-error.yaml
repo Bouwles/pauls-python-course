@@ -3,33 +3,33 @@ title: NameError
 summary: |
   A NameError means Python met a name it hasn't been told about. Usually it's a typo, a variable used before it was given a value, or text that's missing its quotes. Python often suggests the name you meant.
 example: |
-  harbour = "{{town}}"
-  print(harbor)
+  message = "Morning"
+  print(mesage)
 misconceptions: [name-without-quotes-is-text]
 related: [reading-tracebacks, variables]
 cards:
   - type: choice
     prompt: What happens?
     code: |
-      print(Moss)
+      print(Paul)
     verify: error
     options:
-      - text: It prints Moss
+      - text: It prints Paul
         misconception: name-without-quotes-is-text
-        feedback: "Without quotes, Moss is a name, and nothing called Moss exists."
+        feedback: "Without quotes, Paul is a name, and nothing called Paul exists."
       - text: A NameError
         correct: true
         error: NameError
   - type: fix
     prompt: Fix it.
     code: |
-      tide = 4
-      print(Tide)
+      score = 4
+      print(Score)
     tests: |
       TESTS = [output("Prints 4", expect="4")]
     solution: |
-      tide = 4
-      print(tide)
+      score = 4
+      print(score)
   - type: fix
     prompt: Fix it.
     code: |
@@ -41,18 +41,18 @@ cards:
       greeting = "Morning"
       print(greeting)
   - type: fix
-    prompt: "This should print the word `Agnes`. Fix it."
+    prompt: "This should print the word `Aaesha`. Fix it."
     code: |
-      print(Agnes)
+      print(Aaesha)
     tests: |
-      TESTS = [output("Agnes", expect="Agnes")]
+      TESTS = [output("Aaesha", expect="Aaesha")]
     solution: |
-      print("Agnes")
+      print("Aaesha")
   - type: choice
     prompt: What kind of error does this cause?
     code: |
-      harbour = "north quay"
-      print(harbour_name)
+      room = "the Studio"
+      print(room_name)
     verify: error
     options:
       - text: NameError

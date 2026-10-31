@@ -50,7 +50,7 @@ cards:
     prompt: "Each name should go on its own line of `names.txt`. Fix the writing so the program prints `3`."
     code: |
       with open("names.txt", "w") as names:
-          for name in ["Bea", "Tom", "Mira"]:
+          for name in ["Riya", "Yahya", "Neil"]:
               names.write(name)
       with open("names.txt") as names:
           print(len(names.readlines()))
@@ -58,7 +58,7 @@ cards:
       TESTS = [output("Three lines", expect="3")]
     solution: |
       with open("names.txt", "w") as names:
-          for name in ["Bea", "Tom", "Mira"]:
+          for name in ["Riya", "Yahya", "Neil"]:
               names.write(name + "\n")
       with open("names.txt") as names:
           print(len(names.readlines()))
@@ -75,17 +75,17 @@ cards:
     tests: |
       TESTS = [output("Both titles", expect="Emma\nMoby-Dick")]
   - type: write
-    prompt: "Write `Low water 12:55` into a file called `tide.txt`, as a line of its own."
+    prompt: "Write `Lunch at 12:55` into a file called `times.txt`, as a line of its own."
     tests: |
-      def tide_file(ctx):
+      def times_file(ctx):
           result = ctx.run_program()
-          text = result.files_out.get("tide.txt")
+          text = result.files_out.get("times.txt")
           if text is None:
-              raise CheckFailed("There's no tide.txt after the program runs.")
-          if text != "Low water 12:55\n":
-              raise CheckFailed("tide.txt should hold one line: Low water 12:55, ending with a new line.", expected="Low water 12:55\n", actual=text)
+              raise CheckFailed("There's no times.txt after the program runs.")
+          if text != "Lunch at 12:55\n":
+              raise CheckFailed("times.txt should hold one line: Lunch at 12:55, ending with a new line.", expected="Lunch at 12:55\n", actual=text)
 
-      TESTS = [custom("tide.txt holds the line", tide_file)]
+      TESTS = [custom("times.txt holds the line", times_file)]
     solution: |
-      with open("tide.txt", "w") as tide:
-          tide.write("Low water 12:55\n")
+      with open("times.txt", "w") as times:
+          times.write("Lunch at 12:55\n")

@@ -1,11 +1,11 @@
-# Mira's contact book. Everyone in town with a telephone.
+# Aaesha's contact book. One record for everyone the class needs to reach.
 contacts = {
-    "Bea Hollis": {"phone": "01632 960101", "address": "The Bakery"},
-    "Agnes Rook": {"phone": "01632 960245", "address": "Harbour Office"},
-    "Old Tom": {"phone": "01632 960412", "address": "The Lighthouse"},
-    "Mr Okonjo": {"phone": "01632 960530", "address": "The Tailor's"},
-    "Gwen": {"phone": "01632 960388", "address": "The Drowned Anchor"},
-    "Mr Ashby": {"phone": "01632 960617", "address": "Records Office"},
+    "Paul": {"phone": "01632 960101", "address": "The Workshop"},
+    "Neil": {"phone": "01632 960245", "address": "The Studio"},
+    "Caitlin": {"phone": "01632 960412", "address": "The Makerspace"},
+    "Clock Repairs": {"phone": "01632 960530", "address": "Mill Street"},
+    "Yahya": {"phone": "01632 960388", "address": "The Puzzle Room"},
+    "Clock Parts": {"phone": "01632 960617", "address": "Canal Yard"},
 }
 
 # Ask until a blank line

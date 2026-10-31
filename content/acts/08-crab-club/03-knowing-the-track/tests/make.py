@@ -1,5 +1,5 @@
-# Moss's own copy of track.py, so the checks never depend on changes made to yours.
-TRACK_PY = '# The committee\'s racing grid, as a Markov decision process.\n# Your track.py from last week, tidied by Moss, who added three ways to show it.\n\nfrom workshop import show_grid\n\nTRACK = [\n    "...F",\n    ".#.P",\n    "S...",\n]\nSTART = (2, 0)\nACTIONS = ["up", "down", "left", "right"]\nSTEPS = {"up": (-1, 0), "down": (1, 0), "left": (0, -1), "right": (0, 1)}\nSIDEWAYS = {"up": ["left", "right"], "down": ["left", "right"], "left": ["up", "down"], "right": ["up", "down"]}\nSTEP_REWARD = -1\nFINISH_REWARD = 10\nPOOL_REWARD = -10\nSLIP = 0.2   # how often he goes sideways instead, half each way\n\n# Every tile he can stand on, rock excluded, finish and pool included.\nTILES = [(row, col) for row in range(len(TRACK)) for col in range(len(TRACK[0])) if TRACK[row][col] != "#"]\n\n# Along the bottom and up the far side, as the club has raced since 1951.\nTRADITIONAL = {\n    (0, 0): "right", (0, 1): "right", (0, 2): "right",\n    (1, 0): "up", (1, 2): "up",\n    (2, 0): "right", (2, 1): "right", (2, 2): "right", (2, 3): "up",\n}\n\n\ndef mark(tile):\n    """The letter on a tile: \'.\', \'#\', \'F\', \'P\' or \'S\'."""\n    row, col = tile\n    return TRACK[row][col]\n\n\ndef is_over(tile):\n    """True on the finish and in the rock pool: the race is over."""\n    return mark(tile) in "FP"\n\n\ndef reward_for(tile):\n    """The reward for stepping onto tile."""\n    if mark(tile) == "F":\n        return FINISH_REWARD\n    if mark(tile) == "P":\n        return POOL_REWARD\n    return STEP_REWARD\n\n\ndef move(tile, direction):\n    """Where one step in direction leads. Off the edge or into the rock, he stays put."""\n    row, col = tile\n    d_row, d_col = STEPS[direction]\n    new_row, new_col = row + d_row, col + d_col\n    if 0 <= new_row < len(TRACK) and 0 <= new_col < len(TRACK[0]) and TRACK[new_row][new_col] != "#":\n        return (new_row, new_col)\n    return tile\n\n\ndef outcomes(tile, action, slip=SLIP):\n    """Every (probability, next tile, reward, over) that can follow action on tile."""\n    if is_over(tile):\n        return []\n    result = []\n    for chance, direction in [(1 - slip, action)] + [(slip / 2, side) for side in SIDEWAYS[action]]:\n        after = move(tile, direction)\n        result.append((chance, after, reward_for(after), is_over(after)))\n    return result\n\n\nARROWS = {"up": "^", "down": "v", "left": "<", "right": ">"}\n\n\ndef show_policy(policy):\n    """Print a policy as arrows on the grid."""\n    for row in range(len(TRACK)):\n        print(" ".join(ARROWS[policy[(row, col)]] if (row, col) in policy else TRACK[row][col]\n                       for col in range(len(TRACK[0]))))\n\n\ndef show_values(values):\n    """Print the worth of every tile, laid out like the grid."""\n    for row in range(len(TRACK)):\n        print("".join("     #" if TRACK[row][col] == "#" else f"{values[(row, col)]:6.1f}"\n                      for col in range(len(TRACK[0]))))\n\n\ndef draw(values=None, policy=None, q=None, title=None):\n    """Draw the grid in the output panel, one frame per call.\n\n    values and policy are dictionaries keyed by tile; q, if given, maps each\n    tile to its four action values (up, down, left, right), shown on hover.\n    """\n    rows, cols = range(len(TRACK)), range(len(TRACK[0]))\n    grid = [[None if TRACK[r][c] == "#" else (values or {}).get((r, c), 0) for c in cols] for r in rows]\n    arrows = [[(policy or {}).get((r, c)) for c in cols] for r in rows]\n    show_grid(grid, policy=arrows, q=q, crab=START, walls=[(1, 1)], goal=[(0, 3)], title=title)\n'
+# Paul's own copy of track.py, so the checks never depend on changes made to yours.
+TRACK_PY = '# The Arcade\'s racing grid, as a Markov decision process.\n# Your track.py from last week, tidied by Paul, who added three ways to show it.\n\nfrom workshop import show_grid\n\nTRACK = [\n    "...F",\n    ".#.P",\n    "S...",\n]\nSTART = (2, 0)\nACTIONS = ["up", "down", "left", "right"]\nSTEPS = {"up": (-1, 0), "down": (1, 0), "left": (0, -1), "right": (0, 1)}\nSIDEWAYS = {"up": ["left", "right"], "down": ["left", "right"], "left": ["up", "down"], "right": ["up", "down"]}\nSTEP_REWARD = -1\nFINISH_REWARD = 10\nPOOL_REWARD = -10\nSLIP = 0.2   # how often it goes sideways instead, half each way\n\n# Every tile it can stand on, rock excluded, finish and pool included.\nTILES = [(row, col) for row in range(len(TRACK)) for col in range(len(TRACK[0])) if TRACK[row][col] != "#"]\n\n# Along the bottom and up the far side, the way everyone in the League races it.\nTRADITIONAL = {\n    (0, 0): "right", (0, 1): "right", (0, 2): "right",\n    (1, 0): "up", (1, 2): "up",\n    (2, 0): "right", (2, 1): "right", (2, 2): "right", (2, 3): "up",\n}\n\n\ndef mark(tile):\n    """The letter on a tile: \'.\', \'#\', \'F\', \'P\' or \'S\'."""\n    row, col = tile\n    return TRACK[row][col]\n\n\ndef is_over(tile):\n    """True on the finish and in the rock pool: the race is over."""\n    return mark(tile) in "FP"\n\n\ndef reward_for(tile):\n    """The reward for stepping onto tile."""\n    if mark(tile) == "F":\n        return FINISH_REWARD\n    if mark(tile) == "P":\n        return POOL_REWARD\n    return STEP_REWARD\n\n\ndef move(tile, direction):\n    """Where one step in direction leads. Off the edge or into the rock, it stays put."""\n    row, col = tile\n    d_row, d_col = STEPS[direction]\n    new_row, new_col = row + d_row, col + d_col\n    if 0 <= new_row < len(TRACK) and 0 <= new_col < len(TRACK[0]) and TRACK[new_row][new_col] != "#":\n        return (new_row, new_col)\n    return tile\n\n\ndef outcomes(tile, action, slip=SLIP):\n    """Every (probability, next tile, reward, over) that can follow action on tile."""\n    if is_over(tile):\n        return []\n    result = []\n    for chance, direction in [(1 - slip, action)] + [(slip / 2, side) for side in SIDEWAYS[action]]:\n        after = move(tile, direction)\n        result.append((chance, after, reward_for(after), is_over(after)))\n    return result\n\n\nARROWS = {"up": "^", "down": "v", "left": "<", "right": ">"}\n\n\ndef show_policy(policy):\n    """Print a policy as arrows on the grid."""\n    for row in range(len(TRACK)):\n        print(" ".join(ARROWS[policy[(row, col)]] if (row, col) in policy else TRACK[row][col]\n                       for col in range(len(TRACK[0]))))\n\n\ndef show_values(values):\n    """Print the worth of every tile, laid out like the grid."""\n    for row in range(len(TRACK)):\n        print("".join("     #" if TRACK[row][col] == "#" else f"{values[(row, col)]:6.1f}"\n                      for col in range(len(TRACK[0]))))\n\n\ndef draw(values=None, policy=None, q=None, title=None):\n    """Draw the grid in the output panel, one frame per call.\n\n    values and policy are dictionaries keyed by tile; q, if given, maps each\n    tile to its four action values (up, down, left, right), shown on hover.\n    """\n    rows, cols = range(len(TRACK)), range(len(TRACK[0]))\n    grid = [[None if TRACK[r][c] == "#" else (values or {}).get((r, c), 0) for c in cols] for r in rows]\n    arrows = [[(policy or {}).get((r, c)) for c in cols] for r in rows]\n    show_grid(grid, policy=arrows, q=q, crab=START, walls=[(1, 1)], goal=[(0, 3)], title=title)\n'
 
 TRACK = ["...F", ".#.P", "S..."]
 STEPS = {"up": (-1, 0), "down": (1, 0), "left": (0, -1), "right": (0, 1)}
@@ -21,7 +21,7 @@ BEST = {
 }
 
 
-def moss_outcomes(tile, action):
+def paul_outcomes(tile, action):
     result = []
     for chance, way in [(0.8, action)] + [(0.1, side) for side in SIDEWAYS[action]]:
         r, c = tile[0] + STEPS[way][0], tile[1] + STEPS[way][1]
@@ -31,28 +31,28 @@ def moss_outcomes(tile, action):
     return result
 
 
-def moss_q(values, tile, action, gamma):
-    return sum(p * (r + (0 if over else gamma * values[after])) for p, after, r, over in moss_outcomes(tile, action))
+def paul_q(values, tile, action, gamma):
+    return sum(p * (r + (0 if over else gamma * values[after])) for p, after, r, over in paul_outcomes(tile, action))
 
 
-def moss_evaluate(policy, gamma):
+def paul_evaluate(policy, gamma):
     values = {tile: 0.0 for tile in TILES}
     for _ in range(400):
         for tile in RACING:
-            values[tile] = moss_q(values, tile, policy[tile], gamma)
+            values[tile] = paul_q(values, tile, policy[tile], gamma)
     return values
 
 
-def moss_best(gamma):
+def paul_best(gamma):
     values = {tile: 0.0 for tile in TILES}
     for _ in range(400):
         for tile in RACING:
-            values[tile] = max(moss_q(values, tile, action, gamma) for action in ACTIONS)
+            values[tile] = max(paul_q(values, tile, action, gamma) for action in ACTIONS)
     return values
 
 
-def moss_greedy(values, gamma):
-    return {tile: max(ACTIONS, key=lambda action: moss_q(values, tile, action, gamma)) for tile in RACING}
+def paul_greedy(values, gamma):
+    return {tile: max(ACTIONS, key=lambda action: paul_q(values, tile, action, gamma)) for tile in RACING}
 
 
 def dp(ctx):
@@ -88,7 +88,7 @@ def by_hand(ctx):
 
 
 def traditional_worth(ctx):
-    close_values(dp(ctx).evaluate(TRADITIONAL, 0.9), moss_evaluate(TRADITIONAL, 0.9), "evaluate(TRADITIONAL, 0.9)")
+    close_values(dp(ctx).evaluate(TRADITIONAL, 0.9), paul_evaluate(TRADITIONAL, 0.9), "evaluate(TRADITIONAL, 0.9)")
 
 
 def looks_ahead(ctx):
@@ -102,33 +102,33 @@ def looks_ahead(ctx):
 
 def other_policy(ctx):
     m = dp(ctx)
-    close_values(m.evaluate(LONG_WAY, 0.9), moss_evaluate(LONG_WAY, 0.9), "evaluate(LONG_WAY, 0.9)")
-    close_values(m.evaluate(LONG_WAY, 1.0), moss_evaluate(LONG_WAY, 1.0), "evaluate(LONG_WAY, 1.0)")
+    close_values(m.evaluate(LONG_WAY, 0.9), paul_evaluate(LONG_WAY, 0.9), "evaluate(LONG_WAY, 0.9)")
+    close_values(m.evaluate(LONG_WAY, 1.0), paul_evaluate(LONG_WAY, 1.0), "evaluate(LONG_WAY, 1.0)")
 
 
 def other_gamma(ctx):
-    close_values(dp(ctx).evaluate(TRADITIONAL, 0.5), moss_evaluate(TRADITIONAL, 0.5), "evaluate(TRADITIONAL, 0.5)")
+    close_values(dp(ctx).evaluate(TRADITIONAL, 0.5), paul_evaluate(TRADITIONAL, 0.5), "evaluate(TRADITIONAL, 0.5)")
 
 
 def greedy_on_best(ctx):
     m = dp(ctx)
-    same_policy(m.greedy(moss_best(0.9), 0.9), BEST, "greedy on the best values")
+    same_policy(m.greedy(paul_best(0.9), 0.9), BEST, "greedy on the best values")
 
 
 def greedy_on_traditional(ctx):
     m = dp(ctx)
-    values = moss_evaluate(TRADITIONAL, 0.9)
-    same_policy(m.greedy(values, 0.9), moss_greedy(values, 0.9), "greedy on the traditional line's values")
+    values = paul_evaluate(TRADITIONAL, 0.9)
+    same_policy(m.greedy(values, 0.9), paul_greedy(values, 0.9), "greedy on the traditional line's values")
 
 
 def best_values(ctx):
-    close_values(dp(ctx).value_iteration(0.9), moss_best(0.9), "value_iteration(0.9)")
+    close_values(dp(ctx).value_iteration(0.9), paul_best(0.9), "value_iteration(0.9)")
 
 
 def best_values_other_gammas(ctx):
     m = dp(ctx)
     for gamma in [0.5, 0.99]:
-        close_values(m.value_iteration(gamma), moss_best(gamma), f"value_iteration({gamma})")
+        close_values(m.value_iteration(gamma), paul_best(gamma), f"value_iteration({gamma})")
 
 
 def improving(start, name):
@@ -138,7 +138,7 @@ def improving(start, name):
             raise CheckFailed("policy_iteration should return two things: return policy, values", actual=repr(result))
         policy, values = result
         same_policy(policy, BEST, f"policy_iteration from {name}")
-        close_values(values, moss_best(0.9), f"the values policy_iteration gives back from {name}")
+        close_values(values, paul_best(0.9), f"the values policy_iteration gives back from {name}")
     return check
 
 

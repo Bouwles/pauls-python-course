@@ -1,4 +1,4 @@
-"""Penhallow's dome neuron again, on the tiny engine: smooth, so it can slide downhill."""
+"""The stargazing neuron again, on the tiny engine: smooth, so it can slide downhill."""
 
 import csv
 
@@ -13,7 +13,7 @@ class Neuron:
         # Start knowing nothing
 
     def __call__(self, inputs):
-        """The chance of opening, as a Value, for one night's readings (plain numbers)."""
+        """The chance the night goes ahead, as a Value, for one night's readings (plain numbers)."""
         # Weigh each reading, add them up, add the bias
         # Squash it with the sigmoid
 
@@ -42,4 +42,4 @@ if __name__ == "__main__":
     print(f"Agrees with {agree} of {len(nights)} nights")
 
     chance = neuron([0.15, 0.40, 0.30]).data
-    print(f"Tonight: {chance:.2f}, {'open the dome' if chance > 0.5 else 'keep it shut'}")
+    print(f"Tonight: {chance:.2f}, {'go ahead' if chance > 0.5 else 'call it off'}")

@@ -44,7 +44,7 @@ def no_hidden_loop(ctx):
 
 
 TESTS = [
-    function("Nell's spares", call="spares", args=(["hubcap", "spring", "hubcap", "gear", "spring", "hubcap"],),
+    function("A few spares", call="spares", args=(["hubcap", "spring", "hubcap", "gear", "spring", "hubcap"],),
              expect=["hubcap", "spring"], visible=True),
     custom("Thousands of parts, no hidden loop", no_hidden_loop, visible=True,
            hint="`part in seen` walks the whole list when seen is a list. A set goes straight to where the part would be."),
@@ -52,5 +52,5 @@ TESTS = [
     function("Nothing at all", call="spares", args=([],), expect=[],
              hint="With no parts, there are no spares: an empty list."),
     function("Three of one kind", call="spares", args=(["gear-12t", "gear-12t", "gear-12t"],), expect=["gear-12t"],
-             hint="Each spare is named once, however many copies Nell has."),
+             hint="Each spare is named once, however many copies there are."),
 ]

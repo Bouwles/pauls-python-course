@@ -1,4 +1,4 @@
-"""Library fines, in pence. Mrs Vance's rules, written down at last."""
+"""Library fines, in pence. The library's rules, written down at last."""
 
 GRACE_DAYS = 2   # up to two days late is forgiven
 PER_DAY = 10     # pence for every day late, once it's past the grace

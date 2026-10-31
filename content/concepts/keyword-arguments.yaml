@@ -3,7 +3,7 @@ title: Keyword arguments
 summary: |
   A call can name its arguments: `tag("clock", fragile=True)`. Named, or keyword, arguments go to the parameter with that name, in any order, and let you skip the defaults you're happy with. Unnamed, positional arguments fill the parameters from the left, and always come first.
 example: |
-  def tag(item, owner="Moss", fragile=False):
+  def tag(item, owner="Paul", fragile=False):
       return f"{item} for {owner}, fragile: {fragile}"
 
   print(tag("clock", fragile=True))
@@ -14,11 +14,11 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      def ticket(name, route="Truro", returning=False):
+      def ticket(name, route="Leeds", returning=False):
           return f"{name}: {route}, return {returning}"
 
-      print(ticket("Ferro", returning=True))
-    answer: "Ferro: Truro, return True"
+      print(ticket("Yahya", returning=True))
+    answer: "Yahya: Leeds, return True"
   - type: choice
     prompt: What does this print?
     code: |
@@ -36,24 +36,24 @@ cards:
         misconception: keyword-order-matters
         feedback: "Keyword arguments can come in any order. That's most of the point of them."
   - type: fix
-    prompt: "This is a SyntaxError: an unnamed argument can't follow a named one. Fix the call so it prints `CLOCK for Tom`."
+    prompt: "This is a SyntaxError: an unnamed argument can't follow a named one. Fix the call so it prints `CLOCK for Neil`."
     code: |
-      def tag(item, owner="Moss"):
+      def tag(item, owner="Paul"):
           return f"{item.upper()} for {owner}"
 
-      print(tag(owner="Tom", "clock"))
+      print(tag(owner="Neil", "clock"))
     tests: |
-      TESTS = [output("Tom's clock", expect="CLOCK for Tom")]
+      TESTS = [output("Neil's clock", expect="CLOCK for Neil")]
     solution: |
-      def tag(item, owner="Moss"):
+      def tag(item, owner="Paul"):
           return f"{item.upper()} for {owner}"
 
-      print(tag("clock", owner="Tom"))
+      print(tag("clock", owner="Neil"))
   - type: fill
     prompt: "Fill the gap so this prints `Lisbon, 2 stamps`, without touching the `def`."
     code: |
-      def postage(town, stamps=1, urgent=False):
-          return f"{town}, {stamps} stamps"
+      def postage(city, stamps=1, urgent=False):
+          return f"{city}, {stamps} stamps"
 
       print(postage("Lisbon", ___=2))
     blanks: [["stamps"]]
@@ -91,7 +91,7 @@ cards:
   - type: choice
     prompt: What happens?
     code: |
-      def tag(item, owner="Moss"):
+      def tag(item, owner="Paul"):
           return f"{item.upper()} for {owner}"
 
       print(tag("clock", item="kettle"))
@@ -100,7 +100,7 @@ cards:
       - text: A TypeError
         correct: true
         error: TypeError
-      - text: It prints KETTLE for Moss
+      - text: It prints KETTLE for Paul
         misconception: keyword-replaces-positional
         feedback: "`\"clock\"` already went to `item` by position. Naming `item` again gives it two values, and Python refuses."
       - text: It prints CLOCK for kettle

@@ -1,9 +1,11 @@
-// Characters react to real events with lines from small pools (REDESIGN.md 6.3, 6.5).
+// Characters react to real events with lines from small pools (REDESIGN-2.md 7.4); lib/cast.ts
+// says who speaks for each event.
 // The last 30 lines shown to this learner are remembered and not repeated. Lines may
 // name something from the learner's code: "{name}" is filled in from `vars`.
 import type { Character } from "./content/types";
 import type { LocalStore } from "./store/local";
 import type { CheckReport, RunResult } from "./python/protocol";
+import { FIRST_TRY, speakerFor } from "./cast";
 
 const KEY = "recent-lines";
 const SEEN = "seen-events";
@@ -43,48 +45,54 @@ export interface Cue {
 // What a run says about the learner's code, most telling first. Errors come before style.
 export function cuesFromRun(result: RunResult): Cue[] {
   const cues: Cue[] = [];
+  const say = (event: string, extra: Omit<Cue, "who" | "event"> = {}) => cues.push({ who: speakerFor(event), event, ...extra });
   const err = result.error;
   if (result.status === "error" && err) {
     const msg = err.message ?? "";
-    if (err.type === "NameError") cues.push({ who: "moss", event: "error-name", perStep: true });
-    else if (err.type === "TypeError" && /concatenate str|'int' and 'str'|'str' and 'int'|can't multiply sequence/.test(msg)) cues.push({ who: "moss", event: "error-text-number", perStep: true });
-    else if (err.type === "ZeroDivisionError") cues.push({ who: "moss", event: "error-zero", perStep: true });
-    else if (err.type === "IndexError") cues.push({ who: "moss", event: "error-index", perStep: true });
-    else if (err.type === "ValueError" && /invalid literal for int/.test(msg)) cues.push({ who: "moss", event: "error-int-text", perStep: true });
-    else if (err.type === "IndentationError") cues.push({ who: "pip", event: "error-indent", perStep: true });
+    if (err.type === "NameError") say("error-name", { perStep: true });
+    else if (err.type === "TypeError" && /concatenate str|'int' and 'str'|'str' and 'int'|can't multiply sequence/.test(msg)) say("error-text-number", { perStep: true });
+    else if (err.type === "ZeroDivisionError") say("error-zero", { perStep: true });
+    else if (err.type === "IndexError") say("error-index", { perStep: true });
+    else if (err.type === "ValueError" && /invalid literal for int/.test(msg)) say("error-int-text", { perStep: true });
+    else if (err.type === "IndentationError") say("error-indent", { perStep: true });
   }
-  if (result.status === "ok" && !result.printed && !result.figures?.length && !result.visuals) cues.push({ who: "moss", event: "ran-nothing", perStep: true });
+  if (result.status === "ok" && !result.printed && !result.figures?.length && !result.visuals) say("ran-nothing", { perStep: true });
   for (const e of result.events ?? []) {
     const vars = e.name ? { name: e.name } : undefined;
-    if (e.event === "loop-never-runs") cues.push({ who: "moss", event: "loop-never-runs", perStep: true });
-    else if (e.event === "fstring") cues.push({ who: "moss", event: "first-fstring", once: true });
-    else if (e.event === "converts-input") cues.push({ who: "moss", event: "converts-input", once: true });
-    else if (e.event === "function") cues.push({ who: "moss", event: "first-function", once: true });
-    else if (e.event === "nested-loop") cues.push({ who: "pip", event: "nested-loop", once: true });
-    else if (e.event === "good-name") cues.push({ who: "moss", event: "good-name", vars, perStep: true });
-    else if (e.event === "letter-name") cues.push({ who: "moss", event: "letter-name", vars, perStep: true });
-    else if (e.event === "long-function") cues.push({ who: "moss", event: "long-function", vars, perStep: true });
-    else if (e.event === "long-line") cues.push({ who: "moss", event: "long-line", perStep: true });
-    else if (e.event === "long-no-loop") cues.push({ who: "pip", event: "long-no-loop", perStep: true });
+    if (e.event === "loop-never-runs") say("loop-never-runs", { perStep: true });
+    else if (e.event === "fstring") say("first-fstring", { once: true });
+    else if (e.event === "converts-input") say("converts-input", { once: true });
+    else if (e.event === "function") say("first-function", { once: true });
+    else if (e.event === "nested-loop") say("nested-loop", { once: true });
+    else if (e.event === "good-name") say("good-name", { vars, perStep: true });
+    else if (e.event === "letter-name") say("letter-name", { vars, perStep: true });
+    else if (e.event === "long-function") say("long-function", { vars, perStep: true });
+    else if (e.event === "long-line") say("long-line", { perStep: true });
+    else if (e.event === "long-no-loop") say("long-no-loop", { perStep: true });
   }
   return cues;
 }
 
-/** What a Check says: first-try passes, the third miss in a row, a long fight won. */
-export function cuesFromCheck(report: CheckReport, attemptsBefore: number, passed: boolean, opts: { pipsStep: boolean; shorterThanPip: boolean; hintsUsed: number }): Cue[] {
+/**
+ * What a Check says: first-try passes, the third miss in a row, a long fight won.
+ * `classmate` is whose version the learner is fixing, on a "fix my version" step.
+ */
+export function cuesFromCheck(report: CheckReport, attemptsBefore: number, passed: boolean, opts: { classmateStep: boolean; shorterThanTheirs: boolean; hintsUsed: number; classmate?: string | null }): Cue[] {
   const cues: Cue[] = [];
-  if (report.status === "syntax-error") return [{ who: "moss", event: "run-error" }];
+  const say = (event: string) => cues.push({ who: speakerFor(event, { classmate: opts.classmate }), event });
+  if (report.status === "syntax-error") return [{ who: speakerFor("run-error"), event: "run-error" }];
   if (passed) {
-    if (opts.pipsStep && opts.shorterThanPip) cues.push({ who: "pip", event: "shorter-than-pip", perStep: true });
-    if (attemptsBefore === 0) cues.push(Math.random() < 0.5 ? { who: "pip", event: "pass-first-try" } : { who: "moss", event: "pass-first-try" });
-    else if (attemptsBefore >= 4) cues.push({ who: "moss", event: "pass-after-many" });
-    else if (opts.hintsUsed === 0 && attemptsBefore >= 1) cues.push({ who: "moss", event: "pass-no-hints" });
-    cues.push({ who: "moss", event: "check-passed" });
+    if (opts.classmateStep && opts.shorterThanTheirs && opts.classmate) say("shorter-than-mine");
+    if (opts.classmateStep && opts.classmate) say("fixed-by-learner");
+    if (attemptsBefore === 0) cues.push({ who: FIRST_TRY[Math.random() < 0.5 ? 0 : 1], event: "pass-first-try" });
+    else if (attemptsBefore >= 4) say("pass-after-many");
+    else if (opts.hintsUsed === 0 && attemptsBefore >= 1) say("pass-no-hints");
+    say("check-passed");
   } else {
-    if (attemptsBefore + 1 === 3) cues.push({ who: "moss", event: "third-fail" });
+    if (attemptsBefore + 1 === 3) say("third-fail");
     const required = report.results.filter((r) => !r.stretch);
-    if (required.length > 1 && required.filter((r) => r.passed).length === required.length - 1) cues.push({ who: "pip", event: "one-left" });
-    cues.push({ who: "moss", event: "check-failed" });
+    if (required.length > 1 && required.filter((r) => r.passed).length === required.length - 1) say("one-left");
+    say("check-failed");
   }
   return cues;
 }

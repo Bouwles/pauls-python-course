@@ -5,7 +5,7 @@ title: Make the word counter
 files: [words.py]
 entry: words.py
 timeout_ms: 15000
-on_pass: { vance: "Two thousand six hundred and sixty-nine different words, and one row for each. Not a duplicate among them." }
+on_pass: { aaesha: "Two thousand six hundred and sixty-nine different words, and one row for each. Not a duplicate among them." }
 hints:
   nudge: "Before anything is counted, what has to happen to `\"Alice,` so that it counts as `alice`?"
   plan:
@@ -47,7 +47,7 @@ hints:
         for rank, (word, times) in enumerate(top_words(words), start=___):
             print(f"{rank}. {word}: {times}")
 ---
-Write the three functions and `main` in `words.py`. The comments are Moss's subgoals from his job book.
+Write the three functions and `main` in `words.py`. The comments are Paul's subgoals from his repair book.
 
 ```
 Which book? alice.txt
@@ -63,4 +63,4 @@ Every count is in counts.csv.
 
 `f"{len(words):,}"` puts the commas in 26,628. "Different words" counts every different word, small ones included: a set is one way.
 
-The checks call your functions with other words and other files, and open `counts.csv` after `main` has run. Mrs Vance will too.
+The checks call your functions with other words and other files, and open `counts.csv` after `main` has run. Aaesha will too.

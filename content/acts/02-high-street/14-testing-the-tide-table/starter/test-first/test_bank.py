@@ -2,14 +2,14 @@ from bank import Account
 
 
 def test_deposit():
-    account = Account("Bea", 1042)
+    account = Account("Aaesha", 1042)
     account.deposit(2000)
     assert account.balance == 2000
     assert account.history == [2000]
 
 
 def test_withdraw():
-    account = Account("Bea", 1042)
+    account = Account("Aaesha", 1042)
     account.deposit(2000)
     assert account.withdraw(750) is True
     assert account.balance == 1250
@@ -17,14 +17,14 @@ def test_withdraw():
 
 
 def test_withdraw_everything():
-    account = Account("Gwen", 21)
+    account = Account("Caitlin", 21)
     account.deposit(800)
     assert account.withdraw(800) is True
     assert account.balance == 0
 
 
 def test_too_much():
-    account = Account("Pip", 13)
+    account = Account("Yahya", 13)
     account.deposit(500)
     assert account.withdraw(501) is False
     assert account.balance == 500
@@ -32,13 +32,13 @@ def test_too_much():
 
 
 def test_str():
-    account = Account("Bea Hollis", 1042)
+    account = Account("Aaesha", 1042)
     account.deposit(1250)
-    assert str(account) == "Account 1042, Bea Hollis: £12.50"
+    assert str(account) == "Account 1042, Aaesha: £12.50"
 
 
 def test_deposit_nothing():
-    account = Account("Pip", 13)
+    account = Account("Yahya", 13)
     try:
         account.deposit(0)
     except ValueError:

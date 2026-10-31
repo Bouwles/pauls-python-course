@@ -11,7 +11,7 @@ page.on("pageerror", (e) => logs.push(`pageerror: ${e.message}`));
 // LOGIN=1 signs in as the demo learner first (npm run seed:demo makes it).
 if (process.env.LOGIN === "1") {
   const origin = new URL(url).origin;
-  const r = await page.request.post(`${origin}/api/auth/login`, { data: { email: "demo@fixwick.test", password: "demo-harbour-1987" }, headers: { Origin: origin } });
+  const r = await page.request.post(`${origin}/api/auth/login`, { data: { email: "demo@ppc.test", password: "demo-harbour-1987" }, headers: { Origin: origin } });
   if (!r.ok()) console.log("login failed:", r.status());
 }
 await page.goto(url, { waitUntil: "networkidle", timeout: 90_000 }).catch(() => page.waitForTimeout(3000));

@@ -2,17 +2,17 @@ import copy as _copy
 
 
 def standing():
-    return {"Ashby": {"bread": 3, "buns": 4}, "Drowned Anchor": {"bread": 6, "lardy cake": 2}}
+    return {"Paul": {"bread": 3, "buns": 4}, "The Studio": {"bread": 6, "lardy cake": 2}}
 
 
 def extras():
-    return {"Ashby": {"buns": 2}, "Mira": {"lardy cake": 1}}
+    return {"Paul": {"buns": 2}, "Yahya": {"lardy cake": 1}}
 
 
 SATURDAY = {
-    "Ashby": {"bread": 3, "buns": 6},
-    "Drowned Anchor": {"bread": 6, "lardy cake": 2},
-    "Mira": {"lardy cake": 1},
+    "Paul": {"bread": 3, "buns": 6},
+    "The Studio": {"bread": 6, "lardy cake": 2},
+    "Yahya": {"lardy cake": 1},
 }
 
 
@@ -34,10 +34,10 @@ def standing_unchanged(ctx):
 
 def other_customers(ctx):
     fn = orders_fn(ctx)
-    result = fn({"Gwen": {"bread": 10}, "Old Tom": {"buns": 1}}, {"Old Tom": {"buns": 2, "bread": 1}})
-    want = {"Gwen": {"bread": 10}, "Old Tom": {"buns": 3, "bread": 1}}
+    result = fn({"Aaesha": {"bread": 10}, "Caitlin": {"buns": 1}}, {"Caitlin": {"buns": 2, "bread": 1}})
+    want = {"Aaesha": {"bread": 10}, "Caitlin": {"buns": 3, "bread": 1}}
     if result != want:
-        raise CheckFailed("Gwen and Old Tom's Saturday is wrong.", expected=want, actual=result)
+        raise CheckFailed("Aaesha and Caitlin's Saturday is wrong.", expected=want, actual=result)
 
 
 def no_extras(ctx):
@@ -54,10 +54,10 @@ def later_change(ctx):
     fn = orders_fn(ctx)
     book = standing()
     result = fn(book, extras())
-    result["Drowned Anchor"]["bread"] = 99
-    if book["Drowned Anchor"]["bread"] != 6:
-        raise CheckFailed("Changing Saturday's order for the Drowned Anchor changed the standing order too.",
-                          expected=6, actual=book["Drowned Anchor"]["bread"])
+    result["The Studio"]["bread"] = 99
+    if book["The Studio"]["bread"] != 6:
+        raise CheckFailed("Changing Saturday's order for the Studio changed the standing order too.",
+                          expected=6, actual=book["The Studio"]["bread"])
 
 
 def extras_unchanged(ctx):
@@ -66,15 +66,15 @@ def extras_unchanged(ctx):
     result = fn(standing(), week)
     if week != extras():
         raise CheckFailed("The extras changed.", expected=extras(), actual=_copy.deepcopy(week))
-    result["Mira"]["lardy cake"] = 5
-    if week["Mira"]["lardy cake"] != 1:
-        raise CheckFailed("Saturday's order for Mira is the very dictionary from the extras. Changing one changes both.")
+    result["Yahya"]["lardy cake"] = 5
+    if week["Yahya"]["lardy cake"] != 1:
+        raise CheckFailed("Saturday's order for Yahya is the very dictionary from the extras. Changing one changes both.")
 
 
 def extras_only(ctx):
     fn = orders_fn(ctx)
-    result = fn({"Ashby": {"bread": 3}}, {"Vance": {"bread": 1, "buns": 2}})
-    want = {"Ashby": {"bread": 3}, "Vance": {"bread": 1, "buns": 2}}
+    result = fn({"Paul": {"bread": 3}}, {"Riya": {"bread": 1, "buns": 2}})
+    want = {"Paul": {"bread": 3}, "Riya": {"bread": 1, "buns": 2}}
     if result != want:
         raise CheckFailed("A customer who only ordered extras should still be in Saturday's orders.", expected=want, actual=result)
 
@@ -82,7 +82,7 @@ def extras_only(ctx):
 TESTS = [
     function("Saturday's orders", call="saturday_orders", args=(standing(), extras()), expect=SATURDAY, visible=True),
     custom("The standing orders don't change", standing_unchanged, visible=True),
-    custom("Gwen and Old Tom", other_customers,
+    custom("Aaesha and Caitlin", other_customers,
            hint="If only this fails, add each extra to the number already there, rather than putting it in its place."),
     custom("A customer with only extras", extras_only,
            hint="If only this fails, make an empty order for a customer who isn't in the standing book yet."),

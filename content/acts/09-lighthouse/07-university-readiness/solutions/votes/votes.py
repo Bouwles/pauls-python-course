@@ -1,4 +1,4 @@
-"""Question 2: naming the lifeboat."""
+"""Question 2: naming the boat."""
 
 
 def winner(ballots):

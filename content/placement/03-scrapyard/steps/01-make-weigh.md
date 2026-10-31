@@ -1,12 +1,12 @@
 ---
 id: make-weigh
 type: make
-title: Nell's weighbridge
+title: Caitlin's hardware shelves
 files: [weighbridge.py]
 entry: weighbridge.py
 dialogue:
-  - nell: "The merchant wants them lightest first. Same weight, same order they came off the lorry. He's particular."
-on_pass: { nell: "Lightest first, ties as they came, and it finds the three-kilo end in a couple of dozen looks." }
+  - caitlin: "Someone gave the Makerspace a box of old hardware. Lightest first for the top shelf. Ties stay in box order."
+on_pass: { caitlin: "Lightest first, ties in box order, and it finds the three-kilo end in a couple of dozen looks." }
 ---
 Parts are `(name, kg)` pairs. Write two functions in `weighbridge.py`, by hand: no `sorted`, `.sort()` or `bisect`.
 
@@ -14,9 +14,9 @@ Parts are `(name, kg)` pairs. Write two functions in `weighbridge.py`, by hand: 
 2. `first_at_least(parts, kg)` takes parts already sorted lightest first and gives back the position of the first part weighing at least `kg`, or `len(parts)` if none do.
 
 ```
-sort_parts([("hubcap", 4), ("gear", 1), ("spring", 4)])
-    gives  [("gear", 1), ("hubcap", 4), ("spring", 4)]
-first_at_least([("gear", 1), ("hubcap", 4), ("spring", 4)], 4)
+sort_parts([("monitor", 4), ("mouse", 1), ("speaker", 4)])
+    gives  [("mouse", 1), ("monitor", 4), ("speaker", 4)]
+first_at_least([("mouse", 1), ("monitor", 4), ("speaker", 4)], 4)
     gives  1
 ```
 

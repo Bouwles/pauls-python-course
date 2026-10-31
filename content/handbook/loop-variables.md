@@ -1,4 +1,4 @@
-In a Python `for` loop, the loop variable is the name between `for` and `in`: `boat` in `for boat in boats:`, or `i` in `for i in range(5):`. At the start of every pass, Python takes the next value and assigns it to that name, exactly as if you had written `boat = ...` at the top of the body. It is an ordinary variable. You can print it, do sums with it or use it as a list position, and it is still there after the loop ends. Choosing a clear name for it matters more than it seems: `for parcel in parcels:` tells the reader what each pass is about, and `for x in y:` doesn't.
+In a Python `for` loop, the loop variable is the name between `for` and `in`: `name` in `for name in names:`, or `i` in `for i in range(5):`. At the start of every pass, Python takes the next value and assigns it to that name, exactly as if you had written `name = ...` at the top of the body. It is an ordinary variable. You can print it, do sums with it or use it as a list position, and it is still there after the loop ends. Choosing a clear name for it matters more than it seems: `for parcel in parcels:` tells the reader what each pass is about, and `for x in y:` doesn't.
 
 ## How it works
 

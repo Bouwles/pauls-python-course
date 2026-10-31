@@ -1,49 +1,49 @@
 ---
 id: parsons
 type: parsons
-title: Back in the sea
+title: On the board
 dialogue:
-  - gwen: "Anything under twenty centimetres goes back. Even the fishermen agree on that."
+  - caitlin: "Anything under twenty doesn't go on the board. Even I agree on that."
 blocks:
-  - { code: "keepers = 0", indent: 0 }
+  - { code: "on_board = 0", indent: 0 }
   - { code: "while True:", indent: 0 }
-  - { code: 'entry = input("Length in cm? ")', indent: 1 }
+  - { code: 'entry = input("Score? ")', indent: 1 }
   - { code: 'if entry == "done":', indent: 1 }
   - { code: "break", indent: 2 }
   - { code: "if int(entry) < 20:", indent: 1 }
-  - { code: 'print("Back in the sea.")', indent: 2 }
+  - { code: 'print("Too low for the board.")', indent: 2 }
   - { code: "continue", indent: 2 }
-  - { code: "keepers = keepers + 1", indent: 1 }
-  - { code: 'print(f"Keepers: {keepers}")', indent: 0 }
+  - { code: "on_board = on_board + 1", indent: 1 }
+  - { code: 'print(f"On the board: {on_board}")', indent: 0 }
 check: run
 hints:
-  nudge: "Which word leaves the loop, and which one only skips the rest of this pass? done should leave; a small fish should only be skipped."
+  nudge: "Which word leaves the loop, and which one only skips the rest of this pass? done should leave; a low score should only be skipped."
   plan:
     - Start the counter at zero
     - Keep going until something stops it
     - Ask, and stop on the quit word
-    - Skip the small ones without counting them
+    - Skip the low ones without counting them
     - Count the rest
     - Report after the loop
   shape: |
-    keepers = 0
+    on_board = 0
     while True:
-        entry = input("Length in cm? ")
+        entry = input("Score? ")
         if entry == "done":
             ___
         if int(entry) < 20:
-            print("Back in the sea.")
+            print("Too low for the board.")
             ___
-        keepers = keepers + 1
-    print(f"Keepers: {keepers}")
+        on_board = on_board + 1
+    print(f"On the board: {on_board}")
 ---
-The boats are in, and Gwen measures the catch for the prize board. She types each length, then `done`. Arrange the lines so the small ones go back, only the rest are counted, and `done` ends it.
+Caitlin types in the day's scores from the arcade cabinet, then `done`. Arrange the lines so the low ones are turned away, only the rest are counted, and `done` ends it.
 
 ```
-Length in cm? 25
-Length in cm? 10
-Back in the sea.
-Length in cm? 30
-Length in cm? done
-Keepers: 2
+Score? 25
+Score? 10
+Too low for the board.
+Score? 30
+Score? done
+On the board: 2
 ```

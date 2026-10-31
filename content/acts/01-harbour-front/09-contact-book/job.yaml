@@ -6,7 +6,7 @@ portfolio_readme: |
 
   A contact book for the command line. It keeps a phone number and an address for each person, looks people up by name, suggests who you might mean when you only type part of a name, and adds new contacts from a single typed line.
 
-  Written by {name} for the post office in {{town}}. Finished {date}.
+  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -14,12 +14,12 @@ portfolio_readme: |
   python main.py
   ```
 
-  Type a full name to look someone up. Type part of a name, like `tom`, to see who it might be. Type `add`, then a line like `Nell Brannigan, 01632 960733, The Scrapyard`, to add someone. A blank line stops it.
+  Type a full name to look someone up. Type part of a name, like `clock`, to see who it might be. Type `add`, then a line like `Riya, 01632 960733, The Model Room`, to add someone. A blank line stops it.
 
   ```
-  Name? mr
-  No contact called mr.
-  Try: Mr Okonjo, Mr Ashby
+  Name? clock
+  No contact called clock.
+  Try: Clock Repairs, Clock Parts
   ```
 
   ## What it shows
@@ -32,7 +32,7 @@ portfolio_readme: |
   The phone numbers are from the range set aside for fiction, so none of them will ring anyone.
 downloadable: true
 datasets: []
-client: mira
+client: aaesha
 building: post-office
 estimated_minutes: 55
 summary: "Look people up, find them from half a name, and add new ones from one typed line."
@@ -40,39 +40,40 @@ concepts_introduced: [dictionaries, dict-get, dict-items, nested-data, split-joi
 concepts_reviewed: [while-loops, sentinels, lists, append-pop, in-operator, string-methods, f-strings, list-aliasing]
 ask:
   dialogue:
-    - mira: "Half the town rings the post office for the other half's number."
-    - mira: "The numbers are on cards. Pip put the cards in order. By street."
-    - mira: "I want a contact book. A name in, a number out. Even for people who only know half a name."
-    - moss: "Names to details. That wants a dictionary."
+    - aaesha: "The class's numbers are everywhere. A group chat, a sticky note, the back of a quiz."
+    - aaesha: "Paul's number is written down four times. Two of them are wrong."
+    - aaesha: "One contact book. A name in, a number out. Even from half a name."
+    - paul: "Names to details. That wants a dictionary."
   spec: |
     `contacts` holds a record for each name: a dictionary with a `phone` and an `address`. Ask `Name? ` until a blank line.
 
-    1. A name in the book gets its record: `Bea Hollis: 01632 960101, The Bakery`.
-    2. `add` asks `New contact? ` for a whole contact on one line, like `Nell Brannigan, 01632 960733, The Scrapyard`. Split it at each `, `, add the record, and print `Added Nell Brannigan.` A line that doesn't split into exactly three parts gets `Name, phone, address, please.`
-    3. Any other name gets `No contact called tom.` Then, if what was typed is one of the words in any contact's name, ignoring capitals, print `Try: ` and those names, in book order, with `, ` between them.
+    1. A name in the book gets its record: `Paul: 01632 960101, The Workshop`.
+    2. `add` asks `New contact? ` for a whole contact on one line, like `Riya, 01632 960733, The Model Room`. Split it at each `, `, add the record, and print `Added Riya.` A line that doesn't split into exactly three parts gets `Name, phone, address, please.`
+    3. Any other name gets `No contact called repairs.` Then, if what was typed is one of the words in any contact's name, ignoring capitals, print `Try: ` and those names, in book order, with `, ` between them.
   example: |
-    Name? Bea Hollis
-    Bea Hollis: 01632 960101, The Bakery
-    Name? mr
-    No contact called mr.
-    Try: Mr Okonjo, Mr Ashby
+    Name? Paul
+    Paul: 01632 960101, The Workshop
+    Name? clock
+    No contact called clock.
+    Try: Clock Repairs, Clock Parts
     Name? add
-    New contact? Nell Brannigan, 01632 960733, The Scrapyard
-    Added Nell Brannigan.
-    Name? Nell Brannigan
-    Nell Brannigan: 01632 960733, The Scrapyard
+    New contact? Riya, 01632 960733, The Model Room
+    Added Riya.
+    Name? Riya
+    Riya: 01632 960733, The Model Room
     Name?
 ship:
   dialogue:
-    - mira: "Mr Okonjo, then Mr Ashby. Both of them, in the order they're filed."
-    - mira: "Nell is in a book for the first time. She asked for a copy."
-  shelf: { object: address-book, label: "Mira's contact book" }
+    - aaesha: "Clock Repairs, then Clock Parts. Both of them, in the order they went in."
+    - aaesha: "One record for everyone. No copies, so nothing to go out of date."
+    - paul: "Clock Repairs. I'll ring them. Soon."
+  shelf: { object: address-book, label: "Aaesha's contact book" }
   cards: [dictionaries, dict-get, dict-items, nested-data, split-join]
 stretch:
   - id: nicknames
-    title: "Tom, not Old Tom"
+    title: "Prof means Paul"
     prompt: |
-      Nobody types the full name. Add a dictionary of nicknames, `{"Bea": "Bea Hollis", "Tom": "Old Tom", "Agnes": "Agnes Rook"}`, and turn each typed name into the full one before looking it up. Names that aren't nicknames stay as they are.
+      Nobody types the full name. Add a dictionary of nicknames, `{"Prof": "Paul", "Repairs": "Clock Repairs", "Parts": "Clock Parts"}`, and turn each typed name into the full one before looking it up. Names that aren't nicknames stay as they are.
 
       `nicknames.get(name, name)` does exactly that in one line.
     tests: tests/stretch-nicknames.py
@@ -80,4 +81,4 @@ stretch:
   - id: everyone
     title: "The whole book"
     prompt: |
-      Mira wants to see who's in it. Typing `list` prints `Contacts: ` and every name in alphabetical order, with `, ` between them. `sorted(contacts)` gives the names of a dictionary in order.
+      Aaesha wants to see who's in it. Typing `list` prints `Contacts: ` and every name in alphabetical order, with `, ` between them. `sorted(contacts)` gives the names of a dictionary in order.

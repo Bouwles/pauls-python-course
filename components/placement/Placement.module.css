@@ -1,64 +1,118 @@
+/* The placement test: a short explanation, then one row per Act. */
 .wrap {
   display: grid;
-  gap: var(--s-6);
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-8);
+}
+
+.head {
+  display: grid;
+  gap: var(--s-3);
 }
 
 .title {
-  font-family: var(--font-prose);
-  font-size: var(--step-4);
-  line-height: 1.1;
+  font-size: var(--fs-7);
 }
 
 .lede {
-  margin-top: var(--s-2);
-  font-size: var(--step-1);
-  color: var(--ink-2);
-  max-width: 60ch;
+  font-size: var(--fs-4);
+  line-height: 1.45;
+  color: var(--text-2);
+}
+
+.how {
+  color: var(--text-2);
 }
 
 .meta {
-  color: var(--ink-2);
-  font-size: var(--step--1);
-  font-family: var(--font-ui);
-}
-
-.meta a {
-  color: var(--accent-ink);
+  font-size: var(--fs-2);
+  color: var(--text-2);
 }
 
 .sections {
   list-style: none;
+  margin: 0;
   padding: 0;
   display: grid;
-  border-top: var(--hairline);
+  gap: var(--s-3);
 }
 
 .section {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-3) var(--s-6);
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  padding: var(--s-4) 0;
-  border-bottom: var(--hairline);
+  gap: var(--s-3) var(--s-4);
+  padding: var(--s-4) var(--s-5);
+  background: var(--surface-2);
+  border-radius: var(--r-lg);
 }
 
-.sectionHead {
+:global(:root[data-theme="light"]) .section {
+  border: 1px solid var(--line);
+}
+
+@media (prefers-color-scheme: light) {
+  :global(:root[data-theme="system"]) .section {
+    border: 1px solid var(--line);
+  }
+}
+
+.number {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-lg);
+  font-family: var(--font-display);
+  font-size: var(--fs-4);
+  font-weight: 800;
+}
+
+.sectionText {
   display: grid;
-  gap: var(--s-1);
-  max-width: 52ch;
+  gap: 2px;
+  min-width: 0;
 }
 
 .sectionTitle {
-  font-family: var(--font-prose);
-  font-size: var(--step-2);
+  font-size: var(--fs-4);
+  letter-spacing: -0.01em;
 }
 
-.passed {
+.state {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.locked {
   display: inline-flex;
-  gap: var(--s-1);
   align-items: center;
-  color: var(--pass);
-  font-family: var(--font-ui);
-  font-weight: 600;
+  gap: var(--s-1);
+  font-size: var(--fs-1);
+  color: var(--text-2);
+  text-align: right;
+}
+
+@media (max-width: 720px) {
+  .title {
+    font-size: var(--fs-6);
+  }
+
+  .lede {
+    font-size: var(--fs-3);
+  }
+
+  .section {
+    grid-template-columns: auto minmax(0, 1fr);
+    padding: var(--s-4);
+  }
+
+  .state {
+    grid-column: 2;
+    justify-content: flex-start;
+  }
+
+  .locked {
+    text-align: left;
+  }
 }

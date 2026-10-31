@@ -1,4 +1,4 @@
-"""Undo/Redo Text Editor: the price board by Nell's gate, tried out before it's chalked."""
+"""Undo/Redo Text Editor: the Workshop's chalkboard, tried out before it's chalked."""
 from collections import deque
 
 COMMANDS = "Commands: type <words>, delete <how many>, undo, redo, show, quit. Several at once: put ; between them."

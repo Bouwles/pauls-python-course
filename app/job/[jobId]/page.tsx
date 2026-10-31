@@ -33,11 +33,24 @@ export default async function JobPage(props: PageProps<"/job/[jobId]">) {
   const freeAct = index.acts.find((a) => FREE_ACTS.has(a.id));
   const capstone = freeAct?.jobs.filter((j) => !j.sidequest && !j.placementFor).at(-1)?.id === job.id;
   const gateActs = capstone ? index.acts.map((a) => ({ id: a.id, number: a.number, title: a.title, subject: a.subject })) : undefined;
+  // "Project 2 of 13" in the header, and the next project to offer when this one ships.
+  const numbered = act?.jobs.filter((j) => !j.sidequest && !j.placementFor) ?? [];
+  const at = numbered.findIndex((j) => j.id === job.id);
+  const next = at >= 0 ? numbered.slice(at + 1).find((j) => j.status === "written") : undefined;
   const concepts = getConcepts();
   const conceptTitles = Object.fromEntries(Object.values(concepts).map((c) => [c.id, c.title]));
   return (
     <Suspense>
-      <Workbench job={shown} characters={index.characters} conceptTitles={conceptTitles} actTitle={act?.title ?? ""} preview={!access.open} gateActs={gateActs} />
+      <Workbench
+        job={shown}
+        characters={index.characters}
+        conceptTitles={conceptTitles}
+        actTitle={act?.title ?? ""}
+        actProjects={numbered.length || undefined}
+        nextJob={next ? { id: next.id, title: next.title } : null}
+        preview={!access.open}
+        gateActs={gateActs}
+      />
     </Suspense>
   );
 }

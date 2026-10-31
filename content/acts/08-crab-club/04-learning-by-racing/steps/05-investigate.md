@@ -5,7 +5,7 @@ title: How the news travels
 concept: td-learning
 code: |
   # The practice corridor: tiles 0 to 3, then the finish, tile 4.
-  # He always goes right and never slips.
+  # The crab always goes right and never slips.
   GAMMA = 0.9
   ALPHA = 1.0   # take the whole of each lesson, so it's easy to see
   races = 1
@@ -25,7 +25,7 @@ code: |
       for tile, reward, after, over in reversed(steps):
           total = reward + GAMMA * total
           mc[tile] += ALPHA * (total - mc[tile])
-      # TD(0): nudge each tile as he leaves it, from the next tile's estimate.
+      # TD(0): nudge each tile as the crab leaves it, from the next tile's estimate.
       for tile, reward, after, over in steps:
           target = reward + (0 if over else GAMMA * td[after])
           td[tile] += ALPHA * (target - td[tile])

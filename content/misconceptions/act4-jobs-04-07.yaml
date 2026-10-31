@@ -1,7 +1,7 @@
 # Misconceptions for Act IV, Jobs 4 to 7: grouping and merging tables,
 # honest charts, descriptive statistics, and testing whether it's really warmer.
 
-# -- Group By the Parish ------------------------------------------------------------
+# -- Census Pivot Tables ------------------------------------------------------------
 groupby-keeps-order:
   concept: groupby
   description: Thinks groupby lists the groups in the order they first appear. It sorts them by their keys unless told sort=False.

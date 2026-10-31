@@ -18,12 +18,12 @@ cards:
     code: |
       from enum import Enum
 
-      class Tide(Enum):
+      class Level(Enum):
           HIGH = "high"
           LOW = "low"
 
-      for tide in Tide:
-          print(tide.name, tide.value)
+      for level in Level:
+          print(level.name, level.value)
     answer: |-
       HIGH high
       LOW low
@@ -47,33 +47,33 @@ cards:
         misconception: enum-call-makes-member
         feedback: "Calling the Enum with a value finds the existing member with that value. It never makes a new one."
   - type: fix
-    prompt: "Tonight is foggy, but the horn stays quiet. Fix the comparison."
+    prompt: "Tonight is rainy, but nobody's told to take a coat. Fix the comparison."
     code: |
       from enum import Enum
 
       class Weather(Enum):
           CLEAR = "clear"
-          FOG = "fog"
+          RAIN = "rain"
 
-      tonight = Weather.FOG
-      if tonight == "FOG":
-          print("Sound the horn")
+      tonight = Weather.RAIN
+      if tonight == "RAIN":
+          print("Take a coat")
       else:
-          print("Quiet night")
+          print("No coat needed")
     tests: |
-      TESTS = [output("Fog means the horn", expect="Sound the horn")]
+      TESTS = [output("Rain means a coat", expect="Take a coat")]
     solution: |
       from enum import Enum
 
       class Weather(Enum):
           CLEAR = "clear"
-          FOG = "fog"
+          RAIN = "rain"
 
-      tonight = Weather.FOG
-      if tonight == Weather.FOG:
-          print("Sound the horn")
+      tonight = Weather.RAIN
+      if tonight == Weather.RAIN:
+          print("Take a coat")
       else:
-          print("Quiet night")
+          print("No coat needed")
   - type: fill
     prompt: "Fill the gap to get the price of a second-class stamp."
     code: |
@@ -88,26 +88,26 @@ cards:
     tests: |
       TESTS = [output("Two second-class stamps", expect="170")]
   - type: write
-    prompt: "Write an Enum `Tide` with two members, `HIGH` and `LOW`, valued `\"high\"` and `\"low\"`."
+    prompt: "Write an Enum `Level` with two members, `HIGH` and `LOW`, valued `\"high\"` and `\"low\"`."
     starter: |
       from enum import Enum
     tests: |
-      def tides(ctx):
+      def levels(ctx):
           m = ctx.module()
           import enum
-          if not (isinstance(m.Tide, type) and issubclass(m.Tide, enum.Enum)):
-              raise CheckFailed("Tide should be an Enum: class Tide(Enum).")
-          got = {member.name: member.value for member in m.Tide}
+          if not (isinstance(m.Level, type) and issubclass(m.Level, enum.Enum)):
+              raise CheckFailed("Level should be an Enum: class Level(Enum).")
+          got = {member.name: member.value for member in m.Level}
           if got != {"HIGH": "high", "LOW": "low"}:
-              raise CheckFailed("Tide's members", expected={"HIGH": "high", "LOW": "low"}, actual=got)
+              raise CheckFailed("Level's members", expected={"HIGH": "high", "LOW": "low"}, actual=got)
 
 
-      TESTS = [custom("High and low", tides)]
+      TESTS = [custom("High and low", levels)]
     solution: |
       from enum import Enum
 
 
-      class Tide(Enum):
+      class Level(Enum):
           HIGH = "high"
           LOW = "low"
   - type: predict

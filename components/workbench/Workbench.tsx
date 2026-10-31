@@ -7,17 +7,15 @@ import { useSession } from "@/lib/store/session";
 import { blankStep, getJob, logEvent as saveEvent, setLocation, updateJob, updateStep as saveStep } from "@/lib/store/progress";
 import type { JobProgressRow, StepProgressRow } from "@/lib/store/types";
 import { addCardsForJob } from "@/lib/review/deck";
-import { firstTime, pickLine, type Cue } from "@/lib/reactions";
+import { firstTime, pickLine } from "@/lib/reactions";
+import { speakerFor } from "@/lib/cast";
 import { track } from "@/lib/track";
-import { WorkbenchContext, type GateAct, type WorkbenchContextValue } from "./context";
+import { WorkbenchContext, type CoachKind, type GateAct, type Utterance, type WorkbenchContextValue, type Zone } from "./context";
+import { classmateOf, isSpoken, nextId, usesEditor, utterancesFor } from "./labels";
 import { useRunner } from "./useRunner";
-import { StepPath } from "./StepPath";
-import { DialogueBox } from "./DialogueBox";
+import { StepBar } from "./StepPath";
 import { Hud } from "./Hud";
 import { StepView } from "./StepView";
-import { Button } from "../ui/Button";
-import { PixelIcon } from "../ui/PixelIcon";
-import { SpriteFrame } from "../world/SpriteFrame";
 import styles from "./Workbench.module.css";
 
 interface Props {
@@ -25,33 +23,41 @@ interface Props {
   characters: Record<string, Character>;
   conceptTitles: Record<string, string>;
   actTitle: string;
+  /** How many numbered projects the Act has, for "Project 2 of 13". */
+  actProjects?: number;
+  /** The next project in the Act, offered when this one ships. */
+  nextJob?: { id: string; title: string } | null;
   landing?: boolean;
   /** A Pro project shown to someone without Pro: only its Ask is here, as a preview. */
   preview?: boolean;
-  /** Set on the free Act's last project: the Acts to offer in the gate scene after it ships. */
+  /** Set on the free Act's last project: the Acts to offer in the Pro gate after it ships. */
   gateActs?: GateAct[];
 }
 
 const TICK_SECONDS = 5;
-const FOLD_KEY = "fixwick-ticket-folded";
-const CODE_STEPS = ["pips", "fix", "modify", "make"];
+const COMPACT_AT = 860;
+const PANEL_KEY = "ppc-panel-width";
+const PANEL_FOLD_KEY = "ppc-panel-collapsed";
+export const PANEL_MIN = 340;
+export const PANEL_MAX = 520;
+const PANEL_DEFAULT = 400;
 
-// The portrait expression for each kind of reaction (REDESIGN.md 6.2).
+// The portrait expression for each kind of reaction, for when the final art arrives.
 const FACE: Record<string, string> = {
   "check-passed": "pleased",
-  "check-failed": "confused",
-  "run-error": "squinting",
+  "check-failed": "thinking",
+  "run-error": "thinking",
   "stopped-loop": "surprised",
   "third-hint": "worried",
   "solution-seen": "neutral",
   idle: "neutral",
   returning: "pleased",
   recap: "neutral",
-  "error-name": "squinting",
-  "error-text-number": "squinting",
+  "error-name": "thinking",
+  "error-text-number": "thinking",
   "error-zero": "surprised",
-  "error-index": "squinting",
-  "error-int-text": "squinting",
+  "error-index": "thinking",
+  "error-int-text": "thinking",
   "error-indent": "laughing",
   "ran-nothing": "confused",
   "loop-never-runs": "confused",
@@ -60,19 +66,32 @@ const FACE: Record<string, string> = {
   "first-function": "proud",
   "nested-loop": "surprised",
   "good-name": "pleased",
-  "letter-name": "annoyed",
-  "long-function": "annoyed",
-  "long-line": "squinting",
+  "letter-name": "unimpressed",
+  "long-function": "unimpressed",
+  "long-line": "thinking",
   "long-no-loop": "laughing",
   "pass-first-try": "proud",
   "pass-after-many": "proud",
   "pass-no-hints": "pleased",
   "third-fail": "worried",
   "one-left": "pleased",
-  "shorter-than-pip": "annoyed",
+  "shorter-than-mine": "surprised",
+  "fixed-by-learner": "pleased",
+  "predict-right": "pleased",
+  "predict-wrong": "thinking",
+  "after-explain": "thinking",
 };
 
-// Away this long and Moss (and the client) say where you'd got to (REDESIGN.md 6.5).
+// "Less talk" (Settings) keeps the coach for hints and errors only.
+const HINT_EVENTS = new Set(["third-hint", "solution-seen", "after-explain"]);
+function kindOf(event: string): CoachKind {
+  if (HINT_EVENTS.has(event)) return "hint";
+  if (event === "run-error" || event.startsWith("error-") || event === "check-failed" || event === "third-fail") return "error";
+  if (event === "check-passed" || event.startsWith("pass-") || event === "fixed-by-learner") return "pass";
+  return "react";
+}
+
+// Away this long and Paul (and the client) say where you'd got to. Never guilt.
 const RECAP_AFTER_MS = 4 * 60 * 60 * 1000;
 const LAST_SEEN = "last-seen";
 const IDLE_AFTER_MS = 60_000;
@@ -82,26 +101,24 @@ export function isComplete(row: StepProgressRow | undefined) {
   return row?.status === "passed" || row?.status === "seen-solution";
 }
 
-export function Workbench({ job, characters, conceptTitles, actTitle, landing = false, preview = false, gateActs }: Props) {
+export function Workbench({ job, characters, conceptTitles, actTitle, actProjects, nextJob = null, landing = false, preview = false, gateActs }: Props) {
   const { store, ready, user, profile, syncStatus } = useSession();
   const runner = useRunner();
   const router = useRouter();
   const params = useSearchParams();
+  const root = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState<Record<string, StepProgressRow>>({});
   const [jobProgress, setJobProgress] = useState<JobProgressRow | null>(null);
   const [stepId, setStepId] = useState<string | null>(null);
-  const [talk, setTalk] = useState<(Line & { id: number })[]>([]);
-  const reaction = talk[0] ?? null;
-  const setReaction = useCallback((line: (Line & { id: number }) | null) => setTalk(line ? [line] : []), []);
+  const [coach, setCoach] = useState<{ said: Utterance[]; index: number }>({ said: [], index: 0 });
   const saidThisStep = useRef<Set<string>>(new Set());
-  const [zone, setZone] = useState<"brief" | "code" | "output">("brief");
+  const [zone, setZone] = useState<Zone>("brief");
   const [markedLine, setMarkedLine] = useState<number | null>(null);
-  const [ticketFolded, setFolded] = useState(false);
   const [hintsOpen, setHintsOpen] = useState(false);
-  const [dennisOpen, setDennisOpen] = useState(false);
-  const [hintSlot, setHintSlot] = useState<HTMLElement | null>(null);
-  const [drawerSlot, setDrawerSlot] = useState<HTMLElement | null>(null);
-  const drawerClose = useRef<HTMLButtonElement>(null);
+  const [duckOpen, setDuckOpen] = useState(false);
+  const [panelWidth, setPanelWidth] = useState(PANEL_DEFAULT);
+  const [panelCollapsed, setCollapsed] = useState(false);
+  const [compact, setCompact] = useState(false);
   const lastActivity = useRef(Date.now());
   const pendingSeconds = useRef(0);
   const nudged = useRef<Set<string>>(new Set());
@@ -135,8 +152,48 @@ export function Workbench({ job, characters, conceptTitles, actTitle, landing = 
   const index = job.steps.findIndex((s) => s.id === stepId);
   const step: Step | null = index >= 0 ? job.steps[index]! : null;
   const nextStep = index >= 0 && index < job.steps.length - 1 ? job.steps[index + 1]! : null;
+  const classmate = classmateOf(step);
+  const nameOf = useCallback((who: string) => characters[who]?.name ?? (who ? who.charAt(0).toUpperCase() + who.slice(1) : ""), [characters]);
 
-  // Remember where the learner is, and keep the URL shareable.
+  // Narrow Workbench (a phone, or the landing page's frame): the three-tab layout.
+  useEffect(() => {
+    const el = root.current;
+    if (!el) return;
+    const ro = new ResizeObserver(() => setCompact(el.clientWidth <= COMPACT_AT));
+    ro.observe(el);
+    setCompact(el.clientWidth <= COMPACT_AT);
+    return () => ro.disconnect();
+  }, []);
+
+  // The instructions panel keeps its width and fold across projects.
+  useEffect(() => {
+    try {
+      const w = Number(localStorage.getItem(PANEL_KEY));
+      if (w >= PANEL_MIN && w <= PANEL_MAX) setPanelWidth(w);
+      setCollapsed(localStorage.getItem(PANEL_FOLD_KEY) === "1");
+    } catch {
+      // Private windows can refuse storage; the defaults are fine.
+    }
+  }, []);
+  const setPanelCollapsed = useCallback((value: boolean) => {
+    setCollapsed(value);
+    try {
+      localStorage.setItem(PANEL_FOLD_KEY, value ? "1" : "0");
+    } catch {
+      // ignore
+    }
+  }, []);
+  const savePanelWidth = useCallback((w: number) => {
+    const clamped = Math.round(Math.max(PANEL_MIN, Math.min(PANEL_MAX, w)));
+    setPanelWidth(clamped);
+    try {
+      localStorage.setItem(PANEL_KEY, String(clamped));
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  // Remember where the learner is, keep the URL shareable, and start the step's coach lines.
   useEffect(() => {
     if (!store || !step) return;
     void setLocation(store, { jobId: job.id, stepId: step.id });
@@ -145,40 +202,29 @@ export function Workbench({ job, characters, conceptTitles, actTitle, landing = 
       if (window.location.pathname + window.location.search !== url) router.replace(url, { scroll: false });
     }
     setMarkedLine(null);
-    setReaction(null);
+    // Each step starts with a clean console: the learner's program still running from the last one stops.
+    if (runner.state.phase !== "idle") runner.stop();
+    runner.clear();
     saidThisStep.current = new Set();
+    // The Ask and the Ship panels show their own lines; everywhere else the coach opens with the step's.
+    const own = step.type === "ask" || step.type === "ship" || lessTalk ? [] : utterancesFor(step.dialogue);
+    setCoach({ said: own, index: 0 });
     setHintsOpen(false);
-    setDennisOpen(false);
+    setDuckOpen(false);
     lastActivity.current = Date.now();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [store, step, job.id, landing, router]);
 
-  // The ticket stays folded or open across jobs.
+  // Escape puts the duck away; other parts of the app can call it up.
   useEffect(() => {
-    try {
-      setFolded(localStorage.getItem(FOLD_KEY) === "1");
-    } catch {
-      // ignore
-    }
-  }, []);
-  const setTicketFolded = useCallback((folded: boolean) => {
-    setFolded(folded);
-    try {
-      localStorage.setItem(FOLD_KEY, folded ? "1" : "0");
-    } catch {
-      // ignore
-    }
-  }, []);
-
-  // Dennis can be called from anywhere (a hotspot in a scene, the Keys sheet). Escape sends him off.
-  useEffect(() => {
-    const open = () => setDennisOpen(true);
+    const open = () => setDuckOpen(true);
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setDennisOpen(false);
+      if (e.key === "Escape" && !(e.target as HTMLElement | null)?.closest?.("[role='menu'], dialog")) setDuckOpen(false);
     };
-    window.addEventListener("ppc:dennis", open);
+    window.addEventListener("ppc:duck", open);
     window.addEventListener("keydown", onKey);
     return () => {
-      window.removeEventListener("ppc:dennis", open);
+      window.removeEventListener("ppc:duck", open);
       window.removeEventListener("keydown", onKey);
     };
   }, []);
@@ -208,37 +254,54 @@ export function Workbench({ job, characters, conceptTitles, actTitle, landing = 
     [store, job.id, stepId],
   );
 
-  const react = useCallback(
-    async (who: string, event: string) => {
-      if (lessTalk) return;
-      const text = await pickLine(store, characters, who, event);
-      if (text) setReaction({ who, text, face: FACE[event], id: Date.now() });
+  // The coach: a new utterance goes on the end of this step's list and is the one showing.
+  const push = useCallback((u: Utterance) => setCoach((c) => ({ said: [...c.said, u], index: c.said.length })), []);
+  const allowed = useCallback((kind: CoachKind) => !lessTalk || kind === "hint" || kind === "error", [lessTalk]);
+
+  const say = useCallback<WorkbenchContextValue["say"]>(
+    (who, text, opts = {}) => {
+      const kind = opts.kind ?? "react";
+      if (!allowed(kind) || !isSpoken(who)) return;
+      push({ id: nextId(), who, lines: (Array.isArray(text) ? text : [text]).slice(0, 2), face: opts.face, kind });
     },
-    [store, characters, lessTalk],
+    [allowed, push],
   );
 
-  const sayLine = useCallback((who: string, text: string, face?: string) => setReaction({ who, text, face, id: Date.now() }), [setReaction]);
+  const react = useCallback<WorkbenchContextValue["react"]>(
+    async (event, opts = {}) => {
+      const kind = opts.kind ?? kindOf(event);
+      if (!allowed(kind)) return;
+      const who = speakerFor(event, { classmate, client: job.client });
+      const text = await pickLine(store, characters, who, event, opts.vars);
+      if (text) push({ id: nextId(), who, lines: [text], face: FACE[event], kind });
+    },
+    [allowed, classmate, job.client, store, characters, push],
+  );
 
   // Reactions to the learner's code: the first cue that has something fresh to say wins.
   const cue = useCallback<WorkbenchContextValue["cue"]>(
-    async (cues, opts = {}) => {
-      if (lessTalk) return;
+    async (cues, forceKind) => {
       for (const c of cues) {
-        const key = `${c.who}:${c.event}`;
+        const kind = forceKind ?? kindOf(c.event);
+        if (!allowed(kind)) continue;
+        // A cue made without this step's classmate or client gets them filled in here.
+        const who = c.who === speakerFor(c.event) ? speakerFor(c.event, { classmate, client: job.client }) : c.who;
+        const key = `${who}:${c.event}`;
         if (c.perStep && saidThisStep.current.has(key)) continue;
         if (c.once && !(await firstTime(store, key))) continue;
-        const text = await pickLine(store, characters, c.who, c.event, c.vars);
+        const text = await pickLine(store, characters, who, c.event, c.vars);
         if (!text) continue;
         saidThisStep.current.add(key);
-        const line = { who: c.who, text, face: FACE[c.event], id: Date.now() };
-        setTalk((t) => (opts.after && t.length ? [...t.slice(0, 1), line] : [line]));
+        push({ id: nextId(), who, lines: [text], face: FACE[c.event], kind });
         return;
       }
     },
-    [store, characters, lessTalk],
+    [allowed, classmate, job.client, store, characters, push],
   );
 
-  // Back after a break: one line from Moss, one from the client about where you'd got to. Never guilt.
+  const coachTo = useCallback((i: number) => setCoach((c) => ({ ...c, index: Math.max(0, Math.min(c.said.length - 1, i)) })), []);
+
+  // Back after a break: one line from Paul, one from the client about where you'd got to.
   const recapped = useRef(false);
   useEffect(() => {
     if (!store || !stepId || recapped.current || landing) return;
@@ -249,13 +312,11 @@ export function Workbench({ job, characters, conceptTitles, actTitle, landing = 
       const started = Object.values(progress).some((r) => r.status !== "not-started" || r.timeSpent > 0);
       if (lessTalk || !last || Date.now() - last < RECAP_AFTER_MS || !started) return;
       const here = job.steps.find((s) => s.id === stepId);
-      const lines: (Line & { id: number })[] = [];
-      const moss = await pickLine(store, characters, "moss", "returning");
-      if (moss) lines.push({ who: "moss", text: moss, face: "pleased", id: Date.now() });
-      const who = job.client !== "moss" && characters[job.client]?.pools.recap ? job.client : "moss";
+      const back = await pickLine(store, characters, speakerFor("returning"), "returning");
+      if (back) push({ id: nextId(), who: speakerFor("returning"), lines: [back], face: "pleased", kind: "react" });
+      const who = speakerFor("recap", { client: job.client });
       const where = await pickLine(store, characters, who, "recap", { step: here?.title ?? "it", job: job.title });
-      if (where) lines.push({ who, text: where, face: "neutral", id: Date.now() + 1 });
-      if (lines.length) setTalk(lines);
+      if (where) push({ id: nextId(), who, lines: [where], face: "neutral", kind: "react" });
     })();
     const beat = setInterval(() => void store.kvSet(LAST_SEEN, Date.now()), 60_000);
     return () => clearInterval(beat);
@@ -263,35 +324,28 @@ export function Workbench({ job, characters, conceptTitles, actTitle, landing = 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [store, stepId]);
 
-  // Opening the drawer puts the cursor in Dennis's first question.
-  useEffect(() => {
-    if (!dennisOpen) return;
-    const t = setTimeout(() => (drawerSlot?.querySelector<HTMLElement>("textarea, select") ?? drawerClose.current)?.focus(), 130);
-    return () => clearTimeout(t);
-  }, [dennisOpen, drawerSlot]);
-
   const goTo = useCallback((id: string) => {
     setStepId(id);
     setZone("brief");
-    document.getElementById("main")?.scrollTo?.({ top: 0 });
+    document.getElementById("wb-body")?.scrollTo?.({ top: 0 });
   }, []);
 
   const goNext = useCallback(() => {
     if (nextStep) goTo(nextStep.id);
   }, [nextStep, goTo]);
 
-  const shipJob = useCallback(async () => {
-    if (!store) return;
+  const shipJob = useCallback(async (): Promise<boolean> => {
+    if (!store) return false;
     const current = await getJob(store, job.id);
     if (current.status === "shipped" || current.status === "shipped-stretch") {
       setJobProgress(current);
-      return;
+      return false;
     }
     const shipStep = job.steps.find((s) => s.type === "ship");
     const next = await updateJob(store, job.id, { status: "shipped", shippedAt: Date.now() });
     setJobProgress(next);
     if (shipStep?.type === "ship") await addCardsForJob(store, shipStep.cards);
-    // A placement pass marks the Act's Jobs as placed, and its ideas still come up in review.
+    // A placement pass marks the Act's projects as placed, and its ideas still come up in review.
     if (shipStep?.type === "ship" && shipStep.places) {
       for (const id of shipStep.places.jobs) {
         const row = await getJob(store, id);
@@ -310,6 +364,7 @@ export function Workbench({ job, characters, conceptTitles, actTitle, landing = 
     if (shippedCount >= 1) track("ship-1");
     if (shippedCount >= 5) track("ship-5");
     if (gateActs) track("ship-capstone");
+    return true;
   }, [store, job, logEvent, gateActs]);
 
   // Time on step: counted in 5-second ticks while the tab is visible and the learner is active.
@@ -338,7 +393,7 @@ export function Workbench({ job, characters, conceptTitles, actTitle, landing = 
       const checkable = ["pips", "fix", "modify", "make"].includes(step.type);
       if (checkable && idle > NUDGE_AFTER_MS && !nudged.current.has(step.id) && !isComplete(progress[step.id])) {
         nudged.current.add(step.id);
-        void react("moss", "idle");
+        void react("idle");
       }
     }, TICK_SECONDS * 1000);
     return () => {
@@ -358,7 +413,7 @@ export function Workbench({ job, characters, conceptTitles, actTitle, landing = 
   }, [ready, user]);
 
   // Warm Python up as soon as the Workbench opens. On the landing page it waits a few seconds,
-  // or until someone touches the job, so the page itself loads first.
+  // or until someone touches the project, so the page itself loads first.
   useEffect(() => {
     if (!landing) {
       runner.preload();
@@ -376,12 +431,14 @@ export function Workbench({ job, characters, conceptTitles, actTitle, landing = 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const areas = useMemo(() => ({ brief: styles.brief!, stage: styles.stage!, output: styles.output!, side: styles.side! }), []);
+  const areas = useMemo(() => ({ panel: styles.panel!, stage: styles.stage!, full: styles.full! }), []);
+  const usesCode = usesEditor(step);
 
   const value: WorkbenchContextValue = {
     job,
     characters,
     conceptTitles,
+    actTitle,
     store,
     runner,
     areas,
@@ -390,94 +447,127 @@ export function Workbench({ job, characters, conceptTitles, actTitle, landing = 
     landing,
     preview,
     gateActs: gateActs ?? null,
+    nextJob,
     guest: !user,
     lessTalk,
+    compact,
+    step,
+    classmate,
+    nameOf,
     updateStep,
     markPassed,
     react,
-    sayLine,
+    say,
     cue,
+    coach,
+    coachTo,
     goTo,
     goNext,
     nextStep,
+    zone,
     showZone: setZone,
     markLine: setMarkedLine,
     markedLine,
     shipJob,
     logEvent,
-    ticketFolded,
-    setTicketFolded,
     hintsOpen,
     setHintsOpen,
-    hintSlot,
-    dennisOpen,
-    setDennisOpen,
-    drawerSlot,
+    duckOpen,
+    setDuckOpen,
+    panelCollapsed,
+    setPanelCollapsed,
   };
 
-  const usesCode = step ? !["ask", "ship", "reading", "concept", "git", "takehome", "milestone"].includes(step.type) : false;
-  const hasHints = Boolean(step && "hints" in step && step.hints);
-  const hasDennis = Boolean(step && CODE_STEPS.includes(step.type));
-
-  const tools = (
-    <>
-      {hasHints ? (
-        <Button size="sm" variant={hintsOpen ? "primary" : "quiet"} pixelIcon="hint" aria-pressed={hintsOpen} onClick={() => setHintsOpen(!hintsOpen)} title="Moss's hints">
-          Hint
-        </Button>
-      ) : null}
-      {hasDennis ? (
-        <button className={styles.duck} aria-pressed={dennisOpen} onClick={() => setDennisOpen(!dennisOpen)} title="Explain it to Dennis">
-          <PixelIcon name="duck" />
-          <span className="visually-hidden">Explain it to Dennis</span>
-        </button>
-      ) : null}
-    </>
-  );
+  const Body = landing ? "div" : "main";
+  const zones: { id: Zone; label: string }[] = [
+    { id: "brief", label: "Instructions" },
+    { id: "code", label: "Code" },
+    { id: "output", label: "Output" },
+  ];
 
   return (
     <WorkbenchContext.Provider value={value}>
-      <div
-        className={[styles.wb, landing ? styles.landing : ""].join(" ")}
-        data-zone={zone}
-        data-code={usesCode || undefined}
-        data-ticket={ticketFolded ? "folded" : undefined}
-      >
-        {landing ? null : <Hud job={job} actTitle={actTitle} syncStatus={syncStatus} guest={!user} secondsSpent={jobProgress?.timeSpent ?? 0} />}
-        <nav className={styles.path} aria-label="Steps in this job">
-          <StepPath steps={job.steps} current={stepId} progress={progress} onSelect={goTo} tools={tools} />
-        </nav>
-        {step ? (
-          <div className={styles.talk}>
-            <DialogueBox step={step} reaction={reaction} onDismissReaction={() => setTalk((t) => t.slice(1))} hintsOpen={hintsOpen} onCloseHints={() => setHintsOpen(false)} hintSlotRef={setHintSlot} />
-          </div>
-        ) : null}
-        <div className={styles.tabs} role="tablist" aria-label="Workbench">
-          {(["brief", "code", "output"] as const).map((z) =>
-            z !== "brief" && !usesCode ? null : (
-              <button key={z} role="tab" aria-selected={zone === z} className={styles.tab} onClick={() => setZone(z)}>
-                {z === "brief" ? "Ticket" : z === "code" ? "Code" : "Output"}
-              </button>
-            ),
-          )}
+      <div ref={root} className={[styles.wb, landing ? styles.landing : ""].join(" ")} style={{ ["--panel-w" as string]: `${panelCollapsed ? 56 : panelWidth}px` }}>
+        <div className={styles.frame} data-zone={zone} data-code={usesCode || undefined} data-collapsed={panelCollapsed || undefined}>
+          {landing ? null : <Hud job={job} actTitle={actTitle} actProjects={actProjects} syncStatus={syncStatus} guest={!user} secondsSpent={jobProgress?.timeSpent ?? 0} />}
+          <StepBar steps={job.steps} current={stepId} progress={progress} onSelect={goTo} />
+          <Body id={landing ? undefined : "main"} className={styles.body}>
+            {usesCode ? (
+              <div className={styles.zoneTabs} role="tablist" aria-label="Workbench">
+                {zones.map((z, i) => (
+                  <button
+                    key={z.id}
+                    role="tab"
+                    aria-selected={zone === z.id}
+                    tabIndex={zone === z.id ? 0 : -1}
+                    className={styles.zoneTab}
+                    onClick={() => setZone(z.id)}
+                    onKeyDown={(e) => {
+                      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+                      const next = zones[(i + (e.key === "ArrowRight" ? 1 : zones.length - 1)) % zones.length]!;
+                      setZone(next.id);
+                      (e.currentTarget.parentElement?.children[zones.indexOf(next)] as HTMLElement | undefined)?.focus();
+                    }}
+                  >
+                    {z.label}
+                  </button>
+                ))}
+              </div>
+            ) : null}
+            <div id="wb-body" className={styles.bodyGrid}>
+              {step && store ? <StepView key={step.id} step={step} row={progress[step.id] ?? blankStep(job.id, step.id)} /> : <p className={styles.loading}>Opening your project.</p>}
+              {step && store && !panelCollapsed ? <PanelHandle width={panelWidth} onResize={setPanelWidth} onDone={savePanelWidth} /> : null}
+            </div>
+          </Body>
         </div>
-        <main id="main" className={styles.main}>
-          {step && store ? <StepView key={step.id} step={step} row={progress[step.id] ?? blankStep(job.id, step.id)} /> : <p className={styles.loading}>Opening the workshop.</p>}
-        </main>
-        <aside className={`frame-panel float ${styles.drawer}`} data-open={dennisOpen || undefined} aria-labelledby="dennis-title" inert={!dennisOpen}>
-          <header className={styles.drawerHead}>
-            <SpriteFrame sprite="dennis" scale={3} />
-            <h2 id="dennis-title" className={styles.drawerTitle}>
-              Explain it to Dennis
-            </h2>
-            <button ref={drawerClose} className={styles.drawerClose} onClick={() => setDennisOpen(false)}>
-              <PixelIcon name="cross" />
-              <span className="visually-hidden">Close</span>
-            </button>
-          </header>
-          <div ref={setDrawerSlot} className={styles.drawerBody} />
-        </aside>
       </div>
     </WorkbenchContext.Provider>
+  );
+}
+
+/** The drag handle on the instructions panel's right edge: 340 to 520 px, keyboard arrows too. */
+function PanelHandle({ width, onResize, onDone }: { width: number; onResize: (w: number) => void; onDone: (w: number) => void }) {
+  const latest = useRef(width);
+  latest.current = width;
+  const start = (e: React.PointerEvent<HTMLDivElement>) => {
+    const target = e.currentTarget;
+    const x0 = e.clientX;
+    const w0 = width;
+    target.setPointerCapture(e.pointerId);
+    document.body.style.cursor = "col-resize";
+    const move = (ev: PointerEvent) => onResize(Math.max(PANEL_MIN, Math.min(PANEL_MAX, w0 + ev.clientX - x0)));
+    const up = () => {
+      target.removeEventListener("pointermove", move);
+      target.removeEventListener("pointerup", up);
+      target.removeEventListener("pointercancel", up);
+      document.body.style.cursor = "";
+      onDone(latest.current);
+    };
+    target.addEventListener("pointermove", move);
+    target.addEventListener("pointerup", up);
+    target.addEventListener("pointercancel", up);
+  };
+  return (
+    <div
+      className={styles.handle}
+      role="separator"
+      aria-orientation="vertical"
+      aria-label="Resize the instructions"
+      aria-valuemin={PANEL_MIN}
+      aria-valuemax={PANEL_MAX}
+      aria-valuenow={width}
+      tabIndex={0}
+      onPointerDown={start}
+      onDoubleClick={() => onDone(PANEL_DEFAULT)}
+      onKeyDown={(e) => {
+        const step = e.shiftKey ? 60 : 20;
+        if (e.key === "ArrowLeft") onDone(width - step);
+        else if (e.key === "ArrowRight") onDone(width + step);
+        else if (e.key === "Home") onDone(PANEL_MIN);
+        else if (e.key === "End") onDone(PANEL_MAX);
+        else return;
+        e.preventDefault();
+      }}
+    />
   );
 }

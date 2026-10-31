@@ -5,25 +5,25 @@ title: Which lines run
 concept: try-except
 code: |
   try:
-      tonnes = float("ten")
-      print("Weighed")
+      price = float("ten")
+      print("Priced")
   except ValueError:
-      print("Not a weight")
+      print("Not a price")
   print("Next")
 question: What does this print?
 options:
   - text: |-
-      Not a weight
+      Not a price
       Next
     correct: true
     feedback: "Right. `float(\"ten\")` fails, so the rest of the `try` is skipped, the `except` runs, and the program carries on underneath."
   - text: |-
-      Weighed
-      Not a weight
+      Priced
+      Not a price
       Next
     misconception: try-finishes-block
-    feedback: "Once a line in the `try` fails, the rest of the `try` is skipped. `Weighed` never prints."
-  - text: Not a weight
+    feedback: "Once a line in the `try` fails, the rest of the `try` is skipped. `Priced` never prints."
+  - text: Not a price
     misconception: except-ends-program
     feedback: "An `except` doesn't end the program. When it's done, Python carries on with the next line underneath."
   - text: A ValueError traceback

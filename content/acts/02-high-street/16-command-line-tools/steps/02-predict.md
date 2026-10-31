@@ -40,6 +40,6 @@ options:
 after: |
   Run it. Under the output, the console says which exit code the program finished with.
 ---
-Every program finishes with an **exit code**, a number for whoever started it. 0 means it went well; anything else means it didn't. Moss's nightly backup script reads it to decide whether to carry on.
+Every program finishes with an **exit code**, a number for whoever started it. 0 means it went well; anything else means it didn't. Paul's nightly backup script reads it to decide whether to carry on.
 
 `sys.exit(1)` ends the program with exit code 1.

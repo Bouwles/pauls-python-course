@@ -1,6 +1,6 @@
 """Bookings for the visitor berths, kept in one JSON file.
 
-Only this module reads or writes the file. Agnes's rules are in rules.py;
+Only this module reads or writes the file. The marina's rules are in rules.py;
 a Bookings object applies them, then keeps whatever passes.
 """
 import json

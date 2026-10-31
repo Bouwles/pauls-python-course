@@ -1,0 +1,118 @@
+.coach {
+  display: grid;
+  gap: var(--s-3);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  align-items: start;
+  gap: var(--s-4);
+}
+
+.portraitButton {
+  display: block;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  transition: transform var(--dur) var(--ease-out);
+}
+
+.portraitButton:hover {
+  transform: scale(1.04);
+}
+
+.portraitButton:focus-visible {
+  outline: 2px solid var(--sun);
+  outline-offset: 3px;
+}
+
+.portraitButton[aria-expanded="true"] {
+  outline: 2px solid var(--line);
+  outline-offset: 3px;
+}
+
+.say {
+  display: grid;
+  justify-items: start;
+  gap: var(--s-2);
+  min-width: 0;
+  padding-top: var(--s-1);
+}
+
+/* The panel is surface-1, so the bubble sits one step up: surface-2 in dark, surface-3 in light. */
+.bubble {
+  width: 100%;
+  font-size: var(--fs-2);
+  box-shadow: none;
+  animation: say var(--dur-slow) var(--ease-spring);
+  transform-origin: 0 24px;
+}
+
+@keyframes say {
+  from {
+    transform: translateX(-4px) scale(0.97);
+    opacity: 0;
+  }
+}
+
+.next {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  height: 32px;
+  padding: 0 var(--s-2);
+  border: 0;
+  border-radius: var(--r-md);
+  background: none;
+  color: var(--text-2);
+  font-size: var(--fs-1);
+  font-weight: 700;
+}
+
+.next:hover {
+  background: var(--surface-3);
+  color: var(--text);
+}
+
+.history {
+  display: grid;
+  gap: var(--s-2);
+  margin: 0;
+  padding: var(--s-3);
+  list-style: none;
+  max-height: 220px;
+  overflow-y: auto;
+  border-radius: var(--r-lg);
+  background: var(--bg);
+}
+
+.past {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: var(--s-2);
+  align-items: start;
+  font-size: var(--fs-1);
+  line-height: 1.45;
+  color: var(--text-2);
+}
+
+.pastName {
+  font-weight: 700;
+  color: var(--text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bubble {
+    animation: none;
+  }
+
+  .portraitButton:hover {
+    transform: none;
+  }
+}
+
+:root[data-motion="reduced"] .bubble {
+  animation: none;
+}

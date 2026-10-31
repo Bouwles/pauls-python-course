@@ -46,7 +46,7 @@ def long_words(ctx):
 
 def both_ways(ctx):
     module = ctx.module()
-    for one, other in [("whelk", "whale"), ("anchor", "ancho"), ("lamp", "plum"), ("", "tide")]:
+    for one, other in [("kito", "quito"), ("berlin", "berli"), ("lamp", "plum"), ("", "quiz")]:
         there, back = module.edit_distance(one, other), module.edit_distance(other, one)
         if there != back or there != true_distance(one, other):
             raise CheckFailed(f"Turning {one!r} into {other!r} takes as many changes as turning it back.",
@@ -91,25 +91,25 @@ def checks(text, expected):
 
 
 SESSION = """Knows 7709 words.
-'Lighthose' for 'Lighthouse': near enough
-'Whelk' for 'Whale': wrong
-'Lihgthouse' for 'Lighthouse': near enough
+'Copenhagan' for 'Copenhagen': near enough
+'Kito' for 'Quito': wrong
+'Copenahgen' for 'Copenhagen': near enough
   captin: captain, cap'n, cabin
-  lighthose: lighthouse
+  iland: island, land, and
   nite: nine, note, bite
 Every word known."""
 
 TESTS = [
-    function("Lighthose", call="edit_distance", args=("Lighthose", "Lighthouse"), expect=1, visible=True),
-    output("Gwen's answers, and a sentence checked", inputs=["The captin sailed past the lighthose at nite.", "Fifteen men on the dead man's chest", ""],
+    function("Copenhagan", call="edit_distance", args=("Copenhagan", "Copenhagen"), expect=1, visible=True),
+    output("Paul's answers, and a sentence checked", inputs=["The captin sailed round the iland at nite.", "Fifteen men on the dead man's chest", ""],
            expect=SESSION, visible=True),
     function("Nothing into nothing", call="edit_distance", args=("", ""), expect=0),
-    function("Something from nothing", call="edit_distance", args=("", "TIDE"), expect=4,
+    function("Something from nothing", call="edit_distance", args=("", "QUIZ"), expect=4,
              hint="Turning no letters into four letters takes four letters put in. That's the first row of the table."),
-    function("Nothing from something", call="edit_distance", args=("TIDE", ""), expect=4),
-    function("Spelt right", call="edit_distance", args=("ferry", "ferry"), expect=0),
-    function("One letter short", call="edit_distance", args=("anchor", "ancho"), expect=1),
-    function("Whelk for whale", call="edit_distance", args=("whelk", "whale"), expect=2),
+    function("Nothing from something", call="edit_distance", args=("QUIZ", ""), expect=4),
+    function("Spelt right", call="edit_distance", args=("quito", "quito"), expect=0),
+    function("One letter short", call="edit_distance", args=("berlin", "berli"), expect=1),
+    function("Kito for Quito", call="edit_distance", args=("kito", "quito"), expect=2),
     function("Lamp for plum", call="edit_distance", args=("lamp", "plum"), expect=3,
              hint="When two letters don't match, try all three: take one out (from above), put one in (from the left), or swap (up and to the left)."),
     custom("There and back", both_ways),
@@ -129,12 +129,12 @@ TESTS = [
     custom("Each unknown word once", checks("cta cta cat", [("cta", ["cat", "act", "coat"])]),
            hint="A word that's already been reported isn't reported again."),
     custom("Every word known", checks("Cat, coat. COT", [])),
-    function("Right, in any case", call="mark", args=("  LIGHTHOUSE ", "Lighthouse"), expect="right"),
-    function("Mr Ashby's answer", call="mark", args=("Lighthose", "Lighthouse"), expect="near enough"),
-    function("Two slips in ten letters", call="mark", args=("Lihgthouse", "Lighthouse"), expect="near enough",
+    function("Right, in any case", call="mark", args=("  COPENHAGEN ", "Copenhagen"), expect="right"),
+    function("Riya's answer", call="mark", args=("Copenhagan", "Copenhagen"), expect="near enough"),
+    function("Two slips in ten letters", call="mark", args=("Copenahgen", "Copenhagen"), expect="near enough",
              hint="Ten letters allow two changes. Swapping two letters round takes two."),
-    function("Three slips in ten letters", call="mark", args=("Lightship", "lighthouse"), expect="wrong"),
-    function("Whelk", call="mark", args=("Whelk", "Whale"), expect="wrong"),
+    function("Four slips in ten letters", call="mark", args=("Kobenhavn", "copenhagen"), expect="wrong"),
+    function("Yahya's answer", call="mark", args=("Kito", "Quito"), expect="wrong"),
     function("No slips in a short answer", call="mark", args=("cod", "Cog"), expect="wrong",
-             hint="Gwen allows one change for every five letters of the right answer. Three letters allow none."),
+             hint="Paul allows one change for every five letters of the right answer. Three letters allow none."),
 ]

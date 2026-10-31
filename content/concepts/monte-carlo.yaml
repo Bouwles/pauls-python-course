@@ -47,7 +47,7 @@ cards:
         misconception: average-needs-every-result
         feedback: "Dividing by visits each time keeps it an average, not a total, without storing the samples."
   - type: choice
-    prompt: "Sir Reginald is half way through a practice race. When can Monte Carlo update the tiles he has stood on so far?"
+    prompt: "The crab is half way through a practice race. When can Monte Carlo update the tiles it has stood on so far?"
     verify: none
     options:
       - text: When the race is over
@@ -60,7 +60,7 @@ cards:
         misconception: mc-needs-model
         feedback: "Monte Carlo never needs the chances. Races are samples of them already."
   - type: fix
-    prompt: "This credits every tile in a race with the return from the start. Each tile should get the return from the moment he stood on it. Fix it."
+    prompt: "This credits every tile in a race with the return from the start. Each tile should get the return from the moment the crab stood on it. Fix it."
     code: |
       def mc_values(races, gamma=0.9):
           """races: a list of races, each a list of (tile, reward)."""

@@ -1,6 +1,6 @@
 import numpy as np
 
-VERSIONS = ["three goes for a pound", "win a cuddly crab", "free go after six", "beat Sir Reginald"]
+VERSIONS = ["three goes for a pound", "win a cuddly crab", "free go after six", "beat the crab"]
 RATES = [0.10, 0.14, 0.08, 0.17]
 
 

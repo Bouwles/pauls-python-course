@@ -6,7 +6,7 @@ portfolio_readme: |
 
   A small library system. Every book is a record with its title, author and year, and knows whether it's on the shelf or on loan, and to whom. Reference books never leave the building. The library keeps one card per book, refusing a second copy of a title, and can say which books are on the shelf right now.
 
-  Written by {name} for the library in {{town}}. Finished {date}.
+  Written by {name} for the Studio's shelves, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -17,8 +17,8 @@ portfolio_readme: |
   ```
   The library has 3 books
   Emma, Jane Austen (1815): on loan
-  Tide Tables 2026, Agnes Rook (2025): on the shelf, reference only
-  On the shelf: The Riddle of the Sands, Tide Tables 2026
+  House Style, Paul (2025): on the shelf, reference only
+  On the shelf: The Riddle of the Sands, House Style
   ```
 
   ## Use it in your own programs
@@ -29,7 +29,7 @@ portfolio_readme: |
   library = Library()
   library.add(Book("Emma", "Jane Austen", 1815))      # True
   library.add(Book("EMMA", "Jane Austen", 1815))      # False: one card per book
-  library.find("emma").lend("Bea")                     # True
+  library.find("emma").lend("Aaesha")                  # True
   print(len(library), library.on_shelf())
   ```
 
@@ -42,19 +42,19 @@ portfolio_readme: |
   - Needs Python 3.10 or later, for the `str | None` type hints
 downloadable: true
 datasets: []
-client: vance
+client: neil
 building: library
 estimated_minutes: 120
-summary: "Books, loans and reference copies for Mrs Vance, with Dev and Kat arguing about whether a library is a kind of list."
+summary: "Books, loans and reference copies for the Studio's shelves, with Yahya and Caitlin arguing about whether a library is a kind of list."
 concepts_introduced: [inheritance, super, composition, dataclasses, type-hints, enums]
 concepts_reviewed: [classes, init, attributes, methods, self, dunder-methods, is-vs-equals, list-comprehensions, mutable-default, immutability, lists, none, f-strings, docstrings, main-guard]
 ask:
   dialogue:
-    - vance: "Penhallow's catalogue knows what we have. It has no idea what's out, or who has it."
-    - vance: "I asked Dev and Kat to write me something. They've been arguing in the reading room for an hour."
-    - dev: "A reference book is a book. A library is a list of books. Done."
-    - kat: "A library is not a list. A library has books. And rules."
-    - moss: "You're each right once. Write it and find out where."
+    - neil: "The Studio's shelves have a list of what we own. Nothing says what's out, or who has it."
+    - neil: "I asked Yahya and Caitlin to write me something. They've been arguing by the kettle for an hour."
+    - yahya: "A reference book is a book. A library is a list of books. Done."
+    - caitlin: "A library is not a list. A library has books. And rules."
+    - paul: "You're each right once. Write it and find out where."
   spec: |
     In `library.py`, with type hints throughout:
 
@@ -72,21 +72,21 @@ ask:
   example: |
     The library has 3 books
     Emma, Jane Austen (1815): on loan
-    Tide Tables 2026, Agnes Rook (2025): on the shelf, reference only
-    On the shelf: The Riddle of the Sands, Tide Tables 2026
+    House Style, Paul (2025): on the shelf, reference only
+    On the shelf: The Riddle of the Sands, House Style
 ship:
   dialogue:
-    - dev: "ReferenceBook inherits from Book. As I said."
-    - kat: "And the library has books. As I said."
-    - vance: "Three books, one card each. The second Emma was turned away at the door. Good."
-    - moss: "Both right, once each. Now stop arguing in her reading room."
-  shelf: { object: catalogue-card, label: "Mrs Vance's library, with loans" }
+    - yahya: "ReferenceBook inherits from Book. As I said."
+    - caitlin: "And the library has books. As I said."
+    - neil: "Three books, one card each. The second Emma was turned away at the door."
+    - paul: "Both right, once each. Now stop arguing by the kettle."
+  shelf: { object: catalogue-card, label: "Neil's lending library, with loans" }
   cards: [inheritance, super, composition, dataclasses, type-hints, enums]
 stretch:
   - id: overdue
     title: "Overdue"
     prompt: |
-      Give `Book` a `due: int | None = None` field, the day of the year it's due back, and give `lend` a keyword argument, `today=0`: a book lent today is due 21 days later. `give_back` clears `due`. Then write `Library.overdue(today)`: the books on loan whose due day has passed, in the order they were added, as a comprehension. Mrs Vance's fine is ten pence a day, and she has never let one off.
+      Give `Book` a `due: int | None = None` field, the day of the year it's due back, and give `lend` a keyword argument, `today=0`: a book lent today is due 21 days later. `give_back` clears `due`. Then write `Library.overdue(today)`: the books on loan whose due day has passed, in the order they were added, as a comprehension. Neil's fine is ten pence a day, and it all goes to the trip fund.
     tests: tests/stretch-overdue.py
     solution: solutions/stretch-overdue.py
   - id: by-year

@@ -6,7 +6,7 @@ portfolio_readme: |
 
   A Deep Q-Network written from scratch in NumPy that learns to balance Gymnasium's CartPole-v1. A small network gives a Q-value for pushing the cart left or right from the four numbers that describe it; a replay buffer of 50,000 steps and a target network refreshed every 500 steps keep the learning steady. After 100,000 steps of practice it keeps the pole up for the full 500 steps. Pushing at random manages about 22.
 
-  Written by {name} for the Arcade Committee, on the pier at {{town}}. Finished {date}.
+  Written by {name} for Neil, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -33,7 +33,7 @@ portfolio_readme: |
   - A forward pass and backpropagation by hand, Adam, the Huber loss, and the best network kept by checking it on episodes it never trains on
 downloadable: true
 datasets: []
-client: committee
+client: neil
 building: crab-club
 estimated_minutes: 210
 summary: "Q-values from a small network instead of a table, kept steady by a replay buffer and a frozen target network: built on the racing grid, then taken home to balance Gymnasium's CartPole."
@@ -41,11 +41,11 @@ concepts_introduced: [dqn]
 concepts_reviewed: [q-learning, td-learning, neural-networks, activation-functions, backpropagation, numerical-gradient-checking, gradient-descent, optimisers, mean-squared-error, mdps, returns-discounting, exploration-exploitation, gymnasium, classes, copying, numpy-arrays, pytest, virtual-environments]
 ask:
   dialogue:
-    - committee: "Sir Reginald's Q-values live in a table. A number for every tile and every move."
-    - committee: "Professor Wendt says a network could hold them instead..."
-    - committee: "...and would hold them better. We are open to persuasion."
-    - moss: "A network that sets its own homework wobbles. There are two old tricks for that."
-    - moss: "Learn them on the grid. Then take them home to the standard test: a pole on a cart."
+    - neil: "The crab's Q-values live in a table. A number for every tile and every move."
+    - neil: "A network could hold them instead, and cope with worlds far too big for any table."
+    - riya: "And tiles in the same row would learn from each other. A table can't do that."
+    - paul: "A network that sets its own homework wobbles. There are two old tricks for that."
+    - paul: "Learn them on the grid. Then take them home to the standard test: a pole on a cart."
   spec: |
     First, in the workshop, write `dqn.py`, Deep Q on the racing grid in `track.py`. A memory is `(tile, action, reward, after, over)`, with `action` a number from 0 to 3, in the order of `ACTIONS`.
 
@@ -58,7 +58,7 @@ ask:
     7. `copy_params(params)`: a frozen copy that training doesn't touch.
     8. `train(episodes, rng)`: epsilon-greedy races; every move remembered; once there are 32 memories, one `train_step` per move on a batch picked at random; the frozen copy refreshed every 50 moves.
 
-    Run as a program, it trains for 150 races, then shows the network's line and races it 1000 times, against a crab who moves at random.
+    Run as a program, it trains for 150 races, then shows the network's line and races it 1000 times, against a crab that moves at random.
 
     Then, at home, `cartpole_dqn.py`: the same DQN on Gymnasium's `CartPole-v1`, four numbers in and two actions out, with a replay buffer of 50,000 steps and a target network refreshed every 500. Trained for 100,000 steps, it must balance the pole for at least 195 steps on average, over 20 episodes it never trained on.
   example: |
@@ -74,13 +74,12 @@ ask:
     The network: 500.0 steps of 500, on average
 ship:
   dialogue:
-    - committee: "Nine points better than tradition on the grid, and the pole stays up for all five hundred steps."
-    - committee: "Professor Wendt has asked for her cart back. We have said..."
-    - committee: "...not yet."
-    - moss: "Next, he stops valuing moves and learns which ones to make."
+    - neil: "Ten points better than random on the grid, and the pole stays up for all five hundred steps."
+    - riya: "Pushing at random keeps it up for twenty-two. Yours manages five hundred."
+    - neil: "Every reinforcement learning course does CartPole. Now you have too."
+    - paul: "Next, the crab stops valuing moves and learns which ones to make."
   shelf: { object: abacus, label: "The Q-network that balanced the pole" }
   cards: [dqn]
-story_note: every-night-was-the-night-before
 stretch:
   - id: double-q
     title: "Double Deep Q"
@@ -89,4 +88,4 @@ stretch:
   - id: in-order
     title: "Learning in order"
     prompt: |
-      Replace `memory.sample(...)` with the last 32 memories, in the order they happened. Train ten seeds each way and compare what the lines are worth. Then explain to Dennis what went wrong.
+      Replace `memory.sample(...)` with the last 32 memories, in the order they happened. Train ten seeds each way and compare what the lines are worth. Then explain to the duck what went wrong.

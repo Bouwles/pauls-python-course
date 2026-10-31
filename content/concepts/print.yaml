@@ -3,8 +3,8 @@ title: print() shows things
 summary: |
   `print()` writes whatever is inside the brackets to the output, then starts a new line. Text goes in quotes. Several values separated by commas print in a row with a space between each. `print()` with nothing inside prints an empty line.
 example: |
-  print("{{town}}")
-  print("Tides", 2, "a day")
+  print("The Clocktower")
+  print("Trains", 2, "an hour")
   print()
   print("End")
 misconceptions: [print-shows-code, print-same-line]
@@ -14,8 +14,8 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      print("Tides", 2, "a day")
-    answer: "Tides 2 a day"
+      print("Trains", 2, "an hour")
+    answer: "Trains 2 an hour"
   - type: predict
     prompt: "What does this print? Include any empty lines."
     code: |
@@ -40,18 +40,18 @@ cards:
   - type: fill
     prompt: Fill the gap so the program shows the text.
     code: |
-      ___("Fog on the quay")
+      ___("Rain on the roof")
     blanks: [["print"]]
     tests: |
-      TESTS = [output("Shows the text", expect="Fog on the quay")]
+      TESTS = [output("Shows the text", expect="Rain on the roof")]
   - type: write
-    prompt: "Print `Gulls: 3` with one `print()` given two values: the text `Gulls:` and the number 3."
+    prompt: "Print `Laps: 3` with one `print()` given two values: the text `Laps:` and the number 3."
     tests: |
       def two_values(tree, source):
           import ast
           calls = [n for n in ast.walk(tree) if isinstance(n, ast.Call) and getattr(n.func, "id", "") == "print"]
           if not any(len(c.args) == 2 for c in calls):
               return "Give print() two values, separated by a comma."
-      TESTS = [output("Gulls: 3", expect="Gulls: 3"), structure("Two values", check=two_values)]
+      TESTS = [output("Laps: 3", expect="Laps: 3"), structure("Two values", check=two_values)]
     solution: |
-      print("Gulls:", 3)
+      print("Laps:", 3)

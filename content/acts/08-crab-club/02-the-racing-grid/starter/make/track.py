@@ -1,4 +1,4 @@
-# The committee's racing grid, as a Markov decision process.
+# The Arcade's racing grid, as a Markov decision process.
 
 import numpy as np
 try:
@@ -19,9 +19,9 @@ SIDEWAYS = {"up": ["left", "right"], "down": ["left", "right"], "left": ["up", "
 STEP_REWARD = -1
 FINISH_REWARD = 10
 POOL_REWARD = -10
-SLIP = 0.2   # how often he goes sideways instead, half each way
+SLIP = 0.2   # how often it goes sideways instead, half each way
 
-# Along the bottom and up the far side, as the club has raced since 1951.
+# Along the bottom and up the far side, the way everyone in the League races it.
 TRADITIONAL = {
     (0, 0): "right", (0, 1): "right", (0, 2): "right",
     (1, 0): "up", (1, 2): "up",
@@ -50,7 +50,7 @@ def reward_for(tile):
 
 
 def move(tile, direction):
-    """Where one step in direction leads. Off the edge or into the rock, he stays put."""
+    """Where one step in direction leads. Off the edge or into the rock, it stays put."""
 
 
 def outcomes(tile, action, slip=SLIP):
@@ -58,7 +58,7 @@ def outcomes(tile, action, slip=SLIP):
 
     On the finish or in the pool the race is over: nothing follows.
     """
-    # What he was told, with chance 1 - slip
+    # What it was told, with chance 1 - slip
     # Each way sideways, with chance slip / 2
 
 
@@ -74,7 +74,7 @@ def discounted_return(rewards, gamma):
     """Each reward counts gamma times less than the one before it."""
 
 
-# Your own line: an action for every tile he could be on. Beat tradition.
+# Your own line: an action for every tile it could be on. Beat tradition.
 MY_LINE = dict(TRADITIONAL)
 
 ARROWS = {"up": "^", "down": "v", "left": "<", "right": ">"}
@@ -88,7 +88,7 @@ def show(policy):
 
 
 def draw(policy=None, crab=None, title=None):
-    """Draw the grid in the output panel: the policy's arrows, and Sir Reginald at crab."""
+    """Draw the grid in the output panel: the policy's arrows, and the crab on the tile crab."""
     values = [[None if m == "#" else {"F": FINISH_REWARD, "P": POOL_REWARD}.get(m, 0) for m in row] for row in TRACK]
     arrows = [[(policy or {}).get((row, col)) for col in range(len(TRACK[0]))] for row in range(len(TRACK))]
     show_grid(values, policy=arrows, crab=crab, walls=[(1, 1)], goal=[(0, 3)], title=title)

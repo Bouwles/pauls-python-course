@@ -1,8 +1,8 @@
 import ast as _ast
 import copy as _copy
 
-TOWER = [("bell", 1), [("gear", 2), [("anvil", 30)]], ("lamp", 3)]
-LOPSIDED = [[("spring", 2)], [[[("valve", 0.5)]], ("hubcap", 4.5)], ("bell", 1), []]
+TOWER = [("bell", 1), [("gear", 2), [("clock-weight", 30)]], ("lamp", 3)]
+LOPSIDED = [[("spring", 2)], [[[("key", 0.5)]], ("pendulum", 4.5)], ("bell", 1), []]
 
 
 def deep_tower(levels):
@@ -50,7 +50,7 @@ def calls_itself(tree, source):
 
 TESTS = [
     function("The tower's weight", call="total_weight", args=(TOWER,), expect=36, visible=True),
-    function("The way to the anvil", call="path_to", args=(TOWER, "anvil"), expect=[1, 1, 0], visible=True),
+    function("The way to the clock weight", call="path_to", args=(TOWER, "clock-weight"), expect=[1, 1, 0], visible=True),
     function("The tower's depth", call="depth", args=(TOWER,), expect=3),
     custom("An empty crate weighs nothing", call("total_weight", [], expected=0, message="No parts, 0 kg.")),
     custom("Empty crates inside empty crates", call("total_weight", [[], [[]]], expected=0, message="Crates with no parts in, 0 kg.")),
@@ -61,7 +61,7 @@ TESTS = [
            hint="Count the crate itself: an empty crate is 1, not 0."),
     custom("A crate of parts is one deep", call("depth", [("bell", 1), ("lamp", 3)], expected=1, message="No crates inside, so 1.")),
     custom("Empty crates still count", call("depth", [[], [[]]], expected=3, message="A crate, holding a crate, holding an empty crate: 3.")),
-    custom("A lopsided tower's depth", call("depth", LOPSIDED, expected=4, message="The valve is four crates in."),
+    custom("A lopsided tower's depth", call("depth", LOPSIDED, expected=4, message="The key is four crates in."),
            hint="The depth is one more than the deepest crate inside, wherever it is."),
     custom("A part loose in the top crate", call("path_to", TOWER, "lamp", expected=[2], message="The lamp is at position 2 of the outside crate.")),
     custom("Not in the tower", call("path_to", TOWER, "kettle", expected=None, message="No kettle anywhere: None."),

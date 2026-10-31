@@ -1,28 +1,28 @@
 ---
 id: worked
 type: worked
-title: How long Moss's walks take
+title: How long Paul's walks take
 dialogue:
-  - moss: "Roads are fine. Minutes are better. I'm a tortoise. I count minutes."
+  - paul: "Roads are fine. Minutes are better. I walk slowly, so I count minutes."
 code: |
   import heapq
 
   from workshop import show_graph
 
   MINUTES = {
-      "workshop": {"bakery": 2, "tailor": 3, "scrapyard": 8},
-      "bakery": {"workshop": 2, "post-office": 2, "library": 3},
-      "tailor": {"workshop": 3, "library": 2, "scrapyard": 4},
-      "library": {"tailor": 2, "bakery": 3, "town-hall": 2},
-      "post-office": {"bakery": 2, "town-hall": 2, "ferry": 4},
-      "town-hall": {"library": 2, "post-office": 2},
-      "ferry": {"post-office": 4},
-      "scrapyard": {"workshop": 8, "tailor": 4},
+      "clocktower": {"cafe": 2, "bookshop": 3, "market": 8},
+      "cafe": {"clocktower": 2, "station": 2, "library": 3},
+      "bookshop": {"clocktower": 3, "library": 2, "market": 4},
+      "library": {"bookshop": 2, "cafe": 3, "city-hall": 2},
+      "station": {"cafe": 2, "city-hall": 2, "theatre": 4},
+      "city-hall": {"library": 2, "station": 2},
+      "theatre": {"station": 4},
+      "market": {"clocktower": 8, "bookshop": 4},
   }
 
-  best = {"workshop": 0}
+  best = {"clocktower": 0}
   settled = set()
-  waiting = [(0, "workshop")]
+  waiting = [(0, "clocktower")]
   while waiting:
       minutes, place = heapq.heappop(waiting)
       if place in settled:
@@ -50,10 +50,10 @@ subgoals:
   - label: "Down each road: if this way is quicker, note the minutes and put it in waiting"
     lines: [25, 28]
 explain:
-  prompt: "Why can Moss settle a place for good the moment it comes off the heap?"
+  prompt: "Why can Paul settle a place for good the moment it comes off the heap?"
   answer: "It's the nearest of everything still waiting. Any other way to it would have to go through a place that's at least as far already, and no road takes less than 0 minutes, so nothing found later can be quicker."
   concept: dijkstra
 ---
 This is **Dijkstra's algorithm**. `waiting` is a heap of `(minutes, place)`, so `heappop` always gives the nearest place not yet settled. When a quicker way to a neighbour turns up, it goes in again with the new minutes; the old entry stays in the heap, and gets skipped when it comes out.
 
-Run it and play the drawing: the settled places spread out from the workshop in order of minutes. The scrapyard is settled at 7, by the tailor's, though its direct road is 8.
+Run it and play the drawing: the settled places spread out from the Clocktower in order of minutes. The market is settled at 7, by the bookshop, though its direct road is 8.

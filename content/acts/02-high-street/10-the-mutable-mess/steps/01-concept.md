@@ -5,7 +5,7 @@ title: Two labels, one box
 widget: two-labels
 concept: references
 dialogue:
-  - moss: "Before Penhallow's code. Remember the labels and the boxes."
+  - paul: "Before Neil's code. Remember the labels and the boxes."
 ---
 A variable doesn't hold a list. It's a label stuck on one. `saturday = order` sticks a second label on the same box; it doesn't build a second box.
 

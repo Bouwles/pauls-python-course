@@ -1,12 +1,12 @@
 ---
 id: pips
 type: pips
-title: Pip's Version
+title: Fix Caitlin's version
 dialogue:
-  - pip: "Mrs Vance's grades. Sanjay got a C. It says so, on a line of its own, above him."
-  - pip: "Then None in the brackets. I think the C escaped."
+  - caitlin: "I did the grade part for Paul. It puts the letter straight on the screen. Instant."
+  - caitlin: "Then None turns up in the brackets, and the C is on a line of its own. Can you look?"
 dialogue_after:
-  - pip: "So print is for people and return is for code. I was talking to the wrong one."
+  - caitlin: "So print is for people and return is for code. Mine was showing off to the wrong one."
 hints:
   nudge: "What does `grade` hand back to the f-string in `main()`? Where does that `None` come from?"
   plan:
@@ -21,10 +21,10 @@ hints:
             ___ "B"
         ...
 ---
-Run Pip's program. It should print exactly:
+Run Caitlin's program. It should print exactly:
 
 ```
-Sanjay: 53.7 (C)
+Candidate 1: 53.7 (C)
 ```
 
 Fix `grade` so it hands its letter back. The checks also call `grade` on its own, with other marks.

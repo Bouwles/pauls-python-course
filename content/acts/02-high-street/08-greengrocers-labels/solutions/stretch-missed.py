@@ -1,4 +1,4 @@
-# Gwen's pub quiz, Thursdays at the Drowned Anchor.
+# Caitlin's class quiz, Thursdays at the Clocktower.
 import json
 import random
 
@@ -28,7 +28,7 @@ def in_round(questions, name):
 
 
 def is_right(given, question):
-    """True if the answer given is the answer, or one of the others Gwen allows."""
+    """True if the answer given is the answer, or one of the others Caitlin allows."""
     allowed = {answer.lower() for answer in [question["answer"]] + question.get("also", [])}
     return given.strip().lower() in allowed
 

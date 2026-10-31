@@ -4,7 +4,7 @@ type: predict
 title: East, then north
 concept: derivatives
 dialogue:
-  - wendt: "A hill isn't a lane. It has a slope for every way you face. Well, two, and the rest follow."
+  - neil: "A hill isn't a lane. It has a slope for every way you face. Well, two, and the rest follow."
 code: |
   def hill(east, north):
       return 100 - 0.001 * east ** 2 - 0.002 * north ** 2     # metres; the top is at (0, 0)

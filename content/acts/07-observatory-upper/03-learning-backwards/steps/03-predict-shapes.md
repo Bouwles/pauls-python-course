@@ -4,14 +4,14 @@ type: predict
 title: Which way round
 concept: neural-networks
 dialogue:
-  - wendt: "Her next page has two layers. Of course it does. Four readings in, three answers out."
-  - wendt: "She wrote the first layer as five rows of four. I copied it exactly. I'm loyal like that."
+  - neil: "My next page has two layers. Four readings in, three answers out."
+  - neil: "I wrote the first layer down as five rows of four. It made sense at the time."
 code: |
   import numpy as np
 
   evenings = np.array([[0.9, 0.2, 0.5, 1.0],     # 2 evenings,
                        [0.1, 0.7, 0.8, 1.0]])    # 4 readings each
-  W1 = np.ones((5, 4))                           # 5 rows, 4 columns, as she wrote it
+  W1 = np.ones((5, 4))                           # 5 rows, 4 columns, as Neil wrote it
 
   hidden = evenings @ W1
   print(hidden.shape)
@@ -30,7 +30,7 @@ options:
 after: |
   Run it and read the last line of the error: it names both sizes. Then change `W1` to `W1.T` and run it again.
 ---
-A brain works on a whole batch of evenings at once: one row per evening, one column per reading.
+A network works on a whole batch of evenings at once: one row per evening, one column per reading.
 
 `@` is matrix multiplication. Each row of the left meets each column of the right, and their numbers are multiplied in pairs and added up: a weighted sum, exactly as in one neuron. So the shapes must line up:
 

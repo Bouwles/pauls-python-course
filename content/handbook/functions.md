@@ -8,23 +8,23 @@ A function in Python is a named block of code that you define once with `def` an
 def ring_bell():
     print("Ding")
 
-def last_orders():
-    print("Last orders, please")
+def lunch_time():
+    print("Lunch time, everyone")
     ring_bell()
 
-print("Opening up")
-last_orders()
-print("Closed")
+print("Morning class")
+lunch_time()
+print("Back to work")
 ```
 
 ```text
-Opening up
-Last orders, please
+Morning class
+Lunch time, everyone
 Ding
-Closed
+Back to work
 ```
 
-The two `def` blocks print nothing as Python passes them. The first output comes from the first line outside a function. `last_orders()` then runs its own two lines, and the second of those runs `ring_bell()`, before Python returns to print `Closed`. Because a `def` is an ordinary statement, it must come above the first call: calling a function before Python has reached its `def` is a `NameError`.
+The two `def` blocks print nothing as Python passes them. The first output comes from the first line outside a function. `lunch_time()` then runs its own two lines, and the second of those runs `ring_bell()`, before Python returns to print `Back to work`. Because a `def` is an ordinary statement, it must come above the first call: calling a function before Python has reached its `def` is a `NameError`.
 
 The brackets are what make a call. The name on its own refers to the function without running it:
 

@@ -89,7 +89,7 @@ cards:
         misconception: bigger-rate-always-faster
         feedback: "A too-small rate makes the loss fall slowly, not rise. One rise on one batch is usually just the batch."
   - type: choice
-    prompt: "Pip shuffles his readings with `rng.shuffle(X)` and then his answers with `rng.shuffle(T)`. What goes wrong?"
+    prompt: "Yahya shuffles his readings with `rng.shuffle(X)` and then his answers with `rng.shuffle(T)`. What goes wrong?"
     verify: none
     options:
       - text: "Each row of X no longer lines up with its answer in T, so the brain learns from mismatched pairs"

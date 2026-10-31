@@ -38,7 +38,7 @@ timing-tiny-jobs:
   concept: timing-code
   description: Thinks timing a job that takes microseconds gives a useful measurement of it.
 
-# -- Finding the Bolt -------------------------------------------------------------
+# -- Search Engine for a Parts List -----------------------------------------------
 search-finds-last:
   concept: linear-search
   description: Thinks a linear search that returns on a match gives the last match rather than the first.
@@ -73,7 +73,7 @@ bisect-gives-true-false:
   concept: bisect
   description: Thinks bisect says whether a value is in the list, rather than giving a position.
 
-# -- Sorting the Piles -------------------------------------------------------------
+# -- Sorting Visualiser ------------------------------------------------------------
 one-pass-sorts:
   concept: simple-sorts
   description: Thinks one pass of a simple sort puts more than one item in its final place.

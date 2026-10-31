@@ -1,18 +1,17 @@
 "use client";
 
-// The Arcade League (Section 13.5): a weekly race on the Club Course for policies
-// trained in Act VIII. Opt-in by entering; the table shows display names and
-// scores only. Every race is seeded, so the replay here is the race that was scored.
+// The Arcade League (Section 13.5): a weekly race on the Arcade course for policies trained in
+// Act 8, run by the classmates who live on the Arcade floor. Opt-in by entering; the table shows
+// display names and scores only. Every race is seeded, so the replay here is the race that was scored.
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSession } from "@/lib/store/session";
-import { baselinePolicy, course, courseJson, hash, MAX_STEPS, RACES, raceFrames, readEntry, SLIP_POOL, SLIP_SAND, type Policy } from "@/lib/league/course";
-import type { GridFrame } from "@/lib/python/protocol";
+import { baselinePolicy, courseJson, hash, MAX_STEPS, race, RACES, readEntry, SLIP_POOL, SLIP_SAND, type Policy } from "@/lib/league/course";
 import { download } from "@/lib/export";
 import { Button } from "../ui/Button";
-import { PixelIcon } from "../ui/PixelIcon";
-import { LivingPlayer } from "../workbench/LivingPlayer";
+import { Icon } from "../ui/Icon";
 import { CodeBlock } from "../workbench/CodeBlock";
+import { CourseGrid, CourseKey } from "./CourseGrid";
 import styles from "./League.module.css";
 
 interface Row {
@@ -39,26 +38,16 @@ with open("league.json", "w") as f:
     json.dump(entry, f)
 `;
 
-function courseFrame(): GridFrame {
-  const c = course();
-  return {
-    kind: "grid",
-    values: Array.from({ length: c.rows }, (_, r) => Array.from({ length: c.cols }, (_, col) => (c.rocks.some(([a, b]) => a === r && b === col) ? null : c.pools.some(([a, b]) => a === r && b === col) ? -0.3 : 0))),
-    crab: c.start,
-    walls: c.rocks,
-    goal: [c.finish],
-    numbers: false,
-    title: "The Club Course",
-  };
-}
+const together = (names: string[]) => (names.length > 1 ? `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}` : (names[0] ?? ""));
 
-export function League() {
+export function League({ hosts }: { hosts: { id: string; name: string }[] }) {
   const { user, ready, store } = useSession();
   const [data, setData] = useState<Table | null>(null);
   const [week, setWeek] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [saved, setSaved] = useState<{ job: string; content: string }[]>([]);
+  const hostIds = hosts.map((h) => h.id);
 
   const load = useCallback(async (w: string | null) => {
     const res = await fetch(`/api/league${w ? `?week=${w}` : ""}`);
@@ -79,7 +68,7 @@ export function League() {
     try {
       parsed = JSON.parse(text);
     } catch {
-      setMessage("That file isn't JSON. Save it with json.dump, as below.");
+      setMessage("That file isn't JSON. Save it with json.dump, as above.");
       return;
     }
     const check = readEntry(parsed);
@@ -104,43 +93,42 @@ export function League() {
   const viewing = data?.week ?? null;
   const isCurrent = data && data.week === data.current;
   const myPolicy = data?.mine?.policy?.policy ?? null;
-  const replay = useMemo(() => (myPolicy && viewing ? { frames: raceFrames(myPolicy, hash(`${viewing}/0`)), total: 0 } : null), [myPolicy, viewing]);
-  const preview = useMemo(() => ({ frames: [courseFrame()], total: 1 }), []);
-  const baseline = useMemo(() => {
-    const frames = raceFrames(baselinePolicy(), hash("baseline/0"));
-    return frames.length - 1;
-  }, []);
+  const replay = useMemo(() => (myPolicy && viewing ? race(myPolicy, hash(`${viewing}/0`)).path : null), [myPolicy, viewing]);
+  const baseline = useMemo(() => race(baselinePolicy(), hash("baseline/0")).steps, []);
 
   return (
     <div className={styles.wrap}>
       <header className={styles.head}>
         <h1 className={styles.title}>The Arcade League</h1>
-        <p className={styles.lede}>The Crab Racing Club runs a race every week on the Club Course, for the policies you train in Act VIII. Entering is the only way onto the table, and the table shows display names and scores. Nothing else.</p>
+        <p className={styles.lede}>
+          {together(hosts.map((h) => h.name))} run a race every week on the Arcade course, for the policies you train in Act 8. Entering is the only way onto the table, and the table shows display names and scores. Nothing else.
+        </p>
       </header>
 
       <div className={styles.columns}>
-        <section className={`frame-panel ${styles.block}`} aria-labelledby="course-title">
+        <section className={styles.block} aria-labelledby="course-title">
           <h2 id="course-title" className={styles.h2}>
             The course
           </h2>
-          <LivingPlayer visuals={preview} />
+          <CourseGrid hosts={hostIds} label="The Arcade course, 7 rows by 9 columns. The crab starts top left and the finish is bottom right, with rocks and rock pools between." />
+          <CourseKey hosts={hostIds} />
           <p className={styles.meta}>
-            Start top left, finish bottom right. Rocks are hatched; the brick-tinted tiles are rock pools, where Sir Reginald slips sideways {Math.round(SLIP_POOL * 100)}% of the time ({Math.round(SLIP_SAND * 100)}% on sand). Each race is {RACES} runs of at most {MAX_STEPS} moves; your score is the average number of moves, lower is better. The plain shortest path takes {baseline} moves when nothing slips.
+            Start top left, finish bottom right. Rocks can&apos;t be crossed. On sand the crab slips sideways {Math.round(SLIP_SAND * 100)}% of the time, and in a rock pool {Math.round(SLIP_POOL * 100)}%. Each race is {RACES} runs of at most {MAX_STEPS} moves; your score is the average number of moves, and lower is better. The plain shortest path takes {baseline} moves when nothing slips.
           </p>
           <div className={styles.row}>
-            <Button variant="quiet" onClick={() => download("club-course.json", JSON.stringify(courseJson(), null, 2), "application/json")}>
+            <Button variant="secondary" icon="download" onClick={() => download("arcade-course.json", JSON.stringify(courseJson(), null, 2), "application/json")}>
               Download the course
             </Button>
           </div>
         </section>
 
-        <section className={`frame-panel ${styles.block}`} aria-labelledby="enter-title">
+        <section className={styles.block} aria-labelledby="enter-title">
           <h2 id="enter-title" className={styles.h2}>
             Enter this week
           </h2>
           {!ready ? null : !user ? (
             <p className={styles.meta}>
-              Entering needs an account, so your entry has a name. <Link href="/login?next=/league">Log in</Link> or <Link href="/signup">make one</Link>.
+              Entering needs an account, so your entry has a name. <Link href="/login?next=/league">Log in</Link> or <Link href="/signup">sign up</Link>.
             </p>
           ) : (
             <>
@@ -156,7 +144,7 @@ export function League() {
                 </div>
               ) : null}
               <label className={styles.field}>
-                <span>{saved.length ? "Or upload one" : "Upload league.json"}</span>
+                <span className="label">{saved.length ? "Or upload one" : "Upload league.json"}</span>
                 <input
                   type="file"
                   accept=".json,application/json"
@@ -170,20 +158,16 @@ export function League() {
               </label>
               {message ? (
                 <p className={styles.error} role="alert">
-                  <PixelIcon name="cross" />
+                  <Icon name="cross" />
                   <span>{message}</span>
                 </p>
               ) : null}
               {data?.mine && isCurrent ? (
                 <div className={styles.mine} role="status">
                   <p>
-                    <strong>Your entry:</strong> {data.mine.score.toFixed(2)} moves on average; {data.mine.finished} of {RACES} finished.
+                    <strong>Your entry:</strong> {data.mine.score.toFixed(2)} moves on average, {data.mine.finished} of {RACES} finished.
                   </p>
-                  <Button
-                    size="sm"
-                    variant="quiet"
-                    onClick={() => void fetch("/api/league", { method: "DELETE" }).then(() => load(null))}
-                  >
+                  <Button size="sm" variant="secondary" onClick={() => void fetch("/api/league", { method: "DELETE" }).then(() => load(null))}>
                     Withdraw
                   </Button>
                 </div>
@@ -194,22 +178,22 @@ export function League() {
       </div>
 
       {replay ? (
-        <section className={`frame-panel ${styles.block}`} aria-labelledby="replay-title">
+        <section className={styles.block} aria-labelledby="replay-title">
           <h2 id="replay-title" className={styles.h2}>
             Your first race this week
           </h2>
           <p className={styles.meta}>Run in your browser with the same seed the score used, so this is the race that was counted.</p>
-          <LivingPlayer visuals={replay} />
+          <CourseGrid hosts={hostIds} path={replay} policy={myPolicy} label="Your first race this week, on the Arcade course. The arrows show your policy's move on each tile." />
         </section>
       ) : null}
 
-      <section className={`frame-panel ${styles.block}`} aria-labelledby="table-title">
+      <section className={styles.block} aria-labelledby="table-title">
         <div className={styles.tableHead}>
           <h2 id="table-title" className={styles.h2}>
             {!viewing || isCurrent ? "This week" : `Week ${Number(viewing.split("-W")[1])}, ${viewing.split("-W")[0]}`}
           </h2>
           {data ? (
-            <Button size="sm" variant="quiet" onClick={() => setWeek(isCurrent ? previousWeek(data.current) : null)}>
+            <Button size="sm" variant="ghost" onClick={() => setWeek(isCurrent ? previousWeek(data.current) : null)}>
               {isCurrent ? "Last week" : "This week"}
             </Button>
           ) : null}
@@ -218,33 +202,35 @@ export function League() {
           <p className={styles.meta}>No entries yet{isCurrent ? ". The first one sets the time to beat." : "."}</p>
         ) : (
           <div className={styles.tableWrap} role="region" aria-labelledby="table-title" tabIndex={0}>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th scope="col">Place</th>
-                <th scope="col">Name</th>
-                <th scope="col" className={styles.num}>
-                  Average moves
-                </th>
-                <th scope="col">Finished</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.table.map((r) => (
-                <tr key={`${r.place}-${r.name}`} className={r.mine ? styles.me : undefined}>
-                  <td className={styles.place}>{r.place}</td>
-                  <td>
-                    {r.name}
-                    {r.mine ? <span className="visually-hidden"> (you)</span> : null}
-                  </td>
-                  <td className={styles.num}>{r.score.toFixed(2)}</td>
-                  <td>
-                    {r.finished} of {RACES}
-                  </td>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th scope="col">Place</th>
+                  <th scope="col">Name</th>
+                  <th scope="col" className={styles.num}>
+                    Average moves
+                  </th>
+                  <th scope="col" className={styles.num}>
+                    Finished
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {data.table.map((r) => (
+                  <tr key={`${r.place}-${r.name}`} className={r.mine ? styles.me : undefined}>
+                    <td className={styles.place}>{r.place}</td>
+                    <td>
+                      {r.name}
+                      {r.mine ? <span className={styles.you}> (you)</span> : null}
+                    </td>
+                    <td className={styles.num}>{r.score.toFixed(2)}</td>
+                    <td className={styles.num}>
+                      {r.finished} of {RACES}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
       </section>

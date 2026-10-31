@@ -22,4 +22,4 @@ test_till.py:19: AssertionError
 
 pytest also has a neater way to expect an error: `with pytest.raises(ValueError):`. The `try` and `except` way works everywhere, so it's the one used here.
 
-pytest doesn't run in this workshop, so these files end with a few lines that do the finding and running. At home you'll delete them and type `pytest`. The checks in this job do what pytest does, and one thing more: they plant bugs in `bank.py` to see whether your tests notice.
+pytest doesn't run here in the browser, so these files end with a few lines that do the finding and running. At home you'll delete them and type `pytest`. The checks in this job do what pytest does, and one thing more: they plant bugs in `bank.py` to see whether your tests notice.

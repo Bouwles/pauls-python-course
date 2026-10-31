@@ -9,7 +9,7 @@ example: |
           self.rider = None
 
   red = Bike(7)
-  red.rider = "Bea"
+  red.rider = "Yahya"
   print(red.number, red.rider)
 misconceptions: [local-is-attribute, missing-attribute-is-none]
 related: [classes, init, self]
@@ -23,10 +23,10 @@ cards:
               self.rider = None
 
       bike = Bike(3)
-      bike.rider = "Gwen"
+      bike.rider = "Caitlin"
       bike.number = bike.number + 10
       print(bike.number, bike.rider)
-    answer: "13 Gwen"
+    answer: "13 Caitlin"
   - type: choice
     prompt: What happens?
     code: |
@@ -59,7 +59,7 @@ cards:
       till.ring(85)
       print(till.total)
     tests: |
-      TESTS = [output("A loaf and a bun", expect="325")]
+      TESTS = [output("A sandwich and a cookie", expect="325")]
     solution: |
       class Till:
           def __init__(self):
@@ -73,16 +73,16 @@ cards:
       till.ring(85)
       print(till.total)
   - type: fill
-    prompt: "Fill the gap so the keeper is kept on the lighthouse."
+    prompt: "Fill the gap so the owner is kept on the laptop."
     code: |
-      class Lighthouse:
-          def __init__(self, keeper):
-              ___.keeper = keeper
+      class Laptop:
+          def __init__(self, owner):
+              ___.owner = owner
 
-      print(Lighthouse("Tom").keeper)
+      print(Laptop("Riya").owner)
     blanks: [["self"]]
     tests: |
-      TESTS = [output("Tom keeps it", expect="Tom")]
+      TESTS = [output("Riya owns it", expect="Riya")]
   - type: write
     prompt: "Give `Parcel` a `weight` from its argument and a `delivered` attribute that starts as `False`."
     starter: |

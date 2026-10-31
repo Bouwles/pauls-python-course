@@ -87,7 +87,7 @@ def forest_matches(ctx):
         raise CheckFailed("fit_forest(X, y, 4, ...) should give back a list of four trees.", actual=repr(got)[:200])
     for number, (g, w) in enumerate(zip(got, want), start=1):
         if not _same(g, w):
-            raise CheckFailed(f"Tree {number} of the forest differs from Moss's. Draw each tree's rows from the one rng, then grow it with that rng.")
+            raise CheckFailed(f"Tree {number} of the forest differs from Paul's. Draw each tree's rows from the one rng, then grow it with that rng.")
 
 
 def trees_differ(ctx):
@@ -154,7 +154,7 @@ TESTS = [
     custom("forest_share of four trees", share, visible=True),
     custom("A few columns per question", few_features,
            hint="If only this fails, draw the columns at the start of every call of build_tree, before looking for the question."),
-    custom("fit_forest grows Moss's trees", forest_matches,
+    custom("fit_forest grows Paul's trees", forest_matches,
            hint="If only this fails, use one rng for everything: the bootstrap rows, then that tree's columns."),
     custom("The forest's trees differ", trees_differ),
     custom("cost counts a bad loan five times", costs),

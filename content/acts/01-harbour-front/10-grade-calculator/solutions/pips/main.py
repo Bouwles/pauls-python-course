@@ -12,7 +12,7 @@ def grade(mark):
 
 
 def main():
-    name = "Sanjay"
+    name = "Candidate 1"
     mean = 53.7
     print(f"{name}: {mean:.1f} ({grade(mean)})")
 

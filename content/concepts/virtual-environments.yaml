@@ -34,7 +34,7 @@ cards:
         misconception: venv-stays-on
         feedback: "Switching it on only changes that one terminal. A new terminal starts without it; look for (.venv) at the start of the prompt."
   - type: choice
-    prompt: "You're sending the project to Agnes. What should go with the code?"
+    prompt: "You're sending the project to Aaesha. What should go with the code?"
     options:
       - text: "requirements.txt, so she can make her own environment"
         correct: true

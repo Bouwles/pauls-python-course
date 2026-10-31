@@ -3,8 +3,8 @@ id: two-jobs
 type: reading
 title: One acts, one judges
 dialogue:
-  - moss: "REINFORCE waits for the finish before it says anything. By then the third move is long gone."
-  - moss: "Give him a critic. The committee have the experience."
+  - paul: "REINFORCE waits for the finish before it says anything. By then the third move is long gone."
+  - paul: "Give the crab a critic. Yahya can show it how."
 ---
 REINFORCE learns once a race is over, from the whole return, and long races make noisy returns. **Actor-critic** learns after every move.
 
@@ -14,7 +14,7 @@ The **critic** keeps a value for every tile, learned by TD as in the Value Estim
 error = reward + gamma * values[after] - values[tile]    # no values[after] if the race is over
 ```
 
-Positive means the move went better than the critic expected from that tile; negative, worse. It estimates the move's **advantage**: how much better it was than his usual from there.
+Positive means the move went better than the critic expected from that tile; negative, worse. It estimates the move's **advantage**: how much better it was than the crab's usual from there.
 
 The **actor** is last week's softmax policy. It takes the REINFORCE step with the error where the return used to be:
 

@@ -1,4 +1,4 @@
-"""A gate on the memory, from the last page of Penhallow's tide notebook."""
+"""A gate on the memory, from the last page of Neil's notebook."""
 
 import numpy as np
 

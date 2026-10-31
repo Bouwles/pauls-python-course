@@ -1,9 +1,9 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "Priya's thermometers. Same shape of problem as a curve, different wall."
+  - paul: "Aaesha's thermometers. Same shape of problem as a curve, different wall."
 code: |
   import numpy as np
 
@@ -16,7 +16,7 @@ code: |
 
   thermometer_means = readings.mean(axis=0)
 
-  # The reference thermometer in the hut averaged 15.0 over the same days
+  # The reference thermometer averaged 15.0 over the same days
   correction = 15.0 - thermometer_means
   corrected = readings + correction
 
@@ -38,12 +38,12 @@ subgoals:
   - label: Count the Trues
     lines: [17, 17]
 explain:
-  prompt: "Why can Moss add `correction` to `readings` with no `keepdims`, when taking each day's average off would need it?"
+  prompt: "Why can Paul add `correction` to `readings` with no `keepdims`, when taking each day's average off would need it?"
   answer: "The correction is one number per thermometer, shape (3,), and shapes line up from the right, where the thermometers are. One number per day would be shape (5,), which meets the thermometers' axis and fails. It needs keepdims=True to stand as a column, shape (5, 1)."
   concept: broadcasting
 ---
-Three thermometers on the station wall, and the middle one reads high. Moss lines each one up with the reference thermometer in the hut, then counts the readings of 15 degrees or more.
+Three thermometers outside the Archive window, and the middle one reads high. Paul lines each one up with the reference thermometer, then counts the readings of 15 degrees or more.
 
 Run it. Before the correction, the high thermometer finds four warm days. After it, all three agree on two. Nothing in it is done one reading at a time.
 
-The labels in the margin are Moss's steps. They're in your starter file for the Make.
+The labels in the margin are Paul's steps. They're in your starter file for the Make.

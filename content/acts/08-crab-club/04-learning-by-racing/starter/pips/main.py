@@ -1,4 +1,4 @@
-# Pip's TD(0), on the traditional line.
+# Caitlin's TD(0), on the traditional line.
 
 import numpy as np
 
@@ -12,7 +12,7 @@ def td_evaluate(policy, races, rng, alpha=0.05, gamma=0.9):
         over = False
         while not over:
             after, reward, over = step(tile, policy[tile], rng)
-            tile = after   # move him on first, so I don't forget
+            tile = after   # move it on first, so the screen keeps up
             target = reward + (0 if over else gamma * values[after])
             values[tile] += alpha * (target - values[tile])
     return values

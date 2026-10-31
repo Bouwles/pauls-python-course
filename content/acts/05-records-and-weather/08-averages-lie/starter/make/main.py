@@ -1,4 +1,4 @@
-# The station's year in numbers, for the parish magazine. 2024, day by day.
+# The Clocktower station's year in numbers. 2024, day by day.
 import pandas as pd
 
 
@@ -31,10 +31,10 @@ if __name__ == "__main__":
     print(f"Most common: {rain['mode']:.1f} mm. Dry days: {dry_days(daily['rain'])} of {len(daily)}")
     for place in ["temp", "thornby"]:
         numbers = summary(daily[place])
-        name = "{{town}}" if place == "temp" else "Thornby"
+        name = "Clocktower" if place == "temp" else "Thornby"
         print(f"{name}: average {numbers['mean']:.1f} degrees C, standard deviation {numbers['std']:.1f}")
     print("Outside the fences:")
     for date, reading in outliers(daily["temp"]).items():
-        print(f"  {{town}}, {date}: {reading} degrees C")
+        print(f"  Clocktower, {date}: {reading} degrees C")
     print(f"  Thornby: {len(outliers(daily['thornby']))} readings")
     print(f"  Rain: {len(outliers(daily['rain']))} days")

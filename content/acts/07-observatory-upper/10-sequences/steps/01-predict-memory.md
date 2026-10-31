@@ -4,8 +4,8 @@ type: predict
 title: What it remembers
 concept: rnns
 dialogue:
-  - wendt: "Her network reads one hour at a time. Between hours it keeps a number. Eight numbers."
-  - wendt: "Here's the idea with one number and no squashing. Old Tom could do it in his head."
+  - neil: "My network reads one hour at a time. Between hours it keeps a number. Eight numbers."
+  - neil: "Here's the idea with one number and no squashing. You could do it in your head."
 code: |
   readings = [1.0, 0.0, 0.0, 0.0]
   memory = 0.0

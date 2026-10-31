@@ -6,7 +6,7 @@ quarter of an hour the keeper may wind the gate down a notch, leave it, or
 wind it up a notch. The harbour must stay between GROUND, where the boats sit
 on the mud, and FLOOD, where the water comes over the quay.
 
-The committee's rules, for one step:
+Caitlin's rules, for one step:
 
 1. The gate moves: action 0 winds it down a notch, 1 leaves it, 2 winds it up.
    It never goes below 0 (shut) or above NOTCHES (wide open).
@@ -51,7 +51,7 @@ class TideGateEnv(gym.Env):
     metadata = {"render_modes": []}
 
     def __init__(self):
-        # Say what the keeper sees and what he can do:
+        # Say what the keeper sees and what it can do:
         # observation_space, a Box of four float32 numbers (levels 0 to 8 m, the notch 0 to 4,
         # the rise -1 to 1), and action_space, Discrete(3).
         raise NotImplementedError

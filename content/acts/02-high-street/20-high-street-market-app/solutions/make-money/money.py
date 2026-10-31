@@ -1,12 +1,10 @@
-"""Sanjay's money: what came in, what went out, and the budgets.
+"""Personal finance: what came in, what went out, and the budgets.
 
 No files and no printing in here. storage.py and cli.py do that.
 """
-# Inside the front cover of the money book Sanjay bought at the jumble sale,
-# its pages still blank, in Penhallow's handwriting:
-# Every penny in, every penny out, in pencil, since 1979. One line a month
-# has no category: the hill. I stopped writing down what it cost the second
-# winter. A.P.
+# Riya's note, from the first page of her plan:
+# Who's going to use this? Students with a part-time job and rent to pay.
+# Test it on a made-up month first. Real money only goes in once it works. R.
 
 from dataclasses import dataclass
 from datetime import date

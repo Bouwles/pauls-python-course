@@ -1,9 +1,9 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "My glue pot. Minutes to melt, nine mornings. One of them is wrong, and I know why."
+  - paul: "The Workshop's glue pot. Minutes to melt, nine mornings. One of them is wrong, and I know why."
 code: |
   import pandas as pd
 
@@ -36,7 +36,7 @@ subgoals:
   - label: Ask why before deleting anything
     lines: [17, 19]
 explain:
-  prompt: "Why does Moss build his fences from the quartiles, and not from the mean and the standard deviation?"
+  prompt: "Why does Paul build his fences from the quartiles, and not from the mean and the standard deviation?"
   answer: "The 58 drags the mean and the standard deviation towards itself, so fences built from them would move out to meet it. The quartiles come from the middle half of the mornings, which one bad morning hardly moves."
   concept: distributions
 ---

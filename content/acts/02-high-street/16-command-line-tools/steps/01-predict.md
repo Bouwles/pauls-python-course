@@ -6,7 +6,7 @@ concept: sys-argv
 code: |
   import sys
 
-  # Moss types: python hours.py radio 3
+  # Paul types: python hours.py radio 3
   sys.argv = "hours.py radio 3".split()
 
   job = sys.argv[1]
@@ -25,6 +25,6 @@ options:
     error: IndexError
     feedback: "`sys.argv[0]` is the program's name, `hours.py`. Three words make three items, so index 2 is there: it's the `3`."
 ---
-Moss starts his scripts from a terminal by typing the program's name, and sometimes a few words after it. Python puts those words in `sys.argv`, a list.
+Paul starts his scripts from a terminal by typing the program's name, and sometimes a few words after it. Python puts those words in `sys.argv`, a list.
 
-Line 4 fills `sys.argv` by hand, exactly as Python would if Moss typed that command.
+Line 4 fills `sys.argv` by hand, exactly as Python would if Paul typed that command.

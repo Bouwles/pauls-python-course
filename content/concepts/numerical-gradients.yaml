@@ -67,7 +67,7 @@ cards:
         misconception: smaller-step-always-better
         feedback: "Floats keep about 16 significant digits. With a step of 1e-13, `f(3 + step)` and `f(3 - step)` differ only in their last few, which are mostly rounding, and dividing by 2e-13 magnifies it. Around 1e-5 is the sweet spot."
   - type: choice
-    prompt: "Pip worked out `my_slope` by hand. What does the check print?"
+    prompt: "Caitlin worked out `my_slope` by hand. What does the check print?"
     code: |
       def loss(w):
           return (3 * w - 2) ** 2
@@ -83,10 +83,10 @@ cards:
     options:
       - text: "6.0 2"
         correct: true
-        feedback: "The measurement only nudges and watches, so it finds the true slope, 6. Pip forgot the inner 3, and the check has caught it."
+        feedback: "The measurement only nudges and watches, so it finds the true slope, 6. Caitlin forgot the inner 3, and the check has caught it."
       - text: "2.0 2"
         misconception: chain-forgets-inner
-        feedback: "The measurement doesn't know Pip's algebra. It nudges w and watches the loss, which moves 3 times as fast inside the bracket: 2 * 1 * 3 = 6. That disagreement is the reason for measuring."
+        feedback: "The measurement doesn't know Caitlin's algebra. It nudges w and watches the loss, which moves 3 times as fast inside the bracket: 2 * 1 * 3 = 6. That disagreement is the reason for measuring."
   - type: fill
     prompt: "Fill the gap so this measures the slope of `f` at `x`, a step either side."
     code: |

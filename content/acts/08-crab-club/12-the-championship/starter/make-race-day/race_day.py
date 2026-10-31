@@ -1,4 +1,4 @@
-# Race day: Sir Reginald against courses he has never seen, and the Club Course for the League.
+# Race day: the crab against courses it has never seen, and the League course for the League.
 
 import json
 from collections import deque
@@ -13,7 +13,7 @@ except ImportError:  # anywhere else, drawing does nothing and the rest still ru
 from course import MAX_MOVES, STEPS, Course, Practice, generate, race
 from crab import train
 
-BUDGET = 5000                # practice moves the stewards allow on each course
+BUDGET = 5000                # practice moves the League allows on each course
 TRAINING = [1, 2, 3]         # courses for trying out ideas
 TESTING = [101, 102]         # courses kept back until the end
 

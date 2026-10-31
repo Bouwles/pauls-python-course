@@ -25,19 +25,19 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      result = print("Ahoy")
+      result = print("Hello")
       print(result)
     answer: |-
-      Ahoy
+      Hello
       None
   - type: choice
     prompt: What does this print?
     code: |
       def find(name):
-          if name == "Bea":
-              return "Quay Row"
+          if name == "Riya":
+              return "Park Road"
 
-      print(find("Tom"))
+      print(find("Yahya"))
     options:
       - text: "A blank line"
         misconception: none-prints-nothing
@@ -91,14 +91,14 @@ cards:
     tests: |
       TESTS = [output("No reply", expect="No reply yet")]
   - type: write
-    prompt: "Write `berth_of(boat)`: it returns `4` for `\"Kittiwake\"` and `None` for any other boat."
+    prompt: "Write `locker_of(name)`: it returns `4` for `\"Riya\"` and `None` for anyone else."
     tests: |
       TESTS = [
-          function("Kittiwake", call="berth_of", args=("Kittiwake",), expect=4),
-          function("Mary Rose", call="berth_of", args=("Mary Rose",), expect=None),
+          function("Riya", call="locker_of", args=("Riya",), expect=4),
+          function("Neil", call="locker_of", args=("Neil",), expect=None),
       ]
     solution: |
-      def berth_of(boat):
-          if boat == "Kittiwake":
+      def locker_of(name):
+          if name == "Riya":
               return 4
           return None

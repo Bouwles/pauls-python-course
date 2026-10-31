@@ -3,16 +3,18 @@
 import { useState } from "react";
 import type { SelfRating, StepProgressRow } from "@/lib/store/types";
 import { applySelfRating } from "@/lib/review/deck";
+import { PROFESSOR } from "@/lib/cast";
 import { Button } from "../ui/Button";
 import { useWorkbench } from "./context";
 import styles from "./SelfExplain.module.css";
 
-/** A short free answer, then Moss's answer, then an honest self-rating (Section 9.5). */
+/** A short answer in your own words, then Paul's answer, then an honest self-rating (Section 9.5). */
 export function SelfExplain({ stepId, promptHtml, answer, concept, row }: { stepId: string; promptHtml: string; answer: string; concept: string | null; row: StepProgressRow }) {
-  const { updateStep, markPassed, store, logEvent } = useWorkbench();
+  const { updateStep, markPassed, store, logEvent, nameOf } = useWorkbench();
   const [text, setText] = useState(row.selfExplanation ?? "");
   const [revealed, setRevealed] = useState(Boolean(row.selfRating));
   const rating = row.selfRating;
+  const paul = nameOf(PROFESSOR);
 
   const rate = async (r: SelfRating) => {
     await updateStep(stepId, { selfExplanation: text, selfRating: r });
@@ -36,26 +38,28 @@ export function SelfExplain({ stepId, promptHtml, answer, concept, row }: { step
         placeholder="In your own words."
       />
       {!revealed ? (
-        <Button size="sm" variant="secondary" disabled={text.trim().length < 3} onClick={() => setRevealed(true)}>
-          Show Moss&apos;s answer
+        <Button variant="secondary" disabled={text.trim().length < 3} onClick={() => setRevealed(true)}>
+          Show {paul}&apos;s answer
         </Button>
       ) : (
         <div className={styles.answer}>
-          <p className="label">Moss</p>
+          <p className="label">{paul}&apos;s answer</p>
           <p className={styles.answerText} dangerouslySetInnerHTML={{ __html: answer }} />
           <fieldset className={styles.rating}>
             <legend>How close were you?</legend>
-            {(
-              [
-                ["had", "I had that"],
-                ["partly", "Partly"],
-                ["missed", "Missed it"],
-              ] as const
-            ).map(([value, label]) => (
-              <Button key={value} size="sm" variant={rating === value ? "primary" : "secondary"} aria-pressed={rating === value} onClick={() => void rate(value)}>
-                {label}
-              </Button>
-            ))}
+            <div className={styles.ratingButtons}>
+              {(
+                [
+                  ["had", "I had that"],
+                  ["partly", "Partly"],
+                  ["missed", "Missed it"],
+                ] as const
+              ).map(([value, label]) => (
+                <Button key={value} size="sm" variant={rating === value ? "primary" : "secondary"} aria-pressed={rating === value} onClick={() => void rate(value)}>
+                  {label}
+                </Button>
+              ))}
+            </div>
           </fieldset>
         </div>
       )}

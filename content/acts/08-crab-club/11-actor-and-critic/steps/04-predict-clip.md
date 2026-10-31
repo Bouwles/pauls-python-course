@@ -13,13 +13,13 @@ code: |
 
   print(round(clipped_objective(0.5, 2.0), 2))     # a good move, now half as likely
   print(round(clipped_objective(0.5, -2.0), 2))    # a bad move, now half as likely
-question: "His new policy makes a move half as likely as when the batch was raced. What does PPO's objective give for a good move, and for a bad one?"
+question: "The crab's new policy makes a move half as likely as when the batch was raced. What does PPO's objective give for a good move, and for a bad one?"
 options:
   - text: |-
       1.0
       -1.6
     correct: true
-    feedback: "Right. Good move: the plain 1.0 is smaller than the clipped 0.8 × 2 = 1.6, so 1.0, and the objective keeps pulling it back up. Bad move: the clipped -1.6 is smaller than -1.0, so -1.6, flat: making it rarer still earns nothing more, and he stops fleeing it."
+    feedback: "Right. Good move: the plain 1.0 is smaller than the clipped 0.8 × 2 = 1.6, so 1.0, and the objective keeps pulling it back up. Bad move: the clipped -1.6 is smaller than -1.0, so -1.6, flat: making it rarer still earns nothing more, and the actor stops fleeing it."
   - text: |-
       1.6
       -1.6

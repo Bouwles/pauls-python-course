@@ -7,7 +7,7 @@ example: |
   words = notice.split()
   print(words)
   print(" ".join(words))
-  print("Kittiwake,Mary Rose".split(","))
+  print("tea,hot chocolate".split(","))
 misconceptions: [split-keeps-gaps, join-gives-list, join-called-on-list, join-accepts-numbers]
 related: [strip-replace, string-methods]
 drill: true
@@ -45,33 +45,33 @@ cards:
         correct: true
         error: TypeError
   - type: fix
-    prompt: "This should print `Mind the gulls`. Fix it."
+    prompt: "This should print `Mind the gap`. Fix it."
     code: |
-      words = ["Mind", "the", "gulls"]
+      words = ["Mind", "the", "gap"]
       print(words.join(" "))
     tests: |
-      TESTS = [output("One string", expect="Mind the gulls")]
+      TESTS = [output("One string", expect="Mind the gap")]
     solution: |
-      words = ["Mind", "the", "gulls"]
+      words = ["Mind", "the", "gap"]
       print(" ".join(words))
   - type: fill
-    prompt: "Fill the gap so it prints `Bea, Mira, Gwen`."
+    prompt: "Fill the gap so it prints `Riya, Neil, Caitlin`."
     code: |
-      names = ["Bea", "Mira", "Gwen"]
+      names = ["Riya", "Neil", "Caitlin"]
       print(___.join(names))
     blanks: [["\", \"", "', '"]]
     tests: |
-      TESTS = [output("Commas", expect="Bea, Mira, Gwen")]
+      TESTS = [output("Commas", expect="Riya, Neil, Caitlin")]
   - type: write
     prompt: "`notice` has runs of spaces in it. Print it with exactly one space between words and none at the ends."
     starter: |
-      notice = "  Tide   tables    in the  window "
+      notice = "  Quiz   answers    on the  board "
     tests: |
       TESTS = [
-          output("Tide tables", expect="Tide tables in the window"),
-          output("Another notice", set_vars={"notice": "Gulls   are    not   pets."}, expect="Gulls are not pets.",
+          output("Quiz answers", expect="Quiz answers on the board"),
+          output("Another notice", set_vars={"notice": "Tabs   are    not   spaces."}, expect="Tabs are not spaces.",
                  hint="Work from notice itself: split it, then join it."),
       ]
     solution: |
-      notice = "  Tide   tables    in the  window "
+      notice = "  Quiz   answers    on the  board "
       print(" ".join(notice.split()))

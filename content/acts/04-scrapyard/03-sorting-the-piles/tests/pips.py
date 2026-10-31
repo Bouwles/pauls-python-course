@@ -21,7 +21,7 @@ def leaves_pile_alone(ctx):
 
 
 TESTS = [
-    function("Nell's engines", call="quick_sort", args=([7, 3, 9, 7, 1, 7, 4],), expect=[1, 3, 4, 7, 7, 7, 9], visible=True,
+    function("Three 7 kg engines", call="quick_sort", args=([7, 3, 9, 7, 1, 7, 4],), expect=[1, 3, 4, 7, 7, 7, 9], visible=True,
              hint="Count the 7s going in and coming out. Where does a part go if it weighs the same as the pivot?"),
     function("All the same weight", call="quick_sort", args=([5, 5, 5],), expect=[5, 5, 5], visible=True),
     function("No repeats", call="quick_sort", args=([9, 4, 6, 1],), expect=[1, 4, 6, 9]),

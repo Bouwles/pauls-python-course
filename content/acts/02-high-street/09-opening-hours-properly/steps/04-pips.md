@@ -1,14 +1,14 @@
 ---
 id: pips
 type: pips
-title: Pip's Version
+title: Fix Riya's version
 files: [main.py, crates.py]
 entry: main.py
 dialogue:
-  - pip: "Penhallow left Sanjay a crates module. I've used it for this week's deliveries."
-  - pip: "It did the apples. Then it forgot how to count."
+  - riya: "Neil left a crates module for the Studio's fruit order. I've used it for this week's delivery."
+  - riya: "It did the apples. Then it forgot how to count. Can you look?"
 dialogue_after:
-  - pip: "I called the answer crates, and then crates wasn't the module any more. Same name, two jobs."
+  - riya: "I called the answer crates, and then crates wasn't the module any more. Same name, two jobs."
 hints:
   nudge: "The first time round the loop, `crates` is the module. What is it the second time round?"
   plan:
@@ -20,7 +20,7 @@ hints:
         ___ = crates.crates_needed(items, PER_CRATE)
         print(f"{fruit}: {___} crates")
 ---
-There are two files this time. `crates.py` is Penhallow's module; `main.py` is Pip's program, which imports it. Click the tabs to see each one.
+There are two files this time. `crates.py` is Neil's module; `main.py` is Riya's program, which imports it. Click the tabs to see each one.
 
 Run it and read the traceback. Fix `main.py` so it prints:
 

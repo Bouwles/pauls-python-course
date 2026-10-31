@@ -1,4 +1,4 @@
-"""Task scheduler for Nell's repairs: a heap built by hand, the most urgent on top."""
+"""Task scheduler for the Makerspace's repairs: a heap built by hand, the most urgent on top."""
 
 DAY_FILE = "day.txt"
 
@@ -21,7 +21,7 @@ def pop(heap):
 
 
 class TaskScheduler:
-    """Repairs waiting at the yard: lowest priority number first, then first come."""
+    """Repairs waiting at the bench: lowest priority number first, then first come."""
 
 
 if __name__ == "__main__":

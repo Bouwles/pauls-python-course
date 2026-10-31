@@ -1,8 +1,0 @@
-# Ada Penhallow's notes from the observatory's upper floors, Act VII Job 1.
-# Each note is a comment in a starter file; finding it sets a story flag.
-notes:
-  - id: it-does-not-need-me
-    job: learning-backwards
-    title: "It does not need me"
-    text: "When it gets one wrong, it works backwards to whichever of its numbers caused it, and fixes those. It does not need me to correct it. That was the point. A.P."
-    where: "A comment above backward() in learn.py, copied from the half rubbed out blackboard on the top floor, in the last Make of Neural Network from Scratch."

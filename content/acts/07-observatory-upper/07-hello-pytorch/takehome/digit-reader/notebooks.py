@@ -1,7 +1,7 @@
-"""Wendt's scans of the digits in Penhallow's notebooks, split the same way as upstairs."""
+"""The handwritten digits, split the same way as in the Digit Recogniser."""
 
-# 1797 digits, each 8 by 8 greys from 0 (paper) to 16 (ink). They are,
-# Wendt admits, the same digits scikit-learn ships as load_digits.
+# 1797 digits, each 8 by 8 greys from 0 (paper) to 16 (ink): the digits
+# scikit-learn ships as load_digits (UCI, CC BY 4.0).
 import numpy as np
 from sklearn.datasets import load_digits
 

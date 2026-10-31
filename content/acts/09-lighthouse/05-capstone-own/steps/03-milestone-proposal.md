@@ -5,9 +5,9 @@ title: "Milestone 1: the proposal"
 test_plan: true
 evidence: link
 dialogue:
-  - moss: "One page. Who it's for, what done looks like, what could go wrong. Then I'll tell you it's too big."
-  - pip: "Mine's exactly the right size."
-  - moss: "They all are, on the first page."
+  - paul: "One page. Who it's for, what done looks like, what could go wrong. Then I'll tell you it's too big."
+  - caitlin: "Mine's exactly the right size."
+  - paul: "They all are, on the first page."
 checklist:
   - id: user
     text: "The proposal names the person it's for, and you've asked them what they need."
@@ -33,7 +33,7 @@ checklist:
 ---
 One page, as a README in a new repository or a gist: who it's for, what done looks like, the first slice, and three risks.
 
-Ask the person it's for before you write the page, not after. Then describe done in a sentence a stranger could check: "Mira types a weight and a destination and gets the price." Not "a postage system".
+Ask the person it's for before you write the page, not after. Then describe done in a sentence a stranger could check: "The shop owner types a weight and a destination and gets the price." Not "a postage system".
 
 Three risks: what's most likely to go wrong? Something you've never done before, a library you haven't tried, a person who's hard to pin down. For each, say what you'll do about it.
 

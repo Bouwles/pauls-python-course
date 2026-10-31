@@ -4,17 +4,17 @@ type: investigate
 title: The January vane
 concept: vectors
 dialogue:
-  - priya: "Penhallow's summary says January blew from the south. Every boat in the harbour faced north."
+  - aaesha: "The old summary says January blew from the south. The vane spent the month pointing north."
 code: |
   import numpy as np
 
-  # Penhallow's January summary: one bearing a day, then the average
+  # The old January summary: one bearing a day, then the average
   data = np.loadtxt("vane.csv", delimiter=",", skiprows=1, usecols=(1, 2))
   bearings = data[:, 0]
   speeds = data[:, 1]
   print(f"Average bearing: {bearings.mean():.0f} degrees")
 
-  # Priya's way: each day as an arrow, (east, north) in knots,
+  # Aaesha's way: each day as an arrow, (east, north) in knots,
   # pointing where the wind came from, as the vane does
   angles = np.radians(bearings)
   arrows = np.column_stack([speeds * np.sin(angles), speeds * np.cos(angles)])
@@ -26,7 +26,7 @@ code: |
   print(np.linalg.norm(mean_arrow).round(1), speeds.mean().round(1))
 tasks:
   - id: average-bearing
-    prompt: "Run it. What average bearing does Penhallow's summary give, to the nearest degree?"
+    prompt: "Run it. What average bearing does the old summary give, to the nearest degree?"
     kind: answer
     accept: ["197", "197 degrees", "197°"]
     feedback: "197 degrees: just west of south. Not one day in January had a southerly. Northerlies sit either just above 0 or just below 360, and the average of 10 and 350 lands in the middle: 180."
@@ -59,13 +59,13 @@ tasks:
     solution: |
       import numpy as np
 
-      # Penhallow's January summary: one bearing a day, then the average
+      # The old January summary: one bearing a day, then the average
       data = np.loadtxt("vane.csv", delimiter=",", skiprows=1, usecols=(1, 2))
       bearings = data[:, 0]
       speeds = data[:, 1]
       print(f"Average bearing: {bearings.mean():.0f} degrees")
 
-      # Priya's way: each day as an arrow, (east, north) in knots,
+      # Aaesha's way: each day as an arrow, (east, north) in knots,
       # pointing where the wind came from, as the vane does
       angles = np.radians(bearings)
       arrows = np.column_stack([speeds * np.sin(angles), speeds * np.cos(angles)])
@@ -84,7 +84,7 @@ tasks:
     feedback: "The same way every day. Arrows that point different ways partly cancel when they're added, so the average arrow comes out shorter than the average speed. How much shorter says how changeable the month was."
     wrong: "Arrows pointing opposite ways cancel when you add them. When would nothing cancel at all?"
 ---
-A **vector** is a few numbers that belong together, in a fixed order. Priya draws each day's wind as an arrow: knots east, then knots north. In NumPy that's an array, `np.array([3.0, 4.0])`, and a table of arrows has one per row.
+A **vector** is a few numbers that belong together, in a fixed order. Aaesha draws each day's wind as an arrow: knots east, then knots north. In NumPy that's an array, `np.array([3.0, 4.0])`, and a table of arrows has one per row.
 
 `np.radians` turns degrees into the radians that `np.sin` and `np.cos` expect. `np.linalg.norm(arrow)` is an arrow's length: Pythagoras, `np.sqrt(3 ** 2 + 4 ** 2)`.
 

@@ -6,11 +6,11 @@ example: |
   import pandas as pd
 
   people = pd.DataFrame({
-      "name": ["Edith Hollis", "Walter Rook", "Mary Rook", "Sam Rook"],
-      "parish": ["High Street", "Harbour", "Harbour", "Harbour"],
+      "name": ["Edith Hart", "Walter Lee", "Mary Lee", "Sam Lee"],
+      "parish": ["Hill", "Market", "Market", "Market"],
       "age": [34, 88, 52, 9],
   })
-  older = people[(people["age"] > 50) & (people["parish"] == "Harbour")]
+  older = people[(people["age"] > 50) & (people["parish"] == "Market")]
   print(older)
   print(older.iloc[0]["name"], older.loc[2, "name"])
 misconceptions: [and-combines-series, and-returns-last-condition, filter-renumbers-rows, loc-reads-original, compare-number-with-text]
@@ -23,7 +23,7 @@ cards:
       import pandas as pd
 
       people = pd.DataFrame({
-          "name": ["Edith Hollis", "Walter Rook", "Mary Rook", "Sam Rook"],
+          "name": ["Edith Hart", "Walter Lee", "Mary Lee", "Sam Lee"],
           "age": [34, 88, 52, 9],
       })
       print(len(people[people["age"] > 30]))
@@ -60,26 +60,26 @@ cards:
         misconception: filter-renumbers-rows
         feedback: "Filtering doesn't renumber. Each row keeps its original label, so `older.loc[0]` would be a KeyError. `.iloc[0]` goes by position."
   - type: fill
-    prompt: "Fill the gap so only the over-fifties at the harbour are kept."
+    prompt: "Fill the gap so only the over-fifties in Market are kept."
     code: |
       import pandas as pd
 
       people = pd.DataFrame({
-          "name": ["Edith Hollis", "Walter Rook", "Mary Rook", "Sam Rook"],
-          "parish": ["High Street", "Harbour", "Harbour", "Harbour"],
+          "name": ["Edith Hart", "Walter Lee", "Mary Lee", "Sam Lee"],
+          "parish": ["Hill", "Market", "Market", "Market"],
           "age": [34, 88, 52, 9],
       })
-      older = people[(people["age"] > 50) ___ (people["parish"] == "Harbour")]
+      older = people[(people["age"] > 50) ___ (people["parish"] == "Market")]
       print(older["name"].tolist())
     blanks: [["&"]]
     tests: |
-      TESTS = [output("Walter and Mary", expect="['Walter Rook', 'Mary Rook']")]
+      TESTS = [output("Walter and Mary", expect="['Walter Lee', 'Mary Lee']")]
   - type: fix
-    prompt: "Pip's filter finds nobody in 1951. There were two people. Fix it so it prints `2`."
+    prompt: "Aaesha's filter finds nobody in 1951. There were two people. Fix it so it prints `2`."
     code: |
       import pandas as pd
 
-      census = pd.DataFrame({"year": [1921, 1951, 1951], "name": ["Grace Jago", "Walter Rook", "Moss"]})
+      census = pd.DataFrame({"year": [1921, 1951, 1951], "name": ["Grace Jago", "Walter Lee", "Ann Jago"]})
       in_1951 = census[census["year"] == "1951"]
       print(len(in_1951))
     tests: |
@@ -87,7 +87,7 @@ cards:
     solution: |
       import pandas as pd
 
-      census = pd.DataFrame({"year": [1921, 1951, 1951], "name": ["Grace Jago", "Walter Rook", "Moss"]})
+      census = pd.DataFrame({"year": [1921, 1951, 1951], "name": ["Grace Jago", "Walter Lee", "Ann Jago"]})
       in_1951 = census[census["year"] == 1951]
       print(len(in_1951))
   - type: write
@@ -96,19 +96,19 @@ cards:
       import pandas as pd
 
       people = pd.DataFrame({
-          "name": ["Edith Hollis", "Walter Rook", "Mary Rook", "Sam Rook"],
+          "name": ["Edith Hart", "Walter Lee", "Mary Lee", "Sam Lee"],
           "age": [34, 88, 52, 9],
       })
     tests: |
       TESTS = [
-          output("Walter and Sam", expect="['Walter Rook', 'Sam Rook']"),
+          output("Walter and Sam", expect="['Walter Lee', 'Sam Lee']"),
           structure("Uses |", check=lambda tree, source: None if "|" in source else "Combine the two conditions with |."),
       ]
     solution: |
       import pandas as pd
 
       people = pd.DataFrame({
-          "name": ["Edith Hollis", "Walter Rook", "Mary Rook", "Sam Rook"],
+          "name": ["Edith Hart", "Walter Lee", "Mary Lee", "Sam Lee"],
           "age": [34, 88, 52, 9],
       })
       young_or_old = people[(people["age"] < 16) | (people["age"] > 80)]

@@ -166,7 +166,7 @@ def stump(ctx):
         raise CheckFailed("With max_depth 1, one question and two leaves.", expected=repr(want), actual=repr(tree)[:300])
 
 
-def grows_like_moss(ctx):
+def grows_like_paul(ctx):
     mod = _module(ctx)
     X, y = _applicants(11, 60)
     for limit in [2, 4, 10]:
@@ -175,7 +175,7 @@ def grows_like_moss(ctx):
         if _depth(got) > limit:
             raise CheckFailed(f"With max_depth {limit}, no path should ask more than {limit} questions.", expected=f"at most {limit}", actual=_depth(got))
         if not _same(got, want):
-            raise CheckFailed(f"On sixty applicants of the checks' own, max_depth {limit}, the tree asks different questions from Moss's.")
+            raise CheckFailed(f"On sixty applicants of the checks' own, max_depth {limit}, the tree asks different questions from Paul's.")
 
 
 def predicts(ctx):
@@ -235,7 +235,7 @@ TESTS = [
            hint="If only this fails, replace the best only when a score is strictly lower: < not <=."),
     custom("A leaf holds the commonest label", leaf_majority),
     custom("max_depth 1 grows one question", stump),
-    custom("Grows the same tree as Moss on other applicants", grows_like_moss,
+    custom("Grows the same tree as Paul's on other applicants", grows_like_paul,
            hint="If only this fails, check the stopping rules: depth reaches max_depth, or best_split gives None."),
     custom("predict follows the questions", predicts),
     custom("Grown from scratch", no_library),

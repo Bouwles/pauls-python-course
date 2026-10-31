@@ -1,4 +1,4 @@
-# Two charts for the noticeboard. By Pip. Made them dramatic, so people look.
+# Two charts for the Archive wall. By Caitlin. Made them dramatic, so people look.
 import matplotlib.pyplot as plt
 import pandas as pd
 

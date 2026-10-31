@@ -51,7 +51,7 @@ cards:
         misconception: pipeline-refits-on-predict
         feedback: "Only `fit` measures. `predict` scales the new reading with the mean and spread from training, which is exactly what you want: tonight is measured with the same ruler as the nights the model learnt from."
   - type: choice
-    prompt: "Pip runs `StandardScaler().fit_transform(X)` on all 320 evenings, then `cross_val_score(KNeighborsClassifier(), X_scaled, y, cv=5)`. What's wrong with that?"
+    prompt: "Yahya runs `StandardScaler().fit_transform(X)` on all 320 evenings, then `cross_val_score(KNeighborsClassifier(), X_scaled, y, cv=5)`. What's wrong with that?"
     verify: none
     options:
       - text: "Every fold was scaled with means and spreads measured partly on itself. Put the scaler in a pipeline"
@@ -112,7 +112,7 @@ cards:
       from sklearn.pipeline import make_pipeline
       from sklearn.preprocessing import StandardScaler
 
-      # passengers and rain (mm): did Bea sell out by noon?
+      # visitors and rain (mm): did the café sell out by noon?
       X = np.array([[400, 0.0], [350, 1.0], [120, 9.0], [90, 12.0]])
       y = np.array([1, 1, 0, 0])
       new = np.array([[380, 0.5], [100, 10.0]])
@@ -132,7 +132,7 @@ cards:
       from sklearn.pipeline import make_pipeline
       from sklearn.preprocessing import StandardScaler
 
-      # passengers and rain (mm): did Bea sell out by noon?
+      # visitors and rain (mm): did the café sell out by noon?
       X = np.array([[400, 0.0], [350, 1.0], [120, 9.0], [90, 12.0]])
       y = np.array([1, 1, 0, 0])
       new = np.array([[380, 0.5], [100, 10.0]])

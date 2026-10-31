@@ -2,7 +2,7 @@ import math
 
 
 def path_height(metres):
-    """The hill path's height in metres, this many metres along it from the station."""
+    """The hill path's height in metres, this many metres along it from the park gate."""
     return 140 * math.exp(-((metres - 1000) / 350) ** 2 / 2)
 
 

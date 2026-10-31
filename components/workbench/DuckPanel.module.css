@@ -1,0 +1,43 @@
+.panel {
+  display: grid;
+  gap: var(--s-4);
+}
+
+.intro {
+  font-size: var(--fs-2);
+  color: var(--text-2);
+}
+
+.field {
+  display: grid;
+  gap: var(--s-1);
+  font-size: var(--fs-1);
+  font-weight: 700;
+  color: var(--text);
+}
+
+.field textarea,
+.field select {
+  width: 100%;
+  font-weight: 400;
+  font-size: var(--fs-2);
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.field select {
+  height: 40px;
+  font-family: var(--font-code);
+  font-size: 14px;
+}
+
+.row {
+  display: flex;
+  gap: var(--s-2);
+  flex-wrap: wrap;
+}
+
+.status {
+  font-size: var(--fs-2);
+  color: var(--text-2);
+}

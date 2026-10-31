@@ -1,4 +1,4 @@
-"""Opening hours for the High Street. Import it; don't copy it."""
+"""Opening hours for every floor of the Clocktower. Import it; don't copy it."""
 
 DAYS = ("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
 

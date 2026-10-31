@@ -35,13 +35,13 @@ cards:
   - type: fix
     prompt: "This should give the length of each name. Fix the comprehension."
     code: |
-      names = ["Bea", "Mira", "Tom"]
+      names = ["Riya", "Yahya", "Caitlin"]
       lengths = [len(names) for name in names]
       print(lengths)
     tests: |
-      TESTS = [output("Three lengths", expect="[3, 4, 3]")]
+      TESTS = [output("Three lengths", expect="[4, 5, 7]")]
     solution: |
-      names = ["Bea", "Mira", "Tom"]
+      names = ["Riya", "Yahya", "Caitlin"]
       lengths = [len(name) for name in names]
       print(lengths)
   - type: fill

@@ -6,7 +6,7 @@ files: [logstream.py]
 entry: logstream.py
 argv_field: true
 timeout_ms: 15000
-on_pass: { moss: "Three fog horn errors before eight, and it read as far as eight and stopped. Sensible machine." }
+on_pass: { neil: "Three printer errors before eight, and it read as far as eight and stopped. Sensible machine." }
 hints:
   nudge: "Which function stops the whole chain early, and how does it tell the others to stop?"
   plan:
@@ -45,12 +45,12 @@ hints:
                 ___
         return found
 ---
-Write the four functions in `logstream.py`, then chain them in `main`. In the Arguments box, try `--level ERROR --machine fog-horn --first 3`:
+Write the four functions in `logstream.py`, then chain them in `main`. In the Arguments box, try `--level ERROR --machine printer --first 3`:
 
 ```
-06:12 ERROR fog-horn: no air pressure
-06:37 ERROR fog-horn: no air pressure
-07:57 ERROR fog-horn: no air pressure
+06:12 ERROR printer: out of paper
+06:37 ERROR printer: out of paper
+07:57 ERROR printer: out of paper
 ```
 
 `machines.log` here is one day, 1,451 lines. The real one is years long. Nothing in your chain should care.

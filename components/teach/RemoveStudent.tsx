@@ -23,7 +23,7 @@ export function RemoveStudent({ classId, className, studentId, name }: { classId
   if (!asking)
     return (
       <div className={styles.row}>
-        <Button variant="quiet" onClick={() => setAsking(true)}>
+        <Button variant="secondary" onClick={() => setAsking(true)}>
           Remove from {className}
         </Button>
       </div>
@@ -37,7 +37,7 @@ export function RemoveStudent({ classId, className, studentId, name }: { classId
         <Button variant="danger" onClick={() => void remove()} disabled={busy}>
           Remove {name}
         </Button>
-        <Button variant="quiet" onClick={() => setAsking(false)}>
+        <Button variant="secondary" onClick={() => setAsking(false)}>
           Keep them
         </Button>
       </div>

@@ -1,12 +1,12 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "My bench works the same way. Each repair knows about itself."
+  - paul: "The Workshop's repair list works the same way. Each repair knows about itself."
 code: |
   class Repair:
-      """One job on Moss's bench."""
+      """One job on the Workshop bench."""
 
       def __init__(self, item, owner, rate):
           self.item = item
@@ -28,11 +28,11 @@ code: |
           return f"{self.item} for {self.owner}, on the bench"
 
 
-  radio = Repair("radio", "Moss", 0)
-  mixer = Repair("mixer", "Bea", 12)
-  mixer.work(2)
-  print(mixer.describe())
-  print(mixer.finish())
+  radio = Repair("radio", "Paul", 0)
+  kettle = Repair("kettle", "Neil", 12)
+  kettle.work(2)
+  print(kettle.describe())
+  print(kettle.finish())
   print(radio.describe())
 subgoals:
   - label: Name the class for one thing

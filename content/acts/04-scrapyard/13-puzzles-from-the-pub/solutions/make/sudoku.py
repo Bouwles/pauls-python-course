@@ -1,10 +1,8 @@
-"""Sudoku Solver: Gwen's puzzle round, solved by backtracking."""
+"""Sudoku Solver: Yahya's puzzle book, solved by backtracking."""
 
 PUZZLE_FILE = "puzzles.txt"
 
-# Sudoku, for Gwen's quiz, 1994. Three of them; one can't be done, and that's
-# the puzzle. If I'm not back by the next quiz, Tom knows where the answers
-# are. A.P.
+# The last three sudokus in Yahya's puzzle book. No answers in the back.
 
 
 def read_puzzles(text):

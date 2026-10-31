@@ -1,21 +1,18 @@
-# Sir Reginald, the championship crab.
+# The crab, for the Arcade League.
 #
-# Q-learning on whatever course the stewards lay out, from practice alone.
+# Q-learning on whatever course the League lays out, from practice alone.
 # Practice moves are scarce, so every move is remembered and replayed:
 # each real move pays for ten more learning steps from memory. Exploring
 # and the step size both start large and shrink, so the values settle and
 # no two tiles end up pointing at each other. Every tile starts out worth
 # minus its distance to the finish as the gull flies: a guess, and a
-# hopeful one, so he goes and looks.
+# hopeful one, so it goes and looks.
 
 import numpy as np
 
 from course import MAX_MOVES, OutOfPractice, STEPS
 
 
-# Lady Agatha raced the club's course every Sunday for three years and never
-# lost. The first Sunday they moved the rocks, she sat down on the start line
-# and would not race. The machine on the hill has only ever known one town. A.P.
 def hopeful_guess(practice):
     """Q for every tile and move: minus the moves to the finish as the gull flies, after this one."""
     q = np.zeros((practice.rows, practice.cols, 4))
@@ -30,7 +27,7 @@ def hopeful_guess(practice):
 
 
 def train(practice, rng, replay=10, gamma=0.99):
-    """Practise until the stewards say stop. Returns a policy: rows of actions, 0 to 3."""
+    """Practise until the League says stop. Returns a policy: rows of actions, 0 to 3."""
     q = hopeful_guess(practice)
     memory = []
     races = 0

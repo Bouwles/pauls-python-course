@@ -28,8 +28,8 @@ def machine_plays(hands, inputs, expect):
     return check
 
 
-OFF = "You're off the glasses."
-ON = "You're on the glasses."
+OFF = "You're off the coffee run."
+ON = "You're on the coffee run."
 
 TESTS = [
     function("winner(\"rock\", \"scissors\")", call="winner", args=("rock", "scissors"), expect="you", visible=True),
@@ -45,7 +45,7 @@ TESTS = [
     custom("The machine wins", machine_plays(
         ["paper"], ["rock", "rock", "rock"],
         "I chose paper. I win.\nI chose paper. I win.\nI chose paper. I win.\nYou 0, me 3, draws 0.\n" + ON),
-        hint="When the machine gets to three, the game ends and you're on the glasses."),
+        hint="When the machine gets to three, the game ends and you're on the coffee run."),
     custom("Capitals and spaces", machine_plays(
         ["rock"], [" PAPER ", "Paper", "paper"],
         "I chose rock. You win.\nI chose rock. You win.\nI chose rock. You win.\nYou 3, me 0, draws 0.\n" + OFF),

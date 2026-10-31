@@ -6,7 +6,7 @@ portfolio_readme: |
 
   Solves a gridworld exactly, without simulating a single race. Given the map and the chances of every move, it works out what each tile is worth under a policy, finds the best value of every tile by value iteration, finds the best policy by policy iteration, and checks that the two agree.
 
-  Written by {name} for the Arcade Committee, on the pier at {{town}}. Finished {date}.
+  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -42,18 +42,18 @@ portfolio_readme: |
   - Dynamic programming on a model of the world, with every value and policy kept in dictionaries keyed by tile
 downloadable: true
 datasets: []
-client: committee
+client: aaesha
 building: crab-club
 estimated_minutes: 90
-summary: "The worth of every tile on the racing grid, without a single race: policy evaluation, value iteration and policy iteration."
+summary: "The worth of every tile on the Arcade's racing grid, without a single race: policy evaluation, value iteration and policy iteration."
 concepts_introduced: [policy-evaluation, value-iteration, policy-iteration]
 concepts_reviewed: [mdps, returns-discounting, dictionaries, dict-items, while-loops, functions, default-arguments, lambda]
 ask:
   dialogue:
-    - committee: "We have raced the traditional line for forty years."
-    - committee: "We should like to know, mathematically..."
-    - committee: "...whether we have been wrong for forty years."
-    - moss: "You know every tile and every chance. Work it out. Don't race it."
+    - aaesha: "A thousand races says the traditional line is worth about minus eight. About."
+    - aaesha: "You know every tile and every chance. That's enough to work it out exactly."
+    - yahya: "I'd like to know, mathematically, whether I've been racing it wrong all term."
+    - paul: "Work it out. Don't race it."
   spec: |
     Write `dp.py`, using your racing grid in `track.py`. Values and policies are dictionaries keyed by tile; `gamma` is 0.9 unless you're told otherwise.
 
@@ -81,18 +81,18 @@ ask:
     Policy iteration agrees: True
 ship:
   dialogue:
-    - committee: "The start is worth one point two. Under tradition it was worth minus seven point six."
-    - committee: "And the tile under the pool says go left. Away from the finish..."
-    - committee: "...on purpose. We have been racing it wrong since 1974."
-    - moss: "You had the map. Next, he learns the track with no map at all."
+    - aaesha: "The start is worth one point two. Under the traditional line it was minus seven point six."
+    - yahya: "And the tile under the pool says go left. Away from the finish. On purpose."
+    - aaesha: "Two methods, one answer. Now I believe it."
+    - paul: "You had the map. Next, the crab learns the track with no map at all."
   shelf: { object: track-map, label: "The racing grid, every tile known" }
   cards: [policy-evaluation, value-iteration, policy-iteration]
 stretch:
   - id: heat-map
-    title: "A chart for the clubhouse wall"
+    title: "A chart for the Arcade wall"
     prompt: |
-      Draw the best values with matplotlib: `plt.imshow` on a 3 by 4 array of values (use `np.nan` for the rock), a number written on each tile with `plt.text`, and an arrow for each action. The committee want it framed.
+      Draw the best values with matplotlib: `plt.imshow` on a 3 by 4 array of values (use `np.nan` for the rock), a number written on each tile with `plt.text`, and an arrow for each action. Aaesha will check the colour scale before it goes up.
   - id: how-patient
     title: "How patient is patient"
     prompt: |
-      Set `STEP_REWARD = 0` in `track.py` and run value iteration with `gamma` at 0.9, 0.95, 0.99 and 0.999. At which gamma does the arrow on (1, 2) turn to face the rock? Explain why to Dennis.
+      Set `STEP_REWARD = 0` in `track.py` and run value iteration with `gamma` at 0.9, 0.95, 0.99 and 0.999. At which gamma does the arrow on (1, 2) turn to face the rock? Explain why to the duck.

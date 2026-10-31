@@ -1,6 +1,6 @@
 # Misconceptions for Act III, Jobs 4 to 8: recursion, stacks and queues, linked lists, hashing and trees.
 
-# -- Recursion in the Junk Tower ----------------------------------------------------
+# -- Recursive File Tree Printer ----------------------------------------------------
 recursion-one-level-deep:
   concept: recursion
   description: Thinks a recursive function handles one level of nesting but not a crate inside a crate inside a crate.
@@ -56,7 +56,7 @@ cache-takes-any-argument:
   concept: memoisation
   description: Thinks functools.cache works with any arguments, including lists, rather than only with arguments that can be hashed.
 
-# -- Stacks and Queues of Scrap --------------------------------------------------------
+# -- Undo/Redo Text Editor -------------------------------------------------------------
 pop-only-looks:
   concept: stacks
   description: Thinks pop() reads the top item without taking it off the stack.
@@ -102,7 +102,7 @@ turn-before-saving:
   concept: linked-lists
   description: Thinks a node's next can be pointed backwards before keeping hold of the node it used to point at.
 
-# -- The Hash Pile -----------------------------------------------------------------------
+# -- Hash Map from Scratch ---------------------------------------------------------------
 different-names-different-piles:
   concept: hashing
   description: Thinks a hash function always sends different keys to different piles, so collisions can't happen.
@@ -125,7 +125,7 @@ resize-keeps-old-piles:
   concept: hash-maps
   description: Thinks that after a hash map doubles its piles, the keys can stay in the piles they were in.
 
-# -- The Family Tree of Parts ---------------------------------------------------------
+# -- Parts Catalogue ------------------------------------------------------------------
 height-counts-cards:
   concept: trees
   description: Thinks a tree's height is how many cards it holds, rather than how many levels from the root to the deepest leaf.

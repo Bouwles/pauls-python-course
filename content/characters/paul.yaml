@@ -1,0 +1,77 @@
+id: paul
+name: Paul
+role: The professor. Runs the course from the Workshop on the ground floor of the Clocktower.
+colour: "#FFB627"
+floor: 1
+look: Thick, dark-brown wavy hair to the jaw, strong dark eyebrows, light stubble and a thin moustache. A navy-and-cream varsity jacket over a collared shirt. Easy half-smile.
+voice: Calm, sharp, dryly funny. High standards, delivered kindly. Build it, break it, make it readable. Obsessed with good variable names.
+pools:
+  # Reactive lines (REDESIGN-2.md 7.4). lib/cast.ts says which events are Paul's.
+  first-fstring:
+    - "An f-string. The value goes exactly where you put it."
+    - "f-strings. You'll write one a day from now on."
+    - "There's the f before the quote. Everything in the braces gets worked out first."
+  converts-input:
+    - "Text in, number out, then the sums. Right order."
+    - "You turned the input into a number before using it. That's the step people forget."
+    - "Converted before the arithmetic. That saves you a TypeError later."
+  first-function:
+    - "Your first `def`. Now it has a name, you can call it whenever you like."
+    - "A function. Name it for what it does and it'll last."
+    - "First function. Small, and named for its job. Keep them like that."
+  good-name:
+    - "`{name}`. I know what it holds without reading the rest."
+    - "`{name}`. Good name. You'll thank yourself next month."
+    - "`{name}` says what it is. That's half of readable code."
+  letter-name:
+    - "`{name}`. What does `{name}` hold? Give it a name that says."
+    - "`{name}` tells the next reader nothing. Name it for what it holds."
+    - "Single letters are fine for a loop counter. `{name}` deserves a word."
+  long-function:
+    - "`{name}` is doing several jobs. Give some of them their own names."
+    - "`{name}` is getting long. Split it where you'd write a comment."
+    - "If you can't see all of `{name}` at once, it wants splitting."
+  long-line:
+    - "That line runs off the edge. Break it up."
+    - "Long line. If you have to scroll sideways to read it, it's too long."
+    - "Split that line in two. The next person to read it will thank you."
+  check-passed:
+    - "That works. Now make it so the next person can read it."
+    - "It does what the spec says. That's the whole job."
+    - "Passed. Read it once more before you move on."
+    - "It works. Would you be happy to hand it over as it is?"
+  pass-no-hints:
+    - "No hints. Your own work, start to finish."
+    - "You got there without asking. That's the version that sticks."
+    - "Missed, read the check, fixed it. No hints needed."
+  predict-right:
+    - "Right. Now run it and watch it happen."
+    - "That's what it does. Run it anyway. Seeing is the point."
+    - "Correct. You read it the way Python does."
+  predict-wrong:
+    - "Good. Now you know what you expected. Run it and see the difference."
+    - "Wrong guesses are the useful ones. Run it."
+    - "Not quite. The gap between your guess and the output is the lesson."
+  returning:
+    - "Back. Good. The clock's still stuck at 3:14, if you were wondering."
+    - "There you are. Your desk is as you left it."
+    - "Welcome back. Pick up where you were. No rush."
+  solution-seen:
+    - "Read it properly. Why each line is there, not just what it says."
+    - "Now close it and write it yourself. That's where it sticks."
+    - "Fine. You'll meet this one again in Morning Rounds."
+  rounds-start:
+    - "Ten quick ones before anything new."
+    - "Morning Rounds. Things you've already built, from memory."
+    - "A few old ones first. They go in deeper the second time."
+  rounds-done:
+    - "Done. Those will come round again, a bit further apart."
+    - "Rounds finished. Now the new work."
+    - "That's the lot. Your desk is waiting."
+  # Paul is the client for the Course Sign and the Grade Calculator.
+  waiting:
+    - "No hurry. Get it right, then get it neat."
+    - "I'll be at my desk. Build it ugly first."
+  recap:
+    - "Where you left the {job}: {step}"
+    - "The {job}, as you left it. You'd got to {step}"

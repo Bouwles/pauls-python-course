@@ -43,7 +43,7 @@ def groynes(layout):
     return [col for col in range(2, cols - 2) if sum(layout[row][col] == "#" for row in range(rows)) == rows - 1]
 
 
-def committee_shape(ctx):
+def league_shape(ctx):
     m = ctx.module()
     first = m.generate(2026)
     shape_of(first, 7, 9, "generate(2026)")
@@ -120,7 +120,7 @@ def moves(ctx):
     for tile, action, want in [((0, 0), 3, (0, 1)), ((0, 0), 0, (0, 0)), ((0, 0), 2, (0, 0)), ((0, 1), 3, (0, 1)), ((1, 1), 3, (1, 2)), ((0, 1), 1, (1, 1))]:
         got = course.move(tile, action)
         if got is None or tuple(got) != want:
-            raise CheckFailed(f"course.move({tile}, {action}) should be {want}: off the course or into a rock, he stays put.", expected=want, actual=got)
+            raise CheckFailed(f"course.move({tile}, {action}) should be {want}: off the course or into a rock, it stays put.", expected=want, actual=got)
 
 
 def slips(ctx):
@@ -136,7 +136,7 @@ def slips(ctx):
             landed[tuple(after)] = landed.get(tuple(after), 0) + 1
         up, down = landed.get((tile[0] - 1, tile[1]), 0) / 4000, landed.get((tile[0] + 1, tile[1]), 0) / 4000
         if abs(up - chance / 2) > 0.025 or abs(down - chance / 2) > 0.025:
-            raise CheckFailed(f"Told right {where}, he should slip up {chance / 2:.1%} and down {chance / 2:.1%} of the time.",
+            raise CheckFailed(f"Told right {where}, it should slip up {chance / 2:.1%} and down {chance / 2:.1%} of the time.",
                               expected=f"{chance / 2:.1%} each", actual=f"up {up:.1%}, down {down:.1%}")
 
 
@@ -152,7 +152,7 @@ def finishing(ctx):
             return
         if over:
             raise CheckFailed("Only the finish ends the race.", actual=(after, over))
-    raise CheckFailed("Told right from beside the finish, he should reach it nine times in ten.")
+    raise CheckFailed("Told right from beside the finish, it should reach it nine times in ten.")
 
 
 def races(ctx):
@@ -161,12 +161,12 @@ def races(ctx):
     quick = m.Course(["SF"])
     got = np.mean([m.race(quick, [[3, 3]], rng) for _ in range(3000)])
     if abs(got - 1 / 0.9) > 0.03:
-        raise CheckFailed("On a course of two tiles, told right, he finishes in one move nine times in ten: about 1.11 moves on average.",
+        raise CheckFailed("On a course of two tiles, told right, it finishes in one move nine times in ten: about 1.11 moves on average.",
                           expected=1.11, actual=round(float(got), 2))
     stuck = m.Course(["S#F"])
     got = m.race(stuck, [[3, 3, 3]], rng)
     if got != 100:
-        raise CheckFailed("Told right into a rock for ever, he never finishes: race should stop at 100 moves and return 100.", expected=100, actual=got)
+        raise CheckFailed("Told right into a rock for ever, it never finishes: race should stop at 100 moves and return 100.", expected=100, actual=got)
 
 
 def practice(ctx):
@@ -177,7 +177,7 @@ def practice(ctx):
         if getattr(p, name, None) != want:
             raise CheckFailed(f"A Practice should know its {name}: {want}.", expected=want, actual=getattr(p, name, None))
     if tuple(p.reset()) != (0, 0):
-        raise CheckFailed("reset() should put him back on the start and return it.")
+        raise CheckFailed("reset() should put the crab back on the start and return it.")
     tile, reward, over = p.step(3)
     tile, reward, over = p.step(1)
     if p.moves_left != 3:
@@ -204,21 +204,21 @@ def practice_moves_on(ctx):
         if over:
             break
     if not over or tuple(tile) != (0, 5):
-        raise CheckFailed("Practice moves should carry on from wherever the last one left him, until he reaches the finish.", actual=tile)
+        raise CheckFailed("Practice moves should carry on from wherever the last one left it, until it reaches the finish.", actual=tile)
 
 
 TESTS = [
-    custom("The committee's shape, the same every time", committee_shape, visible=True),
+    custom("The League's shape, the same every time", league_shape, visible=True),
     custom("A Course from a layout", a_course, visible=True),
     custom("Different seeds, different courses", different_seeds),
-    custom("Always a way through", always_a_way, hint="After placing everything, search from the start (breadth-first, as in the Scrapyard). No way through: draw a whole new course."),
+    custom("Always a way through", always_a_way, hint="After placing everything, search from the start (breadth-first, as in the Puzzle Room). No way through: draw a whole new course."),
     custom("Two groynes", two_groynes),
     custom("Other sizes", other_sizes, hint="Groynes go in columns 2 to cols - 3, so use cols, not 9."),
     custom("Rocks and pools, scattered", scattering),
     custom("Moves, edges and rocks", moves),
     custom("Slips, on sand and in pools", slips, hint="Slip with chance SLIP_POOL in a pool, SLIP_SAND elsewhere; then left or right of the move, half each."),
     custom("The finish ends the race", finishing),
-    custom("Races, short and endless", races, hint="Stop after MAX_MOVES and return MAX_MOVES if he hasn't finished."),
+    custom("Races, short and endless", races, hint="Stop after MAX_MOVES and return MAX_MOVES if it hasn't finished."),
     custom("Practice, counted", practice, hint="Count moves_left down in step, and raise OutOfPractice once it reaches 0."),
     custom("Practice carries on", practice_moves_on),
 ]

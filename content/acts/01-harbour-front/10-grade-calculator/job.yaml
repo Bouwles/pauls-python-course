@@ -4,9 +4,9 @@ project_name: "Grade Calculator"
 portfolio_readme: |
   # Grade Calculator
 
-  Type in each student's marks and it works out their average and a letter grade, then the average for the whole class. It's built from small functions that each do one job, so each one can be checked on its own.
+  Type in the marks on each test paper and it works out the paper's average and a letter grade, then the average for the whole class. It's built from small functions that each do one job, so each one can be checked on its own.
 
-  Written by {name} in {{town}}. Finished {date}.
+  Written by {name} for Paul, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -14,12 +14,12 @@ portfolio_readme: |
   python main.py
   ```
 
-  Type a name, then that student's marks with spaces between them. A blank name ends the class.
+  Type a name, then that paper's marks with spaces between them. A blank name ends the class.
 
   ```
-  Name? Sanjay
+  Name? Candidate 1
   Marks? 52 61 48
-  Sanjay: 53.7 (C)
+  Candidate 1: 53.7 (C)
   Name?
   Class average: 53.7
   ```
@@ -41,7 +41,7 @@ portfolio_readme: |
   - A `main()` that does all the asking and printing, so the other functions can be imported and tested on their own.
 downloadable: true
 datasets: []
-client: gwen
+client: paul
 building: pub
 estimated_minutes: 55
 summary: "Marks in, averages and letter grades out, built from small functions that each do one job."
@@ -49,45 +49,46 @@ concepts_introduced: [functions, parameters, return-values, none, scope]
 concepts_reviewed: [split-join, lists, append-pop, for-loops, while-loops, sentinels, if-elif-else, int-conversion, f-strings]
 ask:
   dialogue:
-    - gwen: "Mrs Vance holds her evening class in my back room. Local history, Thursdays."
-    - gwen: "She's at her sister's for a fortnight. Guess who's been left the marking."
-    - gwen: "An average and a letter for everyone, on her desk by Friday. She will check."
-    - moss: "Small pieces, each with a name. Then you can check each one."
+    - paul: "The class sat its first test on Friday. I've been putting off the marking."
+    - paul: "Papers are marked blind: candidate numbers, no names. Nobody gets a kind mark."
+    - paul: "An average and a letter for each paper, and one for the class. Small functions, each one checkable."
+    - neil: "He means he'll check every function. Twice."
   spec: |
     Write three functions, then a `main()` that uses them.
 
     - `read_marks(text)` takes marks typed with spaces between them, like `"52 61 48"`, and returns them as a list of whole numbers: `[52, 61, 48]`. Nothing typed gives `[]`.
     - `average(marks)` returns the mean of a list of marks, or `None` if the list is empty.
     - `grade(mark)` returns `"A"` for 70 or more, `"B"` for 60 or more, `"C"` for 50 or more, `"D"` for 40 or more, and `"F"` under 40.
-    - `main()` asks `Name? ` and `Marks? ` for each student until a blank name, and prints `Sanjay: 53.7 (C)`, or `Old Tom: no marks yet` if no marks were typed. At the end it prints the average of every mark in the class, `Class average: 70.0`, or `Class average: no marks yet`.
+    - `main()` asks `Name? ` and `Marks? ` for each paper until a blank name, and prints `Candidate 1: 53.7 (C)`, or `Candidate 3: no marks yet` if no marks were typed. At the end it prints the average of every mark in the class, `Class average: 70.0`, or `Class average: no marks yet`.
 
     Averages are shown to one decimal place.
   example: |
-    Name? Sanjay
+    Name? Candidate 1
     Marks? 52 61 48
-    Sanjay: 53.7 (C)
-    Name? Mr Ashby
+    Candidate 1: 53.7 (C)
+    Name? Candidate 2
     Marks? 88 92 79
-    Mr Ashby: 86.3 (A)
-    Name? Old Tom
+    Candidate 2: 86.3 (A)
+    Name? Candidate 3
     Marks?
-    Old Tom: no marks yet
+    Candidate 3: no marks yet
     Name?
     Class average: 70.0
 ship:
   dialogue:
-    - gwen: "Mr Ashby, eighty-six point three. He'll want it framed."
-    - gwen: "Old Tom, no marks yet. He wrote about the 1987 storm again. On all three papers."
-  shelf: { object: exam-paper, label: "Mrs Vance's marks, done by Gwen" }
+    - paul: "Candidate 2, eighty-six point three. Tidy work, whoever you are."
+    - yahya: "Is Candidate 2 me?"
+    - paul: "Blind marking, Yahya. You'll find out on Friday."
+  shelf: { object: exam-paper, label: "Marks for the class's first test" }
   cards: [functions, parameters, return-values, none, scope]
 stretch:
   - id: top
     title: "Top of the class"
     prompt: |
-      Mrs Vance likes to know who came first. After the class average, print `Top: Mr Ashby (86.3)`. If two students tie, the one typed in first wins. If nobody has any marks, leave the line out.
+      Yahya would like to know who came first. After the class average, print `Top: Candidate 2 (86.3)`. If two papers tie, the one typed in first wins. If nobody has any marks, leave the line out.
     tests: tests/stretch-top.py
     solution: solutions/stretch-top.py
   - id: smudged
     title: "A smudged mark"
     prompt: |
-      Some marks come in smudged, and Gwen types `6O` with a letter O. `int()` crashes on it. Make `read_marks` skip any word that isn't all digits: `word.isdigit()` tells you. The Calculator job, two along, has a better way of catching that kind of crash.
+      Some marks come in smudged, and Paul types `6O` with a letter O. `int()` crashes on it. Make `read_marks` skip any word that isn't all digits: `word.isdigit()` tells you. The Calculator job, two along, has a better way of catching that kind of crash.

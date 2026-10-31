@@ -34,4 +34,4 @@ options:
     error: NameError
     feedback: "`style` is a parameter, like `message`. It holds whatever was passed in, and a function can be passed in like a number or a string."
 ---
-Sanjay's till calls out the specials. Look closely at which names on the last two lines have brackets after them, and which don't.
+The fruit stall's till calls out the specials. Look closely at which names on the last two lines have brackets after them, and which don't.

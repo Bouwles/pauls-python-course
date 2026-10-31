@@ -21,22 +21,22 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      class Boat:
+      class Vehicle:
           def horn(self):
-              return "toot"
+              return "beep"
 
           def leave(self):
-              return f"{self.horn()}, casting off"
+              return f"{self.horn()}, pulling away"
 
-      class Ferry(Boat):
+      class Bus(Vehicle):
           def horn(self):
-              return "BAAARP"
+              return "HOOONK"
 
-      print(Boat().leave())
-      print(Ferry().leave())
+      print(Vehicle().leave())
+      print(Bus().leave())
     answer: |-
-      toot, casting off
-      BAAARP, casting off
+      beep, pulling away
+      HOOONK, pulling away
   - type: choice
     prompt: What does this print?
     code: |
@@ -89,51 +89,51 @@ cards:
       tandem = Tandem(5)
       print(tandem.describe(), tandem.seats())
   - type: fill
-    prompt: "Fill the gap so a fog lamp is a kind of lamp."
+    prompt: "Fill the gap so a desk lamp is a kind of lamp."
     code: |
       class Lamp:
           def light(self):
               return "lit"
 
-      class FogLamp(___):
+      class DeskLamp(___):
           pass
 
-      print(FogLamp().light())
+      print(DeskLamp().light())
     blanks: [["Lamp"]]
     tests: |
-      TESTS = [output("The fog lamp lights", expect="lit")]
+      TESTS = [output("The desk lamp lights", expect="lit")]
   - type: write
-    prompt: "Write `Rowboat`, a kind of `Boat` whose `horn()` returns `\"oi\"`."
+    prompt: "Write `Bicycle`, a kind of `Vehicle` whose `horn()` returns `\"ding\"`."
     starter: |
-      class Boat:
+      class Vehicle:
           def horn(self):
-              return "toot"
+              return "beep"
 
           def leave(self):
-              return f"{self.horn()}, casting off"
+              return f"{self.horn()}, pulling away"
     tests: |
-      def rowboat(ctx):
+      def bicycle(ctx):
           m = ctx.module()
-          boat = m.Rowboat()
-          if not isinstance(boat, m.Boat):
-              raise CheckFailed("A Rowboat should be a kind of Boat.")
-          if boat.leave() != "oi, casting off":
-              raise CheckFailed("A rowboat leaves with an oi.", expected="oi, casting off", actual=boat.leave())
+          bike = m.Bicycle()
+          if not isinstance(bike, m.Vehicle):
+              raise CheckFailed("A Bicycle should be a kind of Vehicle.")
+          if bike.leave() != "ding, pulling away":
+              raise CheckFailed("A bicycle leaves with a ding.", expected="ding, pulling away", actual=bike.leave())
 
 
-      TESTS = [custom("The rowboat leaves", rowboat)]
+      TESTS = [custom("The bicycle leaves", bicycle)]
     solution: |
-      class Boat:
+      class Vehicle:
           def horn(self):
-              return "toot"
+              return "beep"
 
           def leave(self):
-              return f"{self.horn()}, casting off"
+              return f"{self.horn()}, pulling away"
 
 
-      class Rowboat(Boat):
+      class Bicycle(Vehicle):
           def horn(self):
-              return "oi"
+              return "ding"
   - type: choice
     prompt: What does this print?
     code: |

@@ -16,7 +16,7 @@ def split_by_year(days, year):
     return days[years < year], days[years == year]
 
 
-def ferros_rule(days):
+def skippers_rule(days):
     return ((days["tide_range"] >= 4.0) & (days["wind_speed"] < 20)).astype(int).to_numpy()
 
 
@@ -64,10 +64,10 @@ if __name__ == "__main__":
     model = models[chosen].fit(X_train, y_train)
     predicted = model.predict(X_test)
     print(f"On {TEST_YEAR}: {np.mean(predicted == y_test):.3f}")
-    print(f"Ferro's rule: {np.mean(ferros_rule(test_days) == y_test):.3f}")
+    print(f"Skipper's rule: {np.mean(skippers_rule(test_days) == y_test):.3f}")
     print(f"Always saying no: {always_commonest(y_train, y_test):.3f}")
 
-    # The mistakes that cost Gwen and the fleet
+    # The mistakes that cost the café and the fleet
     precision, recall = precision_recall(y_test, predicted)
     print(f"When it says good, it's right: {precision:.2f}")
     print(f"Good days it caught: {recall:.2f}")

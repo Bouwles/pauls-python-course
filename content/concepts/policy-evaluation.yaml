@@ -14,7 +14,7 @@ misconceptions: [news-travels-instantly, value-is-next-reward, terminal-has-valu
 related: [value-iteration, policy-iteration, returns-discounting]
 cards:
   - type: predict
-    prompt: "Sir Reginald is next to the finish and told to step onto it. Every value is still 0. What is the tile worth after one backup?"
+    prompt: "The crab is next to the finish and told to step onto it. Every value is still 0. What is the tile worth after one backup?"
     code: |
       possible = [(0.8, "finish", 10, True), (0.1, "here", -1, False), (0.1, "below", -1, False)]
       values = {"here": 0.0, "below": 0.0}

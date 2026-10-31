@@ -5,16 +5,16 @@ An f-string is a Python string with the letter `f` in front of the opening quote
 The braces can hold any expression, not just a variable name: arithmetic, a method call, an item from a list. Python works it out, turns the result into text and puts it in place.
 
 ```python
-name = "Bea"
-loaves = 3
+name = "Emma"
+coffees = 3
 price = 1.2
-print(f"{name} bought {loaves} loaves for £{loaves * price:.2f}")
-print(f"{name.upper()} owes {loaves * price}")
+print(f"{name} bought {coffees} coffees for £{coffees * price:.2f}")
+print(f"{name.upper()} owes {coffees * price}")
 ```
 
 ```text
-Bea bought 3 loaves for £3.60
-BEA owes 3.5999999999999996
+Emma bought 3 coffees for £3.60
+EMMA owes 3.5999999999999996
 ```
 
 The second line shows why formatting matters. `3 * 1.2` is not exactly 3.6 as a float, and without instructions Python prints every digit it has. The part after the colon, `.2f`, means "fixed-point with two decimal places".
@@ -25,7 +25,7 @@ The format part has a small language of its own. A few pieces cover most needs:
 takings = 12345.678
 share = 0.375
 order = 7
-item = "oars"
+item = "pens"
 print(f"Takings: £{takings:,.2f}")
 print(f"Share: {share:.1%}")
 print(f"Order {order:03d}")
@@ -37,7 +37,7 @@ print(f"{takings = }")
 Takings: £12,345.68
 Share: 37.5%
 Order 007
-|oars    |   7|
+|pens    |   7|
 takings = 12345.678
 ```
 

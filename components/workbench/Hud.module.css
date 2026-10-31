@@ -1,166 +1,205 @@
-/* The HUD: one 48 px bar of game chrome across the top. */
+/* The Workbench header: 56 px, the logo, where you are, then save status, the Clocktower and you. */
 .hud {
-  grid-area: hud;
   display: flex;
   align-items: center;
-  gap: var(--s-4);
-  height: var(--hud-h);
-  padding: 0 var(--s-3) 0 var(--s-4);
-  background: var(--night-0);
-  box-shadow: inset 0 -4px 0 var(--night-1);
-  color: var(--text);
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 1;
-  -webkit-font-smoothing: none;
+  gap: var(--s-6);
+  height: var(--header-h);
+  flex: none;
+  padding: 0 var(--s-4) 0 var(--s-5);
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
   min-width: 0;
-}
-
-:root[data-theme="light"] .hud {
-  background: var(--day-ink);
-  box-shadow: inset 0 -4px 0 var(--night-2);
-  color: var(--chalk);
-}
-
-@media (prefers-color-scheme: light) {
-  :root[data-theme="system"] .hud {
-    background: var(--day-ink);
-    box-shadow: inset 0 -4px 0 var(--night-2);
-    color: var(--chalk);
-  }
 }
 
 .home {
   display: inline-flex;
   align-items: center;
   gap: var(--s-2);
-  color: var(--lamp);
-  text-decoration: none;
   flex: none;
+  color: var(--text);
+  text-decoration: none;
+  border-radius: var(--r-md);
 }
 
+.home:link,
+.home:visited,
 .home:hover {
-  color: var(--chalk);
+  color: var(--text);
+  text-decoration: none;
 }
 
 .brand {
-  padding-top: 2px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 19px;
+  letter-spacing: var(--tracking-display);
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .crumbs {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-3);
   min-width: 0;
   flex: 1;
+  padding-left: var(--s-5);
+  border-left: 1px solid var(--line);
+  height: 24px;
+  align-self: center;
 }
 
 .crumbs ol {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: var(--s-2);
-  list-style: none;
   margin: 0;
   padding: 0;
+  list-style: none;
   min-width: 0;
-  white-space: nowrap;
+  font-size: var(--fs-2);
+  line-height: 24px;
 }
 
 .crumbs li {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: var(--s-2);
   min-width: 0;
-  color: var(--fog);
+  white-space: nowrap;
 }
 
 .crumbs li + li::before {
-  content: ">";
-  color: var(--night-4);
+  content: "/";
+  color: var(--text-2);
 }
 
-.crumbs a {
-  color: var(--fog);
+.act:link,
+.act:visited {
+  color: var(--text-2);
   text-decoration: none;
 }
 
-.crumbs a:hover {
-  color: var(--chalk);
-}
-
-.crumbs li[aria-current] {
-  color: var(--chalk);
-  overflow: hidden;
+.act:hover {
+  color: var(--text);
+  text-decoration: underline;
 }
 
 .job {
+  font-weight: 700;
+  color: var(--text);
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.position {
+  font-size: var(--fs-1);
+  color: var(--text-2);
+  white-space: nowrap;
+  line-height: 24px;
 }
 
 .right {
   display: flex;
   align-items: center;
-  gap: var(--s-1);
+  gap: var(--s-2);
   flex: none;
-  color: var(--fog);
+  color: var(--text-2);
 }
 
 .iconLink,
 .avatar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
   width: 40px;
   height: 40px;
-  color: var(--fog);
+  border-radius: var(--r-md);
+  color: var(--text-2);
+  text-decoration: none;
+  transition:
+    background-color var(--dur) var(--ease-out),
+    color var(--dur) var(--ease-out);
 }
 
-.iconLink:hover,
+.iconLink:link,
+.iconLink:visited {
+  color: var(--text-2);
+}
+
+.iconLink:hover {
+  background: var(--surface-3);
+  color: var(--text);
+}
+
 .avatar:hover {
-  color: var(--chalk);
-  background: var(--night-2);
-}
-
-.avatar {
-  margin-left: var(--s-1);
-  background: var(--night-2);
-}
-
-.clock {
-  margin-right: var(--s-2);
-  color: var(--fog);
-}
-
-.over {
-  color: var(--lamp);
+  background: var(--surface-3);
 }
 
 .save {
   margin-left: var(--s-2);
 }
 
-@media (max-width: 900px) {
-  .hud {
-    gap: var(--s-2);
-    padding: 0 var(--s-2);
-  }
+.clock {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  font-size: var(--fs-1);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  margin-right: var(--s-2);
+}
 
-  .brand,
-  .jobTitle,
-  .crumbs li:first-child {
+.over {
+  color: var(--sun-text);
+}
+
+@media (max-width: 1100px) {
+  .brand {
     display: none;
-  }
-
-  .crumbs li + li::before {
-    content: none;
-  }
-
-  .iconLink,
-  .avatar {
-    width: 36px;
   }
 }
 
-@media (max-width: 420px) {
-  .clock {
-    display: none;
+@media (max-width: 720px) {
+  .hud {
+    gap: var(--s-3);
+    padding: 0 var(--s-2) 0 var(--s-4);
+  }
+
+  .crumbs {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    height: auto;
+    padding-left: var(--s-3);
+  }
+
+  .crumbs ol,
+  .position {
+    line-height: 1.25;
+  }
+
+  .crumbs ol {
+    max-width: 100%;
+  }
+
+  .position {
+    font-size: 13px;
+  }
+
+  .right {
+    gap: 0;
+  }
+
+  .saveMore {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  .save {
+    margin-left: var(--s-1);
   }
 }

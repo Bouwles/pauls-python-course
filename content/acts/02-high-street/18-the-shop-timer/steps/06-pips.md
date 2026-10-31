@@ -1,12 +1,12 @@
 ---
 id: pips
 type: pips
-title: Pip's Version
+title: Fix Riya's version
 dialogue:
-  - pip: "I've done Sanjay's timer already. Wrapper, clock, log. Textbook."
-  - pip: "The log's perfect. Then label crashes on a None. Where did a None come from."
+  - riya: "I've done a timer for my till already. Wrapper, clock, log. Textbook."
+  - riya: "The log's perfect. Then label crashes on a None. Can you look? Something's off."
 dialogue_after:
-  - pip: "So the wrapper has to pass the answer back. It's a middleman. Middlemen forget things."
+  - riya: "So the wrapper has to pass the answer back. It's a middleman. Middlemen forget things."
 hints:
   nudge: "After the decorator, calling `weigh` runs `wrapper`. What does `wrapper` give back?"
   plan:
@@ -20,9 +20,9 @@ hints:
         log.append((func.__name__, clock() - start))
         ___
 ---
-Pip's `timed` logs every call. Run it and read the traceback from the bottom.
+Riya's `timed` logs every call. Run it and read the traceback from the bottom.
 
-Fix the decorator, not Sanjay's functions. It should print:
+Fix the decorator, not the till's functions. It should print:
 
 ```
 Plums: £3.15

@@ -1,10 +1,9 @@
-# The tide table. Agnes reads it every morning with her tea.
-# Whoever fixes this next: the tides are the easy part.
-# The hill is harder. A.P.
-quay = "north quay"
-high_water = "06:42"
-low_water = "12:55"
+# The help-desk board for the Studio door.
+# If it says the desk is open, someone had better be at it. N.
+room = "Studio"
+opens = "09:30"
+closes = "16:00"
 
-print("Tides for the " + quay)
-print("High water " + high_water
-print("Low water " + Low_water)
+print("Help desk in the " + room)
+print("Opens " + opens
+print("Closes " + Closes)

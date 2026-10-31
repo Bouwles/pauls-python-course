@@ -32,18 +32,20 @@ export default async function SharedProjectPage(props: { params: Promise<{ slug:
   const { slug, jobId } = await props.params;
   const p = await load(slug, jobId);
   if (!p) notFound();
-  const act = getIndex().acts.find((a) => a.id === p.job.act);
-  const client = getIndex().characters[p.job.client]?.name ?? p.job.client;
+  const index = getIndex();
+  const act = index.acts.find((a) => a.id === p.job.act);
+  const client = index.characters[p.job.client]?.name ?? p.job.client;
   return (
     <Page>
       <SharedProjectView
         slug={slug}
         name={p.name}
         character={p.character}
-        projectName={p.job.projectName}
+        jobId={p.job.id}
+        projectName={p.job.projectName || p.job.title}
+        clientId={p.job.client}
         client={client}
-        actLabel={act ? `Act ${act.number}, ${act.title}` : ""}
-        shelfObject={p.job.shelf?.object ?? null}
+        actLabel={act ? `Act ${act.number}, ${act.subject || act.title}` : ""}
         files={p.files}
         entry={p.entry}
         data={p.job.data}

@@ -3,28 +3,28 @@ title: An if inside an if
 summary: |
   An `if` can sit inside another `if`, indented one level further. The inner test is only asked when the outer one was `True`. The indent decides which `else` belongs to which `if`: an `else` pairs with the `if` it lines up with.
 example: |
-  tide = "high"
+  weather = "dry"
   hour = 20
-  if tide == "high":
+  if weather == "dry":
       if hour >= 19:
-          print("Night crossing")
+          print("Night run")
       else:
-          print("Day crossing")
+          print("Day run")
   else:
-      print("Wait for the tide")
+      print("Wait for the rain to stop")
 misconceptions: [nested-if-runs-without-outer, else-pairs-with-nearest-if]
 related: [if-elif-else, boolean-operators]
 cards:
   - type: predict
     prompt: What does this print?
     code: |
-      tide = "low"
+      weather = "wet"
       hour = 20
-      if tide == "high":
+      if weather == "dry":
           if hour >= 19:
-              print("Night crossing")
+              print("Night run")
           else:
-              print("Day crossing")
+              print("Day run")
       print("Checked")
     answer: "Checked"
   - type: choice
@@ -48,28 +48,28 @@ cards:
         misconception: else-pairs-with-nearest-if
         feedback: "An `else` belongs to the `if` it lines up with, not the nearest one. This one lines up with the age test."
   - type: fix
-    prompt: "At high tide and midday this should print `Day crossing`. Fix the indentation."
+    prompt: "When it's dry at midday this should print `Day run`. Fix the indentation."
     code: |
-      tide = "high"
+      weather = "dry"
       hour = 12
-      if tide == "high":
+      if weather == "dry":
           if hour >= 19:
-              print("Night crossing")
+              print("Night run")
       else:
-          print("Day crossing")
+          print("Day run")
     tests: |
       TESTS = [
-          output("Midday", expect="Day crossing"),
-          output("Evening", set_vars={"hour": 20}, expect="Night crossing"),
+          output("Midday", expect="Day run"),
+          output("Evening", set_vars={"hour": 20}, expect="Night run"),
       ]
     solution: |
-      tide = "high"
+      weather = "dry"
       hour = 12
-      if tide == "high":
+      if weather == "dry":
           if hour >= 19:
-              print("Night crossing")
+              print("Night run")
           else:
-              print("Day crossing")
+              print("Day run")
   - type: fill
     prompt: "Fill the gap so adults pay 4.00 at night and 3.00 by day, and children always pay 1.50."
     code: |
@@ -90,22 +90,22 @@ cards:
           output("Child at night", set_vars={"age": 10}, expect="1.50"),
       ]
   - type: write
-    prompt: "At high tide, print `Sailing`, and then `Lights on` as well if `hour` is 19 or later. At low tide, print only `Moored`."
+    prompt: "When it's dry, print `Running`, and then `Lights on` as well if `hour` is 19 or later. When it's wet, print only `Treadmill`."
     starter: |
-      tide = "high"
+      weather = "dry"
       hour = 20
     tests: |
       TESTS = [
-          output("High tide, evening", expect="Sailing\nLights on"),
-          output("High tide, midday", set_vars={"hour": 12}, expect="Sailing"),
-          output("Low tide, evening", set_vars={"tide": "low"}, expect="Moored"),
+          output("Dry, evening", expect="Running\nLights on"),
+          output("Dry, midday", set_vars={"hour": 12}, expect="Running"),
+          output("Wet, evening", set_vars={"weather": "wet"}, expect="Treadmill"),
       ]
     solution: |
-      tide = "high"
+      weather = "dry"
       hour = 20
-      if tide == "high":
-          print("Sailing")
+      if weather == "dry":
+          print("Running")
           if hour >= 19:
               print("Lights on")
       else:
-          print("Moored")
+          print("Treadmill")

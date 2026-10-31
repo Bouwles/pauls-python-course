@@ -5,13 +5,13 @@ In Python, `None` is the value that means "nothing here": no result, no answer, 
 Plenty of Python's own tools give back `None` when their job is to change something rather than produce a value. Two common sources:
 
 ```python
-parcels = [3, 1, 2]
-sort_result = parcels.sort()
+scores = [3, 1, 2]
+sort_result = scores.sort()
 print(sort_result)
-print(parcels)
+print(scores)
 
-addresses = {"Bea": "Quay Row"}
-print(addresses.get("Tom"))
+addresses = {"Emma": "Mill Lane"}
+print(addresses.get("Ivo"))
 ```
 
 ```text
@@ -20,7 +20,7 @@ None
 None
 ```
 
-`.sort()` rearranges the list in place and returns `None`; the sorted list is `parcels` itself. That is why `parcels = parcels.sort()` is a bug: it sorts the list, then replaces it with `None`. `.get()` returns `None` when the key isn't in the dictionary, where square brackets would raise a `KeyError`.
+`.sort()` rearranges the list in place and returns `None`; the sorted list is `scores` itself. That is why `scores = scores.sort()` is a bug: it sorts the list, then replaces it with `None`. `.get()` returns `None` when the key isn't in the dictionary, where square brackets would raise a `KeyError`.
 
 `None` is not zero and not empty text. It equals only itself, and arithmetic with it fails:
 

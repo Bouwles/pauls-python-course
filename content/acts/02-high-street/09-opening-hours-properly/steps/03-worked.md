@@ -1,11 +1,11 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "Mr Okonjo's sums, in a file of their own. Any program in his shop can borrow them."
+  - paul: "The tailor's sums, from Riya's project, in a file of their own. Any program in her shop can borrow them."
 code: |
-  """Sizes for Mr Okonjo's shop. Import it; don't copy it."""
+  """Sizes for the tailor's shop. Import it; don't copy it."""
   import math
 
   CM_PER_INCH = 2.54

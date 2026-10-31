@@ -1,4 +1,4 @@
-# Actor and critic: Sir Reginald acts, and the critic judges every move as it happens.
+# Actor and critic: the crab acts, and the critic judges every move as it happens.
 
 import numpy as np
 
@@ -46,7 +46,7 @@ def clipped_objective(ratio, advantage, epsilon=0.2):
 
 if __name__ == "__main__":
     rng = np.random.default_rng(3)
-    # Train for 200 races, watching. Show his most likely moves, the critic's
-    # values and his average return over 1000 races. Then PPO's clip for a
+    # Train for 200 races, watching. Show its most likely moves, the critic's
+    # values and its average return over 1000 races. Then PPO's clip for a
     # ratio of 1.5 and of 0.5, each with an advantage of 2.0 and of -2.0.
     pass

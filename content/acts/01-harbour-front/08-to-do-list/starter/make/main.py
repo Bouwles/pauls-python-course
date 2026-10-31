@@ -1,4 +1,4 @@
-# Mira's to-do list
+# Neil's to-do list
 # 1. Start with an empty list
 
 # 2. Keep asking for a command

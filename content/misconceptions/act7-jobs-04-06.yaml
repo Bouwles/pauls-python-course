@@ -30,7 +30,7 @@ td-news-instant:
   concept: td-learning
   description: Thinks one episode of TD(0) carries a reward back to every state visited, when each update only looks one step ahead.
 
-# -- Q-Crab -----------------------------------------------------------------------
+# -- Q-Learning Crab --------------------------------------------------------------
 q-target-same-action:
   concept: q-learning
   description: Uses the next state's value for the action just taken in the Q-learning target, instead of the best action's value there.
@@ -53,7 +53,7 @@ sarsa-learns-best-policy:
   concept: sarsa
   description: Thinks SARSA learns the values of the best policy while it explores, when it learns the values of the exploring policy it follows.
 
-# -- The Sea Wall Gate ------------------------------------------------------------
+# -- Gate Controller --------------------------------------------------------------
 truncated-is-terminated:
   concept: gymnasium
   description: Treats an episode stopped by a time limit as if it ended in its own right, setting terminated rather than truncated.

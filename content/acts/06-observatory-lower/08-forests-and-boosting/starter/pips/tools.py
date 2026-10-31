@@ -1,4 +1,4 @@
-"""Moss's toolbox: pieces from the last three jobs, tidied up.
+"""Paul's toolbox: pieces from the last three projects, tidied up.
 
 load_table(path)                    (X, y): every column but the first and
                                     the last is a reading; the last is

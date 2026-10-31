@@ -6,7 +6,7 @@ portfolio_readme: |
 
   Splits one bill between a table of people. It adds the tip, then shows the total and what each person pays, to the penny.
 
-  Written by {name} for Bea Hollis's bakery in {{town}}. Finished {date}.
+  Written by {name} for Riya, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -33,7 +33,7 @@ portfolio_readme: |
   - Money shown with exactly two decimal places using an f-string, because a float is rarely exact: in Python, `2.40 * 3` is `7.199999999999999`
 downloadable: true
 datasets: []
-client: bea
+client: riya
 building: bakery
 estimated_minutes: 60
 summary: "Split a bill between a table of people, tip included, and show every share to the penny."
@@ -41,10 +41,10 @@ concepts_introduced: [arithmetic, operator-precedence, variables, naming, input-
 concepts_reviewed: [print, strings, comments]
 ask:
   dialogue:
-    - bea: "The bell-ringers come in after practice on Thursdays. Six of them, one bill."
-    - bea: "Then twenty minutes of who had the extra scone."
-    - bea: "They add a tip for the lifeboat tin, too. Nobody can work that out either."
-    - moss: "It'll have to do sums, and it'll have to listen. Both new."
+    - riya: "Class dinner on Friday. Six of us, one bill."
+    - riya: "Then twenty minutes of who had the extra garlic bread."
+    - riya: "And a tip on top, which nobody could work out either."
+    - paul: "It'll have to do sums, and it'll have to listen. Both new."
   spec: |
     Ask for the bill in pounds, the number of people sharing it, and the tip as a percentage. The bill and the tip can have a decimal point.
 
@@ -57,15 +57,15 @@ ask:
     Each pays: 7.59
 ship:
   dialogue:
-    - bea: "Forty-one forty, and ten per cent is four fourteen. Forty-five fifty-four."
-    - bea: "Six ways, seven fifty-nine each. I make it the same. Twice."
-  shelf: { object: till-receipt, label: "Bea's bill splitter" }
+    - riya: "Forty-one forty, and ten per cent is four fourteen. Forty-five fifty-four."
+    - riya: "Six ways, seven fifty-nine each. Same as my sums. Who's going to use it? All of us, next time."
+  shelf: { object: till-receipt, label: "Riya's bill splitter" }
   cards: [arithmetic, operator-precedence, variables, naming, input-returns-text, int-conversion, float-conversion, f-strings, type-function]
 stretch:
   - id: collected
     title: "Does it add up?"
     prompt: |
-      Split 25.85 four ways and everyone pays 6.46. Four people paying 6.46 hand over 25.84: Bea is a penny short, and Bea counts.
+      Split 25.85 four ways and everyone pays 6.46. Four people paying 6.46 hand over 25.84: the table is a penny short, and Riya counts.
 
       Add a third line showing what the table actually hands over: each share rounded with `round(each, 2)`, times the number of people.
 

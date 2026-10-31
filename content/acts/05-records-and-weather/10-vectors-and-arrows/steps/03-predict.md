@@ -4,7 +4,7 @@ type: predict
 title: Dead ahead
 concept: vectors
 dialogue:
-  - ferro: "Twelve knots out of the north. Which way I'm pointing is the whole question."
+  - riya: "Twelve knots out of the north. Which way I'm cycling is the whole question."
 code: |
   import numpy as np
 
@@ -21,7 +21,7 @@ options:
       90 0.0
       180 -12.0
     correct: true
-    feedback: "Right. Heading north, all 12 knots are on the bow. Heading east, the wind is square on the beam and none of it is ahead. Heading south, it's behind you: minus 12, a following wind."
+    feedback: "Right. Heading north, all 12 knots are in your face. Heading east, the wind is square from the side and none of it is ahead. Heading south, it's behind you: minus 12, a tailwind."
   - text: |-
       0 12.0
       90 12.0
@@ -42,4 +42,4 @@ after: |
 ---
 The **dot product** of two arrows multiplies them in pairs and adds the results: `np.dot([a, b], [c, d])` is `a * c + b * d`, one number.
 
-When one of the arrows is exactly one knot long, the dot product is how much of the other lies along it. So `np.dot(wind, ahead)` is the headwind: the part of the wind on the bow.
+When one of the arrows is exactly one knot long, the dot product is how much of the other lies along it. So `np.dot(wind, ahead)` is the headwind: the part of the wind in your face.

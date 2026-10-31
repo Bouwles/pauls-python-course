@@ -1,11 +1,14 @@
-// The rebrand test (REDESIGN.md 1.2): fails if either old name survives in what ships.
-// Scans the production build (.next), the compiled content and everything in public/
+// The rebrand test (REDESIGN-2.md 1): fails if the old town or cast survives in what ships.
+// "Fixwick", "Saltmarsh" and "Penhallow" anywhere; "Moss" and "Pip" as names (capitalised, so
+// `pip` the installer and moss the plant are fine); and old cast ids as speakers or clients in
+// the compiled content. Scans the production build (.next), the compiled content and public/
 // (Pyodide's own files excepted). Run after `npm run build`:  npx tsx scripts/brand-check.ts
 import fs from "node:fs";
 import path from "node:path";
 
 const root = process.cwd();
-const OLD = /saltmarsh|paul('|&apos;|&#x27;|&#39;|’|\\u0027)?s python course|pauls-python-course/i;
+const OLD = /fixwick|saltmarsh|penhallow/i;
+const OLD_CAST = /\b(Moss|Pip)\b|"(who|client)":"(moss|pip|bea|ferro|mira|agnes|gwen|tom|nell|priya|wendt|penhallow|committee|reginald|dennis|kat|dev|ashby|okonjo|sanjay|vance)"/;
 const TARGETS = [".next/server", ".next/static", "generated", "public"];
 const SKIP = [path.join("public", "pyodide"), path.join(".next", "cache")];
 const TEXT = /\.(js|mjs|cjs|json|html|css|txt|rsc|map|py|md|svg|xml|webmanifest)$/;
@@ -23,7 +26,7 @@ function walk(dir: string) {
     else if (TEXT.test(e.name) || !path.extname(e.name)) {
       const text = fs.readFileSync(p, "utf8");
       scanned++;
-      const m = text.match(OLD);
+      const m = text.match(OLD) ?? text.match(OLD_CAST);
       if (m) {
         const at = m.index ?? 0;
         hits.push(`${rel}: "${text.slice(Math.max(0, at - 40), at + 40).replace(/\s+/g, " ")}"`);

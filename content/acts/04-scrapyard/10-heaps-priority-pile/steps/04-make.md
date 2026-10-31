@@ -4,7 +4,7 @@ type: make
 title: Make the task scheduler
 files: [scheduler.py]
 entry: scheduler.py
-on_pass: { nell: "A thousand repairs and it still knows which is next, in ten looks. I'd need the afternoon." }
+on_pass: { caitlin: "A thousand repairs and it knows what's next in ten looks. I'd have mended the wrong one first." }
 hints:
   nudge: "After `pop` moves the last item up to the top, it's probably too big for there. Which of its two children should take its place?"
   plan:
@@ -45,10 +45,10 @@ hints:
 ---
 Write `push` and `pop` in `scheduler.py`, smallest on top, then `TaskScheduler` on top of them. No `heapq` in this file: the scheduler is yours.
 
-`push` is Moss's `add_job` the other way up. Climb while you're smaller than your parent.
+`push` is Paul's `add_job` the other way up. Climb while you're smaller than your parent.
 
 `pop` hands back `heap[0]`. To fill the hole, move the last item to the top and let it sink: while one of its children is smaller, swap it with the smaller of the two. An item can have a child at `2 * position + 1` and none at `2 * position + 2`, so check each against `len(heap)`.
 
-`TaskScheduler` keeps Pip's fix: priority, then arrival, then the repair.
+`TaskScheduler` keeps Riya's fix: priority, then arrival, then the repair.
 
 Press Step through on a heap of numbers and watch the bars climb and sink. The hidden checks pop every shape of heap, and count each comparison your `push` and `pop` make on a thousand parts.

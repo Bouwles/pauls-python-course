@@ -4,7 +4,7 @@ type: make
 title: The rules
 files: [money.py]
 entry: money.py
-on_pass: { sanjay: "No sweets, no spending that's secretly income, and November's food under budget. That's the biscuit tin retired." }
+on_pass: { riya: "No sweets, no spending that's secretly income, and November's food under budget. It's starting to look like an app." }
 hints:
   nudge: "Which methods need a single month's transactions? Could `spending` lean on `in_month`, and `over_budget` on `spending`?"
   plan:
@@ -35,7 +35,7 @@ hints:
 ---
 The rules first. The requirements are at the top of `money.py`, exactly as the checks read them: names, arguments, and the message for every refusal.
 
-Money is in whole pence, as at the post office: -450 is £4.50 spent. Only the command line will turn it into pounds, for Sanjay to read.
+Money is in whole pence, as in the trip fund: -450 is £4.50 spent. Only the command line will turn it into pounds, for people to read.
 
 The visible checks add a transaction and work out a balance. The hidden ones try every rule both ways, including the ones people forget: November last year isn't this November, and two `Ledger`s must never share a list.
 

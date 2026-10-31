@@ -4,7 +4,7 @@ type: milestone
 title: "Milestone 2: the first working slice"
 evidence: link
 dialogue:
-  - moss: "Thin and working, from one end to the other. Then thicken it."
+  - paul: "Thin and working, from one end to the other. Then thicken it."
 checklist:
   - id: end-to-end
     text: "The slice does one useful thing from start to finish, however plain it looks."
@@ -25,10 +25,10 @@ checklist:
     text: "It runs from a fresh copy of the repository with the commands you've written down."
     why: "If it only runs on your computer, it doesn't run yet."
 ---
-The first slice is the thinnest version that does one useful thing from end to end. For Mira: weight and destination in, price out. No labels, no printer, no queue, but a real answer to a real question.
+The first slice is the thinnest version that does one useful thing from end to end. For the shop: weight and destination in, price out. No labels, no printer, no queue, but a real answer to a real question.
 
-Turn your test plan into tests first, then write the code that passes them. Keep the rules in plain functions and the input and output round the outside, as in Gwen's game.
+Turn your test plan into tests first, then write the code that passes them. Keep the rules in plain functions and the input and output round the outside, as in Caitlin's game.
 
-Then do to your own code what the checks did to Mira's postage: change a `<=` to a `<`, delete a check, alter a number. Run the tests each time. If a change survives, write the test that would have caught it.
+Then do to your own code what the checks did to the shop's postage: change a `<=` to a `<`, delete a check, alter a number. Run the tests each time. If a change survives, write the test that would have caught it.
 
 Show the slice to the person it's for, and write down what they say.

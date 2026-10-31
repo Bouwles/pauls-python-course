@@ -4,10 +4,10 @@ type: predict
 title: How steep, not how high
 concept: derivatives
 dialogue:
-  - priya: "Thirty-two metres up at four hundred along. That's the height. I asked how steep."
+  - riya: "Thirty-two metres up at four hundred along. That's the height. I asked how steep."
 code: |
   def height(metres):
-      return 0.0002 * metres ** 2      # the lane up from the harbour: gentle, then steeper
+      return 0.0002 * metres ** 2      # the lane up to the park: gentle, then steeper
 
 
   tiny = 0.001
@@ -33,7 +33,7 @@ options:
       200 8 0.04
       400 32 0.08
     misconception: slope-is-average-so-far
-    feedback: "That's each height divided by the distance from the harbour: the average slope of the whole lane so far. The slope at a point is measured over a tiny step there, and since the lane steepens, the end is steeper than the average."
+    feedback: "That's each height divided by the distance from the bottom: the average slope of the whole lane so far. The slope at a point is measured over a tiny step there, and since the lane steepens, the end is steeper than the average."
   - text: |-
       100 2 2.0
       200 8 8.0
@@ -51,4 +51,4 @@ after: |
 ---
 The **slope** of a path at a point is how much it rises for each metre you walk, measured over a step so small the path is straight across it. Rise over run, as on a road sign: a slope of 0.25 is 1 in 4.
 
-`height(metres)` is Priya's lane, metres up for metres along.
+`height(metres)` is the lane up to the park, metres up for metres along.

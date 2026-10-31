@@ -37,8 +37,8 @@ Add `import math` at the top of the file. The other causes get no special hint. 
 
 ## Common mistakes
 
-- **Leaving off the quotes.** `print(Moss)` doesn't print the word Moss. Without quotes, `Moss` is a name, and nothing has that name. Text needs quotes: `print("Moss")`.
-- **Getting the capitals wrong.** Python treats `tide` and `Tide` as two different names. The same goes for `true`, which fails with `Did you mean: 'True'?`.
+- **Leaving off the quotes.** `print(Emma)` doesn't print the word Emma. Without quotes, `Emma` is a name, and nothing has that name. Text needs quotes: `print("Emma")`.
+- **Getting the capitals wrong.** Python treats `score` and `Score` as two different names. The same goes for `true`, which fails with `Did you mean: 'True'?`.
 - **Using a name before the line that creates it.** Moving the `print` above the assignment, or calling a function above its `def`, gives a NameError even though the name is defined further down. Move the definition up.
 - **Importing a module but not using its name.** After `import random`, the function is `random.randint`, not `randint` on its own. See [import](/handbook/imports).
 

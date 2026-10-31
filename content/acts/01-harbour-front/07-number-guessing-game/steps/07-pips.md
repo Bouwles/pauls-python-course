@@ -1,35 +1,34 @@
 ---
 id: pips
 type: pips
-title: Pip's Version
+title: Fix Yahya's version
 dialogue:
-  - tom: "Penhallow wrote me a fog log, years back. Pip has been tidying it."
-  - pip: "There were two input lines, exactly the same. I took one out. Faster."
-  - pip: "It's been thinking since Tom typed 200. Very thorough, though."
+  - yahya: "My lap timer. There were two input lines, exactly the same. I took one out."
+  - yahya: "Fewer lines, faster program. It's been thinking since I typed 92. Can you look?"
 dialogue_after:
-  - pip: "So the second one wasn't a copy. It was the next reading."
+  - yahya: "So the second one wasn't a copy. It was the next lap. Fast and stuck is still stuck."
 hints:
-  nudge: "After the first pass, what changes `reading`? Look inside the loop for a line that does."
+  nudge: "After the first pass, what changes `lap`? Look inside the loop for a line that does."
   plan:
     - Run it, and press Stop when it hangs
     - Find the variable the while test depends on
     - Make the loop change it on every pass
   shape: |
-    while reading != "clear":
-        total = total + int(reading)
+    while lap != "stop":
+        total = total + int(lap)
         count = count + 1
-        reading = ___
+        lap = ___
 ---
-Tom brought his fog log down to the Anchor. It asks for visibility readings until he types `clear`, then gives the average.
+Yahya's lap timer asks for lap times in seconds until he types `stop`, then gives the average.
 
-Run Pip's version. Type `200`, then wait. Nothing happens, and nothing will. The loop goes round and round with nothing to stop it: an **infinite loop**. Press **Stop**.
+Run his version. Type `92`, then wait. Nothing happens, and nothing will. The loop goes round and round with nothing to stop it: an **infinite loop**. Press **Stop**.
 
 Then fix it so this works:
 
 ```
-Visibility in metres? 200
-Visibility in metres? 300
-Visibility in metres? clear
-Readings: 2
-Average: 250.0 metres
+Lap time in seconds? 92
+Lap time in seconds? 88
+Lap time in seconds? stop
+Laps: 2
+Average: 90.0 seconds
 ```

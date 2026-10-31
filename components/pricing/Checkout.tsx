@@ -31,14 +31,14 @@ export function Checkout() {
   if (status && !status.signedIn) {
     const here = `/pricing/checkout?plan=${plan}`;
     return (
-      <section className={`frame-panel ${styles.checkout}`}>
-        <h1 className={styles.title}>Get Pro</h1>
+      <section className={styles.checkout}>
+        <h1 className={styles.checkoutTitle}>Get Pro</h1>
         <p>Pro belongs to an account, so your progress and your plan stay together. Make one first, or log in.</p>
         <div className={styles.row}>
           <LinkButton href={`/signup?next=${encodeURIComponent(here)}`} variant="primary">
             Make an account
           </LinkButton>
-          <LinkButton href={`/login?next=${encodeURIComponent(here)}`} variant="quiet">
+          <LinkButton href={`/login?next=${encodeURIComponent(here)}`} variant="secondary">
             Log in
           </LinkButton>
         </div>
@@ -48,14 +48,14 @@ export function Checkout() {
 
   if (status?.access.pro) {
     return (
-      <section className={`frame-panel ${styles.checkout}`}>
-        <h1 className={styles.title}>You have Pro</h1>
-        <p>Every Act is open. Billing is in Settings.</p>
+      <section className={styles.checkout}>
+        <h1 className={styles.checkoutTitle}>You have Pro</h1>
+        <p>Every floor of the Clocktower is open. Billing is in Settings.</p>
         <div className={styles.row}>
           <LinkButton href="/map" variant="primary">
-            Back to the map
+            Back to the Clocktower
           </LinkButton>
-          <LinkButton href="/settings#billing" variant="quiet">
+          <LinkButton href="/settings#billing" variant="secondary">
             Manage billing
           </LinkButton>
         </div>
@@ -79,16 +79,19 @@ export function Checkout() {
   const price = p.price === null ? "" : p.interval === "year" ? `${money(p.price)} a year (${money(p.price / 12)} a month)` : p.interval === "month" ? `${money(p.price)} a month` : money(p.price);
 
   return (
-    <section className={`frame-panel ${styles.checkout}`} aria-labelledby="checkout-title">
-      <h1 id="checkout-title" className={styles.title}>
+    <section className={styles.checkout} aria-labelledby="checkout-title">
+      <h1 id="checkout-title" className={styles.checkoutTitle}>
         Get Pro
       </h1>
-      <p>
-        <strong>{LABEL[plan] ?? p.name}</strong>: {price}. Cancel any time from Settings.{" "}
-        {plan === "pro-yearly" ? <Link href="/pricing/checkout?plan=pro-monthly">Pay monthly instead</Link> : plan === "pro-monthly" ? <Link href="/pricing/checkout?plan=pro-yearly">Pay yearly instead</Link> : null}
-      </p>
+      <div className={styles.plan}>
+        <p className={styles.planName}>{LABEL[plan] ?? p.name}</p>
+        <p className={styles.planPrice}>
+          {price}. Cancel any time from Settings.{" "}
+          {plan === "pro-yearly" ? <Link href="/pricing/checkout?plan=pro-monthly">Pay monthly instead</Link> : plan === "pro-monthly" ? <Link href="/pricing/checkout?plan=pro-yearly">Pay yearly instead</Link> : null}
+        </p>
+      </div>
       <fieldset className={styles.choices}>
-        <legend className={styles.note}>Before you pay</legend>
+        <legend className="label">Before you pay</legend>
         <label className={styles.choice}>
           <input type="radio" name="confirmed" checked={confirmed === "adult"} onChange={() => setConfirmed("adult")} />
           <span>I&apos;m 18 or over.</span>
@@ -102,7 +105,7 @@ export function Checkout() {
         <Button variant="primary" onClick={() => void go()} disabled={busy} locked={confirmed ? false : "Answer the question above first."}>
           {busy ? "Opening checkout" : "Continue to payment"}
         </Button>
-        <LinkButton href="/pricing" variant="quiet">
+        <LinkButton href="/pricing" variant="secondary">
           Not now
         </LinkButton>
       </div>

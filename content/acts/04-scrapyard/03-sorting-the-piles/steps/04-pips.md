@@ -1,14 +1,14 @@
 ---
 id: pips
 type: pips
-title: Pip's Version
+title: Fix Yahya's version
 dialogue:
-  - pip: "Quicksort. Seven lines, and it's the quick one. It's in the name."
-  - pip: "Nell put three 7 kg engines in. One came out. I don't know where the others went."
+  - yahya: "Can you look at mine? Quicksort. Seven lines, and it's the quick one. It's in the name."
+  - yahya: "I put three 7 kg engines in. One came out. Very quickly, but still."
 dialogue_after:
-  - pip: "Same as the pivot isn't lighter or heavier. It's its own pile. Fair enough."
+  - yahya: "Same as the pivot isn't lighter or heavier. It's its own pile. Fair enough."
 hints:
-  nudge: "Pip makes a pile of lighter parts and a pile of heavier ones. Where does a part go that weighs exactly the same as the pivot?"
+  nudge: "Yahya makes a pile of lighter parts and a pile of heavier ones. Where does a part go that weighs exactly the same as the pivot?"
   plan:
     - Count the 7s going in and coming out
     - Find the parts that land in neither pile

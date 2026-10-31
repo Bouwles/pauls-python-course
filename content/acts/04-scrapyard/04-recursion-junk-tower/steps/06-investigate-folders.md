@@ -4,14 +4,14 @@ type: investigate
 title: Folders inside folders
 concept: recursion
 dialogue:
-  - nell: "Penhallow's disk. She copied it onto the yard computer and told me never to open it."
-  - moss: "Then we'll only look at the outside of everything first."
+  - neil: "My old laptop's backup. I copied it onto the Studio computer and never opened it again."
+  - paul: "Then we'll only look at the outside of everything first."
 code: |
   import os
 
-  print(sorted(os.listdir("penhallow")))
-  print(os.path.isdir("penhallow/yard"), os.path.isdir("penhallow/README.txt"))
-  print(os.path.getsize("penhallow/README.txt"))
+  print(sorted(os.listdir("backup")))
+  print(os.path.isdir("backup/website"), os.path.isdir("backup/README.txt"))
+  print(os.path.getsize("backup/README.txt"))
 
 
   def count_files(path):
@@ -25,10 +25,10 @@ code: |
       return count
 
 
-  print(count_files("penhallow"))
+  print(count_files("backup"))
 tasks:
   - id: listed
-    prompt: "Run it. How many names does `os.listdir` find in `penhallow`?"
+    prompt: "Run it. How many names does `os.listdir` find in `backup`?"
     kind: answer
     accept: ["5", "five"]
     feedback: "Five: a README and four folders. `os.listdir` names what's in one folder and stops there, as opening one crate shows you only the top layer."
@@ -43,14 +43,14 @@ tasks:
     prompt: "`count_files` counts each folder as one file, as if a crate were a part. Change one line so it counts every file however deep."
     kind: run
     tests: |
-      TESTS = [output("Every file on the disk", expect="12", match="last_line",
+      TESTS = [output("Every file in the backup", expect="12", match="last_line",
                       hint="A folder inside adds whatever count_files gives back for it, not 1.")]
     solution: |
       import os
 
-      print(sorted(os.listdir("penhallow")))
-      print(os.path.isdir("penhallow/yard"), os.path.isdir("penhallow/README.txt"))
-      print(os.path.getsize("penhallow/README.txt"))
+      print(sorted(os.listdir("backup")))
+      print(os.path.isdir("backup/website"), os.path.isdir("backup/README.txt"))
+      print(os.path.getsize("backup/README.txt"))
 
 
       def count_files(path):
@@ -64,13 +64,13 @@ tasks:
           return count
 
 
-      print(count_files("penhallow"))
+      print(count_files("backup"))
   - id: visits
-    prompt: "Add `print(path)` as the first line inside `count_files` and run it. How many folders does it visit, `penhallow` included?"
+    prompt: "Add `print(path)` as the first line inside `count_files` and run it. How many folders does it visit, `backup` included?"
     kind: answer
     accept: ["9", "nine"]
-    feedback: "Nine, each listed once. Each call opens one folder and hands every folder inside to another call, exactly like the junk tower."
-    wrong: "Count the lines that start with penhallow, after the first three."
+    feedback: "Nine, each listed once. Each call opens one folder and hands every folder inside to another call, exactly like the tower of crates."
+    wrong: "Count the lines that start with backup, after the first three."
 ---
 A folder is a crate. Its files are the parts, and the folders inside it are crates inside.
 
@@ -79,4 +79,4 @@ A folder is a crate. Its files are the parts, and the folders inside it are crat
 - `os.path.isdir(inside)` says whether it's a folder.
 - `os.path.getsize(inside)` gives a file's size in bytes.
 
-The disk is in the `penhallow` folder beside the program.
+The backup is in the `backup` folder beside the program.

@@ -1,4 +1,4 @@
-# Mrs Vance's word counter, for the reading group.
+# Aaesha's word counter, for the class reading list.
 import csv
 import string
 from collections import Counter

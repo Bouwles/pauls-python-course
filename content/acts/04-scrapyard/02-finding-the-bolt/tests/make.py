@@ -74,7 +74,7 @@ def the_whole_book(ctx):
     for name in parts:
         got = module.find_part(parts, name)
         if tuple(got) != reference_find(parts, name):
-            raise CheckFailed(f"In the parts book, find_part for {name!r} is wrong.", expected=reference_find(parts, name), actual=got)
+            raise CheckFailed(f"In the parts list, find_part for {name!r} is wrong.", expected=reference_find(parts, name), actual=got)
 
 
 def million_found(ctx):
@@ -184,7 +184,7 @@ piston: no part by that name, and none with it in the name (188 looks)"""
 
 TESTS = [
     function("valve-brass in the small list", call="find_part", args=(SMALL, "valve-brass"), expect=(9, 3), visible=True),
-    custom("A search on Nell's parts book", book_search, visible=True),
+    custom("A search on the parts list", book_search, visible=True),
     function("No such part", call="find_part", args=(SMALL, "piston"), expect=(-1, 3)),
     function("The first name", call="find_part", args=(SMALL, "anvil-small"), expect=(0, 3)),
     function("The last name", call="find_part", args=(SMALL, "winch-handle"), expect=(10, 4),
@@ -194,7 +194,7 @@ TESTS = [
     function("An empty list", call="find_part", args=([], "hubcap"), expect=(-1, 0),
              hint="An empty list has nowhere to look: -1, and 0 looks."),
     function("One name, the right one", call="find_part", args=(["hubcap"], "hubcap"), expect=(0, 1)),
-    custom("Every name in the parts book", the_whole_book),
+    custom("Every name in the parts list", the_whole_book),
     custom("A million names, found in a handful", million_found,
            hint="Each look should throw away half of what's left. If it's looking at thousands of names, it's searching one at a time."),
     custom("A million names, and it isn't there", million_missing),
@@ -234,6 +234,6 @@ TESTS = [
     custom("Adding one that's there with +", search_line("+hubcap", "hubcap: already part 8")),
     custom("Added, then found", add_then_find,
            hint="add_part changes the list it's given, so the next search sees the new part."),
-    output("A session at the counter", inputs=["valve-brass", "bolt-M1*", "piston", ""], expect=SESSION,
+    output("A search session", inputs=["valve-brass", "bolt-M1*", "piston", ""], expect=SESSION,
            hint="The loop stops at a blank line. Each query prints the line search gives back."),
 ]

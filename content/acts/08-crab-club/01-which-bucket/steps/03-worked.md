@@ -1,32 +1,32 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "Bea has three bun recipes and a queue of customers. Same shape of problem."
-  - moss: "Mostly she bakes the best one. Now and then, one at random."
+  - paul: "The coffee machine in the Model Room. Three blends and a queue every morning."
+  - paul: "Mostly it makes the best one. Now and then, one at random. Same shape of problem."
 code: |
   import numpy as np
 
-  RECIPES = ["plain", "currant", "cardamom"]
-  COME_BACK = [0.40, 0.55, 0.75]   # the truth, which Bea doesn't know
+  BLENDS = ["decaf", "house", "dark roast"]
+  COME_BACK = [0.40, 0.55, 0.75]   # the truth, which the machine doesn't know
 
   rng = np.random.default_rng(3)
-  estimates = np.zeros(len(RECIPES))
-  counts = np.zeros(len(RECIPES), dtype=int)
+  estimates = np.zeros(len(BLENDS))
+  counts = np.zeros(len(BLENDS), dtype=int)
   epsilon = 0.1
 
   for customer in range(500):
       if rng.random() < epsilon:
-          recipe = int(rng.integers(len(RECIPES)))
+          blend = int(rng.integers(len(BLENDS)))
       else:
-          recipe = int(np.argmax(estimates))
-      came_back = 1 if rng.random() < COME_BACK[recipe] else 0
-      counts[recipe] += 1
-      estimates[recipe] += (came_back - estimates[recipe]) / counts[recipe]
+          blend = int(np.argmax(estimates))
+      came_back = 1 if rng.random() < COME_BACK[blend] else 0
+      counts[blend] += 1
+      estimates[blend] += (came_back - estimates[blend]) / counts[blend]
 
-  for name, estimate, count in zip(RECIPES, estimates, counts):
-      print(f"{name}: {count} buns, {estimate:.2f} came back for more")
+  for name, estimate, count in zip(BLENDS, estimates, counts):
+      print(f"{name}: {count} cups, {estimate:.2f} came back for more")
 subgoals:
   - label: What the world knows and the learner doesn't
     lines: [3, 4]
@@ -47,7 +47,7 @@ explain:
   answer: "Each new result moves the estimate a fraction 1/count of the way towards it. The first result sets it outright, the second moves it halfway, the third a third of the way. After n results that is exactly the mean of all n, the same as sum divided by len, without keeping the list."
   concept: bandits
 ---
-This is **epsilon-greedy**. With probability `epsilon`, it **explores**: any recipe at random, to learn something. Otherwise it **exploits**: the best estimate so far, to do well now. Every bandit strategy is a way of trading one against the other.
+This is **epsilon-greedy**. With probability `epsilon`, it **explores**: any blend at random, to learn something. Otherwise it **exploits**: the best estimate so far, to do well now. Every bandit strategy is a way of trading one against the other.
 
 `rng.integers(3)` gives 0, 1 or 2: like `range`, the end is left out. `np.argmax` gives the index of the biggest value, the first one if there's a tie.
 

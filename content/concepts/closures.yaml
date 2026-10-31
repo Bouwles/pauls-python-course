@@ -41,21 +41,21 @@ cards:
           return greet
 
 
-      bea = make_greeting("Bea")
-      tom = make_greeting("Tom")
-      print(bea())
+      riya = make_greeting("Riya")
+      yahya = make_greeting("Yahya")
+      print(riya())
     options:
-      - text: Morning, Bea.
+      - text: Morning, Riya.
         correct: true
-      - text: Morning, Tom.
+      - text: Morning, Yahya.
         misconception: closures-share-last-value
-        feedback: "Each call to `make_greeting` gets its own `name`. Making Tom's greeting doesn't touch Bea's."
+        feedback: "Each call to `make_greeting` gets its own `name`. Making Yahya's greeting doesn't touch Riya's."
       - text: "A NameError: name is gone"
         misconception: inner-function-forgets-outer
         error: NameError
         feedback: "`greet` keeps hold of `name` after `make_greeting` returns. That's the closure."
   - type: fix
-    prompt: "Pip made three offers in a loop. They all come out at half price. Fix it so they print 9.0, 8.0 and 5.0."
+    prompt: "Riya made three offers in a loop. They all come out at half price. Fix it so they print 9.0, 8.0 and 5.0."
     code: |
       offers = []
       for percent in [10, 20, 50]:

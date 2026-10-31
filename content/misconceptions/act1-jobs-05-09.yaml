@@ -1,6 +1,6 @@
 # Misconceptions for Act I, Jobs 5 to 9: decisions, loops, random and lists.
 
-# -- The Ferry Fare Machine ----------------------------------------------------
+# -- Unit Converter ------------------------------------------------------------
 bool-is-text:
   concept: bool
   description: Thinks True and False are text, so "True" in quotes is the same as True.
@@ -44,7 +44,7 @@ else-pairs-with-nearest-if:
   concept: nested-conditions
   description: Thinks an else belongs to the nearest if, whatever its indentation.
 
-# -- Tom's Lamp Check ----------------------------------------------------------
+# -- Times Table Trainer -------------------------------------------------------
 unindented-line-in-loop:
   concept: for-loops
   description: Thinks a line after a loop's indented body runs on every pass.
@@ -73,7 +73,7 @@ loop-keeps-last-only:
   concept: tracing-loops
   description: Thinks a variable updated with x = x + n ends up holding only the last amount added.
 
-# -- The Fog Horn --------------------------------------------------------------
+# -- Number Guessing Game, part 1 ----------------------------------------------
 while-is-if:
   concept: while-loops
   description: Thinks a while loop runs its body once, like an if.
@@ -102,7 +102,7 @@ not-equal-stops-when-passed:
   concept: infinite-loops
   description: Thinks while n != 0 stops once n goes past zero, even if it never equals zero exactly.
 
-# -- Guess the Catch -----------------------------------------------------------
+# -- Number Guessing Game, part 2 ----------------------------------------------
 modules-need-no-import:
   concept: imports
   description: Thinks modules like random can be used without importing them.
@@ -131,7 +131,7 @@ continue-means-carry-on:
   concept: break-continue
   description: Reads continue as "carry on with the rest of this pass", as in English.
 
-# -- Mira's Pigeonholes --------------------------------------------------------
+# -- To-Do List ----------------------------------------------------------------
 len-is-last-index:
   concept: lists
   description: Thinks len() gives the last index rather than the number of items.
@@ -161,7 +161,7 @@ append-adds-to-front:
   description: Thinks append puts the new item at the front of the list.
 in-checks-part-of-item:
   concept: in-operator
-  description: Thinks "Tom" in ["Old Tom"] is True because Tom is part of an item.
+  description: Thinks "Ann" in ["Ann Lee"] is True because Ann is part of an item.
 in-gives-position:
   concept: in-operator
   description: Thinks in gives the position of an item rather than True or False.

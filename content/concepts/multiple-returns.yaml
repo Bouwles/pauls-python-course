@@ -29,9 +29,9 @@ cards:
           return names[0], names[-1]
 
 
-      first, last = first_and_last(["Bea", "Mira", "Tom"])
+      first, last = first_and_last(["Riya", "Neil", "Yahya"])
       print(last)
-    answer: "Tom"
+    answer: "Yahya"
   - type: choice
     prompt: What happens?
     code: |

@@ -1,13 +1,13 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "I shut the workshop when the light goes. Penzance's light is near enough to ours."
+  - paul: "Yahya runs while it's light. So, a daylight board for Penzance, from a saved reply."
 code: |
   import json
 
-  # Moss's daylight board, worked from a saved reply.
+  # Paul's daylight board, worked from a saved reply.
   SAVED = "daylight.json"
 
 
@@ -60,6 +60,6 @@ explain:
 ---
 `except OSError` catches the file going missing as well as the internet going down: `FileNotFoundError` is one of the family too.
 
-`except KeyError as error` keeps the error, and `str(error)` is the missing key in quotes, which is exactly what Priya would want to be told.
+`except KeyError as error` keeps the error, and `str(error)` is the missing key in quotes, which is exactly what Aaesha would want to be told.
 
 The lines aren't printed until every one of them has been made, so a reply that fails halfway doesn't leave half a board.

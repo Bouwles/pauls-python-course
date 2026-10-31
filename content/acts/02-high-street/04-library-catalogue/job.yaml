@@ -4,9 +4,9 @@ project_name: "Word Counter and Text Analyser"
 portfolio_readme: |
   # Word Counter and Text Analyser
 
-  Reads a whole book from a text file and reports on its words: how many there are, how many different ones, and the ten it uses most, leaving out the small words that every book uses. Then it saves every word and its count to a CSV file that opens in any spreadsheet. It was written for a reading group working through *Alice's Adventures in Wonderland*, and it works on any plain-text book.
+  Reads a whole book from a text file and reports on its words: how many there are, how many different ones, and the ten it uses most, leaving out the small words that every book uses. Then it saves every word and its count to a CSV file that opens in any spreadsheet. It was written for a class reading *Alice's Adventures in Wonderland*, and it works on any plain-text book.
 
-  Written by {name} for the library in {{town}}. Finished {date}.
+  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -46,7 +46,7 @@ datasets:
     licence: "Public domain (Project Gutenberg header, licence and trademark removed)"
     file: alice.txt
     notes: "Cleaned from pg11.txt: only the text between the START and END markers is kept; the [Illustration] markers are taken out; curly quotes and apostrophes become straight ones; each em dash becomes a spaced double hyphen; runs of blank lines are squeezed to one. 145 KB."
-client: vance
+client: aaesha
 building: library
 estimated_minutes: 90
 summary: "Count every word in a real book, report the ten it uses most, and save every count to a file a spreadsheet can open."
@@ -54,12 +54,12 @@ concepts_introduced: [files, with-statement, paths, csv-module, counter]
 concepts_reviewed: [string-methods, strip-replace, split-join, lists, dictionaries, sets, tuples, unpacking, enumerate, default-arguments, functions, return-values, main-guard, f-strings, docstrings]
 ask:
   dialogue:
-    - vance: "The reading group is doing Alice. They want to know which words Carroll used most."
-    - vance: "I said I'd count them. Then I weighed the book."
-    - vance: "Every word gets one card, with how many times it's used. One card. Not two."
-    - moss: "Read the file, count the words, write the counts down. The counting is the easy bit."
+    - aaesha: "Paul's put Alice in Wonderland on the class reading list. I want to know which words Carroll used most."
+    - aaesha: "I started counting by hand. Then I saw how long the book is."
+    - aaesha: "Every word once, with how many times it's used. One row each. Not two."
+    - paul: "Read the file, count the words, write the counts down. The counting is the easy bit."
   spec: |
-    The library's copy of the book is `alice.txt`. Write `words.py`:
+    The class copy of the book is `alice.txt`. Write `words.py`:
 
     1. `read_words(path)` returns every word in the file, in order. A word is a piece of what `split()` gives, with any punctuation (`string.punctuation`) stripped from both ends, in lower case. A piece with nothing left isn't a word.
     2. `top_words(words, count=10)` returns the `count` commonest words as `(word, times)` pairs, commonest first, leaving out every word in `SMALL_WORDS`. Words with the same count stay in the order they first turned up.
@@ -83,16 +83,16 @@ ask:
     Every count is in counts.csv.
 ship:
   dialogue:
-    - vance: "Said, four hundred and sixty-two. Alice, three hundred and eighty-six. She's outnumbered in her own book."
-    - vance: "Little, a hundred and twenty-nine. For a book about growing, that's a lot of little."
-    - moss: "And the counts are in a file. Next week nobody has to count them again."
-  shelf: { object: card-index, label: "Mrs Vance's word counter" }
+    - aaesha: "Said, four hundred and sixty-two. Alice, three hundred and eighty-six. She's outnumbered in her own book."
+    - aaesha: "Little, a hundred and twenty-nine. For a book about growing, that's a lot of little."
+    - paul: "And the counts are in a file. Next week nobody has to count them again."
+  shelf: { object: card-index, label: "Aaesha's word counter" }
   cards: [files, with-statement, paths, csv-module, counter]
 stretch:
   - id: chapters
     title: "Chapter by chapter"
     prompt: |
-      The reading group does a chapter a week, and wants to know how long each one is. Write `chapter_lengths(path)`: a list of how many words are in each chapter, in order. A chapter starts at a line that begins with `CHAPTER`, and that line itself isn't counted. Anything before the first chapter, like the contents, isn't counted either.
+      The class reads a chapter a week, and Aaesha wants to know how long each one is. Write `chapter_lengths(path)`: a list of how many words are in each chapter, in order. A chapter starts at a line that begins with `CHAPTER`, and that line itself isn't counted. Anything before the first chapter, like the contents, isn't counted either.
 
       For `alice.txt` the first three are 2,146, 2,115 and 1,703. Which chapter is the longest?
     tests: tests/stretch-chapters.py
@@ -100,4 +100,4 @@ stretch:
   - id: two-books
     title: "Words only Carroll uses"
     prompt: |
-      Find another book on Project Gutenberg, save it as plain text next to `alice.txt`, and print the words that turn up in Alice but never in the other book. Two sets and a `-` will do it, from Mrs Vance's lost property days.
+      Find another book on Project Gutenberg, save it as plain text next to `alice.txt`, and print the words that turn up in Alice but never in the other book. Two sets and a `-` will do it, as they did for Neil's lost property box.

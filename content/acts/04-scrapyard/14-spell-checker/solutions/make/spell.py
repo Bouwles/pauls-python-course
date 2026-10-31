@@ -4,8 +4,8 @@ import re
 WORDS_FILE = "words.csv"
 MOST_CHANGES = 2
 
-# Gwen's three disputed answers from the last quiz: what was written, and what was right.
-DISPUTED = [("Lighthose", "Lighthouse"), ("Whelk", "Whale"), ("Lihgthouse", "Lighthouse")]
+# Three disputed answers from Paul's end-of-term quiz: what was written, and what was right.
+DISPUTED = [("Copenhagan", "Copenhagen"), ("Kito", "Quito"), ("Copenahgen", "Copenhagen")]
 
 
 def load_counts(path):

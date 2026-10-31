@@ -32,4 +32,4 @@ options:
 after: |
   Run it. A sort that keeps ties in their old order is called **stable**, and Python's is. Now sort `parts` by name first, then sort that by weight. Look at the 4 kg parts.
 ---
-The merchant wants the parts lightest first. Three of these weigh 4 kg. The question is what happens to those three.
+Paul wants the parts shelved lightest first. Three of these weigh 4 kg. The question is what happens to those three.

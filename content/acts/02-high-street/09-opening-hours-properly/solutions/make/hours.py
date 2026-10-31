@@ -1,4 +1,4 @@
-"""Opening hours for the High Street. Import it; don't copy it."""
+"""Opening hours for every floor of the Clocktower. Import it; don't copy it."""
 from collections import Counter
 
 DAYS = ("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
@@ -10,7 +10,7 @@ def day_name(when):
 
 
 def is_open(hours, when):
-    """True if a shop with these hours is open at `when`."""
+    """True if a room with these hours is open at `when`."""
     times = hours.get(day_name(when))
     if times is None:
         return False

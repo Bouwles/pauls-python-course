@@ -20,7 +20,7 @@ code: |
   ax.hist(rain, bins=range(0, 40, 2))
   ax.set_xlabel("rain in the day (mm)")
   ax.set_ylabel("days")
-  ax.set_title("{{town}}, 2024")
+  ax.set_title("The Clocktower, 2024")
   plt.show()
 tasks:
   - id: median
@@ -42,10 +42,10 @@ tasks:
     feedback: "0.44: 160 of the 366 days. `rain < 0.2` gives `True` or `False` for each day, and the mean of those is the share that were `True`."
     wrong: "It's the line beginning `dry share`."
   - id: thornby
-    prompt: "{{town}} and Thornby, twenty miles inland, have the same average temperature. Which has the bigger standard deviation?"
+    prompt: "The Clocktower and Thornby, twenty miles out of the city, have the same average temperature. Which has the bigger standard deviation?"
     kind: answer
     accept: ["Thornby", "thornby, 6.3", "Thornby (6.3)"]
-    feedback: "Thornby, 6.3 against 4.29. The **standard deviation** measures how far readings typically are from the mean. Same average, different year: the sea keeps {{town}}'s winters mild and its summers cool."
+    feedback: "Thornby, 6.3 against 4.29. The **standard deviation** measures how far readings typically are from the mean. Same average, different year: out in open country, Thornby's winters are colder and its summers hotter."
     wrong: "Read the `std` row of the last table."
   - id: above-mean
     prompt: "Add a variable `above_mean` holding how many days had more rain than the mean day."
@@ -80,10 +80,10 @@ tasks:
       ax.hist(rain, bins=range(0, 40, 2))
       ax.set_xlabel("rain in the day (mm)")
       ax.set_ylabel("days")
-      ax.set_title("{{town}}, 2024")
+      ax.set_title("The Clocktower, 2024")
       plt.show()
 ---
-`daily.csv` is the station's 2024, one row per day: rain in millimetres, the temperature in degrees C, and the temperature at Thornby's station, twenty miles inland.
+`daily.csv` is the station's 2024, one row per day: rain in millimetres, the temperature in degrees C, and the temperature at Thornby's station, twenty miles out of the city.
 
 `describe()` gives the count, mean, standard deviation, smallest, largest, and the quartiles: 25% of the readings are at or below the `25%` value, and so on. `mode()` gives the most common value, as a Series, in case several tie.
 

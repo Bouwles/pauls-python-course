@@ -1,9 +1,9 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "My stock book. Same shape as the machines log, only shorter."
+  - paul: "The Workshop stock book. Same shape as the machines log, only shorter."
 code: |
   def read_stock(path):
       with open(path) as stock_book:
@@ -35,7 +35,7 @@ subgoals:
   - label: Chain them, and loop over the end of the chain
     lines: [17, 18]
 explain:
-  prompt: "Moss never builds a list of the stock. Why would this still work if the stock book had a million lines?"
+  prompt: "Paul never builds a list of the stock. Why would this still work if the stock book had a million lines?"
   answer: "Each generator asks the one before it for one item at a time, and the open file hands over one line at a time. Only one line is ever in hand, so the length of the book doesn't matter."
   concept: lazy-evaluation
 ---

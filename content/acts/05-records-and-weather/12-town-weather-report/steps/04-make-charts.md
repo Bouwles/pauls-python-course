@@ -7,8 +7,8 @@ entry: charts.py
 starter_from: make-numbers
 timeout_ms: 30000
 dialogue:
-  - priya: "Three charts. Each one says what it measures, in what, and where it came from."
-on_pass: { priya: "The warming drawn as a difference from a stated average, the rain from zero, and a source on every one." }
+  - aaesha: "Three charts. Each one says what it measures, in what, and where it came from."
+on_pass: { aaesha: "The warming drawn as a difference from a stated average, the rain from zero, and a source on every one." }
 hints:
   nudge: "What does each chart need besides its data: labels with units, a title, a key, a scale from zero, a line of small print?"
   plan:
@@ -37,7 +37,7 @@ hints:
             ...
         rain.set_ylim(bottom=___)
 ---
-`charts.py` draws the report's three charts from tables it's given, and hands each figure back, ready to be shown or put in a page. Priya's rules are at the top of the file. The checks ask each axes what's on it: lines, bars, labels, titles, keys, where the scale starts, and the small print.
+`charts.py` draws the report's three charts from tables it's given, and hands each figure back, ready to be shown or put in a page. Aaesha's rules are at the top of the file. The checks ask each axes what's on it: lines, bars, labels, titles, keys, where the scale starts, and the small print.
 
 `fig.text(x, y, words, fontsize=8)` writes on the figure itself, outside the axes. `x` and `y` run from 0 to 1 across the whole figure, so `(0.01, 0.01)` is the bottom left corner.
 

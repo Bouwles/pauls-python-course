@@ -2,10 +2,10 @@
 
 import numpy as np
 
-ANSWERS = ["lamp", "horn", "gate"]
+ANSWERS = ["lights", "beacon", "shutters"]
 
-# Penhallow's weights, copied from her notebook by Professor Wendt.
-# Readings, each from 0 to 1: visibility, wind, tide, dark.
+# Neil's weights, from his notebook.
+# Readings, each from 0 to 1: visibility, wind, rain, dark.
 # Layer one: 4 readings in, 5 hidden neurons out.
 W1 = np.array([
     [0.04, -1.12, 0.03, 0.95, -0.02],
@@ -15,9 +15,8 @@ W1 = np.array([
 ])
 b1 = np.array([-0.58, 0.66, -1.27, -0.79, -0.74])
 
-# Layer two. Three outputs: the lamp, the horn, the gate. Tom's, Tom's
-# again, and the sea wall's. Every evening I logged, it watched what I
-# did. It is learning the town. It is not yet learning why. A.P.
+# Layer two. Three outputs: the clock-face lights, the beacon, the storm
+# shutters.
 W2 = np.array([
     [9.8, -0.4, 0.2],
     [8.7, 12.9, -0.3],
@@ -27,7 +26,7 @@ W2 = np.array([
 ])
 b2 = np.array([-2.3, -3.1, -2.6])
 
-PENHALLOW = {"W1": W1, "b1": b1, "W2": W2, "b2": b2}
+NEILS_WEIGHTS = {"W1": W1, "b1": b1, "W2": W2, "b2": b2}
 
 
 def relu(z):
@@ -58,13 +57,13 @@ def decisions(P):
 
 
 if __name__ == "__main__":
-    # Four evenings from Penhallow's notebook: visibility, wind, tide, dark
+    # Four evenings from Paul's log: visibility, wind, rain, dark
     evenings = np.array([
         [0.9, 0.2, 0.5, 1.0],
         [0.2, 0.3, 0.4, 0.0],
         [0.7, 0.9, 0.9, 1.0],
         [1.0, 0.1, 0.3, 0.0],
     ])
-    P, _ = forward(evenings, PENHALLOW)
+    P, _ = forward(evenings, NEILS_WEIGHTS)
     for number, names in enumerate(decisions(P), start=1):
         print(f"Evening {number}: {', '.join(names) or 'nothing'}")

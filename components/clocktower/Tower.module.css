@@ -1,0 +1,166 @@
+/* The tower's frame: spire, clock turret, cornice, the walls round the floors, the plinth. */
+.tower {
+  --wall: var(--surface-3);
+  --roof: var(--line);
+  --clock-face: var(--surface-1);
+  --hands: var(--text);
+  --floor-h: 58px;
+  display: grid;
+  justify-items: center;
+  width: 100%;
+  max-width: 560px;
+  margin-inline: auto;
+}
+
+:root[data-theme="light"] .tower {
+  --wall: color-mix(in oklab, var(--text-3) 30%, var(--surface-3));
+  --roof: color-mix(in oklab, var(--text-3) 62%, var(--surface-3));
+  --clock-face: var(--surface-1);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .tower {
+    --wall: color-mix(in oklab, var(--text-3) 30%, var(--surface-3));
+    --roof: color-mix(in oklab, var(--text-3) 62%, var(--surface-3));
+    --clock-face: var(--surface-1);
+  }
+}
+
+.top {
+  display: grid;
+  justify-items: center;
+  width: clamp(112px, 25%, 140px);
+}
+
+.spire {
+  display: block;
+  width: calc(100% + 24px);
+  height: 40px;
+  margin-bottom: -1px;
+  fill: var(--roof);
+}
+
+.turret {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1 / 0.84;
+  background: var(--wall);
+}
+
+.clock {
+  display: block;
+  width: 66%;
+  height: auto;
+}
+
+.clockFace {
+  fill: var(--clock-face);
+}
+
+.tick {
+  stroke: var(--hands);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.hourHand,
+.minuteHand {
+  stroke: var(--hands);
+  stroke-linecap: round;
+}
+
+.hourHand {
+  stroke-width: 6;
+}
+
+.minuteHand {
+  stroke-width: 4;
+}
+
+.pin {
+  fill: var(--hands);
+}
+
+.cornice,
+.plinth {
+  width: 100%;
+  height: 10px;
+  background: var(--roof);
+  border-radius: var(--r-sm);
+}
+
+.plinth {
+  height: 14px;
+}
+
+.floors {
+  list-style: none;
+  margin: 0;
+  width: calc(100% - 16px);
+  padding: 6px;
+  display: grid;
+  gap: 6px;
+  background: var(--wall);
+}
+
+.floor {
+  position: relative;
+  height: var(--floor-h);
+  min-width: 0;
+}
+
+/* A floor's face: the art layer with its label over it. */
+.face {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  color: var(--on);
+  text-align: left;
+}
+
+.face > * {
+  grid-area: 1 / 1;
+}
+
+.label {
+  position: relative;
+  display: grid;
+  align-content: center;
+  gap: 2px;
+  min-width: 0;
+  padding: 0 var(--s-4) 0 calc(var(--s-4) + 40px + var(--s-3));
+  pointer-events: none;
+}
+
+.room {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-width: 0;
+}
+
+.roomName {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-4);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sub {
+  font-size: var(--fs-1);
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 720px) {
+  .tower {
+    --floor-h: 56px;
+  }
+}

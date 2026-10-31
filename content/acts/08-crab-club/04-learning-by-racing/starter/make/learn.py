@@ -1,5 +1,5 @@
 # Learning by racing: the worth of every tile, learned from races alone.
-# Nothing in this file may read outcomes(). Sir Reginald only gets step().
+# Nothing in this file may read outcomes(). The crab only gets step().
 
 import numpy as np
 
@@ -29,9 +29,9 @@ def td_update(values, tile, reward, after, over, alpha=0.1, gamma=0.9):
 
 
 def td_evaluate(policy, races, rng, alpha=0.1, gamma=0.9, limit=100):
-    """TD(0): learn as he goes, one step at a time, from the next tile's estimate."""
+    """TD(0): learn as it goes, one step at a time, from the next tile's estimate."""
     # Start knowing nothing
-    # Race from random_start(rng); after every step, td_update the tile he left
+    # Race from random_start(rng); after every step, td_update the tile it left
 
 
 if __name__ == "__main__":

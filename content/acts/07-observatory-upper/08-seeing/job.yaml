@@ -6,7 +6,7 @@ portfolio_readme: |
 
   A small convolutional neural network, run by hand in NumPy with no deep learning library: convolution, ReLU, max pooling, flattening and softmax. Four 3 by 3 filters, trained beforehand in PyTorch, turn each 8 by 8 handwritten digit into 36 numbers, and a final layer reads the digit from those.
 
-  Written by {name} in {{town}}. Finished {date}.
+  Written by {name} for Caitlin, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -38,37 +38,36 @@ datasets:
     licence: "CC BY 4.0"
     file: "notebooks.py"
     notes: "Not copied: notebooks.py loads the 1,797 digits scikit-learn bundles with load_digits, each 8 by 8 with greys from 0 to 16."
-client: wendt
+client: caitlin
 building: observatory
 estimated_minutes: 120
-summary: "A convolutional network's forward pass by hand in NumPy: edges on the lighthouse, pooling, and four trained filters that classify handwritten digits from thirty-six numbers each."
+summary: "A convolutional network's forward pass by hand in NumPy: edges on the Clocktower, pooling, and four trained filters that classify handwritten digits from thirty-six numbers each."
 concepts_introduced: [convolutions]
 concepts_reviewed: [classification-networks, neural-networks, activation-functions, pytorch, numpy-arrays, slicing, for-loops, matrices]
 ask:
   dialogue:
-    - wendt: "The digit brain treats a picture as sixty-four numbers in a row. It has no idea which pixel is next to which."
-    - wendt: "Penhallow's last pages are all little grids. Three by three. Slid across pictures, one square at a time."
-    - wendt: "I trained one at home over the weekend, in PyTorch. Then I copied out its numbers. By hand. I like to check."
-    - moss: "Then check it the hard way. Two loops and a slice."
+    - caitlin: "The digit network reads a picture as sixty-four numbers in a row. It has no idea which pixel is next to which."
+    - caitlin: "Games don't see like that. A shape is a shape, wherever it is on the screen."
+    - neil: "Little grids, then. Three by three, slid across the picture. I trained four at home in PyTorch and copied out the numbers."
+    - paul: "Then check them the hard way. Two loops and a slice."
   spec: |
-    In `seeing.py`, by hand with NumPy, no SciPy or PyTorch. Wendt's trained numbers are in `filters.py`.
+    In `seeing.py`, by hand with NumPy, no SciPy or PyTorch. Neil's trained numbers are in `filters.py`.
 
     1. `convolve(image, kernel)`: slide the kernel over the picture. At each place it fits entirely, multiply it by the patch underneath and add the lot up. For an image of height H and width W and a kernel of height kh and width kw, the answer is (H - kh + 1, W - kw + 1).
     2. `max_pool(feature, size=2)`: the biggest number in each size by size block. Rows and columns that don't make a whole block are dropped.
     3. `conv_layer(image, kernels, biases)`: for each kernel, convolve, add that kernel's bias and apply relu. The maps come back stacked, shape (number of kernels, H', W').
     4. `forward(image, params)`: the maps from `params["kernels"]` and `params["kernel_biases"]`, each pooled, flattened filter by filter into one row, then `row @ params["W"] + params["b"]` and softmax: ten chances.
-    5. Run as a program, it reads the 297 held-back digits from the Handwritten Digit Recogniser through Wendt's filters.
+    5. Run as a program, it reads the 297 held-back digits from the Handwritten Digit Recogniser through Neil's filters.
   example: |
     A digit (8, 8) becomes maps (4, 6, 6), pooled to (4, 3, 3): 36 numbers, then 10 chances
     Read 289 of 297 digits it had never seen
-story_note: never-once-told-me
 ship:
   dialogue:
-    - wendt: "Two hundred and eighty-nine. Four little grids and four hundred and ten numbers, every one checked by hand."
-    - wendt: "One of the grids learned to look for the tops of strokes. Nobody asked it to."
-    - pip: "I'd have given it a hundred filters."
-    - moss: "And then you'd have a hundred to check."
-  shelf: { object: lens, label: "Wendt's four filters, seeing" }
+    - caitlin: "Two hundred and eighty-nine. Four little grids, and every number in them checked by hand."
+    - neil: "One of the grids learnt to look for the tops of strokes. Nobody asked it to."
+    - yahya: "I'd have given it a hundred filters."
+    - aaesha: "And then you'd have a hundred to check."
+  shelf: { object: lens, label: "Neil's four filters, seeing" }
   cards: [convolutions]
 stretch:
   - id: show-the-maps
@@ -82,4 +81,4 @@ stretch:
   - id: padding
     title: "Keep the size"
     prompt: |
-      Add `pad=0` to `convolve`. With `pad=1`, put a border of zeros one pixel wide round the picture first, with `np.pad`, so a 3 by 3 kernel gives back a map the same size as the picture. Test it on the lighthouse: what happens at the edges of the picture?
+      Add `pad=0` to `convolve`. With `pad=1`, put a border of zeros one pixel wide round the picture first, with `np.pad`, so a 3 by 3 kernel gives back a map the same size as the picture. Test it on the Clocktower picture: what happens at the edges?

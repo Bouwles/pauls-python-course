@@ -1,5 +1,5 @@
 """Model Evaluation Clinic: before a model gives anyone's telescope slot away
-at the observatory's open nights, examine it. Find the column that leaks the
+at the Clocktower's stargazing nights, examine it. Find the column that leaks the
 answer, compare four models honestly with cross-validation and a grid search,
 test the chosen one once on this season's bookings, and see who it is wrong
 about.
@@ -7,8 +7,8 @@ about.
 FEATURES        the five columns the model may learn from, in this order
 load_bookings(path)
         (X, y, groups): X is the (n, 5) array of FEATURES, y is came (1 or
-        0), and groups holds "island" or "town" for each booking, from the
-        island column. Where people live is for the audit, not the model
+        0), and groups holds "outside" or "city" for each booking, from the
+        outside column. Where people live is for the audit, not the model
 alone_scores(X, y, folds)
         a list: for each column on its own, the cross-validated accuracy
         of DecisionTreeClassifier(max_depth=2, random_state=0)
@@ -53,14 +53,9 @@ forest       0.778
 Chosen: forest
 Bottom drawer accuracy: 0.77
 Always guessing the commonest: 0.71
-island   accuracy 0.35, slot given away 0.64
-town     accuracy 0.85, slot given away 0.09
+city     accuracy 0.85, slot given away 0.09
+outside  accuracy 0.35, slot given away 0.64
 """
-# Copied by Professor Wendt from a card in the bottom drawer:
-# The machine learned to light the lamp when Tom's kettle boiled. Right
-# every night for a month, for the wrong reason: Tom puts the kettle on
-# at dusk. I took the kettle out of its readings, and it was wrong for a
-# week. It had never known why. A.P.
 
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
@@ -78,7 +73,7 @@ def load_bookings(path):
     bookings = np.loadtxt(path, delimiter=",", skiprows=1)
     X = bookings[:, [1, 2, 3, 4, 6]]
     y = bookings[:, 7].astype(int)
-    groups = np.where(bookings[:, 5] == 1, "island", "town")
+    groups = np.where(bookings[:, 5] == 1, "outside", "city")
     return X, y, groups
 
 

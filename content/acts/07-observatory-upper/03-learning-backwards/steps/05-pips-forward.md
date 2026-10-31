@@ -1,13 +1,13 @@
 ---
 id: pips-forward
 type: pips
-title: Pip's Version, forwards
+title: Fix Caitlin's version
 dialogue:
-  - pip: "Two layers, one line each. Done before Wendt found her other glove."
-  - pip: "NumPy's max is broken. It wants an axis. I gave it a zero."
+  - caitlin: "Can you look at mine? Two layers, one line each. Done before Neil found his coffee."
+  - caitlin: "NumPy's max is broken. It wants an axis. I gave it a zero."
 dialogue_after:
-  - pip: "So max finds the biggest thing in one array, and maximum compares two. Different words. Fair enough."
-  - pip: "And a sigmoid of 2. I should have noticed. Nothing is 2 likely."
+  - caitlin: "So max finds the biggest thing in one array, and maximum compares two. Different words. Fair enough."
+  - caitlin: "And a sigmoid of 2. I should have noticed. Nothing is 2 likely."
 hints:
   nudge: "What does `np.max` do with one array? What do you need instead: the biggest entry, or 0 and each entry compared?"
   plan:
@@ -23,6 +23,6 @@ hints:
     def sigmoid(z):
         return 1 / ___
 ---
-Pip's brain should print `0.5` for the first evening and `0.321` for the second. Run it, read the traceback and fix it.
+Caitlin's network should print `0.5` for the first evening and `0.321` for the second. Run it, read the traceback and fix it.
 
-Then run it again. There is a second bug, and it doesn't crash: a sigmoid's output is always between 0 and 1, and Pip's isn't.
+Then run it again. There is a second bug, and it doesn't crash: a sigmoid's output is always between 0 and 1, and Caitlin's isn't.

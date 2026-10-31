@@ -1,27 +1,28 @@
 "use client";
 
+// A learner's shipped project, runnable in the page (REDESIGN.md 9.2). Read only: it's theirs.
 import { useState } from "react";
 import Link from "next/link";
 import { BRAND } from "@/lib/brand";
-import type { CharacterLook } from "@/lib/store/types";
+import { readAvatar } from "@/lib/avatar";
 import type { Files } from "@/lib/python/protocol";
+import { ShelfObject } from "../art/ShelfObject";
+import { Avatar } from "../ui/Avatar";
 import { Button, LinkButton } from "../ui/Button";
 import { Editor } from "../workbench/Editor";
 import { Console } from "../workbench/Console";
 import { useRunner } from "../workbench/useRunner";
-import { LearnerSprite } from "../world/LearnerSprite";
-import { SpriteFrame } from "../world/SpriteFrame";
 import styles from "./SharedProject.module.css";
 
-/** A learner's shipped project, runnable in the page. Read only: it's theirs. */
 export function SharedProjectView(props: {
   slug: string;
   name: string;
-  character: CharacterLook;
+  character: unknown;
+  jobId: string;
   projectName: string;
+  clientId: string;
   client: string;
   actLabel: string;
-  shelfObject: string | null;
   files: Files;
   entry: string;
   data: Files;
@@ -36,33 +37,41 @@ export function SharedProjectView(props: {
   return (
     <article className={styles.page}>
       <header className={styles.head}>
-        <div className={styles.stage} aria-hidden="true">
-          <LearnerSprite look={props.character} scale={4} />
-          {props.shelfObject ? <SpriteFrame sprite={`shelf-${props.shelfObject}`} scale={4} /> : null}
-        </div>
+        <ShelfObject jobId={props.jobId} title={props.projectName} client={props.clientId} size={64} />
         <div className={styles.titles}>
           <h1 className={styles.title}>{props.projectName}</h1>
+          <p className={styles.by}>
+            <Avatar name={props.name} colour={readAvatar(props.character).colour} size={28} />
+            <span>
+              By <Link href={`/u/${props.slug}`}>{props.name}</Link>, for {props.client}.
+            </span>
+          </p>
           <p className={styles.meta}>
-            By <Link href={`/u/${props.slug}`}>{props.name}</Link>, for {props.client}. {props.actLabel}
+            {props.actLabel}
             {date ? `. Shipped ${date}.` : "."}
           </p>
         </div>
       </header>
-      <section className={`frame-panel ${styles.code}`} aria-label="The code">
+
+      <section className={styles.code} aria-label="The code">
         <div className={styles.bar}>
-          <div className={styles.tabs} role="tablist" aria-label="Files">
-            {names.map((f) => (
-              <button key={f} role="tab" aria-selected={f === active} className={styles.tab} onClick={() => setActive(f)}>
-                {f}
-              </button>
-            ))}
-          </div>
+          {names.length > 1 ? (
+            <div className={styles.tabs} role="tablist" aria-label="Files">
+              {names.map((f) => (
+                <button key={f} type="button" role="tab" aria-selected={f === active} className={styles.tab} onClick={() => setActive(f)}>
+                  {f}
+                </button>
+              ))}
+            </div>
+          ) : (
+            <p className={styles.fileName}>{active}</p>
+          )}
           {running ? (
-            <Button variant="danger" pixelIcon="stop" onClick={runner.stop}>
+            <Button variant="danger" icon="stop" onClick={runner.stop}>
               Stop
             </Button>
           ) : (
-            <Button variant="go" pixelIcon="run" onClick={run}>
+            <Button variant="run" onClick={run}>
               Run
             </Button>
           )}
@@ -76,12 +85,15 @@ export function SharedProjectView(props: {
           </div>
         </div>
       </section>
-      <p className={styles.made}>
-        Made in {BRAND.name}, a Python course built as a game.{" "}
-        <LinkButton href="/" variant="quiet" size="sm">
+
+      <footer className={styles.made}>
+        <p>
+          Made in {BRAND.name}. {BRAND.tagline}
+        </p>
+        <LinkButton href="/" variant="secondary" size="sm">
           Start the first project
         </LinkButton>
-      </p>
+      </footer>
     </article>
   );
 }

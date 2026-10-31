@@ -1,0 +1,222 @@
+/*
+  A floor's placeholder art. Night (dark theme): the room a deep shade of the resident's
+  colour with warm lit windows; locked rooms dark with the windows out. Day (light theme):
+  the plain colour with pale daylight windows; locked rooms a soft tint.
+  The fills are variables so the floor's label, a sibling, reads the same ones.
+*/
+.palette {
+  --fill: color-mix(in oklab, var(--face) 38%, var(--bg));
+  --fill-2: color-mix(in oklab, var(--face-2, var(--face)) 38%, var(--bg));
+  --ring: var(--fill);
+  --on: var(--text);
+  --mark: color-mix(in oklab, var(--face) 80%, var(--text));
+  --mark-2: var(--face-2, var(--face));
+  --window: var(--sun);
+  --cloth: var(--surface-3);
+  --fold: var(--line);
+}
+
+.palette[data-state="locked"] {
+  --fill: color-mix(in oklab, var(--face) 6%, var(--surface-1));
+  --fill-2: color-mix(in oklab, var(--face-2, var(--face)) 6%, var(--surface-1));
+  --on: var(--text-2);
+  --mark: var(--text-3);
+  --window: color-mix(in oklab, var(--bg) 60%, var(--surface-1));
+}
+
+:root[data-theme="light"] .palette {
+  --fill: var(--face);
+  --fill-2: var(--face-2, var(--face));
+  --on: var(--face-ink);
+  --mark: var(--face-ink);
+  --mark-2: var(--face-2-ink, var(--face-ink));
+  --window: color-mix(in oklab, var(--surface-1) 58%, var(--face));
+  --cloth: var(--surface-1);
+  --fold: var(--line);
+  --ring: var(--surface-1);
+}
+
+:root[data-theme="light"] .palette[data-state="locked"] {
+  --fill: color-mix(in oklab, var(--face) 14%, var(--surface-3));
+  --fill-2: color-mix(in oklab, var(--face-2, var(--face)) 14%, var(--surface-3));
+  --on: var(--text-2);
+  --mark: var(--text-3);
+  --window: color-mix(in oklab, var(--face) 6%, var(--surface-1));
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .palette {
+    --fill: var(--face);
+    --fill-2: var(--face-2, var(--face));
+    --on: var(--face-ink);
+    --mark: var(--face-ink);
+    --mark-2: var(--face-2-ink, var(--face-ink));
+    --window: color-mix(in oklab, var(--surface-1) 58%, var(--face));
+    --cloth: var(--surface-1);
+    --fold: var(--line);
+    --ring: var(--surface-1);
+  }
+
+  :root[data-theme="system"] .palette[data-state="locked"] {
+    --fill: color-mix(in oklab, var(--face) 14%, var(--surface-3));
+    --fill-2: color-mix(in oklab, var(--face-2, var(--face)) 14%, var(--surface-3));
+    --on: var(--text-2);
+    --mark: var(--text-3);
+    --window: color-mix(in oklab, var(--face) 6%, var(--surface-1));
+  }
+}
+
+.art {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  min-height: 48px;
+  padding: 0 var(--s-5) 0 var(--s-4);
+  background: var(--fill);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  container-type: inline-size;
+}
+
+/* The illustrator's floor fills the slot; on a narrow tower the left of the room is cropped. */
+.final {
+  padding: 0;
+}
+
+.finalImage {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: right center;
+}
+
+/* A shared floor is two rooms: the second resident's on the right. */
+.annex {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: 30%;
+  background: var(--fill-2);
+}
+
+.room {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  color: var(--mark);
+}
+
+.sheet {
+  display: block;
+}
+
+.sheetCloth {
+  fill: var(--cloth);
+}
+
+.sheetFold {
+  fill: none;
+  stroke: var(--fold);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+.props {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--s-5);
+}
+
+.people {
+  display: flex;
+  align-items: center;
+}
+
+.person {
+  box-shadow: 0 0 0 2px var(--ring);
+  font-size: 13px;
+}
+
+.person + .person {
+  margin-left: -6px;
+}
+
+[data-lights] ~ .props .person + .person {
+  margin-left: -9px;
+}
+
+.plant {
+  margin-left: var(--s-2);
+  color: var(--mark);
+}
+
+.windows {
+  display: flex;
+  gap: var(--s-2);
+}
+
+.window {
+  width: 14px;
+  height: 26px;
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+  background: var(--window);
+}
+
+/* String lights over the roof terrace, one colour for each of the class. */
+.lights {
+  position: absolute;
+  inset: 6px var(--s-4) auto 52%;
+  display: flex;
+  justify-content: space-between;
+  height: 10px;
+  border-top: 1px solid var(--cloth);
+}
+
+.bulb {
+  width: 6px;
+  height: 6px;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: var(--bulb);
+}
+
+.bulb:nth-child(even) {
+  margin-top: 3px;
+}
+
+.palette[data-state="locked"] .bulb {
+  background: var(--cloth);
+}
+
+/* Narrow floors keep the room's name clear: fewer windows, and none behind the residents. */
+@container (max-width: 480px) {
+  .art:not(.bare) .window:nth-child(3) {
+    display: none;
+  }
+}
+
+@container (max-width: 400px) {
+  .art:not(.bare) .window:nth-child(2),
+  .art:not(.bare) .plant,
+  .art:not(.bare) .people ~ .windows,
+  .art:not(.bare)[data-state="busy"] .lights {
+    display: none;
+  }
+
+  .art:not(.bare) .lights {
+    left: 70%;
+  }
+
+  .art:not(.bare) .bulb:nth-child(n + 7) {
+    display: none;
+  }
+
+  .props {
+    margin-right: calc(var(--s-3) - var(--s-5));
+  }
+}

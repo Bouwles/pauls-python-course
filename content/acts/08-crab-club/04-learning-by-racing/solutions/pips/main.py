@@ -1,4 +1,4 @@
-# Pip's TD(0), on the traditional line.
+# Caitlin's TD(0), on the traditional line.
 
 import numpy as np
 

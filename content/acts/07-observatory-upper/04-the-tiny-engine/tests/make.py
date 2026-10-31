@@ -75,7 +75,7 @@ def forward(ctx):
         raise CheckFailed("a.relu() should note a as its parent.", actual=repr(relu.parents))
 
 
-def wendts(ctx):
+def neils(ctx):
     agree(ctx, lambda a, b: a * b + a, [2.0, -3.0], "a * b + a at a = 2, b = -3")
 
 
@@ -172,7 +172,7 @@ def program(ctx):
 
 TESTS = [
     custom("The right numbers, with their parents noted", forward, visible=True),
-    custom("Gradients of a * b + a", wendts, visible=True),
+    custom("Gradients of a * b + a", neils, visible=True),
     custom("A value times itself", squared,
            hint="Add each share of blame with +=. When both parents are the same value, it gets both shares."),
     custom("Plain numbers mixed in", with_numbers,

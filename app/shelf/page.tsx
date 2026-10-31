@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { getConcepts, getIndex, getJob } from "@/lib/content/server";
-import { BUILDINGS } from "@/lib/world/map";
 import type { ShelfItem } from "@/lib/export";
 import { Page } from "@/components/site/Page";
-import { PenhallowNotes } from "@/components/shelf/PenhallowNotes";
-import { Shelf } from "@/components/shelf/Shelf";
+import { Shelf, type ShelfCard } from "@/components/shelf/Shelf";
 
 export const metadata: Metadata = { title: "The Shelf" };
 
@@ -19,10 +17,13 @@ const strip = (html: string) =>
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">");
 
+/** Projects whose programs draw a chart: the preview waits for the learner's own run to show it. */
+const DRAWS = /import matplotlib|from matplotlib|plt\.(plot|bar|hist|scatter|show|savefig)/;
+
 export default function ShelfPage() {
   const index = getIndex();
   const concepts = getConcepts();
-  const items: ShelfItem[] = [];
+  const cards: ShelfCard[] = [];
   for (const act of index.acts) {
     for (const summary of act.jobs) {
       if (summary.status !== "written") continue;
@@ -33,15 +34,17 @@ export default function ShelfPage() {
       const ask = job.steps.find((s) => s.type === "ask");
       const files = from && "entry" in from ? from.files : ["main.py"];
       const entry = from && "entry" in from ? from.entry : "main.py";
-      items.push({
+      const starter = from && "starter" in from ? Object.values(from.starter).join("\n") : "";
+      const item: ShelfItem = {
         jobId: job.id,
         title: job.title,
         actNumber: act.number,
-        actTitle: act.title,
+        actTitle: act.subject || act.title,
         actId: act.id,
         number: job.number,
         client: index.characters[job.client]?.name ?? job.client,
-        building: BUILDINGS.find((b) => b.id === job.building)?.name ?? job.building,
+        // The old town place names aren't shown anywhere any more.
+        building: "",
         shelf: ship.shelf,
         shipsFrom: ship.shipsFrom,
         files,
@@ -50,17 +53,19 @@ export default function ShelfPage() {
         learned: job.conceptsIntroduced.map((c) => concepts[c]?.title ?? c),
         data: job.data,
         portfolioReadme: job.portfolioReadme ?? null,
+      };
+      cards.push({
+        item,
+        name: job.projectName || job.title,
+        clientId: job.client,
+        example: ask && ask.type === "ask" ? ask.example : null,
+        draws: DRAWS.test(starter) || job.conceptsIntroduced.some((c) => /matplotlib|plot|chart/.test(c)),
       });
     }
   }
-  // Notes in the order the course finds them.
-  const order = index.acts.flatMap((a) => a.jobs.map((j) => j.id));
-  const orderedNotes = [...index.story].sort((a, b) => order.indexOf(a.job) - order.indexOf(b.job));
-  const jobTitles = Object.fromEntries(index.acts.flatMap((a) => a.jobs.map((j) => [j.id, j.title])));
   return (
-    <Page wide>
-      <Shelf items={items} />
-      <PenhallowNotes notes={orderedNotes} jobTitles={jobTitles} />
+    <Page>
+      <Shelf cards={cards} />
     </Page>
   );
 }

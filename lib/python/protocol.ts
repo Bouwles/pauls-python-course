@@ -160,7 +160,7 @@ export interface Visuals {
   curve?: [number, number | null][];
 }
 
-/** Moss's style notes on a shipped Job (ppc_runtime.review). */
+/** Paul's style notes on a shipped project (ppc_runtime.review). */
 export interface StyleNote {
   rule: string;
   title: string;

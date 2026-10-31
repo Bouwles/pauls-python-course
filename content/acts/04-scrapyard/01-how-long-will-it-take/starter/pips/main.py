@@ -15,7 +15,7 @@ def spares(parts):
 
 
 if __name__ == "__main__":
-    pier = [f"part-{number}" for number in range(20_000)] + ["part-42"]
+    lot = [f"part-{number}" for number in range(20_000)] + ["part-42"]
     start = time.perf_counter()
-    print(spares(pier))
-    print(f"{len(pier)} parts took {time.perf_counter() - start:.2f} s")
+    print(spares(lot))
+    print(f"{len(lot)} parts took {time.perf_counter() - start:.2f} s")

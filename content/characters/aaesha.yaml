@@ -1,0 +1,25 @@
+id: aaesha
+name: Aaesha
+role: Classmate. Data and tests; leads the Archive on the fourth floor.
+colour: "#FF7A6B"
+floor: 5
+look: Very long, straight, dark hair with a centre parting, rosy cheeks, warm closed-mouth smile. Small gold earrings, a fine gold necklace, a gold bangle. A dark-brown T-shirt and denim.
+voice: Precise, organised, quietly funny. Hates duplicated data and charts that lie. Asks how you'll know it worked.
+pools:
+  # Reactive lines (REDESIGN-2.md 7.4). lib/cast.ts says which events are Aaesha's.
+  # When the learner fixes Aaesha's version, or fixes it in fewer lines.
+  fixed-by-learner:
+    - "That's it. Everything else was right. Thank you."
+    - "Fixed. I'm writing that one down, so I don't do it twice."
+    - "Thank you. I'd checked everything except that."
+  shorter-than-mine:
+    - "Shorter than mine, and it still passes. I'm keeping yours."
+    - "Fewer lines, same results. I'll take that."
+  # Aaesha is the client for the Password Checker, the Contact Book and the Expense Tracker.
+  waiting:
+    - "Before you run it, how will you know it worked?"
+    - "Take your time. I'd rather it was right."
+    - "When you check it, read the expected output first."
+  recap:
+    - "Where you left my {job}: {step}"
+    - "Back to my {job}. The last step you were on: {step}"

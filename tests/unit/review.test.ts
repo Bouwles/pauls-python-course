@@ -11,7 +11,7 @@ afterAll(async () => {
 
 const rules = async (code: string) => (await py.review({ "main.py": code }, 20)).notes.map((n) => n.rule);
 
-describe("Moss's style review", () => {
+describe("Paul's style review", () => {
   it("says nothing about tidy code", async () => {
     const r = await py.review({ "main.py": 'def total_price(loaves, price=240):\n    """Pence."""\n    return loaves * price\n\n\nprint(total_price(3))\n' });
     expect(r.notes).toEqual([]);

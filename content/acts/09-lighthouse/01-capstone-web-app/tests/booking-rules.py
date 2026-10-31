@@ -4,11 +4,11 @@ BERTHS = [
     {"id": 1, "name": "Pontoon A", "max_length": 8.0},
     {"id": 2, "name": "Pontoon B", "max_length": 10.0},
     {"id": 3, "name": "Pontoon C", "max_length": 10.0},
-    {"id": 4, "name": "North Quay", "max_length": 15.0},
-    {"id": 5, "name": "Harbour Wall", "max_length": 24.0},
+    {"id": 4, "name": "North Pontoon", "max_length": 15.0},
+    {"id": 5, "name": "River Wall", "max_length": 24.0},
 ]
-# Another harbour's berths, so nothing can lean on the ids in berths.py.
-OTHER_HARBOUR = [
+# Another marina's berths, so nothing can lean on the ids in berths.py.
+OTHER_MARINA = [
     {"id": 7, "name": "East Pontoon", "max_length": 12.0},
     {"id": 8, "name": "Slipway", "max_length": 6.5},
 ]
@@ -61,9 +61,9 @@ def too_long_for_pontoon_b(ctx):
     refused(module, lambda: module.check_booking({**KITTIWAKE, "length": 12.0}, BERTHS), 400, "A 12 m boat for Pontoon B")
 
 
-def another_harbour(ctx):
+def another_marina(ctx):
     module = rules(ctx)
-    booking = accepted(module, {"boat": "mary   rose", "length": 6, "berth": 8, "date": "2028-01-31"}, OTHER_HARBOUR, "The Mary Rose at the Slipway")
+    booking = accepted(module, {"boat": "mary   rose", "length": 6, "berth": 8, "date": "2028-01-31"}, OTHER_MARINA, "The Mary Rose at the Slipway")
     same("The Mary Rose, 6 m, one night at the Slipway (berth 8)", booking,
          {"boat": "Mary Rose", "length": 6.0, "berth": 8, "date": "2028-01-31", "nights": 1})
     if not isinstance(booking["length"], float):
@@ -74,7 +74,7 @@ def body_left_alone(ctx):
     module = rules(ctx)
     sent = {"boat": "  shearwater ", "length": 11.5, "berth": 7, "date": "2027-08-01", "nights": 3}
     kept = dict(sent)
-    module.check_booking(sent, OTHER_HARBOUR)
+    module.check_booking(sent, OTHER_MARINA)
     same("What was sent, after check_booking has looked at it", sent, kept)
 
 
@@ -99,8 +99,8 @@ def berths_and_fit(ctx):
     for berth in (9, "2", None):
         refused(module, lambda: module.check_booking({**KITTIWAKE, "berth": berth}, BERTHS), 400, f"Berth {berth!r}")
     slipway = {"boat": "Puffin", "length": 6.6, "berth": 8, "date": "2027-05-01"}
-    refused(module, lambda: module.check_booking(slipway, OTHER_HARBOUR), 400, "A 6.6 m boat at the 6.5 m Slipway")
-    accepted(module, {**slipway, "length": 6.5}, OTHER_HARBOUR, "A 6.5 m boat at the 6.5 m Slipway")
+    refused(module, lambda: module.check_booking(slipway, OTHER_MARINA), 400, "A 6.6 m boat at the 6.5 m Slipway")
+    accepted(module, {**slipway, "length": 6.5}, OTHER_MARINA, "A 6.5 m boat at the 6.5 m Slipway")
 
 
 def dates(ctx):
@@ -167,7 +167,7 @@ def clash_further_down(ctx):
 TESTS = [
     custom("The Kittiwake, tidied", the_kittiwake, visible=True),
     custom("A 12 m boat for Pontoon B is refused with 400", too_long_for_pontoon_b, visible=True),
-    custom("Another harbour's berths, and one night if nights is left out", another_harbour,
+    custom("Another marina's berths, and one night if nights is left out", another_marina,
            hint="Use the berths you're given, not the ones in berths.py, and turn the length into a float."),
     custom("What was sent is left as it was", body_left_alone, hint="Build a new dictionary for the tidy booking instead of changing body."),
     custom("No booking, or no boat name", bad_bodies_and_names,

@@ -1,10 +1,11 @@
+/* A small shell. Dark in both themes, like a real terminal. */
 .terminal {
   display: flex;
   flex-direction: column;
   height: 100%;
   min-height: 0;
-  background: var(--art-harbour-night);
-  color: var(--art-sail-cloth);
+  background: var(--editor);
+  color: var(--text);
   font-family: var(--font-code);
   font-size: var(--editor-font-size);
   font-variant-ligatures: none;
@@ -20,32 +21,34 @@
 .line {
   white-space: pre-wrap;
   word-break: break-word;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 .cmd {
-  color: var(--art-lamp-glow);
+  color: var(--text);
+  font-weight: 700;
 }
 
 .err {
-  color: var(--art-tomato-highlight);
+  color: var(--fail-text);
 }
 
 .add {
-  color: var(--art-shell-highlight);
+  color: var(--pass-text);
 }
 
 .del {
-  color: var(--art-tomato-highlight);
+  color: var(--fail-text);
 }
 
 .conflict {
-  color: var(--art-lamp);
+  color: var(--sun-text);
 }
 
 .prompt {
-  color: var(--art-foam);
+  color: var(--sun-text);
   white-space: nowrap;
+  font-weight: 400;
 }
 
 .inputRow {
@@ -57,15 +60,18 @@
 
 .input {
   flex: 1;
+  min-width: 0;
   background: transparent;
   border: none;
-  color: var(--art-sail-cloth);
+  border-radius: 0;
+  padding: var(--s-1) 0;
+  color: var(--text);
   font-family: var(--font-code);
   font-size: var(--editor-font-size);
-  outline: none;
-  caret-color: var(--art-lamp-glow);
+  caret-color: var(--sun);
 }
 
 .input:focus-visible {
-  box-shadow: 0 1px 0 var(--art-lamp-glow);
+  outline: none;
+  box-shadow: inset 0 -2px 0 var(--sun);
 }

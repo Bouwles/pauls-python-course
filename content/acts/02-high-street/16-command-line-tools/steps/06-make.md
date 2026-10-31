@@ -6,7 +6,7 @@ files: [todo.py]
 entry: todo.py
 argv_field: true
 timeout_ms: 15000
-on_pass: { moss: "Pip ticked off the chisels. Then he added three more jobs, all for me." }
+on_pass: { paul: "Neil ticked off the chisels. Then he added three more jobs, all for me." }
 hints:
   nudge: "Each run starts from nothing but `todo.json`. What has to happen before a change is finished?"
   plan:
@@ -17,7 +17,7 @@ hints:
     - "Refuse bad values: say why on sys.stderr, exit with 1"
     - Run only when started as a program
   shape: |
-    parser = argparse.ArgumentParser(description="The workshop to-do list.")
+    parser = argparse.ArgumentParser(description="The Workshop to-do list.")
     parser.add_argument("--file", default=___)
     commands = parser.add_subparsers(dest="command", required=True)
     adding = commands.add_parser("add")
@@ -33,7 +33,7 @@ hints:
         number = max([task["number"] for task in tasks], default=___) + 1
         ...
 ---
-Write the to-do tool in `todo.py`. In the Arguments box, try `list`, then `add fix the radio` in quotes, then `done 3`, then `list` again: the changes are still there.
+Write the to-do tool in `todo.py`. In the Arguments box, try `list`, then `add fix the clock` in quotes, then `done 3`, then `list` again: the changes are still there.
 
 ```
 $ python todo.py list

@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the times table trainer
-on_pass: { tom: "Nine sevens, sixty-three. It marked her wrong, which is right." }
+on_pass: { riya: "Nine sevens, sixty-three. It marked him wrong, which is right." }
 hints:
   nudge: "Two loops again: one to print the twelve lines, one to ask the five questions. Where does the score start, and where is it printed?"
   plan:
@@ -27,7 +27,7 @@ hints:
             print(f"No, {___}.")
     print(f"Score: {score} out of 5")
 ---
-Write Ellie's trainer. The table from 1 to 12, lined up, then five questions from 8 to 12.
+Write the trainer for Riya's cousin. The table from 1 to 12, lined up, then five questions from 8 to 12.
 
 ```
 Which table? 7
@@ -45,4 +45,4 @@ Score: 4 out of 5
 
 The first number takes 2 characters and the answer takes 3. The checks try other tables, and the twelves, where 144 needs all three.
 
-Moss's labels from the barman's chart are in the file.
+Paul's labels from the kettle chart are in the file.

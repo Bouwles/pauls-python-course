@@ -3,7 +3,9 @@
 import { useState } from "react";
 import { PLANS, money } from "@/lib/plans";
 import { usePlan } from "@/lib/usePlan";
+import { Badge } from "../ui/Badge";
 import { Button, LinkButton } from "../ui/Button";
+import { Row } from "./controls";
 import styles from "./Settings.module.css";
 
 const date = (iso: string | null) => (iso ? new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) : null);
@@ -17,7 +19,7 @@ export function Billing() {
   const { status } = usePlan();
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  if (!status) return <p className={styles.hint}>Looking up your plan.</p>;
+  if (!status) return <p className={styles.note}>Looking up your plan.</p>;
   const a = status.access;
 
   const manage = async () => {
@@ -32,22 +34,24 @@ export function Billing() {
     }
   };
 
-  if (!status.signedIn) return <p className={styles.hint}>Log in to see your plan.</p>;
+  if (!status.signedIn) return <Row label="Your plan" hint="Log in to see your plan." />;
 
   if (!a.pro && !a.status) {
     return (
-      <>
-        <p>
-          <strong>Free.</strong> All of Act I, the Handbook, and everything you make. {status.onSale ? `Pro is ${money(PLANS["pro-monthly"].price ?? 0)} a month, or ${money(PLANS["pro-yearly"].price ?? 0)} a year.` : "Pro isn't on sale yet."}
-        </p>
+      <Row
+        label={
+          <>
+            Your plan <Badge tone="free">Free</Badge>
+          </>
+        }
+        hint={`All of Act 1, the Handbook, and everything you make. ${status.onSale ? `Pro is ${money(PLANS["pro-monthly"].price ?? 0)} a month, or ${money(PLANS["pro-yearly"].price ?? 0)} a year.` : "Pro isn't on sale yet."}`}
+      >
         {status.onSale ? (
-          <div className={styles.row}>
-            <LinkButton href="/pricing" variant="primary">
-              See Pro
-            </LinkButton>
-          </div>
-        ) : null}
-      </>
+          <LinkButton href="/pricing" variant="primary">
+            See Pro
+          </LinkButton>
+        ) : undefined}
+      </Row>
     );
   }
 
@@ -67,13 +71,17 @@ export function Billing() {
           The last payment didn&apos;t go through. Pro stays on for a few days while you update the card in Manage billing.
         </p>
       ) : null}
-      <p>
-        <strong>{name}.</strong> {when}
-      </p>
-      {a.via !== "seat" ? (
-        <>
-          <div className={styles.row}>
-            <Button variant="quiet" onClick={() => void manage()} disabled={busy}>
+      <Row
+        label={
+          <>
+            Your plan <Badge tone={a.pro ? "pro" : "neutral"}>{name}</Badge>
+          </>
+        }
+        hint={a.via !== "seat" ? `${when} Invoices, the card and cancelling are all in Manage billing. Cancelling keeps Pro until the end of what you've paid for.`.trim() : when || undefined}
+      >
+        {a.via !== "seat" ? (
+          <div className={styles.buttons}>
+            <Button variant="secondary" onClick={() => void manage()} disabled={busy}>
               Manage billing
             </Button>
             {!a.pro ? (
@@ -82,11 +90,10 @@ export function Billing() {
               </LinkButton>
             ) : null}
           </div>
-          <p className={styles.hint}>Invoices, the card, and cancelling are all in Manage billing. Cancelling keeps Pro until the end of what you&apos;ve paid for.</p>
-        </>
-      ) : null}
+        ) : undefined}
+      </Row>
       {error ? (
-        <p className={styles.hint} role="alert">
+        <p className={styles.error} role="alert">
           {error}
         </p>
       ) : null}

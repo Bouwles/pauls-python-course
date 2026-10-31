@@ -13,10 +13,6 @@ Run as a program, it prints:
 By formula: w = 3515.36, b = -140390
 Root mean squared error: $288,893
 """
-# Copied by Professor Wendt from the flyleaf of Penhallow's statistics book:
-# Least squares by hand, on the back of an envelope, twice. I could let
-# the machine find the line, but I like to know where an answer came
-# from. The machine never asks. That is the part that worries me. A.P.
 
 import numpy as np
 import pandas as pd

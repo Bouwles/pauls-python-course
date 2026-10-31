@@ -1,15 +1,15 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "I carried Priya's barometer up the hill path once. Slowly. It fell the whole way."
-  - moss: "Two links. Minutes give height, height gives pressure. The rates multiply."
+  - paul: "I carried Aaesha's barometer up the hill path once. Slowly. It fell the whole way."
+  - paul: "Two links. Minutes give height, height gives pressure. The rates multiply."
 code: |
   import math
 
 
-  def height(minutes):                 # Moss on the hill path: 1.5 metres higher every minute
+  def height(minutes):                 # Paul on the hill path: 1.5 metres higher every minute
       return 1.5 * minutes
 
 
@@ -20,7 +20,7 @@ code: |
   height_slope = 1.5                   # metres a minute
 
 
-  def pressure_slope(metres):          # hPa a metre, at this height (from Priya's handbook)
+  def pressure_slope(metres):          # hPa a metre, at this height (from Aaesha's handbook)
       return -1013 / 8400 * math.exp(-metres / 8400)
 
 
@@ -45,13 +45,13 @@ subgoals:
     lines: [24, 26]
 explain:
   prompt: "Why does line 21 give `pressure_slope` the height, `metres`, and not `minutes`?"
-  answer: "`pressure_slope` is how fast pressure changes per metre at a given height. After 40 minutes Moss is 60 metres up, so the slope that matters is the one at 60 metres. Passing 40 would give the slope 40 metres up, where Moss isn't."
+  answer: "`pressure_slope` is how fast pressure changes per metre at a given height. After 40 minutes Paul is 60 metres up, so the slope that matters is the one at 60 metres. Passing 40 would give the slope 40 metres up, where Paul isn't."
   concept: chain-rule
 ---
-When one thing depends on a second, and the second on a third, their rates multiply. Moss climbs 1.5 metres a minute; up there, pressure drops about 0.12 hPa a metre. So it drops about 1.5 times 0.12 hPa a minute. That's the **chain rule**:
+When one thing depends on a second, and the second on a third, their rates multiply. Paul climbs 1.5 metres a minute; up there, pressure drops about 0.12 hPa a metre. So it drops about 1.5 times 0.12 hPa a minute. That's the **chain rule**:
 
 ```text
 change per minute = (change per metre) * (metres per minute)
 ```
 
-The outer slope, pressure per metre, is taken at the height Moss has reached. The last lines measure the whole chain by nudging the minutes either side, without knowing any of the algebra, and get the same answer. That's how you check a slope you worked out.
+The outer slope, pressure per metre, is taken at the height Paul has reached. The last lines measure the whole chain by nudging the minutes either side, without knowing any of the algebra, and get the same answer. That's how you check a slope you worked out.

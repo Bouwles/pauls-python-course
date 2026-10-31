@@ -1,3 +1,3 @@
-print("HOLLIS BAKERY")
-print("Bread, buns and Bea's lardy cake')
-print("Open from 7")
+print("ARCADE CABINET")
+print("Beat Caitlin's high score')
+print("Two goes each")

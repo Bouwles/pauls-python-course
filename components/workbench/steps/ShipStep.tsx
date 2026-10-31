@@ -1,95 +1,98 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import type { ShipStep, StretchTask } from "@/lib/content/types";
-import type { CheckReport, ReviewResult } from "@/lib/python/protocol";
+import type { CheckReport, Files, ReviewResult } from "@/lib/python/protocol";
 import { getRuntime } from "@/lib/python/runtime";
 import type { StepProgressRow } from "@/lib/store/types";
 import { updateJob } from "@/lib/store/progress";
 import { useSession } from "@/lib/store/session";
 import { playSound } from "@/lib/sound";
-import { defaultLook } from "@/lib/pixel/learner";
-import { Button, LinkButton } from "../../ui/Button";
-import { PassIcon } from "../../ui/Icons";
-import { SceneCanvas, type Actor } from "../../world/SceneCanvas";
-import { useNight } from "../../world/useNight";
-import { SpriteFrame } from "../../world/SpriteFrame";
-import { prefersReducedMotion } from "@/lib/display";
-import { castColour } from "@/lib/cast";
+import { PROFESSOR } from "@/lib/cast";
+import { pickLine } from "@/lib/reactions";
+import { download, readme, withWorkshopStub, zip } from "@/lib/export";
 import { usePlan } from "@/lib/usePlan";
+import { Figure } from "../../art/Portrait";
 import { ProGate } from "../../pricing/ProGate";
-import { loadIndex } from "../../world/sprites";
+import { Button, LinkButton } from "../../ui/Button";
+import { Icon } from "../../ui/Icon";
+import { SpeechBubble } from "../../ui/SpeechBubble";
 import { CodeWorkspace } from "../CodeWorkspace";
-import { sceneFor, useEarned, workshopExtras } from "../../world/useWorkshopExtras";
-import { useWorkbench } from "../context";
-import { Ticket } from "../Ticket";
-import styles from "./steps.module.css";
-import cs from "./cutscene.module.css";
+import { Instructions } from "../Instructions";
+import { useWorkbench, type Utterance } from "../context";
+import { isSpoken, utterancesFor } from "../labels";
+import styles from "./ship.module.css";
 
-// What each client uses the program on, for the demo run (REDESIGN.md 5.2).
-const DEVICE: Record<string, string> = {
-  moss: "workshop printer",
-  bea: "till",
-  ferro: "chart table",
-  mira: "sorting desk",
-  dev: "hire board",
-  kat: "hire board",
-  nell: "yard ledger",
-  priya: "station screen",
-  wendt: "observatory terminal",
-  committee: "arcade cabinet",
-  tom: "lamp-room logbook",
-};
-
-const TITLES = new Set(["Captain", "Professor", "Sir", "Old", "The", "Mrs", "Mr", "Ms", "Dr"]);
-
-/** "Bea's till", "Ferro's chart table". */
-function deviceName(name: string, id: string) {
-  const words = name.split(" ");
-  const short = TITLES.has(words[0]!) ? words[words.length - 1]! : words[0]!;
-  return `${short}'s ${DEVICE[id] ?? "screen"}`;
+function plainText(html: string): string {
+  return html
+    .replace(/<\/(p|li|h\d)>/g, "\n")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&#39;|&apos;/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
 }
 
+/**
+ * The Ship (REDESIGN-2.md 4.6): the finished program running in a demo frame, the client's
+ * reaction, and "Add to my Shelf", which stamps it shipped. "Download the project" takes the
+ * code home. Before the Build step passes, the client is waiting for it.
+ */
 export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressRow }) {
-  const { areas, job, progress, jobProgress, shipJob, markPassed, goTo, characters, conceptTitles, landing, guest, store, gateActs } = useWorkbench();
+  const { areas, job, progress, jobProgress, shipJob, markPassed, goTo, characters, conceptTitles, landing, guest, store, gateActs, nextJob, nameOf, actTitle } = useWorkbench();
   const { status: plan } = usePlan();
   const { profile } = useSession();
-  const night = useNight();
   const [stretch, setStretch] = useState<StretchTask | null>(null);
-  const [hasClientSprite, setHasClientSprite] = useState(false);
-  const [scenes, setScenes] = useState<Set<string> | undefined>(undefined);
   const [review, setReview] = useState<ReviewResult | null>(null);
   const [demo, setDemo] = useState<{ text: { kind: string; text: string }[]; done: boolean; failed: boolean } | null>(null);
-  const [justShipped, setJustShipped] = useState(false);
-  const [fly, setFly] = useState<{ x: number; y: number; dx: number; dy: number } | null>(null);
+  const [stamping, setStamping] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [waitingLine, setWaitingLine] = useState<string | null>(null);
   const screen = useRef<HTMLPreElement>(null);
-  const earned = useEarned();
   const done = (id: string) => ["passed", "seen-solution"].includes(progress[id]?.status ?? "");
   const waitingFor = (step.requires ?? (step.shipsFrom ? [step.shipsFrom] : [])).filter((id) => !done(id));
   const ready = waitingFor.length === 0;
   const shipped = jobProgress?.status === "shipped" || jobProgress?.status === "shipped-stretch";
   const stretchDone = new Set(jobProgress?.stretchDone ?? []);
-  // Stretch tasks extend the Make step's program, so they get the same files.
   const from = job.steps.find((s) => s.id === (waitingFor[0] ?? step.shipsFrom));
   const shipFiles = from && "entry" in from ? { files: from.files, entry: from.entry } : { files: ["main.py"], entry: "main.py" };
+  const client = job.client;
+  const clientName = nameOf(client);
+  const paul = nameOf(PROFESSOR);
+  const reaction: Utterance[] = utterancesFor(step.dialogue.filter((l) => isSpoken(l.who)));
 
+  // A placement ships as soon as its tasks pass: there's nothing to put on a Shelf.
   useEffect(() => {
-    if (!ready) return;
+    if (!ready || !step.places) return;
     void (async () => {
-      const first = !(jobProgress?.status === "shipped" || jobProgress?.status === "shipped-stretch");
       await shipJob();
-      if (first) {
-        setJustShipped(true);
-        playSound("stamp", profile.settings.sound);
-      }
       if (row.status !== "passed") await markPassed(step.id);
     })();
-    // Shipping happens once, when the step opens and the Make step is done.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready]);
 
-  // Moss's style notes on what shipped (Section 5.1). They never stop a Job shipping.
+  // While the learner is still building, the client says one line about waiting.
+  useEffect(() => {
+    if (ready || landing) return;
+    void pickLine(store, characters, client, "waiting").then(setWaitingLine);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready]);
+
+  const addToShelf = async () => {
+    setBusy(true);
+    const first = await shipJob();
+    if (row.status !== "passed") await markPassed(step.id);
+    setBusy(false);
+    if (first) {
+      setStamping(true);
+      playSound("stamp", profile.settings.sound);
+    }
+  };
+
+  // Paul's style notes on what shipped. They never stop a project shipping.
   useEffect(() => {
     if (!ready || !store || !step.shipsFrom || landing) return;
     const fromStep = job.steps.find((s) => s.id === step.shipsFrom);
@@ -99,7 +102,7 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
       const rows = await store.prefixed("code_files", `${job.id}/${fromStep.id}/`);
       const files = Object.fromEntries(rows.filter((r) => r.filename.endsWith(".py")).map((r) => [r.filename, r.content]));
       if (!Object.keys(files).length) return;
-      // Python may still be finishing something (a check, or a run): wait a moment and try again.
+      // Python may still be finishing something (the demo, a check): wait a moment and try again.
       for (let attempt = 0; attempt < 6 && !cancelled; attempt++) {
         try {
           const result = await getRuntime().review({ files });
@@ -113,12 +116,12 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
     return () => {
       cancelled = true;
     };
-    // Reviewed once, when the Job ships.
+    // Reviewed once, when the project is ready to ship.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready, store]);
 
-  // The demo: the shipped program runs once on the client's device, with the inputs from the
-  // first check you could see. Python may be busy with the review, so it waits its turn.
+  // The demo: the learner's own program runs once, with the inputs from the first check they
+  // could see. Python may be busy with the review, so it waits its turn.
   useEffect(() => {
     if (!ready || !store || !step.shipsFrom || step.places) return;
     const fromStep = job.steps.find((s) => s.id === step.shipsFrom);
@@ -151,186 +154,56 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
     return () => {
       cancelled = true;
     };
-    // Runs once, when the job ships.
+    // Runs once, when the project is ready to ship.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready, store]);
-
-  // When the demo has run, the finished object flies up to the Shelf in the HUD (first time only).
-  useEffect(() => {
-    if (!demo?.done || !justShipped || !step.shelf || prefersReducedMotion()) return;
-    const target = document.getElementById("hud-shelf")?.getBoundingClientRect();
-    const from = screen.current?.getBoundingClientRect();
-    if (!target || !from) return;
-    const x = from.left + from.width / 2 - 24;
-    const y = from.top + from.height / 2 - 24;
-    setFly({ x, y, dx: target.left + target.width / 2 - 24 - x, dy: target.top + target.height / 2 - 24 - y });
-    const t = setTimeout(() => setFly(null), 900);
-    return () => clearTimeout(t);
-  }, [demo?.done, justShipped, step.shelf]);
 
   useEffect(() => {
     const el = screen.current;
     if (el) el.scrollTop = el.scrollHeight;
   }, [demo]);
 
-  useEffect(() => {
-    void loadIndex().then((i) => {
-      setHasClientSprite(Boolean(i.sprites[characters[job.client]?.sprite ?? job.client]));
-      setScenes(new Set(Object.keys(i.scenes)));
-    });
-  }, [characters, job.client]);
-
-  const clientName = characters[job.client]?.name ?? job.client;
-  const actors: Actor[] = [
-    { key: "moss", sprite: "moss", anim: "nod", at: "moss" },
-    { key: "learner", learner: profile.character ?? defaultLook(), pose: "sit", anim: "sit", at: "learner" },
-    { key: "dennis", sprite: "dennis", anim: "idle", at: "dennis" },
-  ];
-  if (job.client !== "moss" && hasClientSprite) actors.push({ key: "client", sprite: characters[job.client]!.sprite, anim: "happy", at: "client", flip: true });
-  const scene = sceneFor(job.scene, night, scenes ?? new Set());
-  if (scene.startsWith("workshop")) actors.push(...workshopExtras(earned, scene));
-  const waiting = actors.map((a) => (a.key === "moss" || a.key === "client" ? { ...a, anim: "idle" } : a));
-
-  if (!ready) {
-    return (
-      <>
-        <Ticket>
-          <h2 className={styles.heading}>
-            <span className={styles.thisStep}>This step:</span> ship it, not yet
-          </h2>
-          <div className="prose">
-            <p>
-              {waitingFor.length > 1
-                ? `This ships when all its tasks pass. ${waitingFor.length} still to go.`
-                : `The job ships when the ${from?.title ?? "Make step"} passes its checks.`}
-            </p>
-          </div>
-          {from ? (
-            <div className={styles.next}>
-              <Button variant="primary" onClick={() => goTo(from.id)}>
-                Go to {from.title}
-              </Button>
-            </div>
-          ) : null}
-        </Ticket>
-        <div className={areas.stage}>
-          <div className={cs.stage}>
-            <div className={cs.shipStage}>
-              <SceneCanvas scene={scene} actors={waiting} label={`${clientName} is waiting for the finished program.`} maxScale={3} />
-            </div>
-          </div>
-        </div>
-      </>
-    );
-  }
-
-  const onStretchCheck = async (task: StretchTask, report: CheckReport) => {
-    const ok = report.status === "ok" && report.results.filter((r) => !r.stretch).every((r) => r.passed);
-    if (!ok || !store) return;
-    const done = [...new Set([...(jobProgress?.stretchDone ?? []), task.id])];
-    await updateJob(store, job.id, { stretchDone: done, status: "shipped-stretch" });
+  const downloadProject = async () => {
+    if (!store || !from || !("entry" in from)) return;
+    const rows = await store.prefixed("code_files", `${job.id}/${from.id}/`);
+    const code: Files = Object.fromEntries(rows.map((r) => [r.filename, r.content]));
+    const ask = job.steps.find((s) => s.type === "ask");
+    const item = {
+      jobId: job.id,
+      title: job.title,
+      actNumber: job.actNumber,
+      actTitle,
+      actId: job.act,
+      number: job.number,
+      client: clientName,
+      building: "",
+      shelf: step.shelf ?? { object: "", label: job.title },
+      shipsFrom: step.shipsFrom,
+      files: from.files,
+      entry: from.entry,
+      spec: ask?.type === "ask" ? plainText(ask.specHtml) : job.summary,
+      learned: job.conceptsIntroduced.map((c) => conceptTitles[c] ?? c),
+      data: job.data,
+      portfolioReadme: job.portfolioReadme,
+    };
+    const files = withWorkshopStub({ ...job.data, ...code, "README.md": readme(item, jobProgress?.shippedAt ?? Date.now(), profile.displayName) });
+    download(`${job.id}.zip`, zip(files), "application/zip");
   };
 
-  return (
-    <>
-      <Ticket stamp={step.places ? "PLACED" : shipped ? (jobProgress?.status === "shipped-stretch" ? "SHIPPED+" : "SHIPPED") : null} thud={justShipped}>
-        <h2 className={styles.heading}>
-          <span className={styles.thisStep}>This step:</span> {step.places ? "placed" : shipped ? "shipped" : "shipping"}
-        </h2>
-        <div className="prose">
-          {step.places ? (
-            <p>
-              You&apos;re placed past {step.places.actTitle}. The next Act is open on the map. Its Jobs stay open if you want them, and its ideas join your review deck, so Morning Rounds will still check you remember them.
-            </p>
-          ) : (
-            <p>
-              {job.client === "moss" ? "Moss has it now." : `${clientName} has it now.`}
-              {step.shelf ? <> It&apos;s on your Shelf: {step.shelf.label.toLowerCase()}.</> : null}
-            </p>
-          )}
-        </div>
-        {step.awards.includes("name-plate") ? (
-          <p className={styles.cards}>Moss screws a brass plate to the edge of your desk. It has your name on it, spelt right.</p>
-        ) : null}
-        {step.awards.includes("keeper-coat") ? (
-          <p className={styles.cards}>
-            Old Tom hands you a lighthouse keeper&apos;s coat, brass buttons and all. It&apos;s yours to wear: <Link href="/settings">Settings</Link>, under your character.
-          </p>
-        ) : null}
-        {step.cards.length ? (
-          <p className={styles.cards}>New in your review deck: {step.cards.map((c) => conceptTitles[c] ?? c).join(", ")}. They come up from tomorrow.</p>
-        ) : null}
-        {review ? (
-          <section className={styles.block} style={{ marginTop: 24 }} aria-labelledby="review-title">
-            <h3 id="review-title" className={styles.sub}>
-              Moss&apos;s review
-            </h3>
-            {review.notes.length === 0 ? (
-              <p className={styles.cards}>Moss reads it through twice and hands it back. Nothing to say, which is the review.</p>
-            ) : (
-              <>
-                <ul className={styles.tasks}>
-                  {review.notes.map((n) => (
-                    <li key={n.rule} className={styles.task}>
-                      <p className={styles.visibleName}>
-                        {n.title}{" "}
-                        <span className={styles.reviewWhere}>
-                          {n.file}, line {n.line}
-                          {n.count > 1 ? `, and ${n.count - 1} more like it` : ""}
-                        </span>
-                      </p>
-                      <p>
-                        {n.message.split("`").map((part, i) => (i % 2 ? <code key={i}>{part}</code> : part))}
-                      </p>
-                    </li>
-                  ))}
-                </ul>
-                <p className={styles.nextNote}>Style notes never stop a Job shipping. Tidy them now, or carry them into the next one.</p>
-              </>
-            )}
-          </section>
-        ) : null}
-        {job.stretch.length ? (
-          <section className={styles.block} style={{ marginTop: 24 }} aria-labelledby="stretch-title">
-            <h3 id="stretch-title" className={styles.sub}>
-              Stretch, if you want more
-            </h3>
-            <ul className={styles.tasks}>
-              {job.stretch.map((t) => (
-                <li key={t.id} className={styles.task}>
-                  <p className={styles.visibleName}>
-                    {t.title} {stretchDone.has(t.id) ? <span className={styles.done}><PassIcon /> Done</span> : null}
-                  </p>
-                  <div className="prose" dangerouslySetInnerHTML={{ __html: t.promptHtml }} />
-                  <div>
-                    <Button size="sm" variant={stretch?.id === t.id ? "primary" : "secondary"} onClick={() => setStretch(t)}>
-                      {stretch?.id === t.id ? "Working on it" : "Try it"}
-                    </Button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ) : null}
-        <div className={styles.next}>
-          {landing || guest ? (
-            <LinkButton variant="primary" href="/signup?keep=1">
-              Keep this: make an account
-            </LinkButton>
-          ) : (
-            <LinkButton variant="primary" href="/map">
-              Back to the map
-            </LinkButton>
-          )}
-          {!landing && !guest && step.shelf ? (
-            <Link href="/shelf" className={styles.nextNote}>
-              See it on your Shelf
-            </Link>
-          ) : null}
-        </div>
-      </Ticket>
-      <div className={areas.stage}>
-        {stretch ? (
+  if (stretch) {
+    return (
+      <>
+        <Instructions
+          step={step}
+          title={stretch.title}
+          html={stretch.promptHtml}
+          footer={
+            <Button variant="ghost" icon="caretLeft" onClick={() => setStretch(null)}>
+              Back to the ship
+            </Button>
+          }
+        />
+        <div className={areas.stage}>
           <CodeWorkspace
             key={stretch.id}
             stepId={`stretch-${stretch.id}`}
@@ -341,39 +214,217 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
             checkKey={stretch.hasTests ? `${job.id}/stretch-${stretch.id}` : null}
             onCheck={(r) => void onStretchCheck(stretch, r)}
           />
+        </div>
+      </>
+    );
+  }
+
+  async function onStretchCheck(task: StretchTask, report: CheckReport) {
+    const ok = report.status === "ok" && report.results.filter((r) => !r.stretch).every((r) => r.passed);
+    if (!ok || !store) return;
+    const doneTasks = [...new Set([...(jobProgress?.stretchDone ?? []), task.id])];
+    await updateJob(store, job.id, { stretchDone: doneTasks, status: "shipped-stretch" });
+  }
+
+  if (!ready) {
+    return (
+      <div className={areas.full}>
+        <div className={[styles.ship, styles.waiting].join(" ")}>
+          <Figure who={client} name={clientName} height={360} className={styles.figure} caption={`${clientName}, waiting for the finished program`} />
+          <div className={styles.side}>
+            <header className={styles.head}>
+              <p className={styles.kicker}>Not shipped yet</p>
+              <h1 className={styles.title}>{clientName} is waiting for it</h1>
+            </header>
+            {waitingLine ? (
+              <SpeechBubble who={client} name={clientName} tail="left" className={styles.bubble}>
+                <p>{waitingLine}</p>
+              </SpeechBubble>
+            ) : null}
+            <p className={styles.lede}>{waitingFor.length > 1 ? `This ships when all its tasks pass. ${waitingFor.length} still to go.` : `It ships when ${from?.title ?? "the Build step"} passes its checks.`}</p>
+            {from ? (
+              <div className={styles.actions}>
+                <Button variant="primary" icon="next" onClick={() => goTo(from.id)}>
+                  Go to {from.title}
+                </Button>
+              </div>
+            ) : null}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const stampText = step.places ? "Placed" : shipped ? "Shipped" : null;
+
+  return (
+    <div className={areas.full}>
+      <div className={styles.ship}>
+        {step.places ? (
+          <Figure who={PROFESSOR} name={paul} height={360} className={styles.figure} />
         ) : (
-          <div className={cs.stage}>
-            <div className={cs.shipStage}>
-              <SceneCanvas scene={scene} actors={actors} label={`${clientName} with the finished program. Moss nods.`} maxScale={3} />
-              {step.places ? null : (
-                <div className={cs.device}>
-                  <p className={cs.deviceTitle} style={{ background: castColour(job.client).face, color: castColour(job.client).ink }}>
-                    {deviceName(clientName, job.client)}
-                  </p>
-                  <div className="frame-panel">
-                    <pre ref={screen} className={cs.screen} aria-label={`Your program running on ${deviceName(clientName, job.client)}`}>
-                      {demo
-                        ? demo.text.map((p, i) => (
-                            <span key={i} className={p.kind === "input" ? cs.typed : undefined}>
-                              {p.text}
-                            </span>
-                          ))
-                        : "Starting up."}
-                    </pre>
-                    {demo?.failed ? <p className={cs.screenNote}>It tripped on the demo run. The checks passed, so this is a case they don&apos;t cover: worth a look.</p> : null}
-                  </div>
-                </div>
-              )}
-              {gateActs && plan && !plan.access.pro && !landing ? <ProGate acts={gateActs} /> : null}
+          <div className={styles.demo}>
+            <p className={styles.deviceLabel}>
+              {job.title} on {clientName}&apos;s phone
+            </p>
+            <div className={`code-dark ${styles.phone}`}>
+              <div className={styles.phoneBar} aria-hidden="true">
+                <span className={styles.phoneDot} />
+                <span>{job.title}</span>
+              </div>
+              <pre ref={screen} className={styles.screen} aria-label={`Your program running: ${job.title}`} tabIndex={0}>
+                {demo
+                  ? demo.text.map((p, i) => (
+                      <span key={i} className={p.kind === "input" ? styles.typed : p.kind === "err" ? styles.err : undefined}>
+                        {p.text}
+                      </span>
+                    ))
+                  : "Starting up."}
+              </pre>
             </div>
+            {demo?.failed ? <p className={styles.small}>It tripped on the demo run. The checks passed, so this is a case they don&apos;t cover: worth a look.</p> : null}
           </div>
         )}
+        <div className={styles.side}>
+          <header className={styles.head}>
+            <p className={styles.kicker}>{step.places ? `Placed past ${step.places.actTitle}` : `For ${clientName}`}</p>
+            <h1 className={styles.title}>{step.places ? "You're placed" : shipped ? `${job.title}, shipped` : "Ready to ship"}</h1>
+          </header>
+          <div className={styles.reaction}>
+            {step.places ? null : <Figure who={client} name={clientName} height={220} className={styles.smallFigure} caption={`${clientName}, pleased with it`} />}
+            {stampText ? (
+              <p className={[styles.stamp, stamping ? styles.thud : ""].join(" ")} role="status">
+                <Icon name="check" size={22} />
+                {stampText}
+              </p>
+            ) : null}
+          </div>
+          {reaction.length && !step.places ? (
+            <div className={styles.bubbles}>
+              {reaction.slice(0, 2).map((u) => (
+                <SpeechBubble key={u.id} who={u.who} name={nameOf(u.who)} tail="left" className={styles.bubble}>
+                  {u.lines.map((l, i) => (
+                    <p key={i}>{l}</p>
+                  ))}
+                </SpeechBubble>
+              ))}
+            </div>
+          ) : null}
+          {step.places ? (
+            <p className={styles.lede}>The next Act is open in the Clocktower. These projects stay open if you want them, and their ideas join your review deck, so Morning Rounds will still check you remember them.</p>
+          ) : null}
+          <div className={styles.actions}>
+            {step.places ? (
+              <LinkButton href="/map" variant="primary" icon="map">
+                Back to the Clocktower
+              </LinkButton>
+            ) : !shipped ? (
+              <Button variant="primary" icon="shelf" onClick={() => void addToShelf()} disabled={busy}>
+                Add to my Shelf
+              </Button>
+            ) : landing ? (
+              <LinkButton href="/signup?keep=1" variant="primary">
+                Keep it: make an account
+              </LinkButton>
+            ) : nextJob ? (
+              <LinkButton href={`/job/${nextJob.id}`} variant="primary" icon="next">
+                Next project: {nextJob.title}
+              </LinkButton>
+            ) : (
+              <LinkButton href="/map" variant="primary" icon="map">
+                Back to the Clocktower
+              </LinkButton>
+            )}
+            {step.places ? null : (
+              <Button variant="secondary" icon="download" onClick={() => void downloadProject()}>
+                Download the project
+              </Button>
+            )}
+          </div>
+          {shipped && !step.places && !landing ? (
+            <p className={styles.small}>
+              {guest ? (
+                <>
+                  It&apos;s on this device&apos;s Shelf. <a href="/signup?keep=1">Make an account</a> to keep it everywhere.
+                </>
+              ) : (
+                <>
+                  {step.shelf ? `On your Shelf: ${step.shelf.label}. ` : null}
+                  <a href="/shelf">Open the Shelf</a>
+                </>
+              )}
+            </p>
+          ) : null}
+        </div>
       </div>
-      {fly && step.shelf ? (
-        <div className={cs.flyer} style={{ left: fly.x, top: fly.y, ["--dx" as string]: `${fly.dx}px`, ["--dy" as string]: `${fly.dy}px` }} aria-hidden="true">
-          <SpriteFrame sprite={`shelf-${step.shelf.object}`} scale={3} />
+
+      {gateActs && plan && !plan.access.pro && !landing && shipped ? (
+        <div className={styles.more}>
+          <ProGate acts={gateActs} />
         </div>
       ) : null}
-    </>
+
+      {review || step.cards.length || job.stretch.length || step.awards.length ? (
+        <div className={styles.more}>
+          {step.cards.length ? <p className={styles.small}>New in your review deck: {step.cards.map((c) => conceptTitles[c] ?? c).join(", ")}. They come up from tomorrow.</p> : null}
+          {step.awards.length ? <p className={styles.small}>You earned something for your avatar. It&apos;s in Settings.</p> : null}
+          {review ? (
+            <section className={styles.section} aria-labelledby="review-title">
+              <h2 id="review-title" className={styles.sectionTitle}>
+                {paul}&apos;s review
+              </h2>
+              {review.notes.length === 0 ? (
+                <p className={styles.small}>{paul} reads it through twice and hands it back. Nothing to say, which is the review.</p>
+              ) : (
+                <>
+                  <ul className={styles.notes}>
+                    {review.notes.map((n) => (
+                      <li key={n.rule} className={styles.note}>
+                        <p className={styles.noteTitle}>
+                          {n.title}
+                          <span className={styles.where}>
+                            {n.file}, line {n.line}
+                            {n.count > 1 ? `, and ${n.count - 1} more like it` : ""}
+                          </span>
+                        </p>
+                        <p>{n.message.split("`").map((part, i) => (i % 2 ? <code key={i}>{part}</code> : part))}</p>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className={styles.small}>Style notes never stop a project shipping. Tidy them now, or carry them into the next one.</p>
+                </>
+              )}
+            </section>
+          ) : null}
+          {job.stretch.length ? (
+            <section className={styles.section} aria-labelledby="stretch-title">
+              <h2 id="stretch-title" className={styles.sectionTitle}>
+                Stretch, if you want more
+              </h2>
+              <ul className={styles.notes}>
+                {job.stretch.map((t) => (
+                  <li key={t.id} className={styles.note}>
+                    <p className={styles.noteTitle}>
+                      {t.title}
+                      {stretchDone.has(t.id) ? (
+                        <span className={styles.doneTag}>
+                          <Icon name="check" size={16} /> Done
+                        </span>
+                      ) : null}
+                    </p>
+                    <div className="prose" dangerouslySetInnerHTML={{ __html: t.promptHtml }} />
+                    <div>
+                      <Button size="sm" variant="secondary" icon="code" onClick={() => setStretch(t)}>
+                        Try it
+                      </Button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+        </div>
+      ) : null}
+    </div>
   );
 }

@@ -2,7 +2,7 @@ id: interactive-charts
 title: "Interactive Charts"
 project_name: "Interactive Charts"
 status: outline
-client: priya
+client: caitlin
 building: weather-station
 estimated_minutes: 120
-summary: "The dashboard's charts made interactive with Plotly: hover for the exact reading, zoom into a decade, switch a line off from the key, and export the lot as one HTML page the parish council can open without Python."
+summary: "Caitlin's take on Aaesha's dashboard: the same charts made interactive with Plotly. Hover for the exact reading, zoom into a decade, switch a line off from the key, and export the lot as one HTML page anyone can open without Python."

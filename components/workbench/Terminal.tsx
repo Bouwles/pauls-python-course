@@ -9,7 +9,7 @@ export interface TermLine {
 }
 
 /** A small shell: type a command, press Enter. Up and Down walk back through history. */
-export function Terminal({ lines, onCommand, prompt = "workshop $" }: { lines: TermLine[]; onCommand: (cmd: string) => void; prompt?: string }) {
+export function Terminal({ lines, onCommand, prompt = "project $" }: { lines: TermLine[]; onCommand: (cmd: string) => void; prompt?: string }) {
   const [value, setValue] = useState("");
   const [cursor, setCursor] = useState<number | null>(null);
   const scroll = useRef<HTMLDivElement>(null);

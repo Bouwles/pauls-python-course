@@ -1,0 +1,328 @@
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-6);
+  padding: var(--s-8) var(--s-6) var(--s-10) var(--s-8);
+  min-height: 100%;
+}
+
+.wide {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: var(--s-12) var(--s-6) var(--s-16);
+}
+
+.wide .title {
+  font-size: var(--fs-6);
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s-3);
+}
+
+/* The most prominent text in the panel. */
+.title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: var(--tracking-display);
+  text-wrap: balance;
+  color: var(--text);
+}
+
+.fold,
+.close,
+.railButton {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  margin: -2px -8px 0 0;
+  border: 0;
+  border-radius: var(--r-md);
+  background: none;
+  color: var(--text-2);
+  transition:
+    background-color var(--dur) var(--ease-out),
+    color var(--dur) var(--ease-out);
+}
+
+.fold:hover,
+.close:hover,
+.railButton:hover {
+  background: var(--surface-3);
+  color: var(--text);
+}
+
+.prose {
+  font-size: var(--fs-3);
+  margin-top: calc(var(--s-2) * -1);
+}
+
+.prose :global(pre) {
+  font-size: 14px;
+}
+
+.coach:empty {
+  display: none;
+}
+
+.help {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+/* Hints and the duck open as cards in the panel, one step up from it. */
+.card {
+  display: grid;
+  gap: var(--s-4);
+  padding: var(--s-5);
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+  margin-top: calc(var(--s-2) * -1);
+}
+
+:root[data-theme="light"] .card {
+  background: var(--bg);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .card {
+    background: var(--bg);
+  }
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+}
+
+.cardTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-family: var(--font-display);
+  font-size: var(--fs-4);
+  font-weight: 700;
+}
+
+.close {
+  margin: -6px -8px -6px 0;
+}
+
+.work {
+  display: grid;
+  gap: var(--s-5);
+  min-width: 0;
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.footer:empty {
+  display: none;
+}
+
+.folds {
+  display: grid;
+  margin-top: auto;
+  border-top: 1px solid var(--line);
+}
+
+.fold2 {
+  border-bottom: 1px solid var(--line);
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: 48px;
+  padding: var(--s-2) 0;
+  font-size: var(--fs-2);
+  font-weight: 700;
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  border-radius: var(--r-md);
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.summary:hover {
+  color: var(--text);
+}
+
+.summary:hover .caret {
+  color: var(--text);
+}
+
+.caret {
+  color: var(--text-2);
+  transition: transform var(--dur) var(--ease-out);
+}
+
+.fold2[open] .caret {
+  transform: rotate(90deg);
+}
+
+.count {
+  margin-left: auto;
+  font-size: var(--fs-1);
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: var(--r-sm);
+  background: var(--surface-3);
+  color: var(--text-2);
+}
+
+.foldBody {
+  display: grid;
+  gap: var(--s-3);
+  padding: 0 0 var(--s-5);
+}
+
+.small {
+  font-size: var(--fs-2);
+  margin-top: 0;
+}
+
+.example {
+  margin: 0;
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--r-lg);
+  background: var(--editor);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.55;
+  overflow-x: auto;
+}
+
+.checks {
+  display: grid;
+  gap: var(--s-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.check {
+  display: grid;
+  gap: var(--s-2);
+}
+
+.checkName {
+  font-size: var(--fs-1);
+  font-weight: 700;
+  color: var(--text);
+}
+
+.stretch {
+  font-weight: 400;
+  color: var(--text-2);
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--s-2);
+  margin: 0;
+}
+
+.pair > div {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.pair dt {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-2);
+}
+
+.pair dd {
+  margin: 0;
+}
+
+.pair pre {
+  margin: 0;
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-md);
+  background: var(--editor);
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+:root[data-theme="light"] .pair pre {
+  background: var(--surface-3);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .pair pre {
+    background: var(--surface-3);
+  }
+}
+
+.hidden {
+  font-size: var(--fs-1);
+  color: var(--text-2);
+}
+
+/* Folded away: a 56 px rail with the title running up it. */
+.rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-4);
+  padding: var(--s-4) 0;
+  overflow: hidden;
+}
+
+.railButton {
+  margin: 0;
+}
+
+.railTitle {
+  writing-mode: vertical-rl;
+  font-family: var(--font-display);
+  font-size: var(--fs-3);
+  font-weight: 700;
+  color: var(--text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 60vh;
+}
+
+@container wb (max-width: 860px) {
+  .inner {
+    padding: var(--s-6) var(--s-4) var(--s-8);
+    gap: var(--s-5);
+  }
+
+  /* On a phone the coach comes first. */
+  .coach {
+    order: -1;
+  }
+
+  .title {
+    font-size: 26px;
+  }
+}

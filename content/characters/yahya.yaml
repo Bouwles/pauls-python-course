@@ -1,0 +1,43 @@
+id: yahya
+name: Yahya
+role: Classmate. Algorithms, speed and the Arcade; the Drills rival, on the third floor.
+colour: "#3B6FD8"
+floor: 4
+look: Short tight dark curls piled on top, shorter sides, light stubble. A black jacket over a heather-grey T-shirt. Cool, deadpan look; a rare, earned smile.
+voice: Competitive, quick, a good sport. Loves elegant solutions and hates slow code.
+pools:
+  # Reactive lines (REDESIGN-2.md 7.4). lib/cast.ts says which events are Yahya's.
+  nested-loop:
+    - "A loop inside a loop. That's n squared. Fine for twelve, slow for a million."
+    - "Nested loops. Neat. Just watch how big n gets."
+  one-left:
+    - "One check left. Read that one carefully."
+    - "One to go. That's usually the edge case."
+    - "Nearly. The last check is the one people skip."
+  drill-start:
+    - "Mine runs in 0.02 seconds. Yours?"
+    - "My time's on the board. Go."
+    - "Ready when you are. I've been ready for a while."
+  drill-beaten:
+    - "Faster than mine. Fair. Rematch tomorrow."
+    - "That's my time beaten. Good. Now I've got something to chase."
+    - "You beat me. Don't get used to it."
+  pass-first-try:
+    - "First try. Clean."
+    - "Passed first time. Now do it in fewer lines."
+    - "First go. That's a good time."
+  # When the learner fixes Yahya's version, or fixes it in fewer lines.
+  fixed-by-learner:
+    - "Oh. That's annoying. In a good way."
+    - "Huh. Fast and wrong is still wrong. Thanks."
+    - "So that was it. I was optimising the wrong thing."
+  shorter-than-mine:
+    - "Yours is shorter and it works. Respect."
+    - "Fewer lines than mine. I'm taking notes."
+  # Yahya is the client for the Unit Converter.
+  waiting:
+    - "No rush. Well. A bit of rush."
+    - "I'm timing you. Kidding. Mostly."
+  recap:
+    - "Where you left my {job}: {step}"
+    - "My {job}. Last place you were: {step}"

@@ -1,0 +1,178 @@
+/* The avatar creator: the placeholder preview on the left, the choices in tabs on the right. */
+.creator {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: var(--s-8);
+  align-items: start;
+}
+
+.preview {
+  display: grid;
+  justify-items: center;
+  gap: var(--s-3);
+  padding: var(--s-6) var(--s-5);
+  background: var(--surface-1);
+  border-radius: var(--r-lg);
+  text-align: center;
+  position: sticky;
+  top: calc(var(--header-h) + var(--s-4));
+}
+
+.description {
+  font-size: var(--fs-2);
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--text);
+  margin-top: var(--s-2);
+}
+
+.note {
+  font-size: var(--fs-1);
+  line-height: 1.45;
+  color: var(--text-2);
+}
+
+.choices {
+  display: grid;
+  gap: var(--s-5);
+  min-width: 0;
+}
+
+.tabs {
+  overflow-x: auto;
+}
+
+.panel {
+  display: grid;
+  gap: var(--s-6);
+}
+
+.panel[hidden] {
+  display: none;
+}
+
+.group {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  display: grid;
+  gap: var(--s-3);
+}
+
+.legend {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-2);
+  padding: 0;
+  margin-bottom: var(--s-3);
+  font-size: var(--fs-1);
+  font-weight: 700;
+  color: var(--text);
+}
+
+.current {
+  font-weight: 400;
+  color: var(--text-2);
+}
+
+.hint {
+  font-size: var(--fs-1);
+  color: var(--text-2);
+  max-width: 52ch;
+}
+
+/* Text options: 6 px corners, never pills. Selected is blue. */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 var(--s-3);
+  border-radius: var(--r-md);
+  background: var(--surface-3);
+  color: var(--text);
+  font-size: var(--fs-2);
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
+}
+
+.chip:hover {
+  border-color: var(--line);
+}
+
+.chip.on,
+.chip.on:hover {
+  background: var(--blue-wash);
+  border-color: var(--blue);
+  color: var(--blue-text);
+}
+
+.chip:focus-within,
+.swatch:focus-within {
+  outline: 2px solid var(--sun);
+  outline-offset: 2px;
+}
+
+/* Colour options: circles, the chosen one ringed. */
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.swatch {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.chipColour {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.swatch.on {
+  box-shadow: inset 0 0 0 2px var(--text);
+}
+
+.swatch:focus-within {
+  outline-offset: 0;
+}
+
+@media (max-width: 860px) {
+  .creator {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-5);
+  }
+
+  .preview {
+    position: static;
+    grid-template-columns: auto minmax(0, 1fr);
+    justify-items: start;
+    align-items: center;
+    text-align: left;
+    gap: var(--s-2) var(--s-4);
+    padding: var(--s-4);
+  }
+
+  .preview > :first-child {
+    grid-row: span 2;
+  }
+
+  .description {
+    margin-top: 0;
+  }
+}

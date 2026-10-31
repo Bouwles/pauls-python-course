@@ -20,22 +20,22 @@ import { python } from "@codemirror/lang-python";
 import { bracketMatching, indentOnInput, indentUnit, syntaxHighlighting } from "@codemirror/language";
 import { autocompletion, closeBrackets, closeBracketsKeymap, completionKeymap } from "@codemirror/autocomplete";
 import { searchKeymap } from "@codemirror/search";
-import { fixwickDay, fixwickHighlight, fixwickNight, resolvedTheme } from "@/lib/editor/theme";
+import { currentEditorTheme, ppcHighlight } from "@/lib/editor/theme";
 import styles from "./Editor.module.css";
 
-// The error line also gets a pixel "!" in its own gutter (REDESIGN.md 4.3).
+// The error line also gets a small warning mark in its own gutter: a filled circle with a "!".
 class ErrorMarker extends GutterMarker {
   toDOM() {
     const span = document.createElement("span");
     span.className = "cm-errorMark";
     span.setAttribute("aria-hidden", "true");
-    span.innerHTML = '<svg width="8" height="16" viewBox="0 0 4 8" shape-rendering="crispEdges"><path d="M1 0h2v5H1zM1 6h2v2H1z" fill="currentColor"/></svg>';
+    span.innerHTML = '<svg width="14" height="14" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="currentColor"/><path d="M8 4.2v4.6" stroke="var(--fail-ink)" stroke-width="1.8" stroke-linecap="round"/><circle cx="8" cy="11.4" r="1.1" fill="var(--fail-ink)"/></svg>';
     return span;
   }
 }
 const errorMarker = new ErrorMarker();
 
-// Line decorations for the error line and for a marked line (Dennis, the visualiser).
+// Line decorations for the error line and for a marked line (the duck, the visualiser).
 const setLines = StateEffect.define<{ error: number | null; mark: number | null }>();
 const lineField = StateField.define<DecorationSet>({
   create: () => Decoration.none,
@@ -127,8 +127,8 @@ export function Editor({ value, onChange, readOnly = false, onRun, onCheck, erro
       autocompletion({ activateOnTyping: true, icons: false }),
       highlightActiveLine(),
       python(),
-      syntaxHighlighting(fixwickHighlight),
-      themeSlot.current.of(resolvedTheme() === "day" ? fixwickDay : fixwickNight),
+      syntaxHighlighting(ppcHighlight),
+      themeSlot.current.of(currentEditorTheme()),
       lineField,
       runKeys,
       keymap.of([...closeBracketsKeymap, ...defaultKeymap, ...searchKeymap, ...historyKeymap, ...completionKeymap, indentWithTab]),
@@ -182,9 +182,9 @@ export function Editor({ value, onChange, readOnly = false, onRun, onCheck, erro
     view.current?.dispatch({ effects: setLines.of({ error: errorLine, mark: markLine }) });
   }, [errorLine, markLine, docKey]);
 
-  // Follow the page between night and day (the Settings switch, or the device when following it).
+  // Follow the page between dark and light (the Settings switch, or the device when following it).
   useEffect(() => {
-    const apply = () => view.current?.dispatch({ effects: themeSlot.current.reconfigure(resolvedTheme() === "day" ? fixwickDay : fixwickNight) });
+    const apply = () => view.current?.dispatch({ effects: themeSlot.current.reconfigure(currentEditorTheme()) });
     const observer = new MutationObserver(apply);
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
     const mq = window.matchMedia("(prefers-color-scheme: light)");

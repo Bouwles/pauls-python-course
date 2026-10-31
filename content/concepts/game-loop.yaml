@@ -11,7 +11,7 @@ example: |
           self.y += 4                     # pixels per frame
 
       def draw(self):
-          return f"mackerel at {self.y}"  # reads the state, never changes it
+          return f"apple at {self.y}"     # reads the state, never changes it
 
 
   fall = Fall()
@@ -22,7 +22,7 @@ misconceptions: [speed-is-per-second, touching-edges-overlap, drawing-changes-st
 related: [while-loops, classes, methods, edge-cases]
 cards:
   - type: predict
-    prompt: "A mackerel falls 3 pixels a frame from the top. What does this print?"
+    prompt: "An apple falls 3 pixels a frame from the top. What does this print?"
     code: |
       y = 0
       frames = 0
@@ -32,7 +32,7 @@ cards:
       print(frames, y)
     answer: "4 12"
   - type: choice
-    prompt: "The game runs at 60 frames a second, and things fall 4 pixels a frame. How far does a mackerel fall in two seconds?"
+    prompt: "The game runs at 60 frames a second, and things fall 4 pixels a frame. How far does an apple fall in two seconds?"
     code: |
       FPS = 60
       FALL_SPEED = 4      # pixels per frame
@@ -45,7 +45,7 @@ cards:
         misconception: speed-is-per-second
         feedback: "That treats 4 as pixels per second. The loop adds it once a frame, and there are 120 frames in two seconds."
   - type: choice
-    prompt: "A mackerel's right edge touches the bucket's left edge exactly. Is it caught?"
+    prompt: "An apple's right edge touches the bucket's left edge exactly. Is it caught?"
     code: |
       def overlaps(a, b):
           ax, ay, aw, ah = a
@@ -53,18 +53,18 @@ cards:
           return ax < bx + bw and ax + aw > bx and ay < by + bh and ay + ah > by
 
 
-      mackerel = (184, 600, 24, 24)
+      apple = (184, 600, 24, 24)
       bucket = (208, 600, 64, 24)
-      print(overlaps(mackerel, bucket))
+      print(overlaps(apple, bucket))
     options:
       - text: "False"
         correct: true
-        feedback: "The mackerel ends at 184 + 24 = 208, exactly where the bucket begins. With strict `<` and `>`, edges that only touch share no pixels, so it isn't a catch."
+        feedback: "The apple ends at 184 + 24 = 208, exactly where the bucket begins. With strict `<` and `>`, edges that only touch share no pixels, so it isn't a catch."
       - text: "True"
         misconception: touching-edges-overlap
-        feedback: "Touching isn't overlapping. The mackerel covers pixels 184 to 207 and the bucket starts at 208; not one pixel is shared."
+        feedback: "Touching isn't overlapping. The apple covers pixels 184 to 207 and the bucket starts at 208; not one pixel is shared."
   - type: fix
-    prompt: "Pip moves the bucket while drawing it, so it only moves when it's drawn. Move the change into `update`, so three updates move it 6 and drawing changes nothing."
+    prompt: "Caitlin moves the bucket while drawing it, so it only moves when it's drawn. Move the change into `update`, so three updates move it 6 and drawing changes nothing."
     code: |
       class Game:
           def __init__(self):
@@ -146,7 +146,7 @@ cards:
               raise CheckFailed("The bucket stops at 0 and at 416.")
 
 
-      TESTS = [custom("One step right", moved), custom("Never off the pier", ends)]
+      TESTS = [custom("One step right", moved), custom("Never off the screen", ends)]
     solution: |
       def step(state, direction):
           new_x = min(max(state["bucket_x"] + direction * 8, 0), 416)

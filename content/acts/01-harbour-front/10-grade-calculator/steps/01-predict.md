@@ -7,25 +7,25 @@ code: |
   def ring_bell():
       print("Ding")
 
-  print("Last orders")
+  print("End of class")
   ring_bell()
   ring_bell()
 question: What does this print?
 options:
   - text: |-
-      Last orders
+      End of class
       Ding
       Ding
     correct: true
     feedback: "Right. The `def` only teaches Python what `ring_bell` means. The bell rings when it's called, once per call."
   - text: |-
       Ding
-      Last orders
+      End of class
       Ding
       Ding
     misconception: def-runs-body
     feedback: "The lines under `def` don't run when Python reads them. They wait until the function is called."
-  - text: Last orders
+  - text: End of class
     misconception: call-needs-print
     feedback: "`ring_bell()` on its own line runs the function, and the function does its own printing. No `print` needed around it."
 after: |

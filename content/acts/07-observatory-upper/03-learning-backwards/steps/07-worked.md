@@ -3,8 +3,8 @@ id: worked
 type: worked
 title: Blame, on paper
 dialogue:
-  - wendt: "This much was still on the blackboard. One input, two weights, one answer."
-  - wendt: "We want to know how the loss changes when each weight changes. Then we know which way to turn it."
+  - neil: "This much is still on my blackboard. One input, two weights, one answer."
+  - neil: "We want to know how the loss changes when each weight changes. Then we know which way to turn it."
 language: text
 code: |
   The chain:  x -> h = w1 * x -> a = relu(h) -> y = w2 * a -> L = (y - t) ** 2

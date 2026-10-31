@@ -70,7 +70,7 @@ cards:
       counts = [30, 8, 0, 12]
       tags = ["low" if count < 10 else "ok" for count in counts]
   - type: choice
-    prompt: "Sanjay's cousin wrote this. Should it stay a comprehension?"
+    prompt: "Yahya wrote this in one line. Should it stay a comprehension?"
     code: |
       tags = [n.upper() + (" LOW" if c < 5 else " OK" if c < 20 else "") for n, p, c in stock if p > 0 and c > 0]
     verify: none

@@ -1,32 +1,32 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "Sir Reginald's bait, done the new way. One tile, three buckets, no estimates."
-  - moss: "Preferences, chances, and a nudge after every run."
+  - paul: "The prize shelf, done the new way. One choice, three prizes, no estimates."
+  - paul: "Preferences, chances, and a nudge after every game."
 code: |
   import numpy as np
 
-  BUCKETS = ["sprats", "mussels", "whelks"]
-  GOOD_RUN = [0.30, 0.55, 0.70]        # the sea knows these; the crab doesn't
+  PRIZES = ["a keyring", "a sticker", "a cuddly crab"]
+  COMES_BACK = [0.30, 0.55, 0.70]      # the players know these; the shelf doesn't
 
   rng = np.random.default_rng(1)
   prefs = np.zeros(3)                  # preferences, not estimates
   average = 0.0                        # the baseline: the average reward so far
 
-  for run in range(1, 1001):
+  for game in range(1, 1001):
       chances = np.exp(prefs - prefs.max())
       chances = chances / chances.sum()
-      bucket = rng.choice(3, p=chances)
-      reward = 1 if rng.random() < GOOD_RUN[bucket] else 0
-      average += (reward - average) / run
-      prefs += 0.1 * (reward - average) * (np.eye(3)[bucket] - chances)
+      prize = rng.choice(3, p=chances)
+      reward = 1 if rng.random() < COMES_BACK[prize] else 0
+      average += (reward - average) / game
+      prefs += 0.1 * (reward - average) * (np.eye(3)[prize] - chances)
 
-  for name, chance in zip(BUCKETS, chances):
+  for name, chance in zip(PRIZES, chances):
       print(f"{name}: {chance:.2f}")
 subgoals:
-  - label: What the sea knows
+  - label: What the players know
     lines: [3, 4]
   - label: Start with no preference, and a baseline
     lines: [6, 8]
@@ -41,10 +41,10 @@ subgoals:
   - label: Report the chances
     lines: [18, 19]
 explain:
-  prompt: "Line 16 multiplies by `np.eye(3)[bucket] - chances`. Why not just add to the chosen bucket's preference?"
-  answer: "That's the gradient of the log of the chosen bucket's chance. It raises the chosen bucket and lowers every bucket in proportion to how likely it already was. Without the minus part, a bucket picked often would be pushed often just for being picked. With it, each bucket moves, on average, by how much better than average it really is."
+  prompt: "Line 16 multiplies by `np.eye(3)[prize] - chances`. Why not just add to the chosen prize's preference?"
+  answer: "That's the gradient of the log of the chosen prize's chance. It raises the chosen prize and lowers every prize in proportion to how likely it already was. Without the minus part, a prize picked often would be pushed often just for being picked. With it, each prize moves, on average, by how much better than average it really is."
   concept: policy-gradients
 ---
 Subtracting the biggest preference before `exp` changes nothing about the chances, and stops `exp` overflowing when preferences grow large.
 
-Run it. Sir Reginald ends up taking whelks nearly every time, without ever estimating what a bucket is worth.
+Run it. The shelf ends up offering the cuddly crab nearly every time, without ever estimating what a prize is worth.

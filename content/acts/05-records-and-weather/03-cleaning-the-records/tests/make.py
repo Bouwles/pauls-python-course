@@ -1,12 +1,12 @@
 COLUMNS = ["name", "joined", "age", "parish", "launches"]
 
 SMALL = """name,joined,age,parish,launches
-Jory Pascoe,1931-05-04,24,Harbour,12
- jory pascoe,04/05/1931,24,harbour ,12
+Jory Pascoe,1931-05-04,24,Bankside,12
+ jory pascoe,04/05/1931,24,bankside ,12
 Wenna Kitto,07/08/1962,unknown,HILL,none
-Tom Kitto ,9 Feb 1999,,Marsh,3
-Tom Kitto,9 Feb 1999,,marsh,3
-Ann Hollis,sometime in 1950,350,High Street,40
+Sam Kitto ,9 Feb 1999,,Northgate,3
+Sam Kitto,9 Feb 1999,,northgate,3
+Ann Rowe,sometime in 1950,350,Church Street,40
 """
 
 
@@ -37,7 +37,7 @@ def is_date(value, year, month, day):
     return not pd.isna(value) and (value.year, value.month, value.day) == (year, month, day)
 
 
-def ashbys_register(ctx):
+def the_register(ctx):
     import pandas as pd
 
     crew = cleaned(ctx)
@@ -75,8 +75,8 @@ def unreadable(ctx):
 def tidy_text(ctx):
     crew = cleaned(ctx)
     parishes = set(crew["parish"])
-    if parishes != {"Harbour", "High Street", "Hill", "Marsh"}:
-        raise CheckFailed("The parish column should hold just four names.", expected="Harbour, High Street, Hill, Marsh",
+    if parishes != {"Bankside", "Church Street", "Hill", "Northgate"}:
+        raise CheckFailed("The parish column should hold just four names.", expected="Bankside, Church Street, Hill, Northgate",
                           actual=", ".join(sorted(map(repr, parishes))))
     untidy = [name for name in crew["name"] if name != name.strip().title()]
     if untidy:
@@ -137,10 +137,10 @@ def smaller(ctx):
 
     crew = cleaned(ctx, SMALL).sort_values("name").reset_index(drop=True)
     names = crew["name"].tolist()
-    if names != ["Ann Hollis", "Jory Pascoe", "Tom Kitto", "Wenna Kitto"]:
+    if names != ["Ann Rowe", "Jory Pascoe", "Sam Kitto", "Wenna Kitto"]:
         raise CheckFailed("A smaller register of six rows should clean down to four crew.",
-                          expected="['Ann Hollis', 'Jory Pascoe', 'Tom Kitto', 'Wenna Kitto']", actual=repr(names))
-    if crew["parish"].tolist() != ["High Street", "Harbour", "Marsh", "Hill"]:
+                          expected="['Ann Rowe', 'Jory Pascoe', 'Sam Kitto', 'Wenna Kitto']", actual=repr(names))
+    if crew["parish"].tolist() != ["Church Street", "Bankside", "Northgate", "Hill"]:
         raise CheckFailed("The parishes in the smaller register aren't tidy.", actual=repr(crew["parish"].tolist()))
     got_ages = ["missing" if math.isnan(a) else a for a in crew["age"]]
     if got_ages != ["missing", 24.0, "missing", "missing"]:
@@ -158,7 +158,7 @@ def raw_untouched(ctx):
     before = raw.copy()
     ctx.module().clean_register(raw)
     if not raw.equals(before):
-        raise CheckFailed("clean_register changed the raw table it was given. Mr Ashby never writes on an original.")
+        raise CheckFailed("clean_register changed the raw table it was given. Aaesha never writes on an original.")
 
 
 def step_on(ctx, name, table):
@@ -212,7 +212,7 @@ def step_impossible(ctx):
     import numpy as np
     import pandas as pd
 
-    table = pd.DataFrame({"name": ["Samuel Vosper", "Walter Kerrow", "Ann Hollis"], "age": [412.0, 19.0, np.nan]})
+    table = pd.DataFrame({"name": ["Samuel Vosper", "Walter Kerrow", "Ann Rowe"], "age": [412.0, 19.0, np.nan]})
     result = step_on(ctx, "drop_impossible", table)
     ages = ["missing" if math.isnan(a) else a for a in result["age"]]
     if ages != ["missing", 19.0, "missing"]:
@@ -222,18 +222,18 @@ def step_impossible(ctx):
 def step_duplicates(ctx):
     import pandas as pd
 
-    table = pd.DataFrame({"name": ["Tom Kitto", "Ann Hollis", "Tom Kitto"], "launches": [3, 40, 3]})
+    table = pd.DataFrame({"name": ["Sam Kitto", "Ann Rowe", "Sam Kitto"], "launches": [3, 40, 3]})
     result = step_on(ctx, "drop_duplicates", table)
-    if result["name"].tolist() != ["Tom Kitto", "Ann Hollis"] or not result.index.equals(pd.RangeIndex(2)):
+    if result["name"].tolist() != ["Sam Kitto", "Ann Rowe"] or not result.index.equals(pd.RangeIndex(2)):
         raise CheckFailed("drop_duplicates should keep each row once, labelled 0, 1, 2 again.",
-                          expected="Tom Kitto, Ann Hollis, labelled 0 and 1", actual=f"{result['name'].tolist()}, labelled {result.index.tolist()}")
+                          expected="Sam Kitto, Ann Rowe, labelled 0 and 1", actual=f"{result['name'].tolist()}, labelled {result.index.tolist()}")
 
 
 def runs_the_pipeline(ctx):
     module = ctx.module()
     expected = [module.tidy_text, module.read_dates, module.make_numbers, module.drop_impossible, module.drop_duplicates]
     if list(module.PIPELINE) != expected:
-        raise CheckFailed("PIPELINE should list the five steps in Moss's order.")
+        raise CheckFailed("PIPELINE should list the five steps in Paul's order.")
     calls = []
     originals = list(module.PIPELINE)
 
@@ -254,7 +254,7 @@ def runs_the_pipeline(ctx):
 
 
 TESTS = [
-    custom("Ashby's register: 128 crew, labelled from 0", ashbys_register, visible=True),
+    custom("The register: 128 crew, labelled from 0", the_register, visible=True),
     custom("Dates written all three ways", three_formats, visible=True,
            hint="Don't let pandas guess the format. Try each of DATE_FORMATS in turn, with errors=\"coerce\", and fill the gaps with fillna."),
     custom("A date nobody can read", unreadable,
@@ -267,7 +267,7 @@ TESTS = [
     custom("Each crew member once", each_once,
            hint="Drop duplicates after the cleaning. Before it, a stray space or a different date format makes two copies look different."),
     custom("A smaller register", smaller,
-           hint="Clean whatever register you're given. Nothing about Ashby's should be written in."),
+           hint="Clean whatever register you're given. Nothing about the Archive's should be written in."),
     custom("The raw register is left as it was", raw_untouched,
            hint="Start each step with clean = register.copy(), and change only the copy."),
     custom("Step one: tidy_text", step_tidy, hint="Strip and title-case name and parish, on a copy, and touch nothing else."),

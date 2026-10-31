@@ -1,3 +1,3 @@
-height = input("Tide height in metres? ")
-height = int(height)
-print("Height in centimetres:", height * 100)
+length = input("Shelf length in metres? ")
+length = int(length)
+print("Length in centimetres:", length * 100)

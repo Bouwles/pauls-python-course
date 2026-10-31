@@ -1,4 +1,4 @@
-# Pip's backward pass for Deep Q.
+# Riya's backward pass for Deep Q.
 
 import numpy as np
 

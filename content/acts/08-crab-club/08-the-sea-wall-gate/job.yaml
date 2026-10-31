@@ -4,9 +4,9 @@ project_name: "Tide Gate Controller"
 portfolio_readme: |
   # Tide Gate Controller
 
-  A controller for a harbour's tide gate, learned by trial and error. The gate is written as a real Gymnasium environment: every quarter of an hour it can be wound down, left or wound up, the river and the tide move the harbour level, and the episode ends if the boats go aground or the quay floods. A tabular Q-learning keeper learns to keep the harbour safe through four tides, and beats leaving the gate alone.
+  A controller for the tide gate in Tide Gate, Caitlin's arcade game, learned by trial and error. The game is written as a real Gymnasium environment: every quarter of an hour of game time the gate can be wound down, left or wound up, the river and the tide move the harbour level, and the episode ends if the boats go aground or the quay floods. A tabular Q-learning keeper learns to keep the harbour safe through four tides, and beats leaving the gate alone.
 
-  Written by {name} for the Arcade Committee, who keep the sea wall gate at {{town}}. Finished {date}.
+  Written by {name} for Caitlin, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -32,18 +32,19 @@ portfolio_readme: |
   - Testing an environment's rules and an agent's performance with pytest, on tides the keeper never trained on
 downloadable: true
 datasets: []
-client: committee
+client: caitlin
 building: sea-wall
 estimated_minutes: 120
-summary: "The tide gate as a Gymnasium environment, kept by a keeper that learned it: balancing a harbour between the mud and the quay, at home."
+summary: "Caitlin's Tide Gate game as a Gymnasium environment, kept by a keeper that learned it: a harbour balanced between the mud and the quay, at home."
 concepts_introduced: [gymnasium]
 concepts_reviewed: [q-learning, td-learning, exploration-exploitation, classes, init, self, numpy-arrays, pytest, virtual-environments]
 ask:
   dialogue:
-    - committee: "The sea wall gate. Shut it at high water and the river fills the harbour..."
-    - committee: "...open it at low water and the harbour drains onto the mud."
-    - committee: "Leave it alone and both happen, in turn, by teatime."
-    - moss: "A balancing job. Like a pole on a cart, only wetter."
+    - caitlin: "My new cabinet. Tide Gate. A little harbour, a sea wall and one gate."
+    - caitlin: "Shut it at high water and the river fills the harbour. Open it at low water and it drains."
+    - yahya: "Leave it alone and you last about eight hours of game time. I've tried."
+    - caitlin: "I want a keeper that plays it properly, and a table that says why it did what it did."
+    - paul: "A balancing job. Like a pole on a cart, only wetter."
   spec: |
     First, in the workshop: the racing grid in Gymnasium's shape, `reset` and `step`, as a plain class.
 
@@ -60,13 +61,12 @@ ask:
     20 passed in 16.75s
 ship:
   dialogue:
-    - committee: "Two hundred quarter hours. Four tides, springs and neaps, and not a wet boot."
-    - committee: "And when we ask it why it wound the gate down..."
-    - committee: "...there is a table we can read. Article nine is satisfied."
-    - moss: "The hill's machine does the same job. Nobody's ever asked it why."
-  shelf: { object: gate-wheel, label: "The sea wall gate, kept by a keeper you can question" }
+    - caitlin: "Two hundred quarter hours. Four tides, springs and neaps, and not a wet boot."
+    - yahya: "That's the high score on the cabinet. By a long way."
+    - aaesha: "And when it winds the gate down, there's a table that says why. I like that part."
+    - paul: "A keeper you can question. Hold on to that idea."
+  shelf: { object: gate-wheel, label: "Tide Gate, kept by a keeper you can question" }
   cards: [gymnasium]
-story_note: cannot-practise-on-a-harbour
 stretch:
   - id: storm-surge
     title: "Storm surge"
@@ -75,4 +75,4 @@ stretch:
   - id: wrapped
     title: "Registered, wrapped and timed"
     prompt: |
-      Register the gate with `gymnasium.register(id="{{town}}/TideGate-v0", entry_point="gate_env:TideGateEnv", max_episode_steps=200)`, make it with `gymnasium.make`, and take the time limit out of your own `step`. Gymnasium's `TimeLimit` wrapper now truncates for you. Do all twenty tests still pass?
+      Register the gate with `gymnasium.register(id="ppc/TideGate-v0", entry_point="gate_env:TideGateEnv", max_episode_steps=200)`, make it with `gymnasium.make`, and take the time limit out of your own `step`. Gymnasium's `TimeLimit` wrapper now truncates for you. Do all twenty tests still pass?

@@ -5,24 +5,42 @@
 
 .buttons {
   display: flex;
-  gap: var(--s-3);
+  gap: var(--s-2);
   flex-wrap: wrap;
 }
 
-/* Hint text is reading text: the reading face, not the pixel one. */
-.nudge {
-  font-family: var(--font-read);
-  font-size: var(--prose-size);
-  line-height: var(--lh-prose);
+.level {
+  display: grid;
+  gap: var(--s-2);
+  min-width: 0;
+}
+
+.text,
+.plan {
+  font-size: var(--fs-3);
+  line-height: var(--lh-text);
   max-width: var(--measure);
 }
 
 .plan {
   margin: 0;
-  padding-left: 1.4em;
-  font-family: var(--font-read);
-  font-size: var(--prose-size);
-  line-height: var(--lh-prose);
+  padding-left: 1.3em;
+  display: grid;
+  gap: var(--s-1);
+}
+
+.text code,
+.plan code {
+  font-size: 0.88em;
+  padding: 1px 5px;
+  border-radius: var(--r-sm);
+  background: var(--surface-3);
+}
+
+.note {
+  font-size: var(--fs-1);
+  color: var(--text-2);
+  line-height: 1.45;
   max-width: var(--measure);
 }
 
@@ -32,28 +50,7 @@
   justify-items: start;
 }
 
-.notYet,
-.solutionNote {
-  font-size: var(--step--1);
-  color: var(--text-2);
-  line-height: 1.45;
-  max-width: var(--measure);
-}
-
-.solution {
-  display: grid;
-  gap: var(--s-2);
-}
-
 .file {
   font-family: var(--font-code);
-  font-size: var(--step--1);
-}
-
-.nudge code,
-.plan code {
-  font-family: var(--font-code);
-  font-size: 0.9em;
-  padding: 1px 4px;
-  background: var(--night-1);
+  font-size: var(--fs-1);
 }

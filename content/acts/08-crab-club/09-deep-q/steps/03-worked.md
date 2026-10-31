@@ -1,10 +1,10 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "The practice corridor again. Five tiles, and he only goes left or right."
-  - moss: "A table, to keep the moving parts few. The two tricks are what matter."
+  - paul: "The practice corridor again. Five tiles, and the crab only goes left or right."
+  - paul: "A table, to keep the moving parts few. The two tricks are what matter."
 code: |
   import numpy as np
 
@@ -53,7 +53,7 @@ subgoals:
     lines: [3, 9]
   - label: Start knowing nothing, with a frozen copy and an empty memory
     lines: [12, 16]
-  - label: Explore less as he learns
+  - label: Explore less as it learns
     lines: [19, 25]
   - label: Remember every move
     lines: [26, 30]
@@ -66,10 +66,10 @@ subgoals:
   - label: Refresh the frozen copy now and then
     lines: [38, 39]
 explain:
-  prompt: "Why does Moss pick a batch at random from `memory`, instead of learning from the last eight moves in order?"
+  prompt: "Why does Paul pick a batch at random from `memory`, instead of learning from the last eight moves in order?"
   answer: "The last eight moves are nearly the same eight moves: one stretch of corridor, a few tiles. Learning from them in order drags the guesses towards whatever happened lately and lets the rest drift. A random batch mixes early and late, near and far, so each step learns a little about everything, and every memory gets used many times instead of once."
   concept: dqn
 ---
-The **replay buffer** is `memory`: every move, kept, the oldest dropped after 200. Each move, he learns from eight memories picked at random. The **frozen copy** is `frozen`: the targets come from it, and it only catches up every 20 moves, so the targets hold still in between.
+The **replay buffer** is `memory`: every move, kept, the oldest dropped after 200. Each move, the crab learns from eight memories picked at random. The **frozen copy** is `frozen`: the targets come from it, and it only catches up every 20 moves, so the targets hold still in between.
 
 With a table, line 36 is one gradient step on the squared gap. In your Make the same subgoals drive a network.

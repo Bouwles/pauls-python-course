@@ -63,12 +63,12 @@ cards:
   - type: write
     prompt: "Print `orders` with the biggest order first, using `sorted` with a `lambda` as the key."
     starter: |
-      orders = [("Bea", 4), ("Gwen", 11), ("Mira", 7)]
+      orders = [("Riya", 4), ("Caitlin", 11), ("Neil", 7)]
     tests: |
       TESTS = [
-          output("Biggest first", expect="[('Gwen', 11), ('Mira', 7), ('Bea', 4)]"),
+          output("Biggest first", expect="[('Caitlin', 11), ('Neil', 7), ('Riya', 4)]"),
           structure("Uses a lambda", requires=["Lambda"]),
       ]
     solution: |
-      orders = [("Bea", 4), ("Gwen", 11), ("Mira", 7)]
+      orders = [("Riya", 4), ("Caitlin", 11), ("Neil", 7)]
       print(sorted(orders, key=lambda order: order[1], reverse=True))

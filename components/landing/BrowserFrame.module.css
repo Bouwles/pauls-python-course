@@ -1,0 +1,90 @@
+/* A browser window, drawn plainly: a bar with three quiet dots and the address, then the page.
+   It floats over the landing page, so it takes the one floating shadow. */
+.frame {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--surface-1);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-float);
+  overflow: hidden;
+}
+
+:root[data-theme="light"] .frame {
+  border: 1px solid var(--line);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .frame {
+    border: 1px solid var(--line);
+  }
+}
+
+.bar {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) 56px;
+  align-items: center;
+  gap: var(--s-3);
+  height: 40px;
+  padding: 0 var(--s-4);
+  background: var(--surface-3);
+  flex: none;
+}
+
+.dots {
+  display: flex;
+  gap: 6px;
+}
+
+.dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--line);
+}
+
+.address {
+  justify-self: center;
+  max-width: 100%;
+  height: 26px;
+  padding: 0 var(--s-4);
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--r-md);
+  background: var(--bg);
+  color: var(--text-2);
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+:root[data-theme="light"] .address {
+  background: var(--surface-1);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .address {
+    background: var(--surface-1);
+  }
+}
+
+.view {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+}
+
+@media (max-width: 720px) {
+  .bar {
+    grid-template-columns: 40px minmax(0, 1fr) 0;
+    height: 36px;
+    padding: 0 var(--s-3);
+  }
+
+  .dots span {
+    width: 8px;
+    height: 8px;
+  }
+}

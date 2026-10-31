@@ -4,15 +4,15 @@ type: make
 title: The course
 files: [course.py]
 entry: course.py
-on_pass: { committee: "Two groynes, a gap in each, and always a way through. The stewards approve, grudgingly." }
+on_pass: { caitlin: "Two groynes, a gap in each, and always a way through. My generator, finally tested." }
 hints:
   nudge: "How can `generate` be random and still give the same course every time it's given the same seed?"
   plan:
     - "One rng from the seed, used for every choice, in the same order every time"
     - "Scatter rocks and pools, then the two groynes, then the start and the finish"
-    - "Search from the start, as in the Scrapyard; with no way through, draw again"
+    - "Search from the start, as in the Puzzle Room; with no way through, draw again"
     - "Course: read the layout once into rows, cols, start, finish, rocks and pools"
-    - "step: slip with the tile's chance, then move; -1, and whether he's on the finish"
+    - "step: slip with the tile's chance, then move; -1, and whether it's on the finish"
     - "Practice: count moves_left down, and raise OutOfPractice when it's spent"
   shape: |
     def generate(seed, rows=7, cols=9):

@@ -1,24 +1,24 @@
 id: placement-high-street
-title: "Placement: The High Street"
-project_name: "Placement: The High Street"
-client: moss
+title: "Placement: The Studio"
+project_name: "Placement: The Studio"
+client: paul
 building: workshop
 estimated_minutes: 35
-summary: "Three jobs for the shops: files, exceptions, comprehensions, modules, classes with dunder methods, and tests of your own."
+summary: "Three jobs from the class: files, exceptions, comprehensions, modules, classes with dunder methods, and tests of your own."
 placement_for: high-street
 concepts_introduced: []
 concepts_reviewed: [list-comprehensions, dict-set-comprehensions, conditional-comprehensions, files, with-statement, csv-module, exceptions, try-except, raising-errors, modules, imports, main-guard, classes, init, attributes, methods, self, dunder-methods, copying, assert, pytest, edge-cases]
 ask:
   dialogue:
-    - moss: "Show me what you know, then."
-    - moss: "Sanjay's stock, Dev and Kat's shed, and Mrs Vance's fines. In that order."
-    - moss: "The last one, you write the tests. I've broken her code six ways to check them."
+    - paul: "Show me what you know, then."
+    - paul: "Riya's stock list, Caitlin's bike hire, and Aaesha's library fines. In that order."
+    - paul: "The last one, you write the tests. Aaesha has broken the code six ways to check them."
   spec: |
-    Three Make tasks for the shops on the High Street. There are no hints: each task has its brief, two visible checks and a good many hidden ones.
+    Three Make tasks from the class. There are no hints: each task has its brief, two visible checks and a good many hidden ones.
 
-    Pass all three and the High Street is placed. The Pier opens, and Act II's ideas join your review deck.
+    Pass all three and Act II is placed. The Makerspace opens, and Act II's ideas join your review deck.
 ship:
   dialogue:
-    - moss: "Six broken copies, six caught. Mrs Vance wants them framed."
-    - moss: "Nell's expecting you at the scrapyard. Wear boots."
+    - paul: "Six broken copies, six caught. Aaesha wants them framed."
+    - paul: "Caitlin's expecting you in the Makerspace. Mind the soldering iron."
   cards: []

@@ -5,7 +5,7 @@ title: Scored honestly
 files: [diabetes.py, tools.py]
 entry: diabetes.py
 starter_from: make-model
-on_pass: { wendt: "Flag at one in ten and it finds three cases in four. For a free blood test, I'd take that." }
+on_pass: { riya: "Flag at one in ten and it finds three cases in four. For a free blood test, I'd take that." }
 hints:
   nudge: "Precision and recall share a numerator. What's on the bottom of each: the flags, or the real cases? And which pile chooses the screening threshold?"
   plan:
@@ -28,7 +28,7 @@ hints:
     def auc(fpr, tpr):
         return float(np.sum((fpr[1:] - fpr[:-1]) * (___ + ___) / 2))
 ---
-Add `confusion`, `precision`, `recall`, `f1`, `roc_curve`, `auc` and `threshold_for_recall` to `diabetes.py`, as Moss's fog horn and the last step did them, with 0.0 wherever there is nothing to divide by. Then score the test respondents:
+Add `confusion`, `precision`, `recall`, `f1`, `roc_curve`, `auc` and `threshold_for_recall` to `diabetes.py`, as Paul's rain alert and the last step did them, with 0.0 wherever there is nothing to divide by. Then score the test respondents:
 
 ```text
 At a threshold of 0.5, on 500 respondents it never saw:

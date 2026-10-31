@@ -4,7 +4,7 @@ type: investigate
 title: Steadier estimates
 concept: policy-gradients
 dialogue:
-  - pip: "A baseline of minus seven. Why so timid. Minus fifty. Bigger numbers, bigger learning."
+  - yahya: "A baseline of minus seven? Make it minus fifty. Bigger numbers, bigger steps, faster learning."
 code: |
   import numpy as np
 
@@ -37,7 +37,7 @@ tasks:
     feedback: "The baseline: a spread of 1.5 against 3.5. Races from the start are worth about -7, so return minus -7 is small, and so is each estimate. Both averages point the same way: up more likely, the rest less."
     wrong: "Compare the two spread numbers."
   - id: pips-baseline
-    prompt: "Do as Pip says: set `BASELINE = -50.0` and run it. Does the average of 2000 estimates still say up is the move to make more likely?"
+    prompt: "Do as Yahya says: set `BASELINE = -50.0` and run it. Does the average of 2000 estimates still say up is the move to make more likely?"
     kind: answer
     accept: ["no", "no it doesn't", "no, it doesn't", "it doesn't", "not any more", "no longer"]
     feedback: "No. Over endless races it would, since a baseline never changes the long-run average. But every return minus -50 is about +43, so each estimate is huge and points wherever this race happened to go: a spread of 18.5. Two thousand races aren't enough to see uphill. A baseline helps when it's close to what races from there are usually worth."

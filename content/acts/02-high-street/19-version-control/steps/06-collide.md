@@ -3,7 +3,7 @@ id: collide
 type: git
 title: When two changes collide
 dialogue:
-  - moss: "Two people, one line. Git won't guess who's right. That's your job."
+  - paul: "Two people, one line. Git won't guess who's right. That's your job."
 tasks:
   - id: setup
     prompt: "Fresh project: `git init`, `git add .`, first commit."
@@ -12,7 +12,7 @@ tasks:
     prompt: "Make a branch `prices` and switch to it. In `prices.py`, change `URGENT_EXTRA = 5` to `URGENT_EXTRA = 8`. Commit."
     check: [{ kind: branch-exists, name: prices }, { kind: commits, min: 2, branch: prices }]
   - id: main-change
-    prompt: "Switch back to `main`. Change the same line to `URGENT_EXTRA = 6` (Bea thinks 8 is too much). Commit that too."
+    prompt: "Switch back to `main`. Change the same line to `URGENT_EXTRA = 6` (Neil thinks 8 is too much). Commit that too."
     check: [{ kind: on-branch, name: main }, { kind: commits, min: 2, branch: main }]
   - id: merge
     prompt: "Now `git merge prices`. Read what git says, then open `prices.py`."

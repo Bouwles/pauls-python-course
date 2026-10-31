@@ -57,21 +57,21 @@ cards:
   - type: fill
     prompt: "Fill the gap so the repeats disappear."
     code: |
-      reported = ["oar", "kite", "oar"]
+      reported = ["hat", "kite", "hat"]
       unique = ___(reported)
       print(sorted(unique))
     blanks: [["set"]]
     tests: |
-      TESTS = [output("Kite and oar", expect="['kite', 'oar']")]
+      TESTS = [output("Hat and kite", expect="['hat', 'kite']")]
   - type: write
-    prompt: "Print how many different boats are in `sightings`, using a set."
+    prompt: "Print how many different birds are in `sightings`, using a set."
     starter: |
-      sightings = ["Gull", "Puffin", "Gull", "Tern", "Puffin"]
+      sightings = ["robin", "magpie", "robin", "wren", "magpie"]
     tests: |
       TESTS = [
-          output("Three boats", expect="3"),
+          output("Three birds", expect="3"),
           structure("Uses a set", calls=["set"]),
       ]
     solution: |
-      sightings = ["Gull", "Puffin", "Gull", "Tern", "Puffin"]
+      sightings = ["robin", "magpie", "robin", "wren", "magpie"]
       print(len(set(sightings)))

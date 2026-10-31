@@ -1,14 +1,14 @@
 ---
 id: make-stock
 type: make
-title: Sanjay's reorder list
+title: Riya's reorder list
 files: [stock.py, main.py]
 entry: main.py
 dialogue:
-  - sanjay: "The stock list got rained on. Some of it's fine. Some of it says plums cost nought point six oh."
-on_pass: { sanjay: "Beetroot, carrots, pears. And it skipped the smudges instead of ordering two damsons." }
+  - riya: "The market stall I'm helping wants a reorder list. Their stock file has typos. Plums cost nought point six oh."
+on_pass: { riya: "Beetroot, carrots, pears. And it skipped the typos instead of ordering two damsons." }
 ---
-Sanjay's stock list is `stock.csv`: a header, then one `item,price,count` line per item. Some lines are smudged.
+The stall's stock list is `stock.csv`: a header, then one `item,price,count` line per item. Some lines have typos.
 
 ```text
 item,price,count

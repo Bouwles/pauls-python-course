@@ -1,3 +1,3 @@
 TESTS = [
-    output("The header", expect="{{TOWN}} HARBOUR TIDES\nHigh and low water, north quay", visible=True),
+    output("The header", expect="THE STUDIO, FIRST FLOOR\nHelp with bugs, every weekday", visible=True),
 ]

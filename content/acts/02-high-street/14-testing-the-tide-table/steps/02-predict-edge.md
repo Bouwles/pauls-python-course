@@ -16,7 +16,7 @@ options:
       True
       False
     correct: true
-    feedback: "Right. `<` is true only for amounts below the balance, so Gwen can't take out the last of her own money. It works for every amount you'd think to try, and goes wrong exactly at the edge."
+    feedback: "Right. `<` is true only for amounts below the balance, so Caitlin can't take out the last of her own money. It works for every amount you'd think to try, and goes wrong exactly at the edge."
   - text: |-
       True
       True
@@ -29,4 +29,4 @@ options:
 ---
 An **edge case** is an input at the boundary of what a function handles: zero, empty, exactly on a limit. Most bugs live there, because it's where nobody looked.
 
-Gwen has £8 in her account, and wants all of it for the brewery.
+Caitlin has £8 in her trip account, and wants all of it out for the train fare.

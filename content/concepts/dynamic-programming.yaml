@@ -1,7 +1,7 @@
 id: dynamic-programming
 title: Dynamic programming
 summary: |
-  Dynamic programming solves a problem from the answers to smaller versions of it, and works each smaller answer out only once. If a recursion keeps asking the same questions, either cache the answers as they come (memoisation) or fill a table on purpose, smallest first, so every slot's ingredients are ready when it needs them. The answers don't change, only the work: 27,457 calls for Gwen's 50p become 338. Counting change, fewest coins, edit distance and packing a lorry are all tables.
+  Dynamic programming solves a problem from the answers to smaller versions of it, and works each smaller answer out only once. If a recursion keeps asking the same questions, either cache the answers as they come (memoisation) or fill a table on purpose, smallest first, so every slot's ingredients are ready when it needs them. The answers don't change, only the work: 27,457 calls for making 50p become 338. Counting change, fewest coins, edit distance and packing a van are all tables.
 example: |
   def ways_to_pay(amount, coins):
       ways = [1] + [0] * amount
@@ -26,7 +26,7 @@ cards:
       print(ways)
     answer: "[1, 1, 2, 2, 3, 3]"
   - type: choice
-    prompt: "Paying 8 in Ferro's tokens of 1, 4 and 6, taking the biggest token that fits each time gives 6, 1, 1. Is that the fewest?"
+    prompt: "Paying 8 in arcade tokens of 1, 4 and 6, taking the biggest token that fits each time gives 6, 1, 1. Is that the fewest?"
     verify: none
     options:
       - text: "No: 4 and 4 is two tokens"
@@ -36,7 +36,7 @@ cards:
         misconception: greedy-is-fewest
         feedback: "It does for coins like 1, 2, 5 and 10, which is why it feels right. With tokens of 1, 4 and 6 it doesn't."
   - type: choice
-    prompt: "Pip puts `@functools.cache` on a slow recursive function. What changes?"
+    prompt: "Yahya puts `@functools.cache` on a slow recursive function. What changes?"
     verify: none
     options:
       - text: "Only how much work it does"
@@ -48,7 +48,7 @@ cards:
   - type: fill
     prompt: "Turning the first `row` letters of a word into nothing takes one change per letter. Fill the gap."
     code: |
-      given, correct = "tide", "tides"
+      given, correct = "time", "times"
       table = [[0] * (len(correct) + 1) for _ in range(len(given) + 1)]
       for row in range(len(given) + 1):
           table[row][0] = ___
@@ -88,7 +88,7 @@ cards:
 
       print(fewest_tokens(8, [1, 4, 6]))
   - type: write
-    prompt: "Nell's yard is a grid of `rows` by `cols` squares. Write `routes(rows, cols)`: how many routes go from the top left square to the bottom right, moving only right or down. A table is quickest."
+    prompt: "Caitlin's game board is a grid of `rows` by `cols` squares. Write `routes(rows, cols)`: how many routes go from the top left square to the bottom right, moving only right or down. A table is quickest."
     starter: |
       def routes(rows, cols):
           pass

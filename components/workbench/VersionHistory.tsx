@@ -38,12 +38,12 @@ export function VersionHistory({ stepId, file, current, onClose, onRestore }: { 
   }, [store, job.id, stepId, file]);
 
   return (
-    <dialog ref={dialog} className={styles.dialog} onClose={onClose} aria-labelledby="history-title">
+    <dialog ref={dialog} className={`float ${styles.dialog}`} onClose={onClose} aria-labelledby="history-title">
       <div className={styles.head}>
         <h2 id="history-title" className={styles.title}>
           History of {file}
         </h2>
-        <Button size="sm" variant="quiet" onClick={() => dialog.current?.close()}>
+        <Button size="sm" variant="ghost" icon="close" onClick={() => dialog.current?.close()}>
           Close
         </Button>
       </div>
@@ -68,7 +68,7 @@ export function VersionHistory({ stepId, file, current, onClose, onRestore }: { 
               <>
                 <CodeBlock code={picked.content || "\n"} label={`Version from ${when(picked.createdAt)}`} />
                 <div className={styles.row}>
-                  <Button variant="primary" disabled={picked.content === current} onClick={() => onRestore(picked.content)}>
+                  <Button variant="primary" icon="history" disabled={picked.content === current} onClick={() => onRestore(picked.content)}>
                     Restore this version
                   </Button>
                   {picked.content === current ? <span className={styles.same}>Same as what you have now.</span> : null}

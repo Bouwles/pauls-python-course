@@ -1,1 +1,1 @@
-"""Sanjay's money: a ledger, its file, and its command line."""
+"""Personal finance: a ledger, its file, and its command line."""

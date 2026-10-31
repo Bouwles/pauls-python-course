@@ -46,9 +46,6 @@ def returns_to_go(rewards, gamma=0.9):
     return returns[::-1]
 
 
-# I gave the machine on the hill the simplest rule there is: do more of
-# whatever went well. It got very good at what went well. I never found a
-# way to tell it why it had. A.P.
 def reinforce_gradient(theta, races, gamma=0.9, baseline=None):
     """REINFORCE's estimate of which way is uphill for theta, averaged over races."""
     grad = np.zeros_like(theta)
@@ -109,7 +106,7 @@ if __name__ == "__main__":
     print(f"Spread of 200 estimates at random, with a baseline: {spread(with_baseline):.2f}")
     print()
     theta, baseline = train(500, rng, watch=True)
-    print("After 500 races with a baseline, his most likely moves")
+    print("After 500 races with a baseline, its most likely moves")
     show_policy({tile: ACTIONS[int(np.argmax(theta[tile]))] for tile in RACING})
     worth = average_return(lambda tile: ACTIONS[int(rng.choice(4, p=chances(theta, tile)))], rng)
     print(f"Average return over 1000 races: {worth:.2f}")

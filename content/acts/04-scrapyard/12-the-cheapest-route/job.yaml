@@ -4,9 +4,9 @@ project_name: "Route Planner"
 portfolio_readme: |
   # Route Planner
 
-  Finds the quickest way from one place to another, two ways. On the town map, a graph of roads with the minutes each one takes, Dijkstra's algorithm finds the quickest route and the quickest time to everywhere. In the scrapyard, a map drawn as text where mud costs three times what clear ground does, A* finds the quickest way from the gate to the crane while heading for it, and draws the route in arrows.
+  Finds the quickest way from one place to another, two ways. On a map of the city, a graph of roads with the minutes each one takes, Dijkstra's algorithm finds the quickest route and the quickest time to everywhere. Across the park, a map drawn as text where mud takes three times as long as the path, A* finds the quickest way from the gate to the cafe while heading for it, and draws the route in arrows.
 
-  Written by {name} for Nell Brannigan's scrapyard in {{town}}. Finished {date}.
+  Written by {name} for Riya, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -15,18 +15,18 @@ portfolio_readme: |
   python planner.py
   ```
 
-  `routes.py` plans the lorry's run across town:
+  `routes.py` plans Riya's way across the city:
 
   ```
-  Fewest roads to the ferry: 16 minutes
-  Quickest to the ferry: 14 minutes, by scrapyard, tailor, library, town-hall, post-office, ferry
-  Furthest from the yard: lighthouse, 24 minutes
+  Fewest roads to the theatre: 16 minutes
+  Quickest to the theatre: 14 minutes, by market, bookshop, library, city-hall, station, theatre
+  Furthest from the market: stadium, 24 minutes
   ```
 
-  `planner.py` reads `yard.txt` and plans the way through the yard:
+  `planner.py` reads `park.txt` and plans the way across the park:
 
   ```
-  Gate to crane: 23 minutes, 19 steps
+  Gate to cafe: 23 minutes, 19 steps
   v.....#.......#.....
   v####.#.~~~~~.#.###.
   v#....#.~###~...#...
@@ -45,24 +45,23 @@ portfolio_readme: |
   - A*: Dijkstra plus an estimate of the distance still to go, which must never overestimate, and the Manhattan distance on a grid
   - Edge cases: one-way roads, no way there, a start that is the goal, and ties
 downloadable: true
-# The town's roads and Nell's yard are invented for the story: the planner works on any
+# The city's roads and the park are invented for the story: the planner works on any
 # map in the same shape. See the README.
 datasets: []
-client: nell
+client: riya
 building: scrapyard
 estimated_minutes: 240
-summary: "A route planner for Nell's lorry: Dijkstra on the town map with minutes on every road, then A* through the yard, heading for the crane, with mud at three times the cost."
+summary: "A route planner for Riya: Dijkstra across the city with minutes on every road, then A* across the park, heading for the cafe, with mud at three times the cost."
 concepts_introduced: [weighted-graphs, dijkstra, a-star]
 concepts_reviewed: [graphs, bfs, dfs, heaps, priority-queues, dictionaries, dict-get, sets, tuples, zip, raising-errors, files, string-methods, big-o, edge-cases]
 ask:
   dialogue:
-    - nell: "Fewest roads was grand till the lorry took the yard track to the workshop. Eight minutes of potholes."
-    - nell: "Round by the tailor's is a road longer and a minute quicker. The lorry doesn't count roads."
-    - nell: "Ferro wants a winch gear at the ferry before the turn. Quickest way, in minutes."
-    - moss: "Then write the minutes on the roads, and always carry on from the nearest place you haven't finished with."
-    - nell: "And in the yard, mud costs three times what clear ground does. The lorry knows that too."
+    - riya: "Fewest roads isn't quickest. The market to the Clocktower, direct, is eight minutes of road works."
+    - riya: "Round by the bookshop is a road longer and a minute quicker. My feet don't count roads."
+    - paul: "Then write the minutes on the roads, and always carry on from the nearest place you haven't finished with."
+    - riya: "And in the park, mud takes three times as long as the path. Yahya copied his maze from it."
   spec: |
-    `MINUTES` in `routes.py` is the town again, with the minutes each road takes the lorry: `MINUTES["scrapyard"]["tailor"]` is 4. Roads can still be one way, and a place with no dictionary of its own has no roads out. No road takes less than 0 minutes.
+    `MINUTES` in `routes.py` is the city again, with the minutes each road takes on foot: `MINUTES["market"]["bookshop"]` is 4. Roads can still be one way, and a place with no dictionary of its own has no roads out. No road takes less than 0 minutes.
 
     1. `route_minutes(roads, route)` gives back the minutes along a route, a list of places; a route of one place, or none, takes 0. If two places next to each other in the route have no road between them, it raises `ValueError`, naming both.
     2. `quickest_times(roads, start)` gives back a dictionary of every place that can be reached from `start`, and the fewest minutes it takes to get there.
@@ -70,17 +69,17 @@ ask:
 
     Use `heapq`, and look at each place's roads once.
 
-    Then the yard, in `planner.py`. `yard.txt` is Penhallow's map of it: `#` is scrap, `.` clear ground, `~` oil and mud, `S` the gate and `G` the crane. `read_yard(text)` and `neighbours(tiles, tile)` are the maze solver's, written for you, with a cost on every tile: 1 for clear ground, `S` and `G`, 3 for mud, `None` for scrap.
+    Then the park, in `planner.py`. `park.txt` is its map: `#` is hedge, `.` path, `~` mud, `S` the gate and `G` the cafe. `read_park(text)` and `neighbours(tiles, tile)` are the maze solver's, written for you, with a cost on every tile: 1 for path, `S` and `G`, 3 for mud, `None` for hedge.
 
     4. `manhattan(tile, goal)` is the rows apart plus the columns apart.
-    5. `a_star(tiles, start, goal)` gives back `(minutes, route)` for the quickest route through the yard, where `route` lists the tiles from `start` to `goal` and `minutes` adds up the cost of every tile stepped onto after the start. `(0, [start])` if they're the same tile, `None` if there's no way there. Use A* with `manhattan` as the estimate. If routes tie, any will do.
-    6. `draw_route(tiles, route)` gives back the yard as a list of strings, `#`, `.` and `~`, with each tile of the route but the last showing which way to step out of it (`^`, `v`, `<` or `>`), and `G` on the last.
+    5. `a_star(tiles, start, goal)` gives back `(minutes, route)` for the quickest route across the park, where `route` lists the tiles from `start` to `goal` and `minutes` adds up the cost of every tile stepped onto after the start. `(0, [start])` if they're the same tile, `None` if there's no way there. Use A* with `manhattan` as the estimate. If routes tie, any will do.
+    6. `draw_route(tiles, route)` gives back the park as a list of strings, `#`, `.` and `~`, with each tile of the route but the last showing which way to step out of it (`^`, `v`, `<` or `>`), and `G` on the last.
   example: |
-    Fewest roads to the ferry: 16 minutes
-    Quickest to the ferry: 14 minutes, by scrapyard, tailor, library, town-hall, post-office, ferry
-    Furthest from the yard: lighthouse, 24 minutes
+    Fewest roads to the theatre: 16 minutes
+    Quickest to the theatre: 14 minutes, by market, bookshop, library, city-hall, station, theatre
+    Furthest from the market: stadium, 24 minutes
 
-    Gate to crane: 23 minutes, 19 steps
+    Gate to cafe: 23 minutes, 19 steps
     v.....#.......#.....
     v####.#.~~~~~.#.###.
     v#....#.~###~...#...
@@ -92,31 +91,29 @@ ask:
     ......#.......#...#.
 ship:
   dialogue:
-    - nell: "Fourteen minutes to the ferry, by the library. Ferro had his gear with the tide still turning."
-    - nell: "Five roads, mind. I'd never have gone that way. I'd have counted corners."
-    - nell: "And twenty-three minutes, gate to crane. The lorry followed the arrows and never touched a heap."
-    - moss: "Nearest unfinished place first, and lean towards where you're going. Nothing can beat it."
-  shelf: { object: signpost, label: "Nell's route planner, town and yard" }
+    - riya: "Fourteen minutes to the theatre, by the library. Five roads. I'd never have gone that way."
+    - riya: "And twenty-three minutes across the park, gate to cafe, with no more mud than it needed."
+    - paul: "Nearest unfinished place first, and lean towards where you're going. Nothing can beat it."
+  shelf: { object: signpost, label: "Riya's route planner, city and park" }
   cards: [weighted-graphs, dijkstra, a-star]
-story_note: the-other-end
 stretch:
   - id: road-works
     title: "Road works"
     prompt: |
-      The council posts a list of closed roads each morning. Write `quickest_avoiding(roads, start, goal, closed)`, where `closed` is a set of `(place, place)` pairs closed in both directions, without copying the whole map: skip a road as you look at it. How much longer is the ferry run with the library road shut?
+      The city posts a list of closed roads each morning. Write `quickest_avoiding(roads, start, goal, closed)`, where `closed` is a set of `(place, place)` pairs closed in both directions, without copying the whole map: skip a road as you look at it. How much longer is the theatre run with the library road shut?
   - id: back-to-the-yard
     title: "There and back"
     prompt: |
-      The lorry has to deliver to the ferry, then the lighthouse, then come home. Write `round_trip(roads, start, stops)`, the minutes for visiting the stops in the order given and returning to `start`, using `quickest_route` for each leg. Then try every order of the stops with `itertools.permutations` and find the quickest. How many orders would ten stops have?
+      Riya has to call at the theatre, then the stadium, then come home. Write `round_trip(roads, start, stops)`, the minutes for visiting the stops in the order given and returning to `start`, using `quickest_route` for each leg. Then try every order of the stops with `itertools.permutations` and find the quickest. How many orders would ten stops have?
   - id: several-stops
-    title: "The long way round the yard"
+    title: "The long way round the park"
     prompt: |
-      The lorry picks up at three heaps before the crane. Write `best_round(tiles, start, stops, goal)`, which tries every order of the stops, joins the legs with `a_star`, and gives back the quickest total and its route. How many orders are there for six stops, and how many A* searches does that take? Store each leg's answer so no leg is searched twice.
+      Riya wants to stop at three benches before the cafe. Write `best_round(tiles, start, stops, goal)`, which tries every order of the stops, joins the legs with `a_star`, and gives back the quickest total and its route. How many orders are there for six stops, and how many A* searches does that take? Store each leg's answer so no leg is searched twice.
   - id: count-the-work
     title: "How much it saved"
     prompt: |
-      Give `a_star` an `estimate` argument, defaulting to `manhattan`, and count the tiles it settles. Run it on Nell's yard with the estimate, and with `lambda tile, goal: 0`, which turns it back into Dijkstra. Then try an estimate of `3 * manhattan(tile, goal)`: it settles even fewer tiles. Is its route still the quickest? Why not?
+      Give `a_star` an `estimate` argument, defaulting to `manhattan`, and count the tiles it settles. Run it on the park with the estimate, and with `lambda tile, goal: 0`, which turns it back into Dijkstra. Then try an estimate of `3 * manhattan(tile, goal)`: it settles even fewer tiles. Is its route still the quickest? Why not?
   - id: diagonals
     title: "Corners"
     prompt: |
-      Nell's new lorry can cut corners. Let `neighbours` include the four diagonal tiles, costing the same as straight steps, and change the estimate to the bigger of the rows apart and the columns apart. Why would `manhattan` now be the wrong estimate?
+      Riya can cut corners across the grass. Let `neighbours` include the four diagonal tiles, costing the same as straight steps, and change the estimate to the bigger of the rows apart and the columns apart. Why would `manhattan` now be the wrong estimate?

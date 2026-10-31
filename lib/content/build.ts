@@ -37,18 +37,16 @@ import { lintText } from "./lint";
 import { BRAND } from "../brand";
 
 /**
- * Content writes {{town}} where the town's name goes (REDESIGN.md 1.2), so a rebrand is one edit in
- * lib/brand.ts. {{TOWN}} is the name in capitals (signs, headlines) and {{town_id}} the lowercase
- * form for file names and Python identifiers.
+ * Content is read as written. The old `{{town}}` token went with the town (REDESIGN-2.md 1):
+ * a leftover one is an error, so it can't reach a learner as literal braces.
  */
-export function brandText(text: string): string {
-  return text
-    .replace(/\{\{town\}\}/g, BRAND.townName)
-    .replace(/\{\{TOWN\}\}/g, BRAND.townName.toUpperCase())
-    .replace(/\{\{town_id\}\}/g, BRAND.townName.toLowerCase().replace(/[^a-z0-9]+/g, "_"));
+export function brandText(text: string, file = "content"): string {
+  const left = /\{\{(town|TOWN|town_id)\}\}/.exec(text);
+  if (left) throw new Error(`${file}: "${left[0]}" is gone with the town; write the words instead`);
+  return text;
 }
 
-const read = (file: string): string => brandText(fs.readFileSync(file, "utf8"));
+const read = (file: string): string => brandText(fs.readFileSync(file, "utf8"), file);
 
 export interface BuildResult {
   index: ContentIndex;
@@ -191,7 +189,7 @@ export async function loadContent(root: string, opts: LoadOptions = {}): Promise
     const file = path.join(root, "characters", name);
     const c = parse(characterFile, yaml(file), rel(file));
     if (!c) continue;
-    characters[c.id] = { id: c.id, name: c.name, role: c.role, sprite: c.sprite, pools: c.pools };
+    characters[c.id] = { id: c.id, name: c.name, role: c.role, colour: c.colour, floor: c.floor, sprite: c.sprite ?? "", pools: c.pools };
     for (const [event, lines] of Object.entries(c.pools)) for (const l of lines) lint(l, `${rel(file)} pools.${event}`, false);
   }
   const knownSpeakers = new Set([...Object.keys(characters), "narrator", "you"]);
@@ -614,7 +612,7 @@ export async function loadContent(root: string, opts: LoadOptions = {}): Promise
             testCount,
             minPassed: s.min_passed ?? testCount,
             heavy: s.heavy,
-            folder: `${BRAND.townName.toLowerCase()}-${job.id}`,
+            folder: `ppc-${job.id}`,
           });
           lastGate = s.id;
           break;
@@ -683,13 +681,14 @@ export async function loadContent(root: string, opts: LoadOptions = {}): Promise
     });
 
     summary.stepCount = steps.length;
-    if (job.story_note && !story.some((n) => n.id === job.story_note)) errors.push(`${rel(jy)}: unknown story note "${job.story_note}"`);
+    // The old story notes were removed with the old cast (REDESIGN-2.md 1); a leftover
+    // `story_note` is ignored until the writers take it out.
     jobs[job.id] = {
       ...summary,
       scene: job.scene,
       steps,
       stretch,
-      storyNote: job.story_note ?? null,
+      storyNote: job.story_note && story.some((n) => n.id === job.story_note) ? job.story_note : null,
       portfolioReadme: job.portfolio_readme ?? null,
       data: readFilesUnder(path.join(jobPath, "data")),
     };

@@ -67,18 +67,18 @@ cards:
       else:
           print("Adult")
   - type: fill
-    prompt: "Fill the gap so a low tide prints `Wait for the tide`."
+    prompt: "Fill the gap so a cold day prints `Take a coat`."
     code: |
-      tide = 1.2
-      if tide >= 2:
-          print("Sailing")
+      temp = 12
+      if temp >= 20:
+          print("T-shirt weather")
       ___:
-          print("Wait for the tide")
+          print("Take a coat")
     blanks: [["else"]]
     tests: |
       TESTS = [
-          output("Low tide", expect="Wait for the tide"),
-          output("High tide", set_vars={"tide": 2.5}, expect="Sailing"),
+          output("Cold", expect="Take a coat"),
+          output("Warm", set_vars={"temp": 25}, expect="T-shirt weather"),
       ]
   - type: write
     prompt: "Print `Calm` if `wind` is under 10, `Breezy` if it is under 25, and `Gale` otherwise."

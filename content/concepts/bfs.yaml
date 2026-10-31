@@ -5,10 +5,10 @@ summary: |
 example: |
   from collections import deque
 
-  ROADS = {"workshop": ["bakery", "tailor"], "bakery": ["workshop", "post-office"],
-           "tailor": ["workshop"], "post-office": ["bakery"]}
-  roads_away = {"workshop": 0}
-  queue = deque(["workshop"])
+  ROADS = {"clocktower": ["cafe", "market"], "cafe": ["clocktower", "station"],
+           "market": ["clocktower"], "station": ["cafe"]}
+  roads_away = {"clocktower": 0}
+  queue = deque(["clocktower"])
   while queue:
       place = queue.popleft()
       for neighbour in ROADS.get(place, []):
@@ -26,15 +26,15 @@ cards:
       from collections import deque
 
       ROADS = {
-          "ferry": ["harbour-office", "post-office"],
-          "harbour-office": ["ferry", "pub", "lighthouse"],
-          "post-office": ["ferry", "pub"],
-          "pub": ["harbour-office", "post-office", "greengrocer"],
-          "lighthouse": ["harbour-office"],
-          "greengrocer": ["pub"],
+          "park": ["bridge", "station"],
+          "bridge": ["park", "cinema", "boathouse"],
+          "station": ["park", "cinema"],
+          "cinema": ["bridge", "station", "pool"],
+          "boathouse": ["bridge"],
+          "pool": ["cinema"],
       }
-      seen = {"ferry"}
-      queue = deque(["ferry"])
+      seen = {"park"}
+      queue = deque(["park"])
       while queue:
           place = queue.popleft()
           print(place, end=" ")
@@ -42,37 +42,37 @@ cards:
               if neighbour not in seen:
                   seen.add(neighbour)
                   queue.append(neighbour)
-    answer: "ferry harbour-office post-office pub lighthouse greengrocer"
+    answer: "park bridge station cinema boathouse pool"
   - type: choice
-    prompt: "A breadth-first search first reaches the ferry by a route of four roads. Could there be a route of three?"
+    prompt: "A breadth-first search first reaches the park by a route of four roads. Could there be a route of three?"
     verify: none
     options:
       - text: "No"
         correct: true
-        feedback: "Everything three roads away came off the queue before anything four roads away. If the ferry were three away, it would have been reached then."
+        feedback: "Everything three roads away came off the queue before anything four roads away. If the park were three away, it would have been reached then."
       - text: "Yes: BFS takes the first route it finds, not the best"
         misconception: bfs-first-route-any
         feedback: "For BFS the first route it finds is the best, in roads. The queue hands out places in order of how far they are."
   - type: predict
     prompt: What does this print?
     code: |
-      came_from = {"scrapyard": None, "workshop": "scrapyard", "bakery": "workshop",
-                   "post-office": "bakery", "ferry": "post-office"}
-      place = "ferry"
+      came_from = {"gym": None, "clocktower": "gym", "cafe": "clocktower",
+                   "station": "cafe", "park": "station"}
+      place = "park"
       route = []
       while place is not None:
           route.append(place)
           place = came_from[place]
       print(" -> ".join(reversed(route)))
-    answer: "scrapyard -> workshop -> bakery -> post-office -> ferry"
+    answer: "gym -> clocktower -> cafe -> station -> park"
   - type: fill
     prompt: "Fill the gap so the search takes the nearest place next."
     code: |
       from collections import deque
 
-      ROADS = {"pub": ["bakery", "ferry"], "bakery": ["pub", "workshop"], "ferry": ["pub"], "workshop": ["bakery"]}
-      seen = {"pub"}
-      queue = deque(["pub"])
+      ROADS = {"cinema": ["cafe", "park"], "cafe": ["cinema", "clocktower"], "park": ["cinema"], "clocktower": ["cafe"]}
+      seen = {"cinema"}
+      queue = deque(["cinema"])
       while queue:
           place = queue.___()
           print(place)
@@ -82,20 +82,20 @@ cards:
                   queue.append(neighbour)
     blanks: [["popleft"]]
     tests: |
-      TESTS = [output("Nearest first", expect="pub\nbakery\nferry\nworkshop")]
+      TESTS = [output("Nearest first", expect="cinema\ncafe\npark\nclocktower")]
   - type: fix
     prompt: "This search marks a place only when it comes off the queue, and some places are visited twice. Fix it so each is visited once, nearest first."
     code: |
       from collections import deque
 
       ROADS = {
-          "workshop": ["bakery", "tailor"],
-          "bakery": ["workshop", "library"],
-          "tailor": ["workshop", "library"],
-          "library": ["bakery", "tailor"],
+          "clocktower": ["cafe", "market"],
+          "cafe": ["clocktower", "library"],
+          "market": ["clocktower", "library"],
+          "library": ["cafe", "market"],
       }
       seen = set()
-      queue = deque(["workshop"])
+      queue = deque(["clocktower"])
       while queue:
           place = queue.popleft()
           seen.add(place)
@@ -104,19 +104,19 @@ cards:
               if neighbour not in seen:
                   queue.append(neighbour)
     tests: |
-      TESTS = [output("Each place once", expect="workshop\nbakery\ntailor\nlibrary",
+      TESTS = [output("Each place once", expect="clocktower\ncafe\nmarket\nlibrary",
                       hint="Mark a place as seen when it goes on the queue, so a second road to it doesn't queue it again.")]
     solution: |
       from collections import deque
 
       ROADS = {
-          "workshop": ["bakery", "tailor"],
-          "bakery": ["workshop", "library"],
-          "tailor": ["workshop", "library"],
-          "library": ["bakery", "tailor"],
+          "clocktower": ["cafe", "market"],
+          "cafe": ["clocktower", "library"],
+          "market": ["clocktower", "library"],
+          "library": ["cafe", "market"],
       }
-      seen = {"workshop"}
-      queue = deque(["workshop"])
+      seen = {"clocktower"}
+      queue = deque(["clocktower"])
       while queue:
           place = queue.popleft()
           print(place)
@@ -134,9 +134,9 @@ cards:
           pass
     tests: |
       TESTS = [
-          function("From the lighthouse", call="roads_away",
-                   args=({"lighthouse": ["ferry"], "ferry": ["lighthouse", "pub"], "pub": ["ferry"]}, "lighthouse"),
-                   expect={"lighthouse": 0, "ferry": 1, "pub": 2}),
+          function("From the boathouse", call="roads_away",
+                   args=({"boathouse": ["park"], "park": ["boathouse", "cinema"], "cinema": ["park"]}, "boathouse"),
+                   expect={"boathouse": 0, "park": 1, "cinema": 2}),
           function("A square", call="roads_away",
                    args=({"a": ["b", "c"], "b": ["a", "d"], "c": ["a", "d"], "d": ["b", "c"]}, "a"),
                    expect={"a": 0, "b": 1, "c": 1, "d": 2}),

@@ -7,7 +7,7 @@ code: |
   import random
 
   secret = random.randint(1, 100)
-  print("Gwen's number:", secret)
+  print("Caitlin's number:", secret)
   print("Still:", secret)
 tasks:
   - id: same-twice
@@ -27,7 +27,7 @@ tasks:
     feedback: "3. Unlike `range`, `randint` includes both ends: 1, 2 or 3."
     wrong: "Keep running it. Every number it can give will turn up sooner or later."
   - id: dice
-    prompt: "Gwen needs a die for the darts. Make it pick a number from 1 to 6 and print only `You rolled 4.` (or whatever comes up)."
+    prompt: "Caitlin needs a die for a board game. Make it pick a number from 1 to 6 and print only `You rolled 4.` (or whatever comes up)."
     kind: run
     tests: |
       def rolled(number):

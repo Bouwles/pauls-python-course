@@ -5,9 +5,9 @@ summary: |
 example: |
   import numpy as np
 
-  fog = [0, 1, 1, 0, 0]
+  rain = [0, 1, 1, 0, 0]
   memory = 0.0
-  for reading in fog:
+  for reading in rain:
       memory = np.tanh(1.5 * reading + 0.9 * memory - 0.3)
       print(round(float(memory), 2))
 misconceptions: [rnn-memory-resets, rnn-memory-permanent, rnn-new-weights-each-step, rnn-guess-same-hour, bptt-blame-unchanged, bptt-one-step-only, bptt-blame-adds]
@@ -36,7 +36,7 @@ cards:
         misconception: rnn-guess-same-hour
         feedback: "That marks each guess against the reading it had just seen. The guess is about the next hour, so the slices shift by one."
   - type: choice
-    prompt: "Penhallow's network reads 288 hours. How many sets of weights does it use?"
+    prompt: "Neil's network reads 288 hours. How many sets of weights does it use?"
     verify: none
     options:
       - text: "One set, used again at every hour"

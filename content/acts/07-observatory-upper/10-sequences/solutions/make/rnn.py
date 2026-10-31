@@ -1,4 +1,4 @@
-"""Penhallow's tide network: one reading an hour in, a guess at the next hour out."""
+"""Neil's tide network: one reading an hour in, a guess at the next hour out."""
 
 import csv
 import json
@@ -9,20 +9,19 @@ MEAN, SCALE = 2.5, 2.0      # readings go in as (height - MEAN) / SCALE
 
 
 def load_tides(path="tides.csv"):
-    """The harbour gauge, one height an hour, in metres."""
+    """The river gauge by the bridge, one height an hour, in metres."""
     with open(path) as tide_file:
         return np.array([float(row["height"]) for row in csv.DictReader(tide_file)])
 
 
 def load_weights(path="rnn_weights.json"):
-    """Penhallow's weights: Wx, Wh, b, Wy and by."""
+    """Neil's weights: Wx, Wh, b, Wy and by."""
     with open(path) as weights_file:
         return {name: np.array(value) for name, value in json.load(weights_file).items()}
 
 
 # It carries the last hour into the next, and that one into the one after.
-# By morning it remembers the whole night, a little. Tom says that's all
-# any of us do. A.P.
+# By morning it remembers the whole night, a little.
 def step(x, h, params):
     """One hour: the new hidden state from this reading and the last hidden state,
     and the guess at the next reading. Returns (h, guess)."""

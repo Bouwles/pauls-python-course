@@ -4,9 +4,9 @@ type: make
 title: Make the hours module
 files: [hours.py, main.py]
 entry: main.py
-on_pass: { sanjay: "One copy, seven shops. Mrs Vance says the library's hours are finally the library's hours." }
+on_pass: { neil: "One copy, seven floors. And the Workshop closes at five again, not half past never." }
 hints:
-  nudge: "`when.weekday()` gives a number, with Monday as 0. How do you turn it into `Mon` or `Sat`, and what if that day isn't in the shop's hours?"
+  nudge: "`when.weekday()` gives a number, with Monday as 0. How do you turn it into `Mon` or `Sat`, and what if that day isn't in the room's hours?"
   plan:
     - Say what the module is for
     - Turn when.weekday() into a day name with DAYS
@@ -45,15 +45,15 @@ hints:
     if __name__ == ___:
         ...
 ---
-Write `hours.py`. The traders' board, `main.py`, is already written and imports it. Press **Run** to see the board:
+Write `hours.py`. The board for the front door, `main.py`, is already written and imports it. Press **Run** to see the board:
 
 ```
-Saturday 11:30 on the High Street
-Sanjay's: open
-Okonjo's: closed
-The Library: open
+Saturday 11:30 at the Clocktower
+The Studio: open
+The Makerspace: closed
+The Workshop: open
 ```
 
-and so on, as in the brief. Hours are whole hours on the 24-hour clock: a shop with `(9, 17)` is open at 9:00 and closed at 17:00. A day missing from the dictionary is closed. `busiest_day` gives back `None` for no visits, and the day seen first when days tie.
+and so on, as in the brief. Hours are whole hours on the 24-hour clock: a room with `(9, 17)` is open at 9:00 and closed at 17:00. A day missing from the dictionary is closed. `busiest_day` gives back `None` for no visits, and the day seen first when days tie.
 
 Run on its own, `hours.py` should print a quick check of itself. Imported, it should print nothing. The checks pass in their own dates, so today's date never matters.

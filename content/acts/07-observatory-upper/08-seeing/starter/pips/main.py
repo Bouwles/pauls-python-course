@@ -1,4 +1,4 @@
-"""Pip's convolution: slide the kernel over the picture, multiply and add."""
+"""Riya's convolution: slide the kernel over the picture, multiply and add."""
 
 import numpy as np
 
@@ -16,7 +16,7 @@ def convolve(image, kernel):
 
 
 if __name__ == "__main__":
-    # The lighthouse from the quay: dark sky is 0, the white tower is 1
+    # The Clocktower from the street: dark sky is 0, the tower is 1
     image = np.array([[0, 0, 1, 1, 0],
                       [0, 0, 1, 1, 0],
                       [0, 0, 1, 1, 0],

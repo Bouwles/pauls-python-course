@@ -82,12 +82,12 @@ def saved_as_json(ctx):
 
 
 def another_file(ctx):
-    first = run(ctx, ["--file", "pip.json", "add", "2026-11-05", "-1.20", "fun", "--note", "arcade"])
+    first = run(ctx, ["--file", "yahya.json", "add", "2026-11-05", "-1.20", "fun", "--note", "arcade"])
     expect(first, "Spent £1.20 on fun on 2026-11-05.", "With no file yet, the first transaction still goes in.")
-    if "pip.json" not in first.files_out:
-        raise CheckFailed("--file pip.json should save to pip.json.")
-    second = run(ctx, ["--file", "pip.json", "report", "2026-11"], files=first.files_out)
-    expect(second, "November 2026\nMoney in: £0.00\nMoney out: £1.20\nfun: £1.20\nLeft over: -£1.20", "Pip's November.")
+    if "yahya.json" not in first.files_out:
+        raise CheckFailed("--file yahya.json should save to yahya.json.")
+    second = run(ctx, ["--file", "yahya.json", "report", "2026-11"], files=first.files_out)
+    expect(second, "November 2026\nMoney in: £0.00\nMoney out: £1.20\nfun: £1.20\nLeft over: -£1.20", "Yahya's November.")
 
 
 TESTS = [

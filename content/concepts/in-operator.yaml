@@ -1,12 +1,12 @@
 id: in-operator
 title: in
 summary: |
-  `a in b` asks whether the text `a` appears anywhere inside `b`: `"tide" in "riptide"` is `True`. It answers `True` or `False`, never where. Capitals count, so `"Tide" in "riptide"` is `False`; to ignore case, compare lower-case copies. `not in` asks the opposite question. On a list, `in` asks about whole items: `"Tom" in ["Old Tom"]` is `False`.
+  `a in b` asks whether the text `a` appears anywhere inside `b`: `"time" in "overtime"` is `True`. It answers `True` or `False`, never where. Capitals count, so `"Time" in "overtime"` is `False`; to ignore case, compare lower-case copies. `not in` asks the opposite question. On a list, `in` asks about whole items: `"Ann" in ["Ann Lee"]` is `False`.
 example: |
-  password = "Harbour1987"
-  print("bour" in password)
-  print("harbour" in password)
-  print("harbour" in password.lower())
+  password = "Clocktower1987"
+  print("tower" in password)
+  print("clocktower" in password)
+  print("clocktower" in password.lower())
   print(" " not in password)
 misconceptions: [in-gives-position, string-compare-ignores-case, in-checks-part-of-item]
 related: [string-methods, boolean-operators, lists]
@@ -14,33 +14,33 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      print("tide" in "riptide")
+      print("time" in "overtime")
     answer: "True"
   - type: predict
     prompt: What does this print?
     code: |
-      print("Tide" in "riptide")
-      print("Tide".lower() in "riptide")
+      print("Time" in "overtime")
+      print("Time".lower() in "overtime")
     answer: "False\nTrue"
   - type: choice
     prompt: What does this print?
     code: |
-      password = "Harbour1987"
-      print("harbour" in password)
+      password = "Clocktower1987"
+      print("clocktower" in password)
     options:
       - text: "False"
         correct: true
-        feedback: "`in` looks for exactly those letters. The password has a capital H, and `H` isn't `h`."
+        feedback: "`in` looks for exactly those letters. The password has a capital C, and `C` isn't `c`."
       - text: "True"
         misconception: string-compare-ignores-case
-        feedback: "To Python, `H` and `h` are different characters, so `\"harbour\"` isn't in `\"Harbour1987\"`."
+        feedback: "To Python, `C` and `c` are different characters, so `\"clocktower\"` isn't in `\"Clocktower1987\"`."
       - text: "0"
         misconception: in-gives-position
         feedback: "`in` only answers yes or no. It never says where the text starts."
   - type: choice
     prompt: What does this print?
     code: |
-      print("1987" in "Lamp1987")
+      print("1987" in "Desk1987")
     options:
       - text: "True"
         correct: true
@@ -50,7 +50,7 @@ cards:
   - type: fix
     prompt: "This should print `No spaces, please.` when the password has a space in it. It never does. Fix the test."
     code: |
-      password = "Mary Rose 42"
+      password = "Blue Moon 42"
       if password in " ":
           print("No spaces, please.")
       else:
@@ -58,10 +58,10 @@ cards:
     tests: |
       TESTS = [
           output("A space in the middle", expect="No spaces, please."),
-          output("No spaces", set_vars={"password": "Kittiwake-42"}, expect="Fine."),
+          output("No spaces", set_vars={"password": "BlueMoon-42"}, expect="Fine."),
       ]
     solution: |
-      password = "Mary Rose 42"
+      password = "Blue Moon 42"
       if " " in password:
           print("No spaces, please.")
       else:
@@ -69,7 +69,7 @@ cards:
   - type: fill
     prompt: "Fill the gap so this spots an email address."
     code: |
-      contact = "mira@post.office"
+      contact = "neil@example.com"
       if "@" ___ contact:
           print("Email")
     blanks: [["in"]]
@@ -78,18 +78,18 @@ cards:
   - type: write
     prompt: "Print `Contains your name` if `username` appears anywhere in `password`, ignoring capitals. Otherwise print `Fine`."
     starter: |
-      username = "agnes"
-      password = "AgnesRook-99"
+      username = "aaesha"
+      password = "MyNameIsAaesha-99"
     tests: |
       TESTS = [
-          output("Agnes in capitals", expect="Contains your name"),
-          output("No name", set_vars={"password": "Tide-Table-7"}, expect="Fine"),
-          output("Name in the middle", set_vars={"username": "rook"}, expect="Contains your name",
+          output("Aaesha in capitals", expect="Contains your name"),
+          output("No name", set_vars={"password": "Tea-Table-7"}, expect="Fine"),
+          output("Name in the middle", set_vars={"username": "name"}, expect="Contains your name",
                  hint="Compare lower-case copies, and work from the variables."),
       ]
     solution: |
-      username = "agnes"
-      password = "AgnesRook-99"
+      username = "aaesha"
+      password = "MyNameIsAaesha-99"
       if username.lower() in password.lower():
           print("Contains your name")
       else:

@@ -4,8 +4,8 @@ type: predict
 title: By heart
 concept: overfitting
 dialogue:
-  - wendt: "A card from the bottom drawer of her desk. Her mirror, cooling after the dome opens, two nights running."
-  - pip: "A curve through Tuesday's readings. Mine goes through every single one."
+  - riya: "The heating goes off at six. I logged the radiator every quarter of an hour, two evenings running."
+  - riya: "Degrees above the room. My curve goes through every one of Tuesday's readings."
 code: |
   import numpy as np
 
@@ -48,8 +48,8 @@ options:
 after: |
   Run it. Then print `errors[1][1]` and `errors[11][1]`, the two Wednesday errors.
 ---
-Penhallow's mirror cools in a curve, and a straight line can't follow it. Linear regression can, though, if you give it more columns: `x ** 0` (all ones, for `b`), `x`, `x ** 2`, `x ** 3` and so on, each with a weight of its own. These are **polynomial features**, and the highest power is the **degree**. It's still least squares, on a wider table.
+The radiator cools in a curve, and a straight line can't follow it. Linear regression can, though, if you give it more columns: `x ** 0` (all ones, for `b`), `x`, `x ** 2`, `x ** 3` and so on, each with a weight of its own. These are **polynomial features**, and the highest power is the **degree**. It's still least squares, on a wider table.
 
-Penhallow took Tuesday's twelve readings every quarter of an hour. Wednesday's came at the same pace, three minutes later. Both curves learn from Tuesday only, then try Wednesday.
+Riya took Tuesday's twelve readings every quarter of an hour. Wednesday's came at the same pace, three minutes later. Both curves learn from Tuesday only, then try Wednesday.
 
-Predict which does better on each night.
+Predict which does better on each evening.

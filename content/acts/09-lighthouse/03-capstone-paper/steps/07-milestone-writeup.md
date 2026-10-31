@@ -4,14 +4,14 @@ type: milestone
 title: "Milestone 4: the write-up"
 evidence: link
 dialogue:
-  - wendt: "I read the section on what didn't match first. Then I decide whether to read the rest."
+  - neil: "I read the section on what didn't match first. Then I decide whether to read the rest."
 checklist:
   - id: summary
     text: "The first paragraph says what you reproduced, at what scale, and how closely it matched."
     why: "A reader should know in four sentences what you found. Everything after that is how."
   - id: mismatches
     text: "A section lists what didn't match the paper, with your best guess at why, marked as a guess."
-    why: "The mismatches are the most useful part of a reproduction. Professor Wendt reads that section first."
+    why: "The mismatches are the most useful part of a reproduction. Neil reads that section first."
   - id: cited
     text: "The paper is cited in full: authors, title, journal, volume and year."
     why: "Their idea, their names on it, in full."

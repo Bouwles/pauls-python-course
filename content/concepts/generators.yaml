@@ -19,12 +19,12 @@ cards:
     prompt: What does this print?
     code: |
       def trays():
-          yield "loaf"
-          yield "bun"
+          yield "tea"
+          yield "cake"
 
 
       print(list(trays()))
-    answer: "['loaf', 'bun']"
+    answer: "['tea', 'cake']"
   - type: choice
     prompt: What does this print?
     code: |

@@ -1,12 +1,12 @@
 import fs from "node:fs";
 import { test, type Browser } from "@playwright/test";
 
-// REDESIGN.md 5 and 11: twenty screenshots that between them show the whole app after the
-// redesign, at 1440x900 and 390x844, night and day. Named like the "before" set in
-// tests/screenshots/redesign/before/ ("dark" is night, "light" is day).
+// REDESIGN-2.md 10: twenty screenshots that between them show the whole app after the
+// redesign, at 1440x900 and 390x844, dark and light. Named like the "before" set in
+// tests/screenshots/redesign-2/before/.
 //   PPC_SCREENSHOTS=1 npx playwright test redesign-screens
 // The signed-in screens use the demo learner (npm run seed:demo), who has half of Act I done.
-const OUT = "tests/screenshots/redesign/after";
+const OUT = process.env.PPC_SHOTS_OUT ?? "tests/screenshots/redesign-2/after";
 
 type Theme = "dark" | "light";
 interface Shot {
@@ -60,7 +60,7 @@ async function capture(browser: Browser, theme: Theme, width: number, shots: Sho
   const page = await ctx.newPage();
   if (signIn) {
     const origin = new URL(test.info().project.use.baseURL ?? "http://localhost:3000").origin;
-    const res = await page.request.post("/api/auth/login", { data: { email: "demo@fixwick.test", password: "demo-harbour-1987" }, headers: { Origin: origin } });
+    const res = await page.request.post("/api/auth/login", { data: { email: "demo@ppc.test", password: "demo-harbour-1987" }, headers: { Origin: origin } });
     if (!res.ok()) throw new Error("Sign in as the demo learner failed: run npm run seed:demo first.");
   }
   for (const s of shots) {

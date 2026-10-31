@@ -1,4 +1,4 @@
-"""Penhallow's network, from Neural Network from Scratch: forward, loss and backward."""
+"""Neil's network, from Neural Network from Scratch: forward, loss and backward."""
 
 import numpy as np
 
@@ -33,9 +33,8 @@ def backward(X, T, params, cache):
     return {"W1": X.T @ dZ1, "b1": dZ1.sum(axis=0), "W2": H.T @ dZ2, "b2": dZ2.sum(axis=0)}
 
 
-# Shuffled every time. Shown the evenings in the same order twice, it
-# learned the order: what I did on a Tuesday, because it was Tuesday.
-# It learns what I did, and that included the calendar. A.P.
+# Shuffled every epoch. Shown the evenings in the same order every time, a
+# network can learn the order instead of the evenings.
 def batches(X, T, size, rng):
     """Shuffle the rows, then give back (X, T) for each batch of `size` rows in turn."""
     order = rng.permutation(len(X))

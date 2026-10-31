@@ -1,13 +1,13 @@
 id: looping-lists
 title: Looping over a list
 summary: |
-  `for parcel in parcels:` hands you each item in turn, from the start to the end. When you need the index as well, loop over `range(len(parcels))` and use `parcels[i]`. A loop over an empty list runs zero times. Changing the loop variable doesn't change the list.
+  `for guest in guests:` hands you each item in turn, from the start to the end. When you need the index as well, loop over `range(len(guests))` and use `guests[i]`. A loop over an empty list runs zero times. Changing the loop variable doesn't change the list.
 example: |
-  parcels = ["Bea", "Tom", "Agnes"]
-  for parcel in parcels:
-      print("Parcel for", parcel)
-  for i in range(len(parcels)):
-      print(i, parcels[i])
+  guests = ["Riya", "Yahya", "Aaesha"]
+  for guest in guests:
+      print("Place card for", guest)
+  for i in range(len(guests)):
+      print(i, guests[i])
 misconceptions: [loop-gives-index, loop-var-changes-list]
 related: [lists, for-loops, indexing]
 drill: true
@@ -15,25 +15,25 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      for name in ["Bea", "Tom", "Agnes"]:
-          print("Parcel for", name)
-    answer: "Parcel for Bea\nParcel for Tom\nParcel for Agnes"
+      for name in ["Riya", "Yahya", "Aaesha"]:
+          print("Place card for", name)
+    answer: "Place card for Riya\nPlace card for Yahya\nPlace card for Aaesha"
   - type: choice
     prompt: What does this print?
     code: |
-      parcels = ["Bea", "Tom"]
-      for p in parcels:
+      guests = ["Riya", "Yahya"]
+      for p in guests:
           print(p)
     options:
       - text: |-
-          Bea
-          Tom
+          Riya
+          Yahya
         correct: true
       - text: |-
           0
           1
         misconception: loop-gives-index
-        feedback: "Looping over the list itself gives the items. For the indexes, loop over `range(len(parcels))`."
+        feedback: "Looping over the list itself gives the items. For the indexes, loop over `range(len(guests))`."
   - type: choice
     prompt: What does this print?
     code: |
@@ -49,17 +49,17 @@ cards:
         misconception: loop-var-changes-list
         feedback: "Changing the loop variable doesn't reach back into the list. To change the list, assign to `prices[i]`."
   - type: fix
-    prompt: "Each line should show the hole and the name in it: `Hole 0: Bea` and so on. Fix it."
+    prompt: "Each line should show the seat and the name in it: `Seat 0: Riya` and so on. Fix it."
     code: |
-      parcels = ["Bea", "Tom", "Agnes"]
-      for i in range(len(parcels)):
-          print(f"Hole {i}: {i}")
+      guests = ["Riya", "Yahya", "Aaesha"]
+      for i in range(len(guests)):
+          print(f"Seat {i}: {i}")
     tests: |
-      TESTS = [output("Three holes", expect="Hole 0: Bea\nHole 1: Tom\nHole 2: Agnes")]
+      TESTS = [output("Three seats", expect="Seat 0: Riya\nSeat 1: Yahya\nSeat 2: Aaesha")]
     solution: |
-      parcels = ["Bea", "Tom", "Agnes"]
-      for i in range(len(parcels)):
-          print(f"Hole {i}: {parcels[i]}")
+      guests = ["Riya", "Yahya", "Aaesha"]
+      for i in range(len(guests)):
+          print(f"Seat {i}: {guests[i]}")
   - type: fill
     prompt: "Fill the gap so this adds up the weights."
     code: |

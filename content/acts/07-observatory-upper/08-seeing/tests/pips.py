@@ -24,11 +24,11 @@ def compare(ctx, image, kernel, what):
         raise CheckFailed(what, expected=want.tolist(), actual=got.tolist())
 
 
-LIGHTHOUSE = [[0, 0, 1, 1, 0]] * 4
+TOWER = [[0, 0, 1, 1, 0]] * 4
 
 
-def lighthouse(ctx):
-    compare(ctx, LIGHTHOUSE, [[-1, 1], [-1, 1]], "The lighthouse with the 2 by 2 kernel")
+def tower(ctx):
+    compare(ctx, TOWER, [[-1, 1], [-1, 1]], "The Clocktower with the 2 by 2 kernel")
 
 
 def square(ctx):
@@ -42,7 +42,7 @@ def wide_image(ctx):
 
 
 def wide_kernel(ctx):
-    compare(ctx, LIGHTHOUSE, [[-1, 0, 1]], "The lighthouse with a kernel one row high and three wide")
+    compare(ctx, TOWER, [[-1, 0, 1]], "The Clocktower with a kernel one row high and three wide")
 
 
 def tall_kernel(ctx):
@@ -55,7 +55,7 @@ def whole(ctx):
 
 
 TESTS = [
-    custom("The lighthouse", lighthouse, visible=True),
+    custom("The Clocktower", tower, visible=True),
     custom("A square picture and kernel", square, visible=True),
     custom("A picture wider than it is tall", wide_image,
            hint="A 3-wide window fits in 7 - 3 + 1 places across 7 columns: count the place at the very end."),

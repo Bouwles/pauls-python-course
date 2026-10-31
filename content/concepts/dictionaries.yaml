@@ -1,13 +1,13 @@
 id: dictionaries
 title: Dictionaries
 summary: |
-  A dictionary pairs keys with values: `{"Bea": "Quay Row"}`. Look a value up by its key with `book["Bea"]`; add or change one with `book["Tom"] = "Point Road"`. Each key appears once, so giving an existing key a value replaces the old one. `in` checks the keys, not the values, and `len()` counts the keys.
+  A dictionary pairs keys with values: `{"Riya": "Park Road"}`. Look a value up by its key with `book["Riya"]`; add or change one with `book["Yahya"] = "Hill Street"`. Each key appears once, so giving an existing key a value replaces the old one. `in` checks the keys, not the values, and `len()` counts the keys.
 example: |
-  book = {"Bea": "Quay Row", "Tom": "Point Road"}
-  book["Mira"] = "Post Office"
-  book["Bea"] = "Mill Lane"
-  print(book["Bea"], len(book))
-  print("Tom" in book, "Point Road" in book)
+  book = {"Riya": "Park Road", "Yahya": "Hill Street"}
+  book["Neil"] = "Station Road"
+  book["Riya"] = "Mill Lane"
+  print(book["Riya"], len(book))
+  print("Yahya" in book, "Hill Street" in book)
 misconceptions: [dict-existing-key-ignored, dict-key-holds-many, dict-index-by-position, in-checks-values]
 related: [dict-get, dict-items, nested-data]
 drill: true
@@ -15,69 +15,69 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      berths = {"Kittiwake": 4, "Sea Holly": 7}
-      print(berths["Sea Holly"])
+      lockers = {"Riya": 4, "Neil": 7}
+      print(lockers["Neil"])
     answer: "7"
   - type: predict
     prompt: What does this print?
     code: |
-      stock = {"flour": 2}
-      stock["flour"] = stock["flour"] + 3
-      stock["yeast"] = 1
+      stock = {"tea": 2}
+      stock["tea"] = stock["tea"] + 3
+      stock["milk"] = 1
       print(stock)
-    answer: "{'flour': 5, 'yeast': 1}"
+    answer: "{'tea': 5, 'milk': 1}"
   - type: choice
     prompt: What does this print?
     code: |
-      book = {"Bea": "Quay Row"}
-      print("Quay Row" in book)
+      book = {"Riya": "Park Road"}
+      print("Park Road" in book)
     options:
       - text: "True"
         misconception: in-checks-values
-        feedback: "`in` looks at the keys. `\"Quay Row\"` is a value, so it isn't found."
+        feedback: "`in` looks at the keys. `\"Park Road\"` is a value, so it isn't found."
       - text: "False"
         correct: true
   - type: choice
     prompt: What happens?
     code: |
-      book = {"Bea": "Quay Row", "Tom": "Point Road"}
+      book = {"Riya": "Park Road", "Yahya": "Hill Street"}
       print(book[0])
     verify: error
     options:
-      - text: It prints Quay Row
+      - text: It prints Park Road
         misconception: dict-index-by-position
         feedback: "A dictionary is looked up by key, not by position. There's no key `0`."
       - text: A KeyError
         correct: true
         error: KeyError
   - type: fix
-    prompt: "Gwen should be in the book, at `The Drowned Anchor`. Fix line 2."
+    prompt: "Caitlin should be in the book, at `Mill Lane`. Fix line 2."
     code: |
-      book = {"Bea": "Quay Row"}
-      book["The Drowned Anchor"] = "Gwen"
-      print(book["Gwen"])
+      book = {"Riya": "Park Road"}
+      book["Mill Lane"] = "Caitlin"
+      print(book["Caitlin"])
     tests: |
-      TESTS = [output("Gwen's address", expect="The Drowned Anchor")]
+      TESTS = [output("Caitlin's address", expect="Mill Lane")]
     solution: |
-      book = {"Bea": "Quay Row"}
-      book["Gwen"] = "The Drowned Anchor"
-      print(book["Gwen"])
+      book = {"Riya": "Park Road"}
+      book["Caitlin"] = "Mill Lane"
+      print(book["Caitlin"])
   - type: fill
-    prompt: "Fill the gap so it prints `{'Kittiwake': 4, 'Mary Rose': 9}`."
+    prompt: "Fill the gap so it prints `{'Riya': 4, 'Yahya': 9}`."
     code: |
-      berths = {"Kittiwake": 4}
-      berths[___] = 9
-      print(berths)
-    blanks: [["\"Mary Rose\"", "'Mary Rose'"]]
+      lockers = {"Riya": 4}
+      lockers[___] = 9
+      print(lockers)
+    blanks: [["\"Yahya\"", "'Yahya'"]]
     tests: |
-      TESTS = [output("Two boats", expect="{'Kittiwake': 4, 'Mary Rose': 9}")]
+      TESTS = [output("Two lockers", expect="{'Riya': 4, 'Yahya': 9}")]
   - type: write
-    prompt: "Make a dictionary called `prices` where `\"bread\"` is 2.4 and `\"bun\"` is 0.85. Then print the price of a bun by looking it up."
+    prompt: "Make a dictionary called `prices` where `\"coffee\"` is 2.4 and `\"cookie\"` is 0.85. Then print the price of a cookie by looking it up."
     tests: |
       TESTS = [
-          variable("prices", variable="prices", expect={"bread": 2.4, "bun": 0.85}),
-          output("A bun", expect="0.85"),
+          variable("prices", variable="prices", expect={"coffee": 2.4, "cookie": 0.85}),
+          output("A cookie", expect="0.85"),
       ]
     solution: |
-      prices = {"bread": 2.4, "bun": 0.85}
-      print(prices["bun"])
+      prices = {"coffee": 2.4, "cookie": 0.85}
+      print(prices["cookie"])

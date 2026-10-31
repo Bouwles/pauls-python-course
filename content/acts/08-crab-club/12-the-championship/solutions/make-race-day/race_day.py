@@ -1,4 +1,4 @@
-# Race day: Sir Reginald against courses he has never seen, and the Club Course for the League.
+# Race day: the crab against courses it has never seen, and the League course for the League.
 
 import json
 from collections import deque
@@ -13,7 +13,7 @@ except ImportError:  # anywhere else, drawing does nothing and the rest still ru
 from course import MAX_MOVES, STEPS, Course, Practice, generate, race
 from crab import train
 
-BUDGET = 5000                # practice moves the stewards allow on each course
+BUDGET = 5000                # practice moves the League allows on each course
 TRAINING = [1, 2, 3]         # courses for trying out ideas
 TESTING = [101, 102]         # courses kept back until the end
 
@@ -57,7 +57,7 @@ def mean_moves(course, policy, rng, races=200):
 
 
 def watch(course, policy, rng, title):
-    """Draw one race, a frame a move: the course, his policy, and where he is."""
+    """Draw one race, a frame a move: the course, its policy, and where it is."""
     values = [[None if (r, c) in course.rocks else (-0.3 if (r, c) in course.pools else 0)
                for c in range(course.cols)] for r in range(course.rows)]
     tile = course.start
@@ -85,7 +85,7 @@ if __name__ == "__main__":
     print("Training courses")
     for seed in TRAINING:
         race_day(seed, rng, "Course")
-    print("Courses he has never seen")
+    print("Courses it has never seen")
     for seed in TESTING:
         course, policy = race_day(seed, rng, "Course")
     watch(course, policy, rng, f"course {TESTING[-1]}")
@@ -94,7 +94,7 @@ if __name__ == "__main__":
         club = Course(json.load(f)["layout"])
     policy = train(Practice(club, BUDGET, rng), rng)
     mine, finished = mean_moves(club, policy, rng)
-    print(f"The Club Course: {mine:.1f} moves, {finished} of 200 finished")
+    print(f"The League course: {mine:.1f} moves, {finished} of 200 finished")
     with open("league.json", "w") as f:
         json.dump({"format": "ppc-league-1", "policy": policy}, f)
     print("Saved league.json for the Arcade League.")

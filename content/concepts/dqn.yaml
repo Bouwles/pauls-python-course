@@ -27,12 +27,12 @@ cards:
       print((rewards + 0.5 * frozen_after.max(axis=1) * (1 - overs)).tolist())
     answer: "[2.0, -10.0]"
   - type: choice
-    prompt: "A memory says: from (2, 0) he went up, and that move should have been worth 5.0. Which of the network's four outputs for (2, 0) does it train?"
+    prompt: "A memory says: from (2, 0) the crab went up, and that move should have been worth 5.0. Which of the network's four outputs for (2, 0) does it train?"
     verify: none
     options:
       - text: Only the Q-value for up
         correct: true
-        feedback: "Right. The memory has a target for the move he made and nothing to say about the other three."
+        feedback: "Right. The memory has a target for the move it made and nothing to say about the other three."
       - text: All four, towards 5.0
         misconception: all-actions-updated
         feedback: "Down, left and right never happened, so there's no evidence about them. Pulling them to 5.0 would make every move from (2, 0) look the same."

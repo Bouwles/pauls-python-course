@@ -6,8 +6,8 @@ widget: hill-walker
 params: { start: -2, rate: 0.1 }
 concept: gradient-descent
 dialogue:
-  - wendt: "Every line has a number for how wrong it is. We call it the loss."
-  - wendt: "Try every possible line and the losses make a hill. A valley, really. We want the bottom."
+  - riya: "Every line has a number for how wrong it is. That's the loss."
+  - riya: "Try every possible line and the losses make a valley. We want the bottom."
 ---
 The curve is the loss for every value of one setting, `x`. The walker can't see the whole hill, only the slope under its feet. So it does the one sensible thing: it steps downhill, by the **learning rate** times the slope.
 

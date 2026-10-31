@@ -2,24 +2,24 @@ from bank import Account
 
 
 def test_deposit():
-    account = Account("Bea", 1042)
+    account = Account("Aaesha", 1042)
     account.deposit(2000)
     account.balance == 2000
 
 
 def test_withdraw():
-    account = Account("Bea", 1042)
+    account = Account("Aaesha", 1042)
     account.deposit(2000)
     assert account.withdraw(750)
 
 
 def test_str():
-    account = Account("Bea", 1042)
+    account = Account("Aaesha", 1042)
     assert str(account) == str(account)
 
 
 def test_empty_account():
-    account = Account("Pip", 13)
+    account = Account("Yahya", 13)
     assert account.withdraw(500) == False, "refused"
 
 

@@ -2,11 +2,11 @@ import json
 import random
 
 BANK = [
-    {"round": "Harbour", "question": "Who is the harbour master?", "answer": "Agnes Rook", "also": ["Agnes", "Mrs Rook"]},
-    {"round": "Bakery", "question": "What is Bea's surname?", "answer": "Hollis"},
-    {"round": "Harbour", "question": "What does a ferry captain steer?", "answer": "a ferry", "also": ["ferry", "the ferry"]},
-    {"round": "Harbour", "question": "Which bird keeps the harbour office?", "answer": "a rook", "also": ["rook"]},
-    {"round": "Bakery", "question": "How many loaves in a baker's dozen?", "answer": "13", "also": ["thirteen"]},
+    {"round": "Python", "question": "Who created Python?", "answer": "Guido van Rossum", "also": ["Guido", "van Rossum"]},
+    {"round": "Games", "question": "Which game has a yellow hero who eats dots?", "answer": "Pac-Man"},
+    {"round": "Python", "question": "Which comedy group is Python named after?", "answer": "Monty Python", "also": ["Monty Python's Flying Circus"]},
+    {"round": "Python", "question": "Which character starts a comment in Python?", "answer": "#", "also": ["hash", "a hash"]},
+    {"round": "Games", "question": "How many squares are on a chess board?", "answer": "64", "also": ["sixty-four", "sixty four"]},
 ]
 SEAL = {"round": "Sea", "question": "What is a baby seal called?", "answer": "a pup", "also": ["pup", "seal pup"]}
 GOLD = {"round": "Science", "question": "What is the chemical symbol for gold?", "answer": "Au"}
@@ -65,18 +65,18 @@ def different_orders(ctx):
 TESTS = [
     custom("Quiz night: the Sea round", night_output(["sea", "low water", "kitten", "three", "Knots"], SEA_NIGHT,
                                                       "With the questions in a known order, the night should go like this."), visible=True),
-    function("The rounds, in alphabetical order", call="round_names", args=(BANK,), expect=["Bakery", "Harbour"], visible=True,
+    function("The rounds, in alphabetical order", call="round_names", args=(BANK,), expect=["Games", "Python"], visible=True,
              hint="A set comprehension gives each round once; sorted() puts them in order and makes a list."),
     function("round_names of an empty book", call="round_names", args=([],), expect=[]),
     function("How many in each round", call="round_sizes", args=([SEAL, GOLD, SEAL],), expect={"Science": 1, "Sea": 2},
              hint="A dictionary comprehension: for each name in round_names, the name and how many questions are in that round."),
-    function("in_round keeps the book's order, whatever the capitals", call="in_round", args=(BANK, " HARBOUR "),
+    function("in_round keeps the book's order, whatever the capitals", call="in_round", args=(BANK, " PYTHON "),
              expect=[BANK[0], BANK[2], BANK[3]],
              hint="Compare the rounds in lower case, with the spaces stripped off the name typed. Keep the questions in the order they're in the book."),
     function("in_round with no such round", call="in_round", args=(BANK, "Sport"), expect=[]),
     function("is_right with the answer", call="is_right", args=("a pup", SEAL), expect=True),
-    function("is_right with an answer Gwen also allows", call="is_right", args=(" Seal Pup ", SEAL), expect=True,
-             hint="The also list holds other answers Gwen accepts. Capitals and spaces at the ends don't count."),
+    function("is_right with an answer Caitlin also allows", call="is_right", args=(" Seal Pup ", SEAL), expect=True,
+             hint="The also list holds other answers Caitlin accepts. Capitals and spaces at the ends don't count."),
     function("is_right with a wrong answer", call="is_right", args=("kitten", SEAL), expect=False),
     function("is_right with no also list", call="is_right", args=("au", GOLD), expect=True,
              hint="Not every question has an also. question.get(\"also\", []) gives an empty list for those."),
@@ -86,16 +86,16 @@ TESTS = [
              expect=["1. Au: right", "2. a pup: you said a calf"],
              hint="One line per question, numbered from 1: the answer, then right, or what was said instead."),
     custom("A round that isn't there, then one that is", night_output(
-        ["Sport", "  local ", "62", "the drowned anchor", "Lady Agatha", "97"],
+        ["Sport", "  local ", "two", "the first floor", "Yellow", "12:00"],
         "Rounds: Local (4), Science (4), Sea (4), Words (4)\nNo round called Sport.\n"
-        "1. What frequency was the old harbour radio on?\n2. What is the pub on the harbour front called?\n"
-        "3. Which crab won the autumn cup on whelks?\n4. Since what year has Old Tom kept the lighthouse?\n"
-        "Answers:\n1. 96.4: you said 62\n2. The Drowned Anchor: right\n3. Lady Agatha: right\n4. 1962: you said 97\nScore: 2 out of 4",
-        "Ask again until the round is one of Gwen's, whatever its capitals.")),
+        "1. How many spaces does Python use for one indent?\n2. Which floor of the Clocktower is the Studio on?\n"
+        "3. What colour is the duck on Neil's desk?\n4. What time has the Clocktower's clock said for years?\n"
+        "Answers:\n1. 4: you said two\n2. the first floor: right\n3. yellow: right\n4. 3:14: you said 12:00\nScore: 2 out of 4",
+        "Ask again until the round is one of Caitlin's, whatever its capitals.")),
     custom("Another question book", night_output(
-        ["bakery", "twelve", "hollis"],
-        "Rounds: Bakery (2), Harbour (3)\n1. How many loaves in a baker's dozen?\n2. What is Bea's surname?\n"
-        "Answers:\n1. 13: you said twelve\n2. Hollis: right\nScore: 1 out of 2",
+        ["games", "sixty", "pac-man"],
+        "Rounds: Games (2), Python (3)\n1. How many squares are on a chess board?\n2. Which game has a yellow hero who eats dots?\n"
+        "Answers:\n1. 64: you said sixty\n2. Pac-Man: right\nScore: 1 out of 2",
         "The quiz should work with any question book, however many rounds it has.",
         files={"questions.json": json.dumps(BANK)})),
     custom("A different order every week", different_orders),

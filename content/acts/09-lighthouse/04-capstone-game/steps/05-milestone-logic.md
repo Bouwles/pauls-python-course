@@ -4,13 +4,13 @@ type: milestone
 title: "Milestone 2: the logic, tested"
 evidence: link
 dialogue:
-  - moss: "No window yet. If the rules are right, the window is decoration."
-  - pip: "Decoration is the best part."
-  - moss: "Then it'll still be the best part next week."
+  - paul: "No window yet. If the rules are right, the window is decoration."
+  - caitlin: "Decoration is the best part."
+  - paul: "Then it'll still be the best part next week."
 checklist:
   - id: agreed
     text: "Every test in test_rules.py and test_scores.py passes."
-    why: "These are Gwen's rules. Until they pass, there's no game to draw."
+    why: "These are Caitlin's rules. Until they pass, there's no game to draw."
   - id: mine
     text: "At least five tests of your own in tests/test_mine.py check the rules, and pass."
     why: "You know which of your if statements you're least sure of. Test that one first."
@@ -25,7 +25,7 @@ checklist:
     why: "One frame in, one frame out. Then a test can run ten thousand frames in a blink."
   - id: named-numbers
     text: "Every size and speed is a named constant at the top of pier.py, not a bare number in a method."
-    why: "When Gwen says it's too fast, you change one line, and you know which."
+    why: "When Caitlin says it's too fast, you change one line, and you know which."
   - id: scores
     text: "High scores survive the game being closed, and a missing scores file means an empty table, not a crash."
     why: "The first time the cabinet is switched on, there is no file. That's the time it most needs to work."

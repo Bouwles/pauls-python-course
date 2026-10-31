@@ -3,7 +3,7 @@ id: round-and-round
 type: reading
 title: Sixty times a second
 dialogue:
-  - moss: "A game is a loop that never stops asking what happened, and drawing the answer."
+  - paul: "A game is a loop that never stops asking what happened, and drawing the answer."
 code: |
   clock = pygame.time.Clock()
   game = Game()
@@ -26,6 +26,6 @@ Every game is the same loop: read the input, update the rules by one step, draw,
 
 The important line is the one between steps 2 and 3. `update()` belongs to the rules: it knows where everything is and what happens when things meet, but nothing about screens, keys or colours. Drawing belongs to `main.py`: it reads `game.state()` and paints it, and changes nothing.
 
-Keep that line and the rules can be tested without a window. A test can play ten thousand frames in a blink, drop a boot exactly over the bucket, or replay Saturday's game from its seed. Cross it, and every test needs a screen.
+Keep that line and the rules can be tested without a window. A test can play ten thousand frames in a blink, drop a boot exactly over the bucket, or replay a whole game from its seed. Cross it, and every test needs a screen.
 
-This page's code runs at home, with pygame. First, the same rules in text, here.
+This page's code runs at home, with pygame. First, the rules in text, here.

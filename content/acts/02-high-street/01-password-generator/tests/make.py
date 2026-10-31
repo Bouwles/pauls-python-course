@@ -7,9 +7,9 @@ DIGITS = set(_string.digits)
 SYMBOLS = set("#$%&*+-=?@")
 LOOKALIKES = set("Il1O0o")
 DEMO = (
-    r"\APasswords for the counter:\n"
-    r"  Mira: \S{12}\n  Pip: \S{12}\n  Sanjay: \S{12}\n"
-    r"Passphrase for the safe: [a-z]+-[a-z]+-[a-z]+-[a-z]+\n?\Z"
+    r"\APasswords for the Studio:\n"
+    r"  Aaesha: \S{12}\n  Caitlin: \S{12}\n  Yahya: \S{12}\n"
+    r"Passphrase for the Wi-Fi: [a-z]+-[a-z]+-[a-z]+-[a-z]+\n?\Z"
 )
 
 
@@ -127,20 +127,20 @@ def one_word(ctx):
     passphrase(ctx, "make_passphrase(words=1)", (), {"words": 1}, 1, "-", False)
 
 
-def two_clerks(ctx):
+def two_classmates(ctx):
     make = need(ctx.module(), "make_passwords")
-    issued = make("Mira", "Pip")
-    if not isinstance(issued, dict) or list(issued) != ["Mira", "Pip"]:
-        raise CheckFailed("make_passwords(\"Mira\", \"Pip\") should give back a dictionary with Mira and Pip in it.", actual=repr(issued))
+    issued = make("Aaesha", "Caitlin")
+    if not isinstance(issued, dict) or list(issued) != ["Aaesha", "Caitlin"]:
+        raise CheckFailed("make_passwords(\"Aaesha\", \"Caitlin\") should give back a dictionary with Aaesha and Caitlin in it.", actual=repr(issued))
     check_all(list(issued.values()), 12, (LOWER | UPPER | DIGITS) - LOOKALIKES,
-              [("lower case letter", LOWER), ("capital", UPPER), ("digit", DIGITS)], "make_passwords(\"Mira\", \"Pip\")")
+              [("lower case letter", LOWER), ("capital", UPPER), ("digit", DIGITS)], "make_passwords(\"Aaesha\", \"Caitlin\")")
 
 
 def options_passed_on(ctx):
     make = need(ctx.module(), "make_passwords")
-    issued = make("Sanjay", "Gwen", length=16, symbols=True)
-    if not isinstance(issued, dict) or sorted(issued) != ["Gwen", "Sanjay"]:
-        raise CheckFailed("make_passwords(\"Sanjay\", \"Gwen\", length=16, symbols=True) should give back a dictionary of both names.", actual=repr(issued))
+    issued = make("Yahya", "Riya", length=16, symbols=True)
+    if not isinstance(issued, dict) or sorted(issued) != ["Riya", "Yahya"]:
+        raise CheckFailed("make_passwords(\"Yahya\", \"Riya\", length=16, symbols=True) should give back a dictionary of both names.", actual=repr(issued))
     check_all(list(issued.values()), 16, (LOWER | UPPER | DIGITS | SYMBOLS) - LOOKALIKES,
               [("symbol", SYMBOLS)], "make_passwords(..., length=16, symbols=True)")
 
@@ -154,21 +154,21 @@ def no_names(ctx):
 
 def adds_to_issued(ctx):
     make = need(ctx.module(), "make_passwords")
-    issued = {"Gwen": "kept-as-it-was"}
-    result = make("Old Tom", issued=issued)
+    issued = {"Neil": "kept-as-it-was"}
+    result = make("Paul", issued=issued)
     if result is not issued:
         raise CheckFailed("Given an issued dictionary, make_passwords should add to it and give back that same dictionary.", actual=repr(result))
-    if issued.get("Gwen") != "kept-as-it-was" or "Old Tom" not in issued:
-        raise CheckFailed("Gwen's password should stay as it was, with Old Tom's added.", actual=repr(issued))
+    if issued.get("Neil") != "kept-as-it-was" or "Paul" not in issued:
+        raise CheckFailed("Neil's password should stay as it was, with Paul's added.", actual=repr(issued))
 
 
 def fresh_each_time(ctx):
     make = need(ctx.module(), "make_passwords")
-    make("Mira", "Pip")
-    second = make("Sanjay")
-    if not isinstance(second, dict) or list(second) != ["Sanjay"]:
+    make("Aaesha", "Caitlin")
+    second = make("Riya")
+    if not isinstance(second, dict) or list(second) != ["Riya"]:
         raise CheckFailed("Two calls with no issued dictionary should give two separate dictionaries.",
-                          expected="only Sanjay", actual=repr(second))
+                          expected="only Riya", actual=repr(second))
 
 
 def docstrings(tree, source):
@@ -204,7 +204,7 @@ TESTS = [
     custom("Six words, spaces and capitals", spaced_phrase,
            hint="capitalise=True means each word starts with a capital: word.capitalize()."),
     custom("A passphrase of one word", one_word),
-    custom("Passwords for two clerks", two_clerks),
+    custom("Passwords for two classmates", two_classmates),
     custom("Options passed straight on", options_passed_on,
            hint="make_passwords passes its **options to make_password, spread out again with **."),
     custom("No names, no passwords", no_names,

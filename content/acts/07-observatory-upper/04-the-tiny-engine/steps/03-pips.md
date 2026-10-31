@@ -1,13 +1,13 @@
 ---
 id: pips
 type: pips
-title: Pip's Version
+title: Fix Yahya's version
 dialogue:
-  - pip: "Penhallow's engine, but faster. I took the visited set out. Nobody visits a value twice anyway."
-  - pip: "The engine says -3. Measuring says -2. Measuring must be broken. It was last time."
+  - yahya: "Can you look at mine? Neil's engine, but faster. I took the visited set out. Nobody visits a value twice anyway."
+  - yahya: "The engine says -3. Measuring says -2. Measuring must be broken. Aaesha's was, last time."
 dialogue_after:
-  - pip: "So `=` throws the first share away. And a value does get visited twice, if two things are made from it."
-  - pip: "I've put the set back. It isn't even slower."
+  - yahya: "So `=` throws the first share away. And a value does get visited twice, if two things are made from it."
+  - yahya: "I've put the set back. It isn't even slower."
 hints:
   nudge: "In `a * b + a`, `a` gets blame from two places. What happens to the first share when the second arrives with `=`?"
   plan:
@@ -30,8 +30,8 @@ hints:
             visit(parent)
         order.append(value)
 ---
-Wendt's check is `a * b + a` at `a = 2`, `b = -3`. On paper, the slope for `a` is `b + 1`, which is -2, and for `b` it's `a`, which is 2. Pip's engine works it out; his `__main__` measures it by nudging.
+Neil's check is `a * b + a` at `a = 2`, `b = -3`. On paper, the slope for `a` is `b + 1`, which is -2, and for `b` it's `a`, which is 2. Yahya's engine works it out; his `__main__` measures it by nudging.
 
 Run it, compare the two lines, and fix the engine until they agree.
 
-Then try `c = a * b` and `(c * c).backward()` at `a = 2`, `b = 0.5`. The slope for `a` should be 1. There's a second bug, and Wendt's check doesn't show it.
+Then try `c = a * b` and `(c * c).backward()` at `a = 2`, `b = 0.5`. The slope for `a` should be 1. There's a second bug, and Neil's check doesn't show it.

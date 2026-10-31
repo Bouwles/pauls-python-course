@@ -1,0 +1,1 @@
+rename.py: names every photo by its date. It works.

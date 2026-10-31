@@ -6,7 +6,7 @@ portfolio_readme: |
 
   Sorts a wholesaler's 440 real customers into segments by what they spend a year on six kinds of goods, with k-means clustering written from scratch in NumPy, and the number of segments chosen at the elbow. Then principal component analysis, also from scratch, finds the two directions the customers differ along most and says what each one means. The clusters never see whether a customer is a restaurant or a shop; checking that afterwards shows the segments are real.
 
-  Written by {name} in {{town}}. Finished {date}.
+  Written by {name} for Riya, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -40,8 +40,8 @@ datasets:
     source: "https://archive.ics.uci.edu/dataset/292/wholesale+customers"
     licence: "CC BY 4.0"
     file: "customers.csv"
-    notes: "All 440 rows, in the original order and numbered from 1. Channel 1 and 2 written as horeca and retail, Region 1 to 3 as lisbon, oporto and other; the six spending columns renamed in lower case, Delicassen as delicatessen. measurements.csv, used only by Moss's worked example, is invented."
-client: wendt
+    notes: "All 440 rows, in the original order and numbered from 1. Channel 1 and 2 written as horeca and retail, Region 1 to 3 as lisbon, oporto and other; the six spending columns renamed in lower case, Delicassen as delicatessen. measurements.csv, used only by Paul's worked example, is invented."
+client: riya
 building: observatory
 estimated_minutes: 140
 summary: "Sort a wholesaler's 440 real customers into segments by what they buy, with k-means from scratch and k at the elbow, then find the two directions they differ along most with PCA from scratch, and check both against what the clusters never saw."
@@ -49,10 +49,10 @@ concepts_introduced: [k-means, pca, eigenvectors]
 concepts_reviewed: [scikit-learn, feature-scaling, matrices, vectors, numpy-arrays, broadcasting, vectorisation, random-module, lambda, while-loops, list-comprehensions, zip, dictionaries, pandas-basics, matplotlib, functions, multiple-returns, main-guard, docstrings, f-strings]
 ask:
   dialogue:
-    - sanjay: "My wholesaler says I'm a type. A type of what, I asked. He didn't know."
-    - wendt: "A wholesaler in Portugal published a year of spending for 440 customers. No labels on what they are."
-    - wendt: "Group them, then find the two numbers that say most about how they differ."
-    - moss: "And then say in words what each group is. That part's yours."
+    - riya: "Wholesalers sort their customers into types. Nobody tells the customers what the types are."
+    - riya: "A wholesaler in Portugal published a year of spending for 440 customers. No labels on what they are."
+    - riya: "Group them, then find the two numbers that say most about how they differ."
+    - paul: "And then say in words what each group is. That part's yours."
   spec: |
     `customers.csv` holds 440 real customers of a wholesaler: a year's spending on fresh food, milk, grocery, frozen food, detergents and paper, and delicatessen, and whether each is a hotel, restaurant or cafe (`horeca`) or a shop (`retail`).
 
@@ -80,12 +80,11 @@ ask:
     Component 2 explains 27%: fresh, frozen, delicatessen
 ship:
   dialogue:
-    - sanjay: "Fresh and frozen, that's restaurants. And greengrocers, it turns out. I'm segment one."
-    - wendt: "It never saw which customers were shops, and still put seven in ten of them together."
-    - moss: "It found the groups. You said what they were. That's the right way round."
-  shelf: { object: stock-sheet, label: "Sanjay's wholesaler, in two segments" }
+    - riya: "Fresh and frozen, that's restaurants and cafes. Milk, groceries and paper, that's shops."
+    - riya: "It never saw which customers were shops, and still put seven in ten of them together."
+    - paul: "It found the groups. You said what they were. That's the right way round."
+  shelf: { object: stock-sheet, label: "Riya's wholesaler, in two segments" }
   cards: [k-means, pca, eigenvectors]
-story_note: the-fourth-pile
 stretch:
   - id: three-segments
     title: "Three segments"

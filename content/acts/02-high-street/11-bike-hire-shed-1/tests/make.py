@@ -27,13 +27,13 @@ def raises_value_error(what, action):
 
 
 def new_account(ctx):
-    a = account(ctx, "Bea Hollis", 1042)
-    for name, want in [("holder", "Bea Hollis"), ("number", 1042), ("balance", 0), ("history", [])]:
+    a = account(ctx, "Aaesha", 1042)
+    for name, want in [("holder", "Aaesha"), ("number", 1042), ("balance", 0), ("history", [])]:
         expect_equal(f"A new account's {name} should be {want!r}.", attribute(a, name), want)
 
 
 def pay_in_take_out(ctx):
-    a = account(ctx, "Bea Hollis", 1042)
+    a = account(ctx, "Aaesha", 1042)
     a.deposit(2000)
     result = a.withdraw(750)
     expect_equal("withdraw should return True when there's enough.", result, True)
@@ -42,16 +42,16 @@ def pay_in_take_out(ctx):
 
 
 def as_text(ctx):
-    a = account(ctx, "Old Tom", 7)
-    expect_equal("str() of a new account", str(a), "Account 7, Old Tom: £0.00")
+    a = account(ctx, "Paul", 7)
+    expect_equal("str() of a new account", str(a), "Account 7, Paul: £0.00")
     a.deposit(1999)
-    expect_equal("str() after paying in 1999 pence", str(a), "Account 7, Old Tom: £19.99")
+    expect_equal("str() after paying in 1999 pence", str(a), "Account 7, Paul: £19.99")
     a.deposit(10001)
-    expect_equal("str() with pounds in the hundreds", str(a), "Account 7, Old Tom: £120.00")
+    expect_equal("str() with pounds in the hundreds", str(a), "Account 7, Paul: £120.00")
 
 
 def no_overdraft(ctx):
-    a = account(ctx, "Pip", 13)
+    a = account(ctx, "Yahya", 13)
     a.deposit(500)
     result = a.withdraw(501)
     expect_equal("Taking out more than the balance should return False.", result, False)
@@ -60,7 +60,7 @@ def no_overdraft(ctx):
 
 
 def everything_out(ctx):
-    a = account(ctx, "Gwen", 21)
+    a = account(ctx, "Caitlin", 21)
     a.deposit(800)
     expect_equal("Taking out exactly the balance is allowed.", a.withdraw(800), True)
     expect_equal("That leaves nothing.", a.balance, 0)
@@ -68,14 +68,14 @@ def everything_out(ctx):
 
 
 def bad_deposits(ctx):
-    a = account(ctx, "Pip", 13)
+    a = account(ctx, "Yahya", 13)
     raises_value_error("deposit(-500)", lambda: a.deposit(-500))
     raises_value_error("deposit(0)", lambda: a.deposit(0))
     expect_equal("A refused deposit changes nothing.", (a.balance, a.history), (0, []))
 
 
 def bad_withdrawals(ctx):
-    a = account(ctx, "Pip", 13)
+    a = account(ctx, "Yahya", 13)
     a.deposit(100)
     raises_value_error("withdraw(-100)", lambda: a.withdraw(-100))
     raises_value_error("withdraw(0)", lambda: a.withdraw(0))
@@ -84,16 +84,16 @@ def bad_withdrawals(ctx):
 
 def two_accounts(ctx):
     m = ctx.module()
-    bea = m.Account("Bea", 1)
-    gwen = m.Account("Gwen", 2)
-    bea.deposit(300)
-    expect_equal("Paying into Bea's account changed Gwen's balance.", gwen.balance, 0)
-    expect_equal("Paying into Bea's account changed Gwen's history.", gwen.history, [])
+    riya = m.Account("Riya", 1)
+    neil = m.Account("Neil", 2)
+    riya.deposit(300)
+    expect_equal("Paying into Riya's account changed Neil's balance.", neil.balance, 0)
+    expect_equal("Paying into Riya's account changed Neil's history.", neil.history, [])
 
 
 TESTS = [
     custom("A new account", new_account, visible=True),
-    custom("Bea pays in £20 and takes out £7.50", pay_in_take_out, visible=True),
+    custom("Aaesha pays in £20 and takes out £7.50", pay_in_take_out, visible=True),
     custom("str() of an account", as_text,
            hint="The balance is in pence: divide by 100 for pounds, and show two decimal places."),
     custom("No more out than went in", no_overdraft,

@@ -1,6 +1,6 @@
 # Misconceptions for Act III, Jobs 9 to 13: heaps, graphs, Dijkstra, backtracking, dynamic programming and A*.
 
-# -- Heaps for the Priority Pile -------------------------------------------------
+# -- Task Scheduler --------------------------------------------------------------
 heap-list-is-sorted:
   concept: heaps
   description: Thinks a heap kept in a list is in sorted order, rather than only having the smallest item at the front.
@@ -32,7 +32,7 @@ negating-reverses-names:
   concept: priority-queues
   description: Thinks pushing the negative of the priority also reverses the order of ties between the other items in the tuple.
 
-# -- The Road Map ----------------------------------------------------------------
+# -- Maze Solver -----------------------------------------------------------------
 graph-roads-one-list-both-ways:
   concept: graphs
   description: Thinks writing a road in one place's list of neighbours makes it go both ways.
@@ -67,7 +67,7 @@ dfs-finds-shortest:
   concept: dfs
   description: Thinks the first route depth-first search finds to a place is the shortest one.
 
-# -- The Cheapest Route ----------------------------------------------------------
+# -- Route Planner, weighted -----------------------------------------------------
 weighted-route-counts-roads:
   concept: weighted-graphs
   description: Thinks the length of a route in a weighted graph is how many roads it has, not the sum of the numbers on them.
@@ -93,7 +93,7 @@ dijkstra-settles-by-roads:
   concept: dijkstra
   description: Thinks Dijkstra's algorithm settles places in order of how many roads away they are, rather than how far.
 
-# -- Puzzles from the Pub --------------------------------------------------------
+# -- Sudoku Solver ---------------------------------------------------------------
 backtracking-keeps-choices:
   concept: backtracking
   description: Thinks a choice that led nowhere can be left in place while the next choice is tried, so never undoes it.
@@ -119,7 +119,7 @@ greedy-is-fewest:
   concept: dynamic-programming
   description: Thinks always taking the biggest coin that fits gives the fewest coins, whatever the coins are.
 
-# -- The Scrapyard Route Planner -------------------------------------------------
+# -- Route Planner ---------------------------------------------------------------
 a-star-greedy-to-goal:
   concept: a-star
   description: Thinks A* takes whichever waiting tile is nearest the goal, ignoring what it cost to reach it.

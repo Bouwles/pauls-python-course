@@ -325,7 +325,7 @@ def cmd_submit(args) -> int:
 
 
 def main(argv=None) -> int:
-    parser = argparse.ArgumentParser(prog="ppc", description="Take It Home projects for Fixwick.")
+    parser = argparse.ArgumentParser(prog="ppc", description="Take It Home projects for Paul's Python Course.")
     parser.add_argument("--version", action="version", version=f"ppc {__version__}")
     parser.add_argument("--site", help="the course site, e.g. https://example.org (default: where you logged in)")
     sub = parser.add_subparsers(dest="command", metavar="command")

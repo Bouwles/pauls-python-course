@@ -86,14 +86,14 @@ def keeps_name(ctx):
         raise CheckFailed("After decorating, the function should still be called restock.", expected="restock", actual=got)
 
 
-def sanjays_functions(ctx):
+def tills_functions(ctx):
     mod = fresh(ctx, 0.0, 0.5, 1.0, 1.25, 2.0, 2.1)
     mod.look_up_price("figs")
     mod.weigh(2, 0.90)
     mod.label("figs", 1.6)
     names = [name for name, seconds in mod.log]
     if names != ["look_up_price", "weigh", "label"]:
-        raise CheckFailed("Each of Sanjay's three functions should be logged when it's called.", expected="['look_up_price', 'weigh', 'label']", actual=repr(names))
+        raise CheckFailed("Each of the till's three functions should be logged when it's called.", expected="['look_up_price', 'weigh', 'label']", actual=repr(names))
 
 
 def more_than_there_are(ctx):
@@ -218,8 +218,8 @@ TESTS = [
            hint="Append one entry per call, after the call, with end minus start."),
     custom("A decorated function keeps its own name", keeps_name,
            hint="Put @functools.wraps(func) on the line above def wrapper."),
-    custom("Sanjay's three functions are timed", sanjays_functions,
-           hint="Put @timed on the line above each of Sanjay's three functions."),
+    custom("The till's three functions are timed", tills_functions,
+           hint="Put @timed on the line above each of the till's three functions."),
     custom("slowest when asked for more than there are", more_than_there_are,
            hint="A slice past the end is fine: by_time[:10] on four entries gives all four."),
     custom("An empty log", empty_log,

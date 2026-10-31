@@ -23,8 +23,8 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      def check(tide):
-          if tide > 5:
+      def check(score):
+          if score > 5:
               return "high"
           return "low"
 
@@ -67,19 +67,19 @@ cards:
   - type: fix
     prompt: "This should print `7.20`. It crashes instead. Fix the function."
     code: |
-      def price(loaves):
-          print(loaves * 2.4)
+      def price(coffees):
+          print(coffees * 2.4)
 
       total = price(3)
       print(f"{total:.2f}")
     tests: |
       TESTS = [
-          output("Three loaves", expect="7.20"),
+          output("Three coffees", expect="7.20"),
           function("price(1)", call="price", args=(1,), expect=2.4),
       ]
     solution: |
-      def price(loaves):
-          return loaves * 2.4
+      def price(coffees):
+          return coffees * 2.4
 
       total = price(3)
       print(f"{total:.2f}")

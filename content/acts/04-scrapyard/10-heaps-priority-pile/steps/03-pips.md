@@ -1,12 +1,12 @@
 ---
 id: pips
 type: pips
-title: Pip's Version
+title: Fix Riya's version
 dialogue:
-  - pip: "Nell's scheduler, with heapq. Priority first in the tuple, so the urgent ones come out first."
-  - pip: "Mrs Vance says she was in before Mr Ashby. She was. I still served him first."
+  - riya: "Can you look at mine? A scheduler with heapq. Priority first in the tuple, so urgent comes out first."
+  - riya: "My headphones went in before Paul's lamp. Same priority. It mended the lamp first."
 dialogue_after:
-  - pip: "So the tuple was choosing between them, and it chose by the alphabet."
+  - riya: "So the tuple was choosing between them, and it chose by the alphabet. P before R."
 hints:
   nudge: "Two repairs both have priority 3. What does Python compare next, to decide which tuple is smaller?"
   plan:
@@ -24,7 +24,7 @@ hints:
         priority, arrival, repair = ___
         return repair
 ---
-A heap that hands back the smallest thing is a **priority queue**, if you put the priority first. Pip stores each repair as `(priority, repair)`, and tuples compare item by item: first the priorities, and only if those tie, the next thing along.
+A heap that hands back the smallest thing is a **priority queue**, if you put the priority first. Riya stores each repair as `(priority, repair)`, and tuples compare item by item: first the priorities, and only if those tie, the next thing along.
 
 Run it and read who gets mended second.
 

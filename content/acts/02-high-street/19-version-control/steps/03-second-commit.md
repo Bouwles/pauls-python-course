@@ -15,4 +15,4 @@ tasks:
     check: [{ kind: commits, min: 2 }, { kind: file-contains, file: jobs.py, text: "Fix the gate", committed: true }, { kind: clean }]
     feedback: "Two photographs. `git log --oneline` shows them newest first."
 ---
-`git diff` shows exactly what you changed since the last time you staged. Read it before every commit, the way Moss measures before he cuts.
+`git diff` shows exactly what you changed since the last time you staged. Read it before every commit. Paul does, every time.

@@ -33,4 +33,4 @@ options:
 ---
 `Counter`, from the `collections` module, counts a list for you. It gives back a kind of dictionary: each different item, with how many times it turned up.
 
-Mrs Vance would do this with a pencil. Commit to an answer, then run it.
+Aaesha would do this with a spreadsheet. Lock in your answer, then run it.

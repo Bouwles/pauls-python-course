@@ -1,0 +1,332 @@
+/* The Ship: the program running on the client's phone, their reaction, the stamp, the Shelf. */
+.ship {
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) minmax(0, 560px);
+  justify-content: center;
+  align-items: start;
+  gap: var(--s-12);
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: var(--s-12) var(--s-8) var(--s-10);
+}
+
+.waiting {
+  grid-template-columns: minmax(240px, 340px) minmax(0, 560px);
+}
+
+.figure {
+  min-height: 360px;
+}
+
+.side {
+  display: grid;
+  gap: var(--s-5);
+  min-width: 0;
+}
+
+.head {
+  display: grid;
+  gap: var(--s-2);
+}
+
+.kicker {
+  font-size: var(--fs-2);
+  font-weight: 700;
+  color: var(--text-2);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--fs-7);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: var(--tracking-display);
+  text-wrap: balance;
+}
+
+.lede {
+  font-size: var(--fs-3);
+  color: var(--text-2);
+  max-width: var(--measure);
+}
+
+.small {
+  font-size: var(--fs-2);
+  color: var(--text-2);
+}
+
+/* The demo: a phone drawn as a simple frame, the program's output on its screen. */
+.demo {
+  display: grid;
+  gap: var(--s-3);
+  justify-items: center;
+}
+
+.deviceLabel {
+  font-size: var(--fs-1);
+  font-weight: 700;
+  color: var(--text-2);
+}
+
+.phone {
+  width: min(320px, 100%);
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: var(--r-lg);
+  background: var(--surface-3);
+  box-shadow: var(--shadow-float);
+}
+
+.phoneBar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  height: 34px;
+  border-radius: var(--r-md) var(--r-md) 0 0;
+  background: var(--editor);
+  border-bottom: 1px solid var(--line);
+  color: var(--text-2);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.phoneDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--pass);
+}
+
+.screen {
+  flex: 1;
+  min-height: 320px;
+  max-height: 460px;
+  margin: 0;
+  padding: var(--s-4);
+  border-radius: 0 0 var(--r-md) var(--r-md);
+  background: var(--editor);
+  color: var(--text);
+  font-family: var(--font-code);
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow: auto;
+}
+
+.typed {
+  color: var(--syn-number);
+  font-weight: 700;
+}
+
+.err {
+  color: var(--fail-text);
+}
+
+/* The client and the stamp. */
+.reaction {
+  position: relative;
+  justify-self: start;
+}
+
+.smallFigure {
+  width: 220px;
+  min-height: 220px;
+}
+
+.stamp {
+  position: absolute;
+  right: -132px;
+  top: 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-4);
+  border: 3px solid var(--pass);
+  border-radius: var(--r-md);
+  background: var(--bg);
+  color: var(--pass-text);
+  font-family: var(--font-display);
+  font-size: var(--fs-5);
+  font-weight: 800;
+  letter-spacing: var(--tracking-display);
+  transform: rotate(-8deg);
+  white-space: nowrap;
+}
+
+/* It lands: big, then down with a small bounce. */
+.thud {
+  animation: stamp 420ms var(--ease-spring);
+}
+
+@keyframes stamp {
+  0% {
+    opacity: 0;
+    transform: rotate(-14deg) scale(1.8);
+  }
+
+  55% {
+    opacity: 1;
+    transform: rotate(-8deg) scale(0.94);
+  }
+
+  100% {
+    transform: rotate(-8deg) scale(1);
+  }
+}
+
+.bubbles {
+  display: grid;
+  gap: var(--s-3);
+  padding-left: var(--s-2);
+}
+
+.bubble p {
+  font-size: var(--fs-3);
+  line-height: 1.5;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+/* Below the moment: the Pro gate, Paul's review, stretch tasks. */
+.more {
+  display: grid;
+  gap: var(--s-6);
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 var(--s-8) var(--s-12);
+}
+
+.section {
+  display: grid;
+  gap: var(--s-4);
+  padding-top: var(--s-6);
+  border-top: 1px solid var(--line);
+}
+
+.sectionTitle {
+  font-size: var(--fs-5);
+  font-weight: 700;
+}
+
+.notes {
+  display: grid;
+  gap: var(--s-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.note {
+  display: grid;
+  gap: var(--s-2);
+  padding: var(--s-4) var(--s-5);
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+}
+
+:root[data-theme="light"] .note {
+  background: var(--surface-1);
+  border: 1px solid var(--line);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .note {
+    background: var(--surface-1);
+    border: 1px solid var(--line);
+  }
+}
+
+.note code {
+  font-size: 0.9em;
+  padding: 1px 5px;
+  border-radius: var(--r-sm);
+  background: var(--surface-3);
+}
+
+.noteTitle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s-1) var(--s-3);
+  font-weight: 700;
+}
+
+.where {
+  font-size: var(--fs-1);
+  font-weight: 400;
+  color: var(--text-2);
+}
+
+.doneTag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  font-size: var(--fs-1);
+  color: var(--pass-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thud {
+    animation: none;
+  }
+}
+
+:root[data-motion="reduced"] .thud {
+  animation: none;
+}
+
+@container wb (max-width: 1080px) {
+  .ship,
+  .waiting {
+    grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
+    gap: var(--s-8);
+    padding: var(--s-8) var(--s-6);
+  }
+
+  .title {
+    font-size: var(--fs-6);
+  }
+}
+
+@container wb (max-width: 860px) {
+  .ship,
+  .waiting {
+    grid-template-columns: 1fr;
+    gap: var(--s-6);
+    padding: var(--s-5) var(--s-4) var(--s-8);
+  }
+
+  .waiting .figure {
+    min-height: 200px !important;
+  }
+
+  .ship > .side {
+    order: -1;
+  }
+
+  .screen {
+    min-height: 220px;
+  }
+
+  .stamp {
+    right: -120px;
+    top: 20px;
+  }
+
+  .smallFigure {
+    width: 160px;
+    min-height: 160px !important;
+  }
+
+  .more {
+    padding: 0 var(--s-4) var(--s-10);
+  }
+}

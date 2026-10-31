@@ -48,7 +48,7 @@ cards:
         misconception: gives-up-after-one-look
         feedback: "`break` only runs when a part is the anchor. A part that isn't the anchor just lets the loop carry on."
   - type: choice
-    prompt: "Nell's pile of parts is in no order at all. Which search can she use?"
+    prompt: "Caitlin's box of parts is in no order at all. Which search can she use?"
     verify: none
     options:
       - text: Linear search

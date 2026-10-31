@@ -4,7 +4,7 @@ type: predict
 title: Up and down again
 concept: call-stack
 dialogue:
-  - nell: "Up the ladder to the top crate, then back down. Every rung twice."
+  - neil: "Up the ladder to the top, then back down. Every rung twice."
 code: |
   def climb(rung):
       if rung == 0:

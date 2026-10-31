@@ -23,7 +23,7 @@ False
 Text can be compared too. `==` checks that two strings are exactly the same, and `<` and `>` put them in order one character at a time, using each character's code number:
 
 ```python
-print("Bea" == "bea")
+print("Emma" == "emma")
 print("apple" < "banana")
 print("Zebra" < "apple")
 print(ord("Z"), ord("a"))
@@ -38,7 +38,7 @@ True
 True
 ```
 
-Capitals matter. `"Bea"` and `"bea"` are different, and every capital letter comes before every lower-case one, so `"Zebra"` sorts before `"apple"`. To compare without caring about case, lower both sides first: `name.lower() == "bea"`. The last line is a trap: comparing text that looks like numbers goes by characters, and `"1"` comes before `"9"`. Turn the text into numbers with `int()` before comparing.
+Capitals matter. `"Emma"` and `"emma"` are different, and every capital letter comes before every lower-case one, so `"Zebra"` sorts before `"apple"`. To compare without caring about case, lower both sides first: `name.lower() == "emma"`. The last line is a trap: comparing text that looks like numbers goes by characters, and `"1"` comes before `"9"`. Turn the text into numbers with `int()` before comparing.
 
 ## Common mistakes
 

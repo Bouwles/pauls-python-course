@@ -23,7 +23,7 @@ cards:
       print(estimated, provisional)
     answer: "1 1"
   - type: choice
-    prompt: "Priya's rainfall, read straight into numbers. How many readings does this lose?"
+    prompt: "Aaesha's rainfall, read straight into numbers. How many readings does this lose?"
     code: |
       import pandas as pd
 

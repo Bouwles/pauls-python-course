@@ -2,19 +2,21 @@
 
 import { useRef, useState } from "react";
 import type { InvestigateStep, InvestigateTask } from "@/lib/content/types";
-import type { CheckReport, Files } from "@/lib/python/protocol";
+import type { CheckReport, Files, RunResult } from "@/lib/python/protocol";
 import type { StepProgressRow } from "@/lib/store/types";
 import { looseMatches } from "@/lib/content/answers";
+import { cuesFromRun } from "@/lib/reactions";
 import { Button } from "../../ui/Button";
-import { PassIcon } from "../../ui/Icons";
+import { Icon } from "../../ui/Icon";
 import { CodeWorkspace } from "../CodeWorkspace";
+import { Instructions } from "../Instructions";
 import { useWorkbench } from "../context";
-import { NextRow, Prose, StepHeading } from "./common";
-import { Ticket } from "../Ticket";
+import { NextRow, isDone } from "./common";
 import styles from "./steps.module.css";
 
+/** Investigate: run the code, answer questions about it, change it and check the change. */
 export function InvestigateStepView({ step, row }: { step: InvestigateStep; row: StepProgressRow }) {
-  const { areas, updateStep, markPassed, job } = useWorkbench();
+  const { areas, updateStep, markPassed, job, cue } = useWorkbench();
   const done = (row.data.tasks ?? {}) as Record<string, boolean>;
   const answers = (row.data.answers ?? {}) as Record<string, string>;
   const checkRef = useRef<((key: string) => Promise<CheckReport | null>) | null>(null);
@@ -30,18 +32,23 @@ export function InvestigateStepView({ step, row }: { step: InvestigateStep; row:
 
   return (
     <>
-      <Ticket>
-        <StepHeading step={step} />
-        <Prose html={step.html} />
+      <Instructions step={step} footer={<NextRow row={row} editor />}>
         <ol className={styles.tasks}>
           {step.tasks.map((t) => (
-            <Task key={t.id} task={t} done={Boolean(done[t.id])} saved={answers[t.id] ?? ""} onDone={(a) => void complete(t.id, a)} check={() => checkRef.current?.(`${job.id}/${step.id}/${t.id}`) ?? Promise.resolve(null)} onAttempt={() => void updateStep(step.id, (r) => ({ attempts: r.attempts + 1 }))} />
+            <Task
+              key={t.id}
+              task={t}
+              done={Boolean(done[t.id])}
+              saved={answers[t.id] ?? ""}
+              onDone={(a) => void complete(t.id, a)}
+              check={() => checkRef.current?.(`${job.id}/${step.id}/${t.id}`) ?? Promise.resolve(null)}
+              onAttempt={() => void updateStep(step.id, (r) => ({ attempts: r.attempts + 1 }))}
+            />
           ))}
         </ol>
-        <NextRow row={row} />
-      </Ticket>
+      </Instructions>
       <div className={areas.stage}>
-        <CodeWorkspace stepId={step.id} files={["main.py"]} starter={{ "main.py": step.code }} checkRef={checkRef} filesRef={filesRef} />
+        <CodeWorkspace stepId={step.id} files={["main.py"]} starter={{ "main.py": step.code }} checkRef={checkRef} filesRef={filesRef} onRun={(r: RunResult) => void cue(cuesFromRun(r))} done={isDone(row)} />
       </div>
     </>
   );
@@ -80,35 +87,34 @@ function Task({ task, done, saved, onDone, check, onAttempt }: { task: Investiga
   };
 
   return (
-    <li className={styles.task}>
-      <p className={styles.taskPrompt} dangerouslySetInnerHTML={{ __html: task.promptHtml }} />
-      {task.kind === "answer" ? (
-        <form className={styles.row} onSubmit={submitAnswer}>
-          <label className="visually-hidden" htmlFor={`a-${task.id}`}>
-            Your answer
-          </label>
-          <input id={`a-${task.id}`} className={styles.field} style={{ maxWidth: 220 }} value={answer} onChange={(e) => setAnswer(e.target.value)} disabled={done} autoComplete="off" spellCheck={false} />
-          {!done ? (
-            <Button type="submit" size="sm" variant="secondary" disabled={!answer.trim()}>
-              Check answer
+    <li className={[styles.task, done ? styles.taskDone : ""].join(" ")}>
+      <span className={styles.taskMark} aria-hidden="true">
+        {done ? <Icon name="check" size={16} /> : null}
+      </span>
+      <div className={styles.taskBody}>
+        <p className={styles.taskPrompt} dangerouslySetInnerHTML={{ __html: task.promptHtml }} />
+        {task.kind === "answer" ? (
+          <form className={styles.answerRow} onSubmit={submitAnswer}>
+            <label className="visually-hidden" htmlFor={`a-${task.id}`}>
+              Your answer
+            </label>
+            <input id={`a-${task.id}`} className={styles.answer} value={answer} onChange={(e) => setAnswer(e.target.value)} disabled={done} autoComplete="off" spellCheck={false} />
+            {!done ? (
+              <Button type="submit" size="sm" variant="secondary" disabled={!answer.trim()}>
+                Check answer
+              </Button>
+            ) : null}
+          </form>
+        ) : !done ? (
+          <div>
+            <Button size="sm" variant="secondary" icon="check" onClick={() => void runCheck()} disabled={checking}>
+              {checking ? "Checking" : "Check my change"}
             </Button>
-          ) : null}
-        </form>
-      ) : !done ? (
-        <div className={styles.row}>
-          <Button size="sm" variant="secondary" onClick={() => void runCheck()} disabled={checking}>
-            {checking ? "Checking" : "Check my change"}
-          </Button>
-        </div>
-      ) : null}
-      {done ? (
-        <span className={styles.done}>
-          <PassIcon /> Done
-        </span>
-      ) : null}
-      {feedback ? (
-        <p className={[styles.feedback, feedback.good ? styles.feedbackGood : styles.feedbackBad].join(" ")} role="status" dangerouslySetInnerHTML={{ __html: feedback.text }} />
-      ) : null}
+          </div>
+        ) : null}
+        {done ? <span className="visually-hidden">Done.</span> : null}
+        {feedback ? <p className={[styles.taskFeedback, feedback.good ? styles.good : styles.bad].join(" ")} role="status" dangerouslySetInnerHTML={{ __html: feedback.text }} /> : null}
+      </div>
     </li>
   );
 }

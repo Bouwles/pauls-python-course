@@ -5,7 +5,7 @@ title: Learning backwards
 files: [network.py, learn.py]
 entry: learn.py
 starter_from: make-forward
-on_pass: { wendt: "W1 ok, b1 ok, W2 ok, b2 ok. Arithmetic agrees with calculus. It usually does. I still check." }
+on_pass: { aaesha: "W1 ok, b1 ok, W2 ok, b2 ok. Arithmetic agrees with calculus. It usually does. I still check." }
 hints:
   nudge: "Read the board from the bottom up. Which value's gradient do you know first, and which one does each line need from the line before?"
   plan:
@@ -51,17 +51,17 @@ hints:
                 params[name] -= ___
         return losses
 ---
-Write `backward`, `check_gradients` and `train` in `learn.py`. The rules are the ones from the other half of the board, and the comments follow the subgoals from the paper version. `numerical_gradient` is Pip's, fixed, and `forward` comes from your `network.py`.
+Write `backward`, `check_gradients` and `train` in `learn.py`. The rules are the ones from the other half of the board, and the comments follow the subgoals from the paper version. `numerical_gradient` is Aaesha's, fixed, and `forward` comes from your `network.py`.
 
 `check_gradients` can hand `numerical_gradient` a little function that runs `forward` on `params` and returns the loss. The checker nudges the arrays inside `params` in place, so that function sees every nudge.
 
-The program then teaches a network with random weights from Penhallow's log, `evenings.csv`: 600 evenings to learn from, and 200 it never sees until the end.
+The program then teaches a network with random weights from Paul's log, `evenings.csv`: 600 evenings to learn from, and 200 it never sees until the end.
 
 ```text
 Gradients: W1 ok, b1 ok, W2 ok, b2 ok
 Loss: 0.2952 at the start, 0.0051 at the end
 All three right on 195 of 200 evenings it never saw
-Tonight: lamp, horn, gate
+Tonight: lights, beacon, shutters
 ```
 
 The checks compare your gradients with measured ones on networks of several sizes, including one with a neuron that never fires, and test `check_gradients` with a backward that is right and one that is wrong.

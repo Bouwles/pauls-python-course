@@ -38,21 +38,21 @@ test("a teacher makes a class, a learner joins with the code, and sees the Job s
   await teacher.getByRole("link", { name: className }).click();
   await expect(teacher.getByRole("heading", { level: 1, name: className })).toBeVisible();
   await expect(teacher.getByRole("link", { name: "Ruth" })).toBeVisible();
-  await teacher.getByLabel("Job", { exact: true }).selectOption("bill-splitter");
+  await teacher.getByLabel("Project", { exact: true }).selectOption("bill-splitter");
   await teacher.getByLabel("Due, if any").fill(due);
-  await teacher.getByRole("button", { name: "Set the Job" }).click();
+  await teacher.getByRole("button", { name: "Set the project" }).click();
   await expect(teacher.getByRole("status").filter({ hasText: "Set Bill Splitter." })).toBeVisible();
   await expect(teacher.getByRole("row").filter({ hasText: "Bill Splitter" })).toContainText("0 of 1");
 
   // The teacher can open the learner's page.
   await teacher.getByRole("link", { name: "Ruth" }).click();
   await expect(teacher.getByRole("heading", { level: 1, name: "Ruth" })).toBeVisible();
-  await expect(teacher.getByRole("heading", { name: "Jobs", exact: true })).toBeVisible();
+  await expect(teacher.getByRole("heading", { name: "Projects", exact: true })).toBeVisible();
   await expect(teacher.getByRole("button", { name: `Remove from ${className}` })).toBeVisible();
 
   // The learner sees it on the map, quietly, linking to the Job.
   await learner.goto("/map");
-  const assigned = learner.getByRole("list", { name: "Jobs set by your class" });
+  const assigned = learner.getByRole("region", { name: "Set by your class" });
   await expect(assigned).toContainText(`Assigned by ${className}:`);
   await expect(assigned.getByRole("link", { name: "Bill Splitter" })).toHaveAttribute("href", "/job/bill-splitter");
 

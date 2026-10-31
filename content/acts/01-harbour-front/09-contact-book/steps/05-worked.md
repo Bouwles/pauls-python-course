@@ -1,15 +1,15 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "My parts drawers. A little record for each part, and nobody remembers the full names."
+  - paul: "The clock's spare parts, in drawers. A record for each, and nobody remembers the full names."
 code: |
-  # Moss's parts drawers: a record for each part
+  # The clock's spare parts: a record for each one
   drawers = {
-      "radio valve": {"drawer": 3, "left": 2},
+      "main spring": {"drawer": 3, "left": 2},
       "brass screw": {"drawer": 7, "left": 140},
-      "valve cap": {"drawer": 3, "left": 9},
+      "spring washer": {"drawer": 3, "left": 9},
   }
 
   part = input("Part? ")
@@ -26,7 +26,7 @@ code: |
           if len(matches) > 0:
               print("Try: " + ", ".join(matches))
       part = input("Part? ")
-inputs: ["brass screw", "valve", "fuse", ""]
+inputs: ["brass screw", "spring", "fuse", ""]
 subgoals:
   - label: Keep a record for each name
     lines: [2, 6]
@@ -42,7 +42,7 @@ subgoals:
     lines: [19, 20]
 explain:
   prompt: "Line 17 checks `part.lower() in name.split()`. Why split the name, instead of `part in name`?"
-  answer: "`part in name` looks for the letters anywhere, so `a` would find every part with an a in it. Splitting the name into words means only a whole word counts: `valve` finds the radio valve and the valve cap, and `val` finds nothing."
+  answer: "`part in name` looks for the letters anywhere, so `a` would find every part with an a in it. Splitting the name into words means only a whole word counts: `spring` finds the main spring and the spring washer, and `spr` finds nothing."
   concept: split-join
 ---
 Each value in `drawers` is a dictionary of its own. `drawers.get(part)` hands back that inner dictionary, or `None` when there's no such part, and `is not None` asks whether it found one.

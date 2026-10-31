@@ -23,8 +23,8 @@ def machine_plays(hands, inputs, expect):
 
 TESTS = [
     custom("First to one", machine_plays(["scissors"], ["1", "rock"],
-           "I chose scissors. You win.\nYou 1, me 0, draws 0.\nYou're off the glasses."), visible=True),
+           "I chose scissors. You win.\nYou 1, me 0, draws 0.\nYou're off the coffee run."), visible=True),
     custom("Not a number, then five", machine_plays(["paper"], ["five", "0", "5", "rock", "rock", "rock", "rock", "rock"],
            "A whole number, please.\nA whole number, please.\n" + "I chose paper. I win.\n" * 5 +
-           "You 0, me 5, draws 0.\nYou're on the glasses.")),
+           "You 0, me 5, draws 0.\nYou're on the coffee run.")),
 ]

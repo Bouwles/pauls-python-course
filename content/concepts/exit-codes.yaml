@@ -52,7 +52,7 @@ cards:
         misconception: exit-only-leaves-function
         feedback: "`sys.exit()` ends the whole program, not just `save`. With no number it finishes with code 0, but nothing after it runs."
   - type: choice
-    prompt: "Moss's backup script only copies the ledger if the job tool finishes with exit code 0. The tool can't find the ledger. What should it finish with?"
+    prompt: "Paul's backup script only copies the marks if the job tool finishes with exit code 0. The tool can't find the marks. What should it finish with?"
     verify: none
     options:
       - text: "1"
@@ -89,18 +89,18 @@ cards:
           sys.exit(1)
       print(f"{stock[item]} {item} in stock.")
   - type: fill
-    prompt: "Fill the gap so a negative tide stops the program with exit code 1."
+    prompt: "Fill the gap so a negative distance stops the program with exit code 1."
     code: |
       import sys
 
-      tide = -1
-      if tide < 0:
-          print("A tide can't be negative.")
+      distance = -1
+      if distance < 0:
+          print("A distance can't be negative.")
           sys.___(1)
-      print(f"Tide: {tide} m")
+      print(f"Distance: {distance} km")
     blanks: [["exit"]]
     tests: |
-      TESTS = [output("Stops with 1", expect="A tide can't be negative.", exit_code=1)]
+      TESTS = [output("Stops with 1", expect="A distance can't be negative.", exit_code=1)]
   - type: write
     prompt: "If `name` is empty, print `No name given.` and finish with exit code 2. Otherwise print `Hello, NAME.`"
     starter: |
@@ -110,7 +110,7 @@ cards:
     tests: |
       TESTS = [
           output("No name", expect="No name given.", exit_code=2),
-          output("Gwen", set_vars={"name": "Gwen"}, expect="Hello, Gwen.", exit_code=0),
+          output("Caitlin", set_vars={"name": "Caitlin"}, expect="Hello, Caitlin.", exit_code=0),
       ]
     solution: |
       import sys

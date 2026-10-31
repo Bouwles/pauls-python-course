@@ -21,4 +21,4 @@ options:
 ---
 Square brackets with a `for` inside build a new list in one line. This is called a **list comprehension**. Read it as: *score times two, for each score in scores*.
 
-Gwen's joker round counts double. Commit to an answer, then run it.
+Caitlin's joker round counts double. Lock in your answer, then run it.

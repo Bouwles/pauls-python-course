@@ -1,0 +1,3955 @@
+{
+  "about": "Every image the illustrator delivers (REDESIGN-2.md 8). Written by scripts/build-art-manifest.ts; statuses are kept up to date by scripts/check-art.ts. See art/README.md.",
+  "naming": "The file name is the id with every \".\" replaced by \"_\", plus \".png\": paul.portrait.pleased is paul_portrait_pleased.png.",
+  "entries": [
+    {
+      "id": "paul.portrait.neutral",
+      "file": "paul_portrait_neutral.png",
+      "kind": "portrait",
+      "character": "paul",
+      "expression": "neutral",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Paul, neutral. At rest and friendly, looking at the viewer. An easy half-smile."
+    },
+    {
+      "id": "paul.portrait.talking",
+      "file": "paul_portrait_talking.png",
+      "kind": "portrait",
+      "character": "paul",
+      "expression": "talking",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Paul, talking. Mid-sentence, mouth open, explaining something."
+    },
+    {
+      "id": "paul.portrait.pleased",
+      "file": "paul_portrait_pleased.png",
+      "kind": "portrait",
+      "character": "paul",
+      "expression": "pleased",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Paul, pleased. Happy with what they see on the screen. A big, open grin."
+    },
+    {
+      "id": "paul.portrait.proud",
+      "file": "paul_portrait_proud.png",
+      "kind": "portrait",
+      "character": "paul",
+      "expression": "proud",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Paul, proud. Something they made works, and they know it."
+    },
+    {
+      "id": "paul.portrait.thinking",
+      "file": "paul_portrait_thinking.png",
+      "kind": "portrait",
+      "character": "paul",
+      "expression": "thinking",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Paul, thinking. Working something out, eyes up and to the side. Pushing his backwards cap back, or rubbing the back of his neck."
+    },
+    {
+      "id": "paul.portrait.confused",
+      "file": "paul_portrait_confused.png",
+      "kind": "portrait",
+      "character": "paul",
+      "expression": "confused",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Paul, confused. Brows knitted, head tilted: that output makes no sense."
+    },
+    {
+      "id": "paul.portrait.worried",
+      "file": "paul_portrait_worried.png",
+      "kind": "portrait",
+      "character": "paul",
+      "expression": "worried",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Paul, worried. Brows up in the middle, mouth tight: something might be about to break."
+    },
+    {
+      "id": "paul.portrait.surprised",
+      "file": "paul_portrait_surprised.png",
+      "kind": "portrait",
+      "character": "paul",
+      "expression": "surprised",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Paul, surprised. Brows up, eyes wide, mouth open."
+    },
+    {
+      "id": "paul.portrait.laughing",
+      "file": "paul_portrait_laughing.png",
+      "kind": "portrait",
+      "character": "paul",
+      "expression": "laughing",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Paul, laughing. A real laugh, eyes creased."
+    },
+    {
+      "id": "paul.portrait.unimpressed",
+      "file": "paul_portrait_unimpressed.png",
+      "kind": "portrait",
+      "character": "paul",
+      "expression": "unimpressed",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Paul, unimpressed. Flat mouth, one brow lower: not convinced."
+    },
+    {
+      "id": "paul.portrait.crown",
+      "file": "paul_portrait_crown.png",
+      "kind": "portrait",
+      "character": "paul",
+      "expression": "crown",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Paul laughing, in a small gold paper crown (on top of his cap or in place of it): the final scene, when the clock runs again."
+    },
+    {
+      "id": "paul.body.standing",
+      "file": "paul_body_standing.png",
+      "kind": "body",
+      "character": "paul",
+      "pose": "standing",
+      "size": {
+        "width": 1024,
+        "height": 2048
+      },
+      "transparent": true,
+      "display": [
+        180,
+        240,
+        360
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Paul, full body, standing, in their everyday outfit."
+    },
+    {
+      "id": "paul.body.action",
+      "file": "paul_body_action.png",
+      "kind": "body",
+      "character": "paul",
+      "pose": "action",
+      "size": {
+        "width": 1024,
+        "height": 2048
+      },
+      "transparent": true,
+      "display": [
+        180,
+        240,
+        360
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Paul, full body. At a chalkboard, chalk in hand, mid-explanation."
+    },
+    {
+      "id": "neil.portrait.neutral",
+      "file": "neil_portrait_neutral.png",
+      "kind": "portrait",
+      "character": "neil",
+      "expression": "neutral",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Neil, neutral. At rest and friendly, looking at the viewer. A wide, friendly smile."
+    },
+    {
+      "id": "neil.portrait.talking",
+      "file": "neil_portrait_talking.png",
+      "kind": "portrait",
+      "character": "neil",
+      "expression": "talking",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Neil, talking. Mid-sentence, mouth open, explaining something."
+    },
+    {
+      "id": "neil.portrait.pleased",
+      "file": "neil_portrait_pleased.png",
+      "kind": "portrait",
+      "character": "neil",
+      "expression": "pleased",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Neil, pleased. Happy with what they see on the screen."
+    },
+    {
+      "id": "neil.portrait.proud",
+      "file": "neil_portrait_proud.png",
+      "kind": "portrait",
+      "character": "neil",
+      "expression": "proud",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Neil, proud. Something they made works, and they know it."
+    },
+    {
+      "id": "neil.portrait.thinking",
+      "file": "neil_portrait_thinking.png",
+      "kind": "portrait",
+      "character": "neil",
+      "expression": "thinking",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Neil, thinking. Working something out, eyes up and to the side. Pushing his black glasses up his nose, the way he does when he's debugging."
+    },
+    {
+      "id": "neil.portrait.confused",
+      "file": "neil_portrait_confused.png",
+      "kind": "portrait",
+      "character": "neil",
+      "expression": "confused",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Neil, confused. Brows knitted, head tilted: that output makes no sense."
+    },
+    {
+      "id": "neil.portrait.worried",
+      "file": "neil_portrait_worried.png",
+      "kind": "portrait",
+      "character": "neil",
+      "expression": "worried",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Neil, worried. Brows up in the middle, mouth tight: something might be about to break."
+    },
+    {
+      "id": "neil.portrait.surprised",
+      "file": "neil_portrait_surprised.png",
+      "kind": "portrait",
+      "character": "neil",
+      "expression": "surprised",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Neil, surprised. Brows up, eyes wide, mouth open."
+    },
+    {
+      "id": "neil.portrait.laughing",
+      "file": "neil_portrait_laughing.png",
+      "kind": "portrait",
+      "character": "neil",
+      "expression": "laughing",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Neil, laughing. A real laugh, eyes creased."
+    },
+    {
+      "id": "neil.portrait.unimpressed",
+      "file": "neil_portrait_unimpressed.png",
+      "kind": "portrait",
+      "character": "neil",
+      "expression": "unimpressed",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Neil, unimpressed. Flat mouth, one brow lower: not convinced."
+    },
+    {
+      "id": "neil.body.standing",
+      "file": "neil_body_standing.png",
+      "kind": "body",
+      "character": "neil",
+      "pose": "standing",
+      "size": {
+        "width": 1024,
+        "height": 2048
+      },
+      "transparent": true,
+      "display": [
+        180,
+        240,
+        360
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Neil, full body, standing, in their everyday outfit."
+    },
+    {
+      "id": "neil.body.action",
+      "file": "neil_body_action.png",
+      "kind": "body",
+      "character": "neil",
+      "pose": "action",
+      "size": {
+        "width": 1024,
+        "height": 2048
+      },
+      "transparent": true,
+      "display": [
+        180,
+        240,
+        360
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Neil, full body. Pointing at a screen, showing you the line that's wrong."
+    },
+    {
+      "id": "aaesha.portrait.neutral",
+      "file": "aaesha_portrait_neutral.png",
+      "kind": "portrait",
+      "character": "aaesha",
+      "expression": "neutral",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Aaesha, neutral. At rest and friendly, looking at the viewer. A warm, closed-mouth smile."
+    },
+    {
+      "id": "aaesha.portrait.talking",
+      "file": "aaesha_portrait_talking.png",
+      "kind": "portrait",
+      "character": "aaesha",
+      "expression": "talking",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Aaesha, talking. Mid-sentence, mouth open, explaining something."
+    },
+    {
+      "id": "aaesha.portrait.pleased",
+      "file": "aaesha_portrait_pleased.png",
+      "kind": "portrait",
+      "character": "aaesha",
+      "expression": "pleased",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Aaesha, pleased. Happy with what they see on the screen."
+    },
+    {
+      "id": "aaesha.portrait.proud",
+      "file": "aaesha_portrait_proud.png",
+      "kind": "portrait",
+      "character": "aaesha",
+      "expression": "proud",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Aaesha, proud. Something they made works, and they know it."
+    },
+    {
+      "id": "aaesha.portrait.thinking",
+      "file": "aaesha_portrait_thinking.png",
+      "kind": "portrait",
+      "character": "aaesha",
+      "expression": "thinking",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Aaesha, thinking. Working something out, eyes up and to the side."
+    },
+    {
+      "id": "aaesha.portrait.confused",
+      "file": "aaesha_portrait_confused.png",
+      "kind": "portrait",
+      "character": "aaesha",
+      "expression": "confused",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Aaesha, confused. Brows knitted, head tilted: that output makes no sense."
+    },
+    {
+      "id": "aaesha.portrait.worried",
+      "file": "aaesha_portrait_worried.png",
+      "kind": "portrait",
+      "character": "aaesha",
+      "expression": "worried",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Aaesha, worried. Brows up in the middle, mouth tight: something might be about to break."
+    },
+    {
+      "id": "aaesha.portrait.surprised",
+      "file": "aaesha_portrait_surprised.png",
+      "kind": "portrait",
+      "character": "aaesha",
+      "expression": "surprised",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Aaesha, surprised. Brows up, eyes wide, mouth open."
+    },
+    {
+      "id": "aaesha.portrait.laughing",
+      "file": "aaesha_portrait_laughing.png",
+      "kind": "portrait",
+      "character": "aaesha",
+      "expression": "laughing",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Aaesha, laughing. A real laugh, eyes creased."
+    },
+    {
+      "id": "aaesha.portrait.unimpressed",
+      "file": "aaesha_portrait_unimpressed.png",
+      "kind": "portrait",
+      "character": "aaesha",
+      "expression": "unimpressed",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Aaesha, unimpressed. Flat mouth, one brow lower: not convinced."
+    },
+    {
+      "id": "aaesha.body.standing",
+      "file": "aaesha_body_standing.png",
+      "kind": "body",
+      "character": "aaesha",
+      "pose": "standing",
+      "size": {
+        "width": 1024,
+        "height": 2048
+      },
+      "transparent": true,
+      "display": [
+        180,
+        240,
+        360
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Aaesha, full body, standing, in their everyday outfit."
+    },
+    {
+      "id": "aaesha.body.action",
+      "file": "aaesha_body_action.png",
+      "kind": "body",
+      "character": "aaesha",
+      "pose": "action",
+      "size": {
+        "width": 1024,
+        "height": 2048
+      },
+      "transparent": true,
+      "display": [
+        180,
+        240,
+        360
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Aaesha, full body. Holding a clipboard, checking something off."
+    },
+    {
+      "id": "caitlin.portrait.neutral",
+      "file": "caitlin_portrait_neutral.png",
+      "kind": "portrait",
+      "character": "caitlin",
+      "expression": "neutral",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Caitlin, neutral. At rest and friendly, looking at the viewer. A calm, slightly knowing closed-mouth smile."
+    },
+    {
+      "id": "caitlin.portrait.talking",
+      "file": "caitlin_portrait_talking.png",
+      "kind": "portrait",
+      "character": "caitlin",
+      "expression": "talking",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Caitlin, talking. Mid-sentence, mouth open, explaining something."
+    },
+    {
+      "id": "caitlin.portrait.pleased",
+      "file": "caitlin_portrait_pleased.png",
+      "kind": "portrait",
+      "character": "caitlin",
+      "expression": "pleased",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Caitlin, pleased. Happy with what they see on the screen."
+    },
+    {
+      "id": "caitlin.portrait.proud",
+      "file": "caitlin_portrait_proud.png",
+      "kind": "portrait",
+      "character": "caitlin",
+      "expression": "proud",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Caitlin, proud. Something they made works, and they know it."
+    },
+    {
+      "id": "caitlin.portrait.thinking",
+      "file": "caitlin_portrait_thinking.png",
+      "kind": "portrait",
+      "character": "caitlin",
+      "expression": "thinking",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Caitlin, thinking. Working something out, eyes up and to the side."
+    },
+    {
+      "id": "caitlin.portrait.confused",
+      "file": "caitlin_portrait_confused.png",
+      "kind": "portrait",
+      "character": "caitlin",
+      "expression": "confused",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Caitlin, confused. Brows knitted, head tilted: that output makes no sense."
+    },
+    {
+      "id": "caitlin.portrait.worried",
+      "file": "caitlin_portrait_worried.png",
+      "kind": "portrait",
+      "character": "caitlin",
+      "expression": "worried",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Caitlin, worried. Brows up in the middle, mouth tight: something might be about to break."
+    },
+    {
+      "id": "caitlin.portrait.surprised",
+      "file": "caitlin_portrait_surprised.png",
+      "kind": "portrait",
+      "character": "caitlin",
+      "expression": "surprised",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Caitlin, surprised. Brows up, eyes wide, mouth open."
+    },
+    {
+      "id": "caitlin.portrait.laughing",
+      "file": "caitlin_portrait_laughing.png",
+      "kind": "portrait",
+      "character": "caitlin",
+      "expression": "laughing",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Caitlin, laughing. A real laugh, eyes creased."
+    },
+    {
+      "id": "caitlin.portrait.unimpressed",
+      "file": "caitlin_portrait_unimpressed.png",
+      "kind": "portrait",
+      "character": "caitlin",
+      "expression": "unimpressed",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Caitlin, unimpressed. Flat mouth, one brow lower: not convinced."
+    },
+    {
+      "id": "caitlin.body.standing",
+      "file": "caitlin_body_standing.png",
+      "kind": "body",
+      "character": "caitlin",
+      "pose": "standing",
+      "size": {
+        "width": 1024,
+        "height": 2048
+      },
+      "transparent": true,
+      "display": [
+        180,
+        240,
+        360
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Caitlin, full body, standing, in their everyday outfit."
+    },
+    {
+      "id": "caitlin.body.action",
+      "file": "caitlin_body_action.png",
+      "kind": "body",
+      "character": "caitlin",
+      "pose": "action",
+      "size": {
+        "width": 1024,
+        "height": 2048
+      },
+      "transparent": true,
+      "display": [
+        180,
+        240,
+        360
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Caitlin, full body. Holding a game controller, leaning into it."
+    },
+    {
+      "id": "riya.portrait.neutral",
+      "file": "riya_portrait_neutral.png",
+      "kind": "portrait",
+      "character": "riya",
+      "expression": "neutral",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Riya, neutral. At rest and friendly, looking at the viewer. A playful closed-mouth smile."
+    },
+    {
+      "id": "riya.portrait.talking",
+      "file": "riya_portrait_talking.png",
+      "kind": "portrait",
+      "character": "riya",
+      "expression": "talking",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Riya, talking. Mid-sentence, mouth open, explaining something."
+    },
+    {
+      "id": "riya.portrait.pleased",
+      "file": "riya_portrait_pleased.png",
+      "kind": "portrait",
+      "character": "riya",
+      "expression": "pleased",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Riya, pleased. Happy with what they see on the screen. Making a finger heart."
+    },
+    {
+      "id": "riya.portrait.proud",
+      "file": "riya_portrait_proud.png",
+      "kind": "portrait",
+      "character": "riya",
+      "expression": "proud",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Riya, proud. Something they made works, and they know it."
+    },
+    {
+      "id": "riya.portrait.thinking",
+      "file": "riya_portrait_thinking.png",
+      "kind": "portrait",
+      "character": "riya",
+      "expression": "thinking",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Riya, thinking. Working something out, eyes up and to the side."
+    },
+    {
+      "id": "riya.portrait.confused",
+      "file": "riya_portrait_confused.png",
+      "kind": "portrait",
+      "character": "riya",
+      "expression": "confused",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Riya, confused. Brows knitted, head tilted: that output makes no sense."
+    },
+    {
+      "id": "riya.portrait.worried",
+      "file": "riya_portrait_worried.png",
+      "kind": "portrait",
+      "character": "riya",
+      "expression": "worried",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Riya, worried. Brows up in the middle, mouth tight: something might be about to break."
+    },
+    {
+      "id": "riya.portrait.surprised",
+      "file": "riya_portrait_surprised.png",
+      "kind": "portrait",
+      "character": "riya",
+      "expression": "surprised",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Riya, surprised. Brows up, eyes wide, mouth open."
+    },
+    {
+      "id": "riya.portrait.laughing",
+      "file": "riya_portrait_laughing.png",
+      "kind": "portrait",
+      "character": "riya",
+      "expression": "laughing",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Riya, laughing. A real laugh, eyes creased."
+    },
+    {
+      "id": "riya.portrait.unimpressed",
+      "file": "riya_portrait_unimpressed.png",
+      "kind": "portrait",
+      "character": "riya",
+      "expression": "unimpressed",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Riya, unimpressed. Flat mouth, one brow lower: not convinced."
+    },
+    {
+      "id": "riya.body.standing",
+      "file": "riya_body_standing.png",
+      "kind": "body",
+      "character": "riya",
+      "pose": "standing",
+      "size": {
+        "width": 1024,
+        "height": 2048
+      },
+      "transparent": true,
+      "display": [
+        180,
+        240,
+        360
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Riya, full body, standing, in their everyday outfit."
+    },
+    {
+      "id": "riya.body.action",
+      "file": "riya_body_action.png",
+      "kind": "body",
+      "character": "riya",
+      "pose": "action",
+      "size": {
+        "width": 1024,
+        "height": 2048
+      },
+      "transparent": true,
+      "display": [
+        180,
+        240,
+        360
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Riya, full body. With an open laptop on one arm, typing with the other hand."
+    },
+    {
+      "id": "yahya.portrait.neutral",
+      "file": "yahya_portrait_neutral.png",
+      "kind": "portrait",
+      "character": "yahya",
+      "expression": "neutral",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Yahya, neutral. At rest and friendly, looking at the viewer. Cool and unbothered. His smile is rare and earned."
+    },
+    {
+      "id": "yahya.portrait.talking",
+      "file": "yahya_portrait_talking.png",
+      "kind": "portrait",
+      "character": "yahya",
+      "expression": "talking",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Yahya, talking. Mid-sentence, mouth open, explaining something."
+    },
+    {
+      "id": "yahya.portrait.pleased",
+      "file": "yahya_portrait_pleased.png",
+      "kind": "portrait",
+      "character": "yahya",
+      "expression": "pleased",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Yahya, pleased. Happy with what they see on the screen."
+    },
+    {
+      "id": "yahya.portrait.proud",
+      "file": "yahya_portrait_proud.png",
+      "kind": "portrait",
+      "character": "yahya",
+      "expression": "proud",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Yahya, proud. Something they made works, and they know it. Throwing a peace sign."
+    },
+    {
+      "id": "yahya.portrait.thinking",
+      "file": "yahya_portrait_thinking.png",
+      "kind": "portrait",
+      "character": "yahya",
+      "expression": "thinking",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Yahya, thinking. Working something out, eyes up and to the side."
+    },
+    {
+      "id": "yahya.portrait.confused",
+      "file": "yahya_portrait_confused.png",
+      "kind": "portrait",
+      "character": "yahya",
+      "expression": "confused",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Yahya, confused. Brows knitted, head tilted: that output makes no sense."
+    },
+    {
+      "id": "yahya.portrait.worried",
+      "file": "yahya_portrait_worried.png",
+      "kind": "portrait",
+      "character": "yahya",
+      "expression": "worried",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Yahya, worried. Brows up in the middle, mouth tight: something might be about to break."
+    },
+    {
+      "id": "yahya.portrait.surprised",
+      "file": "yahya_portrait_surprised.png",
+      "kind": "portrait",
+      "character": "yahya",
+      "expression": "surprised",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Yahya, surprised. Brows up, eyes wide, mouth open."
+    },
+    {
+      "id": "yahya.portrait.laughing",
+      "file": "yahya_portrait_laughing.png",
+      "kind": "portrait",
+      "character": "yahya",
+      "expression": "laughing",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Yahya, laughing. A real laugh, eyes creased."
+    },
+    {
+      "id": "yahya.portrait.unimpressed",
+      "file": "yahya_portrait_unimpressed.png",
+      "kind": "portrait",
+      "character": "yahya",
+      "expression": "unimpressed",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        64,
+        128,
+        256,
+        512
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Yahya, unimpressed. Flat mouth, one brow lower: not convinced."
+    },
+    {
+      "id": "yahya.body.standing",
+      "file": "yahya_body_standing.png",
+      "kind": "body",
+      "character": "yahya",
+      "pose": "standing",
+      "size": {
+        "width": 1024,
+        "height": 2048
+      },
+      "transparent": true,
+      "display": [
+        180,
+        240,
+        360
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Yahya, full body, standing, in their everyday outfit."
+    },
+    {
+      "id": "yahya.body.action",
+      "file": "yahya_body_action.png",
+      "kind": "body",
+      "character": "yahya",
+      "pose": "action",
+      "size": {
+        "width": 1024,
+        "height": 2048
+      },
+      "transparent": true,
+      "display": [
+        180,
+        240,
+        360
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Yahya, full body. Holding up a stopwatch, timing you."
+    },
+    {
+      "id": "group.workshop",
+      "file": "group_workshop.png",
+      "kind": "group",
+      "character": null,
+      "size": {
+        "width": 2400,
+        "height": 1600
+      },
+      "transparent": false,
+      "display": [
+        480,
+        720,
+        960
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "The whole class in the Workshop: Paul at the chalkboard, Neil leaning on a desk, Aaesha, Caitlin, Riya and Yahya at their laptops, the duck on Neil's desk. School-uniform outfits are welcome here."
+    },
+    {
+      "id": "clocktower.shell",
+      "file": "clocktower_shell.png",
+      "kind": "tower",
+      "character": null,
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 4000
+      },
+      "transparent": false,
+      "display": [
+        240,
+        360,
+        600
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "The building around the floors, night: the brick walls, the sky, the street and the roof line, with each floor's band left empty for its layer."
+    },
+    {
+      "id": "clocktower.shell.day",
+      "file": "clocktower_shell_day.png",
+      "kind": "tower",
+      "character": null,
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 4000
+      },
+      "transparent": false,
+      "display": [
+        240,
+        360,
+        600
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "The building around the floors, day: the brick walls, the sky, the street and the roof line, with each floor's band left empty for its layer."
+    },
+    {
+      "id": "clocktower.ground.locked",
+      "file": "clocktower_ground_locked.png",
+      "kind": "floor",
+      "character": "paul",
+      "state": "locked",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Ground floor: The Workshop, Act I. Paul's classroom: a big desk, a chalkboard, the duck. Paul is here when it's busy. Dark. The furniture under dust sheets. No people. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.ground.locked.day",
+      "file": "clocktower_ground_locked_day.png",
+      "kind": "floor",
+      "character": "paul",
+      "state": "locked",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Ground floor: The Workshop, Act I. Paul's classroom: a big desk, a chalkboard, the duck. Paul is here when it's busy. Dark. The furniture under dust sheets. No people. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.ground.open",
+      "file": "clocktower_ground_open.png",
+      "kind": "floor",
+      "character": "paul",
+      "state": "open",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Ground floor: The Workshop, Act I. Paul's classroom: a big desk, a chalkboard, the duck. Paul is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.ground.open.day",
+      "file": "clocktower_ground_open_day.png",
+      "kind": "floor",
+      "character": "paul",
+      "state": "open",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Ground floor: The Workshop, Act I. Paul's classroom: a big desk, a chalkboard, the duck. Paul is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.ground.busy",
+      "file": "clocktower_ground_busy.png",
+      "kind": "floor",
+      "character": "paul",
+      "state": "busy",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Ground floor: The Workshop, Act I. Paul's classroom: a big desk, a chalkboard, the duck. Paul is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.ground.busy.day",
+      "file": "clocktower_ground_busy_day.png",
+      "kind": "floor",
+      "character": "paul",
+      "state": "busy",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Ground floor: The Workshop, Act I. Paul's classroom: a big desk, a chalkboard, the duck. Paul is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.floor1.locked",
+      "file": "clocktower_floor1_locked.png",
+      "kind": "floor",
+      "character": "neil",
+      "state": "locked",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Floor 1: The Studio, Act II. Desks, shelves of notebooks, a kettle. Neil is here when it's busy. Dark. The furniture under dust sheets. No people. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.floor1.locked.day",
+      "file": "clocktower_floor1_locked_day.png",
+      "kind": "floor",
+      "character": "neil",
+      "state": "locked",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Floor 1: The Studio, Act II. Desks, shelves of notebooks, a kettle. Neil is here when it's busy. Dark. The furniture under dust sheets. No people. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.floor1.open",
+      "file": "clocktower_floor1_open.png",
+      "kind": "floor",
+      "character": "neil",
+      "state": "open",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Floor 1: The Studio, Act II. Desks, shelves of notebooks, a kettle. Neil is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.floor1.open.day",
+      "file": "clocktower_floor1_open_day.png",
+      "kind": "floor",
+      "character": "neil",
+      "state": "open",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Floor 1: The Studio, Act II. Desks, shelves of notebooks, a kettle. Neil is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.floor1.busy",
+      "file": "clocktower_floor1_busy.png",
+      "kind": "floor",
+      "character": "neil",
+      "state": "busy",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Floor 1: The Studio, Act II. Desks, shelves of notebooks, a kettle. Neil is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.floor1.busy.day",
+      "file": "clocktower_floor1_busy_day.png",
+      "kind": "floor",
+      "character": "neil",
+      "state": "busy",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Floor 1: The Studio, Act II. Desks, shelves of notebooks, a kettle. Neil is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.floor2.locked",
+      "file": "clocktower_floor2_locked.png",
+      "kind": "floor",
+      "character": "caitlin",
+      "state": "locked",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Floor 2: The Makerspace, Act III. A soldering bench, a small arcade cabinet, a server under the desk. Caitlin is here when it's busy. Dark. The furniture under dust sheets. No people. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.floor2.locked.day",
+      "file": "clocktower_floor2_locked_day.png",
+      "kind": "floor",
+      "character": "caitlin",
+      "state": "locked",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Floor 2: The Makerspace, Act III. A soldering bench, a small arcade cabinet, a server under the desk. Caitlin is here when it's busy. Dark. The furniture under dust sheets. No people. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.floor2.open",
+      "file": "clocktower_floor2_open.png",
+      "kind": "floor",
+      "character": "caitlin",
+      "state": "open",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Floor 2: The Makerspace, Act III. A soldering bench, a small arcade cabinet, a server under the desk. Caitlin is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.floor2.open.day",
+      "file": "clocktower_floor2_open_day.png",
+      "kind": "floor",
+      "character": "caitlin",
+      "state": "open",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Floor 2: The Makerspace, Act III. A soldering bench, a small arcade cabinet, a server under the desk. Caitlin is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.floor2.busy",
+      "file": "clocktower_floor2_busy.png",
+      "kind": "floor",
+      "character": "caitlin",
+      "state": "busy",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Floor 2: The Makerspace, Act III. A soldering bench, a small arcade cabinet, a server under the desk. Caitlin is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.floor2.busy.day",
+      "file": "clocktower_floor2_busy_day.png",
+      "kind": "floor",
+      "character": "caitlin",
+      "state": "busy",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Floor 2: The Makerspace, Act III. A soldering bench, a small arcade cabinet, a server under the desk. Caitlin is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.floor3.locked",
+      "file": "clocktower_floor3_locked.png",
+      "kind": "floor",
+      "character": "yahya",
+      "state": "locked",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Floor 3: The Puzzle Room, Act IV. A wall of sticky notes and string, a chess table. Yahya is here when it's busy. Dark. The furniture under dust sheets. No people. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.floor3.locked.day",
+      "file": "clocktower_floor3_locked_day.png",
+      "kind": "floor",
+      "character": "yahya",
+      "state": "locked",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Floor 3: The Puzzle Room, Act IV. A wall of sticky notes and string, a chess table. Yahya is here when it's busy. Dark. The furniture under dust sheets. No people. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.floor3.open",
+      "file": "clocktower_floor3_open.png",
+      "kind": "floor",
+      "character": "yahya",
+      "state": "open",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Floor 3: The Puzzle Room, Act IV. A wall of sticky notes and string, a chess table. Yahya is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.floor3.open.day",
+      "file": "clocktower_floor3_open_day.png",
+      "kind": "floor",
+      "character": "yahya",
+      "state": "open",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Floor 3: The Puzzle Room, Act IV. A wall of sticky notes and string, a chess table. Yahya is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.floor3.busy",
+      "file": "clocktower_floor3_busy.png",
+      "kind": "floor",
+      "character": "yahya",
+      "state": "busy",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Floor 3: The Puzzle Room, Act IV. A wall of sticky notes and string, a chess table. Yahya is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.floor3.busy.day",
+      "file": "clocktower_floor3_busy_day.png",
+      "kind": "floor",
+      "character": "yahya",
+      "state": "busy",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Floor 3: The Puzzle Room, Act IV. A wall of sticky notes and string, a chess table. Yahya is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.floor4.locked",
+      "file": "clocktower_floor4_locked.png",
+      "kind": "floor",
+      "character": "aaesha",
+      "state": "locked",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Floor 4: The Archive, Act V. Filing cabinets, a huge wall chart, a weather station outside the window. Aaesha is here when it's busy. Dark. The furniture under dust sheets. No people. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.floor4.locked.day",
+      "file": "clocktower_floor4_locked_day.png",
+      "kind": "floor",
+      "character": "aaesha",
+      "state": "locked",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Floor 4: The Archive, Act V. Filing cabinets, a huge wall chart, a weather station outside the window. Aaesha is here when it's busy. Dark. The furniture under dust sheets. No people. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.floor4.open",
+      "file": "clocktower_floor4_open.png",
+      "kind": "floor",
+      "character": "aaesha",
+      "state": "open",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Floor 4: The Archive, Act V. Filing cabinets, a huge wall chart, a weather station outside the window. Aaesha is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.floor4.open.day",
+      "file": "clocktower_floor4_open_day.png",
+      "kind": "floor",
+      "character": "aaesha",
+      "state": "open",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Floor 4: The Archive, Act V. Filing cabinets, a huge wall chart, a weather station outside the window. Aaesha is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.floor4.busy",
+      "file": "clocktower_floor4_busy.png",
+      "kind": "floor",
+      "character": "aaesha",
+      "state": "busy",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Floor 4: The Archive, Act V. Filing cabinets, a huge wall chart, a weather station outside the window. Aaesha is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.floor4.busy.day",
+      "file": "clocktower_floor4_busy_day.png",
+      "kind": "floor",
+      "character": "aaesha",
+      "state": "busy",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Floor 4: The Archive, Act V. Filing cabinets, a huge wall chart, a weather station outside the window. Aaesha is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.floor5.locked",
+      "file": "clocktower_floor5_locked.png",
+      "kind": "floor",
+      "character": "riya",
+      "state": "locked",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Floor 5: The Model Room, Act VI. Whiteboards full of graphs, a coffee machine. Riya is here when it's busy. Dark. The furniture under dust sheets. No people. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.floor5.locked.day",
+      "file": "clocktower_floor5_locked_day.png",
+      "kind": "floor",
+      "character": "riya",
+      "state": "locked",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Floor 5: The Model Room, Act VI. Whiteboards full of graphs, a coffee machine. Riya is here when it's busy. Dark. The furniture under dust sheets. No people. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.floor5.open",
+      "file": "clocktower_floor5_open.png",
+      "kind": "floor",
+      "character": "riya",
+      "state": "open",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Floor 5: The Model Room, Act VI. Whiteboards full of graphs, a coffee machine. Riya is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.floor5.open.day",
+      "file": "clocktower_floor5_open_day.png",
+      "kind": "floor",
+      "character": "riya",
+      "state": "open",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Floor 5: The Model Room, Act VI. Whiteboards full of graphs, a coffee machine. Riya is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.floor5.busy",
+      "file": "clocktower_floor5_busy.png",
+      "kind": "floor",
+      "character": "riya",
+      "state": "busy",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Floor 5: The Model Room, Act VI. Whiteboards full of graphs, a coffee machine. Riya is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.floor5.busy.day",
+      "file": "clocktower_floor5_busy_day.png",
+      "kind": "floor",
+      "character": "riya",
+      "state": "busy",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Floor 5: The Model Room, Act VI. Whiteboards full of graphs, a coffee machine. Riya is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.floor6.locked",
+      "file": "clocktower_floor6_locked.png",
+      "kind": "floor",
+      "character": "aaesha",
+      "state": "locked",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Floor 6: The Engine Room, Act VII. The clock's gears behind glass, a rack of glowing servers. Aaesha and Neil are here when it's busy. Dark. The furniture under dust sheets. No people. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.floor6.locked.day",
+      "file": "clocktower_floor6_locked_day.png",
+      "kind": "floor",
+      "character": "aaesha",
+      "state": "locked",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Floor 6: The Engine Room, Act VII. The clock's gears behind glass, a rack of glowing servers. Aaesha and Neil are here when it's busy. Dark. The furniture under dust sheets. No people. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.floor6.open",
+      "file": "clocktower_floor6_open.png",
+      "kind": "floor",
+      "character": "aaesha",
+      "state": "open",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Floor 6: The Engine Room, Act VII. The clock's gears behind glass, a rack of glowing servers. Aaesha and Neil are here when it's busy. Lights on, furniture uncovered, ready for work. No people. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.floor6.open.day",
+      "file": "clocktower_floor6_open_day.png",
+      "kind": "floor",
+      "character": "aaesha",
+      "state": "open",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Floor 6: The Engine Room, Act VII. The clock's gears behind glass, a rack of glowing servers. Aaesha and Neil are here when it's busy. Lights on, furniture uncovered, ready for work. No people. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.floor6.busy",
+      "file": "clocktower_floor6_busy.png",
+      "kind": "floor",
+      "character": "aaesha",
+      "state": "busy",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Floor 6: The Engine Room, Act VII. The clock's gears behind glass, a rack of glowing servers. Aaesha and Neil are here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.floor6.busy.day",
+      "file": "clocktower_floor6_busy_day.png",
+      "kind": "floor",
+      "character": "aaesha",
+      "state": "busy",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Floor 6: The Engine Room, Act VII. The clock's gears behind glass, a rack of glowing servers. Aaesha and Neil are here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.floor7.locked",
+      "file": "clocktower_floor7_locked.png",
+      "kind": "floor",
+      "character": "yahya",
+      "state": "locked",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Floor 7: The Arcade, Act VIII. A row of cabinets, a leaderboard, a prize shelf. Yahya and Caitlin are here when it's busy. Dark. The furniture under dust sheets. No people. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.floor7.locked.day",
+      "file": "clocktower_floor7_locked_day.png",
+      "kind": "floor",
+      "character": "yahya",
+      "state": "locked",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Floor 7: The Arcade, Act VIII. A row of cabinets, a leaderboard, a prize shelf. Yahya and Caitlin are here when it's busy. Dark. The furniture under dust sheets. No people. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.floor7.open",
+      "file": "clocktower_floor7_open.png",
+      "kind": "floor",
+      "character": "yahya",
+      "state": "open",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Floor 7: The Arcade, Act VIII. A row of cabinets, a leaderboard, a prize shelf. Yahya and Caitlin are here when it's busy. Lights on, furniture uncovered, ready for work. No people. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.floor7.open.day",
+      "file": "clocktower_floor7_open_day.png",
+      "kind": "floor",
+      "character": "yahya",
+      "state": "open",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Floor 7: The Arcade, Act VIII. A row of cabinets, a leaderboard, a prize shelf. Yahya and Caitlin are here when it's busy. Lights on, furniture uncovered, ready for work. No people. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.floor7.busy",
+      "file": "clocktower_floor7_busy.png",
+      "kind": "floor",
+      "character": "yahya",
+      "state": "busy",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Floor 7: The Arcade, Act VIII. A row of cabinets, a leaderboard, a prize shelf. Yahya and Caitlin are here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.floor7.busy.day",
+      "file": "clocktower_floor7_busy_day.png",
+      "kind": "floor",
+      "character": "yahya",
+      "state": "busy",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Floor 7: The Arcade, Act VIII. A row of cabinets, a leaderboard, a prize shelf. Yahya and Caitlin are here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.roof.locked",
+      "file": "clocktower_roof_locked.png",
+      "kind": "floor",
+      "character": "paul",
+      "state": "locked",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 800
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "The roof: The Roof Terrace, Act IX. The clock face, the city skyline at night, string lights. Everyone is here when it's busy. Dark. The furniture under dust sheets. No people. The clock is stuck at 3:14. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.roof.locked.day",
+      "file": "clocktower_roof_locked_day.png",
+      "kind": "floor",
+      "character": "paul",
+      "state": "locked",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 800
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "The roof: The Roof Terrace, Act IX. The clock face, the city skyline at night, string lights. Everyone is here when it's busy. Dark. The furniture under dust sheets. No people. The clock is stuck at 3:14. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.roof.open",
+      "file": "clocktower_roof_open.png",
+      "kind": "floor",
+      "character": "paul",
+      "state": "open",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 800
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "The roof: The Roof Terrace, Act IX. The clock face, the city skyline at night, string lights. Everyone is here when it's busy. Lights on, furniture uncovered, ready for work. No people. The clock is stuck at 3:14. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.roof.open.day",
+      "file": "clocktower_roof_open_day.png",
+      "kind": "floor",
+      "character": "paul",
+      "state": "open",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 800
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "The roof: The Roof Terrace, Act IX. The clock face, the city skyline at night, string lights. Everyone is here when it's busy. Lights on, furniture uncovered, ready for work. No people. The clock is stuck at 3:14. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.roof.busy",
+      "file": "clocktower_roof_busy.png",
+      "kind": "floor",
+      "character": "paul",
+      "state": "busy",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 800
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "The roof: The Roof Terrace, Act IX. The clock face, the city skyline at night, string lights. Everyone is here when it's busy. The clock running again at last, string lights on, the whole class there, Paul in his gold paper crown. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.roof.busy.day",
+      "file": "clocktower_roof_busy_day.png",
+      "kind": "floor",
+      "character": "paul",
+      "state": "busy",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 800
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "The roof: The Roof Terrace, Act IX. The clock face, the city skyline at night, string lights. Everyone is here when it's busy. The clock running again at last, string lights on, the whole class there, Paul in his gold paper crown. Day version: daylight through the windows."
+    },
+    {
+      "id": "avatar.face.oval",
+      "file": "avatar_face_oval.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "face",
+      "option": "oval",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Face shape: oval, with ears and neck. Greyscale, for tinting to the skin tone."
+    },
+    {
+      "id": "avatar.face.round",
+      "file": "avatar_face_round.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "face",
+      "option": "round",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Face shape: round, with ears and neck. Greyscale, for tinting to the skin tone."
+    },
+    {
+      "id": "avatar.face.square",
+      "file": "avatar_face_square.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "face",
+      "option": "square",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Face shape: square, with ears and neck. Greyscale, for tinting to the skin tone."
+    },
+    {
+      "id": "avatar.face.long",
+      "file": "avatar_face_long.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "face",
+      "option": "long",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Face shape: long, with ears and neck. Greyscale, for tinting to the skin tone."
+    },
+    {
+      "id": "avatar.face.heart",
+      "file": "avatar_face_heart.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "face",
+      "option": "heart",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Face shape: heart, with ears and neck. Greyscale, for tinting to the skin tone."
+    },
+    {
+      "id": "avatar.features",
+      "file": "avatar_features.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "features",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Eyes, nose and a friendly closed-mouth smile, in full colour, placed for every face shape."
+    },
+    {
+      "id": "avatar.brows.straight",
+      "file": "avatar_brows_straight.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "brows",
+      "option": "straight",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Eyebrows: straight. Greyscale, tinted to the hair colour."
+    },
+    {
+      "id": "avatar.brows.arched",
+      "file": "avatar_brows_arched.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "brows",
+      "option": "arched",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Eyebrows: arched. Greyscale, tinted to the hair colour."
+    },
+    {
+      "id": "avatar.brows.thick",
+      "file": "avatar_brows_thick.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "brows",
+      "option": "thick",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Eyebrows: thick. Greyscale, tinted to the hair colour."
+    },
+    {
+      "id": "avatar.brows.fine",
+      "file": "avatar_brows_fine.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "brows",
+      "option": "fine",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Eyebrows: fine. Greyscale, tinted to the hair colour."
+    },
+    {
+      "id": "avatar.hair.short-straight",
+      "file": "avatar_hair_short-straight.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "hair",
+      "option": "short-straight",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Short and straight. Greyscale, tinted to the hair colour."
+    },
+    {
+      "id": "avatar.hair.short-curly",
+      "file": "avatar_hair_short-curly.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "hair",
+      "option": "short-curly",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Short curls. Greyscale, tinted to the hair colour."
+    },
+    {
+      "id": "avatar.hair.buzz",
+      "file": "avatar_hair_buzz.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "hair",
+      "option": "buzz",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Buzz cut. Greyscale, tinted to the hair colour."
+    },
+    {
+      "id": "avatar.hair.wavy-medium",
+      "file": "avatar_hair_wavy-medium.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "hair",
+      "option": "wavy-medium",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Wavy, medium length. Greyscale, tinted to the hair colour."
+    },
+    {
+      "id": "avatar.hair.long-straight",
+      "file": "avatar_hair_long-straight.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "hair",
+      "option": "long-straight",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Long and straight. Greyscale, tinted to the hair colour."
+    },
+    {
+      "id": "avatar.hair.long-straight.back",
+      "file": "avatar_hair_long-straight_back.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "hair",
+      "option": "long-straight.back",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Long and straight: the part that falls behind the head and shoulders, drawn under the face layer."
+    },
+    {
+      "id": "avatar.hair.long-wavy",
+      "file": "avatar_hair_long-wavy.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "hair",
+      "option": "long-wavy",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Long and wavy. Greyscale, tinted to the hair colour."
+    },
+    {
+      "id": "avatar.hair.long-wavy.back",
+      "file": "avatar_hair_long-wavy_back.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "hair",
+      "option": "long-wavy.back",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Long and wavy: the part that falls behind the head and shoulders, drawn under the face layer."
+    },
+    {
+      "id": "avatar.hair.curly-medium",
+      "file": "avatar_hair_curly-medium.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "hair",
+      "option": "curly-medium",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Curly, medium length. Greyscale, tinted to the hair colour."
+    },
+    {
+      "id": "avatar.hair.afro",
+      "file": "avatar_hair_afro.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "hair",
+      "option": "afro",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Afro. Greyscale, tinted to the hair colour."
+    },
+    {
+      "id": "avatar.hair.afro.back",
+      "file": "avatar_hair_afro_back.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "hair",
+      "option": "afro.back",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Afro: the part that falls behind the head and shoulders, drawn under the face layer."
+    },
+    {
+      "id": "avatar.hair.braids",
+      "file": "avatar_hair_braids.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "hair",
+      "option": "braids",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Braids. Greyscale, tinted to the hair colour."
+    },
+    {
+      "id": "avatar.hair.braids.back",
+      "file": "avatar_hair_braids_back.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "hair",
+      "option": "braids.back",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Braids: the part that falls behind the head and shoulders, drawn under the face layer."
+    },
+    {
+      "id": "avatar.hair.locs",
+      "file": "avatar_hair_locs.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "hair",
+      "option": "locs",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Locs. Greyscale, tinted to the hair colour."
+    },
+    {
+      "id": "avatar.hair.locs.back",
+      "file": "avatar_hair_locs_back.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "hair",
+      "option": "locs.back",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Locs: the part that falls behind the head and shoulders, drawn under the face layer."
+    },
+    {
+      "id": "avatar.hair.bun",
+      "file": "avatar_hair_bun.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "hair",
+      "option": "bun",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Bun. Greyscale, tinted to the hair colour."
+    },
+    {
+      "id": "avatar.hair.ponytail",
+      "file": "avatar_hair_ponytail.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "hair",
+      "option": "ponytail",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Ponytail. Greyscale, tinted to the hair colour."
+    },
+    {
+      "id": "avatar.hair.ponytail.back",
+      "file": "avatar_hair_ponytail_back.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "hair",
+      "option": "ponytail.back",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Ponytail: the part that falls behind the head and shoulders, drawn under the face layer."
+    },
+    {
+      "id": "avatar.hair.bob",
+      "file": "avatar_hair_bob.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "hair",
+      "option": "bob",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Bob. Greyscale, tinted to the hair colour."
+    },
+    {
+      "id": "avatar.hair.shaved",
+      "file": "avatar_hair_shaved.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "hair",
+      "option": "shaved",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Shaved. Greyscale, tinted to the hair colour."
+    },
+    {
+      "id": "avatar.hair.hijab",
+      "file": "avatar_hair_hijab.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "hair",
+      "option": "hijab",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Hijab. Greyscale, tinted to the chosen fabric colour."
+    },
+    {
+      "id": "avatar.hair.hijab.back",
+      "file": "avatar_hair_hijab_back.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "hair",
+      "option": "hijab.back",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Hijab: the part that falls behind the head and shoulders, drawn under the face layer."
+    },
+    {
+      "id": "avatar.hair.turban",
+      "file": "avatar_hair_turban.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "hair",
+      "option": "turban",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Turban. Greyscale, tinted to the chosen fabric colour."
+    },
+    {
+      "id": "avatar.hair.beanie",
+      "file": "avatar_hair_beanie.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "hair",
+      "option": "beanie",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Beanie. Greyscale, tinted to the chosen fabric colour."
+    },
+    {
+      "id": "avatar.facial-hair",
+      "file": "avatar_facial-hair.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "facial-hair",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Light stubble and a short beard. Greyscale, tinted to the hair colour."
+    },
+    {
+      "id": "avatar.glasses",
+      "file": "avatar_glasses.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "glasses",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Simple glasses with thin dark frames, in full colour."
+    },
+    {
+      "id": "avatar.top.hoodie",
+      "file": "avatar_top_hoodie.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "top",
+      "option": "hoodie",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Hoodie, shoulders and chest. Greyscale, tinted to the top colour."
+    },
+    {
+      "id": "avatar.top.jumper",
+      "file": "avatar_top_jumper.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "top",
+      "option": "jumper",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Jumper, shoulders and chest. Greyscale, tinted to the top colour."
+    },
+    {
+      "id": "avatar.top.shirt",
+      "file": "avatar_top_shirt.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "top",
+      "option": "shirt",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Shirt, shoulders and chest. Greyscale, tinted to the top colour."
+    },
+    {
+      "id": "avatar.top.jacket",
+      "file": "avatar_top_jacket.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "top",
+      "option": "jacket",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Jacket, shoulders and chest. Greyscale, tinted to the top colour."
+    },
+    {
+      "id": "avatar.accessory.headphones",
+      "file": "avatar_accessory_headphones.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "accessory",
+      "option": "headphones",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Headphones, in full colour."
+    },
+    {
+      "id": "avatar.accessory.cap",
+      "file": "avatar_accessory_cap.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "accessory",
+      "option": "cap",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Cap, in full colour."
+    },
+    {
+      "id": "avatar.accessory.scarf",
+      "file": "avatar_accessory_scarf.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "accessory",
+      "option": "scarf",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Scarf, in full colour."
+    },
+    {
+      "id": "shelf.shop-sign",
+      "file": "shelf_shop-sign.png",
+      "kind": "shelf",
+      "character": "paul",
+      "project": "shop-sign",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "transparent": true,
+      "display": [
+        32,
+        48,
+        64,
+        128
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Course Sign, for Paul. The small painted sign on the Clocktower's front door, reading \"Paul's Python Course\"."
+    },
+    {
+      "id": "shelf.bill-splitter",
+      "file": "shelf_bill-splitter.png",
+      "kind": "shelf",
+      "character": "riya",
+      "project": "bill-splitter",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "transparent": true,
+      "display": [
+        32,
+        48,
+        64,
+        128
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Bill Splitter, for Riya. A restaurant receipt from the class dinner, with the total split into equal shares in pen."
+    },
+    {
+      "id": "shelf.reading-tracebacks",
+      "file": "shelf_reading-tracebacks.png",
+      "kind": "shelf",
+      "character": "neil",
+      "project": "reading-tracebacks",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "transparent": true,
+      "display": [
+        32,
+        48,
+        64,
+        128
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Reading Tracebacks, for Neil. A magnifying glass over a printed traceback, the last line circled."
+    },
+    {
+      "id": "shelf.unit-converter",
+      "file": "shelf_unit-converter.png",
+      "kind": "shelf",
+      "character": "yahya",
+      "project": "unit-converter",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "transparent": true,
+      "display": [
+        32,
+        48,
+        64,
+        128
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Unit Converter, for Yahya. A running shoe with a tape measure looped through the laces."
+    },
+    {
+      "id": "shelf.password-checker",
+      "file": "shelf_password-checker.png",
+      "kind": "shelf",
+      "character": "aaesha",
+      "project": "password-checker",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "transparent": true,
+      "display": [
+        32,
+        48,
+        64,
+        128
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Password Checker, for Aaesha. A padlock with a paper tag listing numbered rules, most ticked."
+    },
+    {
+      "id": "shelf.times-table-trainer",
+      "file": "shelf_times-table-trainer.png",
+      "kind": "shelf",
+      "character": "riya",
+      "project": "times-table-trainer",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "transparent": true,
+      "display": [
+        32,
+        48,
+        64,
+        128
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Times Table Trainer, for Riya. A small chalk slate with a times table grid, one answer circled."
+    },
+    {
+      "id": "shelf.number-guessing-game",
+      "file": "shelf_number-guessing-game.png",
+      "kind": "shelf",
+      "character": "caitlin",
+      "project": "number-guessing-game",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "transparent": true,
+      "display": [
+        32,
+        48,
+        64,
+        128
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Number Guessing Game, for Caitlin. A sealed envelope with a big question mark, and a tally of guesses on the back."
+    },
+    {
+      "id": "shelf.to-do-list",
+      "file": "shelf_to-do-list.png",
+      "kind": "shelf",
+      "character": "neil",
+      "project": "to-do-list",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "transparent": true,
+      "display": [
+        32,
+        48,
+        64,
+        128
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "To-Do List, for Neil. A clipboard with a numbered to-do list, the top items ticked off."
+    },
+    {
+      "id": "shelf.contact-book",
+      "file": "shelf_contact-book.png",
+      "kind": "shelf",
+      "character": "aaesha",
+      "project": "contact-book",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "transparent": true,
+      "display": [
+        32,
+        48,
+        64,
+        128
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Contact Book, for Aaesha. A small address book with letter tabs down the side."
+    },
+    {
+      "id": "shelf.grade-calculator",
+      "file": "shelf_grade-calculator.png",
+      "kind": "shelf",
+      "character": "paul",
+      "project": "grade-calculator",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "transparent": true,
+      "display": [
+        32,
+        48,
+        64,
+        128
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Grade Calculator, for Paul. A marked test paper with a letter grade circled at the top."
+    },
+    {
+      "id": "shelf.rock-paper-scissors",
+      "file": "shelf_rock-paper-scissors.png",
+      "kind": "shelf",
+      "character": "caitlin",
+      "project": "rock-paper-scissors",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "transparent": true,
+      "display": [
+        32,
+        48,
+        64,
+        128
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Rock Paper Scissors, for Caitlin. A scorecard with a rock, a sheet of paper and a pair of scissors drawn on it, first to three."
+    },
+    {
+      "id": "shelf.calculator",
+      "file": "shelf_calculator.png",
+      "kind": "shelf",
+      "character": "riya",
+      "project": "calculator",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "transparent": true,
+      "display": [
+        32,
+        48,
+        64,
+        128
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Four-Function Calculator, for Riya. A chunky four-function pocket calculator."
+    },
+    {
+      "id": "shelf.expense-tracker",
+      "file": "shelf_expense-tracker.png",
+      "kind": "shelf",
+      "character": "aaesha",
+      "project": "expense-tracker",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "transparent": true,
+      "display": [
+        32,
+        48,
+        64,
+        128
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Expense Tracker, for Aaesha. A jar of coins labelled \"Trip fund\", with a small notebook of spending beside it."
+    },
+    {
+      "id": "duck",
+      "file": "duck.png",
+      "kind": "duck",
+      "character": null,
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "transparent": true,
+      "display": [
+        24,
+        48,
+        96
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "A yellow rubber duck with a chipped beak, side on, facing right. It lives on Neil's desk and never speaks."
+    }
+  ]
+}

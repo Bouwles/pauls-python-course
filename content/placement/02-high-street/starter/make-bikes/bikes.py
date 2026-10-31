@@ -1,1 +1,1 @@
-"""Dev and Kat's bike shed."""
+"""Caitlin's bike hire: the bikes, and the shed that has them."""

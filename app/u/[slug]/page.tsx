@@ -5,13 +5,13 @@ import { getDb } from "@/lib/server/db";
 import { validSlug } from "@/lib/server/classes";
 import { getIndex } from "@/lib/content/server";
 import { BRAND } from "@/lib/brand";
-import type { CharacterLook } from "@/lib/store/types";
 import { Page } from "@/components/site/Page";
 import { PublicShelf, type PublicAct } from "@/components/profile/PublicShelf";
 
 interface PublicProfile {
   displayName: string;
-  character: CharacterLook | null;
+  /** The learner's avatar (lib/avatar.ts), or an older look: read it with readAvatar(). */
+  character: unknown;
   slug: string;
   shipped: { jobId: string; status: string }[];
 }
@@ -27,7 +27,7 @@ const load = cache(async (slug: string): Promise<PublicProfile | null> => {
   return rows[0]?.p ?? null;
 });
 
-const nameOf = (p: PublicProfile) => p.displayName.trim() || "An apprentice";
+const nameOf = (p: PublicProfile) => p.displayName.trim() || "A learner";
 
 export async function generateMetadata(props: PageProps<"/u/[slug]">): Promise<Metadata> {
   const { slug } = await props.params;
@@ -35,8 +35,8 @@ export async function generateMetadata(props: PageProps<"/u/[slug]">): Promise<M
   if (!p) return { title: "Not found", robots: { index: false, follow: false } };
   const n = p.shipped.length;
   return {
-    title: `${nameOf(p)}'s shelf`,
-    description: `${nameOf(p)} is an apprentice at Moss's repair shop in ${BRAND.townName}, with ${n} ${n === 1 ? "Job" : "Jobs"} shipped.`,
+    title: `${nameOf(p)}'s projects`,
+    description: `${nameOf(p)} is learning Python at ${BRAND.name}, with ${n} ${n === 1 ? "project" : "projects"} shipped.`,
     // Opted in to a page, not to search engines.
     robots: { index: false, follow: false },
   };
@@ -47,12 +47,15 @@ export default async function PublicProfilePage(props: PageProps<"/u/[slug]">) {
   const p = await load(slug);
   if (!p) notFound();
   const shipped = new Set(p.shipped.map((s) => s.jobId));
-  const acts: PublicAct[] = getIndex()
-    .acts.map((act) => ({
+  const index = getIndex();
+  const acts: PublicAct[] = index.acts
+    .map((act) => ({
       id: act.id,
-      label: `Act ${act.number}`,
-      title: act.title,
-      items: act.jobs.filter((j) => shipped.has(j.id) && j.shelf).map((j) => ({ jobId: j.id, title: j.title, object: j.shelf!.object, label: j.shelf!.label })),
+      number: act.number,
+      title: act.subject || act.title,
+      items: act.jobs
+        .filter((j) => shipped.has(j.id) && j.shelf)
+        .map((j) => ({ jobId: j.id, name: j.projectName || j.title, client: j.client, clientName: index.characters[j.client]?.name ?? j.client })),
     }))
     .filter((a) => a.items.length > 0);
   return (

@@ -4,7 +4,7 @@ type: predict
 title: A weight nobody needs
 concept: regularisation
 dialogue:
-  - wendt: "Her notebook says: shrink every weight a little, every step. She called it rent."
+  - neil: "My notebook says: shrink every weight a little, every step. I call it rent."
 code: |
   w = 2.0                      # a weight on the moon
   rate, decay = 0.5, 0.2
@@ -34,6 +34,6 @@ after: |
 ---
 **Weight decay** adds `decay * W` to every weight's gradient before the step. So every weight shrinks a little each step, unless the loss pushes back hard enough to keep it.
 
-That is what curbs Pip's network. Bending sharply through every noisy night takes big weights. With decay, only the weights that earn their keep stay big.
+That is what curbs Riya's network. Bending sharply through every noisy night takes big weights. With decay, only the weights that earn their keep stay big.
 
 Biases are usually left out. They shift a neuron, rather than bend the curve.

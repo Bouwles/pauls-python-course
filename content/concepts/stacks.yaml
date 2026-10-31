@@ -108,7 +108,7 @@ cards:
     tests: |
       TESTS = [output("One yes, one no", expect="True False")]
   - type: write
-    prompt: "Nell's crane log is a list of moves, where `\"undo\"` takes back the latest move still standing. Write `standing(log)`, which returns the moves left. `standing([\"left\", \"up\", \"undo\", \"down\"])` is `[\"left\", \"down\"]`. An undo with nothing to take back does nothing."
+    prompt: "Caitlin's game log is a list of moves, where `\"undo\"` takes back the latest move still standing. Write `standing(log)`, which returns the moves left. `standing([\"left\", \"up\", \"undo\", \"down\"])` is `[\"left\", \"down\"]`. An undo with nothing to take back does nothing."
     starter: |
       def standing(log):
           pass
@@ -130,12 +130,12 @@ cards:
                   moves.append(move)
           return moves
   - type: choice
-    prompt: "Nell adds 4 hubcaps, then 2 bells, then 40 hubcaps when she meant 4. She presses undo once. Which change should it take back?"
+    prompt: "Riya adds 4 cables, then 2 fuses, then 40 cables when she meant 4. She presses undo once. Which change should it take back?"
     verify: none
     options:
-      - text: The 40 hubcaps
+      - text: The 40 cables
         correct: true
         feedback: "Undo takes back the latest change first. That's why an undo history is a stack: the latest change is always on top."
-      - text: The first 4 hubcaps
+      - text: The first 4 cables
         misconception: undo-takes-oldest
         feedback: "Undo works backwards from the latest change. Taking back the first would leave her mistake standing and remove a change she meant."

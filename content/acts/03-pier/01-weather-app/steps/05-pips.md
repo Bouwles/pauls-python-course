@@ -1,12 +1,12 @@
 ---
 id: pips
 type: pips
-title: Pip's Version
+title: Fix Caitlin's version
 dialogue:
-  - pip: "The pier board. Three days of weather, and I've got nine lines of it. Extra value."
-  - pip: "Priya says Sunday can't be three temperatures at once. She hasn't seen Sunday."
+  - caitlin: "A weather board for the Makerspace screen. Three days of weather, nine lines of it. Bonus content."
+  - caitlin: "Yahya says Sunday can't be three temperatures at once. Can you look?"
 dialogue_after:
-  - pip: "zip walks them side by side. Like the tailor's lists. I knew that, I was testing you."
+  - caitlin: "zip walks them side by side, like the tailor's lists. One line a day. Less fun, more right."
 hints:
   nudge: "Count the lines. For each day, how many highs does the inner loop go through?"
   plan:
@@ -17,7 +17,7 @@ hints:
     for day, high in ___(daily["time"], daily["temperature_2m_max"]):
         print(f"{day}: up to {round(high)}°C")
 ---
-Pip's board should print one line a day: the date and that day's highest temperature. Run it.
+Caitlin's board should print one line a day: the date and that day's highest temperature. Run it.
 
 ```
 2026-10-25: up to 13°C

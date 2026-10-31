@@ -1,10 +1,10 @@
 ---
 id: fix-table
 type: fix
-title: Script five, the table
+title: Script five, the board
 dialogue:
-  - moss: "Last script. This one's hiding two."
-on_pass: { moss: "Both found. Agnes will want that first thing." }
+  - neil: "Last script. This one's hiding two."
+on_pass: { neil: "Both found. That board can go back on the Studio door." }
 hints:
   nudge: "Fix the first error Python reports, then run it again. The second only shows up once the first is gone."
   plan:
@@ -12,16 +12,16 @@ hints:
     - Run again and read the new error
     - Fix that one too
   shape: |
-    print("Tides for the " + quay)
-    print("High water " + high_water___
-    print("Low water " + ___)
+    print("Help desk in the " + room)
+    print("Opens " + opens___
+    print("Closes " + ___)
 ---
 Python only reports the first problem it finds. Fix it, run again, read the next one.
 
-When it works, Agnes gets her tide table back:
+When it works, Neil gets his help-desk board back:
 
 ```
-Tides for the north quay
-High water 06:42
-Low water 12:55
+Help desk in the Studio
+Opens 09:30
+Closes 16:00
 ```

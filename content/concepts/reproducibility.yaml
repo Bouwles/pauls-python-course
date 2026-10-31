@@ -36,7 +36,7 @@ cards:
         misconception: seeded-generator-repeats
         feedback: "A seeded generator isn't stuck on one answer. It gives the same sequence every run, but each call takes the next numbers along."
   - type: choice
-    prompt: "Pip seeds Python's `random` before each draw. What does this print?"
+    prompt: "Caitlin seeds Python's `random` before each draw. What does this print?"
     code: |
       import random
 

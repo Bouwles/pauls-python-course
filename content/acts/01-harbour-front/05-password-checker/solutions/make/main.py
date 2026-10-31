@@ -1,4 +1,4 @@
-# Password checker for the harbour office. Agnes Rook's six rules:
+# Password checker for the class's shared accounts. Aaesha's six rules:
 # 1. At least 10 characters.
 # 2. At least one capital and one lower-case letter.
 # 3. Not only letters.

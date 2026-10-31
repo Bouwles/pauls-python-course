@@ -1,4 +1,4 @@
-# Pip's exam predictor. Five columns, all scaled. Trains in half a second.
+# Riya's exam predictor. Five columns, all scaled. Trains in half a second.
 import numpy as np
 import pandas as pd
 

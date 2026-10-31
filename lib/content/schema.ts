@@ -100,7 +100,7 @@ export const jobFile = z.object({
   sidequest: z.boolean().default(false),
   /** Placement Jobs (content/placement): the Act a pass places the learner past. */
   placement_for: id.optional(),
-  /** Where the scene strip is set: Moss's workshop, or the lamp room at the top of the lighthouse (the finale). */
+  /** Old: where the pixel scene strip was set. Unused since REDESIGN-2.md; kept so older content still parses. */
   scene: z.enum(["workshop", "lamp-room"]).default("workshop"),
   /** University Readiness: a suggested time, shown as a clock, never enforced. */
   timed_minutes: z.number().int().positive().optional(),
@@ -292,7 +292,7 @@ export const takehomeStep = z.object({
   heavy: z.boolean().default(false),
 });
 
-/** A capstone milestone: Moss's checklist, the learner's own test plan, and evidence. */
+/** A capstone milestone: Paul's checklist, the learner's own test plan, and evidence. */
 export const milestoneStep = z.object({
   ...stepBase,
   type: z.literal("milestone"),
@@ -380,7 +380,12 @@ export const characterFile = z.object({
   id,
   name: z.string(),
   role: z.string(),
-  sprite: z.string(),
+  /** The character's signature colour (REDESIGN-2.md 7.1): name tags, bubbles, their floor. */
+  colour: z.string().regex(/^#[0-9a-fA-F]{6}$/).default("#6E7584"),
+  /** The Clocktower floor they live on, as an Act number (0 for none). */
+  floor: z.number().int().min(0).max(9).default(0),
+  /** Old pixel sprite name; unused by the new cast. */
+  sprite: z.string().optional(),
   look: z.string(),
   voice: z.string(),
   pools: z.record(z.string(), z.array(z.string())).default({}),

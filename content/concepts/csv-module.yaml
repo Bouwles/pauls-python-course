@@ -33,7 +33,7 @@ cards:
   - type: choice
     prompt: What does this print?
     code: |
-      line = '"Knots, Unexplained",Captain Ferro,2004'
+      line = '"Knots, Unexplained",Jo Hart,2004'
       print(len(line.split(",")))
     options:
       - text: "4"
@@ -68,7 +68,7 @@ cards:
     prompt: "The title has a comma in it, so splitting cuts it in two. Read the row with the `csv` module so it prints `Knots, Unexplained`."
     code: |
       with open("books.csv", "w") as file:
-          file.write('"Knots, Unexplained",Captain Ferro,2004\n')
+          file.write('"Knots, Unexplained",Jo Hart,2004\n')
 
       with open("books.csv") as file:
           line = file.readline()
@@ -79,7 +79,7 @@ cards:
       import csv
 
       with open("books.csv", "w") as file:
-          file.write('"Knots, Unexplained",Captain Ferro,2004\n')
+          file.write('"Knots, Unexplained",Jo Hart,2004\n')
 
       with open("books.csv", newline="") as file:
           rows = list(csv.reader(file))
@@ -92,7 +92,7 @@ cards:
       with open("loans.csv", "w", newline="") as file:
           writer = csv.DictWriter(file, fieldnames=["tool", "borrower"])
           writer.___()
-          writer.writerow({"tool": "spokeshave", "borrower": "Dev"})
+          writer.writerow({"tool": "soldering iron", "borrower": "Caitlin"})
 
       with open("loans.csv") as file:
           print(file.readline().strip())

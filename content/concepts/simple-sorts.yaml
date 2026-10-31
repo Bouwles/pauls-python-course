@@ -51,7 +51,7 @@ cards:
         misconception: range-starts-at-one
         feedback: "`range(2)` gives 0 and 1, so the two passes fill places 0 and 1. Passes for places 1 and 2 would leave the 4 at the front."
   - type: choice
-    prompt: "Nell's pile is already in order, apart from one part near the end. Which sort finishes with the least work?"
+    prompt: "Caitlin's shelf is already in order, apart from one part near the end. Which sort finishes with the least work?"
     verify: none
     options:
       - text: Insertion sort

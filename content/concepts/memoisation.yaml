@@ -38,7 +38,7 @@ cards:
       print(packings(5, {}), len(calls))
     answer: "8 9"
   - type: choice
-    prompt: "Nell puts `@functools.cache` above Penhallow's `packings`, then asks for `packings(12)`, `packings(30)` and `packings(12)` again. What has the cache kept?"
+    prompt: "Yahya puts `@functools.cache` above `packings`, then asks for `packings(12)`, `packings(30)` and `packings(12)` again. What has the cache kept?"
     verify: none
     options:
       - text: "An answer for every length it was ever asked, from -1 up to 30"
@@ -47,12 +47,12 @@ cards:
       - text: "Only the answer for 12, the last length asked"
         misconception: cache-keeps-last-only
         feedback: "The cache keeps one answer for every set of arguments it has seen, not just the latest."
-      - text: "Answers for 12 and 30 only, the two lengths Nell asked for"
+      - text: "Answers for 12 and 30 only, the two lengths Yahya asked for"
         misconception: cache-only-outer-calls
         feedback: "Inside `packings`, the call `packings(length - 1)` uses the cached name as well. Every length worked out on the way down is kept."
       - text: "Different answers from before, worked out a quicker way"
         misconception: memo-changes-answers
-        feedback: "The answers are exactly the ones Penhallow's version gives. Memoisation changes how often they're worked out, never what they are."
+        feedback: "The answers are exactly the ones the plain version gives. Memoisation changes how often they're worked out, never what they are."
   - type: fix
     prompt: "This is meant to remember its answers, but it still makes 21,891 calls. Fix it so it prints `10946 39`."
     code: |
@@ -109,7 +109,7 @@ cards:
       print(packings(60))
     blanks: [["cache", "lru_cache"]]
     tests: |
-      TESTS = [output("The 60 m quay", expect="2504730781961", timeout=5)]
+      TESTS = [output("A 60 m shelf", expect="2504730781961", timeout=5)]
   - type: choice
     prompt: "Which of these would `@functools.cache` speed up?"
     verify: none
@@ -142,7 +142,7 @@ cards:
         misconception: cache-takes-any-argument
         feedback: "The cache needs its arguments to work as dictionary keys. Numbers, strings and tuples can; lists can't, because they can change."
   - type: write
-    prompt: "Nell's crane lifts 1, 2 or 3 crates at a time. Write `lifts(crates)`: how many different ways it can lift that many, one lift after another. `lifts(3)` is 4; `lifts(0)` is 1. It must answer `lifts(30)` quickly."
+    prompt: "A lift carries 1, 2 or 3 crates at a time. Write `lifts(crates)`: how many different ways it can lift that many, one lift after another. `lifts(3)` is 4; `lifts(0)` is 1. It must answer `lifts(30)` quickly."
     starter: |
       def lifts(crates):
           pass

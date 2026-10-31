@@ -14,12 +14,12 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      def tide(time):
+      def minutes(time):
           """Turn '06:42' into minutes after midnight."""
           hours, mins = time.split(":")
           return int(hours) * 60 + int(mins)
 
-      print(tide.__doc__)
+      print(minutes.__doc__)
     answer: "Turn '06:42' into minutes after midnight."
   - type: choice
     prompt: What does this print?
@@ -104,7 +104,7 @@ cards:
     prompt: What does this print?
     code: |
       class Shed:
-          """Where Dev and Kat keep the bikes."""
+          """Where the class keeps its bikes."""
 
       print(Shed.__doc__)
-    answer: "Where Dev and Kat keep the bikes."
+    answer: "Where the class keeps its bikes."

@@ -1,5 +1,5 @@
-# Gwen's answer sheets. Question four is the same as question two. Leave it.
-ANSWERS = ["Old Tom", "1987", "green", "1987", "The Kraken"]
+# Paul's Friday quiz. Aaesha says question four repeats question two. Leave it.
+ANSWERS = ["Guido", "1991", "four", "1991", "The Zen of Python"]
 
 
 def main():

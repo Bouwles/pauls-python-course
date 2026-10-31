@@ -28,4 +28,4 @@ after: |
 ---
 `open("shelf.txt", "w")` opens a file for writing, and makes it if it isn't there. `.write()` puts text in it. Opening without the `"w"` reads instead, and `.read()` gives back everything in the file as one string.
 
-What ends up on Mrs Vance's shelf?
+What ends up on Aaesha's shelf?

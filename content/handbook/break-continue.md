@@ -26,7 +26,7 @@ When `answer` is `"done"`, the `break` runs and the line that adds to `total` is
 With one loop inside another, both statements affect only the innermost loop they are in:
 
 ```python
-rounds = [["Bea", "", "Tom"], ["Gwen", "STOP", "Mira"], ["Agnes"]]
+rounds = [["Emma", "", "Ivo"], ["Rosa", "STOP", "Sam"], ["Lena"]]
 for names in rounds:
     for name in names:
         if name == "":
@@ -38,16 +38,16 @@ for names in rounds:
 ```
 
 ```text
-Deliver to Bea
-Deliver to Tom
+Deliver to Emma
+Deliver to Ivo
 End of round
-Deliver to Gwen
+Deliver to Rosa
 End of round
-Deliver to Agnes
+Deliver to Lena
 End of round
 ```
 
-The empty name is skipped by `continue`, and the loop moves on to `"Tom"`. `"STOP"` ends the inner loop, so Mira is never reached, but `End of round` still prints and the outer loop carries on with the next round.
+The empty name is skipped by `continue`, and the loop moves on to `"Ivo"`. `"STOP"` ends the inner loop, so Sam is never reached, but `End of round` still prints and the outer loop carries on with the next round.
 
 A loop can also have an `else` block, which runs only if the loop finished without hitting `break`. It is mostly used in searches, where the `else` is the place to handle "not found".
 

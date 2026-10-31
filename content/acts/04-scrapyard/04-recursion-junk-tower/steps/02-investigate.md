@@ -1,7 +1,7 @@
 ---
 id: investigate
 type: investigate
-title: Nell's junk tower
+title: The tower of calls
 concept: call-stack
 code: |
   def weigh(crate):
@@ -18,7 +18,7 @@ code: |
   print(weigh(tower))
 tasks:
   - id: tallest
-    prompt: "Press Step through and go forward until the junk tower is at its tallest. How many crates are in it?"
+    prompt: "Press Step through and go forward until the tower of crates is at its tallest. How many crates are in it?"
     kind: answer
     accept: ["4", "four", "4 crates", "four crates"]
     feedback: "Four: the whole tower, `[1, [5, [6]]]`, `[5, [6]]` and `[6]`, each call waiting for the one above it. The tower is as tall as the crates are deep."
@@ -57,4 +57,4 @@ tasks:
 ---
 A call that hasn't finished is waiting somewhere. Python keeps every waiting call in a pile called the **call stack**: the newest on top, and only the top one running.
 
-The step-through draws it as Nell's junk tower, one crate per waiting call. When the top call returns, its crate says what it gives back, and comes off the pile.
+The step-through draws it as a tower of crates, one crate per waiting call. When the top call returns, its crate says what it gives back, and comes off the pile.

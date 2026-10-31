@@ -1,5 +1,5 @@
 # Misconceptions for Act II, Jobs 7 to 12: Function Workshop, The Mutable Mess,
-# the Bike Hire Shed (both parts), Postcards and Testing the Tide Table.
+# the Bank Account System, the Library Manager, Postcards and Testing the Bank.
 
 # -- Function Workshop ---------------------------------------------------------
 default-still-required:
@@ -89,7 +89,7 @@ copy-is-same-object:
   concept: is-vs-equals
   description: Thinks a copy is the same object as the original because it is equal to it.
 
-# -- The Bike Hire Shed --------------------------------------------------------
+# -- Bank Account System -------------------------------------------------------
 attributes-shared-between-objects:
   concept: classes
   description: Thinks objects made from the same class share their attributes, so changing one changes them all.
@@ -121,7 +121,7 @@ self-is-the-class:
   concept: self
   description: Thinks self means the class rather than the one object the method was called on.
 
-# -- The Bike Hire Shed, part 2 ------------------------------------------------
+# -- Library Manager -----------------------------------------------------------
 parent-methods-call-parent-versions:
   concept: inheritance
   description: Thinks a method inherited from the parent always calls the parent's versions of other methods, even on a subclass object.
@@ -197,7 +197,7 @@ enum-call-makes-member:
   concept: enums
   description: Thinks calling an Enum with a value, like Stamp(85), makes a new member rather than finding the existing one.
 
-# -- Testing the Tide Table ----------------------------------------------------
+# -- Testing the Bank ----------------------------------------------------------
 failed-assert-continues:
   concept: assert
   description: Thinks a failed assert prints a warning and the program carries on.

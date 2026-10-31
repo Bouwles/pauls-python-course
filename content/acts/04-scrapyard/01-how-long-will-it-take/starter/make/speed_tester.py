@@ -1,19 +1,16 @@
-"""Speed Tester: how the work grows as the pile grows, for Nell's spares check."""
+"""Speed Tester: how the work grows as the pile grows, for Paul's spares check."""
 import math
 import time
 
-YARD_FILE = "yard.txt"
-PIER_PARTS = 10_000
+STOCK_FILE = "stock.txt"
+LOT_PARTS = 10_000
 GROWTHS = ["O(1)", "O(log n)", "O(n)", "O(n log n)", "O(n^2)"]
 BAR_WIDTH = 40
 
 
-# Spares check, from Penhallow's stock program.
+# Spares check, from Paul's stock script.
 # Compares every part with every part after it. Fine for two hundred parts;
-# if Nell ever has two thousand, find another way.
-#
-# The machine on the hill gets slower every night, because it remembers
-# every night before. I could make it forget. I haven't the heart. A.P.
+# if the store room ever holds two thousand, find another way.
 def spares(parts):
     found = set()
     for first in range(len(parts)):
@@ -24,7 +21,7 @@ def spares(parts):
 
 
 def spares_by_pairs(parts):
-    """Penhallow's way: compare every part with every part after it.
+    """Paul's way: compare every part with every part after it.
 
     Returns (spares, comparisons).
     """
@@ -65,20 +62,20 @@ def report(title, sizes, values):
 
 
 if __name__ == "__main__":
-    with open(YARD_FILE) as yard_file:
-        parts = [line.strip() for line in yard_file if line.strip()]
+    with open(STOCK_FILE) as stock_file:
+        parts = [line.strip() for line in stock_file if line.strip()]
     found, lookups = spares_by_set(parts)
-    print(f"Yard today: {len(parts)} parts, {len(found)} kinds with spares")
+    print(f"Store room today: {len(parts)} parts, {len(found)} kinds with spares")
 
     sizes = [200, 400, 800]
-    yards = [[f"part-{number}" for number in range(n)] for n in sizes]
-    report("By pairs, comparisons:", sizes, [spares_by_pairs(yard)[1] for yard in yards])
-    report("By set, lookups:", sizes, [spares_by_set(yard)[1] for yard in yards])
-    seconds = [round(time_once(spares_by_pairs, yard), 4) for yard in yards]
+    stocks = [[f"part-{number}" for number in range(n)] for n in sizes]
+    report("By pairs, comparisons:", sizes, [spares_by_pairs(stock)[1] for stock in stocks])
+    report("By set, lookups:", sizes, [spares_by_set(stock)[1] for stock in stocks])
+    seconds = [round(time_once(spares_by_pairs, stock), 4) for stock in stocks]
     growth = report("By pairs, seconds:", sizes, seconds)
 
     # Scale up for the size you care about
     today = time_once(spares_by_pairs, parts)
-    with_pier = today * scale(len(parts), len(parts) + PIER_PARTS, growth)
+    with_lot = today * scale(len(parts), len(parts) + LOT_PARTS, growth)
     print()
-    print(f"By pairs on the yard: {today:.4f} s. With the pier: about {with_pier:.1f} s, every time a part comes in.")
+    print(f"By pairs today: {today:.4f} s. With the clockmaker's lot: about {with_lot:.1f} s, every time a part comes in.")

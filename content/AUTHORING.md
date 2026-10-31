@@ -1,21 +1,23 @@
 # Writing a Job
 
-How curriculum content is laid out, what each file holds, and how to check it. Read `STYLE.md` and `../CHARACTERS.md` first. The four finished Harbour Front jobs (`acts/01-harbour-front/01-*` to `04-*`) are the quality bar: match their length, voice and structure.
+How curriculum content is laid out, what each file holds, and how to check it. Read `STYLE.md` and `../CHARACTERS.md` first. The first four Act I projects (`acts/01-harbour-front/01-*` to `04-*`) are the quality bar: match their length, voice and structure.
 
 ## Commands
 
 ```
 npm run content          # validate everything and rebuild generated/content (fails on any error)
 npm run test:content     # run every reference solution, starter, predict answer and card (must all pass)
-npm run test:content -- sign-on-the-door   # only tasks whose name contains this text
+npm run test:content -- shop-sign          # only tasks whose name contains this text
 npm run lint:copy        # banned phrases, em dashes, emoji, exclamation marks
 ```
 
 A job is finished only when `npm run content` reports 0 errors and `npm run test:content` passes.
 
-## The town's name
+## Names and places
 
-Never type the town's name. Write `{{town}}` and the content compiler puts in the name from `lib/brand.ts`, so a rebrand is one edit. `{{TOWN}}` gives it in capitals (a sign, a headline in a program's output) and `{{town_id}}` gives the lowercase form for file names and Python identifiers. The tokens work in every content file, including starters, solutions, tests and data, so a program's expected output and its tests always agree. The copy lint fails if the old name or the product name appears anywhere.
+There is no town any more, and no name token. The course is Paul's Python Course, and it happens in the Clocktower: an old brick clocktower in a city that is never named, with one Act on each floor (`../CHARACTERS.md` has the floors). Write the names as they are: "the Clocktower", "the Workshop", "Paul's Python Course".
+
+Don't use the old town-name tokens (the word town in double braces, in any case or form). The content build fails on any that are left. The copy lint fails on the old town, its cast and its story names, in prose and code alike.
 
 ## Files
 
@@ -29,7 +31,6 @@ content/acts/<NN-act>/<NN-job-id>/tests/<step-id>.py          tests for a checka
 content/acts/<NN-act>/<NN-job-id>/data/<file>                 data files every run of the job can read
 content/concepts/<concept-id>.yaml             one concept: explanation, example, 5+ review cards
 content/misconceptions/<anything>.yaml         named misconceptions (one file per author is fine)
-content/story/<anything>.yaml                  Penhallow's notes
 ```
 
 The Ask is always the first step and the Ship always the last; both come from `job.yaml`. The files in `steps/` are everything in between. Outline jobs have `status: outline` and no steps; delete that line when the job is written.
@@ -42,48 +43,48 @@ title: "Bill Splitter"          # the plain name of the real program
 project_name: "Bill Splitter"   # required; shown first on tickets, the client second (CURRICULUM.md)
 portfolio_readme: |             # required for written projects: the README in the learner's download
   # Bill Splitter
-  Splits a bill between customers and rounds each share to the penny.
-  Written by {name} in {{town}}. Finished {date}.
+  Splits one bill between a table of people and shows each share to the penny.
+  Written by {name} for Riya, at Paul's Python Course. Finished {date}.
 downloadable: true              # downloads from the Shelf as a runnable folder
 datasets:                       # real public data used, each bundled in data/ (also listed in CREDITS.md)
   - name: "Open-Meteo forecast (saved response)"
     source: "https://open-meteo.com/"
     licence: "CC BY 4.0"
     file: "forecast.json"
-client: bea                     # a character id from content/characters
-building: bakery                # where it sits on the map
+client: riya                    # a cast id: paul, neil, aaesha, caitlin, riya or yahya
+building: workshop              # old town-map field, still required by the schema
 estimated_minutes: 30
-summary: "The till asks, listens and prices."
+summary: "Split a bill between a table of people, tip included."
 concepts_introduced: [input-returns-text, int-conversion]   # each concept is introduced by exactly one job
-concepts_reviewed: [variables, arithmetic]                  # must already exist
+concepts_reviewed: [print, strings]                         # must already exist
 ask:
   dialogue:                     # two to five short lines
-    - bea: "The till from last week works. But it only knows one order."
+    - riya: "Class dinner on Friday. Six of us, one bill."
   spec: |                       # what goes in, what comes out
-    Ask for the item (`bread` or `bun`) and the quantity...
+    Ask for the bill, the number of people and the tip...
   example: |                    # one example run, exactly as a terminal shows it
-    Item? bread
-    How many? 3
-    That's 7.20, please.
+    Bill? 41.40
+    People? 6
+    Tip (%)? 10
+    Total with tip: 45.54
+    Each pays: 7.59
 ship:
   dialogue:
-    - bea: "Seven twenty for three loaves. That's what I'd have said."
-  shelf: { object: loaf, label: "Bea's till, the one that asks" }
+    - riya: "Six ways, seven fifty-nine each. Same as my sums."
+  shelf: { object: till-receipt, label: "Riya's bill splitter" }
   cards: [input-returns-text, int-conversion]               # usually = concepts_introduced
 stretch:                        # optional extras; never block progress
-  - id: any-case
-    title: "Bread, BREAD or bread"
+  - id: collected
+    title: "Does it add up?"
     prompt: |
-      Customers type `Bread` too. Make the till accept it.
-    tests: tests/stretch-any-case.py      # optional; needs solution too
-    solution: solutions/stretch-any-case.py   # a file, or a folder for several files (the stretch gets the Make step's files)
-story_note: the-hill-is-harder  # optional: a Penhallow note hidden in this job's code
+      Show what the table actually hands over: each share rounded, times the number of people.
+    tests: tests/stretch-collected.py     # optional; needs solution too
+    solution: solutions/stretch-collected.py  # a file, or a folder for several files (the stretch gets the Make step's files)
 ```
 
 Optional flags:
 
 - `sidequest: true`: a Take It Home tooling sidequest (Section 5.1). Unnumbered, shown as "Sidequest" on the map, never an Act's final Job, never suggested as the next Job.
-- `scene: lamp-room`: where the scene strip is set. The default is Moss's workshop (with its night version); `lamp-room`, the top of the lighthouse, is for the finale.
 - `timed_minutes: 90`: a timed Job (University Readiness). The top bar shows a clock counting the suggested time; nothing is enforced or locked when it runs out.
 - `placement_for: <act-id>`: only for placement Jobs, which live in `content/placement/<folder>/` rather than an Act. No `concepts_introduced`, no `ship.shelf`, Make steps without hints. Shipping one marks every Job in that Act as placed and adds the Act's concepts to the review deck.
 
@@ -155,7 +156,7 @@ tasks:
 
 ### worked
 
-Moss's worked example: a similar but not identical problem, split into labelled subgoals (line ranges). The labels are the point; reuse them as comments in the Make starter. Ends with a self-explanation prompt and Moss's model answer.
+Paul's worked example: a similar but not identical problem, split into labelled subgoals (line ranges). The labels are the point; reuse them as comments in the Make starter. Ends with a self-explanation prompt and Paul's model answer.
 
 ```yaml
 type: worked
@@ -169,7 +170,7 @@ subgoals:
   - label: Turn the text into a number
     lines: [2, 2]
 explain:
-  prompt: "Why does Moss use `float` here and not `int`?"
+  prompt: "Why does Paul use `float` here and not `int`?"
   answer: "Rope comes in parts of a metre, like 2.5."
   concept: float-conversion
 ```
@@ -178,13 +179,13 @@ explain:
 
 ### pips, fix, modify, make (checkable steps)
 
-All four have starter files, tests and a reference solution. `pips` is Pip's buggy attempt (his bugs are real novice mistakes); `fix` is a broken program without Pip; `modify` changes working code; `make` is the step that counts.
+All four have starter files, tests and a reference solution. `pips` is a classmate's version for the learner to fix: its `title` is "Fix Caitlin's version" (or Aaesha's, Riya's, Yahya's), the first dialogue line is that classmate's (the app reads the classmate from it), and the bug is a real novice mistake that fits them (`../CHARACTERS.md`). `fix` is a broken program with no classmate; `modify` changes working code; `make` is the step that counts.
 
 ```yaml
 type: make
 files: [main.py]                # default; several files make tabs
 entry: main.py
-on_pass: { bea: "Three loaves, seven twenty. I checked it twice." }   # one specific line
+on_pass: { riya: "Forty-five fifty-four, six ways, seven fifty-nine. I checked it twice." }   # one specific line
 hints:                          # required for make and modify
   nudge: "What does `input()` give you, and what does multiplication need?"
   plan: [Ask for the text, Turn the text into a number, Choose the price, Show it rounded]
@@ -195,7 +196,7 @@ timeout_ms: 10000               # optional
 argv_field: true                # optional: an Arguments box next to Run, for programs that read sys.argv
 ```
 
-`pips` also takes `dialogue_after` (what Pip says once it works).
+`pips` also takes `dialogue_after` (what the classmate says once it works). The tone is always friendly: "Can you look at mine? Something's off."
 
 ### parsons
 
@@ -215,13 +216,13 @@ hints: { nudge: "...", plan: ["...", "..."], shape: "..." }
 
 A non-code activity before the code (Section 3.7). Available widgets:
 
-- `pigeonholes`: params `{ items: ["Letter for Bea", ...], ask: 3, negative: false }`. A row of pigeonholes numbered from 0; the learner finds item `ask`. With `negative: true`, holes are also labelled -1, -2 from the right.
+- `pigeonholes`: params `{ items: ["Quiz for Aaesha", ...], ask: 3, negative: false }`. A row of pigeonholes numbered from 0; the learner finds item `ask`. With `negative: true`, holes are also labelled -1, -2 from the right.
 - `two-labels`: params `{}`. Two names, one box: `b = a` then `b.append(...)` changes what `a` shows; `b = a.copy()` makes a second box.
-- `lamp-loop`: params `{ count: 4 }`. Old Tom's lamp sweeps once per pass of `for i in range(count)`, showing `i` each time.
+- `lamp-loop`: params `{ count: 4 }`. One more dot lights up per pass of `for i in range(count)`, showing `i` each time.
 - `growth`: params `{ max: 1000, show: ["1", "logn", "n", "nlogn", "n2"] }`. Curves of steps against n with a slider; done when the learner drags n past half way.
 - `hill-walker`: params `{ start: -2, rate: 0.1 }`. Gradient descent on a one-dimensional loss curve with a learning-rate slider; done once the learner has reached the bottom with a small rate and overshot with a rate above 1.
 
-The step-through visualiser (Step through, in every editor) also draws Living Visualisations from the learner's own code: lists as Mira's pigeonholes, lists of numbers as Nell's piles (bars, so sorting code animates), dictionaries as the post office drawers, recursive calls as Nell's junk tower (one crate per waiting call, with what each gives back), and Old Tom's lamp for loops.
+The step-through visualiser (Step through, in every editor) also draws Living Visualisations from the learner's own code: lists as pigeonholes, lists of numbers as piles (bars, so sorting code animates), dictionaries as labelled drawers, recursive calls as a tower of crates (one crate per waiting call, with what each gives back), and a sweeping light for loops.
 
 ### The `workshop` module: drawings the learner's code sends
 
@@ -235,9 +236,9 @@ show_graph(edges, positions=None, visited=(), frontier=(), path=(), current=None
 show_hill(x, loss, curve=None, title=None)
 ```
 
-- `show_grid`: Sir Reginald's racing grid (Act VII). `values` is a list of rows (or a 2D NumPy array); tiles are tinted green for positive and brick for negative. `policy` is a grid of moves (`"up"`/`"^"`, `"down"`/`"v"`, `"left"`/`"<"`, `"right"`/`">"`, or 0 to 3 in that order, `None` for none). `q` is a grid of action-value lists, or a dict `{(row, col): [up, down, left, right]}`, shown when the learner points at a tile. `crab`, `walls` and `goal` are `(row, col)` tiles. Call it once per sweep of value iteration or once per training episode.
-- `show_graph`: a graph drawn on the town map (Act III graphs). `edges` is a dict of neighbour lists or of `{neighbour: weight}` dicts, or a list of pairs or triples. Nodes named after buildings (`"workshop"`, `"bakery"`, `"post-office"`, `"pub"`, `"harbour-office"`, `"ferry"`, `"lighthouse"`, `"tailor"`, `"library"`, `"town-hall"`, `"greengrocer"`, `"bike-shed"`, `"scrapyard"`, `"records-office"`, `"weather-station"`, `"observatory"`, `"crab-club"`) sit on the building; any other names go in a circle, or at `positions`. Call it once per step of BFS or Dijkstra with `visited`, `frontier` (the queue), `current`, and at the end `path`.
-- `show_hill`: the hiker on the observatory hill (Act V). Call it once per step of gradient descent with the current position and loss; pass `curve=loss_function` (a function of one number) at least once and the hill is drawn from it.
+- `show_grid`: the crab's racing grid (Act VIII). `values` is a list of rows (or a 2D NumPy array); tiles are tinted green for positive and brick for negative. `policy` is a grid of moves (`"up"`/`"^"`, `"down"`/`"v"`, `"left"`/`"<"`, `"right"`/`">"`, or 0 to 3 in that order, `None` for none). `q` is a grid of action-value lists, or a dict `{(row, col): [up, down, left, right]}`, shown when the learner points at a tile. `crab`, `walls` and `goal` are `(row, col)` tiles. Call it once per sweep of value iteration or once per training episode.
+- `show_graph`: a graph (Act IV graphs). `edges` is a dict of neighbour lists or of `{neighbour: weight}` dicts, or a list of pairs or triples. Nodes go in a circle, or at `positions` if you give them. Call it once per step of BFS or Dijkstra with `visited`, `frontier` (the queue), `current`, and at the end `path`.
+- `show_hill`: a hiker on a hill (gradient descent). Call it once per step of gradient descent with the current position and loss; pass `curve=loss_function` (a function of one number) at least once and the hill is drawn from it.
 
 At most 400 frames of each kind are kept, spread evenly over the run, and the last is always kept, so a training loop of 10,000 episodes is fine. Mention it in step prose ("add `show_grid(V, policy)` inside your loop and run it"); it's a way to see, never a requirement a test checks.
 
@@ -271,7 +272,7 @@ Mark tests that check the learner's own computer (Python version, virtual enviro
 
 ### milestone (capstones)
 
-A capstone milestone (Act VIII): the learner writes their own test plan, shows the work (a link or a zip), and goes through Moss's checklist; Moss's review lists anything unticked with why it matters.
+A capstone milestone (Act VIII): the learner writes their own test plan, shows the work (a link or a zip), and goes through Paul's checklist; Paul's review lists anything unticked with why it matters.
 
 ```yaml
 ---
@@ -283,7 +284,7 @@ evidence: link                  # link (https), zip, or none
 checklist:
   - id: runs
     text: "The app starts with one command, and the README says which."
-    why: "If Agnes can't start it, she can't use it. One command, written down."
+    why: "If Riya can't start it, she can't use it. One command, written down."
   - id: tested
     text: "Every test in your plan exists and passes."
     why: "A plan that isn't run is a wish list."
@@ -291,7 +292,7 @@ checklist:
 Prose: the milestone's brief.
 ```
 
-Checklist items are short and checkable by the learner; `why` is Moss's reason, in his voice. Milestones gate Ship like Take It Home steps.
+Checklist items are short and checkable by the learner; `why` is Paul's reason, in his voice. Milestones gate Ship like Take It Home steps.
 
 ## Tests (`tests/<step-id>.py`)
 

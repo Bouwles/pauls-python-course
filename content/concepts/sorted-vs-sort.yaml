@@ -3,7 +3,7 @@ title: sorted() and .sort()
 summary: |
   `sorted(items)` hands back a new list in order and leaves `items` as it was. `items.sort()` puts `items` itself in order and hands back `None`, so `items = items.sort()` loses the list. Both take `reverse=True`. Text sorts letter by letter, and capitals come before every lower-case letter.
 example: |
-  orders = ["Vance", "Ashby", "Okonjo"]
+  orders = ["Yahya", "Aaesha", "Neil"]
   print(sorted(orders))
   print(orders)
   orders.sort(reverse=True)
@@ -15,21 +15,21 @@ cards:
   - type: choice
     prompt: What does this print?
     code: |
-      names = ["Vance", "Ashby"]
+      names = ["Yahya", "Aaesha"]
       ordered = sorted(names)
       print(names)
     options:
-      - text: "['Ashby', 'Vance']"
+      - text: "['Aaesha', 'Yahya']"
         misconception: sorted-changes-original
         feedback: "`sorted()` builds a new list, here called `ordered`. `names` keeps its old order."
-      - text: "['Vance', 'Ashby']"
+      - text: "['Yahya', 'Aaesha']"
         correct: true
   - type: predict
     prompt: What does this print?
     code: |
-      tides = [7, 3, 9]
-      tides.sort()
-      print(tides)
+      temps = [7, 3, 9]
+      temps.sort()
+      print(temps)
     answer: "[3, 7, 9]"
   - type: choice
     prompt: What does this print?
@@ -53,17 +53,17 @@ cards:
       - text: "['Bread', 'apple', 'cake']"
         correct: true
   - type: fix
-    prompt: "This should print the catch in alphabetical order. It prints `None`. Fix it."
+    prompt: "This should print the shopping in alphabetical order. It prints `None`. Fix it."
     code: |
-      catch = ["eel", "cod", "bass"]
-      catch = catch.sort()
-      print(catch)
+      shopping = ["milk", "eggs", "bread"]
+      shopping = shopping.sort()
+      print(shopping)
     tests: |
-      TESTS = [output("In order", expect="['bass', 'cod', 'eel']")]
+      TESTS = [output("In order", expect="['bread', 'eggs', 'milk']")]
     solution: |
-      catch = ["eel", "cod", "bass"]
-      catch.sort()
-      print(catch)
+      shopping = ["milk", "eggs", "bread"]
+      shopping.sort()
+      print(shopping)
   - type: fill
     prompt: "Fill the gap so the scores print from highest to lowest."
     code: |
@@ -73,12 +73,12 @@ cards:
     tests: |
       TESTS = [output("Highest first", expect="[9, 6, 4]")]
   - type: write
-    prompt: "Print `crew` in alphabetical order on one line, then print `crew` again to show it is still in its old order."
+    prompt: "Print `team` in alphabetical order on one line, then print `team` again to show it is still in its old order."
     starter: |
-      crew = ["Tom", "Agnes", "Ferro"]
+      team = ["Yahya", "Aaesha", "Riya"]
     tests: |
-      TESTS = [output("Sorted, then unchanged", expect="['Agnes', 'Ferro', 'Tom']\n['Tom', 'Agnes', 'Ferro']")]
+      TESTS = [output("Sorted, then unchanged", expect="['Aaesha', 'Riya', 'Yahya']\n['Yahya', 'Aaesha', 'Riya']")]
     solution: |
-      crew = ["Tom", "Agnes", "Ferro"]
-      print(sorted(crew))
-      print(crew)
+      team = ["Yahya", "Aaesha", "Riya"]
+      print(sorted(team))
+      print(team)

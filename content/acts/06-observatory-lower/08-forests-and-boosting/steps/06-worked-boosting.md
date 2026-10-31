@@ -1,14 +1,14 @@
 ---
 id: worked-boosting
 type: worked
-title: How Moss would boost
+title: How Paul would boost
 dialogue:
-  - moss: "Captain Ferro's crossings. The windier it is, the longer they take, and not in a straight line."
-  - moss: "One question at a time. Each one only has to fix what the others left."
+  - paul: "My cycle in to the Clocktower. The windier it is, the longer it takes, and not in a straight line."
+  - paul: "One question at a time. Each one only has to fix what the others left."
 code: |
   import numpy as np
 
-  # Captain Ferro's log: wind in knots, and minutes for the crossing
+  # Paul's log: wind in knots, and minutes for the ride in
   wind = np.array([2, 5, 8, 10, 12, 15, 18, 20, 24, 28])
   minutes = np.array([31, 30, 32, 33, 35, 38, 44, 47, 55, 62])
 
@@ -61,7 +61,7 @@ subgoals:
     lines: [35, 36]
 explain:
   prompt: "Line 31 adds only 0.3 of each stump's answer. Why not all of it?"
-  answer: "Each stump is fitted to the training crossings' leftovers, noise and all. Taking a little at a time means no single stump decides much, and later stumps can correct earlier ones. With all of each, boosting chases the noise within a few rounds, gets the training crossings exactly right, and does worse on new ones."
+  answer: "Each stump is fitted to the training rides' leftovers, noise and all. Taking a little at a time means no single stump decides much, and later stumps can correct earlier ones. With all of each, boosting chases the noise within a few rounds, gets the training rides exactly right, and does worse on new ones."
   concept: ensembles
 ---
 A forest grows its trees side by side, independently. **Gradient boosting** grows them one after another, each learning from the last.

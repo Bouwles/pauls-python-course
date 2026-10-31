@@ -1,14 +1,14 @@
 ---
 id: pips
 type: pips
-title: Pip's Version
+title: Fix Riya's version
 dialogue:
-  - pip: "I did Ellie's quiz. I set the score to nought. Twice, to be safe."
-  - pip: "She got all five right. It says one out of five. She's upset. I'm upset."
+  - riya: "I made my cousin a quiz last night. I tested it on one question. One out of one."
+  - riya: "Then he got all five right, and it said one out of five. Can you look at it?"
 dialogue_after:
-  - pip: "Once is safe. Twice is every question. I'm writing that on my wing."
+  - riya: "Once, before the loop. One question was never going to show me that. Test with five."
 hints:
-  nudge: "Trace it. What is `score` at the start of each pass? What happens to the point she won on the pass before?"
+  nudge: "Trace it. What is `score` at the start of each pass? What happens to the point he won on the pass before?"
   plan:
     - Run it and answer all five right
     - Trace score pass by pass
@@ -24,7 +24,7 @@ hints:
             print(f"No, {n * 9}.")
     print(f"Score: {score} out of 5")
 ---
-Pip's quiz does the nines, 8 to 12. Run it and answer all five right: 72, 81, 90, 99, 108. It should end:
+Riya's quiz does the nines, 8 to 12. Run it and answer all five right: 72, 81, 90, 99, 108. It should end:
 
 ```
 Score: 5 out of 5

@@ -2,7 +2,7 @@
 import type { Job } from "@/lib/content/types";
 import type { StudentSubmission } from "@/lib/server/classes";
 import type { TestReport } from "@/lib/takehome";
-import { FailIcon, PassIcon } from "../ui/Icons";
+import { Icon } from "../ui/Icon";
 import styles from "./Teach.module.css";
 
 const text = (html: string) =>
@@ -35,13 +35,15 @@ function Report({ results, kind, when }: { results: Record<string, unknown>; kin
   return (
     <>
       <p className={styles.meta}>
-        Take It Home, handed in {when} {how}. {report.passed} of {report.total} tests passed{results.passes ? ", which ships the Job" : ""}.
+        Take It Home, handed in {when} {how}. {report.passed} of {report.total} tests passed{results.passes ? ", which ships the project" : ""}.
       </p>
       {cases.length ? (
         <ul className={styles.results} aria-label="Test results">
           {cases.map((c, i) => (
             <li key={`${c.name}-${i}`}>
-              <span className={c.outcome === "passed" ? styles.pass : c.outcome === "skipped" ? styles.meta : styles.fail}>{c.outcome === "passed" ? <PassIcon /> : <FailIcon />}</span>
+              <span className={c.outcome === "passed" ? styles.pass : c.outcome === "skipped" ? styles.meta : styles.fail}>
+                <Icon name={c.outcome === "passed" ? "tick" : c.outcome === "skipped" ? "dash" : "cross"} />
+              </span>
               <span>
                 <code>{c.name}</code> <span className={styles.meta}>{c.outcome}</span>
                 {c.message && c.outcome !== "passed" ? <span className={styles.meta}>: {c.message.slice(0, 200)}</span> : null}
@@ -70,7 +72,9 @@ function Milestone({ results, checklist, when }: { results: Record<string, unkno
         <ul className={styles.results} aria-label="Checklist">
           {checklist.map((c) => (
             <li key={c.id}>
-              <span className={checks[c.id] ? styles.pass : styles.fail}>{checks[c.id] ? <PassIcon /> : <FailIcon />}</span>
+              <span className={checks[c.id] ? styles.pass : styles.fail}>
+                <Icon name={checks[c.id] ? "tick" : "cross"} />
+              </span>
               <span>
                 {text(c.textHtml)} <span className="visually-hidden">{checks[c.id] ? "Ticked." : "Not ticked."}</span>
               </span>
@@ -81,7 +85,7 @@ function Milestone({ results, checklist, when }: { results: Record<string, unkno
       {plan ? (
         <figure className={styles.file}>
           <figcaption className={styles.fileName}>Their test plan</figcaption>
-          <pre className={styles.pre} tabIndex={0} style={{ whiteSpace: "pre-wrap" }}>
+          <pre className={`code-dark ${styles.pre} ${styles.wrapText}`} tabIndex={0}>
             {plan}
           </pre>
         </figure>

@@ -256,7 +256,7 @@ def the_whole_program(ctx):
         if name not in printed:
             raise CheckFailed(f"Print a line for each strategy. Nothing mentions {name}.", actual=result.output)
     if "recommend" not in printed:
-        raise CheckFailed("Finish with a recommendation: the handbill to print, and how likely it is to be the best.", actual=result.output)
+        raise CheckFailed("Finish with a recommendation: the flyer to print, and how likely it is to be the best.", actual=result.output)
     if not plt.get_fignums():
         raise CheckFailed("Draw the chart: a line for each strategy, the share who came in so far against the visitors so far.")
     plt.close("all")

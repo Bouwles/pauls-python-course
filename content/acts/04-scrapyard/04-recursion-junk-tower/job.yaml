@@ -6,7 +6,7 @@ portfolio_readme: |
 
   Prints a folder and everything inside it the way the `tree` command does, with branches, and the size of every file and folder. It also counts the files and says how many folders deep it goes. Every part of it is recursive: a folder is files plus smaller folders, so each function deals with what it can see and hands each folder inside to itself. Folder sizes are memoised, written down the first time they're worked out, so no folder is measured twice.
 
-  Written by {name} for Nell Brannigan's scrapyard in {{town}}. Finished {date}.
+  Written by {name} for Neil, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -15,30 +15,30 @@ portfolio_readme: |
   python tree.py path/to/any/folder
   ```
 
-  With no folder named, it prints `penhallow`, the copy of Penhallow's old disk that comes with it:
+  With no folder named, it prints `backup`, the copy of Neil's old laptop that comes with it:
 
   ```
-  penhallow/ (799 bytes)
+  backup/ (799 bytes)
   ├── README.txt (89 bytes)
-  ├── hill/ (198 bytes)
-  │   └── machine/ (198 bytes)
+  ├── games/ (198 bytes)
+  │   └── snake/ (198 bytes)
   │       ├── notes.txt (64 bytes)
-  │       └── winters/ (134 bytes)
-  │           ├── 1982.txt (75 bytes)
-  │           └── 1983.txt (59 bytes)
-  ├── lighthouse/ (168 bytes)
-  │   ├── lamp.txt (52 bytes)
-  │   └── tides/ (116 bytes)
-  │       ├── north-quay.txt (92 bytes)
-  │       └── south-quay.txt (24 bytes)
-  ├── quiz/ (91 bytes)
-  │   └── 1994.txt (91 bytes)
-  └── yard/ (253 bytes)
-      ├── parts-book.txt (73 bytes)
-      ├── rack.txt (59 bytes)
-      └── round/ (121 bytes)
-          ├── chalk.txt (59 bytes)
-          └── merchant.txt (62 bytes)
+  │       └── versions/ (134 bytes)
+  │           ├── v1.txt (75 bytes)
+  │           └── v2.txt (59 bytes)
+  ├── scripts/ (168 bytes)
+  │   ├── rename.txt (52 bytes)
+  │   └── style/ (116 bytes)
+  │       ├── spaces.txt (92 bytes)
+  │       └── tabs.txt (24 bytes)
+  ├── teaching/ (91 bytes)
+  │   └── duck.txt (91 bytes)
+  └── website/ (253 bytes)
+      ├── about.txt (73 bytes)
+      ├── contact.txt (59 bytes)
+      └── posts/ (121 bytes)
+          ├── first.txt (59 bytes)
+          └── second.txt (62 bytes)
   12 files, 4 folders deep
   ```
 
@@ -49,61 +49,60 @@ portfolio_readme: |
   - Memoisation: a dictionary of folder sizes filled in once and read after, so printing the tree lists each folder twice at most instead of once for every folder above it
   - A program that takes its folder from `sys.argv`, so it works on any folder on your computer
 downloadable: true
-# The penhallow folder is invented for the story: a few small text files from Penhallow's
-# old disk. The printer works on any real folder. See the README.
+# The backup folder is invented for the story: a few small text files from Neil's
+# old laptop. The printer works on any real folder. See the README.
 datasets: []
-client: nell
+client: neil
 building: scrapyard
 estimated_minutes: 100
-summary: "A file tree printer for Penhallow's old disk: folders inside folders, each one handled the same way, drawn like the tree command, with every folder's size worked out once and written down."
+summary: "A file tree printer for Neil's old backup: folders inside folders, each one handled the same way, drawn like the tree command, with every folder's size worked out once and written down."
 concepts_introduced: [recursion, base-cases, call-stack, memoisation]
 concepts_reviewed: [functions, return-values, scope, nested-data, dictionaries, big-o, quicksort, files, sys-argv, enumerate, f-strings]
 ask:
   dialogue:
-    - nell: "Penhallow left a disk. I had it copied onto the yard computer. Folders inside folders inside folders."
-    - nell: "The pier lot came packed the same way. Crates in crates. She did everything like that."
-    - nell: "I want to see what's on it without opening a thing. And how big it all is."
-    - moss: "A folder is files and smaller folders. Look at it the way it was packed."
+    - neil: "I found my old laptop's backup. Folders inside folders inside folders."
+    - neil: "Every project I made at school is in there somewhere. Snake, a website, a lot of typos."
+    - neil: "I want to see what's on it without opening a thing. And how big it all is."
+    - paul: "A folder is files and smaller folders. Look at it the way it was packed."
   spec: |
-    In `tree.py`, a file tree printer for the `penhallow` folder, Penhallow's old disk, or any folder you name. List a folder with `os.listdir(path)`, in sorted order, and build the path to each name inside with `os.path.join(path, name)`.
+    In `tree.py`, a file tree printer for the `backup` folder, Neil's old laptop, or any folder you name. List a folder with `os.listdir(path)`, in sorted order, and build the path to each name inside with `os.path.join(path, name)`.
 
-    1. `folder_size(path, sizes)` returns the bytes of every file under the folder, however deep. Penhallow's version is right but measures the same folders again and again. Memoise it: `sizes` is a dictionary of folder totals by path. If the folder is in it, hand that back without looking inside; otherwise work it out, write it in, and hand it back.
+    1. `folder_size(path, sizes)` returns the bytes of every file under the folder, however deep. Neil's version is right but measures the same folders again and again. Memoise it: `sizes` is a dictionary of folder totals by path. If the folder is in it, hand that back without looking inside; otherwise work it out, write it in, and hand it back.
     2. `count_files(path)` returns how many files are under the folder, however deep.
     3. `depth(path)` returns how many folders deep it goes: 1 for a folder with no folders inside, otherwise one more than the deepest folder inside it.
     4. `tree_lines(path, sizes, prefix="")` returns a list of lines for everything inside the folder, names in sorted order. Each line is `prefix`, then `├── ` (or `└── ` for the last name in the folder), then `name/ (198 bytes)` for a folder, using `folder_size` with the same `sizes`, or `name (64 bytes)` for a file. Under each folder come its own lines, with `prefix` plus `│` and three spaces, or four spaces if that folder was the last name.
 
-    The main block prints the folder named in `sys.argv`, or `penhallow` if none is, with its size on the first line and the files and depth on the last.
+    The main block prints the folder named in `sys.argv`, or `backup` if none is, with its size on the first line and the files and depth on the last.
   example: |
-    penhallow/ (799 bytes)
+    backup/ (799 bytes)
     ├── README.txt (89 bytes)
-    ├── hill/ (198 bytes)
-    │   └── machine/ (198 bytes)
+    ├── games/ (198 bytes)
+    │   └── snake/ (198 bytes)
     │       ├── notes.txt (64 bytes)
-    │       └── winters/ (134 bytes)
-    │           ├── 1982.txt (75 bytes)
-    │           └── 1983.txt (59 bytes)
-    ├── lighthouse/ (168 bytes)
-    │   ├── lamp.txt (52 bytes)
-    │   └── tides/ (116 bytes)
-    │       ├── north-quay.txt (92 bytes)
-    │       └── south-quay.txt (24 bytes)
-    ├── quiz/ (91 bytes)
-    │   └── 1994.txt (91 bytes)
-    └── yard/ (253 bytes)
-        ├── parts-book.txt (73 bytes)
-        ├── rack.txt (59 bytes)
-        └── round/ (121 bytes)
-            ├── chalk.txt (59 bytes)
-            └── merchant.txt (62 bytes)
+    │       └── versions/ (134 bytes)
+    │           ├── v1.txt (75 bytes)
+    │           └── v2.txt (59 bytes)
+    ├── scripts/ (168 bytes)
+    │   ├── rename.txt (52 bytes)
+    │   └── style/ (116 bytes)
+    │       ├── spaces.txt (92 bytes)
+    │       └── tabs.txt (24 bytes)
+    ├── teaching/ (91 bytes)
+    │   └── duck.txt (91 bytes)
+    └── website/ (253 bytes)
+        ├── about.txt (73 bytes)
+        ├── contact.txt (59 bytes)
+        └── posts/ (121 bytes)
+            ├── first.txt (59 bytes)
+            └── second.txt (62 bytes)
     12 files, 4 folders deep
 ship:
   dialogue:
-    - nell: "Seven hundred and ninety-nine bytes. Thirty years of her, and it'd fit on a postcard."
-    - nell: "And every folder measured once. Hers measured the winters four times."
-    - moss: "Same sums. It just stopped doing any of them twice."
-  shelf: { object: crate-tower, label: "Penhallow's disk, every folder drawn" }
+    - neil: "Seven hundred and ninety-nine bytes. Five years of my projects. Humbling."
+    - neil: "And every folder measured once. Mine measured `versions` four times."
+    - paul: "Same sums. It just stopped doing any of them twice."
+  shelf: { object: crate-tower, label: "Neil's old backup, every folder drawn" }
   cards: [recursion, base-cases, call-stack, memoisation]
-story_note: writes-nothing-down
 stretch:
   - id: biggest-first
     title: "Biggest first"
@@ -112,8 +111,8 @@ stretch:
   - id: no-recursion
     title: "Two thousand folders deep"
     prompt: |
-      Build a folder two thousand deep with a loop and measure it: Python stops with a `RecursionError`, because it only lets the call stack grow about a thousand calls high. Write `size_by_hand(path)` with no recursion at all: keep your own list of folders still to open, take one off the end, add its files, and put its folders on the end. That list is a stack, which is the next job.
+      Build a folder two thousand deep with a loop and measure it: Python stops with a `RecursionError`, because it only lets the call stack grow about a thousand calls high. Write `size_by_hand(path)` with no recursion at all: keep your own list of folders still to open, take one off the end, add its files, and put its folders on the end. That list is a stack, which is the next project.
   - id: lorry-packer
-    title: "Penhallow's lorry packer"
+    title: "Filling a shelf"
     prompt: |
-      Her stock program also counts how many ways a bed `length` metres long can be filled, end to end, with crates 1 m and 2 m long: `packings(length)` is `packings(length - 1) + packings(length - 2)`, with 1 way for a bed of 0 and none for less. Written like that, a 40 m ferry deck takes all night. Memoise it with `@functools.cache` and it's 165580141, in a blink.
+      How many ways can a shelf `length` metres long be filled, end to end, with boxes 1 m and 2 m long? `packings(length)` is `packings(length - 1) + packings(length - 2)`, with 1 way for a shelf of 0 and none for less. Written like that, a 40 m run of shelving takes all night. Memoise it with `@functools.cache` and it's 165580141, in a blink.

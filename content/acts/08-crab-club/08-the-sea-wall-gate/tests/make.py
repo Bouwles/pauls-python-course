@@ -58,7 +58,7 @@ def edges_and_rock(ctx):
     for action, want, why in [(2, 8, "off the edge"), (3, 9, "a step right"), (0, 9, "into the rock")]:
         observation, reward, terminated, truncated, _ = checked_step(env, action, "step")
         if (observation, reward, terminated) != (want, -1.0, False):
-            raise CheckFailed(f"With no slipping, {why} should leave him on tile {want}, at a cost of -1.",
+            raise CheckFailed(f"With no slipping, {why} should leave it on tile {want}, at a cost of -1.",
                               expected=(want, -1.0, False), actual=(observation, reward, terminated))
 
 
@@ -130,7 +130,7 @@ def slipping(ctx):
         if terminated or truncated:
             observation, _ = checked_reset(env, "reset")
     if not 0.17 <= slips / 4000 <= 0.23:
-        raise CheckFailed("With slip=0.2 he should slip about two steps in ten.", expected="about 0.2", actual=round(slips / 4000, 3))
+        raise CheckFailed("With slip=0.2 it should slip about two steps in ten.", expected="about 0.2", actual=round(slips / 4000, 3))
     always = grid(ctx, slip=1.0)
     checked_reset(always, "reset", seed=7)
     seen = set()
@@ -139,7 +139,7 @@ def slipping(ctx):
         seen.add(observation)
         checked_reset(always, "reset")
     if seen != {8, 9}:
-        raise CheckFailed("With slip=1.0 and told up from the start, he always goes sideways: left into the edge (8) or right (9).",
+        raise CheckFailed("With slip=1.0 and told up from the start, it always goes sideways: left into the edge (8) or right (9).",
                           expected={8, 9}, actual=seen)
 
 

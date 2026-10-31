@@ -4,12 +4,12 @@ type: predict
 title: The directions that don't turn
 concept: eigenvectors
 dialogue:
-  - okonjo: "Chest and waist. When one is generous, so is the other. Not always, but usually."
-  - wendt: "Then the measurements spread out along a slant. That slant is what I'm after."
+  - paul: "A tailor's records. Chest and waist: when one is generous, so is the other. Not always, but usually."
+  - riya: "Then the measurements spread out along a slant. That slant is what I'm after."
 code: |
   import numpy as np
 
-  # How Mr Okonjo's customers vary, in square centimetres: chest, then waist
+  # How a tailor's customers vary, in square centimetres: chest, then waist
   spread = np.array([[9.0, 6.0],
                      [6.0, 9.0]])
   values, vectors = np.linalg.eigh(spread)

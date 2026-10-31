@@ -11,8 +11,6 @@ def causal_mask(n):
     """An n by n array of booleans: True where a query would be looking ahead."""
 
 
-# It looks back over everything I ever did and decides which parts matter.
-# It is better at that than I am. It is worse at knowing why they mattered. A.P.
 def attention(Q, K, V, mask=None):
     """Scaled dot-product attention. Returns (output, weights)."""
     # Score: every query against every key

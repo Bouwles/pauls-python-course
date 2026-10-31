@@ -34,13 +34,13 @@
       "day": "2026-10-21",
       "pence": -880,
       "category": "travel",
-      "note": "bus to Truro"
+      "note": "bus to the coast"
     },
     {
       "day": "2026-10-28",
       "pence": -2990,
       "category": "shop",
-      "note": "new apron"
+      "note": "new trainers"
     },
     {
       "day": "2026-11-01",
@@ -88,13 +88,13 @@
       "day": "2026-11-19",
       "pence": -1645,
       "category": "fun",
-      "note": "the pier arcade"
+      "note": "the arcade"
     },
     {
       "day": "2026-11-21",
       "pence": -2000,
       "category": "travel",
-      "note": "train to Plymouth"
+      "note": "train fare"
     }
   ],
   "budgets": {

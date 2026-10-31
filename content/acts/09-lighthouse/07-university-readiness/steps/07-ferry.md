@@ -4,7 +4,7 @@ type: make
 title: "Question 6: The ferry's load limit"
 files: [ferry.py]
 entry: ferry.py
-on_pass: { nell: "Every crate across on time, nothing split, nothing left on the quay. Ferro says he's carried heavier." }
+on_pass: { paul: "Every crate across on time, nothing split, nothing left behind. Binary search on the answer, not the list." }
 hints:
   nudge: "If a limit of 20 kg gets everything across in time, what do you know about 21 kg? And about 19?"
   plan:
@@ -39,7 +39,7 @@ hints:
                 low = ___
         return low
 ---
-Nell's crates go to the mainland on Captain Ferro's ferry, one crossing a day, in the order they're stacked on the quay. Each crossing takes the next crates in order until the next one would put it over the load limit. A crate is never split.
+A river ferry takes crates downstream, one crossing a day, in the order they're stacked on the bank. Each crossing takes the next crates in order until the next one would put it over the load limit. A crate is never split.
 
 Write `smallest_limit(crates, days)`: the smallest whole-number load limit, in kilos, that gets every crate across in `days` crossings or fewer. With no crates, it's 0.
 

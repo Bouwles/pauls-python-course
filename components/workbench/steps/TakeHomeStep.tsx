@@ -9,10 +9,10 @@ import type { StepProgressRow } from "@/lib/store/types";
 import { download, zip } from "@/lib/export";
 import { starterFiles, type TestReport } from "@/lib/takehome";
 import { Button } from "../../ui/Button";
-import { PassIcon } from "../../ui/Icons";
+import { Icon } from "../../ui/Icon";
+import { Instructions, Prose } from "../Instructions";
 import { useWorkbench } from "../context";
-import { NextRow, Prose, StepHeading } from "./common";
-import { Ticket } from "../Ticket";
+import { NextRow } from "./common";
 import styles from "./steps.module.css";
 import th from "./TakeHome.module.css";
 
@@ -112,7 +112,7 @@ export function TakeHomeStepView({ step, row }: { step: TakeHomeStep; row: StepP
         if (body.report) await take(body.report, Boolean(body.passes), body.at ?? Date.now());
         else if (!quiet) setMessage("Nothing handed in yet. Run ppc check in the project folder, then look again.");
       } catch {
-        if (!quiet) setMessage("Couldn't reach the workshop. Check your connection.");
+        if (!quiet) setMessage("Couldn't reach the server. Check your connection.");
       } finally {
         setBusy(false);
       }
@@ -149,7 +149,7 @@ export function TakeHomeStepView({ step, row }: { step: TakeHomeStep; row: StepP
       if (!res.ok || !body.report) setMessage(body.error ?? "That didn't go through. Try again.");
       else await take(body.report, Boolean(body.passes), Date.now());
     } catch {
-      setMessage("Couldn't reach the workshop. Check your connection.");
+      setMessage("Couldn't reach the server. Check your connection.");
     } finally {
       setBusy(false);
     }
@@ -159,33 +159,31 @@ export function TakeHomeStepView({ step, row }: { step: TakeHomeStep; row: StepP
 
   return (
     <>
-      <Ticket>
-        <StepHeading step={step} />
-        <Prose html={step.html} />
+      <Instructions step={step} footer={<NextRow row={row} allowSkip />}>
         <section className={th.section} aria-labelledby="th-get">
-          <h3 id="th-get" className="label">
-            1. Get the project
-          </h3>
+          <h2 id="th-get" className="label">
+            Get the project
+          </h2>
           <p className={th.small}>
             A folder with the brief, the starter files, requirements.txt and {step.testCount} pytest {step.testCount === 1 ? "test" : "tests"}.
           </p>
           <div className={styles.row}>
-            <Button variant="primary" onClick={() => download(`${step.folder}.zip`, zip(starterFiles(job, step, site)), "application/zip")}>
+            <Button variant="primary" icon="download" onClick={() => download(`${step.folder}.zip`, zip(starterFiles(job, step, site)), "application/zip")}>
               Download {step.folder}.zip
             </Button>
           </div>
         </section>
         <section className={th.section} aria-labelledby="th-run">
-          <h3 id="th-run" className="label">
-            2. Set up and run it
-          </h3>
+          <h2 id="th-run" className="label">
+            Set it up and run it
+          </h2>
           <p className={th.small}>The steps for your computer are alongside. You only set Python up once; after that, each project is the last four lines.</p>
           {step.setupHtml ? <Prose html={step.setupHtml} /> : null}
         </section>
         <section className={th.section} aria-labelledby="th-hand">
-          <h3 id="th-hand" className="label">
-            3. Hand it in
-          </h3>
+          <h2 id="th-hand" className="label">
+            Hand it in
+          </h2>
           {landing || guest ? (
             <p className={th.small}>
               Handing in needs an account, so the result is kept. <a href="/signup?keep=1">Make one</a>; your progress comes with you.
@@ -254,7 +252,7 @@ export function TakeHomeStepView({ step, row }: { step: TakeHomeStep; row: StepP
           {report ? (
             <div className={[th.result, done ? th.resultGood : ""].join(" ")} role="status">
               <p className={th.resultTitle}>
-                {done ? <PassIcon /> : null} {report.passed} of {report.total} {report.total === 1 ? "test" : "tests"} passed
+                {done ? <Icon name="tick" /> : null} {report.passed} of {report.total} {report.total === 1 ? "test" : "tests"} passed
                 {reportAt ? ` on ${new Date(reportAt).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}` : ""}.
               </p>
               {done ? (
@@ -281,8 +279,7 @@ export function TakeHomeStepView({ step, row }: { step: TakeHomeStep; row: StepP
             </div>
           ) : null}
         </section>
-        <NextRow row={row} allowSkip />
-      </Ticket>
+      </Instructions>
       <div className={areas.stage}>
         <div className={styles.stagePad}>
           <div className={th.guide}>

@@ -1,8 +1,8 @@
 # Paul's Python Course
 
-A project-based Python school set in Saltmarsh, a small harbour town that runs on an absent engineer's old scripts. Learners take a desk at Moss's repair shop and fix the town one real program at a time, from a first `print` to reinforcement learning. Python runs in the browser (Pyodide); every check is a real test.
+A project-based Python course. Learners join Paul's class in the Clocktower, an old brick tower turned code school, and build one real program at a time with Paul, his teaching assistant Neil and four classmates, from a first `print` to reinforcement learning. Python runs in the browser (Pyodide); every check is a real test.
 
-The full brief is `pauls-python-course-prompt.md`. Progress and the build plan are in `PLAN.md`; every non-obvious choice is in `DECISIONS.md`.
+The original brief is `pauls-python-course-prompt.md`, revised by `REDESIGN.md` and `REDESIGN-2.md`. The current plan is `REDESIGN2_PLAN.md` (`PLAN.md` is the first build's record); every non-obvious choice is in `DECISIONS.md`.
 
 ## Quick start
 
@@ -13,7 +13,7 @@ npm run dev          # http://localhost:3000
 
 No accounts or keys are needed for development: without Supabase settings the app runs on a local backend (Postgres in WebAssembly, stored in `.data/`, with built-in email and password sign-in). Sign-in links are shown at `/dev/mailbox`.
 
-A demo learner with half of Act I done: `npm run seed:demo` (with the dev server running), then log in as `demo@fixwick.test` / `demo-harbour-1987`.
+A demo learner with half of Act I done: `npm run seed:demo` (with the dev server running), then log in as `demo@ppc.test` / `demo-harbour-1987`.
 
 ## Scripts
 

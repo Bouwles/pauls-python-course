@@ -1,28 +1,28 @@
 from collections import deque as _deque
 
-TOWN = {
-    "scrapyard": ["workshop", "tailor", "records-office"],
-    "workshop": ["scrapyard", "bakery", "tailor"],
-    "bakery": ["workshop", "post-office", "library"],
-    "post-office": ["bakery", "pub", "town-hall", "ferry"],
-    "pub": ["post-office", "harbour-office", "greengrocer"],
-    "harbour-office": ["pub", "ferry", "crab-club", "lighthouse"],
-    "ferry": ["post-office", "harbour-office"],
-    "lighthouse": ["harbour-office"],
-    "tailor": ["scrapyard", "workshop", "library"],
-    "library": ["tailor", "bakery", "town-hall"],
-    "town-hall": ["library", "post-office", "greengrocer", "weather-station"],
-    "greengrocer": ["town-hall", "pub", "bike-shed"],
-    "bike-shed": ["greengrocer", "crab-club", "observatory"],
-    "crab-club": ["bike-shed", "harbour-office"],
-    "records-office": ["scrapyard", "weather-station"],
-    "weather-station": ["records-office", "town-hall", "observatory"],
-    "observatory": ["weather-station", "bike-shed"],
+CITY = {
+    "market": ["clocktower", "bookshop", "museum"],
+    "clocktower": ["market", "cafe", "bookshop"],
+    "cafe": ["clocktower", "station", "library"],
+    "station": ["cafe", "cinema", "city-hall", "theatre"],
+    "cinema": ["station", "bridge", "school"],
+    "bridge": ["cinema", "theatre", "pool", "stadium"],
+    "theatre": ["station", "bridge"],
+    "stadium": ["bridge"],
+    "bookshop": ["market", "clocktower", "library"],
+    "library": ["bookshop", "cafe", "city-hall"],
+    "city-hall": ["library", "station", "school", "gallery"],
+    "school": ["city-hall", "cinema", "gym"],
+    "gym": ["school", "pool", "park"],
+    "pool": ["gym", "bridge"],
+    "museum": ["market", "gallery"],
+    "gallery": ["museum", "city-hall", "park"],
+    "park": ["gallery", "gym"],
 }
 
-# The tide's in: nothing reaches the lighthouse.
-FLOODED = {place: [n for n in near if n != "lighthouse"] for place, near in TOWN.items()}
-FLOODED["lighthouse"] = []
+# Road works: nothing reaches the stadium.
+CLOSED = {place: [n for n in near if n != "stadium"] for place, near in CITY.items()}
+CLOSED["stadium"] = []
 
 
 def quiet(module):
@@ -62,12 +62,12 @@ def route(roads, start, goal):
 
 
 TESTS = [
-    function("The scrapyard to the ferry", call="fewest_roads", args=(TOWN, "scrapyard", "ferry"),
-             expect=["scrapyard", "workshop", "bakery", "post-office", "ferry"], visible=True),
-    custom("The scrapyard to the lighthouse", route(TOWN, "scrapyard", "lighthouse"), visible=True),
-    custom("The library to the crab club", route(TOWN, "library", "crab-club"),
+    function("The market to the theatre", call="fewest_roads", args=(CITY, "market", "theatre"),
+             expect=["market", "clocktower", "cafe", "station", "theatre"], visible=True),
+    custom("The market to the stadium", route(CITY, "market", "stadium"), visible=True),
+    custom("The library to the pool", route(CITY, "library", "pool"),
            hint="A breadth-first search takes places from the front of the queue: nearest first."),
-    custom("The observatory to the tailor", route(TOWN, "observatory", "tailor")),
-    function("Already there", call="fewest_roads", args=(TOWN, "pub", "pub"), expect=["pub"]),
-    function("The causeway's flooded", call="fewest_roads", args=(FLOODED, "workshop", "lighthouse"), expect=None),
+    custom("The park to the bookshop", route(CITY, "park", "bookshop")),
+    function("Already there", call="fewest_roads", args=(CITY, "cinema", "cinema"), expect=["cinema"]),
+    function("The road to the stadium is closed", call="fewest_roads", args=(CLOSED, "clocktower", "stadium"), expect=None),
 ]

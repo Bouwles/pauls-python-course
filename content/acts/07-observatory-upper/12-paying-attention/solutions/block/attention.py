@@ -14,8 +14,6 @@ def causal_mask(n):
     return np.triu(np.ones((n, n), dtype=bool), k=1)
 
 
-# It looks back over everything I ever did and decides which parts matter.
-# It is better at that than I am. It is worse at knowing why they mattered. A.P.
 def attention(Q, K, V, mask=None):
     """Scaled dot-product attention. Returns (output, weights)."""
     # Score: every query against every key

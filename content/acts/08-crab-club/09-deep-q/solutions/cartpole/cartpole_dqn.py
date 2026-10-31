@@ -17,7 +17,7 @@ STATE_SIZE = 4
 ACTIONS = 2
 
 
-# Moss's pieces: the network from the workshop, now any size.
+# Paul's pieces: the network from the workshop, now any size.
 def new_params(rng, inputs=STATE_SIZE, hidden=64, outputs=ACTIONS):
     """Small random weights: the state in, one hidden layer, a Q-value for each action out."""
     return {
@@ -55,7 +55,7 @@ def gradients(params, X, actions, y):
 
 
 class Adam:
-    """Adam, from the observatory: each weight gets its own step size."""
+    """Adam, from the Engine Room: each weight gets its own step size."""
 
     def __init__(self, params, rate=1e-3, beta1=0.9, beta2=0.999, eps=1e-8):
         self.rate, self.beta1, self.beta2, self.eps = rate, beta1, beta2, eps

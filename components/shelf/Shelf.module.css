@@ -1,474 +1,404 @@
-/* The Shelf (REDESIGN.md 5.5): wooden shelves in the workshop's back room, and a panel on the bench. */
-.layout {
+/* The Shelf: an export panel, then a grid of project cards, each with a real output preview. */
+.shelf {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 460px;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--s-8);
-  align-items: start;
-}
-
-.room {
-  display: grid;
-  gap: var(--s-4);
-  min-width: 0;
 }
 
 .head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--s-4) var(--s-6);
+  display: grid;
+  gap: var(--s-3);
 }
 
 .title {
-  font-size: var(--pixel-3);
+  font-size: var(--fs-7);
 }
 
 .lede {
-  font-family: var(--font-read);
-  font-size: var(--prose-size);
-  line-height: var(--lh-prose);
-  color: var(--text-2);
-  max-width: var(--measure);
-  margin-bottom: var(--s-2);
-}
-
-.exportRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-3);
-  align-items: flex-start;
-}
-
-.note {
-  font-size: var(--step--1);
-  line-height: 1.5;
-  color: var(--text-2);
-  max-width: var(--measure);
-}
-
-/* ---- The back wall: slate boards, a skirting and the floor ---- */
-.wall {
-  --plank: 16px;
-  --art: 64px;
-  position: relative;
-  display: grid;
-  gap: var(--s-4);
-  padding: var(--s-8) var(--s-6) var(--s-12);
-  background: var(--art-deep-slate);
-  box-shadow: inset 0 0 0 4px var(--night-0), var(--shadow-hard);
-}
-
-/* The seams between the wall boards, 48 px apart. */
-.wall::before {
-  content: "";
-  position: absolute;
-  inset: 4px;
-  background: var(--night-0);
-  opacity: 0.4;
-  -webkit-mask: var(--mask-vline-48) repeat 0 0 / 48px 8px;
-  mask: var(--mask-vline-48) repeat 0 0 / 48px 8px;
-  pointer-events: none;
-}
-
-/* Floorboards under the shelves. */
-.wall::after {
-  content: "";
-  position: absolute;
-  left: 4px;
-  right: 4px;
-  bottom: 4px;
-  height: 28px;
-  background: var(--art-tar);
-  box-shadow: inset 0 4px 0 var(--night-0), inset 0 8px 0 var(--art-driftwood);
-}
-
-.wall > * {
-  position: relative;
-}
-
-/* One shelf: a run of slots on a plank, held up by two brackets. */
-.board {
-  list-style: none;
-  margin: 0;
-  padding: 0 var(--s-6) var(--s-4);
-  display: grid;
-  grid-template-columns: repeat(var(--per, 4), minmax(0, 1fr));
-  gap: var(--s-3);
-  position: relative;
-}
-
-/* The plank: a lit top edge, the wood, a dark underside, a hard shadow on the wall. */
-.board::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: var(--art);
-  height: var(--plank);
-  background: var(--art-driftwood);
-  box-shadow:
-    inset 0 4px 0 var(--art-rust),
-    inset 0 -4px 0 var(--art-tar),
-    0 4px 0 var(--night-0);
-}
-
-/* The brackets under each end of the plank. */
-.board::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(var(--art) + var(--plank) + 4px);
-  height: 16px;
-  background: var(--art-tar);
-  -webkit-mask:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h8v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1H0z'/%3E%3C/svg%3E") no-repeat 0 0 / 16px 16px,
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h8v8h-1v-1h-1v-1h-1v-1h-1v-1h-1v-1h-1v-1h-1v-1z'/%3E%3C/svg%3E") no-repeat 100% 0 / 16px 16px;
-  mask:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h8v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1H0z'/%3E%3C/svg%3E") no-repeat 0 0 / 16px 16px,
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h8v8h-1v-1h-1v-1h-1v-1h-1v-1h-1v-1h-1v-1h-1v-1z'/%3E%3C/svg%3E") no-repeat 100% 0 / 16px 16px;
-  pointer-events: none;
-}
-
-.slot {
-  min-width: 0;
-  display: grid;
-  z-index: 1;
-}
-
-/* An object stands on the plank; its paper label is pinned to the plank's front edge. */
-.object {
-  display: grid;
-  grid-template-rows: var(--art) auto;
-  justify-items: center;
-  width: 100%;
-  min-width: 0;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: inherit;
-  cursor: pointer;
-}
-
-/* On a public page nothing opens: the objects just stand there. */
-.still {
-  cursor: default;
-}
-
-.art {
-  position: relative;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  height: var(--art);
-  padding: 0 var(--s-2);
-}
-
-/* The lamp's pool of light on the wall behind the object you point at. */
-.object:not(.still):hover .art,
-.on .art {
-  background: var(--art-slate);
-  box-shadow: 0 -4px 0 var(--art-slate);
-}
-
-/* The chosen object: a lamp-coloured marker above it. */
-.on .art::before {
-  content: "";
-  position: absolute;
-  top: -20px;
-  left: 50%;
-  width: 14px;
-  height: 8px;
-  margin-left: -7px;
-  background: var(--lamp);
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='4' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h7v1h-1v1h-1v1h-1v1h-1v-1h-1v-1h-1v-1h-1z'/%3E%3C/svg%3E") no-repeat 0 0 / 14px 8px;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='4' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h7v1h-1v1h-1v1h-1v1h-1v-1h-1v-1h-1v-1h-1z'/%3E%3C/svg%3E") no-repeat 0 0 / 14px 8px;
-}
-
-.object:focus-visible {
-  outline: none;
-}
-
-.object:focus-visible .art {
-  outline: 2px solid var(--lamp);
-  outline-offset: 2px;
-}
-
-/* The paper label, hung from a pin in the plank. */
-.tag {
-  position: relative;
-  margin-top: 8px;
-  max-width: 100%;
-  padding: 0;
-  box-shadow: 4px 4px 0 var(--night-0);
-  font-family: var(--font-read);
-  font-size: var(--step--1);
-  font-weight: 700;
-  line-height: 1.3;
-  text-align: center;
-  overflow-wrap: anywhere;
-}
-
-.tag::before {
-  content: "";
-  position: absolute;
-  top: -12px;
-  left: 50%;
-  width: 6px;
-  height: 6px;
-  margin-left: -3px;
-  background: var(--brick);
-  box-shadow: 0 2px 0 var(--brick-dark);
-}
-
-.on .tag {
-  outline: 2px solid var(--lamp);
-  outline-offset: 2px;
-}
-
-.emptySlot {
-  grid-column: 1 / -1;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  height: var(--art);
-  padding-bottom: var(--s-3);
-}
-
-/* ---- The bench: whatever you took off the shelf ---- */
-.side {
-  position: sticky;
-  top: var(--s-4);
-  min-width: 0;
-  scroll-margin-top: var(--s-4);
-}
-
-.idle {
-  display: grid;
-  gap: var(--s-2);
-}
-
-.idleTitle {
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 1;
-  -webkit-font-smoothing: none;
-}
-
-.idleText {
-  font-size: var(--step-0);
-  line-height: var(--lh-prose);
-  color: var(--text-2);
-}
-
-.detail {
-  display: grid;
-  gap: var(--s-4);
-  box-shadow: var(--shadow-hard);
-  min-width: 0;
-}
-
-.detailHead {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  gap: var(--s-3);
-  align-items: start;
-}
-
-.detailArt {
-  padding: var(--s-2);
-  background: var(--art-deep-slate);
-  box-shadow: inset 0 -8px 0 var(--art-driftwood), inset 0 -10px 0 var(--art-tar);
-}
-
-.detailText {
-  display: grid;
-  gap: var(--s-1);
-  min-width: 0;
-}
-
-.detailTitle {
-  font-size: var(--pixel-2);
-  margin-bottom: var(--s-1);
-  overflow-wrap: anywhere;
-}
-
-.meta {
-  font-size: var(--step--1);
+  font-size: var(--fs-4);
   line-height: 1.45;
   color: var(--text-2);
 }
 
-.close {
+.quiet {
+  font-size: var(--fs-2);
+  color: var(--text-2);
+  max-width: 62ch;
+}
+
+.empty {
+  display: grid;
+  justify-items: start;
+  gap: var(--s-2);
+  padding: var(--s-8);
+  background: var(--surface-2);
+  border-radius: var(--r-lg);
+  max-width: 720px;
+}
+
+.emptyIcon {
+  color: var(--text-2);
+  margin-bottom: var(--s-2);
+}
+
+.emptyTitle {
+  font-family: var(--font-display);
+  font-size: var(--fs-5);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.empty > a {
+  margin-top: var(--s-3);
+}
+
+/* The export: the one big action on the page. */
+.export {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-5) var(--s-8);
+  padding: var(--s-6);
+  background: var(--surface-2);
+  border-radius: var(--r-lg);
+}
+
+:global(:root[data-theme="light"]) .export,
+:global(:root[data-theme="light"]) .card,
+:global(:root[data-theme="light"]) .empty {
+  border: 1px solid var(--line);
+}
+
+@media (prefers-color-scheme: light) {
+  :global(:root[data-theme="system"]) .export,
+  :global(:root[data-theme="system"]) .card,
+  :global(:root[data-theme="system"]) .empty {
+    border: 1px solid var(--line);
+  }
+}
+
+.exportText {
+  display: grid;
+  gap: var(--s-2);
+  flex: 1 1 360px;
+  min-width: 0;
+}
+
+.exportTitle {
+  font-size: var(--fs-5);
+}
+
+.exportActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--s-3);
+}
+
+.big {
+  height: 52px;
+  padding: 0 var(--s-6);
+  font-size: var(--fs-3);
+}
+
+/* The grid of projects. */
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--s-5);
+}
+
+.card {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background: var(--surface-2);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* The preview: what the program prints, dark in both themes. */
+.preview {
+  margin: 0;
+  height: 208px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: var(--s-2);
+  padding: var(--s-3) var(--s-4) 0;
+  background: var(--editor);
+  color: var(--text);
+  overflow: hidden;
+}
+
+.previewLabel {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-2);
+}
+
+.previewText {
+  margin: 0;
+  font-family: var(--font-code);
+  font-size: 13px;
+  line-height: 1.55;
+  white-space: pre;
+  overflow: hidden;
+  color: var(--text);
+}
+
+.previewEmpty {
+  grid-template-rows: none;
+  place-content: center;
+  justify-items: center;
+  gap: var(--s-2);
+  padding: var(--s-4);
+  color: var(--text-2);
+}
+
+.chart {
+  margin: 0;
+  height: 208px;
   display: grid;
   place-items: center;
-  width: 32px;
-  height: 32px;
-  border: 0;
-  padding: 0;
-  background: var(--quiet);
-  color: var(--quiet-text);
-  box-shadow: inset 0 -4px 0 var(--quiet-dark);
-  outline: 2px solid var(--night-0);
+  background: var(--surface-1);
+  padding: var(--s-2);
+  overflow: hidden;
 }
 
-.close:hover {
-  background: var(--quiet-hover);
+.chart img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: var(--r-sm);
 }
 
-.close:active {
-  transform: translateY(2px);
-  box-shadow: inset 0 -2px 0 var(--quiet-dark);
-}
-
-.close:focus-visible {
-  outline: 2px solid var(--lamp);
-  outline-offset: 2px;
-}
-
-/* The code, in a well cut into the panel. */
-.codeBlock {
-  display: grid;
-  min-width: 0;
-  background: var(--panel-2);
-  box-shadow: 0 0 0 2px var(--night-0);
-}
-
-.fileName {
-  padding: var(--s-2) var(--s-3);
-  font-family: var(--font-code);
-  font-size: var(--step--1);
-  color: var(--text-2);
-}
-
-/* Folder tabs (REDESIGN.md 4.2): the chosen file joins the editor below it. */
-.fileTabs {
+.body {
   display: flex;
-  align-items: flex-end;
-  gap: var(--s-1);
-  padding: var(--s-2) var(--s-2) 0;
-  overflow-x: auto;
-  scrollbar-width: none;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-4) var(--s-5) 0;
+  min-width: 0;
 }
 
-.fileTabs button {
-  height: 32px;
-  border: 0;
-  padding: 2px var(--s-3) 0;
-  background: var(--frame);
+.bodyText {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.name {
+  font-size: var(--fs-4);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.meta {
+  font-size: var(--fs-1);
   color: var(--text-2);
-  box-shadow: inset 0 2px 0 var(--frame-hi);
-  font-family: var(--font-code);
-  font-size: var(--step--1);
-  white-space: nowrap;
-}
-
-.fileTabs button:hover {
-  color: var(--text);
-}
-
-.fileTabs button[aria-selected="true"] {
-  height: 36px;
-  background: var(--code-bg);
-  color: var(--text);
-  box-shadow: inset 0 2px 0 var(--lamp);
-}
-
-.code {
-  height: 280px;
-  overflow: auto;
-  background: var(--code-bg);
 }
 
 .actions {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: var(--s-3);
+  align-items: flex-start;
+  gap: var(--s-2);
+  padding: var(--s-4) var(--s-5) var(--s-5);
 }
 
-.console {
-  height: 180px;
-  min-width: 0;
-  box-shadow: 0 0 0 2px var(--night-0);
-}
-
-/* The GitHub form, when it opens. */
+/* GitHub's inline form. */
 .githubForm {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-3);
-  align-items: flex-end;
-  font-size: var(--step--1);
+  display: grid;
+  gap: var(--s-2);
+  flex-basis: 100%;
+  min-width: 0;
 }
 
-.githubForm label {
+.githubField {
   display: grid;
   gap: var(--s-1);
-  min-width: 0;
 }
 
-.githubForm label > span {
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 1;
-  -webkit-font-smoothing: none;
-}
-
-.githubForm input {
-  min-height: 40px;
-  min-width: 0;
+.githubField input {
+  width: 100%;
   font-family: var(--font-code);
-  font-size: var(--step--1);
-  padding: 0 var(--s-3);
-  background: var(--code-bg);
-  color: var(--text);
-  border: 2px solid var(--frame-hi);
 }
 
-.githubForm p {
-  flex-basis: 100%;
+.githubRow {
+  display: flex;
+  gap: var(--s-2);
+}
+
+.githubNote {
+  font-size: var(--fs-2);
   overflow-wrap: anywhere;
 }
 
 .githubError {
-  color: var(--danger-text);
+  font-size: var(--fs-2);
+  color: var(--fail-text);
 }
 
-@media (max-width: 1000px) {
-  .layout {
+/* ---- The run sheet ---- */
+.sheet {
+  width: min(1040px, calc(100vw - 32px));
+  max-height: calc(100dvh - 48px);
+  padding: 0;
+  border: 0;
+  color: var(--text);
+  display: none;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  overflow: hidden;
+}
+
+.sheet[open] {
+  display: grid;
+}
+
+.sheet::backdrop {
+  background: var(--scrim);
+}
+
+.sheetHead {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-4) var(--s-5);
+  border-bottom: 1px solid var(--line);
+}
+
+.close {
+  margin-left: auto;
+}
+
+.sheetBody {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  min-height: 0;
+  height: min(560px, calc(100dvh - 220px));
+}
+
+.codePane {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  min-height: 0;
+  border-right: 1px solid var(--line);
+  background: var(--editor);
+}
+
+.fileName {
+  padding: var(--s-2) var(--s-4);
+  font-family: var(--font-code);
+  font-size: var(--fs-1);
+  color: var(--text-2);
+  border-bottom: 1px solid var(--line);
+}
+
+.fileTabs {
+  display: flex;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--line);
+}
+
+.fileTabs button {
+  border: 0;
+  background: none;
+  padding: var(--s-2) var(--s-4);
+  font-family: var(--font-code);
+  font-size: var(--fs-1);
+  color: var(--text-2);
+  box-shadow: inset 0 -2px 0 transparent;
+}
+
+.fileTabs button[aria-selected="true"] {
+  color: var(--text);
+  box-shadow: inset 0 -2px 0 var(--sun);
+}
+
+.code {
+  min-height: 0;
+  overflow: auto;
+}
+
+.consolePane {
+  min-height: 0;
+  overflow: auto;
+  display: grid;
+}
+
+.sheetFoot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  padding: var(--s-4) var(--s-5);
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 860px) {
+  .sheetBody {
     grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+    height: calc(100dvh - 200px);
   }
 
-  .side {
-    position: static;
+  .codePane {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
   }
 }
 
 @media (max-width: 720px) {
+  .shelf {
+    gap: var(--s-6);
+  }
+
   .title {
-    font-size: var(--pixel-2);
+    font-size: var(--fs-6);
   }
 
-  .wall {
-    padding: var(--s-8) var(--s-3) var(--s-12);
+  .lede {
+    font-size: var(--fs-3);
   }
 
-  .board {
-    padding: 0 var(--s-4) var(--s-4);
-    gap: var(--s-2);
+  .export,
+  .empty {
+    padding: var(--s-5) var(--s-4);
   }
 
-  .detailHead {
-    grid-template-columns: minmax(0, 1fr) auto;
+  .exportActions,
+  .big {
+    width: 100%;
   }
 
-  .detailArt {
-    display: none;
+  .big {
+    white-space: normal;
+    text-align: center;
   }
 
-  .code {
-    height: 240px;
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-4);
+  }
+
+  .preview {
+    height: auto;
+    max-height: 208px;
+    padding-bottom: var(--s-3);
+  }
+
+  .sheet {
+    width: 100vw;
+    max-width: 100vw;
+    max-height: 100dvh;
+    height: 100dvh;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .sheetBody {
+    height: auto;
   }
 }

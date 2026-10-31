@@ -16,7 +16,7 @@ describe("downloads that draw with the workshop module", () => {
   });
 
   it("lets the program run outside the browser", () => {
-    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "fixwick-stub-"));
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "ppc-stub-"));
     const files = withWorkshopStub({ "main.py": "from workshop import show_grid, show_hill\nshow_grid([[0, 1]], title='x')\nshow_hill(1, 2)\nprint('done')\n" });
     for (const [name, content] of Object.entries(files)) fs.writeFileSync(path.join(dir, name), content);
     const out = execFileSync("python3", ["main.py"], { cwd: dir, encoding: "utf8" });

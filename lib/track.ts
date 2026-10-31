@@ -5,8 +5,8 @@
 import { useEffect } from "react";
 import type { FunnelEvent } from "./funnel";
 
-const KEY = "fixwick-visitor";
-const SENT = "fixwick-funnel-sent";
+const KEY = "ppc-visitor";
+const SENT = "ppc-funnel-sent";
 
 function visitor(): string | null {
   try {

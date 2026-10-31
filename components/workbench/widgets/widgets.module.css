@@ -1,3 +1,4 @@
+/* Concept-before-code widgets: flat, clean, in the UI's own colours. */
 .widget {
   display: grid;
   gap: var(--s-4);
@@ -6,19 +7,44 @@
 }
 
 .question {
-  font-family: var(--font-prose);
-  font-size: var(--prose-size);
-  font-weight: 600;
+  font-size: var(--fs-3);
+  font-weight: 700;
+  line-height: var(--lh-text);
 }
 
+.dim {
+  color: var(--text-2);
+  font-size: var(--fs-2);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.range {
+  accent-color: var(--sun);
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.chart {
+  border-radius: var(--r-lg);
+  background: var(--editor);
+  border: 1px solid var(--line);
+}
+
+/* ---- Pigeonholes ---------------------------------------------------------- */
 .holes {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: minmax(64px, 1fr);
+  grid-auto-columns: minmax(72px, 1fr);
   gap: 4px;
-  padding: 6px;
-  background: var(--art-driftwood);
-  border: 2px solid var(--art-tar);
+  padding: 4px;
+  border-radius: var(--r-lg);
+  background: var(--bg);
   max-width: 100%;
   overflow-x: auto;
 }
@@ -26,104 +52,108 @@
 .hole {
   display: grid;
   grid-template-rows: 1fr auto auto;
-  gap: 2px;
-  min-height: 92px;
-  padding: 6px 4px 4px;
-  background: var(--art-tar);
-  border: 2px solid var(--art-harbour-night);
-  color: var(--art-sail-cloth);
+  justify-items: center;
+  gap: 4px;
+  min-height: 96px;
+  padding: var(--s-2) var(--s-1) var(--s-1);
+  border: 0;
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  color: var(--text);
   cursor: pointer;
+  transition: background-color var(--dur) var(--ease-out);
 }
 
 .hole:hover:not(:disabled) {
-  background: var(--art-tar);
+  background: var(--surface-3);
 }
 
 .parcel {
   align-self: center;
-  justify-self: center;
-  background: var(--art-sand);
-  color: var(--art-harbour-night);
-  font-size: var(--step--2);
-  padding: 4px 3px;
-  line-height: 1.2;
   max-width: 100%;
+  padding: 4px 6px;
+  border-radius: var(--r-sm);
+  background: var(--sun-wash);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .holeNo {
   font-family: var(--font-code);
-  font-size: var(--step--1);
-  font-weight: 600;
-  color: var(--art-lamp-glow);
+  font-size: var(--fs-1);
+  font-weight: 700;
+  color: var(--sun-text);
 }
 
 .holeNeg {
   font-family: var(--font-code);
-  font-size: var(--step--2);
-  color: var(--art-stone);
+  font-size: 12px;
+  color: var(--text-2);
 }
 
 .good {
-  outline: 3px solid var(--art-shell-highlight);
+  box-shadow: inset 0 0 0 2px var(--pass);
 }
 
 .bad {
-  outline: 3px solid var(--art-tomato-highlight);
+  box-shadow: inset 0 0 0 2px var(--fail);
+}
+
+.feedback,
+.fbGood,
+.fbBad {
+  font-size: var(--fs-3);
+  line-height: var(--lh-text);
+  max-width: var(--measure);
 }
 
 .feedback {
-  font-family: var(--font-prose);
-  font-size: var(--prose-size);
-  line-height: var(--lh-prose);
-  border-left: 2px solid var(--rule-strong);
-  padding-left: var(--s-3);
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--r-lg);
 }
 
-.fbGood {
-  border-left-color: var(--pass);
-  color: var(--ink);
-  font-family: var(--font-prose);
+.feedback.fbGood {
+  background: var(--pass-wash);
 }
 
-.fbBad {
-  border-left-color: var(--fail);
+.feedback.fbBad {
+  background: var(--fail-wash);
 }
 
-.row {
-  display: flex;
-  gap: var(--s-2);
-}
-
+/* ---- Two labels, one box -------------------------------------------------- */
 .script {
   margin: 0;
   padding-left: 1.6em;
   display: grid;
-  gap: var(--s-1);
-  font-size: var(--step--1);
+  gap: var(--s-2);
+  font-size: var(--fs-2);
 }
 
 .scriptLine code {
   font-family: var(--font-code);
   font-variant-ligatures: none;
-  color: var(--ink-2);
+  color: var(--text-2);
 }
 
 .ran code {
-  color: var(--ink);
+  color: var(--text);
 }
 
 .nextLine code {
-  background: var(--accent-wash);
-  color: var(--ink);
-  padding: 0 4px;
+  padding: 1px 6px;
+  border-radius: var(--r-sm);
+  background: var(--sun-wash);
+  color: var(--text);
 }
 
 .scriptNote {
   display: block;
-  font-family: var(--font-prose);
-  color: var(--ink-2);
+  color: var(--text-2);
 }
 
 .boxes {
@@ -136,7 +166,7 @@
 
 .boxCol {
   display: grid;
-  gap: var(--s-2);
+  gap: var(--s-3);
   justify-items: center;
 }
 
@@ -146,12 +176,14 @@
 }
 
 .tag {
-  font-family: var(--font-code);
-  font-size: var(--step--1);
-  background: var(--accent);
-  color: var(--on-accent);
-  padding: 2px 8px;
   position: relative;
+  padding: 2px 8px;
+  border-radius: var(--r-sm);
+  background: var(--sun);
+  color: var(--sun-ink);
+  font-family: var(--font-code);
+  font-size: 13px;
+  font-weight: 700;
 }
 
 .tag::after {
@@ -160,26 +192,28 @@
   left: 50%;
   bottom: -8px;
   border: 4px solid transparent;
-  border-top-color: var(--accent);
+  border-top-color: var(--sun);
   transform: translateX(-50%);
 }
 
 .box {
   display: flex;
   gap: 4px;
-  padding: 8px;
-  border: 2px solid var(--art-driftwood);
-  background: var(--art-sand);
   min-width: 120px;
   min-height: 44px;
+  padding: var(--s-2);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
 }
 
 .item {
+  padding: 4px 8px;
+  border-radius: var(--r-sm);
+  background: var(--surface-3);
+  color: var(--text);
   font-family: var(--font-code);
-  font-size: var(--step--2);
-  background: var(--art-sail-cloth);
-  color: var(--art-harbour-night);
-  padding: 4px 6px;
+  font-size: 13px;
 }
 
 .predict {
@@ -187,118 +221,91 @@
   gap: var(--s-2);
 }
 
-.dim {
-  color: var(--ink-2);
-}
-
+/* ---- A loop, one pass at a time ------------------------------------------ */
 .loopCode {
   margin: 0;
-  background: var(--paper-raised);
-  border: var(--hairline);
   padding: var(--s-3) var(--s-4);
+  border-radius: var(--r-lg);
+  background: var(--editor);
+  border: 1px solid var(--line);
   font-family: var(--font-code);
   font-variant-ligatures: none;
   font-size: var(--editor-font-size);
+  line-height: 1.6;
 }
 
 .hot {
-  background: var(--accent-wash);
+  background: var(--sun-wash);
+  border-radius: var(--r-sm);
 }
 
-.lampRow {
+.loopRow {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--s-6);
-  align-items: flex-end;
+  align-items: flex-start;
 }
 
-.lighthouse {
-  position: relative;
-  width: 64px;
-  height: 160px;
-  flex: none;
+.passes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  max-width: 260px;
 }
 
-.tower {
-  position: absolute;
-  left: 18px;
-  bottom: 0;
-  width: 28px;
-  height: 116px;
-  background: var(--art-sail-cloth);
-  clip-path: polygon(20% 0, 80% 0, 100% 100%, 0 100%);
+.passDot {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--surface-3);
+  color: var(--text-2);
+  font-family: var(--font-code);
+  font-size: 14px;
+  font-weight: 700;
+  transition:
+    background-color var(--dur) var(--ease-out),
+    color var(--dur) var(--ease-out);
 }
 
-.tower::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--art-brick);
-  -webkit-mask: var(--mask-hband-40) repeat 0 0 / 8px 40px;
-  mask: var(--mask-hband-40) repeat 0 0 / 8px 40px;
+/* Dark ink reads on the teal in both themes. */
+.passDone {
+  background: var(--c-neil);
+  color: var(--sun-ink);
 }
 
-.lampTop {
-  position: absolute;
-  left: 20px;
-  bottom: 116px;
-  width: 24px;
-  height: 18px;
-  background: var(--art-lamp);
-  border: 3px solid var(--art-deep-slate);
-  border-bottom: none;
-}
-
-.beam {
-  position: absolute;
-  left: 32px;
-  bottom: 122px;
-  width: 140px;
-  height: 14px;
-  /* A flat cone of light, not a glow. */
-  background: var(--art-lamp-glow);
-  clip-path: polygon(0 35%, 100% 0, 100% 100%, 0 65%);
-  transform-origin: left center;
-  transform: rotate(-6deg);
-  transition: transform 500ms var(--ease);
-  opacity: 0.9;
-}
-
-.beam[data-pass="1"] {
-  transform: rotate(186deg);
+.passNow {
+  background: var(--sun);
+  color: var(--sun-ink);
 }
 
 .loopState {
   display: grid;
   gap: var(--s-2);
-  font-family: var(--font-prose);
+  min-width: 200px;
 }
 
 .loopOut {
   margin: 0;
-  min-width: 200px;
+  padding: var(--s-3);
+  border-radius: var(--r-md);
+  background: var(--editor);
+  border: 1px solid var(--line);
+  font-size: 14px;
   min-height: 3em;
-  background: var(--paper-raised);
-  border: var(--hairline);
-  padding: var(--s-2) var(--s-3);
-  font-family: var(--font-code);
-  font-size: var(--editor-font-size);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .beam {
-    transition: none;
-  }
-}
-
+/* ---- Growth --------------------------------------------------------------- */
 .growthTable {
   border-collapse: collapse;
-  font-size: var(--step--1);
+  font-size: var(--fs-1);
 }
 
 .growthTable th,
 .growthTable td {
   text-align: left;
-  padding: 2px var(--s-4) 2px 0;
+  padding: 4px var(--s-4) 4px 0;
   font-variant-numeric: tabular-nums;
 }
 
@@ -308,8 +315,9 @@
 
 .rateRow {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--s-3);
   align-items: center;
-  font-size: var(--step--1);
+  font-size: var(--fs-1);
   font-family: var(--font-code);
 }

@@ -10,7 +10,7 @@ export const job = (id: string): Job => JSON.parse(fs.readFileSync(path.join(CON
 const solutions = () => JSON.parse(fs.readFileSync(path.join(CONTENT, "server", "solutions.json"), "utf8")) as Record<string, Record<string, string>>;
 export const solution = (key: string, file = "main.py") => solutions()[key]?.[file] ?? "";
 
-export const uniqueEmail = () => `learner-${Date.now()}-${Math.floor(Math.random() * 1e6)}@fixwick.test`;
+export const uniqueEmail = () => `learner-${Date.now()}-${Math.floor(Math.random() * 1e6)}@ppc.test`;
 export const PASSWORD = "harbour-lights-1987";
 
 /** Replace everything in the CodeMirror editor by typing, as a learner would. */
@@ -40,15 +40,14 @@ export async function signUp(page: Page, email: string, name = "Ruth") {
   await page.getByLabel("I'm 13 or older.").check();
   await page.getByRole("button", { name: "Make the account" }).click();
   await page.waitForURL("**/welcome");
-  // The creator is in tabs: Species, Coat, Jumper, Extras.
-  await page.getByText("Hare", { exact: true }).click();
-  await page.getByRole("tab", { name: /Jumper/ }).click();
-  await page.getByText("Sea", { exact: true }).click();
-  await page.getByRole("tab", { name: /Extras/ }).click();
-  await page.getByText("Scarf", { exact: true }).click();
-  await page.getByLabel("What should Moss call you?").fill(name);
+  // The avatar is in tabs: Colour, Face, Hair, Clothes and Extras.
+  await page.getByRole("tab", { name: "Hair" }).click();
+  await page.getByText("Curly, medium length", { exact: true }).first().click();
+  await page.getByRole("tab", { name: "Extras" }).click();
+  await page.getByText("Headphones", { exact: true }).first().click();
+  await page.getByLabel("What should we call you?").fill(name);
   await page.getByText("No, never").click();
-  await page.getByRole("button", { name: "Take the desk" }).click();
+  await page.getByRole("button", { name: "Save and start" }).click();
   await page.waitForURL("**/job/**");
 }
 
@@ -61,22 +60,22 @@ export async function logIn(page: Page, email: string) {
 }
 
 export async function step(page: Page, name: RegExp) {
-  await page.getByRole("navigation", { name: "Steps in this job" }).getByRole("button", { name }).click();
+  await page.getByRole("navigation", { name: "Steps in this project" }).getByRole("button", { name }).click();
 }
 
-/** Play the first project, Shop Sign, from the Ask to the Ship, with the answers from the content. */
+/** Play the first project, Course Sign, from the Ask to the Ship, with the answers from the content. */
 export async function completeJobOne(page: Page) {
   const j = job("shop-sign");
   // The Ask: skip the walk-in if it's playing, then start.
   const skip = page.getByRole("button", { name: "Skip", exact: true });
   if (await skip.isVisible().catch(() => false)) await skip.click();
-  await page.getByRole("button", { name: "Start the job" }).click();
+  await page.getByRole("button", { name: "Start building" }).click();
 
   // Predict: the correct option, by position (two options can read alike).
   const predict = j.steps.find((s) => s.type === "predict")!;
   const right = predict.type === "predict" ? predict.options!.findIndex((o) => o.correct) : 0;
-  await page.getByRole("radio").nth(right).check();
-  await page.getByRole("button", { name: "Commit to this answer" }).click();
+  await page.getByRole("radio").nth(right).check({ force: true });
+  await page.getByRole("button", { name: "Lock in my answer" }).click();
   await page.getByRole("button", { name: "Run", exact: true }).click();
   await expect(page.getByRole("log", { name: "Output" })).not.toBeEmpty({ timeout: 60_000 });
   await page.getByRole("button", { name: "Next step" }).click();
@@ -101,11 +100,11 @@ export async function completeJobOne(page: Page) {
 
   // Worked example
   await page.getByPlaceholder("In your own words.").fill("Because the text has double quotes inside it.");
-  await page.getByRole("button", { name: "Show Moss's answer" }).click();
+  await page.getByRole("button", { name: "Show Paul's answer" }).click();
   await page.getByRole("button", { name: "I had that" }).click();
   await page.getByRole("button", { name: "Next step" }).click();
 
-  // Pip's Version, then Make: the reference solutions.
+  // The classmate's version, then Build: the reference solutions.
   for (const key of ["shop-sign/pips", "shop-sign/make"]) {
     await typeCode(page, solution(key));
     await page.getByRole("button", { name: "Check", exact: true }).click();
@@ -113,6 +112,7 @@ export async function completeJobOne(page: Page) {
     await page.getByRole("button", { name: "Next step" }).click();
   }
 
-  // Ship
-  await expect(page.getByRole("heading", { name: /shipped|shipping/i })).toBeVisible();
+  // Ship: it goes on the Shelf when the learner says so.
+  await page.getByRole("button", { name: "Add to my Shelf" }).click();
+  await expect(page.getByRole("heading", { name: /shipped/i })).toBeVisible();
 }

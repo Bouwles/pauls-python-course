@@ -1,4 +1,4 @@
-# Pip's dial finder. Three hundred dials, and I found the ones that know.
+# Riya's dial finder. Three hundred dials, and I found the ones that know.
 import numpy as np
 from sklearn.feature_selection import SelectKBest, f_classif
 from sklearn.linear_model import LogisticRegression

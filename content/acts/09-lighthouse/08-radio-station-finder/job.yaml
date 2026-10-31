@@ -1,0 +1,53 @@
+id: radio-station-finder
+title: "Radio Station Finder"
+project_name: "Radio Station Finder"
+portfolio_readme: |
+  # Radio Station Finder
+
+  Finds the real stations on a noisy FM dial. It smooths a signal reading for every 0.1 MHz from 88.0 to 108.0 with a moving average, picks out the peaks that stand above the noise, and lists their frequencies, strongest first.
+
+  Written by {name} for Neil, on the roof of the Clocktower at Paul's Python Course. Finished {date}.
+
+  ## Run it
+
+  ```
+  python tuner.py
+  [96.4, 101.7]
+  ```
+
+  `dial.txt` holds the dial's readings, one per line.
+
+  ## What it shows
+
+  - A moving average that copes with the ends of the list, where there are fewer neighbours
+  - Peak finding with a floor, so the hiss doesn't count as a station
+  - Sorting results by a value they don't show, and rounding frequencies for people to read
+downloadable: true
+datasets: []
+client: neil
+building: workshop
+estimated_minutes: 60
+summary: "The old radio Neil carried up to the roof hisses from one end of the dial to the other. Smooth the dial, find the real stations, and get some music for the last night of term."
+concepts_reviewed: [functions, looping-lists, slicing, sorted-vs-sort, edge-cases, numpy-arrays]
+ask:
+  dialogue:
+    - neil: "I brought the old Studio radio up for tonight. The whole dial is hiss."
+    - caitlin: "I pressed auto-tune. It found one very loud crackle, then nothing."
+    - neil: "Smooth the dial, find the real stations, and we'll have music up here."
+  spec: |
+    The dial gives one signal reading for every 0.1 MHz from 88.0 to 108.0, in `dial.txt`. Write `find_stations(readings, start=88.0, step=0.1, window=5, floor=0.5)` in `tuner.py`:
+
+    - smooth the readings with a moving average: each value becomes the mean of itself and up to `window // 2` neighbours on each side (fewer at the ends)
+    - a station is a smoothed value, not at either end, that is higher than the one before it, at least as high as the one after it, and at least `floor`
+    - return the stations' frequencies, rounded to one decimal place, strongest first
+  example: |
+    >>> find_stations(readings)
+    [96.4, 101.7]
+ship:
+  dialogue:
+    - narrator: "The hiss thins. Music, then a voice: it's nine o'clock."
+    - caitlin: "Nine o'clock. The clock says 3:14."
+    - yahya: "It's said 3:14 all term."
+    - paul: "Then it's tonight. Everyone stay on the roof."
+  shelf: { object: valve-radio, label: "The roof radio, tuned at last" }
+  cards: []

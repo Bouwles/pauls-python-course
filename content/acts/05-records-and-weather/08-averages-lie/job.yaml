@@ -6,7 +6,7 @@ portfolio_readme: |
 
   Describes a year of daily weather in more than one number: the mean, the median, the mode, the standard deviation and the quartiles, the fences that mark readings out of line, the readings outside them, and the dry days. It shows why one average can mislead: on a typical day it barely rains, and the mean day of rain never happened.
 
-  Written by {name} for Priya Lund at the Weather Station in {{town}}. Finished {date}.
+  Written by {name} for Riya, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -20,15 +20,15 @@ portfolio_readme: |
   ```
   Rain on an average day: 2.6 mm. On the middle day: 0.3 mm.
   Most common: 0.0 mm. Dry days: 160 of 366
-  {{town}}: average 12.7 degrees C, standard deviation 4.3
+  Clocktower: average 12.7 degrees C, standard deviation 4.3
   Thornby: average 12.7 degrees C, standard deviation 6.3
   Outside the fences:
-    {{town}}, 2024-06-14: 41.3 degrees C
+    Clocktower, 2024-06-14: 41.3 degrees C
     Thornby: 0 readings
     Rain: 38 days
   ```
 
-  The readings are made up for the story, for {{town}} and Thornby, twenty miles inland.
+  The readings are made up for the story, for the Clocktower's weather station and for Thornby, twenty miles out of the city.
 
   ## What it shows
 
@@ -37,23 +37,23 @@ portfolio_readme: |
   - Outliers found with Tukey's fences, kept with their dates, and checked before anything is struck out
   - Skewed distributions, like daily rain, where the mean sits far from most of the readings
 downloadable: true
-# daily.csv is invented for the story: a year at the {{town}} station and at Thornby, with
+# daily.csv is invented for the story: a year at the Clocktower's station and at Thornby, with
 # one faulty reading put in on purpose. See the README.
 datasets: []
-client: priya
+client: riya
 building: weather-station
 estimated_minutes: 70
-summary: "A summary statistics report on the station's 2024 for the parish magazine: the middle day, the usual day, the spread and the readings that don't fit."
+summary: "A summary statistics report on the Clocktower station's 2024, for the summary sheet in the Archive: the middle day, the usual day, the spread and the readings that don't fit."
 concepts_introduced: [descriptive-statistics, distributions]
 concepts_reviewed: [pandas-basics, selecting-filtering, vectorisation, matplotlib, dictionaries, functions, return-values, multiple-returns, default-arguments, docstrings, main-guard, f-strings]
 ask:
   dialogue:
-    - priya: "The parish magazine prints our year in one line. Average daily rain: 2.6 millimetres."
-    - priya: "Most days it didn't rain at all. The average day never happened."
-    - moss: "Then give them more than one number."
-    - priya: "Six, and say which is which. And find me the readings that don't belong."
+    - riya: "The station's summary sheet does the whole year in one line. Average daily rain: 2.6 millimetres."
+    - riya: "I cycle in most days. Most days it didn't rain at all. The average day never happened."
+    - paul: "Then give it more than one number."
+    - riya: "Six, and say which is which. And find me the readings that don't belong."
   spec: |
-    `daily.csv` is the station's 2024, one row per day: `date`, `rain` (mm), `temp` (degrees C) and `thornby`, the temperature at Thornby's station, twenty miles inland.
+    `daily.csv` is the Clocktower station's 2024, one row per day: `date`, `rain` (mm), `temp` (degrees C) and `thornby`, the temperature at Thornby's station, twenty miles out of the city.
 
     Write four functions. Each takes a Series of readings and leaves it as it was.
 
@@ -64,18 +64,18 @@ ask:
   example: |
     Rain on an average day: 2.6 mm. On the middle day: 0.3 mm.
     Most common: 0.0 mm. Dry days: 160 of 366
-    {{town}}: average 12.7 degrees C, standard deviation 4.3
+    Clocktower: average 12.7 degrees C, standard deviation 4.3
     Thornby: average 12.7 degrees C, standard deviation 6.3
     Outside the fences:
-      {{town}}, 2024-06-14: 41.3 degrees C
+      Clocktower, 2024-06-14: 41.3 degrees C
       Thornby: 0 readings
       Rain: 38 days
 ship:
   dialogue:
-    - priya: "Two point six on the mean day. Nought point three on the middle one. Nothing on the most common."
-    - priya: "Thornby has our average and half as much swing again. They'll have that in the magazine too."
-    - priya: "Forty-one degrees on the fourteenth of June was the screen door, left open. Struck out, in ink, with a note."
-    - moss: "With a note. That's the part people forget."
+    - riya: "Two point six on the mean day. Nought point three on the middle one. Nothing on the most common."
+    - riya: "Thornby has our average and half as much swing again. That goes on the sheet too."
+    - aaesha: "Forty-one degrees on the fourteenth of June was the screen door, left open. Struck out, in ink, with a note."
+    - paul: "With a note. That's the part people forget."
   shelf: { object: parish-magazine, label: "The station's year in more than one number" }
   cards: [descriptive-statistics, distributions]
 stretch:
@@ -88,6 +88,6 @@ stretch:
     tests: tests/stretch-z-scores.py
     solution: solutions/stretch-z-scores.py
   - id: two-towns
-    title: "Two towns, one scale"
+    title: "Two stations, one scale"
     prompt: |
-      Draw {{town}}'s and Thornby's daily temperatures as two histograms, one above the other, with `plt.subplots(2, 1, sharex=True)` and the same bins. Leave the screen door out of {{town}}'s, and say so in the title.
+      Draw the Clocktower's and Thornby's daily temperatures as two histograms, one above the other, with `plt.subplots(2, 1, sharex=True)` and the same bins. Leave the screen door out of the Clocktower's, and say so in the title.

@@ -1,7 +1,0 @@
-# Ada Penhallow's notes in Act IV (the Scrapyard), Jobs 1 to 3.
-notes:
-  - id: every-night-before
-    job: how-long-will-it-take
-    title: "Every night before"
-    text: "The machine on the hill gets slower every night, because it remembers every night before. I could make it forget. I haven't the heart. A.P."
-    where: "A comment above Penhallow's spares check in speed_tester.py, in the starter for the Make step of Speed Tester."

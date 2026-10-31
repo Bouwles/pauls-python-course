@@ -1,11 +1,11 @@
 id: naming
 title: Honest names
 summary: |
-  A variable name can use letters, digits and underscores, but can't start with a digit or contain spaces. Python style is lower-case words joined by underscores, like `bread_price`. Name a variable for what it holds, so the code reads like a description of the job.
+  A variable name can use letters, digits and underscores, but can't start with a digit or contain spaces. Python style is lower-case words joined by underscores, like `coffee_price`. Name a variable for what it holds, so the code reads like a description of the job.
 example: |
-  bread_price = 240
-  loaves_ordered = 3
-  print(bread_price * loaves_ordered)
+  coffee_price = 240
+  coffees_ordered = 3
+  print(coffee_price * coffees_ordered)
 misconceptions: [names-can-have-spaces]
 related: [variables]
 cards:
@@ -13,19 +13,19 @@ cards:
     prompt: Which of these is an allowed variable name?
     verify: none
     options:
-      - text: bread price
+      - text: coffee price
         misconception: names-can-have-spaces
         feedback: "No spaces. Python would read two names."
-      - text: 2nd_loaf
+      - text: 2nd_coffee
         misconception: names-can-have-spaces
         feedback: "Names can't start with a digit."
-      - text: second_loaf
+      - text: second_coffee
         correct: true
-      - text: loaf-count
+      - text: cup-count
         misconception: names-can-have-spaces
-        feedback: "Python reads the hyphen as a minus sign: loaf minus count."
+        feedback: "Python reads the hyphen as a minus sign: cup minus count."
   - type: choice
-    prompt: Which name would Moss accept for the number of parcels waiting?
+    prompt: Which name would Paul accept for the number of parcels waiting?
     verify: none
     options:
       - text: p
@@ -58,11 +58,11 @@ cards:
               return "Rename " + ", ".join(short) + "."
       TESTS = [output("Still 510", expect="510"), structure("Honest names", check=honest)]
     solution: |
-      bun_price = 85
-      buns = 6
-      print(bun_price * buns)
+      cookie_price = 85
+      cookies = 6
+      print(cookie_price * cookies)
   - type: write
-    prompt: "Store the harbour's name, `{{town}}`, in a well-named variable, then print the variable."
+    prompt: "Store the building's name, `The Clocktower`, in a well-named variable, then print the variable."
     tests: |
       import ast as _ast
       def named(tree, source):
@@ -72,7 +72,7 @@ cards:
           prints = [n for n in _ast.walk(tree) if isinstance(n, _ast.Call) and getattr(n.func, "id", "") == "print"]
           if not any(any(isinstance(a, _ast.Name) for a in p.args) for p in prints):
               return "Print the variable, not the text."
-      TESTS = [output("{{town}}", expect="{{town}}"), structure("Uses a variable", check=named)]
+      TESTS = [output("The Clocktower", expect="The Clocktower"), structure("Uses a variable", check=named)]
     solution: |
-      harbour_name = "{{town}}"
-      print(harbour_name)
+      building_name = "The Clocktower"
+      print(building_name)

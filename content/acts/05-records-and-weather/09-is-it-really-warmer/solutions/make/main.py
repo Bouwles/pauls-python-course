@@ -1,8 +1,4 @@
-# Is it really warmer? The station's answer, for the parish council.
-# Copied by Priya from the inside cover of the 1998 station book:
-# The machine on the hill had the warming in its numbers two winters
-# before I had it in mine. It could not tell me why. It does not do why;
-# that was always going to be my job. A.P.
+# Is it really warmer? The Clocktower station's answer, for Yahya's bet with Paul.
 import numpy as np
 import pandas as pd
 
@@ -62,4 +58,4 @@ if __name__ == "__main__":
 
     years = temps.index.to_numpy()
     print(f"Year and temperature: r = {correlation(years, temps):.2f}")
-    print(f"Moss's age and temperature: r = {correlation(years - 1890, temps):.2f}")
+    print(f"The Clocktower's age and temperature: r = {correlation(years - 1890, temps):.2f}")

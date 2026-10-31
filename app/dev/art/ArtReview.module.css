@@ -1,0 +1,219 @@
+.review {
+  display: grid;
+  gap: var(--s-6);
+}
+
+.top {
+  display: grid;
+  gap: var(--s-2);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--fs-7);
+  font-weight: 800;
+  line-height: var(--lh-title);
+  letter-spacing: var(--tracking-display);
+}
+
+.lede {
+  max-width: var(--measure);
+  color: var(--text-2);
+}
+
+.lede code,
+.id,
+.file {
+  font-family: var(--font-code);
+  font-size: var(--fs-1);
+}
+
+/* Eight kinds don't fit across a phone: the tab row scrolls. */
+.kinds {
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.filters {
+  display: grid;
+  gap: var(--s-4);
+}
+
+.spec {
+  color: var(--text-2);
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-4);
+}
+
+.control {
+  display: grid;
+  gap: var(--s-1);
+}
+
+.select {
+  height: 40px;
+  min-width: 180px;
+  padding: 0 var(--s-3);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface-3);
+  color: var(--text);
+  font: inherit;
+  font-size: var(--fs-2);
+}
+
+.select:focus-visible {
+  outline: 2px solid var(--sun);
+  outline-offset: 2px;
+}
+
+.list {
+  display: grid;
+  gap: var(--s-6);
+  padding: 0;
+  list-style: none;
+}
+
+.entry {
+  display: grid;
+  gap: var(--s-2);
+  padding: var(--s-5) var(--s-6);
+  border-radius: var(--r-lg);
+  background: var(--surface-1);
+  min-width: 0;
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.id {
+  font-weight: 700;
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-1) var(--s-4);
+  color: var(--text-2);
+  font-size: var(--fs-1);
+}
+
+.file {
+  overflow-wrap: anywhere;
+}
+
+.notes {
+  max-width: var(--measure);
+  color: var(--text-2);
+}
+
+.panes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-3);
+  margin-top: var(--s-2);
+}
+
+.panesStacked {
+  display: grid;
+  gap: var(--s-3);
+  margin-top: var(--s-2);
+}
+
+@media (max-width: 900px) {
+  .panes {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Each pane sets its theme's tokens itself (from tokens.css), so both show side by side
+   whichever theme the page is in. */
+.pane {
+  display: grid;
+  gap: var(--s-3);
+  min-width: 0;
+  overflow-x: auto;
+  padding: var(--s-4);
+  border-radius: var(--r-lg);
+  background: var(--bg);
+  color: var(--text);
+}
+
+.dark {
+  color-scheme: dark;
+  --bg: #0F1115;
+  --surface-1: #161920;
+  --surface-2: #1D212A;
+  --surface-3: #272C37;
+  --line: #2E3441;
+  --text: #F2F3F5;
+  --text-2: #A4ABB8;
+  --text-3: #6E7584;
+}
+
+.light {
+  color-scheme: light;
+  --bg: #F6F7F9;
+  --surface-1: #FFFFFF;
+  --surface-2: #FFFFFF;
+  --surface-3: #EEF0F4;
+  --line: #DDE1E8;
+  --text: #14171D;
+  --text-2: #4F5665;
+  --text-3: #6B7280;
+  border: 1px solid var(--line);
+}
+
+.paneName {
+  font-size: var(--fs-1);
+  font-weight: 700;
+  color: var(--text-2);
+}
+
+.sizes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--s-6);
+}
+
+.size {
+  display: grid;
+  gap: var(--s-2);
+  justify-items: start;
+  margin: 0;
+  flex: none;
+}
+
+.stage {
+  display: flex;
+  align-items: flex-end;
+}
+
+.caption {
+  font-size: var(--fs-1);
+  color: var(--text-3);
+}
+
+.none {
+  display: grid;
+  place-items: center;
+  border: 1px dashed var(--line);
+  border-radius: var(--r-md);
+  color: var(--text-3);
+  font-size: var(--fs-1);
+}
+
+.empty {
+  color: var(--text-2);
+}

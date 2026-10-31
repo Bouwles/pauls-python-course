@@ -6,9 +6,9 @@ files: [station.py]
 entry: station.py
 timeout_ms: 20000
 dialogue:
-  - ashby: "The station book, as the volunteers typed it. Fahrenheit until 1960, as it was written."
-  - ashby: "The 1987 pages got soaked in the October storm. They were typed up last."
-on_pass: { ashby: "Twelve hundred months, each once, each in Celsius. I'll put the ledger back on its shelf." }
+  - aaesha: "The station book, as the volunteers typed it. Fahrenheit until 1960, as it was written."
+  - aaesha: "The 1987 pages got soaked in the October storm. They were typed up last."
+on_pass: { aaesha: "Twelve hundred months, each once, each in Celsius. The ledger can go back in its cabinet." }
 hints:
   nudge: "Which rows need converting, and how would you know if the unit were written `f` or `F `? And when can `drop_duplicates()` see that two rows are the same month?"
   plan:
@@ -31,7 +31,7 @@ hints:
         station = station[["year", "month", "temp", "rain", "sun"]].___()
         return station.sort_values([___, ___]).reset_index(drop=___)
 ---
-`station.py` turns `ledger.csv` into the station book Priya can trust. The requirements are at the top of the file.
+`station.py` turns `ledger.csv` into a station book Aaesha can trust. The requirements are at the top of the file.
 
 - `raw["month"].str.split("-", expand=True)` splits every value at the hyphen and gives back a table, one column per piece.
 - `column.where(condition, other)` keeps each value where the condition is `True` and takes it from `other` where it's `False`.

@@ -1,27 +1,27 @@
 ---
 id: pips
 type: pips
-title: Pip's Version
+title: Fix Caitlin's version
 dialogue:
-  - pip: "I've done Bea's window sign. She hasn't seen it yet."
-  - pip: "It says unterminated string. I terminated it. Look, there's a quote right there."
+  - caitlin: "I made a sign for the arcade cabinet. Took me two minutes."
+  - caitlin: "It says unterminated string. I terminated it. Look, there's a quote right there."
 dialogue_after:
-  - pip: "Oh. They have to match. Who decided that."
+  - caitlin: "Oh. They have to match. Fine. It works, it's ugly, I'm shipping it."
 hints:
   nudge: "Look at line 2. Which kind of quote opens the text, and which kind closes it?"
   plan:
     - Find the line the error points at
     - Check the quote at each end of the text
-    - Make the outside quotes match, without breaking the apostrophe in Bea's
+    - Make the outside quotes match, without breaking the apostrophe in Caitlin's
   shape: |
-    print("HOLLIS BAKERY")
-    print(___Bread, buns and Bea's lardy cake___)
-    print("Open from 7")
+    print("ARCADE CABINET")
+    print(___Beat Caitlin's high score___)
+    print("Two goes each")
 ---
-Run Pip's program and read the error. Then fix it so it prints Bea's sign:
+Run Caitlin's program and read the error. Then fix it so it prints her sign:
 
 ```
-HOLLIS BAKERY
-Bread, buns and Bea's lardy cake
-Open from 7
+ARCADE CABINET
+Beat Caitlin's high score
+Two goes each
 ```

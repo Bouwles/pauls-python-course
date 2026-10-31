@@ -4,7 +4,7 @@ type: make
 title: Make the spell checker
 files: [spell.py]
 entry: spell.py
-on_pass: { gwen: "Captain for captin, and cap'n second. That'll be the pirates in the books." }
+on_pass: { paul: "Captain for captin, and cap'n second. That'll be the pirates in Treasure Island." }
 hints:
   nudge: "In the `edit_distance` table, what does the slot for the first `row` letters of one word and the first `col` letters of the other mean? And for `suggest`, what would you sort the nearby words by?"
   plan:

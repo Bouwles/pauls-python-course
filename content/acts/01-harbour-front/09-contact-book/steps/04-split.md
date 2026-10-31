@@ -4,7 +4,7 @@ type: investigate
 title: One line, three parts
 concept: split-join
 code: |
-  line = "Nell Brannigan, 01632 960733, The Scrapyard"
+  line = "Riya, 01632 960733, The Model Room"
   parts = line.split(", ")
   print(parts)
 tasks:
@@ -18,23 +18,23 @@ tasks:
     prompt: "Change `.split(\", \")` to `.split()`, with nothing in the brackets, and run it. How many items now?"
     kind: answer
     accept: ["6", "six"]
-    feedback: "Six. With nothing in the brackets, `.split()` cuts at every run of spaces, so the commas stay stuck to the words. Splitting Nell's name into words is useful. Splitting her contact like this isn't."
+    feedback: "Six. With nothing in the brackets, `.split()` cuts at every run of spaces, so the commas stay stuck to the words. Splitting a name into words is useful. Splitting a whole contact like this isn't."
     wrong: "Count the items in the printed list. Commas inside the quotes are part of an item."
   - id: words
-    prompt: "Add a line: `print(\"tom\" in \"Old Tom\".lower().split())`. What does it print?"
+    prompt: "Add a line: `print(\"repairs\" in \"Clock Repairs\".lower().split())`. What does it print?"
     kind: answer
     accept: ["True"]
-    feedback: "True. `.lower()` gives `old tom`, `.split()` gives `['old', 'tom']`, and `in` finds `tom` among the words. Try `\"to\"` instead: it's in the letters, but it isn't one of the words, so that's False."
+    feedback: "True. `.lower()` gives `clock repairs`, `.split()` gives `['clock', 'repairs']`, and `in` finds `repairs` among the words. Try `\"rep\"` instead: it's in the letters, but it isn't one of the words, so that's False."
   - id: join
-    prompt: "Put `.split(\", \")` back. Then add a line that prints the three parts joined back into one, with ` / ` between them: `Nell Brannigan / 01632 960733 / The Scrapyard`."
+    prompt: "Put `.split(\", \")` back. Then add a line that prints the three parts joined back into one, with ` / ` between them: `Riya / 01632 960733 / The Model Room`."
     kind: run
     tests: |
       TESTS = [
-          output("Joined with slashes", expect="Nell Brannigan / 01632 960733 / The Scrapyard", match="last_line",
+          output("Joined with slashes", expect="Riya / 01632 960733 / The Model Room", match="last_line",
                  hint="\" / \".join(parts) glues the list back into one string, with \" / \" between the pieces."),
       ]
     solution: |
-      line = "Nell Brannigan, 01632 960733, The Scrapyard"
+      line = "Riya, 01632 960733, The Model Room"
       parts = line.split(", ")
       print(parts)
       print(" / ".join(parts))

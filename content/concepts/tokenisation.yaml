@@ -32,14 +32,14 @@ cards:
         misconception: ids-count-from-one
         feedback: "`enumerate` counts from 0, so the space is 0 and 's' is 3. Ids are indexes, ready to pick a row of a table."
   - type: choice
-    prompt: "Pip's word vocabulary was built from thirty forecasts. Tonight's forecast says \"quay fog\", and \"quay\" isn't in any of the thirty. What can a character vocabulary do that his can't?"
+    prompt: "Riya's word vocabulary was built from thirty forecasts. Tonight's forecast says \"light drizzle\", and \"drizzle\" isn't in any of the thirty. What can a character vocabulary do that hers can't?"
     verify: none
     options:
-      - text: "Spell \"quay\" out of characters it already knows"
+      - text: "Spell \"drizzle\" out of characters it already knows"
         correct: true
       - text: "Nothing: both vocabularies can encode any word"
         misconception: word-vocab-covers-new-words
-        feedback: "A word vocabulary only has ids for the words it was built from. \"quay\" has no id, so it can't be encoded at all. Characters can spell it."
+        feedback: "A word vocabulary only has ids for the words it was built from. \"drizzle\" has no id, so it can't be encoded at all. Characters can spell it."
   - type: fill
     prompt: "Fill the gap so `index` maps each character to its id."
     code: |

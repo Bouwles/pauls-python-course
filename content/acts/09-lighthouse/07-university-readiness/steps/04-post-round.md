@@ -1,10 +1,10 @@
 ---
 id: post-round
 type: make
-title: "Question 3: The post round"
+title: "Question 3: The courier's round"
 files: [post_round.py]
 entry: post_round.py
-on_pass: { mira: "Up the odd side, down the even, and two parcels for one house in the order they came. As I'd walk it." }
+on_pass: { aaesha: "Up the odd side, down the even, and two parcels for one house in the order they came. Tidy." }
 hints:
   nudge: "What key could you give `sorted`, so that one tuple per parcel puts it in its place? What could stand for \"odd side first\"?"
   plan:
@@ -26,7 +26,7 @@ hints:
         in_order = ___(parcels, key=delivery_key)
         return [label for label, street, number in ___]
 ---
-Mira puts the morning's parcels in the order they'll be delivered. Each parcel is a tuple `(label, street, number)`.
+A courier puts the morning's parcels in the order they'll be delivered. Each parcel is a tuple `(label, street, number)`.
 
 Write `round_order(parcels)`, which returns the labels in delivery order:
 
@@ -39,9 +39,9 @@ Leave `parcels` as it was.
 **Limits:** up to 100,000 parcels. House numbers are whole numbers from 1. A street's name is written the same way every time.
 
 ```
-round_order([("A", "Quay Row", 4), ("B", "Quay Row", 1), ("C", "Quay Row", 3), ("D", "Quay Row", 2)])
+round_order([("A", "Queen's Row", 4), ("B", "Queen's Row", 1), ("C", "Queen's Row", 3), ("D", "Queen's Row", 2)])
 gives ["B", "C", "A", "D"]     1 and 3 going up, then 4 and 2 coming back
 
-round_order([("E", "Quay Row", 2), ("F", "High Street", 5), ("G", "Quay Row", 2), ("H", "High Street", 2)])
+round_order([("E", "Queen's Row", 2), ("F", "High Street", 5), ("G", "Queen's Row", 2), ("H", "High Street", 2)])
 gives ["F", "H", "E", "G"]     High Street first; E and G in the order they came
 ```

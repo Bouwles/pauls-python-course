@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
-import { BRAND } from "@/lib/brand";
-import { getIndex } from "@/lib/content/server";
 import { Page } from "@/components/site/Page";
-import { MapView } from "@/components/map/MapView";
+import { Clocktower } from "@/components/clocktower/Clocktower";
+import { towerData } from "@/components/clocktower/data";
 
-export const metadata: Metadata = { title: `The map of ${BRAND.townName}` };
+export const metadata: Metadata = { title: "The Clocktower" };
 
-export default function MapPage() {
-  const index = getIndex();
+export default function ClocktowerPage() {
+  const { acts, placements, names, steps } = towerData();
   return (
-    <Page wide>
-      <MapView acts={index.acts} characters={index.characters} placements={index.placements ?? []} />
+    <Page>
+      <Clocktower acts={acts} placements={placements} names={names} steps={steps} />
     </Page>
   );
 }

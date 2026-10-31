@@ -4,7 +4,7 @@ type: milestone
 title: "Milestone 4: the handover"
 evidence: link
 dialogue:
-  - moss: "This is the list I use on my own work. Most of it I learned by getting it wrong."
+  - paul: "This is the list I use on my own work. Most of it I learned by getting it wrong."
 checklist:
   - id: used
     text: "The person it's for has used it without you there, and you've written down what happened."
@@ -24,12 +24,12 @@ checklist:
   - id: reflection
     text: "You've written a short note on what went wrong, what you'd do differently, and what surprised you."
     why: "The project is for them. The note is for you, and for the next one."
-  - id: dennis
-    text: "You could explain any line of it to Dennis."
+  - id: duck
+    text: "You could explain any line of it to the duck."
     why: "If you can't, find out why that line is there before somebody asks."
 ---
 Hand it over properly. Give the person it's for the project, the README and nothing else, and let them use it without you. Afterwards, ask what happened and write it down, including the parts you'd rather not hear.
 
-Then go through Moss's list. It's what he looks for in any piece of work, his own included: a purpose anyone can see, tests that say what it promises, a README that admits where it stops, a history that shows how it grew.
+Then go through Paul's list. It's what he looks for in any piece of work, his own included: a purpose anyone can see, tests that say what it promises, a README that admits where it stops, a history that shows how it grew.
 
 Last, write a short note for yourself: what went wrong, what you'd do differently, what surprised you. Keep it with the project.

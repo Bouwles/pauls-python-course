@@ -25,8 +25,7 @@ missing_months(station)   a list of the months, as text like "1941-03", that hav
                           no row between the station book's first month and its
                           last. [] if there are none.
 """
-# Fahrenheit until the end of 1960, Celsius after. I typed them as they were
-# written and marked which was which. I gave the machine on the hill the
-# numbers without the marks. For a whole winter it believed the 1950s had
-# been tropical. A.P.
+# Fahrenheit until the end of 1960, Celsius after. The volunteers typed them
+# as they were written and marked which was which. Read the numbers without
+# the marks and the 1950s come out tropical.
 import pandas as pd

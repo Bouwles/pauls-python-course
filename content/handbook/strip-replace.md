@@ -5,16 +5,16 @@ In Python, `strip()` removes whitespace (spaces, tabs and newlines) from both en
 `strip()` has two one-sided versions: `lstrip()` works on the left end only and `rstrip()` on the right. The bars here show where the spaces went:
 
 ```python
-entry = "   Bea Rook   "
+entry = "   Emma Hart   "
 print("|" + entry.strip() + "|")
 print("|" + entry.lstrip() + "|")
 print("|" + entry.rstrip() + "|")
 ```
 
 ```text
-|Bea Rook|
-|Bea Rook   |
-|   Bea Rook|
+|Emma Hart|
+|Emma Hart   |
+|   Emma Hart|
 ```
 
 The space between the two words survives in all three. Stripping stops at the first character that isn't being removed, so it never reaches the middle.

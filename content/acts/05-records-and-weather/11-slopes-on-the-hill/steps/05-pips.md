@@ -1,12 +1,12 @@
 ---
 id: pips
 type: pips
-title: Pip's Version
+title: Fix Riya's version
 dialogue:
-  - pip: "Measured the path at the stile. A step either side, like Moss said. One in two."
-  - pip: "Nobody's carrying a thermometer screen up one in two. We'll need a winch."
+  - riya: "Can you look at mine? A step either side, like Paul said. Tested at the top: slope 0. Perfect."
+  - riya: "Then at the stile it says one in two. Nobody's carrying a thermometer screen up one in two."
 dialogue_after:
-  - pip: "One in four. Still steep. But not winch steep."
+  - riya: "One in four. At the top, 0 divided by anything is 0. My one test couldn't fail."
 hints:
   nudge: "Nudging up by `step` and down by `step`: how far apart are the two points?"
   plan:
@@ -19,6 +19,6 @@ hints:
 ---
 A **numerical gradient** measures a slope instead of working it out: nudge the input a small step up and a small step down, and divide the change in the output by the distance between the two. Nudging both ways is far more accurate than nudging one way, because the curve's bend cancels out.
 
-Pip has measured the steepest part of the hill path, at the stile, 650 metres from the station. Old Tom has walked it for sixty years and calls it "a bit of a pull".
+Riya has measured the steepest part of the hill path, at the stile, 650 metres from the park gate. Yahya runs it most mornings and calls it "a bit of a pull".
 
 Run it, and fix `slope`.

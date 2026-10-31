@@ -16,9 +16,9 @@ cards:
     code: |
       import sys
 
-      sys.argv = ["tally.py", "gulls", "12"]  # as if typed: python tally.py gulls 12
+      sys.argv = ["tally.py", "laps", "12"]  # as if typed: python tally.py laps 12
       print(sys.argv[1])
-    answer: gulls
+    answer: laps
   - type: choice
     prompt: What does this print?
     code: |
@@ -40,15 +40,15 @@ cards:
     code: |
       import sys
 
-      sys.argv = ["greet.py", "Agnes"]  # as if typed: python greet.py Agnes
+      sys.argv = ["greet.py", "Aaesha"]  # as if typed: python greet.py Aaesha
       name = sys.argv[0]
       print(f"Morning, {name}.")
     tests: |
-      TESTS = [output("Morning, Agnes", expect="Morning, Agnes.", hint="The first argument is at index 1.")]
+      TESTS = [output("Morning, Aaesha", expect="Morning, Aaesha.", hint="The first argument is at index 1.")]
     solution: |
       import sys
 
-      sys.argv = ["greet.py", "Agnes"]  # as if typed: python greet.py Agnes
+      sys.argv = ["greet.py", "Aaesha"]  # as if typed: python greet.py Aaesha
       name = sys.argv[1]
       print(f"Morning, {name}.")
   - type: fill

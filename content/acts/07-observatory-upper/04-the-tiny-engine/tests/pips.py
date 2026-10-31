@@ -30,7 +30,7 @@ def agree(ctx, f, numbers, what):
         raise CheckFailed(what, expected=[round(w, 4) for w in want], actual=[round(g, 4) for g in got])
 
 
-def wendts(ctx):
+def neils(ctx):
     agree(ctx, lambda a, b: a * b + a, [2.0, -3.0], "a * b + a at a = 2, b = -3: the engine against the measurement")
 
 
@@ -67,12 +67,12 @@ def data_unchanged(ctx):
 
 
 TESTS = [
-    custom("a * b + a agrees with the measurement", wendts, visible=True),
+    custom("a * b + a agrees with the measurement", neils, visible=True),
     custom("A value times itself", squared, visible=True),
     custom("A value used three times", three_times),
     custom("A middle value used three times", shared_product,
            hint="When c is used three times, how many times does c go on the order list? Each time it's there, its blame goes back again."),
     custom("A sum used twice", shared_sum,
-           hint="Visit each value once: keep a set of the values already visited, as Moss did with the shutter."),
+           hint="Visit each value once: keep a set of the values already visited, as Paul did with the door."),
     custom("backward leaves the numbers alone", data_unchanged),
 ]

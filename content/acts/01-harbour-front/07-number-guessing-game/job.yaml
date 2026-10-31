@@ -6,7 +6,7 @@ portfolio_readme: |
 
   The computer picks a whole number from 1 to 100 and you try to find it. After each guess it says too high or too low, and when you get it, it says how many guesses you took. Type `q` to give up and see the number. A guess outside 1 to 100 is turned away and doesn't count.
 
-  Written by {name} for the Drowned Anchor in {{town}}. Finished {date}.
+  Written by {name} for Caitlin, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -34,24 +34,24 @@ portfolio_readme: |
   - A quit word (a sentinel), checked while it's still text, before anything turns it into a number
 downloadable: true
 datasets: []
-client: gwen
+client: caitlin
 building: pub
 estimated_minutes: 55
-summary: "The machine picks a number from 1 to 100. The regulars guess, and nobody can say it was fiddled."
+summary: "The machine picks a number from 1 to 100. You guess, and it counts every try."
 concepts_introduced: [while-loops, sentinels, running-totals, infinite-loops, random-module, imports, break-continue]
 concepts_reviewed: [comparisons, if-elif-else, boolean-operators, int-conversion, f-strings, for-loops]
 ask:
   dialogue:
-    - gwen: "Quiet nights, the regulars play guess the number. I think of one, they guess."
-    - gwen: "Every week somebody says I changed it halfway. I didn't. Mostly."
-    - gwen: "I want a machine to pick it. Nobody can say a machine fiddled it."
-    - moss: "They'll say it. But they'll say it to the machine."
+    - caitlin: "I want a game. A real one. The computer picks a number, you guess it."
+    - caitlin: "Too high, too low, got it. And it counts your guesses."
+    - caitlin: "Fewest guesses is basically a high score. So it's a proper game."
+    - paul: "It'll need a loop that doesn't know when it ends. That's new."
   spec: |
     The machine picks a whole number from 1 to 100 with `random.randint(1, 100)`. Then it asks `Guess? ` until the game is over.
 
     - Too low or too high: say so.
     - Right: print `Got it in 4.` (however many guesses it took) and stop.
-    - `q` instead of a number: print `It was 37.` (the real number) and stop. The regulars give up a lot.
+    - `q` instead of a number: print `It was 37.` (the real number) and stop. Everyone gives up sometimes.
     - A guess below 1 or above 100 gets `Between 1 and 100.` and doesn't count as a guess.
   example: |
     Guess? 50
@@ -62,9 +62,10 @@ ask:
     Got it in 3.
 ship:
   dialogue:
-    - gwen: "Thirty-seven, got in three by the vicar. Nobody said I'd fiddled it."
-    - gwen: "They said the machine fiddled it. That's an improvement. Seven or fewer wins a mackerel."
-  shelf: { object: fish, label: "Gwen's guessing game, mackerel for a prize" }
+    - caitlin: "Thirty-seven in three. Yahya says he'd have done it in two."
+    - yahya: "Halve what's left every time. Seven guesses, never more. It's just maths."
+    - caitlin: "It's a game, Yahya. Fewest guesses goes on the board."
+  shelf: { object: fish, label: "Caitlin's guessing game" }
   cards: [while-loops, sentinels, running-totals, infinite-loops, random-module, imports, break-continue]
 stretch:
   - id: close
@@ -77,4 +78,3 @@ stretch:
     title: "Another round"
     prompt: |
       After a win or a `q`, ask `Again? `. If the answer is `yes`, pick a new number and start a new game, with the count back at 0. That's the whole game inside another `while` loop.
-story_note: the-hill-sees-further

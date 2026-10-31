@@ -1,4 +1,4 @@
-# Deep Q: Sir Reginald's Q-values from a small network instead of a table.
+# Deep Q: the crab's Q-values from a small network instead of a table.
 
 import numpy as np
 
@@ -33,7 +33,7 @@ def q_values(params, X):
 
 
 def gradients(params, X, actions, y):
-    """Pip's, fixed. The loss, the mean squared TD error on the moves taken,
+    """Riya's, fixed. The loss, the mean squared TD error on the moves taken,
     and its gradient for every weight. Only the moves taken are to blame."""
     Z1 = X @ params["W1"] + params["b1"]
     H = np.maximum(0, Z1)
@@ -49,11 +49,8 @@ def gradients(params, X, actions, y):
     return loss, {"W1": X.T @ dZ1, "b1": dZ1.sum(axis=0), "W2": H.T @ dQ, "b2": dQ.sum(axis=0)}
 
 
-# The machine on the hill does its learning at night, from memory: six
-# winters of my evenings, shuffled. When it learned only from the night
-# before, it decided every night was the night before. A.P.
 class ReplayBuffer:
-    """Sir Reginald's memories of single moves, the oldest forgotten first."""
+    """The crab's memories of single moves, the oldest forgotten first."""
 
     def __init__(self, capacity):
         self.capacity = capacity
@@ -97,7 +94,7 @@ def train_step(params, target_params, batch, gamma=0.9, rate=0.05):
 
 
 def epsilon_at(episode, decay=100):
-    """Explore less as he learns: 1.0 at the first race, down to 0.05 at race decay, then 0.05."""
+    """Explore less as it learns: 1.0 at the first race, down to 0.05 at race decay, then 0.05."""
     if episode >= decay:
         return 0.05
     return 1.0 - 0.95 * episode / decay

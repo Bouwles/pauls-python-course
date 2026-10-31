@@ -5,6 +5,7 @@ import { getConcepts, getIndex } from "@/lib/content/server";
 import { handbookPath } from "@/lib/handbook";
 import { Page } from "@/components/site/Page";
 import { ConceptPage } from "@/components/concepts/ConceptPage";
+import styles from "@/components/concepts/Concepts.module.css";
 
 const plain = (html: string) => html.replace(/<[^>]+>/g, " ").replace(/&[a-z#0-9]+;/gi, " ").replace(/\s+/g, " ").trim();
 const describe = (html: string) => {
@@ -66,7 +67,7 @@ export default async function HandbookEntry(props: { params: Promise<{ id: strin
         related={related}
       />
       {c.handbookHtml ? (
-        <section className="prose" aria-label="In more depth" style={{ marginTop: 48 }} dangerouslySetInnerHTML={{ __html: c.handbookHtml }} />
+        <section className={`prose ${styles.more}`} aria-label="In more depth" dangerouslySetInnerHTML={{ __html: c.handbookHtml }} />
       ) : null}
     </Page>
   );

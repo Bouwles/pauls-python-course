@@ -4,12 +4,12 @@ type: predict
 title: The storm score
 concept: matrices
 dialogue:
-  - priya: "My storm score. Wind once, rain twice, swell three times. One score per evening."
-  - pip: "Matrix times vector, or vector times matrix. Same numbers, so same answer."
+  - aaesha: "My storm score. Wind once, rain twice, gusts three times. One score per evening."
+  - yahya: "Matrix times vector, or vector times matrix. Same numbers, so same answer."
 code: |
   import numpy as np
 
-  # Two evenings: wind, rain and swell, each scored 0 to 3
+  # Two evenings: wind, rain and gusts, each scored 0 to 3
   evenings = np.array([[2.0, 1.0, 0.0],
                        [0.0, 3.0, 1.0]])
   weights = np.array([1.0, 2.0, 3.0])

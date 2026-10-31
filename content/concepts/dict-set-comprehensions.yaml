@@ -65,13 +65,13 @@ cards:
   - type: write
     prompt: "Make `initials`, a set of the first letter of each name, with a set comprehension. Then print `sorted(initials)`."
     starter: |
-      names = ["Bea", "Bill", "Mira", "Moss", "Tom"]
+      names = ["Riya", "Rosa", "Neil", "Nina", "Yahya"]
     tests: |
       TESTS = [
-          output("Three initials", expect="['B', 'M', 'T']"),
+          output("Three initials", expect="['N', 'R', 'Y']"),
           structure("A set comprehension", requires=["SetComp"]),
       ]
     solution: |
-      names = ["Bea", "Bill", "Mira", "Moss", "Tom"]
+      names = ["Riya", "Rosa", "Neil", "Nina", "Yahya"]
       initials = {name[0] for name in names}
       print(sorted(initials))

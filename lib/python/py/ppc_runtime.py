@@ -474,7 +474,7 @@ def run(request_json):
 
 
 # ---------------------------------------------------------------------------
-# code_events(): cheap static facts about the learner's code, so Moss and Pip can
+# code_events(): cheap static facts about the learner's code, so the cast can
 # react to what was actually written (REDESIGN.md 6.5). Never judged, never shown
 # as notes: they only choose which line a character says.
 # ---------------------------------------------------------------------------
@@ -1303,10 +1303,10 @@ def check(request_json):
 
 
 # ---------------------------------------------------------------------------
-# review(): Moss's code style notes on a shipped Job (Section 5.1)
+# review(): Paul's code style notes on a shipped project (Section 5.1)
 #
 # A small, beginner-sized subset of PEP 8 checks, written against the AST so it
-# runs in Pyodide (Ruff can't). Every rule carries Moss's reason. Notes never
+# runs in Pyodide (Ruff can't). Every rule carries Paul's reason. Notes never
 # stop a Job shipping.
 # ---------------------------------------------------------------------------
 

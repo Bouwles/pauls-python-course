@@ -1,13 +1,13 @@
 id: iterators
 title: Iterators hand over one value at a time
 summary: |
-  An iterator hands over its values one at a time. `iter()` makes one from a list, a string or a file; `next()` takes the next value and moves past it. When nothing is left, `next()` raises `StopIteration`, or gives back a default if you pass one: `next(trays, None)`. A `for` loop does the asking for you. An iterator only goes forward, and once it's used up it stays used up.
+  An iterator hands over its values one at a time. `iter()` makes one from a list, a string or a file; `next()` takes the next value and moves past it. When nothing is left, `next()` raises `StopIteration`, or gives back a default if you pass one: `next(orders, None)`. A `for` loop does the asking for you. An iterator only goes forward, and once it's used up it stays used up.
 example: |
-  trays = iter(["loaf", "bun", "tart"])
-  print(next(trays))
-  for tray in trays:
-      print(tray)
-  print(next(trays, "no more trays"))
+  orders = iter(["tea", "cake", "tart"])
+  print(next(orders))
+  for order in orders:
+      print(order)
+  print(next(orders, "no more orders"))
 misconceptions: [next-does-not-advance, for-restarts-iterator, iterator-refills, next-on-a-list]
 related: [generators, lazy-evaluation]
 drill: true
@@ -30,43 +30,43 @@ cards:
   - type: choice
     prompt: What happens?
     code: |
-      trays = iter(["loaf", "bun"])
-      print(next(trays))
-      print(next(trays))
-      print(next(trays))
+      orders = iter(["tea", "cake"])
+      print(next(orders))
+      print(next(orders))
+      print(next(orders))
     verify: error
     options:
-      - text: "It prints loaf and bun, then stops with StopIteration"
+      - text: "It prints tea and cake, then stops with StopIteration"
         correct: true
         error: StopIteration
-      - text: "It prints loaf, bun, then loaf again"
+      - text: "It prints tea, cake, then tea again"
         misconception: iterator-refills
         feedback: "An iterator never goes back to the start. When it runs out, `next()` raises `StopIteration`."
-      - text: "It prints loaf, bun, then None"
+      - text: "It prints tea, cake, then None"
         feedback: "`next()` doesn't make up a value when none are left. It raises `StopIteration`, unless you give it a default."
   - type: fix
-    prompt: "This should print the first tray on its own line, then the rest. It crashes. Fix it without changing the last three lines."
+    prompt: "This should print the first order on its own line, then the rest. It crashes. Fix it without changing the last three lines."
     code: |
-      trays = ["loaf", "bun", "tart"]
-      first = next(trays)
+      orders = ["tea", "cake", "tart"]
+      first = next(orders)
       print(f"First out: {first}")
-      for tray in trays:
-          print(tray)
+      for order in orders:
+          print(order)
     tests: |
       TESTS = [
-          output("First, then the rest", expect="First out: loaf\nbun\ntart"),
+          output("First, then the rest", expect="First out: tea\ncake\ntart"),
           structure("Still uses next", calls=["next"]),
       ]
     solution: |
-      trays = iter(["loaf", "bun", "tart"])
-      first = next(trays)
+      orders = iter(["tea", "cake", "tart"])
+      first = next(orders)
       print(f"First out: {first}")
-      for tray in trays:
-          print(tray)
+      for order in orders:
+          print(order)
   - type: fill
-    prompt: "The first line is Bea's note. Fill the gap so the loop only sees the ingredients."
+    prompt: "The first line is a note. Fill the gap so the loop only sees the ingredients."
     code: |
-      lines = iter(["# Bea's notes", "flour,500,g", "water,350,ml"])
+      lines = iter(["# Recipe notes", "flour,500,g", "water,350,ml"])
       ___(lines)
       for line in lines:
           print(line)
@@ -74,15 +74,15 @@ cards:
     tests: |
       TESTS = [output("Only the ingredients", expect="flour,500,g\nwater,350,ml")]
   - type: write
-    prompt: "`tides` is an iterator of the day's readings. Take the first reading into `first` with `next`, then put all the rest into a list called `rest`."
+    prompt: "`temps` is an iterator of the day's readings. Take the first reading into `first` with `next`, then put all the rest into a list called `rest`."
     starter: |
-      tides = iter([4.2, 3.1, 1.8, 2.6])
+      temps = iter([4.2, 3.1, 1.8, 2.6])
     tests: |
       TESTS = [
           variable("first is the first reading", variable="first", expect=4.2),
           variable("rest is the other three", variable="rest", expect=[3.1, 1.8, 2.6]),
       ]
     solution: |
-      tides = iter([4.2, 3.1, 1.8, 2.6])
-      first = next(tides)
-      rest = list(tides)
+      temps = iter([4.2, 3.1, 1.8, 2.6])
+      first = next(temps)
+      rest = list(temps)

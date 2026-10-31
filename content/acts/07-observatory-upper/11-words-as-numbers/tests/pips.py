@@ -49,8 +49,8 @@ def held_back(ctx):
     vocab = m.build_vocab(text)
     probs = m.probabilities(m.count_pairs(m.encode(text, vocab), len(vocab)))
     got = m.perplexity(probs, m.encode(held, vocab))
-    if not np.isfinite(got) or abs(got - 7.300) > 0.01:
-        raise CheckFailed("Perplexity on the held-back forecasts.", expected=7.30, actual=shown(got))
+    if not np.isfinite(got) or abs(got - 7.050) > 0.01:
+        raise CheckFailed("Perplexity on the held-back forecasts.", expected=7.05, actual=shown(got))
 
 
 TESTS = [

@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the password checker
-on_pass: { agnes: "Rook-Tide-Seven, accepted. Lamp1962, two reasons, in order. Requirements met." }
+on_pass: { aaesha: "Coral-Filing-Seven, accepted. Clock0314, two reasons, in order. Requirements met." }
 hints:
   nudge: "Each rule is one `if` with its own reason. Which method or operator answers each rule's question? And how will the last line know whether any rule failed?"
   plan:
@@ -37,11 +37,11 @@ hints:
     else:
         print("Password rejected.")
 ---
-Build the checker to Agnes's six rules. They're at the top of the file. Print every reason that applies, in the order of the rules, then the verdict.
+Build the checker to Aaesha's six rules. They're at the top of the file. Print every reason that applies, in the order of the rules, then the verdict.
 
 ```
-Username? tom
-Password? Lamp1962
+Username? paul
+Password? Clock0314
 Too short: at least 10 characters.
 Ends in a year.
 Password rejected.
@@ -49,4 +49,4 @@ Password rejected.
 
 Tidy the username, and compare it with the password without caring about capitals. Don't strip the password: a space in a password is its owner's business.
 
-The comments are Moss's labels from the usernames.
+The comments are Paul's labels from the usernames.

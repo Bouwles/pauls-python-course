@@ -28,4 +28,4 @@ options:
 ---
 `random.seed(2026)` sets `random` back to a fixed starting point. It's how a game or a test gets the same "random" numbers every run.
 
-Commit to an answer, then run it. Then think about what a seed would do to a locker code.
+Lock in your answer, then run it. Then think about what a seed would do to a locker code.

@@ -266,30 +266,30 @@ def busy_day(ctx):
                           expected=expected[wrong], actual=taken[wrong])
 
 
-VANCE_FIRST = [("add", "Mrs Vance's trolley", 3), ("add", "Mr Ashby's ladder", 3), ("add", "the ferry winch", 1),
+HEADPHONES_FIRST = [("add", "Riya's headphones", 3), ("add", "Paul's desk lamp", 3), ("add", "the arcade cabinet", 1),
                ("take",), ("take",), ("take",)]
 
-URGENT_FIRST = [("add", "the crab club's bell", 4), ("add", "Bea's oven door", 2), ("add", "Tom's lamp bracket", 1),
-                ("add", "the weather vane", 3), ("take",), ("take",), ("take",), ("take",)]
+URGENT_FIRST = [("add", "the Studio kettle", 4), ("add", "Neil's keyboard", 2), ("add", "Yahya's stopwatch", 1),
+                ("add", "a bike pump", 3), ("take",), ("take",), ("take",), ("take",)]
 
-MIXED = [("add", "the town hall clock", 3), ("add", "a bike chain", 3), ("take",), ("add", "the ferry winch", 1),
-         ("add", "a library ladder", 3), ("take",), ("take",), ("add", "a post bag", 2), ("take",), ("take",)]
+MIXED = [("add", "the printer", 3), ("add", "a bike light", 3), ("take",), ("add", "the arcade cabinet", 1),
+         ("add", "a desk fan", 3), ("take",), ("take",), ("add", "a phone charger", 2), ("take",), ("take",)]
 
 _RNG = _random.Random(3)
 SIXTY = [_RNG.randint(1, 99) for _ in range(60)]
 TWO_HUNDRED = [_RNG.randint(1, 999) for _ in range(200)]
 
-TUESDAY = """Mending the ferry winch
-Mending Bea's oven door
-Mending Mrs Vance's trolley
-Mending Tom's lamp bracket
-Mending Mira's parcel scales
-Mending Mr Ashby's ladder
+TUESDAY = """Mending the arcade cabinet
+Mending Neil's keyboard
+Mending Riya's headphones
+Mending Yahya's stopwatch
+Mending Aaesha's label printer
+Mending Paul's desk lamp
 Still waiting: 1"""
 
 TESTS = [
     custom("Pushing 5, 2, 8 and 1", pushes([5, 2, 8, 1], "No item should be smaller than its parent."), visible=True),
-    output("Nell's Tuesday", expect=TUESDAY, visible=True),
+    output("Caitlin's Tuesday", expect=TUESDAY, visible=True),
     custom("Popping hands back the smallest each time", pops_in_order([5, 2, 8, 1, 9, 3], "Six pops should give 1, 2, 3, 5, 8, 9.")),
     custom("The first push", first_push),
     custom("Every push keeps the rule", pushes(SIXTY, "No item should be smaller than its parent."),
@@ -307,13 +307,13 @@ TESTS = [
     custom("A thousand parts, counted", counted, timeout=10,
            hint="Climbing and sinking each compare one level at a time: about ten levels for a thousand parts. sort(), min() and remove() all look at every part."),
     custom("Built by hand", by_hand),
-    custom("The most urgent first", repairs(URGENT_FIRST, ["Tom's lamp bracket", "Bea's oven door", "the weather vane", "the crab club's bell"],
+    custom("The most urgent first", repairs(URGENT_FIRST, ["Yahya's stopwatch", "Neil's keyboard", "a bike pump", "the Studio kettle"],
                                             "Priority 1, then 2, then 3, then 4.")),
-    custom("Mrs Vance was in first", repairs(VANCE_FIRST, ["the ferry winch", "Mrs Vance's trolley", "Mr Ashby's ladder"],
-                                             "The winch first. Then Mrs Vance and Mr Ashby tie on 3, and she came in first."),
+    custom("The headphones were in first", repairs(HEADPHONES_FIRST, ["the arcade cabinet", "Riya's headphones", "Paul's desk lamp"],
+                                                   "The cabinet first. Then the headphones and the lamp tie on 3, and the headphones came in first."),
            hint="Ties go to whoever came in first. Put an arrival count between the priority and the repair."),
-    custom("Taking while they come in", repairs(MIXED, ["the town hall clock", "the ferry winch", "a bike chain", "a post bag", "a library ladder"],
-                                                "The clock, the winch as soon as it arrives, the bike chain, the post bag at 2, then the ladder.")),
+    custom("Taking while they come in", repairs(MIXED, ["the printer", "the arcade cabinet", "a bike light", "a phone charger", "a desk fan"],
+                                                "The printer, the cabinet as soon as it arrives, the bike light, the charger at 2, then the fan.")),
     custom("Counting what's waiting", waiting_count),
     custom("An empty pile", empty_take),
     custom("Two thousand repairs, counted", busy_day, timeout=10,

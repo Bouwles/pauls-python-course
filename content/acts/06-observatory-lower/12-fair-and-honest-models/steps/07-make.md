@@ -5,7 +5,7 @@ title: Run the clinic
 files: [clinic.py]
 entry: clinic.py
 timeout_ms: 30000
-on_pass: { wendt: "The forest, fairly chosen, and wrong about two islanders in three. I'm glad I asked." }
+on_pass: { aaesha: "The forest, fairly chosen, and wrong about two in three visitors from outside the city. I'm glad we asked." }
 hints:
   nudge: "Which column is only filled in on the night itself? And when you score the drawer by group, whose mistakes count in `given_away`?"
   plan:
@@ -30,7 +30,7 @@ hints:
             report[name] = (accuracy, np.mean(y_pred[came] == ___))
         return report
 ---
-The bookings are in `bookings.csv`, this season's in `drawer.csv`: how many days ahead each was booked, the party's size, the cloud forecast on the day, whether it was a first visit, whether the visitor lives on the island across the water, whether they signed the visitors' book, and whether they came. `load_bookings` is written.
+The bookings are in `bookings.csv`, this season's in `drawer.csv`: how many days ahead each was booked, the party's size, the cloud forecast on the day, whether it was a first visit, whether the visitor lives outside the city, whether they signed the visitors' book, and whether they came. `load_bookings` is written.
 
 The requirements are at the top of `clinic.py`. Score each column alone and drop any that knows the answer. On the rest, search the k-NN's neighbours, cross-validate four models with the scaling inside each pipeline, and choose. Then fit the winner on every booking, open the drawer once, and report by group.
 
@@ -42,8 +42,8 @@ logistic     0.736
 Chosen: forest
 Bottom drawer accuracy: 0.77
 Always guessing the commonest: 0.71
-island   accuracy 0.35, slot given away 0.64
-town     accuracy 0.85, slot given away 0.09
+city     accuracy 0.85, slot given away 0.09
+outside  accuracy 0.35, slot given away 0.64
 ```
 
-The island column is for the clinic, not the model.
+The outside column is for the clinic, not the model.

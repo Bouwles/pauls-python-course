@@ -3,10 +3,10 @@ title: Two labels, one list
 summary: |
   `b = a` doesn't copy a list. It puts a second label on the same list, so a change made through `b` shows up in `a`. For a separate list, use `a.copy()`, `a[:]` or `sorted(a)`. Moving a label with a new `=` is different: `a = [9]` points `a` at a new list and leaves `b` where it was.
 example: |
-  today = ["Kittiwake", "Mary Rose"]
+  today = ["Riya", "Yahya"]
   same = today
   spare = today.copy()
-  same.append("Sea Holly")
+  same.append("Caitlin")
   print(today)
   print(spare)
 misconceptions: [assignment-copies-list, assignment-links-variables]
@@ -44,28 +44,28 @@ cards:
   - type: choice
     prompt: What does this print?
     code: |
-      orders = ["Vance", "Ashby"]
+      orders = ["Yahya", "Aaesha"]
       sheet = orders
       sheet.sort()
       print(orders)
     options:
-      - text: "['Vance', 'Ashby']"
+      - text: "['Yahya', 'Aaesha']"
         misconception: assignment-copies-list
         feedback: "`sheet = orders` doesn't make a copy. There's one list with two names, and it got sorted."
-      - text: "['Ashby', 'Vance']"
+      - text: "['Aaesha', 'Yahya']"
         correct: true
   - type: fix
     prompt: "`orders` should stay in the order people asked; `sheet` should be sorted. Fix line 2."
     code: |
-      orders = ["Vance", "Ashby"]
+      orders = ["Yahya", "Aaesha"]
       sheet = orders
       sheet.sort()
       print(orders)
       print(sheet)
     tests: |
-      TESTS = [output("Two lists", expect="['Vance', 'Ashby']\n['Ashby', 'Vance']")]
+      TESTS = [output("Two lists", expect="['Yahya', 'Aaesha']\n['Aaesha', 'Yahya']")]
     solution: |
-      orders = ["Vance", "Ashby"]
+      orders = ["Yahya", "Aaesha"]
       sheet = orders.copy()
       sheet.sort()
       print(orders)
@@ -81,14 +81,14 @@ cards:
     tests: |
       TESTS = [output("rope unchanged", expect="['10 m', '20 m']")]
   - type: write
-    prompt: "Make `tomorrow` a separate copy of `today`, then add `\"Sea Holly\"` to `tomorrow` only. Print `today`, then `tomorrow`."
+    prompt: "Make `tomorrow` a separate copy of `today`, then add `\"Caitlin\"` to `tomorrow` only. Print `today`, then `tomorrow`."
     starter: |
-      today = ["Kittiwake", "Mary Rose"]
+      today = ["Riya", "Yahya"]
     tests: |
-      TESTS = [output("Two lists", expect="['Kittiwake', 'Mary Rose']\n['Kittiwake', 'Mary Rose', 'Sea Holly']")]
+      TESTS = [output("Two lists", expect="['Riya', 'Yahya']\n['Riya', 'Yahya', 'Caitlin']")]
     solution: |
-      today = ["Kittiwake", "Mary Rose"]
+      today = ["Riya", "Yahya"]
       tomorrow = today.copy()
-      tomorrow.append("Sea Holly")
+      tomorrow.append("Caitlin")
       print(today)
       print(tomorrow)

@@ -13,10 +13,10 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      tray = ["bun", "bun"]
-      shelf = tray
-      shelf.append("loaf")
-      print(len(tray))
+      queue = ["tea", "tea"]
+      orders = queue
+      orders.append("cake")
+      print(len(queue))
     answer: "3"
   - type: choice
     prompt: What does this print?
@@ -55,12 +55,12 @@ cards:
       def add_parcel(row, parcel):
           row.___(parcel)
 
-      row = ["Bea"]
-      add_parcel(row, "Tom")
+      row = ["Riya"]
+      add_parcel(row, "Yahya")
       print(row)
     blanks: [["append"]]
     tests: |
-      TESTS = [output("Tom's parcel in the row", expect="['Bea', 'Tom']")]
+      TESTS = [output("Yahya's parcel in the row", expect="['Riya', 'Yahya']")]
   - type: write
     prompt: "Write `restock(shelf, n)`, which adds `n` to every number in the dictionary `shelf`, changing it in place. It returns nothing."
     starter: |

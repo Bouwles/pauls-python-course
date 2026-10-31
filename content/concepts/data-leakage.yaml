@@ -1,7 +1,7 @@
 id: data-leakage
 title: Data leakage
 summary: |
-  Data leakage is when the training data gives the answer away in a way that won't be there when the model is used for real, so its scores look far better than it will ever do. The commonest leak is a column filled in after the event, like how long the dome was open, which is only known once the night has turned out well: ask when each column is known. The other is preprocessing that saw the answers: choosing columns, scaling or filling gaps using every row, test rows included, before cross-validating. Put every step that learns anything inside the pipeline. Cross-validation can't catch either; a score that seems too good is the clue.
+  Data leakage is when the training data gives the answer away in a way that won't be there when the model is used for real, so its scores look far better than it will ever do. The commonest leak is a column filled in after the event, like how many tickets were sold, which is only known once the night has turned out busy: ask when each column is known. The other is preprocessing that saw the answers: choosing columns, scaling or filling gaps using every row, test rows included, before cross-validating. Put every step that learns anything inside the pipeline. Cross-validation can't catch either; a score that seems too good is the clue.
 example: |
   import numpy as np
   from sklearn.feature_selection import SelectKBest, f_classif
@@ -21,7 +21,7 @@ misconceptions: [leak-still-forecasts, cross-validation-catches-leaks, choose-co
 related: [cross-validation, pipelines, train-test-split, model-bias]
 cards:
   - type: predict
-    prompt: "Gwen's model forecasts a busy quiz night from the rain and the pints sold. What does this print?"
+    prompt: "Riya's model forecasts a busy night at the cinema from the rain and the tickets sold. What does this print?"
     code: |
       import numpy as np
       from sklearn.model_selection import cross_val_score
@@ -30,22 +30,22 @@ cards:
       rng = np.random.default_rng(8)
       busy = rng.integers(0, 2, 60)
       rain = rng.integers(0, 2, 60)
-      pints = busy * 100 + rng.integers(20, 60, 60)    # counted at closing time
-      X = np.column_stack([rain, pints])
+      tickets = busy * 100 + rng.integers(20, 60, 60)    # counted at closing time
+      X = np.column_stack([rain, tickets])
       print(round(cross_val_score(DecisionTreeClassifier(max_depth=2, random_state=0), X, busy, cv=5).mean(), 2))
     answer: "1.0"
   - type: choice
-    prompt: "Gwen wants the forecast at noon, so she knows how many staff to call in. Which column can it use?"
+    prompt: "Riya wants the forecast at noon, so the cinema knows how many staff to call in. Which column can it use?"
     verify: none
     options:
       - text: "The rain forecast at noon"
         correct: true
         feedback: "Right. Only what's known at the moment of forecasting can go in."
-      - text: "Pints sold that night: it scored perfectly"
+      - text: "Tickets sold that night: it scored perfectly"
         misconception: leak-still-forecasts
-        feedback: "Pints are counted at closing time, long after noon, and they're high because the night was busy. At noon there's nothing in that column, and the perfect score evaporates."
+        feedback: "Tickets are counted at closing time, long after noon, and they're high because the night was busy. At noon there's nothing in that column, and the perfect score evaporates."
   - type: choice
-    prompt: "Pip picks the 5 columns, out of 200, that best match the answers on all 40 rows, then cross-validates a model on those 5. Is the score honest?"
+    prompt: "Yahya picks the 5 columns, out of 200, that best match the answers on all 40 rows, then cross-validates a model on those 5. Is the score honest?"
     verify: none
     options:
       - text: "No. The test folds helped choose the columns. Choose them inside each fold, in a pipeline"
@@ -58,7 +58,7 @@ cards:
         misconception: cross-validation-catches-leaks
         feedback: "Cross-validation can't see where the columns came from. A leak lifts every fold together, so it shows as a high score, not a low one."
   - type: choice
-    prompt: "Pip's model forecasts tomorrow's catch with 99% accuracy. Nobody in town has ever managed better than 70%. What should he do first?"
+    prompt: "Riya's model forecasts tomorrow's weather with 99% accuracy. Nobody has ever managed better than 70%. What should she do first?"
     verify: none
     options:
       - text: "Go through every column and ask when it's known. A score that good usually means a leak"
@@ -68,7 +68,7 @@ cards:
         misconception: high-score-means-good-model
         feedback: "A leak looks exactly like brilliance until the model is used for real. When a score is much better than anyone expected, check first."
   - type: choice
-    prompt: "Wendt's held-back drawer of bookings also has the `signed_book` column, filled in the same way. Will the leaky model score badly on the drawer?"
+    prompt: "The held-back drawer of bookings also has the `signed_book` column, filled in the same way. Will the leaky model score badly on the drawer?"
     verify: none
     options:
       - text: "No. The drawer leaks the same way, so it scores well there too, and it still can't forecast next week"
@@ -78,7 +78,7 @@ cards:
         misconception: leak-only-in-training
         feedback: "The drawer's bookings were written down the same way, signatures and all, so the leak is there too. The test score is high, and the model is still useless at booking time."
   - type: choice
-    prompt: "Gwen's model with the pints counted at closing time, then without them. What does this print?"
+    prompt: "Riya's model with the tickets counted at closing time, then without them. What does this print?"
     code: |
       import numpy as np
       from sklearn.model_selection import cross_val_score
@@ -87,21 +87,21 @@ cards:
       rng = np.random.default_rng(8)
       busy = rng.integers(0, 2, 60)
       rain = rng.integers(0, 2, 60)
-      pints = busy * 100 + rng.integers(20, 60, 60)
+      tickets = busy * 100 + rng.integers(20, 60, 60)
       stump = DecisionTreeClassifier(max_depth=2, random_state=0)
-      for X in (np.column_stack([rain, pints]), rain.reshape(-1, 1)):
+      for X in (np.column_stack([rain, tickets]), rain.reshape(-1, 1)):
           print(round(cross_val_score(stump, X, busy, cv=5).mean(), 2))
     options:
       - text: |-
           1.0
           0.48
         correct: true
-        feedback: "Right. With the pints it's perfect; without them, the rain alone is no better than a coin. The perfect score was the closing-time count talking."
+        feedback: "Right. With the tickets it's perfect; without them, the rain alone is no better than a coin. The perfect score was the closing-time count talking."
       - text: |-
           0.48
           0.48
         misconception: cross-validation-catches-leaks
-        feedback: "Cross-validation doesn't strip out a leak. The pints are in every fold, training and scoring alike, so every fold scores perfectly."
+        feedback: "Cross-validation doesn't strip out a leak. The ticket counts are in every fold, training and scoring alike, so every fold scores perfectly."
   - type: write
     prompt: "Write `alone_score(X, y, j)`: the 5-fold cross-validated accuracy of `DecisionTreeClassifier(max_depth=2, random_state=0)` on column `j` of `X` alone. A column that scores near 1 by itself is a suspect."
     starter: |
@@ -127,7 +127,7 @@ cards:
                   raise CheckFailed(f"Column {j} alone should score {want:.2f}. Keep it a table: X[:, [j]].", expected=round(want, 4), actual=got)
 
 
-      TESTS = [custom("Rain alone, then pints alone", check)]
+      TESTS = [custom("Rain alone, then tickets alone", check)]
     solution: |
       from sklearn.model_selection import cross_val_score
       from sklearn.tree import DecisionTreeClassifier

@@ -1,10 +1,10 @@
 ---
 id: brackets
 type: make
-title: "Question 1: The lamp schedule"
+title: "Question 1: The clock's lamp schedule"
 files: [brackets.py]
 entry: brackets.py
-on_pass: { tom: "Every bracket has its partner. The schedule loads, and the lamp comes on at dusk. Same as since '62." }
+on_pass: { neil: "Every bracket has its partner. The schedule loads, and the lamp comes on at dusk." }
 hints:
   nudge: "When a closing bracket arrives, which opener must it match: the first one still open, or the most recent?"
   plan:
@@ -31,7 +31,7 @@ hints:
             return ___
         return -1
 ---
-Penhallow wrote the lighthouse's lamp schedule with brackets inside brackets. Before Old Tom loads a new one, something should check them.
+The lamps behind the clock face run from a schedule written with brackets inside brackets. Before anyone loads a new one, something should check them.
 
 Write `first_error(text)`. Only `()`, `[]` and `{}` matter; every other character is ignored. Read the text from left to right.
 

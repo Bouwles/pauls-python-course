@@ -72,7 +72,7 @@ def report(name, X, T, params, losses):
 
 if __name__ == "__main__":
     log = np.loadtxt("evenings.csv", delimiter=",", skiprows=1)
-    X, T = log[:, :4], log[:, 4:]          # visibility, wind, tide, dark; lamp, horn, gate
+    X, T = log[:, :4], log[:, 4:]          # visibility, wind, rain, dark; lights, beacon, shutters
 
     start = init_params(4, 16, 3, np.random.default_rng(6))
     print("From small random weights, 30 epochs in batches of 32:")

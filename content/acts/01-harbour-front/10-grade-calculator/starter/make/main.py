@@ -1,4 +1,4 @@
-# Mrs Vance's evening class. Gwen is marking until she's back.
+# Marks for the class's first test, marked blind by candidate number.
 
 
 # read_marks(text)

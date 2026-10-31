@@ -3,9 +3,9 @@ title: Comments are notes for people
 summary: |
   Anything after a `#` on a line is a comment, and Python skips it. Comments say why the code is the way it is, for the next person who reads it. Often that person is you, a month later.
 example: |
-  # Bea counts twice, so the till shows the total twice.
+  # Aaesha checks everything twice, so the bill shows the total twice.
   print(1060)
-  print(1060)  # once more for Bea
+  print(1060)  # once more for Aaesha
 misconceptions: [comments-run]
 related: [program-order]
 cards:
@@ -36,7 +36,7 @@ cards:
         misconception: comments-run
         feedback: "A comment is never printed. It's only for people reading the code."
   - type: fix
-    prompt: "Line 2 shouldn't run, but Moss wants to keep it. Turn it into a comment."
+    prompt: "Line 2 shouldn't run, but Paul wants to keep it. Turn it into a comment."
     code: |
       print("Open")
       print("Closed")

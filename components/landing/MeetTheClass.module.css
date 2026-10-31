@@ -1,0 +1,110 @@
+/* The class: no boxes around people, just the portrait, the name and what they'd say. */
+.wrap {
+  display: grid;
+  gap: var(--s-12);
+}
+
+.teachers,
+.classmates {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s-10) var(--s-8);
+}
+
+.teachers {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.classmates {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.lead,
+.mate {
+  display: grid;
+  align-content: start;
+  gap: var(--s-5);
+  min-width: 0;
+}
+
+.who {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+}
+
+.mate .who {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-3);
+}
+
+.text {
+  display: grid;
+  gap: var(--s-1);
+  min-width: 0;
+}
+
+.name {
+  font-size: var(--fs-5);
+}
+
+.lead .name {
+  font-size: var(--fs-6);
+}
+
+.role {
+  color: var(--text-2);
+  font-size: var(--fs-2);
+  line-height: 1.5;
+}
+
+/* The bubble fits its line, and its tail points up at the portrait. */
+.bubble {
+  justify-self: start;
+  max-width: 100%;
+}
+
+.lead .bubble::before {
+  left: 38px;
+}
+
+.mate .bubble::before {
+  left: 26px;
+}
+
+.bubble p {
+  font-size: var(--fs-3);
+  line-height: 1.5;
+}
+
+.lead .bubble p {
+  font-size: var(--fs-4);
+  line-height: 1.45;
+}
+
+@media (max-width: 1080px) {
+  .classmates {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .wrap {
+    gap: var(--s-10);
+  }
+
+  .teachers,
+  .classmates {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-8);
+  }
+
+  .mate .who {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--s-4);
+  }
+}

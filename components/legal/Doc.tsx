@@ -1,7 +1,7 @@
-import { PixelIcon } from "../ui/PixelIcon";
+import { Icon } from "../ui/Icon";
 import styles from "./Doc.module.css";
 
-/** A plain page to read (credits, privacy, terms): a pixel title, and the text on a panel. */
+/** A plain page to read (credits, privacy, terms): a title, then the text at reading size. */
 export function Doc({ title, lede, draft = false, children }: { title: string; lede?: string; draft?: boolean; children: React.ReactNode }) {
   return (
     <article className={styles.doc}>
@@ -11,13 +11,11 @@ export function Doc({ title, lede, draft = false, children }: { title: string; l
       </header>
       {draft ? (
         <p className={styles.draft}>
-          <PixelIcon name="hint" />
+          <Icon name="warning" />
           <span>Draft for the owner to review before launch. It is not yet a final legal document.</span>
         </p>
       ) : null}
-      <div className={`frame-panel ${styles.body}`}>
-        <div className="prose">{children}</div>
-      </div>
+      <div className={`prose ${styles.body}`}>{children}</div>
     </article>
   );
 }

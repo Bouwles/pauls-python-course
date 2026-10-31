@@ -1,9 +1,9 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "My job book. One repair a line, in whatever capitals I felt like that day."
+  - paul: "The Clocktower's repair book. One repair a line, in whatever capitals I felt like that day."
 code: |
   import csv
   from collections import Counter
@@ -60,6 +60,6 @@ explain:
   answer: "Each time round, \"w\" would empty the file before writing one row, so only the last repair would be left in it."
   concept: files
 ---
-A `Path` is a file name that knows things, such as whether the file `exists()`. `csv.writer` writes one row at a time and puts quotes round any value with a comma in it, like `clock, kitchen`. `newline=""` is what the `csv` module asks for when it opens a file.
+A `Path` is a file name that knows things, such as whether the file `exists()`. `csv.writer` writes one row at a time and puts quotes round any value with a comma in it, like `clock, tower`. `newline=""` is what the `csv` module asks for when it opens a file.
 
-Run it, then open `repairs.csv`. The radio has been in five times. It's Moss's.
+Run it, then open `repairs.csv`. The radio has been in five times. The tower clock, once, a long time ago.

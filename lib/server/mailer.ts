@@ -1,4 +1,4 @@
-// Sending email that isn't sign-in (Supabase sends those): the weekly note from Moss.
+// Sending email that isn't sign-in (Supabase sends those): the weekly note from Paul.
 // Local development: the dev mailbox (/dev/mailbox). Production: Resend, when
 // RESEND_API_KEY is set; otherwise nothing is sent and the caller is told so.
 import { getDb } from "./db";
@@ -19,7 +19,7 @@ export async function sendMail(mail: Mail): Promise<MailResult> {
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ from: process.env.MAIL_FROM ?? "Moss <moss@example.org>", to: [mail.to], subject: mail.subject, text: mail.link ? `${mail.text}\n\n${mail.link}` : mail.text }),
+      body: JSON.stringify({ from: process.env.MAIL_FROM ?? "Paul <paul@example.org>", to: [mail.to], subject: mail.subject, text: mail.link ? `${mail.text}\n\n${mail.link}` : mail.text }),
     });
     if (!res.ok) throw new Error(`Resend: ${res.status} ${await res.text()}`);
     return "sent";

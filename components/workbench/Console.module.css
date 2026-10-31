@@ -1,30 +1,24 @@
-/* The console: output in chalk, what the learner types in lamp, tracebacks in brick. */
+/* The console: program output, what the learner types in the sun colour, tracebacks in red. */
 .console {
   display: flex;
   flex-direction: column;
+  flex: 1;
   min-height: 0;
   height: 100%;
-  background: var(--night-2);
-  color: var(--chalk);
-}
-
-:root[data-theme="light"] .console {
-  background: var(--code-bg);
+  background: var(--editor);
   color: var(--text);
-}
-
-@media (prefers-color-scheme: light) {
-  :root[data-theme="system"] .console {
-    background: var(--code-bg);
-    color: var(--text);
-  }
 }
 
 .scroll {
   flex: 1;
   overflow: auto;
-  padding: var(--s-3) var(--s-4);
+  padding: var(--s-4) var(--s-5);
   min-height: 0;
+}
+
+.empty {
+  font-size: var(--fs-1);
+  color: var(--text-2);
 }
 
 .out {
@@ -33,7 +27,7 @@
   font-variant-ligatures: none;
   font-feature-settings: "liga" 0, "calt" 0;
   font-size: var(--editor-font-size);
-  line-height: 1.55;
+  line-height: 1.6;
   white-space: pre-wrap;
   word-break: break-word;
 }
@@ -47,12 +41,12 @@
 }
 
 .input {
-  color: var(--accent-text);
+  color: var(--sun-text);
   font-weight: 700;
 }
 
 .err {
-  color: var(--danger-text);
+  color: var(--fail-text);
 }
 
 .inputForm {
@@ -61,19 +55,19 @@
   cursor: text;
 }
 
-/* The block cursor: two frames, stepped, never a smooth fade. */
+/* The block cursor. */
 .cursor {
   display: inline-block;
   width: 0.6em;
-  height: 1.15em;
+  height: 1.2em;
   vertical-align: text-bottom;
-  background: var(--accent);
-  opacity: 0.5;
+  background: var(--sun);
+  opacity: 0.45;
 }
 
 .blink {
   opacity: 1;
-  animation: blink 1s steps(1) infinite;
+  animation: blink 1.06s steps(1) infinite;
 }
 
 @keyframes blink {
@@ -111,16 +105,15 @@
 }
 
 .status {
-  margin-top: var(--s-2);
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 24px;
-  -webkit-font-smoothing: none;
+  margin-top: var(--s-3);
+  font-size: var(--fs-1);
   color: var(--text-2);
 }
 
 .error {
-  margin-top: var(--s-2);
+  margin-top: var(--s-3);
+  display: grid;
+  gap: var(--s-4);
 }
 
 .traceback {
@@ -129,82 +122,68 @@
   font-variant-ligatures: none;
   font-feature-settings: "liga" 0, "calt" 0;
   font-size: var(--editor-font-size);
-  line-height: 1.5;
-  color: var(--danger-text);
+  line-height: 1.55;
+  color: var(--fail-text);
   white-space: pre-wrap;
+  word-break: break-word;
 }
 
-/* Moss's error panel: a small dialogue box under the traceback. */
-.explainWrap {
-  position: relative;
-  margin-top: var(--s-4);
-  padding-top: 14px;
-  max-width: 860px;
-}
-
-.plate {
-  position: absolute;
-  top: 0;
-  left: calc(16px + 128px + var(--s-4));
-  z-index: 1;
-  height: 28px;
-  padding: 7px var(--s-3) 0;
-  background: var(--moss-green);
-  color: var(--night-0);
-  outline: 2px solid var(--night-0);
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 1;
-  -webkit-font-smoothing: none;
-}
-
+/* The error panel: Neil, a heading, the explanation, a button. */
 .explain {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: var(--s-4);
-  align-items: start;
+  gap: var(--s-3);
+  max-width: 720px;
+  padding: var(--s-5);
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
 }
 
-.portrait {
-  width: 128px;
-  height: 96px;
+:root[data-theme="light"] .explain {
+  background: var(--bg);
+  border: 1px solid var(--line);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .explain {
+    background: var(--bg);
+    border: 1px solid var(--line);
+  }
+}
+
+.explainHead {
   display: flex;
-  justify-content: center;
-  overflow: hidden;
-  background: var(--night-2);
-  box-shadow: inset 0 0 0 2px var(--night-0);
-}
-
-.explainText {
-  display: grid;
-  gap: var(--s-2);
-  padding-top: var(--s-2);
-  font-family: var(--font-read);
-  font-size: var(--prose-size);
-  line-height: var(--lh-prose);
-  max-width: var(--measure);
-}
-
-.mossLine {
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 24px;
-  -webkit-font-smoothing: none;
+  align-items: center;
+  gap: var(--s-4);
 }
 
 .explainTitle {
+  font-family: var(--font-display);
+  font-size: var(--fs-5);
   font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: var(--tracking-display);
+}
+
+.explainBody {
+  font-size: var(--fs-3);
+  line-height: var(--lh-text);
+  max-width: var(--measure);
+  padding-left: calc(48px + var(--s-4));
+}
+
+.explainActions {
+  padding-left: calc(48px + var(--s-4));
 }
 
 .loadError {
-  padding: var(--s-3);
+  padding: var(--s-4);
   margin-bottom: var(--s-3);
-  background: var(--night-1);
-  box-shadow: inset 4px 0 0 var(--lamp);
+  border-radius: var(--r-lg);
+  background: var(--sun-wash);
 }
 
 .loadError pre {
-  font-size: var(--step--1);
+  font-size: var(--fs-1);
   white-space: pre-wrap;
 }
 
@@ -224,20 +203,25 @@
 .figure {
   max-width: 100%;
   height: auto;
-  background: var(--day-2);
-  box-shadow: 0 0 0 2px var(--night-0);
+  border-radius: var(--r-md);
+  background: var(--surface-1);
 }
 
-@media (max-width: 600px) {
+@container wb (max-width: 860px) {
+  .scroll {
+    padding: var(--s-3) var(--s-4);
+  }
+
   .explain {
-    grid-template-columns: minmax(0, 1fr);
+    padding: var(--s-4);
   }
 
-  .portrait {
-    display: none;
+  .explainTitle {
+    font-size: var(--fs-4);
   }
 
-  .plate {
-    left: 16px;
+  .explainBody,
+  .explainActions {
+    padding-left: 0;
   }
 }

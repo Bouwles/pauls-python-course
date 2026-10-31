@@ -1,4 +1,4 @@
-"""Mackerel Night: the rules of Gwen's pier game, with no pygame in sight.
+"""Mackerel Night: the rules of Caitlin's pier game, with no pygame in sight.
 
 Everything here can be tested without a window. main.py does the drawing.
 
@@ -61,7 +61,7 @@ class Game:
     def drop(self, kind, x):
         """Something new at the top of the screen."""
         if kind not in KINDS:
-            raise ValueError(f"Only {' or '.join(KINDS)} fall on Gwen's pier, not {kind!r}.")
+            raise ValueError(f"Only {' or '.join(KINDS)} fall on this pier, not {kind!r}.")
         if not self.over:
             self.items.append(Item(kind, x))
 

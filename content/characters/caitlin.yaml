@@ -1,0 +1,32 @@
+id: caitlin
+name: Caitlin
+role: Classmate. Games, web apps and making things; runs the Makerspace on the second floor.
+colour: "#8C6BF2"
+floor: 3
+look: Long dark-brown hair with caramel ends, centre parting. Round thin tortoiseshell glasses. A loose overshirt over a plain T-shirt. A calm, knowing smile.
+voice: Creative, fast, impatient. Builds the fun version first. Bored by anything without a screen.
+pools:
+  # Reactive lines (REDESIGN-2.md 7.4). lib/cast.ts says which events are Caitlin's.
+  long-no-loop:
+    - "That's a lot of lines that look the same. Isn't that what loops are for?"
+    - "Twenty lines and no loop. I've shipped worse. A loop would be shorter, though."
+  pass-first-try:
+    - "First try. It works. Ship it."
+    - "First go. I usually need three."
+    - "Passed first time. Can it have a high score next?"
+  # When the learner fixes Caitlin's version, or fixes it in fewer lines.
+  fixed-by-learner:
+    - "Oh. That's what it was. Thanks."
+    - "Fixed. I'd have shipped it broken. Glad I didn't."
+    - "It works now. It's still ugly, but that's on me."
+  shorter-than-mine:
+    - "Yours is shorter. Mine had more features. Possibly."
+    - "Shorter than mine, and it works. Fine. Fair."
+  # Caitlin is the client for the Number Guessing Game and Rock Paper Scissors.
+  waiting:
+    - "Can it have a high score?"
+    - "Take your time. Actually, don't. I'm keen."
+    - "Does it work yet? No pressure. Some pressure."
+  recap:
+    - "Back to my {job}. You'd got to {step}"
+    - "My {job} is waiting. You were here: {step}"

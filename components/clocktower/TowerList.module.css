@@ -1,0 +1,206 @@
+/* The list view: one folding table per Act, ground floor first. */
+.list {
+  display: grid;
+  gap: var(--s-3);
+}
+
+.act {
+  background: var(--surface-1);
+  border-radius: var(--r-lg);
+}
+
+:root[data-theme="light"] .act {
+  border: 1px solid var(--line);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .act {
+    border: 1px solid var(--line);
+  }
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  grid-template-areas:
+    "swatch title state caret"
+    "swatch room state caret";
+  align-items: center;
+  gap: 2px var(--s-4);
+  padding: var(--s-4) var(--s-5);
+  cursor: pointer;
+  list-style: none;
+  border-radius: var(--r-lg);
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.summary:hover {
+  background: var(--surface-2);
+}
+
+.swatch {
+  grid-area: swatch;
+  width: 14px;
+  height: 14px;
+  border-radius: var(--r-sm);
+  background: var(--face);
+}
+
+.actTitle {
+  grid-area: title;
+  font-size: var(--fs-4);
+  font-weight: 700;
+}
+
+.actNo {
+  color: var(--text-2);
+}
+
+.actRoom {
+  grid-area: room;
+  font-size: var(--fs-1);
+  color: var(--text-2);
+}
+
+.actState {
+  grid-area: state;
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-size: var(--fs-1);
+  color: var(--text-2);
+  white-space: nowrap;
+}
+
+.caret {
+  grid-area: caret;
+  color: var(--text-2);
+  transition: transform var(--dur) var(--ease-out);
+}
+
+.act[open] .caret {
+  transform: rotate(180deg);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-2);
+}
+
+.table th {
+  text-align: left;
+  font-size: var(--fs-1);
+  font-weight: 700;
+  color: var(--text-2);
+  padding: var(--s-2) var(--s-3);
+  border-top: 1px solid var(--line);
+}
+
+.table td {
+  padding: var(--s-3);
+  border-top: 1px solid var(--line);
+  vertical-align: top;
+}
+
+.table th:first-child,
+.table td:first-child {
+  padding-left: var(--s-5);
+}
+
+.table th:last-child,
+.table td:last-child {
+  padding-right: var(--s-5);
+}
+
+.num {
+  width: 3.5em;
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.project {
+  font-weight: 700;
+}
+
+a.project {
+  color: var(--text);
+  text-decoration: none;
+}
+
+a.project:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.project[data-dim] {
+  color: var(--text-2);
+}
+
+.aside {
+  margin-left: var(--s-2);
+  font-size: var(--fs-1);
+  color: var(--text-2);
+}
+
+.muted {
+  color: var(--text-2);
+  font-size: var(--fs-1);
+}
+
+.narrowOnly {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .summary {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      "swatch title caret"
+      "swatch room caret"
+      "swatch state caret";
+    padding: var(--s-4);
+    align-items: start;
+  }
+
+  .swatch {
+    margin-top: 6px;
+  }
+
+  .caret {
+    margin-top: 2px;
+  }
+
+  .actState {
+    margin-top: var(--s-1);
+  }
+
+  .wideOnly {
+    display: none;
+  }
+
+  .aside {
+    display: block;
+    margin-left: 0;
+  }
+
+  .narrowOnly {
+    display: block;
+    font-size: var(--fs-1);
+    color: var(--text-2);
+  }
+
+  .table th:first-child,
+  .table td:first-child {
+    padding-left: var(--s-4);
+  }
+
+  .table th:last-child,
+  .table td:last-child {
+    padding-right: var(--s-4);
+  }
+}

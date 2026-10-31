@@ -15,35 +15,35 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      def label(name, berth):
-          print(f"{name}: berth {berth}")
+      def label(name, desk):
+          print(f"{name}: desk {desk}")
 
-      label("Kittiwake", 4)
-    answer: "Kittiwake: berth 4"
+      label("Riya", 4)
+    answer: "Riya: desk 4"
   - type: predict
     prompt: What does this print?
     code: |
-      def label(name, berth):
-          print(f"{name}: berth {berth}")
+      def label(name, desk):
+          print(f"{name}: desk {desk}")
 
-      berth = "Kittiwake"
+      desk = "Riya"
       name = 7
-      label(berth, name)
-    answer: "Kittiwake: berth 7"
+      label(desk, name)
+    answer: "Riya: desk 7"
   - type: choice
     prompt: What does this print?
     code: |
       def greet(name):
           print("Evening, " + name)
 
-      landlady = "Gwen"
-      greet(landlady)
+      classmate = "Caitlin"
+      greet(classmate)
     options:
       - text: "A NameError, because nothing is called name outside"
         misconception: parameter-name-must-match
         error: NameError
-        feedback: "The value of `landlady` goes into the parameter `name`. The names don't have to match."
-      - text: "Evening, Gwen"
+        feedback: "The value of `classmate` goes into the parameter `name`. The names don't have to match."
+      - text: "Evening, Caitlin"
         correct: true
   - type: choice
     prompt: What happens?
@@ -85,12 +85,12 @@ cards:
     tests: |
       TESTS = [output("Ten", expect="10")]
   - type: write
-    prompt: "Write `berth_label(boat, berth)` that returns text like `Kittiwake, berth 4`."
+    prompt: "Write `desk_label(name, desk)` that returns text like `Riya, desk 4`."
     tests: |
       TESTS = [
-          function("Kittiwake at 4", call="berth_label", args=("Kittiwake", 4), expect="Kittiwake, berth 4"),
-          function("Sea Holly at 11", call="berth_label", args=("Sea Holly", 11), expect="Sea Holly, berth 11"),
+          function("Riya at 4", call="desk_label", args=("Riya", 4), expect="Riya, desk 4"),
+          function("Neil at 11", call="desk_label", args=("Neil", 11), expect="Neil, desk 11"),
       ]
     solution: |
-      def berth_label(boat, berth):
-          return f"{boat}, berth {berth}"
+      def desk_label(name, desk):
+          return f"{name}, desk {desk}"

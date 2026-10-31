@@ -1,7 +1,7 @@
 id: correlation-causation
 title: Correlation, and what it doesn't say
 summary: |
-  The correlation r measures how closely two things rise and fall together along a straight line, from 1 through 0 to -1. Take each mean off, multiply the pairs and add them up, then divide by the square root of the two sums of squares; `np.corrcoef(x, y)[0, 1]` does the same. r is symmetric, has no units, and isn't a slope. It only sees straight lines, so a hump can give 0 when one thing decides the other completely. And a correlation never shows a cause on its own: two things can both follow a third, like the year or the season, which is how Moss's age correlates with the warming.
+  The correlation r measures how closely two things rise and fall together along a straight line, from 1 through 0 to -1. Take each mean off, multiply the pairs and add them up, then divide by the square root of the two sums of squares; `np.corrcoef(x, y)[0, 1]` does the same. r is symmetric, has no units, and isn't a slope. It only sees straight lines, so a hump can give 0 when one thing decides the other completely. And a correlation never shows a cause on its own: two things can both follow a third, like the year or the season, which is how the price of coffee correlates with the warming.
 example: |
   import numpy as np
 
@@ -23,21 +23,21 @@ cards:
       print(round(np.corrcoef(x, y)[0, 1], 2), round(np.corrcoef(y, x)[0, 1], 2))
     answer: "0.8 0.8"
   - type: choice
-    prompt: "Ice creams sold at the harbour kiosk, and lifeboat launches, month by month. This prints `True`. What does it tell you?"
+    prompt: "Ice creams sold at a beach kiosk, and lifeguard call-outs, month by month. This prints `True`. What does it tell you?"
     verify: none
     code: |
       import numpy as np
 
       ice_creams = np.array([40, 55, 90, 160, 300, 520, 610, 590, 330, 140, 60, 45])
-      launches = np.array([1, 1, 2, 3, 5, 8, 9, 9, 5, 2, 1, 1])
-      print(np.corrcoef(ice_creams, launches)[0, 1] > 0.9)
+      call_outs = np.array([1, 1, 2, 3, 5, 8, 9, 9, 5, 2, 1, 1])
+      print(np.corrcoef(ice_creams, call_outs)[0, 1] > 0.9)
     options:
       - text: "They rise and fall together, because summer brings both the visitors who buy ice creams and the ones who need rescuing"
         correct: true
         feedback: "Both follow the summer. Banning ice cream wouldn't save anyone: the season is the third thing behind both."
-      - text: "Ice cream causes lifeboat launches"
+      - text: "Ice cream causes lifeguard call-outs"
         misconception: correlation-means-cause
-        feedback: "The correlation is real, but nothing here shows one causes the other. Both rise in summer, when the town fills with visitors."
+        feedback: "The correlation is real, but nothing here shows one causes the other. Both rise in summer, when the beach fills with visitors."
   - type: choice
     prompt: "The same readings, with the temperatures in Fahrenheit instead. What does this print?"
     code: |
@@ -82,7 +82,7 @@ cards:
     tests: |
       TESTS = [output("Wetter months are duller", expect="True")]
   - type: fix
-    prompt: "Pip's correlation forgot to take the means off first. Fix it so a perfect line gives `1.0`."
+    prompt: "Caitlin's correlation forgot to take the means off first. Fix it so a perfect line gives `1.0`."
     code: |
       import numpy as np
 
@@ -123,7 +123,7 @@ cards:
               "temp": [15.2, 16.4, 15.9, 17.3, 18.2],
               "sun": [150, 210, 180, 240, 330],
               "rain": [80, 50, 70, 40, 10],
-              "gulls": [12, 30, 9, 22, 15],
+              "wind": [12, 30, 9, 22, 15],
           })
           got = ctx.module().strongest(table, "sun")
           if got != "rain":

@@ -25,7 +25,7 @@ code: |
   gong = Crate("gong")
   anchor.next = gong
   show(anchor)
-question: "Pip wants the gong between the anchor and the bell. What does this print?"
+question: "Yahya wants the gong between the anchor and the bell. What does this print?"
 options:
   - text: "['anchor', 'gong']"
     correct: true

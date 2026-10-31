@@ -5,11 +5,11 @@ summary: |
 example: |
   import argparse
 
-  parser = argparse.ArgumentParser(description="Lamp oil for the lighthouse.")
-  parser.add_argument("nights", type=int)
-  parser.add_argument("--wicks", type=int, default=1)
-  args = parser.parse_args(["3", "--wicks", "2"])  # as if typed after the name
-  print(f"{args.nights * args.wicks * 0.4:.1f} litres")
+  parser = argparse.ArgumentParser(description="Coffee for the class.")
+  parser.add_argument("days", type=int)
+  parser.add_argument("--cups", type=int, default=1)
+  args = parser.parse_args(["3", "--cups", "2"])  # as if typed after the name
+  print(f"{args.days * args.cups * 0.4:.1f} litres")
 misconceptions: [argparse-gives-text, default-always-used, dashes-stay-in-names]
 related: [sys-argv, exit-codes]
 cards:
@@ -21,9 +21,9 @@ cards:
       parser = argparse.ArgumentParser()
       parser.add_argument("customer")
       parser.add_argument("--status", default="open")
-      args = parser.parse_args(["Bea"])
+      args = parser.parse_args(["Riya"])
       print(args.customer, args.status)
-    answer: Bea open
+    answer: Riya open
   - type: predict
     prompt: What does this print?
     code: |
@@ -40,9 +40,9 @@ cards:
       import argparse
 
       parser = argparse.ArgumentParser()
-      parser.add_argument("nights", type=int)
+      parser.add_argument("days", type=int)
       args = parser.parse_args(["3"])
-      print(args.nights * 2)
+      print(args.days * 2)
     options:
       - text: "6"
         correct: true
@@ -50,23 +50,23 @@ cards:
         misconception: argparse-gives-text
         feedback: "`type=int` turns the text into a whole number before your code sees it."
   - type: fix
-    prompt: "Tom's oil tool crashes on the last line. Fix the way the option is read."
+    prompt: "Neil's coffee tool crashes on the last line. Fix the way the option is read."
     code: |
       import argparse
 
       parser = argparse.ArgumentParser()
-      parser.add_argument("--extra-wicks", type=int, default=0)
-      args = parser.parse_args(["--extra-wicks", "2"])
-      print(args.extra-wicks + 1)
+      parser.add_argument("--extra-cups", type=int, default=0)
+      args = parser.parse_args(["--extra-cups", "2"])
+      print(args.extra-cups + 1)
     tests: |
-      TESTS = [output("Three wicks", expect="3", hint="argparse turns the dash in --extra-wicks into an underscore.")]
+      TESTS = [output("Three cups", expect="3", hint="argparse turns the dash in --extra-cups into an underscore.")]
     solution: |
       import argparse
 
       parser = argparse.ArgumentParser()
-      parser.add_argument("--extra-wicks", type=int, default=0)
-      args = parser.parse_args(["--extra-wicks", "2"])
-      print(args.extra_wicks + 1)
+      parser.add_argument("--extra-cups", type=int, default=0)
+      args = parser.parse_args(["--extra-cups", "2"])
+      print(args.extra_cups + 1)
   - type: fill
     prompt: "Fill the gap so `args.hours` is a number with a decimal point."
     code: |
@@ -91,8 +91,8 @@ cards:
       print(args.customer, args.status)
     tests: |
       TESTS = [
-          output("Just a name", argv=["Bea"], expect="Bea open"),
-          output("With --status", argv=["Bea", "--status", "done"], expect="Bea done"),
+          output("Just a name", argv=["Riya"], expect="Riya open"),
+          output("With --status", argv=["Riya", "--status", "done"], expect="Riya done"),
       ]
     solution: |
       import argparse

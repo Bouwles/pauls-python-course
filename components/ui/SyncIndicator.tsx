@@ -1,7 +1,7 @@
 "use client";
 
 import type { SyncStatus } from "@/lib/store/sync";
-import { PixelIcon } from "./PixelIcon";
+import { Icon } from "./Icon";
 import styles from "./SyncIndicator.module.css";
 
 // Save status as a pixel icon (REDESIGN.md 4.7): a floppy disk when saved, the spanner
@@ -18,11 +18,11 @@ export function SyncIndicator({ status }: { status: SyncStatus }) {
   return (
     <span className={[styles.sync, styles[status]].join(" ")} title={TEXT[status]} role="status" aria-live="polite">
       {status === "saving" ? (
-        <PixelIcon name="loader" animate />
+        <Icon name="loader" spin />
       ) : status === "offline" || status === "error" ? (
-        <PixelIcon name="offline" />
+        <Icon name="offline" />
       ) : (
-        <PixelIcon name="saved" />
+        <Icon name="saved" />
       )}
       <span className="visually-hidden">{TEXT[status]}</span>
     </span>

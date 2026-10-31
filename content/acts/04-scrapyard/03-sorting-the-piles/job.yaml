@@ -6,7 +6,7 @@ portfolio_readme: |
 
   Four sorting algorithms, written by hand, each one shown at work. Selection sort and insertion sort sort a pile in place, pass by pass; merge sort merges piles of one up into a single pile, round by round; quick sort splits one pile down round a pivot, round by round. Every sort records a frame after each pass or round, and the visualiser plays the frames back as bars, then checks the two fast sorts against Python's `sorted()` on ten thousand parts and times all three.
 
-  Written by {name} for Nell Brannigan's scrapyard in {{town}}. Finished {date}.
+  Written by {name} for Yahya, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -42,7 +42,7 @@ portfolio_readme: |
     9 #########
    12 ############
   Quick sort: 2 steps
-  Pier lot: 10000 parts, merge and quick agree with sorted(): True
+  Clockmaker's lot: 10000 parts, merge and quick agree with sorted(): True
   sorted() 0.002 s, merge 0.033 s, quick 0.016 s
   ```
 
@@ -55,20 +55,20 @@ portfolio_readme: |
   - Stable sorting with a `key`, so parts of the same weight keep the order they arrived in
   - Recording copies of a list as it changes, and drawing each one as a text bar chart
 downloadable: true
-# The pile and the pier lot are invented for the story: the pier lot is generated in code
+# The pile and the clockmaker's lot are invented for the story: the lot is generated in code
 # from a seeded random generator, so every run sorts the same ten thousand parts.
 datasets: []
-client: nell
+client: yahya
 building: scrapyard
 estimated_minutes: 110
-summary: "A sorting visualiser for Nell's piles: selection, insertion, merge and quick sort, each played back frame by frame as bars, then raced against sorted()."
+summary: "A sorting visualiser for the clockmaker's lot: selection, insertion, merge and quick sort, each played back frame by frame as bars, then raced against sorted()."
 concepts_introduced: [simple-sorts, quicksort, merge-sort, sort-stability]
 concepts_reviewed: [big-o, timing-code, sorted-vs-sort, sort-key, lambda, list-comprehensions, slicing, tuples, mutability, default-arguments, none, copying]
 ask:
   dialogue:
-    - nell: "The scrap merchant comes Thursday. He pays by weight, and he wants the pier's lot lightest first."
-    - nell: "By hand I'd sort it by feel. Ten thousand parts is a lot of feel."
-    - moss: "There are four ways worth knowing. After that, you'll see why nobody writes their own."
+    - yahya: "Paul wants the clockmaker's lot on the shelves lightest first. Ten thousand parts."
+    - yahya: "Everyone says sort it. Nobody says which sort. I want to watch four of them race."
+    - paul: "There are four ways worth knowing. After that, you'll see why nobody writes their own."
   spec: |
     A sorting visualiser, in two files, each sort written by hand: no `sorted()` or `.sort()` inside your functions. Every sort takes a `frames` list (or `None`, the default) and, if it's a list, puts a copy of the pile on it after each pass or round, so the work can be played back.
 
@@ -78,7 +78,7 @@ ask:
     2. `selection_sort(weights, frames=None)`: find the lightest of what's left and swap it into place. A frame after every pass.
     3. `insertion_sort(weights, frames=None)`: take each weight in turn and slide it left past every heavier one. A frame after every pass.
 
-    In `sorter.py`, two faster sorts for the merchant, which hand back a new list sorted by `key` and leave `items` as it was. Both are stable: on a tie, items keep the order they came in.
+    In `sorter.py`, two faster sorts for the big lot, which hand back a new list sorted by `key` and leave `items` as it was. Both are stable: on a tie, items keep the order they came in.
 
     4. `merge(left, right, key)` takes two lists already sorted by `key` and gives back one, sorted by `key`. On a tie, the item from `left` comes first.
     5. `merge_sort(items, key=lambda item: item, frames=None)`: every item starts as a pile of one; neighbouring piles are merged in pairs, round after round, until one pile is left.
@@ -119,14 +119,14 @@ ask:
       9 #########
      12 ############
     Merge sort: 3 steps
-    Pier lot: 10000 parts, merge and quick agree with sorted(): True
+    Clockmaker's lot: 10000 parts, merge and quick agree with sorted(): True
     sorted() 0.002 s, merge 0.033 s, quick 0.016 s
 ship:
   dialogue:
-    - nell: "Ten thousand parts, lightest first. The four-kilo hubcaps still in the order they came off the pier."
-    - nell: "The merchant asked how I'd sorted them. I said merge sort. He nodded like he knew."
-    - moss: "Now use sorted(). It's merge sort and insertion sort working together, in C. You've seen inside it."
-  shelf: { object: weighing-scales, label: "Nell's sorting visualiser, lightest first" }
+    - yahya: "Ten thousand parts, lightest first. The four-kilo hubcaps still in the order they came out of the crates."
+    - yahya: "sorted() beat both of mine. I've decided I'm fine with that."
+    - paul: "It should. It's merge sort and insertion sort working together, in C. You've seen inside it."
+  shelf: { object: weighing-scales, label: "Yahya's sorting visualiser, lightest first" }
   cards: [simple-sorts, quicksort, merge-sort, sort-stability]
 stretch:
   - id: middle-pivot

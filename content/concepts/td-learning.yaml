@@ -22,7 +22,7 @@ cards:
       print(values["a"])
     answer: "2.75"
   - type: choice
-    prompt: "Sir Reginald steps from the edge into the rock pool. Somebody left 99.0 in the pool's entry. What does this print?"
+    prompt: "The crab steps from the edge into the rock pool. Somebody left 99.0 in the pool's entry. What does this print?"
     code: |
       values = {"edge": -4.0, "pool": 99.0}
       alpha, gamma = 0.5, 0.9
@@ -83,7 +83,7 @@ cards:
           values[tile] += alpha * (target - values[tile])
           return values[tile]
   - type: fill
-    prompt: "Fill the gap: the target counts the reward and what the tile he landed on is thought to be worth."
+    prompt: "Fill the gap: the target counts the reward and what the tile it landed on is thought to be worth."
     code: |
       values = {"here": 0.0, "there": 5.0}
       reward, over = -1, False

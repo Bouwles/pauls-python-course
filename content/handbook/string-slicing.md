@@ -5,23 +5,23 @@ Slicing a Python string means taking part of it by position. `name[0]` gets one 
 A slice can take three numbers, `start:stop:step`, and each one is optional. Leave out `start` and it begins at the beginning; leave out `stop` and it runs to the end; the step says how far to move each time.
 
 ```python
-boat = "Kittiwake"
-print(boat[2:5])
-print(boat[-4:])
-print(boat[::2])
-print(boat[::-1])
-print(boat[5:2:-1])
+word = "Clockwork"
+print(word[2:5])
+print(word[-4:])
+print(word[::2])
+print(word[::-1])
+print(word[5:2:-1])
 ```
 
 ```text
-tti
-wake
-Ktiae
-ekawittiK
-wit
+ock
+work
+Cokok
+krowkcolC
+wkc
 ```
 
-`boat[2:5]` takes positions 2, 3 and 4: it stops before 5, so it holds `stop - start` characters (as long as both are inside the string). `boat[::2]` takes every second character. A negative step walks backwards, and `[::-1]` with no start or stop walks the whole string from the end, which is the usual way to reverse text. With a negative step, `start` has to be the larger number: `boat[5:2:-1]` begins at position 5 and works down to position 3.
+`word[2:5]` takes positions 2, 3 and 4: it stops before 5, so it holds `stop - start` characters (as long as both are inside the string). `word[::2]` takes every second character. A negative step walks backwards, and `[::-1]` with no start or stop walks the whole string from the end, which is the usual way to reverse text. With a negative step, `start` has to be the larger number: `word[5:2:-1]` begins at position 5 and works down to position 3.
 
 Slices and single positions behave differently at the edges:
 
@@ -47,7 +47,7 @@ A slice asks for whatever is in a range, and stops quietly at the end; a range w
 ## Common mistakes
 
 - **Counting from 1.** The first character is at position 0, so `"SM42"[1]` is `"M"`, and the last is at `len(code) - 1`, or more simply `-1`. The same applies to slices: `name[1:]` starts at the second character and drops the first. To get the first three, write `name[:3]`.
-- **Expecting the stop position to be included.** `"harbour"[1:3]` is `"ar"`, positions 1 and 2 only. One way to picture it: the numbers mark the gaps between characters, and the slice takes what lies between two gaps.
+- **Expecting the stop position to be included.** `"python"[1:3]` is `"yt"`, positions 1 and 2 only. One way to picture it: the numbers mark the gaps between characters, and the slice takes what lies between two gaps.
 - **Trying to change a character through an index.** `name[0] = "B"` is a TypeError, because strings can't be changed. Build a new one with a slice instead: `name = "B" + name[1:]`.
 
 ## Related

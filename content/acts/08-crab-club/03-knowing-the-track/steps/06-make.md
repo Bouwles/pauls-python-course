@@ -4,7 +4,7 @@ type: make
 title: Make the track known
 files: [track.py, dp.py]
 entry: dp.py
-on_pass: { committee: "Forty years. The bottom row was never the line. We shall write to the newsletter." }
+on_pass: { aaesha: "Value iteration and policy iteration agree on every tile. Two methods, one answer." }
 hints:
   nudge: "evaluate, value_iteration and greedy all need the same thing: what one action is worth on one tile. Which function gives that?"
   plan:
@@ -43,4 +43,4 @@ Write `dp.py`. `track.py` has the grid, `outcomes`, `TRADITIONAL`, and `show_val
 
 Put `draw(values, greedy(values, gamma), title=f"sweep {sweep}")` at the end of each sweep in `value_iteration` and press Run: the output panel plays the values spreading back from the finish, with the best arrows so far. Pass `q=` too, a dictionary from each tile to its four `q_value`s, and pointing at a tile shows them. The checks ignore drawings.
 
-The checks use Moss's own `track.py`, so changing yours won't upset them.
+The checks use Paul's own `track.py`, so changing yours won't upset them.

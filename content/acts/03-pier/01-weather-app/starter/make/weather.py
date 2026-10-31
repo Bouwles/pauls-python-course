@@ -1,4 +1,4 @@
-"""A plain forecast for the pier, from Open-Meteo."""
+"""A plain three-day forecast, from Open-Meteo."""
 import json
 from datetime import date
 from urllib.parse import urlencode

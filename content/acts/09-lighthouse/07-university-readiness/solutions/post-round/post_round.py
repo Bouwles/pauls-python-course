@@ -1,4 +1,4 @@
-"""Question 3: the post round."""
+"""Question 3: the courier's round."""
 
 
 def delivery_key(parcel):
@@ -18,10 +18,10 @@ def round_order(parcels):
 
 if __name__ == "__main__":
     # Tests first: the examples from the question, then my own edge cases.
-    assert round_order([("A", "Quay Row", 4), ("B", "Quay Row", 1),
-                        ("C", "Quay Row", 3), ("D", "Quay Row", 2)]) == ["B", "C", "A", "D"]
-    assert round_order([("E", "Quay Row", 2), ("F", "High Street", 5),
-                        ("G", "Quay Row", 2), ("H", "High Street", 2)]) == ["F", "H", "E", "G"]
+    assert round_order([("A", "Queen's Row", 4), ("B", "Queen's Row", 1),
+                        ("C", "Queen's Row", 3), ("D", "Queen's Row", 2)]) == ["B", "C", "A", "D"]
+    assert round_order([("E", "Queen's Row", 2), ("F", "High Street", 5),
+                        ("G", "Queen's Row", 2), ("H", "High Street", 2)]) == ["F", "H", "E", "G"]
     assert round_order([]) == []
-    assert round_order([("Z", "Quay Row", 7), ("M", "Quay Row", 7)]) == ["Z", "M"]
+    assert round_order([("Z", "Queen's Row", 7), ("M", "Queen's Row", 7)]) == ["Z", "M"]
     print("All my tests pass.")

@@ -1,3 +1,4 @@
+/* The terminal step: the project's files above, a small shell below. */
 .split {
   flex: 1;
   display: grid;
@@ -9,45 +10,52 @@
   display: flex;
   flex-direction: column;
   min-height: 0;
-  border-bottom: var(--hairline);
+  border-bottom: 1px solid var(--line);
 }
 
 .tabs {
   display: flex;
   align-items: center;
   gap: var(--s-1);
-  padding: var(--s-2) var(--s-4);
-  border-bottom: var(--hairline);
-  min-height: 44px;
+  padding: var(--s-2) var(--s-3);
+  min-height: 56px;
+  background: var(--surface-1);
+  border-bottom: 1px solid var(--line);
 }
 
 .tab {
-  font-family: var(--font-code);
-  font-size: var(--step--1);
+  height: 36px;
+  padding: 0 var(--s-3);
   border: none;
+  border-radius: var(--r-md);
   background: none;
-  padding: var(--s-1) var(--s-2);
-  color: var(--ink-2);
-  border-bottom: 2px solid transparent;
+  color: var(--text-2);
+  font-family: var(--font-code);
+  font-size: 14px;
+}
+
+.tab:hover {
+  color: var(--text);
 }
 
 .tab[aria-selected="true"] {
-  color: var(--ink);
-  border-bottom-color: var(--ink);
+  background: var(--surface-3);
+  color: var(--text);
 }
 
 .branch {
   margin-left: auto;
   font-family: var(--font-code);
-  font-size: var(--step--1);
-  color: var(--accent-ink);
+  font-size: 14px;
+  color: var(--text-2);
+  white-space: nowrap;
 }
 
 .editor {
   flex: 1;
   min-height: 0;
   overflow: auto;
-  background: var(--paper-raised);
+  background: var(--editor);
 }
 
 .term {
@@ -55,12 +63,19 @@
 }
 
 .reset {
-  padding: var(--s-1) var(--s-4);
-  border-top: var(--hairline);
+  padding: var(--s-2) var(--s-3);
+  background: var(--surface-1);
+  border-top: 1px solid var(--line);
 }
 
+/* The task to do next: a quiet sun tint behind it, no coloured edge. */
 .current {
-  border-left: 2px solid var(--accent);
-  padding-left: var(--s-3);
-  margin-left: calc(-1 * var(--s-3) - 2px);
+  background: var(--sun-wash);
+  border-radius: var(--r-lg);
+}
+
+@container wb (max-width: 860px) {
+  .split {
+    grid-template-rows: 360px 320px;
+  }
 }

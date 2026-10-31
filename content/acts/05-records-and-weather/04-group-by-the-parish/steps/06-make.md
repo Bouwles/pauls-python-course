@@ -1,9 +1,9 @@
 ---
 id: make
 type: make
-title: Make the council's tables
+title: Make the wall chart's tables
 timeout_ms: 20000
-on_pass: { ashby: "Seventeen at sea in 1921, eleven in 2011. The council will want that on one page." }
+on_pass: { aaesha: "Seventeen at sea in 1921, eleven in 2011. That goes on the wall chart, bars from zero." }
 hints:
   nudge: "Which pandas call puts one thing down the side, another across the top, and a count in every cell? And how many cards should each occupation match?"
   plan:

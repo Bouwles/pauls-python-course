@@ -3,11 +3,11 @@ title: .get() for keys that might not be there
 summary: |
   `book[name]` crashes with a KeyError if `name` isn't a key. `book.get(name)` hands back `None` instead, and `book.get(name, "unknown")` hands back `"unknown"`. `.get()` only reads; it never adds the key. Use it when a missing key is normal, not a mistake.
 example: |
-  book = {"Bea": "Quay Row"}
-  print(book.get("Tom"))
-  print(book.get("Tom", "No address"))
+  book = {"Riya": "Park Road"}
+  print(book.get("Yahya"))
+  print(book.get("Yahya", "No address"))
   counts = {}
-  counts["cod"] = counts.get("cod", 0) + 1
+  counts["tea"] = counts.get("tea", 0) + 1
   print(counts)
 misconceptions: [missing-key-gives-none, get-adds-key]
 related: [dictionaries, none]
@@ -16,23 +16,23 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      book = {"Bea": "Quay Row"}
-      print(book.get("Tom"))
+      book = {"Riya": "Park Road"}
+      print(book.get("Yahya"))
     answer: "None"
   - type: predict
     prompt: What does this print?
     code: |
-      book = {"Bea": "Quay Row"}
-      print(book.get("Tom", "No address"))
-      print(book.get("Bea", "No address"))
+      book = {"Riya": "Park Road"}
+      print(book.get("Yahya", "No address"))
+      print(book.get("Riya", "No address"))
     answer: |-
       No address
-      Quay Row
+      Park Road
   - type: choice
     prompt: What happens?
     code: |
-      book = {"Bea": "Quay Row"}
-      print(book["Tom"])
+      book = {"Riya": "Park Road"}
+      print(book["Yahya"])
     verify: error
     options:
       - text: It prints None
@@ -45,10 +45,10 @@ cards:
     prompt: What does this print?
     code: |
       counts = {}
-      counts.get("cod", 0)
+      counts.get("tea", 0)
       print(counts)
     options:
-      - text: "{'cod': 0}"
+      - text: "{'tea': 0}"
         misconception: get-adds-key
         feedback: "`.get()` only looks. It hands back 0 without storing anything."
       - text: "{}"
@@ -56,39 +56,39 @@ cards:
   - type: fix
     prompt: "Typing a name that isn't in the book should print `Unknown`, not crash. Fix line 3."
     code: |
-      book = {"Bea": "Quay Row", "Tom": "Point Road"}
+      book = {"Riya": "Park Road", "Yahya": "Hill Street"}
       name = input("Name? ")
       print(book[name])
     tests: |
       TESTS = [
-          output("Not in the book", inputs=["Gwen"], expect="Unknown"),
-          output("In the book", inputs=["Tom"], expect="Point Road"),
+          output("Not in the book", inputs=["Caitlin"], expect="Unknown"),
+          output("In the book", inputs=["Yahya"], expect="Hill Street"),
       ]
     solution: |
-      book = {"Bea": "Quay Row", "Tom": "Point Road"}
+      book = {"Riya": "Park Road", "Yahya": "Hill Street"}
       name = input("Name? ")
       print(book.get(name, "Unknown"))
   - type: fill
-    prompt: "Fill the gap so this counts the fish: `{'cod': 2, 'eel': 1}`."
+    prompt: "Fill the gap so this counts the orders: `{'tea': 2, 'cake': 1}`."
     code: |
       counts = {}
-      for fish in ["cod", "eel", "cod"]:
-          counts[fish] = counts.get(fish, ___) + 1
+      for order in ["tea", "cake", "tea"]:
+          counts[order] = counts.get(order, ___) + 1
       print(counts)
     blanks: [["0"]]
     tests: |
-      TESTS = [output("Counted", expect="{'cod': 2, 'eel': 1}")]
+      TESTS = [output("Counted", expect="{'tea': 2, 'cake': 1}")]
   - type: write
-    prompt: "Ask `Item? ` and print how many of it Bea has in `stock`, or `0` if it isn't listed. Use `.get()`."
+    prompt: "Ask `Item? ` and print how many of it the Makerspace has in `stock`, or `0` if it isn't listed. Use `.get()`."
     starter: |
-      stock = {"flour": 3, "yeast": 2}
+      stock = {"batteries": 3, "cables": 2}
     tests: |
       TESTS = [
-          output("Treacle isn't listed", inputs=["treacle"], expect="0"),
-          output("Flour is", inputs=["flour"], expect="3"),
-          output("Yeast is", inputs=["yeast"], expect="2"),
+          output("Glue isn't listed", inputs=["glue"], expect="0"),
+          output("Batteries are", inputs=["batteries"], expect="3"),
+          output("Cables are", inputs=["cables"], expect="2"),
       ]
     solution: |
-      stock = {"flour": 3, "yeast": 2}
+      stock = {"batteries": 3, "cables": 2}
       item = input("Item? ")
       print(stock.get(item, 0))

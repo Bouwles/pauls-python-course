@@ -1,12 +1,12 @@
 id: indexing
 title: Indexes start at 0
 summary: |
-  Each item in a list has an index: how many steps it is from the start. The first item is at index 0, so in a list of four the last is at index 3. `parcels[1]` gives the second item, and `parcels[1] = "Moss"` replaces it. An index past the end is an IndexError.
+  Each item in a list has an index: how many steps it is from the start. The first item is at index 0, so in a list of four the last is at index 3. `guests[1]` gives the second item, and `guests[1] = "Paul"` replaces it. An index past the end is an IndexError.
 example: |
-  parcels = ["Bea", "Tom", "Agnes"]
-  print(parcels[0])
-  parcels[1] = "Moss"
-  print(parcels)
+  guests = ["Riya", "Yahya", "Aaesha"]
+  print(guests[0])
+  guests[1] = "Paul"
+  print(guests)
 misconceptions: [index-from-one, index-gives-list, index-past-end-gives-nothing]
 related: [lists, negative-indices]
 drill: true
@@ -14,61 +14,61 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      holes = ["Bea", "Tom", "Agnes"]
-      print(holes[0])
-    answer: "Bea"
+      seats = ["Riya", "Yahya", "Aaesha"]
+      print(seats[0])
+    answer: "Riya"
   - type: predict
     prompt: What does this print?
     code: |
-      parcels = ["Bea", "Tom", "Agnes"]
-      parcels[1] = "Moss"
-      print(parcels)
-    answer: "['Bea', 'Moss', 'Agnes']"
+      guests = ["Riya", "Yahya", "Aaesha"]
+      guests[1] = "Paul"
+      print(guests)
+    answer: "['Riya', 'Paul', 'Aaesha']"
   - type: choice
     prompt: What happens?
     code: |
-      holes = ["Bea", "Tom", "Agnes"]
-      print(holes[3])
+      seats = ["Riya", "Yahya", "Aaesha"]
+      print(seats[3])
     verify: error
     options:
       - text: An IndexError
         correct: true
         error: IndexError
         feedback: "Three items have indexes 0, 1 and 2. There is no index 3."
-      - text: It prints Agnes
+      - text: It prints Aaesha
         misconception: index-from-one
-        feedback: "Agnes is the third item, but indexes start at 0, so she is at index 2."
+        feedback: "Aaesha is the third item, but indexes start at 0, so she is at index 2."
       - text: It prints None
         misconception: index-past-end-gives-nothing
         feedback: "Asking for an index that isn't there is an error, not an empty answer."
   - type: fix
-    prompt: "This should print `Agnes`, the third parcel. Fix the index."
+    prompt: "This should print `Aaesha`, the third guest. Fix the index."
     code: |
-      parcels = ["Bea", "Tom", "Agnes", "Gwen"]
-      print(parcels[3])
+      guests = ["Riya", "Yahya", "Aaesha", "Caitlin"]
+      print(guests[3])
     tests: |
-      TESTS = [output("Agnes", expect="Agnes")]
+      TESTS = [output("Aaesha", expect="Aaesha")]
     solution: |
-      parcels = ["Bea", "Tom", "Agnes", "Gwen"]
-      print(parcels[2])
+      guests = ["Riya", "Yahya", "Aaesha", "Caitlin"]
+      print(guests[2])
   - type: fill
-    prompt: "Fill the gap so this prints `Tom`."
+    prompt: "Fill the gap so this prints `Yahya`."
     code: |
-      parcels = ["Bea", "Tom", "Agnes"]
-      print(parcels[___])
+      guests = ["Riya", "Yahya", "Aaesha"]
+      print(guests[___])
     blanks: [["1"]]
     tests: |
-      TESTS = [output("Tom", expect="Tom")]
+      TESTS = [output("Yahya", expect="Yahya")]
   - type: write
-    prompt: "Print the first parcel and then the fourth, on separate lines, using indexes."
+    prompt: "Print the first guest and then the fourth, on separate lines, using indexes."
     starter: |
-      parcels = ["Bea", "Tom", "Agnes", "Gwen", "Moss"]
+      guests = ["Riya", "Yahya", "Aaesha", "Caitlin", "Paul"]
     tests: |
       TESTS = [
-          output("First and fourth", expect="Bea\nGwen"),
-          structure("Uses indexes", requires=["Subscript"], message="Pick the parcels out of the list with square brackets."),
+          output("First and fourth", expect="Riya\nCaitlin"),
+          structure("Uses indexes", requires=["Subscript"], message="Pick the guests out of the list with square brackets."),
       ]
     solution: |
-      parcels = ["Bea", "Tom", "Agnes", "Gwen", "Moss"]
-      print(parcels[0])
-      print(parcels[3])
+      guests = ["Riya", "Yahya", "Aaesha", "Caitlin", "Paul"]
+      print(guests[0])
+      print(guests[3])

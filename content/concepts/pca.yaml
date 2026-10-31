@@ -27,7 +27,7 @@ cards:
       print(round(values.max() / values.sum(), 3))
     answer: "1.0"
   - type: choice
-    prompt: "Pip squashes 3 readings onto 1 component, then rebuilds all 3. What does this print?"
+    prompt: "Yahya squashes 3 readings onto 1 component, then rebuilds all 3. What does this print?"
     code: |
       import numpy as np
 
@@ -46,7 +46,7 @@ cards:
         misconception: rebuild-is-exact
         feedback: "Squashing throws away everything along the components you didn't keep. Rebuilt from all of them, the readings come back exactly; from fewer, only approximately."
   - type: choice
-    prompt: "Pip runs PCA on star magnitudes, all around 11, without taking off the means. The first component explains 99.8%. What has he found?"
+    prompt: "Riya runs PCA on star magnitudes, all around 11, without taking off the means. The first component explains 99.8%. What has she found?"
     verify: none
     options:
       - text: "The direction from nothing to the average star. Centre first, and the shares change completely"
@@ -56,7 +56,7 @@ cards:
         misconception: pca-without-centring
         feedback: "PCA is about spread around the middle. Skip the centring and the biggest thing in the sums is how far every star is from zero, which is the same for them all. Take each column's mean off first."
   - type: choice
-    prompt: "PCA on Mr Okonjo's five measurements gives a first component of `[0.59, 0.63, 0.44, 0.18, 0.17]`. What is it?"
+    prompt: "PCA on five body measurements gives a first component of `[0.59, 0.63, 0.44, 0.18, 0.17]`. What is it?"
     verify: none
     options:
       - text: "A new direction mixing all five: overall size, mostly chest and waist"

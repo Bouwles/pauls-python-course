@@ -2,63 +2,71 @@
   display: grid;
   gap: var(--s-3);
   justify-items: start;
-  margin-top: var(--s-5);
-  padding-top: var(--s-4);
-  border-top: var(--hairline);
 }
 
 .prompt {
-  font-family: var(--font-prose);
-  font-size: var(--prose-size);
-  font-weight: 600;
-  line-height: var(--lh-prose);
+  font-size: var(--fs-3);
+  font-weight: 700;
+  line-height: var(--lh-text);
 }
 
-.prompt code {
-  font-size: 0.85em;
-  background: var(--paper-sunk);
-  padding: 0 0.25em;
+.prompt code,
+.answerText code {
+  font-size: 0.88em;
+  background: var(--surface-3);
+  border-radius: var(--r-sm);
+  padding: 1px 5px;
 }
 
 .input {
   width: 100%;
-  border: 2px solid var(--control-border);
-  background: var(--paper-raised);
-  padding: var(--s-2) var(--s-3);
-  font-family: var(--font-prose);
-  font-size: var(--prose-size);
+  font-size: var(--fs-2);
   line-height: 1.5;
   resize: vertical;
 }
 
 .answer {
-  width: 100%;
   display: grid;
-  gap: var(--s-2);
-  padding: var(--s-3);
-  background: var(--paper-sunk);
-  border-left: 2px solid var(--accent);
+  gap: var(--s-3);
+  width: 100%;
+  padding: var(--s-4) var(--s-5);
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+}
+
+:root[data-theme="light"] .answer {
+  background: var(--bg);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .answer {
+    background: var(--bg);
+  }
 }
 
 .answerText {
-  font-family: var(--font-prose);
-  font-size: var(--prose-size);
-  line-height: var(--lh-prose);
+  font-size: var(--fs-3);
+  line-height: var(--lh-text);
 }
 
 .rating {
-  border: none;
-  padding: 0;
-  margin: var(--s-2) 0 0;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 
 .rating legend {
-  font-size: var(--step--1);
-  color: var(--ink-2);
+  padding: 0;
   margin-bottom: var(--s-2);
-  float: left;
-  width: 100%;
+  font-size: var(--fs-1);
+  font-weight: 700;
+  color: var(--text-2);
+}
+
+.ratingButtons {
+  display: flex;
+  gap: var(--s-2);
+  flex-wrap: wrap;
 }

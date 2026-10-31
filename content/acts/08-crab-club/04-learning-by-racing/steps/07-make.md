@@ -1,11 +1,11 @@
 ---
 id: make
 type: make
-title: Make him learn by racing
+title: Make it learn by racing
 files: [track.py, dp.py, learn.py]
 entry: learn.py
 timeout_ms: 30000
-on_pass: { committee: "The races agree with the paper. We had hoped one of them would be wrong, for the newsletter." }
+on_pass: { yahya: "The races agree with the map. I was hoping one of them would be wrong." }
 hints:
   nudge: "Monte Carlo and TD both start every tile at 0.0 and change it from races. What does each one move a tile towards, and when?"
   plan:
@@ -13,7 +13,7 @@ hints:
     - "returns_from: walk back from the end, total = reward + gamma * total"
     - "mc_evaluate: race from random_start, then every visit is one more sample for the running average"
     - "td_update: the target is the reward, plus gamma times the next tile's worth unless the race is over"
-    - "td_evaluate: after every step, td_update the tile he left, then move him on"
+    - "td_evaluate: after every step, td_update the tile it left, then move it on"
     - Print the map's values, then each learner's values and how far they are from the map
   shape: |
     def mc_evaluate(policy, races, rng, gamma=0.9):
@@ -34,8 +34,8 @@ hints:
         values[tile] += ___
         return error
 ---
-Write `learn.py`. `track.py` is Moss's grid, now with `step`, `random_start` and `RACING`; `dp.py` is your work from last week.
+Write `learn.py`. `track.py` is Paul's grid, now with `step`, `random_start` and `RACING`; `dp.py` is your work from last week.
 
-Each value is a sum of chances, so the learned figures will be close to the map's, never equal. The checks race thousands of times with a seeded `rng` and allow for that. They also race on a copy of the grid where he never slips, where both methods must hit the map's values exactly.
+Each value is a sum of chances, so the learned figures will be close to the map's, never equal. The checks race thousands of times with a seeded `rng` and allow for that. They also race on a copy of the grid where the crab never slips, where both methods must hit the map's values exactly.
 
 To watch the values fill in, add `draw(values, policy, title=f"race {race}")` every hundred races inside `mc_evaluate` and `td_evaluate`, and press Run. The checks ignore drawings.

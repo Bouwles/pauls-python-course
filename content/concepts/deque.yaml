@@ -5,11 +5,11 @@ summary: |
 example: |
   from collections import deque
 
-  gate = deque(["flatbed", "tipper"])
-  gate.append("council van")
-  print(gate.popleft())
-  gate.appendleft("crane lorry")
-  print(list(gate))
+  counter = deque(["latte", "tea"])
+  counter.append("hot chocolate")
+  print(counter.popleft())
+  counter.appendleft("espresso")
+  print(list(counter))
 misconceptions: [appendleft-joins-back, maxlen-refuses-extra, popleft-empty-gives-none]
 related: [queues, stacks, imports]
 cards:
@@ -45,15 +45,15 @@ cards:
     code: |
       from collections import deque
 
-      gate = deque(["van"])
-      gate.popleft()
-      print(gate.popleft())
+      counter = deque(["mocha"])
+      counter.popleft()
+      print(counter.popleft())
     verify: error
     options:
       - text: An IndexError
         correct: true
         error: IndexError
-        feedback: "The queue is empty after the first `popleft`. Taking from an empty deque raises IndexError: check with `if gate:` first."
+        feedback: "The queue is empty after the first `popleft`. Taking from an empty deque raises IndexError: check with `if counter:` first."
       - text: It prints None
         misconception: popleft-empty-gives-none
         feedback: "`popleft` has nothing to hand back, so it raises IndexError rather than giving `None`."
@@ -62,44 +62,44 @@ cards:
     code: |
       from collections import deque
 
-      gate = deque(["tipper", "van"])
-      gate.appendleft("ambulance")
-      print(gate[0])
+      counter = deque(["tea", "mocha"])
+      counter.appendleft("rush order")
+      print(counter[0])
     options:
-      - text: ambulance
+      - text: rush order
         correct: true
         feedback: "`appendleft` puts it at the left, which is position 0, the front of the queue."
-      - text: tipper
+      - text: tea
         misconception: appendleft-joins-back
-        feedback: "`appendleft` adds at the left end, so the ambulance goes in front of the tipper."
+        feedback: "`appendleft` adds at the left end, so the rush order goes in front of the tea."
   - type: fill
     prompt: "Fill the gap to bring in the deque."
     code: |
       from collections import ___
 
-      gate = deque(["flatbed", "tipper"])
-      print(gate.popleft())
+      counter = deque(["latte", "tea"])
+      print(counter.popleft())
     blanks: [["deque"]]
     tests: |
-      TESTS = [output("The flatbed", expect="flatbed")]
+      TESTS = [output("The latte", expect="latte")]
   - type: write
-    prompt: "Write `last_lorries(lorries, count)`, which returns a list of the last `count` lorries through the gate, oldest first. Use `deque(maxlen=count)`."
+    prompt: "Write `latest_orders(orders, count)`, which returns a list of the last `count` orders at the counter, oldest first. Use `deque(maxlen=count)`."
     starter: |
-      def last_lorries(lorries, count):
+      def latest_orders(orders, count):
           pass
     tests: |
       TESTS = [
-          function("The last three", call="last_lorries", args=(["a", "b", "c", "d", "e"], 3), expect=["c", "d", "e"]),
-          function("Fewer than asked", call="last_lorries", args=(["a"], 3), expect=["a"]),
-          function("None through", call="last_lorries", args=([], 2), expect=[]),
+          function("The last three", call="latest_orders", args=(["a", "b", "c", "d", "e"], 3), expect=["c", "d", "e"]),
+          function("Fewer than asked", call="latest_orders", args=(["a"], 3), expect=["a"]),
+          function("None through", call="latest_orders", args=([], 2), expect=[]),
           structure("Uses a deque", calls=["deque"], message="Keep them in a deque with maxlen."),
       ]
     solution: |
       from collections import deque
 
 
-      def last_lorries(lorries, count):
+      def latest_orders(orders, count):
           latest = deque(maxlen=count)
-          for lorry in lorries:
-              latest.append(lorry)
+          for order in orders:
+              latest.append(order)
           return list(latest)

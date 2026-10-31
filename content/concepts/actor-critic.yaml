@@ -13,7 +13,7 @@ misconceptions: [advantage-is-reward, negative-reward-means-worse, critic-choose
 related: [policy-gradients, td-learning, dqn]
 cards:
   - type: predict
-    prompt: "The critic rates the tile he left at 5.0 and the tile he reached at 3.0. What is its verdict?"
+    prompt: "The critic rates the tile the crab left at 5.0 and the tile it reached at 3.0. What is its verdict?"
     code: |
       gamma = 0.5
       values = {"left": 5.0, "reached": 3.0}
@@ -21,7 +21,7 @@ cards:
       print(reward + gamma * values["reached"] - values["left"])
     answer: "-4.5"
   - type: choice
-    prompt: "In actor-critic, who chooses Sir Reginald's moves?"
+    prompt: "In actor-critic, who chooses the crab's moves?"
     verify: none
     options:
       - text: The actor, from its softmax chances
@@ -31,7 +31,7 @@ cards:
         misconception: critic-chooses-moves
         feedback: "The critic values tiles, not moves, and it has no map to know where a move leads. It judges; the actor acts."
   - type: choice
-    prompt: "A move cost -1 and took him from a tile the critic rates at 2.0 to one it rates at 4.0, with gamma 0.9. What does the actor do?"
+    prompt: "A move cost -1 and took the crab from a tile the critic rates at 2.0 to one it rates at 4.0, with gamma 0.9. What does the actor do?"
     verify: none
     options:
       - text: Makes the move likelier, because the verdict is +0.6
@@ -42,9 +42,9 @@ cards:
         feedback: "Every move costs a point. The actor is judged against the critic's expectation, and this move beat it."
       - text: "Makes the move less likely, by the reward: -1"
         misconception: advantage-is-reward
-        feedback: "The verdict is the TD error, which adds the discounted value of where he landed and takes away the value of where he was."
+        feedback: "The verdict is the TD error, which adds the discounted value of where the crab landed and takes away the value of where it was."
   - type: predict
-    prompt: "PPO's objective for a good move his new policy makes 1.5 times as likely. What does this print?"
+    prompt: "PPO's objective for a good move the crab's new policy makes 1.5 times as likely. What does this print?"
     code: |
       import numpy as np
 

@@ -1,4 +1,4 @@
-"""Reading and writing Sanjay's money file. The rules live in money.py.
+"""Reading and writing the money file. The rules live in money.py.
 
 The file is JSON, like this:
 

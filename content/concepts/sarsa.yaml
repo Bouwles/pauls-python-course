@@ -35,7 +35,7 @@ cards:
     options:
       - text: "0.0 6.0"
         correct: true
-        feedback: "SARSA uses the move he's about to make, worth 1.0. Q-learning uses the best, 7.0."
+        feedback: "SARSA uses the move it's about to make, worth 1.0. Q-learning uses the best, 7.0."
       - text: "6.0 6.0"
         misconception: sarsa-uses-max
         feedback: "SARSA doesn't assume the best next move. It uses the one actually chosen, exploring or not."
@@ -43,7 +43,7 @@ cards:
         misconception: q-learning-on-policy
         feedback: "That's the two swapped. Q-learning takes the best next move; SARSA the chosen one."
   - type: choice
-    prompt: "Both learners explore one move in ten on the harbour wall, with a long drop on one side. Whose learned route keeps away from the edge?"
+    prompt: "Both learners explore one move in ten on a cliff path, with a long drop on one side. Whose learned route keeps away from the edge?"
     verify: none
     options:
       - text: SARSA's
@@ -54,19 +54,19 @@ cards:
         feedback: "Q-learning's target always assumes the best move next, so it never counts the cost of exploring. It learns the edge route, and falls in while it practises."
       - text: Both the same
         misconception: sarsa-uses-max
-        feedback: "They'd be the same only if SARSA's target took the best move too. It takes the move he'll actually make."
+        feedback: "They'd be the same only if SARSA's target took the best move too. It takes the move it'll actually make."
   - type: choice
     prompt: "SARSA keeps learning while epsilon is lowered slowly towards 0. What happens to its values?"
     verify: none
     options:
       - text: They come to match Q-learning's
         correct: true
-        feedback: "With no exploring, the move he'll actually make is the best one, so the two targets become the same."
+        feedback: "With no exploring, the move it'll actually make is the best one, so the two targets become the same."
       - text: Nothing changes; SARSA was learning the best policy's values all along
         misconception: sarsa-learns-best-policy
         feedback: "SARSA learns the values of the policy it follows, exploration included. Only when that policy stops exploring are those the best policy's values."
   - type: fix
-    prompt: "This is meant to be SARSA but it's Q-learning. Make the target use the next action he chose. It should return the new Q-value."
+    prompt: "This is meant to be SARSA but it's Q-learning. Make the target use the next action it chose. It should return the new Q-value."
     code: |
       def sarsa_update(Q, tile, action, reward, after, next_action, over, alpha=0.1, gamma=1.0):
           target = reward + (0 if over else gamma * max(Q[after]))
@@ -87,7 +87,7 @@ cards:
           Q[tile][action] += alpha * (target - Q[tile][action])
           return Q[tile][action]
   - type: fill
-    prompt: "Fill the gap: SARSA looks ahead to the move he will actually make."
+    prompt: "Fill the gap: SARSA looks ahead to the move it will actually make."
     code: |
       Q_after = [-2.0, -6.0, -3.0, -5.0]
       next_action = 1

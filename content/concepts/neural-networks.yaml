@@ -83,7 +83,7 @@ cards:
     tests: |
       TESTS = [output("Three evenings, three neurons", expect="1 0 0.5 1.5 0.5 0 2 1.5 0", match="numbers")]
   - type: fix
-    prompt: "Penhallow wrote this `W1` with one row per hidden neuron. Fix the multiplication so each evening gets two hidden values."
+    prompt: "Neil wrote this `W1` with one row per hidden neuron. Fix the multiplication so each evening gets two hidden values."
     code: |
       import numpy as np
 

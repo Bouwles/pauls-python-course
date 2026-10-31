@@ -3,7 +3,7 @@ title: and, or, not
 summary: |
   `and` is `True` only when both sides are. `or` is `True` when at least one side is, including when both are. `not` turns `True` into `False` and back. Each side has to be a whole comparison: `hour < 7 or hour >= 19`, never `hour < 7 or >= 19`.
 example: |
-  password = "harbour1987"
+  password = "clocktower1987"
   has_capital = password != password.lower()
   has_lower = password != password.upper()
   print(has_capital and has_lower)
@@ -23,12 +23,12 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      fog = True
-      if not fog:
-          print("Sail")
+      raining = True
+      if not raining:
+          print("Walk")
       else:
-          print("Sound the horn")
-    answer: "Sound the horn"
+          print("Take the bus")
+    answer: "Take the bus"
   - type: choice
     prompt: What does this print?
     code: |
@@ -77,7 +77,7 @@ cards:
       else:
           print("Day fare")
   - type: fill
-    prompt: "Under fives sail free, but only with an adult. Fill the gap so both must be true."
+    prompt: "Under fives ride free, but only with an adult. Fill the gap so both must be true."
     code: |
       age = 3
       with_adult = True
@@ -93,21 +93,21 @@ cards:
           output("7, with an adult", set_vars={"age": 7}, expect="Ticket, please"),
       ]
   - type: write
-    prompt: "Print `Sail` if `wind` is under 30 and `tide` is at least 2. Otherwise print `Stay in`."
+    prompt: "Print `Run` if `wind` is under 30 and `temp` is at least 2. Otherwise print `Stay in`."
     starter: |
       wind = 12
-      tide = 2.5
+      temp = 2.5
     tests: |
       TESTS = [
-          output("Light wind, good tide", expect="Sail"),
+          output("Light wind, mild", expect="Run"),
           output("Gale", set_vars={"wind": 35}, expect="Stay in"),
-          output("Low tide", set_vars={"tide": 1.5}, expect="Stay in"),
-          output("Right on the limits", set_vars={"wind": 29, "tide": 2}, expect="Sail"),
+          output("Frosty", set_vars={"temp": 1.5}, expect="Stay in"),
+          output("Right on the limits", set_vars={"wind": 29, "temp": 2}, expect="Run"),
       ]
     solution: |
       wind = 12
-      tide = 2.5
-      if wind < 30 and tide >= 2:
-          print("Sail")
+      temp = 2.5
+      if wind < 30 and temp >= 2:
+          print("Run")
       else:
           print("Stay in")

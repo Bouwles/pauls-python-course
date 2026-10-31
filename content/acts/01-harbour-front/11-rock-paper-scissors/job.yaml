@@ -6,7 +6,7 @@ portfolio_readme: |
 
   Rock paper scissors against the computer, first to three wins. The computer picks its hand at random every round, the rules live in a dictionary, and the score is kept in another one.
 
-  Written by {name} in {{town}}. Finished {date}.
+  Written by {name} for Caitlin and Yahya, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -29,17 +29,17 @@ portfolio_readme: |
   - A small function, `winner(player, machine)`, that returns the result instead of printing it, so it can be tested on its own.
 downloadable: true
 datasets: []
-client: gwen
+client: caitlin
 building: pub
 estimated_minutes: 50
 summary: "Rock paper scissors against the computer, first to three: functions, random choices and a score dictionary in one whole game."
 concepts_reviewed: [functions, parameters, return-values, random-module, imports, dictionaries, while-loops, break-continue, boolean-operators, string-methods, in-operator, f-strings]
 ask:
   dialogue:
-    - gwen: "Whoever loses at rock paper scissors washes the glasses. House rule."
-    - gwen: "Pip has won twenty-two nights running. He says it's skill. I say he reads faces."
-    - gwen: "So he can play a machine. A machine hasn't got a face."
-    - moss: "Then it'll need to choose without thinking. Python's good at that."
+    - caitlin: "Yahya and I play rock paper scissors for who does the coffee run. I've won nine days in a row."
+    - yahya: "Because she reads faces. It's not skill. Against a machine, it's pure chance."
+    - caitlin: "Fine. Build us a machine. A machine hasn't got a face."
+    - paul: "Then it'll need to choose without thinking. Python's good at that."
   spec: |
     A game against the machine, first to three wins.
 
@@ -48,7 +48,7 @@ ask:
     3. Otherwise the machine picks its hand with `random.choice`, fresh every round, and prints it with the result on the same line: `I chose scissors. You win.`, `I win.` or `A draw.` Rock beats scissors, scissors beat paper, paper beats rock.
     4. Write `winner(player, machine)`: it returns `"you"`, `"me"` or `"draw"`. Keep the score in a dictionary with those three as its keys.
     5. The game ends as soon as either side has three wins. Draws don't count towards three.
-    6. At the end, print the score, `You 3, me 1, draws 2.`, then `You're off the glasses.` if you got to three, or `You're on the glasses.` if the machine did. Quitting early prints only the score.
+    6. At the end, print the score, `You 3, me 1, draws 2.`, then `You're off the coffee run.` if you got to three, or `You're on the coffee run.` if the machine did. Quitting early prints only the score.
   example: |
     Rock, paper or scissors? rock
     I chose scissors. You win.
@@ -62,18 +62,18 @@ ask:
     You 1, me 1, draws 1.
 ship:
   dialogue:
-    - gwen: "Pip played it after closing. Lost three games to one. He's on the glasses."
-    - pip: "It was best of five. I'm nearly sure we said best of five."
-  shelf: { object: beer-mat, label: "Gwen's rock paper scissors machine" }
+    - caitlin: "Played it twice. Won once, lost once. I'm calling that skill."
+    - yahya: "That's exactly what chance looks like. Best of five?"
+  shelf: { object: beer-mat, label: "Rock paper scissors, to settle it" }
   cards: []
 stretch:
   - id: first-to
     title: "Best of five, then"
     prompt: |
-      Pip wants a rematch on his own terms. Before the first round, ask `First to? ` and play to that number of wins instead of three. Anything that isn't a whole number above 0 gets `A whole number, please.` and the question again.
+      Yahya wants a rematch on his own terms. Before the first round, ask `First to? ` and play to that number of wins instead of three. Anything that isn't a whole number above 0 gets `A whole number, please.` and the question again.
     tests: tests/stretch-first-to.py
     solution: solutions/stretch-first-to.py
   - id: favourite
-    title: "Pip's tell"
+    title: "A tell"
     prompt: |
-      Gwen is sure Pip always opens with rock. Count every hand the player chooses in a second dictionary, using `.get(hand, 0) + 1`, and at the end print `Your favourite: rock (3)`, the hand chosen most. A tie goes to whichever comes first in rock, paper, scissors. If no rounds were played, leave the line out.
+      Yahya is sure Caitlin always opens with rock. Caitlin says that's what she wants him to think. Count every hand the player chooses in a second dictionary, using `.get(hand, 0) + 1`, and at the end print `Your favourite: rock (3)`, the hand chosen most. A tie goes to whichever comes first in rock, paper, scissors. If no rounds were played, leave the line out.

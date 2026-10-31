@@ -1,15 +1,15 @@
 id: model-bias
 title: Model bias across groups
 summary: |
-  A model can be accurate overall and much worse for one group: usually a group it saw little of, or one whose pattern differs from everyone else's. One overall score hides it, because the bigger group's results swamp the smaller one's. So score each group on its own, with a mask like `groups == "island"`, and look hardest at the mistake that costs people something, counted among those it could happen to: of the visitors who came, how many would have lost their slot? Leaving the group out of the columns doesn't prevent bias. A model only knows its columns; what it was never shown, it can't allow for.
+  A model can be accurate overall and much worse for one group: usually a group it saw little of, or one whose pattern differs from everyone else's. One overall score hides it, because the bigger group's results swamp the smaller one's. So score each group on its own, with a mask like `groups == "village"`, and look hardest at the mistake that costs people something, counted among those it could happen to: of the visitors who came, how many would have lost their slot? Leaving the group out of the columns doesn't prevent bias. A model only knows its columns; what it was never shown, it can't allow for.
 example: |
   import numpy as np
 
-  groups = np.array(["town"] * 6 + ["island"] * 3)
+  groups = np.array(["city"] * 6 + ["village"] * 3)
   came = np.array([1, 1, 0, 1, 0, 1, 1, 1, 1])
   predicted = np.array([1, 1, 0, 1, 0, 1, 0, 0, 1])
   print("Everyone:", round(np.mean(predicted == came), 2))
-  for name in ["town", "island"]:
+  for name in ["city", "village"]:
       mine = groups == name
       print(name, round(np.mean(predicted[mine] == came[mine]), 2))
 misconceptions: [overall-accuracy-is-fair, bias-needs-group-feature, error-rate-over-everyone, more-data-overall-fixes-bias]
@@ -20,11 +20,11 @@ cards:
     code: |
       import numpy as np
 
-      groups = np.array(["town"] * 6 + ["island"] * 4)
+      groups = np.array(["city"] * 6 + ["village"] * 4)
       came = np.array([1, 1, 0, 1, 0, 1, 1, 1, 1, 1])
       predicted = np.array([1, 1, 0, 1, 0, 1, 0, 1, 0, 1])
-      island = groups == "island"
-      print(np.mean(predicted[island] == came[island]))
+      village = groups == "village"
+      print(np.mean(predicted[village] == came[village]))
     answer: "0.5"
   - type: choice
     prompt: "Of six visitors, four came. What does this print?"
@@ -42,68 +42,68 @@ cards:
         misconception: error-rate-over-everyone
         feedback: "That's the share of all six predicted not to come, including two who really didn't. The costly mistake can only happen to people who came, so count among them: two in four."
   - type: choice
-    prompt: "A model is right 85 times in 100. Ninety of the hundred are townsfolk and ten are islanders. Must it be about 85% right for the islanders?"
+    prompt: "A model is right 85 times in 100. Ninety of the hundred are city folk and ten are villagers. Must it be about 85% right for the villagers?"
     verify: none
     options:
-      - text: "No. It could be right for nearly every townsperson and wrong for most islanders, and still score 85"
+      - text: "No. It could be right for nearly every city dweller and wrong for most villagers, and still score 85"
         correct: true
-        feedback: "Right. Ninety townsfolk at 90% and ten islanders at 40% make 85 overall. Score each group on its own."
+        feedback: "Right. Ninety city folk at 90% and ten villagers at 40% make 85 overall. Score each group on its own."
       - text: "Yes. Overall accuracy is an average, so every group is near it"
         misconception: overall-accuracy-is-fair
         feedback: "It's an average weighted by how many people are in each group, so a small group can be badly served while the overall number barely moves."
   - type: choice
-    prompt: "Wendt's model never sees where anyone lives. Can it still be unfair to the islanders?"
+    prompt: "Riya's model never sees where anyone lives. Can it still be unfair to the villagers?"
     verify: none
     options:
-      - text: "Yes. If islanders differ in ways it learned from the townsfolk, like booking far ahead, its mistakes fall on them"
+      - text: "Yes. If villagers differ in ways it learned from the city folk, like booking far ahead, its mistakes fall on them"
         correct: true
-        feedback: "Right. It learned 'far ahead means forgetful' from the town, and islanders book far ahead for the ferry."
+        feedback: "Right. It learned 'far ahead means forgetful' from the city, and villagers book far ahead for the bus."
       - text: "No. It can't treat a group differently if the group isn't one of its columns"
         misconception: bias-needs-group-feature
-        feedback: "Other columns can stand in for the group. Islanders book a month ahead because of the ferry, so 'days ahead' carries where they live into the model whether you meant it to or not."
+        feedback: "Other columns can stand in for the group. Villagers book a month ahead because of the bus, so 'days ahead' carries where they live into the model whether you meant it to or not."
   - type: choice
-    prompt: "The model does badly for islanders, who are 13% of the bookings. Which would help most?"
+    prompt: "The model does badly for villagers, who are 13% of the bookings. Which would help most?"
     verify: none
     options:
-      - text: "More island bookings, and a column for what matters to them, like whether the ferry runs"
+      - text: "More village bookings, and a column for what matters to them, like whether the bus runs"
         correct: true
         feedback: "Right. The model needs to see the group, and whatever drives the group's choices."
       - text: "Another season of bookings, whoever made them"
         misconception: more-data-overall-fixes-bias
-        feedback: "Another season of mostly town bookings teaches it the town's pattern even better. It needs more rows like the islanders, and the information that explains them."
+        feedback: "Another season of mostly city bookings teaches it the city's pattern even better. It needs more rows like the villagers, and the information that explains them."
   - type: fill
-    prompt: "Fill the gap to score the island visitors on their own."
+    prompt: "Fill the gap to score the village visitors on their own."
     code: |
       import numpy as np
 
-      groups = np.array(["town"] * 5 + ["island"] * 3)
+      groups = np.array(["city"] * 5 + ["village"] * 3)
       came = np.array([1, 0, 1, 1, 0, 1, 1, 0])
       predicted = np.array([1, 0, 1, 1, 0, 0, 1, 0])
       mine = groups == ___
       print(np.mean(predicted[mine] == came[mine]))
-    blanks: [['"island"', "'island'"]]
+    blanks: [['"village"', "'village'"]]
     tests: |
-      TESTS = [output("Two of three islanders right", expect="0.6666666666666666")]
+      TESTS = [output("Two of three villagers right", expect="0.6666666666666666")]
   - type: fix
-    prompt: "`given_away` should be the share of island visitors who came but were predicted not to. Fix it so it counts among the right people."
+    prompt: "`given_away` should be the share of village visitors who came but were predicted not to. Fix it so it counts among the right people."
     code: |
       import numpy as np
 
-      groups = np.array(["town"] * 5 + ["island"] * 3)
+      groups = np.array(["city"] * 5 + ["village"] * 3)
       came = np.array([1, 0, 1, 1, 0, 1, 1, 0])
       predicted = np.array([1, 0, 1, 1, 0, 0, 1, 0])
-      mine = groups == "island"
+      mine = groups == "village"
       given_away = np.mean(predicted[mine] == 0)
       print(given_away)
     tests: |
-      TESTS = [output("One of the two islanders who came", expect="0.5")]
+      TESTS = [output("One of the two villagers who came", expect="0.5")]
     solution: |
       import numpy as np
 
-      groups = np.array(["town"] * 5 + ["island"] * 3)
+      groups = np.array(["city"] * 5 + ["village"] * 3)
       came = np.array([1, 0, 1, 1, 0, 1, 1, 0])
       predicted = np.array([1, 0, 1, 1, 0, 0, 1, 0])
-      mine = groups == "island"
+      mine = groups == "village"
       given_away = np.mean(predicted[mine & (came == 1)] == 0)
       print(given_away)
   - type: write

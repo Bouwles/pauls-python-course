@@ -6,7 +6,7 @@ portfolio_readme: |
 
   Matches what was handed in against what people have asked about. Repeats are counted once, so an umbrella written down three times is one umbrella. It reports how many different things were handed in, which of them someone is looking for, which nobody has asked about, and what has been asked about but hasn't turned up.
 
-  Written by {name} for the lost property box at the town hall in {{town}}. Finished {date}.
+  Written by {name} for Neil, at Paul's Python Course, for the Clocktower's lost property box. Finished {date}.
 
   ## Run it
 
@@ -28,7 +28,7 @@ portfolio_readme: |
   - Why `in` on a set is fast, however much is in the box
 downloadable: true
 datasets: []
-client: vance
+client: neil
 building: town-hall
 estimated_minutes: 50
 summary: "Match what was handed in against what people have asked about, counting every umbrella once."
@@ -36,10 +36,10 @@ concepts_introduced: [sets, set-operations, membership-speed]
 concepts_reviewed: [lists, in-operator, split-join, sorted-vs-sort, functions, for-loops, tuples]
 ask:
   dialogue:
-    - vance: "The town hall has asked me to do the lost property. I can't think why."
-    - vance: "Every umbrella is written down twice. Some three times. One scarf, eleven times."
-    - vance: "I want each item once. And I want to know which ones people have asked about."
-    - moss: "Sets, then. They don't hold with duplicates either."
+    - neil: "The Clocktower's lost property box lives on my desk now. Next to the duck."
+    - neil: "Every umbrella is written down twice. Some three times. One scarf, eleven times."
+    - neil: "I want each item once. And I want to know which ones people have asked about."
+    - paul: "Sets, then. They don't hold with duplicates either."
   spec: |
     `found` lists everything handed in, repeats and all. `reported` lists what people have asked about.
 
@@ -58,9 +58,9 @@ ask:
     Still missing: green bicycle bell
 ship:
   dialogue:
-    - vance: "One red scarf. One. It was handed in eleven times, by the same man."
-    - vance: "And the library book is ours. Four years overdue. I'll be having a word."
-  shelf: { object: umbrella, label: "The lost property matcher" }
+    - neil: "One red scarf. One. It was handed in eleven times, by the same person."
+    - neil: "And the library book is Aaesha's. She'd made a list of everywhere it might be."
+  shelf: { object: umbrella, label: "Neil's lost property matcher" }
   cards: [sets, set-operations, membership-speed]
 stretch:
   - id: capitals
@@ -72,4 +72,4 @@ stretch:
   - id: last-year
     title: "Same as last year"
     prompt: |
-      Mrs Vance kept last year's list too. Print the items handed in both years, and the items that are new this year. `&` and `-` again, on two different sets.
+      Neil kept last year's list too. Print the items handed in both years, and the items that are new this year. `&` and `-` again, on two different sets.

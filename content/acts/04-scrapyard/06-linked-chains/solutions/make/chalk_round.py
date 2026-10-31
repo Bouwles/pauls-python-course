@@ -1,4 +1,4 @@
-"""The merchant's round, chalked crate to crate."""
+"""The clockmaker's round, chalked crate to crate."""
 
 
 class Crate:
@@ -10,7 +10,7 @@ class Crate:
 
 
 class Round:
-    """The merchant's round, as a chain of crates starting at head."""
+    """The clockmaker's round, as a chain of crates starting at head."""
 
     def __init__(self):
         self.head = None
@@ -76,14 +76,14 @@ class Round:
 
 
 if __name__ == "__main__":
-    merchant = Round()
+    lot = Round()
     for part in ["anchor", "bell", "chain", "drum"]:
-        merchant.append(part)
-    print("Round:", merchant.parts())
-    merchant.insert_after("bell", "gong")
-    print("After the bell, a gong:", merchant.parts())
-    merchant.remove("anchor")
-    print("The merchant took the anchor:", merchant.parts())
-    merchant.reverse()
-    print("From the far gate:", merchant.parts())
-    print(len(merchant), "crates")
+        lot.append(part)
+    print("Round:", lot.parts())
+    lot.insert_after("bell", "gong")
+    print("After the bell, a gong:", lot.parts())
+    lot.remove("anchor")
+    print("Paul took the anchor:", lot.parts())
+    lot.reverse()
+    print("From the far end:", lot.parts())
+    print(len(lot), "crates")

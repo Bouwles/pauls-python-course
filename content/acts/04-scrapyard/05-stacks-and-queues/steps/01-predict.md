@@ -4,7 +4,7 @@ type: predict
 title: The top of the pile
 concept: stacks
 dialogue:
-  - nell: "Last crate on the pile is the first one off. Nobody digs from the bottom."
+  - paul: "Last crate on the pile is the first one off. Nobody digs from the bottom."
 code: |
   crates = []
   crates.append("hubcaps")

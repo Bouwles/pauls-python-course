@@ -4,22 +4,22 @@ type: investigate
 title: Who does the work, and when
 concept: lazy-evaluation
 code: |
-  def above_the_bar(depths):
-      for depth in depths:
-          print("reading", depth)
-          yield depth - 50
+  def corrected(raw):
+      for value in raw:
+          print("reading", value)
+          yield value - 50
 
 
-  readings = above_the_bar([210, 340, 400])
+  readings = corrected([210, 340, 400])
   print("ready")
-  for centimetres in readings:
-      print(centimetres)
+  for level in readings:
+      print(level)
 tasks:
   - id: after-ready
     prompt: "Run it. What is printed on the line straight after `ready`?"
     kind: answer
     accept: ["reading 210"]
-    feedback: "Nothing in `above_the_bar` ran when it was called on line 7. It started when the `for` loop asked for the first value."
+    feedback: "Nothing in `corrected` ran when it was called on line 7. It started when the `for` loop asked for the first value."
     wrong: "Copy the line under `ready` exactly as it appears."
   - id: how-many
     prompt: "How many `reading` lines appear before `160`?"
@@ -38,21 +38,21 @@ tasks:
     tests: |
       TESTS = [
           output("The last line is the total", expect="800", match="last_line",
-                 hint="The loop used the generator up. Call above_the_bar() again for the sum, or keep the values in a list."),
+                 hint="The loop used the generator up. Call corrected() again for the sum, or keep the values in a list."),
       ]
     solution: |
-      def above_the_bar(depths):
-          for depth in depths:
-              print("reading", depth)
-              yield depth - 50
+      def corrected(raw):
+          for value in raw:
+              print("reading", value)
+              yield value - 50
 
 
-      readings = list(above_the_bar([210, 340, 400]))
+      readings = list(corrected([210, 340, 400]))
       print("ready")
-      for centimetres in readings:
-          print(centimetres)
+      for level in readings:
+          print(level)
       print(sum(readings))
 ---
-The tide gauge measures from the sea bed, and Agnes wants the water above the harbour bar, which is 50 centimetres up. The `print` inside the generator shows the exact moment each value is worked out.
+Neil's new light sensor reads 50 too high, so every reading needs 50 taking off. The `print` inside the generator shows the exact moment each value is worked out.
 
 This is **lazy evaluation**: nothing is worked out until something asks for it.

@@ -1,4 +1,4 @@
-# Pip's squasher. Six kinds of goods in, the shares of the variance out.
+# Caitlin's squasher. Six kinds of goods in, the shares of the variance out.
 import numpy as np
 import pandas as pd
 

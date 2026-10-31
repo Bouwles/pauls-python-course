@@ -1,4 +1,4 @@
-"""Wendt's drawing helper: a Value's graph on the map. For looking at; the checks never use it."""
+"""A drawing helper: a Value's graph, every value with its gradient. For looking at; the checks never use it."""
 
 from workshop import show_graph
 

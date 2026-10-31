@@ -1,5 +1,5 @@
 # Misconceptions for Act VI, Jobs 4 to 8: The Tiny Engine, Training Properly,
-# Penhallow's Handwriting, Hello, PyTorch and Seeing.
+# the Handwritten Digit Recogniser, Hello, PyTorch and Seeing.
 
 # -- The Tiny Engine -------------------------------------------------------------
 grad-counted-once-when-reused:
@@ -47,7 +47,7 @@ zero-start-is-neutral:
   concept: weight-initialisation
   description: Thinks starting every weight at 0 is a neutral, safe choice for a network with hidden layers.
 
-# -- Penhallow's Handwriting ---------------------------------------------------------
+# -- Handwritten Digit Recogniser ----------------------------------------------------
 softmax-safe-for-big-scores:
   concept: classification-networks
   description: Thinks exponentiating big scores straight away is safe, when np.exp overflows to infinity and the chances come out as nan.

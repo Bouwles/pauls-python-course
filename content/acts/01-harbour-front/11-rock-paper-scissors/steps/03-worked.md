@@ -1,11 +1,11 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "Agnes settles berth arguments with a coin. Same shape of game, fewer hands."
+  - paul: "Neil and I settle tabs against spaces with a coin. Same shape of game, fewer hands."
 code: |
-  # Heads or tails against the machine, for Agnes's berth arguments
+  # Heads or tails against the machine, for tabs against spaces
   import random
 
   SIDES = ["heads", "tails"]

@@ -1,0 +1,78 @@
+id: neil
+name: Neil
+role: The teaching assistant. Hints, errors and debugging, from the Studio on the first floor.
+colour: "#1FB5A8"
+floor: 2
+look: Short black hair swept up at the front, thick dark eyebrows, clean-shaven, wide friendly smile. Clear rectangular glasses. A white collared shirt, sleeves rolled up.
+voice: Energetic and approachable. Explains it a second way when the first didn't land. Loves a bug hunt.
+pools:
+  # Reactive lines (REDESIGN-2.md 7.4). lib/cast.ts says which events are Neil's.
+  check-failed:
+    - "Okay. What did you expect it to print? What did it actually print?"
+    - "Close. Look at the first check that failed, and read what it expected."
+    - "Not yet. Compare the expected line with yours, one character at a time."
+    - "One's off. Start with the first one. The others often follow."
+  third-fail:
+    - "Third go. Read the failing check out loud, word by word."
+    - "Three misses. Try explaining it to the duck. I'm serious."
+    - "Three tries. Every programmer has been here, Paul included. A hint's there if you want one."
+  third-hint:
+    - "That's the shape. The blanks are yours."
+    - "That's most of it. Fill the gaps, then run it."
+    - "The shape's there. Read it line by line before you type."
+  pass-after-many:
+    - "Got there. The stubborn ones teach you the most."
+    - "That took a few goes. That's how it usually goes."
+    - "There it is. Remember what fixed it. You'll meet that bug again."
+  run-error:
+    - "Read it from the bottom. The last line is where it hurt."
+    - "Python left you a note. Last line first, then the line number."
+    - "Look at the line it points to, and the one above it. Brackets and quotes first."
+  error-name:
+    - "Python's never met that name. Check the spelling, then check you made it first."
+    - "A NameError. Every programmer has written this exact bug. Including Paul."
+    - "That name doesn't exist yet. Was it made further down, or spelt differently?"
+  error-text-number:
+    - "Text and a number in one sum. Turn the text into a number first."
+    - "`input()` always hands you text. Even when someone types 3."
+    - "That's `'3'` and `3`. They look the same. Python disagrees."
+  error-zero:
+    - "Something divided by zero. Find out what that number is when it breaks."
+    - "Dividing by nothing. Which variable was zero, and should it ever be?"
+  error-index:
+    - "It reached for an item that isn't there. Count from zero."
+    - "One past the end. The last item is at `len` minus one."
+    - "IndexError. How long is the list at that moment? Print it and see."
+  error-int-text:
+    - "`int()` was handed something that isn't a whole number. What was typed?"
+    - "`int()` reads digits. Give it `2.5` or `two` and it gives up. Is `float()` what you want?"
+  error-indent:
+    - "Indentation. Four spaces per level. Paul is very firm about this."
+    - "The spaces don't line up. Python reads them as structure, so they have to."
+    - "IndentationError. I used to argue tabs with Paul. Python takes his side."
+  stopped-loop:
+    - "It was going round forever. Something in there never changes."
+    - "Stopped. A loop needs a way out. What's meant to make the test False?"
+    - "Okay, a loop with no exit. Which line was supposed to change what it tests?"
+  ran-nothing:
+    - "It ran. It just didn't say anything. Was there meant to be a print?"
+    - "Quiet program. Nothing printed. Is the print inside something that never runs?"
+  loop-never-runs:
+    - "That loop never goes round once. Look at the range."
+    - "The loop's there. It just never starts. What's its test on the first pass?"
+  idle:
+    - "Stuck? Explain it to the duck. Out loud helps."
+    - "Take your time. A nudge is there if you want one."
+    - "What's the smallest thing you could try? Try that, and run it."
+  after-explain:
+    - "Saying it out loud does half the work. Which line surprised you?"
+    - "Good. Now go to the line that surprised you, and print what's in it."
+    - "Most bugs give themselves away once you say what should happen. Did this one?"
+    - "The duck's heard worse. Now test the bit you weren't sure about."
+  # Neil is the client for Reading Tracebacks, the To-Do List and Python at Home.
+  waiting:
+    - "No rush. Shout if you get stuck. Or tell the duck."
+    - "I'll be at my desk. The duck's free if you need it."
+  recap:
+    - "Where you left my {job}: {step}"
+    - "My {job}, still on the desk. You'd got to {step}"

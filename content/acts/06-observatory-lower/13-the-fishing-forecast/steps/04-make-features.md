@@ -5,7 +5,7 @@ title: Make the features
 files: [features.py]
 entry: features.py
 timeout_ms: 30000
-on_pass: { ferro: "Wind as an arrow, tide from dawn. Now it reads the sky the way a skipper does." }
+on_pass: { riya: "Wind as an arrow, tide from dawn. Now it reads the sky the way a skipper does." }
 hints:
   nudge: "Which columns are known at dawn, and which three of them need rewriting before a model can use what they mean?"
   plan:

@@ -5,7 +5,7 @@ def catches_by_name(tree, source):
     for node in _ast.walk(tree):
         if isinstance(node, _ast.ExceptHandler):
             if node.type is None or (isinstance(node.type, _ast.Name) and node.type.id in ("Exception", "BaseException")):
-                return "Catch ValueError by name. Catching everything hides mistakes like Pip's."
+                return "Catch ValueError by name. Catching everything hides mistakes like Caitlin's typo."
 
 
 TESTS = [

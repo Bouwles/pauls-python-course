@@ -1,14 +1,14 @@
 SMALL = """year,parish,household,name,relation,age,occupation
-1901,Harbour,1,Jory Pascoe,head,61,fisherman
-1901,Harbour,1,Wenna Pascoe,wife,58,net maker
-1901,Harbour,2,Tom Kitto,head,30,fisherman
-1901,Marsh,3,Ann Hollis,head,45,baker
-1901,Marsh,3,Ned Hollis,son,19,cooper
-1911,Harbour,1,Tom Kitto,head,40,fisherman
-1911,Harbour,1,Jenny Kitto,wife,33,lacemaker
-1911,Hill,2,Ned Hollis,head,29,cooper
-1911,Hill,2,Mary Hollis,wife,27,home duties
-1911,Hill,2,Ann Hollis,mother,55,retired
+1901,Bankside,1,Jory Pascoe,head,61,fisherman
+1901,Bankside,1,Wenna Pascoe,wife,58,net maker
+1901,Bankside,2,Sam Kitto,head,30,fisherman
+1901,Northgate,3,Ann Rowe,head,45,baker
+1901,Northgate,3,Ned Rowe,son,19,cooper
+1911,Bankside,1,Sam Kitto,head,40,fisherman
+1911,Bankside,1,Jenny Kitto,wife,33,lacemaker
+1911,Hill,2,Ned Rowe,head,29,cooper
+1911,Hill,2,Mary Rowe,wife,27,home duties
+1911,Hill,2,Ann Rowe,mother,55,retired
 """
 
 SMALL_TRADES = """occupation,sector
@@ -58,7 +58,7 @@ def grid(actual, rows, columns, values, what):
 
 def parishes(ctx):
     grid(ctx.module().parish_table(census(ctx)),
-         ["Harbour", "High Street", "Hill", "Marsh"], [1921, 1951, 1981, 2011],
+         ["Bankside", "Church Street", "Hill", "Northgate"], [1921, 1951, 1981, 2011],
          [[29, 35, 21, 18], [35, 31, 18, 25], [14, 18, 9, 12], [12, 14, 15, 13]],
          "parish_table(census)")
 
@@ -117,7 +117,7 @@ def smaller(ctx):
     module = ctx.module()
     table = load(SMALL)
     cards = load(SMALL_TRADES)
-    grid(module.parish_table(table), ["Harbour", "Hill", "Marsh"], [1901, 1911], [[3, 2], [0, 3], [2, 0]],
+    grid(module.parish_table(table), ["Bankside", "Hill", "Northgate"], [1901, 1911], [[3, 2], [0, 3], [2, 0]],
          "parish_table on a smaller census")
     people = module.with_sectors(table, cards)
     if len(people) != len(table):
@@ -158,7 +158,7 @@ TESTS = [
     custom("Everyone gets a sector", sectors_column,
            hint="A plain merge keeps only the rows that match. how=\"left\" keeps everyone, with NaN for a sector the index hasn't got."),
     custom("People by sector and year", sectors,
-           hint="Mr Ashby's father filed the net maker card twice. A card that's in twice makes merge repeat every net maker."),
+           hint="Someone filed the net maker card twice. A card that's in twice makes merge repeat every net maker."),
     custom("Households are counted within each year", households_repeat,
            hint="Household numbers start again at 1 in every census. Count the different numbers within each year."),
     custom("A smaller census, and an index with a card in twice", smaller,

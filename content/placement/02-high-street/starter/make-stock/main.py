@@ -1,1 +1,1 @@
-"""Sanjay's reorder list, from stock.csv."""
+"""The stall's reorder list, from stock.csv."""

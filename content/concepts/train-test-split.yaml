@@ -25,7 +25,7 @@ cards:
       print(len(train), len(test))
     answer: "48 12"
   - type: choice
-    prompt: "Pip shuffles the readings and the answers. What does this print?"
+    prompt: "Yahya shuffles the readings and the answers. What does this print?"
     code: |
       import numpy as np
 
@@ -56,7 +56,7 @@ cards:
         misconception: split-without-shuffling
         feedback: "Taking the last rows as the test set means testing only on hours later than anything the model learnt from. That measures how it guesses beyond its readings, not how it does on ordinary new ones. Shuffle first."
   - type: choice
-    prompt: "Pip tries degrees 1 to 10 and keeps whichever has the lowest test error: 0.09. Is 0.09 an honest guess at its error on next week's readings?"
+    prompt: "Riya tries degrees 1 to 10 and keeps whichever has the lowest test error: 0.09. Is 0.09 an honest guess at its error on next week's readings?"
     verify: none
     options:
       - text: "No. He chose it for doing well on those readings, so it flatters. Choose on validation, then test once"

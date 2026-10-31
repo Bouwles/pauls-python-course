@@ -14,7 +14,7 @@ afterAll(async () => {
 const run = (code: string) => py.run({ files: { "main.py": code } });
 
 describe("the workshop module (Living Visualisations)", () => {
-  it("records grid frames with policies, Q-values and Sir Reginald", async () => {
+  it("records grid frames with policies, Q-values and the crab", async () => {
     const r = await run(`from workshop import show_grid
 show_grid([[0, 1], [2, None]], policy=[["up", 3], [">", None]], crab=(0, 1), walls=[(1, 1)], goal=(0, 0), q={(0, 0): [1, 2, 3, 4]}, title="sweep 1")
 `);

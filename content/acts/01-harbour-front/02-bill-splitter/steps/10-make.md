@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the bill splitter
-on_pass: { bea: "Forty-five fifty-four, six ways, seven fifty-nine. I checked it twice." }
+on_pass: { riya: "Forty-five fifty-four, six ways, seven fifty-nine. I checked it twice." }
 hints:
   nudge: "What does `input()` give you, and what does arithmetic need? And which comes first: adding the tip, or splitting the bill?"
   plan:
@@ -19,7 +19,7 @@ hints:
     print(f"Total with tip: {total___}")
     print(f"Each pays: {each___}")
 ---
-Write the bill splitter from scratch, for the bell-ringers and every table after them.
+Write the bill splitter from scratch, for the class dinner and every table after it.
 
 ```
 Bill? 41.40
@@ -29,4 +29,4 @@ Total with tip: 45.54
 Each pays: 7.59
 ```
 
-The tip can have a decimal point: a 12.5 per cent service charge is common. The comments in the file are Moss's subgoals from the rope example. Use them.
+The tip can have a decimal point: a 12.5 per cent service charge is common. The comments in the file are Paul's subgoals from the cable example. Use them.

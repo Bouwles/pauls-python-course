@@ -3,8 +3,8 @@ title: Depth-first search
 summary: |
   Depth-first search follows each road as far as it goes before trying the next, and only goes back when there's nowhere new to go. The simplest way to write it is a function that notes a place, then calls itself for each neighbour not yet reached; the calls waiting underneath remember where to come back to. A stack does the same job without recursion. DFS reaches everything it can, but the first route it finds to a place is often not the shortest. Use it for "can I get there at all", for trying every route, and for puzzles.
 example: |
-  ROADS = {"scrapyard": ["workshop", "records-office"], "workshop": ["scrapyard", "bakery"],
-           "bakery": ["workshop"], "records-office": ["scrapyard"]}
+  ROADS = {"gym": ["clocktower", "archive"], "clocktower": ["gym", "cafe"],
+           "cafe": ["clocktower"], "archive": ["gym"]}
   reached = []
 
 
@@ -15,7 +15,7 @@ example: |
               explore(neighbour)
 
 
-  explore("scrapyard")
+  explore("gym")
   print(reached)
 misconceptions: [dfs-goes-by-distance, dfs-stops-at-dead-end, dfs-loops-forever, dfs-finds-shortest]
 related: [graphs, bfs, backtracking]
@@ -25,12 +25,12 @@ cards:
     prompt: What does this print?
     code: |
       ROADS = {
-          "ferry": ["harbour-office", "post-office"],
-          "harbour-office": ["ferry", "pub", "lighthouse"],
-          "post-office": ["ferry", "pub"],
-          "pub": ["harbour-office", "post-office", "greengrocer"],
-          "lighthouse": ["harbour-office"],
-          "greengrocer": ["pub"],
+          "park": ["bridge", "station"],
+          "bridge": ["park", "cinema", "boathouse"],
+          "station": ["park", "cinema"],
+          "cinema": ["bridge", "station", "pool"],
+          "boathouse": ["bridge"],
+          "pool": ["cinema"],
       }
       order = []
 
@@ -42,11 +42,11 @@ cards:
                   explore(neighbour)
 
 
-      explore("ferry")
+      explore("park")
       print(order)
-    answer: "['ferry', 'harbour-office', 'pub', 'post-office', 'greengrocer', 'lighthouse']"
+    answer: "['park', 'bridge', 'cinema', 'station', 'pool', 'boathouse']"
   - type: choice
-    prompt: "Nell wants the route to the ferry with the fewest roads. Which search should she use?"
+    prompt: "Yahya wants the route to the park with the fewest roads. Which search should he use?"
     verify: none
     options:
       - text: "Breadth-first"
@@ -62,14 +62,14 @@ cards:
     prompt: "A stack instead of recursion. What does this print?"
     code: |
       ROADS = {
-          "ferry": ["harbour-office", "post-office"],
-          "harbour-office": ["ferry", "pub", "lighthouse"],
-          "post-office": ["ferry", "pub"],
-          "pub": ["harbour-office", "post-office", "greengrocer"],
-          "lighthouse": ["harbour-office"],
-          "greengrocer": ["pub"],
+          "park": ["bridge", "station"],
+          "bridge": ["park", "cinema", "boathouse"],
+          "station": ["park", "cinema"],
+          "cinema": ["bridge", "station", "pool"],
+          "boathouse": ["bridge"],
+          "pool": ["cinema"],
       }
-      stack = ["ferry"]
+      stack = ["park"]
       reached = set()
       order = []
       while stack:
@@ -82,11 +82,11 @@ cards:
               if neighbour not in reached:
                   stack.append(neighbour)
       print(" ".join(order))
-    answer: "ferry post-office pub greengrocer harbour-office lighthouse"
+    answer: "park station cinema pool bridge boathouse"
   - type: fill
     prompt: "Fill the gap so `explore` never goes back to a place it has already reached."
     code: |
-      ROADS = {"pub": ["bakery", "ferry"], "bakery": ["pub", "ferry"], "ferry": ["pub", "bakery"]}
+      ROADS = {"cinema": ["cafe", "park"], "cafe": ["cinema", "park"], "park": ["cinema", "cafe"]}
       reached = []
 
 
@@ -97,15 +97,15 @@ cards:
                   explore(neighbour)
 
 
-      explore("pub")
+      explore("cinema")
       print(reached)
     blanks: [["reached"]]
     tests: |
-      TESTS = [output("Each place once", expect="['pub', 'bakery', 'ferry']")]
+      TESTS = [output("Each place once", expect="['cinema', 'cafe', 'park']")]
   - type: fix
     prompt: "The shed has no list of its own, and this crashes on it. Fix it so a place with no list is a dead end."
     code: |
-      ROADS = {"workshop": ["shed", "yard"], "yard": ["gate"], "gate": ["workshop"]}
+      ROADS = {"clocktower": ["shed", "yard"], "yard": ["gate"], "gate": ["clocktower"]}
       reached = []
 
 
@@ -116,13 +116,13 @@ cards:
                   explore(neighbour)
 
 
-      explore("workshop")
+      explore("clocktower")
       print(reached)
     tests: |
-      TESTS = [output("Into the shed and back out", expect="['workshop', 'shed', 'yard', 'gate']",
+      TESTS = [output("Into the shed and back out", expect="['clocktower', 'shed', 'yard', 'gate']",
                       hint="ROADS.get(place, []) gives an empty list for a place with no list of its own.")]
     solution: |
-      ROADS = {"workshop": ["shed", "yard"], "yard": ["gate"], "gate": ["workshop"]}
+      ROADS = {"clocktower": ["shed", "yard"], "yard": ["gate"], "gate": ["clocktower"]}
       reached = []
 
 
@@ -133,7 +133,7 @@ cards:
                   explore(neighbour)
 
 
-      explore("workshop")
+      explore("clocktower")
       print(reached)
   - type: write
     prompt: "Write `can_reach(roads, start, goal)`: `True` if there's any way from `start` to `goal`, `False` if not. Depth first is fine."
@@ -141,10 +141,10 @@ cards:
       def can_reach(roads, start, goal):
           pass
     tests: |
-      ONE_WAY = {"quay": ["fish-market"], "fish-market": ["chapel"], "chapel": []}
+      ONE_WAY = {"canal": ["flower-market"], "flower-market": ["chapel"], "chapel": []}
       TESTS = [
-          function("Down the one-way street", call="can_reach", args=(ONE_WAY, "quay", "chapel"), expect=True),
-          function("Against it", call="can_reach", args=(ONE_WAY, "chapel", "quay"), expect=False),
+          function("Down the one-way street", call="can_reach", args=(ONE_WAY, "canal", "chapel"), expect=True),
+          function("Against it", call="can_reach", args=(ONE_WAY, "chapel", "canal"), expect=False),
           function("Already there", call="can_reach", args=(ONE_WAY, "chapel", "chapel"), expect=True),
           function("Round in a circle", call="can_reach", args=({"a": ["b"], "b": ["a"], "c": []}, "a", "c"), expect=False),
       ]

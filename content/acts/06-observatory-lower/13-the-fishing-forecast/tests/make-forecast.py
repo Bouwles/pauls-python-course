@@ -2,7 +2,7 @@ import re as _re
 
 import numpy as _np
 
-NEEDED = ("split_by_year", "ferros_rule", "always_commonest", "candidate_models", "cross_validated", "precision_recall")
+NEEDED = ("split_by_year", "skippers_rule", "always_commonest", "candidate_models", "cross_validated", "precision_recall")
 NAMES = ["boosting", "forest", "logistic"]
 TABLE = {"logistic": 0.860, "forest": 0.842, "boosting": 0.853}
 _RUN = {}
@@ -39,8 +39,8 @@ def split(ctx):
 
 
 def rule(ctx):
-    mod = _module(ctx, "ferros_rule")
-    got = mod.ferros_rule(_frame())
+    mod = _module(ctx, "skippers_rule")
+    got = mod.skippers_rule(_frame())
     if got is None or _np.asarray(got).tolist() != [1, 0, 1, 0, 0]:
         raise CheckFailed("A range of 4.0 m or more and a wind under 20 knots. 4.0 counts; 20 knots doesn't.",
                           expected=[1, 0, 1, 0, 0], actual=None if got is None else _np.asarray(got).tolist())
@@ -143,7 +143,7 @@ def tested(ctx):
 
 
 def baselines(ctx):
-    _line(ctx, "Ferro's rule:", "Ferro's rule: 0.723", "Score Ferro's rule on the 2025 days.")
+    _line(ctx, "Skipper's rule:", "Skipper's rule: 0.723", "Score the skipper's rule on the 2025 days.")
     _line(ctx, "Always saying no:", "Always saying no: 0.575", "Score always guessing training's commonest answer on 2025.")
 
 
@@ -154,18 +154,18 @@ def costs(ctx):
 
 def beats_baselines(ctx):
     output = _output(ctx)
-    found = {label: _re.search(rf"{label}:\s*(\d\.\d+)", output) for label in ("On 2025", "Ferro's rule", "Always saying no")}
+    found = {label: _re.search(rf"{label}:\s*(\d\.\d+)", output) for label in ("On 2025", "Skipper's rule", "Always saying no")}
     if not all(found.values()):
         raise CheckFailed("Print the model's 2025 score beside both baselines.", actual=output)
-    model, rule, guess = (float(found[label].group(1)) for label in ("On 2025", "Ferro's rule", "Always saying no"))
+    model, rule, guess = (float(found[label].group(1)) for label in ("On 2025", "Skipper's rule", "Always saying no"))
     if not (model >= rule + 0.08 and model >= guess + 0.2):
-        raise CheckFailed("On 2025, a year it never saw, the forecast should clearly beat Ferro's rule and always saying no.",
+        raise CheckFailed("On 2025, a year it never saw, the forecast should clearly beat the skipper's rule and always saying no.",
                           expected=f"well over {rule:.3f} and {guess:.3f}", actual=f"{model:.3f}")
 
 
 TESTS = [
     custom("split_by_year locks one year away", split, visible=True),
-    custom("ferros_rule: spring tide and under twenty knots", rule, visible=True),
+    custom("skippers_rule: spring tide and under twenty knots", rule, visible=True),
     custom("always_commonest guesses training's commonest answer", commonest),
     custom("candidate_models gives three unfitted models", models),
     custom("cross_validated gives each model's mean accuracy", cv),

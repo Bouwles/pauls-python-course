@@ -5,37 +5,37 @@ A Python `for` loop repeats a block of code once for each item in a sequence: ea
 The thing after `in` can be anything Python can step through. A string gives its characters one at a time; a list gives its items in order:
 
 ```python
-for letter in "oar":
+for letter in "sun":
     print(letter)
-for boat in ["Kittiwake", "Mary Rose"]:
-    print("Checking", boat)
-    print("Done with", boat)
-print("All boats checked")
+for name in ["Ivo", "Rosa"]:
+    print("Checking", name)
+    print("Done with", name)
+print("All names checked")
 ```
 
 ```text
-o
-a
-r
-Checking Kittiwake
-Done with Kittiwake
-Checking Mary Rose
-Done with Mary Rose
-All boats checked
+s
+u
+n
+Checking Ivo
+Done with Ivo
+Checking Rosa
+Done with Rosa
+All names checked
 ```
 
-Each pass runs the whole body, top to bottom, before the next pass starts: both `print` lines for `Kittiwake`, then both for `Mary Rose`. The last line is back at the left edge, so it is not part of either loop. It runs once, after the second loop has finished. The body can be as many lines as you like, as long as they share the same indentation (four spaces is the convention).
+Each pass runs the whole body, top to bottom, before the next pass starts: both `print` lines for `Ivo`, then both for `Rosa`. The last line is back at the left edge, so it is not part of either loop. It runs once, after the second loop has finished. The body can be as many lines as you like, as long as they share the same indentation (four spaces is the convention).
 
 A header with no indented line under it isn't a loop at all, and Python refuses to run the file:
 
 ```python
-for sweep in range(3):
-print("Sweep")
+for tick in range(3):
+print("Tick")
 ```
 
 ```text
   File "main.py", line 2
-    print("Sweep")
+    print("Tick")
     ^^^^^
 IndentationError: expected an indented block after 'for' statement on line 1
 ```

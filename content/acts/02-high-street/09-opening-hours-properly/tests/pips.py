@@ -15,7 +15,7 @@ def module_not_shadowed(tree, source):
 
 
 TESTS = [
-    output("Sanjay's deliveries", expect="apples: 4 crates\npears: 2 crates\nkale: 3 crates", visible=True,
+    output("This week's delivery", expect="apples: 4 crates\npears: 2 crates\nkale: 3 crates", visible=True,
            hint="After the first time round the loop, what does the name crates point at?"),
     output("Another delivery", set_vars={"deliveries": {"plums": 200, "figs": 41}},
            expect="plums: 5 crates\nfigs: 2 crates"),

@@ -21,6 +21,12 @@ const nextConfig: NextConfig = {
   devIndicators: false,
   poweredByHeader: false,
   serverExternalPackages: ["@electric-sql/pglite", "pyodide"],
+  // The illustrator's art (art/final/, components/art/Art.tsx): AVIF first, and the exact
+  // display sizes of portraits and figures, so a 256 px portrait's double size is 512.
+  images: {
+    formats: ["image/avif", "image/webp"],
+    imageSizes: [32, 48, 64, 96, 128, 180, 256, 360, 384, 512],
+  },
   // Act I's projects were renamed to plain program names (REDESIGN.md 7.3); old links still work.
   async redirects() {
     return [
@@ -48,6 +54,11 @@ const nextConfig: NextConfig = {
       { source: "/job/one-neuron", destination: "/job/learning-backwards", permanent: true },
       { source: "/job/a-small-brain", destination: "/job/learning-backwards", permanent: true },
       { source: "/job/scrapyard-route-planner", destination: "/job/interview-prep-set", permanent: true },
+      // Projects whose ids carried the old cast's names (REDESIGN-2.md 1).
+      { source: "/job/penhallows-logs", destination: "/job/log-analyser", permanent: true },
+      { source: "/job/penhallows-handwriting", destination: "/job/handwritten-digits", permanent: true },
+      { source: "/job/penhallows-notebook-reader", destination: "/job/notebook-reader", permanent: true },
+      { source: "/job/mosss-radio", destination: "/job/radio-station-finder", permanent: true },
       // The Concept Index became the public Python Handbook (REDESIGN.md 9.1).
       { source: "/concepts", destination: "/handbook", permanent: true },
       { source: "/concepts/:id", destination: "/handbook/:id", permanent: true },
@@ -69,8 +80,9 @@ const nextConfig: NextConfig = {
 // reloads every page in a loop.
 const tracedFiles = {
   "/**": ["./generated/content/**/*.json", "./cli/pyproject.toml", "./cli/README.md", "./cli/src/**/*.py"],
-  // Share cards are drawn from the built sprite sheets on request (lib/server/share.ts).
-  "/u/**": ["./public/sprites/*.png", "./public/sprites/learner.json"],
+  // Certificates and share cards are drawn on request with these fonts (components/certificates/og.tsx).
+  "/certificates/**": ["./node_modules/@fontsource/bricolage-grotesque/files/*-normal.woff", "./node_modules/@fontsource/atkinson-hyperlegible-next/files/*-normal.woff"],
+  "/u/**": ["./node_modules/@fontsource/bricolage-grotesque/files/*-normal.woff", "./node_modules/@fontsource/atkinson-hyperlegible-next/files/*-normal.woff"],
 };
 
 export default function config(phase: string): NextConfig {

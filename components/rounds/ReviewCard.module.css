@@ -1,0 +1,262 @@
+/* A review card: a plain card, the task, the answer, "Check", and the feedback under it. */
+.wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-4);
+}
+
+.card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  background: var(--surface-2);
+  border-radius: var(--r-lg);
+  min-width: 0;
+}
+
+:global(:root[data-theme="light"]) .card {
+  border: 1px solid var(--line);
+}
+
+@media (prefers-color-scheme: light) {
+  :global(:root[data-theme="system"]) .card {
+    border: 1px solid var(--line);
+  }
+}
+
+.task {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-4);
+  padding: var(--s-6);
+}
+
+.prompt {
+  font-size: var(--fs-4);
+  line-height: 1.45;
+  color: var(--text);
+  max-width: var(--measure);
+}
+
+.prompt code {
+  font-size: 0.85em;
+  background: var(--surface-3);
+  border-radius: var(--r-sm);
+  padding: 1px 5px;
+}
+
+.code {
+  min-width: 0;
+}
+
+.inputs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s-2);
+  font-size: var(--fs-2);
+}
+
+.inputs code {
+  color: var(--text);
+}
+
+.answerField {
+  display: grid;
+  gap: var(--s-2);
+}
+
+.answer {
+  width: 100%;
+  font-family: var(--font-code);
+  font-size: var(--fs-2);
+  line-height: 1.5;
+  resize: vertical;
+  padding: var(--s-3);
+  background: var(--editor);
+}
+
+.answer:focus-visible,
+.blank:focus-visible {
+  outline: 2px solid var(--sun);
+  outline-offset: 1px;
+}
+
+/* Choices: large, clearly selectable cards with a real radio underneath. */
+.options {
+  display: grid;
+  gap: var(--s-2);
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--r-md);
+  background: var(--surface-3);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
+}
+
+.option:hover {
+  border-color: var(--line);
+}
+
+.options:disabled .option {
+  cursor: default;
+}
+
+.option:focus-within {
+  outline: 2px solid var(--sun);
+  outline-offset: 2px;
+}
+
+.chosen,
+.chosen:hover {
+  background: var(--blue-wash);
+  border-color: var(--blue);
+}
+
+.mark {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-top: 3px;
+  border-radius: 50%;
+  border: 2px solid var(--text-3);
+}
+
+.chosen .mark {
+  border: 5px solid var(--blue);
+  background: var(--surface-1);
+}
+
+.optionText {
+  font-size: var(--fs-3);
+  line-height: 1.45;
+}
+
+.mono {
+  font-family: var(--font-code);
+  font-size: var(--fs-2);
+  line-height: 1.5;
+  white-space: pre-wrap;
+  font-variant-ligatures: none;
+}
+
+/* Fill in the gaps: the code stays dark in both themes, the gaps are inputs in it. */
+.fill {
+  margin: 0;
+  background: var(--editor);
+  color: var(--text);
+  border-radius: var(--r-md);
+  padding: var(--s-4);
+  font-size: var(--fs-2);
+  line-height: 1.9;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+:global(:root[data-theme="light"]) .fill {
+  border: 1px solid var(--line);
+}
+
+.blank {
+  font-family: var(--font-code);
+  font-size: inherit;
+  padding: 0 4px;
+  height: 26px;
+  border-radius: var(--r-sm);
+  background: var(--surface-3);
+  color: var(--text);
+  border: 1px solid var(--sun);
+}
+
+.editor {
+  border-radius: var(--r-md);
+  overflow: hidden;
+  min-height: 160px;
+  background: var(--editor);
+  border: 1px solid var(--line);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+/* Feedback: an icon and words, never colour alone. */
+.feedback {
+  display: grid;
+  gap: var(--s-2);
+  padding: var(--s-4);
+  border-radius: var(--r-md);
+}
+
+.good {
+  background: var(--pass-wash);
+}
+
+.bad {
+  background: var(--fail-wash);
+}
+
+.fbTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-weight: 700;
+  font-size: var(--fs-3);
+}
+
+.good .fbTitle {
+  color: var(--pass-text);
+}
+
+.bad .fbTitle {
+  color: var(--fail-text);
+}
+
+.fbText {
+  font-size: var(--fs-2);
+  white-space: pre-wrap;
+  color: var(--text);
+}
+
+.foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--s-3);
+  padding: var(--s-4) var(--s-6);
+  border-top: 1px solid var(--line);
+}
+
+.report {
+  min-width: 0;
+}
+
+@media (max-width: 720px) {
+  .task {
+    padding: var(--s-4);
+    gap: var(--s-3);
+  }
+
+  .prompt {
+    font-size: var(--fs-3);
+  }
+
+  .foot {
+    padding: var(--s-3) var(--s-4);
+  }
+
+  .foot > * {
+    flex: 1;
+  }
+}

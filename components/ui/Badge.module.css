@@ -1,0 +1,40 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  height: 22px;
+  padding: 0 7px;
+  border-radius: var(--r-sm);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  background: var(--surface-3);
+  color: var(--text-2);
+}
+
+.free,
+.shipped {
+  background: var(--pass-wash);
+  color: var(--pass-text);
+}
+
+.pro {
+  background: var(--sun);
+  color: var(--sun-ink);
+}
+
+.progress {
+  background: var(--sun-wash);
+  color: var(--sun-text);
+}
+
+.fail {
+  background: var(--fail-wash);
+  color: var(--fail-text);
+}
+
+.info {
+  background: var(--blue-wash);
+  color: var(--blue-text);
+}

@@ -48,4 +48,4 @@ tasks:
       print(f"I chose {machine}.")
       print(f"Still {machine}.")
 ---
-`random.choice(a_list)` picks one item from a list, each as likely as the others. It lives in the same `random` module as `randint`, from Gwen's guessing game.
+`random.choice(a_list)` picks one item from a list, each as likely as the others. It lives in the same `random` module as `randint`, from Caitlin's guessing game.

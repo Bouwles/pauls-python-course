@@ -1,7 +1,7 @@
 import ast as _ast
 import random as _random
 
-LORRY = [("hubcap", 4), ("gear", 1), ("spring", 4)]
+BOX = [("monitor", 4), ("mouse", 1), ("speaker", 4)]
 
 
 class TooMany(Exception):
@@ -109,16 +109,16 @@ def sorts(parts, label=None):
 
 def new_list(ctx):
     module = ctx.module()
-    parts = [("gear", 1), ("hubcap", 4)]
+    parts = [("mouse", 1), ("monitor", 4)]
     got = module.sort_parts(parts)
     if got is parts:
         raise CheckFailed("sort_parts gave back the very list it was given. It should give back a new one.")
 
 
-def stable_lorry(ctx):
+def stable_box(ctx):
     module = ctx.module()
-    lorry = _random.Random(8)
-    parts = [(f"part-{number}", lorry.randint(1, 5)) for number in range(300)]
+    box = _random.Random(8)
+    parts = [(f"part-{number}", box.randint(1, 5)) for number in range(300)]
     got = module.sort_parts(list(parts))
     expected = sorted(parts, key=weight)
     if got != expected:
@@ -131,8 +131,8 @@ def comparisons(ctx):
     module = ctx.module()
     counter = Counter(150_000)
     Kg = counted_kg(counter)
-    lorry = _random.Random(4)
-    plain = [(f"part-{number}", lorry.randint(1, 1000)) for number in range(4096)]
+    box = _random.Random(4)
+    plain = [(f"part-{number}", box.randint(1, 1000)) for number in range(4096)]
     parts = [(name, Kg(kg)) for name, kg in plain]
     try:
         got = module.sort_parts(parts)
@@ -177,23 +177,23 @@ def by_hand(tree, source):
     return None
 
 
-SORTED = [("gear", 1), ("bell", 2), ("hubcap", 4), ("spring", 4), ("valve", 4), ("anvil", 9)]
+SORTED = [("mouse", 1), ("router", 2), ("monitor", 4), ("speaker", 4), ("projector", 4), ("printer", 9)]
 
 
 TESTS = [
-    function("Nell's three parts", call="sort_parts", args=(LORRY,), expect=[("gear", 1), ("hubcap", 4), ("spring", 4)],
+    function("Three parts", call="sort_parts", args=(BOX,), expect=[("mouse", 1), ("monitor", 4), ("speaker", 4)],
              visible=True),
-    function("The first at 4 kg", call="first_at_least", args=([("gear", 1), ("hubcap", 4), ("spring", 4)], 4), expect=1,
+    function("The first at 4 kg", call="first_at_least", args=([("mouse", 1), ("monitor", 4), ("speaker", 4)], 4), expect=1,
              visible=True),
-    function("An empty lorry", call="sort_parts", args=([],), expect=[]),
-    function("One part", call="sort_parts", args=([("anvil", 9)],), expect=[("anvil", 9)]),
+    function("An empty box", call="sort_parts", args=([],), expect=[]),
+    function("One part", call="sort_parts", args=([("printer", 9)],), expect=[("printer", 9)]),
     custom("A new list", new_list),
     custom("Seven parts", sorts([("a", 5), ("b", 3), ("c", 8), ("d", 1), ("e", 9), ("f", 2), ("g", 7)])),
     custom("Already lightest first", sorts([("a", 1), ("b", 2), ("c", 3), ("d", 4), ("e", 5)])),
     custom("Heaviest first", sorts([("a", 5), ("b", 4), ("c", 3), ("d", 2), ("e", 1)])),
     custom("All the same weight", sorts([("a", 3), ("b", 3), ("c", 3), ("d", 3)]),
            hint="Parts of the same weight stay in the order they were given. On a tie, take the one that came first."),
-    custom("Every tie in order", stable_lorry,
+    custom("Every tie in order", stable_box,
            hint="Merge sort keeps ties in order if, on a tie, it takes from the left pile: compare with <=."),
     custom("Four thousand parts, n log n", comparisons,
            hint="Comparing every part with every other is O(n squared). Split the pile, sort each half, and merge."),
@@ -206,8 +206,8 @@ TESTS = [
              hint="Nothing weighs 3 kg, so the first part weighing at least 3 kg is the first 4 kg one."),
     function("The heaviest", call="first_at_least", args=(SORTED, 9), expect=5),
     function("An empty pile", call="first_at_least", args=([], 4), expect=0),
-    function("One part, heavy enough", call="first_at_least", args=([("anvil", 9)], 5), expect=0),
-    function("One part, too light", call="first_at_least", args=([("gear", 1)], 5), expect=1),
+    function("One part, heavy enough", call="first_at_least", args=([("printer", 9)], 5), expect=0),
+    function("One part, too light", call="first_at_least", args=([("mouse", 1)], 5), expect=1),
     custom("A million parts, found in a handful", million(123_456, 493_824, "Parts weigh i // 4 kg, so the first 123,456 kg part is at 493,824."),
            hint="Each look should throw away half of what's left. Looking at the parts one at a time opens hundreds of thousands."),
     custom("A million parts, and none heavy enough", million(250_000, 1_000_000, "Nothing weighs 250,000 kg: give back len(parts).")),

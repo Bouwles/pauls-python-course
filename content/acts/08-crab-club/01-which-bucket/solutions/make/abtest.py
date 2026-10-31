@@ -1,16 +1,9 @@
-# The Arcade Committee's handbill test, run as a bandit.
-#
-# Tucked in the arcade's handbill drawer, a page from the club's 1994 bait
-# ledger, in pencil:
-# Lady Agatha tried every bucket in the shed, one run each, before I let
-# her choose. The committee called it dithering. She won the autumn cup on
-# whelks and retired to the rock pool. The machine on the hill dithers too,
-# on purpose. I taught it that before I taught it anything else. A.P.
+# Riya's flyer test for League night, run as a bandit.
 
 import matplotlib.pyplot as plt
 import numpy as np
 
-VERSIONS = ["three goes for a pound", "win a cuddly crab", "free go after six", "beat Sir Reginald"]
+VERSIONS = ["three goes for a pound", "win a cuddly crab", "free go after six", "beat the crab"]
 # The chance that a visitor handed each version comes in and plays. Only the
 # visitors know these: run_test() may use them, but no strategy is allowed to look.
 RATES = [0.10, 0.14, 0.08, 0.17]
@@ -57,7 +50,7 @@ def choose_thompson(estimates, counts, rng):
 
 
 def run_test(choose, rates, visitors, rng):
-    """Hand one handbill to each visitor, letting choose pick the version each time.
+    """Hand one flyer to each visitor, letting choose pick the version each time.
 
     A visitor comes in (reward 1) with their version's rate, otherwise 0.
     Returns (estimates, counts, rewards): each version's rate so far, how many
@@ -114,9 +107,9 @@ if __name__ == "__main__":
     visitors = np.arange(1, VISITORS + 1)
     for name, (_, _, rewards) in results.items():
         plt.plot(visitors, np.cumsum(rewards) / visitors, label=name)
-    plt.axhline(max(RATES), linestyle="--", color="grey", label="the best handbill every time")
+    plt.axhline(max(RATES), linestyle="--", color="grey", label="the best flyer every time")
     plt.xlabel("Visitors so far")
     plt.ylabel("Came in, as a share of visitors")
-    plt.title("The handbill test")
+    plt.title("The flyer test")
     plt.legend()
     plt.show()

@@ -1,0 +1,33 @@
+.faq {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-8) var(--s-12);
+}
+
+.item {
+  display: grid;
+  gap: var(--s-2);
+  align-content: start;
+  min-width: 0;
+}
+
+/* A question is read, not announced: the text face, bold, at reading size. */
+.q {
+  font-family: var(--font-text);
+  font-size: var(--fs-4);
+  font-weight: 700;
+  letter-spacing: normal;
+  line-height: 1.35;
+}
+
+.a {
+  color: var(--text-2);
+  max-width: 60ch;
+}
+
+@media (max-width: 760px) {
+  .faq {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-6);
+  }
+}

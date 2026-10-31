@@ -4,7 +4,7 @@ type: modify
 title: Batch norm, properly
 files: [batchnorm.py]
 entry: batchnorm.py
-on_pass: { wendt: "Metres and knots on the same scale. And one evening on its own still gets a real answer." }
+on_pass: { neil: "Metres and knots on the same scale. And one evening on its own still gets a real answer." }
 hints:
   nudge: "At evaluation there may be only one evening. Where do the mean and variance come from then?"
   plan:

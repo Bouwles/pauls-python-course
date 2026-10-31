@@ -38,7 +38,7 @@ def a_month(mod):
     ledger.add(NOV_14, -3270, "food", "the big shop")
     ledger.add(NOV_3, -450, "food", "chips")
     ledger.add(NOV_3, -2500, "fun", "fireworks")
-    ledger.add(OCT_30, -880, "travel", "bus to Truro")
+    ledger.add(OCT_30, -880, "travel", "bus to the coast")
     return ledger
 
 
@@ -156,7 +156,7 @@ def over(ctx):
     ledger.set_budget("fun", 2500)
     ledger.set_budget("travel", 500)
     same(ledger.over_budget(2026, 11), ["food"], "Food spent 37.20 of 30.00. Fun spent exactly its budget, which isn't over. Travel's bus was in October.")
-    same(ledger.over_budget(2026, 10), ["travel"], "In October, the bus to Truro was over the travel budget.")
+    same(ledger.over_budget(2026, 10), ["travel"], "In October, the bus to the coast was over the travel budget.")
 
 
 def ledgers_dont_share(ctx):

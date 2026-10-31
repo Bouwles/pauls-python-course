@@ -15,7 +15,7 @@ misconceptions: [discount-ignored, discount-starts-at-one, only-final-reward-cou
 related: [mdps]
 cards:
   - type: predict
-    prompt: "Sir Reginald refuses to race. He sits on the start for a thousand seconds at -1 a second. What does this print?"
+    prompt: "The crab refuses to race. It sits on the start for a thousand seconds at -1 a second. What does this print?"
     code: |
       no_discount, discounted = 0, 0
       for t in range(1000):
@@ -62,7 +62,7 @@ cards:
       TESTS = [
           function("Four tiles, then the finish", call="discounted_return", args=([-1, -1, -1, -1, 10], 0.9), expect=3.122, tol=1e-6),
           function("One reward, in full", call="discounted_return", args=([5], 0.5), expect=5, tol=1e-9),
-          output("The committee's practice race", expect="3.12"),
+          output("A practice race", expect="3.12"),
       ]
     solution: |
       def discounted_return(rewards, gamma):

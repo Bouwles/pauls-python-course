@@ -6,7 +6,7 @@ portfolio_readme: |
 
   Names the species of a penguin or an iris from its measurements, with k nearest neighbours written from scratch in NumPy. It finds the animals or flowers most like the new one and lets them vote. The number of neighbours, k, is chosen honestly: a fifth of the data locked away for testing, a validation pile to choose k on, and the test pile opened once. The same code runs on both datasets.
 
-  Written by {name} in {{town}}. Finished {date}.
+  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -55,7 +55,7 @@ datasets:
     licence: "CC BY 4.0"
     file: "iris.csv"
     notes: "From bezdekIris.data, the corrected copy UCI supplies (150 flowers). Added column names and a flower number, and dropped the Iris- prefix from the species."
-client: wendt
+client: aaesha
 building: observatory
 estimated_minutes: 75
 summary: "Name a penguin's species from its measurements, and an iris's with the same code: k nearest neighbours from scratch, with k chosen on validation and tested once."
@@ -63,11 +63,11 @@ concepts_introduced: [knn]
 concepts_reviewed: [feature-scaling, train-test-split, overfitting, classification-metrics, numpy-arrays, vectorisation, broadcasting, vectors, imports, csv-module, functions, default-arguments, multiple-returns, main-guard, docstrings, f-strings]
 ask:
   dialogue:
-    - wendt: "Two sets of data that every student of this has met. Three kinds of penguin, and Fisher's irises."
-    - wendt: "Penhallow's trick for the sky was this one: find the cases most like the new one, and ask them."
-    - pip: "Done it. One nearest penguin. It named nearly every penguin it learnt from."
-    - moss: "Every penguin it learnt from is its own nearest penguin."
-    - pip: "Oh."
+    - aaesha: "Two datasets everyone who does this has met. Three kinds of penguin, and Fisher's irises."
+    - aaesha: "The method is the oldest trick there is: find the cases most like the new one, and ask them."
+    - riya: "Done it. One nearest penguin. Ninety-seven per cent on the penguins it learnt from. Wait."
+    - aaesha: "Every penguin it learnt from is its own nearest penguin."
+    - riya: "That's why it felt suspicious."
   spec: |
     `penguins.csv` holds 342 real penguins of three species from Palmer Station in Antarctica, Adelie, Chinstrap and Gentoo, with bill length and depth, flipper length and body mass. `iris.csv` holds Fisher's 150 irises of three species, with four measurements each.
 
@@ -95,11 +95,11 @@ ask:
     New: Gentoo, like 8 of the 9 nearest
 ship:
   dialogue:
-    - wendt: "Gentoo, like eight of the nine nearest. Nine neighbours, not one. One is a rumour. Nine is a small committee."
-    - wendt: "And the irises, with not a line changed. Nine in ten of the ones it never saw."
-    - pip: "Mine was right about nearly every penguin it had already seen. That isn't naming. That's remembering."
-    - moss: "Now you've said it out loud, you'll remember that too."
-  shelf: { object: pin-map, label: "Wendt's penguin and iris classifier" }
+    - aaesha: "Gentoo, like eight of the nine nearest. One neighbour is a rumour. Nine is a fair sample."
+    - aaesha: "And the irises, with not a line changed. Nine in ten of the ones it never saw."
+    - riya: "Mine was right about nearly every penguin it had already seen. That isn't naming. That's remembering."
+    - paul: "Now you've said it out loud, you'll remember that too."
+  shelf: { object: pin-map, label: "Aaesha's penguin and iris classifier" }
   cards: [knn]
 stretch:
   - id: bills-back

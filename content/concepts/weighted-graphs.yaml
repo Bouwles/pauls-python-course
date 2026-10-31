@@ -1,14 +1,14 @@
 id: weighted-graphs
 title: Weighted graphs
 summary: |
-  A weighted graph puts a number on each connection: minutes on a road, pence on a fare, kilos on a crane lift. In Python, give each place a dictionary of its neighbours instead of a list, so `MINUTES["scrapyard"]["tailor"]` is the minutes from the scrapyard to the tailor's. A route's length is the sum of its roads' weights, so the route with the fewest roads isn't always the shortest. `zip(route, route[1:])` pairs each place with the next one along.
+  A weighted graph puts a number on each connection: minutes on a road, pence on a fare, kilos on a crane lift. In Python, give each place a dictionary of its neighbours instead of a list, so `MINUTES["gym"]["market"]` is the minutes from the gym to the market. A route's length is the sum of its roads' weights, so the route with the fewest roads isn't always the shortest. `zip(route, route[1:])` pairs each place with the next one along.
 example: |
   MINUTES = {
-      "scrapyard": {"workshop": 8, "tailor": 4},
-      "tailor": {"scrapyard": 4, "workshop": 3},
-      "workshop": {"scrapyard": 8, "tailor": 3},
+      "gym": {"clocktower": 8, "market": 4},
+      "market": {"gym": 4, "clocktower": 3},
+      "clocktower": {"gym": 8, "market": 3},
   }
-  route = ["scrapyard", "tailor", "workshop"]
+  route = ["gym", "market", "clocktower"]
   print(sum(MINUTES[here][there] for here, there in zip(route, route[1:])))
 misconceptions: [weighted-route-counts-roads, fewest-roads-is-quickest, weights-on-places, zip-pairs-wrap-round]
 related: [graphs, dijkstra, dictionaries, zip]
@@ -18,53 +18,53 @@ cards:
     prompt: What does this print?
     code: |
       MINUTES = {
-          "pub": {"harbour-office": 2, "post-office": 3},
-          "harbour-office": {"pub": 2, "ferry": 3},
-          "post-office": {"pub": 3, "ferry": 4},
-          "ferry": {"harbour-office": 3, "post-office": 4},
+          "cinema": {"bridge": 2, "station": 3},
+          "bridge": {"cinema": 2, "park": 3},
+          "station": {"cinema": 3, "park": 4},
+          "park": {"bridge": 3, "station": 4},
       }
-      print(MINUTES["pub"]["harbour-office"] + MINUTES["harbour-office"]["ferry"])
+      print(MINUTES["cinema"]["bridge"] + MINUTES["bridge"]["park"])
     answer: "5"
   - type: predict
     prompt: What does this print?
     code: |
       MINUTES = {
-          "pub": {"harbour-office": 2, "post-office": 3},
-          "harbour-office": {"pub": 2, "ferry": 3},
-          "post-office": {"pub": 3, "ferry": 4},
-          "ferry": {"harbour-office": 3, "post-office": 4},
+          "cinema": {"bridge": 2, "station": 3},
+          "bridge": {"cinema": 2, "park": 3},
+          "station": {"cinema": 3, "park": 4},
+          "park": {"bridge": 3, "station": 4},
       }
-      route = ["ferry", "post-office", "pub", "harbour-office"]
+      route = ["park", "station", "cinema", "bridge"]
       print(sum(MINUTES[here][there] for here, there in zip(route, route[1:])))
     answer: "9"
   - type: choice
     prompt: What does this print?
     code: |
-      MINUTES = {"quay": {"chapel": 4}, "chapel": {}}
-      print(MINUTES["chapel"].get("quay"))
+      MINUTES = {"canal": {"chapel": 4}, "chapel": {}}
+      print(MINUTES["chapel"].get("canal"))
     options:
       - text: "None"
         correct: true
-        feedback: "The road from the quay to the chapel is written in the quay's dictionary only. From the chapel there's no road back, so `.get` gives None."
+        feedback: "The road from the canal to the chapel is written in the canal's dictionary only. From the chapel there's no road back, so `.get` gives None."
       - text: "4"
         misconception: graph-roads-one-list-both-ways
         feedback: "A weighted road is still one way unless it's written in both dictionaries. The chapel's dictionary is empty."
   - type: fill
-    prompt: "Fill the gap so this prints each road out of the bakery with its minutes."
+    prompt: "Fill the gap so this prints each road out of the cafe with its minutes."
     code: |
-      MINUTES = {"bakery": {"workshop": 2, "post-office": 2, "library": 3}}
-      for neighbour, minutes in MINUTES["bakery"].___():
+      MINUTES = {"cafe": {"clocktower": 2, "station": 2, "library": 3}}
+      for neighbour, minutes in MINUTES["cafe"].___():
           print(neighbour, minutes)
     blanks: [["items"]]
     tests: |
-      TESTS = [output("Three roads", expect="workshop 2\npost-office 2\nlibrary 3")]
+      TESTS = [output("Three roads", expect="clocktower 2\nstation 2\nlibrary 3")]
   - type: fix
     prompt: "`route_minutes` should add up the minutes along a route. It counts the roads instead. Fix it."
     code: |
       MINUTES = {
-          "scrapyard": {"workshop": 8, "tailor": 4},
-          "tailor": {"scrapyard": 4, "workshop": 3},
-          "workshop": {"scrapyard": 8, "tailor": 3},
+          "gym": {"clocktower": 8, "market": 4},
+          "market": {"gym": 4, "clocktower": 3},
+          "clocktower": {"gym": 8, "market": 3},
       }
 
 
@@ -75,17 +75,17 @@ cards:
           return total
 
 
-      print(route_minutes(["scrapyard", "tailor", "workshop"]))
+      print(route_minutes(["gym", "market", "clocktower"]))
     tests: |
       TESTS = [
-          output("Round by the tailor's", expect="7", hint="Each step adds MINUTES[here][there], the minutes on that road."),
-          function("The direct road", call="route_minutes", args=(["scrapyard", "workshop"],), expect=8),
+          output("Round by the market", expect="7", hint="Each step adds MINUTES[here][there], the minutes on that road."),
+          function("The direct road", call="route_minutes", args=(["gym", "clocktower"],), expect=8),
       ]
     solution: |
       MINUTES = {
-          "scrapyard": {"workshop": 8, "tailor": 4},
-          "tailor": {"scrapyard": 4, "workshop": 3},
-          "workshop": {"scrapyard": 8, "tailor": 3},
+          "gym": {"clocktower": 8, "market": 4},
+          "market": {"gym": 4, "clocktower": 3},
+          "clocktower": {"gym": 8, "market": 3},
       }
 
 
@@ -96,17 +96,17 @@ cards:
           return total
 
 
-      print(route_minutes(["scrapyard", "tailor", "workshop"]))
+      print(route_minutes(["gym", "market", "clocktower"]))
   - type: write
     prompt: "Write `nearest(roads, place)`: the neighbour of `place` with the fewest minutes on its road, or `None` if it has no roads out."
     starter: |
       def nearest(roads, place):
           pass
     tests: |
-      MINUTES = {"pub": {"harbour-office": 2, "post-office": 3, "greengrocer": 3}, "lighthouse": {}}
+      MINUTES = {"cinema": {"bridge": 2, "station": 3, "pool": 3}, "boathouse": {}}
       TESTS = [
-          function("From the pub", call="nearest", args=(MINUTES, "pub"), expect="harbour-office"),
-          function("Nowhere to go", call="nearest", args=(MINUTES, "lighthouse"), expect=None),
+          function("From the cinema", call="nearest", args=(MINUTES, "cinema"), expect="bridge"),
+          function("Nowhere to go", call="nearest", args=(MINUTES, "boathouse"), expect=None),
           function("Not on the map", call="nearest", args=(MINUTES, "chapel"), expect=None),
       ]
     solution: |
@@ -116,7 +116,7 @@ cards:
               return None
           return min(neighbours, key=neighbours.get)
   - type: choice
-    prompt: "From the scrapyard, one route to the ferry has four roads and another has five. Which is quicker?"
+    prompt: "From the gym, one route to the park has four roads and another has five. Which is quicker?"
     verify: none
     options:
       - text: "It depends on the minutes on the roads"

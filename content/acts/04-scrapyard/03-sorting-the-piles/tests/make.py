@@ -1,7 +1,7 @@
 import ast as _ast
 import random as _random
 
-YARD = [("hubcap", 4), ("kettle-element", 2), ("spring-coil", 4), ("gear-12t", 1)]
+FEW_PARTS = [("hubcap", 4), ("kettle-element", 2), ("spring-coil", 4), ("gear-12t", 1)]
 
 
 class TooManyKeys(Exception):
@@ -16,9 +16,9 @@ def same(item):
     return item
 
 
-def yard_by_weight(ctx):
+def few_by_weight(ctx):
     module = ctx.module()
-    got = module.merge_sort(list(YARD), key=weight_of)
+    got = module.merge_sort(list(FEW_PARTS), key=weight_of)
     expected = [("gear-12t", 1), ("kettle-element", 2), ("hubcap", 4), ("spring-coil", 4)]
     if got != expected:
         raise CheckFailed("Lightest first, and the two 4 kg parts in the order they arrived.", expected=expected, actual=got)
@@ -63,8 +63,8 @@ def leaves_items_alone(ctx):
 
 def every_tie_in_order(ctx):
     module = ctx.module()
-    lorry = _random.Random(21)
-    parts = [(f"part-{number}", lorry.randint(1, 5)) for number in range(300)]
+    crates = _random.Random(21)
+    parts = [(f"part-{number}", crates.randint(1, 5)) for number in range(300)]
     got = module.merge_sort(list(parts), key=weight_of)
     expected = sorted(parts, key=weight_of)
     if got != expected:
@@ -74,8 +74,8 @@ def every_tie_in_order(ctx):
 
 def n_log_n(ctx):
     module = ctx.module()
-    lorry = _random.Random(5)
-    parts = [(f"part-{number}", lorry.randint(1, 1000)) for number in range(4096)]
+    crates = _random.Random(5)
+    parts = [(f"part-{number}", crates.randint(1, 1000)) for number in range(4096)]
     calls = [0]
 
     def counted_weight(part):
@@ -103,8 +103,8 @@ def by_hand(tree, source):
 
 
 def random_numbers(seed, count):
-    lorry = _random.Random(seed)
-    return [lorry.randint(-50, 500) for _ in range(count)]
+    crates = _random.Random(seed)
+    return [crates.randint(-50, 500) for _ in range(count)]
 
 
 def quick_sorts(items, key=None, label=None):
@@ -125,8 +125,8 @@ def quick_sorts(items, key=None, label=None):
 
 def quick_ties(ctx):
     module = ctx.module()
-    lorry = _random.Random(34)
-    parts = [(f"part-{number}", lorry.randint(1, 5)) for number in range(300)]
+    crates = _random.Random(34)
+    parts = [(f"part-{number}", crates.randint(1, 5)) for number in range(300)]
     got = module.quick_sort(list(parts), key=weight_of)
     if got != sorted(parts, key=weight_of):
         raise CheckFailed("300 parts weighing 1 to 5 kg: lightest first, and parts of the same weight in the order they arrived.",
@@ -169,7 +169,7 @@ def quick_by_rounds(ctx):
 
 TESTS = [
     function("Five weights", call="merge_sort", args=([5, 2, 8, 1, 9],), expect=[1, 2, 5, 8, 9], visible=True),
-    custom("Nell's yard, by weight", yard_by_weight,
+    custom("A few parts, by weight", few_by_weight,
            hint="Compare key(part), not the parts themselves, and on a tie take from the left pile."),
     custom("Merging two piles", merges([2, 5, 9], [1, 5, 6, 12], [1, 2, 5, 5, 6, 9, 12])),
     custom("Merging with an empty pile on the left", merges([], [3, 4], [3, 4]),
@@ -197,7 +197,7 @@ TESTS = [
            hint="Each round should merge every pile once. If parts are being compared with every other part, it isn't merge sort."),
     structure("Merged by hand", check=by_hand),
     custom("Quick sort, five weights", quick_sorts([5, 2, 8, 1, 9])),
-    custom("Quick sort, Nell's yard by weight", quick_sorts(YARD, key=weight_of, label="the yard"),
+    custom("Quick sort, a few parts by weight", quick_sorts(FEW_PARTS, key=weight_of, label="a few parts"),
            hint="Compare key(item) with the pivot's key, and keep lighter, same and heavier each in the order they came."),
     custom("Quick sort, an empty pile", quick_sorts([]), hint="No items: hand back an empty list, after no rounds at all."),
     custom("Quick sort, one part", quick_sorts([7])),
@@ -216,6 +216,6 @@ TESTS = [
     output("Watching quick sort", inputs=["quick"], match="contains",
            expect="Step 2\n  1 #\n  3 ###\n  3 ###\n  5 #####\n  7 #######\n  9 #########\n 12 ############\nQuick sort: 2 steps"),
     output("Watching merge sort", inputs=["merge"], match="contains", expect="Merge sort: 3 steps"),
-    output("The pier lot agrees", inputs=["merge"], match="contains", expect="merge and quick agree with sorted(): True",
+    output("The clockmaker's lot agrees", inputs=["merge"], match="contains", expect="merge and quick agree with sorted(): True",
            hint="Both sorts, on ten thousand (name, kg) parts by weight, should give exactly what sorted() gives, ties and all."),
 ]

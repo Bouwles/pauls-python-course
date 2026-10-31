@@ -1,4 +1,4 @@
-"""Your own tests. The agreed ones are Gwen's; these are for whatever you
+"""Your own tests. The agreed ones are Caitlin's; these are for whatever you
 know might break. One to start you off.
 """
 from pier import Game

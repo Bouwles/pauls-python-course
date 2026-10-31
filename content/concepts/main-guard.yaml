@@ -25,14 +25,14 @@ cards:
       print("Loaded")
     answer: "Morning\nLoaded"
   - type: predict
-    prompt: "The first lines write a module, `tides.py`, with a main guard. What does the program print?"
+    prompt: "The first lines write a module, `times.py`, with a main guard. What does the program print?"
     code: |
-      with open("tides.py", "w") as file:
-          file.write('def high():\n    return "06:42"\n\nif __name__ == "__main__":\n    print("Testing tides")\n')
+      with open("times.py", "w") as file:
+          file.write('def lunch():\n    return "12:55"\n\nif __name__ == "__main__":\n    print("Testing times")\n')
 
-      import tides
-      print(tides.high())
-    answer: "06:42"
+      import times
+      print(times.lunch())
+    answer: "12:55"
   - type: predict
     prompt: "The first lines write a one-line module, `shop.py`. What does importing it print?"
     code: |

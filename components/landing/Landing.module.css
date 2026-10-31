@@ -1,405 +1,201 @@
-/* The landing page: the product first, then what you'll build, the town, and the price. */
+/* The landing page (REDESIGN-2.md 6). One column of sections on the page colour, every other
+   one a step up (a band), so depth comes from surfaces and space rather than boxes. */
 .page {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
   background: var(--bg);
 }
 
-/* ---- Hero: the harbour at dusk, the wordmark and tagline over the sky ---- */
-.hero {
-  position: relative;
-  background: var(--night-0);
-  padding: var(--s-6) var(--s-4) var(--s-8);
-  overflow: hidden;
+.inner {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 var(--s-8);
 }
 
-/* The scene's box has its final shape from the first paint (320x180 is 16:9), so nothing below
-   it moves while the art loads; the canvas draws at a whole-number scale inside it. */
-.heroScene {
-  display: flex;
-  justify-content: center;
+/* ---- Hero: the words on the left, a picture of the Workbench on the right ---- */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: var(--s-16);
   align-items: center;
-  width: 100%;
-  max-width: 1280px;
+  max-width: 1240px;
   margin: 0 auto;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
+  padding: var(--s-20) var(--s-8) var(--s-24);
 }
 
 .heroText {
-  position: absolute;
-  top: var(--s-12);
-  left: max(var(--s-6), calc((100% - 1280px) / 2 + var(--s-8)));
-  max-width: 520px;
   display: grid;
-  gap: var(--s-4);
-  padding: var(--s-5);
-  background: color-mix(in srgb, var(--night-0) 82%, transparent);
-  box-shadow: var(--shadow-hard), inset 0 0 0 2px var(--night-3);
-  color: var(--chalk);
+  justify-items: start;
+  gap: var(--s-6);
+  min-width: 0;
 }
 
-.wordmark {
-  line-height: 0;
+.heroMark {
+  margin-bottom: var(--s-2);
 }
 
-.tagline {
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-2);
-  line-height: 1;
-  -webkit-font-smoothing: none;
-  color: var(--chalk);
+.headline {
+  font-size: var(--fs-8);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: var(--tracking-display);
+  text-wrap: balance;
 }
 
-.lede {
-  font-size: var(--step-1);
+.description {
+  font-size: var(--fs-4);
   line-height: 1.55;
-  color: var(--chalk);
-  max-width: 52ch;
+  color: var(--text-2);
+  max-width: 36em;
 }
 
-.ctaRow {
+.ctas {
   display: flex;
   flex-wrap: wrap;
   gap: var(--s-3);
-  margin-top: var(--s-1);
+  margin-top: var(--s-2);
 }
 
-/* ---- Bands ---- */
+.small {
+  margin-top: calc(-1 * var(--s-2));
+  font-size: var(--fs-2);
+  color: var(--text-2);
+}
+
+.heroArt {
+  min-width: 0;
+}
+
+/* ---- Sections ---- */
+.section {
+  padding: var(--s-24) 0;
+  scroll-margin-top: var(--s-4);
+}
+
 .band {
-  width: 100%;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: var(--s-16) var(--s-6) 0;
+  background: var(--surface-1);
 }
 
-.bandHead {
+.head {
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  gap: var(--s-4) var(--s-10);
-  align-items: end;
-  margin-bottom: var(--s-6);
+  gap: var(--s-4);
+  max-width: 720px;
+  margin-bottom: var(--s-12);
 }
 
 .h2 {
-  font-size: var(--pixel-2);
-  color: var(--text);
+  font-size: var(--fs-7);
+  font-weight: 800;
 }
 
-.bandLede {
-  font-size: var(--step-1);
+.lede {
+  font-size: var(--fs-4);
   line-height: 1.55;
   color: var(--text-2);
-  max-width: 60ch;
 }
 
-/* ---- The playable job, in a game window ---- */
-.window {
-  outline: 2px solid var(--night-0);
-  box-shadow: var(--shadow-hard), inset 0 0 0 2px var(--night-3);
-  background: var(--night-1);
-}
-
-.titleBar {
-  display: flex;
-  align-items: center;
-  gap: var(--s-4);
-  height: 36px;
-  padding: 2px var(--s-3) 0;
-  background: var(--night-3);
-  box-shadow: inset 0 -2px 0 var(--night-0), inset 0 2px 0 var(--night-4);
-  color: var(--chalk);
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 1;
-  -webkit-font-smoothing: none;
-}
-
-.titleDots {
-  width: 8px;
-  height: 8px;
-  background: var(--brick);
-  box-shadow:
-    14px 0 0 var(--lamp),
-    28px 0 0 var(--kelp);
-  margin-right: 28px;
-}
-
-.titleWhere {
-  margin-left: auto;
-  color: var(--text-on-frame);
+/* ---- Try it now: the live Workbench in a browser window, full width ---- */
+.tryFrame {
+  width: 100%;
 }
 
 .playable {
-  min-height: 600px;
+  min-height: min(820px, 92vh);
+  display: flex;
+  flex-direction: column;
+}
+
+.playable > * {
+  flex: 1;
 }
 
 .waiting {
-  display: grid;
-  place-items: center;
-  min-height: 600px;
-  color: var(--fog);
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-}
-
-/* ---- What you'll build: a pixel shelf ---- */
-.shelf {
-  display: grid;
-  gap: var(--s-10);
-  padding: var(--s-6) var(--s-6) var(--s-4);
-  position: relative;
-  background: var(--art-tar);
-  box-shadow: inset 0 0 0 4px var(--night-0), var(--shadow-hard);
-}
-
-/* The back of the shelf: dark boards, 48 px wide. */
-.shelf::before {
-  content: "";
-  position: absolute;
-  inset: 4px;
-  background: var(--night-0);
-  opacity: 0.14;
-  -webkit-mask: var(--mask-vline-48) repeat 0 0 / 48px 8px;
-  mask: var(--mask-vline-48) repeat 0 0 / 48px 8px;
-  pointer-events: none;
-}
-
-.shelfRow {
-  list-style: none;
-  margin: 0;
-  padding: 0 var(--s-4) 0;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: var(--s-4);
-  position: relative;
-  /* The plank the objects stand on. */
-  box-shadow: 0 16px 0 var(--art-driftwood), 0 20px 0 var(--night-0);
-}
-
-.shelfItem {
-  position: relative;
-  display: grid;
-  justify-items: center;
-  gap: var(--s-1);
-  padding-bottom: var(--s-1);
-  outline: none;
-}
-
-.shelfItem canvas {
-  margin-bottom: var(--s-2);
-}
-
-.shelfLabel {
-  font-size: var(--step--1);
-  font-weight: 700;
-  color: var(--chalk);
-  text-align: center;
-}
-
-.shelfAct {
-  font-size: var(--step--2);
-  color: var(--fog);
-}
-
-.shelfLine {
-  position: absolute;
-  bottom: calc(100% + var(--s-2));
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 5;
-  width: max-content;
-  max-width: 280px;
-  padding: var(--s-2) var(--s-3);
-  background: var(--chalk);
-  color: var(--night-0);
-  box-shadow: var(--shadow-hard);
-  font-size: var(--step--1);
-  line-height: 1.4;
-  visibility: hidden;
-}
-
-.shelfItem:hover .shelfLine,
-.shelfItem:focus-visible .shelfLine {
-  visibility: visible;
-}
-
-.shelfItem:focus-visible {
-  outline: 2px solid var(--lamp);
-  outline-offset: 4px;
-}
-
-/* ---- The town ---- */
-.townGrid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.5fr) minmax(280px, 1fr);
-  gap: var(--s-8);
-  align-items: start;
-}
-
-.townMap {
-  background: var(--night-0);
-  box-shadow: var(--shadow-hard);
-  overflow: hidden;
-}
-
-.acts {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: var(--s-3);
-}
-
-.act {
-  display: grid;
-  gap: var(--s-1);
-}
-
-.actTitle {
   display: flex;
-  align-items: baseline;
-  gap: var(--s-2);
-  font-size: var(--pixel-1);
-  color: var(--text);
-}
-
-.actNo {
-  color: var(--lamp);
-  min-width: 1.4em;
-}
-
-.freeTag {
-  margin-left: var(--s-1);
-  padding: 2px 6px 0;
-  background: var(--kelp);
-  color: var(--night-0);
-}
-
-.actSubject {
-  padding-left: calc(1.4em + var(--s-2));
-  font-size: var(--step--1);
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-3);
+  min-height: min(820px, 92vh);
   color: var(--text-2);
+  font-weight: 700;
 }
 
-.syllabus {
-  margin-top: var(--s-6);
-}
-
-.syllabus summary {
-  cursor: pointer;
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 1;
-  color: var(--link-text);
-  -webkit-font-smoothing: none;
-}
-
-.syllabusBody {
-  margin-top: var(--s-4);
-  columns: 3 260px;
-  column-gap: var(--s-8);
-}
-
-.syllabusBody > div {
-  break-inside: avoid;
-  margin-bottom: var(--s-5);
-}
-
-.syllabusAct {
-  font-size: var(--pixel-1);
-  color: var(--lamp);
-  margin-bottom: var(--s-2);
-}
-
-/* The syllabus as a pixel-font list. */
-.syllabusJobs {
-  margin: 0;
-  padding-left: 2em;
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 24px;
-  -webkit-font-smoothing: none;
-  color: var(--text-2);
-}
-
-/* ---- FAQ ---- */
-.faq {
+/* ---- The Clocktower: the tower beside its directory ---- */
+.tower {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--s-6) var(--s-10);
-  margin: var(--s-6) 0 var(--s-16);
+  grid-template-columns: minmax(0, 440px) minmax(0, 1fr);
+  gap: var(--s-16);
+  align-items: center;
 }
 
-.faqItem dt {
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 1;
-  -webkit-font-smoothing: none;
-  color: var(--text);
-  margin-bottom: var(--s-2);
-}
-
-.faqItem dd {
-  margin: 0;
-  font-size: var(--step-0);
-  line-height: 1.55;
-  color: var(--text-2);
-  max-width: 60ch;
+.towerArt {
+  min-width: 0;
 }
 
 @media (max-width: 1100px) {
-  .heroText {
-    position: static;
-    margin: var(--s-6) auto 0;
-    max-width: 720px;
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-12);
+    padding-top: var(--s-16);
+  }
+
+  .heroArt {
+    max-width: 760px;
   }
 }
 
-@media (max-width: 860px) {
-  .band {
-    padding: var(--s-12) var(--s-4) 0;
-  }
-
-  .bandHead,
-  .townGrid,
-  .faq {
+@media (max-width: 900px) {
+  .tower {
     grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-12);
   }
 
-  .shelfRow {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    row-gap: var(--s-10);
+  .towerArt {
+    max-width: 440px;
+    width: 100%;
+    margin: 0 auto;
   }
 
-  /* Two to a row: each line opens towards the middle, so none runs off the screen. */
-  .shelfLine {
-    max-width: min(280px, calc(100vw - 48px));
-    transform: none;
+  /* The Workbench lays itself out as a column at this width: let it be as tall as it needs. */
+  .playable,
+  .waiting {
+    min-height: 560px;
   }
+}
 
-  .shelfItem:nth-child(odd) .shelfLine {
-    left: 0;
-  }
-
-  .shelfItem:nth-child(even) .shelfLine {
-    left: auto;
-    right: 0;
+@media (max-width: 720px) {
+  .inner {
+    padding: 0 var(--s-4);
   }
 
   .hero {
-    padding: var(--s-4) var(--s-2) var(--s-6);
+    padding: var(--s-10) var(--s-4) var(--s-16);
+    gap: var(--s-10);
   }
 
   .heroText {
-    padding: var(--s-4);
+    gap: var(--s-5);
   }
 
-  .tagline {
-    font-size: var(--pixel-1);
-    line-height: 24px;
+  .headline {
+    line-height: 1.05;
   }
 
-  .titleWhere {
-    display: none;
+  .ctas {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .ctas > * {
+    width: 100%;
+  }
+
+  .section {
+    padding: var(--s-16) 0;
+  }
+
+  .head {
+    margin-bottom: var(--s-8);
   }
 }

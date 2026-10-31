@@ -2,10 +2,10 @@ id: tic-tac-toe-agent
 title: "Tic-Tac-Toe Agent"
 project_name: "Tic-Tac-Toe Agent"
 status: outline
-client: committee
+client: caitlin
 building: crab-club
 estimated_minutes: 120
-summary: "An agent for the arcade's noughts and crosses table that learns by playing itself: Monte Carlo control from whole games, then self-play until it never loses."
+summary: "An agent for Caitlin's noughts and crosses cabinet that learns by playing itself: Monte Carlo control from whole games, then self-play until it never loses."
 # Outline, for whoever writes it in full:
 # - Comes after the Value Estimator (learning-by-racing), which introduces
 #   monte-carlo; this project reviews it and introduces self-play.
@@ -18,7 +18,7 @@ summary: "An agent for the arcade's noughts and crosses table that learns by pla
 #   player and 1000 against the perfect player (a small minimax, provided),
 #   and print wins, draws and losses. Then a game against the learner at the
 #   keyboard.
-# - Pip's version: rewards only wins, so his agent never learns that a draw
-#   is better than a loss against the perfect player.
-# - The committee have a table by the change machine; Sir Reginald plays O
-#   and is not good at it.
+# - Fix Yahya's version: he rewards only wins, so his agent never learns that
+#   a draw is better than a loss against the perfect player.
+# - Caitlin built the cabinet; the crab's face is on the O pieces, and Yahya
+#   wants an agent that never loses to him.

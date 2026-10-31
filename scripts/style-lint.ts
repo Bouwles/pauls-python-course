@@ -1,15 +1,19 @@
-// The Look rules from REDESIGN.md, checked on every stylesheet (Sections 2.2, 3.3, 11):
-// no rounded corners, no gradients, glows, blurred shadows or backdrop filters, no uppercase
-// tracked labels, no 1px hairline borders, no serif fonts, and no raw colours in components
-// (they come from tokens.css, which is generated from palette.json).
-//   npx tsx scripts/style-lint.ts
+// The look rules from REDESIGN-2.md (Sections 2, 3 and 10), checked on every stylesheet and
+// component: one radius scale (4, 6, 8), one floating shadow, no gradients, glows, blur or
+// backdrop filters, no uppercase tracked labels, no pixel font or pixel frames, no raw
+// colours outside tokens.css, and none of the old tokens from the first redesign.
+//   npx tsx scripts/style-lint.ts              every file
+//   npx tsx scripts/style-lint.ts components/x only files under a folder (or several)
 import fs from "node:fs";
 import path from "node:path";
+import { LEGACY } from "./build-tokens";
 
 const root = process.cwd();
 const DIRS = ["app", "components"];
-// Generated from the palette, or the one place frames are defined.
 const RAW_COLOUR_OK = new Set(["tokens.css"]);
+// The temporary aliases for old frames; it goes once nothing uses them.
+const SKIP = new Set(["app/legacy.css"]);
+const OLD_TOKENS = new Set([...Object.keys(LEGACY), "mask-dots-8", "mask-vline-48", "mask-vline-24", "mask-vline-28", "mask-hband-16", "mask-hband-40", "mask-diag-8", "mask-dot-6"]);
 
 interface Rule {
   name: string;
@@ -20,35 +24,48 @@ const prop = (d: string) => d.slice(0, d.indexOf(":")).trim();
 const value = (d: string) => d.slice(d.indexOf(":") + 1).trim();
 
 const RULES: Rule[] = [
-  { name: "rounded corner", test: (d) => /radius$/.test(prop(d)) && !/^(0|0px|var\(--r-[12]\))$/.test(value(d)) },
+  { name: "radius off the scale (use --r-sm, --r-md, --r-lg, 0 or 50%)", test: (d) => /radius$/.test(prop(d)) && !/^(0|0px|50%|inherit|var\(--r-(sm|md|lg)\))(\s+(0|var\(--r-(sm|md|lg)\)))*$/.test(value(d)) },
   { name: "gradient", test: (d) => /gradient\(/.test(d) },
   { name: "backdrop filter", test: (d) => /^backdrop-filter\s*:/.test(d) },
-  { name: "blur", test: (d) => /blur\(/.test(d) },
+  { name: "blur or glow", test: (d) => /blur\(|drop-shadow\(/.test(d) },
   { name: "uppercase label", test: (d) => /^text-transform\s*:\s*uppercase/.test(d) },
-  { name: "letter-spacing", test: (d) => prop(d) === "letter-spacing" && !/^(normal|0|var\(--prose-letter-spacing\))$/.test(value(d)) },
-  { name: "1px hairline border", test: (d) => /^(border|outline)(-[a-z]+)?\s*:\s*1px\s+(solid|dashed|dotted)/.test(d) },
+  { name: "letter-spacing", test: (d) => prop(d) === "letter-spacing" && !/^(normal|0|-0\.01em|-0\.02em|var\(--tracking-display\)|var\(--prose-letter-spacing\))$/.test(value(d)) },
   {
-    // Blurred shadows: a third length that isn't zero (offset-x offset-y BLUR).
-    name: "soft shadow",
-    test: (d) => /^box-shadow\s*:/.test(d) && d.split(/,(?![^(]*\))/).some((part) => /(-?\d+px)\s+(-?\d+px)\s+([1-9]\d*px)/.test(part.replace(/inset\s+/, ""))),
+    // The only blurred shadow is the floating one; zero-blur insets (underlines, rings) are fine.
+    name: "shadow (use var(--shadow-float))",
+    test: (d) =>
+      /^box-shadow\s*:/.test(d) &&
+      !/var\(--shadow-float\)|var\(--focus-ring\)/.test(d) &&
+      d.split(/,(?![^(]*\))/).some((part) => /(-?\d+px)\s+(-?\d+px)\s+([1-9]\d*px)/.test(part.replace(/inset\s+/, ""))),
   },
   { name: "serif font", test: (d) => /^font-family\s*:/.test(d) && /(?<!sans-)serif|Source Serif|Literata|Georgia|Times/i.test(d) },
-  { name: "raw colour", test: (d, f) => !RAW_COLOUR_OK.has(path.basename(f)) && /^(?!--)[a-z-]+\s*:.*(#[0-9a-fA-F]{3,8}\b|rgba?\(\s*\d)/.test(d) && !/^(mask|-webkit-mask)/.test(d) },
+  { name: "pixel font", test: (d) => /font-pixel|m6x11|-webkit-font-smoothing\s*:\s*none|font-smooth\s*:\s*never/.test(d) },
+  { name: "pixel frame (border-image)", test: (d) => /^border-image/.test(d) },
+  { name: "pixel rendering", test: (d, f) => /^image-rendering\s*:/.test(d) && !f.endsWith("app/globals.css") },
+  { name: "raw colour", test: (d, f) => !RAW_COLOUR_OK.has(path.basename(f)) && /^(?!--)[a-z-]+\s*:.*(#[0-9a-fA-F]{3,8}\b|rgba?\(\s*\d)/.test(d) },
+  {
+    name: "old token",
+    test: (d) => [...d.matchAll(/var\(--([a-z0-9-]+)/g)].some((m) => OLD_TOKENS.has(m[1]!)),
+  },
 ];
 
-function files(dir: string): string[] {
+function files(dir: string, ext: RegExp): string[] {
   const out: string[] = [];
+  if (!fs.existsSync(dir)) return out;
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
     const p = path.join(dir, e.name);
-    if (e.isDirectory()) out.push(...files(p));
-    else if (e.name.endsWith(".css")) out.push(p);
+    if (e.isDirectory()) out.push(...files(p, ext));
+    else if (ext.test(e.name)) out.push(p);
   }
   return out;
 }
 
-const all = [...DIRS.flatMap((d) => files(path.join(root, d))), path.join(root, "tokens.css")];
+const only = process.argv.slice(2).map((a) => path.resolve(root, a));
+const inScope = (f: string) => !SKIP.has(path.relative(root, f)) && (!only.length || only.some((o) => f === o || f.startsWith(o + path.sep)));
+
+const sheets = [...DIRS.flatMap((d) => files(path.join(root, d), /\.css$/)), path.join(root, "tokens.css")].filter(inScope);
 const problems: string[] = [];
-for (const f of all) {
+for (const f of sheets) {
   const text = fs.readFileSync(f, "utf8").replace(/\/\*[\s\S]*?\*\//g, (c) => c.replace(/[^\n]/g, " "));
   const lines = text.split("\n");
   // Join each declaration onto one line (box-shadow lists run over several).
@@ -63,16 +80,34 @@ for (const f of all) {
       if (!buf.trim()) startLine = i + 1;
       if (ch === ";") {
         const decl = buf.trim().replace(/\s+/g, " ");
-        for (const r of RULES) if (r.test(decl, f)) problems.push(`${path.relative(root, f)}:${startLine}  ${r.name}: ${decl}`);
+        // tokens.css defines the old aliases on purpose, for now.
+        for (const r of RULES) if (!(path.basename(f) === "tokens.css" && /old token|pixel font/.test(r.name)) && r.test(decl, f)) problems.push(`${path.relative(root, f)}:${startLine}  ${r.name}: ${decl}`);
         buf = "";
       } else buf += ch;
     }
   });
 }
 
+// Components: no pixel frame classes, no pixel scenes or sprites, no old tokens in inline styles.
+const TSX_RULES: { name: string; re: RegExp }[] = [
+  { name: "pixel frame class", re: /frame-(panel|paper|dialogue)\b/ },
+  { name: "pixel text class", re: /\bpixel-text\b/ },
+  { name: "pixel art component", re: /<(SceneCanvas|SpriteFrame|CharacterPortrait|LearnerSprite|LearnerHead|TownMap)\b/ },
+  { name: "old token", re: /var\(--(night-[0-4]|chalk|fog|lamp|kelp|brick|sea|plum|day-[a-z0-9]+|font-pixel|pixel-[123]|art-[a-z-]+|shadow-hard|paper[a-z-]*|ink(-[23])?)\)/ },
+];
+for (const f of DIRS.flatMap((d) => files(path.join(root, d), /\.tsx$/)).filter(inScope)) {
+  fs.readFileSync(f, "utf8")
+    .split("\n")
+    .forEach((line, i) => {
+      for (const r of TSX_RULES) if (r.re.test(line)) problems.push(`${path.relative(root, f)}:${i + 1}  ${r.name}: ${line.trim().slice(0, 120)}`);
+    });
+}
+
 if (problems.length) {
   console.log(problems.join("\n"));
-  console.log(`\n${problems.length} style problems.`);
+  const byFile = new Map<string, number>();
+  for (const p of problems) byFile.set(p.split(":")[0]!, (byFile.get(p.split(":")[0]!) ?? 0) + 1);
+  console.log(`\n${problems.length} style problems in ${byFile.size} files.`);
   process.exit(1);
 }
-console.log(`Style lint: ${all.length} stylesheets clean.`);
+console.log(`Style lint: ${sheets.length} stylesheets and the components clean.`);

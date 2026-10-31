@@ -3,56 +3,56 @@ title: Loops that never end
 summary: |
   A loop whose test never becomes `False` goes round forever. Usually a line that should change the variable in the test is missing, or the test can be stepped over, like `!= 0` on a count that goes 3, 1, -1. Press Stop to get out, then check that every pass moves the loop closer to its end.
 example: |
-  fog = 5
-  while fog > 0:
-      print("Horn")
-      fog = fog - 2
+  chimes = 5
+  while chimes > 0:
+      print("Bong")
+      chimes = chimes - 2
 misconceptions: [loop-condition-updates-itself, not-equal-stops-when-passed]
 related: [while-loops, sentinels]
 cards:
   - type: predict
     prompt: "This one does stop. What does it print?"
     code: |
-      fog = 5
-      while fog > 0:
-          print("Horn")
-          fog = fog - 2
-    answer: "Horn\nHorn\nHorn"
+      chimes = 5
+      while chimes > 0:
+          print("Bong")
+          chimes = chimes - 2
+    answer: "Bong\nBong\nBong"
   - type: choice
     prompt: What does this do?
     code: |
-      fog = 5
-      while fog != 0:
-          print("Horn")
-          fog = fog - 2
+      chimes = 5
+      while chimes != 0:
+          print("Bong")
+          chimes = chimes - 2
     verify: error
     options:
-      - text: It prints Horn forever
+      - text: It prints Bong forever
         correct: true
-        feedback: "`fog` goes 5, 3, 1, -1, -3. It never equals 0 exactly, so `fog != 0` stays `True`. `fog > 0` would stop it."
-      - text: It prints Horn three times
+        feedback: "`chimes` goes 5, 3, 1, -1, -3. It never equals 0 exactly, so `chimes != 0` stays `True`. `chimes > 0` would stop it."
+      - text: It prints Bong three times
         misconception: not-equal-stops-when-passed
-        feedback: "`!= 0` only stops on exactly 0. `fog` jumps from 1 to -1 and carries on downwards."
+        feedback: "`!= 0` only stops on exactly 0. `chimes` jumps from 1 to -1 and carries on downwards."
   - type: choice
     prompt: What does this do?
     code: |
-      tide = 1
-      while tide < 3:
+      level = 1
+      while level < 3:
           print("Waiting")
-      print("Sail")
+      print("Go")
     verify: error
     options:
       - text: It prints Waiting forever
         correct: true
-        feedback: "Nothing in the body changes `tide`, so `tide < 3` is `True` on every pass."
+        feedback: "Nothing in the body changes `level`, so `level < 3` is `True` on every pass."
       - text: |-
           Waiting
           Waiting
-          Sail
+          Go
         misconception: loop-condition-updates-itself
-        feedback: "A loop's variables don't change by themselves. Something in the body has to change `tide`."
+        feedback: "A loop's variables don't change by themselves. Something in the body has to change `level`."
   - type: fix
-    prompt: "Bea types sales, then `done`. Run it with `5`, `3`, `done`: it hangs. Press Stop, then fix it so it prints 8."
+    prompt: "Riya types sales, then `done`. Run it with `5`, `3`, `done`: it hangs. Press Stop, then fix it so it prints 8."
     code: |
       total = 0
       entry = input("Sale? ")

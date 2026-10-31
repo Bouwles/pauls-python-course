@@ -1,31 +1,31 @@
 import copy as _copy
 from collections import deque as _deque
 
-TOWN = {
-    "workshop": ["bakery", "post-office", "scrapyard"],
-    "bakery": ["workshop", "pub", "greengrocer"],
-    "post-office": ["workshop", "town-hall", "harbour-office"],
-    "pub": ["bakery", "harbour-office"],
-    "harbour-office": ["post-office", "pub", "ferry"],
-    "ferry": ["harbour-office", "lighthouse"],
-    "lighthouse": ["ferry"],
-    "town-hall": ["post-office", "library", "tailor"],
-    "library": ["town-hall"],
-    "tailor": ["town-hall", "greengrocer"],
-    "greengrocer": ["bakery", "tailor", "bike-shed"],
-    "bike-shed": ["greengrocer", "scrapyard"],
-    "scrapyard": ["bike-shed", "workshop"],
+CITY = {
+    "clocktower": ["cafe", "station", "gym"],
+    "cafe": ["clocktower", "cinema", "pool"],
+    "station": ["clocktower", "museum", "bridge"],
+    "cinema": ["cafe", "bridge"],
+    "bridge": ["station", "cinema", "park"],
+    "park": ["bridge", "boathouse"],
+    "boathouse": ["park"],
+    "museum": ["station", "library", "market"],
+    "library": ["museum"],
+    "market": ["museum", "pool"],
+    "pool": ["cafe", "market", "bus-stop"],
+    "bus-stop": ["pool", "gym"],
+    "gym": ["bus-stop", "clocktower"],
 }
 
-# The tide's in: the causeway to the lighthouse is under water.
-FLOODED = {place: [n for n in near if n != "lighthouse"] for place, near in TOWN.items() if place != "lighthouse"}
-FLOODED["lighthouse"] = []
+# The river's up: the path to the boathouse is under water.
+FLOODED = {place: [n for n in near if n != "boathouse"] for place, near in CITY.items() if place != "boathouse"}
+FLOODED["boathouse"] = []
 
-ONE_WAY = {"quay": ["fish-market"], "fish-market": ["chapel"], "chapel": []}
+ONE_WAY = {"canal": ["flower-market"], "flower-market": ["chapel"], "chapel": []}
 
 DEAD_END = {"workshop": ["shed", "yard"], "yard": ["gate"], "gate": ["workshop"]}
 
-SQUARE = {"pub": ["bakery", "tailor"], "bakery": ["pub", "library"], "tailor": ["pub", "library"], "library": ["bakery", "tailor"]}
+SQUARE = {"cinema": ["cafe", "market"], "cafe": ["cinema", "library"], "market": ["cinema", "library"], "library": ["cafe", "market"]}
 
 
 class TooMany(Exception):
@@ -63,7 +63,7 @@ class CountingRoads(dict):
 
 
 def grid(size):
-    """A town laid out in a size-by-size grid of streets, each corner joined to its neighbours."""
+    """A city laid out in a size-by-size grid of streets, each corner joined to its neighbours."""
     roads = {}
     for row in range(size):
         for col in range(size):
@@ -136,7 +136,7 @@ def big_route(ctx):
     try:
         got = module.shortest_route(roads, "0,0", "29,29")
     except TooMany:
-        raise CheckFailed("Crossing a town of 900 places looked up more than 1,800 places' roads. Breadth-first search looks up each place once.")
+        raise CheckFailed("Crossing a city of 900 places looked up more than 1,800 places' roads. Breadth-first search looks up each place once.")
     check_route(plain, "0,0", "29,29", got)
 
 
@@ -147,7 +147,7 @@ def big_away(ctx):
     try:
         got = module.roads_away(roads, "15,15")
     except TooMany:
-        raise CheckFailed("Measuring a town of 900 places looked up more than 1,800 places' roads. Breadth-first search looks up each place once.")
+        raise CheckFailed("Measuring a city of 900 places looked up more than 1,800 places' roads. Breadth-first search looks up each place once.")
     expected = true_distances(plain, "15,15")
     if got != expected:
         wrong = [place for place in expected if got.get(place) != expected[place]] if isinstance(got, dict) else []
@@ -167,36 +167,36 @@ def walled_off(ctx):
     try:
         got = module.shortest_route(roads, "0,0", "29,29")
     except TooMany:
-        raise CheckFailed("Finding there's no way across a town of 900 places looked up more than 1,800 places' roads.")
+        raise CheckFailed("Finding there's no way across a city of 900 places looked up more than 1,800 places' roads.")
     if got is not None:
-        raise CheckFailed("A row of the town is walled off, so there's no way from 0,0 to 29,29.", expected="None", actual=repr(got))
+        raise CheckFailed("A row of the city is walled off, so there's no way from 0,0 to 29,29.", expected="None", actual=repr(got))
 
 
 TESTS = [
-    function("The scrapyard to the ferry", call="shortest_route", args=(TOWN, "scrapyard", "ferry"),
-             expect=["scrapyard", "workshop", "post-office", "harbour-office", "ferry"], visible=True),
-    function("How far from the lighthouse", call="roads_away",
-             args=({"lighthouse": ["ferry"], "ferry": ["lighthouse", "harbour-office"], "harbour-office": ["ferry"]}, "lighthouse"),
-             expect={"lighthouse": 0, "ferry": 1, "harbour-office": 2}, visible=True),
-    custom("The library to the lighthouse", route(TOWN, "library", "lighthouse")),
-    custom("Next door", route(TOWN, "bakery", "pub")),
-    function("Already there", call="shortest_route", args=(TOWN, "pub", "pub"), expect=["pub"],
+    function("The gym to the park", call="shortest_route", args=(CITY, "gym", "park"),
+             expect=["gym", "clocktower", "station", "bridge", "park"], visible=True),
+    function("How far from the boathouse", call="roads_away",
+             args=({"boathouse": ["park"], "park": ["boathouse", "bridge"], "bridge": ["park"]}, "boathouse"),
+             expect={"boathouse": 0, "park": 1, "bridge": 2}, visible=True),
+    custom("The library to the boathouse", route(CITY, "library", "boathouse")),
+    custom("Next door", route(CITY, "cafe", "cinema")),
+    function("Already there", call="shortest_route", args=(CITY, "cinema", "cinema"), expect=["cinema"],
              hint="If start is the goal, the route is just [start]."),
-    custom("Two routes, equally short", route(SQUARE, "pub", "library"),
+    custom("Two routes, equally short", route(SQUARE, "cinema", "library"),
            hint="Either way round the square will do, as long as it's two roads."),
-    function("The causeway's flooded", call="shortest_route", args=(FLOODED, "workshop", "lighthouse"), expect=None,
+    function("The path's flooded", call="shortest_route", args=(FLOODED, "clocktower", "boathouse"), expect=None,
              hint="When there's nowhere left to try, give back None."),
-    function("Against a one-way street", call="shortest_route", args=(ONE_WAY, "chapel", "quay"), expect=None),
-    function("Down a one-way street", call="shortest_route", args=(ONE_WAY, "quay", "chapel"), expect=["quay", "fish-market", "chapel"]),
+    function("Against a one-way street", call="shortest_route", args=(ONE_WAY, "chapel", "canal"), expect=None),
+    function("Down a one-way street", call="shortest_route", args=(ONE_WAY, "canal", "chapel"), expect=["canal", "flower-market", "chapel"]),
     function("Into a dead end", call="shortest_route", args=(DEAD_END, "workshop", "shed"), expect=["workshop", "shed"]),
     custom("Past a dead end", route(DEAD_END, "workshop", "gate"),
            hint="A place with no list of its own has no roads out. roads.get(place, []) treats it as a dead end."),
-    custom("Everywhere from the workshop", away(TOWN, "workshop", "Every place in town and its number of roads from the workshop.")),
-    custom("Not past the flood", away(FLOODED, "pub", "The lighthouse can't be reached, so it isn't in the dictionary.")),
-    custom("One way only", away(ONE_WAY, "fish-market", "From the fish market you can only reach the chapel.")),
+    custom("Everywhere from the Clocktower", away(CITY, "clocktower", "Every place in the city and its number of roads from the Clocktower.")),
+    custom("Not past the flood", away(FLOODED, "cinema", "The boathouse can't be reached, so it isn't in the dictionary.")),
+    custom("One way only", away(ONE_WAY, "flower-market", "From the flower market you can only reach the chapel.")),
     custom("Dead ends counted", away(DEAD_END, "workshop", "The shed is one road away, even with no roads out.")),
-    function("Nowhere to go", call="roads_away", args=({"lighthouse": []}, "lighthouse"), expect={"lighthouse": 0}),
-    custom("Across a town of 900 places", big_route,
+    function("Nowhere to go", call="roads_away", args=({"boathouse": []}, "boathouse"), expect={"boathouse": 0}),
+    custom("Across a city of 900 places", big_route,
            hint="Keep a record of every place you've already reached, and never queue a place twice."),
     custom("All 900 places measured", big_away,
            hint="Each place's distance is one more than the place you first reached it from."),

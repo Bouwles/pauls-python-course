@@ -4,7 +4,7 @@ type: predict
 title: Follow the chalk
 concept: linked-lists
 dialogue:
-  - nell: "Never mind which crate came in first. Follow the arrows."
+  - yahya: "Never mind which crate came in first. Follow the arrows."
 code: |
   class Crate:
       def __init__(self, part):
@@ -43,4 +43,4 @@ options:
 after: |
   Run it. Then press Step through and look at the objects: each crate's `next` is an arrow to another crate, or `None`.
 ---
-Penhallow's chalked round is a **linked list**. Each crate holds its part and a reference to the next crate; the last crate's `next` is `None`. To find anything, you start at the first crate and follow the arrows.
+The clockmaker's chalked round is a **linked list**. Each crate holds its part and a reference to the next crate; the last crate's `next` is `None`. To find anything, you start at the first crate and follow the arrows.

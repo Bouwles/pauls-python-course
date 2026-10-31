@@ -1,11 +1,11 @@
 ---
 id: block
 type: make
-title: One block of her machine
+title: One block
 files: [attention.py, block.py]
 entry: block.py
 starter_from: make
-on_pass: { wendt: "The block matches, number for number. And changing the last letter changes only the last row." }
+on_pass: { neil: "The block matches, number for number. And changing the last letter changes only the last row." }
 hints:
   nudge: "Which way does layer norm take its mean, compared with batch norm? And in `transformer_block`, what gets added to what?"
   plan:
@@ -39,6 +39,6 @@ Where the full stop looks, in the first head:
 Changing the last character changes only the last row: True
 ```
 
-These weights have never been trained. Wendt generated them to check the arithmetic, so the full stop's interest in vowels means nothing at all.
+These weights have never been trained. Neil generated them to check the arithmetic, so the full stop's interest in vowels means nothing at all.
 
-The checks compare each function with a reference on her weights and on other sizes.
+The checks compare each function with a reference on Neil's weights and on other sizes.

@@ -114,7 +114,7 @@ cards:
       def start_layer(n_in, n_out, rng):
           return rng.normal(0, np.sqrt(2 / n_in), (n_in, n_out)), np.zeros(n_out)
   - type: choice
-    prompt: "Pip starts every weight from `rng.normal(0, 10, shape)`: big, so it has more to work with. What happens to a sigmoid output layer?"
+    prompt: "Yahya starts every weight from `rng.normal(0, 10, shape)`: big, so it has more to work with. What happens to a sigmoid output layer?"
     verify: none
     options:
       - text: "Its sums are huge, so its outputs sit at 0 or 1 where the sigmoid is flat, and almost no blame gets back"

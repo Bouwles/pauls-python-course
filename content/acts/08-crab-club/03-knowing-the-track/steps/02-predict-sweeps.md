@@ -5,7 +5,7 @@ title: Two sweeps
 concept: policy-evaluation
 code: |
   # A practice corridor: four tiles, the finish at the right-hand end.
-  # Sir Reginald always goes right, and never slips.
+  # The crab always goes right, and never slips.
   values = [0.0, 0.0, 0.0, 0.0]      # tile 3 is the finish
 
   for sweep in range(2):
@@ -27,4 +27,4 @@ options:
     misconception: value-is-next-reward
     feedback: "That's after one sweep, when every value was still 0, so each tile got only its next reward. The second sweep adds 0.9 times the value of the tile ahead, which is no longer 0."
 ---
-Policy evaluation on the smallest track the club owns. Trace it by hand, one sweep at a time.
+Policy evaluation on the smallest track in the Arcade. Trace it by hand, one sweep at a time.

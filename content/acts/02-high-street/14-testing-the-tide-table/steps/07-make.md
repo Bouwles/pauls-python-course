@@ -5,7 +5,7 @@ title: Make the bank pass
 files: [bank.py, test_bank.py]
 entry: test_bank.py
 starter_from: test-first
-on_pass: { agnes: "Every test passes, and they fail when they should. Requirement three is met, five months before March." }
+on_pass: { aaesha: "Every test passes, and they fail when they should. If anyone breaks it now, we'll know by lunchtime." }
 hints:
   nudge: "`withdraw` already refuses when there isn't enough. How can `transfer` use what it says?"
   plan:
@@ -31,7 +31,7 @@ hints:
 ---
 Now make your tests pass: write `transfer` in `bank.py`.
 
-Then Agnes's last requirement, tests first again. `add_interest(percent)` pays in that much interest on the balance, rounded to the nearest penny, and returns what it paid:
+Then Aaesha's last requirement, tests first again. `add_interest(percent)` pays in that much interest on the balance, rounded to the nearest penny, and returns what it paid:
 
 ```
 2% on £12.50 pays 25 pence

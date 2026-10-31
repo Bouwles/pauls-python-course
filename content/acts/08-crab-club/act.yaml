@@ -1,13 +1,16 @@
 id: crab-club
 number: 8
-title: "The Pier Arcade"
+title: "The Arcade"
 district: crab-club
 subject: "Reinforcement learning"
 hours: 50
-summary: "The Arcade Committee want winners: the best handbill, the best line round the racing grid, and a crab for the Arcade League. Bandits, Markov decision processes, dynamic programming, Monte Carlo and TD learning, Q-learning, DQN, policy gradients, actor-critic and PPO, with Sir Reginald doing the racing."
-locked_line: "The Crab Racing Club. Members only. Very serious members."
+summary: "Yahya and Caitlin's floor: a row of cabinets, a leaderboard, a prize shelf and a racing crab that knows nothing yet. Bandits, Markov decision processes, dynamic programming, Monte Carlo and TD learning, Q-learning, DQN, policy gradients, actor-critic and PPO, all the way to the weekly Arcade League."
+locked_line: "The seventh floor. The cabinets are under dust sheets and the leaderboard is blank."
 intro:
-  - committee: "Sir Reginald has potential. Unrealised potential."
+  - paul: "Seventh floor. The Arcade. Mind the cables."
+  - paul: "Until now you've told programs what to do. Up here they work it out by trying."
+  - yahya: "Leaderboard's by the door. Your name isn't on it yet."
+  - caitlin: "The crab's in cabinet three. It doesn't know anything. That's your job."
 jobs:
   - which-bucket
   - the-racing-grid

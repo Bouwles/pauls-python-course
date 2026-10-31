@@ -40,7 +40,7 @@ class Catch:
     def drop(self, kind, column):
         """Something new at the top."""
         if kind not in ("fish", "boot"):
-            raise ValueError(f"Only fish and boots fall on Gwen's pier, not {kind!r}.")
+            raise ValueError(f"Only fish and boots fall on this pier, not {kind!r}.")
         if not self.over:
             self.falling.append([kind, column, 0])
 

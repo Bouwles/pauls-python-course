@@ -1,9 +1,9 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "My loans ledger. Pip typed it up while I was out. It shows."
+  - paul: "The Workshop's tool loans book. Typed up by three people on three different days. It shows."
 code: |
   import numpy as np
   import pandas as pd
@@ -43,7 +43,7 @@ subgoals:
   - label: Drop the duplicates, last
     lines: [23, 23]
 explain:
-  prompt: "Why does Moss drop the duplicates last, and not first, when there would be less to clean?"
+  prompt: "Why does Paul drop the duplicates last, and not first, when there would be less to clean?"
   answer: "Before cleaning, the two spokeshave rows don't match: one has a space at the front, the other at the end, and the clamps differ by a capital. Only once the text and dates are tidied do the copies look identical, so only then can drop_duplicates() see them."
   concept: data-cleaning
 ---
@@ -53,4 +53,4 @@ explain:
 - `.loc[condition, column] = value` changes one column, in the rows where the condition holds.
 - `reset_index(drop=True)` labels the rows 0, 1, 2 again, after rows have gone.
 
-Nobody borrows a chisel for 900 days. Not even Pip.
+Nobody borrows a chisel for 900 days. Not even to fix the clock.

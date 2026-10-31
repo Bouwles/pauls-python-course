@@ -35,11 +35,11 @@ def first_and_last(route):
     return route[-1]
 
 
-print(first_and_last(["Quay", "Mill", "Church"]))
+print(first_and_last(["Station", "Mill", "Church"]))
 ```
 
 ```text
-Quay
+Station
 ```
 
 The second `return` is dead code: Python never gets to it, and it raises no error either. To send back both stops, put them in the same `return`: `return route[0], route[-1]`.

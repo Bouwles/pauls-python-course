@@ -1,18 +1,18 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "The back door has a padlock. I forget the code. Same shape as Gwen's game."
+  - paul: "The chalk cupboard has a padlock. I forget the code. Same shape as Caitlin's game."
 code: |
-  # The back-door padlock. q gives up and fetches the oil.
+  # The chalk cupboard padlock. q gives up and asks Neil.
   secret = 4172
   tries = 0
 
   while True:
       entry = input("Code? ")
       if entry == "q":
-          print("Giving up. Fetch the oil.")
+          print("Giving up. Ask Neil.")
           break
       code = int(entry)
       if code < 1000 or code > 9999:
@@ -40,7 +40,7 @@ subgoals:
   - label: React to a miss
     lines: [18, 18]
 explain:
-  prompt: "Why does Moss check for `q` on line 7, before `int(entry)` on line 10?"
+  prompt: "Why does Paul check for `q` on line 7, before `int(entry)` on line 10?"
   answer: "`int(\"q\")` is a ValueError. The quit word has to be caught while it's still text, before anything tries to turn it into a number."
   concept: sentinels
 ---

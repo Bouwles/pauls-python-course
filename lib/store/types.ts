@@ -5,6 +5,9 @@ export type StepStatus = "not-started" | "in-progress" | "passed" | "seen-soluti
 export type JobStatus = "not-started" | "in-progress" | "shipped" | "shipped-stretch" | "placed";
 export type SelfRating = "had" | "partly" | "missed";
 
+import type { AvatarLook } from "../avatar";
+
+/** The old animal look, from before REDESIGN-2.md. Read through readAvatar(). */
 export interface CharacterLook {
   species: Species;
   coat: string;
@@ -51,7 +54,8 @@ export interface Location {
 export interface ProfileRow {
   key: "me";
   displayName: string;
-  character: CharacterLook | null;
+  /** The learner's avatar (lib/avatar.ts). An old animal look may still be saved; read it with readAvatar(). */
+  character: AvatarLook | CharacterLook | null;
   settings: Settings;
   experience: "none" | "some" | "lots" | null;
   lastLocation: Location | null;

@@ -1,7 +1,7 @@
-/* The account form: pixel labels, chunky fields, real buttons. */
+/* The account form: labelled fields, a real checkbox, one primary button. */
 .form {
   display: grid;
-  gap: var(--s-4);
+  gap: var(--s-5);
   min-width: 0;
 }
 
@@ -11,33 +11,26 @@
   min-width: 0;
 }
 
-.label {
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 1;
-  -webkit-font-smoothing: none;
-}
-
 .field input {
   width: 100%;
-  min-height: 44px;
+  height: var(--touch);
   padding: 0 var(--s-3);
-  background: var(--code-bg);
+  background: var(--surface-3);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
   color: var(--text);
-  border: 2px solid var(--night-0);
-  box-shadow: inset 0 2px 0 var(--night-0);
-  font-size: var(--step-0);
+  font-size: var(--fs-3);
 }
 
 .field input:focus-visible {
-  outline: 2px solid var(--lamp);
+  outline: 2px solid var(--sun);
   outline-offset: 2px;
 }
 
 .hint {
-  font-size: var(--step--1);
-  color: var(--text-2);
+  font-size: var(--fs-1);
   line-height: 1.45;
+  color: var(--text-2);
 }
 
 .age {
@@ -45,65 +38,41 @@
   gap: var(--s-1);
 }
 
-/* A pixel checkbox: a 2 px box that fills with lamp and a tick when on. */
 .check {
   display: flex;
   gap: var(--s-3);
   align-items: center;
   min-height: var(--touch);
-  font-size: var(--step-0);
+  font-size: var(--fs-3);
+  font-weight: 700;
   cursor: pointer;
 }
 
 .check input {
-  appearance: none;
   flex: none;
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   margin: 0;
   padding: 0;
-  display: grid;
-  place-items: center;
-  background: var(--code-bg);
-  border: 2px solid var(--night-0);
-  box-shadow: inset 0 2px 0 var(--night-0);
+  accent-color: var(--sun);
   cursor: pointer;
-}
-
-.check input:checked {
-  background: var(--lamp);
-  box-shadow: inset 0 -4px 0 var(--lamp-dark);
-}
-
-.check input:checked::after {
-  content: "";
-  width: 12px;
-  height: 12px;
-  margin-top: -2px;
-  background: var(--night-0);
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6' shape-rendering='crispEdges'%3E%3Cpath d='M5 0h1v1h-1zM4 1h2v1h-2zM0 2h1v1h-1zM3 2h2v1h-2zM0 3h4v1h-4zM1 4h2v1h-2z'/%3E%3C/svg%3E") no-repeat 0 0 / 12px 12px;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6' shape-rendering='crispEdges'%3E%3Cpath d='M5 0h1v1h-1zM4 1h2v1h-2zM0 2h1v1h-1zM3 2h2v1h-2zM0 3h4v1h-4zM1 4h2v1h-2z'/%3E%3C/svg%3E") no-repeat 0 0 / 12px 12px;
-}
-
-.check input:focus-visible {
-  outline: 2px solid var(--lamp);
-  outline-offset: 2px;
 }
 
 .error {
   display: flex;
   gap: var(--s-2);
   align-items: flex-start;
-  padding: var(--s-2) var(--s-3);
+  padding: var(--s-3);
   background: var(--fail-wash);
+  border-radius: var(--r-md);
   color: var(--text);
-  font-size: var(--step--1);
-  line-height: 1.5;
+  font-size: var(--fs-2);
+  line-height: 1.45;
 }
 
 .error svg {
-  margin-top: 2px;
-  color: var(--danger-text);
+  margin-top: 1px;
+  color: var(--fail-text);
 }
 
 .submit,
@@ -112,56 +81,71 @@
   width: 100%;
 }
 
+.submit {
+  margin-top: var(--s-1);
+}
+
+.toggle {
+  margin-top: calc(-1 * var(--s-3));
+}
+
 .provider[aria-disabled="true"] {
-  opacity: 0.45;
-  box-shadow: none;
+  opacity: 0.4;
   pointer-events: none;
 }
 
 .oauth {
   display: grid;
   gap: var(--s-3);
-  padding-top: var(--s-2);
 }
 
+/* "or" between two lines. */
 .or {
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 1;
-  -webkit-font-smoothing: none;
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  font-size: var(--fs-1);
   color: var(--text-2);
+}
+
+.or::before,
+.or::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
 }
 
 .switch {
-  font-size: var(--step--1);
+  font-size: var(--fs-2);
   color: var(--text-2);
+  text-align: center;
 }
 
 .keep {
   display: flex;
   gap: var(--s-2);
   align-items: center;
-  padding: var(--s-2) var(--s-3);
-  background: var(--accent-wash);
-  font-size: var(--step--1);
+  padding: var(--s-3);
+  background: var(--sun-wash);
+  border-radius: var(--r-md);
+  font-size: var(--fs-2);
 }
 
 .keep svg {
-  color: var(--accent-text);
+  color: var(--sun-text);
 }
 
 .sent {
   display: grid;
   gap: var(--s-3);
-  font-size: var(--prose-size);
-  line-height: var(--lh-prose);
 }
 
 .sentTitle {
-  font-size: var(--pixel-2);
+  font-size: var(--fs-5);
 }
 
 .dev {
-  font-size: var(--step--1);
+  font-size: var(--fs-1);
   color: var(--text-2);
 }

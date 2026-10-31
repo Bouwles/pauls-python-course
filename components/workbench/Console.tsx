@@ -2,11 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import { explainError } from "@/lib/errors";
+import { ASSISTANT } from "@/lib/cast";
 import type { PyError } from "@/lib/python/protocol";
 import type { RunnerState } from "./useRunner";
 import { Button } from "../ui/Button";
+import { Portrait } from "../art/Portrait";
 import { LivingPlayer } from "./LivingPlayer";
-import { CharacterPortrait } from "../world/CharacterPortrait";
+import { useMaybeWorkbench } from "./context";
 import styles from "./Console.module.css";
 
 interface Props {
@@ -17,56 +19,38 @@ interface Props {
   onRetry?: () => void;
 }
 
-// Moss's opening line for each kind of error: short, in character, then the plain explanation.
-const MOSS_SAYS: [RegExp, string][] = [
-  [/^(SyntaxError|IndentationError|TabError)$/, "It never ran. Python couldn't read a line, so it stopped before the start."],
-  [/^NameError$/, "Python has never heard of that name. Check the spelling, then check it was set first."],
-  [/^ZeroDivisionError$/, "Something went to zero underneath a division. Find out what."],
-  [/^(IndexError|KeyError)$/, "It went looking for something and found an empty shelf."],
-  [/^RecursionError$/, "It's chasing its own tail. Find where it should stop."],
-  [/^ValueError$/, "Right sort of thing, wrong value. Read the last line."],
-  [/^AttributeError$/, "It asked something for a part it doesn't have."],
-];
-
-function mossLine(type: string): string {
-  return MOSS_SAYS.find(([re]) => re.test(type))?.[1] ?? "Read it from the bottom. The last line is where it hurt.";
-}
-
-/** The traceback, then Moss's error panel (REDESIGN.md 4.6): his squinting portrait, his line, the plain explanation. */
+/**
+ * The traceback, then the error panel (REDESIGN-2.md 3): a short heading in the display face,
+ * the plain explanation, a "Go to line" button, and Neil beside the heading, since debugging is his.
+ */
 export function ErrorExplanation({ error, source, onShowLine }: { error: PyError; source: string; onShowLine?: (line: number) => void }) {
+  const wb = useMaybeWorkbench();
   const explanation = explainError(error, source);
+  const name = wb?.characters[ASSISTANT]?.name ?? "Neil";
   return (
     <div className={styles.error}>
       <pre className={styles.traceback}>{error.traceback || `${error.type}: ${error.message}`}</pre>
       {explanation ? (
-        <div className={styles.explainWrap}>
-          <p className={styles.plate}>Moss</p>
-          <div className={`frame-dialogue ${styles.explain}`}>
-            <div className={styles.portrait}>
-              <CharacterPortrait id="moss" sprite="moss" face="squinting" scale={2} height={96} />
-            </div>
-            <div className={styles.explainText}>
-              <p className={styles.mossLine}>
-                <span className="visually-hidden">Moss: </span>
-                {mossLine(error.type)}
-              </p>
-              <p className={styles.explainTitle}>{explanation.title}</p>
-              <p>{explanation.body}</p>
-              {error.line && onShowLine ? (
-                <div>
-                  <Button size="sm" variant="quiet" onClick={() => onShowLine(error.line!)}>
-                    Go to line {error.line}
-                  </Button>
-                </div>
-              ) : null}
-            </div>
+        <section className={styles.explain} aria-label={`${name} explains the error`}>
+          <div className={styles.explainHead}>
+            <Portrait who={ASSISTANT} name={name} size={48} expression="thinking" />
+            <h2 className={styles.explainTitle}>{explanation.title.replace(/\.$/, "")}</h2>
           </div>
-        </div>
+          <p className={styles.explainBody}>{explanation.body}</p>
+          {error.line && onShowLine ? (
+            <div className={styles.explainActions}>
+              <Button size="sm" variant="secondary" onClick={() => onShowLine(error.line!)}>
+                Go to line {error.line}
+              </Button>
+            </div>
+          ) : null}
+        </section>
       ) : null}
     </div>
   );
 }
 
+/** Program output, with input() typed inline after the prompt and a blinking block cursor. */
 export function Console({ state, source, onInput, onShowLine, onRetry }: Props) {
   const scroller = useRef<HTMLDivElement>(null);
   const input = useRef<HTMLInputElement>(null);
@@ -94,6 +78,7 @@ export function Console({ state, source, onInput, onShowLine, onRetry }: Props) 
   else if (result?.status === "stopped") statusLine = "Stopped. If it was going round forever, look for a loop whose condition never changes.";
   else if (result?.status === "output-limit") statusLine = "Stopped after 2000 lines of output. A loop that never ends is the usual cause.";
   else if (result?.status === "ok" && result.exitCode) statusLine = `Finished with exit code ${result.exitCode}.`;
+  const empty = !state.output.length && !result && phase === "idle" && !state.loadError;
 
   return (
     <div className={styles.console}>
@@ -123,6 +108,7 @@ export function Console({ state, source, onInput, onShowLine, onRetry }: Props) 
             </div>
           </div>
         ) : null}
+        {empty ? <p className={styles.empty}>Press Run and what your program prints shows up here.</p> : null}
         <pre className={styles.out}>
           {state.output.map((p, i) => (
             <span key={i} className={styles[p.kind]}>
@@ -131,7 +117,7 @@ export function Console({ state, source, onInput, onShowLine, onRetry }: Props) 
           ))}
           {state.awaitingInput !== null ? (
             // Typing happens inline, after the prompt, with a blinking block cursor like a real
-            // terminal (REDESIGN.md 4.4). A real input underneath does the work and keeps it accessible.
+            // terminal. A real input underneath does the work and keeps it accessible.
             <form
               className={styles.inputForm}
               onSubmit={(e) => {
@@ -162,9 +148,7 @@ export function Console({ state, source, onInput, onShowLine, onRetry }: Props) 
             </form>
           ) : null}
         </pre>
-        {state.inputUnavailable ? (
-          <p className={styles.status}>This browser blocked typing into a running program. Reload the page; if it keeps happening, try another browser.</p>
-        ) : null}
+        {state.inputUnavailable ? <p className={styles.status}>This browser blocked typing into a running program. Reload the page; if it keeps happening, try another browser.</p> : null}
         {result?.figures?.length ? (
           <div className={styles.figures}>
             {result.figures.map((png, i) => (

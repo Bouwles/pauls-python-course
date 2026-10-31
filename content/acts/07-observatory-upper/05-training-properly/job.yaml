@@ -6,7 +6,7 @@ portfolio_readme: |
 
   The same small neural network, trained on the same 800 examples from the same starting weights with three optimisers written from scratch in NumPy: plain stochastic gradient descent, momentum and Adam. Then Adam again from all-zero weights, to show why the starting weights matter as much as the optimiser.
 
-  Written by {name} in {{town}}. Finished {date}.
+  Written by {name} for Yahya, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -35,10 +35,10 @@ portfolio_readme: |
 
   ## Data
 
-  `evenings.csv` is invented for the story: 800 evenings of visibility, wind, tide and darkness, each scaled from 0 to 1, with whether the lamp, the fog horn and the sea wall gate were used.
+  `evenings.csv` is invented for the project: 800 evenings of visibility, wind, rain and darkness, each scaled from 0 to 1, with whether the clock-face lights, the beacon and the storm shutters were used.
 downloadable: true
 datasets: []
-client: wendt
+client: yahya
 building: observatory
 estimated_minutes: 90
 summary: "One network, one start, one log of 800 evenings, and three optimisers written from scratch: plain SGD, momentum and Adam, compared fairly, then Adam again from all zeros."
@@ -46,18 +46,18 @@ concepts_introduced: [optimisers, weight-initialisation]
 concepts_reviewed: [backpropagation, gradient-descent, neural-networks, activation-functions, numpy-arrays, random-module, classes, init, methods, dictionaries, generators, feature-scaling, mean-squared-error]
 ask:
   dialogue:
-    - wendt: "Her whole log. Eight hundred evenings: lamp, horn, gate, every one written down."
-    - wendt: "I trained her network on all of it, the plain way. It got there. Eventually. Mostly."
-    - wendt: "She wrote TRAIN PROPERLY on the cover. Underlined twice. I'd like to know what she meant."
-    - moss: "A good start and a sensible stride, if it's anything like carpentry."
+    - yahya: "Neil's network learnt Paul's whole log the plain way. It got there. Eventually."
+    - yahya: "Eight hundred evenings. Three optimisers, same network, same start. Fastest wins."
+    - neil: "A fair race, then. Same start, same batches, same epochs, or it doesn't count."
+    - paul: "A good start and a sensible stride. That's most of training."
   spec: |
-    The network from Neural Network from Scratch is in `brain.py`: `forward`, `loss`, `backward`, and `batches`, mended from Pip's Version. In `optimisers.py`, plain `SGD` is already written, as the pattern.
+    The network from Neural Network from Scratch is in `brain.py`: `forward`, `loss`, `backward`, and `batches`, mended from Caitlin's version. In `optimisers.py`, plain `SGD` is already written, as the pattern.
 
     1. `init_params(n_in, n_hidden, n_out, rng)`: `W1` from `rng.normal(0, np.sqrt(2 / n_in), (n_in, n_hidden))`, then `W2` from `rng.normal(0, np.sqrt(1 / n_hidden), (n_hidden, n_out))`, in that order. Both biases start at zeros. It returns the dict.
     2. `Momentum(rate, beta=0.9)`: its `step(params, grads)` keeps a velocity for every weight, starting at zeros. Each step, `velocity = beta * velocity + gradient`, then the weight moves by `rate` times the velocity.
     3. `Adam(rate=0.001, beta1=0.9, beta2=0.999, eps=1e-8)`: its `step(params, grads)` is Adam, as in the reading.
     4. `train(X, T, params, optimiser, epochs, batch_size, rng)`: each epoch, for each batch from `batches(X, T, batch_size, rng)`, forward and backward on that batch alone, then `optimiser.step`. After each epoch, the loss on every row of `X`. It changes `params` in place and returns the losses.
-    5. Run as a program, it trains her brain on all eight hundred evenings with each optimiser from the same start, then once from all zeros.
+    5. Run as a program, it trains the network on all eight hundred evenings with each optimiser from the same start, then once from all zeros.
   example: |
     From small random weights, 30 epochs in batches of 32:
     sgd       loss 0.0468, every answer right on 89% of evenings
@@ -65,14 +65,13 @@ ask:
     adam      loss 0.0092, every answer right on 97% of evenings
     From every weight at 0:
     adam      loss 0.1756, every answer right on 40% of evenings
-story_note: it-learned-the-calendar
 ship:
   dialogue:
-    - wendt: "Adam: ninety-seven evenings in a hundred with all three answers right. Before the kettle boiled."
-    - wendt: "From zeros, forty. Sixteen hidden neurons, every one saying the same thing."
-    - pip: "Sixteen neurons agreeing. That's a strong result, surely."
-    - moss: "It's one neuron, sixteen times."
-  shelf: { object: pendulum, label: "Wendt's brain, trained properly" }
+    - yahya: "Adam: every answer right on ninety-seven evenings in a hundred. Thirty epochs. A fair win."
+    - neil: "From zeros, forty. Sixteen hidden neurons, every one saying the same thing."
+    - caitlin: "Sixteen neurons agreeing. That's a strong result, surely."
+    - aaesha: "It's one neuron, sixteen times."
+  shelf: { object: pendulum, label: "Yahya's optimiser race, run fairly" }
   cards: [optimisers, weight-initialisation]
 stretch:
   - id: rate-sweep

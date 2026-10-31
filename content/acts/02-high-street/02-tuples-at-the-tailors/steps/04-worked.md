@@ -1,27 +1,27 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "Bea's bread counts. Two lists again. She has the same habit as Penhallow."
+  - paul: "Cups of tea made in the Studio, by day. Neil keeps them in two lists too."
 code: |
   days = ["Mon", "Tue", "Wed", "Thu"]
-  loaves = [40, 52, 38, 52]
+  cups = [40, 52, 38, 52]
 
 
-  def busiest(days, loaves):
-      best_day, best_count = days[0], loaves[0]
-      for day, count in zip(days, loaves):
+  def busiest(days, cups):
+      best_day, best_count = days[0], cups[0]
+      for day, count in zip(days, cups):
           if count > best_count:
               best_day, best_count = day, count
       return best_day, best_count
 
 
-  for number, (day, count) in enumerate(zip(days, loaves), start=1):
-      print(f"{number}. {day}: {count} loaves")
+  for number, (day, count) in enumerate(zip(days, cups), start=1):
+      print(f"{number}. {day}: {count} cups")
 
-  day, count = busiest(days, loaves)
-  print(f"Busiest: {day}, {count} loaves")
+  day, count = busiest(days, cups)
+  print(f"Busiest: {day}, {count} cups")
 subgoals:
   - label: Start with the first entry as the best so far
     lines: [6, 6]
@@ -40,7 +40,7 @@ explain:
   answer: "enumerate hands over a number and an item. Here the item is the pair that zip made, so it needs its own brackets to be unpacked into day and count."
   concept: enumerate
 ---
-Moss keeps the busiest day and its count together, and hands both back in one `return`.
+Paul keeps the busiest day and its count together, and hands both back in one `return`.
 
 Line 9 changes two variables in one go. The right side is worked out first, then unpacked into the left.
 

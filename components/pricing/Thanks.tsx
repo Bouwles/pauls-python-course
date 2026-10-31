@@ -24,14 +24,14 @@ export function Thanks() {
     };
   }, []);
   return (
-    <section className={`frame-panel ${styles.checkout}`} aria-live="polite">
-      <h1 className={styles.title}>{pro ? "The High Street is open" : "Thank you"}</h1>
+    <section className={styles.checkout} aria-live="polite">
+      <h1 className={styles.checkoutTitle}>{pro ? "Every floor is open" : "Thank you"}</h1>
       {pro === null ? <p>Waiting for the payment to come through. This takes a few seconds.</p> : null}
-      {pro ? <p>Pro is on. Every Act is open on the map, and Mira has a parcel of jobs waiting at the post office.</p> : null}
+      {pro ? <p>Pro is on. Every floor of the Clocktower is open, and every project in it.</p> : null}
       {pro === false ? <p>The payment hasn&apos;t come through yet. It can take a minute. Check Settings shortly; if it still says Free, write to us and we&apos;ll sort it out.</p> : null}
       <div className={styles.row}>
         <LinkButton href="/map" variant="primary">
-          Back to the map
+          Back to the Clocktower
         </LinkButton>
       </div>
     </section>

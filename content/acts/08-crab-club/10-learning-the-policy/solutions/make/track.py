@@ -1,5 +1,5 @@
-# The committee's racing grid, as a Markov decision process.
-# Moss's copy, with step() for learning by racing and average_return() for judging.
+# The Arcade's racing grid, as a Markov decision process.
+# Paul's copy, with step() for learning by racing and average_return() for judging.
 
 try:
     from workshop import show_grid  # draws in the workshop's output panel
@@ -19,9 +19,9 @@ SIDEWAYS = {"up": ["left", "right"], "down": ["left", "right"], "left": ["up", "
 STEP_REWARD = -1
 FINISH_REWARD = 10
 POOL_REWARD = -10
-SLIP = 0.2   # how often he goes sideways instead, half each way
+SLIP = 0.2   # how often it goes sideways instead, half each way
 
-# Every tile he can stand on, rock excluded, finish and pool included.
+# Every tile it can stand on, rock excluded, finish and pool included.
 TILES = [(row, col) for row in range(len(TRACK)) for col in range(len(TRACK[0])) if TRACK[row][col] != "#"]
 
 
@@ -50,7 +50,7 @@ def reward_for(tile):
 
 
 def move(tile, direction):
-    """Where one step in direction leads. Off the edge or into the rock, he stays put."""
+    """Where one step in direction leads. Off the edge or into the rock, it stays put."""
     row, col = tile
     d_row, d_col = STEPS[direction]
     new_row, new_col = row + d_row, col + d_col
@@ -71,7 +71,7 @@ def outcomes(tile, action, slip=SLIP):
 
 
 def step(tile, action, rng, slip=SLIP):
-    """One move on race day: (where he ends up, the reward, whether the race is over)."""
+    """One move on race day: (where it ends up, the reward, whether the race is over)."""
     if rng.random() < slip:
         action = SIDEWAYS[action][int(rng.integers(2))]
     after = move(tile, action)

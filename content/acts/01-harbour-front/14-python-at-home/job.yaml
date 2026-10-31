@@ -6,7 +6,7 @@ portfolio_readme: |
 
   Set Python up on your own computer: a terminal, an editor, a virtual environment and pytest, proved by a small program and its tests.
 
-  Written by {name} in {{town}}, a Python course built as a game. Finished {date}.
+  Written by {name} at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -14,7 +14,7 @@ portfolio_readme: |
   python main.py
   ```
 sidequest: true
-client: moss
+client: neil
 building: workshop
 estimated_minutes: 45
 summary: "Set Python up on your own computer: a terminal, an editor, a virtual environment and pytest, proved by a small program and its tests."
@@ -22,9 +22,10 @@ concepts_introduced: [terminal-basics, virtual-environments]
 concepts_reviewed: [functions, return-values, strip-replace]
 ask:
   dialogue:
-    - moss: "Everything so far ran here in the workshop. Real programs run on real computers."
-    - moss: "Yours, for a start. Set it up properly once and it stays set up."
-    - pip: "I installed Python four times. Three of them are still in there somewhere."
+    - neil: "Everything so far ran here in the Workshop. Real programs run on real computers."
+    - neil: "Yours, for a start. Set it up properly once and it stays set up."
+    - neil: "My first laptop had Python installed four times. Three of them are still in there somewhere."
+    - paul: "Mine had five. We don't talk about it."
   spec: |
     Set Python up on your own computer, and prove it with a small program and its tests:
 
@@ -33,12 +34,13 @@ ask:
     - a virtual environment for the project, with pytest installed in it
     - `hello.py`, with a `greeting(name)` function that the tests check
   example: |
-    $ python hello.py Ferro
-    Morning, Ferro.
+    $ python hello.py Paul
+    Morning, Paul.
 ship:
   dialogue:
-    - moss: "Same tests, your own computer. That's the whole trick of it."
-    - pip: "Mine says one Python now. I checked twice."
+    - neil: "Same tests, your own computer. That's the whole trick of it."
+    - paul: "One Python, one environment per project. Neil, check yours."
+    - neil: "One Python. I checked twice."
   shelf:
     object: terminal
     label: "A terminal of your own"

@@ -5,7 +5,7 @@ title: Make REINFORCE
 files: [track.py, reinforce.py]
 entry: reinforce.py
 timeout_ms: 20000
-on_pass: { committee: "No ledger, no network, no values. He simply knows what to do. Like a proper crab." }
+on_pass: { riya: "No table, no network, no values. It just knows what to do. That's what I wanted." }
 hints:
   nudge: "`reinforce_gradient` needs, for every move of every race, two things: the return from that move on, and the gradient of the log of its chance. Which functions give you those?"
   plan:
@@ -25,10 +25,10 @@ hints:
                 grad += score * ___
         return grad / ___
 ---
-Write `reinforce.py`. Moss has added two helpers: `spread`, for how much estimates disagree, and `average_returns`, a baseline measured from races, as in the Value Estimator.
+Write `reinforce.py`. Paul has added two helpers: `spread`, for how much estimates disagree, and `average_returns`, a baseline measured from races, as in the Value Estimator.
 
 The baseline in `train` is a `(3, 4)` array, a number for each tile. After each race, move each tile's number 0.1 of the way towards each return that followed it.
 
-Train with `watch=True` and press Run: after every race the output panel tints each tile by its baseline and draws his most likely move, and pointing at a tile shows the four chances. The checks ignore drawings.
+Train with `watch=True` and press Run: after every race the output panel tints each tile by its baseline and draws the crab's most likely move, and pointing at a tile shows the four chances. The checks ignore drawings.
 
-The checks work out REINFORCE by hand on a fixed batch of races, measure your gradients by nudging, compare spreads with and without a baseline, then train for 300 races and work out exactly what his policy is worth.
+The checks work out REINFORCE by hand on a fixed batch of races, measure your gradients by nudging, compare spreads with and without a baseline, then train for 300 races and work out exactly what its policy is worth.

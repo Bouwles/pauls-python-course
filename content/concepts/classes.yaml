@@ -17,15 +17,15 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      class Gull:
+      class Player:
           def __init__(self, name):
               self.name = name
-              self.chips = 0
+              self.score = 0
 
-      gerald = Gull("Gerald")
-      sue = Gull("Sue")
-      gerald.chips = gerald.chips + 3
-      print(gerald.chips, sue.chips)
+      caitlin = Player("Caitlin")
+      yahya = Player("Yahya")
+      caitlin.score = caitlin.score + 3
+      print(caitlin.score, yahya.score)
     answer: "3 0"
   - type: choice
     prompt: What does this print?
@@ -68,28 +68,28 @@ cards:
           def __init__(self, owner):
               self.owner = owner
 
-      print(Kettle("Bea").owner)
+      print(Kettle("Neil").owner)
     blanks: [["class"]]
     tests: |
-      TESTS = [output("Bea's kettle", expect="Bea")]
+      TESTS = [output("Neil's kettle", expect="Neil")]
   - type: write
-    prompt: "Write a class `Crate` whose `__init__` takes `fish` and keeps it, and starts `count` at 0."
+    prompt: "Write a class `Crate` whose `__init__` takes `fruit` and keeps it, and starts `count` at 0."
     starter: |
       # class Crate
     tests: |
       def crates(ctx):
           m = ctx.module()
-          a = m.Crate("mackerel")
-          b = m.Crate("crab")
+          a = m.Crate("apples")
+          b = m.Crate("pears")
           a.count = 5
-          if (a.fish, a.count, b.fish, b.count) != ("mackerel", 5, "crab", 0):
-              raise CheckFailed("Each crate should keep its own fish and count.",
-                                expected=("mackerel", 5, "crab", 0), actual=(a.fish, a.count, b.fish, b.count))
+          if (a.fruit, a.count, b.fruit, b.count) != ("apples", 5, "pears", 0):
+              raise CheckFailed("Each crate should keep its own fruit and count.",
+                                expected=("apples", 5, "pears", 0), actual=(a.fruit, a.count, b.fruit, b.count))
 
 
       TESTS = [custom("Two crates", crates)]
     solution: |
       class Crate:
-          def __init__(self, fish):
-              self.fish = fish
+          def __init__(self, fruit):
+              self.fruit = fruit
               self.count = 0

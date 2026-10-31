@@ -1,7 +1,8 @@
+/* Static highlighted code: predict questions, hints, history, review cards. */
 .block {
   margin: 0;
-  background: var(--paper-raised);
-  border: var(--hairline);
+  background: var(--editor);
+  border-radius: var(--r-lg);
   padding: var(--s-3) 0;
   font-family: var(--font-code);
   font-variant-ligatures: none;
@@ -9,7 +10,22 @@
   font-size: var(--editor-font-size);
   line-height: 1.6;
   overflow-x: auto;
-  color: var(--ink);
+  color: var(--text);
+}
+
+:root[data-theme="light"] .block {
+  border: 1px solid var(--line);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .block {
+    border: 1px solid var(--line);
+  }
+}
+
+.block:focus-visible {
+  outline: 2px solid var(--sun);
+  outline-offset: 2px;
 }
 
 .line {
@@ -19,15 +35,16 @@
 }
 
 .hl {
-  background: var(--highlight-line);
+  background: var(--sun-wash);
+  box-shadow: inset 2px 0 0 var(--sun);
 }
 
 .num {
   flex: 0 0 auto;
   width: 3ch;
-  margin-right: 2ch;
+  margin: 0 var(--s-3) 0 var(--s-2);
   text-align: right;
-  color: var(--ink-3);
+  color: color-mix(in srgb, var(--text-2) 85%, var(--editor));
   user-select: none;
 }
 
@@ -38,6 +55,6 @@
 .tk { color: var(--syn-keyword); }
 .ts { color: var(--syn-string); }
 .tn { color: var(--syn-number); }
-.tc { color: var(--syn-comment); font-style: italic; }
-.tf { color: var(--syn-function); }
+.tc { color: var(--syn-comment); }
+.tf { color: var(--syn-function); font-weight: 700; }
 .tb { color: var(--syn-builtin); }

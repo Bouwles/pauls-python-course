@@ -1,0 +1,30 @@
+.region {
+  position: fixed;
+  left: 50%;
+  bottom: var(--s-6);
+  transform: translateX(-50%);
+  z-index: 60;
+  display: grid;
+  justify-items: center;
+  gap: var(--s-2);
+  pointer-events: none;
+}
+
+.toast {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-3) var(--s-4);
+  font-size: var(--fs-2);
+  font-weight: 700;
+  color: var(--text);
+  pointer-events: auto;
+  animation: toast-in var(--dur-slow) var(--ease-out);
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}

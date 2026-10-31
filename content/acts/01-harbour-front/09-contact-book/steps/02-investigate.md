@@ -4,40 +4,40 @@ type: investigate
 title: A name that isn't there
 concept: dict-get
 code: |
-  book = {"Bea Hollis": "Quay Row", "Old Tom": "Point Road"}
-  print(book["Old Tom"])
+  book = {"Paul": "The Workshop", "Neil": "The Studio"}
+  print(book["Neil"])
 tasks:
   - id: run-it
     prompt: "Run it. What does it print?"
     kind: answer
-    accept: ["Point Road"]
-    feedback: "Point Road. The key goes in the square brackets; the value comes out."
+    accept: ["The Studio"]
+    feedback: "The Studio. The key goes in the square brackets; the value comes out."
   - id: missing
-    prompt: "Change the key to `\"Captain Ferro\"` and run it. What kind of error is it?"
+    prompt: "Change the key to `\"Yahya\"` and run it. What kind of error is it?"
     kind: answer
-    accept: ["KeyError", "key error", "KeyError: 'Captain Ferro'"]
+    accept: ["KeyError", "key error", "KeyError: 'Yahya'"]
     feedback: "A KeyError. The key isn't in the dictionary, and Python won't hand you a blank instead."
     wrong: "Read the last line of the traceback. The first word is the kind of error."
   - id: get
-    prompt: "Now try `print(book.get(\"Captain Ferro\"))`. What does it print?"
+    prompt: "Now try `print(book.get(\"Yahya\"))`. What does it print?"
     kind: answer
     accept: ["None"]
     feedback: "`None`. `.get()` asks politely: a missing key gives `None` instead of a crash."
   - id: in
-    prompt: "What does `print(\"Old Tom\" in book)` print?"
+    prompt: "What does `print(\"Neil\" in book)` print?"
     kind: answer
     accept: ["True"]
     feedback: "True. `in` checks the keys, the way it checked a list."
   - id: default
-    prompt: "Make the last print show `No address` for Captain Ferro, using `.get()` with a second value."
+    prompt: "Make the last print show `No address` for Yahya, using `.get()` with a second value."
     kind: run
     tests: |
       TESTS = [
-          output("No address for the captain", expect=r"^No address$", match="regex",
+          output("No address for Yahya", expect=r"^No address$", match="regex",
                  hint="book.get(key, something) gives something when the key is missing."),
       ]
     solution: |
-      book = {"Bea Hollis": "Quay Row", "Old Tom": "Point Road"}
-      print(book.get("Captain Ferro", "No address"))
+      book = {"Paul": "The Workshop", "Neil": "The Studio"}
+      print(book.get("Yahya", "No address"))
 ---
-Mira's book will be asked for names that aren't in it yet. Find out what happens.
+Aaesha's book will be asked for names that aren't in it yet. Find out what happens.

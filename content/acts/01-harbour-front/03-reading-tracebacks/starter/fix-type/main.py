@@ -1,2 +1,2 @@
 day = 14
-print("Tides for March " + day)
+print("Office hours, March " + day)

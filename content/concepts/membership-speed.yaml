@@ -55,7 +55,7 @@ cards:
         misconception: list-lookup-instant
         feedback: "On a list, `in` is a loop in disguise."
   - type: choice
-    prompt: "Mrs Vance needs the lost items in the order they were handed in, repeats included. List or set?"
+    prompt: "Aaesha needs the lost items in the order they were handed in, repeats included. List or set?"
     verify: none
     options:
       - text: A list

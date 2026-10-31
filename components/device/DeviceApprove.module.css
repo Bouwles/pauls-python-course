@@ -1,0 +1,89 @@
+/* Connecting the command-line tool: one centred card with one field. */
+.wrap {
+  display: grid;
+  justify-items: center;
+  gap: var(--s-5);
+  max-width: 480px;
+  margin: var(--s-8) auto 0;
+  text-align: center;
+}
+
+.icon {
+  display: inline-grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--r-lg);
+  background: var(--sun);
+  color: var(--sun-ink);
+}
+
+.title {
+  font-size: var(--fs-6);
+}
+
+.card {
+  display: grid;
+  justify-items: stretch;
+  gap: var(--s-4);
+  width: 100%;
+  padding: var(--s-6);
+  background: var(--surface-2);
+  border-radius: var(--r-lg);
+  text-align: left;
+}
+
+:global(:root[data-theme="light"]) .card {
+  border: 1px solid var(--line);
+}
+
+@media (prefers-color-scheme: light) {
+  :global(:root[data-theme="system"]) .card {
+    border: 1px solid var(--line);
+  }
+}
+
+.field {
+  display: grid;
+  gap: var(--s-2);
+}
+
+.code {
+  height: 56px;
+  font-family: var(--font-code);
+  font-size: var(--fs-5);
+  letter-spacing: -0.01em;
+  text-align: center;
+}
+
+.hint {
+  font-size: var(--fs-1);
+  color: var(--text-2);
+}
+
+.error {
+  font-size: var(--fs-2);
+  color: var(--fail-text);
+}
+
+.done {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-2);
+  color: var(--text);
+}
+
+.done svg {
+  color: var(--pass-text);
+  margin-top: 2px;
+}
+
+@media (max-width: 720px) {
+  .wrap {
+    margin-top: 0;
+  }
+
+  .card {
+    padding: var(--s-4);
+  }
+}

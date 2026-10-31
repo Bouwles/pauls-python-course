@@ -27,7 +27,7 @@ class RacingGrid:
     def step(self, action):
         """One move. Returns (observation, reward, terminated, truncated, info)."""
         # Apply the action, slipping sideways with chance self.slip
-        # Let the world move: off the edge or into the rock, he stays put
+        # Let the world move: off the edge or into the rock, it stays put
         # Was that safe? Reward, terminated, truncated
         # Hand back five things, with {"slipped": ...} as the info
 

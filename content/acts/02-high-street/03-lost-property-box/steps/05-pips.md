@@ -1,12 +1,12 @@
 ---
 id: pips
 type: pips
-title: Pip's Version
+title: Fix Aaesha's version
 dialogue:
-  - pip: "Mrs Vance wants to know what was handed in more than once. I've used sets."
-  - pip: "Curly brackets make a set. Everyone knows that. So why does it say dict."
+  - aaesha: "Neil wants to know what was handed in more than once. Sets, naturally. No duplicates."
+  - aaesha: "Curly brackets make a set. So why does it say dict? Can you look?"
 dialogue_after:
-  - pip: "Empty curly brackets are a dict. Dictionaries got there first, apparently. Who decided that."
+  - aaesha: "Empty curly brackets are a dict. Dictionaries got there first. Noted, and filed."
 hints:
   nudge: "Read the last line of the traceback. What type does it say `seen` is?"
   plan:
@@ -17,7 +17,7 @@ hints:
     seen = ___
     repeated = ___
 ---
-Pip's `repeats` should give back the items handed in more than once. Run it, read the traceback, and fix it so it prints:
+Aaesha's `repeats` should give back the items handed in more than once. Run it, read the traceback, and fix it so it prints:
 
 ```
 ['red scarf', 'umbrella']

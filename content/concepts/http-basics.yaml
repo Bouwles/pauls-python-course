@@ -6,7 +6,7 @@ example: |
   from http import HTTPStatus
   from urllib.parse import parse_qs, urlsplit
 
-  url = urlsplit("/api/bookings?date=2027-04-11&berth=2")
+  url = urlsplit("/api/bookings?date=2027-04-11&desk=2")
   print(url.path)
   print(parse_qs(url.query))
   print(409, HTTPStatus(409).phrase)
@@ -25,24 +25,24 @@ cards:
       404 Not Found
       409 Conflict
   - type: choice
-    prompt: "A skipper's phone asks for `/api/bookings?berth=2`. What does this print?"
+    prompt: "A student's phone asks for `/api/bookings?desk=2`. What does this print?"
     code: |
       from urllib.parse import parse_qs, urlsplit
 
-      query = parse_qs(urlsplit("/api/bookings?berth=2").query)
-      berth = query["berth"][0]
-      print(berth == 2)
+      query = parse_qs(urlsplit("/api/bookings?desk=2").query)
+      desk = query["desk"][0]
+      print(desk == 2)
     options:
       - text: "False"
         correct: true
-        feedback: "A URL is text from end to end. `berth` is the text `\"2\"`, which isn't equal to the number 2 until `int()` makes it one."
+        feedback: "A URL is text from end to end. `desk` is the text `\"2\"`, which isn't equal to the number 2 until `int()` makes it one."
       - text: "True"
         misconception: query-values-are-numbers
         feedback: "`parse_qs` hands back text, always: `\"2\"`, not 2. Text and a number are never equal, so convert it first."
   - type: predict
-    prompt: "Agnes's rules, worked out by hand. What does this print?"
+    prompt: "The API's rules, worked out by hand. What does this print?"
     code: |
-      BOOKINGS = {1: "Kittiwake"}
+      BOOKINGS = {1: "Studio"}
 
 
       def status(method, path):
@@ -59,7 +59,7 @@ cards:
   - type: fix
     prompt: "Asking for a booking that doesn't exist should say so with its status, not only in the body. Fix it so this prints the right status."
     code: |
-      BOOKINGS = {1: {"boat": "Kittiwake"}}
+      BOOKINGS = {1: {"room": "Studio"}}
 
 
       def show_booking(booking_id):
@@ -73,7 +73,7 @@ cards:
     tests: |
       TESTS = [output("Booking 7 isn't there", expect="({'error': 'No such booking.'}, 404)")]
     solution: |
-      BOOKINGS = {1: {"boat": "Kittiwake"}}
+      BOOKINGS = {1: {"room": "Studio"}}
 
 
       def show_booking(booking_id):

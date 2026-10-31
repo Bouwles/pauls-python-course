@@ -1,7 +1,7 @@
 "use client";
 
-// One-click push of the Shelf to a new GitHub repository (Section 8.7). Shown
-// only when the site has a GitHub OAuth app set up; the zip export always works.
+// One-click push to a new GitHub repository (Section 8.7): the whole Shelf, or one project.
+// Shown only when the site has a GitHub OAuth app set up; the zip export always works.
 import { useEffect, useState } from "react";
 import { Button } from "../ui/Button";
 import styles from "./Shelf.module.css";
@@ -12,7 +12,16 @@ interface Status {
   login?: string | null;
 }
 
-export function GitHubPush({ defaultName, files }: { defaultName: string; files: () => Promise<Record<string, string>> }) {
+// One request for the page, however many cards ask.
+let statusRequest: Promise<Status> | null = null;
+function githubStatus(): Promise<Status> {
+  statusRequest ??= fetch("/api/github")
+    .then((r) => (r.ok ? (r.json() as Promise<Status>) : { enabled: false, connected: false }))
+    .catch(() => ({ enabled: false, connected: false }));
+  return statusRequest;
+}
+
+export function GitHubPush({ defaultName, files, size = "md", label }: { defaultName: string; files: () => Promise<Record<string, string>>; size?: "sm" | "md"; label?: string }) {
   const [status, setStatus] = useState<Status | null>(null);
   const [open, setOpen] = useState(false);
   const [name, setName] = useState(defaultName);
@@ -20,16 +29,13 @@ export function GitHubPush({ defaultName, files }: { defaultName: string; files:
   const [result, setResult] = useState<{ url?: string; error?: string } | null>(null);
 
   useEffect(() => {
-    void fetch("/api/github")
-      .then((r) => (r.ok ? r.json() : { enabled: false, connected: false }))
-      .then(setStatus)
-      .catch(() => setStatus({ enabled: false, connected: false }));
+    void githubStatus().then(setStatus);
   }, []);
 
   if (!status?.enabled) return null;
   if (!status.connected) {
     return (
-      <Button variant="quiet" onClick={() => (window.location.href = "/api/github/connect")}>
+      <Button variant="secondary" size={size} icon="github" aria-label={label} onClick={() => (window.location.href = "/api/github/connect")}>
         Push to GitHub
       </Button>
     );
@@ -42,7 +48,7 @@ export function GitHubPush({ defaultName, files }: { defaultName: string; files:
       const res = await fetch("/api/github/push", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name, files: await files() }) });
       setResult((await res.json()) as { url?: string; error?: string });
     } catch {
-      setResult({ error: "Couldn't reach the workshop. Check your connection." });
+      setResult({ error: "Couldn't reach GitHub. Check your connection." });
     } finally {
       setBusy(false);
     }
@@ -56,15 +62,20 @@ export function GitHubPush({ defaultName, files }: { defaultName: string; files:
         void push();
       }}
     >
-      <label>
-        <span>New repository on {status.login ? `github.com/${status.login}` : "GitHub"}</span>
+      <label className={styles.githubField}>
+        <span className="label">New repository on {status.login ? `github.com/${status.login}` : "GitHub"}</span>
         <input value={name} onChange={(e) => setName(e.target.value)} pattern="[A-Za-z0-9._-]+" required spellCheck={false} />
       </label>
-      <Button type="submit" variant="primary" disabled={busy}>
-        {busy ? "Pushing" : "Push"}
-      </Button>
+      <div className={styles.githubRow}>
+        <Button type="submit" variant="primary" size={size} icon="github" disabled={busy}>
+          {busy ? "Pushing" : "Push"}
+        </Button>
+        <Button type="button" variant="ghost" size={size} onClick={() => setOpen(false)}>
+          Cancel
+        </Button>
+      </div>
       {result?.url ? (
-        <p role="status">
+        <p role="status" className={styles.githubNote}>
           Pushed. <a href={result.url}>{result.url.replace("https://", "")}</a>
         </p>
       ) : result?.error ? (
@@ -74,7 +85,7 @@ export function GitHubPush({ defaultName, files }: { defaultName: string; files:
       ) : null}
     </form>
   ) : (
-    <Button variant="quiet" onClick={() => setOpen(true)}>
+    <Button variant="secondary" size={size} icon="github" aria-label={label} onClick={() => setOpen(true)}>
       Push to GitHub
     </Button>
   );

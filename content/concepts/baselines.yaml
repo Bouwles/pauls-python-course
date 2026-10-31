@@ -14,7 +14,7 @@ related: [classification-metrics, train-test-split, cross-validation, feature-en
 drill: true
 cards:
   - type: predict
-    prompt: "Good fishing on two days in eight. What does always saying no score?"
+    prompt: "Good days for a run, two in eight. What does always saying no score?"
     code: |
       import numpy as np
 
@@ -36,7 +36,7 @@ cards:
         misconception: baseline-is-a-coin
         feedback: "Half the days are good, so a coin would score about 0.5. But good days come in spells, and copying yesterday is right six times in nine. Not every baseline is a coin."
   - type: choice
-    prompt: "Pip's forecast is right 90 days in 100. Good days are 8 in 100. Is it a good forecast?"
+    prompt: "Riya's forecast is right 90 days in 100. Good days are 8 in 100. Is it a good forecast?"
     verify: none
     options:
       - text: "Not yet. Always saying no would score 92. It has to beat that first"
@@ -44,7 +44,7 @@ cards:
         feedback: "Right. Ninety sounds high until you see what doing nothing scores."
       - text: "Yes. Ninety in a hundred is excellent"
         misconception: accuracy-without-baseline
-        feedback: "Excellent compared with what? With good days so rare, saying no every day is right 92 times in 100. Pip's forecast is worse than not forecasting."
+        feedback: "Excellent compared with what? With good days so rare, saying no every day is right 92 times in 100. Riya's forecast is worse than not forecasting."
       - text: "Yes, if always saying no scored 85 on last year's days"
         misconception: baselines-on-different-days
         feedback: "A baseline only means something on the same days as the model. Last year may have had more good days. Score both on exactly the same rows."

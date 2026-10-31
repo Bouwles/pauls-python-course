@@ -1,9 +1,9 @@
 ---
 id: worked
 type: worked
-title: How Moss keeps his jobs board
+title: How Paul keeps his jobs board
 dialogue:
-  - moss: "My jobs board. Biggest job on top, so I can see what I'm avoiding."
+  - paul: "My jobs board. Biggest job on top, so I can see what I'm avoiding."
 code: |
   def add_job(board, hours):
       board.append(hours)
@@ -32,13 +32,13 @@ subgoals:
   - label: Otherwise swap them, and climb
     lines: [8, 9]
 explain:
-  prompt: "Moss's board will never hold more than a few hundred jobs. Why does adding one take O(log n) steps, not O(n)?"
+  prompt: "Paul's board will never hold more than a few hundred jobs. Why does adding one take O(log n) steps, not O(n)?"
   answer: "The new job only climbs, one level per swap, and never looks sideways. Each level holds twice as many jobs as the one above, so a board of a thousand jobs is only about ten levels deep."
   concept: heaps
 ---
 A heap is a tree kept in a list. The item at position 0 is the top. Each item has up to two children below it, at `2 * position + 1` and `2 * position + 2`, and its parent is at `(position - 1) // 2`.
 
-The one rule: no child is bigger than its parent. Moss's board keeps the biggest job on top, so his rule is the other way up from `heapq`'s.
+The one rule: no child is bigger than its parent. Paul's board keeps the biggest job on top, so his rule is the other way up from `heapq`'s.
 
 To add a job, put it at the bottom and let it climb: swap it with its parent while it's bigger.
 

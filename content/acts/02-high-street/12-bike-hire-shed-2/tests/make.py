@@ -38,26 +38,26 @@ def a_new_book(ctx):
 def lending(ctx):
     m = module(ctx)
     book = m.Book("The Riddle of the Sands", "Erskine Childers", 1903)
-    expect_equal("Lending a book on the shelf returns True", book.lend("Bea"), True)
+    expect_equal("Lending a book on the shelf returns True", book.lend("Aaesha"), True)
     expect_equal("Now it's on loan", book.status, m.Status.ON_LOAN)
-    expect_equal("to Bea", book.borrower, "Bea")
+    expect_equal("to Aaesha", book.borrower, "Aaesha")
     expect_equal("str() of a book on loan", str(book), "The Riddle of the Sands, Erskine Childers (1903): on loan")
-    expect_equal("Lending it again returns False", book.lend("Pip"), False)
-    expect_equal("and it's still with Bea", book.borrower, "Bea")
+    expect_equal("Lending it again returns False", book.lend("Yahya"), False)
+    expect_equal("and it's still with Aaesha", book.borrower, "Aaesha")
     book.give_back()
     expect_equal("Given back, it's on the shelf", book.status, m.Status.ON_SHELF)
     expect_equal("with no borrower", book.borrower, None)
-    expect_equal("and can go out again", book.lend("Pip"), True)
+    expect_equal("and can go out again", book.lend("Yahya"), True)
 
 
 def reference(ctx):
     m = module(ctx)
     if not issubclass(m.ReferenceBook, m.Book):
         raise CheckFailed("ReferenceBook is a kind of Book: class ReferenceBook(Book):")
-    tides = m.ReferenceBook("Tide Tables 2026", "Agnes Rook", 2025)
-    expect_equal("A reference book can't be lent", tides.lend("Ferro"), False)
-    expect_equal("and stays on the shelf", tides.status, m.Status.ON_SHELF)
-    expect_equal("str() of a reference book", str(tides), "Tide Tables 2026, Agnes Rook (2025): on the shelf, reference only")
+    style = m.ReferenceBook("House Style", "Paul", 2025)
+    expect_equal("A reference book can't be lent", style.lend("Caitlin"), False)
+    expect_equal("and stays on the shelf", style.status, m.Status.ON_SHELF)
+    expect_equal("str() of a reference book", str(style), "House Style, Paul (2025): on the shelf, reference only")
 
 
 def reference_uses_super(ctx):
@@ -92,14 +92,14 @@ def no_duplicates(ctx):
 def shelf(ctx):
     m = module(ctx)
     library = m.Library()
-    books = [m.Book("Emma", "Jane Austen", 1815), m.ReferenceBook("Tide Tables 2026", "Agnes Rook", 2025),
-             m.Book("The Riddle of the Sands", "Erskine Childers", 1903), m.Book("Knots, Unexplained", "Captain Ferro", 2004)]
+    books = [m.Book("Emma", "Jane Austen", 1815), m.ReferenceBook("House Style", "Paul", 2025),
+             m.Book("The Riddle of the Sands", "Erskine Childers", 1903), m.Book("Fluent Python", "Luciano Ramalho", 2015)]
     for book in books:
         library.add(book)
-    books[0].lend("Bea")
-    books[3].lend("Tom")
+    books[0].lend("Aaesha")
+    books[3].lend("Riya")
     expect_equal("on_shelf gives the books not on loan, in the order they were added", [b.title for b in library.on_shelf()],
-                 ["Tide Tables 2026", "The Riddle of the Sands"])
+                 ["House Style", "The Riddle of the Sands"])
     expect_equal("on_shelf of an empty library", m.Library().on_shelf(), [])
 
 
@@ -111,14 +111,14 @@ def own_lists(ctx):
 
 
 TESTS = [
-    output("Mrs Vance's library", visible=True, expect="The library has 3 books\nEmma, Jane Austen (1815): on loan\n"
-           "Tide Tables 2026, Agnes Rook (2025): on the shelf, reference only\nOn the shelf: The Riddle of the Sands, Tide Tables 2026"),
+    output("Neil's library", visible=True, expect="The library has 3 books\nEmma, Jane Austen (1815): on loan\n"
+           "House Style, Paul (2025): on the shelf, reference only\nOn the shelf: The Riddle of the Sands, House Style"),
     custom("Status, with two members", the_enum, visible=True),
     custom("A new book", a_new_book, hint="Fields with defaults go after the ones without: status and borrower come last."),
     custom("Lending and giving back", lending),
     custom("A reference book stays in", reference, hint="ReferenceBook changes only lend and __str__. It inherits everything else."),
     custom("ReferenceBook builds on Book", reference_uses_super),
-    custom("The library has books", the_library, hint="Kat's way: Library keeps its books in self.books, a list made in __init__."),
+    custom("The library has books", the_library, hint="Caitlin's way: Library keeps its books in self.books, a list made in __init__."),
     custom("One card per book", no_duplicates, hint="Before adding, find the title. If it's already there, return False."),
     custom("What's on the shelf", shelf, hint="A comprehension with an if at the end keeps only the books whose status is Status.ON_SHELF."),
     custom("Two libraries, two lists", own_lists, hint="Make the list in __init__, so each library has its own."),

@@ -73,5 +73,5 @@ TESTS = [
     custom("Gradients for a batch of four", agrees(2, tiles((2, 0), (2, 1), (0, 2), (1, 0)), np.array([0, 3, 3, 1]), np.array([1.5, -1.0, 10.0, 0.3]))),
     custom("Two memories from the same tile", agrees(3, tiles((1, 2), (1, 2)), np.array([0, 2]), np.array([7.0, -2.0])),
            hint="Each memory blames its own action's Q-value, at its own row."),
-    custom("Pip's single memory", the_start),
+    custom("Riya's single memory", the_start),
 ]

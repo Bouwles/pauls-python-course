@@ -1,11 +1,11 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "Mr Okonjo's tape measure. He types a length, it gives him centimetres, and he types some odd things."
+  - paul: "I measured the Workshop for new desks. Half my tape is in inches, and I type some odd things."
 code: |
-  # Mr Okonjo's tape: inches or feet to centimetres, until he says done
+  # The Workshop tape: inches or feet to centimetres, until I say done
   CM_PER = {"in": 2.54, "ft": 30.48}
 
 

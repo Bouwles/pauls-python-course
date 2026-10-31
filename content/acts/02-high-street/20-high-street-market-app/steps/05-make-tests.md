@@ -6,8 +6,8 @@ files: [money.py, storage.py, cli.py, test_money.py]
 entry: test_money.py
 starter_from: make-cli
 dialogue:
-  - moss: "Anyone can say it works. Tests say what would happen if it didn't."
-on_pass: { moss: "Eight broken ledgers, eight caught. Sanjay can sleep." }
+  - aaesha: "Anyone can say it works. Tests say what would happen if it didn't."
+on_pass: { aaesha: "Eight broken ledgers, eight caught. Riya can stop worrying." }
 hints:
   nudge: "For each rule in the requirements, what would someone have to break for a test of yours to fail?"
   plan:
@@ -32,4 +32,4 @@ Last file. Write tests for the rules in `test_money.py`: plain functions whose n
 
 `refused`, at the top of the file, checks that something raises `MoneyError`.
 
-The checks run your tests three ways: on your `money.py`, on Moss's, and on eight copies of Moss's that each break one rule. Your tests should pass on the first two and fail on every one of the eight.
+The checks run your tests three ways: on your `money.py`, on Paul's, and on eight copies of Paul's that each break one rule. Your tests should pass on the first two and fail on every one of the eight.

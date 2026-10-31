@@ -24,12 +24,12 @@ cards:
       - { text: "A second copy of the whole folder", misconception: branch-copies-folder, feedback: "Nothing is copied. A branch is just a movable label on a commit." }
       - { text: "A backup on another computer", feedback: "That's a remote. A branch lives in your repository." }
   - type: choice
-    prompt: "Which command makes a branch called `fog` and moves you onto it?"
+    prompt: "Which command makes a branch called `dark-mode` and moves you onto it?"
     verify: none
     options:
-      - { text: "git switch -c fog", correct: true }
-      - { text: "git branch fog", feedback: "That makes it, but you stay where you are." }
-      - { text: "git merge fog", feedback: "Merge brings work in; it doesn't create branches." }
+      - { text: "git switch -c dark-mode", correct: true }
+      - { text: "git branch dark-mode", feedback: "That makes it, but you stay where you are." }
+      - { text: "git merge dark-mode", feedback: "Merge brings work in; it doesn't create branches." }
   - type: choice
     prompt: "A merge says Fast-forward. What happened?"
     verify: none

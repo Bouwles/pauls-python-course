@@ -15,7 +15,7 @@ def has(output, text, what):
 
 
 def altered_ledger(ctx):
-    """Priya's ledger with the last ten years a degree warmer and 1982 much wetter."""
+    """The ledger with the last ten years a degree warmer and 1982 much wetter."""
     lines = ctx.files["ledger.csv"].splitlines()
     out = [lines[0]]
     for line in lines[1:]:
@@ -32,10 +32,10 @@ def altered_ledger(ctx):
 def heading(ctx):
     output, _ = report(ctx)
     lines = [line.strip() for line in output.splitlines()]
-    if not lines or lines[0] != "The {{town}} Weather Report, 1925 to 2024":
-        raise CheckFailed("The report's first line is its title.", expected="The {{town}} Weather Report, 1925 to 2024",
+    if not lines or lines[0] != "The Clocktower Weather Report, 1925 to 2024":
+        raise CheckFailed("The report's first line is its title.", expected="The Clocktower Weather Report, 1925 to 2024",
                           actual=lines[0] if lines else "(nothing printed)")
-    has(output, "Source: {{town}} Weather Station book", "where its numbers came from")
+    has(output, "Source: Clocktower weather station book", "where its numbers came from")
 
 
 def the_record(ctx):

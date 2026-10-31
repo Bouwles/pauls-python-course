@@ -47,16 +47,16 @@ cards:
   - type: fix
     prompt: Fix it.
     code: |
-      boats = 4
-      print("Boats in: " + boats)
+      laps = 4
+      print("Laps run: " + laps)
     tests: |
       TESTS = [
-          output("4 boats", expect="Boats in: 4"),
-          output("9 boats", set_vars={"boats": 9}, expect="Boats in: 9"),
+          output("4 laps", expect="Laps run: 4"),
+          output("9 laps", set_vars={"laps": 9}, expect="Laps run: 9"),
       ]
     solution: |
-      boats = 4
-      print("Boats in: " + str(boats))
+      laps = 4
+      print("Laps run: " + str(laps))
   - type: write
     prompt: "`weight` holds a number of kilos. Print `Weight: 12 kg`, joining the parts with `+`."
     starter: |

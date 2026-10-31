@@ -1,9 +1,9 @@
 ---
 id: worked-merge
 type: worked
-title: How Moss merges two piles
+title: How Paul merges two piles
 dialogue:
-  - moss: "Two tidy piles into one tidy pile. Easiest job in the yard, done properly."
+  - paul: "Two tidy piles into one tidy pile. Easiest job in the building, done properly."
 code: |
   def merge(left, right):
       merged = []
@@ -34,7 +34,7 @@ subgoals:
   - label: Hand back the merged pile
     lines: [14, 14]
 explain:
-  prompt: "When the loop ends, one pile may still have parts in it. Why can Moss tip them straight on the end?"
+  prompt: "When the loop ends, one pile may still have parts in it. Why can Paul tip them straight on the end?"
   answer: "That pile was sorted already, and everything left in it is at least as heavy as everything merged so far. So the leftovers go on the end in the order they're in."
   concept: merge-sort
 ---

@@ -20,11 +20,12 @@ export default async function Metrics() {
   if (!isOwner(user)) notFound();
   const db = await getDb();
   const [weeks, total] = await Promise.all([weeklyFunnel(db, 8), totalFunnel(db)]);
+  const top = Math.max(1, ...FUNNEL.map(([event]) => total[event] ?? 0));
   return (
     <Page wide>
       <div className={styles.page}>
         <h1 className={styles.title}>Metrics</h1>
-        <section className="frame-panel" aria-labelledby="all-time">
+        <section className={styles.card} aria-labelledby="all-time">
           <h2 id="all-time" className={styles.h2}>
             The funnel, all time
           </h2>
@@ -35,18 +36,22 @@ export default async function Metrics() {
               return (
                 <li key={event}>
                   <span className={styles.label}>{label}</span>
-                  <span className={styles.count}>{n}</span>
+                  <span className={styles.barTrack} aria-hidden="true">
+                    <span className={[styles.bar, event === "cancel" ? styles.barCancel : ""].join(" ")} style={{ width: `${(n / top) * 100}%` }} />
+                  </span>
+                  <span className={styles.count}>{n.toLocaleString("en-GB")}</span>
                   <span className={styles.conv}>{i > 0 && event !== "cancel" ? pct(n, prev) : ""}</span>
                 </li>
               );
             })}
           </ol>
+          <p className={styles.note}>The percentage is the share of people from the step above. Cancelled counts subscribers who left.</p>
         </section>
-        <section className="frame-panel" aria-labelledby="weekly">
+        <section className={styles.card} aria-labelledby="weekly">
           <h2 id="weekly" className={styles.h2}>
             By week
           </h2>
-          <div className={styles.scroll}>
+          <div className={styles.scroll} role="region" aria-labelledby="weekly" tabIndex={0}>
             <table className={styles.table}>
               <thead>
                 <tr>

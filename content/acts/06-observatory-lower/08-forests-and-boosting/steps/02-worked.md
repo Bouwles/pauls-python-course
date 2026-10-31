@@ -1,15 +1,15 @@
 ---
 id: worked
 type: worked
-title: How Moss would find one question
+title: How Paul would find one question
 dialogue:
-  - moss: "Bea's Saturdays. Did she sell out by noon? One reading: passengers off the ferry."
-  - bea: "Over a certain number and I'm out of bread by twelve. I just don't know the number."
+  - paul: "The open days again. Did the coffee run out by noon? One reading: visitors through the door."
+  - riya: "Over a certain number and we're out by twelve. I just don't know the number."
 code: |
   import numpy as np
 
-  # Ten Saturdays: ferry passengers, and 1 if Bea sold out by noon
-  passengers = np.array([120, 150, 180, 220, 250, 290, 310, 350, 380, 400])
+  # Ten open days: visitors, and 1 if the coffee ran out by noon
+  visitors = np.array([120, 150, 180, 220, 250, 290, 310, 350, 380, 400])
   sold_out = np.array([0, 0, 0, 0, 1, 0, 1, 1, 1, 1])
 
 
@@ -19,16 +19,16 @@ code: |
 
 
   best_threshold, best_score = None, gini(sold_out)
-  values = np.unique(passengers)
+  values = np.unique(visitors)
   for threshold in (values[:-1] + values[1:]) / 2:
-      yes = passengers <= threshold
+      yes = visitors <= threshold
       left, right = sold_out[yes], sold_out[~yes]
       score = (len(left) * gini(left) + len(right) * gini(right)) / len(sold_out)
       if score < best_score:
           best_threshold, best_score = threshold, score
 
   print(f"Before any question: Gini {gini(sold_out):.3f}")
-  print(f"Best question: passengers <= {best_threshold:g}? Gini {best_score:.3f}")
+  print(f"Best question: visitors <= {best_threshold:g}? Gini {best_score:.3f}")
 subgoals:
   - label: The log
     lines: [3, 5]
@@ -53,6 +53,6 @@ explain:
 ---
 To find the best question about one reading, try every sensible threshold. The sensible ones sit halfway between neighbouring readings: anything else splits the days the same way as one of those.
 
-For each threshold, the days with `passengers <= threshold` go to the yes pile and the rest to the no pile. The question's score is the two piles' Gini, each weighted by its share of the days. The lowest score wins, as long as it beats the pile before any question at all.
+For each threshold, the days with `visitors <= threshold` go to the yes pile and the rest to the no pile. The question's score is the two piles' Gini, each weighted by its share of the days. The lowest score wins, as long as it beats the pile before any question at all.
 
 `np.unique` gives each distinct reading once, sorted; `values[:-1] + values[1:]` adds each to the next. A tree with several readings does this for every reading in turn, and keeps the best question of all.

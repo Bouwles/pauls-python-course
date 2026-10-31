@@ -1,7 +1,7 @@
 import ast as _ast
 import importlib as _importlib
 
-SANJAY_ROWS = [
+STALL_ROWS = [
     {"item": "apples", "price": 0.4, "count": 120},
     {"item": "pears", "price": 0.55, "count": 8},
     {"item": "leeks", "price": 0.9, "count": 15},
@@ -113,7 +113,7 @@ def fresh_file(ctx):
     if result.error is not None:
         raise CheckFailed(f"main.py crashed: {type(result.error).__name__}: {result.error}")
     if result.lines() != ["Reorder: nothing"]:
-        raise CheckFailed("With plenty of everything and no smudges, main.py prints only Reorder: nothing.",
+        raise CheckFailed("With plenty of everything and no typos, main.py prints only Reorder: nothing.",
                           expected="Reorder: nothing", actual=result.output)
     text = reorder_file(result)
     if text.strip():
@@ -136,8 +136,8 @@ def no_stock_file(ctx):
 
 
 TESTS = [
-    output("Sanjay's list", expect="Skipped lines: 5, 6, 8\nReorder: beetroot, carrots, pears", visible=True),
-    custom("read_stock on Sanjay's list", read_case("stock.csv", None, SANJAY_ROWS, [5, 6, 8],
+    output("The stall's list", expect="Skipped lines: 5, 6, 8\nReorder: beetroot, carrots, pears", visible=True),
+    custom("read_stock on the stall's list", read_case("stock.csv", None, STALL_ROWS, [5, 6, 8],
                                                     "A dictionary for each line that reads, in the order they came."),
            visible=True),
     custom("read_stock on another file", read_case("orchard.csv", {"orchard.csv": ORCHARD},
@@ -146,7 +146,7 @@ TESTS = [
                                                     {"item": "sloes", "price": 0.1, "count": 9}],
                                                    [3, 5], "Read the file you're given, not always stock.csv."),
            hint="A price with a pound sign won't convert, and neither will a count of 4.5. Both are bad lines."),
-    custom("A list with no smudges", read_case("plenty.csv", {"plenty.csv": PLENTY},
+    custom("A list with no typos", read_case("plenty.csv", {"plenty.csv": PLENTY},
                                                [{"item": "apples", "price": 0.4, "count": 120},
                                                 {"item": "leeks", "price": 0.9, "count": 15}],
                                                [], "Every line reads, so bad_lines is empty.")),
@@ -167,7 +167,7 @@ TESTS = [
     custom("main.py writes reorder.txt", writes_reorder,
            hint="Open reorder.txt with \"w\" and write each item followed by a new line."),
     custom("Last week's reorder.txt is replaced", fresh_file,
-           hint="Write reorder.txt every time, even when there's nothing in it. Last week's list would mislead Sanjay."),
+           hint="Write reorder.txt every time, even when there's nothing in it. Last week's list would mislead the stall."),
     custom("No stock.csv", no_stock_file,
            hint="Catch the FileNotFoundError that opening a missing file raises."),
     output("The orchard's list", files={"stock.csv": ORCHARD}, expect="Skipped lines: 3, 5\nReorder: quinces, sloes"),

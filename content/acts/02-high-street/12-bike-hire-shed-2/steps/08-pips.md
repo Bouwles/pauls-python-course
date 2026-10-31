@@ -1,12 +1,12 @@
 ---
 id: pips
 type: pips
-title: Pip's Version
+title: Fix Aaesha's version
 dialogue:
-  - pip: "Mrs Vance wants to know how many books are out. Emma's out. The knots one's out."
-  - pip: "It says nought. No error, nothing red. Just nought."
+  - aaesha: "Neil wants to know how many books are out. Emma's out. Alice is out. That's two."
+  - aaesha: "My program says nought. No error, nothing red. Can you look?"
 dialogue_after:
-  - pip: "\"ON_LOAN\" is just text. Status.ON_LOAN is the status. They never match, and nothing complains."
+  - aaesha: "\"ON_LOAN\" is just text. Status.ON_LOAN is the status. They never match, and nothing complains."
 hints:
   nudge: "What is `book.status`: a string, or a member of `Status`?"
   plan:
@@ -17,6 +17,6 @@ hints:
         if book.status == ___:
             out += 1
 ---
-Run Pip's program. Two of the three books are on loan, so it should print `2 on loan`.
+Run Aaesha's program. Two of the three books are on loan, so it should print `2 on loan`.
 
 No traceback this time. Read the comparison carefully.

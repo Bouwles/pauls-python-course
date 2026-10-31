@@ -5,9 +5,9 @@ summary: |
 example: |
   from collections import Counter
 
-  orders = ["bread", "buns", "bread", "lardy cake", "bread", "buns"]
+  orders = ["tea", "coffee", "tea", "hot chocolate", "tea", "coffee"]
   counts = Counter(orders)
-  print(counts["bread"], counts["scones"])
+  print(counts["tea"], counts["juice"])
   print(counts.most_common(2))
 misconceptions: [counter-missing-raises, counter-missing-is-none, most-common-alphabetical, counter-counts-words]
 related: [dictionaries, dict-get, tuples, standard-library]
@@ -39,37 +39,37 @@ cards:
     code: |
       from collections import Counter
 
-      votes = Counter(["Bea", "Gwen", "Agnes", "Gwen", "Bea", "Gwen"])
+      votes = Counter(["Riya", "Caitlin", "Aaesha", "Caitlin", "Riya", "Caitlin"])
       print(votes.most_common(2))
     options:
-      - text: "[('Gwen', 3), ('Bea', 2)]"
+      - text: "[('Caitlin', 3), ('Riya', 2)]"
         correct: true
         feedback: "Right. Commonest first, as `(item, count)` pairs."
-      - text: "[('Agnes', 1), ('Bea', 2)]"
+      - text: "[('Aaesha', 1), ('Riya', 2)]"
         misconception: most-common-alphabetical
         feedback: "`most_common` sorts by the count, biggest first. The names' spelling doesn't come into it."
   - type: fix
-    prompt: "Counting the catch by hand crashes on the first fish. Fix it so it prints the counts. `Counter` is one way; `.get` is another."
+    prompt: "Counting the snacks by hand crashes on the first one. Fix it so it prints the counts. `Counter` is one way; `.get` is another."
     code: |
-      catch = ["mackerel", "pollock", "mackerel"]
+      snacks = ["crisps", "apple", "crisps"]
       counts = {}
-      for fish in catch:
-          counts[fish] = counts[fish] + 1
+      for snack in snacks:
+          counts[snack] = counts[snack] + 1
       print(counts)
     tests: |
-      TESTS = [output("Two mackerel, one pollock", expect="{'mackerel': 2, 'pollock': 1}", match="contains")]
+      TESTS = [output("Two crisps, one apple", expect="{'crisps': 2, 'apple': 1}", match="contains")]
     solution: |
-      catch = ["mackerel", "pollock", "mackerel"]
+      snacks = ["crisps", "apple", "crisps"]
       counts = {}
-      for fish in catch:
-          counts[fish] = counts.get(fish, 0) + 1
+      for snack in snacks:
+          counts[snack] = counts.get(snack, 0) + 1
       print(counts)
   - type: fill
     prompt: "Print the commonest word and how many times it came up."
     code: |
       from collections import Counter
 
-      words = "the tide the moon the harbour".split()
+      words = "the clock the tower the stairs".split()
       word, times = Counter(words).___(1)[0]
       print(word, times)
     blanks: [["most_common"]]
@@ -85,7 +85,7 @@ cards:
           pass
     tests: |
       TESTS = [
-          function("Gwen wins", call="commonest", args=(["Bea", "Gwen", "Gwen"],), expect="Gwen"),
+          function("Caitlin wins", call="commonest", args=(["Riya", "Caitlin", "Caitlin"],), expect="Caitlin"),
           function("A tie goes to the first seen", call="commonest", args=(["leeks", "kale", "kale", "leeks"],), expect="leeks"),
           function("Nothing to count", call="commonest", args=([],), expect=None),
       ]

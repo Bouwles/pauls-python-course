@@ -29,11 +29,6 @@ Test accuracy: 0.85
 Saying no to everyone: 0.85
 Respondent: 27% chance of diabetes or prediabetes
 """
-# Copied by Professor Wendt from the back page of Penhallow's storm notebook:
-# Lashed the shutters for nineteen storms that never came, and left them
-# open for two that did. Tom says the sea wall gate is the same sum, with
-# bigger numbers on both sides. Shut it for nothing and the boats miss a
-# tide. Leave it open for a real one and the high street floods. A.P.
 
 import numpy as np
 

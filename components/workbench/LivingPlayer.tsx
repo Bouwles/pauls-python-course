@@ -1,15 +1,13 @@
 "use client";
 
-// Living Visualisations the learner's own code sends with the workshop module
-// (Section 7.6): Sir Reginald on his racing grid, the town map as a graph, and
-// the hiker on the observatory hill. One frame per call, played back sped up,
-// with pause and step.
+// Living Visualisations the learner's own code sends with the workshop module (Section 7.6):
+// a racing grid with the crab on it, a graph of nodes and edges, and a point rolling down a
+// loss curve. One frame per call, played back sped up, with pause and step. Drawn cleanly:
+// no sprites.
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { GraphFrame, GridFrame, HillFrame, Move, Visuals } from "@/lib/python/protocol";
-import { BUILDINGS, MAP_H, MAP_W } from "@/lib/world/map";
-import { loadIndex, integerScale, type SheetMeta } from "../world/sprites";
-import { SpriteFrame } from "../world/SpriteFrame";
 import { Button } from "../ui/Button";
+import { Icon } from "../ui/Icon";
 import styles from "./LivingPlayer.module.css";
 
 const SPEEDS = [
@@ -19,7 +17,8 @@ const SPEEDS = [
 ];
 
 function reducedMotion() {
-  return typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+  if (typeof window === "undefined") return false;
+  return document.documentElement.dataset.motion === "reduced" || Boolean(window.matchMedia?.("(prefers-reduced-motion: reduce)").matches);
 }
 
 function fmt(n: number | null | undefined, digits = 2) {
@@ -78,7 +77,7 @@ export function LivingPlayer({ visuals }: { visuals: Visuals }) {
     }
   };
 
-  const heading = frame.kind === "grid" ? "Sir Reginald's track" : frame.kind === "graph" ? "The town as a graph" : "The observatory hill";
+  const heading = frame.kind === "grid" ? "The grid" : frame.kind === "graph" ? "The graph" : "The loss curve";
 
   return (
     <section className={styles.player} aria-label={`${heading}, drawn by your program`} tabIndex={0} onKeyDown={onKey}>
@@ -92,6 +91,7 @@ export function LivingPlayer({ visuals }: { visuals: Visuals }) {
             <Button
               size="sm"
               variant="secondary"
+              icon={playing ? "stop" : i >= last ? "reset" : "run"}
               onClick={() => {
                 if (!playing && i >= last) setI(0);
                 setPlaying((p) => !p);
@@ -99,10 +99,10 @@ export function LivingPlayer({ visuals }: { visuals: Visuals }) {
             >
               {playing ? "Pause" : i >= last ? "Replay" : "Play"}
             </Button>
-            <Button size="sm" variant="quiet" onClick={() => (setPlaying(false), setI((x) => Math.max(0, x - 1)))} disabled={i === 0}>
+            <Button size="sm" variant="ghost" icon="caretLeft" onClick={() => (setPlaying(false), setI((x) => Math.max(0, x - 1)))} disabled={i === 0}>
               Back
             </Button>
-            <Button size="sm" variant="quiet" onClick={() => (setPlaying(false), setI((x) => Math.min(last, x + 1)))} disabled={i >= last}>
+            <Button size="sm" variant="ghost" icon="caretRight" onClick={() => (setPlaying(false), setI((x) => Math.min(last, x + 1)))} disabled={i >= last}>
               Forward
             </Button>
             <input className={styles.slider} type="range" min={0} max={last} value={i} onChange={(e) => (setPlaying(false), setI(Number(e.target.value)))} aria-label="Frame" />
@@ -137,11 +137,18 @@ export function LivingPlayer({ visuals }: { visuals: Visuals }) {
 }
 
 // ---------------------------------------------------------------------------
-// Sir Reginald's racing grid
+// The racing grid: clean cells tinted by value, arrows for the policy, the crab
 // ---------------------------------------------------------------------------
 
-const ARROW: Record<Exclude<Move, null>, string> = { "^": "↑", v: "↓", "<": "←", ">": "→" };
+const ARROW: Record<Exclude<Move, null>, number> = { "^": -90, v: 90, "<": 180, ">": 0 };
 const ACTION_NAMES = ["up", "down", "left", "right"];
+
+/** Positive values in one cast colour, negative in another, never stronger than half so the numbers read. */
+function tint(t: number): string | undefined {
+  if (!t) return undefined;
+  const pct = Math.round(Math.min(1, Math.abs(t)) * 50);
+  return `color-mix(in srgb, var(${t > 0 ? "--c-neil" : "--c-caitlin"}) ${pct}%, var(--surface-2))`;
+}
 
 function GridView({ frame, prev, frames }: { frame: GridFrame; prev?: GridFrame; frames: GridFrame[] }) {
   const rows = frame.values.length;
@@ -153,7 +160,7 @@ function GridView({ frame, prev, frames }: { frame: GridFrame; prev?: GridFrame;
     return m || 1;
   }, [frames]);
   const small = cols > 10 || rows > 10;
-  const tile = small ? 26 : 40;
+  const tile = small ? 28 : 48;
   const isAt = (cells: [number, number][] | undefined, r: number, c: number) => cells?.some(([a, b]) => a === r && b === c) ?? false;
   const moved = prev?.crab && frame.crab && (prev.crab[0] !== frame.crab[0] || prev.crab[1] !== frame.crab[1]);
 
@@ -163,6 +170,7 @@ function GridView({ frame, prev, frames }: { frame: GridFrame; prev?: GridFrame;
     if (isAt(frame.walls, r, c)) parts.push("A wall.");
     else parts.push(`Value ${fmt(v)}.`);
     if (isAt(frame.goal, r, c)) parts.push("The finish.");
+    if (frame.crab && frame.crab[0] === r && frame.crab[1] === c) parts.push("The crab is here.");
     const move = frame.policy?.[r]?.[c];
     if (move) parts.push(`Policy: ${ACTION_NAMES[["^", "v", "<", ">"].indexOf(move)]}.`);
     const q = frame.q?.[r]?.[c];
@@ -180,7 +188,7 @@ function GridView({ frame, prev, frames }: { frame: GridFrame; prev?: GridFrame;
     setSel([Math.min(rows - 1, Math.max(0, r + d[0])), Math.min(cols - 1, Math.max(0, c + d[1]))]);
   };
 
-  const crabText = frame.crab ? `Sir Reginald is at row ${frame.crab[0]}, column ${frame.crab[1]}.` : "";
+  const crabText = frame.crab ? `The crab is at row ${frame.crab[0]}, column ${frame.crab[1]}.` : "";
 
   return (
     <div className={styles.gridWrap}>
@@ -188,7 +196,7 @@ function GridView({ frame, prev, frames }: { frame: GridFrame; prev?: GridFrame;
         className={styles.grid}
         style={{ gridTemplateColumns: `repeat(${cols}, ${tile}px)`, gridAutoRows: `${tile}px` }}
         role="group"
-        aria-label={`The track, ${rows} rows by ${cols} columns. ${crabText} Use the arrow keys to read each tile; the line below says what's there.`}
+        aria-label={`The grid, ${rows} rows by ${cols} columns. ${crabText} Use the arrow keys to read each tile; the line below says what's there.`}
         tabIndex={0}
         onKeyDown={onKey}
         onFocus={() => setSel((s) => s ?? [0, 0])}
@@ -206,13 +214,22 @@ function GridView({ frame, prev, frames }: { frame: GridFrame; prev?: GridFrame;
               <div
                 key={`${r}-${c}`}
                 className={[styles.tile, wall ? styles.wall : "", goal ? styles.goal : "", selected ? styles.selected : ""].join(" ")}
-                style={wall ? undefined : ({ "--tint": t > 0 ? `rgba(81, 128, 120, ${t * 0.75})` : `rgba(155, 68, 58, ${-t * 0.6})` } as React.CSSProperties)}
+                style={wall ? undefined : { background: tint(t) }}
                 onMouseEnter={() => setSel([r, c])}
                 aria-hidden="true"
               >
-                {!small && frame.numbers !== false && !wall && v !== null ? <span className={styles.value}>{fmt(v, Math.abs(v) >= 10 ? 0 : 1)}</span> : null}
-                {move && !wall ? <span className={styles.arrow}>{ARROW[move]}</span> : null}
-                {crab ? <SpriteFrame sprite="reginald" frame={moved ? "scuttle" : "idle"} scale={small ? 1 : 2} className={styles.crab} /> : null}
+                {!small && frame.numbers !== false && !wall && v !== null && !crab ? <span className={styles.value}>{fmt(v, Math.abs(v) >= 10 ? 0 : 1)}</span> : null}
+                {move && !wall && !crab ? (
+                  <svg className={styles.arrow} width={small ? 12 : 16} height={small ? 12 : 16} viewBox="0 0 16 16" style={{ transform: `rotate(${ARROW[move]}deg)` }}>
+                    <path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                ) : null}
+                {goal && !crab ? <Icon name="flag" size={small ? 14 : 18} className={styles.flag} /> : null}
+                {crab ? (
+                  <span className={[styles.crab, moved ? styles.scuttle : ""].join(" ")}>
+                    <Icon name="crab" size={small ? 20 : 32} />
+                  </span>
+                ) : null}
               </div>
             );
           }),
@@ -226,125 +243,94 @@ function GridView({ frame, prev, frames }: { frame: GridFrame; prev?: GridFrame;
 }
 
 // ---------------------------------------------------------------------------
-// The town map as a graph
+// A graph: the learner's positions, or laid out automatically
 // ---------------------------------------------------------------------------
 
-const ALIASES: Record<string, string> = {
-  harbour: "harbour-office",
-  "harbour-master": "harbour-office",
-  "harbour-masters-hut": "harbour-office",
-  ferry: "ferry-dock",
-  anchor: "pub",
-  "drowned-anchor": "pub",
-  "mosss-workshop": "workshop",
-  moss: "workshop",
-  okonjo: "tailor",
-  sanjay: "greengrocer",
-  "sanjays-greengrocer": "greengrocer",
-  "brannigans-scrapyard": "scrapyard",
-  "crab-racing-club": "crab-club",
-  "hollis-bakery": "bakery",
-  "okonjo-tailor": "tailor",
-  "bike-hire-shed": "bike-shed",
-  records: "records-office",
-  weather: "weather-station",
-};
+const GW = 640;
+const GH = 380;
+const MARGIN = 48;
 
-function slug(name: string) {
-  return name
-    .toLowerCase()
-    .replace(/['’]/g, "")
-    .replace(/^the[\s_-]+/, "")
-    .replace(/[\s_]+/g, "-")
-    .replace(/[^a-z0-9-]/g, "");
+/** A small force layout: nodes start on a circle, edges pull, everything pushes apart. Deterministic. */
+function layout(nodes: string[], edges: [string, string, number | null][]): Record<string, [number, number]> {
+  const n = nodes.length;
+  const pos: Record<string, [number, number]> = {};
+  nodes.forEach((name, k) => {
+    const a = (k / Math.max(1, n)) * Math.PI * 2 - Math.PI / 2;
+    pos[name] = [Math.cos(a), Math.sin(a)];
+  });
+  if (n <= 2) return pos;
+  const ideal = 1.6 / Math.sqrt(n);
+  const links = edges.filter(([a, b]) => a !== b && pos[a] && pos[b]);
+  for (let it = 0; it < 240; it++) {
+    const step = 0.08 * (1 - it / 240) + 0.004;
+    const force: Record<string, [number, number]> = Object.fromEntries(nodes.map((m) => [m, [0, 0]]));
+    for (let i = 0; i < n; i++) {
+      for (let j = i + 1; j < n; j++) {
+        const a = pos[nodes[i]!]!;
+        const b = pos[nodes[j]!]!;
+        const dx = a[0] - b[0];
+        const dy = a[1] - b[1];
+        const d2 = Math.max(1e-4, dx * dx + dy * dy);
+        const f = (ideal * ideal) / d2;
+        force[nodes[i]!]![0] += dx * f;
+        force[nodes[i]!]![1] += dy * f;
+        force[nodes[j]!]![0] -= dx * f;
+        force[nodes[j]!]![1] -= dy * f;
+      }
+    }
+    for (const [a, b] of links) {
+      const pa = pos[a]!;
+      const pb = pos[b]!;
+      const dx = pa[0] - pb[0];
+      const dy = pa[1] - pb[1];
+      const d = Math.max(1e-3, Math.hypot(dx, dy));
+      const f = d / ideal;
+      force[a]![0] -= (dx / d) * f * d;
+      force[a]![1] -= (dy / d) * f * d;
+      force[b]![0] += (dx / d) * f * d;
+      force[b]![1] += (dy / d) * f * d;
+    }
+    for (const m of nodes) {
+      const [fx, fy] = force[m]!;
+      const len = Math.hypot(fx, fy) || 1;
+      const move = Math.min(len, 1) * step;
+      pos[m] = [pos[m]![0] + (fx / len) * move, pos[m]![1] + (fy / len) * move];
+    }
+  }
+  return pos;
 }
 
-function buildingFor(name: string) {
-  const s = slug(name);
-  const id = ALIASES[s] ?? s;
-  return BUILDINGS.find((b) => b.x >= 0 && (b.id === id || slug(b.name) === s));
+/** Fit any set of points into the drawing, keeping the shape. */
+function fit(points: Record<string, [number, number]>): Record<string, [number, number]> {
+  const names = Object.keys(points);
+  if (!names.length) return points;
+  const xs = names.map((n) => points[n]![0]);
+  const ys = names.map((n) => points[n]![1]);
+  const [x0, x1, y0, y1] = [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)];
+  const sx = (GW - MARGIN * 2) / (x1 - x0 || 1);
+  const sy = (GH - MARGIN * 2) / (y1 - y0 || 1);
+  const s = Math.min(sx, sy);
+  const ox = (GW - (x1 - x0) * s) / 2;
+  const oy = (GH - (y1 - y0) * s) / 2;
+  return Object.fromEntries(names.map((n) => [n, [ox + (points[n]![0] - x0) * s, oy + (points[n]![1] - y0) * s] as [number, number]]));
 }
 
 function GraphView({ frame }: { frame: GraphFrame }) {
-  const host = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState(400);
-  const [metas, setMetas] = useState<Record<string, SheetMeta> | null>(null);
-  useEffect(() => {
-    const el = host.current;
-    if (!el) return;
-    const ro = new ResizeObserver(() => setWidth(el.clientWidth));
-    ro.observe(el);
-    setWidth(el.clientWidth);
-    return () => ro.disconnect();
-  }, []);
-  const onMap = frame.nodes.length > 0 && frame.nodes.every((n) => buildingFor(n));
-  useEffect(() => {
-    if (onMap) void loadIndex().then((idx) => setMetas(idx.sprites));
-  }, [onMap]);
-
+  const nodesKey = frame.nodes.join("|");
+  const edgesKey = frame.edges.map((e) => `${e[0]}>${e[1]}`).join("|");
   const pos = useMemo(() => {
-    const out: Record<string, [number, number]> = {};
-    if (onMap) {
-      for (const n of frame.nodes) {
-        const b = buildingFor(n)!;
-        const m = metas?.[b.sprite];
-        out[n] = [b.x + (m ? m.w / 2 : 12), b.y + (m ? m.h + 3 : 24)];
-      }
-      return out;
-    }
     if (frame.positions && frame.nodes.every((n) => frame.positions![n])) {
-      const xs = frame.nodes.map((n) => frame.positions![n]![0]);
-      const ys = frame.nodes.map((n) => frame.positions![n]![1]);
-      const [x0, x1, y0, y1] = [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)];
-      for (const n of frame.nodes) {
-        const [x, y] = frame.positions![n]!;
-        out[n] = [30 + ((x - x0) / (x1 - x0 || 1)) * (MAP_W - 60), 24 + ((y - y0) / (y1 - y0 || 1)) * (MAP_H - 48)];
-      }
-      return out;
+      // The learner's own positions: y grows downwards on screen, as in most drawing code.
+      return fit(Object.fromEntries(frame.nodes.map((n) => [n, frame.positions![n]!])));
     }
-    frame.nodes.forEach((n, k) => {
-      const a = (k / frame.nodes.length) * Math.PI * 2 - Math.PI / 2;
-      out[n] = [MAP_W / 2 + Math.cos(a) * (MAP_W / 2 - 50), MAP_H / 2 + Math.sin(a) * (MAP_H / 2 - 28)];
-    });
-    return out;
-  }, [frame, onMap, metas]);
+    return fit(layout(frame.nodes, frame.edges));
+    // The layout only depends on the shape of the graph, not on which nodes are visited.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nodesKey, edgesKey, frame.positions]);
 
-  // Frame the part of the map the graph uses, then scale it by a whole number.
-  const box = useMemo(() => {
-    const ps = Object.values(pos);
-    if (!ps.length) return { x: 0, y: 0, w: MAP_W, h: MAP_H };
-    const margin = 34;
-    let x0 = Math.max(0, Math.min(...ps.map((q) => q[0])) - margin);
-    let x1 = Math.min(MAP_W, Math.max(...ps.map((q) => q[0])) + margin);
-    let y0 = Math.max(0, Math.min(...ps.map((q) => q[1])) - margin);
-    let y1 = Math.min(MAP_H, Math.max(...ps.map((q) => q[1])) + margin);
-    if (x1 - x0 < 180) [x0, x1] = [Math.max(0, (x0 + x1) / 2 - 90), Math.min(MAP_W, (x0 + x1) / 2 + 90)];
-    if (y1 - y0 < 110) [y0, y1] = [Math.max(0, (y0 + y1) / 2 - 55), Math.min(MAP_H, (y0 + y1) / 2 + 55)];
-    return { x: Math.floor(x0), y: Math.floor(y0), w: Math.ceil(x1 - x0), h: Math.ceil(y1 - y0) };
-  }, [pos]);
-  const k = integerScale(box.w, width, 3);
-  const u = 1 / k; // one screen pixel, in map units
-
-  // Each label goes below its node, or above when that would overlap a label already placed.
-  const labelAbove = useMemo(() => {
-    const placed: { x0: number; x1: number; y: number; above: boolean }[] = [];
-    const out: Record<string, boolean> = {};
-    const order = [...frame.nodes].sort((a, b) => (pos[a]?.[0] ?? 0) - (pos[b]?.[0] ?? 0));
-    for (const n of order) {
-      const p = pos[n];
-      if (!p) continue;
-      const d = frame.distances?.[n];
-      const chars = n.length + (d !== undefined ? 4 : 0);
-      const half = (chars * 6.8 * u) / 2;
-      const clash = (above: boolean) => placed.some((q) => q.above === above && Math.abs(q.y - p[1]) < 18 * u && q.x0 < p[0] + half + 3 * u && q.x1 > p[0] - half - 3 * u);
-      const above = clash(false) && !clash(true);
-      out[n] = above;
-      placed.push({ x0: p[0] - half, x1: p[0] + half, y: p[1], above });
-    }
-    return out;
-  }, [frame.nodes, frame.distances, pos, u]);
   const onPath = new Set<string>();
   for (let p = 0; p + 1 < frame.path.length; p++) onPath.add(`${frame.path[p]}|${frame.path[p + 1]}`), onPath.add(`${frame.path[p + 1]}|${frame.path[p]}`);
+  const pathNodes = new Set(frame.path);
   const visited = new Set(frame.visited);
   const frontier = new Set(frame.frontier);
   const seen = new Set<string>();
@@ -362,32 +348,11 @@ function GraphView({ frame }: { frame: GraphFrame }) {
   ]
     .filter(Boolean)
     .join(" ");
+  const r = frame.nodes.length > 24 ? 9 : 13;
 
   return (
-    <div className={styles.graphWrap} ref={host}>
-      <svg width={box.w * k} height={box.h * k} viewBox={`${box.x} ${box.y} ${box.w} ${box.h}`} className={styles.graph} role="img" aria-label={`${frame.nodes.length} places and ${edges.length} roads. ${summary}`}>
-        {onMap ? (
-          <>
-            <image href="/sprites/map-terrain.png" x={0} y={0} width={MAP_W * 2} height={MAP_H} clipPath="url(#ppc-map-clip)" style={{ imageRendering: "pixelated" }} opacity={0.55} />
-            <clipPath id="ppc-map-clip">
-              <rect x={0} y={0} width={MAP_W} height={MAP_H} />
-            </clipPath>
-            {metas
-              ? BUILDINGS.filter((b) => b.x >= 0 && metas[b.sprite]).map((b) => {
-                  const m = metas[b.sprite]!;
-                  const count = Math.max(0, ...Object.values(m.frames)) + 1;
-                  const f = m.frames.open ?? 0;
-                  return (
-                    <svg key={b.id} x={b.x} y={b.y} width={m.w} height={m.h} viewBox={`${f * m.w} 0 ${m.w} ${m.h}`} opacity={0.7}>
-                      <image href={`/sprites/${b.sprite}.png`} width={m.w * count} height={m.h} style={{ imageRendering: "pixelated" }} />
-                    </svg>
-                  );
-                })
-              : null}
-          </>
-        ) : (
-          <rect x={0} y={0} width={MAP_W} height={MAP_H} className={styles.paper} />
-        )}
+    <div className={styles.graphWrap}>
+      <svg viewBox={`0 0 ${GW} ${GH}`} className={styles.graph} role="img" aria-label={`${frame.nodes.length} nodes and ${edges.length} edges. ${summary}`}>
         {edges.map(([a, b, w]) => {
           const pa = pos[a];
           const pb = pos[b];
@@ -395,9 +360,9 @@ function GraphView({ frame }: { frame: GraphFrame }) {
           const hot = onPath.has(`${a}|${b}`);
           return (
             <g key={`${a}|${b}`}>
-              <line x1={pa[0]} y1={pa[1]} x2={pb[0]} y2={pb[1]} className={hot ? styles.edgeHot : styles.edge} strokeWidth={(hot ? 3 : 1.5) * u} />
+              <line x1={pa[0]} y1={pa[1]} x2={pb[0]} y2={pb[1]} className={hot ? styles.edgeHot : styles.edge} />
               {w !== null ? (
-                <text x={(pa[0] + pb[0]) / 2} y={(pa[1] + pb[1]) / 2} fontSize={11 * u} className={styles.weight} strokeWidth={3 * u} textAnchor="middle" dominantBaseline="middle">
+                <text x={(pa[0] + pb[0]) / 2} y={(pa[1] + pb[1]) / 2} className={styles.weight} textAnchor="middle" dominantBaseline="middle">
                   {fmt(w)}
                 </text>
               ) : null}
@@ -407,12 +372,13 @@ function GraphView({ frame }: { frame: GraphFrame }) {
         {frame.nodes.map((n) => {
           const p = pos[n];
           if (!p) return null;
-          const cls = n === frame.current ? styles.nodeCurrent : visited.has(n) ? styles.nodeVisited : frontier.has(n) ? styles.nodeFrontier : styles.node;
+          const cls = n === frame.current ? styles.nodeCurrent : pathNodes.has(n) ? styles.nodePath : visited.has(n) ? styles.nodeVisited : frontier.has(n) ? styles.nodeFrontier : styles.node;
           const d = frame.distances?.[n];
+          const below = p[1] < GH - MARGIN / 2 - 4;
           return (
             <g key={n}>
-              <circle cx={p[0]} cy={p[1]} r={6 * u} className={cls} strokeWidth={2 * u} />
-              <text x={p[0]} y={labelAbove[n] ? p[1] - 10 * u : p[1] + 10 * u} fontSize={11 * u} className={styles.nodeLabel} strokeWidth={3 * u} textAnchor="middle" dominantBaseline={labelAbove[n] ? "auto" : "hanging"}>
+              <circle cx={p[0]} cy={p[1]} r={r} className={cls} />
+              <text x={p[0]} y={below ? p[1] + r + 14 : p[1] - r - 6} className={styles.nodeLabel} textAnchor="middle">
                 {n}
                 {d !== undefined ? ` (${d === null ? "?" : fmt(d)})` : ""}
               </text>
@@ -420,6 +386,24 @@ function GraphView({ frame }: { frame: GraphFrame }) {
           );
         })}
       </svg>
+      <ul className={styles.legend} aria-hidden="true">
+        <li>
+          <span className={[styles.swatch, styles.nodeCurrent].join(" ")} />
+          Current
+        </li>
+        <li>
+          <span className={[styles.swatch, styles.nodeVisited].join(" ")} />
+          Visited
+        </li>
+        <li>
+          <span className={[styles.swatch, styles.nodeFrontier].join(" ")} />
+          Waiting
+        </li>
+        <li>
+          <span className={[styles.swatch, styles.swatchPath].join(" ")} />
+          Path
+        </li>
+      </ul>
       <p className={styles.readout} aria-live="polite">
         {summary || "Nothing visited yet."}
       </p>
@@ -428,18 +412,18 @@ function GraphView({ frame }: { frame: GraphFrame }) {
 }
 
 // ---------------------------------------------------------------------------
-// The hiker on the observatory hill
+// A point rolling down a loss curve
 // ---------------------------------------------------------------------------
 
-const HW = 340;
-const HH = 200;
-const PAD = 24;
+const HW = 520;
+const HH = 260;
+const PAD = 32;
 
 function HillView({ frames, index, curve }: { frames: HillFrame[]; index: number; curve?: [number, number | null][] }) {
   const points = frames.map((f) => [f.x, f.loss] as const).filter((p): p is readonly [number, number] => p[0] !== null && p[1] !== null);
   const shown = frames.slice(0, index + 1);
   const all = [...(curve ?? []).filter((p): p is [number, number] => p[1] !== null), ...points];
-  if (!all.length) return <p className={styles.readout}>The hiker has nowhere to stand: every position or loss was not a number.</p>;
+  if (!all.length) return <p className={styles.readout}>There&apos;s nothing to draw: every position or loss was not a number.</p>;
   const xs = all.map((p) => p[0]);
   const ys = all.map((p) => p[1]);
   const [x0, x1] = [Math.min(...xs), Math.max(...xs)];
@@ -450,36 +434,38 @@ function HillView({ frames, index, curve }: { frames: HillFrame[]; index: number
   const sx = (x: number) => PAD + ((x - x0) / (x1 - x0 || 1)) * (HW - PAD * 2);
   const sy = (y: number) => HH - PAD - ((Math.min(y, yTop) - y0) / (yTop - y0 || 1)) * (HH - PAD * 2);
   const here = shown[shown.length - 1];
-  const prevX = shown.length > 1 ? shown[shown.length - 2]!.x : null;
-  const walking = here && prevX !== null && here.x !== prevX;
   const path = curve
     ?.filter((p) => p[1] !== null)
     .map((p, k) => `${k ? "L" : "M"}${sx(p[0]).toFixed(1)},${sy(p[1]!).toFixed(1)}`)
     .join(" ");
+  const trail = shown.filter((f) => f.x !== null && f.loss !== null);
 
   return (
     <div className={styles.hillWrap}>
-      <div className={styles.hill} style={{ width: HW, height: HH }}>
-        <svg width={HW} height={HH} viewBox={`0 0 ${HW} ${HH}`} aria-hidden="true">
-          <line x1={PAD} y1={HH - PAD} x2={HW - PAD} y2={HH - PAD} className={styles.axis} />
-          {path ? <path d={path} className={styles.curve} /> : null}
-          {shown.map((f, k) =>
-            f.x !== null && f.loss !== null ? <circle key={k} cx={sx(f.x)} cy={sy(f.loss)} r={k === shown.length - 1 ? 0 : 2} className={styles.trail} /> : null,
-          )}
-          <text x={PAD} y={HH - 6} className={styles.tick}>
-            {fmt(x0)}
-          </text>
-          <text x={HW - PAD} y={HH - 6} className={styles.tick} textAnchor="end">
-            {fmt(x1)}
-          </text>
-          <text x={4} y={14} className={styles.tick}>
-            loss
-          </text>
-        </svg>
+      <svg viewBox={`0 0 ${HW} ${HH}`} className={styles.hill} aria-hidden="true">
+        <line x1={PAD} y1={HH - PAD} x2={HW - PAD} y2={HH - PAD} className={styles.axis} />
+        <line x1={PAD} y1={PAD / 2} x2={PAD} y2={HH - PAD} className={styles.axis} />
+        {path ? <path d={path} className={styles.curve} /> : null}
+        {trail.length > 1 ? <polyline points={trail.map((f) => `${sx(f.x!).toFixed(1)},${sy(f.loss!).toFixed(1)}`).join(" ")} className={styles.trailLine} /> : null}
+        {trail.slice(0, -1).map((f, k) => (
+          <circle key={k} cx={sx(f.x!)} cy={sy(f.loss!)} r={3} className={styles.trail} />
+        ))}
         {here && here.x !== null && here.loss !== null ? (
-          <SpriteFrame sprite="hiker" frame={walking ? "walk" : "stand"} scale={2} className={styles.hiker} style={{ left: Math.round(sx(here.x)) - 8, top: Math.round(sy(here.loss)) - 22 }} />
+          <>
+            <circle cx={sx(here.x)} cy={sy(here.loss)} r={12} className={styles.ballRing} />
+            <circle cx={sx(here.x)} cy={sy(here.loss)} r={7} className={styles.ball} />
+          </>
         ) : null}
-      </div>
+        <text x={PAD} y={HH - 10} className={styles.tick}>
+          {fmt(x0)}
+        </text>
+        <text x={HW - PAD} y={HH - 10} className={styles.tick} textAnchor="end">
+          {fmt(x1)}
+        </text>
+        <text x={PAD + 6} y={PAD / 2 + 10} className={styles.tick}>
+          loss
+        </text>
+      </svg>
       <p className={styles.readout} aria-live="polite">
         {here ? `Step ${index}: x = ${fmt(here.x, 4)}, loss = ${fmt(here.loss, 4)}.` : ""}
         {here?.loss !== null && here?.loss !== undefined && here.loss > yTop ? " Off the top of the drawing: the steps are too big." : ""}

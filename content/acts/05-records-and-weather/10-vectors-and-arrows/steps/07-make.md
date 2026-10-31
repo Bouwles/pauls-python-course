@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the wind report
-on_pass: { priya: "From 350 at 11.4 knots. That's January. I'll sign that one." }
+on_pass: { aaesha: "From 350 at 11.4 knots. That's January. I'll sign that one." }
 hints:
   nudge: "Every one of these starts from the arrows, never the bearings. Which ones need the mean arrow, and which need a dot product?"
   plan:
@@ -36,11 +36,11 @@ hints:
     def along_and_across(arrows, heading):
         angle = np.radians(heading)
         ahead = [np.sin(angle), np.cos(angle)]
-        starboard = [___, ___]
-        frame = np.array([ahead, starboard])
+        right = [___, ___]
+        frame = np.array([ahead, right])
         return arrows @ ___
 ---
-Write Priya's five functions. The loader, Pip's `to_arrows` (fixed) and the report are done.
+Write Aaesha's five functions. The loader, Yahya's `to_arrows` (fixed) and the report are done.
 
 ```
 January 2024: 31 days
@@ -48,12 +48,12 @@ Average of the bearings: 197 degrees
 Prevailing wind: from 350 degrees at 11.4 knots
 Steadiness: 0.81
 Biggest swing overnight: 120 degrees, 2024-01-28 to 2024-01-29
-Ferry on 040: worst headwind 25.1 knots on 2024-01-26
-Ferry on 040: worst crosswind 23.1 knots on 2024-01-15
+Cycling on 040: worst headwind 25.1 knots on 2024-01-26
+Cycling on 040: worst crosswind 23.1 knots on 2024-01-15
 ```
 
 - **Steadiness** is the mean arrow's length over the mean speed: 1 if the wind never moved, near 0 if it went all round the compass.
 - The angle between two arrows comes from the dot product: `np.dot(a, b)` is their lengths multiplied, times the cosine of the angle. `np.arccos` turns a cosine back into an angle.
-- For `along_and_across`, ahead is the one-knot arrow for the heading. **Starboard**, the right-hand side, is a quarter turn clockwise from it: `(cos, -sin)` of the heading.
+- For `along_and_across`, ahead is the one-knot arrow for the heading. The **right-hand side** is a quarter turn clockwise from it: `(cos, -sin)` of the heading.
 
 No loops. The checks try other headings.

@@ -38,12 +38,12 @@ TypeError: 'int' object is not callable
 
 Upper case marks a constant, a value set once and never changed, as in `VAT_RATE = 0.2`. Python doesn't enforce it; the capitals tell the reader.
 
-An honest name also makes mistakes visible. Nothing looks wrong in `c = a * a`, but `cost = bun_price * bun_price` is plainly a price times a price. Add units where they help (`weight_kg`), name a list in the plural and one item in the singular (`parcels`, `parcel`), and make a true-or-false value read as a question (`is_open`). Single letters suit short code with a strong convention, such as `i` for a counter.
+An honest name also makes mistakes visible. Nothing looks wrong in `c = a * a`, but `cost = bun_price * bun_price` is plainly a price times a price. Add units where they help (`weight_kg`), name a list in the plural and one item in the singular (`guests`, `guest`), and make a true-or-false value read as a question (`is_open`). Single letters suit short code with a strong convention, such as `i` for a counter.
 
 ## Common mistakes
 
 - **Putting a space or hyphen in a name, or starting it with a digit.** Join words with underscores, and spell out a leading number or move it to the end: `loaf_count`, `second_delivery`, `delivery_2`.
-- **Changing the capitals between lines.** After `tide = 3`, `print(Tide)` stops with `NameError: name 'Tide' is not defined. Did you mean: 'tide'?`. Keep variable names in lower case.
+- **Changing the capitals between lines.** After `score = 3`, `print(Score)` stops with `NameError: name 'Score' is not defined. Did you mean: 'score'?`. Keep variable names in lower case.
 - **Using a keyword as a name.** `class = "first"` is a SyntaxError. Python has 35 keywords; `import keyword` then `print(keyword.kwlist)` lists them. Use a fuller name, such as `ticket_class`.
 - **Naming a variable after a built-in.** `sum`, `list` and `str` work as names at first, then cause the TypeError above. Name the value for what it is, such as `total`.
 

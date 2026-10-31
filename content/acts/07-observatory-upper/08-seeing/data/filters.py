@@ -1,4 +1,4 @@
-"""The small seeing brain Wendt trained at home in PyTorch, its numbers copied out by hand."""
+"""The small seeing network Neil trained at home in PyTorch, its numbers copied out by hand."""
 
 import numpy as np
 

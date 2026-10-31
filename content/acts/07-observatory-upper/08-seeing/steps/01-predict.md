@@ -1,15 +1,15 @@
 ---
 id: predict
 type: predict
-title: A window on the lighthouse
+title: A window on the Clocktower
 concept: convolutions
 dialogue:
-  - wendt: "A brain that reads digits pixel by pixel has never heard of an edge. Penhallow's last pages are all little grids."
-  - wendt: "Three by three. Two by two. Little windows, slid across a picture. Here's the smallest."
+  - neil: "A network that reads digits pixel by pixel has never heard of an edge."
+  - neil: "So: a little window, slid across a picture. Here's the smallest."
 code: |
   import numpy as np
 
-  # The lighthouse from the quay: dark sky is 0, the white tower is 1
+  # The Clocktower from the street: dark sky is 0, the tower is 1
   image = np.array([[0, 0, 1, 1, 0],
                     [0, 0, 1, 1, 0],
                     [0, 0, 1, 1, 0],

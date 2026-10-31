@@ -15,24 +15,24 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      monday = {"Bea", "Tom", "Mira"}
-      tuesday = {"Tom", "Gwen"}
+      monday = {"Riya", "Yahya", "Neil"}
+      tuesday = {"Yahya", "Caitlin"}
       print(sorted(monday | tuesday))
-    answer: "['Bea', 'Gwen', 'Mira', 'Tom']"
+    answer: "['Caitlin', 'Neil', 'Riya', 'Yahya']"
   - type: choice
     prompt: What does this print?
     code: |
-      expected = {"Ashby", "Rook", "Ferro"}
-      delivered = {"Rook", "Nell"}
+      expected = {"Paul", "Riya", "Neil"}
+      delivered = {"Riya", "Caitlin"}
       print(sorted(delivered - expected))
     options:
-      - text: "['Nell']"
+      - text: "['Caitlin']"
         correct: true
         feedback: "In `delivered`, not in `expected`: the surprise parcel."
-      - text: "['Ashby', 'Ferro']"
+      - text: "['Neil', 'Paul']"
         misconception: set-minus-symmetric
         feedback: "That's `expected - delivered`. Subtraction keeps what's in the left-hand set."
-      - text: "['Ashby', 'Ferro', 'Nell']"
+      - text: "['Caitlin', 'Neil', 'Paul']"
         misconception: set-minus-symmetric
         feedback: "That's everything in one set but not both. `-` only keeps what's in the left-hand set."
   - type: predict
@@ -57,21 +57,21 @@ cards:
   - type: fill
     prompt: "Fill the gap so `both_days` holds the people who came on both days."
     code: |
-      monday = {"Bea", "Tom", "Mira"}
-      tuesday = {"Tom", "Gwen", "Mira"}
+      monday = {"Riya", "Yahya", "Neil"}
+      tuesday = {"Yahya", "Caitlin", "Neil"}
       both_days = monday ___ tuesday
       print(sorted(both_days))
     blanks: [["&"]]
     tests: |
-      TESTS = [output("Mira and Tom", expect="['Mira', 'Tom']")]
+      TESTS = [output("Neil and Yahya", expect="['Neil', 'Yahya']")]
   - type: write
-    prompt: "Print the sorted list of boats that were out on Saturday but not on Sunday."
+    prompt: "Print the sorted list of people who came to the Makerspace on Saturday but not on Sunday."
     starter: |
-      saturday = {"Gull", "Puffin", "Tern"}
-      sunday = {"Puffin", "Kittiwake"}
+      saturday = {"Riya", "Caitlin", "Yahya"}
+      sunday = {"Caitlin", "Neil"}
     tests: |
-      TESTS = [output("Saturday only", expect="['Gull', 'Tern']")]
+      TESTS = [output("Saturday only", expect="['Riya', 'Yahya']")]
     solution: |
-      saturday = {"Gull", "Puffin", "Tern"}
-      sunday = {"Puffin", "Kittiwake"}
+      saturday = {"Riya", "Caitlin", "Yahya"}
+      sunday = {"Caitlin", "Neil"}
       print(sorted(saturday - sunday))

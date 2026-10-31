@@ -4,9 +4,9 @@ type: predict
 title: One step
 concept: k-means
 dialogue:
-  - wendt: "Nobody labelled these customers. No answers to learn from. Just what they spend."
-  - pip: "Then what does it learn."
-  - wendt: "Where the crowds are. Well, where the middles of the crowds are."
+  - riya: "Nobody labelled these customers. No answers to learn from. Just what they spend."
+  - caitlin: "Then what does it learn?"
+  - riya: "Where the crowds are. Well, where the middles of the crowds are."
 code: |
   import numpy as np
 

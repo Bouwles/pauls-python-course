@@ -1,24 +1,24 @@
-"""Pip's fewest roads, from the scrapyard to anywhere."""
+"""Yahya's fewest roads, from the market to anywhere."""
 from workshop import show_graph
 
 ROADS = {
-    "scrapyard": ["workshop", "tailor", "records-office"],
-    "workshop": ["scrapyard", "bakery", "tailor"],
-    "bakery": ["workshop", "post-office", "library"],
-    "post-office": ["bakery", "pub", "town-hall", "ferry"],
-    "pub": ["post-office", "harbour-office", "greengrocer"],
-    "harbour-office": ["pub", "ferry", "crab-club", "lighthouse"],
-    "ferry": ["post-office", "harbour-office"],
-    "lighthouse": ["harbour-office"],
-    "tailor": ["scrapyard", "workshop", "library"],
-    "library": ["tailor", "bakery", "town-hall"],
-    "town-hall": ["library", "post-office", "greengrocer", "weather-station"],
-    "greengrocer": ["town-hall", "pub", "bike-shed"],
-    "bike-shed": ["greengrocer", "crab-club", "observatory"],
-    "crab-club": ["bike-shed", "harbour-office"],
-    "records-office": ["scrapyard", "weather-station"],
-    "weather-station": ["records-office", "town-hall", "observatory"],
-    "observatory": ["weather-station", "bike-shed"],
+    "market": ["clocktower", "bookshop", "museum"],
+    "clocktower": ["market", "cafe", "bookshop"],
+    "cafe": ["clocktower", "station", "library"],
+    "station": ["cafe", "cinema", "city-hall", "theatre"],
+    "cinema": ["station", "bridge", "school"],
+    "bridge": ["cinema", "theatre", "pool", "stadium"],
+    "theatre": ["station", "bridge"],
+    "stadium": ["bridge"],
+    "bookshop": ["market", "clocktower", "library"],
+    "library": ["bookshop", "cafe", "city-hall"],
+    "city-hall": ["library", "station", "school", "gallery"],
+    "school": ["city-hall", "cinema", "gym"],
+    "gym": ["school", "pool", "park"],
+    "pool": ["gym", "bridge"],
+    "museum": ["market", "gallery"],
+    "gallery": ["museum", "city-hall", "park"],
+    "park": ["gallery", "gym"],
 }
 
 
@@ -46,5 +46,5 @@ def fewest_roads(roads, start, goal):
 
 
 if __name__ == "__main__":
-    route = fewest_roads(ROADS, "scrapyard", "ferry")
+    route = fewest_roads(ROADS, "market", "theatre")
     print(f"{len(route) - 1} roads: {', '.join(route)}")

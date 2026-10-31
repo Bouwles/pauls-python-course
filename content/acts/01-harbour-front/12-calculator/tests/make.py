@@ -4,7 +4,7 @@ SHAPE = "Write it like 12 * 4, with spaces."
 NOT_NUMBERS = "Those aren't both numbers."
 ZERO = "Nothing divides by zero."
 OPERATOR = "Use +, -, * or /."
-BYE = "Fair winds."
+BYE = "Done for today."
 
 
 def catches_by_name(tree, source):
@@ -43,8 +43,8 @@ TESTS = [
     output("A blank line", inputs=["", "quit"], expect=SHAPE + "\n" + BYE,
            hint="A blank line splits into no parts at all. It needs the reminder, not a crash."),
     output("Quit straight away", inputs=["quit"], expect=BYE),
-    output("A whole watch",
-           inputs=["100 / 8", "fuel * 2", "3.5 + 0.25", "6 / 0", "6 x 7", "40", "0 - 0.5", "quit"],
+    output("A whole day",
+           inputs=["100 / 8", "fund * 2", "3.5 + 0.25", "6 / 0", "6 x 7", "40", "0 - 0.5", "quit"],
            expect="= 12.50\n" + NOT_NUMBERS + "\n= 3.75\n" + ZERO + "\n" + OPERATOR + "\n" + SHAPE + "\n= -0.50\n" + BYE,
            hint="Follow the sums through by hand, one at a time, and find the first line that differs."),
     structure("Uses try and except", requires=["Try"],

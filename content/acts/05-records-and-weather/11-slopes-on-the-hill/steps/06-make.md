@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the hill survey
-on_pass: { priya: "Uphill from the gorse is 340, not straight at the top. The cable can follow the slope." }
+on_pass: { riya: "Uphill from the gorse is 340, not straight at the top. We'll carry the screen up that way." }
 hints:
   nudge: "Which input does each partial slope nudge, and which does it hold still? And for `miss_slopes`, what is the inner value, and what is the outer function done to it?"
   plan:
@@ -34,10 +34,10 @@ hints:
         square_slope = 2 * ___
         return square_slope * ___, square_slope * ___
 ---
-Write Priya's four functions. Penhallow's survey, the path and the report are done.
+Write Riya's four functions. The hill's survey, the path and the report are done.
 
 ```
-Steepest on the path: 650 m from the station, slope 0.243, about 1 in 4
+Steepest on the path: 650 m from the gate, slope 0.243, about 1 in 4
 At the top: slopes 0.000 east, 0.000 north
 From the gorse: straight uphill is 340 degrees, slope 0.212
 Thermometer check (reads 8.5, should be 10.0):
@@ -47,6 +47,6 @@ Thermometer check (reads 8.5, should be 10.0):
 
 The two partial slopes of the hill make an arrow, `(east_slope, north_slope)`, that points straight uphill, and its length is how steep that is. `math.atan2` and `math.hypot` do for single numbers what `np.arctan2` and `np.linalg.norm` did for arrays.
 
-`miss_slopes` is worked out with the chain rule, like Moss's barometer, not measured: the checks measure it and compare.
+`miss_slopes` is worked out with the chain rule, like Paul's barometer, not measured: the checks measure it and compare.
 
 The report calls `show_hill` once every 10 metres up the path. Press Run when it works and watch the walker climb, with the slope under its feet.

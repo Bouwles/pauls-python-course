@@ -4,10 +4,10 @@ type: investigate
 title: Try, and catch
 concept: try-except
 code: |
-  text = input("Miles? ")
+  text = input("Weeks? ")
   try:
-      miles = float(text)
-      print(f"{30 / miles:.1f} litres a mile")
+      weeks = float(text)
+      print(f"{30 / weeks:.1f} a week")
   except ValueError:
       print("That isn't a number.")
   print("Next sum.")
@@ -31,26 +31,26 @@ tasks:
     feedback: "A ZeroDivisionError. This `except` only catches ValueError, so a different error gets straight past it and stops the program. You catch what you name."
     wrong: "Read the last line of the traceback. The first word is the kind of error."
   - id: second-except
-    prompt: "Add a second `except`, for `ZeroDivisionError`, that prints `No miles, no fuel.` Then typing `0` should end with `Next sum.` too."
+    prompt: "Add a second `except`, for `ZeroDivisionError`, that prints `No weeks, no budget.` Then typing `0` should end with `Next sum.` too."
     kind: run
     tests: |
       TESTS = [
-          output("Typing 0", inputs=["0"], expect="No miles, no fuel.\nNext sum.",
+          output("Typing 0", inputs=["0"], expect="No weeks, no budget.\nNext sum.",
                  hint="A second except goes under the first one's block, lined up with it: except ZeroDivisionError:"),
           output("Typing six", inputs=["six"], expect="That isn't a number.\nNext sum."),
-          output("Typing 6", inputs=["6"], expect="5.0 litres a mile\nNext sum."),
+          output("Typing 6", inputs=["6"], expect="5.0 a week\nNext sum."),
       ]
     solution: |
-      text = input("Miles? ")
+      text = input("Weeks? ")
       try:
-          miles = float(text)
-          print(f"{30 / miles:.1f} litres a mile")
+          weeks = float(text)
+          print(f"{30 / weeks:.1f} a week")
       except ValueError:
           print("That isn't a number.")
       except ZeroDivisionError:
-          print("No miles, no fuel.")
+          print("No weeks, no budget.")
       print("Next sum.")
 ---
 `try:` runs a block that might go wrong. If it does, and the error is the kind named after `except`, the `except` block runs instead of a traceback.
 
-The ferry burns 30 litres a crossing. This works out how much a mile, from the miles you type.
+The class fund has 30 pounds for snacks. This works out how much that is a week, from the weeks you type.

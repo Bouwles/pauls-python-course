@@ -1,9 +1,9 @@
 .page {
-  background: var(--bg);
-  min-height: 100vh;
-  min-height: 100dvh;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--bg);
 }
 
 .main {
@@ -11,11 +11,11 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: var(--s-10) var(--s-6) var(--s-16);
+  padding: var(--s-12) var(--s-6) var(--s-20);
 }
 
 .narrow {
-  max-width: 720px;
+  max-width: 768px;
 }
 
 .wide {
@@ -25,6 +25,6 @@
 
 @media (max-width: 720px) {
   .main {
-    padding: var(--s-6) var(--s-4) var(--s-12);
+    padding: var(--s-8) var(--s-4) var(--s-16);
   }
 }

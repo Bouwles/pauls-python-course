@@ -38,8 +38,11 @@ const AMERICAN: [RegExp, string][] = [
 
 const EMOJI = /\p{Extended_Pictographic}/u;
 
-// The old names (REDESIGN.md 1.1). Checked on the whole text, code included: they mustn't survive anywhere.
-const OLD_NAMES = /saltmarsh|paul('|&apos;|’)?s python course|pauls-python-course/i;
+// Old names (REDESIGN-2.md 1 and 9). The town and its story: checked on the whole text, code
+// included. The old cast: checked on prose only and case-sensitively, so `pip` the installer
+// and moss the plant are fine.
+const OLD_NAMES = /fixwick|saltmarsh|penhallow|townsfolk/i;
+const OLD_CAST = /\b(Moss|Pip|Bea|Ferro|Mira|Agnes|Gwen|Ellie|Nell|Priya|Wendt|Reginald|Dennis|Old Tom)\b|Arcade Committee/;
 
 export function stripCode(text: string): string {
   return text
@@ -57,8 +60,9 @@ export interface LintOptions {
 
 export function lintText(text: string, opts: LintOptions = {}): string[] {
   const problems: string[] = [];
-  if (OLD_NAMES.test(text)) problems.push(`uses an old name ("${text.match(OLD_NAMES)![0]}"); write {{town}} in content, or BRAND from lib/brand.ts in code`);
+  if (OLD_NAMES.test(text)) problems.push(`uses an old name ("${text.match(OLD_NAMES)![0]}"); the town and its story are gone, and the brand comes from lib/brand.ts`);
   const prose = stripCode(text);
+  if (OLD_CAST.test(prose)) problems.push(`names an old character ("${prose.match(OLD_CAST)![0]}"); the cast is Paul, Neil, Aaesha, Caitlin, Riya and Yahya`);
   if (/—|―/.test(prose)) problems.push("contains an em dash");
   if (/\s–\s/.test(prose)) problems.push("uses an en dash as a dash");
   if (EMOJI.test(prose)) problems.push("contains an emoji");

@@ -1,4 +1,4 @@
-"""Pip's gradient checker: nudge each entry, measure how the loss moves."""
+"""Aaesha's gradient checker: nudge each entry, measure how the loss moves."""
 
 import numpy as np
 

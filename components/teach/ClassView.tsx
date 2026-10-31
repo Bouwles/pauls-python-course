@@ -3,16 +3,18 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import type { CharacterLook } from "@/lib/store/types";
+import { readAvatar } from "@/lib/avatar";
+import { Avatar } from "../ui/Avatar";
 import { Button } from "../ui/Button";
-import { LearnerSprite } from "../world/LearnerSprite";
+import { Icon } from "../ui/Icon";
 import { CopyCode } from "./CopyCode";
 import styles from "./Teach.module.css";
 
 export interface StudentItem {
   id: string;
   name: string;
-  character: CharacterLook | null;
+  /** Their avatar, or an older look: read with readAvatar(). */
+  character: unknown;
   shipped: number;
   current: string | null;
   week: number;
@@ -40,8 +42,8 @@ export interface JobGroup {
 type Key = "name" | "shipped" | "current" | "week" | "total" | "lastActive";
 const COLUMNS: { key: Key; label: string; numeric: boolean; narrow?: boolean }[] = [
   { key: "name", label: "Student", numeric: false },
-  { key: "shipped", label: "Jobs shipped", numeric: true },
-  { key: "current", label: "Current Job", numeric: false },
+  { key: "shipped", label: "Shipped", numeric: true },
+  { key: "current", label: "Working on", numeric: false },
   { key: "week", label: "Last 7 days", numeric: true },
   { key: "total", label: "Total time", numeric: true, narrow: true },
   { key: "lastActive", label: "Last active", numeric: true },
@@ -55,7 +57,7 @@ export function ClassView({ cls, students, assignments, groups }: { cls: { id: s
     return [...students].sort((a, b) => {
       const va = value(a);
       const vb = value(b);
-      // Blank current Jobs sort last either way.
+      // Students working on nothing sort last either way.
       if (sort.key === "current" && !va !== !vb) return va ? -1 : 1;
       if (va < vb) return -sort.dir;
       if (va > vb) return sort.dir;
@@ -70,7 +72,8 @@ export function ClassView({ cls, students, assignments, groups }: { cls: { id: s
     <div className={styles.page}>
       <header className={styles.head}>
         <Link href="/teach" className={styles.back}>
-          <span aria-hidden="true">&lt; </span>Your classes
+          <Icon name="caretRight" size={16} className={styles.backIcon} />
+          Your classes
         </Link>
         <div className={styles.titleRow}>
           <h1 className={styles.title}>{cls.name}</h1>
@@ -83,12 +86,12 @@ export function ClassView({ cls, students, assignments, groups }: { cls: { id: s
         </p>
       </header>
 
-      <section className={`frame-panel ${styles.section}`} aria-labelledby="students-title">
+      <section className={styles.section} aria-labelledby="students-title">
         <h2 id="students-title" className={styles.h2}>
           Students
         </h2>
         {students.length === 0 ? (
-          <p className={styles.empty}>When a student joins, they appear here with their Jobs, time and last visit.</p>
+          <p className={styles.empty}>When a student joins, they appear here with their projects, time and last visit.</p>
         ) : (
           <div className={styles.tableWrap} role="region" aria-labelledby="students-title" tabIndex={0}>
             <table className={styles.table}>
@@ -113,9 +116,9 @@ export function ClassView({ cls, students, assignments, groups }: { cls: { id: s
               <tbody>
                 {sorted.map((s) => (
                   <tr key={s.id}>
-                    <th scope="row">
+                    <th scope="row" className={styles.strongCell}>
                       <span className={styles.student}>
-                        <span className={styles.portrait}>{s.character ? <LearnerSprite look={s.character} scale={1} still /> : null}</span>
+                        <Avatar name={s.name} colour={readAvatar(s.character).colour} size={28} />
                         <Link href={`/teach/${cls.id}/${s.id}`}>{s.name}</Link>
                       </span>
                     </th>
@@ -130,7 +133,7 @@ export function ClassView({ cls, students, assignments, groups }: { cls: { id: s
             </table>
           </div>
         )}
-        {students.length ? <p className={styles.meta}>Last 7 days is the time on steps worked on in the past seven days. Pick a name to see that student&apos;s Jobs, results and code.</p> : null}
+        {students.length ? <p className={styles.meta}>Last 7 days is the time on steps worked on in the past seven days. Pick a name to see that student&apos;s projects, results and code.</p> : null}
       </section>
 
       <Assignments classId={cls.id} assignments={assignments} groups={groups} members={students.length} />
@@ -138,14 +141,9 @@ export function ClassView({ cls, students, assignments, groups }: { cls: { id: s
   );
 }
 
-/** A pixel sort mark: both arrows dim when the column isn't sorted, one lit when it is. */
+/** The sort mark: a caret pointing the way the column is sorted, faint when it isn't. */
 function SortMark({ dir }: { dir: 1 | -1 | 0 }) {
-  return (
-    <svg className={styles.sortMark} width="10" height="14" viewBox="0 0 5 7" shapeRendering="crispEdges" aria-hidden="true">
-      {dir !== -1 ? <path d="M2 0h1v1h1v1h1v1H0V2h1V1h1z" fill="currentColor" opacity={dir === 1 ? 1 : 0.4} /> : null}
-      {dir !== 1 ? <path d="M0 4h5v1H4v1H3v1H2V6H1V5H0z" fill="currentColor" opacity={dir === -1 ? 1 : 0.4} /> : null}
-    </svg>
-  );
+  return <Icon name="caretDown" size={14} className={[styles.sortMark, dir === 0 ? styles.sortIdle : dir === 1 ? styles.sortUp : ""].join(" ")} />;
 }
 
 function Assignments({ classId, assignments, groups, members }: { classId: string; assignments: AssignmentItem[]; groups: JobGroup[]; members: number }) {
@@ -178,18 +176,18 @@ function Assignments({ classId, assignments, groups, members }: { classId: strin
   };
 
   return (
-    <section className={`frame-panel ${styles.section}`} aria-labelledby="set-title">
+    <section className={styles.section} aria-labelledby="set-title">
       <h2 id="set-title" className={styles.h2}>
-        Jobs set for the class
+        Projects set for the class
       </h2>
       {assignments.length === 0 ? (
-        <p className={styles.empty}>Nothing set yet. A set Job appears on each student&apos;s map, under their next Job.</p>
+        <p className={styles.empty}>Nothing set yet. A set project appears in each student&apos;s Clocktower, under their next project.</p>
       ) : (
         <div className={styles.tableWrap} role="region" aria-labelledby="set-title" tabIndex={0}>
           <table className={styles.table}>
             <thead>
               <tr>
-                <th scope="col">Job</th>
+                <th scope="col">Project</th>
                 <th scope="col">Due</th>
                 <th scope="col" className={styles.num}>
                   Shipped
@@ -210,7 +208,7 @@ function Assignments({ classId, assignments, groups, members }: { classId: strin
                     {a.shipped} of {members}
                   </td>
                   <td className={styles.end}>
-                    <Button size="sm" variant="quiet" onClick={() => void remove(a)} aria-label={`Remove ${a.title}`}>
+                    <Button size="sm" variant="ghost" onClick={() => void remove(a)} aria-label={`Remove ${a.title}`}>
                       Remove
                     </Button>
                   </td>
@@ -222,11 +220,11 @@ function Assignments({ classId, assignments, groups, members }: { classId: strin
       )}
       <form className={styles.form} onSubmit={(e) => void set(e)}>
         <div className={[styles.field, styles.grow].join(" ")}>
-          <label htmlFor="set-job" className={styles.fieldLabel}>
-            Job
+          <label htmlFor="set-job" className="label">
+            Project
           </label>
           <select id="set-job" value={jobId} onChange={(e) => setJobId(e.target.value)}>
-            <option value="">Choose a Job</option>
+            <option value="">Choose a project</option>
             {groups.map((g) => (
               <optgroup key={g.label} label={g.label}>
                 {g.jobs.map((j) => (
@@ -239,13 +237,13 @@ function Assignments({ classId, assignments, groups, members }: { classId: strin
           </select>
         </div>
         <div className={styles.field}>
-          <label htmlFor="set-due" className={styles.fieldLabel}>
+          <label htmlFor="set-due" className="label">
             Due, if any
           </label>
           <input id="set-due" type="date" value={due} onChange={(e) => setDue(e.target.value)} />
         </div>
         <Button type="submit" variant="primary" disabled={!jobId || busy}>
-          Set the Job
+          Set the project
         </Button>
       </form>
       {error ? (

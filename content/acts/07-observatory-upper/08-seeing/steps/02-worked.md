@@ -1,10 +1,10 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "Priya's barometer, hour by hour. She wants to know when the pressure dropped, not what it was."
-  - moss: "One row, so one direction. A window three wide."
+  - paul: "Aaesha's barometer, hour by hour. She wants to know when the pressure dropped, not what it was."
+  - paul: "One row, so one direction. A window three wide."
 code: |
   import numpy as np
 

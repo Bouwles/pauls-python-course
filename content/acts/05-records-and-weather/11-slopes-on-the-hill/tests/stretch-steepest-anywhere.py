@@ -1,8 +1,8 @@
-def penhallows_hill(ctx):
+def park_hill(ctx):
     module = ctx.module()
     got = module.steepest_point(module.hill_height, 1000, 50)
     if got is None or tuple(float(v) for v in got) != (0.0, 650.0):
-        raise CheckFailed("On Penhallow's hill, the steepest ground on the grid is at the stile.", expected="(0, 650)", actual=repr(got))
+        raise CheckFailed("On the park hill, the steepest ground on the grid is at the stile.", expected="(0, 650)", actual=repr(got))
 
 
 def a_ridge(ctx):
@@ -15,6 +15,6 @@ def a_ridge(ctx):
 
 
 TESTS = [
-    custom("Penhallow's hill", penhallows_hill, visible=True),
+    custom("The park hill", park_hill, visible=True),
     custom("A ridge", a_ridge),
 ]

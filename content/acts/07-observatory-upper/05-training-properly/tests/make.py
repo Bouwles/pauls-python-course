@@ -208,7 +208,7 @@ def learns(ctx):
     P = 1 / (1 + np.exp(-(np.maximum(0, X @ params["W1"] + params["b1"]) @ params["W2"] + params["b2"])))
     right = float(np.mean(np.all((P > 0.5) == (T > 0.5), axis=1)))
     if not last < first or right < 0.9:
-        raise CheckFailed("Thirty epochs of Adam on her whole log should get all three answers right on at least 90% of evenings.",
+        raise CheckFailed("Thirty epochs of Adam on Paul's whole log should get all three answers right on at least 90% of evenings.",
                           expected="at least 90%", actual=f"{right:.0%}, loss from {first:.4f} to {last:.4f}")
 
 
@@ -223,7 +223,7 @@ def program(ctx):
             "From every weight at 0:",
             "adam      loss 0.1756, every answer right on 40% of evenings"]
     if r.lines()[-6:] != want:
-        raise CheckFailed("The program trains her brain four ways.", expected="\n".join(want), actual=r.output)
+        raise CheckFailed("The program trains the network four ways.", expected="\n".join(want), actual=r.output)
 
 
 TESTS = [
@@ -244,6 +244,6 @@ TESTS = [
     custom("train takes one step per batch", counts_steps),
     custom("train: two epochs, every number", every_number,
            hint="Call batches(X, T, batch_size, rng) once per epoch, and note the loss on all of X after the epoch's last step."),
-    custom("It learns her whole log", learns),
-    custom("The program trains her brain four ways", program),
+    custom("It learns Paul's whole log", learns),
+    custom("The program trains the network four ways", program),
 ]

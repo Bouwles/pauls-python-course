@@ -1,7 +1,5 @@
-/* Teacher and class mode: each part on a panel, tables as boards of slots, nothing hairline. */
+/* Teacher pages: classes, a class's students, one student. Plain tables on cards. */
 .page {
-  --slot: var(--panel);
-  --slot-hover: var(--panel-2);
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--s-6);
@@ -10,26 +8,32 @@
 .head {
   display: grid;
   gap: var(--s-3);
-  min-width: 0;
-}
-
-/* Back to the page above, in the pixel face. */
-.back {
-  justify-self: start;
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 1;
-  -webkit-font-smoothing: none;
-  text-decoration: none;
-}
-
-.back:hover {
-  text-decoration: underline;
+  margin-bottom: var(--s-2);
 }
 
 .title {
-  font-size: var(--pixel-3);
+  font-size: var(--fs-7);
   overflow-wrap: anywhere;
+}
+
+.lede {
+  font-size: var(--fs-4);
+  line-height: 1.45;
+  color: var(--text-2);
+  max-width: 64ch;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  justify-self: start;
+  font-size: var(--fs-2);
+  font-weight: 700;
+}
+
+.backIcon {
+  transform: rotate(180deg);
 }
 
 .titleRow {
@@ -42,150 +46,164 @@
 
 .joinCode {
   display: inline-flex;
-  flex-wrap: wrap;
   align-items: center;
   gap: var(--s-3);
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 1;
-  -webkit-font-smoothing: none;
+  font-size: var(--fs-2);
+  font-weight: 700;
   color: var(--text-2);
 }
 
-.lede {
-  font-size: var(--prose-size);
-  line-height: var(--lh-prose);
-  color: var(--text-2);
-  max-width: var(--measure);
+.who {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+}
+
+.whoText {
+  display: grid;
+  gap: var(--s-1);
+  min-width: 0;
 }
 
 .meta {
-  font-size: var(--step--1);
+  font-size: var(--fs-1);
   color: var(--text-2);
-  line-height: 1.5;
+  font-weight: 400;
 }
 
 .notice {
   display: flex;
-  gap: var(--s-3);
   align-items: center;
-  justify-self: start;
+  gap: var(--s-3);
   padding: var(--s-3) var(--s-4);
-  background: var(--panel-2);
-  font-size: var(--step--1);
-}
-
-.notice svg {
-  color: var(--accent-text);
+  border-radius: var(--r-md);
+  background: var(--sun-wash);
+  font-size: var(--fs-2);
 }
 
 .section {
   display: grid;
   gap: var(--s-4);
+  padding: var(--s-6);
+  background: var(--surface-2);
+  border-radius: var(--r-lg);
   min-width: 0;
-  box-shadow: var(--shadow-hard);
+}
+
+:global(:root[data-theme="light"]) .section {
+  border: 1px solid var(--line);
+}
+
+@media (prefers-color-scheme: light) {
+  :global(:root[data-theme="system"]) .section {
+    border: 1px solid var(--line);
+  }
+}
+
+.section > * {
+  min-width: 0;
 }
 
 .h2 {
-  font-size: var(--pixel-2);
+  font-size: var(--fs-5);
 }
 
 .h3 {
-  font-size: var(--pixel-1);
-  line-height: 24px;
+  font-size: var(--fs-4);
 }
 
-/* Tables scroll inside their own frame on a phone, never the page. */
+.empty {
+  font-size: var(--fs-2);
+  color: var(--text-2);
+}
+
+/* Tables. */
+/* Positioned, so hidden live regions inside a scrolled table stay inside it too. */
 .tableWrap {
+  position: relative;
   overflow-x: auto;
-  max-width: 100%;
 }
 
-.tableWrap:focus-visible {
-  outline-offset: 2px;
-}
-
-/* Each row is a slot a step darker than the panel; the header is pixel text. */
 .table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 2px;
-  font-size: var(--step--1);
+  border-collapse: collapse;
+  font-size: var(--fs-2);
   font-variant-numeric: tabular-nums;
 }
 
 .table th,
 .table td {
+  padding: var(--s-3);
   text-align: left;
   vertical-align: middle;
-  padding: var(--s-2) var(--s-3);
-}
-
-.table thead th {
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  font-weight: 400;
-  line-height: 1;
-  -webkit-font-smoothing: none;
-  color: var(--text-2);
-  white-space: nowrap;
-  padding-bottom: var(--s-1);
-}
-
-.table tbody th,
-.table tbody td {
-  background: var(--slot);
+  border-bottom: 1px solid var(--line);
 }
 
 .table tbody th {
+  font-weight: 400;
+}
+
+.table thead th {
+  font-size: var(--fs-1);
+  font-weight: 700;
+  color: var(--text-2);
+  white-space: nowrap;
+}
+
+.table tbody tr:last-child th,
+.table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.table .num {
+  text-align: right;
+}
+
+.table .end {
+  text-align: right;
+  width: 1%;
+}
+
+.strongCell {
   font-weight: 700;
 }
 
-.table tbody tr:hover th,
-.table tbody tr:hover td {
-  background: var(--slot-hover);
-}
-
-.num {
-  text-align: right !important;
-  white-space: nowrap;
+.table tbody .strongCell {
+  font-weight: 700;
 }
 
 .nowrap {
   white-space: nowrap;
 }
 
-.end {
-  text-align: right !important;
-}
-
 .selected th,
-.selected td,
-.table tbody tr.selected:hover th,
-.table tbody tr.selected:hover td {
-  background: var(--accent-wash);
+.selected td {
+  background: var(--blue-wash);
 }
 
-/* A Job's title with its place in the course beneath. */
-.jobCell {
-  min-width: 10rem;
-}
-
+/* A project's title with its place in the course beneath. */
 .jobCell .meta {
   display: block;
-  font-weight: 400;
+  margin-top: 2px;
+}
+
+.student {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+  font-weight: 700;
 }
 
 .sort {
   display: inline-flex;
   align-items: center;
-  gap: var(--s-2);
-  min-height: 32px;
+  gap: var(--s-1);
+  border: 0;
   padding: 0;
-  border: none;
   background: none;
   font: inherit;
   color: inherit;
+  white-space: nowrap;
 }
 
 .sort:hover {
@@ -193,37 +211,18 @@
 }
 
 .sortMark {
-  flex: none;
+  transition: transform var(--dur) var(--ease-out);
 }
 
-.student {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--s-3);
+.sortUp {
+  transform: rotate(180deg);
 }
 
-.portrait {
-  flex: none;
-  width: 32px;
-  height: 37px;
-  overflow: hidden;
+.sortIdle {
+  opacity: 0.35;
 }
 
-.code {
-  padding: 4px var(--s-2) 2px;
-  background: var(--code-bg);
-  color: var(--text);
-  font-family: var(--font-code);
-  font-size: var(--step-0);
-}
-
-.copy {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--s-2);
-  white-space: nowrap;
-}
-
+/* Forms. */
 .form {
   display: flex;
   flex-wrap: wrap;
@@ -233,170 +232,141 @@
 
 .field {
   display: grid;
-  gap: var(--s-2);
-  min-width: 0;
-}
-
-.fieldLabel {
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 1;
-  -webkit-font-smoothing: none;
-}
-
-.fieldText {
-  font-size: var(--step--1);
-}
-
-.grow {
-  flex: 1 1 280px;
-  max-width: 420px;
+  gap: var(--s-1);
 }
 
 .field input,
 .field select {
-  min-height: 44px;
-  max-width: 100%;
-  padding: 0 var(--s-3);
-  background: var(--code-bg);
-  color: var(--text);
-  border: 2px solid var(--night-0);
-  box-shadow: inset 0 2px 0 var(--night-0);
-  font-size: var(--step-0);
+  height: 40px;
 }
 
-.form button {
-  min-height: 44px;
+.grow {
+  flex: 1 1 260px;
+  min-width: 0;
 }
 
 .error {
-  color: var(--danger-text);
-  font-size: var(--step--1);
+  font-size: var(--fs-2);
+  color: var(--fail-text);
 }
 
 .status {
-  font-size: var(--step--1);
-  color: var(--text-2);
-  min-height: 1.4em;
-}
-
-.empty {
-  font-size: var(--prose-size);
-  line-height: var(--lh-prose);
+  font-size: var(--fs-2);
   color: var(--text-2);
 }
 
-/* A student's page: their character on the workshop floor, beside their name. */
-.who {
-  display: flex;
-  align-items: flex-end;
-  gap: var(--s-5);
-  flex-wrap: wrap;
-}
-
-.stage {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  width: 136px;
-  height: 140px;
-  padding-bottom: var(--s-2);
-  background: var(--art-deep-slate);
-  box-shadow:
-    inset 0 -12px 0 var(--art-driftwood),
-    inset 0 -16px 0 var(--art-tar),
-    var(--shadow-hard);
-}
-
-.whoText {
-  display: grid;
-  gap: var(--s-2);
-  min-width: 0;
-  flex: 1 1 280px;
-}
-
-.files {
-  display: grid;
-  gap: var(--s-4);
-  min-width: 0;
-}
-
-.file {
-  display: grid;
-  gap: var(--s-2);
-  margin: 0;
-  min-width: 0;
-}
-
-.fileName {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-1) var(--s-3);
-  align-items: baseline;
-  font-size: var(--step--1);
-}
-
-.fileName code {
-  font-weight: 700;
-}
-
-.pre {
-  margin: 0;
-  max-height: 480px;
-  overflow: auto;
-  padding: var(--s-3) var(--s-4);
-  background: var(--code-bg);
-  box-shadow: 0 0 0 2px var(--night-0);
-  font-size: var(--editor-font-size);
-  line-height: 1.55;
-  tab-size: 4;
-  white-space: pre;
-}
-
-.results {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 2px;
-  font-size: var(--step--1);
-}
-
-.results li {
-  display: flex;
-  gap: var(--s-2);
-  align-items: flex-start;
-  padding: var(--s-2) var(--s-3);
-  background: var(--slot);
-}
-
-.pass {
-  color: var(--pass);
-}
-
-.fail {
-  color: var(--fail);
-}
-
-.confirm {
-  display: grid;
-  gap: var(--s-3);
-  justify-items: start;
-  padding: var(--s-4);
-  background: var(--slot);
-  max-width: 560px;
+.status:empty {
+  position: absolute;
 }
 
 .row {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--s-3);
-  align-items: center;
+  gap: var(--s-2);
 }
 
-/* The delete dialog: a floating panel over a dimmed page. */
+.confirm {
+  display: grid;
+  gap: var(--s-3);
+  padding: var(--s-4);
+  border-radius: var(--r-md);
+  background: var(--fail-wash);
+}
+
+/* The join code with its copy button. */
+.copy {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+}
+
+.code {
+  font-family: var(--font-code);
+  font-size: var(--fs-2);
+  font-weight: 700;
+  padding: 2px var(--s-2);
+  border-radius: var(--r-sm);
+  background: var(--surface-3);
+  color: var(--text);
+}
+
+/* A student's saved code, read only. */
+.files {
+  display: grid;
+  gap: var(--s-4);
+}
+
+.file {
+  margin: 0;
+  display: grid;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--editor);
+}
+
+:global(:root[data-theme="light"]) .file {
+  border: 1px solid var(--line);
+}
+
+.fileName {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s-3);
+  padding: var(--s-2) var(--s-4);
+  background: var(--surface-3);
+  font-size: var(--fs-1);
+}
+
+.pre {
+  margin: 0;
+  padding: var(--s-3) var(--s-4);
+  max-height: 420px;
+  overflow: auto;
+  background: var(--editor);
+  color: var(--text);
+  font-size: var(--fs-1);
+  line-height: 1.6;
+}
+
+.wrapText {
+  white-space: pre-wrap;
+}
+
+.results {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s-1);
+  font-size: var(--fs-2);
+}
+
+.results li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-2);
+}
+
+.pass {
+  color: var(--pass-text);
+  display: inline-flex;
+}
+
+.fail {
+  color: var(--fail-text);
+  display: inline-flex;
+}
+
+.strong {
+  color: var(--text);
+}
+
+/* Delete a class. */
 .dialog {
   width: min(520px, calc(100vw - 32px));
+  border: 0;
   padding: 0;
   color: var(--text);
 }
@@ -408,44 +378,29 @@
 .dialogBody {
   display: grid;
   gap: var(--s-4);
-  padding: var(--s-2);
-}
-
-.dialogBody p {
-  font-size: var(--step-0);
-  line-height: var(--lh-prose);
+  padding: var(--s-6);
+  font-size: var(--fs-2);
 }
 
 @media (max-width: 720px) {
+  .title {
+    font-size: var(--fs-6);
+  }
+
+  .lede {
+    font-size: var(--fs-3);
+  }
+
+  .section {
+    padding: var(--s-4);
+  }
+
   .hideNarrow {
     display: none;
   }
 
-  .title {
-    font-size: var(--pixel-2);
-  }
-
-  .table td .copy {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--s-1);
-  }
-
   .table th,
   .table td {
-    padding-inline: var(--s-2);
-  }
-}
-
-/* Day: a day panel's body is the panel colour, so slots step down to the page colour instead. */
-:root[data-theme="light"] .page {
-  --slot: var(--bg);
-  --slot-hover: var(--frame);
-}
-
-@media (prefers-color-scheme: light) {
-  :root[data-theme="system"] .page {
-    --slot: var(--bg);
-    --slot-hover: var(--frame);
+    padding: var(--s-2);
   }
 }

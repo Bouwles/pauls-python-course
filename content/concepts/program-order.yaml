@@ -19,9 +19,9 @@ cards:
   - type: choice
     prompt: What does this print?
     code: |
-      boats = 5
-      print(boats)
-      boats = 9
+      laps = 5
+      print(laps)
+      laps = 9
     options:
       - text: "5"
         correct: true

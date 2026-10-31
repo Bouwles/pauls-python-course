@@ -1,14 +1,14 @@
 SMALL = """year,parish,household,name,relation,age,occupation
-1901,Harbour,1,Jory Pascoe,head,61,fisherman
-1901,Harbour,1,Wenna Pascoe,wife,58,net maker
-1901,Harbour,2,Tom Kitto,head,30,fisherman
-1901,Marsh,3,Ann Hollis,head,45,baker
-1901,Marsh,3,Ned Hollis,son,19,cooper
-1911,Harbour,1,Tom Kitto,head,40,fisherman
-1911,Harbour,1,Jenny Kitto,wife,33,lacemaker
-1911,Hill,2,Ned Hollis,head,29,cooper
-1911,Hill,2,Mary Hollis,wife,27,home duties
-1911,Hill,2,Ann Hollis,mother,55,retired
+1901,Bankside,1,Jory Pascoe,head,61,fisherman
+1901,Bankside,1,Wenna Pascoe,wife,58,net maker
+1901,Bankside,2,Sam Kitto,head,30,fisherman
+1901,Northgate,3,Ann Rowe,head,45,baker
+1901,Northgate,3,Ned Rowe,son,19,cooper
+1911,Bankside,1,Sam Kitto,head,40,fisherman
+1911,Bankside,1,Jenny Kitto,wife,33,lacemaker
+1911,Hill,2,Ned Rowe,head,29,cooper
+1911,Hill,2,Mary Rowe,wife,27,home duties
+1911,Hill,2,Ann Rowe,mother,55,retired
 """
 
 

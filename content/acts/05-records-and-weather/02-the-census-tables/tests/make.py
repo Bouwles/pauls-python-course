@@ -1,12 +1,12 @@
 SMALL = """year,parish,household,name,relation,age,occupation
-1901,Harbour,1,Jory Pascoe,head,61,fisherman
-1901,Harbour,1,Wenna Pascoe,wife,58,net maker
-1901,Harbour,2,Tom Kitto,head,30,fisherman
-1901,High Street,3,Ann Hollis,head,45,baker
-1901,High Street,3,Ned Hollis,son,19,baker
+1901,Bankside,1,Jory Pascoe,head,61,fisherman
+1901,Bankside,1,Wenna Pascoe,wife,58,net maker
+1901,Bankside,2,Sam Kitto,head,30,fisherman
+1901,Church Street,3,Ann Rowe,head,45,baker
+1901,Church Street,3,Ned Rowe,son,19,baker
 1901,Hill,4,Loveday Jago,head,72,retired
-1911,Harbour,1,Tom Kitto,head,40,fisherman
-1911,Marsh,2,Ned Hollis,head,29,baker
+1911,Bankside,1,Sam Kitto,head,40,fisherman
+1911,Northgate,2,Ned Rowe,head,29,baker
 """
 
 
@@ -88,19 +88,19 @@ def hill_1951(ctx):
     whole_number(ctx.module().parish_count(census(ctx), 1951, "Hill"), 18, "parish_count(census, 1951, \"Hill\")")
 
 
-def harbour_2011(ctx):
-    whole_number(ctx.module().parish_count(census(ctx), 2011, "Harbour"), 18, "parish_count(census, 2011, \"Harbour\")")
+def bankside_2011(ctx):
+    whole_number(ctx.module().parish_count(census(ctx), 2011, "Bankside"), 18, "parish_count(census, 2011, \"Bankside\")")
 
 
 def oldest_people(ctx):
     table = census(ctx)
     module = ctx.module()
     same_name(module.oldest(table, 1951), "Walter Rook", "oldest(census, 1951)")
-    same_name(module.oldest(table, 2011), "Moss", "oldest(census, 2011)")
+    same_name(module.oldest(table, 2011), "Albert Moyle", "oldest(census, 2011)")
 
 
 def sizes_1981(ctx):
-    expected = {"Harbour": 21, "High Street": 18, "Marsh": 15, "Hill": 9}
+    expected = {"Bankside": 21, "Church Street": 18, "Northgate": 15, "Hill": 9}
     same_counts(ctx.module().parish_sizes(census(ctx), 1981), expected, "parish_sizes(census, 1981)")
 
 
@@ -108,12 +108,12 @@ def smaller_census(ctx):
     table = load(SMALL)
     module = ctx.module()
     same_rows(module.census_year(table, 1911), table[table["year"] == 1911], "census_year on a smaller census")
-    whole_number(module.parish_count(table, 1901, "Harbour"), 3, "parish_count on a smaller census")
+    whole_number(module.parish_count(table, 1901, "Bankside"), 3, "parish_count on a smaller census")
     bakers = module.trade(table, 1901, "baker")
     same_rows(bakers, table[(table["year"] == 1901) & (table["occupation"] == "baker")][["name", "parish", "age"]], "trade on a smaller census")
     oldest_first(bakers, "trade on a smaller census")
-    same_name(module.oldest(table, 1911), "Tom Kitto", "oldest on a smaller census")
-    same_counts(module.parish_sizes(table, 1901), {"Harbour": 3, "High Street": 2, "Hill": 1}, "parish_sizes on a smaller census")
+    same_name(module.oldest(table, 1911), "Sam Kitto", "oldest on a smaller census")
+    same_counts(module.parish_sizes(table, 1901), {"Bankside": 3, "Church Street": 2, "Hill": 1}, "parish_sizes on a smaller census")
 
 
 def no_census(ctx):
@@ -134,7 +134,7 @@ def census_untouched(ctx):
     before = table.copy()
     module = ctx.module()
     module.census_year(table, 1921)
-    module.parish_count(table, 1921, "Marsh")
+    module.parish_count(table, 1921, "Northgate")
     module.trade(table, 1921, "baker")
     module.oldest(table, 1921)
     module.parish_sizes(table, 1921)
@@ -146,16 +146,16 @@ TESTS = [
     custom("The 1951 census", year_1951, visible=True),
     custom("Fishermen in 1921, oldest first", fishermen_1921, visible=True),
     custom("On the Hill in 1951", hill_1951),
-    custom("At the harbour in 2011", harbour_2011),
+    custom("In Bankside in 2011", bankside_2011),
     custom("The oldest in 1951 and 2011", oldest_people,
            hint="Sort a year's people oldest first, then take the first name by position, with .iloc[0]. Its label could be anything."),
     custom("Parish sizes in 1981", sizes_1981, hint="value_counts() on the parish column counts each parish and puts the largest first."),
     custom("A smaller census", smaller_census,
-           hint="Use the year, parish and occupation you're given. Nothing from Ashby's census should be written in."),
+           hint="Use the year, parish and occupation you're given. Nothing from the Archive's census should be written in."),
     custom("A year with no census", no_census,
            hint="There was no census in 1941. A filter that matches nothing gives an empty table, not an error, so the count is 0."),
     custom("Nobody in that trade", nobody_in_trade,
-           hint="{{town}} had no coastguards by 2011. trade should still give back a table with name, parish and age, just with no rows."),
+           hint="The neighbourhood had no coastguards by 2011. trade should still give back a table with name, parish and age, just with no rows."),
     custom("The census is left as it was", census_untouched,
            hint="sort_values gives back a sorted copy. Use that, rather than inplace=True, so the census you were given stays as it was."),
 ]

@@ -6,12 +6,12 @@ example: |
   import numpy as np
   import pandas as pd
 
-  crew = pd.DataFrame({
-      "name": [" Ann Rook", "ann rook", "Tom Kitto"],
+  club = pd.DataFrame({
+      "name": [" Ann Lee", "ann lee", "Sam Kitto"],
       "joined": ["2001-02-03", "03/02/2001", "1999-07-01"],
       "age": ["19", "19", "412"],
   })
-  clean = crew.copy()
+  clean = club.copy()
   clean["name"] = clean["name"].str.strip().str.title()
   iso = pd.to_datetime(clean["joined"], format="%Y-%m-%d", errors="coerce")
   slashed = pd.to_datetime(clean["joined"], format="%d/%m/%Y", errors="coerce")
@@ -25,25 +25,25 @@ related: [missing-data, pandas-basics, selecting-filtering, strip-replace]
 drill: true
 cards:
   - type: predict
-    prompt: How many different parishes does pandas see once they're tidied?
+    prompt: How many different areas does pandas see once they're tidied?
     code: |
       import pandas as pd
 
-      parishes = pd.Series([" Harbour", "harbour ", "HARBOUR", "Hill"])
-      print(parishes.str.strip().str.title().nunique())
+      areas = pd.Series([" Riverside", "riverside ", "RIVERSIDE", "Hill"])
+      print(areas.str.strip().str.title().nunique())
     answer: "2"
   - type: choice
     prompt: What does this print?
     code: |
       import pandas as pd
 
-      crew = pd.DataFrame({"name": ["Ann Rook", "Tom Kitto"], "launches": [-3, 12]})
-      crew[crew["launches"] < 0]["launches"] = 0
-      print(crew["launches"].tolist())
+      club = pd.DataFrame({"name": ["Ann Lee", "Sam Kitto"], "runs": [-3, 12]})
+      club[club["runs"] < 0]["runs"] = 0
+      print(club["runs"].tolist())
     options:
       - text: "[-3, 12]"
         correct: true
-        feedback: "The first brackets make a new, filtered table, and the zero goes into that. `crew` is untouched. `crew.loc[crew[\"launches\"] < 0, \"launches\"] = 0` changes `crew` itself."
+        feedback: "The first brackets make a new, filtered table, and the zero goes into that. `club` is untouched. `club.loc[club[\"runs\"] < 0, \"runs\"] = 0` changes `club` itself."
       - text: "[0, 12]"
         misconception: chained-assignment-works
         feedback: "Two sets of brackets are two steps, and the first one makes a copy. The change lands on the copy. Use one `.loc[rows, column]`."
@@ -68,7 +68,7 @@ cards:
     code: |
       import pandas as pd
 
-      names = pd.DataFrame({"name": ["Ann Rook", "Ann Rook ", "ann rook"]})
+      names = pd.DataFrame({"name": ["Ann Lee", "Ann Lee ", "ann lee"]})
       print(len(names.drop_duplicates()))
     options:
       - text: "3"
@@ -78,21 +78,21 @@ cards:
         misconception: dedupe-before-cleaning
         feedback: "They're the same person to you, not to pandas. Only exact matches count, so tidy first and drop duplicates last."
   - type: fix
-    prompt: "The spaces are still there. Fix it so it prints `['Ann Rook', 'Tom Kitto']`."
+    prompt: "The spaces are still there. Fix it so it prints `['Ann Lee', 'Sam Kitto']`."
     code: |
       import pandas as pd
 
-      crew = pd.DataFrame({"name": [" Ann Rook", "Tom Kitto "]})
-      crew["name"].str.strip()
-      print(crew["name"].tolist())
+      club = pd.DataFrame({"name": [" Ann Lee", "Sam Kitto "]})
+      club["name"].str.strip()
+      print(club["name"].tolist())
     tests: |
-      TESTS = [output("Tidy names", expect="['Ann Rook', 'Tom Kitto']")]
+      TESTS = [output("Tidy names", expect="['Ann Lee', 'Sam Kitto']")]
     solution: |
       import pandas as pd
 
-      crew = pd.DataFrame({"name": [" Ann Rook", "Tom Kitto "]})
-      crew["name"] = crew["name"].str.strip()
-      print(crew["name"].tolist())
+      club = pd.DataFrame({"name": [" Ann Lee", "Sam Kitto "]})
+      club["name"] = club["name"].str.strip()
+      print(club["name"].tolist())
   - type: fill
     prompt: "Fill the gap so the date is read as day, then month, then year."
     code: |
@@ -105,19 +105,19 @@ cards:
     tests: |
       TESTS = [output("The fourth of March", expect="4 3")]
   - type: write
-    prompt: "Nobody launches a negative number of times. Use `.loc` to set every negative count in `launches` to 0, then print the column as a list."
+    prompt: "Nobody goes on a negative number of runs. Use `.loc` to set every negative count in `runs` to 0, then print the column as a list."
     starter: |
       import pandas as pd
 
-      crew = pd.DataFrame({"name": ["Ann", "Tom", "Wenna"], "launches": [-3, 12, -1]})
+      club = pd.DataFrame({"name": ["Ann", "Sam", "Wenna"], "runs": [-3, 12, -1]})
     tests: |
       TESTS = [
           output("No negatives", expect="[0, 12, 0]"),
-          structure("Uses .loc", check=lambda tree, source: None if ".loc[" in source else "Make the change with crew.loc[rows, column] = 0."),
+          structure("Uses .loc", check=lambda tree, source: None if ".loc[" in source else "Make the change with club.loc[rows, column] = 0."),
       ]
     solution: |
       import pandas as pd
 
-      crew = pd.DataFrame({"name": ["Ann", "Tom", "Wenna"], "launches": [-3, 12, -1]})
-      crew.loc[crew["launches"] < 0, "launches"] = 0
-      print(crew["launches"].tolist())
+      club = pd.DataFrame({"name": ["Ann", "Sam", "Wenna"], "runs": [-3, 12, -1]})
+      club.loc[club["runs"] < 0, "runs"] = 0
+      print(club["runs"].tolist())

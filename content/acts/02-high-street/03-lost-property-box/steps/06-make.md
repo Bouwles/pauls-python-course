@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the lost property matcher
-on_pass: { vance: "Four lines. No umbrella counted twice. That's the first time in years." }
+on_pass: { neil: "Four lines. No umbrella counted twice. That's a first for this box." }
 hints:
   nudge: "Which set operation gives 'handed in and asked about', and which gives 'in one but not the other'? Which way round does each subtraction go?"
   plan:
@@ -26,7 +26,7 @@ hints:
         print("Nobody has asked about:", show(found ___ reported))
         print("Still missing:", show(___ - ___))
 ---
-Write `report(found, reported)` for Mrs Vance's box:
+Write `report(found, reported)` for Neil's box:
 
 ```
 Handed in: 4 different items

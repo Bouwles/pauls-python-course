@@ -4,9 +4,9 @@ type: make
 title: Make the sudoku solver
 files: [sudoku.py]
 entry: sudoku.py
-on_pass: { gwen: "Two solved and one that can't be. Thirty years that third one's been on the wall." }
+on_pass: { yahya: "Two solved and one that can't be. A week of my life, explained." }
 hints:
-  nudge: "Moss's `seat` chose a team for the next table. What does `solve` choose each time, where does it put it, and what makes a choice no good?"
+  nudge: "Paul's `seat` chose a team for the next table. What does `solve` choose each time, where does it put it, and what makes a choice no good?"
   plan:
     - "can_place: the digit isn't in the row, isn't in the column, and isn't in the 3 by 3 box"
     - "next_blank: the first 0, reading each row from the top"
@@ -33,7 +33,7 @@ hints:
             grid[row][col] = ___
         return ___
 ---
-Write `can_place`, `next_blank`, `solve` and `show` in `sudoku.py`. Penhallow's three puzzles are in `puzzles.txt`, and `read_puzzles` turns each into nine rows of nine numbers, with 0 for a blank.
+Write `can_place`, `next_blank`, `solve` and `show` in `sudoku.py`. Yahya's three puzzles are in `puzzles.txt`, and `read_puzzles` turns each into nine rows of nine numbers, with 0 for a blank.
 
 ```
 Puzzle 1
@@ -43,7 +43,7 @@ Puzzle 1
 ------+-------+------
 ```
 
-`solve` is Moss's `seat`, with squares for tables and digits for teams: fill the next blank, check the choice at once, and when nothing fits, rub out the last digit and try the next one there. The comments are his subgoals, in sudoku.
+`solve` is Paul's `seat`, with squares for tables and digits for teams: fill the next blank, check the choice at once, and when nothing fits, rub out the last digit and try the next one there. The comments are his subgoals, in sudoku.
 
 The box a square is in starts at row `row // 3 * 3` and column `col // 3 * 3`.
 

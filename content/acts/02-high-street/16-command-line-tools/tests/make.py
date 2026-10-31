@@ -41,13 +41,13 @@ def refused(ctx, argv, message, files=None):
 
 
 def add_then_list(ctx):
-    first = run(ctx, ["add", "fix the radio"])
-    expect_output(first, "Added 4: fix the radio", "Adding a task says its number.")
+    first = run(ctx, ["add", "fix the clock"])
+    expect_output(first, "Added 4: fix the clock", "Adding a task says its number.")
     tasks = saved(first)
-    if tasks[-1] != {"number": 4, "task": "fix the radio", "done": False} or len(tasks) != 4:
-        raise CheckFailed("todo.json should now have the new task on the end.", expected='... {"number": 4, "task": "fix the radio", "done": false}', actual=json.dumps(tasks))
+    if tasks[-1] != {"number": 4, "task": "fix the clock", "done": False} or len(tasks) != 4:
+        raise CheckFailed("todo.json should now have the new task on the end.", expected='... {"number": 4, "task": "fix the clock", "done": false}', actual=json.dumps(tasks))
     second = run(ctx, ["list"], files=first.files_out)
-    expect_output(second, LIST + "\n4 [ ] fix the radio", "Run again, the list should still have the new task on it.")
+    expect_output(second, LIST + "\n4 [ ] fix the clock", "Run again, the list should still have the new task on it.")
 
 
 def tick_off(ctx):

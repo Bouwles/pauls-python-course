@@ -1,10 +1,10 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 language: text
 dialogue:
-  - moss: "Wendt ran this on her laptop. The focus line, from downstairs. I've seen it work, so I'll allow it."
+  - paul: "Neil ran this on his laptop. The telescope's focus line, from the optimiser race. I've seen it work, so I'll allow it."
 code: |
   import numpy as np
   import torch
@@ -39,7 +39,7 @@ code: |
       print(f"focus = {model.line.weight.item():.4f} * temperature + {model.line.bias.item():.3f}")
       print(f"At 4.0 degrees: {model(torch.tensor([[4.0]])).item():.2f} mm")
 
-  # What it printed on Wendt's laptop:
+  # What it printed on Neil's laptop:
   # focus = -0.1211 * temperature + 42.318
   # At 4.0 degrees: 41.83 mm
 subgoals:
@@ -58,7 +58,7 @@ explain:
   answer: "loss.backward() adds to each .grad, as the tiny engine did with +=. Without zeroing, every step's gradient is the sum of every gradient so far, so the steps point wherever the early, steep slopes pointed and the line never settles."
   concept: pytorch
 ---
-The same line Penhallow got by formula, and Moss got with momentum: `-0.1211 * temperature + 42.318`. This page's code runs at home, not here.
+The same line the formula gives, and momentum found in the optimiser race: `-0.1211 * temperature + 42.318`. This page's code runs at home, not here.
 
 `readings[:, 1:2]` keeps the column as (30, 1) rather than (30,): a layer wants a row per example, even with one reading in it. `.item()` turns a one-number tensor into a plain float, for printing.
 

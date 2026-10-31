@@ -1,10 +1,11 @@
 ---
 id: worked
 type: worked
-title: How Moss would walk it
+title: How Paul would walk it
 dialogue:
-  - moss: "The dome clock. I've timed it all week. It loses a bit every day."
-  - wendt: "One number to find: seconds lost a day. One setting, so one hill."
+  - paul: "The wall clock in here. I've timed it all week. It loses a bit every day."
+  - paul: "The big clock's still stuck at 3:14. This one at least moves."
+  - riya: "One number to find: seconds lost a day. One setting, so one hill."
 code: |
   import numpy as np
   from workshop import show_hill
@@ -56,4 +57,4 @@ slope = 2 * mean((drift * days - seconds_slow) * days)
 
 Each pass finds the slope where it stands and steps downhill. Nothing in the loop knows the answer is about 4. It only ever knows which way is down.
 
-`show_hill`, from the `workshop` module, draws the hiker on the observatory hill: call it once a step with where it is and the loss there, and pass the loss function as `curve` so it can draw the hill. It prints nothing. Run it and watch the walk. Then change `rate` to 0.06 and run it again.
+`show_hill`, from the `workshop` module, draws a hiker on the hill: call it once a step with where it is and the loss there, and pass the loss function as `curve` so it can draw the hill. It prints nothing. Run it and watch the walk. Then change `rate` to 0.06 and run it again.

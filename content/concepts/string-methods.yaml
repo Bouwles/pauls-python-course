@@ -1,14 +1,14 @@
 id: string-methods
 title: String methods
 summary: |
-  Strings come with methods, called with a dot and brackets. `.upper()` and `.lower()` hand back a copy in capitals or lower case. Methods whose names start with `is` answer a question: `.isdigit()` is `True` only if every character is a digit, `.isalpha()` only if every character is a letter, and `.isupper()` only if every letter is a capital. `.title()` capitalises each word, `.center(40)` pads to 40 characters, `.count("o")` counts, and `.startswith("Harbour")` checks the beginning, capitals and all. None of them change the string: each hands back a new one, or an answer.
+  Strings come with methods, called with a dot and brackets. `.upper()` and `.lower()` hand back a copy in capitals or lower case. Methods whose names start with `is` answer a question: `.isdigit()` is `True` only if every character is a digit, `.isalpha()` only if every character is a letter, and `.isupper()` only if every letter is a capital. `.title()` capitalises each word, `.center(40)` pads to 40 characters, `.count("o")` counts, and `.startswith("Archive")` checks the beginning, capitals and all. None of them change the string: each hands back a new one, or an answer.
 example: |
-  password = "Harbour1987"
+  password = "Archive1987"
   print(password.lower())
   print(password.isalpha(), password.isdigit())
   print(password.isupper())
   print(password[-4:].isdigit())
-  print(password.startswith("Harbour"))
+  print(password.startswith("Archive"))
 misconceptions: [string-compare-ignores-case, center-adds-width, method-without-brackets]
 related: [immutability, strip-replace, in-operator]
 drill: true
@@ -22,8 +22,8 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      print("mary rose".title())
-    answer: "Mary Rose"
+      print("grace jago".title())
+    answer: "Grace Jago"
   - type: predict
     prompt: What does this print?
     code: |
@@ -60,23 +60,23 @@ cards:
       notice = "gale warning"
       print(notice.upper())
   - type: fill
-    prompt: "Fill the gap so it prints `Agnes Rook`."
+    prompt: "Fill the gap so it prints `Grace Jago`."
     code: |
-      name = "agnes rook"
+      name = "grace jago"
       print(name.___())
     blanks: [["title"]]
     tests: |
-      TESTS = [output("Agnes Rook", expect="Agnes Rook")]
+      TESTS = [output("Grace Jago", expect="Grace Jago")]
   - type: write
-    prompt: "`boat` holds a boat's name. Print it in capitals."
+    prompt: "`team` holds a team's name. Print it in capitals."
     starter: |
-      boat = "kittiwake"
+      team = "debuggers"
     tests: |
       TESTS = [
-          output("Kittiwake", expect="KITTIWAKE"),
-          output("Mary Rose", set_vars={"boat": "mary rose"}, expect="MARY ROSE",
-                 hint="Use the variable, so any boat's name works."),
+          output("Debuggers", expect="DEBUGGERS"),
+          output("Back Row", set_vars={"team": "back row"}, expect="BACK ROW",
+                 hint="Use the variable, so any team's name works."),
       ]
     solution: |
-      boat = "kittiwake"
-      print(boat.upper())
+      team = "debuggers"
+      print(team.upper())

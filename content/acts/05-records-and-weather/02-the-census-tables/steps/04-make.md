@@ -3,7 +3,7 @@ id: make
 type: make
 title: Make the census answers
 timeout_ms: 20000
-on_pass: { ashby: "Eighteen on the Hill in 1951. That took me a week, the last time the council asked." }
+on_pass: { aaesha: "Eighteen on the Hill in 1951. Counted by hand, that took me an afternoon." }
 hints:
   nudge: "Every function starts by keeping one year's rows. What goes inside `census[...]` for that, and how do you add a second condition?"
   plan:
@@ -36,11 +36,11 @@ hints:
     def parish_sizes(census, year):
         return census_year(census, year)["parish"].___()
 ---
-Write Mr Ashby's five functions. Loading the file and the report are done.
+Write Aaesha's five functions. Loading the file and the report are done.
 
 ```
 Census of 1951: 98 people
-By parish: Harbour 35, High Street 31, Hill 18, Marsh 14
+By parish: Bankside 35, Church Street 31, Hill 18, Northgate 14
 On the Hill: 18
 Fishermen: 6
 Oldest of all: Walter Rook

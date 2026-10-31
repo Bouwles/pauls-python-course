@@ -1,9 +1,9 @@
-# The workshop's job tracker. Moss adds jobs; the list prints in order of urgency.
+# The Workshop's job tracker. Paul adds jobs; the list prints in order of urgency.
 
 JOBS = [
-    ("Bea's till", 2),
-    ("Tide script", 1),
-    ("Fog horn", 3),
+    ("Neil's kettle", 2),
+    ("Printer script", 1),
+    ("Tower clock", 3),
 ]
 
 

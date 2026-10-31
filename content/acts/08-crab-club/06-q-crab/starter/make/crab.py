@@ -1,10 +1,4 @@
-# The Q-Learning Crab: Sir Reginald learns the Club Course by racing it, and enters the Arcade League.
-#
-# Pinned inside the club's 1995 race book, in pencil:
-# Lady Agatha learned the old course the way crabs do: wrong first, a few
-# hundred times. The committee asked whether she could simply be told.
-# She could not. The machine on the hill can't be told either. It can only
-# be shown, which is not the same thing. A.P.
+# The Q-Learning Crab: the crab learns the League course by racing it, and enters the Arcade League.
 
 import json
 
@@ -34,7 +28,7 @@ def train(races, rng, alpha=0.1, gamma=1.0, epsilon=0.1):
     # A Q-table of zeros: every tile, every action
     # For each practice race: START, or random_start(rng) every other race
     # Choose an action, take the step, update, move on, until the race is over or MAX_MOVES
-    # Every hundredth race, show_grid(...) to watch him learn
+    # Every hundredth race, show_grid(...) to watch it learn
 
 
 def greedy_policy(Q):

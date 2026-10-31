@@ -1,12 +1,12 @@
 ---
 id: pips
 type: pips
-title: Pip's Version
+title: Fix Aaesha's version
 dialogue:
-  - pip: "Mira wanted her jobs alphabetical for the noticeboard. So I made her a copy and sorted it."
-  - pip: "Now her own list says answer Agnes first. Mira says Agnes can wait."
+  - aaesha: "Neil wanted his jobs in alphabetical order for the whiteboard. I didn't want two copies of one list."
+  - aaesha: "Duplicated data is how mistakes start. But now his own list says answer Caitlin first. Can you look?"
 dialogue_after:
-  - pip: "So there was only ever one list. I'd just given it a second name."
+  - aaesha: "So there was only ever one list with two names. A copy that's meant to differ isn't duplication."
 hints:
   nudge: "After line 4, how many lists are there? Count the boxes, not the names."
   plan:
@@ -16,6 +16,6 @@ hints:
   shape: |
     board = ___(tasks)
 ---
-Run Pip's program. Mira means to sort the post first, so the last line should be `First job: sort the post`.
+Run Aaesha's program. Neil means to mark the quizzes first, so the last line should be `First job: mark the quizzes`.
 
-Fix it so the noticeboard copy is in alphabetical order and `tasks` stays in Mira's order.
+Fix it so the whiteboard copy is in alphabetical order and `tasks` stays in Neil's order.

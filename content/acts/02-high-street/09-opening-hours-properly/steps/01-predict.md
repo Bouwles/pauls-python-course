@@ -24,4 +24,4 @@ after: |
 ---
 Every Python file gets a few names for free. `__name__` is one of them: two underscores each side, said *dunder name*.
 
-Commit to an answer, then run it.
+Lock in your answer, then run it.

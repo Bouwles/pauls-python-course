@@ -1,6 +1,6 @@
-"""Nell's weighbridge: parts lightest first, and finding a weight in a sorted pile."""
+"""The Makerspace scale: parts lightest first, and finding a weight in a sorted pile."""
 
-LORRY = [("hubcap", 4), ("kettle-element", 2), ("spring-coil", 4), ("gear-12t", 1), ("pram-wheel", 2)]
+BOX = [("monitor", 4), ("power-supply", 2), ("speaker", 4), ("mouse", 1), ("router", 2)]
 
 
 def merge(left, right):
@@ -42,6 +42,6 @@ def first_at_least(parts, kg):
 
 
 if __name__ == "__main__":
-    pile = sort_parts(LORRY)
+    pile = sort_parts(BOX)
     print(pile)
     print(f"First at 3 kg or more: position {first_at_least(pile, 3)}")

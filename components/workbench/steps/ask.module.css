@@ -1,0 +1,224 @@
+/* The Ask and the Ship: the two places on the learning path with a large illustration. */
+.ask {
+  display: grid;
+  grid-template-columns: minmax(280px, 400px) minmax(0, 640px);
+  justify-content: center;
+  align-items: start;
+  gap: var(--s-12);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--s-12) var(--s-8) 0;
+}
+
+.figureWrap {
+  position: sticky;
+  top: var(--s-8);
+}
+
+.figure {
+  min-height: 420px;
+}
+
+.side {
+  display: grid;
+  gap: var(--s-6);
+  min-width: 0;
+}
+
+.head {
+  display: grid;
+  gap: var(--s-2);
+}
+
+.kicker {
+  font-size: var(--fs-2);
+  font-weight: 700;
+  color: var(--text-2);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--fs-7);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: var(--tracking-display);
+}
+
+.bubbles {
+  display: grid;
+  gap: var(--s-3);
+  margin: 0;
+  padding: 0 0 0 var(--s-2);
+  list-style: none;
+}
+
+.bubbleItem {
+  display: flex;
+  animation: arrive var(--dur-slow) var(--ease-spring);
+  transform-origin: 0 24px;
+}
+
+.bubbleItem > * {
+  max-width: 560px;
+}
+
+/* The same speaker again: no second name tag, and closer to the line before. */
+.same {
+  margin-top: calc(var(--s-1) * -1);
+}
+
+.bubbleItem p {
+  font-size: var(--fs-3);
+  line-height: 1.5;
+}
+
+@keyframes arrive {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.97);
+  }
+}
+
+.spec {
+  display: grid;
+  gap: var(--s-4);
+  padding: var(--s-6);
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+  animation: arrive var(--dur-slow) var(--ease-out);
+}
+
+:root[data-theme="light"] .spec {
+  background: var(--surface-1);
+  border: 1px solid var(--line);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .spec {
+    background: var(--surface-1);
+    border: 1px solid var(--line);
+  }
+}
+
+.specTitle {
+  font-size: var(--fs-5);
+  font-weight: 700;
+}
+
+.specText {
+  font-size: var(--fs-3);
+}
+
+.example {
+  display: grid;
+  gap: var(--s-2);
+}
+
+.example pre {
+  margin: 0;
+  padding: var(--s-4);
+  border-radius: var(--r-lg);
+  background: var(--editor);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: auto;
+}
+
+.meta {
+  display: grid;
+  gap: var(--s-3);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--line);
+  font-size: var(--fs-2);
+  color: var(--text-2);
+}
+
+.metaItem {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chips li {
+  padding: 2px var(--s-2);
+  border-radius: var(--r-sm);
+  background: var(--surface-3);
+  color: var(--text);
+  font-size: var(--fs-1);
+  font-weight: 700;
+}
+
+/* Start building stays in reach while the spec is read. */
+.actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+  margin-top: calc(var(--s-2) * -1);
+  padding: var(--s-4) 0 var(--s-6);
+  background: var(--bg);
+}
+
+.note {
+  flex-basis: 100%;
+  font-size: var(--fs-1);
+  color: var(--text-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bubbleItem,
+  .spec {
+    animation: none;
+  }
+}
+
+:root[data-motion="reduced"] .bubbleItem,
+:root[data-motion="reduced"] .spec {
+  animation: none;
+}
+
+@container wb (max-width: 1080px) {
+  .ask {
+    grid-template-columns: minmax(220px, 320px) minmax(0, 1fr);
+    gap: var(--s-8);
+    padding: var(--s-8) var(--s-6) var(--s-12);
+  }
+
+  .title {
+    font-size: var(--fs-6);
+  }
+}
+
+@container wb (max-width: 860px) {
+  .ask {
+    grid-template-columns: 1fr;
+    gap: var(--s-6);
+    padding: var(--s-5) var(--s-4) var(--s-10);
+  }
+
+  .figureWrap {
+    position: static;
+  }
+
+  .figure {
+    min-height: 220px !important;
+  }
+
+  .spec {
+    padding: var(--s-5) var(--s-4);
+  }
+}

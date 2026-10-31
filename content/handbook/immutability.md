@@ -5,7 +5,7 @@ Python strings are immutable: once a string has been made, none of its character
 Reading a character by position is allowed. Replacing one is not:
 
 ```python
-word = "gull"
+word = "pull"
 word[0] = "d"
 ```
 
@@ -20,7 +20,7 @@ TypeError: 'str' object does not support item assignment
 The fix is to build the string you want from pieces, then move the label:
 
 ```python
-word = "gull"
+word = "pull"
 old_word = word
 word = "d" + word[1:]
 print(word)
@@ -29,10 +29,10 @@ print(old_word)
 
 ```text
 dull
-gull
+pull
 ```
 
-A variable is a name attached to a value, more like a label than a box. `old_word = word` puts a second label on the same string. Then `"d" + word[1:]` makes a brand-new string, `"dull"`, and `word = ...` moves the `word` label onto it. The string `"gull"` was never touched, and `old_word` proves it: it still points at the original. Nothing changed an object; one name moved to a different object.
+A variable is a name attached to a value, more like a label than a box. `old_word = word` puts a second label on the same string. Then `"d" + word[1:]` makes a brand-new string, `"dull"`, and `word = ...` moves the `word` label onto it. The string `"pull"` was never touched, and `old_word` proves it: it still points at the original. Nothing changed an object; one name moved to a different object.
 
 This is also why it is safe for two names to share a string. Since nobody can edit it, a change made through one name can never surprise you through the other. Lists work differently, which is where [mutability](/handbook/mutability) and [list aliasing](/handbook/list-aliasing) come in.
 

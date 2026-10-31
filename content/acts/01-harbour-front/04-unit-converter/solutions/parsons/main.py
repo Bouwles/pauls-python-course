@@ -1,9 +1,9 @@
-tide = input("Tide? ")
-wind = int(input("Wind in knots? "))
-if tide == "high":
-    if wind < 34:
-        print("Sailing")
+weather = input("Weather? ")
+temp = int(input("Temperature? "))
+if weather == "dry":
+    if temp < 30:
+        print("Run outside")
     else:
-        print("No sailing. Gale.")
+        print("Treadmill. Too hot.")
 else:
-    print("No sailing. Wait for the tide.")
+    print("Treadmill. Wait for the rain to stop.")

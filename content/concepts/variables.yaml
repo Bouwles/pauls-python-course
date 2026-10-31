@@ -1,22 +1,22 @@
 id: variables
 title: Variables are labels on boxes
 summary: |
-  `loaves = 3` puts the label `loaves` on the value 3. Python works out the right side first, then sticks the label on the result. A later assignment moves the label to a new value; anything worked out earlier stays as it was.
+  `coffees = 3` puts the label `coffees` on the value 3. Python works out the right side first, then sticks the label on the result. A later assignment moves the label to a new value; anything worked out earlier stays as it was.
 example: |
-  loaves = 3
-  total = loaves * 240
-  loaves = 5
-  print(loaves, total)
+  coffees = 3
+  total = coffees * 240
+  coffees = 5
+  print(coffees, total)
 misconceptions: [variable-keeps-first-value, printing-name-shows-name, assignment-is-equation, assignment-links-variables]
 related: [naming]
 cards:
   - type: predict
     prompt: What does this print?
     code: |
-      loaves = 3
-      total = loaves * 240
-      loaves = 5
-      print(loaves, total)
+      coffees = 3
+      total = coffees * 240
+      coffees = 5
+      print(coffees, total)
     answer: "5 720"
   - type: predict
     prompt: What does this print?
@@ -29,16 +29,16 @@ cards:
   - type: choice
     prompt: What does this print?
     code: |
-      buns = 2
-      buns = buns * 3
-      print(buns)
+      cups = 2
+      cups = cups * 3
+      print(cups)
     options:
       - text: "6"
         correct: true
       - text: "2"
         misconception: variable-keeps-first-value
         feedback: "Line 2 works out 2 * 3 and moves the label to 6."
-      - text: buns
+      - text: cups
         misconception: printing-name-shows-name
         feedback: "Without quotes, print shows what the name holds."
   - type: fix
@@ -54,16 +54,16 @@ cards:
       crates = crates + 2
       print(crates)
   - type: write
-    prompt: "`gulls` holds 12. Make `fed` hold half of `gulls`, using the variable, not the number. Print `fed`."
+    prompt: "`slices` holds 12. Make `half` hold half of `slices`, using the variable, not the number. Print `half`."
     starter: |
-      gulls = 12
+      slices = 12
     tests: |
       TESTS = [
           output("Half of 12", expect="6", match="numbers"),
-          output("Half of 30", set_vars={"gulls": 30}, expect="15", match="numbers",
-                 hint="Work fed out from gulls, so it follows when gulls changes."),
+          output("Half of 30", set_vars={"slices": 30}, expect="15", match="numbers",
+                 hint="Work half out from slices, so it follows when slices changes."),
       ]
     solution: |
-      gulls = 12
-      fed = gulls / 2
-      print(fed)
+      slices = 12
+      half = slices / 2
+      print(half)

@@ -1,3 +1,3 @@
-# Header for the tide table.
-print("{{TOWN}} HARBOUR TIDES"
-print("High and low water, north quay")
+# Header for the help-desk board.
+print("THE STUDIO, FIRST FLOOR"
+print("Help with bugs, every weekday")

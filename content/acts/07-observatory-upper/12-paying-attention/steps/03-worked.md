@@ -1,9 +1,9 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "One character asking, three answering. By hand, with loops, before anything clever."
+  - paul: "One character asking, three answering. By hand, with loops, before anything clever."
 code: |
   import numpy as np
 

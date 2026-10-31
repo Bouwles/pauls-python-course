@@ -1,4 +1,4 @@
-"""Sanjay's money, from the command line. The only file that prints or exits."""
+"""Personal finance, from the command line. The only file that prints or exits."""
 import argparse
 import sys
 from datetime import date
@@ -27,7 +27,7 @@ def money(pence: int) -> str:
 
 
 def read_arguments() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Sanjay's money: what came in, what went out.")
+    parser = argparse.ArgumentParser(description="Personal finance: what came in, what went out.")
     parser.add_argument("--file", default="money.json", help="where the money is kept (default money.json)")
     commands = parser.add_subparsers(dest="command", required=True)
     adding = commands.add_parser("add", help="record money in or out")

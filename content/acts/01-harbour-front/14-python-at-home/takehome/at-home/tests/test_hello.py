@@ -11,15 +11,15 @@ PROJECT = Path(__file__).resolve().parent.parent
 
 
 def test_greeting():
-    assert greeting("Bea") == "Morning, Bea."
+    assert greeting("Riya") == "Morning, Riya."
 
 
 def test_greeting_another_name():
-    assert greeting("Agnes Rook") == "Morning, Agnes Rook."
+    assert greeting("Caitlin and Yahya") == "Morning, Caitlin and Yahya."
 
 
 def test_greeting_ignores_spaces():
-    assert greeting("  Tom ") == "Morning, Tom."
+    assert greeting("  Aaesha ") == "Morning, Aaesha."
 
 
 @pytest.mark.local
@@ -34,5 +34,5 @@ def test_virtual_environment_is_switched_on():
 
 @pytest.mark.local
 def test_runs_from_the_terminal():
-    result = subprocess.run([sys.executable, "hello.py", "Ferro"], cwd=PROJECT, capture_output=True, text=True, timeout=30)
-    assert result.stdout == "Morning, Ferro.\n", f"python hello.py Ferro printed {result.stdout!r}"
+    result = subprocess.run([sys.executable, "hello.py", "Paul"], cwd=PROJECT, capture_output=True, text=True, timeout=30)
+    assert result.stdout == "Morning, Paul.\n", f"python hello.py Paul printed {result.stdout!r}"

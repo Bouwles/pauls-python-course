@@ -1,13 +1,13 @@
 ---
 id: make
 type: make
-title: Make Sir Reginald a racer
+title: Make the crab a racer
 files: [course.py, crab.py]
 entry: crab.py
 timeout_ms: 90000
-on_pass: { committee: "Under seventeen moves, every race finished. He has never finished every race." }
+on_pass: { caitlin: "Under seventeen moves, and every race finished. My crab has never finished every race." }
 hints:
-  nudge: "Moss's worked example already learns a grid. What changes on the Club Course: the step, the starts, the size of the table, gamma?"
+  nudge: "Paul's worked example already learns a grid. What changes on the League course: the step, the starts, the size of the table, gamma?"
   plan:
     - "choose: explore with chance epsilon, otherwise np.argmax of the tile's four values"
     - "q_update: the target is the reward, plus gamma times the next tile's best Q-value unless the race is over"
@@ -31,7 +31,7 @@ hints:
 ---
 `course.py` holds the League's rules, read from `club-course.json`. Actions are numbers now, 0 to 3 for up, down, left and right, so they can index the table. Every move costs -1 and the League counts moves, so don't discount: `gamma = 1.0`.
 
-To watch him learn, at the start of every hundredth practice race call:
+To watch it learn, at the start of every hundredth practice race call:
 
 ```python
 show_grid(Q.max(axis=2), policy=Q.argmax(axis=2), q=Q, crab=tile,

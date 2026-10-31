@@ -5,10 +5,10 @@ summary: |
 example: |
   import copy
 
-  standard = {"bread": {"sold": 0}}
+  standard = {"tea": {"sold": 0}}
   monday = standard.copy()
   tuesday = copy.deepcopy(standard)
-  monday["bread"]["sold"] = 30
+  monday["tea"]["sold"] = 30
   print(standard, tuesday)
 misconceptions: [copy-is-deep, deepcopy-is-shallow, slice-is-not-a-copy]
 related: [references, mutability, is-vs-equals]
@@ -16,12 +16,12 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      rows = [["Bea"], ["Tom"]]
+      rows = [["Riya"], ["Yahya"]]
       backup = rows.copy()
-      backup[0].append("Gwen")
-      backup.append(["Mira"])
+      backup[0].append("Caitlin")
+      backup.append(["Neil"])
       print(len(rows), rows[0])
-    answer: "2 ['Bea', 'Gwen']"
+    answer: "2 ['Riya', 'Caitlin']"
   - type: choice
     prompt: What does this print?
     code: |
@@ -53,19 +53,19 @@ cards:
   - type: fix
     prompt: "Next week's plan should start from this week's and change on its own. Fix the copy."
     code: |
-      this_week = {"mon": {"bread": 40}, "tue": {"bread": 40}}
+      this_week = {"mon": {"tea": 40}, "tue": {"tea": 40}}
       next_week = this_week.copy()
-      next_week["mon"]["bread"] = 50
-      print(this_week["mon"]["bread"], next_week["mon"]["bread"])
+      next_week["mon"]["tea"] = 50
+      print(this_week["mon"]["tea"], next_week["mon"]["tea"])
     tests: |
       TESTS = [output("Two separate weeks", expect="40 50")]
     solution: |
       import copy
 
-      this_week = {"mon": {"bread": 40}, "tue": {"bread": 40}}
+      this_week = {"mon": {"tea": 40}, "tue": {"tea": 40}}
       next_week = copy.deepcopy(this_week)
-      next_week["mon"]["bread"] = 50
-      print(this_week["mon"]["bread"], next_week["mon"]["bread"])
+      next_week["mon"]["tea"] = 50
+      print(this_week["mon"]["tea"], next_week["mon"]["tea"])
   - type: fill
     prompt: "Fill the gap so `grid` is copied all the way down."
     code: |
@@ -86,12 +86,12 @@ cards:
     tests: |
       def shares_nothing(ctx):
           m = ctx.module()
-          template = {"bread": {"sold": 0}, "buns": {"sold": 0}}
+          template = {"tea": {"sold": 0}, "cake": {"sold": 0}}
           sheet = m.fresh_sheet(template)
           if sheet != template:
               raise CheckFailed("The copy should hold the same numbers.", expected=template, actual=sheet)
-          sheet["bread"]["sold"] = 30
-          if template["bread"]["sold"] != 0:
+          sheet["tea"]["sold"] = 30
+          if template["tea"]["sold"] != 0:
               raise CheckFailed("Changing the copy changed the template.")
 
 

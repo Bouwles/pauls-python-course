@@ -5,6 +5,7 @@ import "./globals.css";
 import { SessionProvider } from "@/lib/store/session";
 import { getSessionUser } from "@/lib/server/auth";
 import { ServiceWorker } from "@/components/site/ServiceWorker";
+import { ToastProvider } from "@/components/ui/Toast";
 import { BRAND, siteUrl } from "@/lib/brand";
 
 export const metadata: Metadata = {
@@ -20,19 +21,19 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#0e1218" },
-    { media: "(prefers-color-scheme: dark)", color: "#0e1218" },
+    { media: "(prefers-color-scheme: light)", color: "#0F1115" },
+    { media: "(prefers-color-scheme: dark)", color: "#0F1115" },
   ],
 };
 
-// Three faces only, and no serif (REDESIGN.md 3.2): m6x11plus for game chrome
-// (headings, buttons, tabs, dialogue), Atkinson Hyperlegible Next for reading,
-// JetBrains Mono for code. Both loaded faces are preloaded with size-matched fallbacks.
-const pixel = localFont({
-  src: [{ path: "./fonts/m6x11plus.ttf", weight: "400", style: "normal" }],
-  variable: "--font-pixel-loaded",
+// Three faces (REDESIGN-2.md 2.3): Bricolage Grotesque for titles and names (variable, with
+// its optical size axis, so large sizes get the tighter cut), Atkinson Hyperlegible Next for
+// text and the UI, JetBrains Mono for code. Both loaded faces preload with matched fallbacks.
+const display = localFont({
+  src: [{ path: "../node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-opsz-normal.woff2", weight: "200 800", style: "normal" }],
+  variable: "--font-display-loaded",
   display: "swap",
-  adjustFontFallback: false,
+  adjustFontFallback: "Arial",
 });
 
 const read = localFont({
@@ -40,7 +41,7 @@ const read = localFont({
     { path: "../node_modules/@fontsource/atkinson-hyperlegible-next/files/atkinson-hyperlegible-next-latin-400-normal.woff2", weight: "400", style: "normal" },
     { path: "../node_modules/@fontsource/atkinson-hyperlegible-next/files/atkinson-hyperlegible-next-latin-700-normal.woff2", weight: "700", style: "normal" },
   ],
-  variable: "--font-read-loaded",
+  variable: "--font-text-loaded",
   display: "swap",
   adjustFontFallback: "Arial",
 });
@@ -51,7 +52,7 @@ const settingsScript = `try{var s=JSON.parse(localStorage.getItem("ppc-display")
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const user = await getSessionUser().catch(() => null);
   return (
-    <html lang="en-GB" className={`${pixel.variable} ${read.variable}`} suppressHydrationWarning>
+    <html lang="en-GB" className={`${display.variable} ${read.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: settingsScript }} />
       </head>
@@ -59,7 +60,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <a className="skip-link" href="#main">
           Skip to content
         </a>
-        <SessionProvider initialUser={user}>{children}</SessionProvider>
+        <SessionProvider initialUser={user}>
+          <ToastProvider>{children}</ToastProvider>
+        </SessionProvider>
         <ServiceWorker />
       </body>
     </html>

@@ -4,9 +4,9 @@ type: predict
 title: One column is still a table
 concept: scikit-learn
 dialogue:
-  - wendt: "Everything you've written today is in one library, already. Three lines of it."
-  - pip: "So we could have skipped the afternoon."
-  - moss: "You'd be holding a tool you couldn't mend."
+  - riya: "Everything you've written today is in one library already. Three lines of it."
+  - caitlin: "So we could have skipped the afternoon."
+  - paul: "You'd be holding a tool you couldn't mend."
 code: |
   import numpy as np
   from sklearn.linear_model import LinearRegression

@@ -1,12 +1,12 @@
 ---
 id: pips
 type: pips
-title: Pip's Version
+title: Fix Caitlin's version
 dialogue:
-  - pip: "Binary search. Found the 10 mm in one look. One."
-  - pip: "Nell says the 30 mm is in the last drawer. Mine says there isn't one. Nell's wrong, obviously."
+  - caitlin: "Can you look at mine? Binary search. Found the 10 mm in one look. One."
+  - caitlin: "Riya says the 30 mm is in the last drawer. Mine says there isn't one. Something's off."
 dialogue_after:
-  - pip: "So low and high meeting isn't the end. It's the last drawer left."
+  - caitlin: "So low and high meeting isn't the end. It's the last drawer left."
 hints:
   nudge: "When `low` and `high` are the same drawer, is there still somewhere left to look?"
   plan:
@@ -16,6 +16,6 @@ hints:
   shape: |
     while low ___ high:
 ---
-Pip's `find_bolt` is nearly Moss's. Run it, then press Step through and watch `low` and `high` as it hunts for the 30 mm bolt.
+Caitlin's `find_bolt` is nearly Paul's. Run it, then press Step through and watch `low` and `high` as it hunts for the 30 mm bolt.
 
 The checks look for every bolt in the rack, not just the lucky ones, and try racks with one drawer and none.

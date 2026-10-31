@@ -13,15 +13,15 @@ def report(name, scores):
     print(f"{name}: {average(scores)}")
 
 
-report("Bea", [7, 9])
-report("Tom", [])
+report("Emma", [7, 9])
+report("Ivo", [])
 ```
 
 ```text
-Bea: 8.0
+Emma: 8.0
 Traceback (most recent call last):
   File "main.py", line 10, in <module>
-    report("Tom", [])
+    report("Ivo", [])
     ~~~~~~^^^^^^^^^^^
   File "main.py", line 6, in report
     print(f"{name}: {average(scores)}")
@@ -40,7 +40,7 @@ Taking it from the bottom:
 - The top frame, `line 10, in <module>`, is the line that called `report`. `<module>` means the main part of the file, outside any function.
 - `Traceback (most recent call last):` is the same every time. "Most recent call last" is why you read from the bottom: the frames are in the order the calls were made, so the place where the program stopped comes last.
 
-`Bea: 8.0` above the traceback shows that the first call worked. Everything printed before a traceback ran normally.
+`Emma: 8.0` above the traceback shows that the first call worked. Everything printed before a traceback ran normally.
 
 The bottom frame says where the program broke, which is not always where the bug is. `average` is fine; it was handed an empty list. Reading upwards shows where that list came from: line 10. The fix could go in either place, and the traceback has shown you every line involved.
 

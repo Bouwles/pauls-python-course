@@ -1,119 +1,113 @@
-.locked {
+/* The paywall gate (REDESIGN-2.md 6): one centred card, the locked floor at the top. */
+.card {
   display: grid;
-  gap: var(--s-4);
-  justify-items: start;
-  line-height: 1.6;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  background: var(--surface-2);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+
+:root[data-theme="light"] .card {
+  border: 1px solid var(--line);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .card {
+    border: 1px solid var(--line);
+  }
+}
+
+/* The floor's illustration slot: the placeholder floor, tall enough to read as a room. */
+.art {
+  height: 140px;
+  padding: var(--s-5) var(--s-5) 0;
+}
+
+.art > * {
+  border-radius: var(--r-md);
+  overflow: hidden;
 }
 
 .lock {
-  display: grid;
-  place-items: center;
-  width: 64px;
-  height: 64px;
-  background: var(--night-0);
-  color: var(--lamp);
+  display: inline-flex;
+  color: currentColor;
 }
 
-.lockedTitle {
-  font-size: var(--pixel-2);
-}
-
-.row {
-  display: flex;
-  gap: var(--s-3);
-  flex-wrap: wrap;
-}
-
-/* The gate scene, under the shipped project's demo. */
-.gate {
-  display: grid;
-  gap: var(--s-4);
-  width: min(720px, 100%);
-}
-
-.mira {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: var(--s-4);
-  align-items: start;
-}
-
-.portrait {
-  width: 128px;
-  height: 112px;
-  display: flex;
-  justify-content: center;
-  overflow: hidden;
-  background: var(--night-1);
-}
-
-.name {
-  display: inline-block;
-  padding: 4px 8px 2px;
-  margin-bottom: var(--s-2);
-  background: var(--art-mustard);
-  color: var(--night-0);
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 1;
-}
-
-.line {
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 24px;
-  -webkit-font-smoothing: none;
-}
-
-.offer {
+.body {
   display: grid;
   gap: var(--s-3);
+  padding: var(--s-6) var(--s-8) var(--s-8);
 }
 
-.offerTitle {
-  font-size: var(--pixel-1);
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  font-size: var(--fs-2);
+  font-weight: 700;
+  color: var(--text-2);
 }
 
-.acts {
+.title {
+  font-size: var(--fs-6);
+  overflow-wrap: anywhere;
+}
+
+.text {
+  display: grid;
+  gap: var(--s-3);
+  color: var(--text-2);
+}
+
+.floors {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  gap: var(--s-2);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-2) var(--s-6);
+  color: var(--text);
+  font-size: var(--fs-2);
+  font-weight: 700;
 }
 
-.acts li {
+.floors li {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.square {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: var(--r-sm);
+}
+
+.row {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--s-2);
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 1;
+  gap: var(--s-3);
+  margin-top: var(--s-3);
 }
 
-.actNo {
-  color: var(--lamp);
-  min-width: 1.4em;
-}
-
-.subject {
-  font-family: var(--font-read);
-  font-size: var(--step--1);
-  color: var(--text-2);
-}
-
-.promise {
-  font-size: var(--step--1);
-  color: var(--text-2);
-}
-
-@media (max-width: 600px) {
-  .mira {
+@media (max-width: 720px) {
+  .floors {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .portrait {
-    display: none;
+  .art {
+    height: 112px;
+    padding: var(--s-4) var(--s-4) 0;
+  }
+
+  .body {
+    padding: var(--s-5) var(--s-5) var(--s-6);
+  }
+
+  .row > * {
+    flex: 1 1 auto;
   }
 }

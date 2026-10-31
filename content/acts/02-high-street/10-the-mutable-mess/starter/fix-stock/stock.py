@@ -1,5 +1,5 @@
-# Hollis Bakery stock sheets. A. Penhallow.
-# Bea counts everything twice. This counts it once, carefully.
+# Bake sale stock sheets, for the trip fund. Neil, last term.
+# By hand, everything gets counted twice. This counts it once, carefully.
 
 STANDARD_BAKE = {
     "bread": {"baked": 40, "sold": 0},
@@ -10,14 +10,12 @@ STANDARD_BAKE = {
 
 def new_day():
     """Return a fresh stock sheet for the day, from the standard bake."""
-    # Copies are cheap. Finding out you needed one is not.
-    # The machine on the hill learns from whatever I hand it,
-    # so it only ever gets copies. A.P.
+    # Copies are cheap. Finding out you needed one is not. N.
     return STANDARD_BAKE.copy()
 
 
 def bake_more(sheet, item, quantity):
-    """Bea ran out and baked another batch."""
+    """We ran out and baked another batch."""
     sheet[item]["baked"] += quantity
 
 

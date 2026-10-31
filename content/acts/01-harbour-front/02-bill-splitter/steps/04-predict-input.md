@@ -29,4 +29,4 @@ A bill splitter has to ask: how much, and how many.
 
 `input()` shows a question, waits for someone to type an answer and press Enter, then hands the answer to your program.
 
-Commit to an answer, then run it.
+Lock in your answer, then run it.

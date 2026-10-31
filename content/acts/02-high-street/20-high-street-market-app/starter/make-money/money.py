@@ -1,6 +1,6 @@
-"""Sanjay's money: the rules. No files and no printing in here.
+"""Personal finance: the rules. No files and no printing in here.
 
-The requirements, as Sanjay and Moss agreed them:
+The requirements, as Riya and Paul agreed them:
 
 CATEGORIES                     ("food", "fun", "home", "income", "shop", "travel")
 Transaction(day, pence, category, note="")
@@ -35,11 +35,9 @@ Ledger(transactions=None, budgets=None)
   .over_budget(year, month)    a list of the categories that spent more than their
                                budget that month, in alphabetical order
 """
-# Inside the front cover of the money book Sanjay bought at the jumble sale,
-# its pages still blank, in Penhallow's handwriting:
-# Every penny in, every penny out, in pencil, since 1979. One line a month
-# has no category: the hill. I stopped writing down what it cost the second
-# winter. A.P.
+# Riya's note, from the first page of her plan:
+# Who's going to use this? Students with a part-time job and rent to pay.
+# Test it on a made-up month first. Real money only goes in once it works. R.
 
 from dataclasses import dataclass
 from datetime import date

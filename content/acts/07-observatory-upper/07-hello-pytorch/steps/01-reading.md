@@ -1,10 +1,10 @@
 ---
 id: side-by-side
 type: reading
-title: Your brain, in PyTorch's words
+title: Your network, in PyTorch's words
 dialogue:
-  - wendt: "Everybody downstairs uses PyTorch. I'd like to know what it does that we didn't."
-  - moss: "Bought tools. Fine, once you know what they're doing for you."
+  - neil: "Most people use PyTorch. I'd like to know what it does that we didn't."
+  - paul: "Bought tools. Fine, once you know what they're doing for you."
 code: |
   # What you built                    PyTorch
   # NumPy array                        torch.tensor(..., dtype=torch.float32)
@@ -20,10 +20,10 @@ code: |
   # argmax(axis=1)                     argmax(dim=1)
   # float(x)                           x.item()
 ---
-PyTorch is everything you've built upstairs, made big and fast. A **tensor** is a NumPy array that can also remember how it was made, like your `Value`. Give it `requires_grad=True` and every sum it's part of records its parents; `loss.backward()` walks them backwards and fills in each tensor's `.grad`.
+PyTorch is everything you've built in this room, made big and fast. A **tensor** is a NumPy array that can also remember how it was made, like your `Value`. Give it `requires_grad=True` and every sum it's part of records its parents; `loss.backward()` walks them backwards and fills in each tensor's `.grad`.
 
-An `nn.Module` is a brain as an object: layers made in `__init__`, the route through them in `forward`. Calling `model(X)` runs `forward`, and `model.parameters()` hands every weight to the optimiser.
+An `nn.Module` is a network as an object: layers made in `__init__`, the route through them in `forward`. Calling `model(X)` runs `forward`, and `model.parameters()` hands every weight to the optimiser.
 
 Two traps. `nn.CrossEntropyLoss` does its own softmax, so `forward` stops at the raw scores. And gradients add up, exactly as on the cards, so each step starts with `optimiser.zero_grad()`.
 
-To ask a trained brain something, wrap it in `with torch.no_grad():`. Nothing is recorded, so nothing is kept for a backward that never comes.
+To ask a trained network something, wrap it in `with torch.no_grad():`. Nothing is recorded, so nothing is kept for a backward that never comes.

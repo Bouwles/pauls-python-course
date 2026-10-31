@@ -1,11 +1,10 @@
-"""Penhallow's tiny engine: numbers that remember how they were made."""
+"""The tiny engine: numbers that remember how they were made."""
 
 import math
 
 
 # Every card knows the cards it was made from, and nothing else. Ask it
 # how an answer was arrived at and it can tell you, to the last digit.
-# Ask it why, and there is no card for that. A.P.
 class Value:
     """One number, the values it was made from, and its gradient."""
 

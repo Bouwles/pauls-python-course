@@ -4,9 +4,9 @@ project_name: "Spell Checker"
 portfolio_readme: |
   # Spell Checker
 
-  Finds the words in a sentence it doesn't know, and suggests the nearest words it does, the most likely first. "Nearest" is the edit distance: the fewest letters put in, taken out or swapped to turn one word into another, worked out with a table, which is dynamic programming. It also marks quiz answers the way Gwen does: right, near enough (one slip for every five letters), or wrong.
+  Finds the words in a sentence it doesn't know, and suggests the nearest words it does, the most likely first. "Nearest" is the edit distance: the fewest letters put in, taken out or swapped to turn one word into another, worked out with a table, which is dynamic programming. It also marks quiz answers the way Paul does: right, near enough (one slip for every five letters), or wrong.
 
-  Written by {name} for Gwen's quiz at The Drowned Anchor in {{town}}. Finished {date}.
+  Written by {name} for Paul, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -18,12 +18,12 @@ portfolio_readme: |
 
   ```
   Knows 7709 words.
-  'Lighthose' for 'Lighthouse': near enough
-  'Whelk' for 'Whale': wrong
-  'Lihgthouse' for 'Lighthouse': near enough
-  Check? The captin sailed past the lighthose at nite.
+  'Copenhagan' for 'Copenhagen': near enough
+  'Kito' for 'Quito': wrong
+  'Copenahgen' for 'Copenhagen': near enough
+  Check? The captin sailed round the iland at nite.
     captin: captain, cap'n, cabin
-    lighthose: lighthouse
+    iland: island, land, and
     nite: nine, note, bite
   Check?
   ```
@@ -43,57 +43,57 @@ datasets:
     licence: "Public domain"
     file: words.csv
     notes: "Built for this project from two public-domain novels in Project Gutenberg's plain-text editions: Great Expectations by Charles Dickens, 1861 (eBook 1400, https://www.gutenberg.org/ebooks/1400) and Treasure Island by Robert Louis Stevenson, 1883 (eBook 120, https://www.gutenberg.org/ebooks/120). Only the text between the START and END markers was used, so none of Project Gutenberg's header or licence is included. Lower-cased; a word is a run of letters, with apostrophes inside it (cap'n, don't). Words that appear at least twice across both books are kept, with their counts: 7,709 words. No text of either book is included, only the words and how often they appear. Both books are British, so the spelling is too."
-client: gwen
+client: paul
 building: pub
 estimated_minutes: 100
-summary: "A spell checker for Gwen's quiz: the fewest changes between two words, worked out with a table, the nearest real words suggested from a list counted from two old novels, and every answer marked right, near enough or wrong."
+summary: "A spell checker for Paul's end-of-term quiz: the fewest changes between two words, worked out with a table, the nearest real words suggested from a list counted from two old novels, and every answer marked right, near enough or wrong."
 concepts_introduced: [dynamic-programming]
 concepts_reviewed: [recursion, memoisation, decorators, base-cases, nested-data, lists, dictionaries, tuples, sort-key, string-methods, strip-replace, files, big-o, edge-cases]
 ask:
   dialogue:
-    - gwen: "Mr Ashby wrote 'Lighthose'. I'd give it him. He says that's how it's spelt."
-    - gwen: "I want a machine that says what a word should have been, and how near they got."
-    - gwen: "And before you start, the one-pound question was how many ways to make fifty pence. Nobody knows that either."
-    - moss: "Never work anything out twice. Both questions come apart into smaller ones."
+    - paul: "End-of-term quiz, capital cities. Riya wrote Copenhagan. I'd give it her."
+    - paul: "Yahya wrote Kito, for Quito, and says that's near enough too. I need a rule, not an argument."
+    - yahya: "And nobody got the bonus question: how many ways to make fifty pence."
+    - neil: "Never work anything out twice. Both questions come apart into smaller ones."
   spec: |
     `words.csv` is a word list with a count for each word: every word that turns up at least twice in two old novels, *Great Expectations* and *Treasure Island*, and how many times. `load_counts` reads it into a dictionary, and `words_in` gives back the words of a text in lower case. In `spell.py`, write:
 
-    1. `edit_distance(given, correct)`: the fewest changes that turn one word into the other, where a change puts in a letter, takes one out, or swaps one letter for another. Fill a table, as Moss does for the ferry tokens. Two words of sixty letters should take a blink.
+    1. `edit_distance(given, correct)`: the fewest changes that turn one word into the other, where a change puts in a letter, takes one out, or swaps one letter for another. Fill a table, as Paul does for the Arcade's tokens. Two words of sixty letters should take a blink.
     2. `suggest(word, counts, limit=3)`: up to `limit` known words no more than `MOST_CHANGES` (2) changes from `word`: the fewest changes first; on a tie, the word with the bigger count; on a tie again, alphabetical order. An empty list if nothing is that near.
     3. `check(text, counts)`: a list of `(word, suggestions)` for each word in the text that isn't in the list, in the order they come, each word once.
-    4. `mark(given, correct)` gives back `"right"`, `"near enough"` or `"wrong"`, ignoring capitals and spaces at either end. Near enough is Gwen's rule: no more than one change for every five letters of the right answer, rounded down.
+    4. `mark(given, correct)` gives back `"right"`, `"near enough"` or `"wrong"`, ignoring capitals and spaces at either end. Near enough is Paul's rule: no more than one change for every five letters of the right answer, rounded down.
 
-    The main block marks Gwen's three disputed answers, then checks each line typed until a blank one.
+    The main block marks Paul's three disputed answers, then checks each line typed until a blank one.
   example: |
     Knows 7709 words.
-    'Lighthose' for 'Lighthouse': near enough
-    'Whelk' for 'Whale': wrong
-    'Lihgthouse' for 'Lighthouse': near enough
-    Check? The captin sailed past the lighthose at nite.
+    'Copenhagan' for 'Copenhagen': near enough
+    'Kito' for 'Quito': wrong
+    'Copenahgen' for 'Copenhagen': near enough
+    Check? The captin sailed round the iland at nite.
       captin: captain, cap'n, cabin
-      lighthose: lighthouse
+      iland: island, land, and
       nite: nine, note, bite
     Check? Fifteen men on the dead man's chest
     Every word known.
     Check?
 ship:
   dialogue:
-    - gwen: "Lighthose, near enough. Mr Ashby gets his point, and he's been insufferable about it."
-    - gwen: "And four hundred and fifty ways to make fifty pence. I'm not checking."
-    - moss: "Every pair of beginnings worked out once, and written in the table. That's the whole trick."
-    - moss: "That's the Scrapyard's piles explained. Most of them."
-  shelf: { object: quiz-sheet, label: "Gwen's spell checker, near enough" }
+    - paul: "Copenhagan, near enough: Riya gets her point. Kito, wrong. Yahya has appealed."
+    - yahya: "Appeal withdrawn. The table was very clear. Four hundred and fifty ways, by the way."
+    - neil: "Every pair of beginnings worked out once, and written in the table. That's the whole trick."
+    - paul: "And that's the Puzzle Room's wall explained. Most of it."
+  shelf: { object: quiz-sheet, label: "Paul's spell checker, near enough" }
   cards: [dynamic-programming]
 stretch:
   - id: two-swapped
     title: "Two letters swapped"
     prompt: |
-      Lihgthouse is two changes from Lighthouse, but it's one slip of the pen: two letters swapped. Write `slips(given, correct)`, the edit distance with a fourth kind of change, swapping two letters next to each other, which looks two slots back up the diagonal. It's called the Damerau-Levenshtein distance. Does Gwen's marking change for any answer?
+      Copenahgen is two changes from Copenhagen, but it's one slip of the pen: two letters swapped. Write `slips(given, correct)`, the edit distance with a fourth kind of change, swapping two letters next to each other, which looks two slots back up the diagonal. It's called the Damerau-Levenshtein distance. Does Paul's marking change for any answer?
   - id: fewest-coins
-    title: "Change from the till"
+    title: "Change from the machine"
     prompt: |
-      Gwen's till pays change in the fewest coins. Write `change(amount, coins)`, which gives back the coins themselves, not just how many, as a list from biggest to smallest. Keep Moss's table, plus a second table of which coin went in last for each amount, and follow it back from the top. Try 8p in ferry tokens of 1, 4 and 6.
+      The Arcade's change machine pays out the fewest coins. Write `change(amount, coins)`, which gives back the coins themselves, not just how many, as a list from biggest to smallest. Keep Paul's table, plus a second table of which coin went in last for each amount, and follow it back from the top. Try 8p in tokens of 1, 4 and 6.
   - id: biggest-crate
     title: "The biggest load"
     prompt: |
-      Nell's lorry takes 50 kg. Write `best_load(crates, limit)` for a list of `(name, kg, pounds)` crates: the most money she can carry without going over the limit, each crate taken whole or left. It's the knapsack problem: a table with a row for each crate and a column for every kilo from 0 to the limit.
+      A store room shelf holds 50 kg. Write `best_load(crates, limit)` for a list of `(name, kg, pounds)` crates from the clockmaker's lot: the most value the shelf can hold without going over the limit, each crate taken whole or left. It's the knapsack problem: a table with a row for each crate and a column for every kilo from 0 to the limit.

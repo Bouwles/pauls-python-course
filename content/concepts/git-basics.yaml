@@ -30,7 +30,7 @@ cards:
     verify: none
     options:
       - { text: "Charge more for urgent jobs", correct: true }
-      - { text: "stuff", feedback: "Pip's favourite. Says nothing." }
+      - { text: "stuff", feedback: "Everyone's favourite at 3am. Says nothing." }
       - { text: "Changed prices.py", feedback: "The diff already shows which file. Say what the change does." }
   - type: choice
     prompt: "What does `git diff` show, with no options?"

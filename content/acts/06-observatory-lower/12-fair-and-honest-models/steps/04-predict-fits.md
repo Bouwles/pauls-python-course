@@ -4,7 +4,7 @@ type: predict
 title: How many fittings
 concept: grid-search
 dialogue:
-  - pip: "Four settings, so four models. Grid search is quick."
+  - yahya: "Four settings, so four models. Grid search is quick."
 code: |
   import numpy as np
   from sklearn.model_selection import GridSearchCV

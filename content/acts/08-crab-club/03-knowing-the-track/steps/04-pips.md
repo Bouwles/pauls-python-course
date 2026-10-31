@@ -1,16 +1,16 @@
 ---
 id: pips
 type: pips
-title: Pip's Version
+title: Fix Riya's version
 files: [track.py, dp.py]
 entry: dp.py
 dialogue:
-  - pip: "Value iteration. Max over everything. One line, no sums."
-  - pip: "It says the tile under the pool is worth 4.6. Sir Reginald likes it there."
+  - riya: "Can you look at mine? Something's off. Value iteration, max over everything, one line."
+  - riya: "It says the tile under the pool is worth 4.6. The crab loves it there."
 dialogue_after:
-  - pip: "So the max is the committee's choice, and the sum is the sea's. The sea doesn't do what you'd like."
+  - riya: "I only planned for the moves that go right. The max is your choice. The sum is the luck."
 hints:
-  nudge: "The committee choose the action. Who chooses which outcome happens, and how should the value account for it?"
+  nudge: "You choose the action. Who chooses which outcome happens, and how should the value account for it?"
   plan:
     - Run it and compare the tile under the pool with what you'd expect
     - "For each action, add up chance times (reward plus gamma times where it leads)"
@@ -25,4 +25,4 @@ hints:
 ---
 Policy evaluation says what a given policy is worth. **Value iteration** finds the best a tile can be worth: the same sweep, but each tile takes the value of its *best* action, so every sweep improves the policy and the values together. The best policy is then whichever action has the biggest value.
 
-Pip's version is in `dp.py`; `track.py` is your grid from last week. Run it and look at the bottom row. Then fix it.
+Riya's version is in `dp.py`; `track.py` is your grid from last week. Run it and look at the bottom row. Then fix it.

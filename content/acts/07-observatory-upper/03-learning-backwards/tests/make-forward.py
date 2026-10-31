@@ -57,15 +57,15 @@ def by_hand(ctx):
     close("Two evenings through a 2-2-1 network", P, [[0.5], [0.320821]])
 
 
-def her_weights(ctx):
+def saved_weights(ctx):
     m = load(ctx)
-    params = getattr(m, "PENHALLOW", None)
+    params = getattr(m, "NEILS_WEIGHTS", None)
     if not isinstance(params, dict):
-        raise CheckFailed("PENHALLOW, the dict of her weights, has gone from network.py.")
+        raise CheckFailed("NEILS_WEIGHTS, the dict of Neil's weights, has gone from network.py.")
     X = np.array([[0.9, 0.2, 0.5, 1.0], [0.2, 0.3, 0.4, 0.0], [0.7, 0.9, 0.9, 1.0],
                   [1.0, 0.1, 0.3, 0.0], [0.5, 0.5, 0.5, 0.5], [0.35, 0.8, 0.6, 1.0]])
-    P, _ = run_forward(m, X, params, "Six evenings through Penhallow's weights")
-    close("Six evenings through Penhallow's weights", P, reference_forward(X, params)[0])
+    P, _ = run_forward(m, X, params, "Six evenings through Neil's weights")
+    close("Six evenings through Neil's weights", P, reference_forward(X, params)[0])
 
 
 def keeps_cache(ctx):
@@ -122,7 +122,7 @@ def names(ctx):
     m = load(ctx)
     P = np.array([[0.9, 0.2, 0.7], [0.1, 0.1, 0.1], [0.5, 0.51, 0.49]])
     got = m.decisions(P)
-    want = [["lamp", "gate"], [], ["horn"]]
+    want = [["lights", "shutters"], [], ["beacon"]]
     try:
         got = [list(row) for row in got]
     except TypeError:
@@ -134,7 +134,7 @@ def names(ctx):
 TESTS = [
     custom("relu and sigmoid on a few numbers", activations, visible=True),
     custom("Two evenings through a 2-2-1 network, by hand", by_hand, visible=True),
-    custom("Six evenings through Penhallow's weights", her_weights),
+    custom("Six evenings through Neil's weights", saved_weights),
     custom("The cache keeps Z1, H and P", keeps_cache,
            hint="Return the answers and a dict: {\"Z1\": Z1, \"H\": H, \"P\": P}. Z1 is before the ReLU, H after it."),
     custom("A network of another size", other_sizes,
@@ -148,6 +148,6 @@ TESTS = [
            hint="X @ W1 already gives one row per evening. No for loop needed."),
     custom("decisions names the answers above 0.5", names,
            hint="Above 0.5 means strictly above, and the names come in the order of ANSWERS."),
-    output("The program reads Penhallow's four evenings",
-           expect="Evening 1: lamp\nEvening 2: lamp, horn\nEvening 3: lamp, gate\nEvening 4: nothing"),
+    output("The program reads Paul's four evenings",
+           expect="Evening 1: lights\nEvening 2: lights, beacon\nEvening 3: lights, shutters\nEvening 4: nothing"),
 ]

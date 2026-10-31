@@ -123,7 +123,7 @@ def unknown_growth(ctx):
     raise CheckFailed("scale should raise ValueError for a growth it doesn't know.", expected="ValueError", actual=repr(result))
 
 
-YARD_CHART = (
+STORE_CHART = (
     "   200 | ##                                       19900\n"
     "   400 | ##########                               79800\n"
     "   800 | ######################################## 319600"
@@ -158,9 +158,9 @@ def chart_returns_text(ctx):
 
 
 TESTS = [
-    function("A small yard, by pairs", call="spares_by_pairs", args=(["bolt-M8", "hinge-brass", "bolt-M8", "spring-coil"],),
+    function("A short list, by pairs", call="spares_by_pairs", args=(["bolt-M8", "hinge-brass", "bolt-M8", "spring-coil"],),
              expect=(["bolt-M8"], 6), visible=True),
-    function("The yard's chart", call="chart", args=([200, 400, 800], [19900, 79800, 319600]), expect=YARD_CHART, visible=True),
+    function("The store room's chart", call="chart", args=([200, 400, 800], [19900, 79800, 319600]), expect=STORE_CHART, visible=True),
     function("No parts, by pairs", call="spares_by_pairs", args=([],), expect=([], 0),
              hint="With no parts there is nothing to compare: no spares, and 0 comparisons."),
     function("One part, by pairs", call="spares_by_pairs", args=(["anvil-small"],), expect=([], 0),
@@ -175,7 +175,7 @@ TESTS = [
     custom("It counts the comparisons it really makes", pairs_counts_honestly,
            hint="Add one to the count each time two parts are compared, inside the inner loop."),
     custom("A thousand parts, by pairs", pairs_large),
-    function("A small yard, by set", call="spares_by_set", args=(["bolt-M8", "hinge-brass", "bolt-M8", "spring-coil"],),
+    function("A short list, by set", call="spares_by_set", args=(["bolt-M8", "hinge-brass", "bolt-M8", "spring-coil"],),
              expect=(["bolt-M8"], 4)),
     function("No parts, by set", call="spares_by_set", args=([],), expect=([], 0)),
     function("Three of a kind, by set", call="spares_by_set", args=(["gear-12t", "gear-12t", "gear-12t"],),
@@ -194,7 +194,7 @@ TESTS = [
            hint="time_once gives back the seconds, not whatever the function gave back."),
     function("O(1) stays the same", call="scale", args=(100, 5000, "O(1)"), expect=1, tol=1e-6),
     function("O(n) scales with n", call="scale", args=(200, 10_000, "O(n)"), expect=50.0, tol=1e-6),
-    function("O(n^2), the pier", call="scale", args=(200, 10_200, "O(n^2)"), expect=2601.0, tol=1e-6,
+    function("O(n^2), the clockmaker's lot", call="scale", args=(200, 10_200, "O(n^2)"), expect=2601.0, tol=1e-6,
              hint="For O(n^2), fifty-one times the parts is fifty-one squared times the work."),
     function("O(log n)", call="scale", args=(1024, 1_048_576, "O(log n)"), expect=2.0, tol=1e-6,
              hint="For O(log n), scale by log(n_later) / log(n_now). math.log works with any base here."),

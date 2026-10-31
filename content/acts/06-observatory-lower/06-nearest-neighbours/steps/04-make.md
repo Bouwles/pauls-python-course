@@ -4,7 +4,7 @@ type: make
 title: Make the classifier
 files: [classifier.py, tools.py]
 entry: classifier.py
-on_pass: { wendt: "Gentoo, eight of nine. And the same code knows its irises. That's the test of a tool." }
+on_pass: { aaesha: "Gentoo, eight of nine. And the same code knows its irises. That's the test of a tool." }
 hints:
   nudge: "Which animals does each vote come from: the training rows only, or the pile being scored? And which pile chooses k?"
   plan:

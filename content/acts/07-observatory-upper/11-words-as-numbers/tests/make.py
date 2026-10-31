@@ -111,8 +111,8 @@ def held_back_perplexity(ctx):
     vocab = m.build_vocab(text)
     probs = m.probabilities(m.count_pairs(m.encode(text, vocab), len(vocab)))
     got = m.perplexity(probs, m.encode(held, vocab))
-    if got is None or not np.isfinite(got) or abs(got - 7.300) > 0.01:
-        raise CheckFailed("Perplexity on the held-back forecasts, smoothing 0.1.", expected=7.30, actual=None if got is None else shown(got))
+    if got is None or not np.isfinite(got) or abs(got - 7.050) > 0.01:
+        raise CheckFailed("Perplexity on the held-back forecasts, smoothing 0.1.", expected=7.05, actual=None if got is None else shown(got))
 
 
 def sample_cycle(ctx):
@@ -145,7 +145,7 @@ def program(ctx):
     r = ctx.run_program()
     if r.error is not None:
         raise CheckFailed(f"The program crashed: {type(r.error).__name__}: {r.error}")
-    for want in ("Vocabulary: 39 characters", "Perplexity on forecasts it never saw: 7.30"):
+    for want in ("Vocabulary: 39 characters", "Perplexity on forecasts it never saw: 7.05"):
         if want not in r.output:
             raise CheckFailed(f"The output should include {want!r}.", expected=want, actual=r.output)
 

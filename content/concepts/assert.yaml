@@ -52,10 +52,10 @@ cards:
         misconception: assert-comma-compares
         feedback: "The comma makes 402 the message. The assert only checks that 642 is truthy, which it is. Write `== 402`."
   - type: fix
-    prompt: "This test can never fail. Make it compare with an answer worked out by hand: three loaves at 240 pence."
+    prompt: "This test can never fail. Make it compare with an answer worked out by hand: three sandwiches at 240 pence."
     code: |
-      def price(loaves):
-          return loaves * 240
+      def price(sandwiches):
+          return sandwiches * 240
 
       def test_price():
           assert price(3) == price(3)
@@ -63,7 +63,7 @@ cards:
       def can_fail(ctx):
           m = ctx.module()
           m.test_price()
-          m.price = lambda loaves: loaves * 200
+          m.price = lambda sandwiches: sandwiches * 200
           try:
               m.test_price()
           except AssertionError:
@@ -73,8 +73,8 @@ cards:
 
       TESTS = [custom("The test notices a wrong price", can_fail)]
     solution: |
-      def price(loaves):
-          return loaves * 240
+      def price(sandwiches):
+          return sandwiches * 240
 
       def test_price():
           assert price(3) == 720

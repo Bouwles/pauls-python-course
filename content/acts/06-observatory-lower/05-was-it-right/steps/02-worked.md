@@ -1,14 +1,14 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "Captain Ferro's log. Wind at dawn, and whether the ferry was cancelled."
-  - wendt: "One reading, one yes or no. The same machine, smaller."
+  - paul: "My log for the roof terrace. Wind at noon, and whether I called off the lesson up there."
+  - riya: "One reading, one yes or no. The same machine, smaller."
 code: |
   import numpy as np
 
-  # Captain Ferro's log: wind in knots, and 1 if the ferry was cancelled
+  # Paul's log: wind in knots, and 1 if the roof lesson was called off
   wind = np.array([8, 12, 15, 18, 20, 22, 25, 27, 30, 33, 36, 40])
   cancelled = np.array([0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1])
 
@@ -33,7 +33,7 @@ code: |
   for knots in [15, 24, 35]:
       score = (knots - wind.mean()) / wind.std() * w[0] + b
       chance = sigmoid(score)
-      decision = "cancel" if chance >= 0.5 else "sail"
+      decision = "call it off" if chance >= 0.5 else "go up"
       print(f"{knots} knots: {chance:.0%} chance of cancelling, so {decision}")
 subgoals:
   - label: The log
@@ -61,7 +61,7 @@ explain:
 ---
 **Logistic regression** works out a score, `X @ w + b`, as linear regression does, then squashes it with the sigmoid into a chance.
 
-How wrong is a chance? If the ferry was cancelled and the model said 0.9, that's nearly right; 0.1 is badly wrong. **Log loss**, also called **cross-entropy**, charges minus the log of the chance the model gave to what actually happened: 0.11 for 0.9, 2.3 for 0.1, and more without limit as that chance falls to 0. The mean over every day is the loss to walk down.
+How wrong is a chance? If the lesson was called off and the model said 0.9, that's nearly right; 0.1 is badly wrong. **Log loss**, also called **cross-entropy**, charges minus the log of the chance the model gave to what actually happened: 0.11 for 0.9, 2.3 for 0.1, and more without limit as that chance falls to 0. The mean over every day is the loss to walk down.
 
 Its slopes have the shape you already know:
 
@@ -70,4 +70,4 @@ dw = X.T @ (chance - cancelled) / n
 db = mean(chance - cancelled)
 ```
 
-The model only ever gives a chance. Ferro's decision comes from comparing it with a **threshold**, here 0.5.
+The model only ever gives a chance. Paul's decision comes from comparing it with a **threshold**, here 0.5.

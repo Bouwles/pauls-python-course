@@ -2,7 +2,7 @@ import json
 
 import numpy as np
 
-# The League's rules, copied by Moss, so the checks never depend on course.py.
+# The League's rules, copied by Paul, so the checks never depend on course.py.
 LAYOUT = [
     "S...#....",
     ".#..#.~..",
@@ -20,7 +20,7 @@ RACES = 200
 TO_BEAT = 17.0   # the shortest route, followed blindly, averages about 17.1 moves
 
 
-def moss_race(policy, rng):
+def paul_race(policy, rng):
     tile = START
     for moves in range(1, 101):
         action = int(policy[tile[0]][tile[1]])
@@ -40,14 +40,14 @@ def judge(q, what):
     if q.shape != (ROWS, COLS, 4):
         raise CheckFailed(f"{what}: the Q-table should be {ROWS} rows by {COLS} columns by 4 actions.", expected=(ROWS, COLS, 4), actual=q.shape)
     policy = q.argmax(axis=2)
-    moves = [moss_race(policy, np.random.default_rng(1000 + i)) for i in range(RACES)]
+    moves = [paul_race(policy, np.random.default_rng(1000 + i)) for i in range(RACES)]
     finished = sum(1 for m in moves if m < 100)
     mean = sum(moves) / RACES
     if finished < RACES - 2:
         stuck = [(r, c) for r in range(ROWS) for c in range(COLS) if LAYOUT[r][c] not in "#F"
                  and LAYOUT[min(max(r + STEPS[policy[r][c]][0], 0), ROWS - 1)][min(max(c + STEPS[policy[r][c]][1], 0), COLS - 1)] == "#"]
-        raise CheckFailed(f"{what}: Sir Reginald finished only {finished} of {RACES} test races in 100 moves. "
-                          f"Somewhere his best move walks into a rock or off the course, or two tiles send him back and forth."
+        raise CheckFailed(f"{what}: the crab finished only {finished} of {RACES} test races in 100 moves. "
+                          f"Somewhere its best move walks into a rock or off the course, or two tiles send it back and forth."
                           + (f" Tiles pointing at a rock: {stuck[:4]}." if stuck else ""),
                           expected=f"at least {RACES - 2} finished", actual=finished)
     if mean >= TO_BEAT:
@@ -75,7 +75,7 @@ def one_update(ctx):
     if error is None or abs(error - (-4.0)) > 1e-9:
         raise CheckFailed("q_update should return the TD error: the target minus the old Q-value.", expected=-4.0, actual=error)
     if np.count_nonzero(Q[0, 0]) != 1:
-        raise CheckFailed("Only the action he took should change.", actual=Q[0, 0].tolist())
+        raise CheckFailed("Only the action it took should change.", actual=Q[0, 0].tolist())
 
 
 def learns_the_course(ctx):
@@ -178,7 +178,7 @@ def league_entry(ctx):
 
 TESTS = [
     custom("One Q-learning update, by hand", one_update, visible=True),
-    custom("Sir Reginald learns the Club Course", learns_the_course, visible=True, timeout=60,
+    custom("The crab learns the League course", learns_the_course, visible=True, timeout=60,
            hint="Alternate the practice races: one from START, the next from random_start(rng). Up to MAX_MOVES moves each, choosing with epsilon-greedy."),
     custom("An update onto the finish", update_at_finish, hint="When over is True, nothing follows: the target is just the reward."),
     custom("The target uses the best next action", best_next_action,

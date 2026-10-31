@@ -14,7 +14,7 @@ const SCRIPT = [
   { code: 'order = ["flour", "eggs"]', note: "One box, one label." },
   { code: "saturday = order", note: "A second label. Not a second box." },
   { code: 'saturday.append("butter")', note: "Butter goes into the box both labels are stuck on." },
-  { code: "print(order)", note: 'Prints ["flour", "eggs", "butter"]. Bea never touched order.' },
+  { code: "print(order)", note: 'Prints ["flour", "eggs", "butter"]. Nobody touched order directly.' },
   { code: "sunday = order.copy()", note: "copy() builds a new box with the same things in it." },
   { code: 'sunday.append("cream")', note: "Only Sunday's box gets cream." },
 ];

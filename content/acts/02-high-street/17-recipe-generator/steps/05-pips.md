@@ -1,12 +1,12 @@
 ---
 id: pips
 type: pips
-title: Pip's Version
+title: Fix Yahya's version
 dialogue:
-  - pip: "This morning's errors, printed, then counted. The printing part is perfect."
-  - pip: "It says nought errors. I've read them out loud. There are two."
+  - yahya: "This morning's errors, printed, then counted. I used a generator, so it's fast."
+  - yahya: "It says nought errors. I've read them out loud. There are two. Can you look?"
 dialogue_after:
-  - pip: "So it only goes round once. Somebody should put that on the label."
+  - yahya: "So a generator only goes round once. Fast, but you only get the one go."
 hints:
   nudge: "By the time `len(list(found))` runs, the `for` loop has had every value out of `found`. What's left to count?"
   plan:
@@ -19,6 +19,6 @@ hints:
         print(line)
     print(len(found), "errors")
 ---
-Pip's program prints this morning's errors, then how many there were. Run it and look at the count.
+Yahya's program prints this morning's errors, then how many there were. Run it and look at the count.
 
 Fix it so the count is the real one. The checks try other mornings too.

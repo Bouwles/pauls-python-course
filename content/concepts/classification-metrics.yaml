@@ -51,7 +51,7 @@ cards:
         misconception: f1-is-average
         feedback: "That's the ordinary average. F1 is the harmonic mean, 2pr / (p + r), which a single bad number can't hide behind."
   - type: choice
-    prompt: "Wendt raises her storm threshold from 0.3 to 0.6. What happens to recall?"
+    prompt: "Riya raises her storm threshold from 0.3 to 0.6. What happens to recall?"
     verify: none
     options:
       - text: "It falls or stays the same: a higher threshold warns on fewer nights, so it can't catch more storms"
@@ -60,7 +60,7 @@ cards:
         misconception: raising-threshold-raises-recall
         feedback: "Every night warned at 0.6 was already warned at 0.3, and some at 0.3 aren't warned at 0.6. Fewer warnings can only catch the same storms or fewer. It's precision that tends to rise."
   - type: choice
-    prompt: "Pip's frost forecast: 'Precision is the share of frosts it caught.' Is he right?"
+    prompt: "Caitlin's frost forecast: 'Precision is the share of frosts it caught.' Is she right?"
     verify: none
     options:
       - text: "No: that's recall. Precision is the share of its warnings that were right"

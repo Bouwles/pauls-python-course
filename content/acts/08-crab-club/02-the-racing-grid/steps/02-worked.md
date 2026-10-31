@@ -1,27 +1,27 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "Captain Ferro's crossing. Fewer tiles, more water."
-  - moss: "He can take it steady or go full ahead. The sandbank decides the rest."
+  - paul: "A level from Caitlin's platform game. Fewer tiles, bigger drops."
+  - paul: "Take it steady or go full speed. The jumps decide the rest."
 code: |
   import numpy as np
 
-  STATES = ["quay", "mid-channel", "island", "aground"]
-  ACTIONS = ["steady", "full ahead"]
+  STATES = ["start", "halfway", "flag", "pit"]
+  ACTIONS = ["steady", "full speed"]
   OUTCOMES = {
-      ("quay", "steady"): [(1.0, "mid-channel", -1)],
-      ("quay", "full ahead"): [(0.9, "mid-channel", -1), (0.1, "aground", -20)],
-      ("mid-channel", "steady"): [(0.7, "island", 5), (0.3, "mid-channel", -1)],
-      ("mid-channel", "full ahead"): [(0.8, "island", 5), (0.2, "aground", -20)],
+      ("start", "steady"): [(1.0, "halfway", -1)],
+      ("start", "full speed"): [(0.9, "halfway", -1), (0.1, "pit", -20)],
+      ("halfway", "steady"): [(0.7, "flag", 5), (0.3, "halfway", -1)],
+      ("halfway", "full speed"): [(0.8, "flag", 5), (0.2, "pit", -20)],
   }
-  OVER = {"island", "aground"}
-  POLICY = {"quay": "full ahead", "mid-channel": "steady"}
+  OVER = {"flag", "pit"}
+  POLICY = {"start": "full speed", "halfway": "steady"}
 
 
-  def crossing(policy, rng):
-      state = "quay"
+  def run(policy, rng):
+      state = "start"
       rewards = []
       while state not in OVER:
           possible = OUTCOMES[(state, policy[state])]
@@ -33,8 +33,8 @@ code: |
 
 
   rng = np.random.default_rng(34)
-  for trip in range(4):
-      print(crossing(POLICY, rng))
+  for attempt in range(4):
+      print(run(POLICY, rng))
 subgoals:
   - label: Name the states and the actions
     lines: [3, 4]
@@ -49,12 +49,12 @@ subgoals:
   - label: Run a few
     lines: [27, 29]
 explain:
-  prompt: "Why is `POLICY` a dictionary from state to action, and not a list of actions like `[\"full ahead\", \"steady\"]`?"
-  answer: "Because Ferro can't know in advance where he'll be. Mid-channel he might wait one turn or five, and full ahead might put him aground. A list of actions assumes the sea does as it's told. A policy says what to do in whatever state he finds himself in."
+  prompt: "Why is `POLICY` a dictionary from state to action, and not a list of actions like `[\"full speed\", \"steady\"]`?"
+  answer: "Because the player can't know in advance where they'll be. Halfway they might wait one turn or five, and full speed might drop them in the pit. A list of actions assumes every jump goes as planned. A policy says what to do in whatever state you find yourself in."
   concept: mdps
 ---
 Each list in `OUTCOMES` is every way things can go, as `(chance, next state, reward)`. The chances in each list add up to 1: something always happens.
 
-`rng.choice(n, p=chances)` picks a number from `0` to `n - 1`, each with its own chance. That's the sea deciding.
+`rng.choice(n, p=chances)` picks a number from `0` to `n - 1`, each with its own chance. That's the game deciding.
 
-Run it a few times with different seeds. Same policy, different crossings.
+Run it a few times with different seeds. Same policy, different runs.

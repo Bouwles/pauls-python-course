@@ -37,18 +37,18 @@ def find_parcel(parcels, name):
         print(f"Not {parcel}")
     return f"No parcel for {name}"
 
-print(find_parcel(["Tom", "Bea", "Nell"], "Bea"))
-print(find_parcel(["Tom"], "Gwen"))
+print(find_parcel(["Ivo", "Emma", "Lena"], "Emma"))
+print(find_parcel(["Ivo"], "Rosa"))
 ```
 
 ```text
-Not Tom
-Found Bea
-Not Tom
-No parcel for Gwen
+Not Ivo
+Found Emma
+Not Ivo
+No parcel for Rosa
 ```
 
-In the first call Nell is never checked: the loop, the function and the call all finish at `return f"Found {name}"`. The last line of the function runs only when the loop ends without finding a match. A function can have several `return` statements this way, but each call goes through only one of them.
+In the first call Lena is never checked: the loop, the function and the call all finish at `return f"Found {name}"`. The last line of the function runs only when the loop ends without finding a match. A function can have several `return` statements this way, but each call goes through only one of them.
 
 ## Common mistakes
 

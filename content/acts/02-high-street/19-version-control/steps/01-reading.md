@@ -3,7 +3,7 @@ id: what-git-is
 type: reading
 title: Photographs, not drawers
 dialogue:
-  - moss: "A commit is a photograph of every file, with a note on the back."
+  - paul: "A commit is a photograph of every file, with a note on the back."
 ---
 **git** keeps the history of a folder of files. It works in three places:
 
@@ -13,4 +13,4 @@ dialogue:
 
 Nothing goes into history by accident. You choose what to stage, and you write the note. `git status` tells you what's where, and `git log` shows the chain.
 
-In the terminal below the editor you can type real git commands. The project is the workshop's job tracker.
+In the terminal below the editor you can type real git commands. The project is the Workshop's job tracker.

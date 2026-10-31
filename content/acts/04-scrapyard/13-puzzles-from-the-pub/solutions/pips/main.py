@@ -1,11 +1,11 @@
-"""Pip's count of the ways to seat Gwen's quiz teams in a row."""
+"""Yahya's count of the ways to seat the chess night's teams in a row."""
 
-TEAMS = ["Committee", "Spanners", "Crusts", "Ledgers", "Lamplighters", "Tide Tables"]
-FEUDS = {("Committee", "Spanners"), ("Crusts", "Ledgers"), ("Committee", "Tide Tables")}
+TEAMS = ["Rooks", "Knights", "Bishops", "Pawns", "Queens", "Kings"]
+RIVALS = {("Rooks", "Knights"), ("Bishops", "Pawns"), ("Rooks", "Kings")}
 
 
-def count_seatings(teams, feuds):
-    """How many ways the teams can sit in a row with no feuding teams side by side."""
+def count_seatings(teams, rivals):
+    """How many ways the teams can sit in a row with no rival teams side by side."""
     row = []
     seated = set()
 
@@ -16,7 +16,7 @@ def count_seatings(teams, feuds):
         for team in teams:
             if team in seated:
                 continue
-            if row and ((row[-1], team) in feuds or (team, row[-1]) in feuds):
+            if row and ((row[-1], team) in rivals or (team, row[-1]) in rivals):
                 continue
             row.append(team)
             seated.add(team)
@@ -29,4 +29,4 @@ def count_seatings(teams, feuds):
 
 
 if __name__ == "__main__":
-    print(f"{count_seatings(TEAMS, FEUDS)} ways to seat the teams")
+    print(f"{count_seatings(TEAMS, RIVALS)} ways to seat the teams")

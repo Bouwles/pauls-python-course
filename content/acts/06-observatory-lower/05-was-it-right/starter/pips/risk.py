@@ -1,4 +1,4 @@
-# Pip's diabetes risk model. Tested on respondents it never saw, this time.
+# Caitlin's diabetes risk model. Tested on respondents it never saw.
 import numpy as np
 
 from tools import fit_scaler, load_table, scale, train_test_split

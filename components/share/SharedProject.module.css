@@ -1,98 +1,142 @@
+/* A shared project: the title and who made it, then the code and a console. */
 .page {
   display: grid;
-  gap: var(--s-6);
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-8);
 }
 
 .head {
   display: flex;
-  align-items: flex-end;
-  gap: var(--s-6);
-  flex-wrap: wrap;
-}
-
-.stage {
-  display: flex;
-  align-items: flex-end;
-  gap: var(--s-4);
-  padding: var(--s-4) var(--s-6) 0;
-  background: var(--night-1);
-  box-shadow: inset 0 -8px 0 var(--art-driftwood);
+  align-items: flex-start;
+  gap: var(--s-5);
 }
 
 .titles {
   display: grid;
   gap: var(--s-2);
+  min-width: 0;
 }
 
 .title {
-  font-size: var(--pixel-3);
+  font-size: var(--fs-7);
+}
+
+.by {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-size: var(--fs-3);
 }
 
 .meta {
+  font-size: var(--fs-2);
   color: var(--text-2);
 }
 
 .code {
   display: grid;
-  gap: var(--s-3);
+  background: var(--surface-2);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+
+:global(:root[data-theme="light"]) .code {
+  border: 1px solid var(--line);
+}
+
+@media (prefers-color-scheme: light) {
+  :global(:root[data-theme="system"]) .code {
+    border: 1px solid var(--line);
+  }
 }
 
 .bar {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
   gap: var(--s-3);
+  padding: var(--s-2) var(--s-3) var(--s-2) var(--s-4);
+  border-bottom: 1px solid var(--line);
+}
+
+.fileName {
+  font-family: var(--font-code);
+  font-size: var(--fs-1);
+  color: var(--text-2);
 }
 
 .tabs {
   display: flex;
-  gap: var(--s-1);
   overflow-x: auto;
+  min-width: 0;
 }
 
 .tab {
   border: 0;
-  height: 36px;
+  background: none;
+  height: 40px;
   padding: 0 var(--s-3);
-  background: var(--panel-2);
-  color: var(--text-2);
   font-family: var(--font-code);
-  font-size: var(--step--1);
+  font-size: var(--fs-1);
+  color: var(--text-2);
+  box-shadow: inset 0 -2px 0 transparent;
 }
 
 .tab[aria-selected="true"] {
-  background: var(--code-bg);
   color: var(--text);
-  box-shadow: inset 0 2px 0 var(--lamp);
+  box-shadow: inset 0 -2px 0 var(--sun);
 }
 
 .well {
   display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
-  min-height: 360px;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  height: min(560px, 70vh);
 }
 
 .editor {
-  min-width: 0;
-  background: var(--code-bg);
+  min-height: 0;
+  overflow: auto;
+  background: var(--editor);
+  border-right: 1px solid var(--line);
 }
 
 .console {
-  min-width: 0;
-  max-height: 520px;
+  min-height: 0;
   overflow: auto;
+  display: grid;
 }
 
 .made {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: space-between;
   gap: var(--s-3);
+  padding-top: var(--s-6);
+  border-top: 1px solid var(--line);
+  font-size: var(--fs-2);
   color: var(--text-2);
 }
 
 @media (max-width: 860px) {
   .well {
     grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: 320px 280px;
+    height: auto;
+  }
+
+  .editor {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+}
+
+@media (max-width: 720px) {
+  .head {
+    gap: var(--s-4);
+  }
+
+  .title {
+    font-size: var(--fs-6);
   }
 }

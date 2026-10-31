@@ -1,9 +1,9 @@
 ---
 id: worked
 type: worked
-title: How Moss checks the crane script
+title: How Paul checks the brackets
 dialogue:
-  - moss: "Penhallow's crane script. One bracket out of place and the jib swings into the shed."
+  - paul: "One bracket out of place and nothing runs. Python counts them. So can we."
 code: |
   PARTNERS = {")": "(", "]": "[", "}": "{"}
 
@@ -19,9 +19,9 @@ code: |
       return not still_open
 
 
-  print(balanced("lift(hook[2]) swing{left}"))
-  print(balanced("lift(hook[2)]"))
-  print(balanced("lift((hook)"))
+  print(balanced("round(prices[2]) {total}"))
+  print(balanced("round(prices[2)]"))
+  print(balanced("round((prices)"))
 subgoals:
   - label: A stack for the brackets still open
     lines: [5, 5]
@@ -32,12 +32,12 @@ subgoals:
   - label: At the end, anything still open is a mistake
     lines: [12, 12]
 explain:
-  prompt: "Why can't Moss just count, adding one for every opener and taking one off for every closer?"
-  answer: "A count knows how many brackets are open, not which kinds or in what order. In `lift(hook[2)]` it goes up to two and back to nought, but the `)` closes a `[`. Only the top of the stack says which bracket a closer has to match."
+  prompt: "Why can't Paul just count, adding one for every opener and taking one off for every closer?"
+  answer: "A count knows how many brackets are open, not which kinds or in what order. In `round(prices[2)]` it goes up to two and back to nought, but the `)` closes a `[`. Only the top of the stack says which bracket a closer has to match."
   concept: stacks
 ---
-Every bracket in Penhallow's crane commands has to be closed by the same kind, and the most recently opened one has to close first. That's a stack's order exactly: last in, first out.
+Every bracket in a line of code has to be closed by the same kind, and the most recently opened one has to close first. That's a stack's order exactly: last in, first out.
 
 `not still_open` is `True` when the list is empty, since an empty list counts as false.
 
-Press Step through. `still_open` is drawn as Mira's pigeonholes: the right-hand end is the top of the stack.
+Press Step through. `still_open` is drawn as a row of boxes: the right-hand end is the top of the stack.

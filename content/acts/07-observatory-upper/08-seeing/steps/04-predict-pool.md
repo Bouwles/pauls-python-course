@@ -4,7 +4,7 @@ type: predict
 title: The biggest in each block
 concept: convolutions
 dialogue:
-  - wendt: "Then she shrinks each map. Keeps the strongest answer in every two by two block, and drops the rest."
+  - neil: "Then it shrinks each map. Keeps the strongest answer in every two by two block, and drops the rest."
 code: |
   import numpy as np
 

@@ -1,4 +1,4 @@
-# The Q-Learning Crab: Sir Reginald learns the Club Course by racing it, and enters the Arcade League.
+# The Q-Learning Crab: the crab learns the League course by racing it, and enters the Arcade League.
 
 import json
 

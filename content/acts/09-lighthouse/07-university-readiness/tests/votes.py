@@ -43,7 +43,7 @@ TESTS = [
     function("Three draw level", call="winner",
              args=(["Gull", "Auk", "Tern", "Tern", "Auk", "Gull", "Auk", "Gull", "Tern"],), expect="Auk"),
     function("Capitals count", call="winner", args=(["gull", "Gull", "Tern", "Tern"],), expect="Tern"),
-    custom("The whole town votes", whole_town, timeout=6,
+    custom("Everyone at the marina votes", whole_town, timeout=6,
            hint="Count every slip once, keeping the leader as you go. Calling ballots.count() for each name reads the whole list 50,000 times."),
     custom("A hundred thousand names", landslide, timeout=6,
            hint="Working out the biggest count again after every slip is a loop inside a loop. Keep the leader as you go."),

@@ -1,4 +1,4 @@
-"""Your own tests. The agreed ones are Agnes's; these are for whatever you
+"""Your own tests. The agreed ones are the marina's; these are for whatever you
 know might break. One to start you off, using the same client fixture.
 """
 from app import create_app

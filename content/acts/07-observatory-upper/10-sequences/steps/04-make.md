@@ -4,7 +4,7 @@ type: make
 title: An hour ahead
 files: [rnn.py]
 entry: rnn.py
-on_pass: { agnes: "Under six centimetres, an hour ahead. That's an hour's warning for the gate." }
+on_pass: { aaesha: "Under six centimetres, an hour ahead. That's an hour's warning for the river path." }
 hints:
   nudge: "What does each step need from the step before it, and what does `forecast` use as a reading once the readings run out?"
   plan:
@@ -38,7 +38,7 @@ hints:
             ahead.append(guess)
         return np.array(ahead)
 ---
-Write `step`, `run` and `forecast` in `rnn.py`. The comments are the subgoals from the fog horn. Each hour:
+Write `step`, `run` and `forecast` in `rnn.py`. The comments are the subgoals from the fog beacon. Each hour:
 
 ```python
 h = np.tanh(x * Wx + h @ Wh + b)      # the new memory
@@ -54,4 +54,4 @@ Next six hours: 4.01 4.27 4.16 3.72 2.99 2.16
 
 `forecast` reads every reading, then keeps going on its own: each guess goes back in as the next hour's reading. Errors pile up that way, so the sixth hour is shakier than the first.
 
-The checks use Penhallow's weights and a smaller network, and look ahead up to ten hours.
+The checks use Neil's weights and a smaller network, and look ahead up to ten hours.

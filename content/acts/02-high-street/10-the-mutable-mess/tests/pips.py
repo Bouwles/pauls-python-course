@@ -20,7 +20,7 @@ def new_dictionary(ctx):
 
 TESTS = [
     output("This week and next", expect="This week: {'bread': 3, 'buns': 6}\nNext week: {'bread': 3, 'buns': 4}", visible=True),
-    custom("Gwen's order stays as it was", standing_unchanged,
+    custom("Another standing order stays as it was", standing_unchanged,
            hint="If only this fails, make the copy before the loop changes anything."),
     custom("No extras still gives a new dictionary", new_dictionary,
            hint="Even with no extras, hand back a copy. Otherwise whoever changes it changes the standing order."),

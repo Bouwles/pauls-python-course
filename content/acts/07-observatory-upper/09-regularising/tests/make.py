@@ -202,7 +202,7 @@ def stops_early(ctx):
     params = net.init_params(6, 64)
     got_train, got_val, best = call_train(m, X, T, X_val, T_val, params, 0.1, 3000, patience=100)
     if best != 98 or len(got_val) != 199:
-        raise CheckFailed("Pip's network with patience 100: the best epoch is 98, so training stops after 199 epochs.",
+        raise CheckFailed("Riya's network with patience 100: the best epoch is 98, so training stops after 199 epochs.",
                           expected="best 98, 199 epochs", actual=f"best {best}, {len(got_val)} epochs")
     score = net.mse(net.forward(X_val, params)[0], T_val)
     if abs(score - got_val[98]) > 1e-9:
@@ -241,7 +241,7 @@ def program(ctx):
     r = ctx.run_program()
     if r.error is not None:
         raise CheckFailed(f"The program crashed: {type(r.error).__name__}: {r.error}")
-    want = {"Pip's": (0.0, 0.2455), "weight decay": (0.0451, 0.1340), "early stopping": (0.0603, 0.1842)}
+    want = {"Riya's": (0.0, 0.2455), "weight decay": (0.0451, 0.1340), "early stopping": (0.0603, 0.1842)}
     for label, (training, validation) in want.items():
         line = next((l for l in r.lines() if l.startswith(label)), None)
         if line is None:
@@ -265,7 +265,7 @@ TESTS = [
     custom("Training with weight decay", decayed),
     custom("Training with dropout", dropped,
            hint="Dropout is for the training step only. Score both sets of nights with every neuron awake."),
-    custom("Early stopping on Pip's network", stops_early,
+    custom("Early stopping on Riya's network", stops_early,
            hint="Keep a copy of every array at each new best, and put them back when patience runs out."),
     custom("Early stopping with weight decay switched on too", patience_with_decay),
     custom("Without patience, the last weights stay", no_patience_keeps_last),

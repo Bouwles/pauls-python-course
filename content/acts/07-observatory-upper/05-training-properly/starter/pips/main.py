@@ -1,4 +1,4 @@
-"""Pip's batches: every evening once an epoch, a handful at a time, shuffled."""
+"""Caitlin's batches: every evening once an epoch, a handful at a time, shuffled."""
 
 import numpy as np
 

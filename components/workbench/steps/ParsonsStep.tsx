@@ -4,16 +4,16 @@ import { useRef, useState } from "react";
 import type { ParsonsStep } from "@/lib/content/types";
 import type { CheckReport } from "@/lib/python/protocol";
 import type { StepProgressRow } from "@/lib/store/types";
+import { PROFESSOR } from "@/lib/cast";
 import { Button } from "../../ui/Button";
-import { CheckIcon } from "../../ui/Icons";
+import { Icon } from "../../ui/Icon";
 import { highlightLines } from "../CodeBlock";
 import cb from "../CodeBlock.module.css";
 import { Hints } from "../Hints";
-import { InDialogue } from "../Slots";
+import { Instructions } from "../Instructions";
 import { TestReport } from "../TestReport";
 import { useWorkbench } from "../context";
-import { NextRow, Prose, StepHeading } from "./common";
-import { Ticket } from "../Ticket";
+import { NextRow } from "./common";
 import styles from "./parsons.module.css";
 import s from "./steps.module.css";
 
@@ -40,7 +40,7 @@ function Code({ text }: { text: string }) {
 }
 
 export function ParsonsStepView({ step, row }: { step: ParsonsStep; row: StepProgressRow }) {
-  const { areas, updateStep, markPassed, runner, job, react, logEvent } = useWorkbench();
+  const { areas, updateStep, markPassed, runner, job, react, logEvent, nameOf } = useWorkbench();
   const saved = row.data.parsons as Arrangement | undefined;
   const [arr, setArr] = useState<Arrangement>(saved ?? { program: [], fails: 0 });
   const [result, setResult] = useState<{ ok: boolean; message: string; report?: CheckReport } | null>(null);
@@ -149,7 +149,7 @@ export function ParsonsStepView({ step, row }: { step: ParsonsStep; row: StepPro
     if (ok) {
       setResult({ ok: true, message: "That runs, and it does the job." });
       await markPassed(step.id, { data: { ...row.data, parsons: arr } });
-      void react("moss", "check-passed");
+      void react("check-passed");
       return;
     }
     const fails = arr.fails + 1;
@@ -175,7 +175,7 @@ export function ParsonsStepView({ step, row }: { step: ParsonsStep; row: StepPro
       message: hasDistractor ? "One of the blocks you used doesn't belong in this program." : step.check === "order" ? "Not in the right order yet. Watch the indentation too." : "Not yet. The report below shows what happened when it ran.",
       report,
     });
-    void react("moss", "check-failed");
+    if (fails >= 2) void react("check-failed");
   };
 
   const allBlocks = [...step.blocks, ...step.distractors];
@@ -183,20 +183,18 @@ export function ParsonsStepView({ step, row }: { step: ParsonsStep; row: StepPro
 
   return (
     <>
-      <Ticket>
-        <StepHeading step={step} />
-        <Prose html={step.html} />
-        <p className={s.nextNote} style={{ marginTop: 12 }}>
+      <Instructions step={step} hints={step.hints ? <Hints stepId={step.id} hints={step.hints} row={row} /> : null} footer={<NextRow row={row} />}>
+        <p className={s.note}>
+          <Icon name="keys" size={16} />
           Drag blocks across, or use the buttons. On a block: Alt and the arrow keys move it, Tab and Shift+Tab indent it, Delete puts it back.
         </p>
-        <NextRow row={row} />
-      </Ticket>
+      </Instructions>
       <div className={areas.stage}>
         <div className={styles.board}>
           <section className={styles.column} aria-labelledby="pool-title">
-            <h3 id="pool-title" className="label">
+            <h2 id="pool-title" className="label">
               Blocks
-            </h3>
+            </h2>
             <ul className={styles.pool} onDragOver={(e) => e.preventDefault()} onDrop={(e) => {
               e.preventDefault();
               if (dragging.current?.from === "program") remove(dragging.current.key);
@@ -213,9 +211,9 @@ export function ParsonsStepView({ step, row }: { step: ParsonsStep; row: StepPro
             </ul>
           </section>
           <section className={styles.column} aria-labelledby="program-title">
-            <h3 id="program-title" className="label">
+            <h2 id="program-title" className="label">
               Your program
-            </h3>
+            </h2>
             <ol ref={listRef} className={styles.program} onDragOver={(e) => e.preventDefault()} onDrop={onDrop}>
               {arr.program.length === 0 ? <li className={styles.empty}>Drop blocks here, top to bottom.</li> : null}
               {arr.program.map((p, i) => (
@@ -233,19 +231,19 @@ export function ParsonsStepView({ step, row }: { step: ParsonsStep; row: StepPro
                     {!p.locked ? (
                       <span className={styles.controls}>
                         <button onClick={() => indent(p.key, -1)} aria-label="Outdent" disabled={p.indent === 0}>
-                          ◂
+                          <Icon name="caretLeft" size={16} />
                         </button>
                         <button onClick={() => indent(p.key, 1)} aria-label="Indent" disabled={p.indent === MAX_INDENT}>
-                          ▸
+                          <Icon name="caretRight" size={16} />
                         </button>
                         <button onClick={() => move(p.key, -1)} aria-label="Move up" disabled={i === 0}>
-                          ▴
+                          <Icon name="caretUp" size={16} />
                         </button>
                         <button onClick={() => move(p.key, 1)} aria-label="Move down" disabled={i === arr.program.length - 1}>
-                          ▾
+                          <Icon name="caretDown" size={16} />
                         </button>
                         <button onClick={() => remove(p.key)} aria-label="Put back">
-                          ×
+                          <Icon name="close" size={16} />
                         </button>
                       </span>
                     ) : (
@@ -256,10 +254,10 @@ export function ParsonsStepView({ step, row }: { step: ParsonsStep; row: StepPro
               ))}
             </ol>
             <div className={styles.actions}>
-              <Button variant="primary" icon={<CheckIcon />} onClick={() => void check()} disabled={arr.program.length === 0 || runner.state.phase !== "idle" || passed}>
+              <Button variant="primary" icon="check" onClick={() => void check()} disabled={arr.program.length === 0 || runner.state.phase !== "idle" || passed}>
                 Check
               </Button>
-              {lockNote ? <p className={styles.note}>Moss has fixed one block in its place.</p> : null}
+              {lockNote ? <p className={styles.note}>{nameOf(PROFESSOR)} has fixed one block in its place.</p> : null}
             </div>
           </section>
         </div>
@@ -270,11 +268,6 @@ export function ParsonsStepView({ step, row }: { step: ParsonsStep; row: StepPro
           </div>
         ) : null}
       </div>
-      {step.hints ? (
-        <InDialogue>
-          <Hints step={{ ...step, type: "make", files: ["main.py"], entry: "main.py", starter: {}, visibleTests: [], requiredCount: 0, stretchCount: 0, hints: step.hints, timeoutMs: step.timeoutMs, starterFrom: null, onPass: null, argvField: false, stretch: false }} hints={step.hints} row={row} />
-        </InDialogue>
-      ) : null}
     </>
   );
 }

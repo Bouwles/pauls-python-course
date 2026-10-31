@@ -6,7 +6,7 @@ portfolio_readme: |
 
   Searches a parts list three ways and says how much work each search took. A whole name is found by binary search, in a handful of looks however long the list is. A name's beginning, like `bolt-*`, is found with `bisect`, which jumps straight to where those names start. A word anywhere in a name, like `brass`, has to be checked against every name, and the count of looks shows it. New parts go into the list in their place, so it stays in order.
 
-  Written by {name} for Nell Brannigan's scrapyard in {{town}}. Finished {date}.
+  Written by {name} for Riya, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -14,7 +14,7 @@ portfolio_readme: |
   python parts_search.py
   ```
 
-  It loads `parts.txt`, the yard's parts book, and asks for searches until you press Enter on a blank line:
+  It loads `parts.txt`, the store room's parts list, and asks for searches until you press Enter on a blank line:
 
   ```
   Parts list: 188 parts, anchor-chain to wireless-dial
@@ -38,23 +38,23 @@ portfolio_readme: |
   - `bisect` on text: finding a range of names that share a beginning, and inserting in order
   - A command loop that decides which search each query needs
 downloadable: true
-# parts.txt is invented for the story: the parts in Nell's yard are hers, and searching
-# works the same on any sorted list of names. See the README.
+# parts.txt is invented for the story: the parts in the Clocktower's store room, and
+# searching works the same on any sorted list of names. See the README.
 datasets: []
-client: nell
+client: riya
 building: scrapyard
 estimated_minutes: 75
-summary: "A search engine for Nell's parts book: whole names by binary search, beginnings with bisect, words anywhere one name at a time, and the looks each one took."
+summary: "A search engine for the store room's parts list: whole names by binary search, beginnings with bisect, words anywhere one name at a time, and the looks each one took."
 concepts_introduced: [linear-search, binary-search, bisect]
 concepts_reviewed: [big-o, while-loops, indexing, return-values, multiple-returns, imports, list-methods, string-methods, edge-cases]
 ask:
   dialogue:
-    - nell: "Penhallow kept a parts book. Every part in the yard, in alphabetical order."
-    - nell: "I read it from the top till I find the right line. Some days that's the whole book."
-    - nell: "She said a book in order should take seven looks, not a hundred and eighty-eight. I never asked her how."
-    - moss: "Because it's in order. Order is worth a great deal, if you use it."
+    - riya: "Paul keeps a parts list for the store room. Every part, in alphabetical order."
+    - riya: "I read it from the top till I find the right line. Some days that's all 188."
+    - riya: "Yahya says a list in order should take seven looks. He won't say how. He's enjoying it."
+    - paul: "Because it's in order. Order is worth a great deal, if you use it."
   spec: |
-    `parts.txt` is the parts book: one part a line, like `bolt-M8` or `valve-brass`. `load_parts` reads it into a list in alphabetical order. In `parts_search.py`, write:
+    `parts.txt` is the parts list: one part a line, like `bolt-M8` or `valve-brass`. `load_parts` reads it into a list in alphabetical order. In `parts_search.py`, write:
 
     1. `find_part(parts, name)` returns `(position, looks)`: where the name is in the list, or `-1` if it isn't there, and how many names were looked at. Write the binary search yourself, with a `while` loop, looking in the middle, `(low + high) // 2`, each time. On a list of a million names it looks at about twenty.
     2. `starting_with(parts, prefix)` returns every name that starts with `prefix`, in order. Use `bisect` to find where they start, so it stays quick on a huge list.
@@ -82,17 +82,17 @@ ask:
     Search?
 ship:
   dialogue:
-    - nell: "Valve, brass. Seven looks. I counted them on my fingers and had three left over."
-    - nell: "And brass anywhere in the name takes the whole book. That's the bit I do every day."
-    - moss: "Order buys you the first kind of search. Nothing buys you the second."
-  shelf: { object: catalogue-card, label: "Nell's parts book, searchable" }
+    - riya: "Brass valve. Seven looks. I counted them on my fingers and had three left over."
+    - riya: "And brass anywhere in the name takes the whole list. That's the search I'd use most."
+    - paul: "Order buys you the first kind of search. Nothing buys you the second."
+  shelf: { object: catalogue-card, label: "Riya's parts search, seven looks a part" }
   cards: [linear-search, binary-search, bisect]
 stretch:
   - id: nearest
     title: "Did you mean"
     prompt: |
-      Customers ask for `bolt-M9`, and there's no such thing. When a whole name isn't found and no name contains it, have `search` suggest the names either side of where it would go: `bisect_left` gives the place, and the answer is the name before it and the name at it. Watch the two ends of the list.
+      People ask for `bolt-M9`, and there's no such thing. When a whole name isn't found and no name contains it, have `search` suggest the names either side of where it would go: `bisect_left` gives the place, and the answer is the name before it and the name at it. Watch the two ends of the list.
   - id: any-case
     title: "Brass, BRASS or brass"
     prompt: |
-      Nell types in capitals when she's cross. Make every kind of search ignore case, without losing the `M` in `bolt-M8` in what's printed. Keep a second list of lower-case names alongside, in the same order, and search that.
+      Riya types BRASS when she's in a hurry. Make every kind of search ignore case, without losing the `M` in `bolt-M8` in what's printed. Keep a second list of lower-case names alongside, in the same order, and search that.

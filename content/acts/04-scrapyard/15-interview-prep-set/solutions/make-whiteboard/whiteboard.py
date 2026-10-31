@@ -1,4 +1,4 @@
-"""Moss's whiteboard: three questions, the sort they ask at interviews."""
+"""Paul's whiteboard: three questions, the sort they ask at interviews."""
 import heapq
 from collections import deque
 
@@ -14,26 +14,26 @@ def pair_for(weights, target):
     return None
 
 
-def islands(yard):
-    """How many separate heaps of scrap (#) there are in the yard drawing."""
+def islands(grid):
+    """How many separate islands of # there are in the drawing."""
     visited = set()
-    heaps = 0
-    for row in range(len(yard)):
-        for col in range(len(yard[row])):
-            if yard[row][col] != "#" or (row, col) in visited:
+    count = 0
+    for row in range(len(grid)):
+        for col in range(len(grid[row])):
+            if grid[row][col] != "#" or (row, col) in visited:
                 continue
-            heaps = heaps + 1
+            count = count + 1
             visited.add((row, col))
             queue = deque([(row, col)])
             while queue:
                 here_row, here_col = queue.popleft()
                 for next_row, next_col in ((here_row - 1, here_col), (here_row + 1, here_col),
                                            (here_row, here_col - 1), (here_row, here_col + 1)):
-                    if (0 <= next_row < len(yard) and 0 <= next_col < len(yard[next_row])
-                            and yard[next_row][next_col] == "#" and (next_row, next_col) not in visited):
+                    if (0 <= next_row < len(grid) and 0 <= next_col < len(grid[next_row])
+                            and grid[next_row][next_col] == "#" and (next_row, next_col) not in visited):
                         visited.add((next_row, next_col))
                         queue.append((next_row, next_col))
-    return heaps
+    return count
 
 
 def merge_piles(piles):

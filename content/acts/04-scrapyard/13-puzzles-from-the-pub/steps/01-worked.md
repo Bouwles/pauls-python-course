@@ -1,17 +1,17 @@
 ---
 id: worked
 type: worked
-title: How Moss seats the quiz teams
+title: How Paul seats the teams
 dialogue:
-  - gwen: "The Committee won't sit by the Spanners since the tandem business. The Crusts and the Ledgers, don't ask."
-  - moss: "Seat them one table at a time. When you're stuck, stand the last one up again."
+  - yahya: "Chess night. The Rooks won't sit by the Knights since the last final. The Bishops and the Pawns, don't ask."
+  - paul: "Seat them one table at a time. When you're stuck, stand the last one up again."
 code: |
-  TEAMS = ["Committee", "Spanners", "Crusts", "Ledgers"]
-  FEUDS = {("Committee", "Spanners"), ("Crusts", "Ledgers")}
+  TEAMS = ["Rooks", "Knights", "Bishops", "Pawns"]
+  RIVALS = {("Rooks", "Knights"), ("Bishops", "Pawns")}
 
 
-  def feud(one, other):
-      return (one, other) in FEUDS or (other, one) in FEUDS
+  def rivals(one, other):
+      return (one, other) in RIVALS or (other, one) in RIVALS
 
 
   def seat(row):
@@ -20,7 +20,7 @@ code: |
       for team in TEAMS:
           if team in row:
               continue
-          if row and feud(row[-1], team):
+          if row and rivals(row[-1], team):
               continue
           row.append(team)
           seating = seat(row)
@@ -36,7 +36,7 @@ subgoals:
     lines: [10, 11]
   - label: Try each team in turn at the next table
     lines: [12, 12]
-  - label: "Seated already, or feuding with its neighbour: skip it"
+  - label: "Seated already, or a rival of its neighbour: skip it"
     lines: [13, 16]
   - label: Seat it, and carry on from the next table
     lines: [17, 18]
@@ -53,6 +53,6 @@ explain:
 ---
 This is **backtracking**: build an answer one choice at a time, check each choice as soon as it's made, and when there's nothing left that fits, undo the last choice and try the next one there.
 
-Moss never builds a whole seating only to find a feud at table one. The moment the Spanners would sit by the Committee, that branch is dropped, and nothing that starts that way is ever tried.
+Paul never builds a whole seating only to find rivals at table one. The moment the Knights would sit by the Rooks, that branch is dropped, and nothing that starts that way is ever tried.
 
-Press Step through and watch Nell's junk tower: one crate for each team seated so far.
+Press Step through and watch the tower of crates: one crate for each team seated so far.

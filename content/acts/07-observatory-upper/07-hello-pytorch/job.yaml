@@ -6,7 +6,7 @@ portfolio_readme: |
 
   The handwritten digit recogniser again, rebuilt in PyTorch on my own computer: tensors, autograd, an `nn.Module`, Adam and cross-entropy in a mini-batch training loop, all checked by a pytest suite. It gets within a couple of digits of the NumPy version written from scratch.
 
-  Written by {name} in {{town}}. Finished {date}.
+  Written by {name} for Neil, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -34,7 +34,7 @@ portfolio_readme: |
   The 1,797 handwritten digits that scikit-learn ships as `load_digits`: a copy of the UCI "Optical Recognition of Handwritten Digits" data (Alpaydin and Kaynak, 1998), licensed CC BY 4.0. `notebooks.py` loads them.
 downloadable: true
 datasets: []
-client: wendt
+client: neil
 building: observatory
 estimated_minutes: 120
 summary: "Take It Home: the digit recogniser rebuilt in PyTorch on your own computer, with tensors, autograd, nn.Module and a training loop, checked by a real pytest suite."
@@ -42,10 +42,10 @@ concepts_introduced: [pytorch]
 concepts_reviewed: [autograd, classification-networks, optimisers, weight-initialisation, neural-networks, classes, init, super, methods, virtual-environments, terminal-basics, pytest, train-test-split]
 ask:
   dialogue:
-    - wendt: "Everyone downstairs trains their brains in PyTorch. I'd like to know if everyone is right."
-    - wendt: "Your NumPy brain reads her digits. Build the same brain in PyTorch, at home, and see if it agrees."
-    - pip: "PyTorch does the backward pass for you. So the cards were a waste of a week."
-    - moss: "The cards are how you'll know what it's doing when it goes wrong."
+    - neil: "Nearly everyone out there trains their networks in PyTorch. I'd like to know if they're right to."
+    - neil: "Your NumPy network reads the digits. Build the same one in PyTorch, at home, and see if it agrees."
+    - caitlin: "PyTorch does the backward pass for you. So the cards were a waste of a week."
+    - paul: "The cards are how you'll know what it's doing when it goes wrong."
   spec: |
     On your own computer, in `reader.py`:
 
@@ -54,7 +54,7 @@ ask:
     3. `DigitReader(hidden=32)`, an `nn.Module`: `self.hidden` is `nn.Linear(64, hidden)` and `self.out` is `nn.Linear(hidden, 10)`, with a ReLU between. `forward` returns the raw scores, with no softmax.
     4. `train(model, X, labels, epochs, batch_size, rate, seed)`: Adam and `nn.CrossEntropyLoss`, in mini-batches shuffled by a `torch.Generator` seeded with `seed`. It returns the loss on every row of `X` after each epoch, as floats.
     5. `accuracy(model, X, labels)`: the fraction of rows whose biggest score is on the right digit, as a float, worked out under `torch.no_grad()`.
-    6. `python reader.py` learns from the same 1500 digits as upstairs, and reads the same 297.
+    6. `python reader.py` learns from the same 1500 digits as the Digit Recogniser, and reads the same 297.
 
     Hand in the pytest report when every test passes.
   example: |
@@ -63,16 +63,16 @@ ask:
     Read 291 of 297 digits it had never seen
 ship:
   dialogue:
-    - wendt: "Two hundred and ninety-one. Ours read two hundred and ninety-three. Within two digits of each other."
-    - wendt: "Different engine, different shuffles, nearly the same answers. That's the nicest thing I can say about either."
-    - moss: "And you know what it does under the lid. That's what makes it a tool and not a charm."
+    - neil: "Two hundred and ninety-one. Ours read two hundred and ninety-three. Within two digits of each other."
+    - neil: "Different engine, different shuffles, nearly the same answers. That's the nicest thing I can say about either."
+    - paul: "And you know what it does under the lid. That's what makes it a tool and not a charm."
   shelf: { object: torch, label: "The digit reader, in PyTorch, at home" }
   cards: [pytorch]
 stretch:
   - id: gpu
     title: "The GPU, if you have one"
     prompt: |
-      Pick `device = "cuda" if torch.cuda.is_available() else "cpu"` (or `"mps"` on a Mac with Apple silicon). Move the model with `model.to(device)` and every batch with `.to(device)`, and check the accuracy is unchanged. For a brain this small, copying numbers to the GPU may cost more than the sums save. Try `hidden=4096` and see where that changes.
+      Pick `device = "cuda" if torch.cuda.is_available() else "cpu"` (or `"mps"` on a Mac with Apple silicon). Move the model with `model.to(device)` and every batch with `.to(device)`, and check the accuracy is unchanged. For a network this small, copying numbers to the GPU may cost more than the sums save. Try `hidden=4096` and see where that changes.
   - id: save-and-load
     title: "Keep what it learned"
     prompt: |

@@ -14,21 +14,21 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      name = "tom"
+      name = "riya"
       name.title()
       print(name)
-    answer: "tom"
+    answer: "riya"
   - type: predict
     prompt: What does this print?
     code: |
-      name = "tom"
+      name = "riya"
       shout = name.upper()
       print(name, shout)
-    answer: "tom TOM"
+    answer: "riya RIYA"
   - type: choice
     prompt: What happens?
     code: |
-      word = "gull"
+      word = "pull"
       word[0] = "d"
       print(word)
     verify: error
@@ -42,28 +42,28 @@ cards:
   - type: choice
     prompt: What does this print?
     code: |
-      tide = "high water"
-      tide.replace("high", "low")
-      print(tide)
+      note = "high score"
+      note.replace("high", "low")
+      print(note)
     options:
-      - text: low water
+      - text: low score
         misconception: string-method-changes-in-place
-        feedback: "`.replace()` made a new string, `\"low water\"`, and handed it back. Nobody kept it."
-      - text: high water
+        feedback: "`.replace()` made a new string, `\"low score\"`, and handed it back. Nobody kept it."
+      - text: high score
         correct: true
       - text: An error
         misconception: unused-result-is-error
         feedback: "Python doesn't mind an answer being ignored. It just throws it away."
   - type: fix
-    prompt: "This should print `HIGH WATER 06:42`. Fix it."
+    prompt: "This should print `LUNCH AT 12:55`. Fix it."
     code: |
-      line = "high water 06:42"
+      line = "lunch at 12:55"
       line.upper()
       print(line)
     tests: |
-      TESTS = [output("In capitals", expect="HIGH WATER 06:42")]
+      TESTS = [output("In capitals", expect="LUNCH AT 12:55")]
     solution: |
-      line = "high water 06:42"
+      line = "lunch at 12:55"
       line = line.upper()
       print(line)
   - type: fill
@@ -78,14 +78,14 @@ cards:
   - type: write
     prompt: "`word` holds a four-letter word. Make `word` hold the same word with its first letter swapped for `d`, using a slice and `+`. Print it."
     starter: |
-      word = "gull"
+      word = "pull"
     tests: |
       TESTS = [
-          output("gull becomes dull", expect="dull"),
+          output("pull becomes dull", expect="dull"),
           output("bell becomes dell", set_vars={"word": "bell"}, expect="dell",
                  hint="Keep everything after the first letter with word[1:]."),
       ]
     solution: |
-      word = "gull"
+      word = "pull"
       word = "d" + word[1:]
       print(word)

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
-import { PixelIcon, type IconName } from "./PixelIcon";
+import { Icon, type IconName } from "./Icon";
 import styles from "./Menu.module.css";
 
 export interface MenuItem {
@@ -61,7 +61,7 @@ export function Menu({ label, items }: { label: string; items: MenuItem[] }) {
         title={label}
         onClick={() => setOpen((o) => !o)}
       >
-        <PixelIcon name="more" />
+        <Icon name="more" />
         <span className="visually-hidden">{label}</span>
       </button>
       {open ? (
@@ -77,7 +77,7 @@ export function Menu({ label, items }: { label: string; items: MenuItem[] }) {
                   item.onSelect();
                 }}
               >
-                {item.icon ? <PixelIcon name={item.icon} /> : <span className={styles.noIcon} />}
+                {item.icon ? <Icon name={item.icon} /> : <span className={styles.noIcon} />}
                 <span>{item.label}</span>
               </button>
             </li>

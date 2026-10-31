@@ -1,10 +1,10 @@
 ---
 id: make
 type: make
-title: Make Nell's quickest routes
+title: Make Riya's quickest routes
 files: [routes.py]
 entry: routes.py
-on_pass: { nell: "Fourteen minutes to the ferry, and it knew before the engine was warm." }
+on_pass: { riya: "Fourteen minutes to the theatre, and it knew before I'd found my keys." }
 hints:
   nudge: "In `quickest_times`, a place can come off the heap more than once. Which time counts, and what should happen the other times?"
   plan:
@@ -35,10 +35,10 @@ hints:
                     heapq.heappush(waiting, (best[neighbour], neighbour))
         return None
 ---
-Write the three functions from the brief in `routes.py`. `quickest_times` has Moss's subgoals in it already.
+Write the three functions from the brief in `routes.py`. `quickest_times` has Paul's subgoals in it already.
 
-`quickest_route` is `quickest_times` with two additions you've met before: Pip's `came_from`, noted whenever a place's minutes improve, and a stop as soon as the goal is settled, because nothing later can beat it.
+`quickest_route` is `quickest_times` with two additions you've met before: Yahya's `came_from`, noted whenever a place's minutes improve, and a stop as soon as the goal is settled, because nothing later can beat it.
 
 Add `show_graph(roads, visited=settled, frontier=[name for _, name in waiting], current=place, distances=best)` inside your loop, and `show_graph(roads, path=route, distances=best)` once you have the route, then press Run.
 
-The hidden checks send the lorry round triangles, down one-way roads and over a road that takes no time at all, and count how often your code goes through a place's roads in a town of nine hundred.
+The hidden checks send you round triangles, down one-way roads and over a road that takes no time at all, and count how often your code goes through a place's roads in a city of nine hundred.

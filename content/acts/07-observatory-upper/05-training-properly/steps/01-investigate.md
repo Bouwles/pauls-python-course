@@ -4,7 +4,7 @@ type: investigate
 title: The long gentle slope
 concept: optimisers
 dialogue:
-  - wendt: "The north side of the hill. Gentle all the way down. The hiker takes forever."
+  - yahya: "A long gentle slope, and the hiker takes forever. I can't watch this."
 code: |
   from workshop import show_hill
 
@@ -46,7 +46,7 @@ tasks:
     prompt: "Put `beta` back to `0.0` and set `rate = 120`. Does the hiker reach the bottom: yes or no?"
     kind: answer
     accept: ["no", "n", "it doesn't", "never"]
-    feedback: "No. Each stride overshoots by more than the last, and it bounces off the hill. On this one hill, a rate of 50 would land in one step. In a brain, some weights have steep slopes and some gentle ones, and a rate big enough for the gentle ones throws the steep ones off. Momentum only speeds up where the slope keeps agreeing with itself."
+    feedback: "No. Each stride overshoots by more than the last, and it bounces off the hill. On this one hill, a rate of 50 would land in one step. In a network, some weights have steep slopes and some gentle ones, and a rate big enough for the gentle ones throws the steep ones off. Momentum only speeds up where the slope keeps agreeing with itself."
     wrong: "Look at x in the last line: is it anywhere near 10?"
 ---
 The **learning rate** sets the stride. Too small and the hiker crawls; too big and it overshoots, further each time.

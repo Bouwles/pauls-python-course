@@ -82,10 +82,10 @@ cards:
               return "free"
           return f"out with {rider}"
 
-      print(describe(None), describe("Bea"))
+      print(describe(None), describe("Riya"))
     blanks: [["is"]]
     tests: |
-      TESTS = [output("Free, then Bea", expect="free out with Bea")]
+      TESTS = [output("Free, then Riya", expect="free out with Riya")]
   - type: write
     prompt: "Write `shares_any(a, b)`, which returns `True` when any inner list in `a` is the very same list as the one at the same position in `b`."
     starter: |

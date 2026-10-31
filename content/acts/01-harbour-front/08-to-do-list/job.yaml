@@ -6,7 +6,7 @@ portfolio_readme: |
 
   A to-do list that runs in the terminal. Add tasks, list them with numbers, tick them off by number, and quit to see how many are left. Tasks stay in the order they were added, and the ones after a finished task move up to fill the gap.
 
-  Written by {name} for the post office in {{town}}. Finished {date}.
+  Written by {name} for Neil, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -18,15 +18,15 @@ portfolio_readme: |
 
   ```
   Command? add
-  Task? Sort the second post
+  Task? Mark the quizzes
   Command? add
-  Task? Mend the franking machine
+  Task? Fix the projector
   Command? list
-  1. Sort the second post
-  2. Mend the franking machine
+  1. Mark the quizzes
+  2. Fix the projector
   Command? done
   Number? 1
-  Done: Sort the second post
+  Done: Mark the quizzes
   Command? quit
   Left to do: 1
   ```
@@ -42,52 +42,52 @@ portfolio_readme: |
   - Checking a number is on the list before using it
 downloadable: true
 datasets: []
-client: mira
+client: neil
 building: post-office
 estimated_minutes: 60
-summary: "Add, list, tick off and quit: Mira's jobs, numbered and kept in order."
+summary: "Add, list, tick off and quit: Neil's jobs, numbered and kept in order."
 concepts_introduced: [lists, indexing, negative-indices, append-pop, looping-lists, list-methods, slicing, sorted-vs-sort, list-aliasing]
 concepts_reviewed: [in-operator, while-loops, sentinels, break-continue, for-loops, range, if-elif-else, boolean-operators, int-conversion, f-strings]
 ask:
   dialogue:
-    - mira: "I keep my jobs on a list. On paper. It has been through the franking machine twice."
-    - mira: "Numbered, please. New ones on the end. Done ones taken off. Never shuffled."
-    - mira: "Penhallow numbered the pigeonholes from nought. My list starts at one. I insist."
-    - moss: "Then you'll be adding one, and taking it away again."
+    - neil: "My to-do list is on sticky notes. Most of them are on the floor."
+    - neil: "Numbered, please. New ones on the end. Done ones taken off. Never shuffled."
+    - neil: "And it starts at one. I know Python counts from nought. People don't."
+    - paul: "Then you'll be adding one, and taking it away again."
   spec: |
     A menu. Ask `Command? ` over and over:
 
     - `add`: ask `Task? ` and put the task on the end of the list.
-    - `list`: print every task with its number, starting from 1, like `1. Sort the second post`. With no tasks, print `Nothing to do.`
+    - `list`: print every task with its number, starting from 1, like `1. Mark the quizzes`. With no tasks, print `Nothing to do.`
     - `done`: ask `Number? `, take that task off the list, and print `Done: ` and the task. A number that isn't on the list gets `No task 7.` and nothing is taken off.
     - `quit`: print `Left to do: 2` (however many are left) and stop.
     - Anything else gets `Commands: add, list, done, quit.`
   example: |
     Command? add
-    Task? Sort the second post
+    Task? Mark the quizzes
     Command? add
-    Task? Mend the franking machine
+    Task? Fix the projector
     Command? add
-    Task? Order more stamps
+    Task? Order more chalk
     Command? done
     Number? 2
-    Done: Mend the franking machine
+    Done: Fix the projector
     Command? list
-    1. Sort the second post
-    2. Order more stamps
+    1. Mark the quizzes
+    2. Order more chalk
     Command? quit
     Left to do: 2
 ship:
   dialogue:
-    - mira: "Number two done, and the stamps moved up to two. Nothing shuffled. Nothing lost."
-    - mira: "I shall still write it on paper. But I shall copy it from this."
-  shelf: { object: list, label: "Mira's to-do list, in order" }
+    - neil: "Number two done, and the chalk moved up to two. Nothing shuffled. Nothing lost."
+    - neil: "I'll still use sticky notes. But I'll copy them from this."
+  shelf: { object: list, label: "Neil's to-do list, in order" }
   cards: [lists, indexing, negative-indices, append-pop, looping-lists, list-methods, slicing, sorted-vs-sort, list-aliasing]
 stretch:
   - id: undo
     title: "Put it back"
     prompt: |
-      Once a week Mira ticks off the wrong one. Add an `undo` command that puts the last task taken off back where it was, and prints `Back: ` and the task. With nothing to undo, print `Nothing to undo.`
+      Once a week Neil ticks off the wrong one. Add an `undo` command that puts the last task taken off back where it was, and prints `Back: ` and the task. With nothing to undo, print `Nothing to undo.`
 
       When `done` takes a task off, keep the task and its index. `tasks.insert(index, task)` puts it back at that index and moves the rest along.
     tests: tests/stretch-undo.py
@@ -95,8 +95,8 @@ stretch:
   - id: abc
     title: "A to Z"
     prompt: |
-      Add `abc`, which prints the tasks in alphabetical order, one per line, without numbers. It must leave the real list alone: after `abc`, `done` with `1` still means the first task in Mira's order.
+      Add `abc`, which prints the tasks in alphabetical order, one per line, without numbers. It must leave the real list alone: after `abc`, `done` with `1` still means the first task in Neil's order.
   - id: today
-    title: "Three before the post"
+    title: "Three before class"
     prompt: |
-      Mira does three jobs before the post goes out. Add `today`, which prints only the first three tasks, numbered like `list`. Use a slice, so a list of two still works.
+      Neil does three jobs before the first class. Add `today`, which prints only the first three tasks, numbered like `list`. Use a slice, so a list of two still works.

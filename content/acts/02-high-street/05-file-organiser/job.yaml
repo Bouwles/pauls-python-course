@@ -2,7 +2,7 @@ id: file-organiser
 title: "File Organiser"
 project_name: "File Organiser"
 status: outline
-client: mira
+client: neil
 building: post-office
 estimated_minutes: 75
-summary: "The post office's shared folder, four hundred files deep, sorted into folders by type with pathlib: a pretend folder on the workbench first, then a real one at home."
+summary: "The Studio's shared folder, four hundred files deep, sorted into folders by type with pathlib: a pretend folder in the browser first, then a real one on your own computer."

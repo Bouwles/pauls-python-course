@@ -1,14 +1,14 @@
 ---
 id: pips
 type: pips
-title: Pip's Version
+title: Fix Riya's version
 dialogue:
-  - pip: "Penhallow's check has a loop inside a loop. Mine has one loop. So mine's O(n)."
-  - pip: "Twenty thousand parts and it still takes ages. Must be the computer."
+  - riya: "Can you look at mine? Paul's check has a loop inside a loop. Mine has one. So it's O(n)."
+  - riya: "Instant on the store room's two hundred. Twenty thousand takes ages. Must be the computer."
 dialogue_after:
-  - pip: "So `in` was a loop the whole time. It just didn't say so."
+  - riya: "So `in` was a loop the whole time. It just didn't say so."
 hints:
-  nudge: "Pip's loop runs once per part. What does `part in seen` do when `seen` is a list?"
+  nudge: "Riya's loop runs once per part. What does `part in seen` do when `seen` is a list?"
   plan:
     - Find the line that walks along a list for every part
     - Swap the lists for something whose `in` doesn't walk
@@ -23,7 +23,7 @@ hints:
             seen.___(part)
     return sorted(found)
 ---
-Pip's spares check gives the right answers. Run it: it times itself on twenty thousand parts.
+Riya's spares check gives the right answers. Run it: it times itself on twenty thousand parts.
 
 Count the loops properly. A `for` you can see is one loop, but `x in some_list` is another, and so are `.count()`, `.index()` and `.remove()` on a list. A hidden loop inside a visible one is O(n²), with only one `for` in sight.
 

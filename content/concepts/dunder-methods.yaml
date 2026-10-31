@@ -45,28 +45,28 @@ cards:
         misconception: eq-compares-attributes-by-default
         feedback: "Without an `__eq__`, `==` only says True for the very same object. These are two bikes that happen to share a number."
   - type: fix
-    prompt: "`print(card)` should show `Postcard to Truro`. Fix the method's name."
+    prompt: "`print(card)` should show `Postcard to Leeds`. Fix the method's name."
     code: |
       class Postcard:
-          def __init__(self, town):
-              self.town = town
+          def __init__(self, city):
+              self.city = city
 
           def to_string(self):
-              return f"Postcard to {self.town}"
+              return f"Postcard to {self.city}"
 
-      card = Postcard("Truro")
+      card = Postcard("Leeds")
       print(card)
     tests: |
-      TESTS = [output("The postcard", expect="Postcard to Truro")]
+      TESTS = [output("The postcard", expect="Postcard to Leeds")]
     solution: |
       class Postcard:
-          def __init__(self, town):
-              self.town = town
+          def __init__(self, city):
+              self.city = city
 
           def __str__(self):
-              return f"Postcard to {self.town}"
+              return f"Postcard to {self.city}"
 
-      card = Postcard("Truro")
+      card = Postcard("Leeds")
       print(card)
   - type: fill
     prompt: "Fill the gap so `==` compares bike numbers."

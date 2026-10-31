@@ -3,7 +3,7 @@ title: Hashing
 summary: |
   A hash function turns a key into a number, and the same key always gives the same number. A hash map takes the remainder of that number by how many piles it has, and that picks the key's pile. Different keys can land in the same pile, which is a collision, and that's allowed. Because a key's pile depends on its hash, a key must never change after it's filed: Python only takes hashable keys, like strings, numbers and tuples of them, never lists.
 example: |
-  def scrap_hash(name):
+  def part_hash(name):
       number = 0
       for character in name:
           number = (number * 31 + ord(character)) % 1_000_003
@@ -11,7 +11,7 @@ example: |
 
 
   for name in ["brass-valve", "kettle", "anvil"]:
-      print(name, scrap_hash(name) % 8)
+      print(name, part_hash(name) % 8)
 misconceptions: [different-names-different-piles, lists-can-be-keys, tuples-cannot-be-keys, hash-changes-each-call]
 related: [hash-maps, dictionaries, immutability, sets]
 cards:
@@ -51,7 +51,7 @@ cards:
         misconception: lists-can-be-keys
         feedback: "Line 3 never finishes. A list as a key raises TypeError, because a list could change after it was filed."
   - type: choice
-    prompt: "Moss's hash puts `brass-valve` and `bolt-1` both in pile 4. What does that tell you?"
+    prompt: "Yahya's hash puts `brass-valve` and `bolt-1` both in pile 4. What does that tell you?"
     verify: none
     options:
       - text: "Nothing's wrong: two names sharing a pile is a collision, and the pile holds both"
@@ -61,7 +61,7 @@ cards:
         misconception: different-names-different-piles
         feedback: "There are far more possible names than piles, so some must share. The pile keeps both, and a lookup compares names along it."
   - type: choice
-    prompt: "Nell files `kettle` in pile 3 on Monday morning. On Monday afternoon the program, still running, works out `scrap_hash(\"kettle\") % 8` again. What does it get?"
+    prompt: "Aaesha files `kettle` in pile 3 on Monday morning. On Monday afternoon the program, still running, works out `part_hash(\"kettle\") % 8` again. What does it get?"
     verify: none
     options:
       - text: "3, the same as before"
@@ -86,7 +86,7 @@ cards:
     tests: |
       TESTS = [output("Pile 3", expect="3")]
   - type: write
-    prompt: "Write `pile_for(name, piles)`: Penhallow's hash of the name, with the remainder by `piles`. Multiply the running number by 31 and add `ord(character)` for each character, keeping the remainder by 1,000,003 each time."
+    prompt: "Write `pile_for(name, piles)`: a hash of the name, with the remainder by `piles`. Multiply the running number by 31 and add `ord(character)` for each character, keeping the remainder by 1,000,003 each time."
     starter: |
       def pile_for(name, piles):
           pass

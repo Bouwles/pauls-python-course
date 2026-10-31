@@ -1,86 +1,86 @@
 id: nested-data
 title: Dictionaries inside dictionaries
 summary: |
-  A dictionary's values can be lists or dictionaries themselves. `book["Bea"]["address"]` reads from the outside in: Bea's record first, then the address inside it. `record = book["Bea"]` isn't a copy. It's a second label on the same inner dictionary, so changing `record` changes the book.
+  A dictionary's values can be lists or dictionaries themselves. `book["Riya"]["address"]` reads from the outside in: Riya's record first, then the address inside it. `record = book["Riya"]` isn't a copy. It's a second label on the same inner dictionary, so changing `record` changes the book.
 example: |
-  book = {"Bea": {"address": "Quay Row", "parcels": 0}}
-  print(book["Bea"]["address"])
-  record = book["Bea"]
-  record["parcels"] = record["parcels"] + 1
-  print(book["Bea"]["parcels"])
+  book = {"Riya": {"address": "Park Road", "calls": 0}}
+  print(book["Riya"]["address"])
+  record = book["Riya"]
+  record["calls"] = record["calls"] + 1
+  print(book["Riya"]["calls"])
 misconceptions: [nested-copy-on-read, nested-key-at-top]
 related: [dictionaries, list-aliasing, dict-items]
 cards:
   - type: predict
     prompt: What does this print?
     code: |
-      book = {"Bea": {"address": "Quay Row", "parcels": 2}}
-      print(book["Bea"]["parcels"])
+      book = {"Riya": {"address": "Park Road", "calls": 2}}
+      print(book["Riya"]["calls"])
     answer: "2"
   - type: predict
     prompt: What does this print?
     code: |
-      crews = {"Kittiwake": ["Ferro", "Tom"]}
-      crews["Kittiwake"].append("Pip")
-      print(crews["Kittiwake"][-1])
-    answer: "Pip"
+      teams = {"Debuggers": ["Riya", "Yahya"]}
+      teams["Debuggers"].append("Caitlin")
+      print(teams["Debuggers"][-1])
+    answer: "Caitlin"
   - type: choice
     prompt: What does this print?
     code: |
-      book = {"Bea": {"parcels": 2}}
-      record = book["Bea"]
-      record["parcels"] = 5
-      print(book["Bea"]["parcels"])
+      book = {"Riya": {"calls": 2}}
+      record = book["Riya"]
+      record["calls"] = 5
+      print(book["Riya"]["calls"])
     options:
       - text: "2"
         misconception: nested-copy-on-read
-        feedback: "`record` is a second label on Bea's inner dictionary, not a copy. Changing it changes the book."
+        feedback: "`record` is a second label on Riya's inner dictionary, not a copy. Changing it changes the book."
       - text: "5"
         correct: true
   - type: choice
     prompt: What happens?
     code: |
-      book = {"Bea": {"address": "Quay Row"}}
+      book = {"Riya": {"address": "Park Road"}}
       print(book["address"])
     verify: error
     options:
-      - text: It prints Quay Row
+      - text: It prints Park Road
         misconception: nested-key-at-top
-        feedback: "`address` is a key inside Bea's record. The outer dictionary only has the key `Bea`."
+        feedback: "`address` is a key inside Riya's record. The outer dictionary only has the key `Riya`."
       - text: A KeyError
         correct: true
         error: KeyError
   - type: fix
-    prompt: "Tom's parcel count should go up by one. Fix line 2."
+    prompt: "Yahya's call count should go up by one. Fix line 2."
     code: |
-      book = {"Tom": {"address": "The Lighthouse", "parcels": 0}}
-      book["Tom"] = book["Tom"]["parcels"] + 1
-      print(book["Tom"]["parcels"])
+      book = {"Yahya": {"address": "Hill Street", "calls": 0}}
+      book["Yahya"] = book["Yahya"]["calls"] + 1
+      print(book["Yahya"]["calls"])
     tests: |
-      TESTS = [output("One parcel", expect="1")]
+      TESTS = [output("One call", expect="1")]
     solution: |
-      book = {"Tom": {"address": "The Lighthouse", "parcels": 0}}
-      book["Tom"]["parcels"] = book["Tom"]["parcels"] + 1
-      print(book["Tom"]["parcels"])
+      book = {"Yahya": {"address": "Hill Street", "calls": 0}}
+      book["Yahya"]["calls"] = book["Yahya"]["calls"] + 1
+      print(book["Yahya"]["calls"])
   - type: fill
-    prompt: "Fill the gap so it prints `The Drowned Anchor`."
+    prompt: "Fill the gap so it prints `Mill Lane`."
     code: |
-      book = {"Gwen": {"address": "The Drowned Anchor", "parcels": 1}}
-      print(book["Gwen"][___])
+      book = {"Caitlin": {"address": "Mill Lane", "calls": 1}}
+      print(book["Caitlin"][___])
     blanks: [["\"address\"", "'address'"]]
     tests: |
-      TESTS = [output("Gwen's address", expect="The Drowned Anchor")]
+      TESTS = [output("Caitlin's address", expect="Mill Lane")]
   - type: write
-    prompt: "Add `\"Nell\"` to `book` in the same shape as Bea: address `The Scrapyard`, 3 parcels. Then print Nell's parcels."
+    prompt: "Add `\"Neil\"` to `book` in the same shape as Riya: address `Station Road`, 3 calls. Then print Neil's calls."
     starter: |
-      book = {"Bea": {"address": "Quay Row", "parcels": 2}}
+      book = {"Riya": {"address": "Park Road", "calls": 2}}
     tests: |
       TESTS = [
-          variable("book", variable="book", expect={"Bea": {"address": "Quay Row", "parcels": 2},
-                                                    "Nell": {"address": "The Scrapyard", "parcels": 3}}),
-          output("Nell's parcels", expect="3"),
+          variable("book", variable="book", expect={"Riya": {"address": "Park Road", "calls": 2},
+                                                    "Neil": {"address": "Station Road", "calls": 3}}),
+          output("Neil's calls", expect="3"),
       ]
     solution: |
-      book = {"Bea": {"address": "Quay Row", "parcels": 2}}
-      book["Nell"] = {"address": "The Scrapyard", "parcels": 3}
-      print(book["Nell"]["parcels"])
+      book = {"Riya": {"address": "Park Road", "calls": 2}}
+      book["Neil"] = {"address": "Station Road", "calls": 3}
+      print(book["Neil"]["calls"])

@@ -1,4 +1,4 @@
-# Pip's penguin identifier. Five nearest penguins now, not one. I've grown.
+# Yahya's penguin identifier. Five nearest penguins, every distance in one line.
 from collections import Counter
 
 import numpy as np

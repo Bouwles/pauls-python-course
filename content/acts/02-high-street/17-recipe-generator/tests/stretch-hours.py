@@ -1,5 +1,5 @@
-ENTRIES = [("06:12", "ERROR", "fog-horn", "no air pressure"), ("06:37", "ERROR", "fog-horn", "no air pressure"),
-           ("07:57", "ERROR", "fog-horn", "no air pressure"), ("06:59", "ERROR", "lamp", "bulb failed")]
+ENTRIES = [("06:12", "ERROR", "printer", "out of paper"), ("06:37", "ERROR", "printer", "out of paper"),
+           ("07:57", "ERROR", "printer", "out of paper"), ("06:59", "ERROR", "lights", "bulb failed")]
 
 
 def as_list(ctx):

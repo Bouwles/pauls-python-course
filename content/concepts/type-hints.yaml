@@ -39,16 +39,16 @@ cards:
 
       @dataclass
       class Crate:
-          fish: str
+          fruit: str
           count: int
 
-      print(Crate("crab"))
+      print(Crate("apples"))
     verify: error
     options:
       - text: A TypeError
         correct: true
         error: TypeError
-      - text: "It prints Crate(fish='crab', count=0)"
+      - text: "It prints Crate(fruit='apples', count=0)"
         misconception: hint-gives-default
         feedback: "`count: int` says what kind of value `count` holds. It doesn't give it one: without `= 0`, `count` must be passed."
   - type: fix

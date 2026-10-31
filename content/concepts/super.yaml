@@ -67,10 +67,10 @@ cards:
           def __init__(self, route, back_by):
               self.back_by = back_by
 
-      ticket = ReturnTicket("Truro", "Friday")
+      ticket = ReturnTicket("Leeds", "Friday")
       print(ticket.route, ticket.back_by)
     tests: |
-      TESTS = [output("Truro, back by Friday", expect="Truro Friday")]
+      TESTS = [output("Leeds, back by Friday", expect="Leeds Friday")]
     solution: |
       class Ticket:
           def __init__(self, route):
@@ -81,7 +81,7 @@ cards:
               super().__init__(route)
               self.back_by = back_by
 
-      ticket = ReturnTicket("Truro", "Friday")
+      ticket = ReturnTicket("Leeds", "Friday")
       print(ticket.route, ticket.back_by)
   - type: fill
     prompt: "Fill the gap so the electric bike reuses the usual cost and adds its fee."

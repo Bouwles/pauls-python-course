@@ -4,7 +4,7 @@ type: make
 title: Tests from a spec
 files: [test_postage.py, postage.py]
 entry: test_postage.py
-on_pass: { moss: "Every broken postage caught, and the real one passed. Those are tests you can lean on." }
+on_pass: { paul: "Every broken postage caught, and the real one passed. Those are tests you can lean on." }
 hints:
   nudge: "Where in the docstring does one price stop and the next begin, and what should be refused?"
   plan:
@@ -30,8 +30,8 @@ hints:
 ---
 Your project's test plan will start as sentences. This step is practice at turning sentences into tests.
 
-`postage.py` is Mira's postage, with its rules in the docstring. Write tests for it in `test_postage.py`, from the docstring alone, as if you couldn't see the code. Press Run and pytest runs them.
+`postage.py` is a shop's postage, from a website Riya built, with its rules in the docstring. Write tests for it in `test_postage.py`, from the docstring alone, as if you couldn't see the code. Press Run and pytest runs them.
 
-The checks first make sure your tests pass on Mira's real postage. Then they break it, eight small ways, the kind of mistakes people really make, and run your tests against each broken version. A broken version that passes all your tests has found a gap in them.
+The checks first make sure your tests pass on the real postage. Then they break it, eight small ways, the kind of mistakes people really make, and run your tests against each broken version. A broken version that passes all your tests has found a gap in them.
 
 Write plain test functions with no arguments. Where the docstring says something is refused, `pytest.raises(ValueError)` checks that it is.

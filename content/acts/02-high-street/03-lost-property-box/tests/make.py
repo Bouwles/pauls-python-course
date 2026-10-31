@@ -6,7 +6,7 @@ DEFAULT = (
 )
 
 TESTS = [
-    output("Mrs Vance's box", expect=DEFAULT, visible=True),
+    output("Neil's box", expect=DEFAULT, visible=True),
     function("A smaller box", call="report", args=(["hat", "hat", "glove"], ["glove", "kite"]),
              prints="Handed in: 2 different items\nMatched: glove\nNobody has asked about: hat\nStill missing: kite",
              visible=True),

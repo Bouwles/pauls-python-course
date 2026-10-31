@@ -1,4 +1,4 @@
-# Pip's Q-learning, on the old racing grid. No numpy for the table: it's only twelve tiles.
+# Yahya's Q-learning, on the old racing grid. No numpy for the table: it's only twelve tiles.
 
 import numpy as np
 

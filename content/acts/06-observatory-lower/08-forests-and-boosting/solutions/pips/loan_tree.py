@@ -1,4 +1,4 @@
-# Pip's loan tree. Max depth three, so it can't overfit. I've learnt.
+# Riya's loan tree. Max depth three, so it can't overfit.
 import numpy as np
 
 from tools import load_table, train_test_split

@@ -13,7 +13,7 @@ code: |
 
 
   prefs = np.zeros(2)          # a practice tile with two moves: left, right
-  ret = -3.0                   # he went right, and the race from here was worth -3
+  ret = -3.0                   # it went right, and the race from here was worth -3
   baseline = -5.0              # races from here are usually worth -5
 
   for name, score in [("no baseline", ret), ("baseline", ret - baseline)]:
@@ -30,7 +30,7 @@ options:
       no baseline 0.82
       baseline 0.73
     misconception: reinforce-always-reinforces
-    feedback: "The step is the return times the gradient, and the return is -3. A negative score pushes against the move he made: right drops to 0.18."
+    feedback: "The step is the return times the gradient, and the return is -3. A negative score pushes against the move the crab made: right drops to 0.18."
   - text: |-
       no baseline 0.18
       baseline 0.18
@@ -39,4 +39,4 @@ options:
 after: |
   Without a baseline, a good race can still make its own moves less likely, only less so than a bad race does. It comes right on average, but every estimate is pulled about by how much races cost overall. A baseline asks the useful question: better or worse than usual from here?
 ---
-Every move on the grid costs -1, so nearly every return is negative, good races included. Here Sir Reginald went right from a practice tile, and the race from there was worth -3: better than races from there usually are.
+Every move on the grid costs -1, so nearly every return is negative, good races included. Here the crab went right from a practice tile, and the race from there was worth -3: better than races from there usually are.

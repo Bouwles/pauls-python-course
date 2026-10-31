@@ -174,7 +174,7 @@ TESTS = [
            hint="Some months were typed twice, once with the unit written differently. Drop the duplicates after the cleaning, when the copies look alike."),
     custom("In order, labelled from 0", in_order),
     custom("A small ledger of its own", small_ledger,
-           hint="Use the path you're given, and nothing about Priya's ledger. 2001-1 is January, and F can be written f."),
+           hint="Use the path you're given, and nothing about the Archive's ledger. 2001-1 is January, and F can be written f."),
     custom("Nothing missing from the station book", no_gaps),
     custom("Two months missing", gaps,
            hint="Count from the first month to the last, one month at a time, going from December to January of the next year."),

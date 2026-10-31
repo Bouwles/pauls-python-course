@@ -45,7 +45,7 @@ Keys must match exactly, capital letters included, and the error message names t
 
 ## Common mistakes
 
-- **Expecting a second value to be ignored or kept alongside the first.** Each key appears once. Giving an existing key a value replaces the old one, without any warning. To keep several values under one key, make the value a list: `orders["Bea"] = ["bread", "bun"]`, then `orders["Bea"].append("scone")`.
+- **Expecting a second value to be ignored or kept alongside the first.** Each key appears once. Giving an existing key a value replaces the old one, without any warning. To keep several values under one key, make the value a list: `orders["Ivo"] = ["bread", "bun"]`, then `orders["Ivo"].append("scone")`.
 - **Looking up by position.** `prices[0]` doesn't give the first entry. It looks for the key `0`, and with no such key it raises `KeyError: 0`. Look up by key, or loop over the dictionary to visit the entries in order.
 - **Expecting `in` to search the values.** `2.4 in prices` checks only the keys, so it is `False` even when bread costs 2.4. To search the values, write `2.4 in prices.values()`.
 

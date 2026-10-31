@@ -1,4 +1,4 @@
-"""Tests for Sanjay's money rules. Run this file to run them all."""
+"""Tests for the money rules. Run this file to run them all."""
 from datetime import date
 
 from finance.money import Ledger, MoneyError, Transaction

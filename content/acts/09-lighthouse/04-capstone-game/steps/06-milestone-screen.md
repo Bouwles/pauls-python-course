@@ -4,20 +4,20 @@ type: milestone
 title: "Milestone 3: the game on screen"
 evidence: link
 dialogue:
-  - gwen: "It should look like the pier at night. And the score has to be readable from the bar."
+  - caitlin: "It should look like a pier at night. And the score has to be readable from across the room."
 checklist:
   - id: state-only
     text: "main.py draws only from game.state(), and changes nothing while it draws."
     why: "If drawing changes the game, the game plays differently on a slower computer."
   - id: steady
     text: "The loop runs at a steady rate with clock.tick, so the game is the same speed on every computer."
-    why: "Without it, a fast computer plays a faster game, and Gwen's new cabinet is fast."
+    why: "Without it, a fast computer plays a faster game, and Caitlin's new cabinet is fast."
   - id: controls
     text: "The bucket answers the arrow keys straight away, and holding a key keeps it moving."
     why: "A bucket that lags behind the keys feels like wading. Players blame themselves, then the game."
   - id: readable
     text: "Score, lives and level are on screen all the time, big enough to read from a few steps back."
-    why: "The regulars play with a pint in one hand. They won't lean in."
+    why: "Players hold a drink in one hand and a joystick in the other. They won't lean in."
   - id: game-over
     text: "Game over shows the score, takes three initials for the table, and offers another go."
     why: "The moment after losing is when people decide whether to play again."

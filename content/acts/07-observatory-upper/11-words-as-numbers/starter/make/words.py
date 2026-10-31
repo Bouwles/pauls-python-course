@@ -1,10 +1,8 @@
-"""Penhallow's forecast reader: characters as numbers, and a model that counts pairs."""
+"""The forecast reader: characters as numbers, and a model that counts pairs."""
 
 import numpy as np
 
 
-# Every forecast since 1979, and every comment I ever wrote, in it goes.
-# It knows how I talk now. It still doesn't know what I mean. A.P.
 def build_vocab(text):
     """Every character in the text once, in sorted order."""
 

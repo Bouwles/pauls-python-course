@@ -24,27 +24,27 @@ cards:
   - type: fix
     prompt: Fix it.
     code: |
-      print("Fog"
+      print("Hello"
     tests: |
-      TESTS = [output("Fog", expect="Fog")]
+      TESTS = [output("Hello", expect="Hello")]
     solution: |
-      print("Fog")
+      print("Hello")
   - type: fix
     prompt: Fix it.
     code: |
-      print('Gulls")
+      print('Bye")
     tests: |
-      TESTS = [output("Gulls", expect="Gulls")]
+      TESTS = [output("Bye", expect="Bye")]
     solution: |
-      print("Gulls")
+      print("Bye")
   - type: fix
-    prompt: "Fix it so it prints `Tide 6 metres`."
+    prompt: "Fix it so it prints `Ran 6 km`."
     code: |
-      print("Tide", 6 "metres")
+      print("Ran", 6 "km")
     tests: |
-      TESTS = [output("Tide 6 metres", expect="Tide 6 metres")]
+      TESTS = [output("Ran 6 km", expect="Ran 6 km")]
     solution: |
-      print("Tide", 6, "metres")
+      print("Ran", 6, "km")
   - type: choice
     prompt: A SyntaxError points at line 5. Where might the mistake be?
     verify: none

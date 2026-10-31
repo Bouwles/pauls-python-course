@@ -7,8 +7,8 @@ entry: summary.py
 starter_from: make-clean
 timeout_ms: 30000
 dialogue:
-  - priya: "Every number in the report comes from here. Including the ones that say nothing happened."
-on_pass: { priya: "Warmer, p under a thousandth. Wetter, p of a fifth. One finding and one shrug, and both are true." }
+  - aaesha: "Every number in the report comes from here. Including the ones that say nothing happened."
+on_pass: { aaesha: "Warmer, p under a thousandth. Wetter, p of a fifth. One finding and one shrug, and both are true." }
 hints:
   nudge: "What does a year's total mean if one month is missing? And for `compare`, what do you count on each shuffle?"
   plan:

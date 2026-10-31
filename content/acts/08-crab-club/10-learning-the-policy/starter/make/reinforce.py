@@ -25,9 +25,6 @@ def returns_to_go(rewards, gamma=0.9):
     """For every step, the discounted return from that step to the end of the race."""
 
 
-# I gave the machine on the hill the simplest rule there is: do more of
-# whatever went well. It got very good at what went well. I never found a
-# way to tell it why it had. A.P.
 def reinforce_gradient(theta, races, gamma=0.9, baseline=None):
     """REINFORCE's estimate of which way is uphill for theta, averaged over races."""
     # Credit each move with the rewards after it
@@ -63,5 +60,5 @@ if __name__ == "__main__":
     rng = np.random.default_rng(8)
     # 500 races at random for a baseline, then 200 fresh ones: print the spread
     # of their estimates without and with it. Then train for 500 races, watching,
-    # and show his most likely moves and his average return over 1000 races.
+    # and show its most likely moves and its average return over 1000 races.
     pass

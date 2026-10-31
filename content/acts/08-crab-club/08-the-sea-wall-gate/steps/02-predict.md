@@ -4,10 +4,10 @@ type: predict
 title: Stopped or finished
 concept: gymnasium
 dialogue:
-  - committee: "Gwen's kettle at the Drowned Anchor. The committee's tea depends on it."
+  - neil: "My kettle, in Gymnasium's shape. The whole Studio's tea depends on it."
 code: |
   class Kettle:
-      """Gwen's kettle, in Gymnasium's shape. It's done at 100 degrees. Gwen waits three steps."""
+      """Neil's kettle, in Gymnasium's shape. It's done at 100 degrees. Neil waits three steps."""
 
       def reset(self, seed=None, options=None):
           self.temperature = 30
@@ -36,7 +36,7 @@ options:
       70 False False
       90 False True
     correct: true
-    feedback: "Right. After three steps the kettle is at 90: not boiled, so not terminated, but Gwen has stopped waiting, so truncated. The loop ends on either."
+    feedback: "Right. After three steps the kettle is at 90: not boiled, so not terminated, but Neil has stopped waiting, so truncated. The loop ends on either."
   - text: |-
       50 False False
       70 False False

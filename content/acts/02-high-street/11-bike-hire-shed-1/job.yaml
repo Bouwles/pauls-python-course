@@ -6,7 +6,7 @@ portfolio_readme: |
 
   Savings accounts as a Python class. Each account knows its holder, its number, its balance and every payment in and out. It refuses a withdrawal bigger than the balance, and raises an error for a payment of nothing or less than nothing, so a mistake can't quietly become money. Amounts are kept in whole pence, so nothing is ever lost to rounding.
 
-  Written by {name} for the post office in {{town}}. Finished {date}.
+  Written by {name} for Riya's class trip fund, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -15,7 +15,7 @@ portfolio_readme: |
   ```
 
   ```
-  Account 1042, Bea Hollis: £12.50
+  Account 1042, Aaesha: £12.50
   False
   [2000, -750]
   ```
@@ -25,11 +25,11 @@ portfolio_readme: |
   ```python
   from bank import Account
 
-  savings = Account("Bea Hollis", 1042)
+  savings = Account("Aaesha", 1042)
   savings.deposit(2000)        # £20.00, in pence
   savings.withdraw(750)        # True
   savings.withdraw(5000)       # False: there isn't enough
-  print(savings)               # Account 1042, Bea Hollis: £12.50
+  print(savings)               # Account 1042, Aaesha: £12.50
   savings.deposit(-500)        # ValueError
   ```
 
@@ -41,35 +41,35 @@ portfolio_readme: |
   - Money kept in whole pence, never in floats
 downloadable: true
 datasets: []
-client: mira
+client: riya
 building: post-office
 estimated_minutes: 75
-summary: "Savings accounts for the post office, each one a Python object that keeps its own balance and says no for itself."
+summary: "Savings accounts for the class trip fund, each one a Python object that keeps its own balance and says no for itself."
 concepts_introduced: [classes, init, attributes, methods, self, dunder-methods]
 concepts_reviewed: [functions, parameters, return-values, none, f-strings, raising-errors, exceptions, references, is-vs-equals, docstrings, main-guard, lists, append-pop]
 ask:
   dialogue:
-    - mira: "The post office keeps savings accounts. Two hundred of them, in ledgers older than I am."
-    - mira: "Last month Pip paid in minus five pounds. The ledger let him. Then he took it out again."
-    - mira: "An account should know its own balance. And nobody takes out more than they put in."
-    - moss: "Then each account should know that about itself, and say no for itself."
+    - riya: "I'm running the savings for the end-of-term trip. Everyone pays a bit in each week."
+    - riya: "Last week somebody typed minus five pounds into my spreadsheet. It let them. Then they took it out again."
+    - riya: "An account should know its own balance. And nobody takes out more than they put in."
+    - paul: "Then each account should know that about itself, and say no for itself."
   spec: |
     Write a class `Account` in `bank.py`. Money is kept in whole pence, so 2000 is £20.
 
     - `Account(holder, number)` opens an account: the holder's name, the account number, a `balance` of 0, and `history`, an empty list.
     - `deposit(pence)` pays money in: it adds to the balance and appends the amount to `history`. An amount that isn't more than 0 raises a `ValueError` and changes nothing.
-    - `withdraw(pence)` takes money out, appends it to `history` as a negative number, and returns `True`. More than the balance changes nothing and returns `False`: the post office doesn't lend. An amount that isn't more than 0 raises a `ValueError`.
-    - `str(account)` gives one line, the balance in pounds: `Account 1042, Bea Hollis: £12.50`.
+    - `withdraw(pence)` takes money out, appends it to `history` as a negative number, and returns `True`. More than the balance changes nothing and returns `False`: the trip fund doesn't lend. An amount that isn't more than 0 raises a `ValueError`.
+    - `str(account)` gives one line, the balance in pounds: `Account 1042, Aaesha: £12.50`.
   example: |
-    Account 1042, Bea Hollis: £12.50
+    Account 1042, Aaesha: £12.50
     False
     [2000, -750]
 ship:
   dialogue:
-    - mira: "Bea, twelve pounds fifty. Pip, minus nothing, which is an improvement."
-    - mira: "Every penny in the history, in the order it moved. Pigeonhole three for the ledgers. They're retired."
-    - moss: "Each account looks after itself. Next time, we find out if it really does. With tests."
-  shelf: { object: abacus, label: "The post office savings accounts" }
+    - riya: "Aaesha, twelve pounds fifty. Nobody below zero, which is an improvement."
+    - riya: "Every penny in the history, in the order it moved. My spreadsheet can retire."
+    - paul: "Each account looks after itself. Next time, we find out if it really does. With tests."
+  shelf: { object: abacus, label: "Riya's trip fund accounts" }
   cards: [classes, init, attributes, methods, self, dunder-methods]
 stretch:
   - id: statement
@@ -81,4 +81,4 @@ stretch:
   - id: a-year-on
     title: "A bit of interest"
     prompt: |
-      The post office pays 2% a year. Add `add_interest(percent)`, which pays in the interest on the balance, rounded to the nearest penny with `round()`, and records it in the history like any deposit. What should it do for an account with nothing in it?
+      Riya wants the fund to pay 2% a year, from the bake sale. Add `add_interest(percent)`, which pays in the interest on the balance, rounded to the nearest penny with `round()`, and records it in the history like any deposit. What should it do for an account with nothing in it?

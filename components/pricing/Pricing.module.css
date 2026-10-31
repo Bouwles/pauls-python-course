@@ -1,34 +1,39 @@
+/* The pricing page, checkout, the sandbox and the thank-you page. */
 .page {
   display: grid;
-  gap: var(--s-10);
+  gap: var(--s-16);
 }
 
 .head {
   display: grid;
   gap: var(--s-3);
+  max-width: 720px;
 }
 
 .title {
-  font-size: var(--pixel-3);
+  font-size: var(--fs-7);
 }
 
 .lede {
-  font-size: var(--step-1);
-  line-height: 1.55;
+  font-size: var(--fs-4);
   color: var(--text-2);
-  max-width: 60ch;
 }
 
 .parent {
   display: grid;
   gap: var(--s-3);
   max-width: 720px;
-  font-size: var(--step-0);
-  line-height: 1.6;
+  padding: var(--s-6);
+  background: var(--surface-2);
+  border-radius: var(--r-lg);
+}
+
+:root[data-theme="light"] .parent {
+  border: 1px solid var(--line);
 }
 
 .parentTitle {
-  font-size: var(--pixel-2);
+  font-size: var(--fs-5);
 }
 
 .ask {
@@ -36,55 +41,66 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--s-3);
-  font-size: var(--step-0);
   color: var(--text-2);
 }
 
 .copied {
-  color: var(--go-text);
+  color: var(--pass-text);
 }
 
-.faq {
+.section {
   display: grid;
-  gap: var(--s-4);
+  gap: var(--s-8);
 }
 
-.faqTitle {
-  font-size: var(--pixel-2);
-}
-
-.faq dl {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--s-6) var(--s-10);
-  margin: 0;
-}
-
-.faqItem dt {
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 1;
-  -webkit-font-smoothing: none;
-  margin-bottom: var(--s-2);
-}
-
-.faqItem dd {
-  margin: 0;
-  color: var(--text-2);
-  line-height: 1.55;
-  max-width: 60ch;
+.sectionTitle {
+  font-size: var(--fs-6);
 }
 
 .contact {
-  font-size: var(--step--1);
   color: var(--text-2);
 }
 
-/* Checkout: the age question, on a panel. */
+/* Checkout, the sandbox and thanks: one card, centred. */
 .checkout {
   display: grid;
-  gap: var(--s-4);
-  max-width: 640px;
+  gap: var(--s-5);
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: var(--s-8);
+  background: var(--surface-2);
+  border-radius: var(--r-lg);
+}
+
+:root[data-theme="light"] .checkout,
+:root[data-theme="light"] .choice {
+  border: 1px solid var(--line);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .checkout,
+  :root[data-theme="system"] .parent,
+  :root[data-theme="system"] .choice {
+    border: 1px solid var(--line);
+  }
+}
+
+.checkoutTitle {
+  font-size: var(--fs-6);
+}
+
+.plan {
+  display: grid;
+  gap: var(--s-1);
+}
+
+.planName {
+  font-weight: 700;
+}
+
+.planPrice {
+  color: var(--text-2);
 }
 
 .choices {
@@ -95,23 +111,30 @@
   margin: 0;
 }
 
+.choices legend {
+  margin-bottom: var(--s-2);
+}
+
 .choice {
   display: grid;
   grid-template-columns: 20px minmax(0, 1fr);
   gap: var(--s-3);
   align-items: start;
-  padding: var(--s-3);
-  background: var(--inset);
+  padding: var(--s-3) var(--s-4);
+  background: var(--surface-3);
+  border-radius: var(--r-md);
   cursor: pointer;
 }
 
 .choice:has(input:checked) {
-  box-shadow: inset 0 0 0 2px var(--lamp);
+  box-shadow: inset 0 0 0 2px var(--sun);
 }
 
 .choice input {
-  margin-top: 3px;
-  accent-color: var(--lamp);
+  width: 18px;
+  height: 18px;
+  margin: 3px 0 0;
+  accent-color: var(--sun);
 }
 
 .row {
@@ -122,27 +145,32 @@
 }
 
 .error {
-  color: var(--danger-text);
+  padding: var(--s-3);
+  background: var(--fail-wash);
+  border-radius: var(--r-md);
+  color: var(--text);
 }
 
 .note {
-  font-size: var(--step--1);
+  font-size: var(--fs-2);
   color: var(--text-2);
 }
 
-/* The sandbox checkout: clearly labelled as pretend. */
+/* The sandbox checkout says plainly that it's pretend. */
 .sandboxTag {
   justify-self: start;
-  padding: 4px 8px 2px;
-  background: var(--plum);
-  color: var(--chalk);
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 1;
 }
 
-@media (max-width: 760px) {
-  .faq dl {
-    grid-template-columns: minmax(0, 1fr);
+@media (max-width: 720px) {
+  .page {
+    gap: var(--s-12);
+  }
+
+  .checkout {
+    padding: var(--s-6) var(--s-5);
+  }
+
+  .row > * {
+    flex: 1 1 auto;
   }
 }

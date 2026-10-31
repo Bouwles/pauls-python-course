@@ -2,7 +2,7 @@ SMALL = """S.#
 ..#
 #.G"""
 
-YARD_OUTPUT = """Gate to crane: 19 steps
+MAZE_OUTPUT = """Start to goal: 19 steps
 S.....#.......#.....
 *####.#.......#.###.
 *#....#..###....#...
@@ -12,7 +12,7 @@ S.....#.......#.....
 ***********.....#.#.
 .####.#######.#.#...
 ......#.#...#.#...#.
-Penhallow's round reaches 111 tiles
+Depth first reaches 111 tiles
 Cut off: (8, 7), (8, 9), (8, 10), (8, 11)"""
 
 
@@ -20,7 +20,7 @@ def grid_of(text):
     return [line for line in text.splitlines() if line.strip()]
 
 
-def the_yard(ctx):
+def the_maze(ctx):
     return grid_of(ctx.files["maze.txt"])
 
 
@@ -39,9 +39,9 @@ def valid_path(grid, path, start, goal, steps, what):
         raise CheckFailed(f"{what} isn't the shortest way.", expected=f"{steps} steps", actual=f"{len(path) - 1} steps")
 
 
-def yard_path(ctx):
-    grid = the_yard(ctx)
-    valid_path(grid, ctx.module().shortest_path(grid, (0, 0), (3, 10)), (0, 0), (3, 10), 19, "The way from the gate to the crane")
+def maze_path(ctx):
+    grid = the_maze(ctx)
+    valid_path(grid, ctx.module().shortest_path(grid, (0, 0), (3, 10)), (0, 0), (3, 10), 19, "The way from the start to the goal")
 
 
 def small_path(ctx):
@@ -77,22 +77,22 @@ def explores(text, start, expected):
     def check(ctx):
         got = ctx.module().explore(grid_of(text), start)
         if [tuple(tile) for tile in (got or [])] != expected:
-            raise CheckFailed("explore should list tiles in the order Penhallow's round first reaches them: up, down, left, right, as deep as it can go first.",
+            raise CheckFailed("explore should list tiles in the order a depth-first walk first reaches them: up, down, left, right, as deep as it can go first.",
                               expected=expected, actual=got)
     return check
 
 
-def yard_round(ctx):
-    got = ctx.module().explore(the_yard(ctx), (0, 0))
+def maze_round(ctx):
+    got = ctx.module().explore(the_maze(ctx), (0, 0))
     if len(got or []) != 111 or len(set(map(tuple, got))) != 111:
-        raise CheckFailed("From the gate, Penhallow's round reaches 111 tiles, each once.", expected=111, actual=len(got or []))
+        raise CheckFailed("From the start, depth first reaches 111 tiles, each once.", expected=111, actual=len(got or []))
 
 
-def yard_cut_off(ctx):
-    got = ctx.module().unreachable(the_yard(ctx), (0, 0))
+def maze_cut_off(ctx):
+    got = ctx.module().unreachable(the_maze(ctx), (0, 0))
     expected = [(8, 7), (8, 9), (8, 10), (8, 11)]
     if [tuple(tile) for tile in (got or [])] != expected:
-        raise CheckFailed("Four tiles at the bottom can't be reached from the gate.", expected=expected, actual=got)
+        raise CheckFailed("Four tiles at the bottom can't be reached from the start.", expected=expected, actual=got)
 
 
 def nothing_cut_off(ctx):
@@ -116,23 +116,23 @@ def drawn_without_path(ctx):
 
 TESTS = [
     function("Neighbours in the small maze", call="neighbours", args=(grid_of(SMALL), (1, 1)), expect=[(0, 1), (2, 1), (1, 0)], visible=True),
-    output("Nell's yard, solved", expect=YARD_OUTPUT, visible=True),
+    output("Yahya's maze, solved", expect=MAZE_OUTPUT, visible=True),
     function("Neighbours in a corner", call="neighbours", args=(grid_of(SMALL), (0, 0)), expect=[(1, 0), (0, 1)],
              hint="Tiles off the edge of the maze aren't neighbours. Check the row and column are inside it before you look."),
     function("Neighbours at the bottom edge", call="neighbours", args=(grid_of(SMALL), (2, 2)), expect=[(2, 1)]),
     function("Neighbours in order", call="neighbours", args=(["...", "...", "..."], (1, 1)), expect=[(0, 1), (2, 1), (1, 0), (1, 2)],
              hint="Up, down, left, right: in that order, every time."),
-    custom("The way to the crane", yard_path),
+    custom("The way to the goal", maze_path),
     custom("A small maze", small_path),
     custom("Two ways round", tied_paths),
     custom("Thirty by thirty, wide open", open_field),
     custom("No way through", no_way, hint="If the queue runs out before the goal comes off it, there's no way: None."),
     custom("Already there", already_there),
-    custom("Penhallow's round on a small maze", explores(SMALL, (0, 0), [(0, 0), (1, 0), (1, 1), (0, 1), (2, 1), (2, 2)]),
+    custom("Depth first on a small maze", explores(SMALL, (0, 0), [(0, 0), (1, 0), (1, 1), (0, 1), (2, 1), (2, 2)]),
            hint="Note a tile, then go down each new neighbour in turn, as far as it goes, before trying the next."),
-    custom("Penhallow's round on an open square", explores("...\n...", (0, 0), [(0, 0), (1, 0), (1, 1), (0, 1), (0, 2), (1, 2)])),
-    custom("Penhallow's round of the yard", yard_round),
-    custom("What's cut off in the yard", yard_cut_off,
+    custom("Depth first on an open square", explores("...\n...", (0, 0), [(0, 0), (1, 0), (1, 1), (0, 1), (0, 2), (1, 2)])),
+    custom("Depth first round the maze", maze_round),
+    custom("What's cut off in the maze", maze_cut_off,
            hint="Every open tile, ., S or G, that explore doesn't reach, in order, row by row."),
     custom("Nothing cut off", nothing_cut_off),
     custom("The path drawn", drawn),

@@ -11,7 +11,7 @@ def test_front_page_is_a_web_page(client):
 
 def test_front_page_lists_every_berth(client):
     page = client.get("/").get_data(as_text=True)
-    for name in ("Pontoon A", "Pontoon B", "Pontoon C", "North Quay", "Harbour Wall"):
+    for name in ("Pontoon A", "Pontoon B", "Pontoon C", "North Pontoon", "River Wall"):
         assert name in page
 
 

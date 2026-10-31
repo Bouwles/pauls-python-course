@@ -4,7 +4,7 @@ type: predict
 title: Round the compass
 concept: feature-engineering
 dialogue:
-  - ferro: "A northerly's a northerly. Three-fifty or ten, she blows the same."
+  - riya: "The skipper's note says a northerly's a northerly. Three-fifty or ten, it blows the same."
 code: |
   import numpy as np
 
@@ -23,7 +23,7 @@ options:
       340
       5.2
     correct: true
-    feedback: "Right. As numbers they're 340 apart, nearly opposite ends of the scale. As arrows, east and north parts, they're 5.2 knots apart: nearly the same wind, as Ferro says."
+    feedback: "Right. As numbers they're 340 apart, nearly opposite ends of the scale. As arrows, east and north parts, they're 5.2 knots apart: nearly the same wind, as the skipper says."
   - text: |-
       20
       5.2
@@ -33,7 +33,7 @@ options:
       340
       340.0
     misconception: features-change-nothing
-    feedback: "The arrow's parts are the wind's push east and push north. Winds from 350 and 10 push almost the same way, so their arrows differ by only 5.2 knots. Same readings, written so the model can see what Ferro sees."
+    feedback: "The arrow's parts are the wind's push east and push north. Winds from 350 and 10 push almost the same way, so their arrows differ by only 5.2 knots. Same readings, written so the model can see what the skipper sees."
 after: |
   Run it. Then try 170 and 190: as numbers they're 20 apart, the same as 350 and 10 should be.
 ---

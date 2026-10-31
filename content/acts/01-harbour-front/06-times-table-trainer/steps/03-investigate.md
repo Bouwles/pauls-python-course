@@ -11,7 +11,7 @@ tasks:
     prompt: "Run it. What number does the first line start with?"
     kind: answer
     accept: ["0", "zero", "nought"]
-    feedback: "0. `range` starts at 0 unless you tell it otherwise. Nought threes are nought, which Ellie won't be asked."
+    feedback: "0. `range` starts at 0 unless you tell it otherwise. Nought threes are nought, which Riya's cousin won't be asked."
   - id: last
     prompt: "And the last line?"
     kind: answer

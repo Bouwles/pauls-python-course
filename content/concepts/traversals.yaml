@@ -202,7 +202,7 @@ cards:
 
 
       TESTS = [
-          custom("Penhallow's top cards", gives(lambda C: C(500, C(250, C(101), C(342)), C(750, None, C(977))),
+          custom("The top cards", gives(lambda C: C(500, C(250, C(101), C(342)), C(750, None, C(977))),
                                                 [101, 342, 250, 977, 750, 500])),
           custom("One card", gives(lambda C: C(7), [7])),
           custom("No tree", gives(lambda C: None, [])),

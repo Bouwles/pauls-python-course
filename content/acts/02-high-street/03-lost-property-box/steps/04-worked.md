@@ -1,12 +1,12 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "Mira's parcels for the week. Who she expected, and who actually got one."
+  - paul: "Parcels for the Clocktower this week. Who we expected one for, and who actually got one."
 code: |
-  expected = ["Ashby", "Rook", "Hollis", "Ferro", "Rook"]
-  delivered = ["Rook", "Ferro", "Brannigan"]
+  expected = ["Aaesha", "Yahya", "Riya", "Caitlin", "Yahya"]
+  delivered = ["Yahya", "Caitlin", "Paul"]
 
   expected = set(expected)
   delivered = set(delivered)
@@ -32,6 +32,6 @@ explain:
   answer: "Subtraction keeps what's in the left set and not in the right. Expected but not delivered is what's still to come; the other way round gives the surprises."
   concept: set-operations
 ---
-Rook was written down twice. The set keeps one.
+Yahya was written down twice. The set keeps one.
 
 `-` on sets means *in this one, not in that one*. Order matters, as it does with numbers: line 8 and line 9 give different answers.

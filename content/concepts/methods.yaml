@@ -1,7 +1,7 @@
 id: methods
 title: Methods
 summary: |
-  A method is a function defined inside a class. Call it on an object, `red.hire("Bea")`, and Python passes that object in as the first parameter, `self`. Methods that change the object set attributes on `self`; methods that answer a question return a value. `Bike.hire(red, "Bea")` is the same call written the long way.
+  A method is a function defined inside a class. Call it on an object, `red.hire("Yahya")`, and Python passes that object in as the first parameter, `self`. Methods that change the object set attributes on `self`; methods that answer a question return a value. `Bike.hire(red, "Yahya")` is the same call written the long way.
 example: |
   class Counter:
       def __init__(self):
@@ -80,7 +80,7 @@ cards:
       kettle.fill()
       print(kettle.full)
   - type: fill
-    prompt: "Fill the gap to put four biscuits in Moss's tin."
+    prompt: "Fill the gap to put four biscuits in Neil's tin."
     code: |
       class Tin:
           def __init__(self):

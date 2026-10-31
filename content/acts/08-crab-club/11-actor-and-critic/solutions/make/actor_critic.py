@@ -1,4 +1,4 @@
-# Actor and critic: Sir Reginald acts, and the critic judges every move as it happens.
+# Actor and critic: the crab acts, and the critic judges every move as it happens.
 
 import numpy as np
 
@@ -70,7 +70,7 @@ def clipped_objective(ratio, advantage, epsilon=0.2):
 if __name__ == "__main__":
     rng = np.random.default_rng(3)
     theta, values = train(200, rng, watch=True)
-    print("After 200 races, his most likely moves")
+    print("After 200 races, its most likely moves")
     show_policy({tile: ACTIONS[int(np.argmax(theta[tile]))] for tile in RACING})
     print("The critic's values")
     for row in range(ROWS):

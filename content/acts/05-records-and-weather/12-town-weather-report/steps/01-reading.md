@@ -3,8 +3,8 @@ id: plan
 type: reading
 title: Mark it out first
 dialogue:
-  - moss: "Four pieces. Each does one job, and you can check each without the others."
-  - priya: "And the last piece is words. The numbers are for the words."
+  - paul: "Four pieces. Each does one job, and you can check each without the others."
+  - aaesha: "And the last piece is words. The numbers are for the words."
 ---
 A report this size goes in four files, built in this order:
 
@@ -21,4 +21,4 @@ Each file starts with its requirements, exactly as the checks read them: the nam
 
 The files you've written come with you into each step. If a later step turns up a bug in an earlier file, fix it there.
 
-Last of all, Priya reads the write-up against her checklist.
+Last of all, Aaesha reads the write-up against her checklist.

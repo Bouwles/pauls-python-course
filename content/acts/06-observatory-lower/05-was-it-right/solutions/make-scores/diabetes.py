@@ -50,11 +50,6 @@ To catch 85% of cases in training, flag at 0.10 or more.
 On the test respondents: recall 0.77, precision 0.32, 183 of 500 flagged
 Respondent: 27% chance. Flag for a test.
 """
-# Copied by Professor Wendt from the back page of Penhallow's storm notebook:
-# Lashed the shutters for nineteen storms that never came, and left them
-# open for two that did. Tom says the sea wall gate is the same sum, with
-# bigger numbers on both sides. Shut it for nothing and the boats miss a
-# tide. Leave it open for a real one and the high street floods. A.P.
 
 import numpy as np
 

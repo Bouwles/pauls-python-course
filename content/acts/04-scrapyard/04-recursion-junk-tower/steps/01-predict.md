@@ -4,7 +4,7 @@ type: predict
 title: A crate of crates
 concept: recursion
 dialogue:
-  - nell: "Open a crate, there's another crate. Open that, there's a hubcap and another crate."
+  - neil: "Open a crate, there's another crate. Open that, there's a hubcap and another crate."
 code: |
   def weigh(crate):
       total = 0

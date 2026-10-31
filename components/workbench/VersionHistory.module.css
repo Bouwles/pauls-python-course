@@ -1,10 +1,10 @@
 .dialog {
-  width: min(880px, calc(100vw - 32px));
+  width: min(900px, calc(100vw - 32px));
   max-height: calc(100vh - 64px);
-  border: 2px solid var(--rule-strong);
-  background: var(--paper);
-  color: var(--ink);
+  border: 0;
   padding: 0;
+  color: var(--text);
+  overflow: hidden;
 }
 
 .dialog::backdrop {
@@ -15,32 +15,33 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--s-3) var(--s-4);
-  border-bottom: var(--hairline);
+  padding: var(--s-4) var(--s-5);
+  border-bottom: 1px solid var(--line);
 }
 
 .title {
-  font-size: var(--step-1);
+  font-size: var(--fs-5);
+  font-weight: 700;
 }
 
 .empty {
-  padding: var(--s-6) var(--s-4);
-  color: var(--ink-2);
+  padding: var(--s-8) var(--s-5);
+  color: var(--text-2);
 }
 
 .body {
   display: grid;
-  grid-template-columns: 220px 1fr;
-  min-height: 320px;
+  grid-template-columns: 240px 1fr;
+  min-height: 340px;
 }
 
 .list {
   list-style: none;
   margin: 0;
   padding: var(--s-2);
-  border-right: var(--hairline);
+  border-right: 1px solid var(--line);
   overflow: auto;
-  max-height: 60vh;
+  max-height: 64vh;
 }
 
 .item {
@@ -48,37 +49,44 @@
   display: flex;
   justify-content: space-between;
   gap: var(--s-2);
-  padding: var(--s-2);
+  padding: var(--s-2) var(--s-3);
   border: none;
+  border-radius: var(--r-md);
   background: none;
   text-align: left;
-  font-size: var(--step--1);
+  font-size: var(--fs-2);
+  color: var(--text);
+}
+
+.item:hover {
+  background: var(--surface-3);
 }
 
 .item[aria-pressed="true"] {
-  background: var(--accent-wash);
+  background: var(--sun-wash);
+  box-shadow: inset 0 0 0 1px var(--sun);
 }
 
 .reason {
-  color: var(--ink-2);
+  color: var(--text-2);
 }
 
 .preview {
-  padding: var(--s-4);
+  padding: var(--s-5);
   overflow: auto;
-  max-height: 60vh;
+  max-height: 64vh;
 }
 
 .row {
   display: flex;
   align-items: center;
   gap: var(--s-3);
-  margin-top: var(--s-3);
+  margin-top: var(--s-4);
 }
 
 .same {
-  font-size: var(--step--1);
-  color: var(--ink-2);
+  font-size: var(--fs-1);
+  color: var(--text-2);
 }
 
 @media (max-width: 640px) {
@@ -88,7 +96,7 @@
 
   .list {
     border-right: none;
-    border-bottom: var(--hairline);
+    border-bottom: 1px solid var(--line);
     max-height: 30vh;
   }
 }

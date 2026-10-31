@@ -1,7 +1,7 @@
 "use client";
 
-// Concept before code for gradient descent: a walker going downhill on a loss
-// curve, one step at a time, with a learning rate you can change.
+// Concept before code for gradient descent: a point rolling down a loss curve,
+// one step at a time, with a learning rate you can change.
 import { useMemo, useState } from "react";
 import { Button } from "../../ui/Button";
 import styles from "./widgets.module.css";
@@ -33,17 +33,17 @@ export function HillWalker({ params, onDone, done }: { params: { start?: number;
 
   return (
     <div className={styles.widget}>
-      <p className={styles.question}>The walker wants the bottom of the hill. Each step goes downhill by (learning rate) times (slope).</p>
+      <p className={styles.question}>The point wants the bottom of the curve. Each step moves it downhill by (learning rate) times (slope).</p>
       <label className={styles.rateRow}>
         Learning rate: {rate.toFixed(2)}
-        <input type="range" min={0.01} max={1.1} step={0.01} value={rate} onChange={(e) => setRate(Number(e.target.value))} style={{ accentColor: "var(--accent-ink)" }} />
+        <input type="range" min={0.01} max={1.1} step={0.01} value={rate} onChange={(e) => setRate(Number(e.target.value))} className={styles.range} />
       </label>
-      <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ maxWidth: W, border: "1px solid var(--rule)", background: "var(--paper-raised)" }} role="img" aria-label={`Loss curve. The walker is at x = ${x.toFixed(3)}, loss ${loss(x).toFixed(3)}, after ${steps.length - 1} steps.`}>
-        <polyline points={curve} fill="none" stroke="var(--ink-2)" strokeWidth={2} />
-        {steps.map((v, i) => (i > 0 ? <line key={i} x1={sx(steps[i - 1]!)} y1={sy(loss(steps[i - 1]!))} x2={sx(v)} y2={sy(loss(v))} stroke="var(--accent-ink)" strokeWidth={1.5} strokeDasharray="4 3" /> : null))}
-        <rect x={sx(x) - 5} y={sy(loss(x)) - 14} width={10} height={14} fill="var(--fail)" />
-        <circle cx={sx(x)} cy={sy(loss(x)) - 18} r={4} fill="var(--ink)" />
-        <line x1={sx(3)} y1={H - 10} x2={sx(3)} y2={H - 4} stroke="var(--pass)" strokeWidth={2} />
+      <svg viewBox={`0 0 ${W} ${H}`} width="100%" className={styles.chart} style={{ maxWidth: W }} role="img" aria-label={`Loss curve. The point is at x = ${x.toFixed(3)}, loss ${loss(x).toFixed(3)}, after ${steps.length - 1} steps.`}>
+        <polyline points={curve} fill="none" stroke="var(--c-neil)" strokeWidth={2.5} />
+        {steps.map((v, i) => (i > 0 ? <line key={i} x1={sx(steps[i - 1]!)} y1={sy(loss(steps[i - 1]!))} x2={sx(v)} y2={sy(loss(v))} stroke="var(--sun)" strokeWidth={1.5} strokeDasharray="4 3" /> : null))}
+        <line x1={sx(3)} y1={H - 12} x2={sx(3)} y2={H - 4} stroke="var(--pass)" strokeWidth={2} />
+        <circle cx={sx(x)} cy={sy(loss(x))} r={12} fill="var(--sun-wash)" stroke="var(--sun)" strokeWidth={1.5} />
+        <circle cx={sx(x)} cy={sy(loss(x))} r={7} fill="var(--sun)" />
       </svg>
       <p className={styles.dim} aria-live="polite">
         Step {steps.length - 1}: x = {x.toFixed(3)}, slope = {grad(x).toFixed(3)}, loss = {loss(x).toFixed(3)}
@@ -58,7 +58,7 @@ export function HillWalker({ params, onDone, done }: { params: { start?: number;
       </div>
       <p className={tried.small && tried.big ? styles.fbGood : styles.dim}>
         {tried.small && tried.big
-          ? "Too small and the walk takes forever; too big and each step overshoots further than the last. The learning rate is a choice you make, not something the model learns."
+          ? "Too small and the descent takes forever; too big and each step overshoots further than the last. The learning rate is a choice you make, not something the model learns."
           : `Try two things: reach the bottom with a rate of 0.5 or less${tried.small ? " (done)" : ""}, and then try a rate above 1${tried.big ? " (done)" : ""}.`}
       </p>
     </div>

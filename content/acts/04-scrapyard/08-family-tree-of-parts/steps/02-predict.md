@@ -39,4 +39,4 @@ after: |
 ---
 A **traversal** visits every card in a tree once. The three usual ones differ only in when a card is written down: before both its sides (**pre-order**), between them (**in-order**), or after both (**post-order**).
 
-Press Step through: the junk tower shows which cards are waiting for their sides to finish.
+Press Step through: the tower of crates shows which cards are waiting for their sides to finish.

@@ -4,7 +4,7 @@ type: predict
 title: The same dice twice
 concept: probability
 dialogue:
-  - priya: "Anything I simulate, someone else must be able to run again and get the same answer."
+  - aaesha: "Anything I simulate, someone else must be able to run again and get the same answer."
 code: |
   import numpy as np
 

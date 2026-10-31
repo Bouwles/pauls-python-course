@@ -1,5 +1,5 @@
 class Tally:
-    """Nell's count of parts, with an undo button."""
+    """A count of parts in the store room, with an undo button."""
 
     def __init__(self):
         self.counts = {}

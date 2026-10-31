@@ -2,16 +2,16 @@ Tracing a loop means working through it by hand, one pass at a time, writing dow
 
 ## How it works
 
-This loop adds up a list of catches and keeps the largest:
+This loop adds up a list of scores and keeps the largest:
 
 ```python
-catches = [4, 9, 2, 9]
+scores = [4, 9, 2, 9]
 total = 0
 best = 0
-for fish in catches:
-    total = total + fish
-    if fish > best:
-        best = fish
+for score in scores:
+    total = total + score
+    if score > best:
+        best = score
 print(total, best)
 ```
 
@@ -22,7 +22,7 @@ print(total, best)
 To trace it, make a column for the loop variable and for each variable the body changes, plus a first row for the values before the loop starts. Then fill in one row per pass, working through the body line by line and using the values from the row above:
 
 ```text
-pass   fish   total   best
+pass   score  total   best
 start    -      0       0
 1        4      4       4
 2        9     13       9
@@ -30,19 +30,19 @@ start    -      0       0
 4        9     24       9
 ```
 
-In pass 3, `fish > best` is `2 > 9`, which is false, so `best` stays at 9. In pass 4 it is `9 > 9`, also false: a catch equal to the best doesn't replace it. That is the kind of detail a table forces you to notice and a quick read skips over.
+In pass 3, `score > best` is `2 > 9`, which is false, so `best` stays at 9. In pass 4 it is `9 > 9`, also false: a score equal to the best doesn't replace it. That is the kind of detail a table forces you to notice and a quick read skips over.
 
 To check the table, put a `print` at the end of the body, indented so it runs on every pass:
 
 ```python
-catches = [4, 9, 2, 9]
+scores = [4, 9, 2, 9]
 total = 0
 best = 0
-for fish in catches:
-    total = total + fish
-    if fish > best:
-        best = fish
-    print(fish, total, best)
+for score in scores:
+    total = total + score
+    if score > best:
+        best = score
+    print(score, total, best)
 ```
 
 ```text
@@ -56,7 +56,7 @@ Each printed line matches a row. If one doesn't, the first row that differs show
 
 ## Common mistakes
 
-- **Thinking `total = total + fish` keeps only the last amount.** Python works out the right-hand side first, using the value `total` has now, then stores the result back in `total`. So the old value is carried forward each pass: 4, 13, 15, 24. The final total is the sum of everything, not the last catch.
+- **Thinking `total = total + score` keeps only the last amount.** Python works out the right-hand side first, using the value `total` has now, then stores the result back in `total`. So the old value is carried forward each pass: 4, 13, 15, 24. The final total is the sum of everything, not the last score.
 - **Setting the starting value inside the loop.** If `total = 0` is indented into the body, it resets on every pass and `total` ends up holding only the last amount after all. A trace table shows this at once, because the `total` column never grows.
 - **Tracing in your head.** Writing the values down is the point. Skipping rows is how the surprising pass gets missed.
 

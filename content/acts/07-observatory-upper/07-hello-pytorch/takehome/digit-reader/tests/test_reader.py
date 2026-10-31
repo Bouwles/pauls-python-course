@@ -49,7 +49,7 @@ def test_the_reader_is_a_module():
 def test_layers_are_named_and_shaped():
     model = DigitReader(hidden=32)
     assert isinstance(model.hidden, nn.Linear) and isinstance(model.out, nn.Linear)
-    # nn.Linear keeps its weight as (out, in): the other way round from the NumPy brain's W1.
+    # nn.Linear keeps its weight as (out, in): the other way round from the NumPy network's W1.
     assert model.hidden.weight.shape == (32, 64)
     assert model.out.weight.shape == (10, 32)
 
@@ -105,7 +105,7 @@ def test_training_is_repeatable(digits):
 
 
 class FixedScores(nn.Module):
-    """A stand-in brain whose answers are known: rows guess 1, 0, 2 and 1."""
+    """A stand-in network whose answers are known: rows guess 1, 0, 2 and 1."""
 
     def forward(self, x):
         return torch.tensor([[0.1, 0.9, 0.0], [2.0, 1.0, 0.5], [0.0, 0.0, 3.0], [0.3, 0.4, 0.2]])

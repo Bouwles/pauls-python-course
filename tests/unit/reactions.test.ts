@@ -10,32 +10,32 @@ function memoryStore(): LocalStore {
 }
 
 const run = (over: Partial<RunResult>): RunResult => ({ status: "ok", error: null, exitCode: 0, filesOut: {}, output: "", printed: "1\n", inputsRequested: 0, ...over });
-const moss: Record<string, Character> = {
-  moss: { id: "moss", name: "Moss", role: "mentor", sprite: "moss", pools: { "good-name": ["`{name}`. Good."], many: Array.from({ length: 40 }, (_, i) => `line ${i}`) } },
+const cast: Record<string, Character> = {
+  paul: { id: "paul", name: "Paul", role: "professor", colour: "#FFB627", floor: 1, sprite: "", pools: { "good-name": ["`{name}`. Good."], many: Array.from({ length: 40 }, (_, i) => `line ${i}`) } },
 };
 
 describe("reactions", () => {
   it("fills in names from the learner's code", async () => {
-    expect(await pickLine(memoryStore(), moss, "moss", "good-name", { name: "total_price" })).toBe("`total_price`. Good.");
+    expect(await pickLine(memoryStore(), cast, "paul", "good-name", { name: "total_price" })).toBe("`total_price`. Good.");
   });
 
   it("never repeats one of the last 30 lines", async () => {
     const store = memoryStore();
     const said: string[] = [];
-    for (let i = 0; i < 30; i++) said.push((await pickLine(store, moss, "moss", "many"))!);
+    for (let i = 0; i < 30; i++) said.push((await pickLine(store, cast, "paul", "many"))!);
     expect(new Set(said).size).toBe(30);
   });
 
   it("says nothing rather than repeat a recent line", async () => {
     const store = memoryStore();
-    expect(await pickLine(store, moss, "moss", "good-name", { name: "x" })).not.toBeNull();
-    expect(await pickLine(store, moss, "moss", "good-name", { name: "x" })).toBeNull();
+    expect(await pickLine(store, cast, "paul", "good-name", { name: "x" })).not.toBeNull();
+    expect(await pickLine(store, cast, "paul", "good-name", { name: "x" })).toBeNull();
   });
 
   it("remembers first times", async () => {
     const store = memoryStore();
-    expect(await firstTime(store, "moss:first-fstring")).toBe(true);
-    expect(await firstTime(store, "moss:first-fstring")).toBe(false);
+    expect(await firstTime(store, "paul:first-fstring")).toBe(true);
+    expect(await firstTime(store, "paul:first-fstring")).toBe(false);
   });
 
   it("puts errors before style", () => {
@@ -50,8 +50,10 @@ describe("reactions", () => {
 
   it("reacts to the third miss and to a first-try pass", () => {
     const report = { status: "ok", results: [{ passed: false, stretch: false }, { passed: true, stretch: false }] } as unknown as CheckReport;
-    expect(cuesFromCheck(report, 2, false, { pipsStep: false, shorterThanPip: false, hintsUsed: 0 }).map((c) => c.event)).toContain("third-fail");
+    expect(cuesFromCheck(report, 2, false, { classmateStep: false, shorterThanTheirs: false, hintsUsed: 0 }).map((c) => c.event)).toContain("third-fail");
     const pass = { status: "ok", results: [{ passed: true, stretch: false }] } as unknown as CheckReport;
-    expect(cuesFromCheck(pass, 0, true, { pipsStep: true, shorterThanPip: true, hintsUsed: 0 }).map((c) => c.event).slice(0, 2)).toEqual(["shorter-than-pip", "pass-first-try"]);
+    const cues = cuesFromCheck(pass, 0, true, { classmateStep: true, shorterThanTheirs: true, hintsUsed: 0, classmate: "caitlin" });
+    expect(cues.map((c) => c.event).slice(0, 3)).toEqual(["shorter-than-mine", "fixed-by-learner", "pass-first-try"]);
+    expect(cues[0]!.who).toBe("caitlin");
   });
 });

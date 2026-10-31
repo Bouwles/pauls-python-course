@@ -1,15 +1,13 @@
-// Every brand string lives here (REDESIGN.md 1.2): the owner may still change the
-// name before buying a domain. Nothing else may hard-code it; content files use
-// {{town}}, which the content compiler replaces with BRAND.townName.
+// Every brand string lives here (REDESIGN-2.md 1). Nothing else may hard-code the name.
 
 export const BRAND = {
-  name: "Fixwick",
-  townName: "Fixwick",
-  tagline: "Learn Python by fixing a town.",
+  name: "Paul's Python Course",
+  shortName: "PPC",
+  tagline: "Learn Python by building real things.",
   description:
-    "Fixwick is a Python course built as a game. Townsfolk bring you real programs to build, from a bill splitter to a spam filter to a game-playing AI. You write real code in your browser, and everything you build is yours to keep.",
-  domain: "fixwick.example", // the owner will replace this
-  supportEmail: "hello@fixwick.example",
+    "Paul's Python Course takes you from your first line of Python to machine learning and reinforcement learning, one real project at a time. A bill splitter, a to-do app, a weather app, a Flask website, a spam filter, a game-playing AI. You write real code in your browser, and everything you build is yours to keep.",
+  domain: "paulspythoncourse.example", // the owner will replace this
+  supportEmail: "hello@paulspythoncourse.example",
   creditName: "Paul Nercessian",
   /** Set to a URL to make the credit name a link. */
   creditUrl: null as string | null,

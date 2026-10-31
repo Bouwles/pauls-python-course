@@ -1,174 +1,244 @@
-// Generates tokens.css from palette.json (REDESIGN.md 3.1): one palette for the
-// pixel art and the interface. Night is the default theme; day is the second.
-// Components use the semantic tokens; raw palette names are there for art-like UI.
+// Generates tokens.css (REDESIGN-2.md 2.4 to 2.7): the dark theme (default), the light
+// theme, the sun and blue accents, status and character colours, type, radius, the one
+// floating shadow, and motion. Components use these tokens only; style-lint checks it.
+//   npx tsx scripts/build-tokens.ts
 import fs from "node:fs";
 import path from "node:path";
 
 const root = process.cwd();
-const palette = JSON.parse(fs.readFileSync(path.join(root, "palette.json"), "utf8")) as {
-  colours: Record<string, { name: string; hex: string }>;
-  ui: { night: Record<string, string>; day: Record<string, string> };
+
+// Colours that are the same in both themes.
+const fixed = {
+  sun: "#FFB627",
+  "sun-hover": "#FFC24D",
+  "sun-press": "#F0A410",
+  "sun-ink": "#2A1E00",
+  blue: "#3B6FD8",
+  pass: "#2FBF71",
+  "pass-ink": "#06210F",
+  fail: "#F2545B",
+  "fail-ink": "#2B0507",
+  warn: "#FFB627",
+  // The cast (REDESIGN-2.md 7.1). Violet is a flat colour only, never in a gradient.
+  "c-paul": "#FFB627",
+  "c-neil": "#1FB5A8",
+  "c-aaesha": "#FF7A6B",
+  "c-caitlin": "#8C6BF2",
+  "c-riya": "#4CC36F",
+  "c-yahya": "#3B6FD8",
 };
 
-const hex = (key: string) => {
-  const c = palette.colours[key];
-  if (!c) throw new Error(`palette.json has no colour "${key}"`);
-  return c.hex.toLowerCase();
+const dark = {
+  bg: "#0F1115",
+  "surface-1": "#161920",
+  "surface-2": "#1D212A",
+  "surface-3": "#272C37",
+  line: "#2E3441",
+  text: "#F2F3F5",
+  "text-2": "#A4ABB8",
+  "text-3": "#6E7584",
+  editor: "#12141A",
+  // Text versions of the accents, for words in colour on the page.
+  "sun-text": "#FFB627",
+  "blue-text": "#7FA6F0",
+  "pass-text": "#4FD38B",
+  "fail-text": "#FF7A80",
+  "pass-wash": "rgb(47 191 113 / 0.14)",
+  "fail-wash": "rgb(242 84 91 / 0.14)",
+  "sun-wash": "rgb(255 182 39 / 0.14)",
+  "blue-wash": "rgb(59 111 216 / 0.18)",
+  "shadow-float": "0 8px 24px rgba(0, 0, 0, 0.28)",
+  scrim: "rgb(8 10 14 / 0.6)",
+  // Code (REDESIGN-2.md 3): keywords blue-light, strings green, numbers sun, comments text-3.
+  "syn-keyword": "#7FA6F0",
+  "syn-string": "#8FD18A",
+  "syn-number": "#FFB627",
+  "syn-comment": "#7D8493",
+  "syn-function": "#F2F3F5",
+  "syn-builtin": "#F29E6D",
+  "syn-operator": "#C9CED8",
+  "active-line": "#181B23",
+  selection: "#2B3A5C",
+  gutter: "#12141A",
+  "gutter-text": "#5A6170",
+  "error-line": "rgb(242 84 91 / 0.12)",
+  "diff-del": "rgb(242 84 91 / 0.28)",
+  "diff-ins": "rgb(47 191 113 / 0.28)",
 };
-const night = Object.fromEntries(Object.entries(palette.ui.night).map(([name, key]) => [name, hex(key)]));
-const day = Object.fromEntries(Object.entries(palette.ui.day).map(([name, key]) => [name, hex(key)]));
 
-const named = [...Object.keys(night), ...Object.keys(day)].map((n) => `  --${n}: ${night[n] ?? day[n]};`).join("\n");
+const light: Record<keyof typeof dark, string> = {
+  bg: "#F6F7F9",
+  "surface-1": "#FFFFFF",
+  "surface-2": "#FFFFFF",
+  "surface-3": "#EEF0F4",
+  line: "#DDE1E8",
+  text: "#14171D",
+  "text-2": "#4F5665",
+  "text-3": "#6B7280",
+  editor: "#FFFFFF",
+  "sun-text": "#8A5A00",
+  "blue-text": "#2C5BC0",
+  "pass-text": "#147A43",
+  "fail-text": "#C42F37",
+  "pass-wash": "rgb(47 191 113 / 0.12)",
+  "fail-wash": "rgb(242 84 91 / 0.10)",
+  "sun-wash": "rgb(255 182 39 / 0.18)",
+  "blue-wash": "rgb(59 111 216 / 0.10)",
+  "shadow-float": "0 8px 24px rgba(20, 23, 29, 0.10)",
+  scrim: "rgb(20 23 29 / 0.35)",
+  "syn-keyword": "#2C5BC0",
+  "syn-string": "#2F7A2A",
+  "syn-number": "#9A5B00",
+  "syn-comment": "#5E6572",
+  "syn-function": "#14171D",
+  "syn-builtin": "#B4501E",
+  "syn-operator": "#3A404C",
+  "active-line": "#F4F6F9",
+  selection: "#D6E2FA",
+  gutter: "#FFFFFF",
+  "gutter-text": "#8A909C",
+  "error-line": "rgb(242 84 91 / 0.10)",
+  "diff-del": "rgb(242 84 91 / 0.22)",
+  "diff-ins": "rgb(47 191 113 / 0.22)",
+};
 
-// The art colours too, as --art-<name>, for the few interface things drawn in a character's
-// colours (name plates, client heads' backing). Interface colours already have names above.
-const uiKeys = new Set([...Object.values(palette.ui.night), ...Object.values(palette.ui.day)]);
-const art = Object.entries(palette.colours)
-  .filter(([key]) => !uiKeys.has(key))
-  .map(([, c]) => `  --art-${c.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}: ${c.hex.toLowerCase()};`)
-  .join("\n");
+const block = (o: Record<string, string>, indent = "  ") =>
+  Object.entries(o)
+    .map(([k, v]) => `${indent}--${k}: ${v};`)
+    .join("\n");
 
-// Semantic roles. Accent colours stay the same in both themes; text versions darken in day.
-const nightRoles = `
-  color-scheme: dark;
-  --bg: var(--night-0);
-  --panel: var(--night-1);
-  --panel-2: var(--night-2);
-  --frame: var(--night-3);
-  --frame-hi: var(--night-4);
-  --text: var(--chalk);
-  --text-2: var(--fog);
-  /* Secondary text on the frame colour (tabs, title bars): fog alone is under 4.5:1 there. */
-  --text-on-frame: var(--fog-on-panel);
-  --accent: var(--lamp);
-  --accent-dark: var(--lamp-dark);
-  --accent-text: var(--lamp);
-  --on-accent: var(--night-0);
-  --go: var(--kelp);
-  --go-dark: var(--kelp-dark);
-  --go-text: var(--kelp);
-  --danger: var(--brick);
-  --danger-dark: var(--brick-dark);
-  --danger-text: #f07a65;
-  --link: var(--sea);
-  --link-dark: var(--sea-dark);
-  --link-text: #6dbbdc;
-  --pass: var(--kelp);
-  --fail: #f07a65;
-  --quiet: var(--night-3);
-  --quiet-text: var(--chalk);
-  --quiet-dark: var(--night-0);
-  --quiet-hover: var(--night-4);
-  --code-bg: var(--night-1);
-  --inset: var(--night-1);
-  --code-gutter: var(--night-0);
-  --active-line: #1b222d;
-  --selection: var(--night-4);
-  --error-line: rgb(224 86 63 / 0.15);
-  --syn-keyword: #6dbbdc;
-  --syn-string: #7fcf84;
-  --syn-number: var(--lamp);
-  --syn-comment: var(--fog);
-  --syn-function: var(--chalk);
-  --syn-builtin: #d4936a;
-  --syn-operator: var(--chalk);
-  --scrim: rgb(8 10 14 / 0.6);`;
-
-const dayRoles = `
-  color-scheme: light;
-  --bg: var(--day-0);
-  --panel: var(--day-1);
-  --panel-2: #e4ecf1;
-  --frame: var(--day-3);
-  --frame-hi: #ffffff;
-  --text: var(--day-ink);
-  --text-2: var(--day-fog);
-  --text-on-frame: color-mix(in srgb, var(--day-fog) 80%, var(--day-ink));
-  --accent-text: #7d5a12;
-  --on-accent: var(--day-ink);
-  --go-text: #2a6b2f;
-  --danger-text: #a7321f;
-  --link-text: #1f5f7e;
-  --pass: #2a6b2f;
-  --fail: #a7321f;
-  --quiet: var(--day-3);
-  --quiet-text: var(--day-ink);
-  --quiet-dark: #8a9aa8;
-  --quiet-hover: #cdd8e0;
-  --code-bg: var(--day-2);
-  --inset: var(--day-1);
-  --code-gutter: var(--day-1);
-  --active-line: #f1f5f8;
-  --selection: #c9dcea;
-  --error-line: rgb(224 86 63 / 0.12);
-  --syn-keyword: #1f5f7e;
-  --syn-string: #2a6b2f;
-  --syn-number: #8a5b0c;
-  --syn-comment: #5d6b7a;
-  --syn-function: var(--day-ink);
-  --syn-builtin: #8c4a26;
-  --syn-operator: var(--day-ink);
-  --scrim: rgb(24 32 42 / 0.35);`;
-
-// Names the components used before the redesign, kept as aliases while each is rebuilt.
-const legacy = `
-  --paper: var(--panel);
-  --paper-sunk: var(--bg);
-  --paper-raised: var(--panel-2);
-  --ink: var(--text);
-  --ink-2: var(--text-2);
-  --ink-3: var(--text-2);
-  --rule: var(--frame);
-  --rule-strong: var(--frame-hi);
-  --control-border: var(--frame-hi);
-  --accent-ink: var(--accent-text);
-  --accent-wash: color-mix(in srgb, var(--accent) 16%, var(--panel));
-  --pass-wash: color-mix(in srgb, var(--pass) 16%, var(--panel));
-  --fail-wash: color-mix(in srgb, var(--fail) 14%, var(--panel));
-  --highlight-line: var(--active-line);
-  --scene-frame: var(--night-0);`;
+// The first redesign's token names. They're no longer defined; style-lint keeps this list so
+// it can fail on any that creep back into a component.
+export const LEGACY: Record<string, string> = {
+  "night-0": "#0F1115",
+  "night-1": "var(--surface-1)",
+  "night-2": "var(--surface-2)",
+  "night-3": "var(--surface-3)",
+  "night-4": "var(--line)",
+  chalk: "var(--text)",
+  fog: "var(--text-2)",
+  lamp: "var(--sun)",
+  "lamp-dark": "var(--sun-press)",
+  kelp: "var(--pass)",
+  "kelp-dark": "var(--pass)",
+  brick: "var(--fail)",
+  "brick-dark": "var(--fail)",
+  sea: "var(--blue)",
+  "sea-dark": "var(--blue)",
+  plum: "var(--c-caitlin)",
+  "moss-green": "var(--pass)",
+  "day-fog": "var(--text-2)",
+  "day-ink": "var(--text)",
+  "day-0": "var(--bg)",
+  "day-1": "var(--surface-1)",
+  "day-2": "var(--surface-2)",
+  "day-3": "var(--surface-3)",
+  panel: "var(--surface-1)",
+  "panel-2": "var(--surface-2)",
+  frame: "var(--line)",
+  "frame-hi": "var(--line)",
+  paper: "var(--surface-2)",
+  "paper-raised": "var(--surface-2)",
+  "paper-sunk": "var(--bg)",
+  ink: "var(--text)",
+  "ink-2": "var(--text-2)",
+  "ink-3": "var(--text-3)",
+  rule: "var(--line)",
+  "rule-strong": "var(--line)",
+  "control-border": "var(--line)",
+  accent: "var(--sun)",
+  "accent-dark": "var(--sun-press)",
+  "accent-text": "var(--sun-text)",
+  "accent-ink": "var(--sun-text)",
+  "accent-wash": "var(--sun-wash)",
+  "on-accent": "var(--sun-ink)",
+  go: "var(--pass)",
+  "go-dark": "var(--pass)",
+  "go-text": "var(--pass-text)",
+  danger: "var(--fail)",
+  "danger-dark": "var(--fail)",
+  "danger-text": "var(--fail-text)",
+  link: "var(--blue)",
+  "link-dark": "var(--blue)",
+  "link-text": "var(--blue-text)",
+  quiet: "var(--surface-3)",
+  "quiet-text": "var(--text)",
+  "quiet-dark": "transparent",
+  "quiet-hover": "var(--line)",
+  "code-bg": "var(--editor)",
+  inset: "var(--surface-1)",
+  "code-gutter": "var(--gutter)",
+  "highlight-line": "var(--active-line)",
+  "scene-frame": "var(--surface-1)",
+  "text-on-frame": "var(--text-2)",
+  "fog-on-panel": "var(--text-2)",
+  "shadow-hard": "none",
+  hairline: "1px solid var(--line)",
+  "hairline-strong": "1px solid var(--line)",
+  outline: "1px solid var(--line)",
+  "font-pixel": "var(--font-display)",
+  "font-read": "var(--font-text)",
+  "font-prose": "var(--font-text)",
+  "font-ui": "var(--font-text)",
+  "pixel-1": "15px",
+  "pixel-2": "24px",
+  "pixel-3": "44px",
+  "step--2": "0.8125rem",
+  "step--1": "0.875rem",
+  "step-0": "1rem",
+  "step-1": "1.0625rem",
+  "step-2": "1.25rem",
+  "step-3": "1.5rem",
+  "step-4": "1.75rem",
+  "step-5": "2rem",
+  "step-6": "2.25rem",
+  "prose-size": "var(--fs-3)",
+  "lh-prose": "var(--lh-text)",
+  "lh-ui": "1.4",
+  "lh-tight": "1.15",
+  "r-1": "var(--r-md)",
+  "r-2": "var(--r-lg)",
+  ease: "var(--ease-out)",
+  "dur-1": "var(--dur)",
+  "dur-2": "var(--dur)",
+};
+const art = [
+  "harbour-night", "deep-slate", "slate", "wet-stone", "stone", "pale-stone", "sail-cloth", "deep-sea", "sea", "sea-green", "foam",
+  "dark-moss", "moss", "lichen", "tar", "driftwood", "rust", "ochre", "sand", "dark-brick", "brick", "lamp", "lamp-glow", "rose",
+  "navy", "navy-light", "mustard", "tomato-highlight", "tomato-shadow", "shell-highlight", "shell-shadow", "warm-white",
+];
+for (const a of art) LEGACY[`art-${a}`] = "var(--surface-3)";
 
 const css = `/*
-  Design tokens for Fixwick. GENERATED by scripts/build-tokens.ts from palette.json:
-  edit the palette or the script, not this file.
-  Night (the default) is "night shift at the workshop"; day is a cool harbour morning.
+  Design tokens for Paul's Python Course. GENERATED by scripts/build-tokens.ts:
+  edit the script, not this file. Dark is the default theme; light is clean white and cool grey.
 */
 
 :root {
-${named}
-${art}
-${nightRoles}
-${legacy}
+  color-scheme: dark;
+${block(fixed)}
+${block(dark)}
 
-  /* Type: a pixel face for game chrome, a reading face, and code. No serif anywhere. */
-  --font-pixel: var(--font-pixel-loaded, "m6x11plus"), var(--font-code);
-  --font-read: var(--font-read-loaded, "Atkinson Hyperlegible Next"), system-ui, sans-serif;
+  /* Type (REDESIGN-2.md 2.3): a display face for titles and names, a text face for
+     everything else including the UI, and code. Sizes: 14, 15, 17, 20, 24, 32, 44, 60. */
+  --font-display: var(--font-display-loaded, "Bricolage Grotesque"), var(--font-text);
+  --font-text: var(--font-text-loaded, "Atkinson Hyperlegible Next"), system-ui, sans-serif;
   --font-code: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
-  --font-prose: var(--font-read);
-  --font-ui: var(--font-read);
-  /* m6x11plus is drawn on an 18 px grid: use it at 18, 36 or 54 px only. */
-  --pixel-1: 18px;
-  --pixel-2: 36px;
-  --pixel-3: 54px;
-
-  /* Reading sizes */
-  --step--2: 0.75rem;
-  --step--1: 0.875rem;
-  --step-0: 1rem;
-  --step-1: 1.0625rem;
-  --step-2: 1.25rem;
-  --step-3: 1.5rem;
-  --step-4: 1.75rem;
-  --step-5: 2rem;
-  --step-6: 2.25rem;
-  --prose-size: 1.0625rem;
-  --lh-prose: 1.55;
-  --lh-ui: 1.4;
-  --lh-tight: 1.15;
+  --fs-1: 14px;
+  --fs-2: 15px;
+  --fs-3: 17px;
+  --fs-4: 20px;
+  --fs-5: 24px;
+  --fs-6: 32px;
+  --fs-7: 44px;
+  --fs-8: 60px;
+  --lh-text: 1.55;
+  --lh-title: 1.1;
+  --tracking-display: -0.02em;
   --measure: 68ch;
-  --tracking-label: normal;
   --prose-letter-spacing: normal;
   --prose-word-spacing: normal;
+  --editor-font-size: 15px;
 
   /* Space, 4 px base */
   --s-1: 4px;
@@ -184,64 +254,73 @@ ${legacy}
   --s-20: 80px;
   --s-24: 96px;
 
-  /* Shape: pixel frames, never rounded; depth from hard offsets only. */
-  --r-1: 0;
-  --r-2: 0;
-  --hairline: 0 solid transparent;
-  --hairline-strong: 0 solid transparent;
-  --shadow-hard: 4px 4px 0 var(--night-0);
-  --outline: 2px solid var(--night-0);
+  /* Shape (REDESIGN-2.md 2.5): one radius scale, one floating shadow. */
+  --r-sm: 4px;
+  --r-md: 6px;
+  --r-lg: 8px;
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--sun);
 
-  /* Motion: short, stepped, game-like. */
-  --ease: linear;
-  --dur-1: 100ms;
-  --dur-2: 120ms;
-
-  /* Fog lifted a quarter of the way to chalk, for secondary text on night panels (5.3:1). */
-  --fog-on-panel: color-mix(in srgb, var(--fog) 75%, var(--chalk));
+  /* Motion (REDESIGN-2.md 2.7) */
+  --dur: 160ms;
+  --dur-slow: 200ms;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
 
   /* Layout */
-  --hud-h: 48px;
-  --topbar-h: 48px;
+  --header-h: 56px;
   --touch: 44px;
-  --editor-font-size: 15px;
 }
 
-/* Code that stays dark in both themes (a printed slip on the paper ticket, the demo screens). */
-.frame-paper pre,
-.code-night {
-${nightRoles.split("\n").filter((l) => /--(syn-|code-|active-line|selection)/.test(l)).join("\n")}
+/* Phone type scale: 14, 15, 16, 18, 22, 28, 36, 44. */
+@media (max-width: 720px) {
+  :root {
+    --fs-3: 16px;
+    --fs-4: 18px;
+    --fs-5: 22px;
+    --fs-6: 28px;
+    --fs-7: 36px;
+    --fs-8: 44px;
+  }
 }
 
-/* Day: chosen in Settings, or following a light device when the theme follows the device. */
+/* Light: chosen in Settings, or following a light device when the theme follows the device. */
 :root[data-theme="light"] {
-${dayRoles}
+  color-scheme: light;
+${block(light)}
 }
 
 @media (prefers-color-scheme: light) {
   :root[data-theme="system"] {
-${dayRoles.replace(/\n  /g, "\n    ")}
+    color-scheme: light;
+${block(light, "    ")}
   }
 }
 
+/* Code that stays dark in both themes (terminal previews, demo screens). */
+.code-dark {
+${block(Object.fromEntries(Object.entries(dark).filter(([k]) => /^(syn-|editor|active-line|selection|gutter|text)/.test(k))))}
+}
+
 :root[data-prose="hyperlegible"] {
-  --lh-prose: 1.75;
+  --lh-text: 1.75;
   --prose-letter-spacing: 0.02em;
   --prose-word-spacing: 0.08em;
 }
 
 @media (prefers-reduced-motion: reduce) {
   :root {
-    --dur-1: 0ms;
-    --dur-2: 0ms;
+    --dur: 0ms;
+    --dur-slow: 0ms;
   }
 }
 
 :root[data-motion="reduced"] {
-  --dur-1: 0ms;
-  --dur-2: 0ms;
+  --dur: 0ms;
+  --dur-slow: 0ms;
 }
 `;
 
-fs.writeFileSync(path.join(root, "tokens.css"), css);
-console.log("tokens.css written from palette.json");
+if (process.argv[1]?.endsWith("build-tokens.ts")) {
+  fs.writeFileSync(path.join(root, "tokens.css"), css);
+  console.log("tokens.css written");
+}

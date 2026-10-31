@@ -1,9 +1,9 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "Gwen's raffle tickets. A code on every one, so nobody prints their own."
+  - paul: "Raffle tickets for the end-of-term trip. A code on every one, so nobody prints their own."
 code: |
   import secrets
   import string
@@ -25,7 +25,7 @@ code: |
       return sold
 
 
-  for name, code in tickets("Gwen", "Old Tom", prefix="Q").items():
+  for name, code in tickets("Riya", "Yahya", prefix="Q").items():
       print(f"{name}: {code}")
 subgoals:
   - label: Say what it does, in a docstring

@@ -124,7 +124,7 @@ def whole_log(ctx):
     rows = list(csv.reader(io.StringIO(ctx.files["nights.csv"])))[1:]
     nights = [[float(r) for r in row[:3]] for row in rows]
     labels = [int(row[3]) for row in rows]
-    m, neuron, losses = compare(ctx, nights, labels, 2.0, 60, "Sixty steps on Penhallow's log")
+    m, neuron, losses = compare(ctx, nights, labels, 2.0, 60, "Sixty steps on the stargazing log")
     if not losses[-1] < losses[0]:
         raise CheckFailed("The loss should fall.", actual=f"from {losses[0]:.4f} to {losses[-1]:.4f}")
 
@@ -133,9 +133,9 @@ def program(ctx):
     r = ctx.run_program()
     if r.error is not None:
         raise CheckFailed(f"The program crashed: {type(r.error).__name__}: {r.error}")
-    want = ["Loss: 0.2500 at the start, 0.0476 at the end", "Agrees with 24 of 24 nights", "Tonight: 0.90, open the dome"]
+    want = ["Loss: 0.2500 at the start, 0.0476 at the end", "Agrees with 24 of 24 nights", "Tonight: 0.90, go ahead"]
     if r.lines()[-3:] != want:
-        raise CheckFailed("The program learns her log and gives tonight's chance.", expected="\n".join(want), actual=r.output)
+        raise CheckFailed("The program learns the log and gives tonight's chance.", expected="\n".join(want), actual=r.output)
 
 
 TESTS = [
@@ -147,6 +147,6 @@ TESTS = [
            hint="Note the loss before moving anything, then subtract rate times each parameter's grad from its data."),
     custom("Three steps, every number", three_steps,
            hint="Gradients add up. Set every parameter's grad back to 0 at the start of each step."),
-    custom("It learns Penhallow's log", whole_log),
+    custom("It learns the whole stargazing log", whole_log),
     custom("The program gives tonight's chance", program),
 ]

@@ -69,7 +69,7 @@ cards:
     tests: |
       TESTS = [output("Four crates", expect="4")]
   - type: write
-    prompt: "Sanjay's square crate holds 2401 apples. Import `math` and print how many fit along one side, using `math.sqrt`, as a whole number."
+    prompt: "A square crate holds 2401 apples. Import `math` and print how many fit along one side, using `math.sqrt`, as a whole number."
     tests: |
       TESTS = [
           output("Along one side", expect="49"),

@@ -79,11 +79,11 @@ cards:
           book.append(entry)
           return book
 
-      print(log("06:42 high"))
-      print(log("12:55 low"))
+      print(log("09:30 class"))
+      print(log("12:55 lunch"))
     blanks: [["None"]]
     tests: |
-      TESTS = [output("Two separate books", expect="['06:42 high']\n['12:55 low']")]
+      TESTS = [output("Two separate books", expect="['09:30 class']\n['12:55 lunch']")]
   - type: write
     prompt: "Write `tally(word, counts=None)`: add 1 to `counts[word]`, starting from 0, and return `counts`. With no dictionary given, start a new one on every call."
     starter: |
@@ -93,21 +93,21 @@ cards:
     tests: |
       def fresh(ctx):
           m = ctx.module()
-          m.tally("gull")
-          second = m.tally("tern")
-          if second != {"tern": 1}:
-              raise CheckFailed("Two calls without counts should give two separate dictionaries.", expected={"tern": 1}, actual=second)
+          m.tally("tabs")
+          second = m.tally("spaces")
+          if second != {"spaces": 1}:
+              raise CheckFailed("Two calls without counts should give two separate dictionaries.", expected={"spaces": 1}, actual=second)
 
 
       def given(ctx):
           m = ctx.module()
-          mine = {"gull": 2}
-          if m.tally("gull", mine) is not mine or mine != {"gull": 3}:
+          mine = {"tabs": 2}
+          if m.tally("tabs", mine) is not mine or mine != {"tabs": 3}:
               raise CheckFailed("A dictionary passed in should be added to and handed back.")
 
 
       TESTS = [
-          function("One gull", call="tally", args=("gull",), expect={"gull": 1}),
+          function("One word", call="tally", args=("tabs",), expect={"tabs": 1}),
           custom("A new dictionary every call", fresh),
           custom("A dictionary passed in is used", given),
       ]

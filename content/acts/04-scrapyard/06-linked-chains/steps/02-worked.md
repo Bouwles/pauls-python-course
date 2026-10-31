@@ -1,43 +1,43 @@
 ---
 id: worked
 type: worked
-title: How Moss would chain it
+title: How Paul would chain it
 dialogue:
-  - moss: "Captain Ferro's channel buoys. Each one only knows the next. That's enough to get you home."
+  - paul: "A treasure hunt. Each clue only knows where the next one is. That's enough to finish."
 code: |
-  class Buoy:
+  class Clue:
       def __init__(self, name):
           self.name = name
           self.next = None
 
 
-  class Channel:
+  class Hunt:
       def __init__(self):
           self.first = None
 
       def add(self, name):
-          buoy = Buoy(name)
+          clue = Clue(name)
           if self.first is None:
-              self.first = buoy
+              self.first = clue
               return
           last = self.first
           while last.next is not None:
               last = last.next
-          last.next = buoy
+          last.next = clue
 
       def names(self):
           found = []
-          buoy = self.first
-          while buoy is not None:
-              found.append(buoy.name)
-              buoy = buoy.next
+          clue = self.first
+          while clue is not None:
+              found.append(clue.name)
+              clue = clue.next
           return found
 
 
-  channel = Channel()
-  for name in ["Outer Bar", "Gull Rock", "North Quay"]:
-      channel.add(name)
-  print(channel.names())
+  hunt = Hunt()
+  for name in ["Front door", "Stairwell", "Roof"]:
+      hunt.add(name)
+  print(hunt.names())
 subgoals:
   - label: Each link knows its own thing and the next link
     lines: [1, 4]
@@ -52,10 +52,10 @@ subgoals:
   - label: Walk from the first link until there isn't a next one
     lines: [21, 27]
 explain:
-  prompt: "Why does `add` walk while `last.next is not None`, but `names` walks while `buoy is not None`?"
-  answer: "`add` has to stop on the last buoy, so it can hang the new one on it: it stops when there's no next one. `names` has to visit every buoy, the last one too, so it only stops once it has stepped off the end."
+  prompt: "Why does `add` walk while `last.next is not None`, but `names` walks while `clue is not None`?"
+  answer: "`add` has to stop on the last clue, so it can hang the new one on it: it stops when there's no next one. `names` has to visit every clue, the last one too, so it only stops once it has stepped off the end."
   concept: linked-lists
 ---
-A linked list keeps its items in links that point to each other, not in numbered pigeonholes. Reaching the hundredth link means walking past ninety-nine, so looking things up is O(n). But putting a link in, or taking one out, changes an arrow or two and moves nothing else.
+A linked list keeps its items in links that point to each other, not in numbered slots. Reaching the hundredth link means walking past ninety-nine, so looking things up is O(n). But putting a link in, or taking one out, changes an arrow or two and moves nothing else.
 
-Press Step through and watch the objects: every `next` is an arrow to the following buoy.
+Press Step through and watch the objects: every `next` is an arrow to the following clue.

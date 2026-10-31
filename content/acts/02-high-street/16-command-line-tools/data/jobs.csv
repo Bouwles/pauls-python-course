@@ -1,8 +1,8 @@
 number,customer,item,status,hours
-101,Bea,oven door hinge,done,1.5
-102,Ferro,winch handle,open,3
-103,Mira,sorting rack,open,2
-104,Tom,lamp bracket,done,0.5
-105,Ferro,cabin door,done,4
-106,Bea,bread slicer,open,2
-107,Moss,valve radio,open,40
+101,Riya,laptop hinge,done,1.5
+102,Yahya,chair wheel,open,3
+103,Caitlin,monitor stand,open,2
+104,Neil,desk lamp,done,0.5
+105,Yahya,locker door,done,4
+106,Riya,headphone jack,open,2
+107,Paul,valve radio,open,40

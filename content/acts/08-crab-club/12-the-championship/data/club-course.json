@@ -25,7 +25,7 @@
   "slip": {
     "sand": 0.1,
     "pool": 0.35,
-    "note": "A slip moves the crab sideways to the intended move, either way with equal chance. Into a rock or off the course, he stays put."
+    "note": "A slip moves the crab sideways to the intended move, either way with equal chance. Into a rock or off the course, it stays put."
   },
   "max_steps": 100,
   "start": [

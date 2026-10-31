@@ -4,14 +4,14 @@ type: predict
 title: Free seconds
 concept: value-iteration
 dialogue:
-  - committee: "Suppose seconds cost nothing, and we were prepared to wait..."
-  - committee: "...as long as it took. Hypothetically."
+  - caitlin: "Suppose I add a practice mode. No clock, and moves cost nothing."
+  - yahya: "Then nobody would ever hurry. Hypothetically."
 code: |
   TRACK = ["...F", ".#.P", "S..."]
   STEPS = {"up": (-1, 0), "down": (1, 0), "left": (0, -1), "right": (0, 1)}
   SIDEWAYS = {"up": "left right", "down": "left right", "left": "up down", "right": "up down"}
   STEP_REWARD = 0     # seconds are free
-  GAMMA = 0.99        # and the committee are patient
+  GAMMA = 0.99        # and nobody is in a hurry
 
 
   def outcomes(tile, action):
@@ -35,20 +35,20 @@ code: |
           values[tile] = max(q_value(values, tile, action) for action in STEPS)
 
   print(max(STEPS, key=lambda action: q_value(values, (1, 2), action)))
-question: "Sir Reginald is on (1, 2): left of the rock pool, just below the tile next to the finish. Which way does the best policy send him?"
+question: "The crab is on (1, 2): left of the rock pool, just below the tile next to the finish. Which way does the best policy send it?"
 options:
   - text: up
     misconception: best-is-shortest
-    feedback: "Up is the short way to the finish, but one time in ten he slips right, into the pool. On race day that risk is worth taking. With free seconds and a patient committee, there's no hurry, so why take it?"
+    feedback: "Up is the short way to the finish, but one time in ten it slips right, into the pool. On League night that risk is worth taking. With free seconds and no clock, there's no hurry, so why take it?"
   - text: left
     correct: true
-    feedback: "Into the rock, on purpose. Bumping it is the one move with no way into the pool: eight times in ten he stays put, and the slips take him up or down. Waiting is free now, so the best policy dawdles safely until a slip carries him up."
+    feedback: "Into the rock, on purpose. Bumping it is the one move with no way into the pool: eight times in ten it stays put, and the slips take it up or down. Waiting is free now, so the best policy dawdles safely until a slip carries it up."
   - text: down
     misconception: sideways-slips-ignored
-    feedback: "Down heads away from the pool, but he can still slip sideways, and sideways to the right from (1, 2) is the pool. Only one move here can never end in it."
+    feedback: "Down heads away from the pool, but it can still slip sideways, and sideways to the right from (1, 2) is the pool. Only one move here can never end in it."
 after: |
-  Now set `STEP_REWARD = -1` and `GAMMA = 0.9`, as on race day, and run it again.
+  Now set `STEP_REWARD = -1` and `GAMMA = 0.9`, as on League night, and run it again.
 ---
-This is value iteration on the racing grid, squeezed into one file. The track is the same, but two things have changed: seconds are free, and the committee are patient.
+This is value iteration on the racing grid, squeezed into one file. The track is the same, but two things have changed: seconds are free, and there's no clock.
 
-You don't need to trace it. Think about what Sir Reginald risks, and what waiting costs him now.
+You don't need to trace it. Think about what the crab risks, and what waiting costs it now.

@@ -11,7 +11,7 @@ def _parts(count):
 
 
 class _Reference:
-    """Moss's hash map, kept on the back bench to check yours against."""
+    """Paul's hash map, kept on the back bench to check yours against."""
 
     def __init__(self, piles=8):
         self.piles = [[] for _ in range(piles)]
@@ -55,157 +55,157 @@ def same(got, expected, message):
 
 def a_few_parts(ctx):
     module = ctx.module()
-    yard = module.HashMap()
-    yard.put("brass-valve", 3)
-    yard.put("kettle", 1)
-    same(yard.get("brass-valve"), 3, "get gives back the value stored under the name.")
-    same(yard.get("anvil"), None, "A name that isn't there gives None.")
-    same(yard.get("anvil", 0), 0, "A name that isn't there gives the default, when there is one.")
-    same(len(yard), 2, "Two names stored.")
+    table = module.HashMap()
+    table.put("brass-valve", 3)
+    table.put("kettle", 1)
+    same(table.get("brass-valve"), 3, "get gives back the value stored under the name.")
+    same(table.get("anvil"), None, "A name that isn't there gives None.")
+    same(table.get("anvil", 0), 0, "A name that isn't there gives the default, when there is one.")
+    same(len(table), 2, "Two names stored.")
 
 
 def a_new_pile(ctx):
     module = ctx.module()
-    yard = module.HashMap()
-    same(contents(yard), [[] for _ in range(8)], "A new HashMap has 8 empty piles.")
-    same(len(yard), 0, "A new HashMap holds no names.")
-    same(yard.probes, 0, "A new HashMap has made no probes.")
+    table = module.HashMap()
+    same(contents(table), [[] for _ in range(8)], "A new HashMap has 8 empty piles.")
+    same(len(table), 0, "A new HashMap holds no names.")
+    same(table.probes, 0, "A new HashMap has made no probes.")
     small = module.HashMap(4)
     same(contents(small), [[], [], [], []], "HashMap(4) starts with 4 empty piles.")
 
 
 def right_piles(ctx):
     module = ctx.module()
-    yard = module.HashMap()
+    table = module.HashMap()
     reference = _Reference()
     for number, name in enumerate(["brass-valve", "kettle", "anvil", "bell", "chain"]):
-        yard.put(name, number)
+        table.put(name, number)
         reference.put(name, number)
-    same(contents(yard), contents(reference), "Each pair goes on the end of pile scrap_hash(name) % 8.")
+    same(contents(table), contents(reference), "Each pair goes on the end of pile part_hash(name) % 8.")
 
 
 def replace_value(ctx):
     module = ctx.module()
-    yard = module.HashMap()
-    yard.put("gear-1", 5)
-    yard.put("gear-1", 9)
-    same(yard.get("gear-1"), 9, "Putting a name again replaces its value.")
-    same(len(yard), 1, "Putting a name again doesn't add a second one.")
-    same(sum(len(pile) for pile in yard.piles), 1, "There should be one pair for gear-1, not two.")
+    table = module.HashMap()
+    table.put("gear-1", 5)
+    table.put("gear-1", 9)
+    same(table.get("gear-1"), 9, "Putting a name again replaces its value.")
+    same(len(table), 1, "Putting a name again doesn't add a second one.")
+    same(sum(len(pile) for pile in table.piles), 1, "There should be one pair for gear-1, not two.")
 
 
 def replace_in_place(ctx):
     module = ctx.module()
-    yard = module.HashMap()
+    table = module.HashMap()
     for number, name in enumerate(["hinge-1", "chain-1", "hubcap-1"]):
-        yard.put(name, number)
-    yard.put("chain-1", 40)
-    same(contents(yard)[1], [("hinge-1", 0), ("chain-1", 40), ("hubcap-1", 2)],
+        table.put(name, number)
+    table.put("chain-1", 40)
+    same(contents(table)[1], [("hinge-1", 0), ("chain-1", 40), ("hubcap-1", 2)],
          "hinge-1, chain-1 and hubcap-1 share pile 1. Replacing chain-1 keeps it where it stands, in the middle.")
 
 
 def probes_in_a_shared_pile(ctx):
     module = ctx.module()
-    yard = module.HashMap()
+    table = module.HashMap()
     steps = [
-        ("put hinge-1", lambda: yard.put("hinge-1", 1), 0),
-        ("put chain-1", lambda: yard.put("chain-1", 2), 1),
-        ("put hubcap-1", lambda: yard.put("hubcap-1", 3), 3),
-        ("get hubcap-1", lambda: yard.get("hubcap-1"), 6),
-        ("get hinge-1", lambda: yard.get("hinge-1"), 7),
-        ("get nut-4, which isn't there", lambda: yard.get("nut-4"), 10),
-        ("ask whether chain-1 is in", lambda: "chain-1" in yard, 12),
-        ("remove chain-1", lambda: yard.remove("chain-1"), 14),
-        ("get hubcap-1 again", lambda: yard.get("hubcap-1"), 16),
+        ("put hinge-1", lambda: table.put("hinge-1", 1), 0),
+        ("put chain-1", lambda: table.put("chain-1", 2), 1),
+        ("put hubcap-1", lambda: table.put("hubcap-1", 3), 3),
+        ("get hubcap-1", lambda: table.get("hubcap-1"), 6),
+        ("get hinge-1", lambda: table.get("hinge-1"), 7),
+        ("get nut-4, which isn't there", lambda: table.get("nut-4"), 10),
+        ("ask whether chain-1 is in", lambda: "chain-1" in table, 12),
+        ("remove chain-1", lambda: table.remove("chain-1"), 14),
+        ("get hubcap-1 again", lambda: table.get("hubcap-1"), 16),
     ]
     for label, action, expected in steps:
         action()
-        if yard.probes != expected:
+        if table.probes != expected:
             raise CheckFailed(f"hinge-1, chain-1, hubcap-1 and nut-4 all belong in pile 1. After {label}, probes should be {expected}.",
-                              expected=expected, actual=yard.probes)
+                              expected=expected, actual=table.probes)
 
 
 def empty_pile_free(ctx):
     module = ctx.module()
-    yard = module.HashMap()
+    table = module.HashMap()
     for name in ["hinge-1", "chain-1", "hubcap-1"]:
-        yard.put(name, 0)
-    before = yard.probes
-    yard.get("nut-3")
-    "washer-3" in yard
-    same(yard.probes - before, 0, "nut-3 and washer-3 belong in pile 0, which is empty: looking there compares nothing.")
+        table.put(name, 0)
+    before = table.probes
+    table.get("nut-3")
+    "washer-3" in table
+    same(table.probes - before, 0, "nut-3 and washer-3 belong in pile 0, which is empty: looking there compares nothing.")
 
 
 def contains(ctx):
     module = ctx.module()
-    yard = module.HashMap()
-    yard.put("valve-1", 4)
-    same("valve-1" in yard, True, "valve-1 was put in.")
-    same("valve-2" in yard, False, "valve-2 never was.")
+    table = module.HashMap()
+    table.put("valve-1", 4)
+    same("valve-1" in table, True, "valve-1 was put in.")
+    same("valve-2" in table, False, "valve-2 never was.")
 
 
 def remove_returns(ctx):
     module = ctx.module()
-    yard = module.HashMap()
-    yard.put("spring-1", 12)
-    yard.put("bolt-1", 30)
-    same(yard.remove("spring-1"), 12, "remove gives back the value it took out.")
-    same(len(yard), 1, "One name left.")
-    same("spring-1" in yard, False, "spring-1 is gone.")
-    same(yard.get("bolt-1"), 30, "bolt-1 is still there.")
+    table = module.HashMap()
+    table.put("spring-1", 12)
+    table.put("bolt-1", 30)
+    same(table.remove("spring-1"), 12, "remove gives back the value it took out.")
+    same(len(table), 1, "One name left.")
+    same("spring-1" in table, False, "spring-1 is gone.")
+    same(table.get("bolt-1"), 30, "bolt-1 is still there.")
 
 
 def remove_middle(ctx):
     module = ctx.module()
-    yard = module.HashMap()
+    table = module.HashMap()
     for number, name in enumerate(["hinge-1", "chain-1", "hubcap-1"]):
-        yard.put(name, number)
-    yard.remove("chain-1")
-    same(contents(yard)[1], [("hinge-1", 0), ("hubcap-1", 2)], "Taking chain-1 out of the middle of pile 1 leaves the other two in order.")
+        table.put(name, number)
+    table.remove("chain-1")
+    same(contents(table)[1], [("hinge-1", 0), ("hubcap-1", 2)], "Taking chain-1 out of the middle of pile 1 leaves the other two in order.")
 
 
 def remove_missing(ctx):
     module = ctx.module()
-    yard = module.HashMap()
+    table = module.HashMap()
     try:
-        yard.remove("anvil")
+        table.remove("anvil")
     except KeyError:
         pass
     else:
         raise CheckFailed("Removing from an empty HashMap should raise KeyError.")
-    yard.put("hinge-1", 1)
+    table.put("hinge-1", 1)
     try:
-        yard.remove("chain-1")
+        table.remove("chain-1")
     except KeyError:
-        same(len(yard), 1, "A failed remove takes nothing out.")
+        same(len(table), 1, "A failed remove takes nothing out.")
         return
     raise CheckFailed("chain-1 shares a pile with hinge-1 but was never put in, so remove should raise KeyError.")
 
 
 def remove_then_put(ctx):
     module = ctx.module()
-    yard = module.HashMap()
-    yard.put("gear-2", 1)
-    yard.remove("gear-2")
-    yard.put("gear-2", 7)
-    same(yard.get("gear-2"), 7, "A name taken out can be put back.")
-    same(len(yard), 1, "One name, once.")
+    table = module.HashMap()
+    table.put("gear-2", 1)
+    table.remove("gear-2")
+    table.put("gear-2", 7)
+    same(table.get("gear-2"), 7, "A name taken out can be put back.")
+    same(len(table), 1, "One name, once.")
 
 
 def none_value(ctx):
     module = ctx.module()
-    yard = module.HashMap()
-    yard.put("washer-1", None)
-    same(yard.get("washer-1", "not here"), None, "washer-1 is stored, with None as its value, so get gives back None, not the default.")
-    same("washer-1" in yard, True, "washer-1 is in, even though its value is None.")
+    table = module.HashMap()
+    table.put("washer-1", None)
+    same(table.get("washer-1", "not here"), None, "washer-1 is stored, with None as its value, so get gives back None, not the default.")
+    same("washer-1" in table, True, "washer-1 is in, even though its value is None.")
 
 
 def empty_name(ctx):
     module = ctx.module()
-    yard = module.HashMap()
-    yard.put("", 5)
-    same(contents(yard)[0], [("", 5)], "scrap_hash(\"\") is 0, so the empty name goes in pile 0.")
-    same(yard.get(""), 5, "The empty name is a name like any other.")
+    table = module.HashMap()
+    table.put("", 5)
+    same(contents(table)[0], [("", 5)], "part_hash(\"\") is 0, so the empty name goes in pile 0.")
+    same(table.get(""), 5, "The empty name is a name like any other.")
 
 
 def doubles_on_time(ctx):
@@ -217,12 +217,12 @@ def doubles_on_time(ctx):
     same(len(small.piles), 4, "Three names in four piles is exactly 0.75 to a pile: not more, so no doubling yet.")
     small.put(names[3], 4)
     same(len(small.piles), 8, "The fourth name makes it 1.0 to a pile, more than 0.75, so the piles double to 8.")
-    yard = module.HashMap()
+    table = module.HashMap()
     for name in names[:6]:
-        yard.put(name, 0)
-    same(len(yard.piles), 8, "Six names in eight piles is 0.75 to a pile: no doubling yet.")
-    yard.put(names[6], 0)
-    same(len(yard.piles), 16, "The seventh name makes it more than 0.75, so the piles double to 16.")
+        table.put(name, 0)
+    same(len(table.piles), 8, "Six names in eight piles is 0.75 to a pile: no doubling yet.")
+    table.put(names[6], 0)
+    same(len(table.piles), 16, "The seventh name makes it more than 0.75, so the piles double to 16.")
 
 
 def replace_never_doubles(ctx):
@@ -237,57 +237,57 @@ def replace_never_doubles(ctx):
 
 def moved_in_order(ctx):
     module = ctx.module()
-    yard = module.HashMap()
+    table = module.HashMap()
     reference = _Reference()
     for number, name in enumerate(_parts(30)):
-        yard.put(name, number)
+        table.put(name, number)
         reference.put(name, number)
-    same(len(yard.piles), len(reference.piles), "Thirty names: the piles double from 8 to 16 to 32 to 64.")
-    same(contents(yard), contents(reference),
-         "After doubling, every pair is in pile scrap_hash(name) % the new number of piles, moved over old pile by old pile, front to back.")
+    same(len(table.piles), len(reference.piles), "Thirty names: the piles double from 8 to 16 to 32 to 64.")
+    same(contents(table), contents(reference),
+         "After doubling, every pair is in pile part_hash(name) % the new number of piles, moved over old pile by old pile, front to back.")
 
 
 def moving_costs_nothing(ctx):
     module = ctx.module()
-    yard = module.HashMap()
+    table = module.HashMap()
     reference = _Reference()
     for number, name in enumerate(_parts(25)):
-        yard.put(name, number)
+        table.put(name, number)
         reference.put(name, number)
-    same(yard.probes, reference.probes, "Twenty-five puts, with the piles doubling three times on the way. Moving pairs to new piles compares no names, so it adds no probes.")
+    same(table.probes, reference.probes, "Twenty-five puts, with the piles doubling three times on the way. Moving pairs to new piles compares no names, so it adds no probes.")
 
 
 def load(ctx):
     module = ctx.module()
-    yard = module.HashMap()
-    same(yard.load(), 0.0, "No names in eight piles.")
+    table = module.HashMap()
+    same(table.load(), 0.0, "No names in eight piles.")
     for name in _parts(6):
-        yard.put(name, 0)
-    same(yard.load(), 0.75, "Six names in eight piles is 0.75 to a pile.")
+        table.put(name, 0)
+    same(table.load(), 0.75, "Six names in eight piles is 0.75 to a pile.")
 
 
 def a_thousand_parts(ctx):
     module = ctx.module()
-    yard = module.HashMap()
+    table = module.HashMap()
     names = _parts(1000)
     for number, name in enumerate(names):
-        yard.put(name, number)
-    same(len(yard), 1000, "A thousand names stored.")
-    same(len(yard.piles), 2048, "A thousand names: the piles double up to 2048.")
-    yard.probes = 0
+        table.put(name, number)
+    same(len(table), 1000, "A thousand names stored.")
+    same(len(table.piles), 2048, "A thousand names: the piles double up to 2048.")
+    table.probes = 0
     for number, name in enumerate(names):
-        if yard.get(name) != number:
-            raise CheckFailed(f"{name} should give back {number}.", expected=number, actual=yard.get(name))
-    if yard.probes > 1300:
+        if table.get(name) != number:
+            raise CheckFailed(f"{name} should give back {number}.", expected=number, actual=table.get(name))
+    if table.probes > 1300:
         raise CheckFailed("Finding a thousand parts should take a probe or so each, about 1,100 in all.",
-                          expected="1300 or fewer", actual=yard.probes)
+                          expected="1300 or fewer", actual=table.probes)
 
 
 def no_dict_inside(ctx):
     module = ctx.module()
-    yard = module.HashMap()
-    yard.put("bolt-1", 1)
-    for name, value in vars(yard).items():
+    table = module.HashMap()
+    table.put("bolt-1", 1)
+    for name, value in vars(table).items():
         if isinstance(value, dict):
             raise CheckFailed(f"The HashMap keeps a dict called {name}. Build it from the piles alone.")
 

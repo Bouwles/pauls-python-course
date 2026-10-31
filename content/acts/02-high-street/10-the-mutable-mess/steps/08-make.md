@@ -4,7 +4,7 @@ type: make
 title: Make Saturday's orders
 files: [orders.py]
 entry: orders.py
-on_pass: { bea: "Six buns for the Ashbys this week, four in the standing book. Both right." }
+on_pass: { neil: "Six buns for Paul this week, four in the standing book. Both right." }
 hints:
   nudge: "If you copy only the outer dictionary, whose inner dictionaries are the extras added to?"
   plan:
@@ -22,13 +22,13 @@ hints:
                 orders[customer][item] = orders[customer].get(item, ___) + quantity
         return ___
 ---
-Bea's standing orders live in `STANDING`, one dictionary per customer. Write `saturday_orders(standing, extras)`. It returns this Saturday's orders: every standing order with that customer's extras added, plus anyone who only ordered extras. It changes neither argument.
+The bake sale's standing orders live in `STANDING`, one dictionary per customer. Write `saturday_orders(standing, extras)`. It returns this Saturday's orders: every standing order with that customer's extras added, plus anyone who only ordered extras. It changes neither argument.
 
 ```
-Ashby {'bread': 3, 'buns': 6}
-Drowned Anchor {'bread': 6, 'lardy cake': 2}
-Mira {'lardy cake': 1}
-Standing: {'Ashby': {'bread': 3, 'buns': 4}, ...}
+Paul {'bread': 3, 'buns': 6}
+The Studio {'bread': 6, 'lardy cake': 2}
+Yahya {'lardy cake': 1}
+Standing: {'Paul': {'bread': 3, 'buns': 4}, ...}
 ```
 
 The checks change Saturday's orders after you've made them, then look for the change in the standing book, using `is` as well as `==`.

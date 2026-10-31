@@ -27,6 +27,6 @@ options:
     misconception: print-same-line
     feedback: "Each print() finishes its line. The next print() starts on a fresh one."
 ---
-A program is a list of instructions. This one has two, and prints a small sign for a shop door.
+A program is a list of instructions. This one has two, and prints a small sign for a door.
 
 Decide what you think will appear, then commit to it. Then run it and see.

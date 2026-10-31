@@ -2,7 +2,7 @@ id: snake
 title: "Snake"
 project_name: "Snake"
 status: outline
-client: dev
+client: caitlin
 building: pier
 estimated_minutes: 120
-summary: "A real-time game loop on a small canvas in the browser: the snake, the food, the walls and the score. Then the Pygame version at home."
+summary: "Caitlin's first game for the Makerspace's arcade cabinet. A real-time game loop on a small canvas in the browser: the snake, the food, the walls and the score. Then the Pygame version at home."

@@ -38,7 +38,7 @@ cards:
         misconception: perf-counter-is-time-of-day
         feedback: "`perf_counter` isn't the time of day. It's a stopwatch that was never reset: read it twice and subtract."
   - type: choice
-    prompt: "Moss times the same function three times: 0.051 s, 0.048 s and 0.063 s. Which is the best guess at how long it takes?"
+    prompt: "Yahya times the same function three times: 0.051 s, 0.048 s and 0.063 s. Which is the best guess at how long it takes?"
     verify: none
     options:
       - text: "0.048 s, the fastest"
@@ -58,7 +58,7 @@ cards:
         misconception: time-scales-linearly
         feedback: "That assumes doubling the parts doubles the time. Here it quadrupled, so it'll quadruple again."
   - type: choice
-    prompt: "Pip times `len(parts)` once and gets 0.0000012 s. He times it again: 0.0000031 s. What should he do?"
+    prompt: "Caitlin times `len(parts)` once and gets 0.0000012 s. She times it again: 0.0000031 s. What should she do?"
     verify: none
     options:
       - text: Time it many times in a loop, and divide by how many
@@ -80,7 +80,7 @@ cards:
     tests: |
       TESTS = [output("A real time", expect="True")]
   - type: fix
-    prompt: "Moss's timing comes out negative. Fix it."
+    prompt: "Neil's timing comes out negative. Fix it."
     code: |
       import time
 

@@ -17,12 +17,6 @@ annual_rain(station)
         total rain for each year, as a Series indexed by year, NaN for any
         year without all twelve months of rain
 """
-# Copied by Priya from the back of the station's 1987 sunshine card, found
-# in the lighthouse chart drawer:
-# Tom's lamp log and the station's sunshine fitted to the minute for forty
-# years. Since the lamp room was rewired, they don't, quite, and I know why.
-# If you want to know too, the answer is at the top of the stairs. Tom has
-# the key. A.P.
 
 import numpy as np
 import pandas as pd

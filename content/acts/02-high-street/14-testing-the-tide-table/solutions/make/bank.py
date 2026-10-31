@@ -1,7 +1,6 @@
-# The post office savings accounts. Money is kept in whole pence.
-# Mira pinned this inside the safe door. She found it in Penhallow's handwriting:
-# "I never wrote tests for the thing on the hill. It passes everything
-#  I ask it, which is either very good news or the worst kind. A.P."
+# Savings accounts for the class trip fund. Money is kept in whole pence.
+# Aaesha's note, at the top of the file:
+# "Before you change it, how will you know it still works? A."
 
 
 class Account:

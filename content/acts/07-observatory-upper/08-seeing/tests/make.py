@@ -47,13 +47,13 @@ def close(what, got, want, tol=1e-9):
         raise CheckFailed(what, expected=np.round(want, 4).tolist(), actual=np.round(got, 4).tolist())
 
 
-LIGHTHOUSE = np.array([[0, 0, 1, 1, 0]] * 4, dtype=float)
+TOWER = np.array([[0, 0, 1, 1, 0]] * 4, dtype=float)
 
 
-def lighthouse(ctx):
+def tower(ctx):
     m = load(ctx)
     kernel = np.array([[-1.0, 1.0], [-1.0, 1.0]])
-    close("The lighthouse and the 2 by 2 kernel", m.convolve(LIGHTHOUSE, kernel), ref_convolve(LIGHTHOUSE, kernel))
+    close("The Clocktower and the 2 by 2 kernel", m.convolve(TOWER, kernel), ref_convolve(TOWER, kernel))
 
 
 def pool_known(ctx):
@@ -100,16 +100,16 @@ def forward(ctx):
     rng = np.random.default_rng(8)
     for n in range(3):
         image = rng.uniform(0, 1, (8, 8))
-        close(f"Picture {n + 1} through Wendt's filters: ten chances", m.forward(image, PARAMS), ref_forward(image, PARAMS))
+        close(f"Picture {n + 1} through Neil's filters: ten chances", m.forward(image, PARAMS), ref_forward(image, PARAMS))
 
 
-def other_brain(ctx):
+def other_network(ctx):
     m = load(ctx)
     rng = np.random.default_rng(9)
     params = {"kernels": rng.normal(0, 1, (2, 3, 3)), "kernel_biases": rng.normal(0, 0.5, 2),
               "W": rng.normal(0, 1, (18, 10)), "b": rng.normal(0, 0.5, 10)}
     image = rng.uniform(0, 1, (8, 8))
-    close("A brain with two filters, from the params it's given", m.forward(image, params), ref_forward(image, params))
+    close("A network with two filters, from the params it's given", m.forward(image, params), ref_forward(image, params))
 
 
 def no_shortcut(ctx):
@@ -133,7 +133,7 @@ def reads(ctx):
     held_back = np.random.default_rng(0).permutation(len(images))[1500:]
     right = sum(int(np.argmax(m.forward(images[i], PARAMS)) == labels[i]) for i in held_back)
     if right / len(held_back) < 0.95:
-        raise CheckFailed("With Wendt's filters, it should read at least 95% of the held-back digits.", expected="at least 95%", actual=f"{right} of {len(held_back)}")
+        raise CheckFailed("With Neil's filters, it should read at least 95% of the held-back digits.", expected="at least 95%", actual=f"{right} of {len(held_back)}")
 
 
 def program(ctx):
@@ -143,11 +143,11 @@ def program(ctx):
     want = ["A digit (8, 8) becomes maps (4, 6, 6), pooled to (4, 3, 3): 36 numbers, then 10 chances",
             "Read 289 of 297 digits it had never seen"]
     if r.lines()[-2:] != want:
-        raise CheckFailed("The program reads the held-back digits through Wendt's filters.", expected="\n".join(want), actual=r.output)
+        raise CheckFailed("The program reads the held-back digits through Neil's filters.", expected="\n".join(want), actual=r.output)
 
 
 TESTS = [
-    custom("convolve: the lighthouse", lighthouse, visible=True),
+    custom("convolve: the Clocktower", tower, visible=True),
     custom("max_pool: a 4 by 4 map", pool_known, visible=True),
     custom("convolve: pictures and kernels of other shapes", shapes,
            hint="Take the kernel's height and width from kernel.shape. A window fits image height - kernel height + 1 places down."),
@@ -157,9 +157,9 @@ TESTS = [
            hint="Start each block from its own numbers, not from 0: the biggest of four negative numbers is still negative."),
     custom("conv_layer: a map for each kernel", layer,
            hint="Each kernel gets its own bias, added to its whole map, then relu."),
-    custom("forward: ten chances through Wendt's filters", forward),
-    custom("forward uses the params it's given", other_brain,
-           hint="Read the kernels, biases, W and b from params, so any size of brain works."),
+    custom("forward: ten chances through Neil's filters", forward),
+    custom("forward uses the params it's given", other_network,
+           hint="Read the kernels, biases, W and b from params, so any size of network works."),
     custom("The convolution is done by hand", no_shortcut),
     custom("It reads digits it has never seen", reads, timeout=60),
     custom("The program reads the held-back digits", program, timeout=60),

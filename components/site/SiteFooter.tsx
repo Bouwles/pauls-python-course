@@ -1,24 +1,32 @@
 import Link from "next/link";
-import { BRAND } from "@/lib/brand";
 import { Credit } from "./Credit";
+import { Mark } from "./Brand";
 import styles from "./SiteFooter.module.css";
 
+const LINKS = [
+  ["/syllabus", "Syllabus"],
+  ["/pricing", "Pricing"],
+  ["/handbook", "Python Handbook"],
+  ["/credits", "Credits"],
+  ["/privacy", "Privacy"],
+  ["/terms", "Terms"],
+] as const;
+
+/** The footer: the links, and the credit line with the pixel heart (REDESIGN-2.md 1). */
 export function SiteFooter() {
   return (
     <footer className={styles.footer}>
-      <div className={styles.left}>
+      <div className={styles.inner}>
+        <Mark size={24} />
         <nav aria-label="Footer" className={styles.links}>
-          <Link href="/syllabus">Syllabus</Link>
-          <Link href="/pricing">Pricing</Link>
-          <Link href="/#faq">FAQ</Link>
-          <Link href="/handbook">Python Handbook</Link>
-          <Link href="/credits">Credits</Link>
-          <Link href="/privacy">Privacy</Link>
-          <Link href="/terms">Terms</Link>
+          {LINKS.map(([href, label]) => (
+            <Link key={href} href={href}>
+              {label}
+            </Link>
+          ))}
         </nav>
-        <p className={styles.line}>{BRAND.townName} is made up. The Python is real.</p>
+        <Credit className={styles.credit} />
       </div>
-      <Credit className={styles.credit} />
     </footer>
   );
 }

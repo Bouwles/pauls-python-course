@@ -133,7 +133,7 @@ cards:
     tests: |
       TESTS = [output("Slopes at 0, 1 and 2", expect="-2 1 10")]
   - type: fix
-    prompt: "Pip's slope for the loss `(w - 4) ** 2` isn't 0 at the bottom, `w = 4`. Fix it."
+    prompt: "Caitlin's slope for the loss `(w - 4) ** 2` isn't 0 at the bottom, `w = 4`. Fix it."
     code: |
       def slope(w):
           return 2 * w - 4

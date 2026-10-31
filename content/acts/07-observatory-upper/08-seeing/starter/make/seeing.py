@@ -1,11 +1,8 @@
-"""Seeing: small filters slid over Penhallow's digits, and a brain that reads what they find."""
+"""Seeing: small filters slid over the digits, and a network that reads what they find."""
 
 import numpy as np
 
 
-# It watches the harbour mouth through the old camera on the hill, one
-# small square at a time, every ten minutes, day and night. It has never
-# once told me what it sees. I am not sure it would know how. A.P.
 def convolve(image, kernel):
     """Slide kernel over image; at each place it fits, multiply and add. Shape (H - kh + 1, W - kw + 1)."""
     # How many places the window fits, down and across

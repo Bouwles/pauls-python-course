@@ -39,7 +39,7 @@ cards:
         misconception: sum-axis-zero-per-row
         feedback: "That would be `axis=1`. `axis=0` collapses the rows, adding down each column, so you get one number per reading, not per night."
   - type: choice
-    prompt: "Pip's k = 1 forecast scores 1.000 on the training nights. What does that tell Wendt?"
+    prompt: "Riya's k = 1 forecast scores 1.000 on the training nights. What does that tell her?"
     verify: none
     options:
       - text: "Nothing: each training night's nearest night is itself"
@@ -69,7 +69,7 @@ cards:
         misconception: distance-treats-features-fairly
         feedback: "Distance doesn't know which reading matters. It adds squared differences, and a difference of 12 in pressure squares to 144, whatever the spread says."
   - type: choice
-    prompt: "Fog comes on 30 nights in 240. Pip sets k = 101 'for more evidence'. What will his forecast mostly say?"
+    prompt: "Fog comes on 30 nights in 240. Yahya sets k = 101 'for more evidence'. What will his forecast mostly say?"
     verify: none
     options:
       - text: "Rarely fog: among 101 neighbours, fog nights are nearly always outvoted"

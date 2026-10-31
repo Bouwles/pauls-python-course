@@ -43,7 +43,7 @@ cards:
       print(sum(n_in * n_out + n_out for n_in, n_out in layers))
     answer: "2410"
   - type: predict
-    prompt: "Pip's loop never calls `optimiser.zero_grad()`. Each step's backward finds a slope of 2.0 for one weight. This copies what that weight's `.grad` holds. What does it print?"
+    prompt: "Yahya's loop never calls `optimiser.zero_grad()`. Each step's backward finds a slope of 2.0 for one weight. This copies what that weight's `.grad` holds. What does it print?"
     code: |
       grad = 0.0
       for step in range(3):
@@ -63,10 +63,10 @@ cards:
     tests: |
       TESTS = [output("The loss for the right answer", expect="0.241")]
   - type: choice
-    prompt: "Pip's `forward` ends with `torch.softmax(scores, dim=1)`, and he trains with `nn.CrossEntropyLoss()`. What happens?"
+    prompt: "Riya's `forward` ends with `torch.softmax(scores, dim=1)`, and she trains with `nn.CrossEntropyLoss()`. What happens?"
     verify: none
     options:
-      - text: "It trains, badly: the loss softmaxes his chances again, so it can never get near 0, even when the brain is sure and right"
+      - text: "It trains, badly: the loss softmaxes her chances again, so it can never get near 0, even when the brain is sure and right"
         correct: true
         feedback: "Right. Leave forward at the raw scores and let the loss do the softmax. Use torch.softmax only when you want to show chances to a person."
       - text: "Nothing goes wrong: a softmax of chances gives back the same chances"

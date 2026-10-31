@@ -43,10 +43,6 @@ Segment 1: 251 customers, 3% retail, above average on fresh, frozen
 Segment 2: 189 customers, 71% retail, above average on milk, grocery, detergents_paper, delicatessen
 scikit-learn agrees: True
 """
-# Copied by Professor Wendt from a note pinned to Penhallow's plate box:
-# I asked the machine to sort my nights into piles, and didn't say what a
-# pile was. It made four. Three I recognised: clear, fog, gales. The
-# fourth I still can't name, and it won't say. A.P.
 
 import numpy as np
 import pandas as pd

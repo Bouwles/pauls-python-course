@@ -3,9 +3,9 @@ id: make
 type: make
 title: Make the cleaning pipeline
 timeout_ms: 20000
-on_pass: { ashby: "Peter Jago, once. Helen Rowe, once. My grandfather, once. Nobody aged 412." }
+on_pass: { aaesha: "Peter Jago, once. Helen Rowe, once. Arthur Abbott, once. Nobody aged 412." }
 hints:
-  nudge: "Each step is one of Moss's comments, turned into a function that takes a table and gives back a cleaner copy. What does `clean_register` do with the list of them?"
+  nudge: "Each step is one of Paul's comments, turned into a function that takes a table and gives back a cleaner copy. What does `clean_register` do with the list of them?"
   plan:
     - "parse_dates: read the dates, one format at a time"
     - "tidy_text: work on a copy, then tidy the text"
@@ -42,7 +42,7 @@ hints:
             register = ___
         return register
 ---
-Write the pipeline: `parse_dates`, the five steps and `clean_register`. `PIPELINE` and the report are written. The comments are Moss's steps from his ledger, now one function each.
+Write the pipeline: `parse_dates`, the five steps and `clean_register`. `PIPELINE` and the report are written. The comments are Paul's steps from his loans book, now one function each.
 
 ```
 Read register.csv: 133 rows, 13 values missing

@@ -4,9 +4,9 @@ project_name: "A/B Test Bandit"
 portfolio_readme: |
   # A/B Test Bandit
 
-  Tests four versions of a handbill against each other, and moves visitors towards the winner while the test is still running. It runs the same test five ways, from a plain even split to Thompson sampling, counts what each way cost in visitors who never came in, and recommends a winner with the chance that it really is the best.
+  Tests four versions of a flyer against each other, and moves visitors towards the winner while the test is still running. It runs the same test five ways, from a plain even split to Thompson sampling, counts what each way cost in visitors who never came in, and recommends a winner with the chance that it really is the best.
 
-  Written by {name} for the Arcade Committee, on the pier at {{town}}. Finished {date}.
+  Written by {name} for Riya, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -16,19 +16,19 @@ portfolio_readme: |
   ```
 
   ```
-  strategy          came in  lost  its pick
-  even split             584   238  beat Sir Reginald
+  strategy           came in  lost  its pick
+  even split             584   238  beat the crab
   greedy                 485   350  three goes for a pound
-  epsilon-greedy         749    69  beat Sir Reginald
-  UCB                    690   124  beat Sir Reginald
-  Thompson sampling      827    26  beat Sir Reginald
+  epsilon-greedy         749    69  beat the crab
+  UCB                    690   124  beat the crab
+  Thompson sampling      827    26  beat the crab
 
-  Recommendation: beat Sir Reginald, 96% likely to be the best
+  Recommendation: beat the crab, 96% likely to be the best
   ```
 
-  Then a chart opens: each strategy's share of visitors who came in so far, against the number of visitors, with the best handbill's rate as a dashed line.
+  Then a chart opens: each strategy's share of visitors who came in so far, against the number of visitors, with the best flyer's rate as a dashed line.
 
-  The visitors are simulated. Each handbill has a true rate in `RATES` that no strategy is allowed to read, which is what lets the program count exactly what each test cost. For a real test, the strategies and `chance_best` work unchanged on real counts.
+  The visitors are simulated. Each flyer has a true rate in `RATES` that no strategy is allowed to read, which is what lets the program count exactly what each test cost. For a real test, the strategies and `chance_best` work unchanged on real counts.
 
   ## What it shows
 
@@ -38,23 +38,22 @@ portfolio_readme: |
   - Strategies as functions passed to other functions, a `lambda`, NumPy arrays changed in place, and a seeded random generator so every run can be repeated
 downloadable: true
 # The visitors are simulated from invented rates: a bandit has to be judged against a
-# truth it can't see, and no public dataset of handbills exists. See the README.
+# truth it can't see, and no public dataset of flyers exists. See the README.
 datasets: []
-client: committee
+client: riya
 building: crab-club
 estimated_minutes: 90
-summary: "Four handbills, five thousand visitors at the pier gates, and a test that hands out the winner more often as it learns: epsilon-greedy, UCB and Thompson sampling."
+summary: "Four flyers for League night, five thousand visitors at the front door, and a test that hands out the winner more often as it learns: epsilon-greedy, UCB and Thompson sampling."
 concepts_introduced: [bandits, exploration-exploitation, ab-testing]
 concepts_reviewed: [numpy-arrays, matplotlib, probability, functions-as-values, lambda, mutability, default-arguments, f-strings, zip]
 ask:
   dialogue:
-    - committee: "New handbills for the arcade. Four designs, and the printer wants an order by Friday."
-    - committee: "We hand them out at the pier gates, and count who comes in."
-    - committee: "Fairly. A quarter of the visitors each..."
-    - committee: "...for a fortnight."
-    - moss: "Fair to the handbills. The visitors pay for it. There's a cheaper kind of fair."
+    - riya: "Caitlin's designed four flyers for League night. The print shop wants an order by Friday."
+    - caitlin: "We hand them out at the front door and count who climbs up to play."
+    - riya: "The fair way is a quarter of the visitors each. For a fortnight."
+    - paul: "Fair to the flyers. The visitors pay for it. There's a cheaper kind of fair."
   spec: |
-    Every visitor at the pier gates is handed one handbill. If they come into the arcade and play, that handbill scored (reward 1); if they walk on, it didn't (reward 0). Each version has its own chance of bringing a visitor in, and nobody knows what it is.
+    Every visitor at the Clocktower's front door is handed one flyer. If they come up to the Arcade and play, that flyer scored (reward 1); if they walk on, it didn't (reward 0). Each version has its own chance of bringing a visitor in, and nobody knows what it is.
 
     A plain A/B test hands the versions out in turn and compares them at the end. A bandit test learns as it goes, and hands out whichever is winning more often.
 
@@ -62,34 +61,33 @@ ask:
 
     1. `update(estimates, counts, version, reward)` keeps a running average for each version, in place.
     2. Four strategies, each `choose(estimates, counts, rng)` returning a version number: `choose_even_split` (the plain A/B test), `choose_epsilon_greedy` (with `epsilon=0.1`), `choose_ucb` (with `c=1.0`) and `choose_thompson`.
-    3. `run_test(choose, rates, visitors, rng)` hands one handbill to each visitor and returns `(estimates, counts, rewards)`.
+    3. `run_test(choose, rates, visitors, rng)` hands one flyer to each visitor and returns `(estimates, counts, rewards)`.
     4. `regret(counts, rates)`: the visitors a test is expected to have lost, against handing everyone the best version.
     5. `chance_best(estimates, counts, rng, draws=10000)`: each version's chance of really being the best.
-    6. Run as a program, it tries the even split, plain greedy, epsilon-greedy, UCB and Thompson sampling on 5000 visitors each, prints a line for each, recommends a handbill, and draws a chart.
+    6. Run as a program, it tries the even split, plain greedy, epsilon-greedy, UCB and Thompson sampling on 5000 visitors each, prints a line for each, recommends a flyer, and draws a chart.
   example: |
-    strategy          came in  lost  its pick
-    even split             584   238  beat Sir Reginald
+    strategy           came in  lost  its pick
+    even split             584   238  beat the crab
     greedy                 485   350  three goes for a pound
-    epsilon-greedy         749    69  beat Sir Reginald
-    UCB                    690   124  beat Sir Reginald
-    Thompson sampling      827    26  beat Sir Reginald
+    epsilon-greedy         749    69  beat the crab
+    UCB                    690   124  beat the crab
+    Thompson sampling      827    26  beat the crab
 
-    Recommendation: beat Sir Reginald, 96% likely to be the best
+    Recommendation: beat the crab, 96% likely to be the best
 ship:
   dialogue:
-    - committee: "Beat Sir Reginald. We said it would be Beat Sir Reginald."
-    - committee: "One of us said the cuddly crab."
-    - committee: "We do not discuss who said the cuddly crab."
-    - committee: "Twenty-six visitors lost. The fair way lost two hundred and thirty-eight."
-    - committee: "Ten thousand copies, then. Sir Reginald has been told, and is insufferable."
-  shelf: { object: tally-counter, label: "The committee's handbill test" }
+    - caitlin: "Beat the crab. I said it would be beat the crab."
+    - yahya: "You said the cuddly crab."
+    - caitlin: "We don't talk about the cuddly crab."
+    - riya: "Twenty-six visitors lost. The fair way would have lost two hundred and thirty-eight."
+    - paul: "Same answer, a tenth of the cost. That's the whole idea."
+  shelf: { object: tally-counter, label: "Riya's flyer test for League night" }
   cards: [bandits, exploration-exploitation, ab-testing]
-story_note: one-bucket-at-a-time
 stretch:
   - id: optimistic-start
     title: "An optimistic start"
     prompt: |
-      Start every estimate at 1.0 instead of 0, and run plain greedy again. A handbill only loses its shine by being handed out, so greedy tries them all before it settles. How does it do now, and why does it still lose more visitors than Thompson sampling?
+      Start every estimate at 1.0 instead of 0, and run plain greedy again. A flyer only loses its shine by being handed out, so greedy tries them all before it settles. How does it do now, and why does it still lose more visitors than Thompson sampling?
   - id: calming-down
     title: "Exploring less as you learn"
     prompt: |
@@ -97,4 +95,4 @@ stretch:
   - id: stop-when-sure
     title: "Stop when you're sure"
     prompt: |
-      The printer would rather not wait a fortnight. Write `run_until_sure(choose, rates, rng, confidence=0.95, check_every=100, most=20000)`, which checks `chance_best` every 100 visitors and stops as soon as one version is at least 95 per cent likely to be the best. Return the winner and the number of visitors it took. How many does the even split need, and how many does Thompson sampling? Run each ten times with different seeds: how often does each stop on the wrong handbill?
+      The print shop would rather not wait a fortnight. Write `run_until_sure(choose, rates, rng, confidence=0.95, check_every=100, most=20000)`, which checks `chance_best` every 100 visitors and stops as soon as one version is at least 95 per cent likely to be the best. Return the winner and the number of visitors it took. How many does the even split need, and how many does Thompson sampling? Run each ten times with different seeds: how often does each stop on the wrong flyer?

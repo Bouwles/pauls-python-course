@@ -1,0 +1,92 @@
+/* The cards beside the tower: Continue, Morning Rounds, Shelf. */
+.side {
+  display: grid;
+  align-content: start;
+  gap: var(--s-4);
+  min-width: 0;
+}
+
+.card {
+  display: grid;
+  gap: var(--s-3);
+}
+
+.head {
+  font-size: var(--fs-1);
+  font-family: var(--font-text);
+  font-weight: 700;
+  letter-spacing: normal;
+  line-height: 1.3;
+  color: var(--text-2);
+}
+
+.project {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--s-4);
+}
+
+.projectText {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.projectName,
+.big {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-5);
+  line-height: var(--lh-title);
+  letter-spacing: var(--tracking-display);
+}
+
+.meta {
+  font-size: var(--fs-2);
+  line-height: 1.45;
+  color: var(--text-2);
+}
+
+.big + .meta {
+  margin-top: calc(var(--s-1) - var(--s-3));
+}
+
+.wide {
+  width: 100%;
+  margin-top: var(--s-1);
+}
+
+.pair {
+  display: grid;
+  gap: var(--s-4);
+}
+
+.assigned {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s-2);
+}
+
+.assigned li {
+  display: grid;
+}
+
+.assigned a {
+  font-weight: 700;
+}
+
+.aside {
+  font-size: var(--fs-2);
+  color: var(--text-2);
+  padding: 0 var(--s-1);
+}
+
+/* Between the phone and the desktop layout the two small cards sit side by side. */
+@media (min-width: 560px) and (max-width: 959px) {
+  .pair {
+    grid-template-columns: 1fr 1fr;
+  }
+}

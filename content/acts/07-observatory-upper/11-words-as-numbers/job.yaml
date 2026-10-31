@@ -6,7 +6,7 @@ portfolio_readme: |
 
   A character-level language model that writes shipping forecasts. It turns text into numbers with a vocabulary, counts which character follows which, scores itself by perplexity on forecasts it never saw, and writes new ones a character at a time. Then the same model is learnt by gradient descent instead of counting, through an embedding for every character.
 
-  Written by {name} in {{town}}. Finished {date}.
+  Written by {name} for Caitlin, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -18,10 +18,11 @@ portfolio_readme: |
 
   ```
   Vocabulary: 39 characters
-  Perplexity on forecasts it never saw: 7.30
+  Perplexity on forecasts it never saw: 7.05
   Guessing evenly would be 39
-  -we rly odeaweaing. n fas.
-  ly t pponder. gout ooughterterbester.
+  -we rngor. fy d. od. 4 5.
+  thes. qsherr. gout ooubesinoord.kk. am d. or windwes. eveck3nars.
+  6 hesaiomo mon sherly omorigherough-weshea9-3 goorably norstester. e. orsththor.
   ```
 
   ## What it shows
@@ -33,10 +34,10 @@ portfolio_readme: |
 
   ## Data
 
-  `forecasts.txt` and `held_back.txt` are invented for the story: shipping forecasts for the sea areas round {{town}}, written in the style of the BBC's.
+  `forecasts.txt` and `held_back.txt` are invented: shipping forecasts for the made-up sea areas in a sailing game, written in the style of the BBC's.
 downloadable: true
 datasets: []
-client: wendt
+client: caitlin
 building: observatory
 estimated_minutes: 100
 summary: "A character-level text generator that writes shipping forecasts: a vocabulary, a model that counts which character follows which, and the same model learnt by gradient descent through embeddings."
@@ -44,10 +45,11 @@ concepts_introduced: [tokenisation, embeddings, language-models]
 concepts_reviewed: [cross-entropy, neural-networks, backpropagation, gradient-descent, probability, sets, dictionaries, string-methods, files, numpy-arrays, matrices, random-module]
 ask:
   dialogue:
-    - wendt: "Downstairs she taught it numbers. Up here, words. Shipping forecasts, copied out in pencil."
-    - wendt: "Thirty forecasts for the waters off {{town}}. Five more she kept back in a separate envelope."
-    - pip: "A machine that reads. It'll be writing the forecast by Friday."
-    - moss: "It'll be writing something by Friday."
+    - caitlin: "My sailing game has a radio. It reads the shipping forecast for the game's sea areas."
+    - caitlin: "I wrote thirty forecasts, and kept five back. I want the game to make up its own."
+    - neil: "Then it learns from yours. Thirty is a small library, but it's enough to learn some spelling."
+    - yahya: "It'll be writing the forecast by Friday."
+    - paul: "It'll be writing something by Friday."
   spec: |
     In `words.py`, turn the forecasts into numbers and build a model that guesses each next character by counting.
 
@@ -61,18 +63,18 @@ ask:
     8. In `learn.py`, the same model learnt by gradient descent, with an embedding for every character.
   example: |
     Vocabulary: 39 characters
-    Perplexity on forecasts it never saw: 7.30
+    Perplexity on forecasts it never saw: 7.05
     Guessing evenly would be 39
-    -we rly odeaweaing. n fas.
-    ly t pponder. gout ooughterterbester.
-story_note: what-i-mean
+    -we rngor. fy d. od. 4 5.
+    thes. qsherr. gout ooubesinoord.kk. am d. or windwes. eveck3nars.
+    6 hesaiomo mon sherly omorigherough-weshea9-3 goorably norstester. e. orsththor.
 ship:
   dialogue:
-    - wendt: "Perplexity 7.3 on forecasts it never saw. Guessing evenly would be 39."
-    - pip: "It forecast 'gout ooughterterbester'. I'd still go out in that."
-    - wendt: "It knows which letter follows which. One letter back. That's everything it knows."
-    - moss: "Then it needs to look further back."
-  shelf: { object: type-case, label: "The forecasts, as numbers" }
+    - caitlin: "Perplexity 7.05 on forecasts it never saw. Guessing evenly would be 39."
+    - yahya: "It forecast 'gout ooubesinoord'. I'd still sail in that."
+    - neil: "It knows which letter follows which. One letter back. That's everything it knows."
+    - paul: "Then it needs to look further back."
+  shelf: { object: type-case, label: "Caitlin's forecasts, as numbers" }
   cards: [tokenisation, embeddings, language-models]
 stretch:
   - id: two-back
@@ -82,7 +84,7 @@ stretch:
   - id: words-not-letters
     title: "Words, not letters"
     prompt: |
-      Tokenise the forecasts into words with `text.split()` and build the same counting model over words. Make up a forecast. Then try to score `held_back.txt`: what happens at "quay", a word the thirty forecasts never use? Real tokenisers split rare words into common pieces for exactly this reason.
+      Tokenise the forecasts into words with `text.split()` and build the same counting model over words. Make up a forecast. Then try to score `held_back.txt`: what happens at "river", a word the thirty forecasts never use? Real tokenisers split rare words into common pieces for exactly this reason.
   - id: temperature
     title: "Bolder or more careful"
     prompt: |

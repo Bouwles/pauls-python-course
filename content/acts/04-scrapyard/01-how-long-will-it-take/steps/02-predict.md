@@ -27,4 +27,4 @@ options:
 after: |
   Run it. Then add a fifth part and run it again. One more part, nine more checks.
 ---
-Penhallow's spares check compares parts with each other. This is its skeleton, with the comparing taken out and a counter put in.
+Paul's spares check compares parts with each other. This is its skeleton, with the comparing taken out and a counter put in.

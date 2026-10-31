@@ -4,7 +4,7 @@ type: make
 title: Make the password generator
 files: [passwords.py]
 entry: passwords.py
-on_pass: { mira: "Two hundred passwords, and not one O pretending to be a nought. I looked." }
+on_pass: { neil: "Two hundred passwords, and not one O pretending to be a nought. I looked." }
 hints:
   nudge: "Which kinds of character does this call want? Build the pool from those, then keep making passwords until one has every kind in it."
   plan:
@@ -44,7 +44,7 @@ hints:
             issued[name] = make_password(___)
         return issued
 ---
-Write the three functions from the brief in `passwords.py`, each with a docstring. The comments are Moss's subgoals from the raffle tickets, with a few new ones.
+Write the three functions from the brief in `passwords.py`, each with a docstring. The comments are Paul's subgoals from the raffle tickets, with a few new ones.
 
 The starter reads the word list into `WORDS` for you, and `has_any(text, chars)` tells you whether a password has at least one of some characters.
 

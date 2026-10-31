@@ -1,32 +1,32 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "My repairs queue. First in, first mended. Same machinery as Mira's list."
+  - paul: "My office-hours queue. First come, first answered. Same machinery as Neil's list."
 code: |
-  # The workshop queue: repairs in the order they came in
-  repairs = []
+  # Office hours: questions in the order they came in
+  questions = []
 
   while True:
       command = input("Command? ")
       if command == "shut":
           break
       elif command == "in":
-          repairs.append(input("Repair? "))
+          questions.append(input("Question? "))
       elif command == "next":
-          if len(repairs) == 0:
+          if len(questions) == 0:
               print("Queue's empty. Put the kettle on.")
           else:
-              print("Working on:", repairs.pop(0))
+              print("Answering:", questions.pop(0))
       elif command == "show":
-          for spot in range(len(repairs)):
-              print(f"{spot + 1}. {repairs[spot]}")
+          for spot in range(len(questions)):
+              print(f"{spot + 1}. {questions[spot]}")
       else:
           print("in, next, show or shut.")
 
-  print(f"Still waiting: {len(repairs)}")
-inputs: ["in", "Tom's kettle", "in", "Gwen's till", "show", "next", "shut"]
+  print(f"Still waiting: {len(questions)}")
+inputs: ["in", "Riya: why 7.199999", "in", "Yahya: is range slow", "show", "next", "shut"]
 subgoals:
   - label: Start with an empty list
     lines: [2, 2]
@@ -49,6 +49,6 @@ explain:
   answer: "Python's indexes start at 0 and people's numbers start at 1. `spot + 1` turns an index into the number a person reads. `pop(0)` is talking to Python, so it uses the index."
   concept: indexing
 ---
-`[]` is an empty list, ready to fill. `repairs.pop(0)` takes off the first item and hands it back, so the oldest repair is always next.
+`[]` is an empty list, ready to fill. `questions.pop(0)` takes off the first item and hands it back, so the oldest question is always next.
 
-`range(len(repairs))` gives every index the list has, so the loop fits however many repairs are waiting. With none, it runs zero times.
+`range(len(questions))` gives every index the list has, so the loop fits however many questions are waiting. With none, it runs zero times.

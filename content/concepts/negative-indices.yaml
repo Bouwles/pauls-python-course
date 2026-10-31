@@ -1,11 +1,11 @@
 id: negative-indices
 title: Counting from the end
 summary: |
-  Negative indexes count back from the end of a list. `parcels[-1]` is always the last item and `parcels[-2]` the one before it, however long the list is. Counting from the end starts at -1, because -0 is just 0, and index 0 is still the first item.
+  Negative indexes count back from the end of a list. `arrivals[-1]` is always the last item and `arrivals[-2]` the one before it, however long the list is. Counting from the end starts at -1, because -0 is just 0, and index 0 is still the first item.
 example: |
-  parcels = ["Bea", "Tom", "Agnes", "Gwen"]
-  print(parcels[-1])
-  print(parcels[-2])
+  arrivals = ["Riya", "Yahya", "Aaesha", "Caitlin"]
+  print(arrivals[-1])
+  print(arrivals[-2])
 misconceptions: [negative-index-error, negative-index-starts-at-zero]
 related: [indexing, lists]
 drill: true
@@ -13,35 +13,35 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      parcels = ["Bea", "Tom", "Agnes"]
-      print(parcels[-1])
-    answer: "Agnes"
+      arrivals = ["Riya", "Yahya", "Aaesha"]
+      print(arrivals[-1])
+    answer: "Aaesha"
   - type: predict
     prompt: What does this print?
     code: |
-      boats = ["Kestrel", "Plover", "Mary Rose", "Tern"]
-      print(boats[-3])
-    answer: "Plover"
+      floors = ["Workshop", "Studio", "Makerspace", "Puzzle Room"]
+      print(floors[-3])
+    answer: "Studio"
   - type: choice
     prompt: What does this print?
     code: |
-      parcels = ["Bea", "Tom", "Agnes", "Gwen"]
-      print(parcels[-2])
+      arrivals = ["Riya", "Yahya", "Aaesha", "Caitlin"]
+      print(arrivals[-2])
     options:
-      - text: Agnes
+      - text: Aaesha
         correct: true
-        feedback: "-1 is Gwen, the last. -2 is the one before her."
-      - text: Tom
+        feedback: "-1 is Caitlin, the last. -2 is the one before her."
+      - text: Yahya
         misconception: negative-index-starts-at-zero
-        feedback: "The last item is -1, not -0. So -2 is second from the end: Agnes."
+        feedback: "The last item is -1, not -0. So -2 is second from the end: Aaesha."
       - text: An error
         misconception: negative-index-error
         feedback: "Negative indexes are allowed. They count back from the end."
   - type: fix
-    prompt: "This should print the last parcel. Fix it with a negative index."
+    prompt: "This should print the last arrival. Fix it with a negative index."
     code: |
-      parcels = ["Bea", "Tom", "Agnes"]
-      print(parcels[len(parcels)])
+      arrivals = ["Riya", "Yahya", "Aaesha"]
+      print(arrivals[len(arrivals)])
     tests: |
       import ast as _ast
 
@@ -49,27 +49,27 @@ cards:
           for node in _ast.walk(tree):
               if isinstance(node, _ast.Subscript) and isinstance(node.slice, _ast.UnaryOp) and isinstance(node.slice.op, _ast.USub):
                   return None
-          return "Use a negative index, like parcels[-1]."
+          return "Use a negative index, like arrivals[-1]."
 
       TESTS = [
-          output("Last parcel", expect="Agnes"),
+          output("Last arrival", expect="Aaesha"),
           structure("Negative index", check=negative),
       ]
     solution: |
-      parcels = ["Bea", "Tom", "Agnes"]
-      print(parcels[-1])
+      arrivals = ["Riya", "Yahya", "Aaesha"]
+      print(arrivals[-1])
   - type: fill
-    prompt: "Fill the gap so this prints the second parcel from the end."
+    prompt: "Fill the gap so this prints the second arrival from the end."
     code: |
-      parcels = ["Bea", "Tom", "Agnes", "Gwen", "Moss"]
-      print(parcels[___])
+      arrivals = ["Riya", "Yahya", "Aaesha", "Caitlin", "Paul"]
+      print(arrivals[___])
     blanks: [["-2"]]
     tests: |
-      TESTS = [output("Gwen", expect="Gwen")]
+      TESTS = [output("Caitlin", expect="Caitlin")]
   - type: write
-    prompt: "Print the newest parcel, the last in the list, and then the one before it. Use negative indexes."
+    prompt: "Print the newest arrival, the last in the list, and then the one before it. Use negative indexes."
     starter: |
-      parcels = ["Bea", "Tom", "Agnes", "Gwen", "Moss"]
+      arrivals = ["Riya", "Yahya", "Aaesha", "Caitlin", "Paul"]
     tests: |
       import ast as _ast
 
@@ -77,13 +77,13 @@ cards:
           for node in _ast.walk(tree):
               if isinstance(node, _ast.Subscript) and isinstance(node.slice, _ast.UnaryOp) and isinstance(node.slice.op, _ast.USub):
                   return None
-          return "Use negative indexes, like parcels[-1]."
+          return "Use negative indexes, like arrivals[-1]."
 
       TESTS = [
-          output("Newest two", expect="Moss\nGwen"),
+          output("Newest two", expect="Paul\nCaitlin"),
           structure("Negative indexes", check=negative),
       ]
     solution: |
-      parcels = ["Bea", "Tom", "Agnes", "Gwen", "Moss"]
-      print(parcels[-1])
-      print(parcels[-2])
+      arrivals = ["Riya", "Yahya", "Aaesha", "Caitlin", "Paul"]
+      print(arrivals[-1])
+      print(arrivals[-2])

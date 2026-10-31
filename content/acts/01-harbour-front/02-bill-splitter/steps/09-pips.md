@@ -1,12 +1,12 @@
 ---
 id: pips
 type: pips
-title: Pip's Version
+title: Fix Yahya's version
 dialogue:
-  - pip: "I did the tip part already. Twenty pounds, ten per cent tip: twenty pounds ten."
-  - pip: "Bea gave me a look. I think it was a look."
+  - yahya: "I did the tip part already. Three letters, one line of maths. Fast."
+  - yahya: "Twenty pounds, ten per cent tip: twenty pounds ten. Riya says that's wrong. Can you look?"
 dialogue_after:
-  - pip: "So the times went first, and the lifeboat tin got ten pence. Brackets. Fine."
+  - yahya: "So the times went first, and the tip came to ten pence. Brackets. Fine."
 hints:
   nudge: "On line 3, which happens first, the `*` or the `+`? Work out `20 * 1 + 10 / 100` by hand, in Python's order."
   plan:
@@ -20,6 +20,6 @@ hints:
     total = bill * (___)
     print(f"Total with tip: {total:.2f}")
 ---
-Pip's program adds a tip to a bill. Run it with a bill of `20` and a tip of `10`. It should say `Total with tip: 22.00`.
+Yahya's program adds a tip to a bill. Run it with a bill of `20` and a tip of `10`. It should say `Total with tip: 22.00`.
 
-Find out why it doesn't, then fix it. While you're in there, give the variables honest names. Moss won't accept `a`, `b` and `c`.
+Find out why it doesn't, then fix it. While you're in there, give the variables honest names. Paul won't accept `a`, `b` and `c`.

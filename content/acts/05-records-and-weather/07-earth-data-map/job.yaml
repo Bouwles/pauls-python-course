@@ -2,7 +2,7 @@ id: earth-data-map
 title: "Earth Data Map"
 project_name: "Earth Data Map"
 status: outline
-client: ashby
+client: riya
 building: records-office
 estimated_minutes: 120
-summary: "Real geographic data on a map: Mr Ashby's question about where the lifeboat launches happened, answered with points plotted by latitude and longitude, coloured by year, over a public coastline, with an honest note on what a map projection does to distances."
+summary: "Real geographic data on a map: Riya's question about where last year's earthquakes struck, answered with points plotted by latitude and longitude, sized by magnitude and coloured by depth, over a public coastline, with an honest note on what a map projection does to distances."

@@ -1,79 +1,108 @@
-/* The syllabus: every Act on its own panel, its jobs as a board of numbered slots. */
+/* The syllabus (REDESIGN-2.md 6): each Act a section with its header beside its projects, the
+   floor's resident colour as a small square, projects as plain numbered rows. */
 .head {
   display: grid;
-  gap: var(--s-4);
-  margin-bottom: var(--s-8);
+  gap: var(--s-5);
+  margin-bottom: var(--s-16);
 }
 
 .title {
-  font-size: var(--pixel-3);
+  font-size: var(--fs-7);
 }
 
 .lede {
-  font-size: var(--prose-size);
-  line-height: var(--lh-prose);
-  max-width: var(--measure);
+  font-size: var(--fs-4);
   color: var(--text-2);
+  max-width: 42em;
+}
+
+.square {
+  display: inline-block;
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: var(--r-sm);
 }
 
 .contents ol {
   list-style: none;
-  margin: 0;
+  margin: var(--s-2) 0 0;
   padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-2) var(--s-5);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-1) var(--s-6);
 }
 
 .contents a {
-  font-size: var(--step--1);
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  min-height: 40px;
+  color: var(--text);
+  font-weight: 700;
+  text-decoration: none;
 }
 
-.actNo {
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 1;
-  -webkit-font-smoothing: none;
-  color: var(--accent-text);
+.contents a:hover span:last-child {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.contentsNo {
+  flex: none;
+  width: 3.4em;
+  color: var(--text-2);
+  font-size: var(--fs-2);
 }
 
 .acts {
-  --slot: var(--panel);
   display: grid;
-  gap: var(--s-6);
 }
 
 .act {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-  gap: var(--s-6);
-  box-shadow: var(--shadow-hard);
+  grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
+  gap: var(--s-12);
+  padding: var(--s-12) 0;
+  border-top: 1px solid var(--line);
   scroll-margin-top: var(--s-4);
 }
 
 .actHead {
+  position: sticky;
+  top: var(--s-6);
+  align-self: start;
   display: grid;
   gap: var(--s-3);
-  align-content: start;
   min-width: 0;
 }
 
-.actTitle {
-  font-size: var(--pixel-2);
+.actLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-size: var(--fs-2);
+  font-weight: 700;
+  color: var(--text-2);
 }
 
-.actTitle .actNo {
-  font-size: inherit;
+.actTitle {
+  font-size: var(--fs-6);
 }
 
 .actMeta {
-  font-size: var(--step--1);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2) var(--s-3);
+  font-size: var(--fs-2);
   font-weight: 700;
 }
 
 .actSummary {
-  font-size: var(--step-0);
-  line-height: var(--lh-prose);
+  font-size: var(--fs-2);
+  line-height: 1.6;
   color: var(--text-2);
 }
 
@@ -82,31 +111,34 @@
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 2px;
   min-width: 0;
 }
 
 .job {
   display: grid;
-  grid-template-columns: 32px minmax(0, 1fr) auto;
+  grid-template-columns: 40px minmax(0, 1fr);
   gap: var(--s-3);
-  align-items: start;
-  padding: var(--s-3);
-  background: var(--slot);
+  padding: var(--s-5) 0;
+  min-width: 0;
+}
+
+.job + .job {
+  border-top: 1px solid var(--line);
+}
+
+.job:first-child {
+  padding-top: 0;
 }
 
 .jobNo {
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 28px;
-  padding-top: 2px;
-  background: var(--frame);
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 1;
-  -webkit-font-smoothing: none;
+  font-family: var(--font-display);
+  font-size: var(--fs-5);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: var(--tracking-display);
+  font-variant-numeric: tabular-nums;
   color: var(--text-2);
+  text-align: right;
 }
 
 .jobText {
@@ -116,37 +148,41 @@
 }
 
 .jobTitle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-1) var(--s-3);
+  font-family: var(--font-text);
+  font-size: var(--fs-3);
   font-weight: 700;
+  letter-spacing: normal;
   line-height: 1.4;
 }
 
-.jobFor {
-  font-weight: 400;
-  font-size: var(--step--1);
+.jobSummary {
+  font-size: var(--fs-2);
+  line-height: 1.55;
   color: var(--text-2);
+  max-width: 64ch;
 }
 
-.jobSummary {
-  font-size: var(--step--1);
-  line-height: 1.5;
+.jobMeta {
+  font-size: var(--fs-1);
+  color: var(--text-2);
 }
 
 .concepts {
-  font-size: var(--step--1);
-  line-height: 1.5;
-  color: var(--text-2);
+  list-style: none;
+  margin: var(--s-2) 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-1) var(--s-1);
 }
 
-/* A small pixel tag on jobs still being written. */
-.writing {
-  padding: 4px var(--s-2) 2px;
-  background: var(--frame);
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 1;
-  -webkit-font-smoothing: none;
-  color: var(--text-2);
-  white-space: nowrap;
+.concept {
+  font-weight: 400;
+  color: var(--text);
 }
 
 .foot {
@@ -154,12 +190,30 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--s-4);
-  margin-top: var(--s-10);
+  gap: var(--s-4) var(--s-8);
+  margin-top: var(--s-8);
+  padding: var(--s-8);
+  background: var(--surface-2);
+  border-radius: var(--r-lg);
+}
+
+:root[data-theme="light"] .foot {
+  border: 1px solid var(--line);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .foot {
+    border: 1px solid var(--line);
+  }
 }
 
 .footText {
-  font-size: var(--prose-size);
+  font-family: var(--font-display);
+  font-size: var(--fs-5);
+  font-weight: 700;
+  letter-spacing: var(--tracking-display);
+  line-height: 1.25;
+  max-width: 28em;
 }
 
 .footButtons {
@@ -168,38 +222,48 @@
   gap: var(--s-3);
 }
 
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .act {
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--s-4);
+    gap: var(--s-6);
+  }
+
+  .actHead {
+    position: static;
+  }
+
+  .contents ol {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 720px) {
-  .title {
-    font-size: var(--pixel-2);
+  .head {
+    margin-bottom: var(--s-10);
+  }
+
+  .contents ol {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .act {
+    padding: var(--s-10) 0;
   }
 
   .job {
-    grid-template-columns: 32px minmax(0, 1fr);
-    padding: var(--s-2);
+    grid-template-columns: 28px minmax(0, 1fr);
   }
 
-  .writing {
-    grid-column: 2;
-    justify-self: start;
+  .jobNo {
+    font-size: var(--fs-4);
   }
-}
 
-/* Day: a day panel's body is the panel colour, so slots step down to the page colour instead. */
-:root[data-theme="light"] .acts {
-  --slot: var(--bg);
-  --slot-hover: var(--frame);
-}
+  .foot {
+    padding: var(--s-6) var(--s-5);
+  }
 
-@media (prefers-color-scheme: light) {
-  :root[data-theme="system"] .acts {
-    --slot: var(--bg);
-    --slot-hover: var(--frame);
+  .footButtons,
+  .footButtons > * {
+    width: 100%;
   }
 }

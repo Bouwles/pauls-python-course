@@ -1,10 +1,10 @@
 ---
 id: worked
 type: worked
-title: How Moss would try an idea
+title: How Paul would try an idea
 language: text
 dialogue:
-  - moss: "An idea goes on a branch. If it's good, it comes home. If not, nothing's lost."
+  - paul: "An idea goes on a branch. If it's good, it comes home. If not, nothing's lost."
 code: |
   workshop $ git switch -c urgent
   Switched to a new branch 'urgent'
@@ -27,7 +27,7 @@ subgoals:
     lines: [8, 10]
 explain:
   prompt: "Why did the merge say Fast-forward?"
-  answer: "Nothing changed on main while Moss was on the branch, so git just moved main forward to the branch's commit. No new merge commit was needed."
+  answer: "Nothing changed on main while Paul was on the branch, so git just moved main forward to the branch's commit. No new merge commit was needed."
   concept: git-branches
 ---
 A **branch** is a name pointing at a commit. `git switch -c name` makes a new one and moves you onto it; commits you make there move that name forward and leave `main` alone.

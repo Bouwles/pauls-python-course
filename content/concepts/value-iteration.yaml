@@ -27,16 +27,16 @@ cards:
       print(max(worth, key=worth.get))
     answer: "left"
   - type: choice
-    prompt: "Pip's value iteration says every tile is worth far more than it should be. What's wrong with this line?"
+    prompt: "Yahya's value iteration says every tile is worth far more than it should be. What's wrong with this line?"
     code: |
       best = max(reward + gamma * values[after]
                  for action in ACTIONS
                  for chance, after, reward, over in outcomes(tile, action))
     verify: none
     options:
-      - text: It takes the best outcome as well as the best action, as if Sir Reginald could choose where he slips.
+      - text: It takes the best outcome as well as the best action, as if the crab could choose where it slips.
         correct: true
-        feedback: "The committee choose the action, so take the max over actions. The sea chooses the outcome, so average the outcomes by their chances."
+        feedback: "You choose the action, so take the max over actions. The track chooses the outcome, so average the outcomes by their chances."
       - text: Nothing. The max picks the best action, which is the point of value iteration.
         misconception: max-over-outcomes
         feedback: "The max here runs over every outcome of every action, including slips into the pool's neighbours and lucky bumps. Each action's outcomes need averaging by chance first."
@@ -115,15 +115,15 @@ cards:
 
           return "left" if worth(tile - 1) > worth(tile + 1) else "right"
   - type: choice
-    prompt: "Seconds are free and the committee are patient. On the tile left of the rock pool, why does the best policy point into the rock?"
+    prompt: "Seconds are free and nobody's in a hurry. On the tile left of the rock pool, why does the best policy point into the rock?"
     verify: none
     options:
       - text: Bumping the rock is the only move that can never end in the pool, and waiting costs nothing.
         correct: true
-        feedback: "He stays put eight times in ten and slips up or down otherwise. With free seconds, a safe wait beats a quick risk."
+        feedback: "It stays put eight times in ten and slips up or down otherwise. With free seconds, a safe wait beats a quick risk."
       - text: Because the rock is closer than the finish.
         misconception: best-is-shortest
         feedback: "Distance isn't what's being maximised. The expected return is, and with free seconds, avoiding the pool matters far more than speed."
       - text: Going down would be just as safe.
         misconception: sideways-slips-ignored
-        feedback: "Told down, he can slip sideways, and sideways to the right is the pool."
+        feedback: "Told down, it can slip sideways, and sideways to the right is the pool."

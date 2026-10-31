@@ -1,11 +1,11 @@
-"""The {{town}} Weather Report, for Priya Lund. Run it, and it prints the report
+"""The Clocktower Weather Report, for Aaesha. Run it, and it prints the report
 and draws its three charts.
 
 It prints this, in this order, with every number worked out from ledger.csv
 by your own functions, never typed in:
 
-The {{town}} Weather Report, 1925 to 2024
-Source: {{town}} Weather Station book, 1925 to 2024, at the Records Office
+The Clocktower Weather Report, 1925 to 2024
+Source: Clocktower weather station book, 1925 to 2024, in the Archive
 
 The record
   1200 months, missing months: none

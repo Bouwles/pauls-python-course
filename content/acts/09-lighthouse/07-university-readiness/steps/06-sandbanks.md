@@ -4,7 +4,7 @@ type: make
 title: "Question 5: Sandbanks at low water"
 files: [sandbanks.py]
 entry: sandbanks.py
-on_pass: { ferro: "Every bank in the bay, biggest first. Steer round the first one and the rest take care of themselves." }
+on_pass: { yahya: "Every bank on the chart, biggest first. Flood fill in a dozen lines. Elegant." }
 hints:
   nudge: "Standing on one square of sand, which squares belong to the same bank? And what stops you counting the square you came from all over again?"
   plan:
@@ -37,7 +37,7 @@ hints:
                     sizes.append(___)
         return sorted(sizes, ___)
 ---
-At low water, Captain Ferro's chart of the bay shows sand as `#` and water as `.`. Sand squares that touch up, down, left or right are one sandbank. Touching at a corner doesn't join them.
+At low water, a chart of the estuary shows sand as `#` and water as `.`. Sand squares that touch up, down, left or right are one sandbank. Touching at a corner doesn't join them.
 
 Write `bank_sizes(chart)`: how many squares are in each sandbank, biggest first. `chart` is a list of strings, all the same length. Leave it as it was.
 

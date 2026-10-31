@@ -1,12 +1,12 @@
 import importlib
 from datetime import datetime
 
-BOARD = """Saturday 11:30 on the High Street
-Sanjay's: open
-Okonjo's: closed
-The Library: open
+BOARD = """Saturday 11:30 at the Clocktower
+The Studio: open
+The Makerspace: closed
+The Workshop: open
 
-Sanjay's door:
+The Studio's door:
   Mon 8 till 18
   Tue 8 till 18
   Wed 8 till 18
@@ -15,7 +15,7 @@ Sanjay's door:
   Sat 8 till 13
   Sun closed
 
-Busiest at Sanjay's: Sat"""
+Busiest in the Studio: Sat"""
 
 SHOP = {"Mon": (9, 17), "Sat": (10, 13)}
 
@@ -31,7 +31,7 @@ def is_open_case(when, expected, what):
         hours = load_hours(ctx)
         got = hours.is_open(SHOP, when)
         if got is not expected:
-            raise CheckFailed(f"is_open for a shop open Mon 9 till 17, on {what}, should be {expected}.",
+            raise CheckFailed(f"is_open for a room open Mon 9 till 17, on {what}, should be {expected}.",
                               expected=repr(expected), actual=repr(got))
     return check
 
@@ -67,16 +67,16 @@ def runs_on_its_own(ctx):
 
 
 TESTS = [
-    output("The High Street board", expect=BOARD, visible=True,
+    output("The Clocktower board", expect=BOARD, visible=True,
            hint="If there are extra lines at the top, hours.py is printing when it's imported. Put its checks under the main guard."),
     custom("Open at 9:00 on a Monday", is_open_case(datetime(2026, 3, 16, 9, 0), True, "Monday at 9:00"), visible=True),
     custom("Closed at the closing hour", is_open_case(datetime(2026, 3, 16, 17, 0), False, "Monday at 17:00"),
-           hint="At 17:00 a shop that closes at 17 is closed. Open means opens <= hour < closes."),
+           hint="At 17:00 a room that closes at 17 is closed. Open means opens <= hour < closes."),
     custom("Open just before closing", is_open_case(datetime(2026, 3, 16, 16, 59), True, "Monday at 16:59")),
     custom("Closed before opening", is_open_case(datetime(2026, 3, 16, 8, 59), False, "Monday at 8:59")),
     custom("Closed on a day with no hours", is_open_case(datetime(2026, 3, 15, 12, 0), False, "Sunday at noon"),
            hint="A day missing from the dictionary is a closed day. hours.get(day) gives None for it."),
-    custom("A sign for another shop", sign_case,
+    custom("A sign for another room", sign_case,
            hint="Every day gets a line, in DAYS order. Days with no hours say closed."),
     custom("Busiest day of another week",
            busiest_case([datetime(2026, 3, 17, 9, 0), datetime(2026, 3, 18, 9, 0), datetime(2026, 3, 24, 9, 0)], "Tue",

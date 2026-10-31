@@ -4,18 +4,18 @@ type: predict
 title: Eighty-eight in a hundred
 concept: baselines
 dialogue:
-  - pip: "Priya's gale model is right eighty-eight days in a hundred. That's a brilliant model."
-  - wendt: "Is it. Compared with what?"
+  - caitlin: "This gale model I found is right eighty-eight days in a hundred. That's brilliant."
+  - aaesha: "Is it. Compared with what?"
 code: |
   import numpy as np
 
   rng = np.random.default_rng(2)
   gale = (rng.random(365) < 0.1).astype(int)    # a gale on about one day in ten
 
-  station_model = 0.88                           # the gale model's accuracy
+  gale_model = 0.88                           # the gale model's accuracy
   always_calm = np.mean(gale == 0)
   print(round(always_calm, 2))
-  print("the model" if station_model > always_calm else "always calm")
+  print("the model" if gale_model > always_calm else "always calm")
 question: "Which is right more often: the gale model, or saying \"calm\" every single day?"
 options:
   - text: |-

@@ -1,12 +1,12 @@
 ---
 id: pips
 type: pips
-title: Pip's Version
+title: Fix Riya's version
 dialogue:
-  - pip: "Mine has a menu. Two options. Very tidy."
-  - pip: "Every option says no such option. Ferro called it mutiny, then went quiet in the beard."
+  - riya: "I started Yahya's converter. A menu, because nobody remembers which number is which."
+  - riya: "Every option says no such option. Can you look at it? Something's off."
 dialogue_after:
-  - pip: "So \"1\" isn't 1. One's text and one's a number. They look the same to me."
+  - riya: "So \"1\" isn't 1. One's text and one's a number. They look the same to me."
 hints:
   nudge: "What type does `input()` give you? And what type is the `1` on the `if` line?"
   plan:
@@ -15,14 +15,14 @@ hints:
     - Compare text with text, or turn the choice into a number first
   shape: |
     choice = input("Choose 1 or 2: ")
-    knots = float(input("How many? "))
+    amount = float(input("How many? "))
     if choice == ___:
-        print(f"That's {knots * 1.15078:.2f} mph.")
+        print(f"That's {amount / 1.609344:.2f} miles.")
     elif choice == ___:
-        print(f"That's {knots * 1.852:.2f} km/h.")
+        print(f"That's {amount * 1.609344:.2f} min per mile.")
     else:
         print("No such option.")
 ---
-Pip's converter only does knots. Run it, choose `1` and type `12`. It should say `That's 13.81 mph.`
+Riya's converter only does the first two. Run it, choose `1` and type `12`. It should say `That's 7.46 miles.`
 
 Find out why every choice ends up at `No such option.`, then fix it.

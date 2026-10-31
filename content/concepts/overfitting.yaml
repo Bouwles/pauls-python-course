@@ -50,7 +50,7 @@ cards:
         misconception: validation-error-keeps-falling
         feedback: "Degree 9 has ten weights for ten training readings, so its training error is practically 0. But it bends to fit their noise, and does worse than degree 2 on readings it hasn't seen."
   - type: choice
-    prompt: "Pip's degree-11 curve has a training error of exactly 0. What's the likeliest story?"
+    prompt: "Riya's degree-11 curve has a training error of exactly 0. What's the likeliest story?"
     verify: none
     options:
       - text: "It has enough weights to pass through every training reading, noise and all, and will do badly on new ones"
@@ -68,7 +68,7 @@ cards:
         misconception: underfitting-is-undertraining
         feedback: "More steps only bring it closer to the best straight line, and the best straight line is still wrong. The model is too simple for the shape, however well it's trained."
   - type: choice
-    prompt: "Degree 10 has the lowest training error of all. Should Wendt choose it?"
+    prompt: "Degree 10 has the lowest training error of all. Should Aaesha choose it?"
     verify: none
     options:
       - text: "No: choose the degree with the lowest validation error"

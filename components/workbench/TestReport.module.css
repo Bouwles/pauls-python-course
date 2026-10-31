@@ -1,154 +1,245 @@
-/* The check report (REDESIGN.md 4.5). */
 .report {
-  padding: var(--s-3) var(--s-4) var(--s-6);
-  overflow: auto;
+  display: grid;
+  gap: var(--s-4);
+  padding: var(--s-4) var(--s-5) var(--s-6);
+  align-content: start;
+}
+
+.idle {
+  font-size: var(--fs-1);
+  color: var(--text-2);
+  max-width: var(--measure);
+}
+
+.head {
+  display: grid;
+  gap: var(--s-3);
 }
 
 .summary {
   display: flex;
   align-items: center;
   gap: var(--s-2);
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 1;
-  -webkit-font-smoothing: none;
-  padding-top: 2px;
+  font-family: var(--font-display);
+  font-size: var(--fs-4);
+  font-weight: 700;
+  letter-spacing: var(--tracking-display);
+  line-height: 1.2;
 }
 
-.good {
-  color: var(--go-text);
+.good svg {
+  color: var(--pass-text);
 }
 
-.bad {
-  color: var(--danger-text);
+.bad svg {
+  color: var(--fail-text);
+}
+
+.progress {
+  display: flex;
+  gap: 2px;
+  height: 6px;
+  max-width: 480px;
+  border-radius: var(--r-sm);
+  overflow: hidden;
+}
+
+.progress > span {
+  flex-basis: 0;
+  min-width: 6px;
+}
+
+.barPass {
+  background: var(--pass);
+}
+
+.barFail {
+  background: var(--fail);
+}
+
+.barRest {
+  background: var(--surface-3);
 }
 
 .passLine {
-  margin-top: var(--s-3);
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 24px;
-  -webkit-font-smoothing: none;
-  color: var(--text);
+  font-size: var(--fs-2);
+  color: var(--text-2);
 }
 
 .list {
-  list-style: none;
-  margin: var(--s-3) 0 0;
-  padding: 0;
   display: grid;
-  gap: var(--s-1);
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-/* A step in from whatever it sits on: night, day, or the paper of a repair slip. */
 .row {
-  background: var(--inset);
-  min-width: 0;
-}
-
-.rowFail {
-  box-shadow: inset 4px 0 0 var(--brick);
+  border-radius: var(--r-md);
 }
 
 .item {
   display: flex;
   align-items: center;
-  gap: var(--s-3);
+  gap: var(--s-2);
   min-height: 36px;
-  padding: var(--s-1) var(--s-3) var(--s-1) var(--s-4);
-  font-size: var(--step--1);
-  list-style: none;
+  padding: var(--s-1) var(--s-2);
+  font-size: var(--fs-2);
+  border-radius: var(--r-md);
 }
 
 summary.item {
   cursor: pointer;
+  list-style: none;
 }
 
 summary.item::-webkit-details-marker {
   display: none;
 }
 
-summary.item::after {
-  content: "+";
-  margin-left: auto;
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  color: var(--text-2);
-}
-
-details[open] > summary.item::after {
-  content: "-";
+summary.item:hover {
+  background: var(--surface-1);
 }
 
 .itemName {
+  flex: 1;
   min-width: 0;
+}
+
+.iconPass {
+  color: var(--pass-text);
+}
+
+.iconFail {
+  color: var(--fail-text);
+}
+
+.iconRest {
+  color: var(--text-2);
+}
+
+.caret {
+  color: var(--text-2);
+  transition: transform var(--dur) var(--ease-out);
+}
+
+details[open] > summary .caret {
+  transform: rotate(90deg);
+}
+
+.rowFail details[open] {
+  background: var(--surface-1);
+  border-radius: var(--r-lg);
+  padding-bottom: var(--s-4);
 }
 
 .failure {
-  padding: 0 var(--s-3) var(--s-3) var(--s-4);
   display: grid;
   gap: var(--s-3);
-  min-width: 0;
+  padding: var(--s-2) var(--s-4) 0 calc(var(--s-2) + 20px + var(--s-2));
 }
 
 .message {
-  font-family: var(--font-read);
-  font-size: var(--prose-size);
-  line-height: var(--lh-prose);
+  font-size: var(--fs-2);
   max-width: var(--measure);
 }
 
-/* Input, expected and got, side by side. Long values scroll inside their own box. */
-.values {
+/* Input, expected and got, side by side. */
+.compare {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: var(--s-2) var(--s-3);
-  margin: 0;
+  gap: var(--s-3);
+}
+
+.col {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: var(--s-1);
   min-width: 0;
 }
 
-.values > div {
-  min-width: 0;
-}
-
-.values dt {
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
-  line-height: 1;
-  -webkit-font-smoothing: none;
+.colLabel {
+  font-size: var(--fs-1);
+  font-weight: 700;
   color: var(--text-2);
-  margin-bottom: var(--s-1);
 }
 
-.values dd {
+.value {
   margin: 0;
-  min-width: 0;
+  padding: var(--s-3);
+  border-radius: var(--r-md);
+  background: var(--editor);
+  border: 1px solid var(--line);
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
-.values pre {
-  margin: 0;
-  padding: var(--s-2) var(--s-3);
-  background: var(--code-bg);
-  font-family: var(--font-code);
-  font-size: var(--step--1);
-  line-height: 1.5;
-  white-space: pre;
-  overflow-x: auto;
-  max-height: 240px;
+.nothing {
+  color: var(--text-2);
+}
+
+/* Marked differences: what the output was missing, and what it had instead. */
+.missing,
+.extra {
+  color: inherit;
+  border-radius: var(--r-sm);
+  padding: 1px 0;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.missing {
+  background: var(--diff-ins);
+  text-decoration-color: var(--pass);
+}
+
+.extra {
+  background: var(--diff-del);
+  text-decoration-color: var(--fail);
+}
+
+.where {
+  font-size: var(--fs-1);
+  color: var(--text-2);
 }
 
 .hint {
-  font-family: var(--font-read);
-  font-size: var(--step--1);
-  color: var(--text-2);
+  display: flex;
+  gap: var(--s-2);
+  align-items: flex-start;
+  font-size: var(--fs-2);
   max-width: var(--measure);
 }
 
+.hint svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--sun-text);
+}
+
 .stretch {
-  margin-top: var(--s-5);
+  display: grid;
+  gap: var(--s-2);
+  padding-top: var(--s-2);
 }
 
 .stretchTitle {
-  font-size: var(--pixel-1);
+  font-family: var(--font-text);
+  font-size: var(--fs-1);
+  font-weight: 700;
   color: var(--text-2);
+  letter-spacing: normal;
+}
+
+@container wb (max-width: 860px) {
+  .report {
+    padding: var(--s-4);
+  }
+
+  .failure {
+    padding: var(--s-2) var(--s-3) 0;
+  }
 }

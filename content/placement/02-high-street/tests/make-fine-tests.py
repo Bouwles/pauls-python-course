@@ -30,7 +30,7 @@ def passes_on_reference(ctx):
     failed = failures(load_tests(ctx, REFERENCE))
     if failed:
         name, problem = failed[0]
-        raise CheckFailed(f"{name} fails on Mrs Vance's fines.py, which is right. Check the answer it expects against the rules.",
+        raise CheckFailed(f"{name} fails on the real fines.py, which is right. Check the answer it expects against the rules.",
                           actual=f"{type(problem).__name__}: {problem}")
 
 
@@ -43,7 +43,7 @@ def catches(what, old, new):
     return check
 
 
-REFERENCE = '"""Library fines, in pence. Mrs Vance\'s rules, written down at last."""\n\nGRACE_DAYS = 2   # up to two days late is forgiven\nPER_DAY = 10     # pence for every day late, once it\'s past the grace\nCAP = 300        # nobody pays more than three pounds for one book\n\n\ndef fine(days_late, childrens=False):\n    """The fine in pence for one book. Children\'s books are half, after the cap."""\n    if days_late < 0:\n        raise ValueError("A book can\'t come back before it went out.")\n    if days_late <= GRACE_DAYS:\n        return 0\n    pence = min(days_late * PER_DAY, CAP)\n    if childrens:\n        pence = pence // 2\n    return pence\n'
+REFERENCE = '"""Library fines, in pence. The library\'s rules, written down at last."""\n\nGRACE_DAYS = 2   # up to two days late is forgiven\nPER_DAY = 10     # pence for every day late, once it\'s past the grace\nCAP = 300        # nobody pays more than three pounds for one book\n\n\ndef fine(days_late, childrens=False):\n    """The fine in pence for one book. Children\'s books are half, after the cap."""\n    if days_late < 0:\n        raise ValueError("A book can\'t come back before it went out.")\n    if days_late <= GRACE_DAYS:\n        return 0\n    pence = min(days_late * PER_DAY, CAP)\n    if childrens:\n        pence = pence // 2\n    return pence\n'
 
 GRACE = "    if days_late <= GRACE_DAYS:"
 CHARGE = "    pence = min(days_late * PER_DAY, CAP)\n"
@@ -54,7 +54,7 @@ HALF_FIRST = (CHARGE + "    if childrens:\n" + HALF,
 
 
 TESTS = [
-    custom("Your tests pass on Mrs Vance's fines.py", passes_on_reference, visible=True,
+    custom("Your tests pass on the real fines.py", passes_on_reference, visible=True,
            hint="Run test_fines.py and read the FAILED lines: each names the test and what went wrong."),
     custom("Your tests notice a fine with no cap", catches("there's no cap", CHARGE, "    pence = days_late * PER_DAY\n"),
            visible=True, hint="Test a book that's very late, say 90 days: the fine stops at 300p."),

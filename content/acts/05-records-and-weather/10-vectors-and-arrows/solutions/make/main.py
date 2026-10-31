@@ -1,15 +1,13 @@
-# The station's wind vane, for Priya Lund and Captain Ferro.
+# The Archive's wind vane, for Aaesha and for Riya's ride in.
 import numpy as np
 
-FERRY_HEADING = 40  # Captain Ferro's crossing, in degrees
+BIKE_HEADING = 40  # Riya's ride to the Clocktower, in degrees
 
 
 def load_vane(path):
     """Read the vane log. Returns (dates, bearings, speeds): one of each per day."""
-    # Averaging bearings: wrong whenever the wind sits near north, which in
-    # January is always. I found out after the machine on the hill had learnt
-    # from a winter of it. It thinks January blows from the south. Every boat
-    # in the harbour was facing north. It didn't look. A.P.
+    # Averaging bearings is wrong whenever the wind sits near north, which in
+    # January is always: 350 and 10 average to 180, due south.
     dates = np.loadtxt(path, delimiter=",", skiprows=1, usecols=0, dtype=str)
     readings = np.loadtxt(path, delimiter=",", skiprows=1, usecols=(1, 2))
     return dates, readings[:, 0], readings[:, 1]
@@ -47,11 +45,11 @@ def angle_between(a, b):
 
 
 def along_and_across(arrows, heading):
-    """For a boat on this heading, one row per wind: (headwind, crosswind from starboard)."""
+    """For a bike on this heading, one row per wind: (headwind, crosswind from the right)."""
     angle = np.radians(heading)
     ahead = [np.sin(angle), np.cos(angle)]
-    starboard = [np.cos(angle), -np.sin(angle)]  # a quarter turn clockwise from ahead
-    frame = np.array([ahead, starboard])
+    right = [np.cos(angle), -np.sin(angle)]  # a quarter turn clockwise from ahead
+    frame = np.array([ahead, right])
     return arrows @ frame.T
 
 
@@ -66,8 +64,8 @@ if __name__ == "__main__":
     swings = [angle_between(arrows[day], arrows[day + 1]) for day in range(len(dates) - 1)]
     biggest = int(np.argmax(swings))
     print(f"Biggest swing overnight: {swings[biggest]:.0f} degrees, {dates[biggest]} to {dates[biggest + 1]}")
-    winds = along_and_across(arrows, FERRY_HEADING)
+    winds = along_and_across(arrows, BIKE_HEADING)
     head = winds[:, 0].argmax()
     cross = np.abs(winds[:, 1]).argmax()
-    print(f"Ferry on {FERRY_HEADING:03d}: worst headwind {winds[head, 0]:.1f} knots on {dates[head]}")
-    print(f"Ferry on {FERRY_HEADING:03d}: worst crosswind {abs(winds[cross, 1]):.1f} knots on {dates[cross]}")
+    print(f"Cycling on {BIKE_HEADING:03d}: worst headwind {winds[head, 0]:.1f} knots on {dates[head]}")
+    print(f"Cycling on {BIKE_HEADING:03d}: worst crosswind {abs(winds[cross, 1]):.1f} knots on {dates[cross]}")

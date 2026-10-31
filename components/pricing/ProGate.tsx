@@ -3,19 +3,19 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { ActSummary } from "@/lib/content/types";
-import { BRAND } from "@/lib/brand";
 import { FREE_ACTS } from "@/lib/plans";
+import { castColour, floorFor } from "@/lib/cast";
 import { LinkButton, Button } from "../ui/Button";
-import { CharacterPortrait } from "../world/CharacterPortrait";
 import { Track } from "@/lib/track";
+import { GateCard } from "./GateCard";
 import styles from "./ProGate.module.css";
 
-const DISMISSED = "fixwick-gate-dismissed";
+const DISMISSED = "ppc-gate-dismissed";
 
 /**
- * The gate scene (REDESIGN.md 8.4): after the Act I capstone ships, Mira from the post office
- * asks for help, the High Street glows, and a panel says what's in Pro. "Not now" goes back
- * to the map and the scene doesn't come back.
+ * The gate after the Act I capstone ships (REDESIGN-2.md 6): the next floor of the Clocktower,
+ * still under its dust sheets, what Pro opens, "Get Pro" and "Not now". "Not now" goes back to
+ * the Clocktower and the gate doesn't come back.
  */
 export function ProGate({ acts }: { acts: Pick<ActSummary, "id" | "number" | "title" | "subject">[] }) {
   const router = useRouter();
@@ -27,52 +27,55 @@ export function ProGate({ acts }: { acts: Pick<ActSummary, "id" | "number" | "ti
       setHidden(false);
     }
   }, []);
-  if (hidden) return null;
-  const pro = acts.filter((a) => !FREE_ACTS.has(a.id));
+  const pro = acts.filter((a) => !FREE_ACTS.has(a.id)).sort((a, b) => a.number - b.number);
+  const next = pro[0];
+  if (hidden || !next) return null;
+  const floor = floorFor(next.number);
   const notNow = () => {
     try {
       localStorage.setItem(DISMISSED, "1");
     } catch {
-      // ignore
+      // Private browsing: the gate may show again, which is fine.
     }
     router.push("/map");
   };
   return (
-    <section className={styles.gate} aria-labelledby="gate-title">
+    <>
       <Track event="view-paywall" />
-      <div className={`frame-dialogue ${styles.mira}`}>
-        <div className={styles.portrait}>
-          <CharacterPortrait id="mira" sprite="mira" face="worried" scale={2} height={112} />
-        </div>
-        <div>
-          <p className={styles.name}>Mira</p>
-          <p className={styles.line}>
-            You fixed the harbour. The post office is next door to chaos. Three sacks of letters, no labels, and the sorting machine reads them upside down. Could you come up the High Street?
-          </p>
-        </div>
-      </div>
-      <div className={`frame-panel ${styles.offer}`}>
-        <h2 id="gate-title" className={styles.offerTitle}>
-          The rest of {BRAND.townName} is in Pro
-        </h2>
-        <ul className={styles.acts}>
-          {pro.map((a) => (
-            <li key={a.id}>
-              <span className={styles.actNo}>{a.number}</span> {a.title}
-              <span className={styles.subject}>{a.subject}</span>
-            </li>
-          ))}
+      <GateCard
+        as="div"
+        h="h2"
+        act={next.number}
+        subject={next.subject}
+        kicker={`Act ${next.number} is next`}
+        title="The rest of the Clocktower is in Pro"
+        titleId="gate-title"
+        actions={
+          <>
+            <LinkButton href="/pricing/checkout?plan=pro-yearly" variant="primary">
+              Get Pro
+            </LinkButton>
+            <Button variant="secondary" onClick={notNow}>
+              Not now
+            </Button>
+          </>
+        }
+      >
+        <p>That&apos;s the ground floor done. Pro opens {floor ? `${floor.room.replace(/^The /, "the ")}, one floor up,` : "the next floor"} and every floor above it.</p>
+        <ul className={styles.floors}>
+          {pro.map((a) => {
+            const f = floorFor(a.number);
+            const who = f?.residents[0] ?? "paul";
+            return (
+              <li key={a.id}>
+                <span className={styles.square} style={{ background: `var(--c-${who}, ${castColour(who).face})` }} aria-hidden="true" />
+                <span>{a.subject}</span>
+              </li>
+            );
+          })}
         </ul>
-        <p className={styles.promise}>Everything you&apos;ve built stays yours either way.</p>
-        <div className={styles.row}>
-          <LinkButton href="/pricing/checkout?plan=pro-yearly" variant="primary">
-            Get Pro
-          </LinkButton>
-          <Button variant="quiet" onClick={notNow}>
-            Not now
-          </Button>
-        </div>
-      </div>
-    </section>
+        <p>Everything you&apos;ve built stays yours either way.</p>
+      </GateCard>
+    </>
   );
 }

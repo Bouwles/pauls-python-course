@@ -4,7 +4,7 @@ type: make
 title: The tiny engine
 files: [engine.py]
 entry: engine.py
-on_pass: { wendt: "Twenty-four and four. The same as the blackboard, and nobody did any calculus." }
+on_pass: { neil: "Twenty-four and four. The same as the blackboard, and nobody did any calculus." }
 hints:
   nudge: "In `__add__`, each parent's share is just `out.grad`. In a product, what is each side's slope?"
   plan:
@@ -46,7 +46,7 @@ hints:
         for value in reversed(___):
             value._backward()
 ---
-Finish `Value` in `engine.py`. `__add__` is Penhallow's first card, written out as the pattern; the comments are the subgoals from her tabletop and Moss's shutter. Each operation has its own slope:
+Finish `Value` in `engine.py`. `__add__` is written out as the pattern; the comments are the subgoals from the tabletop and Paul's door. Each operation has its own slope:
 
 ```
 a * b       each side's slope is the other side
@@ -62,6 +62,6 @@ Engine:   dL/dw1 = 24.0, dL/dw2 = 4.0
 Measured: dL/dw1 = 24.0, dL/dw2 = 4.0
 ```
 
-To see the graph, put `from drawing import draw_graph` at the top and `draw_graph(loss)` after `loss.backward()`, and press Run. The map draws every value, each with its gradient.
+To see the graph, put `from drawing import draw_graph` at the top and `draw_graph(loss)` after `loss.backward()`, and press Run. The drawing shows every value, each with its gradient.
 
 The checks compare your gradients with measured ones on formulas of every shape.

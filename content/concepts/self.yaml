@@ -1,7 +1,7 @@
 id: self
 title: self
 summary: |
-  `self` is the object a method was called on. `red.hire("Bea")` runs `hire` with `self` as `red`, so you never pass it yourself, and every attribute the object keeps is reached through it. Called on the class instead, `Bike.hire("Ann")`, there is no object to pass, and `"Ann"` lands in `self`.
+  `self` is the object a method was called on. `red.hire("Yahya")` runs `hire` with `self` as `red`, so you never pass it yourself, and every attribute the object keeps is reached through it. Called on the class instead, `Bike.hire("Ann")`, there is no object to pass, and `"Ann"` lands in `self`.
 example: |
   class Bike:
       def __init__(self, number):
@@ -96,19 +96,19 @@ cards:
       lamp.burn(2)
       print(lamp.hours)
   - type: fill
-    prompt: "Fill the gap so the method can reach the ferry's name."
+    prompt: "Fill the gap so the method can reach the train's name."
     code: |
-      class Ferry:
+      class Train:
           def __init__(self, name):
               self.name = name
 
           def announce(___):
-              return f"The {self.name} leaves at the turn."
+              return f"The {self.name} leaves at noon."
 
-      print(Ferry("Kittiwake").announce())
+      print(Train("Flyer").announce())
     blanks: [["self"]]
     tests: |
-      TESTS = [output("The announcement", expect="The Kittiwake leaves at the turn.")]
+      TESTS = [output("The announcement", expect="The Flyer leaves at noon.")]
   - type: write
     prompt: "Write the two lines that make `red`, bike 7, and hire it to Ann, so the last line prints `Ann`."
     starter: |

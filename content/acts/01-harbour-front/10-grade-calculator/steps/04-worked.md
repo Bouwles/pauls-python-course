@@ -1,28 +1,28 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "Mira's postage. Two small jobs, each with its own name."
+  - paul: "Printing costs for the class. Two small jobs, each with its own name."
 code: |
-  # Mira's postage: two small functions and a main() that uses them
-  def postage(grams):
-      if grams <= 100:
-          return 0.85
+  # Printing costs: two small functions and a main() that uses them
+  def print_cost(pages):
+      if pages <= 10:
+          return 0.50
       else:
-          return 1.55
+          return 1.20
 
-  def label(name, grams):
-      return f"{name}: {grams} g, {postage(grams):.2f}"
+  def label(name, pages):
+      return f"{name}: {pages} pages, {print_cost(pages):.2f}"
 
   def main():
       name = input("Name? ")
-      grams = int(input("Grams? "))
-      print(label(name, grams))
+      pages = int(input("Pages? "))
+      print(label(name, pages))
 
   if __name__ == "__main__":
       main()
-inputs: ["Bea Hollis", "240"]
+inputs: ["Neil", "24"]
 subgoals:
   - label: Name the job and what it needs
     lines: [2, 2]
@@ -35,7 +35,7 @@ subgoals:
   - label: Run main() when the file is run
     lines: [16, 17]
 explain:
-  prompt: "Why does `postage` return the price instead of printing it?"
+  prompt: "Why does `print_cost` return the price instead of printing it?"
   answer: "So other code can use it. `label` puts the price inside a sentence. A printed price would go straight to the screen, and `label` would get `None`."
   concept: return-values
 ---

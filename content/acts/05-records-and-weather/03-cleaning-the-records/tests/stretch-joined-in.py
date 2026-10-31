@@ -16,11 +16,11 @@ def storm_year(ctx):
     check(ctx, 1987, ["Claire Tregear", "Stephen Teague", "Simon Penrose"])
 
 
-def grandfather(ctx):
-    check(ctx, 1931, ["Arthur Ashby", "Frederick Bolitho"])
+def year_1931(ctx):
+    check(ctx, 1931, ["Arthur Abbott", "Frederick Bolitho"])
 
 
 TESTS = [
     custom("The year of the storm", storm_year, visible=True),
-    custom("1931", grandfather),
+    custom("1931", year_1931),
 ]

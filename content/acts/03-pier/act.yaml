@@ -1,14 +1,15 @@
 id: pier
 number: 3
-title: "The Pier"
+title: "The Makerspace"
 district: pier
 subject: "Real-World Python"
 hours: 40
-summary: "Programs that talk to the world: a weather app on a real API, a scraper, automation, games, and a web app you put online."
-locked_line: "The pier, where the arcade lights flicker and the tourists ask for things."
+summary: "Programs that talk to the world, from the Makerspace on the second floor: a weather app on a real API, a scraper, automation, games for Caitlin's arcade cabinet, and a web app you put online."
+locked_line: "The Makerspace opens once the Studio's projects are shipped. Caitlin's soldering iron is already warm."
 intro:
-  - moss: "The pier wants things that talk to the outside world. Weather, websites, games."
-  - moss: "Some of it runs here. Some of it you take home and run properly."
+  - paul: "Second floor: the Makerspace. Caitlin's room. Mind the cables."
+  - paul: "These programs talk to the outside world. Some run here. Some you take home and run properly."
+  - caitlin: "There's an arcade cabinet in the corner with nothing on it yet. That's where you come in."
 jobs:
   - weather-app
   - web-scraper

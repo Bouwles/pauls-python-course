@@ -6,7 +6,7 @@ example: |
   def ring_bell():
       print("Ding")
 
-  print("Last orders")
+  print("Class starts")
   ring_bell()
   ring_bell()
 misconceptions: [def-runs-body, call-needs-print, call-without-brackets]
@@ -16,14 +16,14 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      def horn():
-          print("Boom")
+      def alarm():
+          print("Beep")
 
-      print("Fog")
-      horn()
+      print("Seven o'clock")
+      alarm()
     answer: |-
-      Fog
-      Boom
+      Seven o'clock
+      Beep
   - type: predict
     prompt: What does this print?
     code: |
@@ -58,16 +58,16 @@ cards:
     prompt: What does this print?
     code: |
       def welcome():
-          print("Welcome aboard")
+          print("Welcome in")
 
-      print("Boarding")
+      print("Doors open")
     options:
       - text: |-
-          Welcome aboard
-          Boarding
+          Welcome in
+          Doors open
         misconception: def-runs-body
         feedback: "A `def` only stores the instructions. Nothing here calls `welcome()`, so it never runs."
-      - text: Boarding
+      - text: Doors open
         correct: true
   - type: fix
     prompt: "The bell should ring twice. Fix the last two lines."
@@ -96,14 +96,14 @@ cards:
     tests: |
       TESTS = [output("Ding", expect="Ding")]
   - type: write
-    prompt: "Write a function `last_orders()` that prints `Last orders, please.` Then call it once."
+    prompt: "Write a function `pens_down()` that prints `Pens down, please.` Then call it once."
     tests: |
       TESTS = [
-          function("last_orders() prints the line", call="last_orders", expect=None, prints="Last orders, please."),
-          output("Called once", expect="Last orders, please.", hint="Call the function once, below the def."),
+          function("pens_down() prints the line", call="pens_down", expect=None, prints="Pens down, please."),
+          output("Called once", expect="Pens down, please.", hint="Call the function once, below the def."),
       ]
     solution: |
-      def last_orders():
-          print("Last orders, please.")
+      def pens_down():
+          print("Pens down, please.")
 
-      last_orders()
+      pens_down()

@@ -3,10 +3,10 @@ id: ppo
 type: reading
 title: PPO, as the libraries write it
 dialogue:
-  - committee: "Professor Wendt mentions something called PPO. She says everybody uses it."
-  - moss: "Everybody uses a hammer. Know what it's for first."
+  - riya: "Every library I've looked at uses something called PPO. Everybody uses it."
+  - paul: "Everybody uses a hammer. Know what it's for first."
 ---
-Actor-critic steps once per move, then forgets the move. Better to take several steps on one batch. But a policy gradient only holds near the policy that raced the batch: step too far and he may race so badly he never collects the races that would put it right.
+Actor-critic steps once per move, then forgets the move. Better to take several steps on one batch. But a policy gradient only holds near the policy that raced the batch: step too far and the crab may race so badly it never collects the races that would put it right.
 
 **PPO** (proximal policy optimisation) steps several times on one batch, but stops rewarding change past a limit. For each move it compares the move's chance now with its chance when the batch was raced: the **ratio**. It maximises
 

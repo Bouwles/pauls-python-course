@@ -1,9 +1,9 @@
 ---
 id: review
 type: reading
-title: Moss reads it
+title: Paul reads it
 dialogue:
-  - moss: "It works. Now I read it. Different job."
+  - paul: "It works. Now I read it. Different job."
 code: |
   def biggest(expenses):
       if len(expenses) == 0:
@@ -15,7 +15,7 @@ code: |
               largest = expense
       return largest
 ---
-Moss reads every program twice: once to see that it works, and once to see whether the next person could mend it. His list for this one:
+Paul reads every program twice: once to see that it works, and once to see whether the next person could mend it. His list for this one:
 
 - **Honest names.** `expenses` and `expense`, not `l` and `e`. A category is `category` everywhere.
 - **One job per function.** If `main()` is longer than the rest put together, something in it wants its own name.

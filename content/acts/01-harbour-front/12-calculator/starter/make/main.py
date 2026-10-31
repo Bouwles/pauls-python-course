@@ -1,4 +1,4 @@
-# Captain Ferro's calculator. The purser's machine is at the bottom of the harbour.
+# Riya's calculator. Type a sum, get the answer, and never fall over.
 
 
 # calculate(a, op, b)

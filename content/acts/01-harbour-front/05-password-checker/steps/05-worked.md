@@ -1,11 +1,11 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "Agnes asked for usernames first. I did those. Same shape, fewer rules."
+  - paul: "Aaesha asked for usernames first. I did those. Same shape, fewer rules."
 code: |
-  # Usernames for the harbour office
+  # Usernames for the class's shared accounts
   name = input("Username? ")
   name = name.strip().lower()
 
@@ -25,7 +25,7 @@ code: |
       print(f"Username {name} is free.")
   else:
       print("Try another.")
-inputs: ["  Admin-Pip "]
+inputs: ["  Admin-Neil "]
 subgoals:
   - label: Ask, then tidy what was typed
     lines: [2, 3]
@@ -36,8 +36,8 @@ subgoals:
   - label: Give the verdict once, at the end
     lines: [17, 20]
 explain:
-  prompt: "Moss uses three separate `if`s, not `if`, `elif`, `elif`. What would `elif` do to `  Admin-Pip `?"
-  answer: "Only the first broken rule would be reported. `elif` stops at the first test that is `True`, so the admin rule would never be asked. Pip would fix the hyphen and be turned away again."
+  prompt: "Paul uses three separate `if`s, not `if`, `elif`, `elif`. What would `elif` do to `  Admin-Neil `?"
+  answer: "Only the first broken rule would be reported. `elif` stops at the first test that is `True`, so the admin rule would never be asked. Whoever typed it would fix the hyphen and be turned away again."
   concept: if-elif-else
 ---
 `name.strip().lower()` does two jobs in a row: `.strip()` hands back a new string, and `.lower()` works on that one.

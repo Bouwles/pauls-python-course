@@ -34,11 +34,11 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      first = "Bea"
-      second = "Tom"
+      first = "Riya"
+      second = "Yahya"
       first, second = second, first
       print(first, second)
-    answer: "Tom Bea"
+    answer: "Yahya Riya"
   - type: fix
     prompt: "This should print each client's waist. Fix the loop so it unpacks all three measurements."
     code: |
@@ -59,14 +59,14 @@ cards:
       print(waist)
     blanks: [["size"]]
     tests: |
-      TESTS = [output("Gwen's waist", expect="86")]
+      TESTS = [output("The waist", expect="86")]
   - type: write
-    prompt: "`mooring` holds a berth number and a boat name. Unpack it into `berth` and `boat` in one line, then print `Gull at berth 4`."
+    prompt: "`booking` holds a desk number and a name. Unpack it into `desk` and `name` in one line, then print `Riya at desk 4`."
     starter: |
-      mooring = (4, "Gull")
+      booking = (4, "Riya")
     tests: |
-      TESTS = [output("Gull at berth 4", expect="Gull at berth 4")]
+      TESTS = [output("Riya at desk 4", expect="Riya at desk 4")]
     solution: |
-      mooring = (4, "Gull")
-      berth, boat = mooring
-      print(f"{boat} at berth {berth}")
+      booking = (4, "Riya")
+      desk, name = booking
+      print(f"{name} at desk {desk}")

@@ -24,7 +24,7 @@ cards:
       print(np.round(weights / weights.sum(), 3).tolist())
     answer: "[0.125, 0.125, 0.25, 0.5]"
   - type: choice
-    prompt: "On the start tile Sir Reginald's preferences are `[3.0, 1.0, 0.0, 0.0]` for up, down, left and right, and his policy is their softmax. Which moves might he make?"
+    prompt: "On the start tile the crab's preferences are `[3.0, 1.0, 0.0, 0.0]` for up, down, left and right, and its policy is their softmax. Which moves might it make?"
     verify: none
     options:
       - text: Any of the four, up most often
@@ -34,7 +34,7 @@ cards:
         misconception: softmax-picks-biggest
         feedback: "That would be greedy. A softmax turns preferences into chances, and every move gets some chance, however small."
   - type: choice
-    prompt: "A tile with three moves has chances `[0.2, 0.3, 0.5]`, and he took move 2. What is the gradient of the log of that move's chance, for the tile's three preferences?"
+    prompt: "A tile with three moves has chances `[0.2, 0.3, 0.5]`, and the crab took move 2. What is the gradient of the log of that move's chance, for the tile's three preferences?"
     code: |
       import numpy as np
 
@@ -51,7 +51,7 @@ cards:
         misconception: policy-gradient-only-chosen
         feedback: "That leaves out the minus chances part, which moves every preference on the tile, the chosen one included."
   - type: fix
-    prompt: "After a long training run, Pip's preferences reached 800. Now every chance is nan. Fix the softmax so the chances come out right."
+    prompt: "After a long training run, Yahya's preferences reached 800. Now every chance is nan. Fix the softmax so the chances come out right."
     code: |
       import numpy as np
 

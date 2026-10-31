@@ -4,9 +4,9 @@ project_name: "Weather Data Investigation"
 portfolio_readme: |
   # Weather Data Investigation
 
-  One question put to more than 150 years of real Met Office readings from Stornoway, a harbour town on the Isle of Lewis, and answered honestly. The raw file is loaded exactly as published, with every estimate, gap, sensor change and provisional month kept track of; the cleaning is tested; the question and the years to compare were chosen before looking at the answer; and the write-up says how sure the answer is and what the data can't tell anyone.
+  One question put to more than 150 years of real Met Office readings from Stornoway, on the Isle of Lewis, and answered honestly. The raw file is loaded exactly as published, with every estimate, gap, sensor change and provisional month kept track of; the cleaning is tested; the question and the years to compare were chosen before looking at the answer; and the write-up says how sure the answer is and what the data can't tell anyone.
 
-  Written by {name} for Priya Lund at the {{town}} weather station. Finished {date}.
+  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -33,7 +33,7 @@ datasets:
     licence: "Open Government Licence v3.0 (Crown copyright, Met Office)"
     file: "stornowaydata.txt"
     notes: "Unchanged from the download, marks and all: cleaning it is the learner's first job. data/SOURCE.md has the details."
-client: priya
+client: aaesha
 building: lighthouse
 estimated_minutes: 1200
 summary: "One question put to 150 years of real Met Office readings from Stornoway, and answered honestly: loaded, checked, charted and written up."
@@ -41,12 +41,12 @@ concepts_introduced: [data-provenance]
 concepts_reviewed: [pandas-basics, selecting-filtering, missing-data, data-cleaning, matplotlib, files, string-methods, functions, docstrings, main-guard, f-strings, pytest, assert, edge-cases, test-first]
 ask:
   dialogue:
-    - priya: "Our station's records start with Penhallow. Stornoway's start in 1873, with every doubt marked."
-    - priya: "Ask them one question. Answer it so that someone who disagrees with you would still believe it."
-    - pip: "Is it getting rainier. I'll have it by tea."
-    - priya: "You'll have an answer by tea. That's what worries me."
+    - aaesha: "The weather station outside the Archive only goes back a few years. Stornoway's goes back to 1873."
+    - aaesha: "Ask it one question. Answer it so someone who disagrees with you would still believe it."
+    - caitlin: "Is it getting rainier? I'll have it by lunch."
+    - aaesha: "You'll have an answer by lunch. That's what worries me."
   spec: |
-    `stornowaydata.txt` is the Met Office's monthly record for Stornoway Airport, a harbour town on the Isle of Lewis, from July 1873 to September 2026: for each month, the mean daily maximum and minimum temperatures, the days of air frost, the rainfall and the hours of sunshine. It's exactly as the Met Office publishes it, marks and all, and `SOURCE.md` says where it came from and what each mark means.
+    `stornowaydata.txt` is the Met Office's monthly record for Stornoway Airport, on the Isle of Lewis, from July 1873 to September 2026: for each month, the mean daily maximum and minimum temperatures, the days of air frost, the rainfall and the hours of sunshine. It's exactly as the Met Office publishes it, marks and all, and `SOURCE.md` says where it came from and what each mark means.
 
     The data is Crown copyright, from the Met Office, used under the Open Government Licence v3.0. Anything you publish from it carries this line: "Contains public sector information licensed under the Open Government Licence v3.0. Source: Met Office."
 
@@ -65,13 +65,12 @@ ask:
     1838  2026      9  140.6  94.0        True         True
 ship:
   dialogue:
-    - priya: "One question, one answer, the uncertainty beside it, and a paragraph on what it can't say."
-    - priya: "I checked the axes before I read a word. Then I read every word."
-    - pip: "Mine said it's getting rainier. Since the sixties, it is. Since 1900, it isn't."
-    - moss: "Choose the years before you look. That's half of honesty, in a sentence."
+    - aaesha: "One question, one answer, the uncertainty beside it, and a paragraph on what it can't say."
+    - aaesha: "I checked the axes before I read a word. Then I read every word."
+    - caitlin: "Mine said it's getting rainier. Since the sixties, it is. Since 1900, it isn't."
+    - paul: "Choose the years before you look. That's half of honesty, in a sentence."
   shelf: { object: sunshine-recorder, label: "Stornoway's weather, one question answered honestly" }
   cards: [data-provenance]
-story_note: the-answer-is-at-the-top-of-the-stairs
 stretch:
   - id: seasons
     title: "Winter, honestly"
@@ -80,4 +79,4 @@ stretch:
   - id: sensor-change
     title: "The day the sunshine changed"
     prompt: |
-      The automatic sensor took over in September 2002. Compare the ten years either side of the change, month by month. Is the difference bigger than the usual difference between one decade and the next? Write two sentences Priya could put under the chart.
+      The automatic sensor took over in September 2002. Compare the ten years either side of the change, month by month. Is the difference bigger than the usual difference between one decade and the next? Write two sentences Aaesha could put under the chart.

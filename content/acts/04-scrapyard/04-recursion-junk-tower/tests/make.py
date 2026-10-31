@@ -1,34 +1,34 @@
 import os as _os
 
-PRINTED = """penhallow/ (799 bytes)
+PRINTED = """backup/ (799 bytes)
 ├── README.txt (89 bytes)
-├── hill/ (198 bytes)
-│   └── machine/ (198 bytes)
+├── games/ (198 bytes)
+│   └── snake/ (198 bytes)
 │       ├── notes.txt (64 bytes)
-│       └── winters/ (134 bytes)
-│           ├── 1982.txt (75 bytes)
-│           └── 1983.txt (59 bytes)
-├── lighthouse/ (168 bytes)
-│   ├── lamp.txt (52 bytes)
-│   └── tides/ (116 bytes)
-│       ├── north-quay.txt (92 bytes)
-│       └── south-quay.txt (24 bytes)
-├── quiz/ (91 bytes)
-│   └── 1994.txt (91 bytes)
-└── yard/ (253 bytes)
-    ├── parts-book.txt (73 bytes)
-    ├── rack.txt (59 bytes)
-    └── round/ (121 bytes)
-        ├── chalk.txt (59 bytes)
-        └── merchant.txt (62 bytes)
+│       └── versions/ (134 bytes)
+│           ├── v1.txt (75 bytes)
+│           └── v2.txt (59 bytes)
+├── scripts/ (168 bytes)
+│   ├── rename.txt (52 bytes)
+│   └── style/ (116 bytes)
+│       ├── spaces.txt (92 bytes)
+│       └── tabs.txt (24 bytes)
+├── teaching/ (91 bytes)
+│   └── duck.txt (91 bytes)
+└── website/ (253 bytes)
+    ├── about.txt (73 bytes)
+    ├── contact.txt (59 bytes)
+    └── posts/ (121 bytes)
+        ├── first.txt (59 bytes)
+        └── second.txt (62 bytes)
 12 files, 4 folders deep"""
 
-YARD = """penhallow/yard/ (253 bytes)
-├── parts-book.txt (73 bytes)
-├── rack.txt (59 bytes)
-└── round/ (121 bytes)
-    ├── chalk.txt (59 bytes)
-    └── merchant.txt (62 bytes)
+WEBSITE = """backup/website/ (253 bytes)
+├── about.txt (73 bytes)
+├── contact.txt (59 bytes)
+└── posts/ (121 bytes)
+    ├── first.txt (59 bytes)
+    └── second.txt (62 bytes)
 4 files, 2 folders deep"""
 
 
@@ -73,18 +73,18 @@ class Listings:
 
 
 def disk_size(ctx):
-    got = ctx.module().folder_size("penhallow", {})
-    if got != measured("penhallow"):
+    got = ctx.module().folder_size("backup", {})
+    if got != measured("backup"):
         raise CheckFailed("folder_size should add up the bytes of every file under the folder, however deep.",
-                          expected=measured("penhallow"), actual=got)
+                          expected=measured("backup"), actual=got)
 
 
 def counts_and_depth(ctx):
     module = ctx.module()
-    if module.count_files("penhallow") != 12:
-        raise CheckFailed("Penhallow's disk holds twelve files.", expected=12, actual=module.count_files("penhallow"))
-    if module.depth("penhallow") != 4:
-        raise CheckFailed("penhallow, hill, machine, winters: four folders deep.", expected=4, actual=module.depth("penhallow"))
+    if module.count_files("backup") != 12:
+        raise CheckFailed("Neil's backup holds twelve files.", expected=12, actual=module.count_files("backup"))
+    if module.depth("backup") != 4:
+        raise CheckFailed("backup, games, snake, versions: four folders deep.", expected=4, actual=module.depth("backup"))
 
 
 def empty_folder(ctx):
@@ -147,13 +147,13 @@ def measured_once(ctx):
     module = ctx.module()
     sizes = {}
     with Listings() as listings:
-        module.folder_size("penhallow", sizes)
+        module.folder_size("backup", sizes)
     if not listings.calls:
         raise CheckFailed("folder_size should look inside folders with os.listdir.")
     twice = sorted(path for path, count in listings.calls.items() if count > 1)
     if twice:
         raise CheckFailed("folder_size listed some folders more than once.", actual=", ".join(twice))
-    folders = sorted(_os.path.normpath(folder) for folder, _sub, _files in _os.walk("penhallow"))
+    folders = sorted(_os.path.normpath(folder) for folder, _sub, _files in _os.walk("backup"))
     kept = sorted(_os.path.normpath(path) for path in sizes)
     if kept != folders:
         raise CheckFailed("After folder_size, sizes should hold the total of every folder it measured, filed by its path.",
@@ -164,8 +164,8 @@ def printed_with_memory(ctx):
     module = ctx.module()
     sizes = {}
     with Listings() as listings:
-        module.folder_size("penhallow", sizes)
-        module.tree_lines("penhallow", sizes)
+        module.folder_size("backup", sizes)
+        module.tree_lines("backup", sizes)
     worst = max(listings.calls.values()) if listings.calls else 0
     if worst > 2:
         busiest = max(listings.calls, key=listings.calls.get)
@@ -176,15 +176,15 @@ def printed_with_memory(ctx):
 def reads_the_book_first(ctx):
     module = ctx.module()
     with Listings() as listings:
-        got = module.folder_size("penhallow", {"penhallow": 12345})
+        got = module.folder_size("backup", {"backup": 12345})
     if got != 12345 or listings.calls:
         raise CheckFailed("If sizes already holds a folder's total, hand that back without looking inside.",
                           expected="12345, and no os.listdir", actual=f"{got}, {sum(listings.calls.values())} listings")
 
 
 TESTS = [
-    output("Penhallow's disk", expect=PRINTED, visible=True),
-    custom("The whole disk's size", disk_size, visible=True),
+    output("Neil's backup", expect=PRINTED, visible=True),
+    custom("The whole backup's size", disk_size, visible=True),
     custom("Files and depth", counts_and_depth,
            hint="count_files and depth have folder_size's shape: deal with the files you can see, and hand each folder inside to the same function."),
     custom("An empty folder", empty_folder,
@@ -196,10 +196,10 @@ TESTS = [
     custom("Under the last branch", last_branch_has_no_rail,
            hint="What goes in front of the lines inside a folder is the prefix plus │ and three spaces, or four spaces if the folder was the last."),
     custom("Each folder measured once", measured_once,
-           hint="Penhallow's folder_size works every folder out from scratch. Look in sizes first, and write each total in before handing it back."),
+           hint="Neil's folder_size works every folder out from scratch. Look in sizes first, and write each total in before handing it back."),
     custom("The tree printed from memory", printed_with_memory,
            hint="tree_lines asks folder_size about every folder. Pass the same sizes along, so the answers are read, not measured again."),
     custom("Sizes already written down", reads_the_book_first),
-    output("Any folder you name", argv=["penhallow/yard"], expect=YARD,
-           hint="The main block prints whatever folder is named in sys.argv. Nothing about the disk should be written in."),
+    output("Any folder you name", argv=["backup/website"], expect=WEBSITE,
+           hint="The main block prints whatever folder is named in sys.argv. Nothing about the backup should be written in."),
 ]

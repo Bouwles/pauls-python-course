@@ -4,11 +4,6 @@ Left and right arrows move the bucket. Escape quits.
 
 python main.py --frames 30 plays thirty frames and stops; the tests use it.
 """
-# Found on a card tucked into the lighthouse's 1987 visitors' book, and
-# copied here by Gwen:
-# Tom wanted something for the long watches. I wrote him a game where the
-# lamp sweeps and you dodge it. He beat it in a week and asked for it
-# harder. The hard version is in the lamp room. Tom has the key. A.P.
 
 import argparse
 
@@ -50,6 +45,6 @@ def main(frames=None):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Mackerel Night, Gwen's game for the pier.")
+    parser = argparse.ArgumentParser(description="Mackerel Night, Caitlin's game for the Arcade.")
     parser.add_argument("--frames", type=int, help="stop after this many frames")
     main(parser.parse_args().frames)

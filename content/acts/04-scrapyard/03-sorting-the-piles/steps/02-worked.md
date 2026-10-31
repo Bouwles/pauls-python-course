@@ -1,9 +1,9 @@
 ---
 id: worked
 type: worked
-title: How Moss sorts his spanners
+title: How Paul sorts his spanners
 dialogue:
-  - moss: "My spanners. Biggest on the left. Has been since 1974."
+  - paul: "The Workshop's spanners. Biggest on the left, every time."
 code: |
   def biggest_first(spanners):
       for position in range(1, len(spanners)):
@@ -28,10 +28,10 @@ subgoals:
   - label: Put it down in the gap
     lines: [8, 8]
 explain:
-  prompt: "Why does Moss put the spanner in `current` before any sliding starts?"
+  prompt: "Why does Paul put the spanner in `current` before any sliding starts?"
   answer: "The first slide copies the spanner on its left into its place, over the top of it. Without `current`, the spanner being placed would be lost."
   concept: simple-sorts
 ---
 **Insertion sort** is how people sort a hand of cards. Take each one in turn and slide it left past everything that belongs after it. Everything to its left is in order already, so it stops as soon as it meets one that belongs before it.
 
-Moss's spanner sizes are in millimetres, and he wants the biggest first. Press Step through and watch each bar slide into place.
+Paul's spanner sizes are in millimetres, and he wants the biggest first. Press Step through and watch each bar slide into place.

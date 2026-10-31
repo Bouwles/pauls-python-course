@@ -6,7 +6,7 @@ portfolio_readme: |
 
   REINFORCE on a gridworld: a policy that is a softmax over four preferences on every tile, learned directly from races by nudging the preferences towards whatever went well. It measures how much a baseline steadies the gradient estimates, then trains with one and races the result.
 
-  Written by {name} for the Arcade Committee, on the pier at {{town}}. Finished {date}.
+  Written by {name} for Riya, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -19,7 +19,7 @@ portfolio_readme: |
   Spread of 200 estimates at random, no baseline: 39.26
   Spread of 200 estimates at random, with a baseline: 16.72
 
-  After 500 races with a baseline, his most likely moves
+  After 500 races with a baseline, its most likely moves
   > > > F
   ^ # ^ P
   ^ < > v
@@ -34,7 +34,7 @@ portfolio_readme: |
   - A stochastic policy raced as it is, chances and all
 downloadable: true
 datasets: []
-client: committee
+client: riya
 building: crab-club
 estimated_minutes: 120
 summary: "REINFORCE on the racing grid: a softmax policy nudged towards whatever went well, and a baseline that steadies every nudge."
@@ -42,12 +42,11 @@ concepts_introduced: [policy-gradients]
 concepts_reviewed: [dqn, monte-carlo, returns-discounting, mdps, bandits, exploration-exploitation, numerical-gradient-checking, gradient-descent, numpy-arrays]
 ask:
   dialogue:
-    - committee: "Values, Q-values, targets, frozen copies. The committee has a simpler question."
-    - committee: "On each tile, what should he do?"
-    - committee: "Not what it is worth. What to do."
-    - moss: "Then learn that and nothing else. Whatever went well, more often."
+    - riya: "Values, Q-values, targets, frozen copies. I've got a simpler question."
+    - riya: "On each tile, what should the crab do? Not what it's worth. What to do."
+    - paul: "Then learn that and nothing else. Whatever went well, more often."
   spec: |
-    Write `reinforce.py`, REINFORCE on the racing grid in `track.py`. Sir Reginald's policy is `theta`, an array of shape `(3, 4, 4)`: four preferences for every tile, in the order of `ACTIONS`.
+    Write `reinforce.py`, REINFORCE on the racing grid in `track.py`. The crab's policy is `theta`, an array of shape `(3, 4, 4)`: four preferences for every tile, in the order of `ACTIONS`.
 
     1. `chances(theta, tile)`: the softmax of the tile's four preferences.
     2. `grad_log_chance(theta, tile, action)`: the gradient of the log of that move's chance, for every number in `theta`.
@@ -56,25 +55,24 @@ ask:
     5. `reinforce_gradient(theta, races, gamma=0.9, baseline=None)`: for every move of every race, its return to go, less `baseline[tile]` if there is a baseline, times `grad_log_chance`; added up, and averaged over the races.
     6. `train(episodes, rng, rate=0.1, gamma=0.9, use_baseline=True)`: one race and one step uphill per episode. The baseline is a `(3, 4)` array, each tile's number nudged 0.1 of the way towards every return that followed it. Returns `(theta, baseline)`.
 
-    Run as a program, it compares how much 200 estimates disagree without and with a baseline, then trains for 500 races and races his policy 1000 times.
+    Run as a program, it compares how much 200 estimates disagree without and with a baseline, then trains for 500 races and races its policy 1000 times.
   example: |
     Spread of 200 estimates at random, no baseline: 39.26
     Spread of 200 estimates at random, with a baseline: 16.72
 
-    After 500 races with a baseline, his most likely moves
+    After 500 races with a baseline, its most likely moves
     > > > F
     ^ # ^ P
     ^ < > v
     Average return over 1000 races: 1.12
 ship:
   dialogue:
-    - committee: "One point one two. And he still takes a wrong turning now and then..."
-    - committee: "...on purpose. In case it is not wrong."
-    - committee: "We have decided to call it character."
-    - moss: "He waits for the end of every race to learn anything. Next, someone tells him sooner."
-  shelf: { object: pennant, label: "Sir Reginald's own policy" }
+    - riya: "One point one two. And it still takes a wrong turning now and then, on purpose."
+    - caitlin: "In case it isn't wrong. I respect that."
+    - riya: "A policy that keeps exploring by itself. That's useful."
+    - paul: "It waits for the end of every race to learn anything. Next, someone tells it sooner."
+  shelf: { object: pennant, label: "The crab's own policy" }
   cards: [policy-gradients]
-story_note: what-went-well
 stretch:
   - id: batches
     title: "Five races a step"
@@ -83,4 +81,4 @@ stretch:
   - id: whole-race
     title: "Credit where it's due"
     prompt: |
-      Pip credits every move with the return of the whole race, from the start, not from that move on. Try it. It still learns, on average, but more slowly. Measure the spread of 200 estimates both ways and explain to Dennis why a move shouldn't take credit for what happened before it.
+      Credit every move with the return of the whole race, from the start, not from that move on. Try it. It still learns, on average, but more slowly. Measure the spread of 200 estimates both ways and explain to the duck why a move shouldn't take credit for what happened before it.

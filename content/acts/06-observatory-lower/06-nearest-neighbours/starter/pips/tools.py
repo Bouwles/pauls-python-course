@@ -1,4 +1,4 @@
-"""Moss's toolbox, with a loader for tables that end in a word.
+"""Paul's toolbox, with a loader for tables that end in a word.
 
 load_table(path, columns, label="species")
                                     (X, labels): X is an array with one column

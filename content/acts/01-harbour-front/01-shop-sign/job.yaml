@@ -1,12 +1,12 @@
 id: shop-sign
-title: "Shop Sign"
-project_name: "Shop Sign"
+title: "Course Sign"
+project_name: "Course Sign"
 portfolio_readme: |
-  # Shop Sign
+  # Course Sign
 
-  A first program. It prints the sign for a shop window: the shop's name, its trade, its opening hours and a note for customers, one line each.
+  A first program. It prints the sign for the front door of a Python course: the course's name, what it teaches, its opening hours and a note for visitors, one line each.
 
-  Written by {name} for Moss's workshop in {{town}}. Finished {date}.
+  Written by {name} for Paul, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -17,13 +17,13 @@ portfolio_readme: |
   It prints:
 
   ```
-  MOSS'S WORKSHOP
-  Repairs of all kinds
-  Open Tuesday to Saturday, 9 till 5
-  Closed when the radio is on
+  PAUL'S PYTHON COURSE
+  Python, from the ground floor up
+  Open Monday to Friday, 9 till 5
+  Ignore the clock. It says 3:14.
   ```
 
-  To make the sign for another shop, change the text inside the quotes.
+  To make a sign for another door, change the text inside the quotes.
 
   ## What it shows
 
@@ -32,39 +32,39 @@ portfolio_readme: |
   - A comment at the top saying what the program is for
 downloadable: true
 datasets: []
-client: moss
+client: paul
 building: workshop
 estimated_minutes: 20
-summary: "A first program: print the shop sign for Moss's workshop."
+summary: "A first program: print the sign for the Clocktower's front door."
 concepts_introduced: [program-order, print, strings, comments]
 ask:
   dialogue:
-    - moss: "The shop sign blew off the door again. Third time this month."
-    - moss: "Penhallow left a machine in the window that prints signs. It wants a program, not a pencil."
-    - moss: "Name, trade, hours, and a warning. Four lines. Nothing clever."
+    - paul: "Welcome to the Workshop. First job: the sign on the front door."
+    - paul: "The old one fell off in the rain. Nobody could tell this was a school."
+    - paul: "Name, what we teach, the hours, and a warning. Four lines. Nothing clever."
   spec: |
-    Write a program that prints the shop sign for Moss's workshop: the name, the trade, the opening hours and a note for customers.
+    Write a program that prints the sign for the Clocktower's front door: the course's name, what it teaches, the opening hours and a note for visitors.
 
     Four lines, exactly as below, in this order.
   example: |
-    MOSS'S WORKSHOP
-    Repairs of all kinds
-    Open Tuesday to Saturday, 9 till 5
-    Closed when the radio is on
+    PAUL'S PYTHON COURSE
+    Python, from the ground floor up
+    Open Monday to Friday, 9 till 5
+    Ignore the clock. It says 3:14.
 ship:
   dialogue:
-    - moss: "Straight lines. No spelling mistakes. Apostrophe in the right place."
-    - moss: "I'll put it up with the good tape."
-  shelf: { object: workshop-sign, label: "The shop sign" }
+    - paul: "Straight lines. No spelling mistakes. Apostrophe in the right place."
+    - paul: "One day I'll fix the clock, and the last line will be wrong. I can live with that."
+  shelf: { object: workshop-sign, label: "The sign on the Clocktower door" }
   cards: [program-order, print, strings, comments]
 stretch:
   - id: border
     title: "A border"
     prompt: |
-      Put a line of `=` signs above and below the sign, exactly as long as the longest line (34 characters). Then the sign looks finished from across the street.
+      Put a line of `=` signs above and below the sign, exactly as long as the longest line (32 characters). Then the sign looks finished from across the street.
     tests: tests/stretch-border.py
     solution: solutions/stretch-border.py
   - id: second-sign
     title: "One for the back door"
     prompt: |
-      Moss wants a smaller sign for the back door: `DELIVERIES` on the first line and `Knock twice. Moss is slow.` on the second. Add it under the main sign, with an empty line between them. `print()` with nothing inside prints an empty line.
+      Paul wants a smaller sign for the back door: `DELIVERIES` on the first line and `Knock twice. Then wait.` on the second. Add it under the main sign, with an empty line between them. `print()` with nothing inside prints an empty line.

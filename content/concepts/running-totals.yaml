@@ -69,10 +69,10 @@ cards:
           count = count + 1
       print(total / count)
   - type: fill
-    prompt: "Five crates of 12 mackerel. Fill the gap so this prints 60."
+    prompt: "Five boxes of 12 eggs. Fill the gap so this prints 60."
     code: |
       total = 0
-      for crate in range(5):
+      for box in range(5):
           total = ___ + 12
       print(total)
     blanks: [["total"]]

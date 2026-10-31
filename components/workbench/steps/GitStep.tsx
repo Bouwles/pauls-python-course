@@ -5,12 +5,12 @@ import type { GitStep } from "@/lib/content/types";
 import type { StepProgressRow } from "@/lib/store/types";
 import { checkRepo, exec, newRepo, type RepoState } from "@/lib/gitsim";
 import { Button } from "../../ui/Button";
-import { PassIcon } from "../../ui/Icons";
+import { Icon } from "../../ui/Icon";
 import { Editor } from "../Editor";
+import { Instructions } from "../Instructions";
 import { Terminal, type TermLine } from "../Terminal";
 import { useWorkbench } from "../context";
-import { NextRow, Prose, StepHeading } from "./common";
-import { Ticket } from "../Ticket";
+import { NextRow } from "./common";
 import styles from "./steps.module.css";
 import g from "./git.module.css";
 
@@ -25,7 +25,7 @@ export function GitStepView({ step, row }: { step: GitStep; row: StepProgressRow
   const { areas, updateStep, markPassed, logEvent } = useWorkbench();
   const saved = row.data.git as Saved | undefined;
   const [repo, setRepo] = useState<RepoState>(saved?.repo ?? newRepo(step.files));
-  const [lines, setLines] = useState<TermLine[]>(saved?.lines ?? [{ kind: "out", text: "The workshop's project folder. Type git help for the commands." }]);
+  const [lines, setLines] = useState<TermLine[]>(saved?.lines ?? [{ kind: "out", text: "The project folder. Type git help for the commands." }]);
   const files = Object.keys(repo.files).sort();
   const [active, setActive] = useState(files[0] ?? "");
   const [version, setVersion] = useState(0);
@@ -75,26 +75,22 @@ export function GitStepView({ step, row }: { step: GitStep; row: StepProgressRow
 
   return (
     <>
-      <Ticket>
-        <StepHeading step={step} />
-        <Prose html={step.html} />
+      <Instructions step={step} footer={<NextRow row={row} />}>
         <ol className={styles.tasks}>
           {step.tasks.map((t, i) => (
-            <li key={t.id} className={[styles.task, i === firstOpen ? g.current : ""].join(" ")}>
-              <p className={styles.taskPrompt} dangerouslySetInnerHTML={{ __html: t.promptHtml }} />
-              {done[i] ? (
-                <>
-                  <span className={styles.done}>
-                    <PassIcon /> Done
-                  </span>
-                  {t.feedback ? <p className={[styles.feedback, styles.feedbackGood].join(" ")} dangerouslySetInnerHTML={{ __html: t.feedback }} /> : null}
-                </>
-              ) : null}
+            <li key={t.id} className={[styles.task, done[i] ? styles.taskDone : "", i === firstOpen ? g.current : ""].join(" ")}>
+              <span className={styles.taskMark} aria-hidden="true">
+                {done[i] ? <Icon name="check" size={16} /> : null}
+              </span>
+              <div className={styles.taskBody}>
+                <p className={styles.taskPrompt} dangerouslySetInnerHTML={{ __html: t.promptHtml }} />
+                {done[i] ? <span className="visually-hidden">Done.</span> : null}
+                {done[i] && t.feedback ? <p className={[styles.taskFeedback, styles.good].join(" ")} dangerouslySetInnerHTML={{ __html: t.feedback }} /> : null}
+              </div>
             </li>
           ))}
         </ol>
-        <NextRow row={row} />
-      </Ticket>
+      </Instructions>
       <div className={areas.stage}>
         <div className={g.split}>
           <div className={g.files}>
@@ -117,7 +113,8 @@ export function GitStepView({ step, row }: { step: GitStep; row: StepProgressRow
         <div className={g.reset}>
           <Button
             size="sm"
-            variant="quiet"
+            variant="ghost"
+            icon="reset"
             onClick={() => {
               if (!window.confirm("Start this step's repository again from scratch?")) return;
               const fresh = newRepo(step.files);

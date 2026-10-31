@@ -14,7 +14,7 @@ def main():
     while True:
         text = input("Sum? ").strip()
         if text == "quit":
-            print("Fair winds.")
+            print("Done for today.")
             break
         parts = text.split()
         if len(parts) != 3:

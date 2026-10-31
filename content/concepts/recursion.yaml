@@ -124,7 +124,7 @@ cards:
           pass
     tests: |
       TESTS = [
-          function("Nell's tower", call="unpack", args=([4, [2, 3], [1, [5]]],), expect=[4, 2, 3, 1, 5]),
+          function("A tower of crates", call="unpack", args=([4, [2, 3], [1, [5]]],), expect=[4, 2, 3, 1, 5]),
           function("Empty crates", call="unpack", args=([[], [[]]],), expect=[]),
           function("Deep at the front", call="unpack", args=([[[7]], 8],), expect=[7, 8]),
       ]

@@ -283,7 +283,7 @@ class PythonRuntime {
     return this.call<CheckReport>("check", request, { check: handlers }, request.timeoutMs ?? 10_000);
   }
 
-  /** Moss's style notes on the learner's files (Section 5.1). Never runs their code. */
+  /** Paul's style notes on the learner's files (Section 5.1). Never runs their code. */
   review(request: { files: Files; limit?: number }): Promise<ReviewResult> {
     return this.call<ReviewResult>("review", request, {});
   }

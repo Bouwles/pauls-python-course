@@ -6,9 +6,9 @@ files: [course.py, crab.py]
 entry: crab.py
 starter_from: make-course
 timeout_ms: 30000
-on_pass: { committee: "Four courses he had never seen, and within a whisker of par on every one." }
+on_pass: { yahya: "Four courses it had never seen, and within a whisker of par on every one." }
 hints:
-  nudge: "A practice move costs budget. Learning again from a move he remembers costs nothing. How many times could each practice move teach him something?"
+  nudge: "A practice move costs budget. Learning again from a move it remembers costs nothing. How many times could each practice move teach it something?"
   plan:
     - "Start every Q-value at a hopeful guess: minus the gull's distance to the finish"
     - "Practise races from the start until OutOfPractice, then return the best move on every tile"
@@ -35,10 +35,10 @@ hints:
             pass
         return q.argmax(axis=2).tolist()
 ---
-Now Sir Reginald. `train(practice, rng)` practises until the stewards raise `OutOfPractice`, then returns a policy: `practice.rows` rows of `practice.cols` actions, a move for every tile, even ones he never reached.
+Now the crab. `train(practice, rng)` practises until the League raises `OutOfPractice`, then returns a policy: `practice.rows` rows of `practice.cols` actions, a move for every tile, even ones it never reached.
 
-He gets no map. The checks hand him Moss's own `Practice`, which has `rows`, `cols`, `start`, `finish`, `moves_left`, `reset()` and `step(action)` and nothing more, and Moss's `course.py`, with only the names in the brief.
+It gets no map. The checks hand it Paul's own `Practice`, which has `rows`, `cols`, `start`, `finish`, `moves_left`, `reset()` and `step(action)` and nothing more, and Paul's `course.py`, with only the names in the brief.
 
 Each course allows 5000 practice moves. That isn't many. Try the Q-Learning Crab's learner as it was, and race what it learns. Then think about what a practice move is worth, and how to get more learning out of each one.
 
-The checks practise him on unseen courses of three sizes and want him within a quarter of **par**: the average moves of the shortest line.
+The checks practise it on unseen courses of three sizes and want it within a quarter of **par**: the average moves of the shortest line.

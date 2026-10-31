@@ -5,7 +5,7 @@
 Each pair is a tuple, and the `for` loop unpacks it into two names. Turning the pairs into a list shows exactly what `enumerate()` produces:
 
 ```python
-stops = ["Quay", "Mill", "Church"]
+stops = ["Station", "Mill", "Church"]
 print(list(enumerate(stops)))
 
 for position, stop in enumerate(stops):
@@ -16,11 +16,11 @@ for number, stop in enumerate(stops, start=1):
 ```
 
 ```text
-[(0, 'Quay'), (1, 'Mill'), (2, 'Church')]
-0 Quay
+[(0, 'Station'), (1, 'Mill'), (2, 'Church')]
+0 Station
 1 Mill
 2 Church
-1. Quay
+1. Station
 2. Mill
 3. Church
 ```

@@ -4,15 +4,15 @@ type: predict
 title: Sorted, or sort
 concept: sorted-vs-sort
 code: |
-  tasks = ["sweep up", "answer Agnes", "mend the scales"]
+  tasks = ["wipe the board", "answer Caitlin", "fix the projector"]
   tasks = tasks.sort()
   print(tasks)
 question: What does this print?
 options:
-  - text: "['answer Agnes', 'mend the scales', 'sweep up']"
+  - text: "['answer Caitlin', 'fix the projector', 'wipe the board']"
     misconception: sort-returns-list
     feedback: "`.sort()` does sort the list, but it hands back `None`. Line 2 then moves the label `tasks` onto that `None`."
-  - text: "['sweep up', 'answer Agnes', 'mend the scales']"
+  - text: "['wipe the board', 'answer Caitlin', 'fix the projector']"
     misconception: sort-makes-copy
     feedback: "`.sort()` changes the list itself; it doesn't make a sorted copy. But line 2 then moves the label onto what `.sort()` handed back."
   - text: "None"

@@ -6,7 +6,7 @@ portfolio_readme: |
 
   A calculator for the command line. Type a sum the way you'd write it, like `12.5 * 4`, and it prints the answer. It adds, takes away, multiplies and divides, and a sum it can't do gets a plain explanation instead of a crash. It keeps going until you type `quit`.
 
-  Written by {name} in {{town}}. Finished {date}.
+  Written by {name} for Riya, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -20,7 +20,7 @@ portfolio_readme: |
   Sum? 30 / 0
   Nothing divides by zero.
   Sum? quit
-  Fair winds.
+  Done for today.
   ```
 
   Put a space either side of the `+`, `-`, `*` or `/`. Negative numbers and decimals are fine.
@@ -33,7 +33,7 @@ portfolio_readme: |
   - A loop that keeps going until it's told to stop.
 downloadable: true
 datasets: []
-client: ferro
+client: riya
 building: ferry-dock
 estimated_minutes: 60
 summary: "Type a sum as text, get the answer, and survive bad input with try and except, until quit."
@@ -41,12 +41,12 @@ concepts_introduced: [exceptions, try-except]
 concepts_reviewed: [reading-tracebacks, value-error, float-conversion, split-join, functions, parameters, return-values, none, while-loops, break-continue, if-elif-else, f-strings]
 ask:
   dialogue:
-    - ferro: "The purser's adding machine went over the side at Easter. Gulls."
-    - ferro: "Fuel, fares, tonnage. I do the sums in my head, and my head is not shipshape."
-    - ferro: "Type the sum, get the answer. Type it wrong, and it says so and stays afloat."
-    - moss: "It'll need to take a bad sum without sinking. That's new."
+    - riya: "I do a lot of sums. The class fund, the trip, the dinner. Always in a hurry."
+    - riya: "I want a calculator that takes a sum the way I'd write it. 12.5 times 4, typed out."
+    - riya: "And if someone types it wrong, it says so and keeps going. No crashing."
+    - paul: "It'll need to take a bad sum without falling over. That's new."
   spec: |
-    Ask `Sum? ` over and over. `quit` prints `Fair winds.` and stops. Spaces at the ends don't matter.
+    Ask `Sum? ` over and over. `quit` prints `Done for today.` and stops. Spaces at the ends don't matter.
 
     A sum is a number, a space, one of `+ - * /`, a space, and a number: `12.5 * 4`.
 
@@ -70,21 +70,21 @@ ask:
     Sum? 12*4
     Write it like 12 * 4, with spaces.
     Sum? quit
-    Fair winds.
+    Done for today.
 ship:
   dialogue:
-    - ferro: "Twelve and a half tonnes at four pounds. Fifty. The purser's machine said forty-nine, for years."
-    - ferro: "I typed rubbish at it for ten minutes. It never once went down. More than the purser's machine can say."
-  shelf: { object: abacus, label: "Captain Ferro's calculator" }
+    - riya: "Twelve and a half at four. Fifty. Then I typed rubbish at it for ten minutes."
+    - riya: "It never once fell over. I'm using it for the trip fund."
+  shelf: { object: abacus, label: "Riya's calculator" }
   cards: [exceptions, try-except]
 stretch:
   - id: times-x
-    title: "Ferro's x"
+    title: "Riya's x"
     prompt: |
-      Ferro writes multiply as `x`, the way he was taught at sea school. Make `calculate` accept `x` as well as `*`, so `6 x 7` gives `= 42.00`.
+      Riya writes multiply as `x`, the way most people do on paper. Make `calculate` accept `x` as well as `*`, so `6 x 7` gives `= 42.00`.
     tests: tests/stretch-times-x.py
     solution: solutions/stretch-times-x.py
   - id: carry
     title: "Carry the answer"
     prompt: |
-      Fuel sums come in chains. Let `ans` stand for the last answer, on either side of a sum: `ans * 2` doubles it. Before there's been an answer, `ans` is 0. Swap `ans` for the number before you try `float()`.
+      Riya's sums come in chains. Let `ans` stand for the last answer, on either side of a sum: `ans * 2` doubles it. Before there's been an answer, `ans` is 0. Swap `ans` for the number before you try `float()`.

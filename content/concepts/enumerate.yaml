@@ -3,7 +3,7 @@ title: enumerate()
 summary: |
   `enumerate(items)` hands over `(number, item)` pairs as a loop goes round, so you never keep a counter by hand. It counts from 0 unless you say `start=1`, which is what people expect on a list they'll read. The number always comes first, whatever you call the variables.
 example: |
-  clients = ["Ferro", "Bea", "Tom"]
+  clients = ["Riya", "Yahya", "Aaesha"]
   for number, name in enumerate(clients, start=1):
       print(number, name)
 misconceptions: [enumerate-starts-at-one, enumerate-order-swapped]
@@ -12,55 +12,55 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      for number, name in enumerate(["Ferro", "Bea"]):
+      for number, name in enumerate(["Riya", "Yahya"]):
           print(number, name)
-    answer: "0 Ferro\n1 Bea"
+    answer: "0 Riya\n1 Yahya"
   - type: choice
     prompt: What does this print?
     code: |
-      for name, number in enumerate(["Ferro", "Bea"], start=1):
+      for name, number in enumerate(["Riya", "Yahya"], start=1):
           print(name)
     options:
       - text: "1\n2"
         correct: true
         feedback: "enumerate always hands over the number first. This loop called it `name`, so `name` holds the number."
-      - text: "Ferro\nBea"
+      - text: "Riya\nYahya"
         misconception: enumerate-order-swapped
         feedback: "The variable names don't decide anything. The first one gets the number, whatever it's called."
   - type: fix
-    prompt: "Mira numbers parcels from 1. Fix the loop so the first line is `1. Parcel for Bea`."
+    prompt: "Aaesha numbers parcels from 1. Fix the loop so the first line is `1. Parcel for Caitlin`."
     code: |
-      parcels = ["Bea", "Agnes", "Gwen"]
+      parcels = ["Caitlin", "Yahya", "Neil"]
       for number, name in enumerate(parcels):
           print(f"{number}. Parcel for {name}")
     tests: |
-      TESTS = [output("Numbered from 1", expect="1. Parcel for Bea\n2. Parcel for Agnes\n3. Parcel for Gwen")]
+      TESTS = [output("Numbered from 1", expect="1. Parcel for Caitlin\n2. Parcel for Yahya\n3. Parcel for Neil")]
     solution: |
-      parcels = ["Bea", "Agnes", "Gwen"]
+      parcels = ["Caitlin", "Yahya", "Neil"]
       for number, name in enumerate(parcels, start=1):
           print(f"{number}. Parcel for {name}")
   - type: fill
     prompt: "Fill the gap so each line is numbered."
     code: |
-      for ___, line in enumerate(["High water 06:42", "Low water 12:55"], start=1):
+      for ___, line in enumerate(["Class at 09:30", "Lunch at 12:55"], start=1):
           print(f"{number}: {line}")
     blanks: [["number"]]
     tests: |
-      TESTS = [output("Two numbered lines", expect="1: High water 06:42\n2: Low water 12:55")]
+      TESTS = [output("Two numbered lines", expect="1: Class at 09:30\n2: Lunch at 12:55")]
   - type: write
     prompt: "Rewrite the loop with `enumerate`, so there's no counter to keep by hand. It should print the same thing."
     starter: |
-      boats = ["Gull", "Kittiwake", "Puffin"]
+      players = ["Caitlin", "Yahya", "Riya"]
       count = 1
-      for boat in boats:
-          print(count, boat)
+      for player in players:
+          print(count, player)
           count = count + 1
     tests: |
       TESTS = [
-          output("Same output", expect="1 Gull\n2 Kittiwake\n3 Puffin"),
+          output("Same output", expect="1 Caitlin\n2 Yahya\n3 Riya"),
           structure("Uses enumerate", calls=["enumerate"]),
       ]
     solution: |
-      boats = ["Gull", "Kittiwake", "Puffin"]
-      for count, boat in enumerate(boats, start=1):
-          print(count, boat)
+      players = ["Caitlin", "Yahya", "Riya"]
+      for count, player in enumerate(players, start=1):
+          print(count, player)

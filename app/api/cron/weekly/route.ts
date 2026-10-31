@@ -7,7 +7,7 @@ import { weeklyNote } from "@/lib/weekly";
 export const dynamic = "force-dynamic";
 
 /**
- * The weekly note from Moss, for learners who switched it on in Settings.
+ * The weekly note from Paul, for learners who switched it on in Settings.
  * Run by a weekly cron (vercel.json) with `Authorization: Bearer $CRON_SECRET`.
  */
 export async function GET(req: Request) {

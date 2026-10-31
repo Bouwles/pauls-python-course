@@ -4,7 +4,7 @@ type: make
 title: Make it in text
 files: [catch.py]
 entry: catch.py
-on_pass: { gwen: "Fish in the bucket on the fourth turn, and boots cost a life. My rules. Now give it a window." }
+on_pass: { caitlin: "Fish in the bucket on the fourth turn, and boots cost a life. My rules. Now give it a window." }
 hints:
   nudge: "Where is something on the turn it reaches the bottom row, and what decides whether it was caught?"
   plan:

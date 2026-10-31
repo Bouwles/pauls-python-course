@@ -37,7 +37,7 @@ cards:
         misconception: standardise-squeezes-to-0-1
         feedback: "Standardising centres the column on 0, so below-average readings go negative, and anything more than one spread above the mean lands above 1. The 30-knot gale ends up at about 1.7."
   - type: choice
-    prompt: "Pip scales tonight's reading on its own. What does this print?"
+    prompt: "Yahya scales tonight's reading on its own. What does this print?"
     code: |
       import numpy as np
 
@@ -89,7 +89,7 @@ cards:
         error: TypeError
         feedback: "NumPy has no idea what the numbers measure. It will cheerfully add degrees to hectopascals, which is why big-numbered columns swamp small ones unless you scale them."
   - type: choice
-    prompt: "A temperature-only forecast trains happily at a rate of 0.01. Wendt adds air pressure, around 1,000 hPa, without scaling. What should she expect?"
+    prompt: "A temperature-only forecast trains happily at a rate of 0.01. Aaesha adds air pressure, around 1,000 hPa, without scaling. What should she expect?"
     verify: none
     options:
       - text: "The walk blows up, unless she shrinks the rate so far that the other weights barely move"

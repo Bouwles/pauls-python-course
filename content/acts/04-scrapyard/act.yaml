@@ -1,13 +1,15 @@
 id: scrapyard
 number: 4
-title: "The Scrapyard"
+title: "The Puzzle Room"
 district: scrapyard
 subject: "Algorithms and data structures"
 hours: 45
-summary: "Nell Brannigan knows where everything is in her piles and cannot say how. Real programs turn that into algorithms: a speed tester, a search engine, a sorting visualiser, an undo button, a hash map, a scheduler, a maze solver, a route planner, a sudoku solver and a spell checker."
-locked_line: "Nell's piles, waiting for someone who can explain them."
+summary: "Yahya's floor: a wall of sticky notes and string, a chess table, and a stopwatch on every desk. Real programs that have to be quick as well as right: a speed tester, a search engine, a sorting visualiser, an undo button, a hash map, a scheduler, a maze solver, a route planner, a sudoku solver and a spell checker."
+locked_line: "A wall of sticky notes and string, waiting for someone who can follow it."
 intro:
-  - nell: "Everything's here. Finding it is the trick."
+  - paul: "Third floor. Yahya's. Mind the string."
+  - paul: "Until now, a program worked or it didn't. Up here, it also has to be quick."
+  - yahya: "Everything on this floor gets timed. Yours too."
 jobs:
   - how-long-will-it-take
   - finding-the-bolt

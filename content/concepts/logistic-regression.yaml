@@ -72,15 +72,15 @@ cards:
         misconception: confident-wrong-cheap
         feedback: "Those are the misses, `1 - p`. Log loss is `-log(p)` for what happened, which grows without limit as p falls to 0: a forecast that was sure and wrong costs far more than one that hedged."
   - type: choice
-    prompt: "For tonight, Wendt's model gives 0.62. What has it told her?"
+    prompt: "For tonight, Riya's model gives 0.62. What has it told her?"
     verify: none
     options:
-      - text: "A 62% chance of rain; whether to shut the dome depends on her threshold"
+      - text: "A 62% chance of rain; whether to take an umbrella depends on her threshold"
         correct: true
         feedback: "The model only gives a chance. Comparing it with a threshold, 0.5 or a more cautious one, turns it into a decision."
       - text: "Nothing yet: logistic regression should answer 0 or 1"
         misconception: logistic-outputs-class
-        feedback: "Despite the name, logistic regression gives a probability, not a class. The 0 or 1 comes from comparing that probability with a threshold, and choosing the threshold is Wendt's job."
+        feedback: "Despite the name, logistic regression gives a probability, not a class. The 0 or 1 comes from comparing that probability with a threshold, and choosing the threshold is Riya's job."
   - type: fill
     prompt: "Fill the gap so `dw` is the gradient of the log loss."
     code: |
@@ -97,7 +97,7 @@ cards:
     tests: |
       TESTS = [output("One slope per weight", expect="[-0.333, 0.0]")]
   - type: fix
-    prompt: "Pip's log loss is wrong for the nights it didn't rain. Fix it."
+    prompt: "Caitlin's log loss is wrong for the nights it didn't rain. Fix it."
     code: |
       import numpy as np
 
@@ -173,7 +173,7 @@ cards:
       def decide(X, w, b, threshold=0.5):
           return (sigmoid(X @ w + b) >= threshold).astype(int)
   - type: choice
-    prompt: "Pip decides with the score instead of the chance. The score is 0.3. What does this print?"
+    prompt: "Yahya decides with the score instead of the chance. The score is 0.3. What does this print?"
     code: |
       import numpy as np
 
@@ -186,9 +186,9 @@ cards:
         feedback: "The chance is 0.57, so the model leans to rain. A threshold of 0.5 belongs to the chance; on the score, the same decision line sits at 0."
       - text: "rain rain"
         misconception: threshold-on-score
-        feedback: "The score isn't a chance. A score of 0.3 squashes to a chance of 0.57; Pip's test of `score >= 0.5` asks for a chance of at least 0.62, so he calls dry nights that lean to rain."
+        feedback: "The score isn't a chance. A score of 0.3 squashes to a chance of 0.57; Yahya's test of `score >= 0.5` asks for a chance of at least 0.62, so he calls dry nights that lean to rain."
   - type: fix
-    prompt: "Pip's walk fits a straight line to the 0s and 1s instead of learning chances. Fix the miss."
+    prompt: "Caitlin's walk fits a straight line to the 0s and 1s instead of learning chances. Fix the miss."
     code: |
       import numpy as np
 

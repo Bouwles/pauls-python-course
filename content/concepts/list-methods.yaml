@@ -15,17 +15,17 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      crates = ["cod", "crab", "cod", "eel"]
-      crates.remove("cod")
-      print(crates)
-    answer: "['crab', 'cod', 'eel']"
+      snacks = ["crisps", "apple", "crisps", "pear"]
+      snacks.remove("crisps")
+      print(snacks)
+    answer: "['apple', 'crisps', 'pear']"
   - type: predict
     prompt: What does this print?
     code: |
-      queue = ["Ashby", "Vance"]
-      queue.insert(1, "Okonjo")
+      queue = ["Aaesha", "Yahya"]
+      queue.insert(1, "Neil")
       print(queue)
-    answer: "['Ashby', 'Okonjo', 'Vance']"
+    answer: "['Aaesha', 'Neil', 'Yahya']"
   - type: choice
     prompt: What happens?
     code: |
@@ -46,17 +46,17 @@ cards:
   - type: choice
     prompt: What does this print?
     code: |
-      boats = ["Kittiwake", "Mary Rose", "Sea Holly"]
-      boats.insert(1, "Lugger")
-      print(boats)
+      floors = ["Workshop", "Studio", "Makerspace"]
+      floors.insert(1, "Stairs")
+      print(floors)
     options:
-      - text: "['Kittiwake', 'Lugger', 'Mary Rose', 'Sea Holly']"
+      - text: "['Workshop', 'Stairs', 'Studio', 'Makerspace']"
         correct: true
-      - text: "['Kittiwake', 'Lugger', 'Sea Holly']"
+      - text: "['Workshop', 'Stairs', 'Makerspace']"
         misconception: insert-replaces
         feedback: "`.insert()` adds; it doesn't overwrite. Everything from position 1 onwards moves along one."
   - type: fix
-    prompt: "Old Tom's spare bulbs. The broken one should come out, wherever it is. Fix line 2."
+    prompt: "Paul's spare bulbs. The broken one should come out, wherever it is. Fix line 2."
     code: |
       bulbs = ["good", "good", "broken", "good"]
       bulbs.pop("broken")
@@ -68,23 +68,23 @@ cards:
       bulbs.remove("broken")
       print(bulbs)
   - type: fill
-    prompt: "Fill the gap so Mrs Vance goes to the front of the queue."
+    prompt: "Fill the gap so Paul goes to the front of the queue."
     code: |
-      queue = ["Ashby", "Okonjo"]
-      queue.___(0, "Vance")
+      queue = ["Riya", "Neil"]
+      queue.___(0, "Paul")
       print(queue)
     blanks: [["insert"]]
     tests: |
-      TESTS = [output("Vance first", expect="['Vance', 'Ashby', 'Okonjo']")]
+      TESTS = [output("Paul first", expect="['Paul', 'Riya', 'Neil']")]
   - type: write
-    prompt: "`catch` is a list of fish. Print how many `\"mackerel\"` are in it, using a list method."
+    prompt: "`votes` is the class dinner vote. Print how many `\"pizza\"` votes are in it, using a list method."
     starter: |
-      catch = ["mackerel", "cod", "mackerel", "bass", "mackerel"]
+      votes = ["pizza", "curry", "pizza", "sushi", "pizza"]
     tests: |
       TESTS = [
-          output("Three mackerel", expect="3"),
-          structure("Uses .count()", calls=["count"], message="Let the list count them: catch.count(...)."),
+          output("Three for pizza", expect="3"),
+          structure("Uses .count()", calls=["count"], message="Let the list count them: votes.count(...)."),
       ]
     solution: |
-      catch = ["mackerel", "cod", "mackerel", "bass", "mackerel"]
-      print(catch.count("mackerel"))
+      votes = ["pizza", "curry", "pizza", "sushi", "pizza"]
+      print(votes.count("pizza"))

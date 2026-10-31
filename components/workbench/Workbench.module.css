@@ -1,299 +1,214 @@
 /*
-  The Workbench is a game screen (REDESIGN.md 5.1):
+  The Workbench (REDESIGN-2.md 4.1):
 
-    hud    hud       48 px HUD
-    path   path      the step path, with Hint and Dennis
-    brief  stage     the paper ticket | the editor (at least 60 per cent of the width)
-    talk   talk      the dialogue box
+    header                          56 px
+    step bar                        52 px
+    instructions  |  editor         the instructions are 340 to 520 px (--panel-w); the editor takes the rest
+                  |  console
 
-  Steps render their parts with the brief and stage classes; .main uses
-  `display: contents` so those parts sit directly in this grid.
-  Phone: HUD, the path as a sideways scroller, a one-line dialogue box, then
-  Ticket, Code and Output as three big tabs.
+  Steps render their parts with the panel and stage classes (or one full-width panel for the Ask
+  and the Ship) straight into the body grid. The layout follows the Workbench's own width, not
+  the window's, so the landing page's smaller copy gets the narrow layout too: header, a sideways
+  step bar, then Instructions, Code and Output as three tabs.
 */
 .wb {
-  --ticket-w: 340px;
-  display: grid;
-  grid-template-columns: var(--ticket-w) minmax(0, 1fr);
-  grid-template-rows: var(--hud-h) auto minmax(0, 1fr) auto;
-  grid-template-areas:
-    "hud hud"
-    "path path"
-    "brief stage"
-    "talk talk";
+  container: wb / inline-size;
   height: 100vh;
   height: 100dvh;
-  overflow: hidden;
   background: var(--bg);
-  position: relative;
-}
-
-.wb[data-ticket="folded"] {
-  --ticket-w: 64px;
-}
-
-.main {
-  display: contents;
-}
-
-.path {
-  grid-area: path;
-  min-width: 0;
-  position: relative;
-  z-index: 3;
-}
-
-.brief {
-  grid-area: brief;
-  overflow: auto;
-  min-height: 0;
-  padding: var(--s-8) var(--s-3) var(--s-6) var(--s-4);
-  scrollbar-width: thin;
-}
-
-.wb[data-ticket="folded"] .brief {
-  padding: var(--s-4) var(--s-3);
+  color: var(--text);
   overflow: hidden;
+}
+
+.landing {
+  height: min(760px, 88vh);
+}
+
+.frame {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.bodyGrid {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: var(--panel-w) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+}
+
+.panel {
+  grid-column: 1;
+  grid-row: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--surface-1);
+  border-right: 1px solid var(--line);
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
 }
 
 .stage {
-  grid-area: stage;
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  min-height: 0;
-  min-width: 0;
   overflow: hidden;
-  margin: var(--s-3) var(--s-3) 0 var(--s-1);
-  background: var(--panel);
-  box-shadow: inset 0 0 0 2px var(--night-0);
+  background: var(--editor);
 }
 
-.talk {
-  grid-area: talk;
+.full {
+  grid-column: 1 / -1;
+  grid-row: 1;
   min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  background: var(--bg);
 }
 
-/* Kept so older step markup still lands somewhere sensible. */
-.output,
-.side {
+.bodyGrid:has(> .full) > .handle {
   display: none;
 }
 
-.tabs {
-  display: none;
+/* The resize handle sits over the panel's right edge and lights up on hover and focus. */
+.handle {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: end;
+  position: relative;
+  z-index: 6;
+  width: 12px;
+  margin-right: -6px;
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.handle::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 5px;
+  width: 2px;
+  background: transparent;
+  transition: background-color var(--dur) var(--ease-out);
+}
+
+.handle:hover::after,
+.handle:focus-visible::after,
+.handle:active::after {
+  background: var(--sun);
+}
+
+.handle:focus-visible {
+  outline: none;
 }
 
 .loading {
-  grid-area: stage;
-  padding: var(--s-8);
+  grid-column: 1 / -1;
+  align-self: start;
+  padding: var(--s-10) var(--s-8);
   color: var(--text-2);
-  font-family: var(--font-pixel);
-  font-size: var(--pixel-1);
 }
 
-/* Dennis, the 24 px duck button in the path bar. */
-.duck {
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 32px;
-  border: 0;
-  outline: 2px solid var(--night-0);
-  background: var(--quiet);
-  box-shadow: inset 0 -4px 0 var(--quiet-dark);
-  color: var(--lamp);
-  padding-bottom: 4px;
+.zoneTabs {
+  display: none;
 }
 
-.duck:hover {
-  background: var(--quiet-hover);
-}
-
-.duck:active {
-  transform: translateY(2px);
-  box-shadow: inset 0 -2px 0 var(--quiet-dark);
-}
-
-.duck[aria-pressed="true"] {
-  background: var(--lamp);
-  box-shadow: inset 0 -4px 0 var(--lamp-dark);
-  color: var(--night-0);
-}
-
-/* The "Explain it to Dennis" drawer slides in from the right. */
-.drawer {
-  position: absolute;
-  top: calc(var(--hud-h) + 56px);
-  right: var(--s-3);
-  bottom: var(--s-3);
-  z-index: 20;
-  width: min(420px, calc(100vw - 2 * var(--s-3)));
-  display: flex;
-  flex-direction: column;
-  gap: var(--s-3);
-  transform: translateX(calc(100% + var(--s-6)));
-  visibility: hidden;
-  transition:
-    transform var(--dur-2) linear,
-    visibility 0s linear var(--dur-2);
-}
-
-.drawer[data-open] {
-  transform: none;
-  visibility: visible;
-  transition: transform var(--dur-2) linear;
-}
-
-.drawerHead {
-  display: flex;
-  align-items: center;
-  gap: var(--s-3);
-}
-
-.drawerTitle {
-  flex: 1;
-  font-size: var(--pixel-1);
-}
-
-.drawerClose {
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  border: 0;
-  background: var(--night-2);
-  color: var(--text);
-}
-
-.drawerClose:hover {
-  background: var(--night-4);
-}
-
-.drawerBody {
-  flex: 1;
-  min-height: 0;
-  overflow: auto;
-}
-
-/* Landing page: a cut-down Workbench inside a game window, no HUD. */
-.landing {
-  height: min(820px, 92vh);
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  grid-template-areas:
-    "path path"
-    "brief stage"
-    "talk talk";
-}
-
-.landing .drawer {
-  top: 64px;
-}
-
-@media (max-width: 1100px) {
-  .wb {
-    --ticket-w: 300px;
+@container wb (max-width: 860px) {
+  .bodyGrid {
+    display: block;
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
-}
 
-@media (max-width: 900px) {
-  .wb,
-  .landing {
-    display: flex;
-    flex-direction: column;
-    height: auto;
-    min-height: 100dvh;
+  .panel {
     overflow: visible;
-  }
-
-  .landing {
-    min-height: 0;
-  }
-
-  .path {
-    order: 1;
-  }
-
-  .talk {
-    order: 2;
-  }
-
-  .tabs {
-    order: 3;
-  }
-
-  .brief {
-    order: 4;
-    padding: var(--s-6) var(--s-3) var(--s-6);
-    overflow: visible;
+    border-right: 0;
   }
 
   .stage {
-    order: 5;
     overflow: visible;
-    margin: 0 var(--s-2) var(--s-3);
+    min-height: 420px;
+    border-top: 1px solid var(--line);
   }
 
-  .loading {
-    order: 6;
+  .full {
+    overflow: visible;
   }
 
-  /* Steps that use the editor get three big pixel tabs. */
-  .wb[data-code] .tabs {
+  .handle {
+    display: none;
+  }
+
+  /* Steps with the editor: three tabs, one showing at a time, each filling the screen. */
+  .zoneTabs {
     display: flex;
-    gap: var(--s-1);
-    padding: var(--s-2) var(--s-2) 0;
-    position: sticky;
-    top: 0;
-    z-index: 5;
+    flex: none;
+    gap: 0;
+    padding: 0 var(--s-2);
     background: var(--bg);
+    border-bottom: 1px solid var(--line);
   }
 
-  .wb[data-code][data-zone="brief"] .stage {
-    display: none;
-  }
-
-  .wb[data-code]:not([data-zone="brief"]) .brief {
-    display: none;
-  }
-
-  .wb[data-code]:not([data-zone="brief"]) .stage {
-    min-height: 70dvh;
-    margin-top: 0;
-  }
-
-  .tab {
+  .zoneTab {
     flex: 1;
-    min-height: var(--touch);
+    height: 44px;
     border: 0;
-    background: var(--panel-2);
+    background: none;
     color: var(--text-2);
-    font-family: var(--font-pixel);
-    font-size: var(--pixel-1);
-    line-height: 1;
-    -webkit-font-smoothing: none;
-    box-shadow: inset 0 -4px 0 var(--bg);
+    font-size: var(--fs-2);
+    font-weight: 700;
+    box-shadow: inset 0 -2px 0 transparent;
+    transition:
+      color var(--dur) var(--ease-out),
+      box-shadow var(--dur) var(--ease-out);
   }
 
-  /* The selected tab joins the panel below it, like a folder tab. */
-  .tab[aria-selected="true"] {
-    background: var(--panel);
+  .zoneTab[aria-selected="true"] {
     color: var(--text);
-    box-shadow: inset 0 4px 0 var(--lamp);
+    box-shadow: inset 0 -2px 0 var(--sun);
   }
 
-  .wb[data-code][data-zone="brief"] .tab[aria-selected="true"] {
-    background: var(--chalk);
-    color: var(--night-0);
+  .zoneTab:focus-visible {
+    outline-offset: -2px;
   }
 
-  .drawer {
-    position: fixed;
-    top: auto;
-    left: var(--s-2);
-    right: var(--s-2);
-    bottom: var(--s-2);
-    width: auto;
-    max-height: 80dvh;
-    transform: translateY(calc(100% + var(--s-6)));
+  .frame[data-code] .bodyGrid {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .frame[data-code] .panel {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .frame[data-code] .stage {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    border-top: 0;
+  }
+
+  .frame[data-code][data-zone="brief"] .stage,
+  .frame[data-code]:not([data-zone="brief"]) .panel {
+    display: none;
   }
 }

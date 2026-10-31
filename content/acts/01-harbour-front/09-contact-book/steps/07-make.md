@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the contact book
-on_pass: { mira: "It found Mr Ashby from two letters. I have been filing him for forty years." }
+on_pass: { aaesha: "It found Clock Parts from one word. One record each, and no copies." }
 hints:
   nudge: "Three things can happen to a name: it's `add`, it's in the book, or it isn't. Which do you check first?"
   plan:
@@ -36,14 +36,14 @@ hints:
                     print("Try: " + ___.join(matches))
         name = input("Name? ")
 ---
-Build Mira's contact book to the spec under **The job**.
+Build Aaesha's contact book to the spec under **The job**.
 
 ```
-Name? tom
-No contact called tom.
-Try: Old Tom
+Name? repairs
+No contact called repairs.
+Try: Clock Repairs
 ```
 
-The comments in the file are Moss's labels from the parts drawers, plus one for `add`, which splits the line you met two steps ago.
+The comments in the file are Paul's labels from the parts drawers, plus one for `add`, which splits the line you met two steps ago.
 
-Check for `add` before you look the name up. Nobody in town is called Add, and Mira would like to keep it that way.
+Check for `add` before you look the name up. Nobody in the class is called Add, and Aaesha would like to keep it that way.

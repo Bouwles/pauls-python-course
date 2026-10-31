@@ -18,11 +18,11 @@ def check_year(ctx, year, expected):
 
 
 def year_1921(ctx):
-    check_year(ctx, 1921, {"Harbour": "Grace Jago", "High Street": "Arthur Vosper", "Hill": "Albert Vosper", "Marsh": "John Tregear"})
+    check_year(ctx, 1921, {"Bankside": "Grace Jago", "Church Street": "Arthur Vosper", "Hill": "Albert Vosper", "Northgate": "John Tregear"})
 
 
 def year_2011(ctx):
-    check_year(ctx, 2011, {"Harbour": "Moss", "High Street": "Kenneth Ashby", "Hill": "Thomas Vosper", "Marsh": "Lucy Angove"})
+    check_year(ctx, 2011, {"Bankside": "Albert Moyle", "Church Street": "Kenneth Abbott", "Hill": "Thomas Vosper", "Northgate": "Lucy Angove"})
 
 
 TESTS = [

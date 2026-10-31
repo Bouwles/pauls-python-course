@@ -27,22 +27,22 @@ def _report(mod, y_true, y_pred, groups):
 
 def report_small(ctx):
     mod = _module(ctx, "group_report")
-    report = _report(mod, [1, 1, 0, 1, 1, 0], [1, 1, 0, 0, 0, 1], ["town", "town", "town", "island", "island", "island"])
-    if sorted(report) != ["island", "town"]:
-        raise CheckFailed("One entry for each group.", expected=["island", "town"], actual=sorted(report))
-    accuracy, given_away = report["town"]
+    report = _report(mod, [1, 1, 0, 1, 1, 0], [1, 1, 0, 0, 0, 1], ["city", "city", "city", "outside", "outside", "outside"])
+    if sorted(report) != ["city", "outside"]:
+        raise CheckFailed("One entry for each group.", expected=["city", "outside"], actual=sorted(report))
+    accuracy, given_away = report["city"]
     if abs(float(accuracy) - 1.0) > 1e-9 or abs(float(given_away)) > 1e-9:
-        raise CheckFailed("Every town prediction is right, and nobody who came lost their slot.", expected="(1.0, 0.0)", actual=repr(report["town"]))
-    accuracy, given_away = report["island"]
+        raise CheckFailed("Every city prediction is right, and nobody who came lost their slot.", expected="(1.0, 0.0)", actual=repr(report["city"]))
+    accuracy, given_away = report["outside"]
     if abs(float(accuracy)) > 1e-9 or abs(float(given_away) - 1.0) > 1e-9:
-        raise CheckFailed("Every island prediction is wrong, and both islanders who came would have lost their slots.",
-                          expected="(0.0, 1.0)", actual=repr(report["island"]))
+        raise CheckFailed("Every outside prediction is wrong, and both visitors from outside who came would have lost their slots.",
+                          expected="(0.0, 1.0)", actual=repr(report["outside"]))
 
 
 def report_among_came(ctx):
     mod = _module(ctx, "group_report")
-    report = _report(mod, [1, 1, 1, 1, 0, 0, 0, 0], [0, 1, 1, 1, 1, 1, 0, 0], ["town"] * 8)
-    accuracy, given_away = report["town"]
+    report = _report(mod, [1, 1, 1, 1, 0, 0, 0, 0], [0, 1, 1, 1, 1, 1, 0, 0], ["city"] * 8)
+    accuracy, given_away = report["city"]
     if abs(float(accuracy) - 0.625) > 1e-9:
         raise CheckFailed("Five of the eight predictions are right.", expected=0.625, actual=accuracy)
     if abs(float(given_away) - 0.25) > 1e-9:
@@ -61,11 +61,11 @@ def loads(ctx):
     if X.shape != (360, 5) or y.shape != (360,) or groups.shape != (360,):
         raise CheckFailed("360 bookings: X has 5 columns, the FEATURES; y and groups have one entry each.",
                           expected="(360, 5), (360,), (360,)", actual=f"{X.shape}, {y.shape}, {groups.shape}")
-    if not (_np.allclose(X[0], [24, 5, 3, 0, 0]) and y[0] == 0 and groups[0] == "town"):
-        raise CheckFailed("The first booking: 24 days ahead, a party of 5, cloud 3, not a first visit, didn't sign, didn't come, from the town. The island column isn't a feature.",
-                          expected="[24, 5, 3, 0, 0], 0, town", actual=f"{X[0].tolist()}, {y[0]}, {groups[0]}")
-    if int(_np.sum(groups == "island")) != 47:
-        raise CheckFailed("47 of the bookings are from the island.", expected=47, actual=int(_np.sum(groups == "island")))
+    if not (_np.allclose(X[0], [24, 5, 3, 0, 0]) and y[0] == 0 and groups[0] == "city"):
+        raise CheckFailed("The first booking: 24 days ahead, a party of 5, cloud 3, not a first visit, didn't sign, didn't come, from the city. The outside column isn't a feature.",
+                          expected="[24, 5, 3, 0, 0], 0, city", actual=f"{X[0].tolist()}, {y[0]}, {groups[0]}")
+    if int(_np.sum(groups == "outside")) != 47:
+        raise CheckFailed("47 of the bookings are from outside the city.", expected=47, actual=int(_np.sum(groups == "outside")))
 
 
 def alone(ctx):
@@ -248,9 +248,9 @@ def commonest(ctx):
 
 
 def by_group(ctx):
-    _line(ctx, "island", "island   accuracy 0.35, slot given away 0.64",
-          "On the drawer's island bookings: the accuracy, and the share of those who came but were predicted not to.")
-    _line(ctx, "town", "town     accuracy 0.85, slot given away 0.09", "The same for the town's bookings.")
+    _line(ctx, "outside", "outside  accuracy 0.35, slot given away 0.64",
+          "On the drawer's bookings from outside the city: the accuracy, and the share of those who came but were predicted not to.")
+    _line(ctx, "city", "city     accuracy 0.85, slot given away 0.09", "The same for the city's bookings.")
 
 
 TESTS = [
@@ -259,7 +259,7 @@ TESTS = [
     custom("given_away counts only the visitors who came", report_among_came,
            hint="Of the visitors who came, what share were predicted not to? The no-shows aren't in it."),
     custom("load_bookings reads 360 bookings", loads,
-           hint="If only this fails, X is the FEATURES columns only: not the booking number, not island, not came."),
+           hint="If only this fails, X is the FEATURES columns only: not the booking number, not outside, not came."),
     custom("alone_scores tries each column on its own", alone),
     custom("suspicious flags scores at or over the limit", flags),
     custom("cross_validate gives each model's mean accuracy over the folds", cv_small),

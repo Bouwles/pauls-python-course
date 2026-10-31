@@ -46,7 +46,7 @@ def a_week(ctx):
     check_summary(ctx.module().summary(week()), expected, "summary of a week of rain")
 
 
-def oven(ctx):
+def warm_up(ctx):
     import pandas as pd
 
     days = [f"{day} May" for day in range(1, 10)]
@@ -81,9 +81,9 @@ def tied_mode(ctx):
                           expected="1.0", actual=repr(result["mode"]))
 
 
-def home_town(ctx):
+def clocktower_temps(ctx):
     temps = daily(ctx)["temp"]
-    check_summary(ctx.module().summary(temps), expected_for(temps), "summary of the {{town}} temperatures")
+    check_summary(ctx.module().summary(temps), expected_for(temps), "summary of the Clocktower temperatures")
 
 
 def thornby(ctx):
@@ -94,7 +94,7 @@ def thornby(ctx):
 def screen_door(ctx):
     found = ctx.module().outliers(daily(ctx)["temp"])
     if list(found.index) != ["2024-06-14"] or float(found.iloc[0]) != 41.3:
-        raise CheckFailed("One {{town}} temperature is outside the fences.", expected="{'2024-06-14': 41.3}", actual=str(found.to_dict()))
+        raise CheckFailed("One Clocktower temperature is outside the fences.", expected="{'2024-06-14': 41.3}", actual=str(found.to_dict()))
 
 
 def rainy_days(ctx):
@@ -138,11 +138,11 @@ def left_alone(ctx):
 
 TESTS = [
     custom("A summary of a week of rain", a_week, visible=True),
-    custom("Bea's oven, and the morning the gas was off", oven, visible=True),
+    custom("The soldering iron, and the morning it was set too low", warm_up, visible=True),
     custom("The standard deviation divides by one less than the count", sample_spread,
            hint="numpy's np.std divides by the count; pandas' .std() divides by one less. Use the pandas one."),
     custom("A tie for the most common value", tied_mode, hint="values.mode() is a Series, smallest first. .iloc[0] takes the first."),
-    custom("A year of {{town}} temperatures", home_town),
+    custom("A year of Clocktower temperatures", clocktower_temps),
     custom("A year of Thornby temperatures", thornby),
     custom("The screen door in June", screen_door, hint="outliers should give back the readings with their labels, the dates."),
     custom("Rain outside the fences", rainy_days),

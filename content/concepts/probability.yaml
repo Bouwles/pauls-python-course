@@ -60,7 +60,7 @@ cards:
         misconception: short-run-is-exact
         feedback: "A short run is a rough estimate. Five Junes can only come out as 0, 0.2, 0.4 and so on, so they can't land on 0.3; only a long run settles close to it."
   - type: choice
-    prompt: "Sir Reginald wins a heat with chance 0.4, and each heat is independent. What does this print?"
+    prompt: "The crab wins a heat with chance 0.4, and each heat is independent. What does this print?"
     code: |
       import numpy as np
 
@@ -71,12 +71,12 @@ cards:
     options:
       - text: "0.16"
         correct: true
-        feedback: "He wins the first heat 40% of the time, and wins the second in 40% of those: 0.4 * 0.4."
+        feedback: "It wins the first heat 40% of the time, and wins the second in 40% of those: 0.4 * 0.4."
       - text: "0.8"
         misconception: both-chances-add
         feedback: "Adding would make winning both more likely than winning either one, which can't be right. Both is the rarer event: for independent heats the chances multiply, 0.4 * 0.4."
   - type: choice
-    prompt: "The committee toss a coin for lanes. After three tails in a row, how often is the next toss heads?"
+    prompt: "Yahya and Caitlin toss a coin for lanes. After three tails in a row, how often is the next toss heads?"
     code: |
       import numpy as np
 
@@ -102,7 +102,7 @@ cards:
     tests: |
       TESTS = [output("Everything except a dry week", expect="0.918")]
   - type: fix
-    prompt: "Pip's simulated die never rolls a six. Fix it so the chance of a six comes out near 1/6."
+    prompt: "Caitlin's simulated die never rolls a six. Fix it so the chance of a six comes out near 1/6."
     code: |
       import numpy as np
 
@@ -138,7 +138,7 @@ cards:
                       ways += 1
           return ways / 36
   - type: choice
-    prompt: "Priya runs her simulation twice, with the same seed. What does this print?"
+    prompt: "Aaesha runs her simulation twice, with the same seed. What does this print?"
     code: |
       import numpy as np
 

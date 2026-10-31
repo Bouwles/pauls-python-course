@@ -6,17 +6,11 @@ out/
 /generated/
 /public/pyodide/
 /public/python/
-/public/sprites/
 /test-results/
 /playwright-report/
 *.tsbuildinfo
 next-env.d.ts
 .DS_Store
-/public/icon.png
-/public/apple-icon.png
 /public/sw.js
 .env
-/sprites/preview/
 tsconfig.tsbuildinfo
-/public/icon-*.png
-/public/og.png

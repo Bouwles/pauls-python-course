@@ -53,10 +53,6 @@ scikit-learn agrees: True
 Component 1 explains 44%: milk, grocery, detergents_paper
 Component 2 explains 27%: fresh, frozen, delicatessen
 """
-# Copied by Professor Wendt from a note pinned to Penhallow's plate box:
-# I asked the machine to sort my nights into piles, and didn't say what a
-# pile was. It made four. Three I recognised: clear, fog, gales. The
-# fourth I still can't name, and it won't say. A.P.
 
 import numpy as np
 import pandas as pd

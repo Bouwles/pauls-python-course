@@ -11,7 +11,7 @@ class Account:
         balance = self.balance - pence
 
 
-bea = Account("Bea", 1042)
-bea.deposit(2000)
-bea.withdraw(750)
-print(bea.holder, bea.balance)
+aaesha = Account("Aaesha", 1042)
+aaesha.deposit(2000)
+aaesha.withdraw(750)
+print(aaesha.holder, aaesha.balance)

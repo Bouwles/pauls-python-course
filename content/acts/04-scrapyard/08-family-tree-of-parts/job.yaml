@@ -6,7 +6,7 @@ portfolio_readme: |
 
   A catalogue of numbered parts kept as a binary search tree: every card has the smaller numbers down its left and the bigger ones down its right. It files new cards, finds any card in a handful of looks, lists a range of numbers in order, and copies the whole tree out three ways: in order, top first, and bottom first.
 
-  Written by {name} for Nell Brannigan's scrapyard in {{town}}. Finished {date}.
+  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -14,7 +14,7 @@ portfolio_readme: |
   python catalogue.py
   ```
 
-  It files Penhallow's fifteen cards, then answers the questions the yard and the office ask:
+  It files the clockmaker's fifteen cards, then answers the questions a catalogue gets asked:
 
   ```
   Catalogue: 15 cards, 5 levels
@@ -32,22 +32,21 @@ portfolio_readme: |
   - A range search that skips every branch that can't hold an answer
   - A class with `__len__`, and replacing a value when a key is filed twice
 downloadable: true
-# The cards are Penhallow's, invented for the story: the tree's shape is the point, and the
+# The cards are the clockmaker's, invented for the story: the tree's shape is the point, and the
 # fifteen numbers are chosen so it has one. See the README.
 datasets: []
-client: nell
+client: aaesha
 building: scrapyard
 estimated_minutes: 90
-summary: "A parts catalogue kept as a binary search tree, the way Penhallow filed Nell's cards: add the pier's cards, find any part in a handful of looks, and copy the tree out three ways."
+summary: "A parts catalogue kept as a binary search tree, the way the clockmaker filed the cards: add new cards, find any part in a handful of looks, and copy the tree out three ways."
 concepts_introduced: [trees, binary-search-trees, traversals]
 concepts_reviewed: [recursion, base-cases, call-stack, classes, none, tuples, binary-search, linked-lists, big-o, dunder-methods]
-story_note: branches-without-reasons
 ask:
   dialogue:
-    - nell: "Penhallow kept the catalogue as a tree. Smaller numbers down the left of every card, bigger down the right."
-    - nell: "She called it the family tree of parts. Ten thousand cards, and fourteen looks to find any of them."
-    - nell: "Now the pier's cards need filing, the merchant wants them in order, and the office wants a copy."
-    - moss: "A tree is a card with two smaller trees under it. You've met that shape in Penhallow's folders."
+    - aaesha: "The clockmaker's catalogue came with the lot. Every card numbered, and filed as a tree."
+    - aaesha: "Smaller numbers down the left of every card, bigger down the right. A family tree of parts."
+    - aaesha: "I want it filed, searchable, listed in order, and copied out for the Archive."
+    - paul: "A tree is a card with two smaller trees under it. You've met that shape in Neil's folders."
   spec: |
     In `catalogue.py`, two classes.
 
@@ -72,10 +71,10 @@ ask:
     Copied out: [500, 250, 101, 188, 133, 342, 377, 430, 750, 621, 555, 702, 977, 850, 915]
 ship:
   dialogue:
-    - nell: "Three looks for the brass valve. I'd have walked past it twice."
-    - nell: "The office copied it out top first, and built the same tree back from the copy. Card for card."
-    - moss: "Every card a smaller tree. That's why each of those methods was only a few lines long."
-  shelf: { object: catalogue-card, label: "Nell's parts catalogue, the family tree of parts" }
+    - aaesha: "Three looks for the brass valve. And three to be sure card 999 isn't there."
+    - aaesha: "I copied it out top first, then built the same tree back from the copy. Card for card."
+    - paul: "Every card a smaller tree. That's why each of those methods was only a few lines long."
+  shelf: { object: catalogue-card, label: "Aaesha's parts catalogue, the family tree of parts" }
   cards: [trees, binary-search-trees, traversals]
 stretch:
   - id: take-a-card-out
@@ -85,8 +84,8 @@ stretch:
   - id: fourteen-looks
     title: "Fourteen looks"
     prompt: |
-      File ten thousand cards in number order and the tree is a stick ten thousand levels high, which is too deep for recursion. Write `from_sorted(pairs)`, which builds a catalogue from pairs already in order by putting the middle pair at the root and building each side the same way. Check that ten thousand cards come out fourteen levels high, as Penhallow said.
+      File ten thousand cards in number order and the tree is a stick ten thousand levels high, which is too deep for recursion. Write `from_sorted(pairs)`, which builds a catalogue from pairs already in order by putting the middle pair at the root and building each side the same way. Check that ten thousand cards come out fourteen levels high, as the clockmaker's note says.
   - id: rebuild
     title: "Built back from the copy"
     prompt: |
-      The office rebuilds the tree by adding the cards in the order `pre_order()` lists them. Check that the rebuilt tree has exactly the same shape. Then rebuild it from `in_order()` instead, and measure its height.
+      Aaesha rebuilds the tree by adding the cards in the order `pre_order()` lists them. Check that the rebuilt tree has exactly the same shape. Then rebuild it from `in_order()` instead, and measure its height.

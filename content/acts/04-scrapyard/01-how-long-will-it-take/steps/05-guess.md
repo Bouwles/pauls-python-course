@@ -4,8 +4,8 @@ type: investigate
 title: Which growth is it?
 concept: big-o
 dialogue:
-  - nell: "So you count it at one size, then at twice the size. Then what."
-  - moss: "Then you ask which growth would have done that."
+  - yahya: "So you count it at one size, then at twice the size. Then what?"
+  - paul: "Then you ask which growth would have done that."
 code: |
   import math
 
@@ -75,7 +75,7 @@ tasks:
       for count in steps:
           print("#" * (count // 1000), count)
   - id: bars
-    prompt: "One `#` per thousand steps runs off the page once the pier arrives. Change the last loop so the biggest bar is 20 `#`s long and the rest are in proportion: `round(count / max(steps) * 20)` of them."
+    prompt: "One `#` per thousand steps runs off the page once the clockmaker's lot arrives. Change the last loop so the biggest bar is 20 `#`s long and the rest are in proportion: `round(count / max(steps) * 20)` of them."
     kind: run
     tests: |
       TESTS = [

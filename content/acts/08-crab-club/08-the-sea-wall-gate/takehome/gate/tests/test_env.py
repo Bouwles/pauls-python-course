@@ -1,4 +1,4 @@
-"""The gate, checked against the committee's rules. Run with: pytest"""
+"""The gate, checked against Caitlin's rules. Run with: pytest"""
 
 import numpy as np
 import pytest
@@ -9,7 +9,7 @@ from gate_env import FLOOD, FLOW, GROUND, MAX_STEPS, NOTCHES, RIVER, TideGateEnv
 
 
 def careful_keeper(observation):
-    """Moss's rule of thumb: let water through only when it moves the harbour towards 3 metres."""
+    """Paul's rule of thumb: let water through only when it moves the harbour towards 3 metres."""
     harbour, sea, gate, _ = (float(x) for x in observation)
     wanted = NOTCHES if (harbour > 3.0 and sea < harbour) or (harbour < 3.0 and sea > harbour) else 0
     return 2 if gate < wanted else (0 if gate > wanted else 1)
@@ -127,7 +127,7 @@ def test_rise_is_the_change_in_the_sea():
 def test_the_tide_comes_and_goes():
     history = run(TideGateEnv(), careful_keeper, seed=6, limit=50)
     seas = [float(observation[1]) for observation, *_ in history]
-    assert len(seas) == 51, "Moss's careful keeper should last 50 steps."
+    assert len(seas) == 51, "Paul's careful keeper should last 50 steps."
     assert max(seas) - min(seas) >= 2.0, "Over one tide, the sea rises and falls by at least 2 m."
     assert 0.5 <= min(seas) and max(seas) <= 5.5
 
@@ -160,7 +160,7 @@ def test_wide_open_floods_or_grounds():
 
 def test_truncated_after_fifty_hours():
     history = run(TideGateEnv(), careful_keeper, seed=10)
-    assert len(history) == MAX_STEPS + 1, "Moss's careful keeper keeps the harbour safe for all 200 steps."
+    assert len(history) == MAX_STEPS + 1, "Paul's careful keeper keeps the harbour safe for all 200 steps."
     final, reward, terminated, truncated = history[-1]
     assert truncated and not terminated, "At MAX_STEPS the episode is truncated: stopped, not failed."
     assert not any(t for _, _, t, u in history[1:-1]) and not any(u for _, _, t, u in history[1:-1])

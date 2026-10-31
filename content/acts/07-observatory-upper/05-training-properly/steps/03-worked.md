@@ -1,9 +1,9 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "Penhallow's telescope focus against the temperature. Plain descent takes two thousand steps. I counted. Here it is with momentum."
+  - paul: "The roof telescope's focus against the temperature. Plain descent takes two thousand steps. I counted. Here it is with momentum."
 code: |
   import numpy as np
 
@@ -38,6 +38,6 @@ explain:
   answer: "The slope for `w` is far steeper than the slope for `b`, because the temperatures multiply into it. A rate big enough to move `b` quickly throws `w` off the hill. Momentum doesn't change the rate: it lets `b`'s small, steady slope build up speed, because it points the same way step after step, while `w`'s zig-zags cancel out."
   concept: optimisers
 ---
-Thirty nights of Penhallow's focus readings, the sharp focus in millimetres against the temperature, and the same 300 steps twice: plain descent, then momentum. The best line, by formula, was `-0.1211 * temperature + 42.318`.
+Thirty nights of focus readings from the roof telescope, the sharp focus in millimetres against the temperature, and the same 300 steps twice: plain descent, then momentum. The best line, by formula, was `-0.1211 * temperature + 42.318`.
 
 The velocity is kept in a dict with a key per weight, because each weight has its own slope and so its own speed.

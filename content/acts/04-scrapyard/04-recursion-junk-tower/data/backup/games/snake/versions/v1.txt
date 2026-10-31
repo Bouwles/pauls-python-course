@@ -1,0 +1,1 @@
+v1: the snake walks through walls. I called it a feature for about a week.

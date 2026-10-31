@@ -6,11 +6,11 @@ portfolio_readme: |
 
   A project of my own choosing, built for someone real: proposed with its risks and a test plan, built one working slice at a time with tests, and handed over to the person it was for.
 
-  Written by {name} in {{town}}. Finished {date}.
+  Written by {name} at Paul's Python Course. Finished {date}.
 
   ## What's in this folder
 
-  This folder holds the practice from the course: tests for Mira's postage at the post office, written from its docstring alone, which caught every one of eight deliberately broken versions.
+  This folder holds the practice from the course: tests for a shop's postage, written from its docstring alone, which caught every one of eight deliberately broken versions.
 
   ```
   pip install pytest
@@ -27,18 +27,18 @@ portfolio_readme: |
   - A handover: a README the user can follow, and a second person's review
 downloadable: true
 datasets: []
-client: moss
+client: paul
 building: lighthouse
 estimated_minutes: 1500
-summary: "A project of your own choosing, for someone real: proposed, built a slice at a time with tests, and handed over with Moss's review."
+summary: "A project of your own choosing, for someone real: proposed, built a slice at a time with tests, and handed over with Paul's review."
 concepts_introduced: [mutation-testing]
 concepts_reviewed: [pytest, assert, edge-cases, test-first, raising-errors, exceptions, functions, docstrings, modules, main-guard, naming, git-basics, virtual-environments]
 ask:
   dialogue:
-    - moss: "The rest of the list was for other people. This one's yours. Choose it well."
-    - moss: "Someone who'll use it, small enough to finish, and testable. Drop any one of the three and it goes wrong."
-    - pip: "I'm doing a game engine. A small one. With physics."
-    - moss: "Then read the next page twice."
+    - paul: "The rest of the list was for other people. This one's yours. Choose it well."
+    - paul: "Someone who'll use it, small enough to finish, and testable. Drop any one of the three and it goes wrong."
+    - caitlin: "I'm doing a game engine. A small one. With physics."
+    - paul: "Then read the next page twice."
   spec: |
     A project of your own choosing, built the way the other capstones are.
 
@@ -48,29 +48,28 @@ ask:
     2. **can be finished**: a first useful version in a few weeks of evenings;
     3. **can be tested**: most of it is logic you can check without a screen, a network or a person.
 
-    Then, with Moss reviewing each milestone:
+    Then, with Paul reviewing each milestone:
 
     1. **The proposal:** who it's for, what done looks like, three risks, and a test plan.
     2. **The first working slice:** the smallest version that does one useful thing from end to end, with tests.
     3. **The whole project:** everything the proposal promised, with a README.
-    4. **The handover:** to the person it's for, with Moss's review of what a good project shows.
+    4. **The handover:** to the person it's for, with Paul's review of what a good project shows.
 
     Any part of Python, any libraries, at home or here in the browser. Each milestone's evidence is a link: a repository, or a gist for the proposal.
   example: |
-    For:     Mira, at the post office, on Saturday mornings
-    Done:    she types a parcel's weight and where it's going, and gets the price
+    For:     the owner of a small shop, posting orders on Saturday mornings
+    Done:    they type a parcel's weight and where it's going, and get the price
              and a label to print
-    Risks:   the label printer; parcels Mira measures in ounces; Saturday queues
+    Risks:   the label printer; parcels weighed in ounces; Saturday queues
     Slice 1: weight and destination in, price out, with tests
 ship:
   dialogue:
-    - moss: "Your own idea, finished, tested, and in somebody else's hands. That's the trade."
-    - moss: "Most projects never get a second user. Yours has one."
-    - pip: "My game engine has a README now. And a first slice: a square that falls."
-    - moss: "A square that falls, with tests. I've seen worse starts. I've made worse starts."
+    - paul: "Your own idea, finished, tested, and in somebody else's hands. That's the trade."
+    - paul: "Most projects never get a second user. Yours has one."
+    - caitlin: "My game engine has a README now. And a first slice: a square that falls."
+    - paul: "A square that falls, with tests. I've seen worse starts. I've made worse starts."
   shelf: { object: makers-mark, label: "Your own project, with your name on it" }
   cards: [mutation-testing]
-story_note: stopped-writing-the-tests
 stretch:
   - id: mutants-of-your-own
     title: "Break it on purpose"

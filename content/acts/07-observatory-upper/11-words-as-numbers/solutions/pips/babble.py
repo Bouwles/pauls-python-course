@@ -1,4 +1,4 @@
-"""Pip's forecast babbler. Count the pairs, divide, done."""
+"""Caitlin's forecast babbler. Count the pairs, divide, done."""
 
 import numpy as np
 

@@ -3,11 +3,11 @@ title: while loops
 summary: |
   A `while` loop repeats its body for as long as its test is `True`. The test is asked at the top, before every pass, including the first: if it starts out `False`, the body never runs. The test is not watched during the body, only asked again at the top. Use `while` when you don't know in advance how many passes there will be.
 example: |
-  fog = 3
-  while fog > 0:
-      print("Horn")
-      fog = fog - 1
-  print("Clear")
+  snoozes = 3
+  while snoozes > 0:
+      print("Beep")
+      snoozes = snoozes - 1
+  print("Up")
 misconceptions: [while-is-if, while-exits-mid-body, while-runs-at-least-once]
 related: [for-loops, sentinels, infinite-loops]
 drill: true
@@ -15,81 +15,81 @@ cards:
   - type: predict
     prompt: What does this print?
     code: |
-      fog = 2
-      while fog > 0:
-          fog = fog - 1
-          print("Horn", fog)
-    answer: "Horn 1\nHorn 0"
+      snoozes = 2
+      while snoozes > 0:
+          snoozes = snoozes - 1
+          print("Beep", snoozes)
+    answer: "Beep 1\nBeep 0"
   - type: choice
     prompt: What does this print?
     code: |
-      fog = 0
-      while fog > 0:
-          print("Horn")
-          fog = fog - 1
-      print("Clear")
+      snoozes = 0
+      while snoozes > 0:
+          print("Beep")
+          snoozes = snoozes - 1
+      print("Up")
     options:
-      - text: Clear
+      - text: Up
         correct: true
         feedback: "`0 > 0` is `False` before the first pass, so the body never runs."
       - text: |-
-          Horn
-          Clear
+          Beep
+          Up
         misconception: while-runs-at-least-once
         feedback: "A `while` asks its test before the first pass too. If it's `False` straight away, the body is skipped."
   - type: choice
     prompt: What does this print?
     code: |
-      tide = 1
-      while tide < 4:
-          tide = tide + 1
-      print(tide)
+      level = 1
+      while level < 4:
+          level = level + 1
+      print(level)
     options:
       - text: "4"
         correct: true
-        feedback: "1, 2, 3, 4. When `tide` is 4, `tide < 4` is `False` and the loop stops."
+        feedback: "1, 2, 3, 4. When `level` is 4, `level < 4` is `False` and the loop stops."
       - text: "2"
         misconception: while-is-if
         feedback: "A `while` doesn't stop after one pass. It goes back to the top and asks again."
   - type: fix
-    prompt: "This should count down 3, 2, 1 and then print `Lit`. Fix the test."
+    prompt: "This should count down 3, 2, 1 and then print `Go`. Fix the test."
     code: |
       count = 3
       while count < 0:
           print(count)
           count = count - 1
-      print("Lit")
+      print("Go")
     tests: |
-      TESTS = [output("Countdown", expect="3\n2\n1\nLit", timeout=2)]
+      TESTS = [output("Countdown", expect="3\n2\n1\nGo", timeout=2)]
     solution: |
       count = 3
       while count > 0:
           print(count)
           count = count - 1
-      print("Lit")
+      print("Go")
   - type: fill
-    prompt: "Fill the gap so this prints the three buoys."
+    prompt: "Fill the gap so this prints the three laps."
     code: |
-      buoy = 1
-      ___ buoy <= 3:
-          print("Buoy", buoy)
-          buoy = buoy + 1
+      lap = 1
+      ___ lap <= 3:
+          print("Lap", lap)
+          lap = lap + 1
     blanks: [["while"]]
     tests: |
-      TESTS = [output("Three buoys", expect="Buoy 1\nBuoy 2\nBuoy 3", timeout=2)]
+      TESTS = [output("Three laps", expect="Lap 1\nLap 2\nLap 3", timeout=2)]
   - type: write
-    prompt: "Bea's dough doubles every hour. Keep doubling `dough` while it is under 100, then print it."
+    prompt: "Caitlin's game doubles the score every level. Keep doubling `score` while it is under 100, then print it."
     starter: |
-      dough = 1
+      score = 1
     tests: |
       TESTS = [
           output("From 1", expect="128", timeout=2),
-          output("From 3", set_vars={"dough": 3}, expect="192", timeout=2),
-          output("Already big enough", set_vars={"dough": 150}, expect="150", timeout=2),
+          output("From 3", set_vars={"score": 3}, expect="192", timeout=2),
+          output("Already big enough", set_vars={"score": 150}, expect="150", timeout=2),
           structure("Uses a while loop", requires=["While"], message="Use a while loop: you don't know how many doublings it takes."),
       ]
     solution: |
-      dough = 1
-      while dough < 100:
-          dough = dough * 2
-      print(dough)
+      score = 1
+      while score < 100:
+          score = score * 2
+      print(score)

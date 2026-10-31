@@ -6,5 +6,5 @@ TESTS = [
     function("Only the first reward counts", call="discounted_return", args=([3, 4], 0.0), expect=3, tol=1e-9,
              hint="With gamma 0, everything after the first reward is multiplied by 0. Which reward should be left?"),
     function("Penalties early, prize late", call="discounted_return", args=([-2, 0, 0, 8], 0.5), expect=-1.0, tol=1e-6),
-    output("The committee's practice race", expect="3.12"),
+    output("Yahya's practice race", expect="3.12"),
 ]

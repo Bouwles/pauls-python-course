@@ -1,4 +1,4 @@
-"""Mackerel Night: the rules of Gwen's pier game, with no pygame in sight.
+"""Mackerel Night: the rules of Caitlin's pier game, with no pygame in sight.
 
 Everything here can be tested without a window. main.py does the drawing.
 

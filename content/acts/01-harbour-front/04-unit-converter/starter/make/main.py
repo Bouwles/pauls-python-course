@@ -1,4 +1,4 @@
-# Ferro's unit converter
+# Yahya's unit converter
 # 1. Show the menu and ask
 
 # 2. Choose what to do, one option at a time

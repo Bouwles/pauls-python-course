@@ -1,38 +1,38 @@
 ---
 id: parsons
 type: parsons
-title: High water first
+title: Rain first
 dialogue:
-  - ferro: "No water, no crossing. Then we talk about the wind."
+  - yahya: "Wet track, no run outside. Then we talk about the heat."
 blocks:
-  - { code: 'tide = input("Tide? ")', indent: 0 }
-  - { code: 'wind = int(input("Wind in knots? "))', indent: 0 }
-  - { code: 'if tide == "high":', indent: 0 }
-  - { code: "if wind < 34:", indent: 1 }
-  - { code: 'print("Sailing")', indent: 2 }
+  - { code: 'weather = input("Weather? ")', indent: 0 }
+  - { code: 'temp = int(input("Temperature? "))', indent: 0 }
+  - { code: 'if weather == "dry":', indent: 0 }
+  - { code: "if temp < 30:", indent: 1 }
+  - { code: 'print("Run outside")', indent: 2 }
   - { code: "else:", indent: 1 }
-  - { code: 'print("No sailing. Gale.")', indent: 2 }
+  - { code: 'print("Treadmill. Too hot.")', indent: 2 }
   - { code: "else:", indent: 0 }
-  - { code: 'print("No sailing. Wait for the tide.")', indent: 1 }
+  - { code: 'print("Treadmill. Wait for the rain to stop.")', indent: 1 }
 check: run
 hints:
-  nudge: "Which does Ferro ask about first, the tide or the wind? The second question belongs inside the first."
+  nudge: "Which does Yahya ask about first, the weather or the heat? The second question belongs inside the first."
   plan:
-    - Ask for the tide and the wind
-    - Check the tide first
-    - Only at high tide, check the wind
-    - Otherwise, wait for the tide
+    - Ask for the weather and the temperature
+    - Check the weather first
+    - Only when it's dry, check the temperature
+    - Otherwise, wait for the rain to stop
   shape: |
-    tide = input("Tide? ")
-    wind = int(input("Wind in knots? "))
-    if tide == "high":
+    weather = input("Weather? ")
+    temp = int(input("Temperature? "))
+    if weather == "dry":
         if ___:
-            print("Sailing")
+            print("Run outside")
         else:
-            print("No sailing. Gale.")
+            print("Treadmill. Too hot.")
     else:
-        print("No sailing. Wait for the tide.")
+        print("Treadmill. Wait for the rain to stop.")
 ---
-The ferry only sails at high tide, and never in a gale, which is 34 knots or more. Put the lines in order and indent them, so the wind is only checked when the tide is `high`.
+Yahya only runs outside when it's dry, and never at 30 degrees or more. Put the lines in order and indent them, so the temperature is only checked when the weather is `dry`.
 
 There are two `else:` lines. Their indents decide which `if` each one belongs to.

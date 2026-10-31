@@ -1,51 +1,58 @@
+/* A worked example: the code, with each subgoal's label in a column on the left. */
 .worked {
-  border: var(--hairline);
-  background: var(--paper-raised);
+  background: var(--editor);
   overflow-x: auto;
 }
 
 .block {
   display: grid;
-  grid-template-columns: minmax(150px, 34%) 1fr;
+  grid-template-columns: minmax(160px, 30%) 1fr;
 }
 
 .block + .block {
-  border-top: 2px solid var(--rule);
+  border-top: 1px solid var(--line);
 }
 
 .label {
   display: flex;
   gap: var(--s-2);
   align-items: flex-start;
-  padding: var(--s-2) var(--s-3);
-  font-family: var(--font-prose);
-  font-size: var(--step--1);
-  line-height: 1.35;
-  color: var(--ink);
-  border-right: var(--hairline);
-  background: var(--paper);
+  padding: var(--s-3) var(--s-4);
+  font-size: var(--fs-1);
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--text-2);
+  background: var(--surface-1);
+  border-right: 1px solid var(--line);
 }
 
 .labelled .label {
-  border-right: 2px solid var(--accent);
+  color: var(--text);
 }
 
 .n {
-  font-family: var(--font-code);
-  font-variant-ligatures: none;
-  font-feature-settings: "liga" 0, "calt" 0;
-  color: var(--accent-ink);
-  font-weight: 600;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 4px;
+  border-radius: var(--r-sm);
+  background: var(--sun-wash);
+  color: var(--sun-text);
+  font-size: 13px;
+  font-weight: 700;
 }
 
 .code {
   margin: 0;
-  padding: var(--s-2) 0;
+  padding: var(--s-3) 0;
   font-family: var(--font-code);
   font-variant-ligatures: none;
   font-feature-settings: "liga" 0, "calt" 0;
   font-size: var(--editor-font-size);
-  line-height: 1.6;
+  line-height: 1.65;
+  color: var(--text);
 }
 
 .line {
@@ -55,25 +62,21 @@
 
 .num {
   width: 3ch;
-  margin-right: 2ch;
+  margin: 0 var(--s-3) 0 var(--s-3);
   text-align: right;
-  color: var(--ink-3);
+  color: color-mix(in srgb, var(--text-2) 85%, var(--editor));
   flex: none;
   user-select: none;
 }
 
-@media (max-width: 640px) {
+@container wb (max-width: 860px) {
   .block {
     grid-template-columns: 1fr;
   }
 
   .label {
     border-right: none;
-    border-bottom: var(--hairline);
-  }
-
-  .labelled .label {
-    border-right: none;
-    border-left: 2px solid var(--accent);
+    border-bottom: 1px solid var(--line);
+    padding: var(--s-2) var(--s-4);
   }
 }

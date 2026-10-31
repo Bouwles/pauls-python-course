@@ -1,6 +1,6 @@
 # Misconceptions for Act II, Jobs 1 to 6 (tuples to modules).
 
-# Tuples at the Tailor's
+# Measurement Book
 tuples-can-change:
   concept: tuples
   description: Thinks a tuple can be changed in place, like a list.
@@ -44,7 +44,7 @@ zip-keeps-lists-whole:
   concept: zip
   description: Thinks zip groups each whole list into one tuple, rather than pairing items at the same position.
 
-# The Lost Property Box
+# Lost Property Matcher
 set-keeps-duplicates:
   concept: sets
   description: Thinks a set keeps repeated values, as a list does.
@@ -76,7 +76,7 @@ set-faster-for-everything:
   concept: membership-speed
   description: Thinks a set is always the better choice because in is faster, even when order or repeats matter.
 
-# The Library Catalogue
+# Word Counter and Text Analyser
 write-adds-newline:
   concept: files
   description: Thinks .write() ends the text with a new line, as print() does.
@@ -114,7 +114,7 @@ relative-path-anywhere:
   concept: paths
   description: Thinks a file name with no folder is looked for all over the computer, rather than in the folder the program runs in.
 
-# Penhallow's Logs
+# Log Analyser
 exception-stays-in-function:
   concept: exceptions
   description: Thinks an error inside a function only stops that function, and the code that called it carries on.
@@ -152,7 +152,7 @@ skip-silently-fine:
   concept: defensive-input
   description: Thinks quietly ignoring bad input, or swapping in a default, is as good as refusing it and saying so.
 
-# The Greengrocer's Labels
+# Quiz App
 comprehension-keeps-last:
   concept: list-comprehensions
   description: Thinks a list comprehension leaves only the last value, as a loop variable does after a loop.

@@ -3,8 +3,8 @@ title: str() makes text
 summary: |
   `str()` turns a value into text. You need it when joining a number to text with `+`. `str(2) + str(3)` is `"23"`, because joining text puts the pieces side by side.
 example: |
-  boats = 4
-  print("Boats in: " + str(boats))
+  laps = 4
+  print("Laps run: " + str(laps))
   print(str(2) + str(3))
 misconceptions: [str-of-numbers-adds, plus-joins-text-and-numbers]
 related: [type-error, f-strings]
@@ -39,16 +39,16 @@ cards:
     tests: |
       TESTS = [output("March 14", expect="March 14")]
   - type: write
-    prompt: "`high` and `low` are tide heights in metres. Print `Range: 5 m`, working the range out with subtraction and joining with `+`."
+    prompt: "`high` and `low` are today's highest and lowest temperatures. Print `Range: 5 degrees`, working the range out with subtraction and joining with `+`."
     starter: |
       high = 6
       low = 1
     tests: |
       TESTS = [
-          output("6 and 1", expect="Range: 5 m"),
-          output("9 and 2", set_vars={"high": 9, "low": 2}, expect="Range: 7 m"),
+          output("6 and 1", expect="Range: 5 degrees"),
+          output("9 and 2", set_vars={"high": 9, "low": 2}, expect="Range: 7 degrees"),
       ]
     solution: |
       high = 6
       low = 1
-      print("Range: " + str(high - low) + " m")
+      print("Range: " + str(high - low) + " degrees")

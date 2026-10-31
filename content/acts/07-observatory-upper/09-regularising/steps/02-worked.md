@@ -1,16 +1,16 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "Stop when it stops getting better. Then go back to when it was best."
-  - moss: "The mirror's cooling, from downstairs. Twelve readings to learn from."
+  - paul: "Stop when it stops getting better. Then go back to when it was best."
+  - paul: "Riya's radiator, from downstairs. Twelve readings to learn from."
 code: |
   import numpy as np
 
   from net import backward, forward, init_params, mse
 
-  # The mirror's cooling: hours after the dome opened (centred), degrees above the air
+  # The radiator cooling: hours after the heating went off (centred), degrees above the room
   rng = np.random.default_rng(5)
   hours = rng.uniform(-1.5, 1.5, (30, 1))
   warmth = 4 * np.exp(-hours - 1.5) + rng.normal(0, 0.3, (30, 1))
@@ -56,4 +56,4 @@ explain:
 
 A **regulariser** is anything that gives up a little fit on the training data to fit unseen data better. This one simply stops before the network has learnt the noise.
 
-Moss's version uses the network from `net.py` on the mirror's cooling readings, with one input instead of six.
+Paul's version uses the network from `net.py` on the radiator's cooling readings, with one input instead of six.

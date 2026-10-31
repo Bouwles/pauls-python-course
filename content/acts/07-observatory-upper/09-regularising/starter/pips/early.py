@@ -1,4 +1,4 @@
-"""Pip's early stopping. It stops when it stops getting better, and keeps the best."""
+"""Riya's early stopping. It stops when it stops getting better, and keeps the best."""
 
 from net import backward, forward, init_params, load_nights, mse
 

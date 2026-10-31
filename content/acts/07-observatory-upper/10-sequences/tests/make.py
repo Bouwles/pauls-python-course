@@ -155,7 +155,7 @@ def program(ctx):
 
 
 TESTS = [
-    custom("One step with Penhallow's weights", one_step, visible=True),
+    custom("One step with Neil's weights", one_step, visible=True),
     custom("The first day of the roll", a_day, visible=True,
            hint="Start from zeros once, before the loop, and hand each step the hidden state the last one gave back."),
     custom("One step of a smaller network", small_step),

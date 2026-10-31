@@ -9,7 +9,7 @@ import csv
 
 books = [
     {"title": "Knots, Unexplained", "copies": 3},
-    {"title": "Tide Tables", "copies": 2},
+    {"title": "Train Times", "copies": 2},
 ]
 with open("books.csv", "w", newline="") as file:
     writer = csv.DictWriter(file, fieldnames=["title", "copies"])
@@ -23,7 +23,7 @@ with open("books.csv") as file:
 ```text
 title,copies
 "Knots, Unexplained",3
-Tide Tables,2
+Train Times,2
 ```
 
 The writer put quotes round the one title with a comma inside, and only that one. Reading it back with `DictReader` takes the quotes away again:

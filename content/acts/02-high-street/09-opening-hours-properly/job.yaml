@@ -4,9 +4,9 @@ project_name: "Opening Hours Module"
 portfolio_readme: |
   # Opening Hours Module
 
-  One module of opening-hours helpers, `hours.py`, written once and imported by every shop on the High Street. It says whether a shop is open at a given moment, prints the seven lines for the shop door, and finds the busiest day from a list of visits. A traders' board, `main.py`, imports it and shows the whole street.
+  One module of opening-hours helpers, `hours.py`, written once and imported by every floor of the Clocktower. It says whether a room is open at a given moment, prints the seven lines for the door, and finds the busiest day from a list of visits. A board for the front door, `main.py`, imports it and shows every room.
 
-  Written by {name} for the traders of {{town}}'s High Street. Finished {date}.
+  Written by {name} for Neil, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -22,9 +22,9 @@ portfolio_readme: |
   from datetime import datetime
   import hours
 
-  sanjays = {"Mon": (8, 18), "Sat": (8, 13)}
-  hours.is_open(sanjays, datetime(2026, 11, 7, 11, 30))   # True
-  print("\n".join(hours.sign(sanjays)))
+  studio = {"Mon": (8, 18), "Sat": (8, 13)}
+  hours.is_open(studio, datetime(2026, 11, 7, 11, 30))   # True
+  print("\n".join(hours.sign(studio)))
   ```
 
   ## What it shows
@@ -34,33 +34,33 @@ portfolio_readme: |
   - The standard library: `datetime` for moments in time, `collections.Counter` for counting
 downloadable: true
 datasets: []
-client: sanjay
+client: neil
 building: high-street
 estimated_minutes: 60
-summary: "One module of opening-hours helpers, imported by every shop on the High Street."
+summary: "One module of opening-hours helpers, imported by every floor of the Clocktower."
 concepts_introduced: [modules, main-guard, standard-library]
 concepts_reviewed: [imports, functions, return-values, none, dictionaries, dict-get, tuples, unpacking, list-comprehensions, counter]
 ask:
   dialogue:
-    - sanjay: "Every shop on the High Street has its own copy of Penhallow's opening-hours code."
-    - sanjay: "Mrs Vance changed hers, and now the library closes at half past never."
-    - sanjay: "We want one copy that everyone uses. I said I'd ask. I'm good at asking."
-    - moss: "A module, then. Write it once, import it everywhere."
+    - neil: "Every floor in the Clocktower has its own copy of the opening-hours code."
+    - neil: "Somebody changed the Workshop's copy. Now it closes at half past never."
+    - neil: "I want one copy that everyone uses. One place to fix it."
+    - paul: "That somebody was me. A module, then. Write it once, import it everywhere."
   spec: |
-    Write `hours.py`, a module the shops can import. A shop's hours are a dictionary of day to `(opens, closes)`, in whole hours on the 24-hour clock. A day that's missing is a day the shop is closed.
+    Write `hours.py`, a module every floor can import. A room's hours are a dictionary of day to `(opens, closes)`, in whole hours on the 24-hour clock. A day that's missing is a day the room is closed.
 
-    - `is_open(hours, when)`: `True` if the shop is open at `when`, a `datetime`. Open from the opening hour; closed from the closing hour.
+    - `is_open(hours, when)`: `True` if the room is open at `when`, a `datetime`. Open from the opening hour; closed from the closing hour.
     - `sign(hours)`: seven lines for the door, Monday first: `Mon 8 till 18`, or `Sun closed`.
     - `busiest_day(visits)`: the day name, like `Sat`, that comes up most in a list of visit times. If days tie, the one seen first. No visits: `None`.
 
-    The traders' board, `main.py`, is already written. Run on its own, `hours.py` prints a quick check of itself; imported, it stays quiet.
+    The board for the front door, `main.py`, is already written. Run on its own, `hours.py` prints a quick check of itself; imported, it stays quiet.
   example: |
-    Saturday 11:30 on the High Street
-    Sanjay's: open
-    Okonjo's: closed
-    The Library: open
+    Saturday 11:30 at the Clocktower
+    The Studio: open
+    The Makerspace: closed
+    The Workshop: open
 
-    Sanjay's door:
+    The Studio's door:
       Mon 8 till 18
       Tue 8 till 18
       Wed 8 till 18
@@ -69,21 +69,20 @@ ask:
       Sat 8 till 13
       Sun closed
 
-    Busiest at Sanjay's: Sat
+    Busiest in the Studio: Sat
 ship:
   dialogue:
-    - sanjay: "Okonjo's shut on a Saturday. I knew that. Now the board knows it too."
-    - okonjo: "Correct to the hour. I'd prefer the minute, but one thing at a time."
-    - moss: "One copy. When it's wrong, it's wrong in one place. That's the point."
-  shelf: { object: shop-sign, label: "The High Street hours module" }
+    - neil: "The Makerspace is shut on a Saturday. Caitlin knew that. Now the board knows it too."
+    - caitlin: "Correct to the hour. I'd like a countdown on it, but one thing at a time."
+    - paul: "One copy. When it's wrong, it's wrong in one place. That's the point."
+  shelf: { object: shop-sign, label: "The Clocktower hours module" }
   cards: [modules, main-guard, standard-library]
-story_note: the-hill-took-the-time
 stretch:
   - id: closing-soon
     title: "Closing soon"
     prompt: |
-      Add `closing_soon(hours, when)` to `hours.py`: `True` if the shop is open now and closes within the next hour. Sanjay wants to put the kettle on at the right moment. Add a quick check for it under the main guard: Saturday at 12:30 should be `True`, at 11:30 `False`.
+      Add `closing_soon(hours, when)` to `hours.py`: `True` if the room is open now and closes within the next hour. Neil wants to put the kettle on at the right moment. Add a quick check for it under the main guard: Saturday at 12:30 should be `True`, at 11:30 `False`.
   - id: another-program
     title: "A second customer for the module"
     prompt: |
-      Write a second program, for the library's front door, that imports `hours` and prints the library's sign. Nothing about opening hours should be written twice. That's what the module is for.
+      Write a second program, for the Workshop's door, that imports `hours` and prints the Workshop's sign. Nothing about opening hours should be written twice. That's what the module is for.

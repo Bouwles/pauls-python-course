@@ -1,6 +1,6 @@
-def gwen_account(ctx):
+def neil_account(ctx):
     m = ctx.module()
-    account = m.Account("Gwen", 2001)
+    account = m.Account("Neil", 2001)
     account.deposit(500)
     account.deposit(300)
     account.withdraw(200)
@@ -9,7 +9,7 @@ def gwen_account(ctx):
 
 
 TESTS = [
-    output("Bea's account", expect="Bea 1250", visible=True),
-    custom("Gwen pays in twice and takes some out", gwen_account,
+    output("Aaesha's account", expect="Aaesha 1250", visible=True),
+    custom("Neil pays in twice and takes some out", neil_account,
            hint="If only this fails, check that every change to the balance is made to self.balance."),
 ]

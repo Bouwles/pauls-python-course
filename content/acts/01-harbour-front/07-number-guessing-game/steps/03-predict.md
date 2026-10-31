@@ -23,6 +23,6 @@ options:
 after: |
   Run it, then read the last line of the traceback.
 ---
-Gwen's game needs a number that nobody in the pub chose. Python has a tool for that: `random.randint(1, 100)` picks a whole number from 1 to 100.
+Caitlin's game needs a number that nobody in the room chose. Python has a tool for that: `random.randint(1, 100)` picks a whole number from 1 to 100.
 
 Here is a first try at using it.

@@ -37,9 +37,9 @@ def main():
         print(f"I chose {machine}. {VERDICTS[result]}")
     print(f"You {score['you']}, me {score['me']}, draws {score['draw']}.")
     if score["you"] == target:
-        print("You're off the glasses.")
+        print("You're off the coffee run.")
     elif score["me"] == target:
-        print("You're on the glasses.")
+        print("You're on the coffee run.")
 
 
 if __name__ == "__main__":

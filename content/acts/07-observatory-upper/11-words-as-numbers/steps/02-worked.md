@@ -1,13 +1,13 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "Tom's lamp log. Three nights and a fog. Count what follows what."
+  - paul: "My log for the tower lights. Three nights and a fog. Count what follows what."
 code: |
   import numpy as np
 
-  log = "lamp lit\nlamp out\nlamp lit\nfog\n"
+  log = "lights on\nlights off\nlights on\nfog\n"
 
   vocab = sorted(set(log))
   index = {char: i for i, char in enumerate(vocab)}
@@ -37,7 +37,7 @@ subgoals:
     lines: [17, 19]
 explain:
   prompt: "Why add 1 to every count before dividing?"
-  answer: "Some pairs never happened in Tom's log, like 'z' after 'l'. Without the 1 their chance would be exactly 0, and if one ever turned up in new text, minus the log of 0 is infinite: one surprise would make the whole score infinite. Adding a little to every count says unlikely, not impossible."
+  answer: "Some pairs never happened in Paul's log, like 'z' after 'l'. Without the 1 their chance would be exactly 0, and if one ever turned up in new text, minus the log of 0 is infinite: one surprise would make the whole score infinite. Adding a little to every count says unlikely, not impossible."
   concept: language-models
 ---
 Each row of `probs` is a little forecast: given this character, the chances of each character coming next. A model that guesses the next token is a **language model**, and this one, looking back one character, is a **bigram** model.

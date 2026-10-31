@@ -1,4 +1,4 @@
-# Number guessing game for the Drowned Anchor
+# Caitlin's number guessing game
 # 1. Set up the secret and the counter
 
 # 2. Keep going until something stops it

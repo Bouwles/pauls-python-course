@@ -4,7 +4,7 @@ type: predict
 title: A row of the table
 concept: embeddings
 dialogue:
-  - wendt: "Counting won't stretch to longer memories. A network will. So the characters go in as rows."
+  - neil: "Counting won't stretch to longer memories. A network will. So the characters go in as rows."
 code: |
   import numpy as np
 

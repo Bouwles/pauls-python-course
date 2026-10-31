@@ -1,4 +1,4 @@
-"""Sanjay's money, from the command line. The only file that prints or exits.
+"""Personal finance, from the command line. The only file that prints or exits.
 
 python cli.py add DAY AMOUNT CATEGORY [--note NOTE]   money in or out, in pounds
 python cli.py budget CATEGORY AMOUNT                  a monthly budget, in pounds

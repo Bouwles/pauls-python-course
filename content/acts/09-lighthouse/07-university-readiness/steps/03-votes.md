@@ -1,10 +1,10 @@
 ---
 id: votes
 type: make
-title: "Question 2: Naming the lifeboat"
+title: "Question 2: Naming the boat"
 files: [votes.py]
 entry: votes.py
-on_pass: { gwen: "Gannet, by the third slip. Fairer than my quiz. Then again, most things are." }
+on_pass: { riya: "Gannet, by the third slip. The marina will be pleased. It's a good name for a boat." }
 hints:
   nudge: "Going through the slips one at a time, what do you need to remember to know who's winning so far?"
   plan:
@@ -25,7 +25,7 @@ hints:
                 leader = ___
         return leader
 ---
-The town is naming the new lifeboat. Every vote is a name on a slip, and Gwen reads the slips out in the order they come out of the box.
+The marina from Riya's capstone is naming its new safety boat. Every vote is a name on a slip, read out in the order the slips come out of the box.
 
 Write `winner(ballots)`: the name with the most votes. On a tie, the winner is the name that reached the winning number of votes first, counting slips in order. With no ballots, return `None`.
 

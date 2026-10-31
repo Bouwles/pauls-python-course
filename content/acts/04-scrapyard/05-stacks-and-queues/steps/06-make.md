@@ -4,7 +4,7 @@ type: make
 title: Make the text editor
 files: [editor.py]
 entry: editor.py
-on_pass: { nell: "Typed the nuts, rubbed them out, put them back. And the chalk's still in the box." }
+on_pass: { paul: "Wrote it, rubbed it out, put it back. And not a speck of chalk on my sleeve." }
 hints:
   nudge: "What does undo need to know about an edit to take it back: just what kind it was, or the characters too? And which edits go on the redo stack?"
   plan:
@@ -38,18 +38,18 @@ hints:
 Write the `Editor` methods and `run` in `editor.py`. `__init__` and the loop at the bottom are written.
 
 ```
-Edit? type , nuts 10p
+Edit? type , queues 2
 Edit? delete 10; show
-Board: Bolts 20p each
+Board: Stacks at 10
 Edit? undo; show
-Board: Bolts 20p each, nuts 10p
+Board: Stacks at 10, queues 2
 Edit? redo; redo; show
 Nothing to redo.
-Board: Bolts 20p each
+Board: Stacks at 10
 ```
 
 Each edit goes on the undo stack as a pair: `("type", words)` or `("delete", removed)`, the characters really removed. Undo pops the pair and does the opposite, then puts it on the redo stack. The undo stack is `deque(maxlen=limit)`: the oldest edit drops off the far end, so it never grows past the limit.
 
-`command.partition(" ")` splits off the first word: `("type", " ", "Bolts 20p")`.
+`command.partition(" ")` splits off the first word: `("type", " ", "Stacks at 10")`.
 
 The hidden checks undo with nothing to undo, delete past the start, and type nothing at all.

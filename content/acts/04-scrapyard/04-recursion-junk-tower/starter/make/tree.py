@@ -2,14 +2,12 @@
 import os
 import sys
 
-FOLDER = "penhallow"
+FOLDER = "backup"
 
 
-# Folder sizes, from Penhallow's disk program. It adds up every file in a folder,
+# Folder sizes, from Neil's old backup script. It adds up every file in a folder,
 # and every folder above asks again, so the same small folders get measured over
-# and over. It writes nothing down. The machine on the hill writes everything
-# down and never works anything out twice. Between the two of them, there's one
-# sensible program. A.P.
+# and over. It writes nothing down.
 def folder_size(path, sizes):
     """Bytes in every file under path, however deep. Each folder's total is kept in sizes."""
     total = 0

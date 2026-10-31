@@ -4,7 +4,7 @@ type: predict
 title: Tidying the username
 concept: immutability
 code: |
-  username = "  Agnes "
+  username = "  Yahya "
   username.strip()
   print(len(username))
 question: What does this print?

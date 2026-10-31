@@ -81,7 +81,7 @@ cards:
         misconception: linked-list-indexing-is-fast
         feedback: "A Python list keeps its items in numbered places, so it can jump. A linked list has no numbers, only arrows to follow."
   - type: choice
-    prompt: "Pip's reverse. What does it print?"
+    prompt: "Yahya's reverse. What does it print?"
     code: |
       class Crate:
           def __init__(self, part):

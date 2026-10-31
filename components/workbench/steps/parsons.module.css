@@ -1,3 +1,4 @@
+/* Arrange the blocks: a pool of lines on the left, your program on the right. */
 .board {
   flex: 1;
   overflow: auto;
@@ -6,6 +7,7 @@
   gap: var(--s-6);
   padding: var(--s-6);
   align-content: start;
+  background: var(--surface-1);
 }
 
 .column {
@@ -19,32 +21,18 @@
   list-style: none;
   margin: 0;
   padding: var(--s-3);
-  min-height: 160px;
+  min-height: 180px;
   display: grid;
   gap: var(--s-2);
   align-content: start;
-  border: 2px solid var(--rule-strong);
-  background: var(--paper-sunk);
+  border-radius: var(--r-lg);
+  background: var(--bg);
 }
 
 .program {
-  background: var(--paper-raised);
-  border-style: solid;
+  background: var(--editor);
+  border: 1px solid var(--line);
   position: relative;
-}
-
-/* Indent guides, every four spaces. */
-.program::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: var(--s-3);
-  width: calc(28px * 4);
-  background: var(--rule);
-  -webkit-mask: var(--mask-vline-28) repeat 0 0 / 28px 8px;
-  mask: var(--mask-vline-28) repeat 0 0 / 28px 8px;
-  pointer-events: none;
 }
 
 .program > * {
@@ -52,8 +40,8 @@
 }
 
 .empty {
-  color: var(--ink-2);
-  font-size: var(--step--1);
+  color: var(--text-2);
+  font-size: var(--fs-1);
   padding: var(--s-2);
 }
 
@@ -65,19 +53,22 @@
   gap: var(--s-2);
   text-align: left;
   padding: var(--s-2) var(--s-3);
-  background: var(--paper);
-  border: 2px solid var(--control-border);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  color: var(--text);
   cursor: grab;
-  min-height: 36px;
+  min-height: 40px;
+  transition: border-color var(--dur) var(--ease-out);
 }
 
 .block:hover {
-  border-color: var(--ink);
+  border-color: var(--text-2);
 }
 
 .inProgram:focus-visible {
-  outline: 2px solid var(--accent-ink);
-  outline-offset: 1px;
+  outline: 2px solid var(--sun);
+  outline-offset: 2px;
 }
 
 .code {
@@ -89,13 +80,14 @@
 }
 
 .placed {
-  transition: padding-left var(--dur-1) var(--ease);
+  transition: padding-left var(--dur) var(--ease-out);
 }
 
 .controls {
   display: inline-flex;
   gap: 2px;
-  opacity: 0.35;
+  opacity: 0.4;
+  transition: opacity var(--dur) var(--ease-out);
 }
 
 .inProgram:hover .controls,
@@ -104,42 +96,46 @@
   opacity: 1;
 }
 
-@media (pointer: coarse) {
-  .controls {
-    opacity: 1;
-  }
-}
-
 .controls button {
-  border: 2px solid var(--rule-strong);
-  background: var(--paper-raised);
-  min-width: 26px;
-  min-height: 26px;
-  font-size: 12px;
-  line-height: 1;
-  color: var(--ink);
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: var(--r-sm);
+  background: var(--surface-3);
+  min-width: 28px;
+  min-height: 28px;
+  color: var(--text);
 }
 
-@media (pointer: coarse) {
-  .controls button {
-    min-width: 36px;
-    min-height: 36px;
-  }
+.controls button:hover:not(:disabled) {
+  background: var(--line);
 }
 
 .controls button:disabled {
   opacity: 0.35;
 }
 
+@media (pointer: coarse) {
+  .controls {
+    opacity: 1;
+  }
+
+  .controls button {
+    min-width: 36px;
+    min-height: 36px;
+  }
+}
+
 .locked {
   border-style: dashed;
-  border-color: var(--accent-ink);
+  border-color: var(--sun);
   cursor: default;
 }
 
 .lockMark {
-  font-size: var(--step--2);
-  color: var(--accent-ink);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--sun-text);
 }
 
 .actions {
@@ -149,28 +145,32 @@
 }
 
 .note {
-  font-size: var(--step--1);
-  color: var(--accent-ink);
+  font-size: var(--fs-1);
+  color: var(--text-2);
 }
 
 .result {
-  border-top: var(--hairline);
-  padding: var(--s-3) var(--s-6);
-  max-height: 40%;
+  border-top: 1px solid var(--line);
+  max-height: 45%;
   overflow: auto;
+  background: var(--editor);
+}
+
+.result > p {
+  padding: var(--s-4) var(--s-5) 0;
 }
 
 .ok {
-  color: var(--pass);
-  font-weight: 600;
+  color: var(--pass-text);
+  font-weight: 700;
 }
 
 .bad {
-  color: var(--fail);
-  font-weight: 600;
+  color: var(--fail-text);
+  font-weight: 700;
 }
 
-@media (max-width: 900px) {
+@container wb (max-width: 860px) {
   .board {
     grid-template-columns: 1fr;
     padding: var(--s-4);

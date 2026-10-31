@@ -51,7 +51,7 @@ cards:
         misconception: height-counts-cards
         feedback: "Seven is how many cards there are. Height is how many levels you pass through going from the root to the deepest leaf: three."
   - type: choice
-    prompt: "In Penhallow's tree, 500 is at the top with 250 and 750 below it, 101 and 342 below 250, and 977 below 750. Which cards are leaves?"
+    prompt: "In Aaesha's tree, 500 is at the top with 250 and 750 below it, 101 and 342 below 250, and 977 below 750. Which cards are leaves?"
     verify: none
     options:
       - text: "101, 342 and 977"
@@ -164,7 +164,7 @@ cards:
 
 
       TESTS = [
-          custom("Penhallow's top three levels", counts(lambda C: C(500, C(250, C(101), C(342)), C(750, None, C(977))), 3,
+          custom("The top three levels", counts(lambda C: C(500, C(250, C(101), C(342)), C(750, None, C(977))), 3,
                                                         "101, 342 and 977 are the leaves.")),
           custom("One card", counts(lambda C: C(5), 1, "A single card is a leaf.")),
           custom("No tree", counts(lambda C: None, 0, "An empty tree has no leaves.")),

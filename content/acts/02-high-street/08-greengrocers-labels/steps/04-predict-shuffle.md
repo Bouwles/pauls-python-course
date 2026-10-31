@@ -6,7 +6,7 @@ concept: random-module
 code: |
   import random
 
-  questions = ["tides", "crabs", "lamps"]
+  questions = ["science", "words", "music"]
   order = random.shuffle(questions)
   print(order)
   print(len(questions))
@@ -21,11 +21,11 @@ options:
     misconception: shuffle-returns-list
     feedback: "That's what it looks as if it should do. But `shuffle` changes the list itself and returns `None`, so `order` holds nothing. Use `questions` afterwards."
   - text: |-
-      ['tides', 'crabs', 'lamps']
+      ['science', 'words', 'music']
       3
     misconception: shuffle-works-on-copy
     feedback: "`shuffle` doesn't make a copy. It rearranges the very list it's given, and returns `None`."
 ---
-Gwen wants the questions in a different order every week, so the regulars can't learn them. `random.shuffle(things)` puts a list in a random order.
+Caitlin wants the questions in a different order every week, so nobody can learn them. `random.shuffle(things)` puts a list in a random order.
 
-Read it carefully, then commit to an answer.
+Read it carefully, then lock in your answer.

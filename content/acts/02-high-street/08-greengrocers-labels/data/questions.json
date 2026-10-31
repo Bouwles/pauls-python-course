@@ -1,8 +1,8 @@
 [
-  {"round": "Local", "question": "Since what year has Old Tom kept the lighthouse?", "answer": "1962", "also": ["62", "'62"]},
-  {"round": "Local", "question": "Which crab won the autumn cup on whelks?", "answer": "Lady Agatha", "also": ["Agatha"]},
-  {"round": "Local", "question": "What is the pub on the harbour front called?", "answer": "The Drowned Anchor", "also": ["Drowned Anchor"]},
-  {"round": "Local", "question": "What frequency was the old harbour radio on?", "answer": "96.4", "also": ["96.4 FM"]},
+  {"round": "Local", "question": "What time has the Clocktower's clock said for years?", "answer": "3:14", "also": ["314", "3.14", "14 minutes past 3"]},
+  {"round": "Local", "question": "What colour is the duck on Neil's desk?", "answer": "yellow"},
+  {"round": "Local", "question": "Which floor of the Clocktower is the Studio on?", "answer": "the first floor", "also": ["first floor", "first", "1", "1st", "floor 1"]},
+  {"round": "Local", "question": "How many spaces does Python use for one indent?", "answer": "4", "also": ["four"]},
   {"round": "Sea", "question": "What do you call a speed of one nautical mile an hour?", "answer": "a knot", "also": ["knot", "knots", "one knot"]},
   {"round": "Sea", "question": "How many hearts does an octopus have?", "answer": "3", "also": ["three"]},
   {"round": "Sea", "question": "What is a baby seal called?", "answer": "a pup", "also": ["pup", "seal pup"]},

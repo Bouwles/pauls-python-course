@@ -1,10 +1,10 @@
 ---
 id: worked-forward
 type: worked
-title: Two lines for the captain
+title: Two lines for the stairs light
 dialogue:
-  - wendt: "On the back of the page, the captain's rule. Solved. Two neurons, then one."
-  - moss: "Every number given. Follow it through."
+  - neil: "On the back of the page, the stairs light. Solved. Two neurons, then one."
+  - paul: "Every number given. Follow it through."
 code: |
   import numpy as np
 
@@ -17,14 +17,14 @@ code: |
       return 1 / (1 + np.exp(-z))
 
 
-  # Ferro's crossings, one row each: flood tide?, sea breeze?
-  crossings = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+  # The stairs light, one row each: top switch up?, bottom switch up?
+  settings = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
 
   # Layer one: two neurons, two straight lines
   W1 = np.array([[1.0, 1.0],
                  [1.0, 1.0]])
   b1 = np.array([0.0, -1.0])
-  hidden = relu(crossings @ W1 + b1)       # (4, 2): a row per crossing
+  hidden = relu(settings @ W1 + b1)        # (4, 2): a row per setting
 
   # Layer two: one neuron that weighs the two lines
   W2 = np.array([[-4.0],
@@ -46,8 +46,8 @@ subgoals:
   - label: Read off the answers
     lines: [27, 28]
 explain:
-  prompt: "Take `relu` off line 19, so `hidden = crossings @ W1 + b1`. Why can no choice of weights do the captain's rule then?"
-  answer: "Without the bend, layer two just multiplies layer one again: (X @ W1 + b1) @ W2 + b2 is X @ (W1 @ W2) plus a constant, which is one layer, one straight line. The captain's rule needs two lines, and the bend between the layers is what keeps them from merging into one."
+  prompt: "Take `relu` off line 19, so `hidden = settings @ W1 + b1`. Why can no choice of weights do the stairs light then?"
+  answer: "Without the bend, layer two just multiplies layer one again: (X @ W1 + b1) @ W2 + b2 is X @ (W1 @ W2) plus a constant, which is one layer, one straight line. The stairs light needs two lines, and the bend between the layers is what keeps them from merging into one."
   concept: activation-functions
 ---
 **ReLU** bends: negative numbers become 0, the rest pass straight through. **Sigmoid** squashes any number into 0 to 1, as in your logistic regression downstairs. Functions like these, applied between layers, are **activation functions**.

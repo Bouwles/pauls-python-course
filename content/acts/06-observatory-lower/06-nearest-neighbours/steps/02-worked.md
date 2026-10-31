@@ -1,14 +1,14 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "Bea's Saturdays again. She wants to know how many loaves to bake."
-  - bea: "Don't give me a formula. Tell me what I sold on Saturdays like this one."
+  - paul: "The open days again. Riya wants to know how much coffee to have in."
+  - riya: "Don't give me a formula. Tell me what we poured on days like this one."
 code: |
   import numpy as np
 
-  # Bea's Saturdays: ferry passengers, rain in mm, loaves sold
+  # Open days: visitors, rain in mm, cups of coffee poured
   saturdays = np.array([
       [310, 0.0, 52],
       [120, 8.5, 21],
@@ -22,7 +22,7 @@ code: |
       [380, 9.0, 51],
   ])
   X = saturdays[:, :2]
-  loaves = saturdays[:, 2]
+  cups = saturdays[:, 2]
 
   means = X.mean(axis=0)
   spreads = X.std(axis=0)
@@ -33,8 +33,8 @@ code: |
   nearest = np.argsort(distances)[:3]
 
   print("Most like it: Saturdays", nearest + 1)
-  print("They sold:", loaves[nearest])
-  print(f"Bake about {loaves[nearest].mean():.0f} loaves")
+  print("They poured:", cups[nearest])
+  print(f"Have in about {cups[nearest].mean():.0f} cups")
 subgoals:
   - label: The Saturdays
     lines: [3, 17]
@@ -48,11 +48,11 @@ subgoals:
     lines: [27, 29]
 explain:
   prompt: "Line 25 uses `np.argsort(distances)[:3]`, not `np.sort(distances)[:3]`. Why?"
-  answer: "`np.sort` gives the three smallest distances themselves, which say how near but not which Saturdays. Moss needs the Saturdays, to look up what they sold. `np.argsort` gives the positions in order of distance, nearest first, and those index straight into `loaves`."
+  answer: "`np.sort` gives the three smallest distances themselves, which say how near but not which Saturdays. Riya needs the Saturdays, to look up what they poured. `np.argsort` gives the positions in order of distance, nearest first, and those index straight into `cups`."
   concept: knn
 ---
-**k nearest neighbours** learns no weights at all. It keeps every past case, and to answer a new one it finds the k most like it and lets them decide: a vote for a word like `Gentoo`, a mean for a number like loaves.
+**k nearest neighbours** learns no weights at all. It keeps every past case, and to answer a new one it finds the k most like it and lets them decide: a vote for a word like `Gentoo`, a mean for a number like cups of coffee.
 
 `X_scaled - next_saturday` subtracts next Saturday from every row at once, by broadcasting, so line 24 measures all ten distances in one go. `axis=1` adds up along each row: one distance per Saturday.
 
-Straight-line distance is the usual choice. **Manhattan distance** adds up the plain differences, `np.abs(...).sum(axis=1)`, like walking a grid of streets instead of flying. Either way, scale first, or passengers in the hundreds drown out the rain.
+Straight-line distance is the usual choice. **Manhattan distance** adds up the plain differences, `np.abs(...).sum(axis=1)`, like walking a grid of streets instead of flying. Either way, scale first, or visitors in the hundreds drown out the rain.

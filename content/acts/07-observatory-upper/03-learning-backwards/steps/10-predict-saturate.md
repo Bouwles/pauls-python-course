@@ -4,7 +4,7 @@ type: predict
 title: Sure, and wrong
 concept: backpropagation
 dialogue:
-  - pip: "Easy one. Big mistake, big gradient. It'll fix itself in one step."
+  - yahya: "Easy one. Big mistake, big gradient. It'll fix itself in one step."
 code: |
   import numpy as np
 
@@ -33,6 +33,6 @@ options:
     misconception: sigmoid-slope-constant
     feedback: "A quarter is the sigmoid's slope at z = 0, its steepest point. At z = 8 it has flattened almost completely, so the blame shrinks to 0.0007."
 after: |
-  Run it, then try `z = 1.0`. This is why brains start with small random weights: big sums saturate before they've learned anything.
+  Run it, then try `z = 1.0`. This is why networks start with small random weights: big sums saturate before they've learned anything.
 ---
 The blame arriving at `p` is large, nearly 2. Now pass it back through the sigmoid, using the rule from the board: `dZ2 = dP * P * (1 - P)`.

@@ -4,9 +4,9 @@ type: predict
 title: Written in ink
 concept: tuples
 code: |
-  ferro = (112, 98, 84)
-  ferro[0] = 110
-  print(ferro)
+  hale = (112, 98, 84)
+  hale[0] = 110
+  print(hale)
 question: What happens when this runs?
 verify: error
 options:
@@ -19,10 +19,10 @@ options:
   - text: "A TypeError on line 2"
     correct: true
     error: TypeError
-    feedback: "Right. A tuple can't be changed after it's made. To change Ferro's chest you build a new tuple."
+    feedback: "Right. A tuple can't be changed after it's made. To change Jon Hale's chest you build a new tuple."
 after: |
   Run it. The last line of the traceback says what a tuple won't do.
 ---
-A **tuple** is written with round brackets: `(112, 98, 84)`. This one is Captain Ferro's chest, waist and leg, in centimetres. You read it the way you read a list: `ferro[0]` is 112.
+A **tuple** is written with round brackets: `(112, 98, 84)`. This one is Jon Hale's chest, waist and leg, in centimetres. You read it the way you read a list: `hale[0]` is 112.
 
-Commit to an answer, then run it.
+Lock in your answer, then run it.

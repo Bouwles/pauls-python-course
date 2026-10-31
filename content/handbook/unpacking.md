@@ -22,11 +22,11 @@ With one name too many, the message is `not enough values to unpack (expected 3,
 A name with a star in front collects whatever is left over into a list. In a `for` loop, unpacking happens once for each item:
 
 ```python
-first, *rest = ["Ferro", "Bea", "Tom", "Emma"]
+first, *rest = ["Sam", "Lena", "Ivo", "Emma"]
 print(first)
 print(rest)
 
-sizes = [("Bea", 96), ("Tom", 101)]
+sizes = [("Lena", 96), ("Ivo", 101)]
 for name, chest in sizes:
     print(f"{name}: {chest} cm")
 
@@ -36,10 +36,10 @@ print(low, high)
 ```
 
 ```text
-Ferro
-['Bea', 'Tom', 'Emma']
-Bea: 96 cm
-Tom: 101 cm
+Sam
+['Lena', 'Ivo', 'Emma']
+Lena: 96 cm
+Ivo: 101 cm
 88 74
 ```
 

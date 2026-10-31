@@ -1,4 +1,4 @@
-# Gwen's rock paper scissors. First to three. The loser washes the glasses.
+# Rock paper scissors for Caitlin and Yahya. First to three. The loser does the coffee run.
 import random
 
 HANDS = ["rock", "paper", "scissors"]
@@ -34,9 +34,9 @@ def main():
     # Report the score
     print(f"You {score['you']}, me {score['me']}, draws {score['draw']}.")
     if score["you"] == 3:
-        print("You're off the glasses.")
+        print("You're off the coffee run.")
     elif score["me"] == 3:
-        print("You're on the glasses.")
+        print("You're on the coffee run.")
 
 
 # Run main() when the file is run

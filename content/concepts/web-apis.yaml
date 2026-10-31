@@ -51,7 +51,7 @@ cards:
 
 
       def fetch(url):
-          raise URLError("no route to the pier")
+          raise URLError("no route to the server")
 
 
       try:
@@ -82,7 +82,7 @@ cards:
     tests: |
       TESTS = [
           output("Nothing found", expect="No such place."),
-          function("Something found", call="first_place", args=({"results": [{"name": "Truro"}]},), expect="Truro"),
+          function("Something found", call="first_place", args=({"results": [{"name": "Leeds"}]},), expect="Leeds"),
           function("An empty list", call="first_place", args=({"results": []},), expect=None),
       ]
     solution: |

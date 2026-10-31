@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { usePlan } from "@/lib/usePlan";
 import { Button } from "../ui/Button";
+import styles from "./Certificate.module.css";
 
 /** On a finished Pro Act: issue its certificate and go to the verification page. */
 export function CertificateButton({ actId }: { actId: string }) {
@@ -24,11 +25,15 @@ export function CertificateButton({ actId }: { actId: string }) {
     }
   };
   return (
-    <span>
-      <Button size="sm" variant="primary" pixelIcon="tick" onClick={() => void get()} disabled={busy} locked={status.access.pro ? false : "Certificates are part of Pro."}>
+    <span className={styles.issue}>
+      <Button size="sm" variant="primary" icon="graduation" onClick={() => void get()} disabled={busy} locked={status.access.pro ? false : "Certificates are part of Pro."}>
         Get the certificate
       </Button>
-      {error ? <span role="alert"> {error}</span> : null}
+      {error ? (
+        <span role="alert" className={styles.error}>
+          {error}
+        </span>
+      ) : null}
     </span>
   );
 }

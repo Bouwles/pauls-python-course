@@ -8,10 +8,10 @@ KINDS = ["anchor-shackle", "bike-bell", "clock-spring", "gear-12t", "hubcap", "k
          "lamp-lens", "mangle-roller", "pram-wheel", "spring-coil", "valve-brass", "winch-handle"]
 
 
-def pier_lot(count, seed=1):
-    """The pier's parts as (name, kg) pairs, in the order they come off the lorry."""
-    lorry = random.Random(seed)
-    return [(lorry.choice(KINDS), lorry.randint(1, 40)) for _ in range(count)]
+def clockmaker_lot(count, seed=1):
+    """The clockmaker's parts as (name, kg) pairs, in the order they come out of the crates."""
+    crates = random.Random(seed)
+    return [(crates.choice(KINDS), crates.randint(1, 40)) for _ in range(count)]
 
 
 def merge(left, right, key):
@@ -115,7 +115,7 @@ if __name__ == "__main__":
     print(draw(pile))
     show(input("Which sort: selection, insertion, merge or quick? ").strip().lower(), pile)
 
-    lot = pier_lot(10_000)
+    lot = clockmaker_lot(10_000)
     timings = {}
     start = time.perf_counter()
     expected = sorted(lot, key=weight_of)
@@ -126,5 +126,5 @@ if __name__ == "__main__":
         result = sort(lot, key=weight_of)
         timings[name] = time.perf_counter() - start
         agreed = agreed and result == expected
-    print(f"Pier lot: {len(lot)} parts, merge and quick agree with sorted(): {agreed}")
+    print(f"Clockmaker's lot: {len(lot)} parts, merge and quick agree with sorted(): {agreed}")
     print(", ".join(f"{name} {seconds:.3f} s" for name, seconds in timings.items()))

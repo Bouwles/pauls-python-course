@@ -1,8 +1,7 @@
-# Misconceptions for Act VIII, capstones 1 to 5: A Web App for the Town,
-# A Data Investigation, Reproducing a Result, A Game for the Pier, and
-# Your Own Project.
+# Misconceptions for the capstones: a web app, a data investigation,
+# reproducing a result, a game, and your own project.
 
-# -- A Web App for the Town --------------------------------------------------------
+# -- A web app ---------------------------------------------------------------------
 query-values-are-numbers:
   concept: http-basics
   description: Thinks a value in a URL's query string, such as berth=2, arrives as a number. Everything in a URL is text.
@@ -58,7 +57,7 @@ one-seed-is-enough:
   concept: reproducibility
   description: Thinks one run with a fixed seed shows a result holds. A fixed seed makes one sample repeatable; it doesn't make it typical.
 
-# -- A Game for the Pier -----------------------------------------------------------
+# -- A game ------------------------------------------------------------------------
 speed-is-per-second:
   concept: game-loop
   description: Thinks a speed added once each time round the game loop is per second. It is per frame, so the frame rate multiplies it.

@@ -3,20 +3,25 @@ import { BRAND } from "@/lib/brand";
 import { FREE_ACTS } from "@/lib/plans";
 import { getConcepts, getIndex, getJob } from "@/lib/content/server";
 import { getSessionUser } from "@/lib/server/auth";
+import { duration } from "@/lib/display";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
-import { HeroScene } from "@/components/landing/HeroScene";
-import { Wordmark } from "@/components/landing/Wordmark";
+import { Wordmark } from "@/components/site/Brand";
+import { HeroStill } from "@/components/landing/HeroStill";
+import { BrowserFrame } from "@/components/landing/BrowserFrame";
 import { PlayableJob } from "@/components/landing/PlayableJob";
-import { LandingMap } from "@/components/landing/LandingMap";
-import { BuildShelf } from "@/components/landing/BuildShelf";
-import { PricingTickets } from "@/components/pricing/PricingTickets";
+import { BuildGrid } from "@/components/landing/BuildGrid";
+import { MeetTheClass } from "@/components/landing/MeetTheClass";
+import { FloorDirectory } from "@/components/landing/FloorDirectory";
+import { TowerStatic } from "@/components/clocktower/TowerStatic";
+import { PricingPlans } from "@/components/pricing/PricingPlans";
+import { Faq } from "@/components/pricing/Faq";
 import { LinkButton } from "@/components/ui/Button";
 import { Track } from "@/lib/track";
 import styles from "@/components/landing/Landing.module.css";
 
 const FAQ = [
-  ["What's free?", `All of Act I: thirteen real projects, review and drills for them, your Shelf, downloads, and the Python Handbook. No card, no trial clock.`],
+  ["What's free?", "All of Act I: thirteen real projects, review and Drills for them, your Shelf, downloads, and the Python Handbook. No card, no trial clock."],
   ["What does Pro add?", "The other Acts: real-world Python, algorithms, data science, machine learning, deep learning and reinforcement learning, with Take It Home kits, GitHub push and a certificate for each Act."],
   ["What happens to my code if I stop paying?", "Nothing. You keep everything you built and all your progress, to read, run and download. Only new Pro projects lock."],
   ["Do I need to install anything?", "No. Python runs inside the page. Later Acts have Take It Home kits for your own computer, with a guide for Windows, macOS and Linux."],
@@ -24,19 +29,22 @@ const FAQ = [
   ["What level does it reach?", "A strong first year of a computer science or AI degree: data structures and algorithms, NumPy and pandas, machine learning built from scratch, neural networks, a small transformer, and reinforcement learning."],
   ["Who is it for?", "Anyone 13 or older who wants to get properly good at Python. It assumes you're clever, not that you've written code before."],
   ["Is there a student or school price?", "Schools and teachers can buy Classroom seats. Student pricing, where it's offered, is applied at checkout."],
-];
+] as const;
 
 export default async function Landing() {
   const user = await getSessionUser().catch(() => null);
   if (user) redirect("/map");
   const index = getIndex();
-  const job = getJob("shop-sign")!;
-  const concepts = getConcepts();
-  const conceptTitles = Object.fromEntries(Object.values(concepts).map((c) => [c.id, c.title]));
-  const harbour = index.acts[0]!;
-  const free = index.acts.filter((a) => FREE_ACTS.has(a.id));
-  const pro = index.acts.filter((a) => !FREE_ACTS.has(a.id));
-  const count = (acts: typeof index.acts) => acts.reduce((n, a) => n + a.jobs.filter((j) => !j.sidequest && !j.placementFor).length, 0);
+  const firstAct = index.acts[0]!;
+  const firstId = firstAct.jobs[0]?.id ?? "shop-sign";
+  const job = getJob(firstId)!;
+  const conceptTitles = Object.fromEntries(Object.values(getConcepts()).map((c) => [c.id, c.title]));
+  const names = Object.fromEntries(Object.values(index.characters).map((c) => [c.id, c.name]));
+  const projects = (acts: typeof index.acts) => acts.flatMap((a) => a.jobs.filter((j) => !j.sidequest && !j.placementFor));
+  const total = index.acts.reduce((n, a) => n + a.jobs.filter((j) => !j.placementFor).length, 0);
+  const free = projects(index.acts.filter((a) => FREE_ACTS.has(a.id)));
+  const proActs = index.acts.filter((a) => !FREE_ACTS.has(a.id));
+  const pro = projects(proActs);
 
   return (
     <div className={styles.page}>
@@ -44,125 +52,105 @@ export default async function Landing() {
       <Track event="visit-landing" />
       <main id="main">
         <section className={styles.hero} aria-labelledby="hero-title">
-          <div className={styles.heroScene}>
-            <HeroScene />
-          </div>
           <div className={styles.heroText}>
-            <h1 id="hero-title" className={styles.wordmark}>
-              <Wordmark scale={4} />
+            <Wordmark size={40} className={styles.heroMark} />
+            <h1 id="hero-title" className={styles.headline}>
+              {BRAND.tagline}
             </h1>
-            <p className={styles.tagline}>{BRAND.tagline}</p>
-            <p className={styles.lede}>
-              A town that runs on old Python scripts, and they&apos;re breaking. You&apos;re the new apprentice at Moss&apos;s repair shop. Every job is a real program: a bill splitter, a to-do list, a weather app, a spam filter, a neural network.
-            </p>
-            <div className={styles.ctaRow}>
-              <LinkButton href="#job-1" variant="primary">
-                Start the first job (free, no sign-up)
+            <p className={styles.description}>{BRAND.description}</p>
+            <div className={styles.ctas}>
+              <LinkButton href={`/job/${firstId}`} variant="primary">
+                Start the first project, free
               </LinkButton>
-              <LinkButton href="/syllabus" variant="quiet">
-                See every project
+              <LinkButton href="/syllabus" variant="secondary">
+                See all {total} projects
               </LinkButton>
             </div>
+            <p className={styles.small}>No card, and no account needed to start.</p>
+          </div>
+          <div className={styles.heroArt}>
+            <HeroStill jobId={firstId} names={names} />
           </div>
         </section>
 
-        <section id="job-1" className={styles.band} aria-labelledby="job1-title">
-          <div className={styles.bandHead}>
-            <h2 id="job1-title" className={styles.h2}>
-              Try it here
-            </h2>
-            <p className={styles.bandLede}>The real first job, not a video of it. About twenty minutes. Your work stays on this device until you decide to keep it.</p>
-          </div>
-          <div className={styles.window}>
-            <div className={styles.titleBar}>
-              <span className={styles.titleDots} aria-hidden="true" />
-              <span>
-                Job 1: {job.title}
-              </span>
-              <span className={styles.titleWhere}>Moss&apos;s workshop</span>
+        <section id="try" className={`${styles.section} ${styles.band}`} aria-labelledby="try-title">
+          <div className={styles.inner}>
+            <div className={styles.head}>
+              <h2 id="try-title" className={styles.h2}>
+                Try it now
+              </h2>
+              <p className={styles.lede}>
+                The first project, {job.title}, for real: the same Workbench as the course, with Python running in this page. About {duration(job.estimatedMinutes)}. Your work stays on this device until you make an account.
+              </p>
             </div>
-            <PlayableJob job={job} characters={index.characters} conceptTitles={conceptTitles} actTitle={harbour.title} />
+            <BrowserFrame address={`${BRAND.domain}/job/${firstId}`} className={styles.tryFrame} label="The first project, playable">
+              <PlayableJob job={job} characters={index.characters} conceptTitles={conceptTitles} actTitle={firstAct.title} />
+            </BrowserFrame>
           </div>
         </section>
 
-        <section className={styles.band} aria-labelledby="build-title">
-          <div className={styles.bandHead}>
-            <h2 id="build-title" className={styles.h2}>
-              What you&apos;ll build
-            </h2>
-            <p className={styles.bandLede}>Real programs with plain names, the kind people build and use. Each one goes on your Shelf, downloads as a folder with a README, and can go on GitHub.</p>
-          </div>
-          <BuildShelf />
-        </section>
-
-        <section className={styles.band} aria-labelledby="town-title">
-          <div className={styles.bandHead}>
-            <h2 id="town-title" className={styles.h2}>
-              The town, district by district
-            </h2>
-            <p className={styles.bandLede}>Each district is an Act. The town comes back to life as you fix it: lamps on, shutters up, smoke from the chimneys.</p>
-          </div>
-          <div className={styles.townGrid}>
-            <div className={styles.townMap}>
-              <LandingMap />
+        <section className={styles.section} aria-labelledby="build-title">
+          <div className={styles.inner}>
+            <div className={styles.head}>
+              <h2 id="build-title" className={styles.h2}>
+                What you&apos;ll build
+              </h2>
+              <p className={styles.lede}>Real programs with plain names, shown here doing what they do. Each one goes on your Shelf, downloads as a folder with a README, and can go on GitHub.</p>
             </div>
-            <ol className={styles.acts}>
-              {index.acts.map((a) => (
-                <li key={a.id} className={styles.act}>
-                  <h3 className={styles.actTitle}>
-                    <span className={styles.actNo}>{a.number}</span> {a.title}
-                    {FREE_ACTS.has(a.id) ? <span className={styles.freeTag}>Free</span> : null}
-                  </h3>
-                  <p className={styles.actSubject}>
-                    {a.subject}. About {a.hours} hours.
-                  </p>
-                </li>
-              ))}
-            </ol>
+            <BuildGrid />
           </div>
-          <details className={styles.syllabus}>
-            <summary>The full syllabus</summary>
-            <div className={styles.syllabusBody}>
-              {index.acts.map((a) => (
-                <div key={a.id}>
-                  <h3 className={styles.syllabusAct}>
-                    Act {a.number}: {a.title}
-                  </h3>
-                  <ol className={styles.syllabusJobs}>
-                    {a.jobs
-                      .filter((j) => !j.placementFor)
-                      .map((j) => (
-                        <li key={j.id}>{j.title}</li>
-                      ))}
-                  </ol>
-                </div>
-              ))}
+        </section>
+
+        <section className={`${styles.section} ${styles.band}`} aria-labelledby="class-title">
+          <div className={styles.inner}>
+            <div className={styles.head}>
+              <h2 id="class-title" className={styles.h2}>
+                Meet the class
+              </h2>
+              <p className={styles.lede}>Paul runs the course from the Clocktower, and Neil helps when you&apos;re stuck. Four classmates bring you the projects, and sometimes their own broken code to fix.</p>
             </div>
-          </details>
-        </section>
-
-        <section id="pricing" className={styles.band} aria-labelledby="pricing-title">
-          <div className={styles.bandHead}>
-            <h2 id="pricing-title" className={styles.h2}>
-              Pricing
-            </h2>
-            <p className={styles.bandLede}>Act I is free. Pro opens the rest of the town.</p>
+            <MeetTheClass names={names} />
           </div>
-          <PricingTickets freeProjects={count(free)} proProjects={count(pro)} proActs={pro.length} />
         </section>
 
-        <section id="faq" className={styles.band} aria-labelledby="faq-title">
-          <h2 id="faq-title" className={styles.h2}>
-            FAQ
-          </h2>
-          <dl className={styles.faq}>
-            {FAQ.map(([q, a]) => (
-              <div key={q} className={styles.faqItem}>
-                <dt>{q}</dt>
-                <dd>{a}</dd>
+        <section className={styles.section} aria-labelledby="tower-title">
+          <div className={styles.inner}>
+            <div className={styles.head}>
+              <h2 id="tower-title" className={styles.h2}>
+                The Clocktower
+              </h2>
+              <p className={styles.lede}>An old clocktower that Paul turned into a code school. Each floor is an Act, and the rooms fill up as you ship projects. The ground floor is free.</p>
+            </div>
+            <div className={styles.tower}>
+              <div className={styles.towerArt}>
+                <TowerStatic />
               </div>
-            ))}
-          </dl>
+              <FloorDirectory acts={index.acts} />
+            </div>
+          </div>
+        </section>
+
+        <section id="pricing" className={`${styles.section} ${styles.band}`} aria-labelledby="pricing-title">
+          <div className={styles.inner}>
+            <div className={styles.head}>
+              <h2 id="pricing-title" className={styles.h2}>
+                Pricing
+              </h2>
+              <p className={styles.lede}>Act I is free. Pro opens the rest of the Clocktower.</p>
+            </div>
+            <PricingPlans freeProjects={free.length} proProjects={pro.length} proActs={proActs.length} freeRange={free.length ? [free[0]!.title, free.at(-1)!.title] : undefined} />
+          </div>
+        </section>
+
+        <section id="faq" className={styles.section} aria-labelledby="faq-title">
+          <div className={styles.inner}>
+            <div className={styles.head}>
+              <h2 id="faq-title" className={styles.h2}>
+                Questions
+              </h2>
+            </div>
+            <Faq items={FAQ} />
+          </div>
         </section>
       </main>
       <SiteFooter />

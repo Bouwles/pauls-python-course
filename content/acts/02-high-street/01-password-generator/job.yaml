@@ -4,9 +4,9 @@ project_name: "Password Generator"
 portfolio_readme: |
   # Password Generator
 
-  Makes passwords and passphrases that nobody can guess. Sensible defaults for everyday use, and options for the rest: the length, digits, symbols, and leaving out characters that look like each other. Written for the {{town}} post office, where every clerk needed a password of their own.
+  Makes passwords and passphrases that nobody can guess. Sensible defaults for everyday use, and options for the rest: the length, digits, symbols, and leaving out characters that look like each other. Written for Neil, who needed a password for everyone in the class on the Studio's new server.
 
-  Written by {name} in {{town}}, a Python course built as a game. Finished {date}.
+  Written by {name} for Neil, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -14,17 +14,17 @@ portfolio_readme: |
   python passwords.py
   ```
 
-  It prints a password for each clerk and a passphrase for the safe. Keep `wordlist.txt` in the same folder.
+  It prints a password for three classmates and a passphrase for the Wi-Fi. Keep `wordlist.txt` in the same folder.
 
   ## Use it in your own programs
 
   ```python
   from passwords import make_password, make_passphrase, make_passwords
 
-  make_password()                           # 12 characters: letters and digits
-  make_password(20, symbols=True)           # 20 characters, with symbols
-  make_passphrase(words=5, sep=" ")         # five words from the word list
-  make_passwords("Mira", "Pip", length=16)  # one password each, as a dictionary
+  make_password()                                # 12 characters: letters and digits
+  make_password(20, symbols=True)                # 20 characters, with symbols
+  make_passphrase(words=5, sep=" ")              # five words from the word list
+  make_passwords("Aaesha", "Caitlin", length=16) # one password each, as a dictionary
   ```
 
   ## What it shows
@@ -43,18 +43,18 @@ datasets:
     licence: "CC BY 4.0 (EFF's site licence, https://www.eff.org/copyright)"
     file: wordlist.txt
     notes: "Short Wordlist 1 (1,296 words), dice numbers removed. yo-yo removed so a hyphen always separates words: 1,295 words."
-client: mira
+client: neil
 building: post-office
 estimated_minutes: 100
-summary: "Passwords and passphrases for the post office: sensible defaults, options by name, and nothing anyone can guess."
+summary: "Passwords and passphrases for the Studio's new server: sensible defaults, options by name, and nothing anyone can guess."
 concepts_introduced: [default-arguments, keyword-arguments, args-kwargs, mutable-default, docstrings]
 concepts_reviewed: [functions, parameters, return-values, none, random-module, imports, strings, string-methods, in-operator, for-loops, while-loops, dictionaries, dict-items, f-strings]
 ask:
   dialogue:
-    - mira: "The sorting office wants a password from every clerk. A different one each."
-    - mira: "I made six up. Agnes put them through her checker. It turned down five."
-    - mira: "The sixth was pigeonhole3. It let that one through, but it looked at me."
-    - moss: "Then let a program make them. Good defaults, and options for anyone fussy."
+    - neil: "The Studio's getting its own server. Everyone in the class needs a password for it."
+    - neil: "I made six up. Aaesha ran them through her password checker. It turned down five."
+    - neil: "The sixth was kettle3. It got through, but she gave me a look."
+    - paul: "Then let a program make them. Good defaults, and options for anyone fussy."
   spec: |
     Write `passwords.py`, with a docstring in every function.
 
@@ -64,23 +64,23 @@ ask:
 
     Anything a password is made from comes from `secrets`, never `random`.
   example: |
-    Passwords for the counter:
-      Mira: tK7fWq2mRbXe
-      Pip: Hn3zVp8sCwYd
-      Sanjay: qD4hTx9jMkPa
-    Passphrase for the safe: ample-crust-vowel-tidal
+    Passwords for the Studio:
+      Aaesha: tK7fWq2mRbXe
+      Caitlin: Hn3zVp8sCwYd
+      Yahya: qD4hTx9jMkPa
+    Passphrase for the Wi-Fi: ample-crust-vowel-tidal
 ship:
   dialogue:
-    - mira: "Three clerks, three passwords. No two alike, and no O pretending to be a zero."
-    - mira: "Agnes's checker passed all three. It didn't look at me once."
-    - moss: "And it's secrets, not random. Nobody works those out from the day before."
-  shelf: { object: type-case, label: "The post office password generator" }
+    - neil: "Three passwords, no two alike, and no O pretending to be a zero."
+    - neil: "Aaesha's checker passed all three. She didn't even look up."
+    - paul: "And it's secrets, not random. Nobody works those out from yesterday's."
+  shelf: { object: type-case, label: "Neil's password generator for the Studio" }
   cards: [default-arguments, keyword-arguments, args-kwargs, mutable-default, docstrings]
 stretch:
   - id: pin
     title: "Codes for the lockers"
     prompt: |
-      The parcel lockers want number codes, not passwords. Write `make_pin(length=4)`: `length` digits from `secrets`, never one of the codes everybody tries first.
+      The lockers on the Studio landing want number codes, not passwords. Write `make_pin(length=4)`: `length` digits from `secrets`, never one of the codes everybody tries first.
 
       ```python
       COMMON_PINS = ["0000", "1111", "1234", "1212", "7777", "2580", "4321", "6969", "1004", "2000"]
@@ -92,4 +92,4 @@ stretch:
   - id: strength
     title: "How strong is it"
     prompt: |
-      A password picked from a pool of `n` characters has `n` choices for each place. Its strength in bits is `length * math.log2(n)`. Work it out for the default password (letters and digits without the lookalikes: 56 characters) and for a four-word passphrase (1,295 words a word). Which is stronger, and which would Mira rather type?
+      A password picked from a pool of `n` characters has `n` choices for each place. Its strength in bits is `length * math.log2(n)`. Work it out for the default password (letters and digits without the lookalikes: 56 characters) and for a four-word passphrase (1,295 words a word). Which is stronger, and which would Neil rather type?

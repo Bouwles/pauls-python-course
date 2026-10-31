@@ -4,12 +4,12 @@ type: predict
 title: One card, filed twice
 concept: merging
 dialogue:
-  - pip: "The fisherman card's in twice. Doesn't matter. Same card, same answer."
+  - yahya: "The fisherman card's in twice. Doesn't matter. Same card, same answer."
 code: |
   import pandas as pd
 
   people = pd.DataFrame({
-      "name": ["Walter Rook", "Edith Hollis", "Ella Hocking", "Sam Rook"],
+      "name": ["Walter Rook", "Edith Rowe", "Ella Hocking", "Sam Rook"],
       "occupation": ["fisherman", "baker", "pharmacist", "fisherman"],
   })
   trades = pd.DataFrame({
@@ -25,7 +25,7 @@ options:
     feedback: "Right. Each fisherman matches two cards, so each comes out twice. Edith matches one, and Ella, with no card, keeps her row because of `how=\"left\"`."
   - text: "4"
     misconception: merge-duplicate-key-ignored
-    feedback: "That's Pip's guess. `merge` makes one row for every matching pair, and doesn't check whether two cards say the same thing. Two cards for fisherman means two rows for each fisherman."
+    feedback: "That's Yahya's guess. `merge` makes one row for every matching pair, and doesn't check whether two cards say the same thing. Two cards for fisherman means two rows for each fisherman."
   - text: A ValueError
     misconception: merge-refuses-duplicates
     error: ValueError

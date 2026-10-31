@@ -4,7 +4,7 @@ type: predict
 title: Either one
 concept: boolean-operators
 code: |
-  password = "Gull-Watch-42"
+  password = "Chalk-Dust-42"
   if password == "password" or "letmein":
       print("Too common.")
   else:
@@ -22,4 +22,4 @@ after: |
 ---
 `and` is `True` only when both sides are. `or` is `True` when at least one side is. `not` turns `True` into `False` and back.
 
-Each side has to be a whole question on its own. Agnes's deputy wrote this one.
+Each side has to be a whole question on its own. Someone wrote this one for last year's accounts.

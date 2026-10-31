@@ -4,9 +4,9 @@ project_name: "Measurement Book"
 portfolio_readme: |
   # Measurement Book
 
-  A tailor's measurement book. Each client's chest, waist and leg are kept together in one tuple, so a name can never slip out of step with its numbers. It prints the book with every line numbered, and finds the client with the longest leg.
+  A tailor's measurement book. Each customer's chest, waist and leg are kept together in one tuple, so a name can never slip out of step with its numbers. It prints the book with every line numbered, and finds the customer with the longest leg.
 
-  Written by {name} for Mr Okonjo's tailoring in {{town}}. Finished {date}.
+  Written by {name} for Riya, at Paul's Python Course, for a tailor who kept her book in two lists. Finished {date}.
 
   ## Run it
 
@@ -15,10 +15,10 @@ portfolio_readme: |
   ```
 
   ```
-  1. Captain Ferro: chest 112, waist 98, leg 84
-  2. Bea Hollis: chest 96, waist 88, leg 74
-  3. Old Tom: chest 101, waist 95, leg 79
-  Longest leg: Captain Ferro, 84 cm
+  1. Jon Hale: chest 112, waist 98, leg 84
+  2. Mae Grant: chest 96, waist 88, leg 74
+  3. Ray Lowe: chest 101, waist 95, leg 79
+  Longest leg: Jon Hale, 84 cm
   ```
 
   ## What it shows
@@ -28,37 +28,38 @@ portfolio_readme: |
   - A function that returns two answers at once, unpacked where they land
 downloadable: true
 datasets: []
-client: okonjo
+client: riya
 building: tailor
 estimated_minutes: 50
-summary: "A tailor's measurement book: each client's numbers kept together in a tuple, every line numbered, and the longest leg found."
+summary: "A tailor's measurement book: each customer's numbers kept together in a tuple, every line numbered, and the longest leg found."
 concepts_introduced: [tuples, unpacking, multiple-returns, enumerate, zip]
 concepts_reviewed: [lists, looping-lists, for-loops, functions, return-values, negative-indices, f-strings]
 ask:
   dialogue:
-    - okonjo: "Penhallow kept my measurements in two lists. Names in one, numbers in the other."
-    - okonjo: "Last spring the lists slipped by one. Captain Ferro was fitted for Bea's trousers."
-    - okonjo: "A measurement written down wrong is worse than one not taken."
-    - moss: "Keep each person's numbers together, then. And keep them still."
+    - riya: "The tailor on the corner keeps her measurements in two lists. Names in one, numbers in the other."
+    - riya: "Last spring the lists slipped by one. A customer was fitted for someone else's trousers."
+    - riya: "She asked if I could fix it. I said yes, then asked Paul how."
+    - paul: "Keep each person's numbers together, then. And keep them still."
   spec: |
-    Each client's measurements are a tuple in centimetres: `(chest, waist, leg)`. The names are in a second list, in the same order.
+    Each customer's measurements are a tuple in centimetres: `(chest, waist, leg)`. The names are in a second list, in the same order.
 
     Write two functions:
 
-    - `print_book(names, sizes)` prints one numbered line per client, starting at 1.
-    - `longest_leg(names, sizes)` returns two values: the name and the leg of the client with the longest leg. If two tie, the first in the book wins.
+    - `print_book(names, sizes)` prints one numbered line per customer, starting at 1.
+    - `longest_leg(names, sizes)` returns two values: the name and the leg of the customer with the longest leg. If two tie, the first in the book wins.
 
-    Then print the book and the longest leg for Mr Okonjo's three clients.
+    Then print the book and the longest leg for the tailor's three customers.
   example: |
-    1. Captain Ferro: chest 112, waist 98, leg 84
-    2. Bea Hollis: chest 96, waist 88, leg 74
-    3. Old Tom: chest 101, waist 95, leg 79
-    Longest leg: Captain Ferro, 84 cm
+    1. Jon Hale: chest 112, waist 98, leg 84
+    2. Mae Grant: chest 96, waist 88, leg 74
+    3. Ray Lowe: chest 101, waist 95, leg 79
+    Longest leg: Jon Hale, 84 cm
 ship:
   dialogue:
-    - okonjo: "Captain Ferro, eighty-four. Still the longest leg on the quay."
-    - okonjo: "And every number beside its owner. I checked each line against my book."
-  shelf: { object: tape-measure, label: "Mr Okonjo's measurement book" }
+    - riya: "She checked every line against her old book. Every number is beside its owner."
+    - riya: "Then she asked what else I can do. I said a website, probably."
+    - paul: "Names and numbers that can't drift apart. That's the whole fix, and it's a good one."
+  shelf: { object: tape-measure, label: "The tailor's measurement book, for Riya" }
   cards: [tuples, unpacking, multiple-returns, enumerate, zip]
 stretch:
   - id: what-changed
@@ -72,4 +73,4 @@ stretch:
   - id: swap
     title: "Chest and waist, swapped"
     prompt: |
-      Someone wrote Old Tom's chest and waist the wrong way round. Swap them back in one line, without a third variable: `chest, waist = waist, chest`. Then build his corrected tuple.
+      Someone wrote Ray Lowe's chest and waist the wrong way round. Swap them back in one line, without a third variable: `chest, waist = waist, chest`. Then build his corrected tuple.

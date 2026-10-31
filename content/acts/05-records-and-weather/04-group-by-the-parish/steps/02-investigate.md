@@ -25,7 +25,7 @@ code: |
   print(ages.round(1))
 tasks:
   - id: youngest
-    prompt: "Run it. In which census year was the town youngest, on average?"
+    prompt: "Run it. In which census year were the streets youngest, on average?"
     kind: answer
     accept: ["1951", "in 1951"]
     feedback: "1951, at 25.3. The children of the 1940s are in it, and a good many of them were under five."
@@ -37,17 +37,17 @@ tasks:
     feedback: "18. The pairs are shown as two levels of labels, year on the outside and parish inside."
     wrong: "Find 1951 in the third block, then the Hill inside it."
   - id: oldest-harbour
-    prompt: "`agg` makes several named summaries at once, each from a column and a calculation. Whose age is the 121 in the Harbour's `oldest`?"
+    prompt: "`agg` makes several named summaries at once, each from a column and a calculation. Whose age is the 121 in Bankside's `oldest`?"
     kind: answer
-    accept: ["Moss", "Moss's", "moss, in 2011", "Moss in 2011", "Moss, 2011"]
-    feedback: "Moss, in 2011. He says the enumerator rounded up."
+    accept: ["Albert Moyle", "Moyle", "Albert Moyle, in 2011", "Albert Moyle in 2011", "Albert Moyle, 2011"]
+    feedback: "Albert Moyle, in 2011. A record, or a typo. The cleaning pipeline would have made that age missing."
     wrong: "Filter the census for an age of 121 and print the name."
   - id: harbour-1981
-    prompt: "A pivot table lays groups out as a grid: `index` down the side, `columns` across the top, `aggfunc` in each cell. What was the average age at the Harbour in 1981?"
+    prompt: "A pivot table lays groups out as a grid: `index` down the side, `columns` across the top, `aggfunc` in each cell. What was the average age in Bankside in 1981?"
     kind: answer
     accept: ["50.2", "50.2 years"]
-    feedback: "50.2. The Harbour got old between 1951 and 1981, and then younger again."
-    wrong: "Read the last table: Harbour's row, the 1981 column."
+    feedback: "50.2. Bankside got old between 1951 and 1981, and then younger again."
+    wrong: "Read the last table: Bankside's row, the 1981 column."
   - id: count-instead
     prompt: "Change the last pivot table so each cell counts the people in that parish that year, instead of averaging their ages."
     kind: run
@@ -59,11 +59,11 @@ tasks:
           if not isinstance(ages, pd.DataFrame):
               raise CheckFailed("ages should still be a table.", actual=type(ages).__name__)
           try:
-              cells = [int(ages.loc["Harbour", 1921]), int(ages.loc["Hill", 1951]), int(ages.loc["Marsh", 2011])]
+              cells = [int(ages.loc["Bankside", 1921]), int(ages.loc["Hill", 1951]), int(ages.loc["Northgate", 2011])]
           except (KeyError, ValueError):
               raise CheckFailed("Keep parishes down the side and years across the top.")
           if cells != [29, 18, 13]:
-              raise CheckFailed("Each cell should be a number of people: Harbour in 1921, Hill in 1951, Marsh in 2011.",
+              raise CheckFailed("Each cell should be a number of people: Bankside in 1921, Hill in 1951, Northgate in 2011.",
                                 expected="[29, 18, 13]", actual=str(cells))
 
 

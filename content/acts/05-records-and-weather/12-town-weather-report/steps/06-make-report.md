@@ -7,8 +7,8 @@ entry: report.py
 starter_from: make-charts
 timeout_ms: 40000
 dialogue:
-  - priya: "Numbers first, then what they mean. In words a fisherman would read to the end."
-on_pass: { priya: "It changes when the ledger does. So the numbers are the ledger's, not yours. Good." }
+  - aaesha: "Numbers first, then what they mean. In words anyone would read to the end."
+on_pass: { aaesha: "It changes when the ledger does. So the numbers are the ledger's, not yours. Good." }
 hints:
   nudge: "Which of your functions gives each line of the report? And what does the conclusion have to say, besides that it got warmer?"
   plan:
@@ -40,4 +40,4 @@ hints:
 
 The conclusion is yours: at least 50 words, printed under a line that says `Conclusion`. Say what changed and how sure you are, in words as well as p. Say plainly what didn't change. Say what one station can't tell anyone.
 
-The checks run the report twice: once on Priya's ledger, and once on a ledger with the last ten years a degree warmer and 1982 much wetter. A number typed in by hand won't follow.
+The checks run the report twice: once on the real ledger, and once on a ledger with the last ten years a degree warmer and 1982 much wetter. A number typed in by hand won't follow.

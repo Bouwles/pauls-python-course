@@ -211,7 +211,7 @@ export interface TakeHomeStep extends StepCommon {
   folder: string;
 }
 
-/** A capstone milestone (Act IX): the learner's test plan, evidence, and Moss's checklist. */
+/** A capstone milestone (Act IX): the learner's test plan, evidence, and Paul's checklist. */
 export interface MilestoneStep extends StepCommon {
   type: "milestone";
   checklist: { id: string; textHtml: string; whyHtml: string }[];
@@ -309,6 +309,11 @@ export interface Character {
   id: string;
   name: string;
   role: string;
+  /** Signature colour, "#RRGGBB". */
+  colour: string;
+  /** Clocktower floor (Act number), 0 for none. */
+  floor: number;
+  /** Old pixel sprite name, kept while the old cast is replaced; the new cast has none. */
   sprite: string;
   pools: Record<string, string[]>;
 }

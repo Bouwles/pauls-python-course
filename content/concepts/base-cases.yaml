@@ -47,7 +47,7 @@ cards:
       print(stack_height(3), stack_height(0))
     answer: "120 0"
   - type: fix
-    prompt: "Nell numbers every third crate, counting down: `labels(10)` should be `[10, 7, 4, 1]`. It crashes instead. Fix the base case."
+    prompt: "Caitlin numbers every third box, counting down: `labels(10)` should be `[10, 7, 4, 1]`. It crashes instead. Fix the base case."
     code: |
       def labels(number):
           if number == 0:

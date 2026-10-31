@@ -1,6 +1,6 @@
 "use client";
 
-// Concept before code: Old Tom's lamp sweeps once for each pass of a for loop.
+// Concept before code: a for loop, one pass at a time. Each pass lights one more dot.
 import { useState } from "react";
 import { Button } from "../../ui/Button";
 import styles from "./widgets.module.css";
@@ -20,20 +20,22 @@ export function LampLoop({ params, onDone, done }: { params: { count?: number };
         <code>
           <span className={!finished && pass >= 0 ? styles.hot : ""}>{`for i in range(${count}):`}</span>
           {"\n"}
-          {`    print("Lamp check", i)`}
+          {`    print("Pass", i)`}
         </code>
       </pre>
-      <div className={styles.lampRow}>
-        <div className={styles.lighthouse} aria-hidden="true">
-          <div className={styles.beam} data-pass={pass % 2} />
-          <div className={styles.lampTop} />
-          <div className={styles.tower} />
+      <div className={styles.loopRow}>
+        <div className={styles.passes} aria-hidden="true">
+          {Array.from({ length: count }, (_, k) => (
+            <span key={k} className={[styles.passDot, k < pass ? styles.passDone : "", k === pass - 1 && !finished ? styles.passNow : ""].join(" ")}>
+              {k}
+            </span>
+          ))}
         </div>
         <div className={styles.loopState} aria-live="polite">
           <p>
             {pass === 0 ? "The loop hasn't started." : finished ? `Done. range(${count}) gave ${Array.from({ length: count }, (_, i) => i).join(", ")}.` : `Pass ${pass}: i is ${pass - 1}.`}
           </p>
-          <pre className={styles.loopOut}>{Array.from({ length: Math.min(pass, count) }, (_, i) => `Lamp check ${i}`).join("\n") || " "}</pre>
+          <pre className={styles.loopOut}>{Array.from({ length: Math.min(pass, count) }, (_, i) => `Pass ${i}`).join("\n") || " "}</pre>
         </div>
       </div>
       {!finished ? (

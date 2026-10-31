@@ -3,151 +3,125 @@
 import { useEffect, useState } from "react";
 import type { AskStep } from "@/lib/content/types";
 import type { StepProgressRow } from "@/lib/store/types";
-import { useSession } from "@/lib/store/session";
-import { defaultLook } from "@/lib/pixel/learner";
-import { playSound } from "@/lib/sound";
-import { Button, LinkButton } from "../../ui/Button";
-import { SceneCanvas, type Actor } from "../../world/SceneCanvas";
-import { useNight } from "../../world/useNight";
-import { loadIndex } from "../../world/sprites";
-import { SCENE_CAST, sceneFor, useEarned, workshopExtras } from "../../world/useWorkshopExtras";
-import { useWorkbench } from "../context";
-import { Ticket } from "../Ticket";
+import { duration, prefersReducedMotion } from "@/lib/display";
 import { Track } from "@/lib/track";
-import styles from "./steps.module.css";
-import cs from "./cutscene.module.css";
+import { Figure } from "../../art/Portrait";
+import { Button, LinkButton } from "../../ui/Button";
+import { Icon } from "../../ui/Icon";
+import { SpeechBubble } from "../../ui/SpeechBubble";
+import { Prose } from "../Instructions";
+import { useWorkbench } from "../context";
+import { isSpoken } from "../labels";
+import styles from "./ask.module.css";
 
-const WALK_SECONDS = 1.6;
-const WALK_DELAY = 0.4;
+const BEAT_MS = 1100;
 
 /**
- * The Ask (REDESIGN.md 5.2): the workshop, the client coming in through the door, their lines in
- * the dialogue box, then the job ticket slides in and pins itself. Skippable, and replayable from the ticket.
+ * The Ask (REDESIGN-2.md 4.6): the whole Workbench given over to whoever needs the program.
+ * Their illustration on the left; on the right their request, a line at a time, then the
+ * project spec and "Start building". Skippable, and replayable from the spec later.
  */
 export function AskStepView({ step, row }: { step: AskStep; row: StepProgressRow }) {
-  const { job, areas, characters, conceptTitles, markPassed, goNext, preview } = useWorkbench();
-  const { profile } = useSession();
-  const night = useNight();
-  const earned = useEarned();
-  const [index, setIndex] = useState<{ sprites: Set<string>; scenes: Set<string> } | null>(null);
-  const [visiting, setVisiting] = useState(row.status !== "passed");
-  const [take, setTake] = useState(0);
-  const [pinned, setPinned] = useState(false);
-  const client = characters[job.client];
-  const clientName = client?.name ?? job.client;
+  const { job, areas, conceptTitles, markPassed, goNext, preview, nameOf } = useWorkbench();
+  const lines = step.dialogue.filter((l) => isSpoken(l.who));
+  const [shown, setShown] = useState(() => (prefersReducedMotion() || lines.length < 2 ? lines.length : 1));
+  const playing = shown < lines.length;
+  const clientName = nameOf(job.client);
 
+  // The request arrives a line at a time (all at once with reduced motion).
   useEffect(() => {
-    void loadIndex().then((i) => setIndex({ sprites: new Set(Object.keys(i.sprites)), scenes: new Set(Object.keys(i.scenes)) }));
+    if (prefersReducedMotion() || lines.length < 2) return;
+    const t = setInterval(() => setShown((n) => (n >= lines.length ? n : n + 1)), BEAT_MS);
+    return () => clearInterval(t);
+    // Once per visit to the Ask.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const scene = sceneFor(job.scene, night, index?.scenes);
-  const walksIn = job.client !== "moss" && Boolean(index?.sprites.has(client?.sprite ?? job.client)) && scene.startsWith("workshop");
-
-  // The bell over the door, then the walk, then the ticket.
-  useEffect(() => {
-    if (!visiting || !index) return;
-    if (walksIn) playSound("bell", profile.settings.sound);
-    const t = setTimeout(() => finish(), (WALK_DELAY + WALK_SECONDS + 1.2) * 1000);
-    return () => clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visiting, take, index]);
-
-  const finish = () => {
-    setVisiting(false);
-    setPinned(true);
-  };
-
-  const replay = () => {
-    setTake((t) => t + 1);
-    setVisiting(true);
-    setPinned(false);
-    window.dispatchEvent(new CustomEvent("fixwick:replay-dialogue"));
-  };
-
   const start = async () => {
-    await markPassed(step.id);
+    if (row.status !== "passed") await markPassed(step.id);
     goNext();
   };
 
-  const actors: Actor[] = [
-    { key: "moss", sprite: "moss", anim: "idle", at: "moss" },
-    { key: "learner", learner: profile.character ?? defaultLook(), pose: "sit", anim: "sit", at: "learner" },
-    { key: "dennis", sprite: "dennis", anim: "idle", at: "dennis" },
-  ];
-  if (walksIn) {
-    actors.push({ key: "client", sprite: client?.sprite ?? job.client, anim: "idle", at: "client", flip: true, ...(visiting ? { from: "door", walk: WALK_SECONDS, delay: WALK_DELAY } : {}) });
-  }
-  if (scene.startsWith("workshop")) actors.push(...workshopExtras(earned, scene));
-  for (const who of SCENE_CAST[scene] ?? []) {
-    const spoken = job.steps.some((st) => st.dialogue.some((l) => l.who === who));
-    if (spoken && index?.sprites.has(characters[who]?.sprite ?? who)) actors.push({ key: who, sprite: characters[who]?.sprite ?? who, anim: "idle", at: who });
-  }
-
-  const label =
-    scene === "lamp-room"
-      ? "The lamp room at the top of the lighthouse, at night: the great lens lit, the sea outside."
-      : walksIn
-        ? `The workshop. The bell over the door rings and ${clientName} comes in out of the rain. Moss looks up from his bench.`
-        : "The workshop: Moss at his bench and you at your desk. Rain on the window.";
-
   return (
-    <>
-      {visiting ? (
-        <div className={areas.brief}>
-          <div className={cs.pinboard} aria-hidden="true" />
+    <div className={areas.full}>
+      <div className={styles.ask}>
+        <div className={styles.figureWrap}>
+          <Figure who={job.client} name={clientName} height={420} className={styles.figure} caption={`${clientName}, who needs the ${job.title.toLowerCase()}`} />
         </div>
-      ) : (
-        <Ticket full pinIn={pinned}>
-          <h2 className={styles.heading}>
-            <span className={styles.thisStep}>This step:</span> read the ticket
-          </h2>
-          {job.conceptsIntroduced.length ? (
-            <div className={styles.newIdeas}>
-              <h3 className={styles.sub}>New in this job</h3>
-              <ul className={styles.chips}>
-                {job.conceptsIntroduced.map((c) => (
-                  <li key={c}>{conceptTitles[c] ?? c}</li>
-                ))}
-              </ul>
-            </div>
+        <div className={styles.side}>
+          <header className={styles.head}>
+            <p className={styles.kicker}>A new project for {clientName}</p>
+            <h1 className={styles.title}>{job.title}</h1>
+          </header>
+          {lines.length ? (
+            <ol className={styles.bubbles} aria-label={`What ${clientName} asks for`} aria-live="polite">
+              {lines.slice(0, shown).map((l, i) => (
+                <li key={i} className={[styles.bubbleItem, i > 0 && lines[i - 1]!.who === l.who ? styles.same : ""].join(" ")}>
+                  <SpeechBubble who={l.who} name={i > 0 && lines[i - 1]!.who === l.who ? undefined : nameOf(l.who)} tail="left">
+                    <p>{l.text}</p>
+                  </SpeechBubble>
+                </li>
+              ))}
+            </ol>
           ) : null}
-          {preview ? (
-            <div className={styles.next}>
-              <Track event="view-paywall" />
-              <p className={styles.nextNote}>This project is part of Pro. The Ask is a free preview.</p>
-              <LinkButton href="/pricing/checkout?plan=pro-yearly" variant="primary">
-                Get Pro
-              </LinkButton>
-              <LinkButton href="/map" variant="quiet">
-                Not now
-              </LinkButton>
-            </div>
-          ) : (
-            <div className={styles.next}>
-              <Button variant="primary" onClick={() => void start()}>
-                {row.status === "passed" ? "Next step" : "Start the job"}
-              </Button>
-              <Button variant="quiet" onClick={replay}>
-                Watch again
-              </Button>
-            </div>
-          )}
-        </Ticket>
-      )}
-      <div className={areas.stage}>
-        <div className={cs.stage}>
-          <div className={cs.scene}>
-            <SceneCanvas key={take} scene={scene} actors={actors} label={label} maxScale={4} minScale={1} />
-          </div>
-          {visiting ? (
-            <div className={cs.skip}>
-              <Button variant="quiet" onClick={finish}>
+          {playing ? (
+            <div>
+              <Button variant="ghost" size="sm" onClick={() => setShown(lines.length)}>
                 Skip
               </Button>
             </div>
-          ) : null}
+          ) : (
+            <>
+              <section className={styles.spec} aria-labelledby="spec-title">
+                <h2 id="spec-title" className={styles.specTitle}>
+                  Project spec
+                </h2>
+                <Prose html={step.specHtml} className={styles.specText} />
+                {step.example ? (
+                  <div className={styles.example}>
+                    <p className="label">Example run</p>
+                    <pre className="code-dark">{step.example}</pre>
+                  </div>
+                ) : null}
+                <div className={styles.meta}>
+                  <span className={styles.metaItem}>
+                    <Icon name="clock" size={18} />
+                    About {duration(job.estimatedMinutes)}
+                  </span>
+                  {job.conceptsIntroduced.length ? (
+                    <div className={styles.metaItem}>
+                      <span>New in this project:</span>
+                      <ul className={styles.chips}>
+                        {job.conceptsIntroduced.map((c) => (
+                          <li key={c}>{conceptTitles[c] ?? c}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : null}
+                </div>
+              </section>
+              {preview ? (
+                <div className={styles.actions}>
+                  <Track event="view-paywall" />
+                  <LinkButton href="/pricing/checkout?plan=pro-yearly" variant="primary">
+                    Get Pro
+                  </LinkButton>
+                  <LinkButton href="/map" variant="ghost">
+                    Not now
+                  </LinkButton>
+                  <p className={styles.note}>This project is part of Pro. The ask is a free preview.</p>
+                </div>
+              ) : (
+                <div className={styles.actions}>
+                  <Button variant="primary" icon="next" onClick={() => void start()}>
+                    Start building
+                  </Button>
+                </div>
+              )}
+            </>
+          )}
         </div>
       </div>
-    </>
+    </div>
   );
 }

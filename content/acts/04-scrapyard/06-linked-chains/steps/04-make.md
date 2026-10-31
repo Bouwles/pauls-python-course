@@ -1,15 +1,15 @@
 ---
 id: make
 type: make
-title: Make the merchant's round
+title: Make the clockmaker's round
 files: [chalk_round.py]
 entry: chalk_round.py
-on_pass: { nell: "Gong in, anchor off, round the other way. And the crates never left the ground." }
+on_pass: { yahya: "Gong in, anchor out, round the other way. And not one crate lifted." }
 hints:
   nudge: "To change the round just after a crate, which crate's `next` has to change, and what must you hold on to before you change it?"
   plan:
     - "Crate: a part, and a next that starts as None"
-    - "append, parts and __len__: Moss's buoys"
+    - "append, parts and __len__: Paul's treasure hunt"
     - "insert_after: walk to the crate holding existing; the new crate points at that crate's next; then that crate points at the new one"
     - "remove: if the first crate holds it, head moves on; otherwise stop on the crate before it and point that crate past it"
     - "reverse: before starts as None; for each crate, hold on to its next, point it back at before, then step both along"
@@ -36,7 +36,7 @@ hints:
             crate = ___
         self.head = ___
 ---
-Write `Crate` and `Round` in `chalk_round.py`. `append`, `parts` and `__len__` are Moss's buoys again.
+Write `Crate` and `Round` in `chalk_round.py`. `append`, `parts` and `__len__` are Paul's treasure hunt again.
 
 `insert_after` and `remove` are the predict, done properly: find the crate before the change, then set the arrows in the right order. Taking off the first crate means changing `head`.
 

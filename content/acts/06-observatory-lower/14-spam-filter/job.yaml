@@ -2,7 +2,7 @@ id: spam-filter
 title: "Spam Filter"
 project_name: "Spam Filter"
 status: outline
-client: wendt
+client: neil
 building: observatory
 estimated_minutes: 90
-summary: "Spam or not, for 5,574 real text messages (the SMS Spam Collection, UCI, CC BY 4.0): Naive Bayes from scratch, with word counts per class, log probabilities and smoothing, then precision and recall, because a filter that bins one real message costs more than one that lets a little spam through."
+summary: "Neil wants a spam filter he can read line by line. Spam or not, for 5,574 real text messages (the SMS Spam Collection, UCI, CC BY 4.0): Naive Bayes from scratch, with word counts per class, log probabilities and smoothing, then precision and recall, because a filter that bins one real message costs more than one that lets a little spam through."

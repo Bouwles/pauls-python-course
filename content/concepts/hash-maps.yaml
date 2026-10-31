@@ -45,7 +45,7 @@ cards:
       print(probes)
     answer: "3"
   - type: choice
-    prompt: "Nell's stock is a dict of 100,000 parts. Roughly how many keys does `stock[\"brass-valve\"]` compare with?"
+    prompt: "The Makerspace's stock is a dict of 100,000 parts. Roughly how many keys does `stock[\"brass-valve\"]` compare with?"
     verify: none
     options:
       - text: "One or two: only the keys in brass-valve's own pile"

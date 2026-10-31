@@ -1,10 +1,10 @@
 ---
 id: worked
 type: worked
-title: How Moss would do it
+title: How Paul would do it
 dialogue:
-  - moss: "The practice pen behind the clubhouse. Six tiles, no rock, no pool."
-  - moss: "And no slipping. The committee had it levelled."
+  - paul: "The practice level on Caitlin's cabinet. Six tiles, no rock, no pool."
+  - paul: "And no slipping. She switched it off for beginners."
 code: |
   from workshop import show_grid
 
@@ -36,7 +36,7 @@ code: |
   for row in range(2):
       print("  ".join(f"{values[(row, col)]:5.1f}" for col in range(3)))
 subgoals:
-  - label: The pen, the policy and gamma
+  - label: The level, the policy and gamma
     lines: [3, 6]
   - label: Start every value at nothing
     lines: [8, 8]
@@ -54,9 +54,9 @@ subgoals:
     lines: [24, 25]
 explain:
   prompt: "Why does the loop stop when the biggest change is under `1e-6`, and not when it is exactly 0?"
-  answer: "Here, with no slipping, the values happen to settle exactly, in four sweeps. On the racing grid, where he slips, they creep towards their true worth by smaller and smaller amounts for ever, and might never stop changing exactly. A threshold says close enough."
+  answer: "Here, with no slipping, the values happen to settle exactly, in four sweeps. On the racing grid, where it slips, they creep towards their true worth by smaller and smaller amounts for ever, and might never stop changing exactly. A threshold says close enough."
   concept: policy-evaluation
 ---
-`show_grid`, from the `workshop` module, draws the grid in the output panel: one frame each time it's called, tiles tinted by their values, the policy as arrows. Press Run and play the frames to watch the finish's worth spread back through the pen, a tile a sweep.
+`show_grid`, from the `workshop` module, draws the grid in the output panel: one frame each time it's called, tiles tinted by their values, the policy as arrows. Press Run and play the frames to watch the finish's worth spread back through the level, a tile a sweep.
 
 The values change in place, so a tile updated later in a sweep already sees this sweep's new values. Either way, they end up in the same place.

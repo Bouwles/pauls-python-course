@@ -15,7 +15,7 @@ def two_evenings(ctx):
     b1 = np.array([0.0, -2.5])
     W2 = np.array([[0.5], [3.0]])
     b2 = np.array([-1.0])
-    close("Pip's two evenings through the 2-2-1 brain", m.forward(evenings, W1, b1, W2, b2), [[0.5], [0.3208]])
+    close("Caitlin's two evenings through the 2-2-1 network", m.forward(evenings, W1, b1, W2, b2), [[0.5], [0.3208]])
 
 
 def relu_values(ctx):
@@ -34,7 +34,7 @@ def relu_grid(ctx):
 
 
 TESTS = [
-    custom("Pip's two evenings", two_evenings, visible=True),
+    custom("Caitlin's two evenings", two_evenings, visible=True),
     custom("relu cuts negatives to zero", relu_values, visible=True),
     custom("sigmoid stays between 0 and 1", sigmoid_values,
            hint="1 / 1 + x is (1 / 1) + x. The whole of 1 + np.exp(-z) needs to be underneath."),

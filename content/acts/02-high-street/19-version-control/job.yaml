@@ -4,9 +4,9 @@ project_name: "Git and GitHub"
 portfolio_readme: |
   # Git and GitHub
 
-  The workshop's job tracker, under version control: a git repository with an honest history of commits, an idea tried on a branch and merged back, a conflict settled by hand, and a copy pushed to GitHub. It was practised in the browser first, then done for real on my own computer.
+  The Workshop's job tracker, under version control: a git repository with an honest history of commits, an idea tried on a branch and merged back, a conflict settled by hand, and a copy pushed to GitHub. It was practised in the browser first, then done for real on my own computer.
 
-  Written by {name} for Moss's workshop in {{town}}. Finished {date}.
+  Written by {name} for Paul's Workshop, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -23,19 +23,19 @@ portfolio_readme: |
   - A remote on GitHub, and `git push`
 downloadable: true
 datasets: []
-client: moss
+client: paul
 building: workshop
 estimated_minutes: 100
 summary: "Keep the history of a project with git: commits, branches and a conflict in the browser, then a real repository of your own, pushed to GitHub."
 concepts_introduced: [git-basics, git-branches, merge-conflicts]
 ask:
   dialogue:
-    - moss: "Penhallow kept every version of everything. In a drawer, labelled by date."
-    - moss: "Half the labels are wrong. Some are just labelled 'better'."
-    - pip: "Mine are labelled 'final', 'final2' and 'actually final'."
-    - moss: "There's a proper way. It's called git. You'll use it for the rest of your life."
+    - paul: "My first course notes live in one folder. Every version of everything, labelled by date."
+    - paul: "Half the labels are wrong. Some are just labelled 'better'."
+    - caitlin: "Mine are labelled 'final', 'final2' and 'actually final'."
+    - paul: "There's a proper way. It's called git. You'll use it for the rest of your life."
   spec: |
-    Put the workshop's job tracker under version control, here in the browser first:
+    Put the Workshop's job tracker under version control, here in the browser first:
 
     1. Make a repository and commit the project as it is.
     2. Change something, look at the difference, and commit again.
@@ -54,13 +54,13 @@ ask:
     1d27f53 First version of the job tracker
 ship:
   dialogue:
-    - moss: "Every version, labelled honestly. Nothing in a drawer."
-    - moss: "And a copy on GitHub, where anyone you show it to can read the whole history."
-    - pip: "Mine's on GitHub too. One commit, called stuff. I'm told the next one will be better."
-  shelf: { object: book, label: "The job tracker, with all its history" }
+    - paul: "Every version, labelled honestly. Nothing in a folder called 'better'."
+    - paul: "And a copy on GitHub, where anyone you show it to can read the whole history."
+    - caitlin: "Mine's on GitHub too. One commit, called stuff. The next one will be better."
+  shelf: { object: book, label: "The Workshop job tracker, with all its history" }
   cards: [git-basics, git-branches, merge-conflicts]
 stretch:
   - id: honest-messages
     title: "Honest messages"
     prompt: |
-      Look at `git log`. Would someone reading only the messages know what happened, and why? Moss's rule: a message finishes the sentence "This commit will...". Rewrite your next three commit messages that way.
+      Look at `git log`. Would someone reading only the messages know what happened, and why? Paul's rule: a message finishes the sentence "This commit will...". Rewrite your next three commit messages that way.

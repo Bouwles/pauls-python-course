@@ -1,9 +1,9 @@
 ---
 id: worked
 type: worked
-title: How Moss would time it
+title: How Paul would time it
 dialogue:
-  - moss: "Counting tells you how it grows. A clock tells you where it starts. You need both."
+  - paul: "Counting tells you how it grows. A clock tells you where it starts. You need both."
 code: |
   import time
 
@@ -44,12 +44,12 @@ subgoals:
   - label: Scale up for the size you care about
     lines: [25, 25]
 explain:
-  prompt: "Run it three times. The seconds change every run. Why does Moss scale from the growth, not from one run at a million?"
+  prompt: "Run it three times. The seconds change every run. Why does Paul scale from the growth, not from one run at a million?"
   answer: "Each timing wobbles, because the computer is doing other things as well, so one measurement isn't the truth. The growth doesn't wobble: it's O(n), so ten times the weights is about ten times the time, whatever the clock said today."
   concept: timing-code
 ---
 `time.perf_counter()` reads a clock made for timing code. One reading means nothing on its own; read it before and after, and subtract. The answer is in seconds.
 
-Moss's `total_weight` looks at each weight once, so it's O(n): twice the weights should take about twice as long. The ratio won't be exactly 2. Timings never are.
+Paul's `total_weight` looks at each weight once, so it's O(n): twice the weights should take about twice as long. The ratio won't be exactly 2. Timings never are.
 
 Time something big enough to take a few hundredths of a second. A job that takes a millionth of a second measures mostly the clock.

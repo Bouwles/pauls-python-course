@@ -4,7 +4,7 @@ type: make
 title: Make the library
 files: [library.py]
 entry: library.py
-on_pass: { vance: "One Emma. On loan to Bea. And the tide tables stay where Agnes can find them." }
+on_pass: { neil: "One Emma. On loan to Aaesha. And Paul's house style stays where everyone can find it." }
 hints:
   nudge: "Which of these is a kind of book, and which only has books?"
   plan:
@@ -44,15 +44,15 @@ hints:
         def on_shelf(self) -> list[Book]:
             return [book for book in self.books if ___]
 ---
-Write the four pieces from the brief in `library.py`. The bottom of the file already uses them the way Mrs Vance will. The comments are Moss's subgoals, from Old Tom's lamp log and the cargo bike.
+Write the four pieces from the brief in `library.py`. The bottom of the file already uses them the way Neil will. The comments are Paul's subgoals, from Yahya's running log and the cargo bike.
 
 ```
 The library has 3 books
 Emma, Jane Austen (1815): on loan
-Tide Tables 2026, Agnes Rook (2025): on the shelf, reference only
-On the shelf: The Riddle of the Sands, Tide Tables 2026
+House Style, Paul (2025): on the shelf, reference only
+On the shelf: The Riddle of the Sands, House Style
 ```
 
 `str | None` is the type hint for "a string, or `None`". `list[Book]` is a list of books.
 
-The checks lend books twice, try to borrow the tide tables, and add a second Emma in capitals.
+The checks lend books twice, try to borrow the house style, and add a second Emma in capitals.

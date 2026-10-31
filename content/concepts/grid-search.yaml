@@ -80,7 +80,7 @@ cards:
         misconception: pipeline-setting-plain-name
         feedback: "Inside a pipeline, each setting belongs to a step, so it's named step name, two underscores, setting: `kneighborsclassifier__n_neighbors`. The plain name is an invalid parameter."
   - type: choice
-    prompt: "Pip's grid search tried forty settings. The best had a `best_score_` of 0.93, so he tells Professor Wendt to expect 93 in a hundred on new nights. Should she?"
+    prompt: "Yahya's grid search tried forty settings. The best had a `best_score_` of 0.93, so he tells Riya to expect 93 in a hundred on new nights. Should she?"
     verify: none
     options:
       - text: "No. The winner was picked for scoring highest on those folds, so it's partly luck. Score it once on a test set"

@@ -17,11 +17,11 @@ def numbers(bikes):
     return [bike.number for bike in bikes]
 
 
-def gwens_tandem(ctx):
+def riyas_tandem(ctx):
     bikes = ctx.module()
     tandem = bikes.Bike(3, "tandem", 6.0)
-    tandem.hire("Gwen")
-    same("str of bike 3, out with Gwen", str(tandem), "Bike 3: tandem, out with Gwen")
+    tandem.hire("Riya")
+    same("str of bike 3, out with Riya", str(tandem), "Bike 3: tandem, out with Riya")
     charge = tandem.give_back(2)
     if charge != 12:
         raise CheckFailed("Two hours on a 6.00 tandem.", expected="12.0", actual=repr(charge))
@@ -49,9 +49,9 @@ def new_bike(ctx):
 def hired_twice(ctx):
     bikes = ctx.module()
     bike = bikes.Bike(4, "road", 4.0)
-    bike.hire("Mira")
-    raises_value_error("Hiring bike 4 while Mira has it", lambda: bike.hire("Pip"))
-    same("The rider after a refused hire", bike.rider, "Mira")
+    bike.hire("Neil")
+    raises_value_error("Hiring bike 4 while Neil has it", lambda: bike.hire("Yahya"))
+    same("The rider after a refused hire", bike.rider, "Neil")
 
 
 def not_out(ctx):
@@ -64,7 +64,7 @@ def charge(hours, rate, expected, message):
     def check(ctx):
         bikes = ctx.module()
         bike = bikes.Bike(8, "cargo", rate)
-        bike.hire("Bea")
+        bike.hire("Caitlin")
         got = bike.give_back(hours)
         if not isinstance(got, (int, float)) or abs(got - expected) > 1e-9:
             raise CheckFailed(message, expected=repr(expected), actual=repr(got))
@@ -74,11 +74,11 @@ def charge(hours, rate, expected, message):
 def hire_again(ctx):
     bikes = ctx.module()
     bike = bikes.Bike(1, "road", 4.0)
-    bike.hire("Agnes")
+    bike.hire("Aaesha")
     bike.give_back(1)
     same("The rider once it's back", bike.rider, None)
-    bike.hire("Tom")
-    same("str after a second hire", str(bike), "Bike 1: road, out with Tom")
+    bike.hire("Paul")
+    same("str after a second hire", str(bike), "Bike 1: road, out with Paul")
 
 
 def equality(ctx):
@@ -110,7 +110,7 @@ def available(ctx):
     pile = [bikes.Bike(9, "road", 4.0), bikes.Bike(2, "tandem", 6.0), bikes.Bike(5, "cargo", 5.0),
             bikes.Bike(1, "road", 4.0), bikes.Bike(7, "road", 4.0)]
     shed = bikes.Shed(pile)
-    pile[2].hire("Gwen")
+    pile[2].hire("Riya")
     got = shed.available()
     if not isinstance(got, list):
         raise CheckFailed("available() should give back a list.", actual=repr(got))
@@ -135,7 +135,7 @@ def empty_shed(ctx):
 
 
 TESTS = [
-    custom("Gwen's tandem", gwens_tandem, visible=True),
+    custom("Riya's tandem", riyas_tandem, visible=True),
     custom("A shed of three", shed_of_three, visible=True),
     custom("A new bike", new_bike),
     custom("Hired twice", hired_twice,
