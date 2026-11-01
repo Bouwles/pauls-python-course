@@ -8,7 +8,7 @@ portfolio_readme: |
 
   This is a teaching project on survey data. It is not a medical tool and says nothing about any real person's health.
 
-  Written by {name} for Riya, at Paul's Python Course. Finished {date}.
+  Written by {name} for Paul, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -55,7 +55,7 @@ datasets:
     licence: "CC0 1.0 (public domain)"
     file: "diabetes.csv"
     notes: "From the UCI copy (https://archive.ics.uci.edu/dataset/891/cdc+diabetes+health+indicators), the binary version built from the CDC's BRFSS 2015 survey, a US government work. Drew 2,000 respondents at random without replacement (NumPy default_rng(2015)), kept in their original order and numbered from 1. Kept and renamed: BMI as bmi, Age as age_band (1 is 18 to 24, up to 13 for 80 and over), HighBP as high_bp, HighChol as high_chol, GenHlth as general_health (1 excellent to 5 poor), PhysActivity as exercise (any in the last 30 days), Diabetes_binary as diabetes (1 for diabetes or prediabetes). 263 of the 2,000 are 1."
-client: riya
+client: paul
 building: observatory
 estimated_minutes: 150
 summary: "The chance of diabetes from six survey answers, by logistic regression from scratch on 2,000 real respondents. Then scored honestly, because only one in eight has it: a confusion matrix, precision and recall, an ROC curve, and a screening threshold."
@@ -63,10 +63,10 @@ concepts_introduced: [logistic-regression, cross-entropy, classification-metrics
 concepts_reviewed: [linear-regression, gradient-descent, multivariate-regression, feature-scaling, train-test-split, numerical-gradients, scikit-learn, numpy-arrays, vectorisation, broadcasting, matrices, boolean-operators, imports, functions, multiple-returns, default-arguments, main-guard, docstrings, zip, f-strings]
 ask:
   dialogue:
-    - riya: "Say a clinic can offer a free blood test, but not to everyone. Who do they ask first?"
-    - riya: "Two thousand answers from a big public health survey. Six questions each, and whether they had diabetes."
-    - riya: "My first model is eighty-seven per cent accurate. Wait. That's suspicious."
-    - paul: "It should be. Count what it misses."
+    - paul.neutral.wave: "Say a clinic can offer a free blood test, but not to everyone. Who do they ask first?"
+    - paul.neutral: "Two thousand answers from a big public health survey. Six questions each, and whether they had diabetes."
+    - yahya.proud: "My first model is eighty-seven per cent accurate. Took me a minute."
+    - paul.unimpressed: "Then spend another one counting what it misses."
   spec: |
     `diabetes.csv` holds 2,000 real respondents to the US CDC's 2015 health survey: body mass index, age band (1 to 13), high blood pressure, high cholesterol, general health (1 excellent to 5 poor) and exercise, each 1 or 0 where it's a yes or no, and whether they have diabetes or prediabetes. About one in eight does.
 
@@ -95,11 +95,11 @@ ask:
     Respondent: 27% chance. Flag for a test.
 ship:
   dialogue:
-    - riya: "At a half it found eight cases in seventy-five. At one in ten, fifty-eight. Same model, different question."
-    - riya: "A hundred and eighty-three invitations for five hundred people, and three in four of the real cases among them."
-    - riya: "And my say-no-to-everyone model ties with it at a half. On accuracy."
-    - paul: "That's what accuracy hides when the thing you're after is rare."
-  shelf: { object: storm-glass, label: "Riya's screening model, scored honestly" }
+    - paul.pleased: "At a half it found eight cases in seventy-five. At one in ten, fifty-eight. Same model, different question."
+    - paul.neutral.point: "A hundred and eighty-three invitations for five hundred people, and three in four of the real cases among them."
+    - yahya.unimpressed: "And my say-no-to-everyone model ties with it at a half. On accuracy."
+    - paul.proud.thumbs: "That's what accuracy hides when the thing you're after is rare. Now you can see it."
+  shelf: { object: storm-glass, label: "Paul's screening model, scored honestly" }
   cards: [logistic-regression, cross-entropy, classification-metrics, roc-auc]
 stretch:
   - id: draw-the-curve

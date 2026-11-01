@@ -2,7 +2,7 @@ id: automation-pack
 title: "Automation Pack"
 project_name: "Automation Pack"
 status: outline
-client: neil
+client: riya
 building: pier
 estimated_minutes: 120
-summary: "Neil's end-of-term paperwork, done by a program: an Excel report with openpyxl, merged PDFs, and hundreds of files renamed in one go. Take It Home."
+summary: "The paperwork behind Riya's prints, done by a program: her price list as an Excel sheet with openpyxl, her portfolio merged into one PDF, and four hundred sketchbook scans renamed in one go. Take It Home."

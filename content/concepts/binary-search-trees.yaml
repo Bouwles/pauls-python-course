@@ -53,7 +53,7 @@ cards:
       print(root.left.right.number, root.right.number)
     answer: "30 60"
   - type: choice
-    prompt: "Aaesha files 1,023 cards in number order, smallest first. How many looks does finding the biggest take?"
+    prompt: "Yahya files 1,023 cards in number order, smallest first. How many looks does finding the biggest take?"
     verify: none
     options:
       - text: "1,023: every card is on the right of the one before, so the tree is a stick"

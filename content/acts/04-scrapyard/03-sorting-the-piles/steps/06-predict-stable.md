@@ -1,35 +1,37 @@
 ---
 id: predict-stable
 type: predict
-title: Three parts at four kilos
+title: Three laps at four tenths
 concept: sort-stability
+dialogue:
+  - neil.thinking: "Same time to the tenth? In qualifying, whoever set it first goes ahead."
 code: |
-  parts = [("hubcap", 4), ("kettle", 2), ("spring", 4), ("gear", 1), ("anvil", 4)]
-  by_weight = sorted(parts, key=lambda part: part[1])
-  for name, weight in by_weight:
-      print(name, weight)
+  laps = [("Caitlin", 4), ("Neil", 2), ("Yahya", 4), ("Riya", 1), ("Aaesha", 4)]
+  fastest_first = sorted(laps, key=lambda lap: lap[1])
+  for driver, tenths in fastest_first:
+      print(driver, tenths)
 question: What does this print?
 options:
   - text: |-
-      gear 1
-      kettle 2
-      hubcap 4
-      spring 4
-      anvil 4
+      Riya 1
+      Neil 2
+      Caitlin 4
+      Yahya 4
+      Aaesha 4
     correct: true
-    feedback: "Right. The key is only the weight, so the three 4 kg parts tie, and they stay in the order they arrived: hubcap, spring, anvil."
+    feedback: "Right. The key is only the time, so the three laps at four tenths tie, and they stay in the order they were set: Caitlin, Yahya, Aaesha."
   - text: |-
-      gear 1
-      kettle 2
-      anvil 4
-      hubcap 4
-      spring 4
+      Riya 1
+      Neil 2
+      Aaesha 4
+      Caitlin 4
+      Yahya 4
     misconception: ties-sorted-by-rest
-    feedback: "The key is only the weight. Nothing looks at the names, so a tie isn't broken alphabetically. The three keep the order they came in."
-  - text: The three 4 kg parts could come out in any order
+    feedback: "The key is only the time. Nothing looks at the names, so a tie isn't broken alphabetically. The three keep the order they came in."
+  - text: The three laps at four tenths could come out in any order
     misconception: ties-come-out-any-order
     feedback: "Python's sort always keeps tied items in the order they started in. Same pile in, same order out, every time."
 after: |
-  Run it. A sort that keeps ties in their old order is called **stable**, and Python's is. Now sort `parts` by name first, then sort that by weight. Look at the 4 kg parts.
+  Run it. A sort that keeps ties in their old order is called **stable**, and Python's is. Now sort `laps` by name first, then sort that by time. Look at the laps at four tenths.
 ---
-Paul wants the parts shelved lightest first. Three of these weigh 4 kg. The question is what happens to those three.
+One qualifying session on Neil's sim rig, in the order the laps were set, each as tenths of a second off the track record. Neil wants them fastest first. Three of these laps are four tenths off. The question is what happens to those three.

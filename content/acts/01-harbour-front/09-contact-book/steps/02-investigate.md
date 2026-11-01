@@ -4,14 +4,14 @@ type: investigate
 title: A name that isn't there
 concept: dict-get
 code: |
-  book = {"Paul": "The Workshop", "Neil": "The Studio"}
+  book = {"Paul": "The Workshop", "Neil": "The Puzzle Room"}
   print(book["Neil"])
 tasks:
   - id: run-it
     prompt: "Run it. What does it print?"
     kind: answer
-    accept: ["The Studio"]
-    feedback: "The Studio. The key goes in the square brackets; the value comes out."
+    accept: ["The Puzzle Room"]
+    feedback: "The Puzzle Room. The key goes in the square brackets; the value comes out."
   - id: missing
     prompt: "Change the key to `\"Yahya\"` and run it. What kind of error is it?"
     kind: answer
@@ -37,7 +37,7 @@ tasks:
                  hint="book.get(key, something) gives something when the key is missing."),
       ]
     solution: |
-      book = {"Paul": "The Workshop", "Neil": "The Studio"}
+      book = {"Paul": "The Workshop", "Neil": "The Puzzle Room"}
       print(book.get("Yahya", "No address"))
 ---
-Aaesha's book will be asked for names that aren't in it yet. Find out what happens.
+Riya's book will be asked for names that aren't in it yet. Find out what happens.

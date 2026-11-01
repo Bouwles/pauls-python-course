@@ -80,7 +80,7 @@ cards:
     tests: |
       TESTS = [output("Nobody on the Hill in 1951", expect="0")]
   - type: fix
-    prompt: "Riya averaged the two parishes' averages to get the overall average age. Fix it so it prints the average age of all four people, `48.5`."
+    prompt: "Yahya averaged the two parishes' averages to get the overall average age. Fix it so it prints the average age of all four people, `48.5`."
     code: |
       import pandas as pd
 

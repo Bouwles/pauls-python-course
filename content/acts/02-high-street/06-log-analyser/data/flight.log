@@ -1,0 +1,15 @@
+00:00 | INFO | battery | full, taking off
+00:04 | INFO | gps | locked, 9 satellites
+00:10 | INFO | motors | climbing to 40 m
+
+01:05 | ERROR | camera | card full
+01:15 | ERROR | radio
+01:31 | warn | gps | signal weak
+01:48 | ERROR | camera | write failed | tried twice
+02:03 | WARNING | motors | running warm
+ 02:10 |  ERROR  | gps | signal lost
+02:22 | INFO | radio | link good, 1.2 km
+--- radio dropout ---
+03:40 | ERROR | motors | temperature 950.0 C
+04:02 | info | camera | recording again
+04:15 | ERROR | gps | signal lost again

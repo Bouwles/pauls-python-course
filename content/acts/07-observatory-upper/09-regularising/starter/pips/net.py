@@ -8,7 +8,7 @@ READINGS = ["wind", "jet", "humidity", "cooling", "moon", "pressure"]
 
 
 def load_nights(path="seeing.csv", learn=24):
-    """Aaesha's nights: the first `learn` to learn from, the rest to check on."""
+    """Neil's nights: the first `learn` to learn from, the rest to check on."""
     with open(path) as nights_file:
         rows = list(csv.DictReader(nights_file))
     X = np.array([[float(row[name]) for name in READINGS] for row in rows])

@@ -4,7 +4,7 @@ type: make
 title: Make Saturday's orders
 files: [orders.py]
 entry: orders.py
-on_pass: { neil: "Six buns for Paul this week, four in the standing book. Both right." }
+on_pass: { caitlin.laughing: "Six buns for Paul this week, four in the standing book. Both right." }
 hints:
   nudge: "If you copy only the outer dictionary, whose inner dictionaries are the extras added to?"
   plan:
@@ -26,8 +26,8 @@ The bake sale's standing orders live in `STANDING`, one dictionary per customer.
 
 ```
 Paul {'bread': 3, 'buns': 6}
-The Studio {'bread': 6, 'lardy cake': 2}
-Yahya {'lardy cake': 1}
+The Studio {'bread': 6, 'brownies': 2}
+Yahya {'brownies': 1}
 Standing: {'Paul': {'bread': 3, 'buns': 4}, ...}
 ```
 

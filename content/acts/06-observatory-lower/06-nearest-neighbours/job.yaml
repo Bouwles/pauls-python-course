@@ -4,7 +4,7 @@ project_name: "Iris and Penguins Classifier"
 portfolio_readme: |
   # Iris and Penguins Classifier
 
-  Names the species of a penguin or an iris from its measurements, with k nearest neighbours written from scratch in NumPy. It finds the animals or flowers most like the new one and lets them vote. The number of neighbours, k, is chosen honestly: a fifth of the data locked away for testing, a validation pile to choose k on, and the test pile opened once. The same code runs on both datasets.
+  Names the species of a penguin or an iris from its measurements, with k nearest neighbours written from scratch in NumPy. It finds the animals or flowers most like the new one and lets them vote: the way exemplar theory in psychology says people name things, by the remembered examples most like them. The number of neighbours, k, is chosen honestly: a fifth of the data locked away for testing, a validation pile to choose k on, and the test pile opened once. The same code runs on both datasets.
 
   Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
 
@@ -58,16 +58,16 @@ datasets:
 client: aaesha
 building: observatory
 estimated_minutes: 75
-summary: "Name a penguin's species from its measurements, and an iris's with the same code: k nearest neighbours from scratch, with k chosen on validation and tested once."
+summary: "Name a penguin's species from its measurements, and an iris's with the same code, the way people are thought to name things: by the remembered examples most like it. k nearest neighbours from scratch, with k chosen on validation and tested once."
 concepts_introduced: [knn]
 concepts_reviewed: [feature-scaling, train-test-split, overfitting, classification-metrics, numpy-arrays, vectorisation, broadcasting, vectors, imports, csv-module, functions, default-arguments, multiple-returns, main-guard, docstrings, f-strings]
 ask:
   dialogue:
-    - aaesha: "Two datasets everyone who does this has met. Three kinds of penguin, and Fisher's irises."
-    - aaesha: "The method is the oldest trick there is: find the cases most like the new one, and ask them."
-    - riya: "Done it. One nearest penguin. Ninety-seven per cent on the penguins it learnt from. Wait."
-    - aaesha: "Every penguin it learnt from is its own nearest penguin."
-    - riya: "That's why it felt suspicious."
+    - aaesha.neutral.wave: "How do you name a bird you've never seen? One theory: you remember the ones most like it, and ask them."
+    - aaesha.thinking.point: "In code, that's k nearest neighbours. We'll try it on three kinds of penguin, and Fisher's irises."
+    - riya.pleased: "Done it. One nearest penguin. Ninety-seven per cent on the penguins it learnt from."
+    - aaesha.unimpressed: "Every penguin it learnt from is its own nearest penguin."
+    - riya.worried: "So it was remembering, not naming. That's why it felt suspicious."
   spec: |
     `penguins.csv` holds 342 real penguins of three species from Palmer Station in Antarctica, Adelie, Chinstrap and Gentoo, with bill length and depth, flipper length and body mass. `iris.csv` holds Fisher's 150 irises of three species, with four measurements each.
 
@@ -95,10 +95,10 @@ ask:
     New: Gentoo, like 8 of the 9 nearest
 ship:
   dialogue:
-    - aaesha: "Gentoo, like eight of the nine nearest. One neighbour is a rumour. Nine is a fair sample."
-    - aaesha: "And the irises, with not a line changed. Nine in ten of the ones it never saw."
-    - riya: "Mine was right about nearly every penguin it had already seen. That isn't naming. That's remembering."
-    - paul: "Now you've said it out loud, you'll remember that too."
+    - aaesha.pleased: "Gentoo, like eight of the nine nearest. One memory is a rumour. Nine is a fair sample."
+    - aaesha.proud.point: "And the irises, with not a line changed. Nine in ten of the ones it never saw."
+    - riya.laughing: "Mine was right about nearly every penguin it had already seen. That isn't naming. That's remembering."
+    - paul.pleased.thumbs: "Now you've said it out loud, you'll remember that too."
   shelf: { object: pin-map, label: "Aaesha's penguin and iris classifier" }
   cards: [knn]
 stretch:

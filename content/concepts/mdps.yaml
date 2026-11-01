@@ -14,7 +14,7 @@ misconceptions: [policy-is-a-route, transitions-deterministic, outcomes-equally-
 related: [returns-discounting, bandits]
 cards:
   - type: predict
-    prompt: "What, on average, is the first step of Caitlin's racing game worth if the car goes full speed?"
+    prompt: "What, on average, is the first step of Neil's racing game worth if the car goes full speed?"
     code: |
       OUTCOMES = {("start", "full speed"): [(0.9, "lap one", -1), (0.1, "crash", -20)]}
       average = sum(chance * reward for chance, _, reward in OUTCOMES[("start", "full speed")])

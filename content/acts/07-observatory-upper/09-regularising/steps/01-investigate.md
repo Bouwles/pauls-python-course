@@ -4,8 +4,8 @@ type: investigate
 title: Perfect, on paper
 concept: overfitting
 dialogue:
-  - riya: "Sixty-four neurons, three thousand epochs. Look at that training loss."
-  - aaesha: "I'm looking at the other line."
+  - riya.proud.point: "Sixty-four neurons, three thousand epochs. Look at that training loss."
+  - aaesha.unimpressed: "I'm looking at the other line."
 code: |
   import matplotlib.pyplot as plt
 
@@ -38,7 +38,7 @@ tasks:
     prompt: "Run it. What is the training loss at the end?"
     kind: answer
     accept: ["0.0000", "0", "0.0", "0.00", "0.000"]
-    feedback: "Zero, to four places. It fits Aaesha's 24 nights exactly, noise and all."
+    feedback: "Zero, to four places. It fits Neil's 24 nights exactly, noise and all."
     wrong: "Read the first line of the output."
   - id: best-epoch
     prompt: "Add `print(val_losses.index(min(val_losses)))` and run it again. At which epoch was the validation loss lowest?"
@@ -49,7 +49,7 @@ tasks:
 ---
 Riya's network is the seeing network from `net.py`. Six readings go in: the wind, the jet stream overhead, humidity, how fast the air cooled, the moon and the pressure. Out comes the seeing: how much the stars shimmer, in arcseconds. Smaller is steadier.
 
-Aaesha rated 60 nights. The first 24 are for learning; the other 36 only check.
+Neil rated 60 nights. The first 24 are for learning; the other 36 only check.
 
 The chart is a validation curve, like the one for the exam scores downstairs, but drawn against epochs rather than degrees. The training loss falls for ever. The validation loss falls, bottoms out, and climbs.
 

@@ -8,7 +8,7 @@ heavy: true
 setup: |
   Flask runs a small web server on your own computer. In the project folder, `flask --app app run` starts it; open http://127.0.0.1:5000 in a browser, and stop it with Ctrl+C. pytest doesn't need the server running: the tests use Flask's test client.
 dialogue:
-  - riya: "The routes are agreed. The tests are the agreement. Nobody edits the agreement."
+  - aaesha.neutral.point: "The routes are agreed. The tests are the agreement. Nobody edits the agreement."
 ---
 The project is a Flask skeleton: `app.py` with two routes working, `berths.py`, one page in `templates/`, and the agreed tests in `tests/`. Three of the 25 agreed tests pass already.
 

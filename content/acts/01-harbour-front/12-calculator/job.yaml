@@ -4,9 +4,9 @@ project_name: "Four-Function Calculator"
 portfolio_readme: |
   # Four-Function Calculator
 
-  A calculator for the command line. Type a sum the way you'd write it, like `12.5 * 4`, and it prints the answer. It adds, takes away, multiplies and divides, and a sum it can't do gets a plain explanation instead of a crash. It keeps going until you type `quit`.
+  A calculator for the command line, for checking the numbers in charts and reports. Type a sum the way you'd write it, like `12.5 * 4`, and it prints the answer. It adds, takes away, multiplies and divides, and a sum it can't do gets a plain explanation instead of a crash. It keeps going until you type `quit`.
 
-  Written by {name} for Riya, at Paul's Python Course. Finished {date}.
+  Written by {name} for Yahya, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -33,7 +33,7 @@ portfolio_readme: |
   - A loop that keeps going until it's told to stop.
 downloadable: true
 datasets: []
-client: riya
+client: yahya
 building: ferry-dock
 estimated_minutes: 60
 summary: "Type a sum as text, get the answer, and survive bad input with try and except, until quit."
@@ -41,10 +41,10 @@ concepts_introduced: [exceptions, try-except]
 concepts_reviewed: [reading-tracebacks, value-error, float-conversion, split-join, functions, parameters, return-values, none, while-loops, break-continue, if-elif-else, f-strings]
 ask:
   dialogue:
-    - riya: "I do a lot of sums. The class fund, the trip, the dinner. Always in a hurry."
-    - riya: "I want a calculator that takes a sum the way I'd write it. 12.5 times 4, typed out."
-    - riya: "And if someone types it wrong, it says so and keeps going. No crashing."
-    - paul: "It'll need to take a bad sum without falling over. That's new."
+    - yahya.neutral.wave: "Every chart I see has a number on it. I check them. Quick sums, all day."
+    - yahya.unimpressed: "And numbers get typed by people. People type twelve, or 12*4, or divide by nothing."
+    - yahya.neutral.point: "I want a calculator that takes a sum the way I'd write it, and says so when it's wrong. No crashing."
+    - paul.thinking: "It'll need to take a bad sum without falling over. That's new."
   spec: |
     Ask `Sum? ` over and over. `quit` prints `Done for today.` and stops. Spaces at the ends don't matter.
 
@@ -73,18 +73,18 @@ ask:
     Done for today.
 ship:
   dialogue:
-    - riya: "Twelve and a half at four. Fifty. Then I typed rubbish at it for ten minutes."
-    - riya: "It never once fell over. I'm using it for the trip fund."
-  shelf: { object: abacus, label: "Riya's calculator" }
+    - yahya.pleased: "Twelve and a half at four. Fifty. Then I typed rubbish at it for ten minutes."
+    - yahya.proud.thumbs: "Forty bad sums, and it never once fell over. It stays open next to my data."
+  shelf: { object: abacus, label: "Yahya's calculator" }
   cards: [exceptions, try-except]
 stretch:
   - id: times-x
-    title: "Riya's x"
+    title: "Times as x"
     prompt: |
-      Riya writes multiply as `x`, the way most people do on paper. Make `calculate` accept `x` as well as `*`, so `6 x 7` gives `= 42.00`.
+      Half the class writes multiply as `x`, the way most people do on paper. Make `calculate` accept `x` as well as `*`, so `6 x 7` gives `= 42.00`.
     tests: tests/stretch-times-x.py
     solution: solutions/stretch-times-x.py
   - id: carry
     title: "Carry the answer"
     prompt: |
-      Riya's sums come in chains. Let `ans` stand for the last answer, on either side of a sum: `ans * 2` doubles it. Before there's been an answer, `ans` is 0. Swap `ans` for the number before you try `float()`.
+      Yahya's sums come in chains: a total, then a share of it. Let `ans` stand for the last answer, on either side of a sum: `ans * 2` doubles it. Before there's been an answer, `ans` is 0. Swap `ans` for the number before you try `float()`.

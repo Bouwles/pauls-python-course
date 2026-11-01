@@ -6,7 +6,7 @@ portfolio_readme: |
 
   Answers questions about a census with pandas: everyone in one year, how many lived in a parish, who followed a trade and how old they were, the oldest person, and the size of every parish, largest first. Each question is a function of a line or two that takes the whole census as a DataFrame and leaves it as it was.
 
-  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
+  Written by {name} for Yahya, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -37,18 +37,18 @@ downloadable: true
 # census.csv is invented for the story: one in three households in the streets round the
 # Clocktower, from four censuses. No real census fits streets that aren't on a map.
 datasets: []
-client: aaesha
+client: yahya
 building: records-office
 estimated_minutes: 70
-summary: "A census explorer for the Archive: ninety years of census returns for the streets round the Clocktower in one pandas table, and the usual questions answered in a line each."
+summary: "A census explorer for Yahya's Archive: ninety years of census returns for the streets round the Clocktower in one pandas table, and the usual questions answered in a line each."
 concepts_introduced: [pandas-basics, selecting-filtering]
 concepts_reviewed: [numpy-arrays, vectorisation, csv-module, functions, return-values, comparisons, boolean-operators, main-guard, docstrings, sorted-vs-sort]
 ask:
   dialogue:
-    - aaesha: "One drawer in the Archive is census returns for the streets round here, 1921 to 2011."
-    - aaesha: "Someone typed up one household in three, and anyone they found interesting."
-    - aaesha: "I keep asking it the same things. How many on the Hill. Who fished."
-    - paul: "A table with names on its columns. That's what pandas is for."
+    - yahya.pleased.wave: "One drawer in the Archive is census returns for the streets round here, 1921 to 2011."
+    - yahya.unimpressed: "Someone typed up one household in three, and anyone they found interesting."
+    - yahya.thinking: "I keep asking it the same things. How many on the Hill. Who fished. I want each answer in a line."
+    - paul.neutral.point: "A table with names on its columns. That's what pandas is for."
   spec: |
     `census.csv` has one row per person: `year`, `parish`, `household`, `name`, `relation`, `age` and `occupation`. The years are 1921, 1951, 1981 and 2011.
 
@@ -69,11 +69,11 @@ ask:
     Oldest of all: Walter Rook
 ship:
   dialogue:
-    - aaesha: "Thirty-five in Bankside in 1951. Eighteen in 2011. A street that halved, in one line."
-    - aaesha: "Oldest in 2011: Albert Moyle, aged 121. That's either a record or a typo."
-    - paul: "Hold that thought. The next project is about exactly that."
-    - aaesha: "And a Rowe, baker, in every census since 1921. Same street, same trade."
-  shelf: { object: census-ledger, label: "The Archive's census, in one table" }
+    - yahya.surprised: "Thirty-five in Bankside in 1951. Eighteen in 2011. A street that halved, in one line."
+    - yahya.unimpressed: "Oldest in 2011: Albert Moyle, aged 121. That's either a record or a typo."
+    - paul.laughing: "Hold that thought. The next project is about exactly that."
+    - yahya.pleased.point: "And a Rowe, baker, in every census since 1921. Same street, same trade. That's a story."
+  shelf: { object: census-ledger, label: "Yahya's census, in one table" }
   cards: [pandas-basics, selecting-filtering]
 stretch:
   - id: share-under

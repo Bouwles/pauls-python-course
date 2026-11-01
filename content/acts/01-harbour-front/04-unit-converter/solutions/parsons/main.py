@@ -1,9 +1,9 @@
-weather = input("Weather? ")
-temp = int(input("Temperature? "))
-if weather == "dry":
-    if temp < 30:
-        print("Run outside")
+track = input("Track? ")
+temp = int(input("Track temperature? "))
+if track == "dry":
+    if temp < 40:
+        print("Soft tyres")
     else:
-        print("Treadmill. Too hot.")
+        print("Hard tyres. Too hot for softs.")
 else:
-    print("Treadmill. Wait for the rain to stop.")
+    print("Wet tyres. Whatever the temperature.")

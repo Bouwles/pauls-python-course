@@ -4,7 +4,7 @@ type: predict
 title: Too sure to count
 concept: classification-networks
 dialogue:
-  - neil: "Ten scores, one per digit, from the last layer. Some of them will be large. I'd like chances."
+  - neil.thinking: "Ten scores, one per digit, from the last layer. Some of them will be large. I'd like chances."
 code: |
   import numpy as np
 

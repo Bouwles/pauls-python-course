@@ -25,8 +25,9 @@ const VISITOR_LINKS = [
 ] as const;
 
 /**
- * The header for every page that isn't the Workbench (REDESIGN-2.md 6): the wordmark, the
- * nav, and on the right the save status and your avatar, or "Log in" and "Start free".
+ * The header for every page that isn't the Workbench (REDESIGN-2.md 6, REDESIGN3_PLAN.md P2): a
+ * pixel bar with the wordmark, the nav in the pixel face, and on the right the save status and
+ * your avatar, or "Log in" and "Start free".
  */
 export function SiteHeader() {
   const { user, syncStatus, profile } = useSession();
@@ -36,8 +37,8 @@ export function SiteHeader() {
   return (
     <header className={styles.header} data-guest={user ? undefined : true}>
       <Link href={user ? "/map" : "/"} className={styles.home}>
-        <Wordmark size={28} className={styles.full} />
-        <Wordmark size={28} short className={styles.short} />
+        <Wordmark size={32} className={styles.full} />
+        <Wordmark size={32} short className={styles.short} />
       </Link>
       <nav aria-label="Main" className={styles.nav}>
         {links.map(([href, label]) => (
@@ -53,7 +54,7 @@ export function SiteHeader() {
             {/* Named for where it goes; the initials inside are a picture, kept out of the name (WCAG 2.5.3). */}
             <Link href="/settings" className={styles.avatar} aria-label={profile.displayName ? `Settings, signed in as ${profile.displayName}` : "Settings"} title="Settings" aria-current={here("/settings")}>
               <span aria-hidden="true" className={styles.avatarArt}>
-                <Avatar name={profile.displayName} colour={readAvatar(profile.character).colour} size={32} />
+                <Avatar name={profile.displayName} colour={readAvatar(profile.character).colour} look={profile.character} size={36} />
               </span>
             </Link>
           </>

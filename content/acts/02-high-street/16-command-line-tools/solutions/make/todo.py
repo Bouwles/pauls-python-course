@@ -1,4 +1,4 @@
-# The Workshop to-do list, for anyone with a terminal. Kept in todo.json.
+# Paul's to-do list for the course code, for anyone with a terminal. Kept in todo.json.
 import argparse
 import json
 import sys
@@ -31,7 +31,7 @@ def find(tasks, number):
 
 def main():
     # Describe the tool
-    parser = argparse.ArgumentParser(description="The Workshop to-do list.")
+    parser = argparse.ArgumentParser(description="Paul's to-do list.")
     # Say what it takes, with types and defaults
     parser.add_argument("--file", default="todo.json", help="where the list is kept (default todo.json)")
     commands = parser.add_subparsers(dest="command", required=True)

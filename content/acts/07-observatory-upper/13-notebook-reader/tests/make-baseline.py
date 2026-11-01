@@ -59,15 +59,15 @@ def held_back(ctx):
     X, y = m.windows(learn, vocab, 4)
     Xh, yh = m.windows(held, vocab, 4)
     got = m.perplexity(m.bigram_chances(m.bigram_probs(X, y, len(vocab)), Xh, yh))
-    if got is None or abs(float(got) - 10.711) > 0.01:
-        raise CheckFailed("The bigram's perplexity on the held-back notes.", expected=10.71, actual=None if got is None else shown(got))
+    if got is None or abs(float(got) - 10.735) > 0.01:
+        raise CheckFailed("The bigram's perplexity on the held-back notes.", expected=10.73, actual=None if got is None else shown(got))
 
 
 def program(ctx):
     r = ctx.run_program()
     if r.error is not None:
         raise CheckFailed(f"The program crashed: {type(r.error).__name__}: {r.error}")
-    for want in ("55", "10.71"):
+    for want in ("55", "10.73"):
         if want not in r.output:
             raise CheckFailed(f"The program should report {want}.", expected=want, actual=r.output)
 

@@ -3,8 +3,8 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "Stop when it stops getting better. Then go back to when it was best."
-  - paul: "Riya's radiator, from downstairs. Twelve readings to learn from."
+  - paul.neutral.point: "Stop when it stops getting better. Then go back to when it was best."
+  - paul.neutral: "Yahya's radiator, from downstairs. Twelve readings to learn from."
 code: |
   import numpy as np
 

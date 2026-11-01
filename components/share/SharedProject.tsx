@@ -1,13 +1,15 @@
 "use client";
 
 // A learner's shipped project, runnable in the page (REDESIGN.md 9.2). Read only: it's theirs.
+// The classmate it was made for stands at the top, cheering it; the learner's pixel avatar signs it.
 import { useState } from "react";
 import Link from "next/link";
 import { BRAND } from "@/lib/brand";
-import { readAvatar } from "@/lib/avatar";
 import type { Files } from "@/lib/python/protocol";
+import { CAST_IDS, castColour } from "@/lib/cast";
+import { avatarBackground } from "@/lib/pixel/looks";
+import { PixelPerson } from "../art/PixelPerson";
 import { ShelfObject } from "../art/ShelfObject";
-import { Avatar } from "../ui/Avatar";
 import { Button, LinkButton } from "../ui/Button";
 import { Editor } from "../workbench/Editor";
 import { Console } from "../workbench/Console";
@@ -37,11 +39,19 @@ export function SharedProjectView(props: {
   return (
     <article className={styles.page}>
       <header className={styles.head}>
-        <ShelfObject jobId={props.jobId} title={props.projectName} client={props.clientId} size={64} />
+        {(CAST_IDS as readonly string[]).includes(props.clientId) ? (
+          <span className={`px-panel ${styles.client}`} style={{ background: castColour(props.clientId).face }}>
+            <PixelPerson who={props.clientId} crop="bust" scale={2} expression="pleased" pose="cheer" label={`${props.client}, cheering`} />
+          </span>
+        ) : (
+          <ShelfObject jobId={props.jobId} title={props.projectName} client={props.clientId} size={64} />
+        )}
         <div className={styles.titles}>
           <h1 className={styles.title}>{props.projectName}</h1>
           <p className={styles.by}>
-            <Avatar name={props.name} colour={readAvatar(props.character).colour} size={28} />
+            <span className={styles.maker} style={{ background: avatarBackground(props.character) }} aria-hidden="true">
+              <PixelPerson avatar={props.character} crop="head" scale={1} />
+            </span>
             <span>
               By <Link href={`/u/${props.slug}`}>{props.name}</Link>, for {props.client}.
             </span>
@@ -53,7 +63,7 @@ export function SharedProjectView(props: {
         </div>
       </header>
 
-      <section className={styles.code} aria-label="The code">
+      <section className={`px-panel ${styles.code}`} aria-label="The code">
         <div className={styles.bar}>
           {names.length > 1 ? (
             <div className={styles.tabs} role="tablist" aria-label="Files">

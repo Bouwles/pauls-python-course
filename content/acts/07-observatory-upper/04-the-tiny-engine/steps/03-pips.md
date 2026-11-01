@@ -3,11 +3,11 @@ id: pips
 type: pips
 title: Fix Yahya's version
 dialogue:
-  - yahya: "Can you look at mine? Neil's engine, but faster. I took the visited set out. Nobody visits a value twice anyway."
-  - yahya: "The engine says -3. Measuring says -2. Measuring must be broken. Aaesha's was, last time."
+  - yahya.proud: "Can you look at mine? Neil's engine, but faster. I took the visited set out. Nobody visits a value twice anyway."
+  - yahya.confused: "The engine says -3. Measuring says -2. Measuring must be broken. Aaesha's was, last time."
 dialogue_after:
-  - yahya: "So `=` throws the first share away. And a value does get visited twice, if two things are made from it."
-  - yahya: "I've put the set back. It isn't even slower."
+  - yahya.surprised: "So `=` throws the first share away. And a value does get visited twice, if two things are made from it."
+  - yahya.pleased: "I've put the set back. It isn't even slower."
 hints:
   nudge: "In `a * b + a`, `a` gets blame from two places. What happens to the first share when the second arrives with `=`?"
   plan:

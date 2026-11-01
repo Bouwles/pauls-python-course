@@ -3,7 +3,7 @@ id: plan
 type: reading
 title: Mark it out first
 dialogue:
-  - paul: "Before you build, mark it out. Four pieces, each with one job."
+  - paul.neutral.point: "Before you build, mark it out. Four pieces, each with one job."
 ---
 A program this size doesn't go in one file. Split it by what each part is for, so you can change one without breaking the others.
 

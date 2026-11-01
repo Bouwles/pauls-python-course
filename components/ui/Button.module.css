@@ -1,37 +1,46 @@
-/* Buttons (REDESIGN-2.md 3): 6 px corners, a 1 px press with a darker fill, a sun focus ring. */
+/*
+  Pixel buttons (REDESIGN3_PLAN.md P2): square, a stepped two-pixel outline (four box-shadows,
+  so the corners step), a light top edge and a darker bottom edge, and a real press: the button
+  drops two pixels and its bottom edge goes. The label is in the pixel face.
+*/
 .button {
   --face: var(--surface-3);
   --face-hover: var(--line);
-  --face-press: var(--line);
   --label: var(--text);
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--s-2);
   border: 0;
-  border-radius: var(--r-md);
+  border-radius: 0;
   background: var(--face);
   color: var(--label);
-  font-family: var(--font-text);
-  font-size: var(--fs-2);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  font-weight: 400;
   line-height: 1;
   white-space: nowrap;
   text-decoration: none;
-  transition:
-    background-color var(--dur) var(--ease-out),
-    transform var(--dur) var(--ease-out);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-hi),
+    inset 0 -4px 0 0 var(--px-lo);
+  transition: background-color var(--dur) steps(2);
 }
 
 .md {
   height: 40px;
-  padding: 0 var(--s-4);
+  padding: 0 var(--s-4) 2px;
 }
 
 .sm {
   height: 32px;
-  padding: 0 var(--s-3);
-  font-size: var(--fs-1);
+  padding: 0 var(--s-3) 2px;
+  font-size: var(--px-1);
 }
 
 @media (max-width: 720px), (pointer: coarse) {
@@ -57,52 +66,71 @@
 }
 
 .button:active:not(:disabled) {
-  transform: translateY(1px);
-  background: var(--face-press);
+  transform: translateY(2px);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-lo);
 }
 
 .button:focus-visible {
   outline: 2px solid var(--sun);
-  outline-offset: 2px;
+  outline-offset: 4px;
 }
 
 .primary {
   --face: var(--sun);
   --face-hover: var(--sun-hover);
-  --face-press: var(--sun-press);
   --label: var(--sun-ink);
 }
 
 .secondary {
   --face: var(--surface-3);
   --face-hover: var(--line);
-  --face-press: var(--line);
   --label: var(--text);
 }
 
+/* Ghost: no face until it's pointed at, so it sits quietly beside the others. */
 .ghost {
   --face: transparent;
   --face-hover: var(--surface-3);
-  --face-press: var(--line);
   --label: var(--text-2);
+  box-shadow: none;
+}
+
+.ghost:hover:not(:disabled) {
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
 }
 
 .run {
   --face: var(--pass);
   --face-hover: color-mix(in srgb, var(--pass) 88%, var(--text));
-  --face-press: color-mix(in srgb, var(--pass) 85%, var(--pass-ink));
   --label: var(--pass-ink);
 }
 
 .danger {
   --face: var(--fail);
   --face-hover: color-mix(in srgb, var(--fail) 88%, var(--text));
-  --face-press: color-mix(in srgb, var(--fail) 85%, var(--fail-ink));
   --label: var(--fail-ink);
 }
 
+/* Disabled: flat and grey whatever the kind, so a sun button doesn't turn a muddy half-sun; the
+   outline stays so it still reads as a button. */
 .button:disabled {
-  opacity: 0.4;
+  --face: var(--surface-2);
+  --label: var(--text-3);
+  cursor: not-allowed;
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
 }
 
 /* Locked: a secondary button with a padlock; it explains itself in a tooltip and doesn't press. */

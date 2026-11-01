@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the guessing game
-on_pass: { caitlin: "Got it in three. That's the score to beat. It needs a leaderboard next." }
+on_pass: { caitlin.pleased.cheer: "Got it in three. That's the score to beat. It needs a leaderboard next." }
 hints:
   nudge: "The game can end two ways, a win or a `q`. Where does each one `break`? And which guesses shouldn't be counted?"
   plan:

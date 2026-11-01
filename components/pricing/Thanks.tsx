@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { LinkButton } from "../ui/Button";
+import { Speech } from "../art/Speech";
 import styles from "./Pricing.module.css";
 
 /** After checkout: waits for the provider's webhook to land, then says what's open. */
@@ -27,6 +28,7 @@ export function Thanks() {
     <section className={styles.checkout} aria-live="polite">
       <h1 className={styles.checkoutTitle}>{pro ? "Every floor is open" : "Thank you"}</h1>
       {pro === null ? <p>Waiting for the payment to come through. This takes a few seconds.</p> : null}
+      {pro ? <Speech who="paul" name="Paul" text="That's every floor open. Take the stairs whenever you're ready." face="laughing" gesture="cheer" size={112} /> : null}
       {pro ? <p>Pro is on. Every floor of the Clocktower is open, and every project in it.</p> : null}
       {pro === false ? <p>The payment hasn&apos;t come through yet. It can take a minute. Check Settings shortly; if it still says Free, write to us and we&apos;ll sort it out.</p> : null}
       <div className={styles.row}>

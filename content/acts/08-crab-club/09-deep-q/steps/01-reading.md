@@ -3,8 +3,8 @@ id: rule-not-table
 type: reading
 title: A rule instead of a table
 dialogue:
-  - paul: "A table has a box for every tile. Fine for twelve tiles. Not for a million."
-  - paul: "A network has one rule for all of them. It needs watching."
+  - paul.neutral: "A table has a box for every tile. Fine for twelve tiles. Not for a million."
+  - paul.thinking: "A network has one rule for all of them. It needs watching."
 ---
 Q-learning keeps a table: one number for every tile and every move. **Deep Q** (DQN) keeps a network instead. In goes a tile, described by its **features**; out come four Q-values, one for each move.
 

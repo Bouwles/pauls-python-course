@@ -6,7 +6,7 @@ files: [loans.py, tools.py]
 entry: loans.py
 starter_from: make-tree
 timeout_ms: 60000
-on_pass: { riya: "By accuracy they're all the same. By the bank's sums, a sure forest costs a third of approving everyone." }
+on_pass: { paul.proud: "By accuracy they're all the same. By the bank's sums, a sure forest costs a third of approving everyone." }
 hints:
   nudge: "Which generator does each tree draw its rows from, and how many generators are there? And which question gets its own draw of columns?"
   plan:

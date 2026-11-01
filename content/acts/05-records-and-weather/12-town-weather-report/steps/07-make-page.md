@@ -7,9 +7,9 @@ entry: report.py
 starter_from: make-report
 timeout_ms: 40000
 dialogue:
-  - aaesha: "Riya wants it on her phone. And I want a copy I can file."
-  - paul: "One page, the pictures inside it. Then it can go anywhere a page can."
-on_pass: { aaesha: "One file, and the charts come with it. I've printed it twice. Once to file, once for the wall." }
+  - yahya.thinking: "Riya wants it on her phone. And I want a copy I can file."
+  - paul.neutral.point: "One page, the pictures inside it. Then it can go anywhere a page can."
+on_pass: { yahya.proud.cheer: "One file, and the charts come with it. I've printed it twice. Once to file, once for the wall." }
 hints:
   nudge: "The page has to say exactly what the report prints. Where can both come from, so they can never disagree?"
   plan:

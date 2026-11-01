@@ -75,7 +75,7 @@ cards:
     tests: |
       TESTS = [output("Walter and Mary", expect="['Walter Lee', 'Mary Lee']")]
   - type: fix
-    prompt: "Aaesha's filter finds nobody in 1951. There were two people. Fix it so it prints `2`."
+    prompt: "Yahya's filter finds nobody in 1951. There were two people. Fix it so it prints `2`."
     code: |
       import pandas as pd
 

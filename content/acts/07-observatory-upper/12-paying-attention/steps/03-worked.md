@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "One character asking, three answering. By hand, with loops, before anything clever."
+  - paul.neutral.point: "One character asking, three answering. By hand, with loops, before anything clever."
 code: |
   import numpy as np
 

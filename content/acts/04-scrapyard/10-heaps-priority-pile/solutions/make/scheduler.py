@@ -1,4 +1,4 @@
-"""Task scheduler for the Makerspace's repairs: a heap built by hand, the most urgent on top."""
+"""Task scheduler for Neil's pit jobs on race day: a heap built by hand, the most urgent on top."""
 
 DAY_FILE = "day.txt"
 
@@ -44,19 +44,19 @@ def pop(heap):
 
 
 class TaskScheduler:
-    """Repairs waiting at the bench: lowest priority number first, then first come."""
+    """Pit jobs waiting for the crew: lowest priority number first, then first come."""
 
     def __init__(self):
         self.waiting = []
         self.arrived = 0
 
-    def add(self, repair, priority):
-        push(self.waiting, (priority, self.arrived, repair))
+    def add(self, job, priority):
+        push(self.waiting, (priority, self.arrived, job))
         self.arrived = self.arrived + 1
 
     def take(self):
-        priority, arrival, repair = pop(self.waiting)
-        return repair
+        priority, arrival, job = pop(self.waiting)
+        return job
 
     def __len__(self):
         return len(self.waiting)
@@ -72,5 +72,5 @@ if __name__ == "__main__":
             if words[0] == "add":
                 scheduler.add(words[2], int(words[1]))
             elif words[0] == "take":
-                print(f"Mending {scheduler.take()}")
+                print(f"Fixing {scheduler.take()}")
     print(f"Still waiting: {len(scheduler)}")

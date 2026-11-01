@@ -4,12 +4,13 @@ title: "The Makerspace"
 district: pier
 subject: "Real-World Python"
 hours: 40
-summary: "Programs that talk to the world, from the Makerspace on the second floor: a weather app on a real API, a scraper, automation, games for Caitlin's arcade cabinet, and a web app you put online."
-locked_line: "The Makerspace opens once the Studio's projects are shipped. Caitlin's soldering iron is already warm."
+summary: "Programs that talk to the world, from Riya's Makerspace on the second floor: a forecast for painting outdoors, a palette scraper, the paperwork behind her prints, games for the arcade cabinet in her pixel art, and a gallery and print shop you put online."
+locked_line: "The Makerspace opens once the Studio's projects are shipped. Riya's prints are already pinned to every wall."
 intro:
-  - paul: "Second floor: the Makerspace. Caitlin's room. Mind the cables."
-  - paul: "These programs talk to the outside world. Some run here. Some you take home and run properly."
-  - caitlin: "There's an arcade cabinet in the corner with nothing on it yet. That's where you come in."
+  - paul.neutral.point: "Second floor: the Makerspace. Riya's room. Mind the easels."
+  - paul.neutral: "These programs talk to the outside world. Some run here. Some you take home and run properly."
+  - riya.pleased.wave: "Everything up here ends up as something people use. A gallery, a print shop, a game."
+  - riya.laughing: "The arcade cabinet in the corner has nothing on it yet. I've drawn the sprites. That's where you come in."
 jobs:
   - weather-app
   - web-scraper

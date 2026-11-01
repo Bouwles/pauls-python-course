@@ -1,23 +1,30 @@
 "use client";
 
-// Drills (REDESIGN-2.md 6): five quick tasks against the clock, for speed once an idea is
-// understood. A grid of topic cards under Act headings, each with the learner's best time and
-// the rival's. The rival (RIVAL in lib/cast.ts, Yahya) has a time that moves as the learner gets quicker.
+// Drills (REDESIGN-2.md 6, REDESIGN3_PLAN.md): five quick tasks against the clock, for speed once
+// an idea is understood. A grid of topic cards under Act headings, each with the learner's best
+// time and the rival's. The rival (RIVAL in lib/cast.ts, Yahya) is there in person: he sets the
+// time, races you down the track, and takes the result the way he would: proud when he wins,
+// unimpressed or surprised when you beat him. His time moves as the learner gets quicker.
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import type { Card, Character, Concept } from "@/lib/content/types";
+import type { Expression, Pose } from "@/lib/pixel/people";
 import { castColour, floorFor, speakerFor } from "@/lib/cast";
 import { useSession } from "@/lib/store/session";
+import { useMedia } from "@/lib/useMedia";
 import type { DrillBestRow, JobProgressRow } from "@/lib/store/types";
 import { isShipped } from "@/lib/progress-rules";
+import { avatarBackground } from "@/lib/pixel/looks";
+import { PixelPerson } from "../art/PixelPerson";
 import { Portrait } from "../art/Portrait";
+import { Speech } from "../art/Speech";
 import { Badge } from "../ui/Badge";
 import { Button } from "../ui/Button";
 import { Icon } from "../ui/Icon";
 import { useRunner } from "../workbench/useRunner";
 import { ReviewCard, type CardOutcome } from "../rounds/ReviewCard";
-import { Coach, nameOf, useLine } from "../rounds/Coach";
+import { nameOf, useLine } from "../rounds/Coach";
 import styles from "./Drills.module.css";
 
 const ROUND = 5;
@@ -25,6 +32,11 @@ const MISS_PENALTY_MS = 10_000;
 const RIVAL_START_MS = 150_000;
 const START_LINE = "Mine runs in 0.02 seconds. Yours?";
 const BEATEN_LINE = "Fine. Rematch tomorrow.";
+const INTRO_LINE = "Every card has my time on it. Pick one and try to beat it.";
+const NOTHING_LINE = "Nothing to race yet. Ship a project and I'll set you a time.";
+const MY_TIME_LINE = "That's my time. Finish anyway, it still counts.";
+/** When the rival wins: he's proud of it, and a good sport. */
+const WON_LINES = ["Still mine. Go again whenever you like.", "My time stands. For now.", "Close. Not close enough, but close."];
 
 export interface DrillAct {
   number: number;
@@ -49,6 +61,7 @@ export function Drills({ acts, characters }: { acts: DrillAct[]; characters: Rec
   const [shipped, setShipped] = useState<Set<string> | null>(null);
   const [bests, setBests] = useState<Record<string, DrillBestRow>>({});
   const [active, setActive] = useState<Concept | null>(null);
+  const phone = useMedia("(max-width: 720px)");
   const rival = speakerFor("drill-start");
   const rivalName = nameOf(characters, rival);
 
@@ -91,13 +104,17 @@ export function Drills({ acts, characters }: { acts: DrillAct[]; characters: Rec
         </p>
       </header>
 
-      {unlocked.length === 0 ? (
-        <div className={styles.empty}>
-          <Icon name="timer" size={32} className={styles.emptyIcon} />
-          <p className={styles.emptyTitle}>Nothing to drill yet.</p>
-          <p className={styles.quiet}>Ship your first project and its ideas turn up here.</p>
-        </div>
-      ) : (
+      <Speech
+        who={rival}
+        name={rivalName}
+        text={unlocked.length ? INTRO_LINE : NOTHING_LINE}
+        face={unlocked.length ? "proud" : "neutral"}
+        gesture={unlocked.length ? "point" : "idle"}
+        size={phone ? 72 : 108}
+        className={styles.host}
+      />
+
+      {unlocked.length === 0 ? null : (
         unlocked.map((act) => (
           <section key={act.number} className={styles.act} aria-labelledby={`act-${act.number}`}>
             <h2 id={`act-${act.number}`} className={styles.actTitle}>
@@ -108,17 +125,17 @@ export function Drills({ acts, characters }: { acts: DrillAct[]; characters: Rec
               {act.concepts.map((c) => {
                 const best = bests[c.id]?.bestMs ?? null;
                 return (
-                  <li key={c.id} className={styles.card}>
+                  <li key={c.id} className={`px-panel ${styles.card}`}>
                     <h3 className={styles.topic}>{c.title}</h3>
                     <dl className={styles.times}>
                       <div className={styles.time}>
                         <dt>Your best</dt>
                         <dd className={best === null ? styles.noTime : undefined}>{best === null ? "No time yet" : fmt(best)}</dd>
                       </div>
-                      <div className={styles.time}>
+                      <div className={[styles.time, styles.rivalCell].join(" ")}>
                         <dt>
-                          <span aria-hidden="true">
-                            <Portrait who={rival} name={rivalName} size={20} />
+                          <span className={styles.rivalFace} aria-hidden="true">
+                            <Portrait who={rival} name={rivalName} size={36} crop="head" />
                           </span>
                           {rivalName}
                         </dt>
@@ -137,7 +154,7 @@ export function Drills({ acts, characters }: { acts: DrillAct[]; characters: Rec
       )}
 
       {lockedCount ? (
-        <details className={styles.locked}>
+        <details className={`px-panel ${styles.locked}`}>
           <summary>
             <Icon name="caretRight" className={styles.caret} />
             Not unlocked yet ({lockedCount})
@@ -162,9 +179,19 @@ export function Drills({ acts, characters }: { acts: DrillAct[]; characters: Rec
   );
 }
 
+/** A runner on the track: their pixel head, moved along by `at` (0 to 1). */
+function Runner({ at, children }: { at: number; children: React.ReactNode }) {
+  return (
+    <span className={styles.runner} style={{ ["--at" as string]: String(Math.min(1, Math.max(0, at))) }}>
+      {children}
+    </span>
+  );
+}
+
 function DrillRun({ concept, best, characters, rival, onDone }: { concept: Concept; best: number | null; characters: Record<string, Character>; rival: string; onDone: () => void }) {
-  const { store } = useSession();
+  const { store, profile } = useSession();
   const runner = useRunner();
+  const phone = useMedia("(max-width: 720px)");
   const tasks: Card[] = useMemo(() => {
     const pool = concept.cards.filter((c) => c.type !== "choice");
     const pick = (pool.length ? pool : concept.cards).map((c) => ({ c, r: Math.random() })).sort((a, b) => a.r - b.r).map((x) => x.c);
@@ -178,8 +205,10 @@ function DrillRun({ concept, best, characters, rival, onDone }: { concept: Conce
   const target = rivalTime(best);
   const done = useRef(false);
   const rivalName = nameOf(characters, rival);
+  const loser = speakerFor("drill-beaten");
   const startLine = useLine(characters, rival, "drill-start", START_LINE);
-  const beatenLine = useLine(characters, speakerFor("drill-beaten"), "drill-beaten", BEATEN_LINE, Boolean(result?.beat));
+  const beatenLine = useLine(characters, loser, "drill-beaten", BEATEN_LINE, Boolean(result?.beat));
+  const wonLine = useMemo(() => WON_LINES[Math.floor(Math.random() * WON_LINES.length)]!, []);
 
   useEffect(() => {
     runner.preload();
@@ -210,13 +239,23 @@ function DrillRun({ concept, best, characters, rival, onDone }: { concept: Conce
   // The rival runs the whole course in his time; your segments fill as you finish tasks.
   const rivalAt = Math.min(1, elapsed / target);
   const tasksDone = result ? ROUND : started ? index : 0;
+  const youAt = tasksDone / ROUND;
   const rivalDone = elapsed >= target;
-  const line = result ? (result.beat ? beatenLine : null) : startLine;
+
+  // What the rival says, and how he looks saying it. He watches the race as it goes.
+  let say: { who: string; text: string; face: Expression; gesture: Pose } | null = null;
+  if (result?.beat) {
+    // Beaten by a lot: he didn't see it coming. Beaten narrowly: he's not impressed. Either way, fair.
+    const margin = (target - result.ms) / target;
+    if (beatenLine) say = { who: loser, text: beatenLine, face: margin > 0.15 ? "surprised" : "unimpressed", gesture: margin > 0.15 ? "thumbs" : "idle" };
+  } else if (result) say = { who: rival, text: wonLine, face: "proud", gesture: "cheer" };
+  else if (started && rivalDone) say = { who: rival, text: MY_TIME_LINE, face: "proud", gesture: "point" };
+  else if (startLine) say = { who: rival, text: startLine, face: !started ? "proud" : youAt > rivalAt + 0.1 ? "surprised" : youAt + 0.25 < rivalAt ? "pleased" : "thinking", gesture: !started ? "point" : "idle" };
 
   return (
     <div className={styles.run}>
       <div className={styles.runTop}>
-        <Button variant="ghost" size="sm" onClick={onDone}>
+        <Button variant="ghost" size="sm" icon="caretLeft" onClick={onDone}>
           All drills
         </Button>
       </div>
@@ -227,7 +266,7 @@ function DrillRun({ concept, best, characters, rival, onDone }: { concept: Conce
         </p>
       </header>
 
-      <section className={styles.race} aria-label="The race">
+      <section className={`px-panel ${styles.race}`} aria-label="The race">
         <div className={styles.clocks} aria-live="off">
           <div className={styles.clock}>
             <span className="label">You</span>
@@ -238,19 +277,33 @@ function DrillRun({ concept, best, characters, rival, onDone }: { concept: Conce
             <span className={styles.rivalTime}>{fmt(target)}</span>
           </div>
         </div>
-        <div className={styles.lanes}>
+        <div className={styles.lanes} aria-hidden="true">
           <div className={styles.lane}>
             <span className={styles.laneName}>You</span>
-            <ol className={styles.segments} aria-hidden="true">
-              {Array.from({ length: ROUND }, (_, i) => (
-                <li key={i} className={i < tasksDone ? styles.segDone : started && !result && i === index ? styles.segNow : undefined} />
-              ))}
-            </ol>
+            <div className={styles.track}>
+              <ol className={styles.segments}>
+                {Array.from({ length: ROUND }, (_, i) => (
+                  <li key={i} className={i < tasksDone ? styles.segDone : started && !result && i === index ? styles.segNow : undefined} />
+                ))}
+              </ol>
+              <Runner at={youAt}>
+                <span className={styles.runnerFace} style={{ background: avatarBackground(profile.character) }}>
+                  <PixelPerson avatar={profile.character} crop="head" scale={1} />
+                </span>
+              </Runner>
+              <Icon name="flag" size={24} className={styles.flag} />
+            </div>
           </div>
           <div className={styles.lane}>
             <span className={styles.laneName}>{rivalName}</span>
-            <div className={styles.track} aria-hidden="true">
+            <div className={styles.track}>
               <span className={styles.trackFill} style={{ width: `${rivalAt * 100}%`, background: castColour(rival).face }} />
+              <Runner at={rivalAt}>
+                <span className={styles.runnerFace} style={{ background: castColour(rival).face }}>
+                  <PixelPerson who={rival} crop="head" scale={1} expression={say?.who === rival || say?.who === loser ? say.face : "neutral"} />
+                </span>
+              </Runner>
+              <Icon name="flag" size={24} className={styles.flag} />
             </div>
           </div>
         </div>
@@ -263,16 +316,12 @@ function DrillRun({ concept, best, characters, rival, onDone }: { concept: Conce
             : rivalDone
               ? `${rivalName} finished in ${fmt(target)}.`
               : started
-                ? `${rivalName}'s bar shows his pace.`
+                ? `${rivalName}'s runner shows his pace.`
                 : `${rivalName} takes ${fmt(target)}.`}
         </p>
       </section>
 
-      {line ? (
-        <Coach who={result?.beat ? speakerFor("drill-beaten") : rival} name={result?.beat ? nameOf(characters, speakerFor("drill-beaten")) : rivalName} live>
-          {line}
-        </Coach>
-      ) : null}
+      {say ? <Speech who={say.who} name={nameOf(characters, say.who)} text={say.text} face={say.face} gesture={say.gesture} size={phone ? 72 : 108} className={styles.host} /> : null}
 
       {!started ? (
         <div className={styles.start}>
@@ -282,9 +331,11 @@ function DrillRun({ concept, best, characters, rival, onDone }: { concept: Conce
           {best ? <p className={styles.quiet}>Your best is {fmt(best)}.</p> : null}
         </div>
       ) : result ? (
-        <div className={styles.result} role="status">
-          <p className={styles.resultTime}>{fmt(result.ms)}</p>
-          {result.newBest ? <Badge tone="shipped">New best</Badge> : null}
+        <div className={`px-panel ${styles.result}`} role="status">
+          <div className={styles.resultTop}>
+            <p className={styles.resultTime}>{fmt(result.ms)}</p>
+            {result.newBest ? <Badge tone="shipped">New best</Badge> : null}
+          </div>
           <p className={styles.resultText}>
             {result.newBest ? "Your fastest yet." : `Your best is still ${fmt(best!)}.`} {misses ? `${misses} ${misses === 1 ? "miss" : "misses"}.` : "No misses."}
           </p>
@@ -314,4 +365,3 @@ function DrillRun({ concept, best, characters, rival, onDone }: { concept: Conce
     </div>
   );
 }
-

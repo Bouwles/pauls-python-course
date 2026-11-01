@@ -4,7 +4,7 @@ type: make
 title: The notes, as numbers
 files: [notes.py]
 entry: notes.py
-on_pass: { aaesha: "Eighty-five notes, sixty-eight to learn from, seventeen in the drawer. And not a sentence cut in half." }
+on_pass: { aaesha.pleased: "Eighty-five notes, sixty-eight to learn from, seventeen in the drawer. And not a sentence cut in half." }
 hints:
   nudge: "For a note like \"ab\" with windows of 2, write out by hand the three windows and the three targets. Where do the newlines go?"
   plan:
@@ -31,7 +31,7 @@ Each window is the `context` characters before a target. At the start of a note 
 ```
 85 notes: 68 to learn from, 17 held back
 55 characters
-7784 windows of 4 to learn from
+7781 windows of 4 to learn from
 Window 6: ['u', 'i', 'l', 'd'] -> ' '
 ```
 

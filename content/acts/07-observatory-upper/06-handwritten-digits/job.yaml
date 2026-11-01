@@ -4,7 +4,7 @@ project_name: "Handwritten Digit Recogniser"
 portfolio_readme: |
   # Handwritten Digit Recogniser
 
-  A neural network written from scratch in NumPy that reads handwritten digits. Each digit is an 8 by 8 grid of greys; the network has a ReLU hidden layer and a softmax output over the ten digits, learns by backpropagation and Adam in mini-batches, and is tested on digits it was never shown.
+  A neural network written from scratch in NumPy that reads handwritten digits: perception, the thing people do without effort and can't explain. Each digit is an 8 by 8 grid of greys; the network has a ReLU hidden layer and a softmax output over the ten digits, learns by backpropagation and Adam in mini-batches, and is tested on digits it was never shown.
 
   Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
 
@@ -42,15 +42,16 @@ datasets:
 client: aaesha
 building: observatory
 estimated_minutes: 120
-summary: "A NumPy network learns to read 1,797 real handwritten digits, 8 by 8 greys: softmax, cross-entropy, mini-batches and Adam, and a test on 297 digits it has never seen."
+summary: "Perception, from sixty-four greys: a NumPy network learns to read 1,797 real handwritten digits, 8 by 8 greys, with softmax, cross-entropy, mini-batches and Adam, and a test on 297 digits it has never seen."
 concepts_introduced: [classification-networks]
 concepts_reviewed: [neural-networks, backpropagation, optimisers, weight-initialisation, numerical-gradient-checking, logistic-regression, cross-entropy, train-test-split, overfitting, numpy-arrays, broadcasting, vectorisation, indexing]
 ask:
   dialogue:
-    - aaesha: "Every network so far has said yes or no. This one has to pick one answer out of ten."
-    - aaesha: "1,797 real handwritten digits, scanned to eight by eight squares of grey. Some of the fours look like nines."
-    - neil: "And some of the nines look like fours that gave up halfway."
-    - paul: "Ten answers, then, not three. And only one of them right."
+    - aaesha.pleased.wave: "You read handwriting without trying, and nobody can quite say how. Let's see what a network makes of it."
+    - aaesha.neutral.point: "1,797 real handwritten digits, scanned to eight by eight squares of grey. Some of the fours look like nines."
+    - neil.laughing: "And some of the nines look like fours that gave up halfway."
+    - aaesha.thinking: "Every network so far has said yes or no. This one picks one answer out of ten."
+    - paul.neutral: "Ten answers, then, not three. And only one of them right."
   spec: |
     In `digits.py`, teach the network from the Optimiser Benchmark to read handwritten digits: 1,797 of them, each an 8 by 8 grid of greys from 0 to 16, loaded by `notebooks.py`. `training.py` holds `init_params`, `batches` and `Adam` from that Job.
 
@@ -68,10 +69,11 @@ ask:
     Misread: 4 as 7, 9 as 5, 9 as 8, 8 as 1
 ship:
   dialogue:
-    - aaesha: "Two hundred and ninety-three of two hundred and ninety-seven, on digits it had never seen."
-    - aaesha: "One of its mistakes is a nine it read as a five. I've looked. I'd have read it as a five."
-    - riya: "Mine got every training digit right."
-    - aaesha: "And the ones in the drawer?"
+    - aaesha.pleased.cheer: "Two hundred and ninety-three of two hundred and ninety-seven, on digits it had never seen."
+    - aaesha.surprised: "One of its mistakes is a nine it read as a five. I've looked. I'd have read it as a five."
+    - aaesha.thinking: "So on that one, it misread the way a person would. That's either reassuring or worrying."
+    - riya.proud: "Mine got every training digit right."
+    - aaesha.unimpressed: "And the ones in the drawer?"
   shelf: { object: slate, label: "Aaesha's digit reader" }
   cards: [classification-networks]
 stretch:

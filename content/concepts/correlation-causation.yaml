@@ -82,7 +82,7 @@ cards:
     tests: |
       TESTS = [output("Wetter months are duller", expect="True")]
   - type: fix
-    prompt: "Caitlin's correlation forgot to take the means off first. Fix it so a perfect line gives `1.0`."
+    prompt: "Caitlin's correlation of practice hours and high scores forgot to take the means off first. Fix it so a perfect line gives `1.0`."
     code: |
       import numpy as np
 

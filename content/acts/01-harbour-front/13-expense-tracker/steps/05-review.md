@@ -3,7 +3,7 @@ id: review
 type: reading
 title: Paul reads it
 dialogue:
-  - paul: "It works. Now I read it. Different job."
+  - paul.thinking: "It works. Now I read it. Different job."
 code: |
   def biggest(expenses):
       if len(expenses) == 0:

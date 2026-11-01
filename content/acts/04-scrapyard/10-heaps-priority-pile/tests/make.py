@@ -176,11 +176,11 @@ def counted(ctx):
         pushed = Part.compared
         taken = [module.pop(heap) for _ in range(len(parts))]
     except TooManyComparisons:
-        raise CheckFailed("A thousand pushes and a thousand pops made more than 60,000 comparisons. Is something looking at every part, like sort() or min()?")
+        raise CheckFailed("A thousand pushes and a thousand pops made more than 60,000 comparisons. Is something looking at every item, like sort() or min()?")
     finally:
         Part.limit = None
     if [part.kg for part in taken] != sorted(weights):
-        raise CheckFailed("A thousand parts should come out lightest first.")
+        raise CheckFailed("A thousand items should come out smallest first.")
     if pushed > 15_000:
         raise CheckFailed("A thousand pushes made more than 15,000 comparisons. Each push should only climb, comparing with one parent per level.",
                           expected="at most 15,000", actual=pushed)
@@ -215,7 +215,7 @@ def replay(module, events):
     return pile, taken
 
 
-def repairs(events, expected, message):
+def jobs(events, expected, message):
     def check(ctx):
         module = ctx.module()
         _pile, taken = replay(module, events)
@@ -226,9 +226,9 @@ def repairs(events, expected, message):
 
 def waiting_count(ctx):
     module = ctx.module()
-    pile, _taken = replay(module, [("add", "a kettle", 2), ("add", "a hinge", 5), ("add", "a gate", 2), ("take",)])
+    pile, _taken = replay(module, [("add", "a tyre", 2), ("add", "a chain", 5), ("add", "a seat", 2), ("take",)])
     if len(pile) != 2:
-        raise CheckFailed("Three repairs added and one taken leaves two waiting.", expected=2, actual=len(pile))
+        raise CheckFailed("Three jobs added and one taken leaves two waiting.", expected=2, actual=len(pile))
     fresh = module.TaskScheduler()
     if len(fresh) != 0:
         raise CheckFailed("A new pile has nothing waiting.", expected=0, actual=len(fresh))
@@ -248,48 +248,48 @@ def busy_day(ctx):
     module = ctx.module()
     rng = _random.Random(4)
     pile = module.TaskScheduler()
-    arrivals = [(f"repair {number}", rng.randint(1, 5)) for number in range(2000)]
+    arrivals = [(f"job {number}", rng.randint(1, 5)) for number in range(2000)]
     Priority.compared = 0
     Priority.limit = 300_000
     try:
-        for repair, priority in arrivals:
-            pile.add(repair, Priority(priority))
+        for job, priority in arrivals:
+            pile.add(job, Priority(priority))
         taken = [pile.take() for _ in range(len(arrivals))]
     except TooManyComparisons:
-        raise CheckFailed("Two thousand repairs made more than 300,000 comparisons of priorities. Is take() looking through every repair waiting?")
+        raise CheckFailed("Two thousand jobs made more than 300,000 comparisons of priorities. Is take() looking through every job waiting?")
     finally:
         Priority.limit = None
-    expected = [repair for repair, _priority in sorted(arrivals, key=lambda arrival: arrival[1])]
+    expected = [job for job, _priority in sorted(arrivals, key=lambda arrival: arrival[1])]
     if taken != expected:
         wrong = next(index for index, (got, want) in enumerate(zip(taken, expected)) if got != want)
-        raise CheckFailed(f"Two thousand repairs, lowest priority number first and ties in the order they came. Repair number {wrong} taken was wrong.",
+        raise CheckFailed(f"Two thousand jobs, lowest priority number first and ties in the order they came. Job number {wrong} taken was wrong.",
                           expected=expected[wrong], actual=taken[wrong])
 
 
-HEADPHONES_FIRST = [("add", "Riya's headphones", 3), ("add", "Paul's desk lamp", 3), ("add", "the arcade cabinet", 1),
+TYRES_FIRST = [("add", "the tyre pressures", 3), ("add", "the chain tension", 3), ("add", "the loose steering bolt", 1),
                ("take",), ("take",), ("take",)]
 
-URGENT_FIRST = [("add", "the Studio kettle", 4), ("add", "Neil's keyboard", 2), ("add", "Yahya's stopwatch", 1),
-                ("add", "a bike pump", 3), ("take",), ("take",), ("take",), ("take",)]
+URGENT_FIRST = [("add", "the cracked number plate", 4), ("add", "the brake pads", 2), ("add", "the fuel leak", 1),
+                ("add", "the rear bumper", 3), ("take",), ("take",), ("take",), ("take",)]
 
-MIXED = [("add", "the printer", 3), ("add", "a bike light", 3), ("take",), ("add", "the arcade cabinet", 1),
-         ("add", "a desk fan", 3), ("take",), ("take",), ("add", "a phone charger", 2), ("take",), ("take",)]
+MIXED = [("add", "the radiator cap", 3), ("add", "a bent pedal", 3), ("take",), ("add", "the axle bearing", 1),
+         ("add", "a loose visor", 3), ("take",), ("take",), ("add", "a cracked seat", 2), ("take",), ("take",)]
 
 _RNG = _random.Random(3)
 SIXTY = [_RNG.randint(1, 99) for _ in range(60)]
 TWO_HUNDRED = [_RNG.randint(1, 999) for _ in range(200)]
 
-TUESDAY = """Mending the arcade cabinet
-Mending Neil's keyboard
-Mending Riya's headphones
-Mending Yahya's stopwatch
-Mending Aaesha's label printer
-Mending Paul's desk lamp
+RACE_DAY = """Fixing the loose steering bolt
+Fixing the brake pads
+Fixing the tyre pressures
+Fixing the fuel leak
+Fixing the seat bolts
+Fixing the chain tension
 Still waiting: 1"""
 
 TESTS = [
     custom("Pushing 5, 2, 8 and 1", pushes([5, 2, 8, 1], "No item should be smaller than its parent."), visible=True),
-    output("Caitlin's Tuesday", expect=TUESDAY, visible=True),
+    output("Neil's race day", expect=RACE_DAY, visible=True),
     custom("Popping hands back the smallest each time", pops_in_order([5, 2, 8, 1, 9, 3], "Six pops should give 1, 2, 3, 5, 8, 9.")),
     custom("The first push", first_push),
     custom("Every push keeps the rule", pushes(SIXTY, "No item should be smaller than its parent."),
@@ -304,18 +304,18 @@ TESTS = [
     custom("Pairs compare item by item", pops_in_order([(2, "b"), (1, "z"), (2, "a")], "Tuples compare by their first item, then the next.")),
     custom("Every pop keeps the rule", pops_in_order(TWO_HUNDRED, "Two hundred numbers should come out smallest first."),
            hint="A sinking item swaps with the smaller of its children. Swap with the bigger one and the smaller ends up above it."),
-    custom("A thousand parts, counted", counted, timeout=10,
-           hint="Climbing and sinking each compare one level at a time: about ten levels for a thousand parts. sort(), min() and remove() all look at every part."),
+    custom("A thousand items, counted", counted, timeout=10,
+           hint="Climbing and sinking each compare one level at a time: about ten levels for a thousand items. sort(), min() and remove() all look at every item."),
     custom("Built by hand", by_hand),
-    custom("The most urgent first", repairs(URGENT_FIRST, ["Yahya's stopwatch", "Neil's keyboard", "a bike pump", "the Studio kettle"],
+    custom("The most urgent first", jobs(URGENT_FIRST, ["the fuel leak", "the brake pads", "the rear bumper", "the cracked number plate"],
                                             "Priority 1, then 2, then 3, then 4.")),
-    custom("The headphones were in first", repairs(HEADPHONES_FIRST, ["the arcade cabinet", "Riya's headphones", "Paul's desk lamp"],
-                                                   "The cabinet first. Then the headphones and the lamp tie on 3, and the headphones came in first."),
-           hint="Ties go to whoever came in first. Put an arrival count between the priority and the repair."),
-    custom("Taking while they come in", repairs(MIXED, ["the printer", "the arcade cabinet", "a bike light", "a phone charger", "a desk fan"],
-                                                "The printer, the cabinet as soon as it arrives, the bike light, the charger at 2, then the fan.")),
+    custom("The tyres were in first", jobs(TYRES_FIRST, ["the loose steering bolt", "the tyre pressures", "the chain tension"],
+                                              "The steering bolt first. Then the tyres and the chain tie on 3, and the tyres came in first."),
+           hint="Ties go to whoever came in first. Put an arrival count between the priority and the job."),
+    custom("Taking while they come in", jobs(MIXED, ["the radiator cap", "the axle bearing", "a bent pedal", "a cracked seat", "a loose visor"],
+                                                "The radiator cap, the axle bearing as soon as it arrives, the bent pedal, the cracked seat at 2, then the visor.")),
     custom("Counting what's waiting", waiting_count),
     custom("An empty pile", empty_take),
-    custom("Two thousand repairs, counted", busy_day, timeout=10,
-           hint="take() should be one pop from your heap, not a look through every repair waiting."),
+    custom("Two thousand jobs, counted", busy_day, timeout=10,
+           hint="take() should be one pop from your heap, not a look through every job waiting."),
 ]

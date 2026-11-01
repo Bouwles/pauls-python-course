@@ -51,7 +51,7 @@ cards:
         misconception: policy-gradient-only-chosen
         feedback: "That leaves out the minus chances part, which moves every preference on the tile, the chosen one included."
   - type: fix
-    prompt: "After a long training run, Yahya's preferences reached 800. Now every chance is nan. Fix the softmax so the chances come out right."
+    prompt: "After a long training run, Caitlin's preferences reached 800. Now every chance is nan. Fix the softmax so the chances come out right."
     code: |
       import numpy as np
 

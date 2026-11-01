@@ -11,8 +11,8 @@ import { usePlan } from "@/lib/usePlan";
 import { FREE_ACTS } from "@/lib/plans";
 import { Tabs } from "../ui/Tabs";
 import { Icon } from "../ui/Icon";
-import { FloorFace, STUCK_CLOCK, TowerFrame, towerStyles } from "./Tower";
-import { FLOORS_TOP_DOWN, floorLine, floorState, floorStats, mainJobs, type Floor, type FloorState, type FloorStats } from "./floors";
+import { FloorRoom, Sign, STUCK_CLOCK, TowerFrame, towerStyles } from "./Tower";
+import { FLOORS_TOP_DOWN, floorState, floorStats, mainJobs, type Floor, type FloorState, type FloorStats } from "./floors";
 import { FloorSheet } from "./FloorSheet";
 import { TowerList } from "./TowerList";
 import { DeskCards } from "./DeskCards";
@@ -112,6 +112,9 @@ export function Clocktower({ acts, placements, names, steps }: { acts: ActSummar
         <p className={styles.progress}>
           {shipped === 0 ? "No projects shipped yet." : `${shipped} ${shipped === 1 ? "project" : "projects"} shipped.`} {floorsOpen} {floorsOpen === 1 ? "floor" : "floors"} open.
         </p>
+      </header>
+
+      <div className={styles.main} data-view={view}>
         <Tabs
           className={styles.views}
           label="View"
@@ -123,22 +126,21 @@ export function Clocktower({ acts, placements, names, steps }: { acts: ActSummar
             { id: "list", label: "List" },
           ]}
         />
-      </header>
-
-      <section className={styles.main} id={`view-${view}-panel`} role="tabpanel" aria-labelledby={`view-${view}`}>
-        {view === "tower" ? (
-          <>
-            <TowerFrame label="Floors of the Clocktower, top floor first" clock={clock}>
-              {floors.map((f) => (
-                <FloorButton key={f.floor.act} info={f} names={names} selected={selected === f.floor.act} onOpen={() => setSelected(f.floor.act)} />
-              ))}
-            </TowerFrame>
-            <p className={styles.hint}>Choose a floor to see its projects.</p>
-          </>
-        ) : (
-          <TowerList floors={[...floors].reverse()} progress={progress} names={names} />
-        )}
-      </section>
+        <section className={styles.panel} id={`view-${view}-panel`} role="tabpanel" aria-labelledby={`view-${view}`}>
+          {view === "tower" ? (
+            <>
+              <TowerFrame label="Floors of the Clocktower, top floor first" clock={clock}>
+                {floors.map((f) => (
+                  <FloorButton key={f.floor.act} info={f} names={names} selected={selected === f.floor.act} onOpen={() => setSelected(f.floor.act)} />
+                ))}
+              </TowerFrame>
+              <p className={styles.hint}>Choose a floor to see its projects.</p>
+            </>
+          ) : (
+            <TowerList floors={[...floors].reverse()} progress={progress} names={names} />
+          )}
+        </section>
+      </div>
 
       <DeskCards className={styles.side} acts={acts} placements={placements} progress={progress} steps={steps} names={names} due={due} shipped={shipped} open={open} />
 
@@ -147,36 +149,23 @@ export function Clocktower({ acts, placements, names, steps }: { acts: ActSummar
   );
 }
 
-/** One floor as a button: the art and label, a lock or Pro badge, and the hover label. */
-function FloorButton({ info, names, selected, onOpen }: { info: FloorInfo; names: Record<string, string>; selected: boolean; onOpen: () => void }) {
+/** One floor as a button: its room, and the room's name on a sign (with a lock when shut) that says more when pointed at. */
+function FloorButton({ info, selected, onOpen }: { info: FloorInfo; names: Record<string, string>; selected: boolean; onOpen: () => void }) {
   const { floor, act, stats, state, pro } = info;
-  const line = floorLine(floor, act.subject, stats);
   const locked = state === "locked";
-  // The button's name is its visible words ("The Workshop", "Foundations"), so voice control
-  // finds it, then the rest for screen readers.
-  const more = [`, ${floor.label.toLowerCase()}.`, `${stats.shipped} of ${stats.total} shipped.`, locked ? (pro ? "Locked, part of Pro." : "Locked.") : ""].filter(Boolean).join(" ");
+  // The button's name starts with the sign's words ("The Workshop"), so voice control finds it,
+  // then the rest for screen readers.
+  const more = [`, ${floor.label.toLowerCase()}: ${act.subject}.`, `${stats.shipped} of ${stats.total} shipped.`, locked ? (pro ? "Locked, part of Pro." : "Locked.") : ""].filter(Boolean).join(" ");
   return (
-    <li className={[towerStyles.floor, styles.floor].join(" ")}>
+    <li className={towerStyles.floor}>
       <button type="button" className={styles.floorButton} onClick={onOpen} aria-haspopup="dialog" aria-expanded={selected} data-selected={selected || undefined}>
-        <FloorFace
+        <FloorRoom
           act={floor.act}
           state={state}
-          room={floor.room}
-          names={names}
-          sub={act.subject}
-          badges={
-            locked ? (
-              <span className={styles.lock}>
-                <Icon name="lock" size={14} />
-              </span>
-            ) : null
-          }
+          sign={<Sign room={floor.room} badges={locked ? <Icon name="lock" size={16} className={styles.lock} /> : null} more={`${stats.shipped} of ${stats.total} shipped`} />}
         />
         <span className="visually-hidden">{more}</span>
       </button>
-      <span className={styles.tip} aria-hidden="true">
-        {line}
-      </span>
     </li>
   );
 }

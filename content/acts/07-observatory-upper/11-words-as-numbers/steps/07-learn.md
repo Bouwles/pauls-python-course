@@ -4,7 +4,7 @@ type: make
 title: Downhill to the same place
 files: [learn.py]
 entry: learn.py
-on_pass: { neil: "1.831 against counting's 1.849. And it put the 4 beside the 6, the 3 and the 5, unprompted." }
+on_pass: { neil.surprised: "1.831 against counting's 1.849. And it put the 4 beside the 6, the 3 and the 5, unprompted." }
 hints:
   nudge: "What shape is `X @ E`, and what shape must the scores be before softmax? Write the shape beside every line."
   plan:

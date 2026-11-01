@@ -3,8 +3,8 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "The practice level on Caitlin's cabinet. Six tiles, no rock, no pool."
-  - paul: "And no slipping. She switched it off for beginners."
+  - paul.pleased: "The practice level on Caitlin's cabinet. Six tiles, no rock, no pool."
+  - paul.laughing: "And no slipping. She switched it off for beginners."
 code: |
   from workshop import show_grid
 

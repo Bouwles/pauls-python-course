@@ -3,7 +3,7 @@ id: a-decision
 type: explain
 title: "Interview: a decision"
 dialogue:
-  - paul: "They're not checking you were right. They're checking you chose."
+  - paul.thinking: "They're not checking you were right. They're checking you chose."
 prompt: "Explain a design decision in your capstone, and the alternative you rejected. Write it the way you'd say it: four or five sentences."
 answer: "The finance app keeps its rules in `money.py`, which knows nothing about files or the command line: a `Ledger` refuses an amount of 0, or spending written as money in. The alternative was checking the rules in `cli.py`, where the arguments come in: one file fewer, and quicker to write. I rejected it because rules buried in argument handling can only be tested by running the whole program. As it is, a test makes a `Ledger`, adds a spend of 0 and checks it's refused, with nothing to open and nothing to type. The cost is that `cli.py` passes everything through two other files, which is more to follow the first time you read it."
 ---

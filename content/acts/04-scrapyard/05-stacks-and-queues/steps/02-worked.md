@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul checks the brackets
 dialogue:
-  - paul: "One bracket out of place and nothing runs. Python counts them. So can we."
+  - paul.thinking: "One bracket out of place and nothing runs. Python counts them. So can we."
 code: |
   PARTNERS = {")": "(", "]": "[", "}": "{"}
 

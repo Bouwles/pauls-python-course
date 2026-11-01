@@ -1,7 +1,7 @@
 """Crate sums for the Studio's fruit order."""
 # The supplier asked "how many crates?" They meant "how many crates,
 # rounded up, because nobody sells a quarter of a crate." Most of this
-# job is finding out what people meant. N.
+# job is finding out what people meant. C.
 import math
 
 

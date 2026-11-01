@@ -1,5 +1,7 @@
 # Illustration brief: Paul's Python Course
 
+> **Superseded by Redesign 3.** The course now draws its cast, avatars and rooms as pixel art in code (`art/README.md`), and the floors, the cast's projects and the Shelf objects have moved to the cast's interests (`CHARACTERS.md`). This brief is the Redesign 2 one for hand-drawn illustration. Don't send it as it stands: if the owner commissions an artist, rewrite it for pixel art from `CAST_APPEARANCE.md`, `CHARACTERS.md` and `lib/cast.ts` first.
+
 Thank you for considering this commission. This brief is everything you need to quote for and draw the art; nothing here assumes you've seen the project. Questions are welcome at any point, and the owner, Paul Nercessian, will answer them before you start.
 
 ## 1. The project

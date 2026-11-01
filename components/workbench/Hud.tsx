@@ -30,7 +30,7 @@ export function Hud({ job, actProjects, syncStatus, guest, secondsSpent = 0 }: {
   return (
     <header className={styles.hud}>
       <Link href={guest ? "/" : "/map"} className={styles.home} aria-label={BRAND.name}>
-        <Mark size={28} />
+        <Mark size={32} />
         <span className={styles.brand} aria-hidden="true">
           {BRAND.name}
         </span>
@@ -67,7 +67,7 @@ export function Hud({ job, actProjects, syncStatus, guest, secondsSpent = 0 }: {
           </LinkButton>
         ) : (
           <Link href="/settings" className={styles.avatar} title="You and your settings">
-            <Avatar name={profile.displayName} colour={readAvatar(profile.character).colour} size={32} />
+            <Avatar name={profile.displayName} colour={readAvatar(profile.character).colour} look={profile.character} size={36} />
             <span className="visually-hidden">Your settings</span>
           </Link>
         )}

@@ -81,20 +81,20 @@ function Failure({ r, source, onShowLine }: { r: TestResult; source: string; onS
   );
 }
 
-/** The bar under the summary: passed in green, failed in red, the rest still to run. */
+/** Under the summary, a pixel block for each check: green passed, red failed, empty still to run. */
 function Progress({ passed, failed, total }: { passed: number; failed: number; total: number }) {
   if (!total) return null;
   return (
     <div className={styles.progress} aria-hidden="true">
-      {passed ? <span className={styles.barPass} style={{ flexGrow: passed }} /> : null}
-      {failed ? <span className={styles.barFail} style={{ flexGrow: failed }} /> : null}
-      {total - passed - failed > 0 ? <span className={styles.barRest} style={{ flexGrow: total - passed - failed }} /> : null}
+      {Array.from({ length: total }, (_, i) => (
+        <span key={i} className={i < passed ? styles.barPass : i < passed + failed ? styles.barFail : styles.barRest} />
+      ))}
     </div>
   );
 }
 
 /**
- * Check results (REDESIGN-2.md 4.5): "3 of 5 checks passed" over a pass and fail bar, every
+ * Check results (REDESIGN-2.md 4.5): "3 of 5 checks passed" over a pixel block per check, every
  * check in a list, and the first failing one open with what went in, what was expected and what
  * came out side by side, the differences marked character by character.
  */

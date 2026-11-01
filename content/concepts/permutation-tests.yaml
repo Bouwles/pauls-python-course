@@ -49,7 +49,7 @@ cards:
         misconception: counts-only-bigger
         feedback: "The real arrangement is one of the possible shuffles, and it ties with itself. `>=` counts it; only `>` gives 0."
   - type: choice
-    prompt: "Aaesha's test of the rain gives p = 0.11. What can she say?"
+    prompt: "Yahya's test of the rain gives p = 0.11. What can he say?"
     verify: none
     options:
       - text: "Luck alone makes a difference this big about one time in nine, so the data can't tell whether it's drier."
@@ -62,7 +62,7 @@ cards:
         misconception: big-p-means-no-difference
         feedback: "A large p-value means the data can't tell, not that there's nothing there. Thirty more years might settle it either way."
   - type: choice
-    prompt: "A hundred thousand coffees from each machine. The new one is 0.01 minutes quicker, and p is 0.0001. What does that tell Riya?"
+    prompt: "A hundred thousand coffees from each machine. The new one is 0.01 minutes quicker, and p is 0.0001. What does that tell Caitlin?"
     verify: none
     options:
       - text: "The difference is almost certainly not luck, and it's less than a second."

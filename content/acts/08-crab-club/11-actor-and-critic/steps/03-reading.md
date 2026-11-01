@@ -3,8 +3,8 @@ id: ppo
 type: reading
 title: PPO, as the libraries write it
 dialogue:
-  - riya: "Every library I've looked at uses something called PPO. Everybody uses it."
-  - paul: "Everybody uses a hammer. Know what it's for first."
+  - neil.pleased.point: "The drone that beat the world's best racing pilots learned with something called PPO."
+  - paul.thinking: "Then it's worth knowing what PPO is for, before anyone reaches for it."
 ---
 Actor-critic steps once per move, then forgets the move. Better to take several steps on one batch. But a policy gradient only holds near the policy that raced the batch: step too far and the crab may race so badly it never collects the races that would put it right.
 

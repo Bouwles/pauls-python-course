@@ -6,7 +6,7 @@ portfolio_readme: |
 
   Measures slopes numerically, the way machine learning needs them: the slope of a function of one number from a small step either side, the two partial slopes of a function of two numbers, the direction straight uphill and how steep it is, and the slopes of a squared-error loss for a thermometer's two calibration dials, worked out with the chain rule and checked against the measured ones.
 
-  Written by {name} for Riya, at Paul's Python Course. Finished {date}.
+  Written by {name} for Paul, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -14,7 +14,7 @@ portfolio_readme: |
   python main.py
   ```
 
-  It surveys the hill path, the hilltop and the way up from the gorse, then checks the new thermometer:
+  It surveys the hill path, the hilltop and the way up from the gorse, then checks the Archive's new thermometer:
 
   ```
   Steepest on the path: 650 m from the gate, slope 0.243, about 1 in 4
@@ -36,18 +36,18 @@ portfolio_readme: |
 downloadable: true
 # The hill in the park is a formula invented for the story. See the README.
 datasets: []
-client: riya
+client: paul
 building: weather-station
 estimated_minutes: 80
-summary: "Calculus for machine learning, on the hill in the park: slopes measured numerically, the gradient straight uphill, and the chain rule saying which way to turn Aaesha's new thermometer's dials."
+summary: "Calculus for machine learning, on the hill in the park: slopes measured numerically, the gradient straight uphill, and the chain rule saying which way to turn the dials on the Archive's new thermometer, a model with two settings."
 concepts_introduced: [derivatives, chain-rule, numerical-gradients]
 concepts_reviewed: [vectors, numpy-arrays, vectorisation, slicing, functions, functions-as-values, multiple-returns, default-arguments, main-guard, docstrings]
 ask:
   dialogue:
-    - riya: "Next floor up is machine learning. Paul says training a model is walking downhill. I want to see a hill."
-    - riya: "The park hill is a formula. How steep is the path, and which way is straight up from the gorse?"
-    - aaesha: "And my new thermometer reads low. One and a half degrees. Or the air's wrong. The thermometer, then."
-    - paul: "Slopes, all three. Measure them, and work out the ones you can."
+    - paul.neutral.wave: "Next floor up is mine: machine learning. Training a model is walking downhill. First, a hill."
+    - paul.pleased.point: "The park hill is a formula. How steep is the path, and which way is straight up from the gorse?"
+    - yahya.worried: "And the Archive's new thermometer reads low. One and a half degrees. Or the air's wrong. The thermometer, then."
+    - paul.thinking: "Slopes, all three. Measure them, and work out the ones you can."
   spec: |
     `hill_height(east, north)` is the park hill's survey: its height in metres, at a point that many metres east and north of the park gate. The path runs due north from the gate to the top, and `path_height(metres)` gives its height that far along. Both are written.
 
@@ -66,10 +66,10 @@ ask:
       offset slope -3.0: turn the offset up
 ship:
   dialogue:
-    - riya: "One in four at the stile. Aaesha's screen goes up in two halves, then."
-    - aaesha: "Gain up, offset up. Up a little, I mean. The slopes say which way, not how far."
-    - paul: "Measured where you could, worked out where you couldn't, and the two agree."
-  shelf: { object: clinometer, label: "Riya's survey of the hill" }
+    - paul.laughing: "One in four at the stile. Yahya's thermometer screen goes up the hill in two halves, then."
+    - yahya.thinking: "Gain up, offset up. Up a little, I mean. The slopes say which way, not how far."
+    - paul.proud.thumbs: "Measured where you could, worked out where you couldn't, and the two agree. Upstairs, that's training."
+  shelf: { object: clinometer, label: "Paul's survey of the hill" }
   cards: [derivatives, chain-rule, numerical-gradients]
 stretch:
   - id: path-profile

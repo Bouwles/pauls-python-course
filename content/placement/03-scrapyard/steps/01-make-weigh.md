@@ -1,12 +1,13 @@
 ---
 id: make-weigh
 type: make
-title: Caitlin's hardware shelves
+title: Neil's hardware shelves
 files: [weighbridge.py]
 entry: weighbridge.py
 dialogue:
-  - caitlin: "Someone gave the Makerspace a box of old hardware. Lightest first for the top shelf. Ties stay in box order."
-on_pass: { caitlin: "Lightest first, ties in box order, and it finds the three-kilo end in a couple of dozen looks." }
+  - neil.pleased.wave: "Someone gave me a box of old sim-rig hardware. Monitors, speakers, the lot."
+  - neil.thinking.point: "Lightest first for the top shelf. Ties stay in box order."
+on_pass: { neil.proud.thumbs: "Lightest first, ties in box order, and it finds the three-kilo end in a couple of dozen looks." }
 ---
 Parts are `(name, kg)` pairs. Write two functions in `weighbridge.py`, by hand: no `sorted`, `.sort()` or `bisect`.
 

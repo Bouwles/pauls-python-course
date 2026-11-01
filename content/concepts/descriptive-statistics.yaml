@@ -78,7 +78,7 @@ cards:
     tests: |
       TESTS = [output("The middle day", expect="0.4")]
   - type: fix
-    prompt: "Riya wants the most common order size, but `mode()` gives back a Series. Fix it so it prints `3`."
+    prompt: "Riya wants the most common number of prints in an order, but `mode()` gives back a Series. Fix it so it prints `3`."
     code: |
       import pandas as pd
 

@@ -5,7 +5,7 @@ title: "Milestone 1: the question and the plan"
 test_plan: true
 evidence: none
 dialogue:
-  - aaesha: "A good question can come back no. If yours can't, it's a slogan."
+  - yahya.unimpressed: "A good question can come back no. If yours can't, it's a slogan."
 checklist:
   - id: one-sentence
     text: "Your question is one sentence, and it could come back yes or no."

@@ -10,15 +10,15 @@ concepts_introduced: []
 concepts_reviewed: [list-comprehensions, dict-set-comprehensions, conditional-comprehensions, files, with-statement, csv-module, exceptions, try-except, raising-errors, modules, imports, main-guard, classes, init, attributes, methods, self, dunder-methods, copying, assert, pytest, edge-cases]
 ask:
   dialogue:
-    - paul: "Show me what you know, then."
-    - paul: "Riya's stock list, Caitlin's bike hire, and Aaesha's library fines. In that order."
-    - paul: "The last one, you write the tests. Aaesha has broken the code six ways to check them."
+    - paul.neutral.wave: "Show me what you know, then."
+    - paul.thinking.point: "Riya's art cupboard, Caitlin's bike hire, and the library's fines. In that order."
+    - paul.pleased: "The last one, you write the tests. I've broken the code six ways to check them."
   spec: |
     Three Make tasks from the class. There are no hints: each task has its brief, two visible checks and a good many hidden ones.
 
     Pass all three and Act II is placed. The Makerspace opens, and Act II's ideas join your review deck.
 ship:
   dialogue:
-    - paul: "Six broken copies, six caught. Aaesha wants them framed."
-    - paul: "Caitlin's expecting you in the Makerspace. Mind the soldering iron."
+    - paul.proud.thumbs: "Six broken copies, six caught. I may have them framed."
+    - paul.pleased.point: "Riya's expecting you in the Makerspace. Mind the wet paint."
   cards: []

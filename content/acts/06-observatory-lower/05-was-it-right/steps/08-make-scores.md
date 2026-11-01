@@ -5,7 +5,7 @@ title: Scored honestly
 files: [diabetes.py, tools.py]
 entry: diabetes.py
 starter_from: make-model
-on_pass: { riya: "Flag at one in ten and it finds three cases in four. For a free blood test, I'd take that." }
+on_pass: { paul.proud: "Flag at one in ten and it finds three cases in four. For a free blood test, I'd take that." }
 hints:
   nudge: "Precision and recall share a numerator. What's on the bottom of each: the flags, or the real cases? And which pile chooses the screening threshold?"
   plan:

@@ -4,7 +4,7 @@ type: predict
 title: Sixteen of the same
 concept: weight-initialisation
 dialogue:
-  - caitlin: "Random starting weights are messy. I start every weight at 0.5. Neat, and the same for everyone."
+  - caitlin.pleased: "Random starting weights are messy. I start every weight at 0.5. Neat, and the same for everyone."
 code: |
   import numpy as np
 

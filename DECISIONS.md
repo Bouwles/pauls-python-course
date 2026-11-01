@@ -122,3 +122,48 @@ One line per non-obvious choice: the choice, then the reason.
 - The learner's avatar is stored in the profile's existing `character` JSON column, so there's no migration; an old animal look reads as the default avatar (`readAvatar` in `lib/avatar.ts`).
 - The Penhallow story notes are gone with the old cast; a leftover `story_note` in a job is ignored.
 - Screenshots: the same 20 screens as the first redesign's after set, at 1440x900 and 390x844, night and day, rather than every screen four times (the owner asked for 20 after the first redesign).
+
+## Redesign 3 (REDESIGN3_PLAN.md): pixel everything
+- **Why:** the owner's call after Redesign 2. The clean interface read as generic, and the pixel cast reference was the look they wanted, so the whole product is now pixel art built on that cast. Body text and the code editor stay crisp for reading.
+- **The people are drawn in code:** `lib/pixel/people.ts` draws any person on a 48x52 grid from a look (`lib/pixel/looks.ts`: the six cast looks as the owner picked them, and the learner's avatar from `lib/avatar.ts`). It has ten expressions, a blink, a mouth with three openings and six gestures with real arms and hands.
+  - Mouths are small and soft, in the person's own skin and lip tones and set just under the nose. Teeth show only on a grin or a laugh.
+  - Closed "happy" eyes are kept for laughing only.
+  - Builds are slim and natural, with arms at the sides when idle.
+- **No illustrator pipeline:** there are no image files for the cast, avatars or rooms. The Redesign 2 illustrator pipeline (`art/manifest.json`, `art/final/`, `<Art>`) is only used by `/dev/art`, and `art/ARTIST_BRIEF.md` is marked superseded.
+- **Talking:** `useSpeech` types a line at about 35 letters a second, pausing at commas and full stops. The mouth opens wide on a and o, a little on other vowels and letters, and shuts on m, b, p, spaces and stops. A click finishes the line. With reduced motion the line appears whole and nobody moves.
+  - Dialogue keys carry the face and gesture (`caitlin.pleased.wave`). When content doesn't say, `moodOf` guesses the face from the words.
+  - While a line types, its button is named "Name text…" so the visible words are in the name (WCAG 2.5.3).
+- **Animations as GIFs:** `scripts/export-cast-animations.ts` writes every feeling (talking and quiet) and every gesture as GIFs, by default to "Paul's Python Course Cast" on the Desktop. `scripts/draw-cast-pixels.ts` remakes the sheets in `art/pixel-reference/`.
+- **Type:** the pixel face is Tiny5, which has one weight and is crisp only at multiples of 8 px. So display text uses `--px-1` to `--px-6` (16 to 64 px) and never a `--fs-*` size, and `font-synthesis` is off. Pixelify Sans was tried first and dropped because its "C" closed up at small sizes.
+- **Surfaces:** all radii are 0. Pixel edges are a stepped two-pixel outline made from four box-shadows, shadows are hard, and there are no gradients, blur or glows. `scripts/style-lint.ts` enforces these rules.
+- **Icons** are pixelarticons (MIT) on a 24 grid, with the duck and the crab drawn on the same grid. Phosphor and Bricolage Grotesque are uninstalled.
+- **The logo** is a pixel snake-P on a 16 grid (`lib/pixel/mark.ts`), used by the site, the server-drawn images and `scripts/build-brand.tsx`. That script also makes the favicons, `public/brand/mark.svg` and the OG image (the class along the bottom) without a browser.
+- **Floors follow the cast's interests:**
+
+  | Act | Room | Who |
+  |---|---|---|
+  | I | Workshop | Paul |
+  | II | Studio | Caitlin |
+  | III | Makerspace | Riya (art) |
+  | IV | Puzzle Room | Neil (racing cars and aerospace) |
+  | V | Archive | Yahya (data science) |
+  | VI | Model Room | Paul (AI and ML) |
+  | VII | Engine Room | Aaesha (cognitive systems) |
+  | VIII | Arcade | Aaesha and Caitlin |
+  | IX | Roof | Everyone |
+
+  Every Act's projects were re-themed to fit, keeping ids, step ids, concepts and test shapes. Clients and facts are in `content/CURRICULUM.md` and `CHARACTERS.md`.
+- **Two renamed data files:** the Log Analyser and Log Streamer read `data/flight.log` and `data/race.log` instead of `machines.log`. Ids are unchanged, so progress is safe, but saved code that opens the old name will need the new one.
+- **The Notebook Reader's weights:** four lines of Paul's notes changed in the re-theme, but `trained.json` was kept so the sample notes read as before. Retraining from the new notes won't reproduce it exactly, though it still beats the bigram.
+- **Rooms** are drawn in code too (`lib/pixel/rooms.ts`, `<PixelRoom>`): 160x56 (the roof 160x88), with back and front layers so people sit behind the desk, in three states (locked, open and busy). The Clocktower is a night scene in both themes.
+- **Ask and Ship are cutscenes in the client's room:** the client waves, talks with their mouth in time and cheers at the Ship. The coach is a pixel bust with the same talking.
+- **Certificates and share cards** use Tiny5 at multiples of 8, the pixel mark, the floor's residents on the certificate's seal and the client and the learner on the share card, all drawn from the same engine as SVG (`lib/pixel/svg.ts`).
+- **Credits:** the sentence "No artwork is AI-generated" was dropped, because the art is now drawn by code. What to say there instead is the owner's call.
+- **Performance:** pixel people and rooms draw, and listen to the shared clock, only while on screen (`components/art/useOnScreen.ts`), and a tick re-renders a person only when their frame changes. On the production build, Lighthouse's mobile run of the landing page went from 72 to 92 on performance (total blocking time from 546 ms to 20 ms). The Handbook page scores 90. Accessibility, best practices and SEO are 100 on both.
+- **Acceptance:** all checks pass:
+  - 1,919 content tests
+  - 131 unit tests
+  - 33 end-to-end tests, including axe on 28 pages
+  - type check, style lint, copy lint and the brand check on the production build
+  
+  The after screenshots of the 20 screens are in `tests/screenshots/redesign-3/after/`.

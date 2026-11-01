@@ -94,7 +94,7 @@ def times_the_call(ctx):
         busy(0.05)
         return "done"
 
-    pile = ["bolt-M8", "hinge-brass"]
+    pile = ["bolt-M8", "brake-pad"]
     seconds = module.time_once(slow_job, pile)
     if calls != [pile]:
         raise CheckFailed("time_once should call the function once, with the data it was given.",
@@ -108,7 +108,7 @@ def times_the_call(ctx):
 
 def quick_job_is_quick(ctx):
     module = ctx.module()
-    seconds = module.time_once(len, ["anvil-small"])
+    seconds = module.time_once(len, ["axle-30mm"])
     if isinstance(seconds, bool) or not isinstance(seconds, float) or not 0 <= seconds < 0.05:
         raise CheckFailed("Timing len() on one part should give a tiny number of seconds, not the function's answer.",
                           expected="a float near 0", actual=repr(seconds))
@@ -158,32 +158,32 @@ def chart_returns_text(ctx):
 
 
 TESTS = [
-    function("A short list, by pairs", call="spares_by_pairs", args=(["bolt-M8", "hinge-brass", "bolt-M8", "spring-coil"],),
+    function("A short list, by pairs", call="spares_by_pairs", args=(["bolt-M8", "brake-pad", "bolt-M8", "spring-coil"],),
              expect=(["bolt-M8"], 6), visible=True),
-    function("The store room's chart", call="chart", args=([200, 400, 800], [19900, 79800, 319600]), expect=STORE_CHART, visible=True),
+    function("The parts drawers' chart", call="chart", args=([200, 400, 800], [19900, 79800, 319600]), expect=STORE_CHART, visible=True),
     function("No parts, by pairs", call="spares_by_pairs", args=([],), expect=([], 0),
              hint="With no parts there is nothing to compare: no spares, and 0 comparisons."),
-    function("One part, by pairs", call="spares_by_pairs", args=(["anvil-small"],), expect=([], 0),
+    function("One part, by pairs", call="spares_by_pairs", args=(["axle-30mm"],), expect=([], 0),
              hint="One part has nothing after it to be compared with."),
     function("Three of a kind, by pairs", call="spares_by_pairs", args=(["gear-12t", "gear-12t", "gear-12t"],),
              expect=(["gear-12t"], 3),
              hint="Each spare is named once in the list, however many copies there are."),
     function("Spares in alphabetical order", call="spares_by_pairs",
-             args=(["valve-brass", "bolt-M6", "valve-brass", "anvil-small", "bolt-M6", "valve-brass"],),
-             expect=(["bolt-M6", "valve-brass"], 15),
+             args=(["valve-stem", "bolt-M6", "valve-stem", "axle-30mm", "bolt-M6", "valve-stem"],),
+             expect=(["bolt-M6", "valve-stem"], 15),
              hint="sorted() puts the spares in alphabetical order, and a set names each one once."),
     custom("It counts the comparisons it really makes", pairs_counts_honestly,
            hint="Add one to the count each time two parts are compared, inside the inner loop."),
     custom("A thousand parts, by pairs", pairs_large),
-    function("A short list, by set", call="spares_by_set", args=(["bolt-M8", "hinge-brass", "bolt-M8", "spring-coil"],),
+    function("A short list, by set", call="spares_by_set", args=(["bolt-M8", "brake-pad", "bolt-M8", "spring-coil"],),
              expect=(["bolt-M8"], 4)),
     function("No parts, by set", call="spares_by_set", args=([],), expect=([], 0)),
     function("Three of a kind, by set", call="spares_by_set", args=(["gear-12t", "gear-12t", "gear-12t"],),
              expect=(["gear-12t"], 3),
              hint="Three parts, three lookups, and the spare named once."),
     function("Spares in alphabetical order, by set", call="spares_by_set",
-             args=(["valve-brass", "bolt-M6", "valve-brass", "anvil-small", "bolt-M6", "valve-brass"],),
-             expect=(["bolt-M6", "valve-brass"], 6)),
+             args=(["valve-stem", "bolt-M6", "valve-stem", "axle-30mm", "bolt-M6", "valve-stem"],),
+             expect=(["bolt-M6", "valve-stem"], 6)),
     custom("By set means a set", set_not_list,
            hint="If `seen` is a list, `part in seen` walks along it for every part. Make it a set."),
     custom("A hundred thousand parts, by set", set_large, timeout=5,
@@ -194,7 +194,7 @@ TESTS = [
            hint="time_once gives back the seconds, not whatever the function gave back."),
     function("O(1) stays the same", call="scale", args=(100, 5000, "O(1)"), expect=1, tol=1e-6),
     function("O(n) scales with n", call="scale", args=(200, 10_000, "O(n)"), expect=50.0, tol=1e-6),
-    function("O(n^2), the clockmaker's lot", call="scale", args=(200, 10_200, "O(n^2)"), expect=2601.0, tol=1e-6,
+    function("O(n^2), the track's lot", call="scale", args=(200, 10_200, "O(n^2)"), expect=2601.0, tol=1e-6,
              hint="For O(n^2), fifty-one times the parts is fifty-one squared times the work."),
     function("O(log n)", call="scale", args=(1024, 1_048_576, "O(log n)"), expect=2.0, tol=1e-6,
              hint="For O(log n), scale by log(n_later) / log(n_now). math.log works with any base here."),

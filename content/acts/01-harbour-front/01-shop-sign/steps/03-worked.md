@@ -3,12 +3,12 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "I made one for Neil's door last week. Have a look before you start."
+  - paul.neutral.point: "I made one for Neil's door last week. Have a look before you start."
 code: |
-  # Sign for the Studio door.
+  # Sign for the Puzzle Room door.
   # Neil wants it in this order: name, hours, invitation.
 
-  print("THE STUDIO, FIRST FLOOR")
+  print("THE PUZZLE ROOM, THIRD FLOOR")
   print("Help with bugs, 9 till 1")
   print('Bring the code you call "broken"')
 subgoals:

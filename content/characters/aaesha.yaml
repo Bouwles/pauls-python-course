@@ -1,10 +1,10 @@
 id: aaesha
 name: Aaesha
-role: Classmate. Data and tests; leads the Archive on the fourth floor.
+role: "Classmate. Cognitive systems: how minds and machines perceive, remember and decide. Runs the Engine Room on floor 6 and co-runs the Arcade."
 colour: "#FF7A6B"
-floor: 5
-look: Very long, straight, dark hair with a centre parting, rosy cheeks, warm closed-mouth smile. Small gold earrings, a fine gold necklace, a gold bangle. A dark-brown T-shirt and denim.
-voice: Precise, organised, quietly funny. Hates duplicated data and charts that lie. Asks how you'll know it worked.
+floor: 7
+look: "Very long, straight, dark hair framing her face, rosy cheeks, a warm smile. Small gold earrings and a fine gold necklace. A dark-brown T-shirt."
+voice: "Precise, organised, quietly funny. Curious about how people and machines think. Asks how you will know it worked before you run it."
 pools:
   # Reactive lines (REDESIGN-2.md 7.4). lib/cast.ts says which events are Aaesha's.
   # When the learner fixes Aaesha's version, or fixes it in fewer lines.
@@ -12,14 +12,17 @@ pools:
     - "That's it. Everything else was right. Thank you."
     - "Fixed. I'm writing that one down, so I don't do it twice."
     - "Thank you. I'd checked everything except that."
+    - "Fixed. I read what I meant, not what I typed. Brains do that."
   shorter-than-mine:
     - "Shorter than mine, and it still passes. I'm keeping yours."
     - "Fewer lines, same results. I'll take that."
-  # Aaesha is the client for the Password Checker, the Contact Book and the Expense Tracker.
+    - "Shorter, and easier to hold in your head at once. That matters."
+  # Aaesha is the client for the Password Checker and the Times Table Trainer.
   waiting:
     - "Before you run it, how will you know it worked?"
     - "Take your time. I'd rather it was right."
     - "When you check it, read the expected output first."
+    - "People decide faster when they're rushed, and worse. Take your time."
   recap:
     - "Where you left my {job}: {step}"
     - "Back to my {job}. The last step you were on: {step}"

@@ -4,8 +4,8 @@ type: investigate
 title: The clifftop walk
 concept: sarsa
 dialogue:
-  - caitlin: "Bonus level. The crab walks along a clifftop to the flag."
-  - paul: "There's a long drop on one side."
+  - caitlin.pleased.point: "Bonus level. The crab walks along a clifftop to the flag."
+  - paul.worried: "There's a long drop on one side."
 code: |
   import numpy as np
 

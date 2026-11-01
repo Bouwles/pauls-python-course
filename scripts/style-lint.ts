@@ -1,7 +1,7 @@
-// The look rules from REDESIGN-2.md (Sections 2, 3 and 10), checked on every stylesheet and
-// component: one radius scale (4, 6, 8), one floating shadow, no gradients, glows, blur or
-// backdrop filters, no uppercase tracked labels, no pixel font or pixel frames, no raw
-// colours outside tokens.css, and none of the old tokens from the first redesign.
+// The look rules (REDESIGN3_PLAN.md P2, on top of REDESIGN-2.md 2 and 10), checked on every
+// stylesheet and component: square pixel corners only, hard shadows only (no blur), no gradients,
+// glows or backdrop filters, no uppercase tracked labels, no 9-slice frames, no raw colours
+// outside tokens.css, and none of the first redesign's old tokens.
 //   npx tsx scripts/style-lint.ts              every file
 //   npx tsx scripts/style-lint.ts components/x only files under a folder (or several)
 import fs from "node:fs";
@@ -24,24 +24,19 @@ const prop = (d: string) => d.slice(0, d.indexOf(":")).trim();
 const value = (d: string) => d.slice(d.indexOf(":") + 1).trim();
 
 const RULES: Rule[] = [
-  { name: "radius off the scale (use --r-sm, --r-md, --r-lg, 0 or 50%)", test: (d) => /radius$/.test(prop(d)) && !/^(0|0px|50%|inherit|var\(--r-(sm|md|lg)\))(\s+(0|var\(--r-(sm|md|lg)\)))*$/.test(value(d)) },
+  { name: "rounded corner (pixel corners are square)", test: (d) => /radius$/.test(prop(d)) && !/^(0|0px|inherit|var\(--r-(sm|md|lg)\))(\s+(0|var\(--r-(sm|md|lg)\)))*$/.test(value(d)) },
   { name: "gradient", test: (d) => /gradient\(/.test(d) },
   { name: "backdrop filter", test: (d) => /^backdrop-filter\s*:/.test(d) },
   { name: "blur or glow", test: (d) => /blur\(|drop-shadow\(/.test(d) },
   { name: "uppercase label", test: (d) => /^text-transform\s*:\s*uppercase/.test(d) },
-  { name: "letter-spacing", test: (d) => prop(d) === "letter-spacing" && !/^(normal|0|-0\.01em|-0\.02em|var\(--tracking-display\)|var\(--prose-letter-spacing\))$/.test(value(d)) },
+  { name: "letter-spacing", test: (d) => prop(d) === "letter-spacing" && !/^(normal|0|var\(--tracking-display\)|var\(--prose-letter-spacing\))$/.test(value(d)) },
   {
-    // The only blurred shadow is the floating one; zero-blur insets (underlines, rings) are fine.
-    name: "shadow (use var(--shadow-float))",
-    test: (d) =>
-      /^box-shadow\s*:/.test(d) &&
-      !/var\(--shadow-float\)|var\(--focus-ring\)/.test(d) &&
-      d.split(/,(?![^(]*\))/).some((part) => /(-?\d+px)\s+(-?\d+px)\s+([1-9]\d*px)/.test(part.replace(/inset\s+/, ""))),
+    // Pixel depth is hard: every shadow's blur is zero.
+    name: "soft shadow (pixel shadows have no blur)",
+    test: (d) => /^box-shadow\s*:/.test(d) && d.split(/,(?![^(]*\))/).some((part) => /(-?\d+px)\s+(-?\d+px)\s+([1-9]\d*px)/.test(part.replace(/inset\s+/, ""))),
   },
   { name: "serif font", test: (d) => /^font-family\s*:/.test(d) && /(?<!sans-)serif|Source Serif|Literata|Georgia|Times/i.test(d) },
-  { name: "pixel font", test: (d) => /font-pixel|m6x11|-webkit-font-smoothing\s*:\s*none|font-smooth\s*:\s*never/.test(d) },
-  { name: "pixel frame (border-image)", test: (d) => /^border-image/.test(d) },
-  { name: "pixel rendering", test: (d, f) => /^image-rendering\s*:/.test(d) && !f.endsWith("app/globals.css") },
+  { name: "9-slice frame (border-image)", test: (d) => /^border-image/.test(d) },
   { name: "raw colour", test: (d, f) => !RAW_COLOUR_OK.has(path.basename(f)) && /^(?!--)[a-z-]+\s*:.*(#[0-9a-fA-F]{3,8}\b|rgba?\(\s*\d)/.test(d) },
   {
     name: "old token",
@@ -81,7 +76,7 @@ for (const f of sheets) {
       if (ch === ";") {
         const decl = buf.trim().replace(/\s+/g, " ");
         // tokens.css defines the old aliases on purpose, for now.
-        for (const r of RULES) if (!(path.basename(f) === "tokens.css" && /old token|pixel font/.test(r.name)) && r.test(decl, f)) problems.push(`${path.relative(root, f)}:${startLine}  ${r.name}: ${decl}`);
+        for (const r of RULES) if (!(path.basename(f) === "tokens.css" && /old token/.test(r.name)) && r.test(decl, f)) problems.push(`${path.relative(root, f)}:${startLine}  ${r.name}: ${decl}`);
         buf = "";
       } else buf += ch;
     }

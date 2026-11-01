@@ -7,7 +7,7 @@ import { duration } from "@/lib/display";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { Wordmark } from "@/components/site/Brand";
-import { HeroStill } from "@/components/landing/HeroStill";
+import { ClassScene } from "@/components/landing/ClassScene";
 import { BrowserFrame } from "@/components/landing/BrowserFrame";
 import { PlayableJob } from "@/components/landing/PlayableJob";
 import { BuildGrid } from "@/components/landing/BuildGrid";
@@ -53,7 +53,7 @@ export default async function Landing() {
       <main id="main">
         <section className={styles.hero} aria-labelledby="hero-title">
           <div className={styles.heroText}>
-            <Wordmark size={40} className={styles.heroMark} />
+            <Wordmark size={48} className={styles.heroMark} />
             <h1 id="hero-title" className={styles.headline}>
               {BRAND.tagline}
             </h1>
@@ -69,7 +69,7 @@ export default async function Landing() {
             <p className={styles.small}>No card, and no account needed to start.</p>
           </div>
           <div className={styles.heroArt}>
-            <HeroStill jobId={firstId} names={names} />
+            <ClassScene names={names} greeting="Welcome to the Clocktower. We build real things here, starting with the sign on the front door." />
           </div>
         </section>
 
@@ -97,7 +97,7 @@ export default async function Landing() {
               </h2>
               <p className={styles.lede}>Real programs with plain names, shown here doing what they do. Each one goes on your Shelf, downloads as a folder with a README, and can go on GitHub.</p>
             </div>
-            <BuildGrid />
+            <BuildGrid names={names} />
           </div>
         </section>
 
@@ -125,7 +125,7 @@ export default async function Landing() {
               <div className={styles.towerArt}>
                 <TowerStatic />
               </div>
-              <FloorDirectory acts={index.acts} />
+              <FloorDirectory acts={index.acts} names={names} />
             </div>
           </div>
         </section>

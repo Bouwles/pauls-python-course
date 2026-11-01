@@ -27,7 +27,7 @@ cards:
       print(max(worth, key=worth.get))
     answer: "left"
   - type: choice
-    prompt: "Yahya's value iteration says every tile is worth far more than it should be. What's wrong with this line?"
+    prompt: "Aaesha's value iteration says every tile is worth far more than it should be. What's wrong with this line?"
     code: |
       best = max(reward + gamma * values[after]
                  for action in ACTIONS

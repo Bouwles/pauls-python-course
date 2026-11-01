@@ -6,7 +6,7 @@ portfolio_readme: |
 
   Learns what every tile of a gridworld is worth from experience alone, with no map of the chances. It races a policy two thousand times and estimates each tile's value two ways, Monte Carlo and temporal difference learning, then compares both with the exact answer worked out from the map.
 
-  Written by {name} for Yahya, at Paul's Python Course. Finished {date}.
+  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -39,18 +39,18 @@ portfolio_readme: |
   - Measuring a learner against the exact answer, and seeing the difference between Monte Carlo's noise and TD's bias
 downloadable: true
 datasets: []
-client: yahya
+client: aaesha
 building: crab-club
 estimated_minutes: 90
-summary: "The worth of every tile, learned from races alone, with no map: Monte Carlo and temporal difference learning."
+summary: "The worth of every tile, learned from races alone with no map, the way animals learn from surprise: Monte Carlo and temporal difference learning."
 concepts_introduced: [monte-carlo, td-learning]
 concepts_reviewed: [policy-evaluation, returns-discounting, mdps, bandits, dictionaries, tuples, zip, default-arguments, numpy-arrays]
 ask:
   dialogue:
-    - yahya: "Your figures for the grid are very nice. On paper."
-    - yahya: "The crab in the cabinet never sees the paper. It just races."
-    - aaesha: "Then let it race, and check the races against the paper. That's how you'll know."
-    - paul: "Two ways to learn from races alone. Both should land near the map."
+    - aaesha.pleased.wave: "Your figures for the grid are right. On paper."
+    - aaesha.thinking: "The crab in the cabinet never sees the paper. It races, it's surprised, and it adjusts."
+    - yahya.neutral: "Then let it race, and check the races against the paper. That's how you'll know."
+    - paul.neutral.point: "Two ways to learn from races alone. Both should land near the map."
   spec: |
     Write `learn.py`. The crab gets no map: nothing in it may read `outcomes`. All it has is `step(tile, action, rng)` from `track.py`, which takes one real step and tells it where it landed, what it earned, and whether the race is over. Practice races start on a random tile, `random_start(rng)`.
 
@@ -80,10 +80,11 @@ ask:
     Furthest from the map: 1.45
 ship:
   dialogue:
-    - yahya: "Two thousand races, and it knows the grid to within a fifth of a point."
-    - caitlin: "Without ever seeing the map. It's a natural."
-    - aaesha: "Monte Carlo's closer. TD learns as it goes. I'd want both."
-    - paul: "It knows what a line is worth. Next, it finds a better one itself."
+    - aaesha.proud.cheer: "Two thousand races, and it knows the grid to within a fifth of a point."
+    - caitlin.laughing: "Without ever seeing the map. It's a natural."
+    - aaesha.thinking: "The TD error is how surprised it was. Dopamine cells in the brain fire much the same way."
+    - yahya.neutral: "Monte Carlo's closer. TD learns as it goes. I'd want both."
+    - paul.thinking: "It knows what a line is worth. Next, it finds a better one itself."
   shelf: { object: race-card, label: "Two thousand practice races, written up" }
   cards: [monte-carlo, td-learning]
 stretch:

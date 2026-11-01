@@ -1,4 +1,4 @@
-"""Yahya's count of the ways to seat the chess night's teams in a row."""
+"""Yahya's count of the ways to seat games night's chess teams in a row."""
 
 TEAMS = ["Rooks", "Knights", "Bishops", "Pawns", "Queens", "Kings"]
 RIVALS = {("Rooks", "Knights"), ("Bishops", "Pawns"), ("Rooks", "Kings")}

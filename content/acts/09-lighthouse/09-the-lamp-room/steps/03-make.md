@@ -4,7 +4,7 @@ type: make
 title: Tests for the clock
 files: [test_clock.py, clock.py]
 entry: test_clock.py
-on_pass: { paul: "They fail on the controller, every one in the right place. Years of next week, and it took you an evening." }
+on_pass: { paul.proud.thumbs: "They fail on the controller, every one in the right place. Years of next week, and it took you an evening." }
 hints:
   nudge: "One test per rule, and at each rule's edge: 1999 and 2000 metres, 4.39 and 4.4 mm, force 7 and force 8."
   plan:

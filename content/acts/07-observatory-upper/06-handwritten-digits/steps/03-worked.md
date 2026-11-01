@@ -3,8 +3,8 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "The Clocktower's post. Weight and length, and three piles: letters, small parcels, large."
-  - paul: "One layer will do. Same ending as the ten digits."
+  - paul.neutral.point: "The Clocktower's post. Weight and length, and three piles: letters, small parcels, large."
+  - paul.pleased: "One layer will do. Same ending as the ten digits."
 code: |
   import numpy as np
 

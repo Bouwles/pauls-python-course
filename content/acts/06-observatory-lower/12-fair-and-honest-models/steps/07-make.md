@@ -5,7 +5,7 @@ title: Run the clinic
 files: [clinic.py]
 entry: clinic.py
 timeout_ms: 30000
-on_pass: { aaesha: "The forest, fairly chosen, and wrong about two in three visitors from outside the city. I'm glad we asked." }
+on_pass: { neil.thinking: "The forest, fairly chosen, and wrong about two in three visitors from outside the city. I'm glad we asked." }
 hints:
   nudge: "Which column is only filled in on the night itself? And when you score the drawer by group, whose mistakes count in `given_away`?"
   plan:

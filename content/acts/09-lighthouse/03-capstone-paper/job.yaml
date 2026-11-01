@@ -6,7 +6,7 @@ portfolio_readme: |
 
   A reproduction, in NumPy and at a size that runs in seconds, of the main result of Belkin, Hsu, Ma and Mandal's 2019 paper on double descent: as a model gets more parameters, its test error falls, rises to a peak where it can only just fit the training data, and then falls again. Random ReLU features, a smallest-norm least-squares fit, ten seeds at every width, one experiment the paper didn't try, and an honest account of what didn't match.
 
-  Written by {name} for Neil, at Paul's Python Course. Finished {date}.
+  Written by {name} for Paul, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -35,19 +35,19 @@ portfolio_readme: |
   - A figure that makes the claim checkable, and a write-up that reports the parts that didn't match
 downloadable: true
 datasets: []
-client: neil
+client: paul
 building: lighthouse
 estimated_minutes: 1200
-summary: "Double descent, from a 2019 paper, reproduced in NumPy at a size that runs in seconds: the pieces, the curve, one experiment of your own, and an honest account of what didn't match."
+summary: "Paul's question about what big models really learn: double descent, from a 2019 paper, reproduced in NumPy at a size that runs in seconds. The pieces, the curve, one experiment of your own, and an honest account of what didn't match."
 concepts_introduced: [double-descent, reproducibility]
 concepts_reviewed: [overfitting, train-test-split, polynomial-features, linear-regression, mean-squared-error, numpy-arrays, matrices, vectorisation, activation-functions, neural-networks, random-module, matplotlib, functions, docstrings, main-guard, pytest, test-first]
 ask:
   dialogue:
-    - neil: "A paper from 2019. It says the overfitting U from the Model Room is half right. The first half."
-    - neil: "Past the point where a model fits every example, the test error comes down again. Allegedly."
-    - riya: "So my degree eleven model was right all along."
-    - neil: "No. Well. Possibly not. We reproduce it before anybody says anything."
-    - paul: "Make it small enough to run twice. Then run it twice."
+    - paul.pleased.wave: "A paper from 2019. It says the overfitting U from the Model Room is half right. The first half."
+    - paul.thinking: "Past the point where a model fits every example, the test error comes down again. Allegedly."
+    - yahya.surprised: "So degree eleven was right all along."
+    - paul.laughing: "No. Well. Possibly not. We reproduce it before anybody says anything."
+    - paul.neutral.point: "Make it small enough to run twice. Then run it twice."
   spec: |
     Belkin, Hsu, Ma and Mandal, "Reconciling modern machine-learning practice and the classical bias-variance trade-off", *Proceedings of the National Academy of Sciences* 116 (32), 2019.
 
@@ -82,11 +82,11 @@ ask:
         2000       0.312
 ship:
   dialogue:
-    - neil: "Down, up at forty, and down again. On ten seeds, then on ten more."
-    - neil: "Your list of what didn't match is longer than the paper's footnotes. Good. That's the useful list."
-    - riya: "So bigger is better."
-    - neil: "Sometimes. Under conditions. They're in the write-up, Riya."
-    - paul: "Reproduced, small, and twice. Now you're entitled to an opinion."
+    - paul.proud: "Down, up at forty, and down again. On ten seeds, then on ten more."
+    - paul.pleased: "Your list of what didn't match is longer than the paper's footnotes. Good. That's the useful list."
+    - caitlin.pleased: "So bigger is better."
+    - paul.laughing: "Sometimes. Under conditions. They're in the write-up, Caitlin."
+    - neil.proud.thumbs: "Reproduced, small, and twice. That's the bit most people skip."
   shelf: { object: annotated-paper, label: "Double descent, reproduced in miniature" }
   cards: [double-descent, reproducibility]
 stretch:

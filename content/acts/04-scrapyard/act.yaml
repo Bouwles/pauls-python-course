@@ -4,12 +4,13 @@ title: "The Puzzle Room"
 district: scrapyard
 subject: "Algorithms and data structures"
 hours: 45
-summary: "Yahya's floor: a wall of sticky notes and string, a chess table, and a stopwatch on every desk. Real programs that have to be quick as well as right: a speed tester, a search engine, a sorting visualiser, an undo button, a hash map, a scheduler, a maze solver, a route planner, a sudoku solver and a spell checker."
-locked_line: "A wall of sticky notes and string, waiting for someone who can follow it."
+summary: "Neil's floor: a racing simulator rig, a model rocket on the shelf, and a wall of sticky notes and string. Real programs that have to be quick as well as right: a speed tester, a search engine, a sorting visualiser, an undo button, a hash map, a pit-stop scheduler, a maze solver, a route planner for race weekend, a sudoku solver and a spell checker."
+locked_line: "A racing rig, a model rocket and a wall of string, waiting for someone who can follow it."
 intro:
-  - paul: "Third floor. Yahya's. Mind the string."
-  - paul: "Until now, a program worked or it didn't. Up here, it also has to be quick."
-  - yahya: "Everything on this floor gets timed. Yours too."
+  - paul.neutral.point: "Third floor. Neil's. Mind the racing rig, and the string."
+  - paul.thinking: "Until now, a program worked or it didn't. Up here, it also has to be quick."
+  - neil.pleased.wave: "Everything on this floor gets timed. Laps, launches, and your code."
+  - neil.laughing: "The rocket on the shelf is a model. Mostly."
 jobs:
   - how-long-will-it-take
   - finding-the-bolt

@@ -1,13 +1,13 @@
-add 3 Riya's headphones
-add 3 Paul's desk lamp
-add 1 the arcade cabinet
+add 3 the tyre pressures
+add 3 the chain tension
+add 1 the loose steering bolt
 take
-add 2 Neil's keyboard
-add 4 the Studio kettle
+add 2 the brake pads
+add 4 the cracked number plate
 take
 take
-add 1 Yahya's stopwatch
-add 2 Aaesha's label printer
+add 1 the fuel leak
+add 2 the seat bolts
 take
 take
 take

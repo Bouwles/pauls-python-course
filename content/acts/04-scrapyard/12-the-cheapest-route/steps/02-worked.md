@@ -3,26 +3,26 @@ id: worked
 type: worked
 title: How long Paul's walks take
 dialogue:
-  - paul: "Roads are fine. Minutes are better. I walk slowly, so I count minutes."
+  - paul.laughing: "Roads are fine. Minutes are better. I walk slowly, so I count minutes."
 code: |
   import heapq
 
   from workshop import show_graph
 
   MINUTES = {
-      "clocktower": {"cafe": 2, "bookshop": 3, "market": 8},
-      "cafe": {"clocktower": 2, "station": 2, "library": 3},
-      "bookshop": {"clocktower": 3, "library": 2, "market": 4},
-      "library": {"bookshop": 2, "cafe": 3, "city-hall": 2},
-      "station": {"cafe": 2, "city-hall": 2, "theatre": 4},
-      "city-hall": {"library": 2, "station": 2},
-      "theatre": {"station": 4},
-      "market": {"clocktower": 8, "bookshop": 4},
+      "main-gate": {"fan-zone": 2, "food-court": 3, "campsite": 8},
+      "fan-zone": {"main-gate": 2, "paddock": 2, "merch-stand": 3},
+      "food-court": {"main-gate": 3, "merch-stand": 2, "campsite": 4},
+      "merch-stand": {"food-court": 2, "fan-zone": 3, "grandstand": 2},
+      "paddock": {"fan-zone": 2, "grandstand": 2, "hairpin": 4},
+      "grandstand": {"merch-stand": 2, "paddock": 2},
+      "hairpin": {"paddock": 4},
+      "campsite": {"main-gate": 8, "food-court": 4},
   }
 
-  best = {"clocktower": 0}
+  best = {"main-gate": 0}
   settled = set()
-  waiting = [(0, "clocktower")]
+  waiting = [(0, "main-gate")]
   while waiting:
       minutes, place = heapq.heappop(waiting)
       if place in settled:
@@ -56,4 +56,4 @@ explain:
 ---
 This is **Dijkstra's algorithm**. `waiting` is a heap of `(minutes, place)`, so `heappop` always gives the nearest place not yet settled. When a quicker way to a neighbour turns up, it goes in again with the new minutes; the old entry stays in the heap, and gets skipped when it comes out.
 
-Run it and play the drawing: the settled places spread out from the Clocktower in order of minutes. The market is settled at 7, by the bookshop, though its direct road is 8.
+Run it and play the drawing: the settled places spread out from the main gate in order of minutes. The campsite is settled at 7, by the food court, though its direct road is 8.

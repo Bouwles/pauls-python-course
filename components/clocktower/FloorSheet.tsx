@@ -76,9 +76,9 @@ function SheetBody({ info, progress, names, acts, placements, onClose }: { info:
   const canPlace = placements.some((p) => p.act === acts.find((a) => a.number === act.number - 1)?.id);
   const allDone = mainJobs(act).filter((j) => j.status === "written").every((j) => isDone(progress[j.id]));
   return (
-    <div className={styles.inner}>
+    <div className={styles.inner} data-roof={floor.act === 9 || undefined}>
       <div className={styles.top}>
-        <FloorArt act={floor.act} state={state} names={names} bare className={styles.banner} />
+        <FloorArt act={floor.act} state={state} bare className={styles.banner} />
       </div>
 
       <div className={styles.body}>
@@ -93,7 +93,7 @@ function SheetBody({ info, progress, names, acts, placements, onClose }: { info:
           <p className={styles.residents}>
             <span className={styles.faces} aria-hidden="true">
               {floor.residents.map((r) => (
-                <Portrait key={r} who={r} name={names[r] ?? cap(r)} size={28} className={styles.face} />
+                <Portrait key={r} who={r} name={names[r] ?? cap(r)} size={36} className={styles.face} />
               ))}
             </span>
             <span>
@@ -152,7 +152,7 @@ function ProjectCard({ j, row, open, pro }: { j: JobSummary; row: JobProgressRow
   const showStatus = !(pro && status.text === "Not started");
   const inner = (
     <>
-      <ShelfObject jobId={j.id} title={j.title} client={j.client} size={44} />
+      <ShelfObject jobId={j.id} title={j.title} client={j.client} size={48} />
       <span className={styles.cardText}>
         <span className={styles.cardName}>{j.title}</span>
         <span className={styles.cardLine}>{j.summary}</span>

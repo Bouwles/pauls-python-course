@@ -66,4 +66,4 @@ tasks:
 ---
 A function inside a class is a **method**. Its first parameter, `self`, is the object the method was called on. Methods use `self.` to read and change that object's attributes.
 
-Riya's accounts count in pence, so 500 is five pounds. Work through the questions, and reset the code whenever you like.
+Caitlin's accounts count in pence, so 500 is five pounds. Work through the questions, and reset the code whenever you like.

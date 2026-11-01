@@ -6,7 +6,7 @@ portfolio_readme: |
 
   A grade book for a whole class, worked out with NumPy and without a single loop. It reads three marks out of 20 for every student, then gives each student's average, each assessment's average, a curve, z-scores, the students whose marks fell away, and a band for every final mark.
 
-  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
+  Written by {name} for Yahya, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -48,7 +48,7 @@ datasets:
     licence: "CC BY 4.0"
     file: marks.csv
     notes: "Cortez, P. (2008), Student Performance [dataset], UCI Machine Learning Repository, doi:10.24432/C5TG7T, collected for Cortez and Silva (2008), Using Data Mining to Predict Secondary School Student Performance. From student-mat.csv (395 students, semicolon-separated) in the download, read with Python's csv module. Kept only the school (GP or MS), the marks G1, G2 and G3 (renamed first, second and final, each 0 to 20) and absences; every personal and family attribute was dropped, and each row was given an anonymous number from 1 in the original order. Values checked to be in range and against the original; nothing else changed. The 38 finals of 0 are as published."
-client: aaesha
+client: yahya
 building: weather-station
 estimated_minutes: 75
 summary: "A grade book for a whole class, in one NumPy array: averages, a curve, z-scores, dropped marks and grade bands, without a loop. On real marks from two schools in Portugal."
@@ -56,10 +56,10 @@ concepts_introduced: [numpy-arrays, vectorisation, broadcasting]
 concepts_reviewed: [lists, slicing, functions, return-values, multiple-returns, main-guard, docstrings, for-loops, comparisons]
 ask:
   dialogue:
-    - aaesha: "Paul asked me how the class's marks are spread. Properly, not by eye."
-    - aaesha: "Ours are private. So I'm practising on real marks that aren't."
-    - aaesha: "Two schools in Portugal published theirs. Three hundred and ninety-five students, three marks each."
-    - paul: "One block of numbers. Nothing done one student at a time."
+    - yahya.pleased.wave: "Paul asked me how the class's marks are spread. Properly, not by eye."
+    - yahya.neutral: "Ours are private. So I'm practising on real marks that aren't."
+    - yahya.thinking.point: "Two schools in Portugal published theirs. Three hundred and ninety-five students, three marks each."
+    - paul.neutral: "One block of numbers. Nothing done one student at a time."
   spec: |
     `marks.csv` is real data: the maths marks of 395 students at two secondary schools in Portugal, published by Paulo Cortez and Alice Silva in 2008. One row per student: an anonymous number, the school, and three marks out of 20, the `first` period, the `second` period and the `final`. `load_marks` is written. It gives back `students`, the 395 numbers, and `marks`, an array of 395 rows and 3 columns.
 
@@ -83,11 +83,11 @@ ask:
     Final bands: A 40, B 60, C 62, D 103, F 130
 ship:
   dialogue:
-    - aaesha: "Thirty-eight noughts in the final. Not one in the first period."
-    - aaesha: "Every one of those students had a first-period mark. I don't think they failed. I think they weren't there."
-    - paul: "So the averages fall over the year for a reason that isn't maths."
-    - aaesha: "That goes at the top of my report. Before any of the numbers."
-  shelf: { object: exam-paper, label: "Aaesha's grade book, three marks each, no loops" }
+    - yahya.surprised: "Thirty-eight noughts in the final. Not one in the first period."
+    - yahya.thinking.think: "Every one of those students had a first-period mark. I don't think they failed. I think they weren't there."
+    - paul.thinking: "So the averages fall over the year for a reason that isn't maths."
+    - yahya.proud.point: "That goes at the top of my report. Before any of the numbers. That's the story."
+  shelf: { object: exam-paper, label: "Yahya's grade book, three marks each, no loops" }
   cards: [numpy-arrays, vectorisation, broadcasting]
 stretch:
   - id: missing-finals

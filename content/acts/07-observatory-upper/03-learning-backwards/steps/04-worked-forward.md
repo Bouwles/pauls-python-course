@@ -3,8 +3,8 @@ id: worked-forward
 type: worked
 title: Two lines for the stairs light
 dialogue:
-  - neil: "On the back of the page, the stairs light. Solved. Two neurons, then one."
-  - paul: "Every number given. Follow it through."
+  - neil.proud.point: "On the back of the page, the stairs light. Solved. Two neurons, then one."
+  - paul.neutral: "Every number given. Follow it through."
 code: |
   import numpy as np
 

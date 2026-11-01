@@ -62,7 +62,7 @@ cards:
         misconception: unweighted-split-score
         feedback: "Without weighting, the side with one night scores 0 for free, and the question that peels off one odd night looks best. That's why each side is weighted by its size."
   - type: choice
-    prompt: "Riya's tree has no depth limit and gets every training night right. What should she expect on new nights?"
+    prompt: "Yahya's tree has no depth limit and gets every training night right. What should he expect on new nights?"
     verify: none
     options:
       - text: "Worse than a shallower tree, most likely: it has learnt single odd nights as if they were rules"

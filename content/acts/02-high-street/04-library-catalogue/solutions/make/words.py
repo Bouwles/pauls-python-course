@@ -1,4 +1,4 @@
-# Aaesha's word counter, for the class reading list.
+# Aaesha's word counter, for her reading experiment.
 import csv
 import string
 from collections import Counter

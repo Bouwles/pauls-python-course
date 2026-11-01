@@ -1,4 +1,4 @@
-# Savings accounts for the class trip fund. Money is kept in whole pence.
+# Savings accounts for the class festival fund. Money is kept in whole pence.
 # Aaesha's note, at the top of the file:
 # "Before you change it, how will you know it still works? A."
 

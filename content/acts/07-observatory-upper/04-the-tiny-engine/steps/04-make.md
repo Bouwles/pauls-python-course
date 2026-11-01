@@ -4,7 +4,7 @@ type: make
 title: The tiny engine
 files: [engine.py]
 entry: engine.py
-on_pass: { neil: "Twenty-four and four. The same as the blackboard, and nobody did any calculus." }
+on_pass: { aaesha.pleased: "Twenty-four and four. The same as the blackboard, and nobody did any calculus. The blame went where it belonged." }
 hints:
   nudge: "In `__add__`, each parent's share is just `out.grad`. In a product, what is each side's slope?"
   plan:

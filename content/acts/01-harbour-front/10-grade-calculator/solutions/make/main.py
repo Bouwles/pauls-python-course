@@ -1,4 +1,4 @@
-# Marks for the class's first test, marked blind by candidate number.
+# Marks for the class's first Python test, marked blind by candidate number.
 
 
 def read_marks(text):

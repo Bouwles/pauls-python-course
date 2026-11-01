@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "Raffle tickets for the end-of-term trip. A code on every one, so nobody prints their own."
+  - paul.neutral.point: "Raffle tickets for Caitlin's games night. A code on every one, so nobody prints their own."
 code: |
   import secrets
   import string

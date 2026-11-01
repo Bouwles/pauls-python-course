@@ -3,7 +3,7 @@ id: collide
 type: git
 title: When two changes collide
 dialogue:
-  - paul: "Two people, one line. Git won't guess who's right. That's your job."
+  - paul.thinking.think: "Two people, one line. Git won't guess who's right. That's your job."
 tasks:
   - id: setup
     prompt: "Fresh project: `git init`, `git add .`, first commit."

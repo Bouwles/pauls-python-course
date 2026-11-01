@@ -10,7 +10,7 @@ def stock(ctx):
 ORIGINAL = {
     "bread": {"baked": 40, "sold": 0},
     "buns": {"baked": 60, "sold": 0},
-    "lardy cake": {"baked": 12, "sold": 0},
+    "brownies": {"baked": 12, "sold": 0},
 }
 
 
@@ -27,7 +27,7 @@ def friday_stays(ctx):
 def standard_unchanged(ctx):
     s = stock(ctx)
     day = s.new_day()
-    s.sell(day, "lardy cake", 4)
+    s.sell(day, "brownies", 4)
     s.bake_more(day, "bread", 10)
     if s.STANDARD_BAKE != ORIGINAL:
         raise CheckFailed("Selling and baking on a day's sheet changed STANDARD_BAKE.",
@@ -44,7 +44,7 @@ def nothing_shared(ctx):
 
 
 TESTS = [
-    output("Saturday's sheet", expect="bread: 35 left of 40\nbuns: 60 left of 60\nlardy cake: 12 left of 12", visible=True),
+    output("Saturday's sheet", expect="bread: 35 left of 40\nbuns: 60 left of 60\nbrownies: 12 left of 12", visible=True),
     custom("Friday's sales stay on Friday", friday_stays, visible=True),
     custom("The standard bake never changes", standard_unchanged,
            hint="If only this fails, a day's sheet still shares something with STANDARD_BAKE."),

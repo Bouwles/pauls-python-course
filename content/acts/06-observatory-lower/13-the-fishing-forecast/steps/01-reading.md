@@ -3,9 +3,9 @@ id: reading
 type: reading
 title: The brief
 dialogue:
-  - paul: "Two Makes, then the write-up. The write-up's half the job."
-  - caitlin: "The boring half."
-  - paul: "The half anyone else will read."
+  - paul.neutral.point: "Two Makes, then the write-up. The write-up's half the job."
+  - caitlin.unimpressed: "The boring half."
+  - paul.pleased: "The half anyone else will read."
 ---
 The fleet's log is in `fishing.csv`: every day from 2023 to 2025. Each row has what was known at dawn (wind speed and direction, pressure, sea temperature, cloud, rain, swell, the tide's range and the first high water) and what happened after: how many boats went out, and how many boxes each landed. The skipper calls a day good at eight boxes a boat.
 

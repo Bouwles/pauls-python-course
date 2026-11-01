@@ -5,8 +5,10 @@ import type { Files, TestMeta } from "../python/protocol";
 export interface Line {
   who: string;
   text: string;
-  /** The portrait expression for this line ("pleased", "worried"...). Neutral when missing. */
+  /** The portrait expression for this line ("pleased", "worried"...). Guessed from the words when missing. */
   face?: string;
+  /** A gesture while saying it ("wave", "cheer", "think", "point", "thumbs"). */
+  gesture?: string;
 }
 
 export interface Hints {

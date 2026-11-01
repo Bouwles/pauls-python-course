@@ -4,9 +4,9 @@ type: milestone
 title: "Milestone 3: the whole project"
 evidence: link
 dialogue:
-  - paul: "Everything the proposal promised. If something changed, say what and why."
-  - caitlin: "Mine changed a lot."
-  - paul: "Then the README will be interesting."
+  - paul.neutral: "Everything the proposal promised. If something changed, say what and why."
+  - caitlin.worried: "Mine changed a lot."
+  - paul.laughing: "Then the README will be interesting."
 checklist:
   - id: promised
     text: "Everything the proposal promised works, or the README says what changed and why."

@@ -1,0 +1,86 @@
+/*
+  The stage for the Ask and the Ship: the client's room on the Clocktower, drawn by PixelRoom at a
+  whole-number scale, inside a two-pixel stepped outline with a hard drop shadow. Wider than the
+  room, the tower's brick shows either side; narrower, the room is cropped around the client.
+*/
+.stage {
+  position: relative;
+  min-width: 0;
+  min-height: 168px;
+  overflow: hidden;
+  background: var(--px-outline);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    6px 6px 0 0 var(--px-drop);
+}
+
+.shift {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+/* Others in the conversation, standing in the foreground. */
+.guest {
+  position: absolute;
+  display: block;
+}
+
+.name {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  z-index: 2;
+  padding: 4px 8px;
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  line-height: 1;
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
+}
+
+/* A line in a bubble. The whole line holds the bubble's size; the typed part sits on top. */
+.line {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+.lineButton {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  text-align: left;
+  cursor: default;
+}
+
+.lineButton:focus-visible {
+  outline: 2px solid var(--sun);
+  outline-offset: 6px;
+}
+
+.bubble {
+  width: 100%;
+}
+
+.words {
+  display: grid;
+  font-size: var(--fs-3);
+  line-height: 1.5;
+}
+
+.ghost,
+.typed {
+  grid-area: 1 / 1;
+}
+
+.ghost {
+  visibility: hidden;
+}

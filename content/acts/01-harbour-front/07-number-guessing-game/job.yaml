@@ -42,10 +42,10 @@ concepts_introduced: [while-loops, sentinels, running-totals, infinite-loops, ra
 concepts_reviewed: [comparisons, if-elif-else, boolean-operators, int-conversion, f-strings, for-loops]
 ask:
   dialogue:
-    - caitlin: "I want a game. A real one. The computer picks a number, you guess it."
-    - caitlin: "Too high, too low, got it. And it counts your guesses."
-    - caitlin: "Fewest guesses is basically a high score. So it's a proper game."
-    - paul: "It'll need a loop that doesn't know when it ends. That's new."
+    - caitlin.pleased.wave: "I want a game. A real one. The computer picks a number, you guess it."
+    - caitlin.neutral.point: "Too high, too low, got it. And it counts your guesses."
+    - caitlin.laughing: "Fewest guesses is basically a high score. So it's a proper game."
+    - paul.thinking: "It'll need a loop that doesn't know when it ends. That's new."
   spec: |
     The machine picks a whole number from 1 to 100 with `random.randint(1, 100)`. Then it asks `Guess? ` until the game is over.
 
@@ -62,9 +62,9 @@ ask:
     Got it in 3.
 ship:
   dialogue:
-    - caitlin: "Thirty-seven in three. Yahya says he'd have done it in two."
-    - yahya: "Halve what's left every time. Seven guesses, never more. It's just maths."
-    - caitlin: "It's a game, Yahya. Fewest guesses goes on the board."
+    - caitlin.proud: "Thirty-seven in three. Yahya says he'd have done it in two."
+    - yahya.neutral.point: "Halve what's left every time. Seven guesses, never more. It's just maths."
+    - caitlin.laughing.cheer: "It's a game, Yahya. Fewest guesses goes on the board."
   shelf: { object: fish, label: "Caitlin's guessing game" }
   cards: [while-loops, sentinels, running-totals, infinite-loops, random-module, imports, break-continue]
 stretch:

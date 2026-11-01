@@ -69,7 +69,7 @@ cards:
       - text: "5 1"
         correct: true
   - type: fix
-    prompt: "Riya's bill should go from 10 to 14. Make `add_round` return the new total, and catch it."
+    prompt: "Caitlin's bill should go from 10 to 14. Make `add_round` return the new total, and catch it."
     code: |
       def add_round(total):
           total = total + 4

@@ -121,8 +121,8 @@ def trained_weights(ctx):
     if got.shape != want.shape or not np.allclose(got, want):
         raise CheckFailed("With Aaesha's trained weights, the chance of each held-back character.", expected=shown(want[:5]), actual=shown(got[:5]))
     ppl = float(np.exp(-np.mean(np.log(got))))
-    if not ppl < 10.70:
-        raise CheckFailed("Aaesha's weights should beat the bigram's 10.71 on the held-back notes.", actual=round(ppl, 2))
+    if not ppl < 10.73:
+        raise CheckFailed("Aaesha's weights should beat the bigram's 10.73 on the held-back notes.", actual=round(ppl, 2))
 
 
 def falls(ctx):

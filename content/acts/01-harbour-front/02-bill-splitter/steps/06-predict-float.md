@@ -20,6 +20,6 @@ options:
 after: |
   Run it. Then try `print(0.1 + 0.2)` for the most famous one.
 ---
-A number with a decimal point is a **float**. Three drinks at 2.40 each. Riya would say seven twenty.
+A number with a decimal point is a **float**. Three drinks at 2.40 each. Caitlin would say seven twenty.
 
 What does Python say?

@@ -5,7 +5,7 @@ title: Load the station
 files: [investigation.py, station.py, test_station.py]
 entry: investigation.py
 timeout_ms: 30000
-on_pass: { aaesha: "Four estimates, nine provisional months, 668 without sunshine. Now we know what we're standing on." }
+on_pass: { yahya.pleased: "Four estimates, nine provisional months, 668 without sunshine. Now we know what we're standing on." }
 hints:
   nudge: "Which line tells you where the table starts? And what do you need to write down about a value before you take its mark off?"
   plan:

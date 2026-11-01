@@ -1,5 +1,5 @@
-/* The site header (REDESIGN-2.md 6): the same bar height as the Workbench's, on the page colour,
-   with one line under it where it meets the page. Nav in the text face, 15 px bold. */
+/* The site header (REDESIGN3_PLAN.md P2): a pixel bar the same height as the Workbench's, with a
+   light top edge and a two-pixel outline where it meets the page. Nav in the pixel face. */
 .header {
   position: relative;
   z-index: 10;
@@ -8,8 +8,10 @@
   gap: var(--s-8);
   height: var(--header-h);
   padding: 0 var(--s-6);
-  background: var(--bg);
-  border-bottom: 1px solid var(--line);
+  background: var(--surface-1);
+  box-shadow:
+    inset 0 2px 0 0 var(--px-hi),
+    0 2px 0 0 var(--px-outline);
 }
 
 .home {
@@ -17,13 +19,16 @@
   align-items: center;
   flex: none;
   height: 40px;
-  border-radius: var(--r-md);
   color: var(--text);
   text-decoration: none;
 }
 
 .home:hover {
   color: var(--text);
+}
+
+.home:focus-visible {
+  outline-offset: 4px;
 }
 
 .nav {
@@ -40,12 +45,12 @@
   display: inline-flex;
   align-items: center;
   color: var(--text-2);
-  font-size: var(--fs-2);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  font-weight: 400;
   line-height: 1;
   text-decoration: none;
   white-space: nowrap;
-  transition: color var(--dur) var(--ease-out);
 }
 
 .link:hover,
@@ -63,18 +68,17 @@
   color: var(--text-2);
 }
 
-/* The current page: full-strength text and a 2 px sun line along the header's foot. */
+/* The current page: full-strength text and a four-pixel sun bar along the header's foot. */
 .link[aria-current="page"],
 .link[aria-current="page"]:link,
 .link[aria-current="page"]:visited {
   color: var(--text);
-  box-shadow: inset 0 -2px 0 var(--sun);
+  box-shadow: inset 0 -4px 0 0 var(--sun);
 }
 
 .link:focus-visible,
 .login:focus-visible {
   outline-offset: -2px;
-  border-radius: var(--r-sm);
 }
 
 .right {
@@ -92,23 +96,26 @@
   color: var(--text);
 }
 
+/* Your avatar: a square pixel tile; pointing at it raises a pixel outline round it. */
 .avatar {
   display: inline-grid;
   place-items: center;
   width: 40px;
   height: 40px;
-  border-radius: 50%;
   text-decoration: none;
 }
 
 .avatarArt {
   display: inline-flex;
-  border-radius: 50%;
 }
 
 .avatar:hover .avatarArt,
 .avatar[aria-current="page"] .avatarArt {
-  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--line);
+  box-shadow:
+    0 -2px 0 0 var(--sun),
+    0 2px 0 0 var(--sun),
+    -2px 0 0 0 var(--sun),
+    2px 0 0 0 var(--sun);
 }
 
 /* Phones and narrow windows: the nav moves to a second row that scrolls sideways. */
@@ -135,7 +142,7 @@
     gap: var(--s-5);
     overflow-x: auto;
     scrollbar-width: none;
-    border-top: 1px solid var(--line);
+    box-shadow: inset 0 2px 0 0 var(--line);
   }
 
   .nav::-webkit-scrollbar {
@@ -148,17 +155,17 @@
   }
 }
 
-/* "PPC" where the full name and the guest's two buttons don't both fit (REDESIGN-2.md 1). */
+/* "PPC" where the full name doesn't fit beside what's on the right (REDESIGN-2.md 1). */
 .home .short {
   display: none;
 }
 
-@media (max-width: 440px) {
-  .header[data-guest] .home .full {
+@media (max-width: 480px) {
+  .home .full {
     display: none;
   }
 
-  .header[data-guest] .home .short {
+  .home .short {
     display: inline-flex;
   }
 }

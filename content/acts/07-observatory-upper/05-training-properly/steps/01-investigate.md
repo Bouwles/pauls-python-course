@@ -4,7 +4,7 @@ type: investigate
 title: The long gentle slope
 concept: optimisers
 dialogue:
-  - yahya: "A long gentle slope, and the hiker takes forever. I can't watch this."
+  - yahya.unimpressed: "A long gentle slope, and the hiker takes forever. I can't watch this."
 code: |
   from workshop import show_hill
 

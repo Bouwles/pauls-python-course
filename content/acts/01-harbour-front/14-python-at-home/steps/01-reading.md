@@ -3,7 +3,7 @@ id: what-goes-where
 type: reading
 title: What goes where
 dialogue:
-  - neil: "Four things. None of them is hard. People get stuck by doing them in the wrong order."
+  - neil.neutral.point: "Four things, in order, like a pre-flight check. People get stuck by doing them in the wrong order."
 ---
 **Python** is a program on your computer that runs other programs. You talk to it through a **terminal**: a window where you type a command, press Enter, and read what comes back.
 

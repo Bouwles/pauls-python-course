@@ -4,8 +4,8 @@ type: predict
 title: Free seconds
 concept: value-iteration
 dialogue:
-  - caitlin: "Suppose I add a practice mode. No clock, and moves cost nothing."
-  - yahya: "Then nobody would ever hurry. Hypothetically."
+  - caitlin.pleased.think: "Suppose I add a practice mode. No clock, and moves cost nothing."
+  - yahya.unimpressed: "Then nobody would ever hurry. Hypothetically."
 code: |
   TRACK = ["...F", ".#.P", "S..."]
   STEPS = {"up": (-1, 0), "down": (1, 0), "left": (0, -1), "right": (0, 1)}

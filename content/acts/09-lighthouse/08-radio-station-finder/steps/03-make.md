@@ -4,7 +4,7 @@ type: make
 title: The tuner
 files: [tuner.py]
 entry: tuner.py
-on_pass: { neil: "Two stations. Neither of them is the crackle. Turn it up." }
+on_pass: { caitlin.laughing.cheer: "Two stations. Neither of them is the crackle. Turn it up." }
 hints:
   nudge: "Smooth first, then look for peaks in the smoothed list, not the raw one."
   plan:

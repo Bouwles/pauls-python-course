@@ -88,12 +88,12 @@ class Library:
 
 if __name__ == "__main__":
     library = Library()
-    library.add(Book("Emma", "Jane Austen", 1815))
-    library.add(Book("The Riddle of the Sands", "Erskine Childers", 1903))
+    library.add(Book("Carrying the Fire", "Michael Collins", 1974))
+    library.add(Book("The Mechanic's Tale", "Steve Matchett", 1999))
     library.add(ReferenceBook("House Style", "Paul", 2025))
-    library.add(Book("emma", "Jane Austen", 1815))
-    library.find("Emma").lend("Aaesha")
+    library.add(Book("carrying the fire", "Michael Collins", 1974))
+    library.find("Carrying the Fire").lend("Aaesha")
     print(f"The library has {len(library)} books")
-    print(library.find("Emma"))
+    print(library.find("Carrying the Fire"))
     print(library.find("house style"))
     print("On the shelf: " + ", ".join(book.title for book in library.on_shelf()))

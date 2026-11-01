@@ -3,7 +3,7 @@ id: requests-and-answers
 type: reading
 title: How a web app answers
 dialogue:
-  - paul: "A web app is a function someone calls from across the city. That's most of it."
+  - paul.neutral.point: "A web app is a function someone calls from across the city. That's most of it."
 code: |
   # Lost property, as the marina office might keep it.
   from flask import Flask, jsonify, request

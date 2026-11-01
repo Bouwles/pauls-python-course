@@ -4,9 +4,9 @@ project_name: "Timing and Retry Decorators"
 portfolio_readme: |
   # Timing and Retry Decorators
 
-  Two decorators that can go on any function. `@timed` logs how long every call takes, so the slow one can be found by measuring instead of guessing; `slowest` and `slow_calls` read the log. `@retry` calls a function again when it fails with a `ConnectionError`, up to three times, then lets the error out. Both were put on a fruit stall's till: the timer found the dawdling price look-up, and retry kept the card reader from turning a customer away.
+  Two decorators that can go on any function. `@timed` logs how long every call takes, so the slow one can be found by measuring instead of guessing; `slowest` and `slow_calls` read the log. `@retry` calls a function again when it fails with a `ConnectionError`, up to three times, then lets the error out. Both were put on the till for a bake sale's fruit table: the timer found the dawdling price look-up, and retry kept the card reader from turning a customer away.
 
-  Written by {name} for Yahya and the class fruit stall, at Paul's Python Course. Finished {date}.
+  Written by {name} for Caitlin's bake sale, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -42,19 +42,19 @@ portfolio_readme: |
   - Retrying only the error that's worth another go, and giving up honestly
 downloadable: true
 datasets: []
-client: yahya
+client: caitlin
 building: greengrocer
 estimated_minutes: 80
-summary: "Two decorators for the class fruit stall's till: one times every call and finds the slow one, one tries the card reader again when it doesn't answer."
+summary: "Two decorators for the till on the fruit table at Caitlin's bake sale: one times every call and finds the slow one, one tries the card reader again when it doesn't answer."
 concepts_introduced: [functions-as-values, lambda, map-filter, sort-key, closures, decorators]
 concepts_reviewed: [functions, parameters, return-values, tuples, unpacking, args-kwargs, list-comprehensions, dictionaries, standard-library, main-guard, f-strings, slicing, sorted-vs-sort]
 ask:
   dialogue:
-    - yahya: "The class runs a fruit stall on Saturdays, for the trip fund. The till is slow."
-    - riya: "I timed it on my phone. Four minutes for two plums. The queue went past the next stall."
-    - yahya: "Riya's till has a function for everything. One of them is dawdling. I want to know which."
-    - riya: "And the card reader only answers if you ask it twice. I ask it twice. Out loud."
-    - paul: "Don't guess which is slow. Measure. And let the till do the asking twice."
+    - caitlin.pleased.wave: "The bake sale has a fruit table now. The till weighs everything, and it's slow."
+    - yahya.unimpressed: "I timed it. Four minutes for two plums. The queue went past the next stall."
+    - caitlin.thinking: "My till has a function for everything. One of them is dawdling. I want to know which."
+    - yahya.laughing: "And the card reader only answers if you ask it twice. Caitlin asks it twice. Out loud."
+    - paul.neutral: "Don't guess which is slow. Measure. And let the till do the asking twice."
   spec: |
     Write a decorator `timed` that times a function every time it runs, appends `(name, seconds)` to the list `log`, and hands back the function's own result. Read the time with `clock()`: it starts as `time.perf_counter`, and the checks swap it for a clock that ticks in known steps.
 
@@ -75,16 +75,16 @@ ask:
     look_up_price took 0.30 s
 ship:
   dialogue:
-    - yahya: "Look up price. Three tenths of a second, every single time. Told you it was the code."
-    - riya: "Ten things a customer is three seconds of standing about. And the reader got asked twice without me shouting."
-    - paul: "Measured, not guessed. Now go and fix the dawdler."
-  shelf: { object: stopwatch, label: "The fruit stall till, timed and patient" }
+    - yahya.proud: "Look up price. Three tenths of a second, every single time. Told you it was the code."
+    - caitlin.laughing.cheer: "And the reader got asked twice without me shouting. The queue's gone."
+    - paul.neutral.point: "Measured, not guessed. Now go and fix the dawdler."
+  shelf: { object: stopwatch, label: "Caitlin's bake sale till, timed and patient" }
   cards: [functions-as-values, lambda, map-filter, sort-key, closures, decorators]
 stretch:
   - id: remembered
     title: "Fix the dawdler"
     prompt: |
-      Riya's note says `look_up_price` reads the whole price book every time. Write a second decorator, `remembered`, that keeps each answer in a dictionary inside a closure, so asking for plums twice only looks once.
+      Caitlin's note says `look_up_price` reads the whole price book every time. Write a second decorator, `remembered`, that keeps each answer in a dictionary inside a closure, so asking for plums twice only looks once.
 
       Put `@timed` above `@remembered`. The log shows the second lookup taking almost nothing.
   - id: timed-as

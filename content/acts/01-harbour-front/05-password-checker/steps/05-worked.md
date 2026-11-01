@@ -3,9 +3,9 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "Aaesha asked for usernames first. I did those. Same shape, fewer rules."
+  - paul.pleased: "Aaesha asked for usernames first. I did those. Same shape, fewer rules."
 code: |
-  # Usernames for the class's shared accounts
+  # Usernames for the class server
   name = input("Username? ")
   name = name.strip().lower()
 

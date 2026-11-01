@@ -8,8 +8,8 @@ heavy: true
 setup: |
   Gymnasium installs with pip like anything else; `pip install -r requirements.txt` fetches it with NumPy. Nothing here needs a screen or a graphics card. The agent's tests train a keeper twice, which takes about twenty seconds, so let pytest finish.
 dialogue:
-  - caitlin: "Here's the game, rules and all. Aaesha wrote the tests before I'd finished the art."
-  - aaesha: "Fifteen for the gate, five for the keeper. Read them before you run them."
+  - caitlin.pleased.point: "Here's the game, rules and all. Aaesha wrote the tests before Riya had finished the art."
+  - aaesha.neutral: "Fifteen for the gate, five for the keeper. Read them before you run them."
 ---
 The project has two files to finish and twenty tests.
 

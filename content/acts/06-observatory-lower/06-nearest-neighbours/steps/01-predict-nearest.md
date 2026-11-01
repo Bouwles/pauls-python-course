@@ -4,7 +4,7 @@ type: predict
 title: Most like this one
 concept: knn
 dialogue:
-  - aaesha: "A penguin from the Palmer data. I've hidden its name. Shallow bill, long flippers. I'd say Gentoo."
+  - aaesha.thinking: "A penguin from the Palmer data. I've hidden its name. Shallow bill, long flippers. I'd say Gentoo."
 code: |
   import numpy as np
 
@@ -33,6 +33,6 @@ options:
 after: |
   Run it, then print `distance` to see the three. Now put each column on the same footing: divide `penguins` and `new` by `np.array([2, 14, 800])`, roughly each measurement's spread, before measuring. Which penguin is nearest now?
 ---
-**Nearest neighbours** names an animal by finding the ones already named that are most like it. "Most like" means nearest: subtract one animal's measurements from the other's, square the differences, add them up and take the square root. That's the straight-line distance, as on a map, but with three measurements instead of two.
+**Nearest neighbours** names an animal by finding the ones already named that are most like it. "Most like" means nearest: subtract one animal's measurements from the other's, square the differences, add them up and take the square root. That's the straight-line distance, as on a map, but with three measurements instead of two. Psychologists have a theory that people name things the same way, by the remembered examples most like them.
 
 Here are three penguins from the data, and a new one.

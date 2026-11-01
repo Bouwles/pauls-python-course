@@ -11,13 +11,11 @@
   min-width: 0;
 }
 
+/* Fields are pixel wells (globals.css); here they're full width and touch height. */
 .field input {
   width: 100%;
   height: var(--touch);
   padding: 0 var(--s-3);
-  background: var(--surface-3);
-  border: 1px solid var(--line);
-  border-radius: var(--r-md);
   color: var(--text);
   font-size: var(--fs-3);
 }
@@ -48,14 +46,36 @@
   cursor: pointer;
 }
 
+/* A pixel checkbox: a sunk square that fills with sun, framed, when ticked. */
 .check input {
   flex: none;
+  appearance: none;
   width: 20px;
   height: 20px;
-  margin: 0;
+  margin: 2px;
   padding: 0;
-  accent-color: var(--sun);
+  background: var(--editor);
   cursor: pointer;
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-lo);
+}
+
+.check input:focus-visible {
+  outline-offset: 4px;
+}
+
+.check input:checked {
+  background: var(--sun);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 0 0 4px var(--editor);
 }
 
 .error {
@@ -64,14 +84,14 @@
   align-items: flex-start;
   padding: var(--s-3);
   background: var(--fail-wash);
-  border-radius: var(--r-md);
+  box-shadow: inset 4px 0 0 0 var(--fail);
   color: var(--text);
   font-size: var(--fs-2);
   line-height: 1.45;
 }
 
 .error svg {
-  margin-top: 1px;
+  flex: none;
   color: var(--fail-text);
 }
 
@@ -112,7 +132,7 @@
 .or::after {
   content: "";
   flex: 1;
-  height: 1px;
+  height: 2px;
   background: var(--line);
 }
 
@@ -128,7 +148,7 @@
   align-items: center;
   padding: var(--s-3);
   background: var(--sun-wash);
-  border-radius: var(--r-md);
+  box-shadow: inset 4px 0 0 0 var(--sun);
   font-size: var(--fs-2);
 }
 
@@ -142,7 +162,7 @@
 }
 
 .sentTitle {
-  font-size: var(--fs-5);
+  font-size: var(--px-2);
 }
 
 .dev {

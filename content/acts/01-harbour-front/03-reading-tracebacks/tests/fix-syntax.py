@@ -1,3 +1,3 @@
 TESTS = [
-    output("The header", expect="THE STUDIO, FIRST FLOOR\nHelp with bugs, every weekday", visible=True),
+    output("The header", expect="KARTING CLUB, RACE DAY\nHelmets on, visors down", visible=True),
 ]

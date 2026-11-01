@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Caitlin's version
 dialogue:
-  - caitlin: "Riya's accounts, done properly. A class and everything. Ten minutes, start to finish."
-  - caitlin: "It says deposit takes one argument but I gave it two. I gave it one. Can you look?"
+  - caitlin.proud: "The festival accounts, done properly. A class and everything. Ten minutes, start to finish."
+  - caitlin.confused: "It says deposit takes one argument but I gave it two. I gave it one. Can you look?"
 dialogue_after:
-  - caitlin: "Self counts. Even when you don't write it in the call. Especially then."
+  - caitlin.surprised: "Self counts. Even when you don't write it in the call. Especially then."
 hints:
   nudge: "Inside `deposit`, which object is `self`, and how does `deposit` get it?"
   plan:

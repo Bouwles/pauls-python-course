@@ -3,7 +3,7 @@ id: no-map
 type: reading
 title: Racing without the map
 dialogue:
-  - paul: "Last week you had every chance written down. On League night, nobody hands the crab the list."
+  - paul.thinking.think: "Last week you had every chance written down. On League night, nobody hands the crab the list."
 code: |
   def step(tile, action, rng):
       """One step on the real grid: (where it ends up, the reward, whether the race is over)."""

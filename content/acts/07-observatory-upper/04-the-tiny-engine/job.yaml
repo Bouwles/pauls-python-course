@@ -4,9 +4,9 @@ project_name: "Tiny Autograd Engine"
 portfolio_readme: |
   # Tiny Autograd Engine
 
-  A small automatic differentiation engine in plain Python, in the style of micrograd. Every `Value` remembers the values it was made from and how, so one call to `backward()` works out the gradient of a result with respect to everything that went into it. A sigmoid neuron built on the engine then learns from a log of 24 nights, with no backward pass written by hand.
+  A small automatic differentiation engine in plain Python, in the style of micrograd. Every `Value` remembers the values it was made from and how, so one call to `backward()` works out the gradient of a result with respect to everything that went into it. That is one answer to the credit assignment problem, which every learning brain has too: when the answer is wrong, how much is each part to blame? A sigmoid neuron built on the engine then learns from a log of 24 nights, with no backward pass written by hand.
 
-  Written by {name} for Neil, at Paul's Python Course. Finished {date}.
+  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -33,18 +33,19 @@ portfolio_readme: |
   `nights.csv` is invented for the project: 24 nights of cloud, humidity and moon, each scaled from 0 to 1, and whether the stargazing night on the roof went ahead.
 downloadable: true
 datasets: []
-client: neil
+client: aaesha
 building: observatory
 estimated_minutes: 120
-summary: "A micrograd-style autograd engine: numbers that remember how they were made, so one backward() works out every gradient, drawn as a graph. Then a neuron that trains on it."
+summary: "A micrograd-style autograd engine: numbers that remember how they were made, so one backward() shares out the blame for a mistake, the puzzle every learning brain has to solve. Drawn as a graph, then a neuron that trains on it."
 concepts_introduced: [autograd]
 concepts_reviewed: [backpropagation, numerical-gradient-checking, chain-rule, classes, init, self, dunder-methods, closures, functions-as-values, sets, recursion, activation-functions, gradient-descent, mean-squared-error, perceptron]
 ask:
   dialogue:
-    - neil: "Every time we change the network, somebody rewrites backward by hand. Usually me. Usually wrong."
-    - neil: "So picture a shoebox of index cards. One number on each."
-    - neil: "On the back of every card, the cards it was made from. That's the whole trick."
-    - aaesha: "Every number with its receipt. I approve of receipts."
+    - aaesha.neutral.wave: "When a network gets an answer wrong, which of its numbers is to blame? Brains have the same puzzle."
+    - aaesha.thinking: "Nobody knows yet how a brain shares out the blame. A network can do it mechanically."
+    - neil.laughing: "Right now somebody rewrites backward by hand every time. Usually me. Usually wrong."
+    - neil.neutral.point: "So picture a shoebox of index cards. One number on each, and on the back, the cards it was made from."
+    - aaesha.pleased: "Every number with its receipt. I approve of receipts."
   spec: |
     In `engine.py`, finish `Value`: one number that remembers how it was made. `+` is already written, as the pattern for the rest.
 
@@ -63,12 +64,12 @@ ask:
     Tonight: 0.90, go ahead
 ship:
   dialogue:
-    - neil: "Twenty-four nights out of twenty-four, and nobody wrote a backward pass. The cards did."
-    - neil: "The perceptron jumped from no to yes. This one slides, so there's a slope to follow."
-    - yahya: "Mine was faster."
-    - aaesha: "Yours was wrong faster."
-    - yahya: "Fair. The set's back in."
-  shelf: { object: shoebox, label: "Neil's shoebox engine" }
+    - neil.proud: "Twenty-four nights out of twenty-four, and nobody wrote a backward pass. The cards did."
+    - aaesha.pleased.point: "Every number got its fair share of the blame. That's the part brains still keep to themselves."
+    - yahya.unimpressed: "Mine was faster."
+    - aaesha.laughing: "Yours was wrong faster."
+    - yahya.pleased.thumbs: "Fair. The set's back in."
+  shelf: { object: shoebox, label: "Aaesha and Neil's shoebox engine" }
   cards: [autograd]
 stretch:
   - id: tanh

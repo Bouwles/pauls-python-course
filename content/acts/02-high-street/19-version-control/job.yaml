@@ -30,10 +30,10 @@ summary: "Keep the history of a project with git: commits, branches and a confli
 concepts_introduced: [git-basics, git-branches, merge-conflicts]
 ask:
   dialogue:
-    - paul: "My first course notes live in one folder. Every version of everything, labelled by date."
-    - paul: "Half the labels are wrong. Some are just labelled 'better'."
-    - caitlin: "Mine are labelled 'final', 'final2' and 'actually final'."
-    - paul: "There's a proper way. It's called git. You'll use it for the rest of your life."
+    - paul.neutral.wave: "My first course notes live in one folder. Every version of everything, labelled by date."
+    - paul.unimpressed: "Half the labels are wrong. Some are just labelled 'better'."
+    - caitlin.laughing: "Mine are labelled 'final', 'final2' and 'actually final'."
+    - paul.neutral.point: "There's a proper way. It's called git. You'll use it for the rest of your life."
   spec: |
     Put the Workshop's job tracker under version control, here in the browser first:
 
@@ -54,9 +54,9 @@ ask:
     1d27f53 First version of the job tracker
 ship:
   dialogue:
-    - paul: "Every version, labelled honestly. Nothing in a folder called 'better'."
-    - paul: "And a copy on GitHub, where anyone you show it to can read the whole history."
-    - caitlin: "Mine's on GitHub too. One commit, called stuff. The next one will be better."
+    - paul.proud: "Every version, labelled honestly. Nothing in a folder called 'better'."
+    - paul.pleased.thumbs: "And a copy on GitHub, where anyone you show it to can read the whole history."
+    - caitlin.laughing: "Mine's on GitHub too. One commit, called stuff. The next one will be better."
   shelf: { object: book, label: "The Workshop job tracker, with all its history" }
   cards: [git-basics, git-branches, merge-conflicts]
 stretch:

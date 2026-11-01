@@ -1,17 +1,17 @@
-# Riya's flyer test for League night, run as a bandit.
+# Caitlin's attract-screen test for her new cabinet, run as a bandit.
 
 import matplotlib.pyplot as plt
 import numpy as np
 
-VERSIONS = ["three goes for a pound", "win a cuddly crab", "free go after six", "beat the crab"]
-# The chance that a visitor handed each version comes in and plays. Only the
+VERSIONS = ["high-score table", "demo race", "flashing coin", "waving crab"]
+# The chance that a visitor shown each version stops and plays. Only the
 # visitors know these: run_test() may use them, but no strategy is allowed to look.
 RATES = [0.10, 0.14, 0.08, 0.17]
 VISITORS = 5000
 
 
 def update(estimates, counts, version, reward):
-    """Count one more visitor handed version, and nudge its estimate towards reward.
+    """Count one more visitor shown version, and nudge its estimate towards reward.
 
     Changes estimates and counts in place; returns nothing.
     """
@@ -37,11 +37,11 @@ def choose_thompson(estimates, counts, rng):
 
 
 def run_test(choose, rates, visitors, rng):
-    """Hand one flyer to each visitor, letting choose pick the version each time.
+    """Show one screen to each visitor, letting choose pick the version each time.
 
-    A visitor comes in (reward 1) with their version's rate, otherwise 0.
+    A visitor plays (reward 1) with their version's rate, otherwise 0.
     Returns (estimates, counts, rewards): each version's rate so far, how many
-    visitors were handed it, and every visitor's reward, in order.
+    visitors were shown it, and every visitor's reward, in order.
     """
     # Start knowing nothing
     # For each visitor: let the strategy choose, try it and see, nudge the estimate
@@ -60,7 +60,7 @@ def chance_best(estimates, counts, rng, draws=10000):
 if __name__ == "__main__":
     # Run each strategy on VISITORS visitors, each with its own np.random.default_rng(2026):
     # the even split, greedy (epsilon-greedy with epsilon=0), epsilon-greedy, UCB, Thompson sampling.
-    # Print a line for each: the visitors who came in, the regret, and the version it rates best.
+    # Print a line for each: the visitors who played, the regret, and the version it rates best.
     # Recommend a version from Thompson sampling's results, with its chance_best.
-    # Plot each one's visitors who came in so far, divided by the visitors so far. Then plt.show().
+    # Plot each one's visitors who played so far, divided by the visitors so far. Then plt.show().
     pass

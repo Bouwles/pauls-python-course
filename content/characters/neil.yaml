@@ -1,10 +1,10 @@
 id: neil
 name: Neil
-role: The teaching assistant. Hints, errors and debugging, from the Studio on the first floor.
+role: "The teaching assistant: hints, errors and debugging. Mad about racing cars and aerospace; runs the Puzzle Room on floor 3."
 colour: "#1FB5A8"
-floor: 2
-look: Short black hair swept up at the front, thick dark eyebrows, clean-shaven, wide friendly smile. Clear rectangular glasses. A white collared shirt, sleeves rolled up.
-voice: Energetic and approachable. Explains it a second way when the first didn't land. Loves a bug hunt.
+floor: 4
+look: "Short black hair swept up at the front, thick dark eyebrows, clean-shaven, a wide friendly grin. Black rectangular glasses. A white collared shirt."
+voice: "Energetic and approachable. Explains it a second way when the first did not land. Loves a bug hunt, a fast lap and a launch window."
 pools:
   # Reactive lines (REDESIGN-2.md 7.4). lib/cast.ts says which events are Neil's.
   check-failed:
@@ -24,6 +24,7 @@ pools:
     - "Got there. The stubborn ones teach you the most."
     - "That took a few goes. That's how it usually goes."
     - "There it is. Remember what fixed it. You'll meet that bug again."
+    - "Slow laps first, then the quick one. That's how it always goes."
   run-error:
     - "Read it from the bottom. The last line is where it hurt."
     - "Python left you a note. Last line first, then the line number."
@@ -54,6 +55,7 @@ pools:
     - "It was going round forever. Something in there never changes."
     - "Stopped. A loop needs a way out. What's meant to make the test False?"
     - "Okay, a loop with no exit. Which line was supposed to change what it tests?"
+    - "Laps and laps, and no chequered flag. What's meant to end it?"
   ran-nothing:
     - "It ran. It just didn't say anything. Was there meant to be a print?"
     - "Quiet program. Nothing printed. Is the print inside something that never runs?"
@@ -64,15 +66,17 @@ pools:
     - "Stuck? Explain it to the duck. Out loud helps."
     - "Take your time. A nudge is there if you want one."
     - "What's the smallest thing you could try? Try that, and run it."
+    - "Every launch has a hold. Explain it to the duck, then go again."
   after-explain:
     - "Saying it out loud does half the work. Which line surprised you?"
     - "Good. Now go to the line that surprised you, and print what's in it."
     - "Most bugs give themselves away once you say what should happen. Did this one?"
     - "The duck's heard worse. Now test the bit you weren't sure about."
-  # Neil is the client for Reading Tracebacks, the To-Do List and Python at Home.
+  # Neil is the client for Reading Tracebacks, the Unit Converter and Python at Home.
   waiting:
     - "No rush. Shout if you get stuck. Or tell the duck."
     - "I'll be at my desk. The duck's free if you need it."
+    - "I'm reading about launch windows. Interrupt me. Please."
   recap:
     - "Where you left my {job}: {step}"
     - "My {job}, still on the desk. You'd got to {step}"

@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the measurement book
-on_pass: { riya: "Three customers, three lines, and every number beside its owner." }
+on_pass: { caitlin.pleased: "Three players, three lines, and every number beside its owner." }
 hints:
   nudge: "zip pairs each name with its tuple. What does enumerate add, and how will you get the chest, waist and leg out of each tuple?"
   plan:
@@ -31,7 +31,7 @@ hints:
     name, leg = longest_leg(names, sizes)
     print(f"Longest leg: {name}, {leg} cm")
 ---
-Write the tailor's two functions, then use them to print her book:
+Write Caitlin's two functions, then use them to print the kit book:
 
 ```
 1. Jon Hale: chest 112, waist 98, leg 84
@@ -42,4 +42,4 @@ Longest leg: Jon Hale, 84 cm
 
 `print_book` prints; `longest_leg` returns the name and the leg together. If two legs tie, the first in the book wins.
 
-The checks call both functions with other customers, so they must use their parameters, not the tailor's lists.
+The checks call both functions with other players, so they must use their parameters, not Caitlin's lists.

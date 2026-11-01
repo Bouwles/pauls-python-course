@@ -3,9 +3,9 @@ id: preferences
 type: reading
 title: Preferences, not values
 dialogue:
-  - riya: "Values. Q-values. Targets. Frozen copies."
-  - riya: "The crab doesn't value tiles. It just goes somewhere."
-  - paul: "Then learn where it goes, and skip the worth."
+  - aaesha.unimpressed: "Values. Q-values. Targets. Frozen copies."
+  - caitlin.laughing: "The crab doesn't value tiles. It just goes somewhere."
+  - paul.pleased.point: "Then learn where it goes, and skip the worth."
 ---
 Deep Q learns what each move is worth, then picks the biggest. **Policy gradients** skip the worth and learn the choosing itself.
 

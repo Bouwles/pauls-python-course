@@ -6,7 +6,7 @@ concept: bisect
 code: |
   import bisect
 
-  parts = ["bell-ship", "bolt-M10", "bolt-M12", "bolt-M8", "gear-12t", "hubcap"]
+  parts = ["body-tube", "bolt-M10", "bolt-M12", "bolt-M8", "gear-12t", "igniter"]
   print(bisect.bisect_left(parts, "bolt-"))
   print(bisect.bisect_left(parts, "bolt-M12"))
   print(bisect.bisect_left(parts, "chain"))

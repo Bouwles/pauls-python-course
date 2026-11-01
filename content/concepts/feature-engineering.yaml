@@ -40,7 +40,7 @@ cards:
         misconception: features-change-nothing
         feedback: "The sine of 90 degrees is 1 and its cosine is 0, so the east part is the whole 10 knots. The two parts say which way it blows in a form a model can add and compare."
   - type: choice
-    prompt: "Riya adds forty more columns to the rain forecast: the day of the week, Paul's quiz scores, the phase of the moon. Will the forecast get better?"
+    prompt: "Yahya adds forty more columns to the rain forecast: the day of the week, Paul's quiz scores, the phase of the moon. Will the forecast get better?"
     verify: none
     options:
       - text: "Not necessarily. Columns that know nothing give the model more noise to fit. Cross-validate and see"

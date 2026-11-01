@@ -30,7 +30,7 @@ tasks:
     accept: ["kale"]
     feedback: "Kale. `filter` keeps the items its function says yes to, and kale's count is 0. Then `map` turns each remaining tuple into its name."
   - id: most-first
-    prompt: "Riya wants the names of what's in stock, most plentiful first. Change the program so its last line is `['leeks', 'plums', 'figs']`."
+    prompt: "Caitlin wants the names of what's in stock, most plentiful first. Change the program so its last line is `['leeks', 'plums', 'figs']`."
     kind: run
     tests: |
       TESTS = [
@@ -49,7 +49,7 @@ tasks:
       names = map(lambda item: item[0], by_count)
       print(list(names))
 ---
-The stall's stock: name, price, how many.
+The fruit table's stock: name, price, how many.
 
 `lambda item: item[1]` is a small function with no name. It takes `item` and gives back `item[1]`. It suits places where a function is needed for one line only, like `key=`.
 

@@ -1,4 +1,4 @@
-# Neil's to-do list
+# Riya's to-do list, for her commissions
 # 1. Start with an empty list
 
 # 2. Keep asking for a command

@@ -3,11 +3,11 @@ id: pips
 type: pips
 title: Fix Riya's version
 dialogue:
-  - riya: "Can you look at mine? Convolution. Two loops and a slice. Done on the back of a receipt."
-  - riya: "It found the tower's edge. Something's off with the size, though."
+  - riya.pleased: "Can you look at mine? Convolution. Two loops and a slice. Done on the back of a sketch."
+  - riya.confused: "It found the tower's edge. Something's off with the size, though."
 dialogue_after:
-  - riya: "So a window fits one more time than the difference. I always forget the one."
-  - riya: "And kernels aren't always square. Neil's got one that's three wide and one high. I only tried the easy case."
+  - riya.surprised: "So a window fits one more time than the difference. I always forget the one."
+  - riya.laughing: "And kernels aren't always square. Neil's got one that's three wide and one high. I only tried the easy case."
 hints:
   nudge: "A 2 by 2 window on a 4 by 5 picture: how many places does it fit down, and how many across? Count them on the predict step's answer."
   plan:

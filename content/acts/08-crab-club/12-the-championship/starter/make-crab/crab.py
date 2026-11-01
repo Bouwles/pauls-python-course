@@ -1,6 +1,6 @@
 # The crab, for the Arcade League.
 #
-# Say here, for Yahya, what it does and why each setting is what it is.
+# Say here, for Caitlin, what it does and why each setting is what it is.
 
 import numpy as np
 

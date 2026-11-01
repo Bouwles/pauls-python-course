@@ -4,7 +4,7 @@ type: predict
 title: Fifty guessers
 concept: ensembles
 dialogue:
-  - riya: "Ask fifty loan officers and average their guesses. Better than asking one? It depends who the fifty are."
+  - aaesha.thinking: "Ask fifty loan officers and average their guesses. Better than asking one? It depends who the fifty are."
 code: |
   import numpy as np
 

@@ -6,7 +6,7 @@ files: [money.py, storage.py, cli.py]
 entry: cli.py
 starter_from: make-storage
 argv_field: true
-on_pass: { riya: "I tried to spend money on sweets. It said there's no such thing. That's one way to budget." }
+on_pass: { caitlin.laughing: "I tried to spend money on sweets. It said there's no such thing. That's one way to budget." }
 hints:
   nudge: "Which problems are argparse's to report, with exit code 2, and which are the ledger's, with exit code 1?"
   plan:

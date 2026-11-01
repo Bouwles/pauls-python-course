@@ -1,4 +1,4 @@
-# The Workshop to-do list, for anyone with a terminal. Kept in todo.json.
+# Paul's to-do list for the course code, for anyone with a terminal. Kept in todo.json.
 import argparse
 import json
 import sys

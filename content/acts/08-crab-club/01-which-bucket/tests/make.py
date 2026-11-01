@@ -30,11 +30,11 @@ def running_average(ctx):
     if counts[1] == 0 and estimates[1] == 0:
         raise CheckFailed("update should change the arrays it is given, in place, not make new ones.")
     if counts[1] != 3:
-        raise CheckFailed("Three visitors handed version 1, so counts[1] should be 3.", expected=3, actual=int(counts[1]))
+        raise CheckFailed("Three visitors shown version 1, so counts[1] should be 3.", expected=3, actual=int(counts[1]))
     if abs(estimates[1] - 2 / 3) > 1e-9:
-        raise CheckFailed("Came in, walked on, came in: version 1's estimate should be 2/3.", expected="0.667", actual=f"{estimates[1]:.3f}")
+        raise CheckFailed("Played, walked on, played: version 1's estimate should be 2/3.", expected="0.667", actual=f"{estimates[1]:.3f}")
     if estimates[0] != 0 or estimates[2] != 0 or counts[0] != 0 or counts[2] != 0:
-        raise CheckFailed("Only version 1 was handed out, so only version 1 should change.", actual=f"estimates {estimates}, counts {counts}")
+        raise CheckFailed("Only version 1 was shown, so only version 1 should change.", actual=f"estimates {estimates}, counts {counts}")
 
 
 def greedy_when_epsilon_is_zero(ctx):
@@ -53,7 +53,7 @@ def standing_start(ctx):
     if abs(estimates[0] - 1 / 3) > 1e-9:
         raise CheckFailed("Version 0 was at 0.5 after two visitors; a third who walks on brings it to 1/3.", expected="0.333", actual=f"{estimates[0]:.3f}")
     if abs(estimates[2] - 1.0) > 1e-9 or counts[2] != 1:
-        raise CheckFailed("Version 2's first visitor came in, so its estimate is 1.0 and its count 1.", expected="1.0 and 1", actual=f"{estimates[2]} and {counts[2]}")
+        raise CheckFailed("Version 2's first visitor played, so its estimate is 1.0 and its count 1.", expected="1.0 and 1", actual=f"{estimates[2]} and {counts[2]}")
 
 
 def even_split_in_turn(ctx):
@@ -62,7 +62,7 @@ def even_split_in_turn(ctx):
     for counts, want in (([0, 0, 0, 0], 0), ([1, 0, 0, 0], 1), ([5, 4, 4, 4], 1), ([6, 6, 5, 5], 2), ([3, 3, 3, 3], 0), ([2, 2, 1], 2)):
         got = m.choose_even_split(np.zeros(len(counts)), np.array(counts), rng)
         if got != want:
-            raise CheckFailed(f"Handed out {counts} so far, in turn, the next visitor gets version {want}.", expected=want, actual=got)
+            raise CheckFailed(f"Shown {counts} so far, in turn, the next visitor gets version {want}.", expected=want, actual=got)
 
 
 def even_split_ignores_results(ctx):
@@ -92,10 +92,10 @@ def ucb_tries_everything(ctx):
     rng = np.random.default_rng(4)
     got = m.choose_ucb(np.array([0.5, 0.0, 0.9]), np.array([3, 0, 2]), rng)
     if got != 1:
-        raise CheckFailed("Version 1 has never been handed out, so UCB should try it before anything else.", expected=1, actual=got)
+        raise CheckFailed("Version 1 has never been shown, so UCB should try it before anything else.", expected=1, actual=got)
     got = m.choose_ucb(np.array([0.6, 0.2, 0.0, 0.8]), np.array([1, 1, 0, 4]), rng)
     if got != 2:
-        raise CheckFailed("Version 2 has never been handed out.", expected=2, actual=got)
+        raise CheckFailed("Version 2 has never been shown.", expected=2, actual=got)
 
 
 def ucb_bonus(ctx):
@@ -129,7 +129,7 @@ def thompson_confident(ctx):
     m = ctx.module()
     got = picks(m.choose_thompson, [0.9, 0.1], [100, 100], 500, 8)
     if got[0] < 0.99:
-        raise CheckFailed("90 visitors in 100 came in against 10 in 100: Thompson sampling should almost always pick version 0.", expected="version 0 at least 99% of the time", actual=f"{got[0]:.1%}")
+        raise CheckFailed("90 visitors in 100 played against 10 in 100: Thompson sampling should almost always pick version 0.", expected="version 0 at least 99% of the time", actual=f"{got[0]:.1%}")
 
 
 def thompson_untried(ctx):
@@ -137,7 +137,7 @@ def thompson_untried(ctx):
     got = picks(m.choose_thompson, [0.0, 0.0, 0.0], [0, 0, 0], 3000, 9)
     for version, share in enumerate(got):
         if abs(share - 1 / 3) > 0.04:
-            raise CheckFailed("With nothing handed out yet, every rate is equally plausible, so each of three versions should be picked about a third of the time.", expected="about 33% each", actual=", ".join(f"{s:.1%}" for s in got))
+            raise CheckFailed("With nothing shown yet, every rate is equally plausible, so each of three versions should be picked about a third of the time.", expected="about 33% each", actual=", ".join(f"{s:.1%}" for s in got))
 
 
 def thompson_doubt(ctx):
@@ -153,11 +153,11 @@ def test_with_a_certain_version(ctx):
     if len(rewards) != 50:
         raise CheckFailed("run_test should give back one reward for each visitor.", expected=50, actual=len(rewards))
     if np.sum(rewards) != 50:
-        raise CheckFailed("Version 2 has a rate of 1.0, so every visitor handed it comes in.", expected="50 came in", actual=f"{np.sum(rewards)} came in")
+        raise CheckFailed("Version 2 has a rate of 1.0, so every visitor shown it plays.", expected="50 played", actual=f"{np.sum(rewards)} played")
     if list(counts) != [0, 0, 50]:
-        raise CheckFailed("Every visitor was handed version 2.", expected="[0, 0, 50]", actual=str(list(counts)))
+        raise CheckFailed("Every visitor was shown version 2.", expected="[0, 0, 50]", actual=str(list(counts)))
     if abs(estimates[2] - 1.0) > 1e-9:
-        raise CheckFailed("Version 2's estimate, after 50 visitors who all came in, is 1.0.", expected=1.0, actual=float(estimates[2]))
+        raise CheckFailed("Version 2's estimate, after 50 visitors who all played, is 1.0.", expected=1.0, actual=float(estimates[2]))
 
 
 def test_keeps_score(ctx):
@@ -178,7 +178,7 @@ def test_learns(ctx):
     m = ctx.module()
     estimates, counts, rewards = tested(m, m.choose_epsilon_greedy, [0.2, 0.8, 0.3], 2000, np.random.default_rng(13))
     if counts[1] < 1500 or np.mean(rewards) < 0.7:
-        raise CheckFailed("With epsilon-greedy on rates 0.2, 0.8 and 0.3, most of 2000 visitors should be handed version 1.", expected="over 1500 visitors for version 1", actual=f"counts {list(counts)}, {np.mean(rewards):.2f} came in")
+        raise CheckFailed("With epsilon-greedy on rates 0.2, 0.8 and 0.3, most of 2000 visitors should be shown version 1.", expected="over 1500 visitors for version 1", actual=f"counts {list(counts)}, {np.mean(rewards):.2f} played")
 
 
 def even_split_test(ctx):
@@ -202,7 +202,7 @@ def regret_of_the_best(ctx):
     m = ctx.module()
     got = m.regret(np.array([0, 0, 40]), [0.3, 0.2, 0.4])
     if got is None or abs(got) > 1e-9:
-        raise CheckFailed("Every visitor was handed the best version, so nothing was lost.", expected=0.0, actual=got)
+        raise CheckFailed("Every visitor was shown the best version, so nothing was lost.", expected=0.0, actual=got)
     got = m.regret(np.array([12, 30]), [0.5, 0.25])
     if got is None or abs(got - 7.5) > 1e-9:
         raise CheckFailed("The best version can be any of them, not only the last: here version 0, so 30 visitors each lost a quarter.", expected=7.5, actual=got)
@@ -221,7 +221,7 @@ def chance_best_clear(ctx):
     m = ctx.module()
     got = m.chance_best(np.array([0.9, 0.1]), np.array([100, 100]), np.random.default_rng(16))
     if got[0] < 0.999:
-        raise CheckFailed("90 visitors in 100 came in against 10 in 100: version 0 is all but certainly the best.", expected="over 99.9%", actual=f"{got[0]:.1%}")
+        raise CheckFailed("90 visitors in 100 played against 10 in 100: version 0 is all but certainly the best.", expected="over 99.9%", actual=f"{got[0]:.1%}")
 
 
 def chance_best_untried(ctx):
@@ -229,7 +229,7 @@ def chance_best_untried(ctx):
     got = m.chance_best(np.zeros(4), np.zeros(4, dtype=int), np.random.default_rng(17))
     for version, share in enumerate(got):
         if abs(share - 0.25) > 0.03:
-            raise CheckFailed("With nothing handed out yet, each of four versions is equally likely to be the best.", expected="about 25% each", actual=", ".join(f"{s:.1%}" for s in got))
+            raise CheckFailed("With nothing shown yet, each of four versions is equally likely to be the best.", expected="about 25% each", actual=", ".join(f"{s:.1%}" for s in got))
 
 
 def chance_best_thin(ctx):
@@ -256,9 +256,9 @@ def the_whole_program(ctx):
         if name not in printed:
             raise CheckFailed(f"Print a line for each strategy. Nothing mentions {name}.", actual=result.output)
     if "recommend" not in printed:
-        raise CheckFailed("Finish with a recommendation: the flyer to print, and how likely it is to be the best.", actual=result.output)
+        raise CheckFailed("Finish with a recommendation: the screen to keep, and how likely it is to be the best.", actual=result.output)
     if not plt.get_fignums():
-        raise CheckFailed("Draw the chart: a line for each strategy, the share who came in so far against the visitors so far.")
+        raise CheckFailed("Draw the chart: a line for each strategy, the share who played so far against the visitors so far.")
     plt.close("all")
 
 
@@ -267,7 +267,7 @@ TESTS = [
     custom("Epsilon 0 never explores", greedy_when_epsilon_is_zero, visible=True),
     custom("update from a standing start", standing_start),
     custom("The even split goes in turn", even_split_in_turn,
-           hint="Everyone handed out so far is sum(counts). The next version in turn is that number, wrapped round with %."),
+           hint="Every visitor so far is sum(counts). The next version in turn is that number, wrapped round with %."),
     custom("The even split ignores the results", even_split_ignores_results),
     custom("Exploring reaches every version", explores_everywhere,
            hint="rng.integers(5) gives 0 to 4. The end is left out, as with range, so rng.integers(0, 4) never gives 4."),
@@ -284,13 +284,13 @@ TESTS = [
            hint="rng.beta needs both numbers above zero. Beta(wins + 1, losses + 1) starts every version at Beta(1, 1)."),
     custom("Thompson sampling when the evidence is thin", thompson_doubt),
     custom("run_test with a certain version", test_with_a_certain_version,
-           hint="A visitor comes in when rng.random() is below the version's rate."),
+           hint="A visitor plays when rng.random() is below the version's rate."),
     custom("run_test keeps the score up to date", test_keeps_score,
            hint="Call update after every visitor, before choosing for the next one."),
     custom("run_test learns", test_learns),
     custom("run_test with the even split", even_split_test),
     custom("The regret of a fair test", regret_of_a_fair_test),
-    custom("Regret when the best was handed out", regret_of_the_best,
+    custom("Regret when the best was shown", regret_of_the_best,
            hint="The best rate is max(rates), wherever it is in the list. Each version's visitors lose its own gap to that."),
     custom("chance_best adds up to 1", chance_best_adds_up),
     custom("chance_best when the evidence is clear", chance_best_clear),

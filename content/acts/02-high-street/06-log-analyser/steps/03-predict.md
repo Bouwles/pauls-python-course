@@ -4,7 +4,7 @@ type: predict
 title: Else, and finally
 concept: try-except
 code: |
-  for text in ["19.5", "warm"]:
+  for text in ["41.5", "hot"]:
       try:
           temperature = float(text)
       except ValueError:
@@ -37,4 +37,4 @@ options:
 ---
 Two more words for a `try`. `else:` runs only if the `try` block had no error. `finally:` has the last word on the matter.
 
-Two readings from the thermostat: one good, one not.
+Two readings from the motors: one good, one not.

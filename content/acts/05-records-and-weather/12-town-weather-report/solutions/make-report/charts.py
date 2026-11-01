@@ -1,7 +1,7 @@
 """The report's charts. Each makes its own figure and returns (fig, ax), or
 (fig, axes) for two panels side by side. No printing.
 
-Aaesha's rules, for every chart:
+Yahya's rules, for every chart:
 - every axis says what it measures, and in what units
 - a title that says what the chart shows
 - a key wherever there's more than one line

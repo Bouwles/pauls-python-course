@@ -12,12 +12,12 @@ const LINKS = [
   ["/terms", "Terms"],
 ] as const;
 
-/** The footer: the links, and the credit line with the pixel heart (REDESIGN-2.md 1). */
+/** The footer: the mark, the links in the pixel face, and the credit line with the pixel heart (REDESIGN-2.md 1). */
 export function SiteFooter() {
   return (
     <footer className={styles.footer}>
       <div className={styles.inner}>
-        <Mark size={24} />
+        <Mark size={32} />
         <nav aria-label="Footer" className={styles.links}>
           {LINKS.map(([href, label]) => (
             <Link key={href} href={href}>

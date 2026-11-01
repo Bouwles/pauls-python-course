@@ -20,25 +20,25 @@ cards:
       print("sea" + "weed")
     answer: "seaweed"
   - type: choice
-    prompt: "Which line prints `Neil's kettle` without an error?"
+    prompt: "Which line prints `Neil's helmet` without an error?"
     verify: none
     options:
-      - text: "print('Neil's kettle')"
+      - text: "print('Neil's helmet')"
         misconception: mismatched-quotes-ok
         feedback: "The apostrophe ends the string early, after Neil."
-      - text: "print(\"Neil's kettle\")"
+      - text: "print(\"Neil's helmet\")"
         correct: true
-      - text: "print(\"Neil's kettle')"
+      - text: "print(\"Neil's helmet')"
         misconception: mismatched-quotes-ok
         feedback: "The quotes at each end have to match."
   - type: fix
-    prompt: "This should print `Neil's kettle`. Fix it."
+    prompt: "This should print `Neil's helmet`. Fix it."
     code: |
-      print('Neil's kettle')
+      print('Neil's helmet')
     tests: |
-      TESTS = [output("Neil's kettle", expect="Neil's kettle")]
+      TESTS = [output("Neil's helmet", expect="Neil's helmet")]
     solution: |
-      print("Neil's kettle")
+      print("Neil's helmet")
   - type: write
     prompt: "Print this exactly, double quotes included: `Aaesha said \"no\"`"
     tests: |

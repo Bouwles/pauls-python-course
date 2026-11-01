@@ -2,10 +2,10 @@ id: snake-ai
 title: "Snake AI"
 project_name: "Snake AI"
 status: outline
-client: yahya
+client: aaesha
 building: crab-club
 estimated_minutes: 150
-summary: "Q-learning plays Snake, your own game from the Makerspace: a state small enough for a table, rewards that teach the right thing, and a snake that beats its first thousand games."
+summary: "For Aaesha, who wants to know what a player really needs to notice: Q-learning plays Snake, with a state of eleven facts small enough for a table, rewards that teach the right thing, and a snake that beats its first thousand games."
 # Outline, for whoever writes it in full:
 # - Comes after the Q-Learning Crab; reviews q-learning and
 #   exploration-exploitation, and introduces reward-shaping.

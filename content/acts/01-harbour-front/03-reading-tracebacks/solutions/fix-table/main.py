@@ -1,9 +1,9 @@
-# The help-desk board for the Studio door.
-# If it says the desk is open, someone had better be at it. N.
-room = "Studio"
-opens = "09:30"
-closes = "16:00"
+# The race-day board for the karting club.
+# If it says practice has started, someone had better be marshalling. N.
+track = "indoor track"
+practice = "09:30"
+race = "16:00"
 
-print("Help desk in the " + room)
-print("Opens " + opens)
-print("Closes " + closes)
+print("Race day at the " + track)
+print("Practice " + practice)
+print("Race " + race)

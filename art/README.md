@@ -1,14 +1,22 @@
 # Art
 
-The illustrations for Paul's Python Course (REDESIGN-2.md Section 8): the cast, the Clocktower, the learner's avatar parts, the Shelf objects and the duck. Until each image arrives, the app shows a deliberately simple placeholder in its place.
+Since Redesign 3 (`REDESIGN3_PLAN.md`), every character, avatar and room in Paul's Python Course is **pixel art drawn by code**, in the style of the cast sheet in `pixel-reference/`. There are no image files to wait for: the screens draw it all as they go.
 
-| File | What it is |
+| Where | What it is |
 |---|---|
-| `ARTIST_BRIEF.md` | The brief to send the illustrator: the project, the style, the cast, every deliverable, specs, licence, milestones |
-| `CAST_APPEARANCE.md` | How each of the six characters looks, in words |
-| `manifest.json` | Every image the app needs: id, file name, canvas size, who or what, status (`placeholder` or `final`) |
-| `final/` | The illustrator's exported PNGs |
-| `pixel-reference/` | Rough pixel portraits of the cast, a guide to colours and hair only; the app doesn't use them |
+| `lib/pixel/people.ts` | The engine: draws a person on a 48 x 52 grid from a look, with ten expressions, a blink, a talking mouth (shut, a little open, wide) and six gestures (idle, wave, cheer, think, point, thumbs) |
+| `lib/pixel/looks.ts` | The six cast looks, as the owner picked them, and the learner's avatar turned into a look |
+| `components/art/PixelPerson.tsx` | The canvas that shows a person, crisp at whole-number scales, blinking, breathing and talking; still with reduced motion |
+| `components/art/Portrait.tsx`, `Speech.tsx`, `useSpeech.ts` | Portraits, the big figure slot, and a character saying a line (words typed out, mouth in time) |
+| `CAST_APPEARANCE.md` | How each of the six characters looks, in words. Change a look here and in `lib/pixel/looks.ts` together |
+| `pixel-reference/` | Sheets drawn by the engine: the cast, every expression, every gesture, the avatar hair. Remake them with `npx tsx scripts/draw-cast-pixels.ts` |
+| `ARTIST_BRIEF.md`, `manifest.json`, `final/` | The Redesign 2 brief and pipeline for hand-drawn illustration. The screens no longer use it (only `/dev/art` does); it's kept in case the owner commissions an illustrator later, and needs rewriting for pixel art first |
+
+Animated GIFs of the whole cast (each feeling talking and at rest, each gesture) come from `npx tsx scripts/export-cast-animations.ts [folder]`, by default into "Paul's Python Course Cast" on the Desktop.
+
+## The hand-drawn pipeline (Redesign 2)
+
+What follows describes the illustration pipeline as Redesign 2 built it.
 
 **Never add photos of anyone** to this folder or anywhere in the repository (it may become public). Reference photos go to the illustrator directly.
 

@@ -1,7 +1,8 @@
-/* The Ship: the program running on the client's phone, their reaction, the stamp, the Shelf. */
+/* The Ship: the program running on the client's pixel phone, the client in their room saying
+   what they think, the Shipped stamp, then the review and the stretch tasks. */
 .ship {
   display: grid;
-  grid-template-columns: minmax(280px, 360px) minmax(0, 560px);
+  grid-template-columns: minmax(280px, 340px) minmax(0, 620px);
   justify-content: center;
   align-items: start;
   gap: var(--s-12);
@@ -11,37 +12,35 @@
 }
 
 .waiting {
-  grid-template-columns: minmax(240px, 340px) minmax(0, 560px);
+  grid-template-columns: minmax(260px, 360px) minmax(0, 560px);
 }
 
-.figure {
-  min-height: 360px;
+.stageWrap {
+  position: relative;
+  padding: 2px 8px 8px 2px;
 }
 
 .side {
   display: grid;
-  gap: var(--s-5);
+  gap: var(--s-6);
   min-width: 0;
 }
 
 .head {
   display: grid;
-  gap: var(--s-2);
+  gap: var(--s-3);
 }
 
 .kicker {
-  font-size: var(--fs-2);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  line-height: 1;
   color: var(--text-2);
 }
 
 .title {
-  font-family: var(--font-display);
-  font-size: var(--fs-7);
-  font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: var(--tracking-display);
-  text-wrap: balance;
+  font-size: var(--px-5);
+  line-height: 1;
 }
 
 .lede {
@@ -55,7 +54,17 @@
   color: var(--text-2);
 }
 
-/* The demo: a phone drawn as a simple frame, the program's output on its screen. */
+.line {
+  max-width: 520px;
+  margin-left: var(--s-3);
+}
+
+.waiting .stageWrap {
+  max-width: 490px;
+}
+
+/* ---- The pixel phone ------------------------------------------------------ */
+
 .demo {
   display: grid;
   gap: var(--s-3);
@@ -63,49 +72,85 @@
 }
 
 .deviceLabel {
-  font-size: var(--fs-1);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  line-height: 1;
   color: var(--text-2);
 }
 
-.phone {
-  width: min(320px, 100%);
+/* The body in the client's colour: a stepped outline, a light top edge, a dark bottom edge. */
+.device {
   display: flex;
   flex-direction: column;
-  padding: 10px;
-  border-radius: var(--r-lg);
-  background: var(--surface-3);
-  box-shadow: var(--shadow-float);
+  align-items: center;
+  gap: var(--s-3);
+  width: min(320px, calc(100% - 8px));
+  margin: 2px 8px 8px 2px;
+  padding: var(--s-3) var(--s-3) var(--s-3);
+  background: var(--device);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 4px 0 0 var(--px-hi),
+    inset 0 -6px 0 0 var(--px-lo),
+    6px 6px 0 0 var(--px-drop);
 }
 
-.phoneBar {
+.speaker {
+  width: 48px;
+  height: 6px;
+  background: var(--px-outline);
+  box-shadow: inset 0 2px 0 0 var(--px-lo);
+}
+
+.glass {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  background: var(--editor);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
+}
+
+.appBar {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: var(--s-2);
-  height: 34px;
-  border-radius: var(--r-md) var(--r-md) 0 0;
-  background: var(--editor);
-  border-bottom: 1px solid var(--line);
+  height: 32px;
+  padding: 0 var(--s-3);
+  box-shadow: inset 0 -2px 0 0 var(--gutter-text);
   color: var(--text-2);
-  font-size: 13px;
-  font-weight: 700;
+  min-width: 0;
 }
 
-.phoneDot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--pass);
+.appIcon {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  background: var(--device);
+  box-shadow: 0 0 0 2px var(--px-outline);
+}
+
+.appName {
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .screen {
   flex: 1;
   min-height: 320px;
-  max-height: 460px;
+  max-height: 440px;
   margin: 0;
   padding: var(--s-4);
-  border-radius: 0 0 var(--r-md) var(--r-md);
   background: var(--editor);
   color: var(--text);
   font-family: var(--font-code);
@@ -114,6 +159,21 @@
   white-space: pre-wrap;
   word-break: break-word;
   overflow: auto;
+}
+
+.screen:focus-visible {
+  outline-offset: -4px;
+}
+
+.home {
+  width: 24px;
+  height: 12px;
+  background: color-mix(in srgb, var(--device) 70%, var(--px-outline));
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
 }
 
 .typed {
@@ -125,77 +185,109 @@
   color: var(--fail-text);
 }
 
-/* The client and the stamp. */
+/* ---- The client and the stamp --------------------------------------------- */
+
+/* The client's room (at three times, 480 px wide), then what they say under it. */
 .reaction {
+  display: grid;
+  gap: var(--s-4);
+}
+
+.reactionStage {
   position: relative;
-  justify-self: start;
+  max-width: 490px;
+  padding: 2px 8px 8px 2px;
 }
 
-.smallFigure {
-  width: 220px;
-  min-height: 220px;
+.lines {
+  display: grid;
+  gap: var(--s-4);
+  margin: 0;
+  padding: var(--s-2) 0 0;
+  list-style: none;
 }
 
+.lineItem {
+  display: flex;
+  animation: arrive 160ms steps(2, jump-none);
+  transform-origin: 0 24px;
+}
+
+.same {
+  margin-top: calc(var(--s-2) * -1);
+}
+
+@keyframes arrive {
+  from {
+    transform: scale(0.92);
+  }
+}
+
+/* The stamp: a pixel plate with a double edge in the pass colour, set on the client's stage. */
 .stamp {
   position: absolute;
-  right: -132px;
-  top: 28px;
+  right: -12px;
+  bottom: 28px;
+  z-index: 3;
   display: inline-flex;
   align-items: center;
   gap: var(--s-2);
-  padding: var(--s-2) var(--s-4);
-  border: 3px solid var(--pass);
-  border-radius: var(--r-md);
+  padding: 10px 14px 10px 10px;
   background: var(--bg);
   color: var(--pass-text);
   font-family: var(--font-display);
-  font-size: var(--fs-5);
-  font-weight: 800;
-  letter-spacing: var(--tracking-display);
-  transform: rotate(-8deg);
+  font-size: var(--px-3);
+  line-height: 1;
   white-space: nowrap;
+  box-shadow:
+    0 -4px 0 0 var(--pass),
+    0 4px 0 0 var(--pass),
+    -4px 0 0 0 var(--pass),
+    4px 0 0 0 var(--pass),
+    inset 0 0 0 2px var(--bg),
+    inset 0 0 0 4px var(--pass),
+    8px 8px 0 0 var(--px-drop);
 }
 
-/* It lands: big, then down with a small bounce. */
+/* It lands in four hard frames: big, bigger than life, a squash, then still. */
 .thud {
-  animation: stamp 420ms var(--ease-spring);
+  animation: stamp 320ms steps(1, end);
 }
 
 @keyframes stamp {
   0% {
     opacity: 0;
-    transform: rotate(-14deg) scale(1.8);
+    transform: scale(2);
   }
 
-  55% {
+  25% {
     opacity: 1;
-    transform: rotate(-8deg) scale(0.94);
+    transform: scale(1.5);
+  }
+
+  50% {
+    transform: scale(0.9);
+  }
+
+  75% {
+    transform: scale(1.04);
   }
 
   100% {
-    transform: rotate(-8deg) scale(1);
+    transform: scale(1);
   }
-}
-
-.bubbles {
-  display: grid;
-  gap: var(--s-3);
-  padding-left: var(--s-2);
-}
-
-.bubble p {
-  font-size: var(--fs-3);
-  line-height: 1.5;
 }
 
 .actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--s-3);
+  gap: var(--s-4);
+  padding-left: 2px;
 }
 
-/* Below the moment: the Pro gate, Paul's review, stretch tasks. */
+/* ---- Below the moment: the Pro gate, Paul's review, stretch tasks ---------- */
+
 .more {
   display: grid;
   gap: var(--s-6);
@@ -208,19 +300,18 @@
   display: grid;
   gap: var(--s-4);
   padding-top: var(--s-6);
-  border-top: 1px solid var(--line);
+  border-top: 2px solid var(--line);
 }
 
 .sectionTitle {
-  font-size: var(--fs-5);
-  font-weight: 700;
+  font-size: var(--px-2);
 }
 
 .notes {
   display: grid;
-  gap: var(--s-3);
+  gap: var(--s-5);
   margin: 0;
-  padding: 0;
+  padding: 2px 8px 8px 2px;
   list-style: none;
 }
 
@@ -228,26 +319,29 @@
   display: grid;
   gap: var(--s-2);
   padding: var(--s-4) var(--s-5);
-  border-radius: var(--r-lg);
   background: var(--surface-2);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-hi),
+    4px 4px 0 0 var(--px-drop);
 }
 
 :root[data-theme="light"] .note {
   background: var(--surface-1);
-  border: 1px solid var(--line);
 }
 
 @media (prefers-color-scheme: light) {
   :root[data-theme="system"] .note {
     background: var(--surface-1);
-    border: 1px solid var(--line);
   }
 }
 
 .note code {
   font-size: 0.9em;
   padding: 1px 5px;
-  border-radius: var(--r-sm);
   background: var(--surface-3);
 }
 
@@ -269,17 +363,21 @@
   display: inline-flex;
   align-items: center;
   gap: var(--s-1);
-  font-size: var(--fs-1);
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  line-height: 1;
   color: var(--pass-text);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .thud {
+  .thud,
+  .lineItem {
     animation: none;
   }
 }
 
-:root[data-motion="reduced"] .thud {
+:root[data-motion="reduced"] .thud,
+:root[data-motion="reduced"] .lineItem {
   animation: none;
 }
 
@@ -292,24 +390,33 @@
   }
 
   .title {
-    font-size: var(--fs-6);
+    font-size: var(--px-4);
   }
+
 }
 
 @container wb (max-width: 860px) {
   .ship,
   .waiting {
-    grid-template-columns: 1fr;
-    gap: var(--s-6);
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-8);
     padding: var(--s-5) var(--s-4) var(--s-8);
-  }
-
-  .waiting .figure {
-    min-height: 200px !important;
   }
 
   .ship > .side {
     order: -1;
+  }
+
+  .title {
+    font-size: var(--px-3);
+  }
+
+  .lines {
+    padding: var(--s-2) 0 0;
+  }
+
+  .line {
+    margin: var(--s-2) 0 0;
   }
 
   .screen {
@@ -317,13 +424,8 @@
   }
 
   .stamp {
-    right: -120px;
-    top: 20px;
-  }
-
-  .smallFigure {
-    width: 160px;
-    min-height: 160px !important;
+    right: 12px;
+    bottom: 20px;
   }
 
   .more {

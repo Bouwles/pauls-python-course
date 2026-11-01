@@ -1,7 +1,7 @@
 import ast as _ast
 
-SMALL = ["anvil-small", "bell-ship", "bolt-M10", "bolt-M12", "bolt-M8", "gear-12t", "gear-24t",
-         "hinge-brass", "hubcap", "valve-brass", "winch-handle"]
+SMALL = ["axle-30mm", "body-tube", "bolt-M10", "bolt-M12", "bolt-M8", "gear-12t", "gear-24t",
+         "hub-alloy", "igniter", "wheel-alloy", "wing-rear"]
 
 
 class Book(list):
@@ -133,10 +133,10 @@ def million_prefix(ctx):
 def containing_all(ctx):
     module = ctx.module()
     book = Book(SMALL)
-    names, looks = module.containing(book, "brass")
-    if list(names) != ["hinge-brass", "valve-brass"] or looks != len(SMALL):
-        raise CheckFailed("Two names have brass in them, and finding them means looking at all eleven.",
-                          expected=(["hinge-brass", "valve-brass"], 11), actual=(names, looks))
+    names, looks = module.containing(book, "alloy")
+    if list(names) != ["hub-alloy", "wheel-alloy"] or looks != len(SMALL):
+        raise CheckFailed("Two names have alloy in them, and finding them means looking at all eleven.",
+                          expected=(["hub-alloy", "wheel-alloy"], 11), actual=(names, looks))
 
 
 def adds(names, name, position, after):
@@ -162,7 +162,7 @@ def search_line(query, expected, names=None):
 
 
 def book_search(ctx):
-    search_line("bolt-M1*", "bolt-M1*: 5 parts: bolt-M10, bolt-M10-brass, bolt-M12, bolt-M12-brass, bolt-M16", the_book(ctx))(ctx)
+    search_line("bolt-M1*", "bolt-M1*: 5 parts: bolt-M10, bolt-M10-titanium, bolt-M12, bolt-M12-titanium, bolt-M16", the_book(ctx))(ctx)
 
 
 def add_then_find(ctx):
@@ -176,33 +176,33 @@ def add_then_find(ctx):
                           actual=f"{first}, then {second}")
 
 
-SESSION = """Parts list: 188 parts, anchor-chain to wireless-dial
+SESSION = """Parts list: 188 parts, air-filter to wire-6mm
 A name, the start of one with *, or +name to add one. Blank to stop.
-valve-brass: part 159, found in 7 looks
-bolt-M1*: 5 parts: bolt-M10, bolt-M10-brass, bolt-M12, bolt-M12-brass, bolt-M16
-piston: no part by that name, and none with it in the name (188 looks)"""
+tyre-slick: part 159, found in 7 looks
+bolt-M1*: 5 parts: bolt-M10, bolt-M10-titanium, bolt-M12, bolt-M12-titanium, bolt-M16
+turbo: no part by that name, and none with it in the name (188 looks)"""
 
 TESTS = [
-    function("valve-brass in the small list", call="find_part", args=(SMALL, "valve-brass"), expect=(9, 3), visible=True),
+    function("wheel-alloy in the small list", call="find_part", args=(SMALL, "wheel-alloy"), expect=(9, 3), visible=True),
     custom("A search on the parts list", book_search, visible=True),
-    function("No such part", call="find_part", args=(SMALL, "piston"), expect=(-1, 3)),
-    function("The first name", call="find_part", args=(SMALL, "anvil-small"), expect=(0, 3)),
-    function("The last name", call="find_part", args=(SMALL, "winch-handle"), expect=(10, 4),
+    function("No such part", call="find_part", args=(SMALL, "turbo"), expect=(-1, 3)),
+    function("The first name", call="find_part", args=(SMALL, "axle-30mm"), expect=(0, 3)),
+    function("The last name", call="find_part", args=(SMALL, "wing-rear"), expect=(10, 4),
              hint="When low and high are the same place, there's still one name left to look at."),
     custom("Every name in the small list", every_part,
            hint="Look in the middle, (low + high) // 2, and count one look each time round the loop."),
-    function("An empty list", call="find_part", args=([], "hubcap"), expect=(-1, 0),
+    function("An empty list", call="find_part", args=([], "igniter"), expect=(-1, 0),
              hint="An empty list has nowhere to look: -1, and 0 looks."),
-    function("One name, the right one", call="find_part", args=(["hubcap"], "hubcap"), expect=(0, 1)),
+    function("One name, the right one", call="find_part", args=(["igniter"], "igniter"), expect=(0, 1)),
     custom("Every name in the parts list", the_whole_book),
     custom("A million names, found in a handful", million_found,
            hint="Each look should throw away half of what's left. If it's looking at thousands of names, it's searching one at a time."),
     custom("A million names, and it isn't there", million_missing),
     structure("find_part is written by hand", check=find_part_by_hand),
     function("Every bolt", call="starting_with", args=(SMALL, "bolt-"), expect=["bolt-M10", "bolt-M12", "bolt-M8"]),
-    function("A whole name is a beginning too", call="starting_with", args=(SMALL, "hubcap"), expect=["hubcap"]),
-    function("Nothing starts that way", call="starting_with", args=(SMALL, "piston"), expect=[],
-             hint="bisect_left says where piston would go. Whatever is there doesn't start with piston, so there are none."),
+    function("A whole name is a beginning too", call="starting_with", args=(SMALL, "igniter"), expect=["igniter"]),
+    function("Nothing starts that way", call="starting_with", args=(SMALL, "turbo"), expect=[],
+             hint="bisect_left says where turbo would go. Whatever is there doesn't start with turbo, so there are none."),
     function("Beyond the end", call="starting_with", args=(SMALL, "zinc"), expect=[],
              hint="bisect_left can give len(parts), one past the end. Check the position before you look there."),
     function("An empty list, by beginning", call="starting_with", args=([], "bolt"), expect=[]),
@@ -210,30 +210,30 @@ TESTS = [
            hint="Walking the whole list looks at a million names. bisect_left(parts, prefix) jumps to where they start."),
     custom("Words anywhere means looking everywhere", containing_all,
            hint="Look at every name once, count each look, and keep the ones with the word in."),
-    function("No name has the word", call="containing", args=(SMALL, "piston"), expect=([], 11)),
-    function("An empty list, by word", call="containing", args=([], "brass"), expect=([], 0)),
-    custom("Adding in the middle", adds(["bolt-M8", "hubcap"], "gear-12t", 1, ["bolt-M8", "gear-12t", "hubcap"])),
-    custom("Adding one that's already there", adds(["bolt-M8", "hubcap"], "hubcap", 1, ["bolt-M8", "hubcap"]),
+    function("No name has the word", call="containing", args=(SMALL, "turbo"), expect=([], 11)),
+    function("An empty list, by word", call="containing", args=([], "alloy"), expect=([], 0)),
+    custom("Adding in the middle", adds(["bolt-M8", "igniter"], "gear-12t", 1, ["bolt-M8", "gear-12t", "igniter"])),
+    custom("Adding one that's already there", adds(["bolt-M8", "igniter"], "igniter", 1, ["bolt-M8", "igniter"]),
            hint="The parts list names each kind of part once. If it's there, leave the list alone and say where it is."),
-    custom("Adding to an empty list", adds([], "hubcap", 0, ["hubcap"])),
-    custom("Adding the first", adds(["bolt-M8", "hubcap"], "anvil-small", 0, ["anvil-small", "bolt-M8", "hubcap"])),
-    custom("Adding the last", adds(["bolt-M8", "hubcap"], "winch-handle", 2, ["bolt-M8", "hubcap", "winch-handle"])),
-    custom("Searching for a name", search_line("hubcap", "hubcap: part 8, found in 2 looks")),
+    custom("Adding to an empty list", adds([], "igniter", 0, ["igniter"])),
+    custom("Adding the first", adds(["bolt-M8", "igniter"], "axle-30mm", 0, ["axle-30mm", "bolt-M8", "igniter"])),
+    custom("Adding the last", adds(["bolt-M8", "igniter"], "wing-rear", 2, ["bolt-M8", "igniter", "wing-rear"])),
+    custom("Searching for a name", search_line("igniter", "igniter: part 8, found in 2 looks")),
     custom("Searching by beginning", search_line("gear-*", "gear-*: 2 parts: gear-12t, gear-24t")),
-    custom("One part", search_line("hub*", "hub*: 1 part: hubcap"),
+    custom("One part", search_line("ign*", "ign*: 1 part: igniter"),
            hint="One part is 1 part, not 1 parts."),
     custom("No parts by beginning", search_line("zinc*", "zinc*: no parts")),
     custom("A word, not a name", search_line(
-        "brass", "brass: no part by that name. 2 parts with it in the name (11 looks): hinge-brass, valve-brass"),
+        "alloy", "alloy: no part by that name. 2 parts with it in the name (11 looks): hub-alloy, wheel-alloy"),
         hint="When find_part gives -1, search every name for the word with containing."),
     custom("One part with the word", search_line(
-        "ship", "ship: no part by that name. 1 part with it in the name (11 looks): bell-ship")),
+        "tube", "tube: no part by that name. 1 part with it in the name (11 looks): body-tube")),
     custom("Nothing at all", search_line(
-        "piston", "piston: no part by that name, and none with it in the name (11 looks)")),
+        "turbo", "turbo: no part by that name, and none with it in the name (11 looks)")),
     custom("Adding with +", search_line("+gear-16t", "gear-16t: added as part 6")),
-    custom("Adding one that's there with +", search_line("+hubcap", "hubcap: already part 8")),
+    custom("Adding one that's there with +", search_line("+igniter", "igniter: already part 8")),
     custom("Added, then found", add_then_find,
            hint="add_part changes the list it's given, so the next search sees the new part."),
-    output("A search session", inputs=["valve-brass", "bolt-M1*", "piston", ""], expect=SESSION,
+    output("A search session", inputs=["tyre-slick", "bolt-M1*", "turbo", ""], expect=SESSION,
            hint="The loop stops at a blank line. Each query prints the line search gives back."),
 ]

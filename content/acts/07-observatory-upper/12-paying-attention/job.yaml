@@ -4,7 +4,7 @@ project_name: "Tiny GPT"
 portfolio_readme: |
   # Tiny GPT
 
-  A character-level GPT, written from scratch in NumPy, that writes in the style of Jerome K. Jerome's Three Men in a Boat. It has self-attention with a causal mask, several heads, layer norm, a feed-forward network and residual connections, in two transformer blocks, each piece checked number by number against a reference. The weights were trained beforehand on the book; this code runs the model and samples from it, a character at a time, with a temperature.
+  A character-level GPT, written from scratch in NumPy, that writes in the style of Jerome K. Jerome's Three Men in a Boat. It has self-attention with a causal mask (attention in the literal sense: each character chooses how much to notice of every one before it), several heads, layer norm, a feed-forward network and residual connections, in two transformer blocks, each piece checked number by number against a reference. The weights were trained beforehand on the book; this code runs the model and samples from it, a character at a time, with a temperature.
 
   Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
 
@@ -43,15 +43,16 @@ datasets:
 client: aaesha
 building: observatory
 estimated_minutes: 220
-summary: "A character-level GPT from scratch: self-attention with a causal mask, several heads, a transformer block checked number by number, then two trained blocks that write in the style of Three Men in a Boat."
+summary: "A character-level GPT from scratch, where attention means what it says: self-attention with a causal mask, several heads, a transformer block checked number by number, then two trained blocks that write in the style of Three Men in a Boat."
 concepts_introduced: [attention, transformers]
 concepts_reviewed: [embeddings, language-models, batch-normalisation, neural-networks, activation-functions, matrices, numpy-arrays, broadcasting, json-module]
 ask:
   dialogue:
-    - aaesha: "Neil's blackboard, this morning. Three letters across the top: Q, K, V."
-    - neil: "Underneath: every letter asks the ones before it a question. Then a block, boxed, and the word stack."
-    - yahya: "The forecast model looked one letter back. This looks at all of them?"
-    - aaesha: "All of them, and it decides how much each one counts. That's attention."
+    - aaesha.pleased.wave: "In psychology, attention is choosing what to notice. One voice across a noisy room, and not the rest."
+    - aaesha.neutral.point: "Neil's blackboard, this morning. Three letters across the top: Q, K, V."
+    - neil.pleased: "Underneath: every letter asks the ones before it a question. Then a block, boxed, and the word stack."
+    - yahya.thinking: "The forecast model looked one letter back. This looks at all of them?"
+    - aaesha.thinking.think: "All of them, and it decides how much each one counts. That's attention. Literally."
   spec: |
     In `attention.py`:
 
@@ -69,11 +70,12 @@ ask:
     montmorency would have stopped half a man on the back that it was a since to be in a methin
 ship:
   dialogue:
-    - aaesha: "Nine characters in, nine out, and nothing looks ahead. Then two blocks that had read a whole book."
-    - caitlin: "Montmorency would have stopped half a man. That's literature."
-    - aaesha: "It's spelling. It learnt which letters keep company. Not what any of them mean."
-    - paul: "The big models are this, only bigger. Now you know what's inside them."
-  shelf: { object: magnifier, label: "A tiny GPT, from Neil's blackboard" }
+    - aaesha.pleased: "Nine characters in, nine out, and nothing looks ahead. Then two blocks that had read a whole book."
+    - caitlin.laughing: "Montmorency would have stopped half a man. That's literature."
+    - aaesha.thinking: "It's spelling. It learnt which letters keep company. Not what any of them mean."
+    - aaesha.neutral: "And it attends to every letter at once, every time. A person can't. That's where the likeness stops."
+    - paul.proud.thumbs: "The big models are this, only bigger. Now you know what's inside them."
+  shelf: { object: magnifier, label: "Aaesha's tiny GPT, from Neil's blackboard" }
   cards: [attention, transformers]
 stretch:
   - id: draw-the-weights

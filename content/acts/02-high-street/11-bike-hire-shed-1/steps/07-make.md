@@ -4,7 +4,7 @@ type: make
 title: Make the account
 files: [bank.py]
 entry: bank.py
-on_pass: { riya: "Minus five pounds, refused. Somebody asked whether that's personal. It isn't. It's validation." }
+on_pass: { caitlin.laughing: "Minus five pounds, refused. Somebody asked whether that's personal. It isn't. It's validation." }
 hints:
   nudge: "What does an account need to remember about itself, and which method changes each of those things?"
   plan:
@@ -36,7 +36,7 @@ hints:
         def __str__(self):
             return f"Account {self.number}, {self.holder}: £{self.balance / 100:___}"
 ---
-Write `Account` in `bank.py`, as in the brief. The bottom of the file already uses it the way Riya will, and the comments are Paul's subgoals from the repair bench.
+Write `Account` in `bank.py`, as in the brief. The bottom of the file already uses it the way Caitlin will, and the comments are Paul's subgoals from the repair bench.
 
 ```
 Account 1042, Aaesha: £12.50
@@ -44,6 +44,6 @@ False
 [2000, -750]
 ```
 
-Money is in whole pence everywhere: 2000 is £20. Only `__str__` turns it into pounds, for people to read. A float can't hold most amounts of money exactly, and a fund that loses a penny a day loses Riya's trust by Friday.
+Money is in whole pence everywhere: 2000 is £20. Only `__str__` turns it into pounds, for people to read. A float can't hold most amounts of money exactly, and a fund that loses a penny a day loses Caitlin's trust by Friday.
 
 The checks open accounts of their own, pay in and take out, and try to pay in nothing at all.

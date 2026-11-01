@@ -13,7 +13,7 @@
 }
 
 .wide .title {
-  font-size: var(--fs-6);
+  font-size: var(--px-4);
 }
 
 .head {
@@ -23,13 +23,10 @@
   gap: var(--s-3);
 }
 
-/* The most prominent text in the panel. */
+/* The most prominent text in the panel, in the pixel face at 32 px. */
 .title {
-  font-family: var(--font-display);
-  font-size: 28px;
-  font-weight: 800;
-  line-height: 1.12;
-  letter-spacing: var(--tracking-display);
+  font-size: var(--px-3);
+  line-height: 1.1;
   text-wrap: balance;
   color: var(--text);
 }
@@ -42,14 +39,10 @@
   flex: none;
   width: 36px;
   height: 36px;
-  margin: -2px -8px 0 0;
+  margin: -2px -4px 0 0;
   border: 0;
-  border-radius: var(--r-md);
   background: none;
   color: var(--text-2);
-  transition:
-    background-color var(--dur) var(--ease-out),
-    color var(--dur) var(--ease-out);
 }
 
 .fold:hover,
@@ -57,6 +50,11 @@
 .railButton:hover {
   background: var(--surface-3);
   color: var(--text);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
 }
 
 .prose {
@@ -78,14 +76,21 @@
   gap: var(--s-2);
 }
 
-/* Hints and the duck open as cards in the panel, one step up from it. */
+/* Hints and the duck open as pixel panels in the panel, one step up from it. */
 .card {
   display: grid;
   gap: var(--s-4);
   padding: var(--s-5);
-  border-radius: var(--r-lg);
+  margin: calc(var(--s-1) * -1) 6px 6px 0;
   background: var(--surface-2);
-  margin-top: calc(var(--s-2) * -1);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-hi),
+    inset 0 -2px 0 0 var(--px-lo),
+    6px 6px 0 0 var(--px-drop);
 }
 
 :root[data-theme="light"] .card {
@@ -109,9 +114,8 @@
   display: inline-flex;
   align-items: center;
   gap: var(--s-2);
-  font-family: var(--font-display);
-  font-size: var(--fs-4);
-  font-weight: 700;
+  font-size: var(--px-2);
+  line-height: 1;
 }
 
 .close {
@@ -138,11 +142,11 @@
 .folds {
   display: grid;
   margin-top: auto;
-  border-top: 1px solid var(--line);
+  box-shadow: inset 0 2px 0 0 var(--line);
 }
 
 .fold2 {
-  border-bottom: 1px solid var(--line);
+  box-shadow: inset 0 -2px 0 0 var(--line);
 }
 
 .summary {
@@ -151,12 +155,12 @@
   gap: var(--s-2);
   min-height: 48px;
   padding: var(--s-2) 0;
-  font-size: var(--fs-2);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  line-height: 1;
   color: var(--text);
   cursor: pointer;
   list-style: none;
-  border-radius: var(--r-md);
 }
 
 .summary::-webkit-details-marker {
@@ -173,7 +177,6 @@
 
 .caret {
   color: var(--text-2);
-  transition: transform var(--dur) var(--ease-out);
 }
 
 .fold2[open] .caret {
@@ -182,12 +185,18 @@
 
 .count {
   margin-left: auto;
-  font-size: var(--fs-1);
-  font-weight: 700;
-  padding: 1px 7px;
-  border-radius: var(--r-sm);
+  margin-right: 2px;
+  padding: 4px 6px;
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  line-height: 1;
   background: var(--surface-3);
-  color: var(--text-2);
+  color: var(--text);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
 }
 
 .foldBody {
@@ -202,14 +211,19 @@
 }
 
 .example {
-  margin: 0;
+  margin: 2px;
   padding: var(--s-3) var(--s-4);
-  border-radius: var(--r-lg);
   background: var(--editor);
   color: var(--text);
   font-size: 14px;
   line-height: 1.55;
   overflow-x: auto;
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-lo);
 }
 
 .checks {
@@ -250,8 +264,9 @@
 }
 
 .pair dt {
-  font-size: 13px;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  line-height: 1.25;
   color: var(--text-2);
 }
 
@@ -260,10 +275,14 @@
 }
 
 .pair pre {
-  margin: 0;
+  margin: 2px;
   padding: var(--s-2) var(--s-3);
-  border-radius: var(--r-md);
   background: var(--editor);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
   font-size: 13px;
   line-height: 1.5;
   white-space: pre-wrap;
@@ -302,8 +321,8 @@
 .railTitle {
   writing-mode: vertical-rl;
   font-family: var(--font-display);
-  font-size: var(--fs-3);
-  font-weight: 700;
+  font-size: var(--px-1);
+  line-height: 1;
   color: var(--text-2);
   white-space: nowrap;
   overflow: hidden;
@@ -323,6 +342,6 @@
   }
 
   .title {
-    font-size: 26px;
+    font-size: var(--px-3);
   }
 }

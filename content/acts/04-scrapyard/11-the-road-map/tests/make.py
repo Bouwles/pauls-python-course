@@ -116,7 +116,7 @@ def drawn_without_path(ctx):
 
 TESTS = [
     function("Neighbours in the small maze", call="neighbours", args=(grid_of(SMALL), (1, 1)), expect=[(0, 1), (2, 1), (1, 0)], visible=True),
-    output("Yahya's maze, solved", expect=MAZE_OUTPUT, visible=True),
+    output("Neil's car park, solved", expect=MAZE_OUTPUT, visible=True),
     function("Neighbours in a corner", call="neighbours", args=(grid_of(SMALL), (0, 0)), expect=[(1, 0), (0, 1)],
              hint="Tiles off the edge of the maze aren't neighbours. Check the row and column are inside it before you look."),
     function("Neighbours at the bottom edge", call="neighbours", args=(grid_of(SMALL), (2, 2)), expect=[(2, 1)]),

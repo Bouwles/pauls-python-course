@@ -4,9 +4,9 @@ project_name: "Neural Network from Scratch"
 portfolio_readme: |
   # Neural Network from Scratch
 
-  A two-layer neural network written in NumPy alone: the forward pass, backpropagation, a gradient checker, and gradient descent. It learns three yes-or-no decisions from four readings, checks every gradient it works out against one measured by nudging the weights, then trains from random numbers and is tested on evenings it never saw. It learns which of the Clocktower's lights, beacon and storm shutters to switch on, from a log of what was done by hand.
+  A two-layer neural network written in NumPy alone: the forward pass, backpropagation, a gradient checker, and gradient descent. It learns three yes-or-no decisions from four readings, checks every gradient it works out against one measured by nudging the weights, then trains from random numbers and is tested on evenings it never saw. It learns which of the Clocktower's lights, beacon and storm shutters to switch on, from a log of what Paul did by hand: a small model of how one person decides.
 
-  Written by {name} for Neil, at Paul's Python Course. Finished {date}.
+  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -37,19 +37,19 @@ portfolio_readme: |
   `evenings.csv` is invented for the project: 800 evenings of visibility, wind, rain and darkness, each scaled from 0 to 1, with whether the clock-face lights, the beacon and the storm shutters were used.
 downloadable: true
 datasets: []
-client: neil
+client: aaesha
 building: observatory
 estimated_minutes: 180
-summary: "A two-layer network in NumPy: one neuron and its limits, the forward pass, backpropagation on paper and in code, every gradient checked by measurement, then trained and tested on evenings it never saw."
+summary: "A two-layer network in NumPy that learns how Paul makes three calls every evening: one neuron and its limits, the forward pass, backpropagation on paper and in code, every gradient checked by measurement, then trained and tested on evenings it never saw."
 concepts_introduced: [perceptron, neural-networks, activation-functions, backpropagation, numerical-gradient-checking]
 concepts_reviewed: [chain-rule, numerical-gradients, gradient-descent, mean-squared-error, logistic-regression, train-test-split, feature-scaling, numpy-arrays, vectors, matrices, broadcasting, dictionaries, mutability, functions, multiple-returns, zip, enumerate, for-loops]
 ask:
   dialogue:
-    - neil: "Welcome to the Engine Room. Mind the third step. It isn't there."
-    - neil: "Paul switches the tower's lights, beacon and shutters by hand, and he's logged every evening for years."
-    - neil: "I trained a small network on his log once. Four readings in, three answers out. I kept the weights, not the code."
-    - aaesha: "I've already written a gradient checker."
-    - neil: "Then we'll check that too."
+    - aaesha.pleased.wave: "Welcome to the Engine Room. Paul has logged the tower's lights, beacon and shutters every evening for years."
+    - aaesha.thinking.think: "Can a network learn how he decides? Not why. Just how."
+    - neil.pleased: "I trained a small one on his log once. Four readings in, three answers out. I kept the weights, not the code."
+    - aaesha.proud: "I've already written a gradient checker."
+    - neil.laughing: "Then we'll check that too."
   spec: |
     Paul's log, `evenings.csv`, has 800 evenings. Each is four readings from 0 to 1, visibility, wind, rain and dark, and three answers: whether the clock-face lights came on, the beacon flashed and the storm shutters closed. Neil's network has a ReLU hidden layer and a sigmoid output, with its weights in a dict under `"W1"`, `"b1"`, `"W2"` and `"b2"`.
 
@@ -63,11 +63,11 @@ ask:
     Tonight: lights, beacon, shutters
 ship:
   dialogue:
-    - neil: "Four gradients, four oks. Then it learnt Paul's log from random numbers."
-    - neil: "A hundred and ninety-five evenings out of two hundred it had never seen. Lights, beacon, shutters, all three right."
-    - paul: "It switches things the way I do. It doesn't know why. Fair. Some evenings, neither do I."
-    - aaesha: "Worked out one way, measured another, and they agree. That's a test I trust."
-  shelf: { object: chalkboard, label: "Neil's network, backwards and checked" }
+    - aaesha.pleased: "Four gradients, four oks. Then it learnt Paul's log from random numbers."
+    - neil.surprised: "A hundred and ninety-five evenings out of two hundred it had never seen. All three calls right."
+    - paul.laughing: "It switches things the way I do. It doesn't know why. Fair. Some evenings, neither do I."
+    - aaesha.proud.thumbs: "It copies how you decide, not why. A model of a mind, not a mind. And every number checked."
+  shelf: { object: chalkboard, label: "Aaesha's network, backwards and checked" }
   cards: [perceptron, neural-networks, activation-functions, backpropagation, numerical-gradient-checking]
 stretch:
   - id: watch-it-learn

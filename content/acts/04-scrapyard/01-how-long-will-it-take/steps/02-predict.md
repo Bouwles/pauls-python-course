@@ -4,7 +4,7 @@ type: predict
 title: A loop inside a loop
 concept: big-o
 code: |
-  parts = ["bolt", "hinge", "spring", "bolt"]
+  parts = ["bolt", "brake-pad", "spring", "bolt"]
   checks = 0
   for first in parts:
       for second in parts:
@@ -27,4 +27,4 @@ options:
 after: |
   Run it. Then add a fifth part and run it again. One more part, nine more checks.
 ---
-Paul's spares check compares parts with each other. This is its skeleton, with the comparing taken out and a counter put in.
+Neil's spares check compares parts with each other. This is its skeleton, with the comparing taken out and a counter put in.

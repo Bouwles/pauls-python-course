@@ -1,6 +1,6 @@
 """Personal finance: the rules. No files and no printing in here.
 
-The requirements, as Riya and Paul agreed them:
+The requirements, as Caitlin and Paul agreed them:
 
 CATEGORIES                     ("food", "fun", "home", "income", "shop", "travel")
 Transaction(day, pence, category, note="")
@@ -35,9 +35,9 @@ Ledger(transactions=None, budgets=None)
   .over_budget(year, month)    a list of the categories that spent more than their
                                budget that month, in alphabetical order
 """
-# Riya's note, from the first page of her plan:
-# Who's going to use this? Students with a part-time job and rent to pay.
-# Test it on a made-up month first. Real money only goes in once it works. R.
+# Caitlin's note, from the first page of her plan:
+# The fun version first. A budget nobody enjoys is a budget nobody keeps.
+# Test it on a made-up month first. Real money only goes in once it works. C.
 
 from dataclasses import dataclass
 from datetime import date

@@ -21,7 +21,7 @@ misconceptions: [leak-still-forecasts, cross-validation-catches-leaks, choose-co
 related: [cross-validation, pipelines, train-test-split, model-bias]
 cards:
   - type: predict
-    prompt: "Riya's model forecasts a busy night at the cinema from the rain and the tickets sold. What does this print?"
+    prompt: "Caitlin's model forecasts a busy night at the cinema from the rain and the tickets sold. What does this print?"
     code: |
       import numpy as np
       from sklearn.model_selection import cross_val_score
@@ -35,7 +35,7 @@ cards:
       print(round(cross_val_score(DecisionTreeClassifier(max_depth=2, random_state=0), X, busy, cv=5).mean(), 2))
     answer: "1.0"
   - type: choice
-    prompt: "Riya wants the forecast at noon, so the cinema knows how many staff to call in. Which column can it use?"
+    prompt: "Caitlin wants the forecast at noon, so the cinema knows how many staff to call in. Which column can it use?"
     verify: none
     options:
       - text: "The rain forecast at noon"
@@ -58,7 +58,7 @@ cards:
         misconception: cross-validation-catches-leaks
         feedback: "Cross-validation can't see where the columns came from. A leak lifts every fold together, so it shows as a high score, not a low one."
   - type: choice
-    prompt: "Riya's model forecasts tomorrow's weather with 99% accuracy. Nobody has ever managed better than 70%. What should she do first?"
+    prompt: "Yahya's model forecasts tomorrow's weather with 99% accuracy. Nobody has ever managed better than 70%. What should he do first?"
     verify: none
     options:
       - text: "Go through every column and ask when it's known. A score that good usually means a leak"
@@ -78,7 +78,7 @@ cards:
         misconception: leak-only-in-training
         feedback: "The drawer's bookings were written down the same way, signatures and all, so the leak is there too. The test score is high, and the model is still useless at booking time."
   - type: choice
-    prompt: "Riya's model with the tickets counted at closing time, then without them. What does this print?"
+    prompt: "Caitlin's model with the tickets counted at closing time, then without them. What does this print?"
     code: |
       import numpy as np
       from sklearn.model_selection import cross_val_score

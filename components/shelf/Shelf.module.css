@@ -1,17 +1,18 @@
-/* The Shelf: an export panel, then a grid of project cards, each with a real output preview. */
+/* The Shelf: an export panel, then a grid of project cards, each with a real output preview and
+   the client it was made for beside it. */
 .shelf {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--s-8);
+  gap: var(--s-10);
 }
 
 .head {
   display: grid;
-  gap: var(--s-3);
+  gap: var(--s-4);
 }
 
 .title {
-  font-size: var(--fs-7);
+  font-size: var(--px-5);
 }
 
 .lede {
@@ -26,30 +27,12 @@
   max-width: 62ch;
 }
 
+/* Nothing shipped yet: Paul points you at his door. */
 .empty {
   display: grid;
   justify-items: start;
-  gap: var(--s-2);
-  padding: var(--s-8);
-  background: var(--surface-2);
-  border-radius: var(--r-lg);
+  gap: var(--s-6);
   max-width: 720px;
-}
-
-.emptyIcon {
-  color: var(--text-2);
-  margin-bottom: var(--s-2);
-}
-
-.emptyTitle {
-  font-family: var(--font-display);
-  font-size: var(--fs-5);
-  font-weight: 700;
-  letter-spacing: -0.01em;
-}
-
-.empty > a {
-  margin-top: var(--s-3);
 }
 
 /* The export: the one big action on the page. */
@@ -60,33 +43,17 @@
   justify-content: space-between;
   gap: var(--s-5) var(--s-8);
   padding: var(--s-6);
-  background: var(--surface-2);
-  border-radius: var(--r-lg);
-}
-
-:global(:root[data-theme="light"]) .export,
-:global(:root[data-theme="light"]) .card,
-:global(:root[data-theme="light"]) .empty {
-  border: 1px solid var(--line);
-}
-
-@media (prefers-color-scheme: light) {
-  :global(:root[data-theme="system"]) .export,
-  :global(:root[data-theme="system"]) .card,
-  :global(:root[data-theme="system"]) .empty {
-    border: 1px solid var(--line);
-  }
 }
 
 .exportText {
   display: grid;
-  gap: var(--s-2);
+  gap: var(--s-3);
   flex: 1 1 360px;
   min-width: 0;
 }
 
 .exportTitle {
-  font-size: var(--fs-5);
+  font-size: var(--px-3);
 }
 
 .exportActions {
@@ -98,8 +65,7 @@
 
 .big {
   height: 52px;
-  padding: 0 var(--s-6);
-  font-size: var(--fs-3);
+  padding: 0 var(--s-6) 2px;
 }
 
 /* The grid of projects. */
@@ -109,34 +75,33 @@
   padding: 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: var(--s-5);
+  gap: var(--s-8) var(--s-6);
 }
 
 .card {
   display: grid;
   grid-template-rows: auto 1fr auto;
-  background: var(--surface-2);
-  border-radius: var(--r-lg);
-  overflow: hidden;
+  gap: var(--s-4);
+  padding: var(--s-4);
   min-width: 0;
 }
 
-/* The preview: what the program prints, dark in both themes. */
+/* The preview: what the program prints, in a sunk well that stays dark in both themes. */
 .preview {
-  margin: 0;
-  height: 208px;
+  margin: 2px;
+  height: 200px;
   display: grid;
   grid-template-rows: auto 1fr;
   gap: var(--s-2);
   padding: var(--s-3) var(--s-4) 0;
-  background: var(--editor);
   color: var(--text);
   overflow: hidden;
 }
 
 .previewLabel {
-  font-size: 13px;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  line-height: 1;
   color: var(--text-2);
 }
 
@@ -154,14 +119,14 @@
   grid-template-rows: none;
   place-content: center;
   justify-items: center;
-  gap: var(--s-2);
+  gap: var(--s-3);
   padding: var(--s-4);
   color: var(--text-2);
 }
 
 .chart {
-  margin: 0;
-  height: 208px;
+  margin: 2px;
+  height: 200px;
   display: grid;
   place-items: center;
   background: var(--surface-1);
@@ -173,27 +138,38 @@
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  border-radius: var(--r-sm);
 }
 
+/* The client, standing beside what they asked for, then the project's name. */
 .body {
   display: flex;
-  align-items: center;
-  gap: var(--s-3);
-  padding: var(--s-4) var(--s-5) 0;
+  align-items: flex-end;
+  gap: var(--s-4);
   min-width: 0;
+}
+
+.client {
+  display: grid;
+  place-items: end center;
+  flex: none;
+  width: 104px;
+  height: 108px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 2px var(--px-outline);
 }
 
 .bodyText {
   display: grid;
-  gap: 2px;
+  gap: var(--s-1);
   min-width: 0;
+  padding-bottom: var(--s-1);
 }
 
 .name {
-  font-size: var(--fs-4);
-  line-height: 1.2;
-  letter-spacing: -0.01em;
+  font-size: var(--px-2);
+  line-height: 1;
+  margin-bottom: var(--s-1);
+  overflow-wrap: anywhere;
 }
 
 .meta {
@@ -205,8 +181,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  gap: var(--s-2);
-  padding: var(--s-4) var(--s-5) var(--s-5);
+  gap: var(--s-3);
 }
 
 /* GitHub's inline form. */
@@ -267,7 +242,7 @@
   align-items: center;
   gap: var(--s-3);
   padding: var(--s-4) var(--s-5);
-  border-bottom: 1px solid var(--line);
+  border-bottom: 2px solid var(--line);
 }
 
 .close {
@@ -285,7 +260,7 @@
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   min-height: 0;
-  border-right: 1px solid var(--line);
+  border-right: 2px solid var(--line);
   background: var(--editor);
 }
 
@@ -294,13 +269,13 @@
   font-family: var(--font-code);
   font-size: var(--fs-1);
   color: var(--text-2);
-  border-bottom: 1px solid var(--line);
+  border-bottom: 2px solid var(--line);
 }
 
 .fileTabs {
   display: flex;
   overflow-x: auto;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 2px solid var(--line);
 }
 
 .fileTabs button {
@@ -315,7 +290,7 @@
 
 .fileTabs button[aria-selected="true"] {
   color: var(--text);
-  box-shadow: inset 0 -2px 0 var(--sun);
+  box-shadow: inset 0 -4px 0 var(--sun);
 }
 
 .code {
@@ -334,7 +309,7 @@
   flex-wrap: wrap;
   gap: var(--s-3);
   padding: var(--s-4) var(--s-5);
-  border-top: 1px solid var(--line);
+  border-top: 2px solid var(--line);
 }
 
 @media (max-width: 860px) {
@@ -346,25 +321,28 @@
 
   .codePane {
     border-right: 0;
-    border-bottom: 1px solid var(--line);
+    border-bottom: 2px solid var(--line);
   }
 }
 
 @media (max-width: 720px) {
   .shelf {
-    gap: var(--s-6);
+    gap: var(--s-8);
   }
 
   .title {
-    font-size: var(--fs-6);
+    font-size: var(--px-4);
   }
 
   .lede {
     font-size: var(--fs-3);
   }
 
-  .export,
-  .empty {
+  .exportTitle {
+    font-size: var(--px-2);
+  }
+
+  .export {
     padding: var(--s-5) var(--s-4);
   }
 
@@ -380,12 +358,12 @@
 
   .grid {
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--s-4);
+    gap: var(--s-6);
   }
 
   .preview {
     height: auto;
-    max-height: 208px;
+    max-height: 200px;
     padding-bottom: var(--s-3);
   }
 
@@ -395,7 +373,6 @@
     max-height: 100dvh;
     height: 100dvh;
     margin: 0;
-    border-radius: 0;
   }
 
   .sheetBody {

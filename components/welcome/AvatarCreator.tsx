@@ -1,13 +1,16 @@
 "use client";
 
-// Avatar creation (REDESIGN-2.md 7.3): a human avatar built from layered parts, in the cast's
-// illustrated style once the art exists. Until then the preview is the placeholder (initials on
-// the chosen colour) with the chosen parts written out under it, and every choice is saved so
-// the illustrated avatar can use it the day it arrives. Used on /welcome and in Settings.
-import { useId, useState } from "react";
+// Avatar creation (REDESIGN-2.md 7.3, REDESIGN3_PLAN.md): the learner builds their pixel self from
+// parts, the way you build a character in a game. Their avatar stands large beside the choices,
+// alive, and reacts to every change (a new haircut surprises them, a new top makes them proud);
+// every part is shown on a little copy of them, so you see a choice before you make it. It waves
+// when you're done (`waving`). Used on /welcome and in Settings.
+import { useEffect, useId, useRef, useState } from "react";
 import { useMedia } from "@/lib/useMedia";
+import { prefersReducedMotion } from "@/lib/display";
+import type { Expression, Pose } from "@/lib/pixel/people";
 import { ACCESSORIES, AVATAR_COLOURS, BROWS, FACES, HAIR_COLOURS, HAIR_STYLES, SKIN_TONES, TOP_COLOURS, TOPS, type AvatarLook, type AvatarOption } from "@/lib/avatar";
-import { Avatar } from "../ui/Avatar";
+import { PixelPerson } from "../art/PixelPerson";
 import { Tabs } from "../ui/Tabs";
 import styles from "./AvatarCreator.module.css";
 
@@ -56,34 +59,76 @@ export function describeAvatar(look: AvatarLook): string {
   return `${cap(text)}.`;
 }
 
-type Tab = "colour" | "face" | "hair" | "clothes" | "extras";
+type Tab = "face" | "hair" | "clothes" | "extras" | "colour";
 const TABS: { id: Tab; label: string }[] = [
-  { id: "colour", label: "Colour" },
   { id: "face", label: "Face" },
   { id: "hair", label: "Hair" },
   { id: "clothes", label: "Clothes" },
   { id: "extras", label: "Extras" },
+  { id: "colour", label: "Colour" },
 ];
 
-/** One set of choices: real radios under swatches or text options, so arrow keys work. */
-function Group({ legend, name, options, value, onChange, swatch = false }: { legend: string; name: string; options: AvatarOption[]; value: string; onChange: (id: string) => void; swatch?: boolean }) {
+/** How the avatar takes a change to each part: a face and a gesture, held for a moment. */
+const REACT: Partial<Record<keyof AvatarLook, { face: Expression; pose: Pose }>> = {
+  colour: { face: "laughing", pose: "idle" },
+  face: { face: "thinking", pose: "think" },
+  skin: { face: "pleased", pose: "idle" },
+  brows: { face: "surprised", pose: "idle" },
+  facialHair: { face: "proud", pose: "idle" },
+  hair: { face: "surprised", pose: "idle" },
+  hairColour: { face: "laughing", pose: "idle" },
+  top: { face: "proud", pose: "thumbs" },
+  topColour: { face: "pleased", pose: "thumbs" },
+  glasses: { face: "pleased", pose: "point" },
+  accessory: { face: "pleased", pose: "cheer" },
+};
+
+/**
+ * One set of choices over real radios, so arrow keys work. Parts show on a small copy of the
+ * avatar wearing them (`part`); colours are pixel swatches.
+ */
+function Group({
+  legend,
+  name,
+  options,
+  value,
+  onChange,
+  look,
+  part,
+  crop = "head",
+}: {
+  legend: string;
+  name: string;
+  options: AvatarOption[];
+  value: string;
+  onChange: (id: string) => void;
+  look: AvatarLook;
+  /** How this option changes the avatar, to draw it on the tile; colours have none. */
+  part?: (id: string) => Partial<AvatarLook>;
+  crop?: "head" | "bust";
+}) {
   return (
     <fieldset className={styles.group}>
       <legend className={styles.legend}>
         {legend}
         <span className={styles.current}>{labelOf(options, value)}</span>
       </legend>
-      <div className={swatch ? styles.swatches : styles.chips}>
+      <div className={part ? styles.parts : styles.swatches}>
         {options.map((o) => (
-          <label key={o.id} className={[swatch ? styles.swatch : styles.chip, value === o.id ? styles.on : ""].join(" ")} title={swatch ? o.label : undefined}>
+          <label key={o.id} className={[part ? styles.part : styles.swatch, value === o.id ? styles.on : ""].join(" ")} title={part ? undefined : o.label}>
             <input type="radio" className="visually-hidden" name={name} value={o.id} checked={value === o.id} onChange={() => onChange(o.id)} />
-            {swatch ? (
+            {part ? (
+              <>
+                <span className={[styles.partTile, crop === "bust" ? styles.partBust : ""].join(" ")} style={{ background: look.colour }} aria-hidden="true">
+                  <PixelPerson avatar={{ ...look, ...part(o.id) }} crop={crop} scale={2} animate={false} />
+                </span>
+                <span className={styles.partName}>{o.label}</span>
+              </>
+            ) : (
               <>
                 <span className={styles.chipColour} style={{ background: o.hex }} aria-hidden="true" />
                 <span className="visually-hidden">{o.label}</span>
               </>
-            ) : (
-              <span>{o.label}</span>
             )}
           </label>
         ))}
@@ -97,46 +142,63 @@ const YES_NO = (no: string, yes: string): AvatarOption[] => [
   { id: "yes", label: yes },
 ];
 
-export function AvatarCreator({ look, name, onChange }: { look: AvatarLook; name: string; onChange: (l: AvatarLook) => void }) {
+export function AvatarCreator({ look, name, onChange, waving = false }: { look: AvatarLook; name: string; onChange: (l: AvatarLook) => void; waving?: boolean }) {
   const id = useId();
-  const [tab, setTab] = useState<Tab>("colour");
+  const [tab, setTab] = useState<Tab>("face");
+  const [reaction, setReaction] = useState<{ face: Expression; pose: Pose } | null>(null);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const narrow = useMedia("(max-width: 860px)");
-  const set = (patch: Partial<AvatarLook>) => onChange({ ...look, ...patch });
   const prefix = `${id}-avatar`;
   const panel = (t: Tab) => ({ role: "tabpanel", id: `${prefix}-${t}-panel`, "aria-labelledby": `${prefix}-${t}`, hidden: tab !== t, className: styles.panel });
+
+  const set = (patch: Partial<AvatarLook>) => {
+    onChange({ ...look, ...patch });
+    const r = REACT[Object.keys(patch)[0] as keyof AvatarLook];
+    if (!r) return;
+    setReaction(r);
+    if (timer.current) clearTimeout(timer.current);
+    timer.current = setTimeout(() => setReaction(null), prefersReducedMotion() ? 2400 : 1600);
+  };
+  useEffect(() => () => void (timer.current && clearTimeout(timer.current)), []);
+
+  const mood = waving ? { face: "pleased" as Expression, pose: "wave" as Pose } : (reaction ?? { face: "neutral" as Expression, pose: "idle" as Pose });
 
   return (
     <div className={styles.creator}>
       <div className={styles.preview}>
-        <Avatar name={name || "You"} colour={look.colour} size={narrow ? 88 : 152} />
-        <p className={styles.description} aria-live="polite">
-          {describeAvatar(look)}
-        </p>
-        <p className={styles.note}>The illustrated avatar is on its way. Everything you choose here is saved for it; until then, your initials stand in.</p>
+        <div className={`px-panel ${styles.stage}`} style={{ background: look.colour }}>
+          <PixelPerson avatar={look} crop="bust" scale={narrow ? 3 : 4} expression={mood.face} pose={mood.pose} label={`Your avatar: ${describeAvatar(look)}`} />
+        </div>
+        <div className={styles.who}>
+          <p className={styles.name}>{name.trim() || "You"}</p>
+          <p className={styles.description} aria-live="polite">
+            {describeAvatar(look)}
+          </p>
+        </div>
       </div>
       <div className={styles.choices}>
         <Tabs items={TABS} value={tab} onChange={(t) => setTab(t as Tab)} label="Your avatar" idPrefix={prefix} className={styles.tabs} />
-        <div {...panel("colour")}>
-          <Group legend="Colour" name={`${id}-colour`} options={AVATAR_COLOURS} value={look.colour} onChange={(v) => set({ colour: v })} swatch />
-          <p className={styles.hint}>Your initials sit on this colour in the header, on the Shelf and on your public page.</p>
-        </div>
         <div {...panel("face")}>
-          <Group legend="Face shape" name={`${id}-face`} options={FACES} value={look.face} onChange={(v) => set({ face: v })} />
-          <Group legend="Skin tone" name={`${id}-skin`} options={SKIN_TONES} value={look.skin} onChange={(v) => set({ skin: v })} swatch />
-          <Group legend="Eyebrows" name={`${id}-brows`} options={BROWS} value={look.brows} onChange={(v) => set({ brows: v })} />
-          <Group legend="Facial hair" name={`${id}-facial-hair`} options={YES_NO("None", "Facial hair")} value={look.facialHair ? "yes" : "no"} onChange={(v) => set({ facialHair: v === "yes" })} />
+          <Group legend="Skin tone" name={`${id}-skin`} options={SKIN_TONES} value={look.skin} onChange={(v) => set({ skin: v })} look={look} />
+          <Group legend="Face shape" name={`${id}-face`} options={FACES} value={look.face} onChange={(v) => set({ face: v })} look={look} part={(v) => ({ face: v })} />
+          <Group legend="Eyebrows" name={`${id}-brows`} options={BROWS} value={look.brows} onChange={(v) => set({ brows: v })} look={look} part={(v) => ({ brows: v })} />
+          <Group legend="Facial hair" name={`${id}-facial-hair`} options={YES_NO("None", "Facial hair")} value={look.facialHair ? "yes" : "no"} onChange={(v) => set({ facialHair: v === "yes" })} look={look} part={(v) => ({ facialHair: v === "yes" })} />
         </div>
         <div {...panel("hair")}>
-          <Group legend="Hair" name={`${id}-hair`} options={HAIR_STYLES} value={look.hair} onChange={(v) => set({ hair: v })} />
-          <Group legend="Hair colour" name={`${id}-hair-colour`} options={HAIR_COLOURS} value={look.hairColour} onChange={(v) => set({ hairColour: v })} swatch />
+          <Group legend="Hair colour" name={`${id}-hair-colour`} options={HAIR_COLOURS} value={look.hairColour} onChange={(v) => set({ hairColour: v })} look={look} />
+          <Group legend="Hair" name={`${id}-hair`} options={HAIR_STYLES} value={look.hair} onChange={(v) => set({ hair: v })} look={look} part={(v) => ({ hair: v })} />
         </div>
         <div {...panel("clothes")}>
-          <Group legend="Top" name={`${id}-top`} options={TOPS} value={look.top} onChange={(v) => set({ top: v })} />
-          <Group legend="Top colour" name={`${id}-top-colour`} options={TOP_COLOURS} value={look.topColour} onChange={(v) => set({ topColour: v })} swatch />
+          <Group legend="Top colour" name={`${id}-top-colour`} options={TOP_COLOURS} value={look.topColour} onChange={(v) => set({ topColour: v })} look={look} />
+          <Group legend="Top" name={`${id}-top`} options={TOPS} value={look.top} onChange={(v) => set({ top: v })} look={look} part={(v) => ({ top: v })} crop="bust" />
         </div>
         <div {...panel("extras")}>
-          <Group legend="Glasses" name={`${id}-glasses`} options={YES_NO("None", "Glasses")} value={look.glasses ? "yes" : "no"} onChange={(v) => set({ glasses: v === "yes" })} />
-          <Group legend="Accessory" name={`${id}-accessory`} options={ACCESSORIES} value={look.accessory} onChange={(v) => set({ accessory: v })} />
+          <Group legend="Glasses" name={`${id}-glasses`} options={YES_NO("None", "Glasses")} value={look.glasses ? "yes" : "no"} onChange={(v) => set({ glasses: v === "yes" })} look={look} part={(v) => ({ glasses: v === "yes" })} />
+          <Group legend="Accessory" name={`${id}-accessory`} options={ACCESSORIES} value={look.accessory} onChange={(v) => set({ accessory: v })} look={look} part={(v) => ({ accessory: v })} crop="bust" />
+        </div>
+        <div {...panel("colour")}>
+          <Group legend="Colour" name={`${id}-colour`} options={AVATAR_COLOURS} value={look.colour} onChange={(v) => set({ colour: v })} look={look} />
+          <p className={styles.hint}>You stand on this colour in the header, on the Shelf and on your public page.</p>
         </div>
       </div>
     </div>

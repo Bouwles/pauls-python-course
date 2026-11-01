@@ -5,7 +5,7 @@ title: Make the quiz
 files: [quiz.py]
 entry: quiz.py
 timeout_ms: 15000
-on_pass: { caitlin: "Seal pup, pup, a pup. All three right. Yahya will have to find something else to argue about." }
+on_pass: { caitlin.laughing: "Piano, the piano, grand piano. All three right. Yahya will have to find something else to argue about." }
 hints:
   nudge: "Which of these functions keep every item, and which keep only some? That decides where each comprehension's `if` goes."
   plan:
@@ -43,17 +43,17 @@ hints:
             for number, (question, given) in enumerate(zip(questions, answers), start=1)
         ]
 ---
-Write the functions from the brief in `quiz.py`, then `main`. The comments are Paul's subgoals from the trip snacks.
+Write the functions from the brief in `quiz.py`, then `main`. The comments are Paul's subgoals from the quiz-night snacks.
 
 ```
-Rounds: Local (4), Science (4), Sea (4), Words (4)
-Which round? sea
-1. What is the lowest point of the tide called?
-> low water
+Rounds: Food (4), Games (4), Local (4), Music (4)
+Which round? music
+1. What does a metronome keep?
+> time
 ...
 Answers:
-1. low water: right
-2. a pup: you said kitten
+1. time: right
+2. the piano: you said keyboard
 ...
 Score: 3 out of 4
 ```

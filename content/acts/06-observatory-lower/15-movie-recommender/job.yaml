@@ -5,4 +5,4 @@ status: outline
 client: caitlin
 building: observatory
 estimated_minutes: 120
-summary: "For the class film night, Caitlin wants something better than a vote. What to watch next, from what people like you rated: collaborative filtering by user and by film similarity, then a matrix factorisation learnt by gradient descent. MovieLens's terms forbid passing the data on, so this needs GroupLens's permission, a Take It Home download of MovieLens, or another openly licensed set of ratings."
+summary: "For the class film night, Caitlin wants something better than a vote, and more fun than an argument. What to watch next, from what people like you rated: collaborative filtering by user and by film similarity, then a matrix factorisation learnt by gradient descent. MovieLens's terms forbid passing the data on, so this needs GroupLens's permission, a Take It Home download of MovieLens, or another openly licensed set of ratings."

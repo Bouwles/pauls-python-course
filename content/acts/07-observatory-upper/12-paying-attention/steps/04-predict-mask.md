@@ -4,7 +4,7 @@ type: predict
 title: No looking ahead
 concept: attention
 dialogue:
-  - caitlin: "To stop it looking ahead, I set the future scores to nothing. Zero. Done."
+  - caitlin.pleased: "To stop it looking ahead, I set the future scores to nothing. Zero. Done."
 code: |
   import numpy as np
 

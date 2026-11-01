@@ -4,7 +4,7 @@ type: investigate
 title: Edges
 concept: convolutions
 dialogue:
-  - neil: "The Clocktower in ones and noughts, and a kernel underneath. Then the same kernel on its side."
+  - neil.pleased.point: "The Clocktower in ones and noughts, and a kernel underneath. Then the same kernel on its side."
 code: |
   import numpy as np
   from workshop import show_grid

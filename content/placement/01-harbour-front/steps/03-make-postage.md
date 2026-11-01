@@ -1,10 +1,11 @@
 ---
 id: make-postage
 type: make
-title: Aaesha's parcel run
+title: Caitlin's parcel run
 dialogue:
-  - aaesha: "End of term, I'm posting everyone's parcels. Each label says who and how heavy. I want who owes what."
-on_pass: { aaesha: "Caitlin, two parcels, four seventy. In order, and Neil's box left for the courier." }
+  - caitlin.pleased.wave: "End of term, I'm posting everyone's stuff home. Each label says who and how heavy."
+  - caitlin.thinking.point: "I want who owes what. Before anyone goes home."
+on_pass: { caitlin.laughing.thumbs: "Me, two parcels, four seventy. And Neil's box goes by courier. I'm not asking what's in it." }
 ---
 `parcels` in `main.py` is the pile by the door, one label per parcel: `"Name: kg"`. Spaces round the name and the weight don't matter.
 

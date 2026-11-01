@@ -7,11 +7,15 @@
 
 .head {
   display: grid;
-  gap: var(--s-3);
+  gap: var(--s-4);
 }
 
 .title {
-  font-size: var(--fs-7);
+  font-size: var(--px-5);
+}
+
+.host {
+  min-height: 108px;
 }
 
 .lede {
@@ -34,7 +38,7 @@
   margin: 0;
   padding: 0;
   display: grid;
-  gap: var(--s-3);
+  gap: var(--s-5);
 }
 
 .section {
@@ -43,40 +47,32 @@
   align-items: center;
   gap: var(--s-3) var(--s-4);
   padding: var(--s-4) var(--s-5);
-  background: var(--surface-2);
-  border-radius: var(--r-lg);
 }
 
-:global(:root[data-theme="light"]) .section {
-  border: 1px solid var(--line);
-}
-
-@media (prefers-color-scheme: light) {
-  :global(:root[data-theme="system"]) .section {
-    border: 1px solid var(--line);
-  }
-}
-
+/* The Act's number on its floor's colour, a pixel tile. */
 .number {
   display: inline-grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--r-lg);
+  width: 48px;
+  height: 48px;
+  padding-top: 2px;
   font-family: var(--font-display);
-  font-size: var(--fs-4);
-  font-weight: 800;
+  font-size: var(--px-3);
+  line-height: 1;
+  box-shadow:
+    inset 0 0 0 2px var(--px-outline),
+    inset 0 -4px 0 0 var(--px-lo);
 }
 
 .sectionText {
   display: grid;
-  gap: 2px;
+  gap: var(--s-2);
   min-width: 0;
 }
 
 .sectionTitle {
-  font-size: var(--fs-4);
-  letter-spacing: -0.01em;
+  font-size: var(--px-2);
+  line-height: 1;
 }
 
 .state {
@@ -95,7 +91,11 @@
 
 @media (max-width: 720px) {
   .title {
-    font-size: var(--fs-6);
+    font-size: var(--px-4);
+  }
+
+  .host {
+    min-height: 72px;
   }
 
   .lede {

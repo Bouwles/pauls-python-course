@@ -13,8 +13,9 @@ function isDone(row: StepProgressRow | undefined) {
 }
 
 /**
- * The step bar (REDESIGN-2.md 4.2): the project's steps by name, not number. Done steps carry a
- * check, the current one is a sun pill (green once it passes), the rest wait in a quieter colour.
+ * The step bar (REDESIGN-2.md 4.2, REDESIGN3_PLAN.md P2): the project's steps by name, not number,
+ * in the pixel face, joined by a dotted track. Done steps carry a check, the current one is a
+ * raised sun plate (green once it passes), the rest wait in a quieter colour.
  * A step can be opened once it has been reached. When the names don't fit, the earlier done
  * steps fold into "3 done", which opens a list of them. On a phone the bar scrolls sideways with
  * the current step in the middle.
@@ -155,9 +156,7 @@ export function StepBar({ steps, current, progress, onSelect }: { steps: Step[];
   };
 
   const sep = (key: string, forMeasure = false) => (
-    <li key={key} className={styles.sep} aria-hidden="true" data-measure={forMeasure ? "sep" : undefined}>
-      <Icon name="caretRight" size={14} />
-    </li>
+    <li key={key} className={styles.sep} aria-hidden="true" data-measure={forMeasure ? "sep" : undefined} />
   );
 
   const folded = steps.slice(0, fold);
@@ -172,7 +171,7 @@ export function StepBar({ steps, current, progress, onSelect }: { steps: Step[];
               <button ref={groupButton} type="button" className={[styles.pill, styles.done, styles.group].join(" ")} aria-expanded={open} aria-haspopup="true" onClick={() => setOpen((o) => !o)}>
                 <Icon name="check" size={16} />
                 <span>{fold} done</span>
-                <Icon name="caretDown" size={14} />
+                <Icon name="caretDown" size={16} />
               </button>
             </li>
             {sep("group-sep")}
@@ -212,7 +211,7 @@ export function StepBar({ steps, current, progress, onSelect }: { steps: Step[];
           <span className={[styles.pill, styles.done, styles.group].join(" ")} data-measure="group">
             <Icon name="check" size={16} />
             <span>{Math.max(fold, foldable, 2)} done</span>
-            <Icon name="caretDown" size={14} />
+            <Icon name="caretDown" size={16} />
           </span>
         </li>
         {sep("m-sep", true)}

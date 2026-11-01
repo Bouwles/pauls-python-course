@@ -1,0 +1,1 @@
+telemetry.py: draws the kart's speed all the way round a lap. It works.

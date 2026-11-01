@@ -1,18 +1,17 @@
-/* The Arcade League: the course and the entry side by side, the replay, then the table. */
+/* The Arcade League: the hosts, the course and the entry side by side, the replay, then the table. */
 .wrap {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--s-6);
+  gap: var(--s-8);
 }
 
 .head {
   display: grid;
-  gap: var(--s-3);
-  margin-bottom: var(--s-2);
+  gap: var(--s-4);
 }
 
 .title {
-  font-size: var(--fs-7);
+  font-size: var(--px-5);
 }
 
 .lede {
@@ -22,10 +21,22 @@
   max-width: 64ch;
 }
 
-.columns {
+/* Aaesha and Caitlin, side by side, taking turns. */
+.hosts {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--s-6);
+  align-items: start;
+}
+
+.host {
+  min-height: 108px;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-8);
   align-items: start;
 }
 
@@ -33,19 +44,7 @@
   display: grid;
   gap: var(--s-4);
   padding: var(--s-6);
-  background: var(--surface-2);
-  border-radius: var(--r-lg);
   min-width: 0;
-}
-
-:global(:root[data-theme="light"]) .block {
-  border: 1px solid var(--line);
-}
-
-@media (prefers-color-scheme: light) {
-  :global(:root[data-theme="system"]) .block {
-    border: 1px solid var(--line);
-  }
 }
 
 .block > * {
@@ -53,7 +52,7 @@
 }
 
 .h2 {
-  font-size: var(--fs-5);
+  font-size: var(--px-3);
 }
 
 .meta {
@@ -64,7 +63,7 @@
 .row {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--s-2);
+  gap: var(--s-3);
 }
 
 .field {
@@ -82,14 +81,16 @@
 .field input::file-selector-button {
   height: 32px;
   margin-right: var(--s-3);
-  padding: 0 var(--s-3);
+  padding: 2px var(--s-3) 0;
   border: 0;
-  border-radius: var(--r-md);
-  background: var(--line);
+  background: var(--surface-3);
   color: var(--text);
-  font: inherit;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--px-1);
   cursor: pointer;
+  box-shadow:
+    inset 0 0 0 2px var(--px-outline),
+    inset 0 -4px 0 0 var(--px-lo);
 }
 
 .error {
@@ -107,12 +108,17 @@
   justify-content: space-between;
   gap: var(--s-3);
   padding: var(--s-3) var(--s-4);
-  border-radius: var(--r-md);
+  margin: 2px;
   background: var(--sun-wash);
   font-size: var(--fs-2);
+  box-shadow:
+    0 -2px 0 0 var(--sun),
+    0 2px 0 0 var(--sun),
+    -2px 0 0 0 var(--sun),
+    2px 0 0 0 var(--sun);
 }
 
-/* ---- The course: clean cells ---- */
+/* ---- The course: square pixel cells on a dark board ---- */
 .course {
   display: grid;
   gap: var(--s-3);
@@ -122,14 +128,9 @@
 
 .grid {
   display: grid;
-  gap: 3px;
-  padding: 3px;
-  border-radius: var(--r-lg);
-  background: var(--bg);
-}
-
-:global(:root[data-theme="light"]) .grid {
-  background: var(--line);
+  gap: 4px;
+  padding: 4px;
+  background: var(--px-outline);
 }
 
 .cell {
@@ -137,8 +138,10 @@
   display: grid;
   place-items: center;
   aspect-ratio: 1;
-  border-radius: var(--r-sm);
   min-width: 0;
+  box-shadow:
+    inset 0 2px 0 0 var(--px-hi),
+    inset 0 -4px 0 0 var(--px-lo);
 }
 
 .sand {
@@ -162,7 +165,7 @@
 
 /* Where the crab has been on this race. */
 .sand.visited {
-  background: color-mix(in srgb, var(--sun) 22%, var(--surface-3));
+  background: color-mix(in srgb, var(--sun) 26%, var(--surface-3));
 }
 
 .pool.visited {
@@ -171,8 +174,8 @@
 
 .startMark {
   font-family: var(--font-display);
-  font-size: var(--fs-1);
-  font-weight: 800;
+  font-size: var(--px-1);
+  line-height: 1;
   color: var(--text-2);
 }
 
@@ -191,10 +194,9 @@
   place-items: center;
   width: 84%;
   height: 84%;
-  border-radius: 50%;
   background: var(--text);
   color: var(--bg);
-  box-shadow: 0 0 0 2px var(--bg);
+  box-shadow: 0 0 0 2px var(--px-outline);
 }
 
 .player {
@@ -207,15 +209,15 @@
   flex: 1;
   min-width: 0;
   padding: 0;
-  border: 0;
+  box-shadow: none;
   background: none;
   accent-color: var(--sun);
 }
 
 .moveCount {
-  font-size: var(--fs-1);
+  font-family: var(--font-display);
+  font-size: var(--px-1);
   color: var(--text-2);
-  font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 
@@ -239,13 +241,12 @@
 .swatch {
   display: inline-grid;
   place-items: center;
-  width: 18px;
-  height: 18px;
-  border-radius: var(--r-sm);
+  width: 20px;
+  height: 20px;
+  box-shadow: inset 0 0 0 2px var(--px-outline);
 }
 
 .crabKey {
-  border-radius: 50%;
   background: var(--text);
   color: var(--bg);
 }
@@ -263,6 +264,10 @@
   overflow-x: auto;
 }
 
+.tableWrap:focus-visible {
+  outline-offset: 4px;
+}
+
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -274,13 +279,15 @@
 .table td {
   padding: var(--s-3);
   text-align: left;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 2px solid var(--line);
 }
 
 .table thead th {
-  font-size: var(--fs-1);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  font-weight: 400;
   color: var(--text-2);
+  border-bottom-color: var(--px-outline);
 }
 
 .table .num {
@@ -288,10 +295,21 @@
 }
 
 .place {
+  width: 80px;
   font-family: var(--font-display);
-  font-size: var(--fs-4);
-  font-weight: 800;
-  width: 64px;
+  font-size: var(--px-2);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.placeInner {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.trophy {
+  color: var(--sun-text);
 }
 
 .me td {
@@ -309,12 +327,29 @@
 }
 
 @media (max-width: 720px) {
+  .wrap {
+    gap: var(--s-6);
+  }
+
   .title {
-    font-size: var(--fs-6);
+    font-size: var(--px-4);
   }
 
   .lede {
     font-size: var(--fs-3);
+  }
+
+  .hosts {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-4);
+  }
+
+  .host {
+    min-height: 72px;
+  }
+
+  .h2 {
+    font-size: var(--px-2);
   }
 
   .block {
@@ -329,5 +364,9 @@
   .table th,
   .table td {
     padding: var(--s-2);
+  }
+
+  .place {
+    width: 56px;
   }
 }

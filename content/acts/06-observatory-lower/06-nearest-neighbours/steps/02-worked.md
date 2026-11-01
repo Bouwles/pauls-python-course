@@ -3,8 +3,8 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "The open days again. Riya wants to know how much coffee to have in."
-  - riya: "Don't give me a formula. Tell me what we poured on days like this one."
+  - paul.neutral.point: "The open days again. How much coffee to have in?"
+  - caitlin.thinking: "Don't give me a formula. Tell me what we poured on days like this one."
 code: |
   import numpy as np
 
@@ -48,7 +48,7 @@ subgoals:
     lines: [27, 29]
 explain:
   prompt: "Line 25 uses `np.argsort(distances)[:3]`, not `np.sort(distances)[:3]`. Why?"
-  answer: "`np.sort` gives the three smallest distances themselves, which say how near but not which Saturdays. Riya needs the Saturdays, to look up what they poured. `np.argsort` gives the positions in order of distance, nearest first, and those index straight into `cups`."
+  answer: "`np.sort` gives the three smallest distances themselves, which say how near but not which Saturdays. Paul needs the Saturdays, to look up what they poured. `np.argsort` gives the positions in order of distance, nearest first, and those index straight into `cups`."
   concept: knn
 ---
 **k nearest neighbours** learns no weights at all. It keeps every past case, and to answer a new one it finds the k most like it and lets them decide: a vote for a word like `Gentoo`, a mean for a number like cups of coffee.

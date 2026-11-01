@@ -4,7 +4,7 @@ type: predict
 title: Knowing nothing
 concept: classification-networks
 dialogue:
-  - neil: "Before it learns anything, it gives every digit the same chance. What does that cost?"
+  - neil.thinking: "Before it learns anything, it gives every digit the same chance. What does that cost?"
 code: |
   import numpy as np
 

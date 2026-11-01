@@ -45,10 +45,10 @@ concepts_introduced: [probability, permutation-tests, correlation-causation]
 concepts_reviewed: [numpy-arrays, vectorisation, pandas-basics, groupby, descriptive-statistics, random-module, for-loops, functions, return-values, default-arguments, docstrings, main-guard, f-strings]
 ask:
   dialogue:
-    - yahya: "I bet Paul it's warmer now than when the station book started. He says prove it isn't luck."
-    - yahya: "The last thirty years are 0.86 of a degree up on the first thirty. Could luck do that?"
-    - paul: "Find out how often luck does it, then."
-    - yahya: "Fine. And Paul says it's drier now. Same question for him."
+    - yahya.proud.wave: "I bet Paul it's warmer now than when the station book started. He says prove it isn't luck."
+    - yahya.thinking: "The last thirty years are 0.86 of a degree up on the first thirty. Could luck do that?"
+    - paul.neutral.point: "Find out how often luck does it, then."
+    - yahya.laughing: "Fine. And Paul says it's drier now. Same question for him."
   spec: |
     A statistics toolkit: four functions that work on any two groups of numbers, and a report at the bottom that uses them. `station.csv` is the station book: one row per month from 1925 to 2024, with `year`, `month`, `temp` (degrees C), `rain` (mm) and `sun` (hours).
 
@@ -68,11 +68,11 @@ ask:
     The Clocktower's age and temperature: r = 0.63
 ship:
   dialogue:
-    - yahya: "Warmer, and luck didn't do it. Paul owes me a coffee."
-    - yahya: "Drier, perhaps. Luck manages that one time in ten, so his bet's a draw."
-    - paul: "And the line about the Clocktower's age?"
-    - yahya: "Struck out. Correlated, and nothing to do with it."
-  shelf: { object: thermometer, label: "Warmer, and not by luck: the station's answer" }
+    - yahya.proud.cheer: "Warmer, and luck didn't do it. Paul owes me a coffee."
+    - yahya.thinking: "Drier, perhaps. Luck manages that one time in ten, so his bet's a draw."
+    - paul.unimpressed: "And the line about the Clocktower's age?"
+    - yahya.laughing: "Struck out. Correlated, and nothing to do with it."
+  shelf: { object: thermometer, label: "Yahya's bet: warmer, and not by luck" }
   cards: [probability, permutation-tests, correlation-causation]
 stretch:
   - id: either-way

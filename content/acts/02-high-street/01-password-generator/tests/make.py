@@ -7,7 +7,7 @@ DIGITS = set(_string.digits)
 SYMBOLS = set("#$%&*+-=?@")
 LOOKALIKES = set("Il1O0o")
 DEMO = (
-    r"\APasswords for the Studio:\n"
+    r"\APasswords for the game server:\n"
     r"  Aaesha: \S{12}\n  Caitlin: \S{12}\n  Yahya: \S{12}\n"
     r"Passphrase for the Wi-Fi: [a-z]+-[a-z]+-[a-z]+-[a-z]+\n?\Z"
 )

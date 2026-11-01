@@ -1,22 +1,29 @@
+/* Badges: small pixel tags with a stepped outline, in the pixel face. */
 .badge {
   display: inline-flex;
   align-items: center;
   gap: var(--s-1);
   height: 22px;
-  padding: 0 7px;
-  border-radius: var(--r-sm);
-  font-size: 13px;
-  font-weight: 700;
+  padding: 1px 7px 0;
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  font-weight: 400;
   line-height: 1;
   white-space: nowrap;
   background: var(--surface-3);
   color: var(--text-2);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
+  margin: 2px;
 }
 
 .free,
 .shipped {
-  background: var(--pass-wash);
-  color: var(--pass-text);
+  background: var(--pass);
+  color: var(--pass-ink);
 }
 
 .pro {
@@ -30,8 +37,8 @@
 }
 
 .fail {
-  background: var(--fail-wash);
-  color: var(--fail-text);
+  background: var(--fail);
+  color: var(--fail-ink);
 }
 
 .info {

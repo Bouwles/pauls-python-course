@@ -1,9 +1,9 @@
-# Lap times in seconds, until I type stop. Y.
+# Weather station readings, in degrees, until I type stop. Y.
 total = 0
 count = 0
-lap = input("Lap time in seconds? ")
-while lap != "stop":
-    total = total + int(lap)
+reading = input("Reading? ")
+while reading != "stop":
+    total = total + int(reading)
     count = count + 1
-print(f"Laps: {count}")
-print(f"Average: {total / count:.1f} seconds")
+print(f"Readings: {count}")
+print(f"Average: {total / count:.1f} degrees")

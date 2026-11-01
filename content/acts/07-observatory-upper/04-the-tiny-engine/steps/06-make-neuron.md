@@ -5,7 +5,7 @@ title: A neuron on cards
 files: [engine.py, neuron.py]
 entry: neuron.py
 starter_from: make
-on_pass: { neil: "Point nine. Clear, dry, a thin moon. Aaesha's already carrying the telescope up." }
+on_pass: { aaesha.pleased: "Point nine. Clear, dry, a thin moon. Neil's already carrying the telescope up." }
 hints:
   nudge: "Training calls backward once a step, and gradients add up. What has to happen to every parameter's grad before each backward?"
   plan:

@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Caitlin's version
 dialogue:
-  - caitlin: "Can you look at mine? A hoist counter. Eight metres up, four pulls down. Recursion."
-  - caitlin: "Seven metres and it thinks for ages, then falls over. Seven's a perfectly good height."
+  - caitlin.pleased.wave: "Can you look at mine? A hoist counter for Neil's crates. Eight metres up, four pulls down."
+  - caitlin.confused: "Seven metres and it thinks for ages, then falls over. Seven's a perfectly good height."
 dialogue_after:
-  - caitlin: "It walked straight past nought. Never even noticed it was there."
+  - caitlin.surprised: "It walked straight past nought. Never even noticed it was there."
 hints:
   nudge: "From 7 m the basket goes 7, 5, 3, 1. What height does Caitlin's function try next, and does it ever reach the base case?"
   plan:
@@ -21,4 +21,4 @@ hints:
 ---
 Every recursive function needs a **base case**: an answer it gives straight away, without calling itself. Every call should bring the problem a step closer to one.
 
-The Clocktower's old hoist lowers its basket 2 m with each pull of the rope, and the basket stops when it hits the ground. Caitlin's base case is `height == 0`. Run it, and read the last line of the traceback. Then fix it: from 7 m the basket goes 7, 5, 3, 1, and the fourth pull puts it on the ground.
+Neil's crates go up the Clocktower's old hoist. It lowers its basket 2 m with each pull of the rope, and the basket stops when it hits the ground. Caitlin's base case is `height == 0`. Run it, and read the last line of the traceback. Then fix it: from 7 m the basket goes 7, 5, 3, 1, and the fourth pull puts it on the ground.

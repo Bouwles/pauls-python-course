@@ -4,7 +4,7 @@ type: make
 title: The forward pass
 files: [network.py]
 entry: network.py
-on_pass: { neil: "A foggy afternoon: lights and beacon. Paul would say the same. He'd say it slower." }
+on_pass: { aaesha.pleased: "A foggy afternoon: lights and beacon. Exactly Paul's call. He just takes longer over it." }
 hints:
   nudge: "What shape is `X @ params[\"W1\"]`, and what does adding `params[\"b1\"]` do to each of its rows?"
   plan:

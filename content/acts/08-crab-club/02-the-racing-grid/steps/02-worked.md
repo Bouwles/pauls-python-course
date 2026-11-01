@@ -3,8 +3,8 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "A level from Caitlin's platform game. Fewer tiles, bigger drops."
-  - paul: "Take it steady or go full speed. The jumps decide the rest."
+  - paul.pleased: "A level from Caitlin's platform game. Fewer tiles, bigger drops."
+  - paul.thinking.think: "Take it steady or go full speed. The jumps decide the rest."
 code: |
   import numpy as np
 

@@ -10,7 +10,7 @@
 }
 
 .block + .block {
-  border-top: 1px solid var(--line);
+  border-top: 2px solid var(--line);
 }
 
 .label {
@@ -23,7 +23,7 @@
   line-height: 1.4;
   color: var(--text-2);
   background: var(--surface-1);
-  border-right: 1px solid var(--line);
+  border-right: 2px solid var(--line);
 }
 
 .labelled .label {
@@ -76,7 +76,7 @@
 
   .label {
     border-right: none;
-    border-bottom: 1px solid var(--line);
+    border-bottom: 2px solid var(--line);
     padding: var(--s-2) var(--s-4);
   }
 }

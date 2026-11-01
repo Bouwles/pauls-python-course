@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would remember
 dialogue:
-  - paul: "Work it out once. Write the answer on the board. Next time, read the board."
+  - paul.neutral.point: "Work it out once. Write the answer on the board. Next time, read the board."
 code: |
   calls = []
 

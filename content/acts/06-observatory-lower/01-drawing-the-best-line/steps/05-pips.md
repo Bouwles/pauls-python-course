@@ -5,11 +5,11 @@ title: Fix Yahya's version
 files: [main.py]
 entry: main.py
 dialogue:
-  - yahya: "Can you look at mine? I walked it in hundreds, so a rate of 0.1 is safe. Done in a blink."
-  - yahya: "It says a hundred and fifty square metres is fifty-two million dollars. Something's off."
+  - yahya.pleased: "Can you look at mine? I walked it in hundreds, so a rate of 0.1 is safe. Done in a blink."
+  - yahya.confused: "It says a hundred and fifty square metres is fifty-two million dollars. Something's off."
 dialogue_after:
-  - yahya: "So w was dollars per hundred square metres, and I fed it square metres. A hundred times too much."
-  - yahya: "Three hundred and eighty-seven thousand. Still fast. Now it's also right."
+  - yahya.surprised: "So w was dollars per hundred square metres, and I fed it square metres. A hundred times too much."
+  - yahya.pleased.thumbs: "Three hundred and eighty-seven thousand. Still fast. Now it's also right."
 hints:
   nudge: "The walk learnt `w` from `hundreds`. What units does the area in `w * area + b` have to be in, then?"
   plan:

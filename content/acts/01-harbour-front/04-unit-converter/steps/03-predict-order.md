@@ -4,27 +4,27 @@ type: predict
 title: First come, first served
 concept: if-elif-else
 code: |
-  km = 42
-  if km >= 21:
-      print("Long run")
-  elif km >= 42:
-      print("Marathon")
+  altitude = 100
+  if altitude >= 50:
+      print("Up high")
+  elif altitude >= 100:
+      print("Space")
   else:
-      print("Easy run")
+      print("In the air")
 question: What does this print?
 options:
-  - text: Long run
+  - text: Up high
     correct: true
-    feedback: "Right. 42 is at least 21, so the first branch runs and the rest are skipped. The marathon test is never even asked."
-  - text: Marathon
+    feedback: "Right. 100 is at least 50, so the first branch runs and the rest are skipped. The space test is never even asked."
+  - text: Space
     misconception: elif-picks-best-match
-    feedback: "Python doesn't look for the best match. It takes the first test that is `True`, and `42 >= 21` is `True`."
+    feedback: "Python doesn't look for the best match. It takes the first test that is `True`, and `100 >= 50` is `True`."
   - text: |-
-      Long run
-      Marathon
+      Up high
+      Space
     misconception: elif-runs-all-true
     feedback: "Only one branch of an `if`, `elif`, `else` ever runs. Once a test is `True`, the rest are skipped."
 after: |
   Run it. Then think about which test should come first.
 ---
-Yahya's first try at sorting his runs put the tests in this order. A marathon is 42 km or more, and today he ran 42.
+Neil's first try at sorting rocket flights put the tests in this order. Space starts 100 km up, and this flight reached 100.

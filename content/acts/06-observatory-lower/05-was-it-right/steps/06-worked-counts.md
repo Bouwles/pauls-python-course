@@ -3,8 +3,8 @@ id: worked-counts
 type: worked
 title: How Paul would count it
 dialogue:
-  - paul: "The rain alert on my phone. Twenty days: did it warn, and did it rain?"
-  - paul: "I'd rather it warned for nothing than left me soaked."
+  - paul.neutral.point: "The rain alert on my phone. Twenty days: did it warn, and did it rain?"
+  - paul.unimpressed: "I'd rather it warned for nothing than left me soaked."
 code: |
   import numpy as np
 

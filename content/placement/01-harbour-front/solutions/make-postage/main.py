@@ -1,4 +1,4 @@
-# Aaesha's parcel run. One label per parcel in the pile by the door.
+# Caitlin's parcel run. One label per parcel in the pile by the door.
 parcels = [
     "Caitlin: 2.5",
     "Yahya: 0.4",

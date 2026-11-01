@@ -1,19 +1,21 @@
 .mark {
   display: block;
   flex: none;
+  image-rendering: pixelated;
 }
 
 .wordmark {
   display: inline-flex;
   align-items: center;
-  gap: calc(var(--mark) * 0.3);
+  gap: calc(var(--mark) / 4);
   color: var(--text);
 }
 
+/* The pixel face at a multiple of 8 px (set from the mark's scale), never faked bold. */
 .name {
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: calc(var(--mark) * 0.68);
+  font-weight: 400;
+  font-size: var(--wordmark-size, var(--px-2));
   line-height: 1;
   letter-spacing: var(--tracking-display);
   white-space: nowrap;

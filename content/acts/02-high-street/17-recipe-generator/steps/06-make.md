@@ -6,7 +6,7 @@ files: [logstream.py]
 entry: logstream.py
 argv_field: true
 timeout_ms: 15000
-on_pass: { neil: "Three printer errors before eight, and it read as far as eight and stopped. Sensible machine." }
+on_pass: { neil.proud: "Three brake errors before hour eight, and it read that far and stopped. Sensible program." }
 hints:
   nudge: "Which function stops the whole chain early, and how does it tell the others to stop?"
   plan:
@@ -25,12 +25,12 @@ hints:
                     ___ line
 
 
-    def matching(entries, level=None, machine=None):
+    def matching(entries, level=None, system=None):
         for entry in entries:
-            time, entry_level, entry_machine, message = entry
+            time, entry_level, entry_system, message = entry
             if level is not None and entry_level != ___:
                 continue
-            if machine is not None and entry_machine != machine:
+            if system is not None and entry_system != system:
                 continue
             ___ entry
 
@@ -45,14 +45,14 @@ hints:
                 ___
         return found
 ---
-Write the four functions in `logstream.py`, then chain them in `main`. In the Arguments box, try `--level ERROR --machine printer --first 3`:
+Write the four functions in `logstream.py`, then chain them in `main`. In the Arguments box, try `--level ERROR --system brakes --first 3`:
 
 ```
-06:12 ERROR printer: out of paper
-06:37 ERROR printer: out of paper
-07:57 ERROR printer: out of paper
+06:12 ERROR brakes: overheating
+06:37 ERROR brakes: overheating
+07:57 ERROR brakes: overheating
 ```
 
-`machines.log` here is one day, 1,451 lines. The real one is years long. Nothing in your chain should care.
+`race.log` here is one race, 1,451 lines. Neil's whole log is years long. Nothing in your chain should care.
 
 The checks hand your functions a log that never ends and count how much they read. A generator copes with that. A list doesn't.

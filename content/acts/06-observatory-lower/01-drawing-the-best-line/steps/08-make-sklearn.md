@@ -5,7 +5,7 @@ title: The price of a house
 files: [house_prices.py]
 entry: house_prices.py
 starter_from: make-descent
-on_pass: { riya: "Three methods, one line, to the cent. Now it can price a house, and it knows when not to." }
+on_pass: { paul.proud: "Three methods, one line, to the cent. Now it prices a house, and it knows when not to." }
 hints:
   nudge: "What shape does `fit` want `X` to be, and what is the shape of `areas`? Then: what happens when `float()` is handed a word?"
   plan:

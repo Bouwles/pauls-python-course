@@ -4,7 +4,7 @@ type: make
 title: Everyone asks at once
 files: [attention.py]
 entry: attention.py
-on_pass: { aaesha: "Every row adds up to one, and nothing looks ahead. That's Neil's blackboard, running." }
+on_pass: { aaesha.pleased: "Every row adds up to one, and nothing looks ahead. That's Neil's blackboard, running." }
 hints:
   nudge: "In `attention`, which line turns the loops of Paul's version into one matrix product, and where does the mask go: before softmax or after?"
   plan:

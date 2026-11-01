@@ -3,7 +3,7 @@ id: ask-it-something-hard
 type: investigate
 title: Ask it something hard
 dialogue:
-  - aaesha: "Every night it learned from was an ordinary one. Give it the nights it never saw."
+  - aaesha.thinking.point: "Every night it learned from was an ordinary one. Give it the nights it never saw."
 code: |
   LEARNED = {
       "lamp": {"dark": 10.0, "visibility_km": -1.0, "bias": 2.0},

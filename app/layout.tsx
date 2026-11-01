@@ -26,11 +26,11 @@ export const viewport: Viewport = {
   ],
 };
 
-// Three faces (REDESIGN-2.md 2.3): Bricolage Grotesque for titles and names (variable, with
-// its optical size axis, so large sizes get the tighter cut), Atkinson Hyperlegible Next for
-// text and the UI, JetBrains Mono for code. Both loaded faces preload with matched fallbacks.
+// Three faces (REDESIGN3_PLAN.md P2): Tiny5, a pixel face, for titles, names, buttons, tabs and
+// labels (one weight: pixel faces must never be fake-bolded); Atkinson Hyperlegible Next for reading and for anything typed; JetBrains Mono
+// for code. Both loaded faces preload with matched fallbacks.
 const display = localFont({
-  src: [{ path: "../node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-opsz-normal.woff2", weight: "200 800", style: "normal" }],
+  src: [{ path: "../node_modules/@fontsource/tiny5/files/tiny5-latin-400-normal.woff2", weight: "400", style: "normal" }],
   variable: "--font-display-loaded",
   display: "swap",
   adjustFontFallback: "Arial",

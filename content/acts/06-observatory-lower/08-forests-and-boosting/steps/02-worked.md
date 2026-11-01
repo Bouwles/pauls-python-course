@@ -3,8 +3,8 @@ id: worked
 type: worked
 title: How Paul would find one question
 dialogue:
-  - paul: "The open days again. Did the coffee run out by noon? One reading: visitors through the door."
-  - riya: "Over a certain number and we're out by twelve. I just don't know the number."
+  - paul.neutral.point: "The open days again. Did the coffee run out by noon? One reading: visitors through the door."
+  - caitlin.thinking: "Over a certain number and we're out by twelve. I just don't know the number."
 code: |
   import numpy as np
 

@@ -4,7 +4,7 @@ type: predict
 title: How steep, not how high
 concept: derivatives
 dialogue:
-  - riya: "Thirty-two metres up at four hundred along. That's the height. I asked how steep."
+  - paul.unimpressed: "Thirty-two metres up at four hundred along. That's the height. I asked how steep."
 code: |
   def height(metres):
       return 0.0002 * metres ** 2      # the lane up to the park: gentle, then steeper

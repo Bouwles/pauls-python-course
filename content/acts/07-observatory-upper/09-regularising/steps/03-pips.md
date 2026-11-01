@@ -5,11 +5,11 @@ title: Fix Riya's version
 files: [net.py, early.py]
 entry: early.py
 dialogue:
-  - riya: "Can you look at mine? Early stopping. It stops when it stops getting better. Simple."
-  - riya: "It ran all 3000 epochs. Either it never stopped getting better, or patience is broken."
+  - riya.pleased: "Can you look at mine? Early stopping. It stops when it stops getting better. Simple."
+  - riya.confused: "It ran all 3000 epochs. Either it never stopped getting better, or patience is broken."
 dialogue_after:
-  - riya: "The training loss never stops getting better. That was rather the problem in the first place."
-  - riya: "And params.copy() copied the dict, not the arrays. The arrays went on training without me."
+  - riya.laughing: "The training loss never stops getting better. That was rather the problem in the first place."
+  - riya.surprised: "And params.copy() copied the dict, not the arrays. The arrays went on training without me."
 hints:
   nudge: "Which loss tells you the network has started learning the noise? And when `-=` changes an array in place, what happens to anything else holding that array?"
   plan:

@@ -3,7 +3,7 @@ id: where-it-came-from
 type: reading
 title: Where the numbers came from
 dialogue:
-  - aaesha: "Before the numbers, the notes above them. Somebody wrote those for a reason."
+  - yahya.thinking.point: "Before the numbers, the notes above them. Somebody wrote those for a reason."
 ---
 Open `stornowaydata.txt` and read the top before the table. A data file's notes are part of its data: five lines about the station and its marks, two of column names and units, then one row per month.
 

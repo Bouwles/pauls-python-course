@@ -5,7 +5,7 @@ title: A network that sees
 files: [seeing.py]
 entry: seeing.py
 timeout_ms: 60000
-on_pass: { caitlin: "Two hundred and eighty-nine, with thirty-six numbers per digit instead of sixty-four. Fewer numbers, better ones." }
+on_pass: { aaesha.proud: "Two hundred and eighty-nine, with thirty-six numbers per digit instead of sixty-four. Fewer numbers, better ones." }
 hints:
   nudge: "A digit is 8 by 8 and a kernel is 3 by 3. How many places does the kernel fit each way, and what shape does the map come out?"
   plan:
@@ -42,7 +42,7 @@ hints:
         pooled = np.array([max_pool(feature) for feature in ___])
         return softmax(pooled.___() @ params["W"] + params["b"])
 ---
-Neil trained a small seeing network at home, in PyTorch, then copied its numbers into `filters.py` by hand, because he trusts nothing he hasn't run himself. Four 3 by 3 kernels, then one layer that reads the pooled maps. Write its forward pass in `seeing.py`, by hand: no SciPy, no PyTorch. The comments are the subgoals from Aaesha's barometer.
+Neil trained a small seeing network at home, in PyTorch, then copied its numbers into `filters.py` by hand, because he trusts nothing he hasn't run himself. Four 3 by 3 kernels, then one layer that reads the pooled maps. Write its forward pass in `seeing.py`, by hand: no SciPy, no PyTorch. The comments are the subgoals from Yahya's barometer.
 
 ```
 A digit (8, 8) becomes maps (4, 6, 6), pooled to (4, 3, 3): 36 numbers, then 10 chances

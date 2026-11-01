@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Yahya's version
 dialogue:
-  - yahya: "Locker codes. I seeded it, so every run does the same work. Fair timing."
-  - yahya: "Neil says Monday's codes opened Tuesday's lockers. Can you look at mine?"
+  - yahya.proud: "Codes for the controller lockers. I seeded it, so every run does the same work. Fair timing."
+  - yahya.confused: "Caitlin says Monday's codes opened Tuesday's lockers. Can you look at mine?"
 dialogue_after:
-  - yahya: "So the seed made every run the same. Great for timing. Terrible for locks."
+  - yahya.laughing: "So the seed made every run the same. Great for timing. Terrible for locks."
 hints:
   nudge: "Run it twice. What does `random.seed(2026)` do to the numbers that come after it?"
   plan:

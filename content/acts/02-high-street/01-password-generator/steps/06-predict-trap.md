@@ -4,7 +4,7 @@ type: predict
 title: The default that remembers
 concept: mutable-default
 dialogue:
-  - paul: "One more default. This one bites."
+  - paul.unimpressed: "One more default. This one bites."
 code: |
   def issue(name, register={}):
       register[name] = "issued"

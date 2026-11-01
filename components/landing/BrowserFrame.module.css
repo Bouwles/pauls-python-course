@@ -1,23 +1,16 @@
-/* A browser window, drawn plainly: a bar with three quiet dots and the address, then the page.
-   It floats over the landing page, so it takes the one floating shadow. */
+/* A browser window, drawn in pixels: a bar with three square lights and the address, then the
+   page. A pixel panel: stepped outline, light top edge, hard drop shadow. */
 .frame {
   display: flex;
   flex-direction: column;
   min-width: 0;
   background: var(--surface-1);
-  border-radius: var(--r-lg);
-  box-shadow: var(--shadow-float);
-  overflow: hidden;
-}
-
-:root[data-theme="light"] .frame {
-  border: 1px solid var(--line);
-}
-
-@media (prefers-color-scheme: light) {
-  :root[data-theme="system"] .frame {
-    border: 1px solid var(--line);
-  }
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    6px 6px 0 0 var(--px-drop);
 }
 
 .bar {
@@ -28,6 +21,9 @@
   height: 40px;
   padding: 0 var(--s-4);
   background: var(--surface-3);
+  box-shadow:
+    inset 0 2px 0 0 var(--px-hi),
+    inset 0 -2px 0 0 var(--px-outline);
   flex: none;
 }
 
@@ -39,8 +35,20 @@
 .dots span {
   width: 10px;
   height: 10px;
-  border-radius: 50%;
   background: var(--line);
+  box-shadow: inset 0 -2px 0 0 var(--px-lo);
+}
+
+.dots span:first-child {
+  background: var(--fail);
+}
+
+.dots span:nth-child(2) {
+  background: var(--sun);
+}
+
+.dots span:last-child {
+  background: var(--pass);
 }
 
 .address {
@@ -50,23 +58,13 @@
   padding: 0 var(--s-4);
   display: inline-flex;
   align-items: center;
-  border-radius: var(--r-md);
-  background: var(--bg);
+  background: var(--editor);
+  box-shadow: inset 0 2px 0 0 var(--px-lo);
   color: var(--text-2);
   font-size: 13px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-:root[data-theme="light"] .address {
-  background: var(--surface-1);
-}
-
-@media (prefers-color-scheme: light) {
-  :root[data-theme="system"] .address {
-    background: var(--surface-1);
-  }
 }
 
 .view {

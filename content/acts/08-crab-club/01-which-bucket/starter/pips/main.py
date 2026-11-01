@@ -1,6 +1,6 @@
 import numpy as np
 
-VERSIONS = ["three goes for a pound", "win a cuddly crab", "free go after six", "beat the crab"]
+VERSIONS = ["high-score table", "demo race", "flashing coin", "waving crab"]
 RATES = [0.10, 0.14, 0.08, 0.17]
 
 
@@ -22,4 +22,4 @@ def run_test(rates, visitors, rng, epsilon=0.1):
 if __name__ == "__main__":
     estimates, counts = run_test(RATES, 1000, np.random.default_rng(1))
     for name, estimate, count in zip(VERSIONS, estimates, counts):
-        print(f"{name:>22}: handed out {count:4} times, estimate {estimate:.2f}")
+        print(f"{name:>22}: shown {count:4} times, estimate {estimate:.2f}")

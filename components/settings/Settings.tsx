@@ -1,7 +1,9 @@
 "use client";
 
-// Settings (REDESIGN-2.md 6): clean sections with headings, no frames. A list of the sections on
-// the left on wide screens; on a phone the sections simply stack. The credit line at the foot.
+// Settings (REDESIGN-2.md 6, REDESIGN3_PLAN.md): sections with pixel headings, no frames inside
+// frames. A list of the sections on the left on wide screens; on a phone the sections simply stack.
+// The learner's pixel avatar heads the avatar section, and waves when they finish changing it.
+// The credit line at the foot.
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { BRAND } from "@/lib/brand";
@@ -9,7 +11,8 @@ import { readAvatar, type AvatarLook } from "@/lib/avatar";
 import { useSession } from "@/lib/store/session";
 import { DEFAULT_SETTINGS, TABLES, type Settings as SettingsData } from "@/lib/store/types";
 import { download, zip } from "@/lib/export";
-import { Avatar } from "../ui/Avatar";
+import { prefersReducedMotion } from "@/lib/display";
+import { PixelPerson } from "../art/PixelPerson";
 import { Button } from "../ui/Button";
 import { useToast } from "../ui/Toast";
 import { Credit } from "../site/Credit";
@@ -40,6 +43,7 @@ export function Settings() {
   const [name, setName] = useState(profile.displayName);
   const [look, setLook] = useState<AvatarLook>(readAvatar(profile.character));
   const [creatorOpen, setCreatorOpen] = useState(false);
+  const [waving, setWaving] = useState(false);
   const [passwordOpen, setPasswordOpen] = useState(false);
   const [flags, setFlags] = useFlags(Boolean(user));
 
@@ -99,13 +103,29 @@ export function Settings() {
 
           <Section id="s-avatar" title="Your avatar">
             <div className={styles.you}>
-              <Avatar name={name || profile.displayName} colour={look.colour} size={72} />
+              {/* While the creator is open, its large live avatar stands in for this one. */}
+              {creatorOpen ? null : (
+                <span className={`px-panel ${styles.youTile}`} style={{ background: look.colour }}>
+                  <PixelPerson avatar={look} crop="bust" scale={2} expression={waving ? "pleased" : "neutral"} pose={waving ? "wave" : "idle"} label={name || profile.displayName ? `${name || profile.displayName}'s avatar` : "Your avatar"} />
+                </span>
+              )}
               <div className={styles.youText}>
                 <p className={styles.youName}>{name || "No name yet"}</p>
                 <p className={styles.hint}>{describeAvatar(look)}</p>
               </div>
-              <Button variant="secondary" aria-expanded={creatorOpen} aria-controls="avatar-creator" onClick={() => {
-                  if (creatorOpen) toast("Avatar saved.");
+              <Button
+                variant="secondary"
+                aria-expanded={creatorOpen}
+                aria-controls="avatar-creator"
+                onClick={() => {
+                  if (creatorOpen) {
+                    toast("Avatar saved.");
+                    // Finished: the new avatar says hello.
+                    if (!prefersReducedMotion()) {
+                      setWaving(true);
+                      setTimeout(() => setWaving(false), 2400);
+                    }
+                  }
                   setCreatorOpen((o) => !o);
                 }}
                 className={styles.youButton}
@@ -114,7 +134,7 @@ export function Settings() {
               </Button>
             </div>
             {creatorOpen ? (
-              <div id="avatar-creator" className={styles.creator}>
+              <div id="avatar-creator" className={`px-panel ${styles.creator}`}>
                 <AvatarCreator
                   look={look}
                   name={name}
@@ -141,7 +161,7 @@ export function Settings() {
             <Choice label="Theme" value={s.theme} options={[["dark", "Dark"], ["light", "Light"], ["system", "Follow my device"]]} onChange={(v) => void set({ theme: v as SettingsData["theme"] })} />
             <Row label={`Code size: ${s.editorFontSize}px`} htmlFor="code-size" hint="Indents are always four spaces. Python reads indentation as structure, and one fixed width avoids errors you can't see." wide>
               <input id="code-size" className={styles.range} type="range" min={12} max={22} step={1} value={s.editorFontSize} onChange={(e) => void set({ editorFontSize: Number(e.target.value) })} />
-              <pre className={`code-dark ${styles.sample}`} aria-hidden="true">
+              <pre className={`code-dark px-inset ${styles.sample}`} aria-hidden="true">
                 <code style={{ fontSize: s.editorFontSize }}>
                   <span className={styles.synFn}>print</span>(<span className={styles.synStr}>&quot;Build it ugly first.&quot;</span>)
                 </code>
@@ -224,7 +244,7 @@ function PasswordForm({ onClose }: { onClose: () => void }) {
   return (
     <form
       id="password-form"
-      className={styles.inline}
+      className={`px-panel ${styles.inline}`}
       onSubmit={async (e) => {
         e.preventDefault();
         const res = await fetch("/api/account", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ current, next }) });

@@ -2,7 +2,7 @@ id: habit-tracker
 title: "Habit Tracker"
 project_name: "Habit Tracker"
 status: outline
-client: yahya
+client: caitlin
 building: harbour-office
 estimated_minutes: 90
-summary: "Yahya's daily run and daily drill, ticked off and remembered: dates with datetime, a JSON file saved and loaded, streaks, and a plan for the day the file is broken."
+summary: "Caitlin's daily guitar practice and daily Drill, ticked off and remembered: dates with datetime, a JSON file saved and loaded, streaks, and a plan for the day the file is broken."

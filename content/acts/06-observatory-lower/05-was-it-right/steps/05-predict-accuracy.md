@@ -4,7 +4,7 @@ type: predict
 title: Eighty-seven per cent
 concept: classification-metrics
 dialogue:
-  - riya: "My first one says no to everyone. It's never once been fooled."
+  - yahya.proud: "My first one says no to everyone. It's never once been fooled."
 code: |
   import numpy as np
 
@@ -31,4 +31,4 @@ after: |
 ---
 `(first_model == 1) & (cases == 1)` is `True` for the respondents where both are true: `&` is `and`, one pair at a time, for whole arrays.
 
-When one answer is rare, the classes are **imbalanced**, and accuracy rewards ignoring the rare one. Here is Riya's first model, scored on all two thousand respondents.
+When one answer is rare, the classes are **imbalanced**, and accuracy rewards ignoring the rare one. Here is Yahya's first model, scored on all two thousand respondents.

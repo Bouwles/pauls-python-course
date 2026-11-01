@@ -4,7 +4,7 @@ type: make
 title: Make the catalogue
 files: [catalogue.py]
 entry: catalogue.py
-on_pass: { aaesha: "Fifteen cards, five levels, and the brass section without a single wasted look." }
+on_pass: { neil.proud.thumbs: "Fifteen cards, five levels, and the recovery section without a single wasted look." }
 hints:
   nudge: "For a tree that's empty, what's the answer? For any other, how does the answer come from the card and the answers for its two sides?"
   plan:
@@ -38,7 +38,7 @@ hints:
             card = card.left if number ___ card.number else card.right
         return None
 ---
-The clockmaker's cards are in `catalogue.py`, in the order they were filed. Write `Card` and `Catalogue` above them, then a main block that files them and prints what the brief shows.
+Neil's cards are in `catalogue.py`, in the order he filed them. Write `Card` and `Catalogue` above them, then a main block that files them and prints what the brief shows.
 
 Each method is a small recursive helper that takes a card, or a walk down from the root. Helpers that take a card can sit outside the class, or inside with a leading underscore.
 

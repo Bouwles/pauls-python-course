@@ -4,9 +4,9 @@ type: milestone
 title: "Milestone 2: the logic, tested"
 evidence: link
 dialogue:
-  - paul: "No window yet. If the rules are right, the window is decoration."
-  - caitlin: "Decoration is the best part."
-  - paul: "Then it'll still be the best part next week."
+  - paul.neutral: "No window yet. If the rules are right, the window is decoration."
+  - caitlin.pleased: "Decoration is the best part."
+  - paul.laughing: "Then it'll still be the best part next week."
 checklist:
   - id: agreed
     text: "Every test in test_rules.py and test_scores.py passes."

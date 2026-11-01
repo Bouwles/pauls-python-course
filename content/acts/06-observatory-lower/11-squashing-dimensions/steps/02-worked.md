@@ -3,12 +3,12 @@ id: worked
 type: worked
 title: How Paul would sort it
 dialogue:
-  - caitlin: "Small boxes, middling boxes, big boxes. I know which is which. Ask me why and I couldn't say."
-  - paul: "Then we won't tell it either. Three heaps, from the weights alone."
+  - riya.thinking: "My art supplies come in small, middling and big boxes. I know which is which. I couldn't say why."
+  - paul.pleased: "Then we won't tell it either. Three heaps, from the weights alone."
 code: |
   import random
 
-  # Deliveries to the Makerspace, weighed at the door, in kg
+  # Riya's art supplies, delivered to the Makerspace and weighed at the door, in kg
   weights = [2.1, 11.8, 2.4, 25.0, 1.9, 12.5, 2.2, 24.1, 11.2, 26.3, 12.0, 1.8, 6.5, 18.0]
   k = 3
   SEED = 11

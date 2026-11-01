@@ -6,7 +6,7 @@ files: [features.py, forecast.py]
 entry: forecast.py
 starter_from: make-features
 timeout_ms: 60000
-on_pass: { riya: "Right four times in five when it says good. The café can cook to that." }
+on_pass: { paul.proud: "Right four times in five when it says good. The café can cook to that." }
 hints:
   nudge: "Which days may the cross-validation see, and when, exactly, do the 2025 days get looked at?"
   plan:

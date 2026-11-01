@@ -6,7 +6,7 @@ portfolio_readme: |
 
   A menu-driven expense tracker for the command line. Add each expense with what it was for, a category and an amount; list them; see the total for each category; and find the biggest single expense. An amount that isn't an amount gets refused, not crashed on.
 
-  Written by {name} for the class's end-of-term trip fund, at Paul's Python Course. Finished {date}.
+  Written by {name} for Yahya and the class's end-of-term trip fund, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -33,20 +33,20 @@ portfolio_readme: |
   It keeps the expenses for as long as it runs. Saving them to a file is the next thing to add.
 downloadable: true
 datasets: []
-client: aaesha
+client: yahya
 building: bakery
 estimated_minutes: 180
 summary: "The Act I capstone: a menu-driven expense tracker, built from a list of dictionaries and functions."
 concepts_reviewed: [while-loops, if-elif-else, break-continue, lists, append-pop, sorted-vs-sort, list-aliasing, dictionaries, dict-get, dict-items, nested-data, string-methods, strip-replace, functions, parameters, return-values, none, scope, exceptions, try-except, float-conversion, f-strings]
 ask:
   dialogue:
-    - aaesha: "The end-of-term trip fund. Everyone's paid in. Now the money's going out."
-    - aaesha: "The receipts are in five pockets and two group chats. I want them in one place."
-    - riya: "By category, too. I want to know where it went before we book the coach."
-    - caitlin: "Can it have a chart?"
-    - paul: "Biggest job yet. Plan it before you build it. The chart can wait."
+    - yahya.neutral.wave: "The end-of-term trip fund. Everyone's paid in. Now the money's going out."
+    - yahya.unimpressed: "The receipts are in five pockets and two group chats. That's not data. That's a mess."
+    - yahya.thinking: "One list, then totals by category. The numbers will say where it went before we book the coach."
+    - caitlin.pleased: "Can it have a chart?"
+    - paul.neutral.point: "Biggest job yet. Plan it before you build it. The chart can wait."
   spec: |
-    Requirements, from Aaesha, numbered:
+    Requirements, from Yahya. Aaesha numbered them:
 
     1. Ask `1 add, 2 list, 3 totals, 4 biggest, 5 quit: ` over and over, until the choice is `5`.
     2. **Add** asks `What for? `, `Category? ` and `Amount? `, then prints `Added snacks.` Each expense is a dictionary with an `item`, a `category` and an `amount` (a number), kept in a list in the order they were added.
@@ -89,9 +89,9 @@ ask:
     2 expenses, 230.40 in all.
 ship:
   dialogue:
-    - aaesha: "Food, forty-two ninety. Travel, two seventy-two. I did it on paper too. Same both times."
-    - riya: "So the coach is the big one. I'll ring round for a cheaper quote."
-    - paul: "That's the whole Workshop floor. The clock still says 3:14, mind."
+    - yahya.pleased: "Food, forty-two ninety. Travel, two seventy-two. I did it on paper too. Same both times."
+    - yahya.proud.point: "There's the story in the numbers. The coach is nearly all of it. One cheaper quote and we're fine."
+    - paul.pleased.cheer: "That's the whole Workshop floor. The clock still says 3:14, mind."
   shelf: { object: till-receipt, label: "The trip fund's expense tracker" }
   cards: []
   awards: [name-plate]
@@ -99,7 +99,7 @@ stretch:
   - id: pound-sign
     title: "The pound sign"
     prompt: |
-      Riya types `£18.40` about half the time. Let an amount start with a pound sign: take it off before you try `float()`. `£twenty` is still not an amount.
+      Caitlin types `£18.40` about half the time. Let an amount start with a pound sign: take it off before you try `float()`. `£twenty` is still not an amount.
     tests: tests/stretch-pound-sign.py
     solution: solutions/stretch-pound-sign.py
   - id: undo

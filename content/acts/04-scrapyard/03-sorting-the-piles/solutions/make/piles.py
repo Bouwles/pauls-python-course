@@ -1,44 +1,44 @@
-"""Sorting Visualiser, part one: two sorts by hand, and a pile drawn as bars."""
+"""Sorting Visualiser, part one: two sorts by hand, and a pile of laps drawn as bars."""
 
 
 def draw(pile):
-    """The pile as bars, one line per weight: the weight, then a # for each kilo."""
-    return "\n".join(f"{weight:>3} {'#' * weight}" for weight in pile)
+    """The pile as bars, one line per lap: its tenths off the record, then a # for each tenth."""
+    return "\n".join(f"{lap:>3} {'#' * lap}" for lap in pile)
 
 
-def selection_sort(weights, frames=None):
-    """Sort weights in place: the lightest of the rest goes next, one swap per pass.
+def selection_sort(laps, frames=None):
+    """Sort laps in place: the fastest of the rest goes next, one swap per pass.
 
     If frames is a list, a copy of the pile goes on it after every pass.
     """
-    for start in range(len(weights) - 1):
-        lightest = start
-        for position in range(start + 1, len(weights)):
-            if weights[position] < weights[lightest]:
-                lightest = position
-        weights[start], weights[lightest] = weights[lightest], weights[start]
+    for start in range(len(laps) - 1):
+        fastest = start
+        for position in range(start + 1, len(laps)):
+            if laps[position] < laps[fastest]:
+                fastest = position
+        laps[start], laps[fastest] = laps[fastest], laps[start]
         if frames is not None:
-            frames.append(list(weights))
+            frames.append(list(laps))
 
 
-def insertion_sort(weights, frames=None):
-    """Sort weights in place: slide each one left past every heavier one.
+def insertion_sort(laps, frames=None):
+    """Sort laps in place: slide each one left past every slower one.
 
     If frames is a list, a copy of the pile goes on it after every pass.
     """
     # Take each one in turn, from the second
-    for position in range(1, len(weights)):
+    for position in range(1, len(laps)):
         # Pick it up
-        current = weights[position]
+        current = laps[position]
         slot = position
-        # While the one to its left is heavier, move that one right
-        while slot > 0 and weights[slot - 1] > current:
-            weights[slot] = weights[slot - 1]
+        # While the one to its left is slower, move that one right
+        while slot > 0 and laps[slot - 1] > current:
+            laps[slot] = laps[slot - 1]
             slot = slot - 1
         # Put it down in the gap
-        weights[slot] = current
+        laps[slot] = current
         if frames is not None:
-            frames.append(list(weights))
+            frames.append(list(laps))
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-"""Route Planner, the park: read its map, find the quickest way to the cafe, and draw it."""
+"""Route Planner, the car park: read its map, find the quickest way to Neil's car, and draw it."""
 import heapq
 
 try:
@@ -8,7 +8,7 @@ except ImportError:
     def show_grid(*args, **kwargs):
         pass
 
-# The park, copied from the city map: hedges, paths, and mud after rain.
+# The circuit's car park, copied from the map: hedges, track, and mud after rain.
 PARK_FILE = "park.txt"
 
 COSTS = {".": 1, "S": 1, "G": 1, "~": 3, "#": None}
@@ -26,12 +26,12 @@ def show_search(tiles, best, current, goal, route=()):
     arrows = [[None] * len(tiles[row]) for row in range(len(tiles))]
     for (row, col), (next_row, next_col) in zip(route, route[1:]):
         arrows[row][col] = {(-1, 0): "^", (1, 0): "v", (0, -1): "<", (0, 1): ">"}[(next_row - row, next_col - col)]
-    show_grid(values, policy=arrows, crab=current, walls=walls, goal=[goal], title="The park")
+    show_grid(values, policy=arrows, crab=current, walls=walls, goal=[goal], title="The car park")
 
 
 # From the maze solver, with a cost on every tile: what it takes to step onto it.
 def read_park(text):
-    """(tiles, start, goal) from the park's map. ValueError if the map is wrong."""
+    """(tiles, start, goal) from the car park's map. ValueError if the map is wrong."""
     tiles = []
     starts = []
     goals = []
@@ -56,7 +56,7 @@ def read_park(text):
 
 
 def neighbours(tiles, tile):
-    """The tiles up, down, left and right of tile that are in the park and not hedge."""
+    """The tiles up, down, left and right of tile that are in the car park and not hedge."""
     row, col = tile
     found = []
     for next_row, next_col in ((row - 1, col), (row + 1, col), (row, col - 1), (row, col + 1)):
@@ -101,7 +101,7 @@ def a_star(tiles, start, goal):
 
 
 def draw_route(tiles, route):
-    """The park as strings, with the route drawn in arrows and G at its end."""
+    """The car park as strings, with the route drawn in arrows and G at its end."""
     picture = [["#" if cost is None else "~" if cost == 3 else "." for cost in row] for row in tiles]
     for (row, col), (next_row, next_col) in zip(route, route[1:]):
         picture[row][col] = ARROWS[(next_row - row, next_col - col)]
@@ -117,9 +117,9 @@ if __name__ == "__main__":
     tiles, start, goal = read_park(text)
     found = a_star(tiles, start, goal)
     if found is None:
-        print("No way from the gate to the cafe")
+        print("No way from the gate to the car")
     else:
         minutes, route = found
-        print(f"Gate to cafe: {minutes} minutes, {len(route) - 1} steps")
+        print(f"Gate to car: {minutes} minutes, {len(route) - 1} steps")
         for line in draw_route(tiles, route):
             print(line)

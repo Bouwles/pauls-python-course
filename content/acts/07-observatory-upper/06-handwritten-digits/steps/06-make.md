@@ -5,7 +5,7 @@ title: Reading handwriting
 files: [digits.py, training.py]
 entry: digits.py
 timeout_ms: 60000
-on_pass: { aaesha: "Nearly ninety-nine per cent on digits it never saw. I wrote the bar at ninety-five before we started." }
+on_pass: { aaesha.proud: "Nearly ninety-nine per cent on digits it never saw. I wrote the bar at ninety-five before we started." }
 hints:
   nudge: "Softmax and cross-entropy end the network now, instead of a sigmoid and squared error. What is the blame at the scores, and what stays the same behind it?"
   plan:

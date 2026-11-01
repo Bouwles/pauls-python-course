@@ -34,4 +34,4 @@ options:
 ---
 Methods with two underscores either side, like `__init__`, are ones Python calls for you. `__str__` is called whenever an object has to become text: in `print`, in an f-string, or in `str(account)`.
 
-Neil was the first to open a trip account. He paid in on the first morning, before the kettle had boiled.
+Neil was the first to open a festival account. He paid in before Caitlin had finished explaining.

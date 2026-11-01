@@ -5,11 +5,11 @@ title: Hole number three
 concept: indexing
 widget: pigeonholes
 params:
-  items: ["Quiz for Aaesha", "Quiz for Caitlin", "Quiz for Riya", "Quiz for Yahya", "Chalk for Paul", "Notes for Neil"]
+  items: ["Print for Aaesha", "Print for Caitlin", "Print for Neil", "Print for Yahya", "Print for Paul", "Ink for Riya"]
   ask: 3
   negative: false
 dialogue:
-  - neil: "Pigeonhole three, please. I'm handing the quizzes back."
+  - riya.pleased.point: "I drew everyone in the class. Pigeonhole three, please. I'm handing out the prints."
 ---
 The pigeonholes in the Workshop are numbered from 0. The first hole is hole 0, so hole 3 is the fourth one along.
 

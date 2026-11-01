@@ -4,7 +4,7 @@ type: make
 title: Make the sudoku solver
 files: [sudoku.py]
 entry: sudoku.py
-on_pass: { yahya: "Two solved and one that can't be. A week of my life, explained." }
+on_pass: { caitlin.surprised.cheer: "Two solved and one that can't be. A week of my life, explained." }
 hints:
   nudge: "Paul's `seat` chose a team for the next table. What does `solve` choose each time, where does it put it, and what makes a choice no good?"
   plan:
@@ -33,7 +33,7 @@ hints:
             grid[row][col] = ___
         return ___
 ---
-Write `can_place`, `next_blank`, `solve` and `show` in `sudoku.py`. Yahya's three puzzles are in `puzzles.txt`, and `read_puzzles` turns each into nine rows of nine numbers, with 0 for a blank.
+Write `can_place`, `next_blank`, `solve` and `show` in `sudoku.py`. Caitlin's three puzzles are in `puzzles.txt`, and `read_puzzles` turns each into nine rows of nine numbers, with 0 for a blank.
 
 ```
 Puzzle 1

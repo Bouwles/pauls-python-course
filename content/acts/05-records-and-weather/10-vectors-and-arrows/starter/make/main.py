@@ -1,7 +1,7 @@
-# The Archive's wind vane, for Aaesha and for Riya's ride in.
+# The Archive's wind vane, for Riya's wind print and Neil's runway.
 import numpy as np
 
-BIKE_HEADING = 40  # Riya's ride to the Clocktower, in degrees
+RUNWAY_HEADING = 40  # the flying field's runway, 04, in degrees
 
 
 def load_vane(path):
@@ -36,7 +36,7 @@ def angle_between(a, b):
 
 
 def along_and_across(arrows, heading):
-    """For a bike on this heading, one row per wind: (headwind, crosswind from the right)."""
+    """For a plane on this heading, one row per wind: (headwind, crosswind from the right)."""
     # One-knot arrows for the new directions
 
     # Stack them into a matrix
@@ -55,8 +55,8 @@ if __name__ == "__main__":
     swings = [angle_between(arrows[day], arrows[day + 1]) for day in range(len(dates) - 1)]
     biggest = int(np.argmax(swings))
     print(f"Biggest swing overnight: {swings[biggest]:.0f} degrees, {dates[biggest]} to {dates[biggest + 1]}")
-    winds = along_and_across(arrows, BIKE_HEADING)
+    winds = along_and_across(arrows, RUNWAY_HEADING)
     head = winds[:, 0].argmax()
     cross = np.abs(winds[:, 1]).argmax()
-    print(f"Cycling on {BIKE_HEADING:03d}: worst headwind {winds[head, 0]:.1f} knots on {dates[head]}")
-    print(f"Cycling on {BIKE_HEADING:03d}: worst crosswind {abs(winds[cross, 1]):.1f} knots on {dates[cross]}")
+    print(f"Runway {RUNWAY_HEADING // 10:02d}: worst headwind {winds[head, 0]:.1f} knots on {dates[head]}")
+    print(f"Runway {RUNWAY_HEADING // 10:02d}: worst crosswind {abs(winds[cross, 1]):.1f} knots on {dates[cross]}")

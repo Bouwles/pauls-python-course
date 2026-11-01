@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Riya's version
 dialogue:
-  - riya: "Can you look at mine? Paul only blames the move made. Seemed like wasted data, so I blamed all four."
-  - riya: "One memory said up from the start was worth 5. Now every move from the start is worth 5."
+  - riya.neutral: "Can you look at mine? Paul only blames the move made. Seemed like wasted data, so I blamed all four."
+  - riya.confused: "One memory said up from the start was worth 5. Now every move from the start is worth 5."
 dialogue_after:
-  - riya: "The other three moves never happened. No target, no blame. I was training on data I didn't have."
+  - riya.surprised: "The other three moves never happened. No target, no blame. I was training on data I didn't have."
 hints:
   nudge: "The loss looks at one Q-value per memory. Which entries of `dQ` can change the loss at all?"
   plan:

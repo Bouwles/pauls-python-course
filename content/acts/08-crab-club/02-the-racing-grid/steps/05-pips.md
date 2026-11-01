@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Caitlin's version
 dialogue:
-  - caitlin: "Can you look at mine? Paul's backwards trick. Start at nothing, then reward plus gamma times the total."
-  - caitlin: "I get 6.9. The last step said 3.12. Mine's higher, so I shipped it."
+  - caitlin.neutral: "Can you look at mine? Paul's backwards trick. Start at nothing, then reward plus gamma times the total."
+  - caitlin.pleased: "I get 6.9. The last step said 3.12. Mine's higher, so I shipped it."
 dialogue_after:
-  - caitlin: "Backwards from the finish. I went backwards from the start, which is just forwards."
+  - caitlin.laughing: "Backwards from the finish. I went backwards from the start, which is just forwards."
 hints:
   nudge: "In Caitlin's loop, which reward gets multiplied by gamma the most times: the first or the last?"
   plan:

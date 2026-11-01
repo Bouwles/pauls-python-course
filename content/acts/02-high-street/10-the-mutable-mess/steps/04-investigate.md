@@ -1,18 +1,18 @@
 ---
 id: investigate
 type: investigate
-title: Reading Neil's stock sheets
+title: Reading Caitlin's stock sheets
 concept: is-vs-equals
 dialogue:
-  - paul: "Read it all before you touch it. Then ask it questions."
+  - paul.neutral.point: "Read it all before you touch it. Then ask it questions."
 code: |
-  # Bake sale stock sheets, for the trip fund. Neil, last term.
+  # Bake sale stock sheets, for the Studio's new board games. Caitlin, last term.
   # By hand, everything gets counted twice. This counts it once, carefully.
 
   STANDARD_BAKE = {
       "bread": {"baked": 40, "sold": 0},
       "buns": {"baked": 60, "sold": 0},
-      "lardy cake": {"baked": 12, "sold": 0},
+      "brownies": {"baked": 12, "sold": 0},
   }
 
 
@@ -60,7 +60,7 @@ tasks:
     prompt: "Run it. How many loaves does Saturday's sheet say are left?"
     kind: answer
     accept: ["5"]
-    feedback: "5, of 40. Saturday sold 5. Friday's 30 have turned up on Saturday's sheet, and the buns say 72 baked when Neil baked 60."
+    feedback: "5, of 40. Saturday sold 5. Friday's 30 have turned up on Saturday's sheet, and the buns say 72 baked when Caitlin baked 60."
     wrong: "Read the first line of the output."
   - id: same-sheet
     prompt: "At the bottom, add `print(saturday is friday)`. What does it print?"
@@ -85,7 +85,7 @@ tasks:
     feedback: "Line 13, in `new_day`. `copy()` makes a new outer dictionary, but fills it with labels stuck on the old inner ones."
     wrong: "Which function makes each day's sheet? Look at its return line."
 ---
-This is Neil's stock program from last term's bake sale, all in one piece. It runs a Friday and then a Saturday.
+This is Caitlin's stock program from last term's bake sale, all in one piece. It runs a Friday and then a Saturday.
 
 Read it from top to bottom first. Which functions change a sheet, and which only read one? Then run it and use `is` to find out which boxes are shared.
 

@@ -6,7 +6,7 @@ import { Art, hasFinalArt } from "@/components/art/Art";
 import { FINAL } from "@/components/art/final.generated";
 import { castName } from "@/components/art/placeholders";
 import { Portrait, type Expression } from "@/components/art/Portrait";
-import { KINDS, canvasFor, type ArtKind, type Manifest, type ManifestEntry } from "@/components/art/spec";
+import { EXPRESSIONS, KINDS, canvasFor, type ArtKind, type Manifest, type ManifestEntry } from "@/components/art/spec";
 import { Badge } from "@/components/ui/Badge";
 import { Tabs } from "@/components/ui/Tabs";
 import styles from "./ArtReview.module.css";
@@ -57,12 +57,13 @@ function Previews({ entry }: { entry: ManifestEntry }) {
         </figure>
       ))}
       {entry.kind === "portrait" && entry.character
-        ? [48, 64].map((size) => (
-            <figure key={`circle-${size}`} className={styles.size}>
+        ? [36, 68, 108].map((size) => (
+            <figure key={`tile-${size}`} className={styles.size}>
               <div className={styles.stage}>
-                <Portrait who={entry.character!} name={castName(entry.character!)} size={size} expression={entry.expression as Expression} />
+                {/* The pixel person in this expression; "crown" is Paul's crown scene, drawn proud. */}
+                <Portrait who={entry.character!} name={castName(entry.character!)} size={size} expression={(EXPRESSIONS as readonly string[]).includes(entry.expression ?? "") ? (entry.expression as Expression) : "proud"} />
               </div>
-              <figcaption className={styles.caption}>In the circle, {size} px</figcaption>
+              <figcaption className={styles.caption}>On the tile, {size} px</figcaption>
             </figure>
           ))
         : null}
@@ -75,7 +76,7 @@ function Entry({ entry }: { entry: ManifestEntry }) {
   const outOfStep = final !== (entry.status === "final");
   const wide = entry.display[entry.display.length - 1]! > 300;
   return (
-    <li className={styles.entry}>
+    <li className={`px-panel ${styles.entry}`}>
       <div className={styles.head}>
         <code className={styles.id}>{entry.id}</code>
         <Badge tone={entry.status === "final" ? "shipped" : "neutral"}>{entry.status === "final" ? "Final" : "Placeholder"}</Badge>

@@ -4,7 +4,7 @@ type: make
 title: "Question 6: The ferry's load limit"
 files: [ferry.py]
 entry: ferry.py
-on_pass: { paul: "Every crate across on time, nothing split, nothing left behind. Binary search on the answer, not the list." }
+on_pass: { paul.pleased: "Every crate across on time, nothing split, nothing left behind. Binary search on the answer, not the list." }
 hints:
   nudge: "If a limit of 20 kg gets everything across in time, what do you know about 21 kg? And about 19?"
   plan:

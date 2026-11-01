@@ -60,11 +60,11 @@ concepts_introduced: [multivariate-regression, feature-scaling, train-test-split
 concepts_reviewed: [linear-regression, mean-squared-error, gradient-descent, numpy-arrays, vectorisation, broadcasting, matrices, numerical-gradients, pandas-basics, matplotlib, functions, multiple-returns, main-guard, docstrings, list-comprehensions, zip, f-strings]
 ask:
   dialogue:
-    - paul: "I mark your tests. I'd like to know by Christmas who needs help, before the marks say so."
-    - paul: "Not on you lot. On 357 real students from two schools in Portugal, one year, all public."
-    - riya: "I've done one already. It's perfect on every student I gave it."
-    - paul: "Perfect on the ones you gave it. And the rest?"
-    - riya: "Perfect is suspicious, isn't it."
+    - paul.neutral.wave: "I mark your tests. I'd like to know by Christmas who needs help, before the marks say so."
+    - paul.neutral: "Not on you lot. On 357 real students from two schools in Portugal, one year, all public."
+    - riya.pleased: "I've done one already. It's perfect on every student I gave it."
+    - paul.unimpressed: "Perfect on the ones you gave it. And the rest?"
+    - riya.worried: "Perfect is suspicious, isn't it."
   spec: |
     `students.csv` holds 357 real maths students from two schools in Portugal: their first-term grade, weekly study time (1 to 4), past failures, how often they go out (1 to 5) and absences, and their final grade, all grades out of 20.
 
@@ -97,10 +97,10 @@ ask:
     A new student, 12 after the first term: about 12.2 out of 20
 ship:
   dialogue:
-    - paul: "One and a third marks out, on students it had never seen. The first term says most of it."
-    - paul: "Degree eight was sure of itself on two hundred students. On the rest it was off by thirty."
-    - riya: "Degree eight had more columns. I liked that about it."
-    - paul: "Sure and right are different things. The test pile is how you tell them apart."
+    - paul.pleased: "One and a third marks out, on students it had never seen. The first term says most of it."
+    - paul.thinking: "Degree eight was sure of itself on two hundred students. On the rest it was off by thirty."
+    - riya.laughing: "Degree eight had more columns. I liked that about it."
+    - paul.proud.thumbs: "Sure and right are different things. The test pile is how you tell them apart."
   shelf: { object: exam-paper, label: "Paul's exam score model, tested honestly" }
   cards: [multivariate-regression, feature-scaling, train-test-split, polynomial-features, overfitting]
 stretch:

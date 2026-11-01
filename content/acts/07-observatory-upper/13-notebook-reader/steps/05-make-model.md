@@ -5,7 +5,7 @@ title: The network
 files: [notes.py, baseline.py, model.py]
 entry: model.py
 starter_from: make-baseline
-on_pass: { aaesha: "6.89 on notes it never saw, against the bigram's 10.71. Four characters back is worth having." }
+on_pass: { aaesha.proud: "6.60 on notes it never saw, against the bigram's 10.73. Four characters back is worth having." }
 hints:
   nudge: "Write the shape beside every line of `forward`, then go back up through `backward` with the same shapes. Which shape must `d_flat` become before it can reach `E`?"
   plan:
@@ -37,8 +37,8 @@ Write `model.py`. `save_params` and `load_params` are written; `CONTEXT`, `DIM` 
 `train` makes one rng from `seed`, and each step takes `rows = rng.integers(0, len(X), batch)`: a mini-batch, as in the Optimiser Benchmark. Run as a program, 2000 steps at rate 0.3 take a few seconds:
 
 ```
-Steps 1900 to 1999: loss 1.479
-Held-back notes: perplexity 6.89, bigram 10.71, guessing 55
+Steps 1900 to 1999: loss 1.484
+Held-back notes: perplexity 6.60, bigram 10.73, guessing 55
 Saved my_weights.json
 ```
 

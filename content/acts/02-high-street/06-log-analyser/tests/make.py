@@ -1,10 +1,10 @@
 import ast as _ast
 
 REPORT = """11 entries read
-Errors by machine:
-  lights: 2
-  printer: 2
-  thermostat: 1
+Errors by system:
+  camera: 2
+  gps: 2
+  motors: 1
 Skipped 3 lines:
   line 6: expected 4 parts, got 3
   line 9: unknown level WARNING
@@ -14,7 +14,7 @@ Skipped 3 lines:
 def unknown_level_raises(ctx):
     module = ctx.module()
     try:
-        module.parse_line("09:00 | NOTICE | lights | odd\n", 7)
+        module.parse_line("02:00 | NOTICE | gps | odd\n", 7)
     except ValueError as error:
         if "line 7" not in str(error):
             raise CheckFailed("The ValueError should say which line it came from.", expected="line 7: unknown level NOTICE", actual=str(error))
@@ -23,9 +23,9 @@ def unknown_level_raises(ctx):
 
 
 def read_log_two_lists(ctx):
-    module = ctx.module(files={"short.log": "06:00 | INFO | lights | on\nnonsense\n"})
+    module = ctx.module(files={"short.log": "00:00 | INFO | gps | locked\nnonsense\n"})
     result = module.read_log("short.log")
-    expected = ([("06:00", "INFO", "lights", "on")], ["line 2: expected 4 parts, got 1"])
+    expected = ([("00:00", "INFO", "gps", "locked")], ["line 2: expected 4 parts, got 1"])
     if not isinstance(result, tuple) or len(result) != 2:
         raise CheckFailed("read_log should give back two things: the entries and the problems.", expected=repr(expected), actual=repr(result))
     entries, problems = result
@@ -41,17 +41,17 @@ def names_the_error(tree, source):
 
 
 TESTS = [
-    output("The Clocktower's log", expect=REPORT, visible=True),
-    function("A tidy line, in lower case", call="parse_line", args=("06:42 | info | thermostat | heating on\n", 3),
-             expect=("06:42", "INFO", "thermostat", "heating on"), visible=True),
-    output("A clean log", files={"machines.log": "06:00 | INFO | lights | lights off\n06:30 | ERROR | lights | bulb failed\n07:00 | error | printer | no paper\n"},
-           expect="3 entries read\nErrors by machine:\n  lights: 1\n  printer: 1\nNothing skipped.",
+    output("Sunday's flight log", expect=REPORT, visible=True),
+    function("A tidy line, in lower case", call="parse_line", args=("00:42 | info | motors | climbing\n", 3),
+             expect=("00:42", "INFO", "motors", "climbing"), visible=True),
+    output("A clean log", files={"flight.log": "00:00 | INFO | gps | locked\n00:30 | ERROR | gps | signal lost\n01:00 | error | camera | card full\n"},
+           expect="3 entries read\nErrors by system:\n  camera: 1\n  gps: 1\nNothing skipped.",
            hint="When every line is fine, the report ends with Nothing skipped."),
-    output("Blank lines are not problems", files={"machines.log": "\n06:00 | INFO | lights | on\n   \n\n07:00 | ERROR | lights | off\n"},
-           expect="2 entries read\nErrors by machine:\n  lights: 1\nNothing skipped.",
+    output("Blank lines are not problems", files={"flight.log": "\n00:00 | INFO | radio | on\n   \n\n01:00 | ERROR | radio | link lost\n"},
+           expect="2 entries read\nErrors by system:\n  radio: 1\nNothing skipped.",
            hint="A line with nothing but spaces on it is skipped without a word. It isn't an entry, and it isn't a problem."),
-    output("Every line is bad", files={"machines.log": "power cut\n09:00 | NOTICE | lights | odd\n"},
-           expect="0 entries read\nErrors by machine:\nSkipped 2 lines:\n  line 1: expected 4 parts, got 1\n  line 2: unknown level NOTICE",
+    output("Every line is bad", files={"flight.log": "radio dropout\n02:00 | NOTICE | gps | odd\n"},
+           expect="0 entries read\nErrors by system:\nSkipped 2 lines:\n  line 1: expected 4 parts, got 1\n  line 2: unknown level NOTICE",
            hint="Even with nothing to count, the report still prints, and lists every line it skipped."),
     custom("parse_line still refuses an unknown level", unknown_level_raises,
            hint="Upper-case the level first, then check it against LEVELS. Anything still not in LEVELS raises ValueError."),

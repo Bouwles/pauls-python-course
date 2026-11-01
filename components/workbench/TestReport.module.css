@@ -19,12 +19,14 @@
 .summary {
   display: flex;
   align-items: center;
-  gap: var(--s-2);
+  gap: var(--s-3);
   font-family: var(--font-display);
-  font-size: var(--fs-4);
-  font-weight: 700;
-  letter-spacing: var(--tracking-display);
-  line-height: 1.2;
+  font-size: var(--px-2);
+  line-height: 1.1;
+}
+
+.summary svg {
+  flex: none;
 }
 
 .good svg {
@@ -35,26 +37,44 @@
   color: var(--fail-text);
 }
 
+/* One block per check, like a health bar. */
 .progress {
   display: flex;
-  gap: 2px;
-  height: 6px;
-  max-width: 480px;
-  border-radius: var(--r-sm);
-  overflow: hidden;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 2px;
 }
 
 .progress > span {
-  flex-basis: 0;
-  min-width: 6px;
+  width: 16px;
+  height: 16px;
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
 }
 
 .barPass {
   background: var(--pass);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-hi),
+    inset 0 -2px 0 0 var(--px-lo);
 }
 
 .barFail {
   background: var(--fail);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-hi),
+    inset 0 -2px 0 0 var(--px-lo);
 }
 
 .barRest {
@@ -74,10 +94,6 @@
   list-style: none;
 }
 
-.row {
-  border-radius: var(--r-md);
-}
-
 .item {
   display: flex;
   align-items: center;
@@ -85,7 +101,6 @@
   min-height: 36px;
   padding: var(--s-1) var(--s-2);
   font-size: var(--fs-2);
-  border-radius: var(--r-md);
 }
 
 summary.item {
@@ -120,17 +135,24 @@ summary.item:hover {
 
 .caret {
   color: var(--text-2);
-  transition: transform var(--dur) var(--ease-out);
 }
 
 details[open] > summary .caret {
   transform: rotate(90deg);
 }
 
+/* The open failure: a pixel panel. */
 .rowFail details[open] {
-  background: var(--surface-1);
-  border-radius: var(--r-lg);
+  margin: 4px 8px 10px 2px;
   padding-bottom: var(--s-4);
+  background: var(--surface-1);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-hi),
+    4px 4px 0 0 var(--px-drop);
 }
 
 .failure {
@@ -159,17 +181,22 @@ details[open] > summary .caret {
 }
 
 .colLabel {
-  font-size: var(--fs-1);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  line-height: 1.25;
   color: var(--text-2);
 }
 
 .value {
-  margin: 0;
+  margin: 2px;
   padding: var(--s-3);
-  border-radius: var(--r-md);
   background: var(--editor);
-  border: 1px solid var(--line);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-lo);
   font-size: 14px;
   line-height: 1.6;
   white-space: pre-wrap;
@@ -184,7 +211,6 @@ details[open] > summary .caret {
 .missing,
 .extra {
   color: inherit;
-  border-radius: var(--r-sm);
   padding: 1px 0;
   text-decoration: underline;
   text-decoration-thickness: 2px;
@@ -227,11 +253,9 @@ details[open] > summary .caret {
 }
 
 .stretchTitle {
-  font-family: var(--font-text);
-  font-size: var(--fs-1);
-  font-weight: 700;
+  font-size: var(--px-1);
+  line-height: 1;
   color: var(--text-2);
-  letter-spacing: normal;
 }
 
 @container wb (max-width: 860px) {

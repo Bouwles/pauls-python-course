@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the grade calculator
-on_pass: { paul: "Candidate 1, fifty-three point seven, a C. And every function checks out on its own." }
+on_pass: { paul.proud: "Candidate 1, fifty-three point seven, a C. And every function checks out on its own." }
 hints:
   nudge: "Which function needs `.split()`, which needs `len()`, and which only needs one number?"
   plan:

@@ -41,7 +41,7 @@ tasks:
     prompt: "And `keep_halving`? What happens to its steps when n doubles?"
     kind: answer
     accept: ["1", "one", "+1", "one more", "1 more", "goes up by one", "goes up by 1", "up by one", "up by 1", "it goes up by one", "it goes up by 1", "adds one", "adds 1", "plus one", "plus 1", "increases by one", "increases by 1", "one more step"]
-    feedback: "One more step. Doubling the pile adds only one halving. That's O(log n): it barely notices the clockmaker's lot."
+    feedback: "One more step. Doubling the pile adds only one halving. That's O(log n): it barely notices the kart track's lot."
     wrong: "Compare the last number on each row."
   - id: million
     prompt: "Without running it: how many steps would `keep_halving(1_000_000)` take? Then check."

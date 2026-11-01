@@ -1,7 +1,7 @@
-# The machines log, a line at a time. It never holds more than it needs.
+# Neil's race log, a line at a time. It never holds more than it needs.
 import argparse
 
-LOG = "machines.log"
+LOG = "race.log"
 
 
 def read_lines(path):
@@ -16,24 +16,24 @@ def read_lines(path):
 
 
 def parse(lines):
-    """(time, level, machine, message) for every line that has all four parts."""
+    """(time, level, system, message) for every line that has all four parts."""
     for line in lines:
         parts = line.split("|", 3)
         if len(parts) != 4:
             continue
-        time, level, machine, message = parts
+        time, level, system, message = parts
         # Turn each line into a tuple and hand it over
-        yield time.strip(), level.strip().upper(), machine.strip(), message.strip()
+        yield time.strip(), level.strip().upper(), system.strip(), message.strip()
 
 
-def matching(entries, level=None, machine=None):
-    """Only the entries at this level, from this machine. None means any."""
+def matching(entries, level=None, system=None):
+    """Only the entries at this level, from this system. None means any."""
     # Pass on only what's needed, as it's asked for
     for entry in entries:
-        time, entry_level, entry_machine, message = entry
+        time, entry_level, entry_system, message = entry
         if level is not None and entry_level != level.upper():
             continue
-        if machine is not None and entry_machine != machine:
+        if system is not None and entry_system != system:
             continue
         yield entry
 
@@ -51,19 +51,19 @@ def first(entries, count):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Search the machines log without reading all of it.")
+    parser = argparse.ArgumentParser(description="Search the race log without reading all of it.")
     parser.add_argument("--level", help="INFO, WARN or ERROR")
-    parser.add_argument("--machine", help="only this machine")
+    parser.add_argument("--system", help="only this part of the car")
     parser.add_argument("--first", type=int, default=10, help="how many to show (default 10)")
     args = parser.parse_args()
 
     # Chain them, and loop over the end of the chain
-    entries = matching(parse(read_lines(LOG)), level=args.level, machine=args.machine)
+    entries = matching(parse(read_lines(LOG)), level=args.level, system=args.system)
     shown = first(entries, args.first)
     if not shown:
         print("Nothing found.")
-    for time, level, machine, message in shown:
-        print(f"{time} {level} {machine}: {message}")
+    for time, level, system, message in shown:
+        print(f"{time} {level} {system}: {message}")
 
 
 if __name__ == "__main__":

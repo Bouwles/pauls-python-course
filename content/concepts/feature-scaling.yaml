@@ -89,10 +89,10 @@ cards:
         error: TypeError
         feedback: "NumPy has no idea what the numbers measure. It will cheerfully add degrees to hectopascals, which is why big-numbered columns swamp small ones unless you scale them."
   - type: choice
-    prompt: "A temperature-only forecast trains happily at a rate of 0.01. Aaesha adds air pressure, around 1,000 hPa, without scaling. What should she expect?"
+    prompt: "A temperature-only forecast trains happily at a rate of 0.01. Neil adds air pressure, around 1,000 hPa, without scaling. What should he expect?"
     verify: none
     options:
-      - text: "The walk blows up, unless she shrinks the rate so far that the other weights barely move"
+      - text: "The walk blows up, unless he shrinks the rate so far that the other weights barely move"
         correct: true
       - text: "It trains just as before, with one more weight"
         misconception: feature-scale-irrelevant

@@ -40,17 +40,18 @@ datasets: []
 client: caitlin
 building: crab-club
 estimated_minutes: 100
-summary: "The crab learns the League course by racing it, with Q-learning, and goes into the Arcade League. SARSA walks a clifftop."
+summary: "Caitlin's crab learns the League course by racing it, with Q-learning, and goes into the Arcade League. SARSA walks a clifftop."
 concepts_introduced: [q-learning, sarsa]
 concepts_reviewed: [td-learning, exploration-exploitation, bandits, value-iteration, numpy-arrays, list-aliasing, json-module, with-statement]
 ask:
   dialogue:
-    - caitlin: "The Arcade League. Every week, the same course and the same rules for everyone's crab."
-    - yahya: "Seven rows, nine columns, two rock pools and a lot of rocks."
-    - caitlin: "Nobody gets a map of the chances. You race it until you know it."
-    - paul: "Then the crab learns the worth of every move, not just every tile."
+    - caitlin.pleased.wave: "The Arcade League. Every week, the same course and the same rules for everyone's crab."
+    - yahya.neutral.point: "Seven rows, nine columns, two rock pools and a lot of rocks."
+    - caitlin.thinking: "Nobody gets a map of the chances. You race it until you know it."
+    - aaesha.thinking: "Like learning a new city on foot. Every turning gets a worth of its own."
+    - paul.neutral: "Then the crab learns the worth of every move, not just every tile."
   spec: |
-    The League course is in `club-course.json`, and Yahya has copied the League's rules into `course.py`. The crab starts at S, top left, and races to F, bottom right. It slips sideways one move in ten on sand and 35 in a hundred in a rock pool. Into a rock or off the course, it stays put. A race stops at 100 moves, and the League's score is the average number of moves: lower is better.
+    The League course is in `club-course.json`, and Aaesha has copied the League's rules into `course.py`. The crab starts at S, top left, and races to F, bottom right. It slips sideways one move in ten on sand and 35 in a hundred in a rock pool. Into a rock or off the course, it stays put. A race stops at 100 moves, and the League's score is the average number of moves: lower is better.
 
     Write `crab.py`:
 
@@ -73,11 +74,11 @@ ask:
     Saved league.json
 ship:
   dialogue:
-    - yahya: "Fifteen point seven moves. The League record is..."
-    - yahya: "...also fifteen point seven moves. As of this afternoon."
-    - caitlin: "Enter league.json on the League page. This week's races start on Monday."
-    - paul: "Same course and same luck for every crab. Only the training differs."
-  shelf: { object: rosette, label: "The crab's Arcade League entry" }
+    - yahya.surprised: "Fifteen point seven moves. The League record is..."
+    - yahya.unimpressed: "...also fifteen point seven moves. As of this afternoon."
+    - caitlin.laughing.cheer: "Enter league.json on the League page. This week's races start on Monday."
+    - paul.neutral: "Same course and same luck for every crab. Only the training differs."
+  shelf: { object: rosette, label: "Caitlin's crab, entered in the Arcade League" }
   cards: [q-learning, sarsa]
 stretch:
   - id: sarsa-on-the-course

@@ -1,0 +1,40 @@
+.speech {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: var(--s-3);
+}
+
+.big {
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: start;
+}
+
+.bubbleButton {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  text-align: left;
+  cursor: default;
+}
+
+.bubbleButton:focus-visible {
+  outline: 2px solid var(--sun);
+  outline-offset: 2px;
+}
+
+.line {
+  display: grid;
+}
+
+.ghost,
+.typed {
+  grid-area: 1 / 1;
+}
+
+.ghost {
+  visibility: hidden;
+}

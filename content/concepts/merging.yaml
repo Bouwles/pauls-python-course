@@ -68,7 +68,7 @@ cards:
     tests: |
       TESTS = [output("All three players", expect="3")]
   - type: fix
-    prompt: "Aaesha's merge counts Caitlin's points twice, because her locker card is in twice. Fix it so the total is `20`."
+    prompt: "Yahya's merge counts Caitlin's points twice, because her locker card is in twice. Fix it so the total is `20`."
     code: |
       import pandas as pd
 

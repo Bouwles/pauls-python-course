@@ -2,7 +2,7 @@ id: using-pretrained-models
 title: "Using Pretrained Models"
 project_name: "Using Pretrained Models"
 status: outline
-client: neil
+client: aaesha
 building: observatory
 estimated_minutes: 120
-summary: "Neil wants to know when a model someone else trained beats one you built yourself. Take It Home with Hugging Face: a pretrained sentiment model run through a pipeline, scored against the Sentiment Analyser on the same sentences, then a small model fine-tuned on them."
+summary: "Aaesha wants to know what a model brings to a task from everything it read before, and when that beats one you built yourself. Take It Home with Hugging Face: a pretrained sentiment model run through a pipeline, scored against the Sentiment Analyser on the same sentences, then a small model fine-tuned on them."

@@ -6,7 +6,7 @@ def _hash(name):
 
 
 def _parts(count):
-    kinds = ["bolt", "nut", "washer", "spring", "hinge", "valve", "gear", "chain", "hubcap", "bell"]
+    kinds = ["bolt", "nut", "washer", "spring", "kingpin", "valve", "gear", "chain", "rotor", "sprocket"]
     return [f"{kinds[number % len(kinds)]}-{number // len(kinds) + 1}" for number in range(count)]
 
 
@@ -56,11 +56,11 @@ def same(got, expected, message):
 def a_few_parts(ctx):
     module = ctx.module()
     table = module.HashMap()
-    table.put("brass-valve", 3)
-    table.put("kettle", 1)
-    same(table.get("brass-valve"), 3, "get gives back the value stored under the name.")
-    same(table.get("anvil"), None, "A name that isn't there gives None.")
-    same(table.get("anvil", 0), 0, "A name that isn't there gives the default, when there is one.")
+    table.put("tyre-valve", 3)
+    table.put("visor", 1)
+    same(table.get("tyre-valve"), 3, "get gives back the value stored under the name.")
+    same(table.get("turbo"), None, "A name that isn't there gives None.")
+    same(table.get("turbo", 0), 0, "A name that isn't there gives the default, when there is one.")
     same(len(table), 2, "Two names stored.")
 
 
@@ -78,7 +78,7 @@ def right_piles(ctx):
     module = ctx.module()
     table = module.HashMap()
     reference = _Reference()
-    for number, name in enumerate(["brass-valve", "kettle", "anvil", "bell", "chain"]):
+    for number, name in enumerate(["tyre-valve", "visor", "turbo", "sprocket", "chain"]):
         table.put(name, number)
         reference.put(name, number)
     same(contents(table), contents(reference), "Each pair goes on the end of pile part_hash(name) % 8.")
@@ -97,38 +97,38 @@ def replace_value(ctx):
 def replace_in_place(ctx):
     module = ctx.module()
     table = module.HashMap()
-    for number, name in enumerate(["hinge-1", "chain-1", "hubcap-1"]):
+    for number, name in enumerate(["kingpin-1", "chain-1", "rotor-1"]):
         table.put(name, number)
     table.put("chain-1", 40)
-    same(contents(table)[1], [("hinge-1", 0), ("chain-1", 40), ("hubcap-1", 2)],
-         "hinge-1, chain-1 and hubcap-1 share pile 1. Replacing chain-1 keeps it where it stands, in the middle.")
+    same(contents(table)[1], [("kingpin-1", 0), ("chain-1", 40), ("rotor-1", 2)],
+         "kingpin-1, chain-1 and rotor-1 share pile 1. Replacing chain-1 keeps it where it stands, in the middle.")
 
 
 def probes_in_a_shared_pile(ctx):
     module = ctx.module()
     table = module.HashMap()
     steps = [
-        ("put hinge-1", lambda: table.put("hinge-1", 1), 0),
+        ("put kingpin-1", lambda: table.put("kingpin-1", 1), 0),
         ("put chain-1", lambda: table.put("chain-1", 2), 1),
-        ("put hubcap-1", lambda: table.put("hubcap-1", 3), 3),
-        ("get hubcap-1", lambda: table.get("hubcap-1"), 6),
-        ("get hinge-1", lambda: table.get("hinge-1"), 7),
+        ("put rotor-1", lambda: table.put("rotor-1", 3), 3),
+        ("get rotor-1", lambda: table.get("rotor-1"), 6),
+        ("get kingpin-1", lambda: table.get("kingpin-1"), 7),
         ("get nut-4, which isn't there", lambda: table.get("nut-4"), 10),
         ("ask whether chain-1 is in", lambda: "chain-1" in table, 12),
         ("remove chain-1", lambda: table.remove("chain-1"), 14),
-        ("get hubcap-1 again", lambda: table.get("hubcap-1"), 16),
+        ("get rotor-1 again", lambda: table.get("rotor-1"), 16),
     ]
     for label, action, expected in steps:
         action()
         if table.probes != expected:
-            raise CheckFailed(f"hinge-1, chain-1, hubcap-1 and nut-4 all belong in pile 1. After {label}, probes should be {expected}.",
+            raise CheckFailed(f"kingpin-1, chain-1, rotor-1 and nut-4 all belong in pile 1. After {label}, probes should be {expected}.",
                               expected=expected, actual=table.probes)
 
 
 def empty_pile_free(ctx):
     module = ctx.module()
     table = module.HashMap()
-    for name in ["hinge-1", "chain-1", "hubcap-1"]:
+    for name in ["kingpin-1", "chain-1", "rotor-1"]:
         table.put(name, 0)
     before = table.probes
     table.get("nut-3")
@@ -158,28 +158,28 @@ def remove_returns(ctx):
 def remove_middle(ctx):
     module = ctx.module()
     table = module.HashMap()
-    for number, name in enumerate(["hinge-1", "chain-1", "hubcap-1"]):
+    for number, name in enumerate(["kingpin-1", "chain-1", "rotor-1"]):
         table.put(name, number)
     table.remove("chain-1")
-    same(contents(table)[1], [("hinge-1", 0), ("hubcap-1", 2)], "Taking chain-1 out of the middle of pile 1 leaves the other two in order.")
+    same(contents(table)[1], [("kingpin-1", 0), ("rotor-1", 2)], "Taking chain-1 out of the middle of pile 1 leaves the other two in order.")
 
 
 def remove_missing(ctx):
     module = ctx.module()
     table = module.HashMap()
     try:
-        table.remove("anvil")
+        table.remove("turbo")
     except KeyError:
         pass
     else:
         raise CheckFailed("Removing from an empty HashMap should raise KeyError.")
-    table.put("hinge-1", 1)
+    table.put("kingpin-1", 1)
     try:
         table.remove("chain-1")
     except KeyError:
         same(len(table), 1, "A failed remove takes nothing out.")
         return
-    raise CheckFailed("chain-1 shares a pile with hinge-1 but was never put in, so remove should raise KeyError.")
+    raise CheckFailed("chain-1 shares a pile with kingpin-1 but was never put in, so remove should raise KeyError.")
 
 
 def remove_then_put(ctx):
@@ -295,7 +295,7 @@ def no_dict_inside(ctx):
 TESTS = [
     custom("A few parts", a_few_parts, visible=True),
     output("The main block", visible=True,
-           expect="200 parts in 512 piles, 0.39 to a pile\nFinding every part: 235 probes\n"
+           expect="200 parts in 512 piles, 0.39 to a pile\nFinding every part: 260 probes\n"
                   "Finding every part along one long list: 20100 probes"),
     custom("A new hash map", a_new_pile, hint="self.piles = [[] for _ in range(piles)] makes separate empty piles."),
     custom("Each name in its pile", right_piles),

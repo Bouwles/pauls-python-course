@@ -1,10 +1,10 @@
 id: paul
 name: Paul
-role: The professor. Runs the course from the Workshop on the ground floor of the Clocktower.
+role: "The professor. Runs the course from the Workshop on the ground floor, and the Model Room on floor 5. Codes for fun; AI and machine learning are his thing."
 colour: "#FFB627"
 floor: 1
-look: Thick, dark-brown wavy hair to the jaw, strong dark eyebrows, light stubble and a thin moustache. A navy-and-cream varsity jacket over a collared shirt. Easy half-smile.
-voice: Calm, sharp, dryly funny. High standards, delivered kindly. Build it, break it, make it readable. Obsessed with good variable names.
+look: "A black cap worn backwards with a little wavy dark-brown hair showing at the back and sides, strong dark eyebrows, light stubble, an easy half-smile. A navy-and-cream varsity jacket over a white T-shirt."
+voice: "Calm, sharp, dryly funny. High standards, delivered kindly. Build it, break it, make it readable. Obsessed with good variable names, and with what a model has actually learned."
 pools:
   # Reactive lines (REDESIGN-2.md 7.4). lib/cast.ts says which events are Paul's.
   first-fstring:
@@ -51,6 +51,7 @@ pools:
   predict-wrong:
     - "Good. Now you know what you expected. Run it and see the difference."
     - "Wrong guesses are the useful ones. Run it."
+    - "That's how anything learns. Guess, see the error, update. Run it."
     - "Not quite. The gap between your guess and the output is the lesson."
   returning:
     - "Back. Good. The clock's still stuck at 3:14, if you were wondering."
@@ -72,6 +73,7 @@ pools:
   waiting:
     - "No hurry. Get it right, then get it neat."
     - "I'll be at my desk. Build it ugly first."
+    - "Take your time. My model's still training anyway."
   recap:
     - "Where you left the {job}: {step}"
     - "The {job}, as you left it. You'd got to {step}"

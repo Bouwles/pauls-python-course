@@ -3,7 +3,7 @@ id: the-claim
 type: reading
 title: The claim
 dialogue:
-  - neil: "You drew the U with exam marks in the Model Room. This is what happens off its right-hand edge."
+  - paul.thinking.point: "You drew the U with exam marks in the Model Room. This is what happens off its right-hand edge."
 ---
 In the Exam Score Model, the validation curve made a U: too stiff, then about right, then too flexible. The highest degrees had enough weights to chase the noise in the marks, and they did.
 

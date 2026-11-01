@@ -6,11 +6,11 @@ files: [dials.py]
 entry: dials.py
 timeout_ms: 20000
 dialogue:
-  - riya: "Can you look at mine? Three hundred dials. SelectKBest picked the ten that know, then I cross-validated. Eighty-two per cent."
-  - aaesha: "Seven of your ten are on the boiler, Riya."
+  - riya.pleased: "Can you look at mine? Three hundred dials. SelectKBest picked the ten that know, then I cross-validated. Eighty-two per cent."
+  - aaesha.unimpressed: "Seven of your ten are on the boiler, Riya."
 dialogue_after:
-  - riya: "Three hundred dials of nothing, and I found ten that looked like something. Then I marked them with the answers."
-  - paul: "Choosing is learning. It goes inside the fold, with the rest of it."
+  - riya.surprised: "Three hundred dials of nothing, and I found ten that looked like something. Then I marked them with the answers."
+  - paul.neutral.point: "Choosing is learning. It goes inside the fold, with the rest of it."
 hints:
   nudge: "When Riya's chooser picked the ten dials, which nights' answers did it look at? Which of those nights is each fold scored on?"
   plan:

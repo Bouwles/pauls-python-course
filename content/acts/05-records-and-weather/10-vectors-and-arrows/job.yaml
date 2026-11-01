@@ -4,9 +4,9 @@ project_name: "Linear Algebra Lab"
 portfolio_readme: |
   # Linear Algebra Lab
 
-  Two experiments in linear algebra with NumPy, each one something you can see. The first treats a month of wind as vectors: bearings become arrows, the average wind is the average arrow, and dot products split each wind into what a cyclist feels head-on and from the side. The second treats a photograph as a matrix: mirrored and turned by slicing and transposing, brightened and blurred by arithmetic, and the outline of a house turned by a rotation matrix and turned back again.
+  Two experiments in linear algebra with NumPy, each one something you can see. The first treats a month of wind as vectors: bearings become arrows, the average wind is the average arrow, and dot products split each wind into what a plane on the runway feels head-on and from the side. The second treats a photograph as a matrix: mirrored and turned by slicing and transposing, brightened and blurred by arithmetic, and the outline of a house turned by a rotation matrix and turned back again.
 
-  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
+  Written by {name} for Riya, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -16,7 +16,7 @@ portfolio_readme: |
   python lighthouse.py
   ```
 
-  `main.py` reads `vane.csv`, a month of wind:
+  `main.py` reads `vane.csv`, a month of wind from the Archive's vane:
 
   ```
   January 2024: 31 days
@@ -24,7 +24,7 @@ portfolio_readme: |
   Prevailing wind: from 350 degrees at 11.4 knots
   ```
 
-  `lighthouse.py` reads `lighthouse.csv`, a photograph 48 pixels wide and 64 high:
+  `lighthouse.py` reads `lighthouse.csv`, Riya's practice photograph, 48 pixels wide and 64 high:
 
   ```
   Cape Lookout: 64 rows by 48 columns, brightness 0 to 229
@@ -49,19 +49,19 @@ datasets:
     licence: "CC0 1.0"
     file: lighthouse.csv
     notes: "Photograph by Mrmichaeltomato (own work), Wikimedia Commons, dedicated to the public domain under CC0 1.0. The 250-pixel-wide thumbnail Wikimedia serves was cropped to its middle 140 by 187 pixels, converted to greyscale with Pillow's standard luma (mode L), and resized to 48 wide by 64 high with Lanczos resampling. Each row of the CSV is a row of pixels, 0 black to 255 white. vane.csv, the month of wind, is invented for the story."
-client: aaesha
+client: riya
 building: weather-station
 estimated_minutes: 130
-summary: "A linear algebra lab in two parts: a month of wind from the Archive's vane as vectors, for the prevailing wind and what a cyclist feels head-on and from the side; then a real photograph of a lighthouse as a matrix, mirrored, turned, blurred, with a rotation matrix to finish."
+summary: "A linear algebra lab for Riya in two parts: a month of wind from the Archive's vane as arrows, for her wind print and for Neil's headwind and crosswind on the runway; then a real photograph of a lighthouse as a matrix, mirrored, turned and blurred like her filters, with a rotation matrix to finish."
 concepts_introduced: [vectors, matrices]
 concepts_reviewed: [numpy-arrays, vectorisation, broadcasting, slicing, negative-indices, matplotlib, functions, return-values, multiple-returns, main-guard, docstrings, f-strings]
 ask:
   dialogue:
-    - aaesha: "The vane outside the window logs a bearing and a speed every day. The old summary script averages the bearings."
-    - aaesha: "So January came from the south. The vane spent the month pointing north."
-    - riya: "And I cycle in on forty degrees. I want what's in my face and what's from the side."
-    - paul: "Bearings go round. Numbers don't. Make them arrows."
-    - caitlin: "And after that, a photograph of a lighthouse. As numbers. You'll see why."
+    - riya.pleased.wave: "I'm making a print of January's wind. An arrow a day, from the vane outside the Archive."
+    - yahya.unimpressed: "The old summary script averages the bearings. It says January came from the south. The vane pointed north all month."
+    - neil.thinking: "And the flying field's runway points at forty degrees. I want the headwind and the crosswind."
+    - paul.neutral.point: "Bearings go round. Numbers don't. Make them arrows."
+    - riya.thinking: "And after that, a photograph of a lighthouse. As numbers. I want to know what my filters really do."
   spec: |
     `vane.csv` has one row per day of January 2024: the `date`, the `bearing` the wind came from (degrees clockwise from north) and its `speed` in knots. `load_vane` and `to_arrows` are written: `to_arrows` gives one arrow per day, `(east, north)` in knots, pointing where the wind came from.
 
@@ -71,9 +71,9 @@ ask:
     - `prevailing(arrows)`: the average wind, `(bearing, speed)`: the direction and length of the mean arrow.
     - `steadiness(arrows)`: the mean arrow's length divided by the mean speed.
     - `angle_between(a, b)`: the angle between two arrows in degrees, from 0 to 180.
-    - `along_and_across(arrows, heading)`: for a bike on that heading, one row per wind: the headwind (below 0 if the wind is behind) and the crosswind from the right (below 0 if it's from the left).
+    - `along_and_across(arrows, heading)`: for a plane on that heading, one row per wind: the headwind (below 0 if the wind is behind) and the crosswind from the right (below 0 if it's from the left).
 
-    Then the second experiment, in `lighthouse.py`. `lighthouse.csv` is a real photograph, a lighthouse in North Carolina, as a matrix: 64 rows of 48 brightnesses, 0 black to 255 white. `load_image` is written. Write seven more functions, each giving back a new array:
+    Then the second experiment, in `lighthouse.py`. `lighthouse.csv` is Riya's practice photograph, a real lighthouse in North Carolina, as a matrix: 64 rows of 48 brightnesses, 0 black to 255 white. `load_image` is written. Write seven more functions, each giving back a new array:
 
     - `mirror(image)`: each row back to front. `upside_down(image)`: the rows in reverse order.
     - `quarter_turn(image)`: turned a quarter turn clockwise.
@@ -88,8 +88,8 @@ ask:
     Prevailing wind: from 350 degrees at 11.4 knots
     Steadiness: 0.81
     Biggest swing overnight: 120 degrees, 2024-01-28 to 2024-01-29
-    Cycling on 040: worst headwind 25.1 knots on 2024-01-26
-    Cycling on 040: worst crosswind 23.1 knots on 2024-01-15
+    Runway 04: worst headwind 25.1 knots on 2024-01-26
+    Runway 04: worst crosswind 23.1 knots on 2024-01-15
 
     Cape Lookout: 64 rows by 48 columns, brightness 0 to 229
     Turned a quarter: 48 rows by 64 columns
@@ -99,17 +99,17 @@ ask:
     Roof, turned 90 degrees: [-12.  10.]
 ship:
   dialogue:
-    - aaesha: "North by a touch west, steadiness 0.81. That's a month I recognise."
-    - riya: "Twenty-three knots from the left on the fifteenth. I took the bus that day. Rightly, it turns out."
-    - aaesha: "I've crossed out the old summary's 197. In pencil. It did its best."
-    - caitlin: "And the lighthouse turned and blurred and put back. Every filter on my phone, more or less."
-  shelf: { object: weathervane, label: "The linear algebra lab: wind in arrows, a lighthouse in numbers" }
+    - riya.pleased.point: "North by a touch west, steadiness 0.81. That's the big arrow in the middle of my print."
+    - neil.surprised: "Twenty-three knots across the runway on the fifteenth. I didn't fly that day. Rightly, it turns out."
+    - yahya.laughing: "I've crossed out the old summary's 197. In pencil. It did its best."
+    - riya.proud.cheer: "And the lighthouse turned and blurred and put back. Every filter I use, more or less."
+  shelf: { object: weathervane, label: "Riya's linear algebra lab: wind in arrows, a lighthouse in numbers" }
   cards: [vectors, matrices]
 stretch:
   - id: edges
     title: "Find the edges"
     prompt: |
-      Write `edges(image)`: how much each pixel differs from the one to its right, `np.abs(image[:, 1:] - image[:, :-1])`, and the same downwards, added together where they overlap. Show it with `imshow`. The lighthouse's diamonds come out as outlines: that's the first thing a camera that recognises things looks for.
+      Write `edges(image)`: how much each pixel differs from the one to its right, `np.abs(image[:, 1:] - image[:, :-1])`, and the same downwards, added together where they overlap. Show it with `imshow`. The lighthouse's diamonds come out as outlines, like a pen drawing: Riya wants it for a print, and it's the first thing a camera that recognises things looks for.
   - id: windiest-quarter
     title: "Which way the gales come from"
     prompt: |
@@ -121,4 +121,4 @@ stretch:
   - id: wind-rose
     title: "A wind rose"
     prompt: |
-      Draw January as a wind rose: one arrow per day, all starting from the middle. `plt.quiver(0, 0, east, north, angles="xy", scale_units="xy", scale=1)` draws arrows from the middle; `plt.axis("equal")` keeps north the same length as east. Then add the mean arrow in a different colour, and label the axes in knots.
+      Draw January as a wind rose for Riya's print: one arrow per day, all starting from the middle. `plt.quiver(0, 0, east, north, angles="xy", scale_units="xy", scale=1)` draws arrows from the middle; `plt.axis("equal")` keeps north the same length as east. Then add the mean arrow in a different colour, and label the axes in knots.

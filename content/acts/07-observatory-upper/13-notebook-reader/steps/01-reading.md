@@ -3,7 +3,7 @@ id: plan
 type: reading
 title: Mark it out first
 dialogue:
-  - paul: "Four files, each with one job. Mark them out before you build."
+  - paul.neutral.point: "Four files, each with one job. Mark them out before you build."
 ---
 The reader is four files, built in this order. Each step adds one, and the files you've already written come with you. If a later step shows up a bug in an earlier file, fix it there.
 

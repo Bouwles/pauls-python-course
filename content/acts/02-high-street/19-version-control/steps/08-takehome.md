@@ -8,7 +8,7 @@ setup: |
 
   GitHub asks for a password-like token, not your password, the first time you push. Its sign-in page walks you through it.
 dialogue:
-  - paul: "Everything you just did, on your own computer, for real. Then a copy of it on GitHub."
+  - paul.pleased: "Everything you just did, on your own computer, for real. Then a copy of it on GitHub."
 ---
 The project is the job tracker, with a `README.md` that's waiting for your words, and nine tests. Three check the project. Six check your repository: that it exists, has a history and a `.gitignore`, has everything committed, and has been pushed to GitHub.
 

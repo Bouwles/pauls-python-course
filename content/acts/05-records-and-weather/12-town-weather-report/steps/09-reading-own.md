@@ -3,8 +3,8 @@ id: own-data
 type: reading
 title: A story of your own
 dialogue:
-  - aaesha: "Now one of yours. Pick a question you'd actually like answered."
-  - paul: "And find out who collected the numbers before you trust them."
+  - yahya.pleased.wave: "Now one of yours. Pick a question you'd actually like answered."
+  - paul.thinking: "And find out who collected the numbers before you trust them."
 ---
 The last part of this job is your own data story: a question, a public dataset that can answer it, the same four pieces, and a web page.
 

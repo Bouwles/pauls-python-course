@@ -67,7 +67,7 @@ const WEATHER_FALLBACK = [
 
 export function weatherApp() {
   return {
-    project: project("weather-app", { title: "Weather App", act: 3, client: "caitlin" }),
+    project: project("weather-app", { title: "Weather App", act: 3, client: "riya" }),
     run: terminal(example("weather-app") ?? WEATHER_FALLBACK, /^(Where\? )(.+)$/),
   };
 }

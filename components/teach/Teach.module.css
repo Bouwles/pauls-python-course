@@ -1,18 +1,17 @@
-/* Teacher pages: classes, a class's students, one student. Plain tables on cards. */
+/* Teacher pages: classes, a class's students, one student. Plain tables on pixel panels. */
 .page {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--s-6);
+  gap: var(--s-8);
 }
 
 .head {
   display: grid;
-  gap: var(--s-3);
-  margin-bottom: var(--s-2);
+  gap: var(--s-4);
 }
 
 .title {
-  font-size: var(--fs-7);
+  font-size: var(--px-5);
   overflow-wrap: anywhere;
 }
 
@@ -30,10 +29,6 @@
   justify-self: start;
   font-size: var(--fs-2);
   font-weight: 700;
-}
-
-.backIcon {
-  transform: rotate(180deg);
 }
 
 .titleRow {
@@ -55,14 +50,37 @@
 
 .who {
   display: flex;
-  align-items: center;
-  gap: var(--s-4);
+  align-items: flex-end;
+  gap: var(--s-5);
+}
+
+/* A student's pixel self on the colour they chose. */
+.avatar {
+  display: grid;
+  place-items: end center;
+  flex: none;
+  width: 112px;
+  height: 112px;
+  margin: 2px;
+  overflow: hidden;
 }
 
 .whoText {
   display: grid;
-  gap: var(--s-1);
+  gap: var(--s-3);
   min-width: 0;
+  padding-bottom: var(--s-1);
+}
+
+/* A student's head beside their name in a table. */
+.face {
+  display: grid;
+  place-items: end center;
+  flex: none;
+  width: 36px;
+  height: 40px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 2px var(--px-outline);
 }
 
 .meta {
@@ -76,28 +94,21 @@
   align-items: center;
   gap: var(--s-3);
   padding: var(--s-3) var(--s-4);
-  border-radius: var(--r-md);
+  margin: 2px;
   background: var(--sun-wash);
   font-size: var(--fs-2);
+  box-shadow:
+    0 -2px 0 0 var(--sun),
+    0 2px 0 0 var(--sun),
+    -2px 0 0 0 var(--sun),
+    2px 0 0 0 var(--sun);
 }
 
 .section {
   display: grid;
   gap: var(--s-4);
   padding: var(--s-6);
-  background: var(--surface-2);
-  border-radius: var(--r-lg);
   min-width: 0;
-}
-
-:global(:root[data-theme="light"]) .section {
-  border: 1px solid var(--line);
-}
-
-@media (prefers-color-scheme: light) {
-  :global(:root[data-theme="system"]) .section {
-    border: 1px solid var(--line);
-  }
 }
 
 .section > * {
@@ -105,11 +116,11 @@
 }
 
 .h2 {
-  font-size: var(--fs-5);
+  font-size: var(--px-3);
 }
 
 .h3 {
-  font-size: var(--fs-4);
+  font-size: var(--px-2);
 }
 
 .empty {
@@ -136,7 +147,7 @@
   padding: var(--s-3);
   text-align: left;
   vertical-align: middle;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 2px solid var(--line);
 }
 
 .table tbody th {
@@ -148,6 +159,7 @@
   font-weight: 700;
   color: var(--text-2);
   white-space: nowrap;
+  border-bottom-color: var(--px-outline);
 }
 
 .table tbody tr:last-child th,
@@ -269,8 +281,13 @@
   display: grid;
   gap: var(--s-3);
   padding: var(--s-4);
-  border-radius: var(--r-md);
+  margin: 2px;
   background: var(--fail-wash);
+  box-shadow:
+    0 -2px 0 0 var(--fail-text),
+    0 2px 0 0 var(--fail-text),
+    -2px 0 0 0 var(--fail-text),
+    2px 0 0 0 var(--fail-text);
 }
 
 /* The join code with its copy button. */
@@ -286,9 +303,9 @@
   font-size: var(--fs-2);
   font-weight: 700;
   padding: 2px var(--s-2);
-  border-radius: var(--r-sm);
   background: var(--surface-3);
   color: var(--text);
+  box-shadow: inset 0 -2px 0 0 var(--px-lo);
 }
 
 /* A student's saved code, read only. */
@@ -298,15 +315,15 @@
 }
 
 .file {
-  margin: 0;
+  margin: 2px;
   display: grid;
-  border-radius: var(--r-md);
   overflow: hidden;
   background: var(--editor);
-}
-
-:global(:root[data-theme="light"]) .file {
-  border: 1px solid var(--line);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
 }
 
 .fileName {
@@ -384,7 +401,16 @@
 
 @media (max-width: 720px) {
   .title {
-    font-size: var(--fs-6);
+    font-size: var(--px-4);
+  }
+
+  .h2 {
+    font-size: var(--px-2);
+  }
+
+  .avatar {
+    width: 112px;
+    height: 112px;
   }
 
   .lede {

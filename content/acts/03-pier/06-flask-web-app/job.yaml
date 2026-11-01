@@ -5,4 +5,4 @@ status: outline
 client: riya
 building: pier
 estimated_minutes: 180
-summary: "A link shortener for Riya's first web client, the tailor, so her new site gets links short enough for a business card: routes, templates, forms and SQLite. Take It Home."
+summary: "A gallery website for Riya's art, with a page for every print and a form for leaving a note on one: routes, templates, forms and SQLite. Take It Home."

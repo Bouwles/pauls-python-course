@@ -1,13 +1,13 @@
 def standing_unchanged(ctx):
     m = ctx.module()
-    standing = {"bread": 6, "lardy cake": 2}
-    result = m.todays_order(standing, {"lardy cake": 1, "buns": 3})
-    if standing != {"bread": 6, "lardy cake": 2}:
+    standing = {"bread": 6, "brownies": 2}
+    result = m.todays_order(standing, {"brownies": 1, "buns": 3})
+    if standing != {"bread": 6, "brownies": 2}:
         raise CheckFailed("todays_order changed the standing order it was given.",
-                          expected={"bread": 6, "lardy cake": 2}, actual=standing)
-    if result != {"bread": 6, "lardy cake": 3, "buns": 3}:
+                          expected={"bread": 6, "brownies": 2}, actual=standing)
+    if result != {"bread": 6, "brownies": 3, "buns": 3}:
         raise CheckFailed("Today's order should be the standing order plus the extras.",
-                          expected={"bread": 6, "lardy cake": 3, "buns": 3}, actual=result)
+                          expected={"bread": 6, "brownies": 3, "buns": 3}, actual=result)
 
 
 def new_dictionary(ctx):

@@ -4,7 +4,7 @@ type: predict
 title: How mixed is a pile
 concept: decision-trees
 dialogue:
-  - paul: "Every question splits the applicants into two piles. A good question leaves each pile all one kind."
+  - paul.neutral.point: "Every question splits the applicants into two piles. A good question leaves each pile all one kind."
 code: |
   def gini(labels):
       repaid = sum(labels) / len(labels)

@@ -76,7 +76,7 @@ cards:
         misconception: both-chances-add
         feedback: "Adding would make winning both more likely than winning either one, which can't be right. Both is the rarer event: for independent heats the chances multiply, 0.4 * 0.4."
   - type: choice
-    prompt: "Yahya and Caitlin toss a coin for lanes. After three tails in a row, how often is the next toss heads?"
+    prompt: "Yahya and Caitlin toss a coin for the coffee run. After three tails in a row, how often is the next toss heads?"
     code: |
       import numpy as np
 
@@ -138,7 +138,7 @@ cards:
                       ways += 1
           return ways / 36
   - type: choice
-    prompt: "Aaesha runs her simulation twice, with the same seed. What does this print?"
+    prompt: "Yahya runs his rain simulation twice, with the same seed. What does this print?"
     code: |
       import numpy as np
 

@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Riya's version
 dialogue:
-  - riya: "I've done a timer for my till already. Wrapper, clock, log. Textbook."
-  - riya: "The log's perfect. Then label crashes on a None. Can you look? Something's off."
+  - riya.proud: "I've done a timer for Caitlin's till already. Wrapper, clock, log. Textbook."
+  - riya.confused: "The log's perfect. Then label crashes on a None. Can you look? Something's off."
 dialogue_after:
-  - riya: "So the wrapper has to pass the answer back. It's a middleman. Middlemen forget things."
+  - riya.laughing: "So the wrapper has to pass the answer back. It's a middleman. Middlemen forget things."
 hints:
   nudge: "After the decorator, calling `weigh` runs `wrapper`. What does `wrapper` give back?"
   plan:

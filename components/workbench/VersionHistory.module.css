@@ -16,12 +16,12 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--s-4) var(--s-5);
-  border-bottom: 1px solid var(--line);
+  border-bottom: 2px solid var(--line);
 }
 
 .title {
-  font-size: var(--fs-5);
-  font-weight: 700;
+  font-size: var(--px-2);
+  line-height: 1;
 }
 
 .empty {
@@ -39,7 +39,7 @@
   list-style: none;
   margin: 0;
   padding: var(--s-2);
-  border-right: 1px solid var(--line);
+  border-right: 2px solid var(--line);
   overflow: auto;
   max-height: 64vh;
 }
@@ -96,7 +96,7 @@
 
   .list {
     border-right: none;
-    border-bottom: 1px solid var(--line);
+    border-bottom: 2px solid var(--line);
     max-height: 30vh;
   }
 }

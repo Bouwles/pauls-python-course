@@ -26,14 +26,19 @@
   flex: 0 1 300px;
   min-width: 0;
   height: 40px;
-  background: var(--surface-3);
-  border: 1px solid var(--line);
-  border-radius: var(--r-md);
+  margin: 2px;
+  background: var(--editor);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-lo);
 }
 
 .address:focus-within {
   outline: 2px solid var(--sun);
-  outline-offset: 2px;
+  outline-offset: 4px;
 }
 
 .prefix {
@@ -49,7 +54,7 @@
   flex: 1;
   min-width: 0;
   border: 0;
-  border-radius: 0;
+  box-shadow: none;
   background: transparent;
   padding-left: 1px;
   font-family: var(--font-code);
@@ -61,7 +66,7 @@
 }
 
 /* Leaving a class: the row turns into a question with two answers. */
-.confirm {
+.confirm.confirm {
   background: var(--fail-wash);
 }
 

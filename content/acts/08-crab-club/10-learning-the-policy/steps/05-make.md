@@ -5,7 +5,7 @@ title: Make REINFORCE
 files: [track.py, reinforce.py]
 entry: reinforce.py
 timeout_ms: 20000
-on_pass: { riya: "No table, no network, no values. It just knows what to do. That's what I wanted." }
+on_pass: { aaesha.pleased: "No table, no network, no values. It just knows what to do. That's what I wanted." }
 hints:
   nudge: "`reinforce_gradient` needs, for every move of every race, two things: the return from that move on, and the gradient of the log of its chance. Which functions give you those?"
   plan:

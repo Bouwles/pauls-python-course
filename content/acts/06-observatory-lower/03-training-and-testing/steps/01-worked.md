@@ -3,8 +3,8 @@ id: worked
 type: worked
 title: How Paul would scale it
 dialogue:
-  - paul: "Saturday open days. Visitors through the door and rain, against cups of coffee poured."
-  - riya: "Four hundred visitors and the machine's dry by ten. Rain, and it's just us."
+  - paul.neutral.point: "Saturday open days. Visitors through the door and rain, against cups of coffee poured."
+  - caitlin.laughing: "Four hundred visitors and the machine's dry by ten. Rain, and it's just us."
 code: |
   import numpy as np
 
@@ -60,7 +60,7 @@ explain:
   answer: "How big a step is safe depends on the steepest direction of the loss, and a column of big numbers, like visitors in the hundreds, makes the loss very steep in its weight's direction. A rate that suits the rain overshoots for the visitors. Scaled, every column has a spread of 1, so the loss is roughly as steep in every direction and one rate suits every weight."
   concept: feature-scaling
 ---
-Riya wants to know how much coffee to have in for an open day, from the visitor count and the rain: hundreds of visitors, a few millimetres of rain.
+Paul wants to know how much coffee to have in for an open day, from the visitor count and the rain: hundreds of visitors, a few millimetres of rain.
 
 **Standardising** a column subtracts its mean and divides by its standard deviation, its spread. Every column ends up centred on 0 with a spread of 1, whatever its units, so one learning rate suits every weight. `X.mean(axis=0)` gives one mean per column.
 

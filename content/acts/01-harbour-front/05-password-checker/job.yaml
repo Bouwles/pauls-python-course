@@ -4,7 +4,7 @@ project_name: "Password Checker"
 portfolio_readme: |
   # Password Checker
 
-  A command-line password checker. It asks for a username and a password, tests the password against six rules, and prints a reason for every rule it breaks, so whoever is typing knows exactly what to change. Then it gives a verdict: accepted or rejected.
+  A command-line password checker for the class server, where Aaesha's memory experiments keep their results. It asks for a username and a password, tests the password against six rules, and prints a reason for every rule it breaks, so whoever is typing knows exactly what to change. Then it gives a verdict: accepted or rejected.
 
   Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
 
@@ -42,15 +42,16 @@ datasets: []
 client: aaesha
 building: harbour-office
 estimated_minutes: 45
-summary: "Six rules for the class's shared accounts, and a reason for every one a password breaks."
+summary: "Six rules for the server that holds Aaesha's experiment results, and a reason for every one a password breaks."
 concepts_introduced: [string-methods, string-slicing, immutability, strip-replace, boolean-operators, in-operator]
 concepts_reviewed: [strings, bool, comparisons, if-elif-else, input-returns-text, variables, f-strings]
 ask:
   dialogue:
-    - aaesha: "The class has shared accounts now. The server, the shared drive, the printer."
-    - aaesha: "Last year, all three had the password clocktower1. Four people knew it. Then everyone did."
-    - aaesha: "Six rules, numbered. When it says no, it says why."
-    - paul: "Numbered requirements. Every programmer's favourite kind."
+    - aaesha.pleased.wave: "My memory experiments run on the class server. Everyone's results are on it."
+    - aaesha.worried: "Last year, every account had the password clocktower1. Four people knew it. Then everyone did."
+    - aaesha.thinking: "People pick passwords they can remember. That's exactly what makes them easy to guess."
+    - aaesha.neutral.point: "Six rules, numbered. When it says no, it says why."
+    - paul.pleased: "Numbered requirements. Every programmer's favourite kind."
   spec: |
     Requirements, from Aaesha. Numbered, naturally.
 
@@ -72,18 +73,18 @@ ask:
     Password rejected.
 ship:
   dialogue:
-    - aaesha: "Clock0314. Too short, and it ends in four digits. It told Paul both. Correct."
-    - paul: "I typed that one to test it."
-    - aaesha: "He's chosen a new one. He won't tell me what it is. Also correct."
+    - aaesha.neutral.point: "Clock0314. Too short, and it ends in four digits. It told Paul both. Correct."
+    - paul.laughing: "I typed that one to test it."
+    - aaesha.pleased.thumbs: "He's chosen a new one. He won't tell me what it is. Also correct."
   shelf: { object: notice, label: "Aaesha's password rules, numbered" }
   cards: [string-methods, string-slicing, immutability, strip-replace, boolean-operators, in-operator]
 stretch:
   - id: passphrase
     title: "Long beats clever"
     prompt: |
-      Aaesha has read that four ordinary words make a stronger password than one short clever one. A password of 20 characters or more is a **passphrase**: for a passphrase, skip rules 2, 3 and 6. Rules 4 and 5 still apply.
+      Four ordinary words are easier to remember than one short clever password, and harder to guess. Aaesha studies memory, and she'd like the checker to know it. A password of 20 characters or more is a **passphrase**: for a passphrase, skip rules 2, 3 and 6. Rules 4 and 5 still apply.
 
-      `the clock is stuck at three fourteen` is accepted. `yahya runs five km every morning`, typed by `yahya`, is not.
+      `the clock is stuck at three fourteen` is accepted. `yahya cleans every dataset twice`, typed by `yahya`, is not.
     tests: tests/stretch-passphrase.py
     solution: solutions/stretch-passphrase.py
   - id: usual-suspects

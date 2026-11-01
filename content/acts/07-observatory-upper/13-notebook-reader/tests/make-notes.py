@@ -62,9 +62,9 @@ def real_windows(ctx):
     vocab = m.build_vocab(notes)
     X, y = pair("windows", m.windows(learn, vocab, 4))
     X, y = np.asarray(X), np.asarray(y)
-    if X.shape != (7784, 4) or y.shape != (7784,):
-        raise CheckFailed("The notes to learn from make 7784 windows of 4: one per character, and one per note for its newline.",
-                          expected="(7784, 4) and (7784,)", actual=f"{X.shape} and {y.shape}")
+    if X.shape != (7781, 4) or y.shape != (7781,):
+        raise CheckFailed("The notes to learn from make 7781 windows of 4: one per character, and one per note for its newline.",
+                          expected="(7781, 4) and (7781,)", actual=f"{X.shape} and {y.shape}")
     first = "".join(vocab[i] for i in X[0]) + vocab[y[0]]
     if first != "\n\n\n\nB":
         raise CheckFailed("The first window is four newlines, and its target is the B of 'Build'.", actual=repr(first))

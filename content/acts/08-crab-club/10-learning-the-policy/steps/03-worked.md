@@ -3,8 +3,8 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "The prize shelf, done the new way. One choice, three prizes, no estimates."
-  - paul: "Preferences, chances, and a nudge after every game."
+  - paul.pleased.point: "The prize shelf, done the new way. One choice, three prizes, no estimates."
+  - paul.thinking: "Preferences, chances, and a nudge after every game."
 code: |
   import numpy as np
 

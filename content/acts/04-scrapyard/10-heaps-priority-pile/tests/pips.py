@@ -1,5 +1,5 @@
 def replay(module, events):
-    """Run adds ("add", repair, priority) and takes ("take",) and list what was taken."""
+    """Run adds ("add", job, priority) and takes ("take",) and list what was taken."""
     pile = module.TaskScheduler()
     taken = []
     for event in events:
@@ -19,24 +19,24 @@ def expect_order(events, expected, message):
     return check
 
 
-HEADPHONES_FIRST = [("add", "Riya's headphones", 3), ("add", "Paul's desk lamp", 3), ("add", "the arcade cabinet", 1),
+TYRES_FIRST = [("add", "the tyre pressures", 3), ("add", "the chain tension", 3), ("add", "the loose steering bolt", 1),
                ("take",), ("take",), ("take",)]
 
-URGENT_FIRST = [("add", "the Studio kettle", 4), ("add", "Neil's keyboard", 2), ("add", "Yahya's stopwatch", 1),
+URGENT_FIRST = [("add", "the cracked number plate", 4), ("add", "the brake pads", 2), ("add", "the fuel leak", 1),
                 ("take",), ("take",), ("take",)]
 
-THREE_TIED = [("add", "the soldering iron", 2), ("add", "the projector", 2), ("add", "an extension lead", 2),
+THREE_TIED = [("add", "the throttle cable", 2), ("add", "the spark plug", 2), ("add", "a loose exhaust", 2),
               ("take",), ("take",), ("take",)]
 
-MIXED = [("add", "the printer", 3), ("add", "a bike light", 3), ("take",), ("add", "the arcade cabinet", 1),
-         ("add", "a desk fan", 3), ("take",), ("take",), ("take",)]
+MIXED = [("add", "the radiator cap", 3), ("add", "a bent pedal", 3), ("take",), ("add", "the axle bearing", 1),
+         ("add", "a loose visor", 3), ("take",), ("take",), ("take",)]
 
 
 def counts_waiting(ctx):
     module = ctx.module()
-    pile, taken = replay(module, [("add", "a kettle", 2), ("add", "a hinge", 5), ("add", "a gate", 2), ("take",)])
+    pile, taken = replay(module, [("add", "a tyre", 2), ("add", "a chain", 5), ("add", "a seat", 2), ("take",)])
     if len(pile) != 2:
-        raise CheckFailed("Three repairs added and one taken leaves two waiting.", expected=2, actual=len(pile))
+        raise CheckFailed("Three jobs added and one taken leaves two waiting.", expected=2, actual=len(pile))
 
 
 def empty_pile(ctx):
@@ -51,30 +51,30 @@ def empty_pile(ctx):
 
 def dictionaries(ctx):
     module = ctx.module()
-    first = {"what": "joystick", "for": "Yahya"}
-    second = {"what": "kettle lid", "for": "Neil"}
+    first = {"what": "front tyre", "for": "kart 7"}
+    second = {"what": "rear tyre", "for": "kart 12"}
     events = [("add", first, 2), ("add", second, 2), ("take",), ("take",)]
     try:
         _pile, taken = replay(module, events)
     except TypeError as problem:
-        raise CheckFailed(f"Two repairs with the same priority made Python compare the repairs themselves, and it can't compare dictionaries: {problem}")
+        raise CheckFailed(f"Two jobs with the same priority made Python compare the jobs themselves, and it can't compare dictionaries: {problem}")
     if taken != [first, second]:
-        raise CheckFailed("Same priority, so the joystick, which came in first, is mended first.", expected=[first, second], actual=taken)
+        raise CheckFailed("Same priority, so the front tyre, which came in first, is done first.", expected=[first, second], actual=taken)
 
 
 TESTS = [
-    custom("The headphones were in first", expect_order(HEADPHONES_FIRST, ["the arcade cabinet", "Riya's headphones", "Paul's desk lamp"],
-                                                        "The cabinet is most urgent. Then the headphones and the lamp tie on 3, and the headphones came in first."),
+    custom("The tyres were in first", expect_order(TYRES_FIRST, ["the loose steering bolt", "the tyre pressures", "the chain tension"],
+                                                   "The steering bolt is most urgent. Then the tyres and the chain tie on 3, and the tyres came in first."),
            visible=True),
-    custom("Most urgent first", expect_order(URGENT_FIRST, ["Yahya's stopwatch", "Neil's keyboard", "the Studio kettle"],
+    custom("Most urgent first", expect_order(URGENT_FIRST, ["the fuel leak", "the brake pads", "the cracked number plate"],
                                              "Priority 1, then 2, then 4."), visible=True),
-    custom("Three the same", expect_order(THREE_TIED, ["the soldering iron", "the projector", "an extension lead"],
-                                          "Three repairs all at priority 2 are mended in the order they came in."),
+    custom("Three the same", expect_order(THREE_TIED, ["the throttle cable", "the spark plug", "a loose exhaust"],
+                                          "Three jobs all at priority 2 are done in the order they came in."),
            hint="Ties go to whoever came in first, not whoever comes first in the alphabet. Count the arrivals."),
-    custom("Taking while they come in", expect_order(MIXED, ["the printer", "the arcade cabinet", "a bike light", "a desk fan"],
-                                                     "The printer, then the cabinet the moment it arrives, then the other two 3s in the order they came.")),
+    custom("Taking while they come in", expect_order(MIXED, ["the radiator cap", "the axle bearing", "a bent pedal", "a loose visor"],
+                                                     "The radiator cap, then the axle bearing the moment it arrives, then the other two 3s in the order they came.")),
     custom("Counting what's waiting", counts_waiting),
     custom("An empty pile", empty_pile),
-    custom("Repairs written as dictionaries", dictionaries,
-           hint="With an arrival number between the priority and the repair, two tuples never get as far as comparing the repairs."),
+    custom("Jobs written as dictionaries", dictionaries,
+           hint="With an arrival number between the priority and the job, two tuples never get as far as comparing the jobs."),
 ]

@@ -4,7 +4,7 @@ type: milestone
 title: "Milestone 2: the cleaned data, checked"
 evidence: none
 dialogue:
-  - aaesha: "Next month the Met Office adds a row, and changes a provisional one. Will your checks notice?"
+  - yahya.thinking: "Next month the Met Office adds a row, and changes a provisional one. Will your checks notice?"
 checklist:
   - id: own-tests
     text: "test_station.py has at least five tests of your own, and they all pass when investigation.py runs them."

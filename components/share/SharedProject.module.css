@@ -1,4 +1,4 @@
-/* A shared project: the title and who made it, then the code and a console. */
+/* A shared project: the client cheering, the title and who made it, then the code and a console. */
 .page {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -7,25 +7,47 @@
 
 .head {
   display: flex;
-  align-items: flex-start;
-  gap: var(--s-5);
+  align-items: flex-end;
+  gap: var(--s-6);
+}
+
+.client {
+  display: grid;
+  place-items: end center;
+  flex: none;
+  width: 112px;
+  height: 112px;
+  margin: 2px;
+  overflow: hidden;
 }
 
 .titles {
   display: grid;
-  gap: var(--s-2);
+  gap: var(--s-3);
   min-width: 0;
+  padding-bottom: var(--s-1);
 }
 
 .title {
-  font-size: var(--fs-7);
+  font-size: var(--px-5);
 }
 
 .by {
   display: flex;
   align-items: center;
-  gap: var(--s-2);
+  gap: var(--s-3);
   font-size: var(--fs-3);
+}
+
+/* The learner's pixel head, signing their work. */
+.maker {
+  display: grid;
+  place-items: end center;
+  flex: none;
+  width: 36px;
+  height: 40px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 2px var(--px-outline);
 }
 
 .meta {
@@ -35,19 +57,6 @@
 
 .code {
   display: grid;
-  background: var(--surface-2);
-  border-radius: var(--r-lg);
-  overflow: hidden;
-}
-
-:global(:root[data-theme="light"]) .code {
-  border: 1px solid var(--line);
-}
-
-@media (prefers-color-scheme: light) {
-  :global(:root[data-theme="system"]) .code {
-    border: 1px solid var(--line);
-  }
 }
 
 .bar {
@@ -56,7 +65,7 @@
   justify-content: space-between;
   gap: var(--s-3);
   padding: var(--s-2) var(--s-3) var(--s-2) var(--s-4);
-  border-bottom: 1px solid var(--line);
+  border-bottom: 2px solid var(--line);
 }
 
 .fileName {
@@ -79,12 +88,12 @@
   font-family: var(--font-code);
   font-size: var(--fs-1);
   color: var(--text-2);
-  box-shadow: inset 0 -2px 0 transparent;
+  box-shadow: inset 0 -4px 0 transparent;
 }
 
 .tab[aria-selected="true"] {
   color: var(--text);
-  box-shadow: inset 0 -2px 0 var(--sun);
+  box-shadow: inset 0 -4px 0 var(--sun);
 }
 
 .well {
@@ -97,7 +106,7 @@
   min-height: 0;
   overflow: auto;
   background: var(--editor);
-  border-right: 1px solid var(--line);
+  border-right: 2px solid var(--line);
 }
 
 .console {
@@ -113,7 +122,7 @@
   justify-content: space-between;
   gap: var(--s-3);
   padding-top: var(--s-6);
-  border-top: 1px solid var(--line);
+  border-top: 2px solid var(--line);
   font-size: var(--fs-2);
   color: var(--text-2);
 }
@@ -127,16 +136,24 @@
 
   .editor {
     border-right: 0;
-    border-bottom: 1px solid var(--line);
+    border-bottom: 2px solid var(--line);
   }
 }
 
 @media (max-width: 720px) {
   .head {
-    gap: var(--s-4);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-5);
+  }
+
+  .head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-5);
   }
 
   .title {
-    font-size: var(--fs-6);
+    font-size: var(--px-4);
   }
 }

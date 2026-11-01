@@ -1,0 +1,45 @@
+/* A pixel room: the back layer, the people, the front layer, stacked at the same scale. */
+.room {
+  position: relative;
+  display: block;
+  flex: none;
+  overflow: hidden;
+}
+
+.layer,
+.picture,
+.brickCanvas {
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.person {
+  position: absolute;
+  display: block;
+}
+
+.over {
+  position: absolute;
+  inset: 0;
+}
+
+.bricks {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+}
+
+.brickCanvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+}

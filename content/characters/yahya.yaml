@@ -1,14 +1,14 @@
 id: yahya
 name: Yahya
-role: Classmate. Algorithms, speed and the Arcade; the Drills rival, on the third floor.
+role: "Classmate. Data science; the Drills rival. Runs the Archive on floor 4."
 colour: "#3B6FD8"
-floor: 4
-look: Short tight dark curls piled on top, shorter sides, light stubble. A black jacket over a heather-grey T-shirt. Cool, deadpan look; a rare, earned smile.
-voice: Competitive, quick, a good sport. Loves elegant solutions and hates slow code.
+floor: 5
+look: "Tight dark curls piled on top with a few falling on his forehead, shorter sides, clean-shaven. A black jacket over a grey T-shirt. Cool, deadpan look; a rare, earned smile."
+voice: "Competitive, quick, a good sport. Loves an elegant answer and a clean dataset, and hates slow code."
 pools:
   # Reactive lines (REDESIGN-2.md 7.4). lib/cast.ts says which events are Yahya's.
   nested-loop:
-    - "A loop inside a loop. That's n squared. Fine for twelve, slow for a million."
+    - "A loop inside a loop. That's n squared. Fine for twelve rows, slow for a million."
     - "Nested loops. Neat. Just watch how big n gets."
   one-left:
     - "One check left. Read that one carefully."
@@ -26,18 +26,21 @@ pools:
     - "First try. Clean."
     - "Passed first time. Now do it in fewer lines."
     - "First go. That's a good time."
+    - "First try. One data point. Do it again and it's a trend."
   # When the learner fixes Yahya's version, or fixes it in fewer lines.
   fixed-by-learner:
     - "Oh. That's annoying. In a good way."
     - "Huh. Fast and wrong is still wrong. Thanks."
     - "So that was it. I was optimising the wrong thing."
+    - "Fixed. I optimised it before I'd checked the output. Lesson logged."
   shorter-than-mine:
     - "Yours is shorter and it works. Respect."
     - "Fewer lines than mine. I'm taking notes."
-  # Yahya is the client for the Unit Converter.
+  # Yahya is the client for the Calculator and the Expense Tracker.
   waiting:
     - "No rush. Well. A bit of rush."
     - "I'm timing you. Kidding. Mostly."
+    - "I'll be cleaning a dataset. Mine will take longer. Probably."
   recap:
     - "Where you left my {job}: {step}"
     - "My {job}. Last place you were: {step}"

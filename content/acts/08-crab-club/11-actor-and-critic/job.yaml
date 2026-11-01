@@ -6,7 +6,7 @@ portfolio_readme: |
 
   One-step actor-critic on a gridworld: a critic that learns each tile's value as it goes, and an actor whose softmax policy is nudged after every move by the critic's TD error. Then PPO's clipped objective, the piece that keeps each policy update from going too far, written and worked for four cases.
 
-  Written by {name} for Caitlin, at Paul's Python Course. Finished {date}.
+  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -38,18 +38,19 @@ portfolio_readme: |
   - PPO's clipped surrogate objective, for single numbers and NumPy arrays alike
 downloadable: true
 datasets: []
-client: caitlin
+client: aaesha
 building: crab-club
 estimated_minutes: 120
-summary: "One-step actor-critic on the racing grid, with the critic's TD error as each move's verdict, and PPO's clipped objective read and worked by hand."
+summary: "One part acts and one part judges, as one theory of the brain has it: one-step actor-critic on the racing grid, with the critic's TD error as each move's verdict, and PPO's clipped objective read and worked by hand."
 concepts_introduced: [actor-critic]
 concepts_reviewed: [policy-gradients, td-learning, dqn, returns-discounting, mdps, numpy-arrays, mutability]
 ask:
   dialogue:
-    - caitlin: "REINFORCE waits until the race is over before it learns anything. So slow."
-    - yahya: "I comment on every move you make at the cabinet."
-    - caitlin: "You do. It's annoying. It also works."
-    - paul: "Then the crab needs a critic. One acts, one judges, and both learn as they go."
+    - aaesha.pleased.wave: "REINFORCE waits until the race is over before it learns anything. Brains don't wait that long."
+    - yahya.neutral: "I comment on every move you make at the cabinet."
+    - caitlin.unimpressed: "You do. It's annoying. It also works."
+    - aaesha.thinking.think: "One theory of the brain has two parts: one picks the move, one judges it. Dopamine carries the verdict."
+    - paul.neutral.point: "Then the crab gets a critic. One acts, one judges, and both learn as they go."
   spec: |
     Write `actor_critic.py`, one-step actor-critic on the racing grid in `track.py`. The actor is `theta`, a `(3, 4, 4)` array of preferences, with `chances` and `grad_log_chance` from Policy Gradients. The critic is `values`, a `(3, 4)` array.
 
@@ -79,10 +80,10 @@ ask:
     ratio 0.5, advantage -2.0: -1.6
 ship:
   dialogue:
-    - caitlin: "Judged on every move, and better for it. One point oh five."
-    - yahya: "The critic says the start is worth nought point two. It's never raced in its life."
-    - caitlin: "Critics. All talk."
-    - paul: "Next, a course nobody has seen. Not even Yahya."
+    - aaesha.proud.cheer: "Judged on every move, and better for it. One point oh five."
+    - yahya.unimpressed: "The critic says the start is worth nought point two. It's never raced in its life."
+    - caitlin.laughing: "Critics. All talk."
+    - paul.pleased: "Next, a course nobody has seen. Not even Yahya."
   shelf: { object: scorecard, label: "The crab and its critic" }
   cards: [actor-critic]
 stretch:
@@ -97,4 +98,4 @@ stretch:
   - id: a-real-ppo
     title: "A real PPO, at home"
     prompt: |
-      CleanRL keeps each algorithm in one readable file, under the MIT licence: `ppo.py` at github.com/vwxyzjn/cleanrl, which trains on CartPole-v1 with PyTorch and Gymnasium. Read it with your own `clipped_objective` beside it. Find the ratio, the clip, the advantage (it uses GAE, a blend of one-step TD errors and whole returns) and the critic's loss. Then change one thing at a time: the clip coefficient to 0.05 and to 0.5, then one update epoch instead of four. Train three seeds of each and plot the episode lengths. Write down for Caitlin which change mattered most, and why.
+      CleanRL keeps each algorithm in one readable file, under the MIT licence: `ppo.py` at github.com/vwxyzjn/cleanrl, which trains on CartPole-v1 with PyTorch and Gymnasium. Read it with your own `clipped_objective` beside it. Find the ratio, the clip, the advantage (it uses GAE, a blend of one-step TD errors and whole returns) and the critic's loss. Then change one thing at a time: the clip coefficient to 0.05 and to 0.5, then one update epoch instead of four. Train three seeds of each and plot the episode lengths. Write down for Aaesha which change mattered most, and why.

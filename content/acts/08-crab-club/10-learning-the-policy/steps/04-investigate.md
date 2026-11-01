@@ -4,7 +4,7 @@ type: investigate
 title: Steadier estimates
 concept: policy-gradients
 dialogue:
-  - yahya: "A baseline of minus seven? Make it minus fifty. Bigger numbers, bigger steps, faster learning."
+  - yahya.proud: "A baseline of minus seven? Make it minus fifty. Bigger numbers, bigger steps, faster learning."
 code: |
   import numpy as np
 

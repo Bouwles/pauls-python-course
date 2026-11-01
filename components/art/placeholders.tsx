@@ -1,13 +1,15 @@
-// The placeholders (REDESIGN-2.md 8.5), shown by <Art> until the illustrator's file arrives.
-// Deliberately simple: flat shapes in a character's colour, their initial in the display face,
-// a Phosphor icon for things. Expressions aren't faked; the speech bubble carries the feeling.
-import { CAST_IDS, castColour, FLOORS, type Floor } from "@/lib/cast";
-import { shelfIcon } from "@/lib/shelf-icons";
+// The placeholders (REDESIGN-2.md 8.5), shown by <Art> until the illustrator's file arrives:
+// the pixel cast (lib/pixel/people.ts), the pixel rooms and tower (lib/pixel/rooms.ts), and a
+// pixel tile with an icon for things.
+import { CAST_IDS, castColour, type Floor } from "@/lib/cast";
 import { Icon } from "../ui/Icon";
+import { PixelPerson } from "./PixelPerson";
+import { PixelRoom, PixelTowerPicture } from "./PixelRoom";
+import { ShelfTile } from "./ShelfObject";
+import { Portrait } from "./Portrait";
 import styles from "./Art.module.css";
 
 export const castName = (id: string) => id.charAt(0).toUpperCase() + id.slice(1);
-const initial = (name: string) => name.trim().charAt(0).toUpperCase();
 const cx = (...xs: (string | false | undefined)[]) => xs.filter(Boolean).join(" ");
 
 /** An image with words for a screen reader, or a decoration with none. */
@@ -19,24 +21,16 @@ const colours = (who: string): Colours => {
   return { "--tint": c.face, "--tint-ink": c.ink };
 };
 
-/** A portrait: a circle in the character's colour with their initial. */
+/** A portrait: the character's pixel self, head and shoulders, on a tile in their colour. */
 export function PortraitPlaceholder({ who, name, size, alt, className }: { who: string; name: string; size: number; alt: string; className?: string }) {
-  return (
-    <span className={cx(styles.circle, className)} style={{ ...colours(who), width: size, height: size, fontSize: Math.round(size * 0.46) }} {...named(alt)}>
-      <span className={styles.initial} aria-hidden="true">
-        {initial(name)}
-      </span>
-    </span>
-  );
+  return <Portrait who={who} name={name} size={size} className={className} label={alt || name} />;
 }
 
-/** A full-body pose: a rounded rectangle twice as tall as it's wide, the initial, the name. */
+/** A full-body slot: the character from the waist up, waving, on a tile in their colour. */
 export function BodyPlaceholder({ who, name, size, alt, className }: { who: string; name: string; size: number; alt: string; className?: string }) {
   return (
-    <span className={cx(styles.block, styles.body, className)} style={{ ...colours(who), width: size, fontSize: Math.round(size * 0.5) }} {...named(alt)}>
-      <span className={styles.initial} aria-hidden="true">
-        {initial(name)}
-      </span>
+    <span className={cx(styles.block, styles.body, className)} style={{ ...colours(who), width: size }} {...named(alt)}>
+      <PixelPerson who={who} pose="wave" expression="pleased" size={size} />
       <span className={styles.blockName} style={{ fontSize: Math.max(14, Math.round(size * 0.09)) }} aria-hidden="true">
         {name}
       </span>
@@ -61,69 +55,24 @@ export function GroupPlaceholder({ size, alt, className }: { size: number; alt: 
   );
 }
 
-/** The building around the floors: a column of the nine floors in their colours, the clock on top. */
+/** The building around the floors: the pixel Clocktower, every floor lit, nobody in. */
 export function TowerPlaceholder({ size, alt, className }: { size: number; alt: string; className?: string }) {
-  return (
-    <span className={cx(styles.block, styles.tower, className)} style={{ width: size }} {...named(alt)}>
-      <span className={styles.clock} aria-hidden="true">
-        <Icon name="clock" size={Math.round(size * 0.2)} />
-      </span>
-      <span className={styles.stack} aria-hidden="true">
-        {[...FLOORS].reverse().map((f) => (
-          <span key={f.act} className={styles.band} style={colours(f.residents[0] ?? "")} />
-        ))}
-      </span>
-    </span>
-  );
+  return <PixelTowerPicture size={size} state="open" label={alt || undefined} className={className} />;
 }
 
 /**
- * One floor of the Clocktower (REDESIGN-2.md 5.3): a band in the resident's colour with the room's
- * icon and name. Locked is muted with a padlock, open is in full colour, busy adds the residents.
+ * One floor of the Clocktower (REDESIGN-2.md 5.3): its pixel room in the state, at the biggest
+ * whole-number scale that fits `size`. Locked is dark under dust sheets, open has the lights on,
+ * busy has the residents in.
  */
 export function FloorPlaceholder({ floor, state, size, alt, className }: { floor: Floor; state: string; size: number; alt: string; className?: string }) {
-  const roof = floor.act === FLOORS.length;
-  // Everything inside scales with a floor's height (the roof is just taller).
-  const unit = Math.max(48, Math.round(size / 6));
-  const locked = state === "locked";
-  return (
-    <span
-      className={cx(styles.floor, locked ? styles.locked : styles.lit, className)}
-      style={{ ...colours(floor.residents[0] ?? ""), width: size, aspectRatio: roof ? "3 / 1" : "6 / 1", ["--u" as string]: `${unit}px` }}
-      data-state={state}
-      {...named(alt)}
-    >
-      <Icon name={floor.icon} size={Math.round(unit * 0.4)} className={styles.floorIcon} />
-      <span className={styles.floorText} aria-hidden="true">
-        <span className={styles.floorRoom}>{floor.room}</span>
-        <span className={styles.floorLabel}>
-          {locked ? <span className={styles.swatch} /> : null}
-          {floor.label}
-        </span>
-      </span>
-      {locked ? (
-        <span className={styles.floorLock} aria-hidden="true">
-          <Icon name="lock" size={Math.round(unit * 0.26)} />
-        </span>
-      ) : null}
-      {state === "busy" ? (
-        <span className={styles.residents} aria-hidden="true">
-          {floor.residents.map((who) => (
-            <PortraitPlaceholder key={who} who={who} name={castName(who)} size={Math.round(unit * 0.44)} alt="" className={styles.resident} />
-          ))}
-        </span>
-      ) : null}
-    </span>
-  );
+  const s = state === "locked" || state === "busy" ? state : "open";
+  return <PixelRoom act={floor.act} state={s} size={size} label={alt || undefined} className={className} />;
 }
 
-/** A project's Shelf object: a Phosphor icon that matches the program, on a tile in the client's colour. */
+/** A project's Shelf object: the pixel tile, its object on the client's colour. */
 export function ShelfPlaceholder({ jobId, title, who, size, alt, className }: { jobId: string; title?: string; who?: string; size: number; alt: string; className?: string }) {
-  return (
-    <span className={cx(styles.tile, className)} style={{ ...colours(who ?? ""), width: size, height: size }} {...named(alt)}>
-      <Icon name={shelfIcon(jobId, title)} size={Math.round(size * 0.52)} />
-    </span>
-  );
+  return <ShelfTile jobId={jobId} title={title} who={who} size={size} alt={alt} className={className} />;
 }
 
 /** The duck: the drawn duck icon in the sun colour. */

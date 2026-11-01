@@ -1,4 +1,4 @@
-/* The public profile: the avatar and name, then shipped projects as clean cards by Act. */
+/* The public profile: the waving avatar and name, then shipped projects as pixel cards by Act. */
 .layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -7,18 +7,29 @@
 
 .who {
   display: flex;
-  align-items: center;
-  gap: var(--s-6);
+  align-items: flex-end;
+  gap: var(--s-8);
+}
+
+.avatar {
+  display: grid;
+  place-items: end center;
+  flex: none;
+  width: 168px;
+  height: 168px;
+  margin: 2px;
+  overflow: hidden;
 }
 
 .text {
   display: grid;
-  gap: var(--s-2);
+  gap: var(--s-4);
   min-width: 0;
+  padding-bottom: var(--s-2);
 }
 
 .name {
-  font-size: var(--fs-7);
+  font-size: var(--px-5);
   overflow-wrap: anywhere;
 }
 
@@ -34,21 +45,21 @@
 
 .act {
   display: grid;
-  gap: var(--s-4);
+  gap: var(--s-5);
 }
 
 .actTitle {
   display: flex;
   align-items: center;
   gap: var(--s-3);
-  font-size: var(--fs-5);
+  font-size: var(--px-3);
 }
 
 .marker {
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
   flex: none;
-  border-radius: var(--r-sm);
+  box-shadow: inset 0 0 0 2px var(--px-outline);
 }
 
 .grid {
@@ -57,7 +68,7 @@
   padding: 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: var(--s-4);
+  gap: var(--s-6);
 }
 
 .card {
@@ -65,22 +76,20 @@
   align-items: center;
   gap: var(--s-4);
   height: 100%;
-  padding: var(--s-4) var(--s-5);
-  background: var(--surface-2);
-  border-radius: var(--r-lg);
+  padding: var(--s-3) var(--s-4);
   color: var(--text);
   text-decoration: none;
-  transition: background-color var(--dur) var(--ease-out);
 }
 
-:global(:root[data-theme="light"]) .card {
-  border: 1px solid var(--line);
-}
-
-@media (prefers-color-scheme: light) {
-  :global(:root[data-theme="system"]) .card {
-    border: 1px solid var(--line);
-  }
+/* The client, pleased with it. */
+.client {
+  display: grid;
+  place-items: end center;
+  flex: none;
+  width: 68px;
+  height: 76px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 2px var(--px-outline);
 }
 
 .link:link,
@@ -96,21 +105,23 @@
 .link:hover .project {
   text-decoration: underline;
   text-decoration-thickness: 2px;
-  text-underline-offset: 3px;
+  text-underline-offset: 4px;
+}
+
+.link:focus-visible {
+  outline-offset: 6px;
 }
 
 .cardText {
   display: grid;
-  gap: 2px;
+  gap: var(--s-2);
   min-width: 0;
 }
 
 .project {
   font-family: var(--font-display);
-  font-size: var(--fs-4);
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.01em;
+  font-size: var(--px-2);
+  line-height: 1;
 }
 
 .foot {
@@ -119,7 +130,7 @@
   align-items: baseline;
   gap: var(--s-2) var(--s-4);
   padding-top: var(--s-6);
-  border-top: 1px solid var(--line);
+  border-top: 2px solid var(--line);
   font-size: var(--fs-2);
 }
 
@@ -129,21 +140,33 @@
   }
 
   .who {
-    flex-direction: column;
-    align-items: flex-start;
     gap: var(--s-4);
   }
 
+  .avatar {
+    width: 112px;
+    height: 112px;
+  }
+
+  .avatar canvas {
+    width: 96px !important;
+    height: 104px !important;
+  }
+
   .name {
-    font-size: var(--fs-6);
+    font-size: var(--px-4);
   }
 
   .line {
     font-size: var(--fs-3);
   }
 
+  .actTitle {
+    font-size: var(--px-2);
+  }
+
   .grid {
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--s-3);
+    gap: var(--s-5);
   }
 }

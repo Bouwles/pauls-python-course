@@ -6,7 +6,7 @@ files: [course.py, crab.py]
 entry: crab.py
 starter_from: make-course
 timeout_ms: 30000
-on_pass: { yahya: "Four courses it had never seen, and within a whisker of par on every one." }
+on_pass: { yahya.surprised: "Four courses it had never seen, and within a whisker of par on every one." }
 hints:
   nudge: "A practice move costs budget. Learning again from a move it remembers costs nothing. How many times could each practice move teach it something?"
   plan:

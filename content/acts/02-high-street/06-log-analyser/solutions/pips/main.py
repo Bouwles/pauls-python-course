@@ -2,13 +2,13 @@ def parse_line(line, number):
     parts = line.split("|", 3)
     if len(parts) != 4:
         raise ValueError(f"line {number}: expected 4 parts, got {len(parts)}")
-    time, level, machine, message = parts
-    return time.strip(), level.strip().upper(), machine.strip(), message.strip()
+    time, level, system, message = parts
+    return time.strip(), level.strip().upper(), system.strip(), message.strip()
 
 
 entries = []
 skipped = 0
-with open("machines.log") as log:
+with open("flight.log") as log:
     for number, line in enumerate(log, start=1):
         try:
             entry = parse_line(line, number)

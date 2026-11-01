@@ -1,4 +1,4 @@
-# The tailor's fitting book: two lists, kept in step.
+# Caitlin's kit book for the five-a-side team: two lists, kept in step.
 names = ["Jon Hale", "Mae Grant", "Ray Lowe"]
 sizes = [(112, 98, 84), (96, 88, 74), (101, 95, 79)]
 

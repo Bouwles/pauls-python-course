@@ -1,21 +1,21 @@
-"""Riya's task scheduler for the Makerspace: the most urgent repair first."""
+"""Riya's task scheduler for Neil's pit crew: the most urgent job first."""
 import heapq
 
 
 class TaskScheduler:
-    """Repairs waiting at the bench. Priority 1 is the most urgent."""
+    """Pit jobs waiting for the crew. Priority 1 is the most urgent."""
 
     def __init__(self):
         self.waiting = []
         self.arrived = 0
 
-    def add(self, repair, priority):
-        heapq.heappush(self.waiting, (priority, self.arrived, repair))
+    def add(self, job, priority):
+        heapq.heappush(self.waiting, (priority, self.arrived, job))
         self.arrived = self.arrived + 1
 
     def take(self):
-        priority, arrival, repair = heapq.heappop(self.waiting)
-        return repair
+        priority, arrival, job = heapq.heappop(self.waiting)
+        return job
 
     def __len__(self):
         return len(self.waiting)
@@ -23,8 +23,8 @@ class TaskScheduler:
 
 if __name__ == "__main__":
     pile = TaskScheduler()
-    pile.add("Riya's headphones", 3)
-    pile.add("Paul's desk lamp", 3)
-    pile.add("the arcade cabinet", 1)
+    pile.add("the tyre pressures", 3)
+    pile.add("the chain tension", 3)
+    pile.add("the loose steering bolt", 1)
     while len(pile) > 0:
-        print(f"Mending {pile.take()}")
+        print(f"Fixing {pile.take()}")

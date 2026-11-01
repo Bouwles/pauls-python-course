@@ -5,7 +5,7 @@ title: Training properly
 files: [optimisers.py, brain.py]
 entry: optimisers.py
 timeout_ms: 20000
-on_pass: { yahya: "Adam, ninety-seven in a hundred, thirty epochs, same start as the others. A fair win. My favourite kind." }
+on_pass: { neil.proud: "Adam, ninety-seven in a hundred, thirty epochs, same start as the others. A fair win. The only kind that counts." }
 hints:
   nudge: "Momentum and Adam both need to remember something about each weight between one step and the next. Where can an object keep that?"
   plan:

@@ -72,15 +72,15 @@ cards:
         misconception: confident-wrong-cheap
         feedback: "Those are the misses, `1 - p`. Log loss is `-log(p)` for what happened, which grows without limit as p falls to 0: a forecast that was sure and wrong costs far more than one that hedged."
   - type: choice
-    prompt: "For tonight, Riya's model gives 0.62. What has it told her?"
+    prompt: "For tonight, Yahya's model gives 0.62. What has it told him?"
     verify: none
     options:
-      - text: "A 62% chance of rain; whether to take an umbrella depends on her threshold"
+      - text: "A 62% chance of rain; whether to take an umbrella depends on his threshold"
         correct: true
         feedback: "The model only gives a chance. Comparing it with a threshold, 0.5 or a more cautious one, turns it into a decision."
       - text: "Nothing yet: logistic regression should answer 0 or 1"
         misconception: logistic-outputs-class
-        feedback: "Despite the name, logistic regression gives a probability, not a class. The 0 or 1 comes from comparing that probability with a threshold, and choosing the threshold is Riya's job."
+        feedback: "Despite the name, logistic regression gives a probability, not a class. The 0 or 1 comes from comparing that probability with a threshold, and choosing the threshold is Yahya's job."
   - type: fill
     prompt: "Fill the gap so `dw` is the gradient of the log loss."
     code: |

@@ -4,8 +4,8 @@ type: predict
 title: One card, used twice
 concept: autograd
 dialogue:
-  - neil: "First card. A square tabletop, three feet a side. The area is the side times itself."
-  - neil: "So the side is on the back of the card twice. Is that allowed? It is."
+  - neil.neutral.point: "First card. A square tabletop, three feet a side. The area is the side times itself."
+  - neil.thinking: "So the side is on the back of the card twice. Is that allowed? It is."
 code: |
   class Value:
       """A number that remembers what it was made from."""

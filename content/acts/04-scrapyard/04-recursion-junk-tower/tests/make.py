@@ -1,34 +1,34 @@
 import os as _os
 
-PRINTED = """backup/ (799 bytes)
-├── README.txt (89 bytes)
-├── games/ (198 bytes)
-│   └── snake/ (198 bytes)
-│       ├── notes.txt (64 bytes)
+PRINTED = """backup/ (835 bytes)
+├── README.txt (94 bytes)
+├── karting/ (204 bytes)
+│   └── lap-timer/ (204 bytes)
+│       ├── notes.txt (70 bytes)
 │       └── versions/ (134 bytes)
-│           ├── v1.txt (75 bytes)
-│           └── v2.txt (59 bytes)
-├── scripts/ (168 bytes)
-│   ├── rename.txt (52 bytes)
-│   └── style/ (116 bytes)
-│       ├── spaces.txt (92 bytes)
-│       └── tabs.txt (24 bytes)
-├── teaching/ (91 bytes)
-│   └── duck.txt (91 bytes)
-└── website/ (253 bytes)
-    ├── about.txt (73 bytes)
-    ├── contact.txt (59 bytes)
-    └── posts/ (121 bytes)
-        ├── first.txt (59 bytes)
-        └── second.txt (62 bytes)
+│           ├── v1.txt (73 bytes)
+│           └── v2.txt (61 bytes)
+├── rockets/ (258 bytes)
+│   ├── checklist.txt (63 bytes)
+│   ├── design.txt (72 bytes)
+│   └── flights/ (123 bytes)
+│       ├── first.txt (60 bytes)
+│       └── second.txt (63 bytes)
+├── scripts/ (188 bytes)
+│   ├── style/ (116 bytes)
+│   │   ├── spaces.txt (92 bytes)
+│   │   └── tabs.txt (24 bytes)
+│   └── telemetry.txt (72 bytes)
+└── teaching/ (91 bytes)
+    └── duck.txt (91 bytes)
 12 files, 4 folders deep"""
 
-WEBSITE = """backup/website/ (253 bytes)
-├── about.txt (73 bytes)
-├── contact.txt (59 bytes)
-└── posts/ (121 bytes)
-    ├── first.txt (59 bytes)
-    └── second.txt (62 bytes)
+ROCKETS = """backup/rockets/ (258 bytes)
+├── checklist.txt (63 bytes)
+├── design.txt (72 bytes)
+└── flights/ (123 bytes)
+    ├── first.txt (60 bytes)
+    └── second.txt (63 bytes)
 4 files, 2 folders deep"""
 
 
@@ -84,7 +84,7 @@ def counts_and_depth(ctx):
     if module.count_files("backup") != 12:
         raise CheckFailed("Neil's backup holds twelve files.", expected=12, actual=module.count_files("backup"))
     if module.depth("backup") != 4:
-        raise CheckFailed("backup, games, snake, versions: four folders deep.", expected=4, actual=module.depth("backup"))
+        raise CheckFailed("backup, karting, lap-timer, versions: four folders deep.", expected=4, actual=module.depth("backup"))
 
 
 def empty_folder(ctx):
@@ -200,6 +200,6 @@ TESTS = [
     custom("The tree printed from memory", printed_with_memory,
            hint="tree_lines asks folder_size about every folder. Pass the same sizes along, so the answers are read, not measured again."),
     custom("Sizes already written down", reads_the_book_first),
-    output("Any folder you name", argv=["backup/website"], expect=WEBSITE,
+    output("Any folder you name", argv=["backup/rockets"], expect=ROCKETS,
            hint="The main block prints whatever folder is named in sys.argv. Nothing about the backup should be written in."),
 ]

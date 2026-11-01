@@ -3,16 +3,16 @@ id: pips
 type: pips
 title: Fix Yahya's version
 dialogue:
-  - yahya: "Can you look at mine? Something's off. I work out the best flyer first, every visitor. Saves a step."
-  - yahya: "It explores one visitor in ten. Then says it handed out three goes for a pound a thousand times."
+  - yahya.neutral: "Can you look at mine? Something's off. I work out the best screen first, every visitor. Saves a step."
+  - yahya.confused: "It explores one visitor in ten. Then says it showed the high-score table a thousand times."
 dialogue_after:
-  - yahya: "So the other flyers brought people in, and three goes for a pound got the credit. Fast and wrong."
+  - yahya.surprised: "So the other screens brought people in, and the high-score table got the credit. Fast and wrong."
 hints:
-  nudge: "When an exploring visitor is handed the cuddly crab, whose estimate should their answer change?"
+  nudge: "When an exploring visitor is shown the demo race, whose estimate should their answer change?"
   plan:
-    - Run it and read which flyers were handed out
+    - Run it and read which screens were shown
     - Follow one exploring visitor through the loop by hand
-    - Give the count and the reward to the flyer the visitor was actually handed
+    - Give the count and the reward to the screen the visitor was actually shown
   shape: |
     reward = 1 if rng.random() < rates[version] else 0
     counts[___] += 1

@@ -28,4 +28,4 @@ options:
 ---
 `assert` checks something you believe is true. If it is, nothing happens. If it isn't, the program stops with an `AssertionError`.
 
-Here is the start of a check on the trip fund's sums. Read both `assert` lines carefully.
+Here is the start of a check on the festival fund's sums. Read both `assert` lines carefully.

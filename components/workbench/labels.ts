@@ -52,14 +52,7 @@ export function usesEditor(step: Step | null): boolean {
 let said = 0;
 export const nextId = () => Date.now() * 100 + (said++ % 100);
 
-/** A step's dialogue as the coach says it: one speaker at a time, at most two lines in a bubble. */
+/** A step's dialogue as the coach says it: a line at a time, each with its own face and gesture. */
 export function utterancesFor(lines: Line[], kind: CoachKind = "step"): Utterance[] {
-  const out: Utterance[] = [];
-  for (const l of lines) {
-    if (!isSpoken(l.who)) continue;
-    const last = out[out.length - 1];
-    if (last && last.who === l.who && last.lines.length < 2) last.lines.push(l.text);
-    else out.push({ id: nextId(), who: l.who, lines: [l.text], face: l.face, kind });
-  }
-  return out;
+  return lines.filter((l) => isSpoken(l.who)).map((l) => ({ id: nextId(), who: l.who, text: l.text, face: l.face, gesture: l.gesture, kind }));
 }

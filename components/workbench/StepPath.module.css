@@ -1,10 +1,10 @@
-/* The step bar: named steps as pills, separated by small carets. */
+/* The step bar: named steps as pixel plates, joined by a dotted track. */
 .bar {
   position: relative;
   flex: none;
   padding: 0 var(--s-4);
-  background: var(--bg);
-  border-bottom: 1px solid var(--line);
+  background: var(--surface-1);
+  box-shadow: inset 0 -2px 0 0 var(--line);
   min-width: 0;
 }
 
@@ -14,7 +14,7 @@
   gap: 0;
   height: 52px;
   margin: 0;
-  padding: 0;
+  padding: 0 4px;
   list-style: none;
   overflow-x: auto;
   scrollbar-width: none;
@@ -35,36 +35,42 @@
   position: relative;
 }
 
+/* Between steps: three square pixels, like a path drawn on a map. */
 .sep {
   flex: none;
   display: grid;
   place-items: center;
-  width: 22px;
+  width: 28px;
   color: var(--text-3);
+}
+
+.sep::before {
+  content: "";
+  width: 4px;
+  height: 4px;
+  background: currentColor;
+  box-shadow:
+    -6px 0 0 0 currentColor,
+    6px 0 0 0 currentColor;
 }
 
 .pill {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--s-2);
   height: 32px;
   padding: 0 var(--s-3);
   border: 0;
-  border-radius: var(--r-md);
   background: transparent;
-  font-family: var(--font-text);
-  font-size: var(--fs-2);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--px-1);
   line-height: 1;
   white-space: nowrap;
-  transition:
-    background-color var(--dur) var(--ease-out),
-    color var(--dur) var(--ease-out);
 }
 
 .pill:focus-visible {
   outline: 2px solid var(--sun);
-  outline-offset: 2px;
+  outline-offset: 4px;
 }
 
 .done {
@@ -74,16 +80,20 @@
 .done:hover {
   background: var(--surface-3);
   color: var(--text);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
 }
 
 .done svg {
   color: var(--pass-text);
 }
 
-/* Tertiary, nudged up a little so it still reads at 4.5:1 on the page background. */
+/* Not reached yet: tertiary, nudged up a little so it still reads at 4.5:1 on the bar. */
 .future {
-  color: color-mix(in srgb, var(--text-3) 70%, var(--text-2));
-  font-weight: 400;
+  color: color-mix(in srgb, var(--text-3) 60%, var(--text-2));
 }
 
 .future:not([aria-disabled="true"]):hover {
@@ -95,6 +105,20 @@
   cursor: default;
 }
 
+/* Where you are: a raised plate in the sun colour, a light top edge and a dark bottom one. */
+.current,
+.passed {
+  margin: 0 2px;
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-hi),
+    inset 0 -4px 0 0 var(--px-lo);
+  padding-bottom: 2px;
+}
+
 .current {
   background: var(--sun);
   color: var(--sun-ink);
@@ -104,11 +128,11 @@
   background: var(--sun-hover);
 }
 
-/* The current step once its checks pass. */
+/* The current step once its checks pass: green, and it hops once. */
 .passed {
   background: var(--pass);
   color: var(--pass-ink);
-  animation: passed var(--dur-slow) var(--ease-spring);
+  animation: passed 240ms steps(1, end);
 }
 
 .passed svg {
@@ -116,8 +140,16 @@
 }
 
 @keyframes passed {
-  from {
-    transform: scale(0.94);
+  0% {
+    transform: translateY(-4px);
+  }
+
+  50% {
+    transform: translateY(-2px);
+  }
+
+  100% {
+    transform: none;
   }
 }
 
@@ -149,11 +181,11 @@
   display: grid;
   grid-template-columns: 16px 1fr;
   column-gap: var(--s-3);
+  row-gap: var(--s-1);
   align-items: center;
   width: 100%;
   padding: var(--s-2) var(--s-3);
   border: 0;
-  border-radius: var(--r-md);
   background: none;
   color: var(--text);
   text-align: left;
@@ -170,8 +202,9 @@
 }
 
 .popLabel {
-  font-size: var(--fs-2);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  line-height: 1;
 }
 
 .popTitle {
@@ -209,6 +242,10 @@
   .list {
     height: 48px;
     padding: 0 var(--s-3);
+  }
+
+  .sep {
+    width: 24px;
   }
 
   .list > li:last-child {

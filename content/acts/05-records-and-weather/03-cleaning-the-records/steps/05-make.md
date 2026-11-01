@@ -3,7 +3,7 @@ id: make
 type: make
 title: Make the cleaning pipeline
 timeout_ms: 20000
-on_pass: { aaesha: "Peter Jago, once. Helen Rowe, once. Arthur Abbott, once. Nobody aged 412." }
+on_pass: { yahya.pleased.cheer: "Peter Jago, once. Helen Rowe, once. Arthur Abbott, once. Nobody aged 412." }
 hints:
   nudge: "Each step is one of Paul's comments, turned into a function that takes a table and gives back a cleaner copy. What does `clean_register` do with the list of them?"
   plan:

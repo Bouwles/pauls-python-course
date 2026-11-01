@@ -4,8 +4,8 @@ type: predict
 title: Blame from twenty hours back
 concept: rnns
 dialogue:
-  - neil: "My weights were trained the way the blackboard chain was: backwards. Only backwards through time."
-  - yahya: "So the network learns from every hour it read. All of them, equally."
+  - neil.neutral: "My weights were trained the way the blackboard chain was: backwards. Only backwards through time."
+  - yahya.pleased: "So the network learns from every hour it read. All of them, equally."
 code: |
   w_memory = 0.9
   h = 0.6                       # the hidden state, hour after hour

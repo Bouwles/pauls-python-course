@@ -46,7 +46,7 @@ cards:
         misconception: rebuild-is-exact
         feedback: "Squashing throws away everything along the components you didn't keep. Rebuilt from all of them, the readings come back exactly; from fewer, only approximately."
   - type: choice
-    prompt: "Riya runs PCA on star magnitudes, all around 11, without taking off the means. The first component explains 99.8%. What has she found?"
+    prompt: "Neil runs PCA on star magnitudes, all around 11, without taking off the means. The first component explains 99.8%. What has he found?"
     verify: none
     options:
       - text: "The direction from nothing to the average star. Centre first, and the shares change completely"

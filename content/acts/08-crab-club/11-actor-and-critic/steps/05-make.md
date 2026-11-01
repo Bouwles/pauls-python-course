@@ -5,7 +5,7 @@ title: Make the actor and the critic
 files: [track.py, actor_critic.py]
 entry: actor_critic.py
 timeout_ms: 20000
-on_pass: { yahya: "Judged on every move, and it improves every race. I'm a very good critic." }
+on_pass: { yahya.proud: "Judged on every move, and it improves every race. I'm a very good critic." }
 hints:
   nudge: "In `update`, the critic's verdict feeds both learners. What do you need to work out before either `values` or `theta` changes?"
   plan:

@@ -1,10 +1,10 @@
 ---
 id: make
 type: make
-title: Make Riya's quickest routes
+title: Make Neil's quickest routes
 files: [routes.py]
 entry: routes.py
-on_pass: { riya: "Fourteen minutes to the theatre, and it knew before I'd found my keys." }
+on_pass: { neil.pleased.thumbs: "Fourteen minutes to the hairpin, and it knew before I'd found my ticket." }
 hints:
   nudge: "In `quickest_times`, a place can come off the heap more than once. Which time counts, and what should happen the other times?"
   plan:
@@ -41,4 +41,4 @@ Write the three functions from the brief in `routes.py`. `quickest_times` has Pa
 
 Add `show_graph(roads, visited=settled, frontier=[name for _, name in waiting], current=place, distances=best)` inside your loop, and `show_graph(roads, path=route, distances=best)` once you have the route, then press Run.
 
-The hidden checks send you round triangles, down one-way roads and over a road that takes no time at all, and count how often your code goes through a place's roads in a city of nine hundred.
+The hidden checks send you round triangles, down one-way roads and over a road that takes no time at all, and count how often your code goes through a place's roads on a map of nine hundred.

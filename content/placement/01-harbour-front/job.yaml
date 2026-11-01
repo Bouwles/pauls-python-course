@@ -10,15 +10,15 @@ concepts_introduced: []
 concepts_reviewed: [input-returns-text, int-conversion, float-conversion, f-strings, if-elif-else, boolean-operators, while-loops, sentinels, running-totals, for-loops, range, lists, list-methods, slicing, sorted-vs-sort, strings, string-methods, split-join, strip-replace, functions, parameters, return-values, none, dictionaries, dict-get, dict-items]
 ask:
   dialogue:
-    - paul: "Show me what you know, then."
-    - paul: "Three small jobs from the class: Riya's tickets, my quiz, then Aaesha's parcels."
-    - paul: "I'll be at my desk. Shout when they're done."
+    - paul.neutral.wave: "Show me what you know, then."
+    - paul.thinking.point: "Three small jobs from the class: Riya's exhibition tickets, my quiz, then Caitlin's parcels."
+    - paul.pleased: "I'll be at my desk. Shout when they're done."
   spec: |
     Three Make tasks, each a small program for someone in the class. There are no hints: each task has its brief, two visible checks and a good many hidden ones.
 
     Pass all three and Act I is placed. The Studio opens, and Act I's ideas join your review deck.
 ship:
   dialogue:
-    - paul: "Tickets, marking and postage. All three hold."
-    - paul: "The Studio's open. Neil will want more than a ticket desk."
+    - paul.proud.thumbs: "Tickets, marking and postage. All three hold."
+    - paul.pleased.point: "The Studio's open. Caitlin will want more than a parcel run."
   cards: []

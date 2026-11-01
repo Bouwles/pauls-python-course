@@ -44,7 +44,7 @@ cards:
     inputs: ["four", "4b", "4"]
     answer: "Numbers only.\nNumbers only.\nDesk 4"
   - type: choice
-    prompt: "Riya's ticket desk is told there are `-3` visitors. What should it do?"
+    prompt: "Caitlin's ticket desk is told there are `-3` visitors. What should it do?"
     verify: none
     options:
       - text: Refuse it, and say why

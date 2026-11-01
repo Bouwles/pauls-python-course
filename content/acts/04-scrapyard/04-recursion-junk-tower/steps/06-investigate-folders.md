@@ -4,13 +4,13 @@ type: investigate
 title: Folders inside folders
 concept: recursion
 dialogue:
-  - neil: "My old laptop's backup. I copied it onto the Studio computer and never opened it again."
-  - paul: "Then we'll only look at the outside of everything first."
+  - neil.worried: "My old laptop's backup. I copied it onto the Puzzle Room computer and never opened it again."
+  - paul.neutral: "Then we'll only look at the outside of everything first."
 code: |
   import os
 
   print(sorted(os.listdir("backup")))
-  print(os.path.isdir("backup/website"), os.path.isdir("backup/README.txt"))
+  print(os.path.isdir("backup/rockets"), os.path.isdir("backup/README.txt"))
   print(os.path.getsize("backup/README.txt"))
 
 
@@ -36,8 +36,8 @@ tasks:
   - id: bytes
     prompt: "How many bytes does `README.txt` hold?"
     kind: answer
-    accept: ["89", "89 bytes"]
-    feedback: "89: one byte for each letter, space and new line in it. A folder's size is all of its files' bytes added up, however deep they are."
+    accept: ["94", "94 bytes"]
+    feedback: "94: one byte for each letter, space and new line in it. A folder's size is all of its files' bytes added up, however deep they are."
     wrong: "It's the third line printed."
   - id: deeper
     prompt: "`count_files` counts each folder as one file, as if a crate were a part. Change one line so it counts every file however deep."
@@ -49,7 +49,7 @@ tasks:
       import os
 
       print(sorted(os.listdir("backup")))
-      print(os.path.isdir("backup/website"), os.path.isdir("backup/README.txt"))
+      print(os.path.isdir("backup/rockets"), os.path.isdir("backup/README.txt"))
       print(os.path.getsize("backup/README.txt"))
 
 

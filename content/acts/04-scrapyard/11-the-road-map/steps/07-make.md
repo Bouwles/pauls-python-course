@@ -4,7 +4,7 @@ type: make
 title: Make the maze solver
 files: [maze.py]
 entry: maze.py
-on_pass: { yahya: "Nineteen steps, start to goal. And four squares in the corner that nobody can reach." }
+on_pass: { neil.laughing.cheer: "Nineteen steps, gate to car. And four spaces in the corner that nobody can reach." }
 hints:
   nudge: "Paul's walk took places from a dictionary of roads. Here the roads come from `neighbours`. What else changes in `shortest_path`, apart from that?"
   plan:
@@ -34,7 +34,7 @@ hints:
                     queue.append(___)
         return None
 ---
-Write the five functions from the brief in `maze.py`. `read_maze` and the main block are written, and Yahya's maze is in `maze.txt`.
+Write the five functions from the brief in `maze.py`. `read_maze` and the main block are written, and the car park is in `maze.txt`.
 
 ```
 Start to goal: 19 steps
@@ -42,6 +42,6 @@ S.....#.......#.....
 *####.#.......#.###.
 ```
 
-`shortest_path` is Yahya's fixed search with tiles for places and `neighbours` for the roads. `explore` is Yahya's long run from the predict, on tiles. The run reaches everything that can be reached, so `unreachable` is whatever it misses.
+`shortest_path` is Yahya's fixed search with tiles for places and `neighbours` for the roads. `explore` is Neil's walk from the predict, on tiles. The run reaches everything that can be reached, so `unreachable` is whatever it misses.
 
 The main block draws the solved maze with `show_grid`; for the search itself, call `show_grid` inside your loop each time a tile comes off the queue and press Run. The hidden checks solve mazes with no way through, two ways round, and a field thirty tiles square.

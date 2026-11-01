@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "Caitlin's platform level again. Nobody playing it has seen the numbers. They've just played it a lot."
+  - paul.pleased: "Caitlin's platform level again. Nobody playing it has seen the numbers. They've just played it a lot."
 code: |
   import numpy as np
 

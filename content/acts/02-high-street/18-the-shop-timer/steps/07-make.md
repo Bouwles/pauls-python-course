@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the decorators
-on_pass: { yahya: "There it is: look_up_price, dawdling. Riya blamed the scales. Measured beats guessed." }
+on_pass: { caitlin.surprised: "There it is: look_up_price, dawdling. I blamed the scales. Measured beats guessed." }
 hints:
   nudge: "Where in the wrapper do you read `clock()`, and what has to come back out of it at the end?"
   plan:

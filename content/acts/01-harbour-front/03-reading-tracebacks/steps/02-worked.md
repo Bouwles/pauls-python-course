@@ -4,12 +4,12 @@ type: worked
 title: Reading from the bottom
 language: text
 dialogue:
-  - paul: "Read it from the bottom. The last line is where it hurt."
+  - paul.neutral.point: "Read it from the bottom. The last line is where it hurt."
 code: |
   Morning, Neil
   Traceback (most recent call last):
     File "main.py", line 3, in <module>
-      print("Help desk opens at " + 9)
+      print("Practice starts at " + 9)
   TypeError: can only concatenate str (not "int") to str
 subgoals:
   - label: Read the last line first. It names the error and says what went wrong

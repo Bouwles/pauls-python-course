@@ -4,8 +4,8 @@ type: investigate
 title: Reading a validation curve
 concept: overfitting
 dialogue:
-  - paul: "Six students were absent thirty times or more. One, seventy-five times."
-  - paul: "Does the harm from absence run in a straight line? We ask the data. Carefully."
+  - paul.surprised: "Six students were absent thirty times or more. One, seventy-five times."
+  - paul.thinking.think: "Does the harm from absence run in a straight line? We ask the data. Carefully."
 code: |
   import numpy as np
   import pandas as pd
@@ -67,7 +67,7 @@ tasks:
     feedback: "Overfitting. The curve bent itself round the handful of students with huge absences in the training pile, and swings wildly wherever a validation student sits between them."
     wrong: "Is it doing too well on the students it learnt from, or too badly?"
 ---
-Each extra power of absences is an extra column: **polynomial features**, as on Riya's radiator. More columns make the model more flexible.
+Each extra power of absences is an extra column: **polynomial features**, as on Yahya's radiator. More columns make the model more flexible.
 
 This program holds 90 students back for **validation**, fits the five-column model with absences up to each power from 1 to 8 on the other 267, and scores each on both piles. The two errors plotted against the degree make a **validation curve**. The chart's error axis is logarithmic, or degree 6 would flatten everything else.
 

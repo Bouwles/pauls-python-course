@@ -3,8 +3,8 @@ id: worth
 type: reading
 title: What a tile is worth
 dialogue:
-  - paul: "Last week you raced a thousand times to find out what a line was worth."
-  - paul: "You know every tile and every chance. You can work it out instead."
+  - paul.neutral: "Last week you raced a thousand times to find out what a line was worth."
+  - paul.thinking.think: "You know every tile and every chance. You can work it out instead."
 ---
 The **value** of a tile, under a policy, is the return the crab can expect from there, following that policy to the end of the race. Call it `V[tile]`.
 

@@ -4,7 +4,7 @@ type: predict
 title: Smallest on top
 concept: heaps
 dialogue:
-  - caitlin: "Python has a module for this. heapq. I don't trust it. The list looks wrong."
+  - neil.confused: "Python has a module for this. heapq. I don't trust it. The list looks wrong."
 code: |
   import heapq
 

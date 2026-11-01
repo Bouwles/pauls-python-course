@@ -1,4 +1,4 @@
-"""The stall's stock: reading the list, and working out what to order."""
+"""The art cupboard's stock: reading the list, and working out what to order."""
 import csv
 
 
@@ -21,5 +21,5 @@ def to_reorder(rows, below=10):
 
 
 def price_book(rows):
-    """Item to price, for the till."""
+    """Item to price, for the order form."""
     return {row["item"]: row["price"] for row in rows}

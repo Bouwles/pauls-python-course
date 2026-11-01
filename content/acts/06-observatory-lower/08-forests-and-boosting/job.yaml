@@ -6,7 +6,7 @@ portfolio_readme: |
 
   Decides whether to approve a loan application from seven answers on the form, using 1,000 real past applicants to a German bank. It grows a decision tree from scratch, with Gini impurity and the depth chosen on a validation set, and prints it as the questions a loan officer could follow. Then it grows a random forest of such trees, from scratch, and tries gradient boosting from scikit-learn. All of them are tested once, on applicants none of them saw, by accuracy and by the bank's own sums: approving a loan that isn't repaid costs five times as much as turning down one that would have been.
 
-  Written by {name} for Riya, at Paul's Python Course. Finished {date}.
+  Written by {name} for Paul, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -49,7 +49,7 @@ datasets:
     licence: "CC BY 4.0"
     file: "loans.csv"
     notes: "From german.data (1,000 applicants). Kept seven of the twenty attributes and decoded their codes into ordered numbers: checking (A11 to A14 as 0 to 3), duration_months, history (A30 to A34 as 0 to 4), amount (in Deutsche Marks), savings (A61 to A65 as 0 to 4), employment (A71 to A75 as 0 to 4) and age. repaid is 1 for a good credit risk and 0 for a bad one. Numbered from 1 in the original order. The cost of 5 for a bad loan approved and 1 for a good one declined is the dataset's own cost matrix."
-client: riya
+client: paul
 building: observatory
 estimated_minutes: 150
 summary: "Approve or decline a loan from seven answers on the form, for 1,000 real applicants: a decision tree grown from scratch and read as questions, then a random forest from scratch and gradient boosting, judged by what their mistakes cost."
@@ -57,10 +57,11 @@ concepts_introduced: [decision-trees, ensembles]
 concepts_reviewed: [overfitting, train-test-split, classification-metrics, scikit-learn, random-module, numpy-arrays, vectorisation, recursion, dictionaries, nested-data, imports, functions, return-values, default-arguments, multiple-returns, main-guard, docstrings, f-strings]
 ask:
   dialogue:
-    - riya: "A lender should be able to explain a no. Not a score. Questions, written down."
-    - riya: "A German bank's thousand applicants, public since the nineties. Seven answers each, and whether they repaid."
-    - riya: "I've started growing one already. How deep can it go?"
-    - paul: "As deep as the questions stay true. Then stop."
+    - paul.neutral.wave: "A lender should be able to explain a no. Not a score. Questions, written down."
+    - paul.thinking: "A German bank's thousand applicants, public since the nineties. Seven answers each, and whether they repaid."
+    - paul.pleased.point: "A model you can read is a model you can mark. I like those."
+    - riya.pleased: "I've started growing one already. How deep can it go?"
+    - paul.neutral: "As deep as the questions stay true. Then stop."
   spec: |
     `loans.csv` holds 1,000 real past applicants: their checking account (0 overdrawn, 1 under 200 DM, 2 200 DM or more, 3 none), the loan's length in months, their credit history (0 to 4, worse as it rises), the amount, their savings (0 to 4) and years in work (0 to 4), their age, and whether they repaid.
 
@@ -103,11 +104,11 @@ ask:
     The forest, 5 in 6 sure     0.655  0.665
 ship:
   dialogue:
-    - riya: "Three questions deep, and a rule you could print on the form. Overdrawn, long loan, no savings: decline."
-    - riya: "The forest and the booster barely beat it on accuracy. On cost, a careful forest halves the bill."
-    - riya: "My first one had a hundred and seventy-seven leaves. Some of them were for one applicant each."
-    - paul: "Three questions you can trust beat a hundred you can't."
-  shelf: { object: question-board, label: "Riya's loan questions, three deep" }
+    - paul.pleased: "Three questions deep, and a rule you could print on the form. Overdrawn, long loan, no savings: decline."
+    - yahya.thinking: "The forest and the booster barely beat it on accuracy. On cost, a careful forest halves the bill."
+    - riya.laughing: "My first one had a hundred and seventy-seven leaves. Some of them were for one applicant each."
+    - paul.proud.thumbs: "Three questions you can trust beat a hundred you can't."
+  shelf: { object: question-board, label: "Paul's loan questions, three deep" }
   cards: [decision-trees, ensembles]
 stretch:
   - id: entropy

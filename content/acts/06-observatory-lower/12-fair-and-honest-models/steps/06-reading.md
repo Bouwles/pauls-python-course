@@ -3,10 +3,10 @@ id: reading
 type: reading
 title: What it can't know
 dialogue:
-  - aaesha: "The stargazing nights are booked solid. Some people never come, and someone on the waiting list misses out."
-  - aaesha: "A model could give away the slots it thinks will be empty. If I can trust it."
+  - neil.worried: "The stargazing nights are booked solid. Some people never come, and someone on the waiting list misses out."
+  - neil.thinking: "A model could give away the slots it thinks will be empty. If I can trust it."
 ---
-Aaesha has two seasons of bookings, and this season's locked in the bottom drawer of her filing cabinet.
+Neil has two seasons of bookings, and this season's locked in the bottom drawer of his desk, under the duck.
 
 Before you build anything, three questions an honest audit asks:
 

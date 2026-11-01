@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Caitlin's version
 dialogue:
-  - caitlin: "Riya's tailor wants the smallest chest and the largest. Two returns, two answers. Done."
-  - caitlin: "Except it says it can't unpack an int. I never gave it an int. Can you look?"
+  - caitlin.proud: "The kit company wants the smallest chest and the largest. Two returns, two answers. Done."
+  - caitlin.confused: "Except it says it can't unpack an int. I never gave it an int. Can you look?"
 dialogue_after:
-  - caitlin: "So the first return leaves and shuts the door. The second one never gets a turn."
+  - caitlin.surprised: "So the first return leaves and shuts the door. The second one never gets a turn."
 hints:
   nudge: "How many times can a function return? Which of Caitlin's two returns actually happens?"
   plan:
@@ -24,4 +24,4 @@ Run Caitlin's program and read the traceback. Then fix it so it prints:
 Chests run from 96 to 112 cm.
 ```
 
-The checks also try other customers.
+The checks also try other players.

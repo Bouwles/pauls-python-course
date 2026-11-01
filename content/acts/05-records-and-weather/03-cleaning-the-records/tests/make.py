@@ -158,7 +158,7 @@ def raw_untouched(ctx):
     before = raw.copy()
     ctx.module().clean_register(raw)
     if not raw.equals(before):
-        raise CheckFailed("clean_register changed the raw table it was given. Aaesha never writes on an original.")
+        raise CheckFailed("clean_register changed the raw table it was given. Yahya never writes on an original.")
 
 
 def step_on(ctx, name, table):

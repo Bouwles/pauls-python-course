@@ -3,7 +3,7 @@ id: ten-times
 type: explain
 title: "Interview: ten times as many"
 dialogue:
-  - paul: "A guess is fine. Say how you'd find out if it's right."
+  - paul.neutral: "A guess is fine. Say how you'd find out if it's right."
 prompt: "What would break first if ten times as many people used your project, and how would you know?"
 answer: "The berth booking app. Ten times the marina is fifty berths and about 4,000 bookings a year. Speed isn't the problem: saving rewrites the whole JSON file each time, and 4,000 rows take a blink. What breaks first is two skippers booking at the same moment. Both requests load the file, both add a booking, and the second save wipes out the first. With five berths that's rare; with fifty on a busy Saturday morning, it will happen. I'd know by logging every booking and checking the log against the file each week. The fix is a lock around loading and saving, or SQLite, which does the locking for me."
 ---

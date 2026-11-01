@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "Which days blew rain straight at the front door? Compass arrows won't say. Door arrows will."
+  - paul.thinking: "Which days blew rain straight at the front door? Compass arrows won't say. Door arrows will."
 code: |
   import numpy as np
 

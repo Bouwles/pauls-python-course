@@ -1,0 +1,28 @@
+.person {
+  display: block;
+  flex: none;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Breathing: up one pixel and back, in steps, never a smooth float. */
+.breathing {
+  animation: breathe 2.6s steps(1) infinite;
+}
+
+@keyframes breathe {
+  0%,
+  55% {
+    transform: translateY(0);
+  }
+  56%,
+  100% {
+    transform: translateY(calc(var(--px) * -1));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .breathing {
+    animation: none;
+  }
+}

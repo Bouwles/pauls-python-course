@@ -4,12 +4,13 @@ title: "The Model Room"
 district: observatory
 subject: "Machine learning"
 hours: 45
-summary: "Riya's floor: whiteboards full of graphs and a coffee machine that never rests. Every method is tried on real public data first. House prices, exam scores, diabetes risk, penguins, loans and customers: regression, classification, trees, ensembles, clustering and PCA, built from scratch, then with scikit-learn, and tested honestly."
-locked_line: "The Model Room, fifth floor. The whiteboards are covered, and so is the coffee machine."
+summary: "Paul's floor: whiteboards full of graphs, a coffee machine that never rests, and a laptop training something overnight. Every method is tried on real public data first. House prices, exam scores, diabetes risk, penguins, loans and customers: regression, classification, trees, ensembles, clustering and PCA, built from scratch, then with scikit-learn, and tested for what each model has really learned."
+locked_line: "The Model Room, fifth floor. A laptop on Paul's desk has been training something since Tuesday."
 intro:
-  - paul: "Fifth floor. From here on, the program learns the rule and you check it."
-  - paul: "Riya's room. She'll ask what every model is for. Have an answer."
-  - riya: "And if it's 99% accurate, I'll ask why. Coffee's on the left."
+  - paul.pleased.wave: "Fifth floor. My floor. Mind the laptop, it's been training since Tuesday."
+  - paul.thinking.point: "From here on, the program learns the rule. Your job is to find out what it really learned."
+  - paul.unimpressed: "A model that's 99% right gets the same question as a student who's 99% right. Show me the working."
+  - yahya.pleased: "Real public data on every project. Finally."
 jobs:
   - drawing-the-best-line
   - training-and-testing

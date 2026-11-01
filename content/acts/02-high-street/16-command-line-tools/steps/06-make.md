@@ -6,7 +6,7 @@ files: [todo.py]
 entry: todo.py
 argv_field: true
 timeout_ms: 15000
-on_pass: { paul: "Neil ticked off the chisels. Then he added three more jobs, all for me." }
+on_pass: { paul.laughing: "Neil read my list. Then he added three more jobs, all for me." }
 hints:
   nudge: "Each run starts from nothing but `todo.json`. What has to happen before a change is finished?"
   plan:
@@ -17,7 +17,7 @@ hints:
     - "Refuse bad values: say why on sys.stderr, exit with 1"
     - Run only when started as a program
   shape: |
-    parser = argparse.ArgumentParser(description="The Workshop to-do list.")
+    parser = argparse.ArgumentParser(description="Paul's to-do list.")
     parser.add_argument("--file", default=___)
     commands = parser.add_subparsers(dest="command", required=True)
     adding = commands.add_parser("add")
@@ -37,9 +37,9 @@ Write the to-do tool in `todo.py`. In the Arguments box, try `list`, then `add f
 
 ```
 $ python todo.py list
-1 [ ] oil the bench vice
-2 [x] sharpen the chisels
-3 [ ] order more biscuits
+1 [ ] rename x in grades.py
+2 [x] mark the Act I tests
+3 [ ] retrain the spam filter
 ```
 
-`add_subparsers` gives a tool commands of its own, the way `git add` and `git log` work. Each `add_parser` is a small parser for one command, with its own arguments; `args.command` says which was used. `--file` belongs to the whole tool, so it comes before the command: `python todo.py --file shed.json list`.
+`add_subparsers` gives a tool commands of its own, the way `git add` and `git log` work. Each `add_parser` is a small parser for one command, with its own arguments; `args.command` says which was used. `--file` belongs to the whole tool, so it comes before the command: `python todo.py --file home.json list`.

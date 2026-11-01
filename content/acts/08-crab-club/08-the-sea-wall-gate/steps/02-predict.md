@@ -4,10 +4,10 @@ type: predict
 title: Stopped or finished
 concept: gymnasium
 dialogue:
-  - neil: "My kettle, in Gymnasium's shape. The whole Studio's tea depends on it."
+  - neil.pleased.point: "My kart's tyres, in Gymnasium's shape. Cold tyres don't grip, so you warm them first."
 code: |
-  class Kettle:
-      """Neil's kettle, in Gymnasium's shape. It's done at 100 degrees. Neil waits three steps."""
+  class Tyres:
+      """Neil's tyres, in Gymnasium's shape. Ready at 100 degrees. Neil allows three warm-up laps."""
 
       def reset(self, seed=None, options=None):
           self.temperature = 30
@@ -22,7 +22,7 @@ code: |
           return self.temperature, 1.0, terminated, truncated, {}
 
 
-  env = Kettle()
+  env = Tyres()
   observation, info = env.reset()
   while True:
       observation, reward, terminated, truncated, info = env.step(1)
@@ -36,13 +36,13 @@ options:
       70 False False
       90 False True
     correct: true
-    feedback: "Right. After three steps the kettle is at 90: not boiled, so not terminated, but Neil has stopped waiting, so truncated. The loop ends on either."
+    feedback: "Right. After three laps the tyres are at 90: not ready, so not terminated, but the warm-up laps are used up, so truncated. The loop ends on either."
   - text: |-
       50 False False
       70 False False
       90 True False
     misconception: truncated-is-terminated
-    feedback: "The kettle didn't finish. It was stopped by the time limit. That's `truncated`. `terminated` is only for an episode that ended in its own right, here a boiled kettle."
+    feedback: "The tyres never reached 100. They were stopped by the lap limit. That's `truncated`. `terminated` is only for an episode that ended in its own right, here tyres up to temperature."
   - text: |-
       50 False False
       70 False False

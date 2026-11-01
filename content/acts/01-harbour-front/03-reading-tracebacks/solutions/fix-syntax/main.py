@@ -1,3 +1,3 @@
-# Header for the help-desk board.
-print("THE STUDIO, FIRST FLOOR")
-print("Help with bugs, every weekday")
+# Header for the race-day board.
+print("KARTING CLUB, RACE DAY")
+print("Helmets on, visors down")

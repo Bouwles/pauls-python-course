@@ -6,10 +6,10 @@ concept: big-o
 widget: growth
 params: { max: 1000, show: ["1", "logn", "n", "nlogn", "n2"] }
 dialogue:
-  - yahya: "Paul's script is instant on two hundred parts. That proves nothing."
-  - paul: "Agreed. A program works in steps. Count those, and watch how they grow."
+  - neil.thinking.think: "My script's instant on two hundred parts. That proves nothing, does it?"
+  - paul.neutral: "Nothing at all. A program works in steps. Count those, and watch how they grow."
 ---
-Every program takes some number of steps to get through a pile of n parts. For the clockmaker's lot, the number today matters less than how it grows.
+Every program takes some number of steps to get through a pile of n parts. For the kart track's lot, the number today matters less than how it grows.
 
 Each line is one kind of program:
 

@@ -4,7 +4,7 @@ type: make
 title: Make the track known
 files: [track.py, dp.py]
 entry: dp.py
-on_pass: { aaesha: "Value iteration and policy iteration agree on every tile. Two methods, one answer." }
+on_pass: { aaesha.proud: "Value iteration and policy iteration agree on every tile. Two methods, one answer." }
 hints:
   nudge: "evaluate, value_iteration and greedy all need the same thing: what one action is worth on one tile. Which function gives that?"
   plan:

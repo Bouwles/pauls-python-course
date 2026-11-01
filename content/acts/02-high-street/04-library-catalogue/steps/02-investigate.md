@@ -4,7 +4,7 @@ type: investigate
 title: The book as it is
 concept: with-statement
 dialogue:
-  - aaesha: "The class copy, as plain text. Every word Carroll wrote, and none of my notes."
+  - aaesha.pleased.point: "My copy, as plain text. Every word Carroll wrote, and none of my notes."
 code: |
   with open("alice.txt") as book:
       text = book.read()
@@ -59,4 +59,4 @@ tasks:
 ---
 `open()` opens a file. `with ... as book:` keeps it open for the indented block and closes it when the block ends, even if something inside goes wrong. `.read()` gives back the whole file as one string.
 
-`alice.txt` is *Alice's Adventures in Wonderland*, the copy the class is reading. `string.punctuation` is every punctuation mark on the keyboard, and `.strip(string.punctuation)` takes any of them off the ends of a word.
+`alice.txt` is *Alice's Adventures in Wonderland*, the copy Aaesha's experiment uses. `string.punctuation` is every punctuation mark on the keyboard, and `.strip(string.punctuation)` takes any of them off the ends of a word.

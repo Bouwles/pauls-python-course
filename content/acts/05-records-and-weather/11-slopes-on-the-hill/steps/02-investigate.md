@@ -4,8 +4,8 @@ type: investigate
 title: The night the glass fell
 concept: derivatives
 dialogue:
-  - paul: "The Clocktower's barograph, the night of the great storm in 1987. The glass fell all evening."
-  - aaesha: "How low it went is the headline. How fast it fell is the warning."
+  - paul.neutral.point: "The Clocktower's barograph, the night of the great storm in 1987. The glass fell all evening."
+  - yahya.thinking: "How low it went is the headline. How fast it fell is the warning."
 code: |
   import numpy as np
 
@@ -40,7 +40,7 @@ tasks:
     feedback: "Close to 0. At the bottom of a dip the pressure has stopped falling and not yet started rising: the slope is flat. The fall before it is negative, the rise after it positive."
     wrong: "`rate` starts at hour 1, so hour 13 is the thirteenth number in the list."
   - id: warning
-    prompt: "Aaesha's warning goes up when the glass falls faster than 3 hPa an hour. Add `warning_hours`: the hours, from `hours[1:-1]`, when `rate` was below -3."
+    prompt: "Yahya's warning goes up when the glass falls faster than 3 hPa an hour. Add `warning_hours`: the hours, from `hours[1:-1]`, when `rate` was below -3."
     kind: run
     tests: |
       def warning(ctx):

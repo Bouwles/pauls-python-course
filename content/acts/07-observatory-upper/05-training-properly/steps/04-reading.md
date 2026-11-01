@@ -3,7 +3,7 @@ id: reading
 type: reading
 title: Adam
 dialogue:
-  - neil: "Page forty of my notebook. One word: Adam. Then six lines, and a small drawing of a hill."
+  - neil.pleased.point: "Page forty of my notebook. One word: Adam. Then six lines, and a small drawing of a hill."
 code: |
   # Adam, for one weight array w and its gradient g, at step t (1, 2, 3...)
   m = beta1 * m + (1 - beta1) * g          # running average of the gradient

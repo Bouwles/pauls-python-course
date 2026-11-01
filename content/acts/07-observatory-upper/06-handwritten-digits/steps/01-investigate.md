@@ -4,7 +4,7 @@ type: investigate
 title: The digits
 concept: classification-networks
 dialogue:
-  - aaesha: "Here they are. Each one is sixty-four greys. Squint."
+  - aaesha.pleased.point: "Here they are. Each one is sixty-four greys. Squint. Your eyes do the rest without asking."
 code: |
   from notebooks import load_notebook_digits
 

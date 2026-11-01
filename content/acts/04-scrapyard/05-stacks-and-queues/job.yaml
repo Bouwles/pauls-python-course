@@ -40,15 +40,15 @@ datasets: []
 client: paul
 building: scrapyard
 estimated_minutes: 80
-summary: "An undo/redo text editor for the chalkboard in the Workshop: a stack of edits to undo, a stack of undos to redo, and a queue of commands run in the order they were typed."
+summary: "An undo/redo text editor for the code Paul writes on the Workshop chalkboard: a stack of edits to undo, a stack of undos to redo, and a queue of commands run in the order they were typed."
 concepts_introduced: [stacks, queues, deque]
 concepts_reviewed: [classes, init, methods, self, append-pop, tuples, unpacking, string-methods, slicing, imports, big-o, call-stack]
 ask:
   dialogue:
-    - paul: "The chalkboard in the Workshop. I write the day's plan, rub it out, write it again."
-    - paul: "I'd like to try it out first. With a button that takes the last bit back."
-    - paul: "And one that puts it back, for when I change my mind about changing my mind."
-    - neil: "A stack of what you did, and a stack of what you took back. Two piles, used from the top."
+    - paul.neutral.wave: "The chalkboard in the Workshop. I write the day's plan, rub it out, write it again."
+    - paul.thinking: "I'd like to try it out first. With a button that takes the last bit back."
+    - paul.laughing: "And one that puts it back, for when I change my mind about changing my mind."
+    - neil.pleased.point: "A stack of what you did, and a stack of what you took back. Two piles, used from the top."
   spec: |
     In `editor.py`, an `Editor` holds one line of text, `text`, which starts empty. Its `__init__(limit=20)` is written: `undo_stack` is a `deque(maxlen=limit)`, so only the latest `limit` edits are kept, and `redo_stack` is a list.
 
@@ -75,9 +75,9 @@ ask:
     Edit? quit
 ship:
   dialogue:
-    - paul: "Stacks at ten, queues at two. Written once, and it's right."
-    - paul: "I took the queues off and put them back four times. Nobody saw."
-    - neil: "One stack remembers what you did, the other what you took back. Each does one job."
+    - paul.pleased: "Stacks at ten, queues at two. Written once, and it's right."
+    - paul.laughing: "I took the queues off and put them back four times. Nobody saw."
+    - neil.pleased.thumbs: "One stack remembers what you did, the other what you took back. Each does one job."
   shelf: { object: chalkboard, label: "Paul's chalkboard, with undo and redo" }
   cards: [stacks, queues, deque]
 stretch:

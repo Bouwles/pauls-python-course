@@ -6,7 +6,7 @@ portfolio_readme: |
 
   A test suite for a savings account class, and two new features built tests first. The tests check deposits, withdrawals, refusals, the history and the printed balance, and they were themselves checked: run against copies of the code with a bug planted in each method, every bug was caught. Then `transfer` and `add_interest` were added, with their tests written and seen to fail before the code existed.
 
-  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
+  Written by {name} for Caitlin, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -34,21 +34,21 @@ portfolio_readme: |
   - Tests that can fail: each one was run against deliberately broken code
 downloadable: true
 datasets: []
-client: aaesha
+client: caitlin
 building: post-office
 estimated_minutes: 80
-summary: "Tests for the trip fund accounts that pass on the real thing and fail on broken copies, then two new features written tests first."
+summary: "Tests for Caitlin's festival fund accounts that pass on the real thing and fail on broken copies, then two new features written tests first."
 concepts_introduced: [assert, pytest, edge-cases, test-first]
 concepts_reviewed: [classes, methods, attributes, self, dunder-methods, functions, return-values, modules, imports, exceptions, try-except, raising-errors, default-arguments, f-strings]
 ask:
   dialogue:
-    - aaesha: "Riya's trip fund has real money in it now. I'd like to know it adds up."
-    - aaesha: "Requirements. One: the accounts are right. Two: they stay right."
-    - aaesha: "Three: if someone breaks them, we find out by lunchtime. Not at the end of term."
-    - paul: "That's three requirements, and one of them is tests."
-    - aaesha: "All three are tests."
+    - caitlin.pleased.wave: "The festival fund has real money in it now. Aaesha won't pay in until it's tested."
+    - aaesha.neutral: "Requirements. One: the accounts are right. Two: they stay right."
+    - aaesha.thinking: "Three: if someone breaks them, we find out by lunchtime. Not the week of the festival."
+    - paul.neutral: "That's three requirements, and one of them is tests."
+    - aaesha.laughing: "All three are tests."
   spec: |
-    The trip fund's `Account` is in `bank.py`, the class you wrote for Riya. Write tests for it in `test_bank.py`: plain functions whose names start with `test_`, each checking one thing with `assert`. Your tests must pass on the real `bank.py` and fail on broken ones.
+    The festival fund's `Account` is in `bank.py`, the class you wrote for Caitlin. Write tests for it in `test_bank.py`: plain functions whose names start with `test_`, each checking one thing with `assert`. Your tests must pass on the real `bank.py` and fail on broken ones.
 
     Then Aaesha's two new requirements, tests first:
 
@@ -70,16 +70,17 @@ ask:
     passed test_no_interest_on_nothing
 ship:
   dialogue:
-    - aaesha: "I broke bank.py on purpose, seven different ways. Your tests caught all seven."
-    - aaesha: "Two per cent on twelve pounds fifty is twenty-five pence. I did it by hand first."
-    - paul: "At home you'll run these with pytest. They won't need changing."
-  shelf: { object: ticket-spike, label: "The trip fund accounts, with their tests" }
+    - aaesha.pleased: "I broke bank.py on purpose, seven different ways. Your tests caught all seven."
+    - aaesha.proud: "Two per cent on twelve pounds fifty is twenty-five pence. I did it by hand first."
+    - caitlin.laughing.cheer: "And she's paid in. The festival is officially funded. Partly."
+    - paul.neutral: "At home you'll run these with pytest. They won't need changing."
+  shelf: { object: ticket-spike, label: "Caitlin's festival fund accounts, with their tests" }
   cards: [assert, pytest, edge-cases, test-first]
 stretch:
   - id: statement-tests
     title: "Test the statement"
     prompt: |
-      If you wrote `statement()` for Riya's accounts, bring it here and write its tests first this time: an empty account, one payment each way, and a refused withdrawal that mustn't appear. Then break it on purpose, one way at a time, and check a test fails each time.
+      If you wrote `statement()` for Caitlin's accounts, bring it here and write its tests first this time: an empty account, one payment each way, and a refused withdrawal that mustn't appear. Then break it on purpose, one way at a time, and check a test fails each time.
   - id: no-floats
     title: "A float sneaks in"
     prompt: |

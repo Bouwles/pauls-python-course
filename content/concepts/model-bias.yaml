@@ -52,7 +52,7 @@ cards:
         misconception: overall-accuracy-is-fair
         feedback: "It's an average weighted by how many people are in each group, so a small group can be badly served while the overall number barely moves."
   - type: choice
-    prompt: "Riya's model never sees where anyone lives. Can it still be unfair to the villagers?"
+    prompt: "Paul's model never sees where anyone lives. Can it still be unfair to the villagers?"
     verify: none
     options:
       - text: "Yes. If villagers differ in ways it learned from the city folk, like booking far ahead, its mistakes fall on them"

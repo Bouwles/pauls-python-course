@@ -1,4 +1,4 @@
-"""Search engine for the store room's parts list: whole names, beginnings, and words anywhere."""
+"""Search engine for Neil's parts list: whole names, beginnings, and words anywhere."""
 import bisect
 
 PARTS_FILE = "parts.txt"

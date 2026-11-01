@@ -3,8 +3,8 @@ id: two-jobs
 type: reading
 title: One acts, one judges
 dialogue:
-  - paul: "REINFORCE waits for the finish before it says anything. By then the third move is long gone."
-  - paul: "Give the crab a critic. Yahya can show it how."
+  - paul.thinking: "REINFORCE waits for the finish before it says anything. By then the third move is long gone."
+  - paul.laughing: "Give the crab a critic. Yahya can show it how."
 ---
 REINFORCE learns once a race is over, from the whole return, and long races make noisy returns. **Actor-critic** learns after every move.
 

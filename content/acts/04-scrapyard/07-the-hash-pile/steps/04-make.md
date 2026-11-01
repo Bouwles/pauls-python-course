@@ -4,7 +4,7 @@ type: make
 title: Make the hash map
 files: [hash_map.py]
 entry: hash_map.py
-on_pass: { yahya: "Two hundred parts, five hundred and twelve piles, and none of them more than three deep." }
+on_pass: { neil.pleased.cheer: "Two hundred parts, five hundred and twelve piles, and none of them more than three deep." }
 hints:
   nudge: "Every method starts the same way: which pile would this name be in? What do `put`, `get`, `remove` and `in` each do once they're looking along that pile?"
   plan:
@@ -34,7 +34,7 @@ hints:
         if self.count > ___ * len(self.piles):
             self._double()
 ---
-`part_hash` is in `hash_map.py`, and a list of the store room's parts. Write `HashMap` beside them: the brief has every method, and the reading has how they work.
+`part_hash` is in `hash_map.py`, and a list of Neil's parts. Write `HashMap` beside them: the brief has every method, and the reading has how they work.
 
 Keep `probes` honest: add one each time a stored name is compared with the one being looked for, in `put`, `get`, `remove` and `in` alike. Python calls `__contains__(self, name)` for `name in parts`, as it calls `__len__` for `len`.
 

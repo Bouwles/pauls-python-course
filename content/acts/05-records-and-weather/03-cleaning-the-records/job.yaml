@@ -6,7 +6,7 @@ portfolio_readme: |
 
   A pandas pipeline that cleans a messy register in five written-down steps: tidy the text, read dates typed three different ways, turn text into numbers, throw out the impossible, and drop the duplicates. Each step is a function that takes a table and gives back a cleaner copy, so each can be checked on its own, and the original is never written on. It reports what every step did, then saves the clean table.
 
-  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
+  Written by {name} for Yahya, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -44,7 +44,7 @@ downloadable: true
 # register.csv is invented for the story: a river rescue crew register, typed three ways
 # by three volunteers, with its mistakes chosen to teach cleaning. See the README.
 datasets: []
-client: aaesha
+client: yahya
 building: records-office
 estimated_minutes: 85
 summary: "Three volunteers typed up the river rescue crew register three different ways. A pandas pipeline cleans it once, in five written-down steps, so nobody has to again."
@@ -52,10 +52,10 @@ concepts_introduced: [missing-data, data-cleaning]
 concepts_reviewed: [pandas-basics, selecting-filtering, vectorisation, string-methods, strip-replace, copying, none, functions, functions-as-values, docstrings, main-guard]
 ask:
   dialogue:
-    - aaesha: "The river rescue crew register, from the Archive. Everyone who has volunteered since 1925."
-    - aaesha: "Three volunteers typed it up. Each had their own ideas about dates."
-    - aaesha: "Arthur Abbott is in it twice. Samuel Vosper joined at 412. I've counted, and I'm upset."
-    - paul: "Clean it once, properly, and write down how. Then nobody does it again."
+    - yahya.pleased.wave: "The river rescue crew register, from the Archive. Everyone who has volunteered since 1925."
+    - yahya.unimpressed: "Three volunteers typed it up. Each had their own ideas about dates."
+    - yahya.worried: "Arthur Abbott is in it twice. Samuel Vosper joined at 412. I've counted, and I'm upset."
+    - paul.neutral.point: "Clean it once, properly, and write down how. Then nobody does it again."
   spec: |
     `register.csv` has the columns `name`, `joined`, `age` (on joining), `parish` and `launches`, all as the volunteers typed them.
 
@@ -71,7 +71,7 @@ ask:
 
     Each step changes only its own columns. Then `clean_register(raw)` runs the register through every step in `PIPELINE`, in order, and gives back the result.
 
-    No step changes the table it's given. Aaesha never writes on an original.
+    No step changes the table it's given. Yahya never writes on an original.
   example: |
     Read register.csv: 133 rows, 13 values missing
       tidy_text        133 rows, 13 values missing
@@ -87,11 +87,11 @@ ask:
     Most launches: Walter Kerrow, 251
 ship:
   dialogue:
-    - aaesha: "A hundred and twenty-eight of them. Twenty-six and a half, on average, when they joined."
-    - aaesha: "Arthur Abbott, 1931, aged thirty-eight. Once, now. As he should be."
-    - aaesha: "Twenty ages we'll never know. I'd rather keep a gap than file a guess."
-    - paul: "And the steps are written down, one function each. That's the part that lasts."
-  shelf: { object: crew-register, label: "Aaesha's crew register, cleaned once and properly" }
+    - yahya.pleased: "A hundred and twenty-eight of them. Twenty-six and a half, on average, when they joined."
+    - yahya.proud: "Arthur Abbott, 1931, aged thirty-eight. Once, now. As he should be."
+    - yahya.thinking: "Twenty ages we'll never know. I'd rather keep a gap than file a guess."
+    - paul.pleased.thumbs: "And the steps are written down, one function each. That's the part that lasts."
+  shelf: { object: crew-register, label: "Yahya's crew register, cleaned once and properly" }
   cards: [missing-data, data-cleaning]
 stretch:
   - id: joined-in
@@ -105,4 +105,4 @@ stretch:
   - id: cleaning-log
     title: "A cleaning log"
     prompt: |
-      The report says how many values are missing after each step, not what each step changed. Write `changes(before, after)`, which counts the values that differ between two tables of the same shape, counting a gap in both as no change, and print it for every step but the last. For `drop_duplicates`, print the rows dropped instead. Aaesha would like the log pinned to the register's folder.
+      The report says how many values are missing after each step, not what each step changed. Write `changes(before, after)`, which counts the values that differ between two tables of the same shape, counting a gap in both as no change, and print it for every step but the last. For `drop_duplicates`, print the rows dropped instead. Yahya would like the log pinned to the register's folder.

@@ -3,7 +3,7 @@ id: the-dial
 type: investigate
 title: Listening to the dial
 dialogue:
-  - paul: "Before you fix anything, listen to it."
+  - paul.thinking: "Before you fix anything, listen to it."
 code: |
   readings = [float(line) for line in open("dial.txt")]
   print(len(readings), "readings")

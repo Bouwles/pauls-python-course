@@ -1,7 +1,7 @@
-# The lost property report, for Neil.
+# The Studio's lost property report, for Caitlin.
 
-found = ["black umbrella", "red scarf", "blue glove", "red scarf", "library book", "black umbrella"]
-reported = ["red scarf", "green bicycle bell", "black umbrella"]
+found = ["black umbrella", "red scarf", "blue headphones", "red scarf", "dice bag", "black umbrella"]
+reported = ["red scarf", "spare controller", "black umbrella"]
 
 
 def show(items):

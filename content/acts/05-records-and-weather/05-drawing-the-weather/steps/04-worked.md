@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "Caitlin wants her arcade cabinet's summers side by side. She'll be comparing, so make it fair."
+  - paul.neutral.point: "Caitlin wants her arcade cabinet's summers side by side. She'll be comparing, so make it fair."
 code: |
   import matplotlib.pyplot as plt
 

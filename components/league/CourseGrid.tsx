@@ -1,6 +1,6 @@
 "use client";
 
-// The Arcade course as clean cells (REDESIGN-2.md 6): sand, rocks in one host's colour, rock pools
+// The Arcade course as square pixel cells (REDESIGN-2.md 6, REDESIGN3_PLAN.md): sand, rocks in one host's colour, rock pools
 // in the other's, the finish in sun, and the crab. With a race's path it becomes a replay.
 import { useEffect, useMemo, useState } from "react";
 import { course, type Policy } from "@/lib/league/course";
@@ -59,12 +59,12 @@ export function CourseGrid({ hosts, path, policy, label }: { hosts: string[]; pa
                 key={`${r}-${col}`}
                 className={[styles.cell, rock ? styles.rock : pool ? styles.pool : finish ? styles.finish : styles.sand, visited && !rock && !finish ? styles.visited : ""].join(" ")}
               >
-                {finish && !here ? <Icon name="flag" size={18} /> : null}
+                {finish && !here ? <Icon name="flag" size={24} /> : null}
                 {start && !here && !visited ? <span className={styles.startMark}>S</span> : null}
                 {move && !here ? <span className={styles.arrow}>{ARROW[move]}</span> : null}
                 {here ? (
                   <span className={styles.crab}>
-                    <Icon name="crab" size={26} />
+                    <Icon name="crab" size={24} />
                   </span>
                 ) : null}
               </span>
@@ -123,13 +123,13 @@ export function CourseKey({ hosts }: { hosts: string[] }) {
       </li>
       <li>
         <span className={[styles.swatch, styles.finish].join(" ")} aria-hidden="true">
-          <Icon name="flag" size={12} />
+          <Icon name="flag" size={16} />
         </span>
         Finish
       </li>
       <li>
         <span className={[styles.swatch, styles.crabKey].join(" ")} aria-hidden="true">
-          <Icon name="crab" size={14} />
+          <Icon name="crab" size={16} />
         </span>
         The crab
       </li>

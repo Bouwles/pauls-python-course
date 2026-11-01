@@ -28,7 +28,7 @@ cards:
         misconception: enumerate-order-swapped
         feedback: "The variable names don't decide anything. The first one gets the number, whatever it's called."
   - type: fix
-    prompt: "Aaesha numbers parcels from 1. Fix the loop so the first line is `1. Parcel for Caitlin`."
+    prompt: "Riya numbers the parcels of prints she's posting from 1. Fix the loop so the first line is `1. Parcel for Caitlin`."
     code: |
       parcels = ["Caitlin", "Yahya", "Neil"]
       for number, name in enumerate(parcels):

@@ -1,33 +1,33 @@
-# Machine log report, for the Clocktower.
-# Reads machines.log and counts the errors from each machine.
+# Flight log report, for Neil's drone.
+# Reads flight.log and counts the errors from each system on the drone.
 #
-# Every machine writes one line each time:  time | level | machine | message
+# Every system writes one line each time:  time | level | system | message
 # If one ever stops doing that, this report stops too, and says which line.
 # Better a loud stop than a quiet wrong answer. N.
 #
 # Not any more: bad lines are now skipped and listed at the end, so one
-# broken machine can't hide what the others said.
+# broken system can't hide what the others said.
 
-LOG_FILE = "machines.log"
+LOG_FILE = "flight.log"
 
-# Every level a machine is allowed to use. Anything else is a machine
-# making things up, which the printer does on Mondays.
+# Every level a system is allowed to use. Anything else is a system
+# making things up, which the camera does in the cold.
 LEVELS = ("INFO", "WARN", "ERROR")
 
 
 def parse_line(line, number):
-    """Split one log line into (time, level, machine, message)."""
-    # At most 3 splits: the printer puts | in its messages. I asked it not to.
+    """Split one log line into (time, level, system, message)."""
+    # At most 3 splits: the camera puts | in its messages. I asked it not to.
     parts = line.split("|", 3)
     if len(parts) != 4:
         # Always say which line. Nobody finds line 4,012 by looking.
         raise ValueError(f"line {number}: expected 4 parts, got {len(parts)}")
-    time, level, machine, message = parts
-    # Some machines write warn or Info. They mean WARN and INFO.
+    time, level, system, message = parts
+    # Some systems write warn or Info. They mean WARN and INFO.
     level = level.strip().upper()
     if level not in LEVELS:
         raise ValueError(f"line {number}: unknown level {level}")
-    return time.strip(), level, machine.strip(), message.strip()
+    return time.strip(), level, system.strip(), message.strip()
 
 
 def read_log(path):
@@ -50,11 +50,11 @@ def read_log(path):
 
 
 def count_errors(entries):
-    """Count the ERROR entries for each machine. Returns a dict."""
+    """Count the ERROR entries for each system. Returns a dict."""
     counts = {}
-    for time, level, machine, message in entries:
+    for time, level, system, message in entries:
         if level == "ERROR":
-            counts[machine] = counts.get(machine, 0) + 1
+            counts[system] = counts.get(system, 0) + 1
     return counts
 
 
@@ -62,9 +62,9 @@ entries, problems = read_log(LOG_FILE)
 counts = count_errors(entries)
 
 print(f"{len(entries)} entries read")
-print("Errors by machine:")
-for machine, count in sorted(counts.items()):
-    print(f"  {machine}: {count}")
+print("Errors by system:")
+for system, count in sorted(counts.items()):
+    print(f"  {system}: {count}")
 if problems:
     print(f"Skipped {len(problems)} lines:")
     for problem in problems:

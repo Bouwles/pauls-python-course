@@ -3,7 +3,7 @@ id: make
 type: make
 title: Make the station's answer
 timeout_ms: 30000
-on_pass: { yahya: "Warmer, and not by luck. Drier, perhaps: luck does that one time in ten. I'll tell Paul exactly that." }
+on_pass: { yahya.proud.thumbs: "Warmer, and not by luck. Drier, perhaps: luck does that one time in ten. I'll tell Paul exactly that." }
 hints:
   nudge: "If the label didn't matter, any of the readings could have been 'after'. How do you deal the pooled readings out again at random, and which part of the dealt array is 'before'?"
   plan:

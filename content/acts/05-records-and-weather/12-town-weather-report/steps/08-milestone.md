@@ -1,15 +1,15 @@
 ---
 id: write-up
 type: milestone
-title: "Milestone: Aaesha's checklist"
+title: "Milestone: Yahya's checklist"
 evidence: none
 dialogue:
-  - aaesha: "My checklist. I use it on my own reports too. Especially on those."
-  - paul: "Tick only what's true. She'll read it."
+  - yahya.neutral.point: "My checklist. I use it on my own reports too. Especially on those."
+  - paul.laughing: "Tick only what's true. He'll read it."
 checklist:
   - id: axes
     text: "Every chart's scale is honest: the rain from zero, and the temperature drawn as a difference from an average the chart names."
-    why: "A scale that starts in the wrong place makes a small change look like a cliff. Aaesha won't pin up a cliff that isn't there."
+    why: "A scale that starts in the wrong place makes a small change look like a cliff. Yahya won't pin up a cliff that isn't there."
   - id: units
     text: "Every number in the report, and every axis, says its units: degrees C, mm, hours."
     why: "0.86 of what. A number without a unit is a guess at what someone meant."
@@ -27,10 +27,10 @@ checklist:
     why: "One gauge on one building. It's a good gauge. It isn't the world."
   - id: aloud
     text: "You've read the conclusion aloud, start to finish, and it makes sense without the charts."
-    why: "Most people will read the words and glance at the pictures. Aaesha reads it out to the whole class, and not all of them are patient."
+    why: "Most people will read the words and glance at the pictures. Yahya reads it out to the whole class, and not all of them are patient."
 ---
-The report runs and the numbers are right. Now Aaesha reads it the way a stranger would.
+The report runs and the numbers are right. Now Yahya reads it the way a stranger would.
 
-Go back to `report.py` in the last step and read its output from the top, then look at each chart. Go through Aaesha's list one line at a time. Where something isn't true yet, fix the report first, then tick it.
+Go back to `report.py` in the last step and read its output from the top, then look at each chart. Go through Yahya's list one line at a time. Where something isn't true yet, fix the report first, then tick it.
 
-Yahya's draft broke most of these. Most first drafts break two or three: usually units, and the thing that didn't change.
+Caitlin's draft broke most of these. Most first drafts break two or three: usually units, and the thing that didn't change.

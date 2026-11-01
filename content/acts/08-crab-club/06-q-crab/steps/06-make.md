@@ -5,7 +5,7 @@ title: Make the crab a racer
 files: [course.py, crab.py]
 entry: crab.py
 timeout_ms: 90000
-on_pass: { caitlin: "Under seventeen moves, and every race finished. My crab has never finished every race." }
+on_pass: { caitlin.surprised.cheer: "Under seventeen moves, and every race finished. My crab has never finished every race." }
 hints:
   nudge: "Paul's worked example already learns a grid. What changes on the League course: the step, the starts, the size of the table, gamma?"
   plan:

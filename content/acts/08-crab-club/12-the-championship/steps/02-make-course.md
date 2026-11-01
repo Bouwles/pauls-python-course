@@ -4,7 +4,7 @@ type: make
 title: The course
 files: [course.py]
 entry: course.py
-on_pass: { caitlin: "Two groynes, a gap in each, and always a way through. My generator, finally tested." }
+on_pass: { caitlin.proud.thumbs: "Two groynes, a gap in each, and always a way through. My generator, finally tested." }
 hints:
   nudge: "How can `generate` be random and still give the same course every time it's given the same seed?"
   plan:

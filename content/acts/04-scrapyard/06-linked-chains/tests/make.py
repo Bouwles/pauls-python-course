@@ -34,14 +34,14 @@ def expect_chain(lot, expected, message):
 
 
 def the_example(ctx):
-    _, lot = build(ctx, ["anchor", "bell", "chain", "drum"])
-    expect_chain(lot, ["anchor", "bell", "chain", "drum"], "Four crates, in the order they were appended.")
-    lot.insert_after("bell", "gong")
-    expect_chain(lot, ["anchor", "bell", "gong", "chain", "drum"], "The gong goes straight after the bell.")
-    lot.remove("anchor")
-    expect_chain(lot, ["bell", "gong", "chain", "drum"], "Taking the anchor off the front.")
+    _, lot = build(ctx, ["axle", "brakes", "chassis", "drive-chain"])
+    expect_chain(lot, ["axle", "brakes", "chassis", "drive-chain"], "Four crates, in the order they were appended.")
+    lot.insert_after("brakes", "fuel-tank")
+    expect_chain(lot, ["axle", "brakes", "fuel-tank", "chassis", "drive-chain"], "The fuel tank goes straight after the brakes.")
+    lot.remove("axle")
+    expect_chain(lot, ["brakes", "fuel-tank", "chassis", "drive-chain"], "Taking the axle off the front.")
     lot.reverse()
-    expect_chain(lot, ["drum", "chain", "gong", "bell"], "The round, from the far end.")
+    expect_chain(lot, ["drive-chain", "chassis", "fuel-tank", "brakes"], "The round, from the far end.")
 
 
 def empty_round(ctx):
@@ -52,7 +52,7 @@ def empty_round(ctx):
 
 
 def really_linked(ctx):
-    module, lot = build(ctx, ["anchor", "bell", "chain"])
+    module, lot = build(ctx, ["axle", "brakes", "chassis"])
     crates = walk(lot)
     if not all(isinstance(crate, module.Crate) for crate in crates):
         raise CheckFailed("Every crate on the round should be a Crate, linked to the next by its next attribute.")
@@ -64,111 +64,111 @@ def really_linked(ctx):
 
 
 def one_crate(ctx):
-    _, lot = build(ctx, ["anvil"])
-    expect_chain(lot, ["anvil"], "One crate.")
+    _, lot = build(ctx, ["seat"])
+    expect_chain(lot, ["seat"], "One crate.")
     if lot.head.next is not None:
         raise CheckFailed("A one-crate round's only crate points at None.")
 
 
 def insert_at_end(ctx):
-    _, lot = build(ctx, ["anchor", "bell"])
-    lot.insert_after("bell", "chain")
-    expect_chain(lot, ["anchor", "bell", "chain"], "A crate put in after the last one becomes the last.")
-    lot.append("drum")
-    expect_chain(lot, ["anchor", "bell", "chain", "drum"], "Appending after that still goes on the end.")
+    _, lot = build(ctx, ["axle", "brakes"])
+    lot.insert_after("brakes", "chassis")
+    expect_chain(lot, ["axle", "brakes", "chassis"], "A crate put in after the last one becomes the last.")
+    lot.append("drive-chain")
+    expect_chain(lot, ["axle", "brakes", "chassis", "drive-chain"], "Appending after that still goes on the end.")
 
 
 def insert_first_match(ctx):
-    _, lot = build(ctx, ["bell", "anchor", "bell"])
-    lot.insert_after("bell", "gong")
-    expect_chain(lot, ["bell", "gong", "anchor", "bell"], "With two bells, the gong goes after the first.")
+    _, lot = build(ctx, ["brakes", "axle", "brakes"])
+    lot.insert_after("brakes", "fuel-tank")
+    expect_chain(lot, ["brakes", "fuel-tank", "axle", "brakes"], "With two crates of brakes, the fuel tank goes after the first.")
 
 
 def insert_into_one(ctx):
-    _, lot = build(ctx, ["anvil"])
-    lot.insert_after("anvil", "bucket")
-    expect_chain(lot, ["anvil", "bucket"], "A crate after the only crate.")
+    _, lot = build(ctx, ["seat"])
+    lot.insert_after("seat", "steering")
+    expect_chain(lot, ["seat", "steering"], "A crate after the only crate.")
 
 
 def insert_missing(ctx):
-    _, lot = build(ctx, ["anchor", "bell"])
+    _, lot = build(ctx, ["axle", "brakes"])
     try:
-        lot.insert_after("kettle", "gong")
+        lot.insert_after("turbo", "fuel-tank")
     except ValueError:
-        expect_chain(lot, ["anchor", "bell"], "A failed insert should leave the round as it was.")
+        expect_chain(lot, ["axle", "brakes"], "A failed insert should leave the round as it was.")
         return
-    raise CheckFailed("There's no kettle on the round, so insert_after should raise ValueError.")
+    raise CheckFailed("There's no turbo on the round, so insert_after should raise ValueError.")
 
 
 def insert_into_empty(ctx):
     _, lot = build(ctx, [])
     try:
-        lot.insert_after("anchor", "gong")
+        lot.insert_after("axle", "fuel-tank")
     except ValueError:
         expect_chain(lot, [], "A failed insert leaves the empty round empty.")
         return
-    raise CheckFailed("An empty round has no anchor, so insert_after should raise ValueError.")
+    raise CheckFailed("An empty round has no axle, so insert_after should raise ValueError.")
 
 
 def remove_middle(ctx):
-    _, lot = build(ctx, ["anchor", "bell", "chain"])
-    lot.remove("bell")
-    expect_chain(lot, ["anchor", "chain"], "Taking the bell out of the middle.")
+    _, lot = build(ctx, ["axle", "brakes", "chassis"])
+    lot.remove("brakes")
+    expect_chain(lot, ["axle", "chassis"], "Taking the brakes out of the middle.")
 
 
 def remove_last(ctx):
-    _, lot = build(ctx, ["anchor", "bell", "chain"])
-    lot.remove("chain")
-    expect_chain(lot, ["anchor", "bell"], "Taking the last crate off.")
-    lot.append("drum")
-    expect_chain(lot, ["anchor", "bell", "drum"], "After taking the last crate off, appending still goes on the end.")
+    _, lot = build(ctx, ["axle", "brakes", "chassis"])
+    lot.remove("chassis")
+    expect_chain(lot, ["axle", "brakes"], "Taking the last crate off.")
+    lot.append("drive-chain")
+    expect_chain(lot, ["axle", "brakes", "drive-chain"], "After taking the last crate off, appending still goes on the end.")
 
 
 def remove_only(ctx):
-    _, lot = build(ctx, ["anvil"])
-    lot.remove("anvil")
+    _, lot = build(ctx, ["seat"])
+    lot.remove("seat")
     expect_chain(lot, [], "Taking off the only crate leaves an empty round.")
     if lot.head is not None:
         raise CheckFailed("An empty round's head is None.")
-    lot.append("bucket")
-    expect_chain(lot, ["bucket"], "An emptied round can start again.")
+    lot.append("steering")
+    expect_chain(lot, ["steering"], "An emptied round can start again.")
 
 
 def remove_first_match(ctx):
-    _, lot = build(ctx, ["bell", "anchor", "bell"])
-    lot.remove("bell")
-    expect_chain(lot, ["anchor", "bell"], "With two bells, only the first comes off.")
+    _, lot = build(ctx, ["brakes", "axle", "brakes"])
+    lot.remove("brakes")
+    expect_chain(lot, ["axle", "brakes"], "With two crates of brakes, only the first comes off.")
 
 
 def remove_missing(ctx):
-    _, lot = build(ctx, ["anchor", "bell"])
+    _, lot = build(ctx, ["axle", "brakes"])
     try:
-        lot.remove("kettle")
+        lot.remove("turbo")
     except ValueError:
-        expect_chain(lot, ["anchor", "bell"], "A failed remove should leave the round as it was.")
+        expect_chain(lot, ["axle", "brakes"], "A failed remove should leave the round as it was.")
         return
-    raise CheckFailed("There's no kettle on the round, so remove should raise ValueError.")
+    raise CheckFailed("There's no turbo on the round, so remove should raise ValueError.")
 
 
 def remove_from_empty(ctx):
     _, lot = build(ctx, [])
     try:
-        lot.remove("anchor")
+        lot.remove("axle")
     except ValueError:
         return
     except AttributeError:
         raise CheckFailed("Removing from an empty round crashed with AttributeError. Check for an empty round, and raise ValueError.")
-    raise CheckFailed("An empty round has no anchor, so remove should raise ValueError.")
+    raise CheckFailed("An empty round has no axle, so remove should raise ValueError.")
 
 
 def reverse_same_crates(ctx):
-    _, lot = build(ctx, ["anchor", "bell", "chain", "drum", "engine"])
+    _, lot = build(ctx, ["axle", "brakes", "chassis", "drive-chain", "engine"])
     before = walk(lot)
     lot.reverse()
     after = walk(lot)
-    if [crate.part for crate in after] != ["engine", "drum", "chain", "bell", "anchor"]:
-        raise CheckFailed("Reversed, the round runs from the engine back to the anchor.",
-                          expected=["engine", "drum", "chain", "bell", "anchor"], actual=[crate.part for crate in after])
+    if [crate.part for crate in after] != ["engine", "drive-chain", "chassis", "brakes", "axle"]:
+        raise CheckFailed("Reversed, the round runs from the engine back to the axle.",
+                          expected=["engine", "drive-chain", "chassis", "brakes", "axle"], actual=[crate.part for crate in after])
     if [id(crate) for crate in after] != [id(crate) for crate in reversed(before)]:
         raise CheckFailed("reverse should turn the arrows round on the crates already there, not make new crates.")
     if before[0].next is not None:
@@ -179,29 +179,29 @@ def reverse_small(ctx):
     _, lot = build(ctx, [])
     lot.reverse()
     expect_chain(lot, [], "Reversing an empty round leaves it empty.")
-    lot.append("anvil")
+    lot.append("seat")
     lot.reverse()
-    expect_chain(lot, ["anvil"], "Reversing one crate leaves it as it was.")
-    lot.append("bucket")
+    expect_chain(lot, ["seat"], "Reversing one crate leaves it as it was.")
+    lot.append("steering")
     lot.reverse()
-    expect_chain(lot, ["bucket", "anvil"], "Reversing two crates swaps them.")
+    expect_chain(lot, ["steering", "seat"], "Reversing two crates swaps them.")
 
 
 def reverse_twice(ctx):
-    _, lot = build(ctx, ["anchor", "bell", "chain"])
+    _, lot = build(ctx, ["axle", "brakes", "chassis"])
     lot.reverse()
     lot.reverse()
-    expect_chain(lot, ["anchor", "bell", "chain"], "Reversing twice puts the round back as it was.")
+    expect_chain(lot, ["axle", "brakes", "chassis"], "Reversing twice puts the round back as it was.")
 
 
 def reverse_then_change(ctx):
-    _, lot = build(ctx, ["anchor", "bell", "chain"])
+    _, lot = build(ctx, ["axle", "brakes", "chassis"])
     lot.reverse()
-    lot.append("drum")
-    expect_chain(lot, ["chain", "bell", "anchor", "drum"], "After reversing, a new crate still goes on the end.")
-    lot.remove("chain")
-    lot.insert_after("anchor", "gong")
-    expect_chain(lot, ["bell", "anchor", "gong", "drum"], "After reversing, removing and inserting still work.")
+    lot.append("drive-chain")
+    expect_chain(lot, ["chassis", "brakes", "axle", "drive-chain"], "After reversing, a new crate still goes on the end.")
+    lot.remove("chassis")
+    lot.insert_after("axle", "fuel-tank")
+    expect_chain(lot, ["brakes", "axle", "fuel-tank", "drive-chain"], "After reversing, removing and inserting still work.")
 
 
 def long_round(ctx):
@@ -213,23 +213,23 @@ def long_round(ctx):
 
 
 def parts_is_a_copy(ctx):
-    _, lot = build(ctx, ["anchor", "bell"])
+    _, lot = build(ctx, ["axle", "brakes"])
     shown = lot.parts()
     shown.append("intruder")
-    expect_chain(lot, ["anchor", "bell"], "Changing the list parts() gave back shouldn't change the round.")
+    expect_chain(lot, ["axle", "brakes"], "Changing the list parts() gave back shouldn't change the round.")
 
 
 TESTS = [
     custom("The example from the brief", the_example, visible=True),
     output("The main block", visible=True,
-           expect="Round: ['anchor', 'bell', 'chain', 'drum']\nAfter the bell, a gong: ['anchor', 'bell', 'gong', 'chain', 'drum']\n"
-                  "Paul took the anchor: ['bell', 'gong', 'chain', 'drum']\nFrom the far end: ['drum', 'chain', 'gong', 'bell']\n4 crates"),
+           expect="Round: ['axle', 'brakes', 'chassis', 'drive-chain']\nAfter the brakes, a fuel tank: ['axle', 'brakes', 'fuel-tank', 'chassis', 'drive-chain']\n"
+                  "Neil took the axle: ['brakes', 'fuel-tank', 'chassis', 'drive-chain']\nFrom the far end: ['drive-chain', 'chassis', 'fuel-tank', 'brakes']\n4 crates"),
     custom("An empty round", empty_round, hint="A new Round's head is None, its parts() is [], and its len() is 0."),
     custom("The crates point at each other", really_linked,
            hint="Each Crate keeps its part and a next. The Round keeps only head, the first crate."),
     custom("One crate", one_crate),
     custom("After the last crate", insert_at_end),
-    custom("After the first of two bells", insert_first_match, hint="Stop at the first crate holding existing."),
+    custom("After the first of two crates of brakes", insert_first_match, hint="Stop at the first crate holding existing."),
     custom("After the only crate", insert_into_one),
     custom("After a crate that isn't there", insert_missing,
            hint="If the walk reaches None without finding existing, raise ValueError before changing anything."),
@@ -239,7 +239,7 @@ TESTS = [
            hint="Point the crate before the last at None. If you keep a note of the last crate, update it too."),
     custom("The only crate", remove_only,
            hint="Taking off the first crate means head moves on to head.next, which may be None."),
-    custom("The first of two bells", remove_first_match),
+    custom("The first of two crates of brakes", remove_first_match),
     custom("A crate that isn't there", remove_missing),
     custom("From an empty round", remove_from_empty,
            hint="An empty round has a head of None. Check for that before reading head.part."),

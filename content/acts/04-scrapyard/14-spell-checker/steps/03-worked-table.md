@@ -3,7 +3,7 @@ id: worked-table
 type: worked
 title: How Paul pays at the Arcade
 dialogue:
-  - paul: "The Arcade's tokens come in ones, fours and sixes. Don't ask Caitlin why. She'll tell you."
+  - paul.laughing.point: "The Arcade's tokens come in ones, fours and sixes. Don't ask Caitlin why. She'll tell you."
 code: |
   def fewest_tokens(price, tokens):
       fewest = [0] + [None] * price

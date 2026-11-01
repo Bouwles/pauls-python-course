@@ -66,4 +66,4 @@ tasks:
 ---
 Python comes with a shelf of modules already made: the **standard library**. `import math` brings in a whole module, used as `math.ceil`. `from datetime import datetime` brings in one thing from a module, used by its own name.
 
-`timedelta` is a length of time. `accumulate` gives running totals: the trip fund so far, day by day.
+`timedelta` is a length of time. `accumulate` gives running totals: a stall's takings so far, day by day.

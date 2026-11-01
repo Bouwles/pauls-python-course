@@ -3,7 +3,7 @@ id: a-bug
 type: explain
 title: "Interview: a bug you found"
 dialogue:
-  - paul: "Everyone has bugs. What they want to know is whether you have a method."
+  - paul.laughing: "Everyone has bugs. What they want to know is whether you have a method."
 prompt: "Walk through a bug you found, and how you found it."
 answer: "The Value Estimator. Every tile came out worth about minus ten, except the finish, which was worth ten. Nothing crashed, which is why it looked almost plausible. I followed one step by hand, writing down what `tile` held on each line. The update ran after the crab had moved on, so each tile was learning from its own value. The fix was swapping two lines. Then I kept a test that the finish stays at 0, so the bug can't come back quietly. What I learned: the sums were right. The order was wrong."
 ---

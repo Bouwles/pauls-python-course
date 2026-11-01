@@ -51,7 +51,7 @@ cards:
         misconception: f1-is-average
         feedback: "That's the ordinary average. F1 is the harmonic mean, 2pr / (p + r), which a single bad number can't hide behind."
   - type: choice
-    prompt: "Riya raises her storm threshold from 0.3 to 0.6. What happens to recall?"
+    prompt: "Yahya raises his storm threshold from 0.3 to 0.6. What happens to recall?"
     verify: none
     options:
       - text: "It falls or stays the same: a higher threshold warns on fewer nights, so it can't catch more storms"

@@ -1,4 +1,4 @@
-"""Maze Solver: the way through Yahya's maze, the fewest steps from the start to the goal."""
+"""Maze Solver: the way across the car park, the fewest steps from the gate to Neil's car."""
 from collections import deque
 
 try:
@@ -10,7 +10,7 @@ except ImportError:
 
 MAZE_FILE = "maze.txt"
 
-# Yahya's maze, copied off the Puzzle Room wall. The class races it on Fridays.
+# The race weekend car park, copied off the circuit's website. Hedges, grass, the gate and Neil's car.
 
 
 def read_maze(text):

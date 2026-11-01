@@ -5,8 +5,8 @@ title: Tests first
 files: [bank.py, test_bank.py]
 entry: test_bank.py
 dialogue:
-  - aaesha: "Requirement four. Money moves between accounts. None appears on the way, and none goes missing."
-on_pass: { aaesha: "Money moved, money refused, exactly everything, and nothing at all. That's the list I'd have written." }
+  - aaesha.thinking: "Requirement four. Money moves between accounts. None appears on the way, and none goes missing."
+on_pass: { caitlin.surprised: "Money moved, money refused, exactly everything, and nothing at all. Aaesha says that's her list too." }
 hints:
   nudge: "After Aaesha pays Caitlin £5, what should each balance be? And what if Aaesha only has £3?"
   plan:

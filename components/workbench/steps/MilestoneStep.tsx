@@ -79,7 +79,7 @@ export function MilestoneStepView({ step, row }: { step: MilestoneStep; row: Ste
       }
     }
     await markPassed(step.id, { data: { ...row.data, checks, plan, link, reviewedAt: Date.now() } });
-    say(PROFESSOR, step.testPlan ? "Signed off. Keep the test plan; you'll want it at the next milestone." : "Signed off.", { kind: "pass", face: "pleased" });
+    say(PROFESSOR, step.testPlan ? "Signed off. Keep the test plan; you'll want it at the next milestone." : "Signed off.", { kind: "pass", face: "pleased", gesture: "thumbs" });
   };
 
   return (

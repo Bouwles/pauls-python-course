@@ -4,7 +4,7 @@ type: investigate
 title: The question book
 concept: json-module
 dialogue:
-  - caitlin: "Sixteen questions, typed up from my sheet. I left out the ones under the coffee ring."
+  - caitlin.pleased.point: "Sixteen questions, typed up from my sheet. I left out the ones under the coffee ring."
 code: |
   import json
 
@@ -28,19 +28,19 @@ tasks:
     feedback: "3:14. Each question is a dictionary with a `round`, a `question`, an `answer`, and sometimes `also`: other answers Caitlin will accept."
     wrong: "Look for `answer` in the last line of the output."
   - id: no-also
-    prompt: "Add `print(questions[8].get(\"also\", []))`. Question 9 is about gold. What does it print?"
+    prompt: "Add `print(questions[8].get(\"also\", []))`. Question 9 is about halloumi. What does it print?"
     kind: answer
     accept: ["[]"]
-    feedback: "`[]`. Not every question has an `also`, so `.get` with a default saves a `KeyError` on the gold question."
+    feedback: "`[]`. Not every question has an `also`, so `.get` with a default saves a `KeyError` on the halloumi question."
     wrong: "It's the last line of the output."
   - id: every-question
-    prompt: "Print every question in the Sea round, one a line, using a loop and an `if`."
+    prompt: "Print every question in the Music round, one a line, using a loop and an `if`."
     kind: run
     tests: |
       TESTS = [
-          output("The four sea questions", match="contains",
-                 expect="What do you call a speed of one nautical mile an hour?\nHow many hearts does an octopus have?\nWhat is a baby seal called?\nWhat is the lowest point of the tide called?",
-                 hint="for question in questions: then if question[\"round\"] == \"Sea\": print(question[\"question\"])."),
+          output("The four music questions", match="contains",
+                 expect="What do you call a group of four musicians?\nHow many strings does a standard guitar have?\nWhich instrument has 88 keys?\nWhat does a metronome keep?",
+                 hint="for question in questions: then if question[\"round\"] == \"Music\": print(question[\"question\"])."),
       ]
     solution: |
       import json
@@ -52,7 +52,7 @@ tasks:
       print(len(questions))
       print(questions[0])
       for question in questions:
-          if question["round"] == "Sea":
+          if question["round"] == "Music":
               print(question["question"])
 ---
 Caitlin's questions are in `questions.json`. **JSON** is text written like Python's lists and dictionaries, and almost every program that keeps data in a file, or sends it across the internet, speaks it.

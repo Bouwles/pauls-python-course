@@ -3,8 +3,8 @@ id: worked-boosting
 type: worked
 title: How Paul would boost
 dialogue:
-  - paul: "My cycle in to the Clocktower. The windier it is, the longer it takes, and not in a straight line."
-  - paul: "One question at a time. Each one only has to fix what the others left."
+  - paul.unimpressed: "My cycle in to the Clocktower. The windier it is, the longer it takes, and not in a straight line."
+  - paul.thinking.think: "One question at a time. Each one only has to fix what the others left."
 code: |
   import numpy as np
 

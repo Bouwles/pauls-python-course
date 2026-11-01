@@ -3,7 +3,7 @@ id: parsons
 type: parsons
 title: The whole square
 dialogue:
-  - riya: "He wants the whole square too. Rows and columns, all of it."
+  - aaesha.neutral.point: "The whole square too, please. Rows and columns, every fact at once."
 blocks:
   - { code: 'size = int(input("Size? "))', indent: 0 }
   - { code: "for row in range(1, size + 1):", indent: 0 }

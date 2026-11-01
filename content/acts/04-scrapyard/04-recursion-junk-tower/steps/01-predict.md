@@ -4,7 +4,7 @@ type: predict
 title: A crate of crates
 concept: recursion
 dialogue:
-  - neil: "Open a crate, there's another crate. Open that, there's a hubcap and another crate."
+  - neil.laughing.point: "The kart track's lot came in crates. Open one, there's a sprocket and another crate."
 code: |
   def weigh(crate):
       total = 0
@@ -35,7 +35,7 @@ options:
     error: RecursionError
     feedback: "Each call is handed a smaller crate than the one before. A crate with no crates in it calls nothing, so every chain of calls comes to an end."
 after: |
-  Run it. Then put a 6 kg part inside the `[5]`, predict again, and run it again.
+  Run it. Then put a 6 kg sprocket inside the `[5]`, predict again, and run it again.
 ---
 A function that calls itself is **recursive**. `weigh` weighs a crate by adding up its parts, and weighs each crate inside it by calling `weigh` on that crate.
 

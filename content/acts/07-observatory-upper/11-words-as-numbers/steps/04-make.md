@@ -4,7 +4,7 @@ type: make
 title: Counting the forecasts
 files: [words.py]
 entry: words.py
-on_pass: { caitlin: "Perplexity 7.05 on forecasts it never saw. As unsure as picking from seven letters, not thirty-nine." }
+on_pass: { caitlin.pleased: "Perplexity 7.05 on forecasts it never saw. As unsure as picking from seven letters, not thirty-nine." }
 hints:
   nudge: "Which functions does the program at the bottom call, and in what order? Write them in that order."
   plan:

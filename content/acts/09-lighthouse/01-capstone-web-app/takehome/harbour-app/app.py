@@ -1,4 +1,4 @@
-"""The marina's visitor berths: a web app, built for Riya's client.
+"""The marina's visitor berths: a web app, built for Caitlin's client.
 
 Start it with:   flask --app app run
 then open http://127.0.0.1:5000 in a browser. Ctrl+C stops it.

@@ -6,7 +6,7 @@ portfolio_readme: |
 
   A full analysis of a century of weather records, told as a story and published as a web page. It cleans a ledger typed by volunteers (Fahrenheit before 1961, pages typed twice), works out the yearly and decade figures, the 1961 to 1990 normals and the warming trend, tests the last thirty years against the first thirty by shuffling them, draws three honest charts, and writes the whole report, conclusion and all, as one web page with the charts inside it. Then the same method on a public dataset of my own choosing, published online.
 
-  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
+  Written by {name} for Yahya, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -55,7 +55,7 @@ downloadable: true
 # volunteers, Fahrenheit before 1961 and some pages twice. The final milestone is a data
 # story from a real public dataset of the learner's own choice. See the README.
 datasets: []
-client: aaesha
+client: yahya
 building: weather-station
 estimated_minutes: 600
 summary: "The Act V capstone: a data story. A century of the station book cleaned once, summed up honestly, drawn fairly, written up and published as a web page; then a story of your own, from a public dataset of your choice."
@@ -63,10 +63,10 @@ concepts_introduced: []
 concepts_reviewed: [pandas-basics, selecting-filtering, missing-data, data-cleaning, groupby, matplotlib, honest-charts, descriptive-statistics, probability, permutation-tests, numpy-arrays, vectorisation, modules, imports, functions, multiple-returns, default-arguments, docstrings, main-guard, f-strings]
 ask:
   dialogue:
-    - aaesha: "A hundred years of the Clocktower's station book. I want it read properly, once, and written up."
-    - aaesha: "What changed, how sure we are, and what didn't change. That last part always gets left out."
-    - aaesha: "The ledger is as the volunteers typed it. Fahrenheit until 1960. Some pages twice."
-    - paul: "Four files, each with one job. Then the words, then a page anyone can open."
+    - yahya.pleased.wave: "A hundred years of the Clocktower's station book. I want it read properly, once, and written up."
+    - yahya.thinking: "What changed, how sure we are, and what didn't change. That last part always gets left out."
+    - yahya.unimpressed: "The ledger is as the volunteers typed it. Fahrenheit until 1960. Some pages twice."
+    - paul.neutral.point: "Four files, each with one job. Then the words, then a page anyone can open."
   spec: |
     `ledger.csv` is the station book as it was typed: one row per month from 1925 to 2024, with the month, the temperature and the unit it was written in, the rain in millimetres and the hours of sunshine.
 
@@ -78,7 +78,7 @@ ask:
     4. `report.py` prints the report and draws the charts, ending with your own conclusion.
     5. `page.py` turns the report into a web page, `story.html`, with the charts inside it, and `report.py` writes it from the same lines it prints.
 
-    Then Aaesha reads it against her checklist. Last of all, tell a data story of your own: a question, a public dataset of your choice that can answer it, the same pieces, and a page published online.
+    Then Yahya reads it against his checklist. Last of all, tell a data story of your own: a question, a public dataset of your choice that can answer it, the same pieces, and a page published online.
   example: |
     The Clocktower Weather Report, 1925 to 2024
     Source: Clocktower weather station book, 1925 to 2024, in the Archive
@@ -99,12 +99,12 @@ ask:
       ...
 ship:
   dialogue:
-    - aaesha: "Warmer, and sure of it. Not wetter, and honest about it. It goes on the wall on Friday."
-    - caitlin: "Can my chart go up as well?"
-    - aaesha: "With the scale from zero, it can go in the middle."
-    - aaesha: "And yours, about your own question. The source is named and the scales start at zero. I've no notes."
-    - paul: "That's the Archive done. Next floor up, Riya's models."
-  shelf: { object: almanac, label: "The Clocktower Weather Report, a data story, and one of your own" }
+    - yahya.proud.cheer: "Warmer, and sure of it. Not wetter, and honest about it. It goes on the wall on Friday."
+    - caitlin.pleased: "Can my chart go up as well?"
+    - yahya.laughing: "With the scale from zero, it can go in the middle."
+    - yahya.pleased.thumbs: "And yours, about your own question. The source is named and the scales start at zero. I've no notes."
+    - paul.proud: "That's the Archive done. Next floor up, the Model Room. Mine."
+  shelf: { object: almanac, label: "Yahya's Clocktower Weather Report, and a data story of your own" }
   cards: []
 stretch:
   - id: take-it-home

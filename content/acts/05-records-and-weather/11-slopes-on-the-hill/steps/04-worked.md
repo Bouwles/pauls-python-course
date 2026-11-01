@@ -3,8 +3,8 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "I carried Aaesha's barometer up the hill path once. Slowly. It fell the whole way."
-  - paul: "Two links. Minutes give height, height gives pressure. The rates multiply."
+  - paul.laughing: "I carried the Archive's barometer up the hill path once. Slowly. It fell the whole way."
+  - paul.thinking.point: "Two links. Minutes give height, height gives pressure. The rates multiply."
 code: |
   import math
 
@@ -20,7 +20,7 @@ code: |
   height_slope = 1.5                   # metres a minute
 
 
-  def pressure_slope(metres):          # hPa a metre, at this height (from Aaesha's handbook)
+  def pressure_slope(metres):          # hPa a metre, at this height (from the Archive's handbook)
       return -1013 / 8400 * math.exp(-metres / 8400)
 
 

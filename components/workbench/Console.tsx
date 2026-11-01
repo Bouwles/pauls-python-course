@@ -20,8 +20,8 @@ interface Props {
 }
 
 /**
- * The traceback, then the error panel (REDESIGN-2.md 3): a short heading in the display face,
- * the plain explanation, a "Go to line" button, and Neil beside the heading, since debugging is his.
+ * The traceback, then the error panel (REDESIGN-2.md 3): Neil beside it thinking, since debugging
+ * is his, a short heading in the pixel face, the plain explanation and a "Go to line" button.
  */
 export function ErrorExplanation({ error, source, onShowLine }: { error: PyError; source: string; onShowLine?: (line: number) => void }) {
   const wb = useMaybeWorkbench();
@@ -33,7 +33,7 @@ export function ErrorExplanation({ error, source, onShowLine }: { error: PyError
       {explanation ? (
         <section className={styles.explain} aria-label={`${name} explains the error`}>
           <div className={styles.explainHead}>
-            <Portrait who={ASSISTANT} name={name} size={48} expression="thinking" />
+            <Portrait who={ASSISTANT} name={name} size={wb?.compact ? 72 : 80} expression="thinking" />
             <h2 className={styles.explainTitle}>{explanation.title.replace(/\.$/, "")}</h2>
           </div>
           <p className={styles.explainBody}>{explanation.body}</p>

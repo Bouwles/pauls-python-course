@@ -16,20 +16,20 @@ def _with_tasks(source, tasks):
 
 
 def another_day(ctx):
-    tasks = ["order chalk", "answer Caitlin", "fix the projector"]
+    tasks = ["order ink", "answer Caitlin", "frame the prints"]
     r = ctx.run_program(files={ctx.entry: _with_tasks(ctx.source, tasks)})
-    expected = "For the whiteboard:\nanswer Caitlin\nfix the projector\norder chalk\nFirst job: order chalk"
+    expected = "For the whiteboard:\nanswer Caitlin\nframe the prints\norder ink\nFirst job: order ink"
     if r.error is not None:
         raise CheckFailed(f"With tasks = {tasks!r} it crashed: {type(r.error).__name__}: {r.error}", expected=expected, actual=r.output)
     if norm_lines(r.output) != norm_lines(expected):
-        raise CheckFailed(f"With tasks = {tasks!r}, the first job is ordering chalk.", expected=expected, actual=r.output)
+        raise CheckFailed(f"With tasks = {tasks!r}, the first job is ordering ink.", expected=expected, actual=r.output)
 
 
 TESTS = [
     output("Tuesday's jobs",
-           expect="For the whiteboard:\nanswer Caitlin\nfix the projector\nmark the quizzes\norder chalk\nFirst job: mark the quizzes",
+           expect="For the whiteboard:\nalbum cover\nanswer Caitlin\norder ink\nrocket poster\nFirst job: rocket poster",
            visible=True,
-           hint="The first job should be whatever Neil put first. Is board really a separate list?"),
+           hint="The first job should be whatever Riya put first. Is board really a separate list?"),
     custom("Another day", another_day,
            hint="Work from the list, not the words: whatever is first in tasks is the first job."),
 ]

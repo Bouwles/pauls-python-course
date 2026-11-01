@@ -6,7 +6,7 @@ portfolio_readme: |
 
   Describes a year of daily weather in more than one number: the mean, the median, the mode, the standard deviation and the quartiles, the fences that mark readings out of line, the readings outside them, and the dry days. It shows why one average can mislead: on a typical day it barely rains, and the mean day of rain never happened.
 
-  Written by {name} for Riya, at Paul's Python Course. Finished {date}.
+  Written by {name} for Yahya, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -40,7 +40,7 @@ downloadable: true
 # daily.csv is invented for the story: a year at the Clocktower's station and at Thornby, with
 # one faulty reading put in on purpose. See the README.
 datasets: []
-client: riya
+client: yahya
 building: weather-station
 estimated_minutes: 70
 summary: "A summary statistics report on the Clocktower station's 2024, for the summary sheet in the Archive: the middle day, the usual day, the spread and the readings that don't fit."
@@ -48,10 +48,10 @@ concepts_introduced: [descriptive-statistics, distributions]
 concepts_reviewed: [pandas-basics, selecting-filtering, vectorisation, matplotlib, dictionaries, functions, return-values, multiple-returns, default-arguments, docstrings, main-guard, f-strings]
 ask:
   dialogue:
-    - riya: "The station's summary sheet does the whole year in one line. Average daily rain: 2.6 millimetres."
-    - riya: "I cycle in most days. Most days it didn't rain at all. The average day never happened."
-    - paul: "Then give it more than one number."
-    - riya: "Six, and say which is which. And find me the readings that don't belong."
+    - yahya.unimpressed.wave: "The station's summary sheet does the whole year in one line. Average daily rain: 2.6 millimetres."
+    - yahya.thinking: "Most days it didn't rain at all. The average day never happened."
+    - paul.neutral: "Then give it more than one number."
+    - yahya.pleased.point: "Six, and say which is which. And find me the readings that don't belong."
   spec: |
     `daily.csv` is the Clocktower station's 2024, one row per day: `date`, `rain` (mm), `temp` (degrees C) and `thornby`, the temperature at Thornby's station, twenty miles out of the city.
 
@@ -72,11 +72,11 @@ ask:
       Rain: 38 days
 ship:
   dialogue:
-    - riya: "Two point six on the mean day. Nought point three on the middle one. Nothing on the most common."
-    - riya: "Thornby has our average and half as much swing again. That goes on the sheet too."
-    - aaesha: "Forty-one degrees on the fourteenth of June was the screen door, left open. Struck out, in ink, with a note."
-    - paul: "With a note. That's the part people forget."
-  shelf: { object: parish-magazine, label: "The station's year in more than one number" }
+    - yahya.pleased: "Two point six on the mean day. Nought point three on the middle one. Nothing on the most common."
+    - yahya.surprised: "Thornby has our average and half as much swing again. That goes on the sheet too."
+    - aaesha.laughing: "Forty-one degrees on the fourteenth of June was the screen door, left open. Struck out, in ink, with a note."
+    - paul.thinking.thumbs: "With a note. That's the part people forget."
+  shelf: { object: parish-magazine, label: "Yahya's station year, in more than one number" }
   cards: [descriptive-statistics, distributions]
 stretch:
   - id: z-scores

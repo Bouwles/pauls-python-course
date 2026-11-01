@@ -3,8 +3,8 @@ id: what-she-built
 type: reading
 title: Why the clock stopped
 dialogue:
-  - paul: "Before my time, someone fitted the clock with a controller that learned instead of being told."
-  - paul: "It watched three winters of logs. Nobody ever wrote the rules down."
+  - paul.thinking: "Before my time, someone fitted the clock with a controller that learned instead of being told."
+  - paul.unimpressed: "It watched three winters of logs. Nobody ever wrote the rules down."
 ---
 The controller learned to light the face at dusk, switch on the fog lamp when the city disappears, and heat the hands when ice builds up on them. On the ordinary nights it learned from, it was right.
 

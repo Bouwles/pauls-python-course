@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "Printing costs for the class. Two small jobs, each with its own name."
+  - paul.neutral: "Printing costs for the class. Two small jobs, each with its own name."
 code: |
   # Printing costs: two small functions and a main() that uses them
   def print_cost(pages):

@@ -63,7 +63,7 @@ cards:
     tests: |
       TESTS = [output("The loss for the right answer", expect="0.241")]
   - type: choice
-    prompt: "Riya's `forward` ends with `torch.softmax(scores, dim=1)`, and she trains with `nn.CrossEntropyLoss()`. What happens?"
+    prompt: "Aaesha's `forward` ends with `torch.softmax(scores, dim=1)`, and she trains with `nn.CrossEntropyLoss()`. What happens?"
     verify: none
     options:
       - text: "It trains, badly: the loss softmaxes her chances again, so it can never get near 0, even when the brain is sure and right"

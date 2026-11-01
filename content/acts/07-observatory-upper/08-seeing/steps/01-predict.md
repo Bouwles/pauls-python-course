@@ -4,8 +4,8 @@ type: predict
 title: A window on the Clocktower
 concept: convolutions
 dialogue:
-  - neil: "A network that reads digits pixel by pixel has never heard of an edge."
-  - neil: "So: a little window, slid across a picture. Here's the smallest."
+  - neil.neutral: "A network that reads digits pixel by pixel has never heard of an edge."
+  - neil.neutral.point: "So: a little window, slid across a picture. Here's the smallest."
 code: |
   import numpy as np
 
@@ -46,4 +46,4 @@ options:
 after: |
   Run it. Then add `print(out)`: every row is the same, because the tower is.
 ---
-A **convolution** slides a small grid of weights, the **kernel**, over a picture. At each place it fits, it multiplies the kernel by the patch underneath and adds the lot up: a weighted sum, as in your first neuron, but of nine pixels or four, and the same weights at every place. The answers make a new picture, a **feature map**.
+A **convolution** slides a small grid of weights, the **kernel**, over a picture. At each place it fits, it multiplies the kernel by the patch underneath and adds the lot up: a weighted sum, as in your first neuron, but of nine pixels or four, and the same weights at every place. The answers make a new picture, a **feature map**. It's loosely how vision starts: cells in the visual cortex each watch one small patch, and fire for an edge.

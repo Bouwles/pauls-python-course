@@ -30,7 +30,7 @@ options:
     misconception: appendleft-joins-back
     feedback: "`appendleft` adds on the left, which is the front of the queue. `append` is the one that joins the back."
 ---
-A **queue** is used from both ends: join at the back, leave from the front. First come, first served, as at the Studio's printer.
+A **queue** is used from both ends: join at the back, leave from the front. First come, first served, as at the class's printer.
 
 A list can do it with `pop(0)`, but each time the front job leaves, every job behind it is shuffled up a place: O(n) for every one served.
 

@@ -3,11 +3,11 @@ id: pips-forward
 type: pips
 title: Fix Caitlin's version
 dialogue:
-  - caitlin: "Can you look at mine? Two layers, one line each. Done before Neil found his coffee."
-  - caitlin: "NumPy's max is broken. It wants an axis. I gave it a zero."
+  - caitlin.pleased: "Can you look at mine? Two layers, one line each. Done before Neil found his coffee."
+  - caitlin.confused: "NumPy's max is broken. It wants an axis. I gave it a zero."
 dialogue_after:
-  - caitlin: "So max finds the biggest thing in one array, and maximum compares two. Different words. Fair enough."
-  - caitlin: "And a sigmoid of 2. I should have noticed. Nothing is 2 likely."
+  - caitlin.surprised: "So max finds the biggest thing in one array, and maximum compares two. Different words. Fair enough."
+  - caitlin.laughing: "And a sigmoid of 2. I should have noticed. Nothing is 2 likely."
 hints:
   nudge: "What does `np.max` do with one array? What do you need instead: the biggest entry, or 0 and each entry compared?"
   plan:

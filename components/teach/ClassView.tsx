@@ -3,8 +3,8 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { readAvatar } from "@/lib/avatar";
-import { Avatar } from "../ui/Avatar";
+import { avatarBackground } from "@/lib/pixel/looks";
+import { PixelPerson } from "../art/PixelPerson";
 import { Button } from "../ui/Button";
 import { Icon } from "../ui/Icon";
 import { CopyCode } from "./CopyCode";
@@ -13,7 +13,7 @@ import styles from "./Teach.module.css";
 export interface StudentItem {
   id: string;
   name: string;
-  /** Their avatar, or an older look: read with readAvatar(). */
+  /** Their avatar, or an older look: lib/pixel/looks.ts reads either. */
   character: unknown;
   shipped: number;
   current: string | null;
@@ -72,7 +72,7 @@ export function ClassView({ cls, students, assignments, groups }: { cls: { id: s
     <div className={styles.page}>
       <header className={styles.head}>
         <Link href="/teach" className={styles.back}>
-          <Icon name="caretRight" size={16} className={styles.backIcon} />
+          <Icon name="caretLeft" size={16} />
           Your classes
         </Link>
         <div className={styles.titleRow}>
@@ -86,7 +86,7 @@ export function ClassView({ cls, students, assignments, groups }: { cls: { id: s
         </p>
       </header>
 
-      <section className={styles.section} aria-labelledby="students-title">
+      <section className={`px-panel ${styles.section}`} aria-labelledby="students-title">
         <h2 id="students-title" className={styles.h2}>
           Students
         </h2>
@@ -118,7 +118,9 @@ export function ClassView({ cls, students, assignments, groups }: { cls: { id: s
                   <tr key={s.id}>
                     <th scope="row" className={styles.strongCell}>
                       <span className={styles.student}>
-                        <Avatar name={s.name} colour={readAvatar(s.character).colour} size={28} />
+                        <span className={styles.face} style={{ background: avatarBackground(s.character) }} aria-hidden="true">
+                          <PixelPerson avatar={s.character} crop="head" scale={1} animate={false} />
+                        </span>
                         <Link href={`/teach/${cls.id}/${s.id}`}>{s.name}</Link>
                       </span>
                     </th>
@@ -176,7 +178,7 @@ function Assignments({ classId, assignments, groups, members }: { classId: strin
   };
 
   return (
-    <section className={styles.section} aria-labelledby="set-title">
+    <section className={`px-panel ${styles.section}`} aria-labelledby="set-title">
       <h2 id="set-title" className={styles.h2}>
         Projects set for the class
       </h2>

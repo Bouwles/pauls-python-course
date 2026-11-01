@@ -25,7 +25,7 @@ export default async function Mailbox() {
         {mail.length === 0 ? <p className={styles.meta}>Nothing yet.</p> : null}
         <ol className={styles.list}>
           {mail.map((m) => (
-            <li key={m.id} className={styles.mail}>
+            <li key={m.id} className={`px-panel ${styles.mail}`}>
               <p className={styles.meta}>
                 To {m.to_email}, {new Date(m.created_at).toLocaleString("en-GB")}
               </p>

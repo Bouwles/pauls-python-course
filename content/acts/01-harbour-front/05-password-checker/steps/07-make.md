@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the password checker
-on_pass: { aaesha: "Coral-Filing-Seven, accepted. Clock0314, two reasons, in order. Requirements met." }
+on_pass: { aaesha.proud: "Magic-Number-Seven, accepted. Clock0314, two reasons, in order. Requirements met." }
 hints:
   nudge: "Each rule is one `if` with its own reason. Which method or operator answers each rule's question? And how will the last line know whether any rule failed?"
   plan:

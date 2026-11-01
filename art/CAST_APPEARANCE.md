@@ -2,13 +2,13 @@
 
 These characters are based on real people. Check that each person is happy to appear in a paid product, and let them see their character before launch.
 
-This file holds written descriptions only. **Never add photos of anyone to this repository** (it may become public). The owner sends reference photos to the illustrator directly. If the owner changes a description, update this file, `art/ARTIST_BRIEF.md` and, if an image changes, `art/manifest.json` (run `npx tsx scripts/build-art-manifest.ts`).
+This file holds written descriptions only. **Never add photos of anyone to this repository** (it may become public). The owner sends reference photos to the illustrator directly. If the owner changes a description, update this file and `lib/pixel/looks.ts`, then remake the sheets (`npx tsx scripts/draw-cast-pixels.ts`) and the animations (`npx tsx scripts/export-cast-animations.ts`).
 
-`art/pixel-reference/` has rough pixel portraits drawn from these descriptions (`cast-sheet.png` shows everyone side by side). They're a quick guide to colours and hair only, not the style, and they don't match the real faces. Where a reference and this file differ, this file wins.
+The course draws everyone as pixel art in code (`lib/pixel/looks.ts` holds each look; `art/README.md` has the rest), and `art/pixel-reference/cast-sheet.png` shows everyone side by side as the app draws them.
 
 ## Everyone
 
-All six are young adults, late teens to about twenty, drawn as they are: friendly and natural, not idealised into models and not caricatured. Keep proportions true to the style in the artist brief (about 6.5 to 7 heads tall). Never exaggerate or comment on body shape. Nobody is the butt of the joke.
+All six are young adults, late teens to about twenty, drawn as they are: friendly and natural, not idealised into models and not caricatured. Keep proportions natural, with arms at their sides when they aren't gesturing. Never exaggerate or comment on body shape. Nobody is the butt of the joke.
 
 Each has an everyday outfit (below) and, for the group illustration only, an optional matching school-uniform outfit: a pale grey-blue short-sleeved shirt.
 

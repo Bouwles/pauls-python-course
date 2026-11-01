@@ -45,15 +45,16 @@ datasets: []
 client: aaesha
 building: crab-club
 estimated_minutes: 90
-summary: "The worth of every tile on the Arcade's racing grid, without a single race: policy evaluation, value iteration and policy iteration."
+summary: "For Aaesha, planning the way a mind with a map does: the worth of every tile on the crab's racing grid, without a single race. Policy evaluation, value iteration and policy iteration."
 concepts_introduced: [policy-evaluation, value-iteration, policy-iteration]
 concepts_reviewed: [mdps, returns-discounting, dictionaries, dict-items, while-loops, functions, default-arguments, lambda]
 ask:
   dialogue:
-    - aaesha: "A thousand races says the traditional line is worth about minus eight. About."
-    - aaesha: "You know every tile and every chance. That's enough to work it out exactly."
-    - yahya: "I'd like to know, mathematically, whether I've been racing it wrong all term."
-    - paul: "Work it out. Don't race it."
+    - aaesha.pleased.wave: "A thousand races says the traditional line is worth about minus eight. About."
+    - aaesha.thinking: "Rats in a maze learn a map of it in their heads, then plan with it."
+    - aaesha.neutral.point: "You have the map already. Every tile, every chance. That's enough to work it out exactly."
+    - neil.worried: "I'd like to know, exactly, whether I've been racing it wrong all term."
+    - paul.neutral: "Work it out. Don't race it."
   spec: |
     Write `dp.py`, using your racing grid in `track.py`. Values and policies are dictionaries keyed by tile; `gamma` is 0.9 unless you're told otherwise.
 
@@ -81,17 +82,17 @@ ask:
     Policy iteration agrees: True
 ship:
   dialogue:
-    - aaesha: "The start is worth one point two. Under the traditional line it was minus seven point six."
-    - yahya: "And the tile under the pool says go left. Away from the finish. On purpose."
-    - aaesha: "Two methods, one answer. Now I believe it."
-    - paul: "You had the map. Next, the crab learns the track with no map at all."
+    - aaesha.pleased: "The start is worth one point two. Under the traditional line it was minus seven point six."
+    - neil.surprised: "And the tile under the pool says go left. Away from the finish. On purpose."
+    - aaesha.proud.thumbs: "Two methods, one answer. Now I believe it."
+    - paul.thinking: "You had the map. Next, the crab learns the track with no map at all."
   shelf: { object: track-map, label: "The racing grid, every tile known" }
   cards: [policy-evaluation, value-iteration, policy-iteration]
 stretch:
   - id: heat-map
     title: "A chart for the Arcade wall"
     prompt: |
-      Draw the best values with matplotlib: `plt.imshow` on a 3 by 4 array of values (use `np.nan` for the rock), a number written on each tile with `plt.text`, and an arrow for each action. Aaesha will check the colour scale before it goes up.
+      Draw the best values with matplotlib: `plt.imshow` on a 3 by 4 array of values (use `np.nan` for the rock), a number written on each tile with `plt.text`, and an arrow for each action. Riya will check the colours before it goes up.
   - id: how-patient
     title: "How patient is patient"
     prompt: |

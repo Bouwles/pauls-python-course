@@ -4,7 +4,7 @@ type: make
 title: The chance, from scratch
 files: [diabetes.py, tools.py]
 entry: diabetes.py
-on_pass: { riya: "Twenty-seven per cent for our respondent. And general health counts most. People know, it seems." }
+on_pass: { paul.pleased: "Twenty-seven per cent for our respondent. And general health counts most. People know, it seems." }
 hints:
   nudge: "Which number goes into the miss: the score `X @ w + b`, or the chance after the sigmoid? And which side of the log loss does a respondent without diabetes pay?"
   plan:

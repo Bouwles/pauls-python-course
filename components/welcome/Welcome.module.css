@@ -1,4 +1,4 @@
-/* /welcome: three short sections on the page, then the one button. */
+/* /welcome: Paul's hello, three short sections, then the one button beside the new avatar. */
 .welcome {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -9,11 +9,11 @@
 
 .head {
   display: grid;
-  gap: var(--s-3);
+  gap: var(--s-4);
 }
 
 .title {
-  font-size: var(--fs-7);
+  font-size: var(--px-5);
 }
 
 .lede {
@@ -23,19 +23,23 @@
   max-width: 56ch;
 }
 
+.host {
+  max-width: 720px;
+  min-height: 108px;
+}
+
 .section {
   display: grid;
-  gap: var(--s-5);
+  gap: var(--s-6);
   padding-top: var(--s-8);
-  border-top: 1px solid var(--line);
+  border-top: 2px solid var(--line);
 }
 
 .h2 {
   font-family: var(--font-display);
-  font-size: var(--fs-5);
-  font-weight: 700;
+  font-size: var(--px-3);
+  font-weight: 400;
   line-height: var(--lh-title);
-  letter-spacing: var(--tracking-display);
   padding: 0;
 }
 
@@ -63,13 +67,15 @@
 }
 
 .experience legend {
-  margin-bottom: var(--s-5);
+  margin-bottom: var(--s-6);
 }
 
+/* Experience: three pixel tiles over real radios; the chosen one is blue. */
 .options {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--s-3);
+  gap: var(--s-5);
+  padding: 2px;
 }
 
 .option {
@@ -77,53 +83,65 @@
   align-items: flex-start;
   gap: var(--s-3);
   padding: var(--s-4);
-  border-radius: var(--r-lg);
   background: var(--surface-2);
-  border: 1px solid transparent;
   cursor: pointer;
-  transition: background-color var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
-}
-
-:global(:root[data-theme="light"]) .option {
-  border-color: var(--line);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-hi),
+    inset 0 -4px 0 0 var(--px-lo),
+    4px 4px 0 0 var(--px-drop);
 }
 
 .option:hover {
-  border-color: var(--line);
+  background: var(--surface-3);
 }
 
 .option:focus-within {
   outline: 2px solid var(--sun);
-  outline-offset: 2px;
+  outline-offset: 4px;
 }
 
 .option.on,
-:global(:root[data-theme="light"]) .option.on {
+.option.on:hover {
   background: var(--blue-wash);
-  border-color: var(--blue);
+  box-shadow:
+    0 -2px 0 0 var(--blue),
+    0 2px 0 0 var(--blue),
+    -2px 0 0 0 var(--blue),
+    2px 0 0 0 var(--blue),
+    inset 0 0 0 2px var(--blue),
+    4px 4px 0 0 var(--px-drop);
 }
 
 .mark {
   flex: none;
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   margin-top: 3px;
-  border-radius: 50%;
-  border: 2px solid var(--text-3);
+  background: var(--editor);
+  box-shadow: inset 0 0 0 2px var(--text-3);
 }
 
 .on .mark {
-  border: 5px solid var(--blue);
-  background: var(--surface-1);
+  background: var(--blue);
+  box-shadow:
+    inset 0 0 0 2px var(--blue),
+    inset 0 0 0 4px var(--editor);
 }
 
 .optionText {
   display: grid;
-  gap: var(--s-1);
+  gap: var(--s-2);
 }
 
 .optionText strong {
-  font-size: var(--fs-3);
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  font-weight: 400;
+  line-height: 1.2;
 }
 
 .note {
@@ -132,19 +150,35 @@
   color: var(--text-2);
 }
 
+/* The way out: the avatar by the door, and the button. */
 .go {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--s-4);
-  padding-top: var(--s-6);
-  border-top: 1px solid var(--line);
+  align-items: flex-end;
+  gap: var(--s-6);
+  padding-top: var(--s-8);
+  border-top: 2px solid var(--line);
+}
+
+.ready {
+  display: grid;
+  place-items: end center;
+  flex: none;
+  width: 112px;
+  height: 112px;
+  margin: 2px;
+  overflow: hidden;
+}
+
+.goText {
+  display: grid;
+  justify-items: start;
+  gap: var(--s-3);
+  min-width: 0;
 }
 
 .submit {
   height: 52px;
-  padding: 0 var(--s-8);
-  font-size: var(--fs-3);
+  padding: 0 var(--s-8) 2px;
 }
 
 @media (max-width: 860px) {
@@ -159,18 +193,32 @@
   }
 
   .title {
-    font-size: var(--fs-6);
+    font-size: var(--px-4);
   }
 
   .lede {
     font-size: var(--fs-3);
   }
 
+  .host {
+    min-height: 72px;
+  }
+
+  .h2 {
+    font-size: var(--px-2);
+  }
+
   .section {
     padding-top: var(--s-6);
   }
 
+  .go {
+    gap: var(--s-4);
+  }
+
+  .goText,
   .submit {
+    flex: 1;
     width: 100%;
   }
 }

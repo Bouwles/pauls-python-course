@@ -76,6 +76,6 @@ tasks:
     feedback: "A million: it's in the last drawer. Twenty against a million is O(log n) against O(n)."
     wrong: "A linear search starts at drawer 0. Where is 999,999?"
 ---
-Paul's search, on the store room's rack of bolt drawers, sizes in millimetres. It prints every drawer it opens.
+Paul's search, on the rack of bolt drawers under Neil's kart stand, sizes in millimetres. It prints every drawer it opens.
 
 Press Step through to watch `low`, `middle` and `high` close in.

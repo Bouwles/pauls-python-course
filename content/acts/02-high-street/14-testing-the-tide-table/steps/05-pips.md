@@ -5,10 +5,10 @@ title: Fix Caitlin's version
 files: [bank.py, test_bank.py]
 entry: test_bank.py
 dialogue:
-  - caitlin: "Aaesha wanted tests for the accounts. I wrote four. They all pass. Shipping it."
-  - caitlin: "Then I broke bank.py on purpose. They still all pass. Something's off, isn't it?"
+  - caitlin.proud: "Aaesha wanted tests for the accounts. I wrote four. They all pass. Shipping it."
+  - caitlin.worried: "Then I broke bank.py on purpose. They still all pass. Something's off, isn't it?"
 dialogue_after:
-  - caitlin: "So a test that can't fail isn't a test. It's decoration. Nice decoration, but still."
+  - caitlin.laughing: "So a test that can't fail isn't a test. It's decoration. Nice decoration, but still."
 hints:
   nudge: "If `deposit` paid everything in twice, which of Caitlin's tests would notice?"
   plan:
@@ -39,6 +39,6 @@ hints:
             return
         assert False, "deposit(0) should raise a ValueError"
 ---
-The trip fund's `Account` is in `bank.py`; Caitlin's tests are in `test_bank.py`. Run it: every test passes.
+The festival fund's `Account` is in `bank.py`; Caitlin's tests are in `test_bank.py`. Run it: every test passes.
 
 Fix the tests, not `bank.py`. When you press Check, your tests run against the real `bank.py`, then against copies with a bug planted in each method. A good test passes on the real one and fails on the broken one.

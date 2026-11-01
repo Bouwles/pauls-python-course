@@ -4,7 +4,7 @@ type: milestone
 title: "Milestone 4: the write-up"
 evidence: link
 dialogue:
-  - aaesha: "I'll read the first paragraph, then check every number in it. Then I'll read the rest."
+  - yahya.neutral: "I'll read the first paragraph, then check every number in it. Then I'll read the rest."
 checklist:
   - id: answer-first
     text: "The first paragraph answers the question: what changed, by how much, and how sure you are."
@@ -26,10 +26,10 @@ checklist:
     why: "Next year's file will have twelve more rows. Whoever reruns it deserves to know what changed."
   - id: short
     text: "It fits on two sides of paper, charts included."
-    why: "Aaesha has read a great many reports. The short ones are the ones she remembers."
+    why: "Yahya has read a great many reports. The short ones are the ones he remembers."
 ---
 Two sides of paper, not a thesis. The first paragraph answers the question: what changed, by how much, and how sure you are. Then how you got there, with the charts. Then what this can't tell anyone: one station, a sensor that changed in 2002, the gaps, the months still provisional. Then the credit line from `SOURCE.md`.
 
-Aaesha will check every number against your code, so each should be printed by `investigation.py` or readable off a chart.
+Yahya will check every number against your code, so each should be printed by `investigation.py` or readable off a chart.
 
 Watch for words that claim more than you showed. "Proves", "because" and "always" rarely survive a careful reader. "Suggests", "over these years" and "at this station" usually do.

@@ -13,16 +13,18 @@ export function isDone(row: StepProgressRow) {
 
 /**
  * The end of the instructions on steps without the editor: "Next step" once the step is done,
- * a quiet skip before then. Steps with the editor show "Next step" in its toolbar instead.
+ * a quiet skip before then. Steps with the editor show "Next step" in its toolbar instead (and
+ * here as well on a phone, where the toolbar is in the Code tab).
  */
 export function NextRow({ row, doneText, allowSkip = true, editor = false }: { row: StepProgressRow; doneText?: string; allowSkip?: boolean; editor?: boolean }) {
-  const { nextStep, goNext } = useWorkbench();
+  const { nextStep, goNext, compact } = useWorkbench();
   const done = isDone(row);
   if (!nextStep) return null;
   if (done) {
+    // On a phone the editor's toolbar is in another tab, so the instructions carry Next step too.
     return (
       <>
-        {editor ? null : (
+        {editor && !compact ? null : (
           <Button variant="primary" icon="next" onClick={goNext}>
             Next step
           </Button>

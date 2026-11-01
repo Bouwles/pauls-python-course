@@ -53,7 +53,7 @@ export function TeachHome({ teacher, classes }: { teacher: boolean; classes: Cla
       ) : null}
 
       {classes.length ? (
-        <section className={styles.section} aria-label="Your classes">
+        <section className={`px-panel ${styles.section}`} aria-label="Your classes">
           <div className={styles.tableWrap} role="region" aria-label="Your classes" tabIndex={0}>
             <table className={styles.table}>
               <thead>
@@ -102,7 +102,7 @@ export function TeachHome({ teacher, classes }: { teacher: boolean; classes: Cla
       ) : null}
 
       {teacher ? (
-        <section className={styles.section} aria-labelledby="new-class">
+        <section className={`px-panel ${styles.section}`} aria-labelledby="new-class">
           <h2 id="new-class" className={styles.h2}>
             New class
           </h2>

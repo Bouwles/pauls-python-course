@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Caitlin's version
 dialogue:
-  - caitlin: "A weather board for the Makerspace screen. Three days of weather, nine lines of it. Bonus content."
-  - caitlin: "Yahya says Sunday can't be three temperatures at once. Can you look?"
+  - caitlin.proud: "A weather board for the Makerspace screen. Three days of weather, nine lines of it. Bonus content."
+  - caitlin.confused: "Riya says Sunday can't be three temperatures at once. Can you look?"
 dialogue_after:
-  - caitlin: "zip walks them side by side, like the tailor's lists. One line a day. Less fun, more right."
+  - caitlin.laughing: "zip walks them side by side, like my kit book. One line a day. Less fun, more right."
 hints:
   nudge: "Count the lines. For each day, how many highs does the inner loop go through?"
   plan:

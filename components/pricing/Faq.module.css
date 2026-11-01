@@ -1,23 +1,20 @@
 .faq {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--s-8) var(--s-12);
+  gap: var(--s-10) var(--s-12);
 }
 
 .item {
   display: grid;
-  gap: var(--s-2);
+  gap: var(--s-3);
   align-content: start;
   min-width: 0;
 }
 
-/* A question is read, not announced: the text face, bold, at reading size. */
+/* A question is a short title in the pixel face; the answer is for reading. */
 .q {
-  font-family: var(--font-text);
-  font-size: var(--fs-4);
-  font-weight: 700;
-  letter-spacing: normal;
-  line-height: 1.35;
+  font-size: var(--px-2);
+  line-height: 1.2;
 }
 
 .a {
@@ -28,6 +25,6 @@
 @media (max-width: 760px) {
   .faq {
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--s-6);
+    gap: var(--s-8);
   }
 }

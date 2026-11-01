@@ -1,4 +1,5 @@
-/* The Workbench header: 56 px, the logo, where you are, then save status, the Clocktower and you. */
+/* The Workbench header: 56 px, the mark and name, where you are, then save status, the Clocktower
+   and you. Everything here is in the pixel face at 16 px; a two-pixel line along its foot. */
 .hud {
   display: flex;
   align-items: center;
@@ -7,18 +8,17 @@
   flex: none;
   padding: 0 var(--s-4) 0 var(--s-5);
   background: var(--bg);
-  border-bottom: 1px solid var(--line);
+  box-shadow: inset 0 -2px 0 0 var(--line);
   min-width: 0;
 }
 
 .home {
   display: inline-flex;
   align-items: center;
-  gap: var(--s-2);
+  gap: var(--s-3);
   flex: none;
   color: var(--text);
   text-decoration: none;
-  border-radius: var(--r-md);
 }
 
 .home:link,
@@ -30,73 +30,88 @@
 
 .brand {
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 19px;
-  letter-spacing: var(--tracking-display);
+  font-size: var(--px-1);
   line-height: 1;
   white-space: nowrap;
 }
 
+/* Where you are: the Act on a little pixel plate, the project, how far into the Act. */
 .crumbs {
   display: flex;
-  align-items: baseline;
-  gap: var(--s-3);
+  align-items: center;
+  gap: var(--s-4);
   min-width: 0;
   flex: 1;
   padding-left: var(--s-5);
-  border-left: 1px solid var(--line);
+  box-shadow: inset 2px 0 0 0 var(--line);
   height: 24px;
-  align-self: center;
 }
 
 .crumbs ol {
   display: flex;
-  align-items: baseline;
-  gap: var(--s-2);
+  align-items: center;
+  gap: var(--s-3);
   margin: 0;
   padding: 0;
   list-style: none;
   min-width: 0;
-  font-size: var(--fs-2);
-  line-height: 24px;
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  line-height: 1;
 }
 
 .crumbs li {
   display: flex;
-  align-items: baseline;
-  gap: var(--s-2);
+  align-items: center;
+  gap: var(--s-3);
   min-width: 0;
   white-space: nowrap;
 }
 
 .crumbs li + li::before {
-  content: "/";
-  color: var(--text-2);
+  content: "";
+  flex: none;
+  width: 4px;
+  height: 4px;
+  background: var(--text-3);
+}
+
+.act {
+  display: inline-block;
+  padding: 4px 6px;
+  background: var(--surface-3);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
 }
 
 .act:link,
 .act:visited {
-  color: var(--text-2);
+  color: var(--text);
   text-decoration: none;
 }
 
 .act:hover {
+  background: var(--line);
   color: var(--text);
-  text-decoration: underline;
+  text-decoration: none;
 }
 
-.job {
-  font-weight: 700;
+.crumbs li.job {
+  display: block;
   color: var(--text);
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .position {
-  font-size: var(--fs-1);
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  line-height: 1;
   color: var(--text-2);
   white-space: nowrap;
-  line-height: 24px;
 }
 
 .right {
@@ -113,12 +128,8 @@
   place-items: center;
   width: 40px;
   height: 40px;
-  border-radius: var(--r-md);
   color: var(--text-2);
   text-decoration: none;
-  transition:
-    background-color var(--dur) var(--ease-out),
-    color var(--dur) var(--ease-out);
 }
 
 .iconLink:link,
@@ -126,13 +137,15 @@
   color: var(--text-2);
 }
 
-.iconLink:hover {
-  background: var(--surface-3);
-  color: var(--text);
-}
-
+.iconLink:hover,
 .avatar:hover {
   background: var(--surface-3);
+  color: var(--text);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
 }
 
 .save {
@@ -142,9 +155,10 @@
 .clock {
   display: inline-flex;
   align-items: center;
-  gap: var(--s-1);
-  font-size: var(--fs-1);
-  font-weight: 700;
+  gap: var(--s-2);
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  line-height: 1;
   font-variant-numeric: tabular-nums;
   margin-right: var(--s-2);
 }
@@ -162,28 +176,25 @@
 @media (max-width: 720px) {
   .hud {
     gap: var(--s-3);
-    padding: 0 var(--s-2) 0 var(--s-4);
+    padding: 0 var(--s-2) 0 var(--s-3);
   }
 
   .crumbs {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0;
-    height: auto;
+    justify-content: center;
+    gap: 6px;
+    height: 40px;
     padding-left: var(--s-3);
-  }
-
-  .crumbs ol,
-  .position {
-    line-height: 1.25;
   }
 
   .crumbs ol {
     max-width: 100%;
+    gap: var(--s-2);
   }
 
-  .position {
-    font-size: 13px;
+  .crumbs li {
+    gap: var(--s-2);
   }
 
   .right {

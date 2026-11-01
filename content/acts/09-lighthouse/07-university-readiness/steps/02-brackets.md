@@ -4,7 +4,7 @@ type: make
 title: "Question 1: The clock's lamp schedule"
 files: [brackets.py]
 entry: brackets.py
-on_pass: { neil: "Every bracket has its partner. The schedule loads, and the lamp comes on at dusk." }
+on_pass: { neil.pleased.thumbs: "Every bracket has its partner. The schedule loads, and the lamp comes on at dusk." }
 hints:
   nudge: "When a closing bracket arrives, which opener must it match: the first one still open, or the most recent?"
   plan:

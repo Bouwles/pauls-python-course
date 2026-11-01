@@ -4,7 +4,7 @@ type: predict
 title: Five people, three parishes
 concept: groupby
 dialogue:
-  - aaesha: "Everything by parish. Whoever kept the Archive before us did it with four piles of cards."
+  - yahya.thinking: "Everything by parish. Whoever kept the Archive before us did it with four piles of cards."
 code: |
   import pandas as pd
 

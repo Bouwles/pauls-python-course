@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "My log for the tower lights. Three nights and a fog. Count what follows what."
+  - paul.neutral.point: "My log for the tower lights. Three nights and a fog. Count what follows what."
 code: |
   import numpy as np
 

@@ -13,16 +13,16 @@ code: |
       return -1, looks
 
 
-  pile = ["hubcap", "spring", "bolt", "kettle", "bolt", "gear"]
+  pile = ["sprocket", "spring", "bolt", "visor", "bolt", "gear"]
   print(find(pile, "bolt"))
-  print(find(pile, "piston"))
+  print(find(pile, "turbo"))
 question: What does this print?
 options:
   - text: |-
       (2, 3)
       (-1, 6)
     correct: true
-    feedback: "Right. It stops at the first bolt, after three looks. To be sure there's no piston, it has to look at all six."
+    feedback: "Right. It stops at the first bolt, after three looks. To be sure there's no turbo, it has to look at all six."
   - text: |-
       (4, 5)
       (-1, 6)
@@ -32,15 +32,15 @@ options:
       (2, 3)
       (-1, 0)
     misconception: missing-costs-nothing
-    feedback: "Nothing can say the piston isn't there without looking at every part. A miss is the slowest search of all: six looks."
+    feedback: "Nothing can say the turbo isn't there without looking at every part. A miss is the slowest search of all: six looks."
   - text: |-
       (3, 3)
       (-1, 6)
     misconception: index-from-one
-    feedback: "Positions count from 0: hubcap is 0, spring 1, bolt 2. It took three looks to reach position 2."
+    feedback: "Positions count from 0: sprocket is 0, spring 1, bolt 2. It took three looks to reach position 2."
 after: |
-  Run it. Then add four more parts to the pile and search for the piston again.
+  Run it. Then add four more parts to the pile and search for the turbo again.
 ---
-This is how Riya searches the list: look at each part in turn until it's the one she wants. It's called a **linear search**, and it works on any pile, in any order.
+This is how Caitlin searches Neil's list: look at each part in turn until it's the one she wants. It's called a **linear search**, and it works on any pile, in any order.
 
 `find` gives back two things: where it found the part, or `-1` if it didn't, and how many parts it looked at.

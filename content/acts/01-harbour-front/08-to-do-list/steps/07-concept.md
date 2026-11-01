@@ -5,7 +5,7 @@ title: Two labels, one box
 widget: two-labels
 concept: list-aliasing
 dialogue:
-  - paul: "Labels on boxes. With numbers it never mattered. With lists it does."
+  - paul.thinking.think: "Labels on boxes. With numbers it never mattered. With lists it does."
 ---
 A variable is a label on a box. `b = a` doesn't build a second box. It sticks a second label on the same one.
 

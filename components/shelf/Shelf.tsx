@@ -1,9 +1,11 @@
 "use client";
 
-// The Shelf (REDESIGN-2.md 6): everything the learner has shipped, as a grid of project cards.
-// Each card shows what the program really prints: the learner's last run from here when there
-// is one (or its chart), otherwise the project's example run. Run opens the program in a sheet
-// with its code and a console; Download and Push to GitHub work as they always have.
+// The Shelf (REDESIGN-2.md 6, REDESIGN3_PLAN.md): everything the learner has shipped, as a grid
+// of project cards. Each card shows what the program really prints: the learner's last run from
+// here when there is one (or its chart), otherwise the project's example run. The client it was
+// made for stands beside it, pleased with it: whoever got the newest one is still cheering, and
+// the others cheer again when you point at their card. Run opens the program in a sheet with its
+// code and a console; Download and Push to GitHub work as they always have.
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSession } from "@/lib/store/session";
 import { getCode } from "@/lib/store/progress";
@@ -11,7 +13,11 @@ import type { JobProgressRow } from "@/lib/store/types";
 import { isShipped } from "@/lib/progress-rules";
 import { download, projectFolder, readme, repoReadme, slug, withWorkshopStub, zip, type ShelfItem } from "@/lib/export";
 import type { Files } from "@/lib/python/protocol";
+import { castColour, CAST_IDS, PROFESSOR } from "@/lib/cast";
+import { useMedia } from "@/lib/useMedia";
+import { PixelPerson } from "../art/PixelPerson";
 import { ShelfObject } from "../art/ShelfObject";
+import { Speech } from "../art/Speech";
 import { Button, LinkButton } from "../ui/Button";
 import { Icon } from "../ui/Icon";
 import { Editor } from "../workbench/Editor";
@@ -48,6 +54,8 @@ export function Shelf({ cards }: { cards: ShelfCard[] }) {
   const [progress, setProgress] = useState<Record<string, JobProgressRow> | null>(null);
   const [runs, setRuns] = useState<Record<string, SavedRun>>({});
   const [open, setOpen] = useState<string | null>(null);
+  const [pointed, setPointed] = useState<string | null>(null);
+  const phone = useMedia("(max-width: 720px)");
 
   useEffect(() => {
     if (!store) return;
@@ -119,6 +127,7 @@ export function Shelf({ cards }: { cards: ShelfCard[] }) {
 
   if (!ready || progress === null) return null;
   const openCard = shipped.find((c) => c.item.jobId === open) ?? null;
+  const newest = shipped.reduce<ShelfCard | null>((a, c) => ((progress[c.item.jobId]?.shippedAt ?? 0) > (a ? (progress[a.item.jobId]?.shippedAt ?? 0) : -1) ? c : a), null)?.item.jobId;
 
   return (
     <div className={styles.shelf}>
@@ -133,16 +142,14 @@ export function Shelf({ cards }: { cards: ShelfCard[] }) {
 
       {shipped.length === 0 ? (
         <div className={styles.empty}>
-          <Icon name="shelf" size={32} className={styles.emptyIcon} />
-          <p className={styles.emptyTitle}>Nothing on the Shelf yet.</p>
-          <p className={styles.quiet}>Your first project is the sign on the Clocktower door. It takes about twenty minutes.</p>
+          <Speech who={PROFESSOR} name="Paul" text="Nothing on the Shelf yet. Your first project is the sign on my door. It takes about twenty minutes." face="pleased" gesture="point" size={phone ? 72 : 108} />
           <LinkButton href="/job/shop-sign" variant="primary">
             Start the first project
           </LinkButton>
         </div>
       ) : (
         <>
-          <section className={styles.export} aria-labelledby="export-title">
+          <section className={`px-panel ${styles.export}`} aria-labelledby="export-title">
             <div className={styles.exportText}>
               <h2 id="export-title" className={styles.exportTitle}>
                 Everything, as one repository
@@ -160,13 +167,24 @@ export function Shelf({ cards }: { cards: ShelfCard[] }) {
           <ul className={styles.grid} aria-label="Your projects">
             {shipped.map((c) => {
               const row = progress[c.item.jobId]!;
+              const person = (CAST_IDS as readonly string[]).includes(c.clientId);
+              const cheering = c.item.jobId === newest || c.item.jobId === pointed;
+              const point = () => setPointed(c.item.jobId);
+              const leave = () => setPointed((p) => (p === c.item.jobId ? null : p));
               return (
-                <li key={c.item.jobId} className={styles.card}>
+                <li key={c.item.jobId} className={`px-panel ${styles.card}`} onMouseEnter={point} onMouseLeave={leave} onFocus={point} onBlur={leave}>
                   <Preview card={c} run={runs[c.item.jobId] ?? null} />
                   <div className={styles.body}>
-                    <ShelfObject jobId={c.item.jobId} title={c.item.title} client={c.clientId} size={40} />
+                    {person ? (
+                      <span className={styles.client} style={{ background: castColour(c.clientId).face }} aria-hidden="true">
+                        <PixelPerson who={c.clientId} crop="bust" scale={2} expression={c.item.jobId === newest ? "laughing" : "pleased"} pose={cheering ? "cheer" : "idle"} />
+                      </span>
+                    ) : (
+                      <ShelfObject jobId={c.item.jobId} title={c.item.title} client={c.clientId} size={48} />
+                    )}
                     <div className={styles.bodyText}>
                       <h2 className={styles.name}>{c.name}</h2>
+                      <p className={styles.meta}>For {c.item.client}.</p>
                       <p className={styles.meta}>
                         Shipped {longDate(row.shippedAt)}
                         {row.status === "shipped-stretch" ? ", with a stretch task" : ""}
@@ -198,7 +216,7 @@ export function Shelf({ cards }: { cards: ShelfCard[] }) {
 function Preview({ card, run }: { card: ShelfCard; run: SavedRun | null }) {
   if (run?.figure)
     return (
-      <figure className={styles.chart}>
+      <figure className={`px-inset ${styles.chart}`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={run.figure.startsWith("data:") ? run.figure : `data:image/png;base64,${run.figure}`} alt={`The chart ${card.name} drew on your last run`} />
       </figure>
@@ -207,7 +225,7 @@ function Preview({ card, run }: { card: ShelfCard; run: SavedRun | null }) {
   if (text) {
     const lines = text.replace(/\s+$/, "").split("\n");
     return (
-      <figure className={`code-dark ${styles.preview}`}>
+      <figure className={`code-dark px-inset ${styles.preview}`}>
         <figcaption className={styles.previewLabel}>{run?.output.trim() ? "Your last run" : "Example run"}</figcaption>
         <pre className={styles.previewText}>
           {lines.length > PREVIEW_LINES ? `${lines.slice(0, PREVIEW_LINES - 1).join("\n")}\n...` : lines.join("\n")}
@@ -216,8 +234,8 @@ function Preview({ card, run }: { card: ShelfCard; run: SavedRun | null }) {
     );
   }
   return (
-    <figure className={`code-dark ${styles.preview} ${styles.previewEmpty}`}>
-      <Icon name={card.draws ? "chartBar" : "terminal"} size={28} />
+    <figure className={`code-dark px-inset ${styles.preview} ${styles.previewEmpty}`}>
+      <Icon name={card.draws ? "chartBar" : "terminal"} size={24} />
       <figcaption className={styles.previewLabel}>{card.draws ? "Run it to see its chart here" : "Run it to see what it prints"}</figcaption>
     </figure>
   );

@@ -1,35 +1,49 @@
+/*
+  The speech bubble (REDESIGN3_PLAN.md P2): a pixel panel with a stepped tail pointing at the
+  speaker, and their name on a little pixel tag in their colour.
+*/
 .bubble {
   position: relative;
   display: grid;
   gap: var(--s-2);
   justify-items: start;
   background: var(--surface-2);
-  border-radius: var(--r-lg);
   padding: var(--s-3) var(--s-4);
   min-width: 0;
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-hi),
+    4px 4px 0 0 var(--px-drop);
 }
 
 :root[data-theme="light"] .bubble {
-  background: var(--surface-3);
+  background: var(--surface-1);
 }
 
 @media (prefers-color-scheme: light) {
   :root[data-theme="system"] .bubble {
-    background: var(--surface-3);
+    background: var(--surface-1);
   }
 }
 
 .name {
   font-family: var(--font-display);
-  font-size: var(--fs-1);
-  font-weight: 700;
+  font-size: var(--px-1);
+  font-weight: 400;
   line-height: 1;
-  padding: 4px 8px;
-  border-radius: var(--r-sm);
+  padding: 4px 8px 3px;
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
 }
 
 .text {
-  font-size: var(--fs-2);
+  font-size: var(--fs-3);
   line-height: 1.5;
   color: var(--text);
 }
@@ -38,31 +52,64 @@
   margin-top: var(--s-2);
 }
 
-/* The tail: a small square turned 45 degrees, in the bubble's colour. */
-.bubble::before {
+/* The tail: three steps of pixels, outlined, pointing at the speaker. */
+.bubble::before,
+.bubble::after {
   content: "";
   position: absolute;
-  width: 12px;
-  height: 12px;
+  width: 8px;
+  height: 4px;
   background: inherit;
-  transform: rotate(45deg);
 }
 
 .tail-left::before {
-  left: -5px;
-  top: 18px;
+  left: -8px;
+  top: 16px;
+  box-shadow:
+    -2px 0 0 0 var(--px-outline),
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline);
+}
+
+.tail-left::after {
+  left: -4px;
+  top: 20px;
+  width: 4px;
+  box-shadow: 0 2px 0 0 var(--px-outline);
 }
 
 .tail-top::before {
-  top: -5px;
+  top: -8px;
+  left: 20px;
+  width: 4px;
+  height: 8px;
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
+}
+
+.tail-top::after {
+  top: -4px;
   left: 24px;
+  width: 4px;
+  height: 4px;
+  box-shadow: 2px 0 0 0 var(--px-outline);
 }
 
 .tail-bottom::before {
-  bottom: -5px;
-  left: 24px;
+  bottom: -8px;
+  left: 20px;
+  width: 4px;
+  height: 8px;
+  box-shadow:
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
 }
 
-.tail-none::before {
+.tail-bottom::after,
+.tail-none::before,
+.tail-none::after {
   display: none;
 }

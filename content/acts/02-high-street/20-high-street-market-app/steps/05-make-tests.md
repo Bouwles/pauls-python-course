@@ -6,8 +6,8 @@ files: [money.py, storage.py, cli.py, test_money.py]
 entry: test_money.py
 starter_from: make-cli
 dialogue:
-  - aaesha: "Anyone can say it works. Tests say what would happen if it didn't."
-on_pass: { aaesha: "Eight broken ledgers, eight caught. Riya can stop worrying." }
+  - aaesha.thinking: "Anyone can say it works. Tests say what would happen if it didn't."
+on_pass: { caitlin.surprised: "Eight broken ledgers, eight caught. Aaesha says I can stop worrying." }
 hints:
   nudge: "For each rule in the requirements, what would someone have to break for a test of yours to fail?"
   plan:

@@ -5,9 +5,9 @@ title: The rules, before the routes
 files: [rules.py, berths.py]
 entry: rules.py
 dialogue:
-  - riya: "Before the web pages, the rules. The marina has kept them in people's heads for twenty years."
-  - paul: "Then write them down where a test can reach them."
-on_pass: { riya: "Too long, too many nights, a berth that isn't there, and a clash. Every one refused, with a reason." }
+  - caitlin.thinking: "Before the web pages, the rules. The marina has kept them in people's heads for twenty years."
+  - paul.pleased.point: "Then write them down where a test can reach them."
+on_pass: { caitlin.pleased.thumbs: "Too long, too many nights, a berth that isn't there, and a clash. Every one refused, with a reason." }
 hints:
   nudge: "What has to be true of each of the five fields before a booking is kept, and what should the refusal say when one isn't?"
   plan:

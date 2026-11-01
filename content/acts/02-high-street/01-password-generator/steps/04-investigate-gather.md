@@ -47,6 +47,6 @@ tasks:
     feedback: "A dictionary. `**options` gathers every keyword argument that matches no parameter: the names become keys, in the order they were given."
     wrong: "Look for `<class '...'>` in the output."
 ---
-Neil has five people to set up, and next term there may be more. `*names` in a `def` line gathers any number of positional arguments into one parameter, so the function doesn't need to know how many.
+Caitlin has five players to set up, and next term there may be more. `*names` in a `def` line gathers any number of positional arguments into one parameter, so the function doesn't need to know how many.
 
 The string in triple quotes under the `def` line is a **docstring**: it says what the function does. Work through the questions. You can always reset.

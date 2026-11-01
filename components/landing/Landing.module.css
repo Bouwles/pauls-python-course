@@ -1,5 +1,6 @@
-/* The landing page (REDESIGN-2.md 6). One column of sections on the page colour, every other
-   one a step up (a band), so depth comes from surfaces and space rather than boxes. */
+/* The landing page (REDESIGN-2.md 6, REDESIGN3_PLAN.md P3). One column of sections on the page
+   colour, every other one a step up (a band) with a pixel edge, so depth comes from surfaces and
+   space rather than boxes. Titles in the pixel face at its crisp sizes only. */
 .page {
   display: flex;
   flex-direction: column;
@@ -37,10 +38,8 @@
 }
 
 .headline {
-  font-size: var(--fs-8);
-  font-weight: 800;
-  line-height: 1.02;
-  letter-spacing: var(--tracking-display);
+  font-size: var(--px-6);
+  line-height: 1;
   text-wrap: balance;
 }
 
@@ -76,6 +75,10 @@
 
 .band {
   background: var(--surface-1);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-hi);
 }
 
 .head {
@@ -86,8 +89,7 @@
 }
 
 .h2 {
-  font-size: var(--fs-7);
-  font-weight: 800;
+  font-size: var(--px-5);
 }
 
 .lede {
@@ -118,7 +120,8 @@
   gap: var(--s-3);
   min-height: min(820px, 92vh);
   color: var(--text-2);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--px-1);
 }
 
 /* ---- The Clocktower: the tower beside its directory ---- */
@@ -179,7 +182,12 @@
   }
 
   .headline {
-    line-height: 1.05;
+    font-size: var(--px-4);
+    line-height: 1.1;
+  }
+
+  .h2 {
+    font-size: var(--px-3);
   }
 
   .ctas {

@@ -3,8 +3,8 @@ id: first-commit
 type: git
 title: The first photograph
 dialogue:
-  - caitlin: "I committed everything with the message 'stuff'. Is that bad?"
-  - paul: "Yes."
+  - caitlin.confused: "I committed everything with the message 'stuff'. Is that bad?"
+  - paul.unimpressed: "Yes."
 tasks:
   - id: init
     prompt: "Make the folder a repository: `git init`. Then try `git status`."

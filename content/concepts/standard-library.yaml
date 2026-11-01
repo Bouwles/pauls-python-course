@@ -82,7 +82,7 @@ cards:
     tests: |
       TESTS = [output("Closing time", expect="13:00")]
   - type: write
-    prompt: "Print Riya's running totals for the week as a list, using `accumulate` from `itertools`."
+    prompt: "Print the running totals of Riya's print sales for the week as a list, using `accumulate` from `itertools`."
     starter: |
       takings = [40, 25, 60, 15]
     tests: |

@@ -45,11 +45,11 @@ concepts_introduced: [tokenisation, embeddings, language-models]
 concepts_reviewed: [cross-entropy, neural-networks, backpropagation, gradient-descent, probability, sets, dictionaries, string-methods, files, numpy-arrays, matrices, random-module]
 ask:
   dialogue:
-    - caitlin: "My sailing game has a radio. It reads the shipping forecast for the game's sea areas."
-    - caitlin: "I wrote thirty forecasts, and kept five back. I want the game to make up its own."
-    - neil: "Then it learns from yours. Thirty is a small library, but it's enough to learn some spelling."
-    - yahya: "It'll be writing the forecast by Friday."
-    - paul: "It'll be writing something by Friday."
+    - caitlin.pleased.wave: "My sailing game has a radio. It reads the shipping forecast for the game's sea areas."
+    - caitlin.neutral.point: "I wrote thirty forecasts, and kept five back. I want the game to make up its own."
+    - neil.thinking: "Then it learns from yours. Thirty is a small library, but it's enough to learn some spelling."
+    - yahya.proud: "It'll be writing the forecast by Friday."
+    - paul.unimpressed: "It'll be writing something by Friday."
   spec: |
     In `words.py`, turn the forecasts into numbers and build a model that guesses each next character by counting.
 
@@ -70,10 +70,10 @@ ask:
     6 hesaiomo mon sherly omorigherough-weshea9-3 goorably norstester. e. orsththor.
 ship:
   dialogue:
-    - caitlin: "Perplexity 7.05 on forecasts it never saw. Guessing evenly would be 39."
-    - yahya: "It forecast 'gout ooubesinoord'. I'd still sail in that."
-    - neil: "It knows which letter follows which. One letter back. That's everything it knows."
-    - paul: "Then it needs to look further back."
+    - caitlin.pleased.cheer: "Perplexity 7.05 on forecasts it never saw. Guessing evenly would be 39."
+    - yahya.laughing: "It forecast 'gout ooubesinoord'. I'd still sail in that."
+    - neil.thinking: "It knows which letter follows which. One letter back. That's everything it knows."
+    - paul.neutral.point: "Then it needs to look further back."
   shelf: { object: type-case, label: "Caitlin's forecasts, as numbers" }
   cards: [tokenisation, embeddings, language-models]
 stretch:

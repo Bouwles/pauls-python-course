@@ -3,7 +3,7 @@ id: grid
 type: reading
 title: The racing grid
 dialogue:
-  - yahya: "Twelve tiles. One rock. One pool. Everyone races the same line."
+  - neil.thinking.point: "Twelve tiles. One rock. One pool. Everyone races the same line."
 ---
 ```text
 ...F    F  the finish: +10, and the race is over

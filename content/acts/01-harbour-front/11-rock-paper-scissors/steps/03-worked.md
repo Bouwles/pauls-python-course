@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "Neil and I settle tabs against spaces with a coin. Same shape of game, fewer hands."
+  - paul.laughing: "Neil and I settle tabs against spaces with a coin. Same shape of game, fewer hands."
 code: |
   # Heads or tails against the machine, for tabs against spaces
   import random

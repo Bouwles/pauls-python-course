@@ -5,7 +5,7 @@ import type { JobProgressRow } from "@/lib/store/types";
 import { duration } from "@/lib/display";
 import { Badge } from "../ui/Badge";
 import { Icon } from "../ui/Icon";
-import { floorVars } from "./FloorArt";
+import { PixelRoom } from "../art/PixelRoom";
 import { jobBadge } from "./floors";
 import type { FloorInfo } from "./Clocktower";
 import styles from "./TowerList.module.css";
@@ -14,7 +14,8 @@ const cap = (id: string) => id.charAt(0).toUpperCase() + id.slice(1);
 
 /**
  * The list view (REDESIGN-2.md 5.2): every Act and its projects as plain tables, ground floor
- * first. Open floors start expanded; locked ones fold away but still list everything.
+ * first, each Act a pixel panel with its room beside its name. Open floors start expanded;
+ * locked ones fold away but still list everything.
  */
 export function TowerList({ floors, progress, names }: { floors: FloorInfo[]; progress: Record<string, JobProgressRow>; names: Record<string, string> }) {
   return (
@@ -22,7 +23,9 @@ export function TowerList({ floors, progress, names }: { floors: FloorInfo[]; pr
       {floors.map(({ floor, act, stats, state, open, pro }) => (
         <details key={act.id} className={styles.act} open={state !== "locked"}>
           <summary className={styles.summary}>
-            <span className={styles.swatch} style={floorVars(floor.act)} aria-hidden="true" />
+            <span className={styles.thumb}>
+              <PixelRoom act={floor.act} state={state} scale={1} animate={false} />
+            </span>
             <h2 className={styles.actTitle}>
               <span className={styles.actNo}>Act {act.number}</span> {act.subject}
             </h2>

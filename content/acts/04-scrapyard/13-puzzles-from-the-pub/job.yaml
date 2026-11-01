@@ -6,7 +6,7 @@ portfolio_readme: |
 
   Solves sudoku puzzles by backtracking: fill the next blank square with the first digit that fits its row, its column and its box, carry on, and when a square has nothing left that fits, rub out the last digit and try the next one there. It solves any puzzle that can be solved, and says so plainly when one can't be.
 
-  Written by {name} for Yahya, at Paul's Python Course. Finished {date}.
+  Written by {name} for Caitlin, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -43,23 +43,23 @@ portfolio_readme: |
   - Checking a row, a column and a 3 by 3 box, and finding the next blank in a fixed order
   - Printing a grid as text with separators
 downloadable: true
-# The three puzzles were made for the story: the last three in Yahya's puzzle book, two
+# The three puzzles were made for the story: the last three in Caitlin's puzzle book, two
 # with one solution each and one with none. See the README.
 datasets: []
-client: yahya
+client: caitlin
 building: pub
 estimated_minutes: 90
-summary: "A sudoku solver for Yahya's puzzle book: fill a square, check it, and back out of every dead end, until the puzzle is solved or shown to be impossible."
+summary: "A sudoku solver for Caitlin's puzzle book: fill a square, check it, and back out of every dead end, until the puzzle is solved or shown to be impossible."
 concepts_introduced: [backtracking]
 concepts_reviewed: [recursion, base-cases, call-stack, sets, tuples, nested-data, list-methods, files, big-o, edge-cases]
 ask:
   dialogue:
-    - yahya: "The last three sudokus in my puzzle book. No answers in the back."
-    - yahya: "Two took me under ten minutes each. The third, I've been stuck on for a week."
-    - yahya: "Either I'm wrong or the puzzle is. I'd like to know which before Friday."
-    - paul: "Try everything, carefully, and back out of every dead end. A program doesn't mind dead ends."
+    - caitlin.pleased.wave: "The last three sudokus in my puzzle book. No answers in the back."
+    - caitlin.proud: "Two took me under ten minutes each. The third, I've been stuck on for a week."
+    - caitlin.unimpressed: "Either I'm wrong or the puzzle is. I'd like to know which, quickly."
+    - paul.neutral: "Try everything, carefully, and back out of every dead end. A program doesn't mind dead ends."
   spec: |
-    `puzzles.txt` holds Yahya's three puzzles. `read_puzzles` is written: it gives back each puzzle as nine rows of nine numbers, with 0 for a blank. In `sudoku.py`, write:
+    `puzzles.txt` holds Caitlin's three puzzles. `read_puzzles` is written: it gives back each puzzle as nine rows of nine numbers, with 0 for a blank. In `sudoku.py`, write:
 
     1. `can_place(grid, row, col, digit)`: `True` if `digit` isn't already in that square's row, its column, or its 3 by 3 box; `False` if it is.
     2. `next_blank(grid)`: the `(row, col)` of the first blank square, reading along each row from the top, or `None` if there are no blanks.
@@ -98,21 +98,21 @@ ask:
     No solution. It can't be done.
 ship:
   dialogue:
-    - yahya: "The third one can't be done. Not by me, not by anyone. So it wasn't me."
-    - yahya: "A week on a puzzle with no answer. I'm choosing to call that training."
-    - paul: "It tried every digit in every square it had to, and rubbed out every one it got wrong."
-  shelf: { object: quiz-sheet, label: "Yahya's puzzle book, with the answers" }
+    - caitlin.laughing.cheer: "The third one can't be done. Not by me, not by anyone. So it wasn't me."
+    - caitlin.unimpressed: "A week on a puzzle with no answer. I'm choosing to call that practice."
+    - paul.thinking: "It tried every digit in every square it had to, and rubbed out every one it got wrong."
+  shelf: { object: quiz-sheet, label: "Caitlin's puzzle book, with the answers" }
   cards: [backtracking]
 stretch:
   - id: count-guesses
     title: "How hard was it"
     prompt: |
-      Count the digits `solve` writes in, wrong ones included, and print the count under each puzzle. Pass a list like `[0]` into `solve` and add to it, or make the count a second thing `solve` gives back. Which of Yahya's puzzles took the most guesses? Then try filling the blank with the fewest digits that fit first, instead of the next blank along, and count again.
+      Count the digits `solve` writes in, wrong ones included, and print the count under each puzzle. Pass a list like `[0]` into `solve` and add to it, or make the count a second thing `solve` gives back. Which of Caitlin's puzzles took the most guesses? Then try filling the blank with the fewest digits that fit first, instead of the next blank along, and count again.
   - id: one-answer
     title: "Only one answer"
     prompt: |
-      A fair puzzle has exactly one solution. Write `count_solutions(grid, limit=2)`, which keeps going after the first solution, counting, and stops as soon as it reaches `limit`. Check that Yahya's first two have one each, then take a square out of the first and count again.
+      A fair puzzle has exactly one solution. Write `count_solutions(grid, limit=2)`, which keeps going after the first solution, counting, and stops as soon as it reaches `limit`. Check that Caitlin's first two have one each, then take a square out of the first and count again.
   - id: round-table
     title: "The round table"
     prompt: |
-      Next chess night, the teams sit round one big table. Write `count_round_seatings(teams, rivals)` from Paul's seating, where the first and last seats are neighbours too, and seatings that are the same turned round count once: fix the first team in the first seat and seat the rest.
+      Next games night, the chess teams sit round one big table. Write `count_round_seatings(teams, rivals)` from Paul's seating, where the first and last seats are neighbours too, and seatings that are the same turned round count once: fix the first team in the first seat and seat the rest.

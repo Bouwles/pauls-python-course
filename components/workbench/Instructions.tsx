@@ -69,7 +69,7 @@ export function Instructions({
   const openHints = () => {
     const open = !hintsOpen;
     setHintsOpen(open);
-    if (open) say(ASSISTANT, "Stuck? Pick how much help you want. Each one gives a little more away.", { kind: "hint", face: "thinking" });
+    if (open) say(ASSISTANT, "Stuck? Pick how much help you want. Each one gives a little more away.", { kind: "hint", face: "thinking", gesture: "point" });
   };
 
   return (
@@ -174,7 +174,9 @@ export function ProjectSpec({ open = false }: { open?: boolean }) {
         {ask.example ? (
           <>
             <p className="label">Example run</p>
-            <pre className={`code-dark ${styles.example}`}>{ask.example}</pre>
+            <pre className={`code-dark ${styles.example}`} tabIndex={0} role="group" aria-label="Example run">
+              {ask.example}
+            </pre>
           </>
         ) : null}
         {landing ? null : (

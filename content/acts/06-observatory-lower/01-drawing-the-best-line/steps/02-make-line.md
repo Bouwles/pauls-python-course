@@ -4,7 +4,7 @@ type: make
 title: The best line, by formula
 files: [house_prices.py]
 entry: house_prices.py
-on_pass: { riya: "Three and a half thousand dollars a square metre. Seattle, behaving exactly like Seattle." }
+on_pass: { paul.pleased: "Three and a half thousand dollars a square metre. Seattle, behaving exactly like Seattle." }
 hints:
   nudge: "If `predicted` and `actual` are both arrays, what does `predicted - actual` give you? And what does `np.mean` do to that?"
   plan:

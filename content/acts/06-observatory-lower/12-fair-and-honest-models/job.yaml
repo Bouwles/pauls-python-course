@@ -4,9 +4,9 @@ project_name: "Model Evaluation Clinic"
 portfolio_readme: |
   # Model Evaluation Clinic
 
-  Examines a model before it is trusted with a decision that matters: here, which booked visitors to the Clocktower's stargazing nights will turn up, so that empty telescope slots can go to the waiting list. The clinic finds the column that leaks the answer and drops it, keeps the scaling inside every fold with scikit-learn pipelines, compares four models fairly by cross-validation with a grid search for one of them, tests the chosen model once on a season it never saw, and then asks who it is wrong about.
+  Examines a model before it is trusted with a decision that matters: here, which booked visitors to Neil's stargazing nights on the Clocktower's roof will turn up, so that empty telescope slots can go to the waiting list. The clinic finds the column that leaks the answer and drops it, keeps the scaling inside every fold with scikit-learn pipelines, compares four models fairly by cross-validation with a grid search for one of them, tests the chosen model once on a season it never saw, and then asks who it is wrong about.
 
-  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
+  Written by {name} for Neil, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -47,18 +47,18 @@ portfolio_readme: |
   The bookings are invented, deliberately: a planted leak (`signed_book`, filled in on the night) and a group the model can't see the reason for (visitors from outside the city, who book far ahead because of the train) need data where the truth is known. `saturdays.csv` and `dials.csv`, used by the worked example and the fix-it step, are invented too.
 downloadable: true
 datasets: []
-client: aaesha
+client: neil
 building: observatory
 estimated_minutes: 130
-summary: "Before a model gives away anyone's place at the stargazing nights, a clinic: the column that knows the answer, preprocessing kept inside the folds, four models compared by cross-validation and a grid search, one look in the bottom drawer, and who the model is wrong about."
+summary: "Before a model gives away anyone's place at Neil's stargazing nights, a clinic: the column that knows the answer, preprocessing kept inside the folds, four models compared by cross-validation and a grid search, one look in the bottom drawer, and who the model is wrong about."
 concepts_introduced: [pipelines, cross-validation, grid-search, data-leakage, model-bias]
 concepts_reviewed: [scikit-learn, train-test-split, feature-scaling, logistic-regression, knn, decision-trees, ensembles, classification-metrics, overfitting, numpy-arrays, inheritance, super, sets, dictionaries, dict-set-comprehensions, functions, main-guard, docstrings, f-strings]
 ask:
   dialogue:
-    - aaesha: "Stargazing nights on the roof terrace. Twelve telescope slots, always booked, always somebody who doesn't come."
-    - aaesha: "A model could say whose slot to offer the waiting list. Yahya has built one."
-    - yahya: "Ninety-eight per cent. Beat that."
-    - paul: "First we see what it's using, which model deserves the job, and who it's wrong about. Before anyone loses a place."
+    - neil.pleased.wave: "Stargazing nights on the roof terrace. Twelve telescope slots, always booked, always somebody who doesn't come."
+    - neil.worried: "The space station goes over, and someone on the waiting list misses it. Yahya's built a model."
+    - yahya.proud: "Ninety-eight per cent. Beat that."
+    - paul.thinking.point: "First we see what it's using, which model deserves the job, and who it's wrong about. Before anyone loses a place."
   spec: |
     Two seasons of stargazing bookings are in `bookings.csv`. This season's are locked in the bottom drawer, `drawer.csv`. Each booking says how many days ahead it was made, the size of the party, the cloud forecast on the day, whether it was a first visit, whether the visitor lives outside the city, whether they signed the visitors' book on the night, and whether they came.
 
@@ -88,11 +88,11 @@ ask:
     outside  accuracy 0.35, slot given away 0.64
 ship:
   dialogue:
-    - aaesha: "Visitors from outside the city book a month ahead, for the train. Locals who book that far ahead forget."
-    - aaesha: "It only learnt the locals. It would have given away two in three of the others' places. The ones who came."
-    - paul: "It can't know about the train. Nobody told it."
-    - aaesha: "Then nobody's slot goes on its say-so. I'm adding a question about travel to the booking form."
-  shelf: { object: visitors-book, label: "Aaesha's stargazing clinic" }
+    - neil.surprised: "Visitors from outside the city book a month ahead, for the train. Locals who book that far ahead forget."
+    - neil.worried: "It only learnt the locals. It would have given away two in three of the others' places. The ones who came."
+    - paul.neutral: "It can't know about the train. Nobody told it."
+    - neil.pleased.thumbs: "Then nobody's slot goes on its say-so. I'm adding a question about travel to the booking form."
+  shelf: { object: visitors-book, label: "Neil's stargazing clinic" }
   cards: [pipelines, cross-validation, grid-search, data-leakage, model-bias]
 stretch:
   - id: fold-spread
@@ -102,7 +102,7 @@ stretch:
   - id: island-feature
     title: "Where someone lives"
     prompt: |
-      Add the outside column to the model's columns and run the clinic again. Does the gap between the groups close? Is it fair to decide someone's slot by where they live? Write down, in three sentences, what you'd tell Aaesha.
+      Add the outside column to the model's columns and run the clinic again. Does the gap between the groups close? Is it fair to decide someone's slot by where they live? Write down, in three sentences, what you'd tell Neil.
   - id: leaky-drawer
     title: "Brilliant on the drawer"
     prompt: |

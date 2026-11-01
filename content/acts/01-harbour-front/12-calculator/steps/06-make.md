@@ -3,7 +3,7 @@ id: make
 type: make
 title: Make the calculator
 timeout_ms: 15000
-on_pass: { riya: "Thirty over nought. It said no, politely, and asked for the next sum." }
+on_pass: { yahya.pleased: "Thirty over nought. It said no, politely, and asked for the next sum." }
 hints:
   nudge: "There are three ways a sum can go wrong before there's an answer: the wrong shape, a word for a number, a zero to divide by. Which of those does `try` catch, and which do you check yourself?"
   plan:
@@ -42,7 +42,7 @@ hints:
                 else:
                     print(f"= {answer:___}")
 ---
-Build Riya's calculator to the spec under **The job**. The comments in the file are Paul's labels from the Workshop tape.
+Build Yahya's calculator to the spec under **The job**. The comments in the file are Paul's labels from the Workshop tape.
 
 The checks call `calculate` on its own, then type whole days of sums at the program: good ones, bad ones and some very bad ones, then `quit`.
 

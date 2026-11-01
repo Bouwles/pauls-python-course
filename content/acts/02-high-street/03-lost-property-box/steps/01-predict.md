@@ -20,6 +20,6 @@ options:
 after: |
   Run it. A set keeps one of each, and forgets the order they came in.
 ---
-`set(box)` turns the list into a **set**, another kind of collection. Neil hopes it's the kind that counts each umbrella once.
+`set(box)` turns the list into a **set**, another kind of collection. Caitlin hopes it's the kind that counts each umbrella once.
 
 Lock in your answer, then run it.

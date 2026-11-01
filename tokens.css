@@ -38,7 +38,11 @@
   --fail-wash: rgb(242 84 91 / 0.14);
   --sun-wash: rgb(255 182 39 / 0.14);
   --blue-wash: rgb(59 111 216 / 0.18);
-  --shadow-float: 0 8px 24px rgba(0, 0, 0, 0.28);
+  --shadow-float: 4px 4px 0 0 #050608;
+  --px-outline: #050608;
+  --px-drop: #050608;
+  --px-hi: rgb(255 255 255 / 0.16);
+  --px-lo: rgb(0 0 0 / 0.28);
   --scrim: rgb(8 10 14 / 0.6);
   --syn-keyword: #7FA6F0;
   --syn-string: #8FD18A;
@@ -57,7 +61,7 @@
 
   /* Type (REDESIGN-2.md 2.3): a display face for titles and names, a text face for
      everything else including the UI, and code. Sizes: 14, 15, 17, 20, 24, 32, 44, 60. */
-  --font-display: var(--font-display-loaded, "Bricolage Grotesque"), var(--font-text);
+  --font-display: var(--font-display-loaded, "Tiny5"), var(--font-text);
   --font-text: var(--font-text-loaded, "Atkinson Hyperlegible Next"), system-ui, sans-serif;
   --font-code: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
   --fs-1: 14px;
@@ -68,9 +72,16 @@
   --fs-6: 32px;
   --fs-7: 44px;
   --fs-8: 60px;
+  /* The pixel face is drawn on an 8-unit grid: it's only crisp at multiples of 8 px. */
+  --px-1: 16px;
+  --px-2: 24px;
+  --px-3: 32px;
+  --px-4: 40px;
+  --px-5: 48px;
+  --px-6: 64px;
   --lh-text: 1.55;
   --lh-title: 1.1;
-  --tracking-display: -0.02em;
+  --tracking-display: 0;
   --measure: 68ch;
   --prose-letter-spacing: normal;
   --prose-word-spacing: normal;
@@ -90,10 +101,12 @@
   --s-20: 80px;
   --s-24: 96px;
 
-  /* Shape (REDESIGN-2.md 2.5): one radius scale, one floating shadow. */
-  --r-sm: 4px;
-  --r-md: 6px;
-  --r-lg: 8px;
+  /* Shape (REDESIGN3_PLAN.md P2): square pixel corners everywhere. Edges are stepped pixel
+     outlines and depth is a hard offset shadow, both from box-shadow (see .px-panel). */
+  --r-sm: 0;
+  --r-md: 0;
+  --r-lg: 0;
+  --px: 2px;
   --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--sun);
 
   /* Motion (REDESIGN-2.md 2.7) */
@@ -139,7 +152,11 @@
   --fail-wash: rgb(242 84 91 / 0.10);
   --sun-wash: rgb(255 182 39 / 0.18);
   --blue-wash: rgb(59 111 216 / 0.10);
-  --shadow-float: 0 8px 24px rgba(20, 23, 29, 0.10);
+  --shadow-float: 4px 4px 0 0 #B7BFCC;
+  --px-outline: #14171D;
+  --px-drop: #B7BFCC;
+  --px-hi: rgb(255 255 255 / 0.5);
+  --px-lo: rgb(0 0 0 / 0.16);
   --scrim: rgb(20 23 29 / 0.35);
   --syn-keyword: #2C5BC0;
   --syn-string: #2F7A2A;
@@ -177,7 +194,11 @@
     --fail-wash: rgb(242 84 91 / 0.10);
     --sun-wash: rgb(255 182 39 / 0.18);
     --blue-wash: rgb(59 111 216 / 0.10);
-    --shadow-float: 0 8px 24px rgba(20, 23, 29, 0.10);
+    --shadow-float: 4px 4px 0 0 #B7BFCC;
+    --px-outline: #14171D;
+    --px-drop: #B7BFCC;
+    --px-hi: rgb(255 255 255 / 0.5);
+    --px-lo: rgb(0 0 0 / 0.16);
     --scrim: rgb(20 23 29 / 0.35);
     --syn-keyword: #2C5BC0;
     --syn-string: #2F7A2A;

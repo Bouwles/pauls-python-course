@@ -1,4 +1,4 @@
-/* Sign up and log in: one card, centred, nothing else competing with it. */
+/* Sign up and log in: one pixel panel, centred, nothing else competing with it. */
 .wrap {
   display: grid;
   justify-items: center;
@@ -9,21 +9,18 @@
   display: grid;
   gap: var(--s-6);
   width: 100%;
-  max-width: 440px;
+  max-width: 480px;
   padding: var(--s-8);
   background: var(--surface-2);
-  border-radius: var(--r-lg);
   min-width: 0;
-}
-
-:root[data-theme="light"] .card {
-  border: 1px solid var(--line);
-}
-
-@media (prefers-color-scheme: light) {
-  :root[data-theme="system"] .card {
-    border: 1px solid var(--line);
-  }
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-hi),
+    inset 0 -2px 0 0 var(--px-lo),
+    6px 6px 0 0 var(--px-drop);
 }
 
 .head {
@@ -32,7 +29,7 @@
 }
 
 .title {
-  font-size: var(--fs-6);
+  font-size: var(--px-4);
 }
 
 .lede {
@@ -46,5 +43,9 @@
 
   .card {
     padding: var(--s-6) var(--s-5);
+  }
+
+  .title {
+    font-size: var(--px-3);
   }
 }

@@ -3,8 +3,8 @@ id: gymnasium
 type: reading
 title: What Gymnasium wants
 dialogue:
-  - paul: "Every learner so far has needed its own grid code. Gymnasium is an agreement about the shape."
-  - paul: "Write the world in that shape once, and any agent can practise on it."
+  - paul.neutral: "Every learner so far has needed its own grid code. Gymnasium is an agreement about the shape."
+  - paul.pleased.point: "Write the world in that shape once, and any agent can practise on it."
 ---
 **Gymnasium** is the Python library reinforcement learning people use for environments. Every environment, from a pole on a cart to Caitlin's tide gate, offers the same two methods:
 

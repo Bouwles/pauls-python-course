@@ -3,7 +3,7 @@ id: reading
 type: reading
 title: The real request
 dialogue:
-  - aaesha: "Open-Meteo asks for two things in return. Credit it, and don't hammer it."
+  - aaesha.neutral.point: "Open-Meteo asks for two things in return. Credit it, and don't hammer it."
 code: |
   def fetch_json(url):
       if OFFLINE:

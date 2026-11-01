@@ -4,7 +4,7 @@ type: milestone
 title: "Milestone 2: the data, kept"
 evidence: link
 dialogue:
-  - riya: "The marina switches everything off at six. The boats stay booked overnight. So must the bookings."
+  - caitlin.worried: "The marina switches everything off at six. The boats stay booked overnight. So must the bookings."
 checklist:
   - id: choice
     text: "You've chosen a JSON file or SQLite, and written one sentence on why."
@@ -34,4 +34,4 @@ A **JSON file**: read the whole file, change it, write it back. `json.load` and 
 
 **SQLite**: a real database in one file, with `sqlite3.connect(path)`. You write SQL; it handles the rest, including two requests at once. Declare the id `INTEGER PRIMARY KEY AUTOINCREMENT`, or it will reuse numbers.
 
-Whichever you choose, `create_app(data_file)` gets the path, so each test has its own. Riya's link: wherever your repository lives.
+Whichever you choose, `create_app(data_file)` gets the path, so each test has its own. Caitlin's link: wherever your repository lives.

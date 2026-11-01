@@ -6,7 +6,7 @@ portfolio_readme: |
 
   A small library system. Every book is a record with its title, author and year, and knows whether it's on the shelf or on loan, and to whom. Reference books never leave the building. The library keeps one card per book, refusing a second copy of a title, and can say which books are on the shelf right now.
 
-  Written by {name} for the Studio's shelves, at Paul's Python Course. Finished {date}.
+  Written by {name} for Neil's racing and space books, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -16,9 +16,9 @@ portfolio_readme: |
 
   ```
   The library has 3 books
-  Emma, Jane Austen (1815): on loan
+  Carrying the Fire, Michael Collins (1974): on loan
   House Style, Paul (2025): on the shelf, reference only
-  On the shelf: The Riddle of the Sands, House Style
+  On the shelf: The Mechanic's Tale, House Style
   ```
 
   ## Use it in your own programs
@@ -27,9 +27,9 @@ portfolio_readme: |
   from library import Book, Library, ReferenceBook
 
   library = Library()
-  library.add(Book("Emma", "Jane Austen", 1815))      # True
-  library.add(Book("EMMA", "Jane Austen", 1815))      # False: one card per book
-  library.find("emma").lend("Aaesha")                  # True
+  library.add(Book("Carrying the Fire", "Michael Collins", 1974))      # True
+  library.add(Book("CARRYING THE FIRE", "Michael Collins", 1974))      # False: one card per book
+  library.find("carrying the fire").lend("Aaesha")                  # True
   print(len(library), library.on_shelf())
   ```
 
@@ -45,16 +45,16 @@ datasets: []
 client: neil
 building: library
 estimated_minutes: 120
-summary: "Books, loans and reference copies for the Studio's shelves, with Yahya and Caitlin arguing about whether a library is a kind of list."
+summary: "Loans and reference copies for Neil's racing and space books on the Studio shelves, with Yahya and Caitlin arguing about whether a library is a kind of list."
 concepts_introduced: [inheritance, super, composition, dataclasses, type-hints, enums]
 concepts_reviewed: [classes, init, attributes, methods, self, dunder-methods, is-vs-equals, list-comprehensions, mutable-default, immutability, lists, none, f-strings, docstrings, main-guard]
 ask:
   dialogue:
-    - neil: "The Studio's shelves have a list of what we own. Nothing says what's out, or who has it."
-    - neil: "I asked Yahya and Caitlin to write me something. They've been arguing by the kettle for an hour."
-    - yahya: "A reference book is a book. A library is a list of books. Done."
-    - caitlin: "A library is not a list. A library has books. And rules."
-    - paul: "You're each right once. Write it and find out where."
+    - neil.pleased.wave: "My racing and space books live on the Studio shelves. Nothing says which are out, or who has them."
+    - neil.laughing: "I asked Yahya and Caitlin to write me something. They've been arguing by the kettle for an hour."
+    - yahya.unimpressed: "A reference book is a book. A library is a list of books. Done."
+    - caitlin.thinking: "A library is not a list. A library has books. And rules."
+    - paul.laughing: "You're each right once. Write it and find out where."
   spec: |
     In `library.py`, with type hints throughout:
 
@@ -62,7 +62,7 @@ ask:
     2. `Book`, a dataclass: `title`, `author`, `year`, then `status` (default `Status.ON_SHELF`) and `borrower` (default `None`).
        - `lend(member)` puts it on loan to `member` and returns `True`. If it's already on loan, it changes nothing and returns `False`.
        - `give_back()` puts it back on the shelf, with no borrower.
-       - `str(book)` gives `Emma, Jane Austen (1815): on loan`.
+       - `str(book)` gives `Carrying the Fire, Michael Collins (1974): on loan`.
     3. `ReferenceBook`, a kind of `Book` that never leaves the library: `lend` always returns `False`, and it shows itself as a book does, then `, reference only`, building on `Book`'s line with `super()`.
     4. `Library`, which has books, kept in a list called `books`:
        - `add(book)` adds it and returns `True`, unless a book with that title is already there, whatever its capitals: then `False`.
@@ -71,22 +71,22 @@ ask:
        - `len(library)` is how many books it has.
   example: |
     The library has 3 books
-    Emma, Jane Austen (1815): on loan
+    Carrying the Fire, Michael Collins (1974): on loan
     House Style, Paul (2025): on the shelf, reference only
-    On the shelf: The Riddle of the Sands, House Style
+    On the shelf: The Mechanic's Tale, House Style
 ship:
   dialogue:
-    - yahya: "ReferenceBook inherits from Book. As I said."
-    - caitlin: "And the library has books. As I said."
-    - neil: "Three books, one card each. The second Emma was turned away at the door."
-    - paul: "Both right, once each. Now stop arguing by the kettle."
-  shelf: { object: catalogue-card, label: "Neil's lending library, with loans" }
+    - yahya.proud: "ReferenceBook inherits from Book. As I said."
+    - caitlin.proud: "And the library has books. As I said."
+    - neil.pleased.thumbs: "Three books, one card each. The second Carrying the Fire was turned away at the door."
+    - paul.unimpressed: "Both right, once each. Now stop arguing by the kettle."
+  shelf: { object: catalogue-card, label: "Neil's racing and space library, with loans" }
   cards: [inheritance, super, composition, dataclasses, type-hints, enums]
 stretch:
   - id: overdue
     title: "Overdue"
     prompt: |
-      Give `Book` a `due: int | None = None` field, the day of the year it's due back, and give `lend` a keyword argument, `today=0`: a book lent today is due 21 days later. `give_back` clears `due`. Then write `Library.overdue(today)`: the books on loan whose due day has passed, in the order they were added, as a comprehension. Neil's fine is ten pence a day, and it all goes to the trip fund.
+      Give `Book` a `due: int | None = None` field, the day of the year it's due back, and give `lend` a keyword argument, `today=0`: a book lent today is due 21 days later. `give_back` clears `due`. Then write `Library.overdue(today)`: the books on loan whose due day has passed, in the order they were added, as a comprehension. Neil's fine is ten pence a day, and it all goes on more books about rockets.
     tests: tests/stretch-overdue.py
     solution: solutions/stretch-overdue.py
   - id: by-year

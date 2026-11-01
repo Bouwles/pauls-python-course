@@ -4,13 +4,13 @@ type: investigate
 title: Cutting a slice
 concept: slicing
 code: |
-  tasks = ["mark the quizzes", "fix the projector", "order chalk", "wipe the board", "answer Caitlin"]
+  tasks = ["rocket poster", "album cover", "order ink", "frame the prints", "answer Caitlin"]
   print(tasks[0:2])
 tasks:
   - id: first-slice
     prompt: "Run it. What does it print?"
     kind: answer
-    accept: ["['mark the quizzes', 'fix the projector']", "[\"mark the quizzes\", \"fix the projector\"]", "mark the quizzes, fix the projector", "mark the quizzes and fix the projector"]
+    accept: ["['rocket poster', 'album cover']", "[\"rocket poster\", \"album cover\"]", "rocket poster, album cover", "rocket poster and album cover"]
     feedback: "Two items, from indexes 0 and 1. A slice stops just before its second number."
     wrong: "Copy the output exactly, brackets and all."
   - id: how-many
@@ -21,7 +21,7 @@ tasks:
   - id: last-two
     prompt: "Try `tasks[-2:]`. Which two tasks come out?"
     kind: answer
-    accept: ["wipe the board, answer Caitlin", "['wipe the board', 'answer Caitlin']", "wipe the board and answer Caitlin", "wipe the board answer Caitlin"]
+    accept: ["frame the prints, answer Caitlin", "['frame the prints', 'answer Caitlin']", "frame the prints and answer Caitlin", "frame the prints answer Caitlin"]
     feedback: "The last two. Leave a number out and the slice runs to that end of the list."
   - id: past-the-end
     prompt: "Try `tasks[3:50]`. The list only has five items. Does it crash?"
@@ -29,15 +29,15 @@ tasks:
     accept: ["no", "it doesn't", "no it doesn't", "no, it doesn't", "no crash", "it doesn't crash"]
     feedback: "No. A slice gives you whatever is there, even if you ask for more. An index past the end would crash; a slice never does."
   - id: first-three
-    prompt: "Neil does three jobs before the first class. Change the print so it shows the first three tasks."
+    prompt: "Riya does three jobs before the first class. Change the print so it shows the first three tasks."
     kind: run
     tests: |
       TESTS = [
-          output("The first three", expect="['mark the quizzes', 'fix the projector', 'order chalk']",
+          output("The first three", expect="['rocket poster', 'album cover', 'order ink']",
                  hint="Indexes 0, 1 and 2. The stop number is one past the last one you want."),
       ]
     solution: |
-      tasks = ["mark the quizzes", "fix the projector", "order chalk", "wipe the board", "answer Caitlin"]
+      tasks = ["rocket poster", "album cover", "order ink", "frame the prints", "answer Caitlin"]
       print(tasks[:3])
 ---
 A **slice** takes part of a list: `tasks[start:stop]`. It makes a new list and leaves the old one alone.

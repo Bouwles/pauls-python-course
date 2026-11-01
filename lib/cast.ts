@@ -106,20 +106,20 @@ export interface Floor {
   label: string;
   room: string;
   residents: string[];
-  icon: "chalkboard" | "notebook" | "wrench" | "puzzle" | "archive" | "chartLine" | "cpu" | "gamepad" | "clock";
+  icon: "chalkboard" | "notebook" | "brush" | "car" | "archive" | "chartLine" | "cpu" | "gamepad" | "clock";
   /** What's in the room, for the art and for alt text. */
   props: string;
 }
 
 export const FLOORS: Floor[] = [
   { act: 1, label: "Ground floor", room: "The Workshop", residents: [PROFESSOR], icon: "chalkboard", props: "Paul's classroom: a big desk, a chalkboard, the duck" },
-  { act: 2, label: "Floor 1", room: "The Studio", residents: [ASSISTANT], icon: "notebook", props: "desks, shelves of notebooks, a kettle" },
-  { act: 3, label: "Floor 2", room: "The Makerspace", residents: ["caitlin"], icon: "wrench", props: "a soldering bench, a small arcade cabinet, a server under the desk" },
-  { act: 4, label: "Floor 3", room: "The Puzzle Room", residents: ["yahya"], icon: "puzzle", props: "a wall of sticky notes and string, a chess table" },
-  { act: 5, label: "Floor 4", room: "The Archive", residents: ["aaesha"], icon: "archive", props: "filing cabinets, a huge wall chart, a weather station outside the window" },
-  { act: 6, label: "Floor 5", room: "The Model Room", residents: ["riya"], icon: "chartLine", props: "whiteboards full of graphs, a coffee machine" },
-  { act: 7, label: "Floor 6", room: "The Engine Room", residents: ["aaesha", ASSISTANT], icon: "cpu", props: "the clock's gears behind glass, a rack of glowing servers" },
-  { act: 8, label: "Floor 7", room: "The Arcade", residents: ["yahya", "caitlin"], icon: "gamepad", props: "a row of cabinets, a leaderboard, a prize shelf" },
+  { act: 2, label: "Floor 1", room: "The Studio", residents: ["caitlin"], icon: "notebook", props: "desks, shelves of notebooks, a kettle, a bike hung on the wall" },
+  { act: 3, label: "Floor 2", room: "The Makerspace", residents: ["riya"], icon: "brush", props: "easels and a drawing tablet, prints pinned to every wall, a small arcade cabinet" },
+  { act: 4, label: "Floor 3", room: "The Puzzle Room", residents: [ASSISTANT], icon: "car", props: "a racing simulator rig, a model rocket on the shelf, a wall of sticky notes and string" },
+  { act: 5, label: "Floor 4", room: "The Archive", residents: ["yahya"], icon: "archive", props: "filing cabinets, a huge wall chart, a weather station outside the window" },
+  { act: 6, label: "Floor 5", room: "The Model Room", residents: [PROFESSOR], icon: "chartLine", props: "whiteboards full of graphs, a coffee machine, a laptop training something overnight" },
+  { act: 7, label: "Floor 6", room: "The Engine Room", residents: ["aaesha"], icon: "cpu", props: "the clock's gears behind glass, a rack of servers, a model of a brain" },
+  { act: 8, label: "Floor 7", room: "The Arcade", residents: ["aaesha", "caitlin"], icon: "gamepad", props: "a row of cabinets, a leaderboard, a prize shelf" },
   { act: 9, label: "The roof", room: "The Roof Terrace", residents: [PROFESSOR, ASSISTANT, ...CLASSMATES], icon: "clock", props: "the clock face, the city skyline at night, string lights" },
 ];
 

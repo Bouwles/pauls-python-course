@@ -94,7 +94,7 @@ def check_route(tiles, start, goal, got):
         if abs(row - next_row) + abs(col - next_col) != 1:
             raise CheckFailed(f"{(next_row, next_col)} isn't up, down, left or right of {(row, col)}.", actual=repr(route)[:200])
         if not (0 <= next_row < len(tiles) and 0 <= next_col < len(tiles[next_row])) or tiles[next_row][next_col] is None:
-            raise CheckFailed(f"The route goes onto {(next_row, next_col)}, which is hedge or outside the park.", actual=repr(route)[:200])
+            raise CheckFailed(f"The route goes onto {(next_row, next_col)}, which is hedge or outside the car park.", actual=repr(route)[:200])
         total += tiles[next_row][next_col]
     if total != minutes:
         raise CheckFailed(f"The minutes say {minutes}, but stepping along that route costs {total}.", expected=minutes, actual=total)
@@ -134,7 +134,7 @@ def leans_to_goal(ctx):
     try:
         got = module.a_star(tiles, (15, 0), (15, 29))
     except TooMany:
-        raise CheckFailed("Crossing an empty park 30 tiles wide looked round more than 100 tiles. A* with the Manhattan estimate should head straight for the goal, as Riya does.")
+        raise CheckFailed("Crossing an empty car park 30 tiles wide looked round more than 100 tiles. A* with the Manhattan estimate should head straight for the goal, as Neil does.")
     if box["calls"] == 0:
         raise CheckFailed("a_star should find the way on with your neighbours function.")
     check_route(tiles, (15, 0), (15, 29), got)
@@ -180,8 +180,8 @@ WALLED = [
 
 TESTS = [
     function("A small map", call="read_park", args=("S.#\n~.G\n",), expect=([[1, 1, None], [3, 1, 1]], (0, 0), (1, 2)), visible=True),
-    custom("Gate to cafe in the park", the_park, visible=True),
-    function("The park, drawn", call="draw_route",
+    custom("Gate to car in the car park", the_park, visible=True),
+    function("The car park, drawn", call="draw_route",
              args=([[None if c == "#" else 3 if c == "~" else 1 for c in line] for line in PARK.splitlines()],
                    [(0, 0), (1, 0), (2, 0), (3, 0), (4, 0), (5, 0), (6, 0), (6, 1), (6, 2), (6, 3), (6, 4), (6, 5), (6, 6),
                     (6, 7), (6, 8), (6, 9), (6, 10), (5, 10), (4, 10), (3, 10)]),
@@ -189,7 +189,7 @@ TESTS = [
     function("Blank lines ignored", call="read_park", args=("\nS.\n.G\n\n",), expect=([[1, 1], [1, 1]], (0, 0), (1, 1)),
              hint="Skip any line with nothing on it, before it becomes a row."),
     custom("No gate", bad_map("...\n..G\n", "A map with no S should raise ValueError.")),
-    custom("Two cafes", bad_map("S.G\n..G\n", "A map with two Gs should raise ValueError."),
+    custom("Two cars", bad_map("S.G\n..G\n", "A map with two Gs should raise ValueError."),
            hint="Count the Ss and Gs as you go, and check there's exactly one of each at the end."),
     custom("Ragged rows", bad_map("S..\n.G\n", "Rows of different lengths should raise ValueError.")),
     custom("A letter not on the key", bad_map("S.X\n..G\n", "An X isn't on the map's key, so it should raise ValueError.")),
@@ -210,12 +210,12 @@ TESTS = [
     custom("Round the mud", route(ROUND_MUD, (0, 0), (0, 4)),
            hint="Three mud tiles cost 9. Going round costs 6."),
     custom("Equally quick routes", route(OPEN, (0, 0), (2, 2))),
-    custom("Heading for the cafe", leans_to_goal,
+    custom("Heading for the car", leans_to_goal,
            hint="Push each tile with its minutes so far plus manhattan(tile, goal), so the heap hands out the tile with the smallest total."),
-    custom("A park of 2,500 tiles", big_park),
+    custom("A car park of 2,500 tiles", big_park),
     function("Drawing one tile", call="draw_route", args=([[1, N], [3, 1]], [(1, 0)]), expect=[".#", "G."]),
     function("Drawing nothing", call="draw_route", args=([[1, N], [3, 1]], []), expect=[".#", "~."]),
     function("Left and up", call="draw_route", args=(OPEN, [(2, 2), (2, 1), (1, 1), (0, 1), (0, 0)]), expect=["G<.", ".^.", ".^<"],
              hint="Each tile shows the way out of it: ^ for up, v for down, < for left, > for right."),
-    output("The main block", expect="Gate to cafe: 23 minutes, 19 steps\n" + "\n".join(DRAWN)),
+    output("The main block", expect="Gate to car: 23 minutes, 19 steps\n" + "\n".join(DRAWN)),
 ]

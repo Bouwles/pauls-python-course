@@ -6,7 +6,7 @@ concept: random-module
 code: |
   import random
 
-  questions = ["science", "words", "music"]
+  questions = ["food", "games", "music"]
   order = random.shuffle(questions)
   print(order)
   print(len(questions))

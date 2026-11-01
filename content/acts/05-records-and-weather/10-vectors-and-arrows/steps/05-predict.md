@@ -4,8 +4,8 @@ type: predict
 title: The storm score
 concept: matrices
 dialogue:
-  - aaesha: "My storm score. Wind once, rain twice, gusts three times. One score per evening."
-  - yahya: "Matrix times vector, or vector times matrix. Same numbers, so same answer."
+  - aaesha.pleased: "My storm score. Wind once, rain twice, gusts three times. One score per evening."
+  - yahya.proud: "Matrix times vector, or vector times matrix. Same numbers, so same answer."
 code: |
   import numpy as np
 

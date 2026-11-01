@@ -1,22 +1,16 @@
-/* The Ask and the Ship: the two places on the learning path with a large illustration. */
+/* The Ask, as a cutscene: the title, the client's room across the column (up to five times, 800
+   px), their lines under it, then the spec and Start building. */
 .ask {
   display: grid;
-  grid-template-columns: minmax(280px, 400px) minmax(0, 640px);
-  justify-content: center;
-  align-items: start;
-  gap: var(--s-12);
-  max-width: 1200px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-6);
+  max-width: calc(810px + 2 * var(--s-8));
   margin: 0 auto;
-  padding: var(--s-12) var(--s-8) 0;
+  padding: var(--s-10) var(--s-8) 0;
 }
 
-.figureWrap {
-  position: sticky;
-  top: var(--s-8);
-}
-
-.figure {
-  min-height: 420px;
+.stageWrap {
+  padding: 2px 8px 8px 2px;
 }
 
 .side {
@@ -27,82 +21,72 @@
 
 .head {
   display: grid;
-  gap: var(--s-2);
+  gap: var(--s-3);
 }
 
 .kicker {
-  font-size: var(--fs-2);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  line-height: 1;
   color: var(--text-2);
 }
 
 .title {
-  font-family: var(--font-display);
-  font-size: var(--fs-7);
-  font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: var(--tracking-display);
+  font-size: var(--px-5);
+  line-height: 1;
 }
 
-.bubbles {
+.lines {
   display: grid;
-  gap: var(--s-3);
+  gap: var(--s-4);
   margin: 0;
-  padding: 0 0 0 var(--s-2);
+  padding: var(--s-2) 0 0;
   list-style: none;
 }
 
-.bubbleItem {
+.lineItem {
   display: flex;
-  animation: arrive var(--dur-slow) var(--ease-spring);
+  animation: arrive 160ms steps(2, jump-none);
   transform-origin: 0 24px;
-}
-
-.bubbleItem > * {
-  max-width: 560px;
 }
 
 /* The same speaker again: no second name tag, and closer to the line before. */
 .same {
-  margin-top: calc(var(--s-1) * -1);
+  margin-top: calc(var(--s-2) * -1);
 }
 
-.bubbleItem p {
-  font-size: var(--fs-3);
-  line-height: 1.5;
-}
-
+/* A new line pops in over two frames, like a sprite. */
 @keyframes arrive {
   from {
-    opacity: 0;
-    transform: translateY(6px) scale(0.97);
+    transform: scale(0.92);
   }
+}
+
+.skipRow {
+  display: flex;
 }
 
 .spec {
   display: grid;
   gap: var(--s-4);
   padding: var(--s-6);
-  border-radius: var(--r-lg);
-  background: var(--surface-2);
-  animation: arrive var(--dur-slow) var(--ease-out);
+  margin: 0 6px 6px 0;
+  animation: arrive 160ms steps(2, jump-none);
+  transform-origin: 0 0;
 }
 
 :root[data-theme="light"] .spec {
   background: var(--surface-1);
-  border: 1px solid var(--line);
 }
 
 @media (prefers-color-scheme: light) {
   :root[data-theme="system"] .spec {
     background: var(--surface-1);
-    border: 1px solid var(--line);
   }
 }
 
 .specTitle {
-  font-size: var(--fs-5);
-  font-weight: 700;
+  font-size: var(--px-2);
 }
 
 .specText {
@@ -115,21 +99,26 @@
 }
 
 .example pre {
-  margin: 0;
+  margin: 2px;
   padding: var(--s-4);
-  border-radius: var(--r-lg);
   background: var(--editor);
   color: var(--text);
   font-size: 14px;
   line-height: 1.6;
   overflow-x: auto;
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-lo);
 }
 
 .meta {
   display: grid;
   gap: var(--s-3);
   padding-top: var(--s-4);
-  border-top: 1px solid var(--line);
+  border-top: 2px solid var(--line);
   font-size: var(--fs-2);
   color: var(--text-2);
 }
@@ -138,25 +127,31 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--s-2);
+  gap: var(--s-2) var(--s-3);
 }
 
 .chips {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--s-1);
+  gap: var(--s-3);
   margin: 0;
-  padding: 0;
+  padding: 2px;
   list-style: none;
 }
 
+/* Concept tags: little pixel plates. */
 .chips li {
-  padding: 2px var(--s-2);
-  border-radius: var(--r-sm);
+  padding: 4px 8px;
   background: var(--surface-3);
   color: var(--text);
-  font-size: var(--fs-1);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  line-height: 1;
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
 }
 
 /* Start building stays in reach while the spec is read. */
@@ -169,7 +164,7 @@
   align-items: center;
   gap: var(--s-3);
   margin-top: calc(var(--s-2) * -1);
-  padding: var(--s-4) 0 var(--s-6);
+  padding: var(--s-4) 2px var(--s-6);
   background: var(--bg);
 }
 
@@ -180,42 +175,29 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bubbleItem,
+  .lineItem,
   .spec {
     animation: none;
   }
 }
 
-:root[data-motion="reduced"] .bubbleItem,
+:root[data-motion="reduced"] .lineItem,
 :root[data-motion="reduced"] .spec {
   animation: none;
 }
 
-@container wb (max-width: 1080px) {
-  .ask {
-    grid-template-columns: minmax(220px, 320px) minmax(0, 1fr);
-    gap: var(--s-8);
-    padding: var(--s-8) var(--s-6) var(--s-12);
-  }
-
-  .title {
-    font-size: var(--fs-6);
-  }
-}
-
 @container wb (max-width: 860px) {
   .ask {
-    grid-template-columns: 1fr;
-    gap: var(--s-6);
+    gap: var(--s-5);
     padding: var(--s-5) var(--s-4) var(--s-10);
   }
 
-  .figureWrap {
-    position: static;
+  .title {
+    font-size: var(--px-3);
   }
 
-  .figure {
-    min-height: 220px !important;
+  .lines {
+    padding: var(--s-2) 0 0;
   }
 
   .spec {

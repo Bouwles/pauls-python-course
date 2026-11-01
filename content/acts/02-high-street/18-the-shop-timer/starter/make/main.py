@@ -26,7 +26,7 @@ log = []
 TRIES = 3
 
 
-# The fruit stall's till. Leave these alone, apart from putting @timed on the
+# The fruit table's till. Leave these alone, apart from putting @timed on the
 # first three and @retry on take_card.
 PRICE_BOOK = {"plums": 2.10, "leeks": 0.90, "figs": 3.20}
 # The card reader. It answers about half the time, in damp weather.
@@ -35,7 +35,7 @@ READER = iter([False, True, True, True, True])
 
 def look_up_price(name):
     # Reads the whole price book for every single item. I know.
-    # I'll fix it after Saturday. R.
+    # I'll fix it after Saturday. C.
     time.sleep(0.3)
     return PRICE_BOOK[name]
 

@@ -4,13 +4,15 @@ title: "The Roof Terrace"
 district: lighthouse
 subject: "Capstones and portfolio"
 hours: 60
-summary: "Everyone's floor: the clock face, the city at night and a string of lights. Two capstones from a short list, or one of your own: a booking web app, a weather data investigation, a paper reproduction, an arcade game. Then a portfolio, a timed paper and practice interviews, the radio, and the clock."
-locked_line: "The hatch to the roof. Paul keeps the key on the same ring as the clock's."
+summary: "Everyone's floor: the clock face, the city at night and a string of lights. Two capstones from a short list, each brought by someone in the class, or one of your own: Caitlin's marina bookings, Yahya's weather investigation, Paul's paper reproduction, Caitlin's arcade game. Then Riya's portfolio, Yahya's timed paper and practice interviews, the radio, and the clock."
+locked_line: "The hatch to the roof. Paul keeps the key on the same ring as the clock's, and everyone knows which one it is."
 intro:
-  - paul: "The roof. Mind the step, and the string lights."
-  - paul: "Five projects on the list. Pick two and do them properly. Or bring your own."
-  - caitlin: "And behind us, the clock. Still 3:14."
-  - paul: "I know. I'm getting to it."
+  - paul.pleased.wave: "The roof. Mind the step, and the string lights."
+  - paul.neutral.point: "Five projects on the list, each brought by one of us. Pick two and do them properly. Or bring your own."
+  - caitlin.laughing: "Mine has a joystick. Yahya's has a hundred and fifty years of rain."
+  - riya.pleased: "And when they're done, I'll help you show them off."
+  - aaesha.thinking.point: "And behind us, the clock. Still 3:14."
+  - paul.laughing: "I know. I'm getting to it."
 jobs:
   - capstone-web-app
   - capstone-investigation

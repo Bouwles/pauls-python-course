@@ -39,7 +39,7 @@ cards:
         misconception: sum-axis-zero-per-row
         feedback: "That would be `axis=1`. `axis=0` collapses the rows, adding down each column, so you get one number per reading, not per night."
   - type: choice
-    prompt: "Riya's k = 1 forecast scores 1.000 on the training nights. What does that tell her?"
+    prompt: "Aaesha's k = 1 forecast scores 1.000 on the training nights. What does that tell her?"
     verify: none
     options:
       - text: "Nothing: each training night's nearest night is itself"

@@ -5,7 +5,7 @@ title: One block
 files: [attention.py, block.py]
 entry: block.py
 starter_from: make
-on_pass: { neil: "The block matches, number for number. And changing the last letter changes only the last row." }
+on_pass: { neil.proud: "The block matches, number for number. And changing the last letter changes only the last row." }
 hints:
   nudge: "Which way does layer norm take its mean, compared with batch norm? And in `transformer_block`, what gets added to what?"
   plan:

@@ -3,8 +3,8 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "Aaesha's barometer, hour by hour. She wants to know when the pressure dropped, not what it was."
-  - paul: "One row, so one direction. A window three wide."
+  - paul.neutral.point: "Yahya's barometer, hour by hour. He wants to know when the pressure dropped, not what it was."
+  - paul.thinking: "One row, so one direction. A window three wide."
 code: |
   import numpy as np
 

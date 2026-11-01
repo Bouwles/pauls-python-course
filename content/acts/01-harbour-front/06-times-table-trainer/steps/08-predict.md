@@ -56,6 +56,6 @@ options:
 after: |
   Run it. Then put `print(row, col)` in place of `print(row * col)` to see each pass.
 ---
-Riya's cousin wants the whole times square, all of it on one page. That needs a loop inside a loop.
+Aaesha wants the whole times square on one page, so a volunteer sees every fact at once. That needs a loop inside a loop.
 
 Read the indents carefully. Each one says which loop a line belongs to.

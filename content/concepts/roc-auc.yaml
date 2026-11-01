@@ -68,7 +68,7 @@ cards:
         misconception: auc-needs-true-chances
         feedback: "The AUC compares storm nights with calm nights, pair by pair. Halving every chance changes no comparison, so it changes nothing."
   - type: choice
-    prompt: "Riya moves her threshold from 0.5 to 0.12. What happens to the forecast's AUC?"
+    prompt: "Aaesha moves her threshold from 0.5 to 0.12. What happens to the forecast's AUC?"
     verify: none
     options:
       - text: "Nothing: the AUC sums up every threshold at once"

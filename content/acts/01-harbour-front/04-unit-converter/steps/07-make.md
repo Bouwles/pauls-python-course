@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the unit converter
-on_pass: { yahya: "Twelve outdoor laps, four point eight kilometres. Same as my watch." }
+on_pass: { neil.pleased: "Mach 2 up high, two thousand one hundred and twenty-four km/h. Same as my notes." }
 hints:
   nudge: "Which question does the program ask first? And which option, only one, needs a second question?"
   plan:
@@ -11,41 +11,41 @@ hints:
     - Decide again inside the option that has a special case
     - Catch everything else
   shape: |
-    print("1. Km to miles")
-    print("2. Min per km to min per mile")
-    print("3. Laps to km")
+    print("1. Km/h to mph")
+    print("2. Knots to km/h")
+    print("3. Mach to km/h")
     choice = input("Choose 1, 2 or 3: ")
     if choice == ___:
-        km = ___(input("How many? "))
-        print(f"That's {km / 1.609344:.2f} miles.")
+        kmh = ___(input("Speed? "))
+        print(f"That's {kmh / 1.609344:.2f} mph.")
     elif choice == ___:
         ___
     elif choice == ___:
-        laps = float(input("How many? "))
-        indoor = input("Indoor track (yes or no)? ")
+        mach = float(input("Speed? "))
+        sea_level = input("At sea level (yes or no)? ")
         if ___:
-            km = laps * 0.2
+            kmh = mach * 1225
         else:
-            km = ___
-        print(f"That's {km:.2f} km.")
+            kmh = ___
+        print(f"That's {kmh:.2f} km/h.")
     else:
         print(___)
 ---
-Write Yahya's converter.
+Write Neil's converter.
 
-- 1: km to miles. Divide by 1.609344.
-- 2: minutes per km to minutes per mile. Multiply by 1.609344.
-- 3: laps to km. Ask `Indoor track (yes or no)? `. An indoor lap is 0.2 km, an outdoor lap 0.4 km.
+- 1: km/h to mph. Divide by 1.609344.
+- 2: knots to km/h. Multiply by 1.852.
+- 3: Mach to km/h. Ask `At sea level (yes or no)? `. Mach 1 is 1225 km/h at sea level, and 1062 km/h high up, where the air is colder.
 - Anything else: `No such option.`
 
 ```
-1. Km to miles
-2. Min per km to min per mile
-3. Laps to km
+1. Km/h to mph
+2. Knots to km/h
+3. Mach to km/h
 Choose 1, 2 or 3: 3
-How many? 12
-Indoor track (yes or no)? no
-That's 4.80 km.
+Speed? 2
+At sea level (yes or no)? no
+That's 2124.00 km/h.
 ```
 
-The comments in the file are Paul's labels from the postage. The checks try every option, indoor and outdoor, and a choice that isn't on the menu.
+The comments in the file are Paul's labels from the server costs. The checks try every option, sea level and high up, and a choice that isn't on the menu.

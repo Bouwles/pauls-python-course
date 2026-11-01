@@ -8,8 +8,8 @@ heavy: true
 setup: |
   `pip install -r requirements.txt` fetches Gymnasium and NumPy. CartPole needs no screen and no graphics card. Training for 100,000 steps takes about ten seconds on a laptop; pytest trains three times, so let it finish. If NumPy warns about `matmul` while every number is fine, it's a known problem in some older NumPy builds for Macs: `pip install -U numpy` ends it.
 dialogue:
-  - neil: "CartPole. A cart, a pole on a hinge, and two buttons. It's the standard test."
-  - neil: "The pole falls over. The cart is meant to stop that, by moving. Good luck."
+  - neil.pleased.point: "CartPole. A cart, a pole on a hinge, and two buttons. It's the standard test."
+  - neil.laughing: "A rocket coming down to land is the same trick: keep the tall thing over the push. Good luck."
 ---
 The same Deep Q, a different world. Gymnasium's `CartPole-v1` gives four numbers (the cart's position and speed, the pole's angle and spin), two actions (push left, push right), and 1 for every step the pole stays up, up to 500.
 

@@ -4,8 +4,8 @@ type: predict
 title: A gate on the memory
 concept: lstm-gates
 dialogue:
-  - neil: "Last page. A second memory, kept apart, with a gate on it. I drew the gate as a sluice."
-  - paul: "So the gate says how much to keep. Near one, it keeps nearly everything."
+  - neil.proud.point: "Last page. A second memory, kept apart, with a gate on it. I drew the gate as a sluice."
+  - paul.thinking: "So the gate says how much to keep. Near one, it keeps nearly everything."
 code: |
   import numpy as np
 

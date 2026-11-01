@@ -5,7 +5,7 @@ title: Make the A/B test bandit
 files: [abtest.py]
 entry: abtest.py
 timeout_ms: 30000
-on_pass: { riya: "Thompson sampling, twenty-six visitors lost. I can sell that to the print shop." }
+on_pass: { caitlin.proud.thumbs: "Thompson sampling, twenty-six visitors lost. The waving crab goes on the cabinet." }
 hints:
   nudge: "Every strategy gets the same estimates and counts. What does each one do with them before it calls np.argmax?"
   plan:
@@ -51,8 +51,8 @@ hints:
         best = np.argmax(samples, axis=___)
         return np.bincount(best, minlength=len(counts)) / ___
 ---
-Riya's brief, in `abtest.py`. Every strategy takes `(estimates, counts, rng)` and returns a version number, so `run_test` can take any of them as its `choose`. Plain greedy is epsilon-greedy with `epsilon=0`: a `lambda` will do.
+Caitlin's brief, in `abtest.py`. Every strategy takes `(estimates, counts, rng)` and returns a version number, so `run_test` can take any of them as its `choose`. Plain greedy is epsilon-greedy with `epsilon=0`: a `lambda` will do.
 
 Thompson sampling needs wins and losses. With rewards of 0 and 1, `estimates * counts` is the wins. `chance_best` draws ten thousand plausible rates for every version at once and counts how often each one comes out on top.
 
-The checks pass in a seeded `rng` and call each strategy thousands of times, then look at how often it picks each version. Then they run the whole program and look for a line per strategy, a recommendation and a chart: `plt.plot` each strategy's visitors who came in so far, divided by the visitors so far. `np.cumsum` and `np.arange` help.
+The checks pass in a seeded `rng` and call each strategy thousands of times, then look at how often it picks each version. Then they run the whole program and look for a line per strategy, a recommendation and a chart: `plt.plot` each strategy's visitors who played so far, divided by the visitors so far. `np.cumsum` and `np.arange` help.

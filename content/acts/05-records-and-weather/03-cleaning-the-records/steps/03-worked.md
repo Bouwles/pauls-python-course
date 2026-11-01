@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "The Workshop's tool loans book. Typed up by three people on three different days. It shows."
+  - paul.unimpressed.point: "The Workshop's tool loans book. Typed up by three people on three different days. It shows."
 code: |
   import numpy as np
   import pandas as pd

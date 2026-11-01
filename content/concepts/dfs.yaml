@@ -46,7 +46,7 @@ cards:
       print(order)
     answer: "['park', 'bridge', 'cinema', 'station', 'pool', 'boathouse']"
   - type: choice
-    prompt: "Yahya wants the route to the park with the fewest roads. Which search should he use?"
+    prompt: "Neil wants the route to the karting track with the fewest roads. Which search should he use?"
     verify: none
     options:
       - text: "Breadth-first"

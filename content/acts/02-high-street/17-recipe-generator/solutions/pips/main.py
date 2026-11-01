@@ -5,9 +5,9 @@ def errors(lines):
 
 
 log = [
-    "06:12 | ERROR | printer | out of paper",
-    "06:13 | INFO | server | backup done",
-    "07:35 | ERROR | lights | bulb failed",
+    "06:12 | ERROR | brakes | overheating",
+    "06:13 | INFO | fuel | on target",
+    "07:35 | ERROR | tyres | puncture",
 ]
 
 found = list(errors(log))

@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "Parcels for the Clocktower this week. Who we expected one for, and who actually got one."
+  - paul.neutral: "Parcels for the Clocktower this week. Who we expected one for, and who actually got one."
 code: |
   expected = ["Aaesha", "Yahya", "Riya", "Caitlin", "Yahya"]
   delivered = ["Yahya", "Caitlin", "Paul"]

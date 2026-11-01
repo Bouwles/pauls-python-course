@@ -3,25 +3,25 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "Cups of tea made in the Studio, by day. Neil keeps them in two lists too."
+  - paul.neutral: "Questions brought to Neil's desk, by day. He keeps them in two lists too."
 code: |
   days = ["Mon", "Tue", "Wed", "Thu"]
-  cups = [40, 52, 38, 52]
+  questions = [40, 52, 38, 52]
 
 
-  def busiest(days, cups):
-      best_day, best_count = days[0], cups[0]
-      for day, count in zip(days, cups):
+  def busiest(days, questions):
+      best_day, best_count = days[0], questions[0]
+      for day, count in zip(days, questions):
           if count > best_count:
               best_day, best_count = day, count
       return best_day, best_count
 
 
-  for number, (day, count) in enumerate(zip(days, cups), start=1):
-      print(f"{number}. {day}: {count} cups")
+  for number, (day, count) in enumerate(zip(days, questions), start=1):
+      print(f"{number}. {day}: {count} questions")
 
-  day, count = busiest(days, cups)
-  print(f"Busiest: {day}, {count} cups")
+  day, count = busiest(days, questions)
+  print(f"Busiest: {day}, {count} questions")
 subgoals:
   - label: Start with the first entry as the best so far
     lines: [6, 6]

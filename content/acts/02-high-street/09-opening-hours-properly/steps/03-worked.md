@@ -3,9 +3,9 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "The tailor's sums, from Riya's project, in a file of their own. Any program in her shop can borrow them."
+  - paul.neutral.point: "The kit sums, from Caitlin's measurement book, in a file of their own. Any program for the team can borrow them."
 code: |
-  """Sizes for the tailor's shop. Import it; don't copy it."""
+  """Sizes for the five-a-side kit. Import it; don't copy it."""
   import math
 
   CM_PER_INCH = 2.54
@@ -17,7 +17,7 @@ code: |
 
 
   def cloth_needed(chest, leg):
-      """Metres of cloth for a suit, rounded up to a whole metre."""
+      """Metres of cloth for a tracksuit, rounded up to a whole metre."""
       return math.ceil((chest + 2 * leg) / 100)
 
 
@@ -39,7 +39,7 @@ explain:
   answer: "Everything down to line 14 runs, but that only imports math and defines things. The checks under `if __name__ == \"__main__\":` don't run, because when the file is imported, `__name__` is `\"sizes\"`."
   concept: main-guard
 ---
-This is a whole file, `sizes.py`, written to be imported. Another program in the shop uses it like this:
+This is a whole file, `sizes.py`, written to be imported. Another program for the kit order uses it like this:
 
 ```python
 import sizes

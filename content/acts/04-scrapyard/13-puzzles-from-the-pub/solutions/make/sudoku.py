@@ -1,8 +1,8 @@
-"""Sudoku Solver: Yahya's puzzle book, solved by backtracking."""
+"""Sudoku Solver: Caitlin's puzzle book, solved by backtracking."""
 
 PUZZLE_FILE = "puzzles.txt"
 
-# The last three sudokus in Yahya's puzzle book. No answers in the back.
+# The last three sudokus in Caitlin's puzzle book. No answers in the back.
 
 
 def read_puzzles(text):

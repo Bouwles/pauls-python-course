@@ -1,11 +1,13 @@
-import { FLOORS, castColour } from "@/lib/cast";
+import { FLOORS } from "@/lib/cast";
 import type { ActSummary } from "@/lib/content/types";
 import { FREE_ACTS } from "@/lib/plans";
+import { FloorResident } from "../site/FloorResident";
 import { Badge } from "../ui/Badge";
 import styles from "./FloorDirectory.module.css";
 
-// Beside the tower, the floors as a building's directory lists them, top floor first: the
-// room, the Act, and what it teaches. Each floor's square is its resident's colour, as in the tower.
+// Beside the tower, the floors as a building's directory lists them, top floor first: who runs
+// the room (their pixel self on their colour; the Arcade's two side by side), the room, the Act,
+// and what it teaches. The roof is everyone's, so it shows the stuck clock instead.
 
 const TEACHES: Record<number, string> = {
   1: "Printing, numbers, input, decisions, loops, lists, strings, functions, dictionaries and errors.",
@@ -19,7 +21,7 @@ const TEACHES: Record<number, string> = {
   9: "Two capstones of your choice, a portfolio, a timed paper and practice interviews.",
 };
 
-export function FloorDirectory({ acts }: { acts: Pick<ActSummary, "id" | "number" | "subject" | "jobs">[] }) {
+export function FloorDirectory({ acts, names }: { acts: Pick<ActSummary, "id" | "number" | "subject" | "jobs">[]; names: Record<string, string> }) {
   const floors = [...FLOORS].sort((a, b) => b.act - a.act);
   return (
     <ol className={styles.list} aria-label="What each floor teaches, top floor first">
@@ -29,7 +31,7 @@ export function FloorDirectory({ acts }: { acts: Pick<ActSummary, "id" | "number
         const free = act ? FREE_ACTS.has(act.id) : false;
         return (
           <li key={f.act} className={styles.floor}>
-            <span className={styles.square} style={{ background: `var(--c-${f.residents[0]}, ${castColour(f.residents[0] ?? "").face})` }} aria-hidden="true" />
+            <FloorResident act={f.act} names={names} />
             <div className={styles.text}>
               <p className={styles.where}>
                 <span className={styles.room}>{f.room}</span>

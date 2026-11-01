@@ -4,7 +4,7 @@ type: make
 title: "Question 5: Sandbanks at low water"
 files: [sandbanks.py]
 entry: sandbanks.py
-on_pass: { yahya: "Every bank on the chart, biggest first. Flood fill in a dozen lines. Elegant." }
+on_pass: { yahya.proud: "Every bank on the chart, biggest first. Flood fill in a dozen lines. Elegant." }
 hints:
   nudge: "Standing on one square of sand, which squares belong to the same bank? And what stops you counting the square you came from all over again?"
   plan:

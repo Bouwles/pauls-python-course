@@ -4,9 +4,9 @@ project_name: "To-Do List"
 portfolio_readme: |
   # To-Do List
 
-  A to-do list that runs in the terminal. Add tasks, list them with numbers, tick them off by number, and quit to see how many are left. Tasks stay in the order they were added, and the ones after a finished task move up to fill the gap.
+  A to-do list that runs in the terminal, made for an artist's commissions. Add tasks, list them with numbers, tick them off by number, and quit to see how many are left. Tasks stay in the order they were added, so whoever asked first is drawn first, and the ones after a finished task move up to fill the gap.
 
-  Written by {name} for Neil, at Paul's Python Course. Finished {date}.
+  Written by {name} for Riya, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -18,15 +18,15 @@ portfolio_readme: |
 
   ```
   Command? add
-  Task? Mark the quizzes
+  Task? Neil's rocket poster
   Command? add
-  Task? Fix the projector
+  Task? Caitlin's album cover
   Command? list
-  1. Mark the quizzes
-  2. Fix the projector
+  1. Neil's rocket poster
+  2. Caitlin's album cover
   Command? done
   Number? 1
-  Done: Mark the quizzes
+  Done: Neil's rocket poster
   Command? quit
   Left to do: 1
   ```
@@ -42,52 +42,53 @@ portfolio_readme: |
   - Checking a number is on the list before using it
 downloadable: true
 datasets: []
-client: neil
+client: riya
 building: post-office
 estimated_minutes: 60
-summary: "Add, list, tick off and quit: Neil's jobs, numbered and kept in order."
+summary: "Add, list, tick off and quit: Riya's commissions, numbered and kept in the order people asked."
 concepts_introduced: [lists, indexing, negative-indices, append-pop, looping-lists, list-methods, slicing, sorted-vs-sort, list-aliasing]
 concepts_reviewed: [in-operator, while-loops, sentinels, break-continue, for-loops, range, if-elif-else, boolean-operators, int-conversion, f-strings]
 ask:
   dialogue:
-    - neil: "My to-do list is on sticky notes. Most of them are on the floor."
-    - neil: "Numbered, please. New ones on the end. Done ones taken off. Never shuffled."
-    - neil: "And it starts at one. I know Python counts from nought. People don't."
-    - paul: "Then you'll be adding one, and taking it away again."
+    - riya.pleased.wave: "Three commissions, a print run and an exhibition. My to-do list is a sketchbook margin."
+    - riya.neutral.point: "Numbered, please. New ones on the end. Done ones taken off. Never shuffled. People asked in that order."
+    - riya.laughing: "And it starts at one. I know Python counts from nought. My clients don't."
+    - paul.thinking: "Then you'll be adding one, and taking it away again."
   spec: |
     A menu. Ask `Command? ` over and over:
 
     - `add`: ask `Task? ` and put the task on the end of the list.
-    - `list`: print every task with its number, starting from 1, like `1. Mark the quizzes`. With no tasks, print `Nothing to do.`
+    - `list`: print every task with its number, starting from 1, like `1. Neil's rocket poster`. With no tasks, print `Nothing to do.`
     - `done`: ask `Number? `, take that task off the list, and print `Done: ` and the task. A number that isn't on the list gets `No task 7.` and nothing is taken off.
     - `quit`: print `Left to do: 2` (however many are left) and stop.
     - Anything else gets `Commands: add, list, done, quit.`
   example: |
     Command? add
-    Task? Mark the quizzes
+    Task? Neil's rocket poster
     Command? add
-    Task? Fix the projector
+    Task? Caitlin's album cover
     Command? add
-    Task? Order more chalk
+    Task? Order more ink
     Command? done
     Number? 2
-    Done: Fix the projector
+    Done: Caitlin's album cover
     Command? list
-    1. Mark the quizzes
-    2. Order more chalk
+    1. Neil's rocket poster
+    2. Order more ink
     Command? quit
     Left to do: 2
 ship:
   dialogue:
-    - neil: "Number two done, and the chalk moved up to two. Nothing shuffled. Nothing lost."
-    - neil: "I'll still use sticky notes. But I'll copy them from this."
-  shelf: { object: list, label: "Neil's to-do list, in order" }
+    - riya.pleased: "Number two done, and the ink moved up to two. Nothing shuffled. Nothing lost."
+    - riya.proud.thumbs: "Who's going to use it? Me, every morning, before I pick up a pencil."
+    - caitlin.laughing: "My album cover was number two. I'm not complaining."
+  shelf: { object: list, label: "Riya's commissions, in order" }
   cards: [lists, indexing, negative-indices, append-pop, looping-lists, list-methods, slicing, sorted-vs-sort, list-aliasing]
 stretch:
   - id: undo
     title: "Put it back"
     prompt: |
-      Once a week Neil ticks off the wrong one. Add an `undo` command that puts the last task taken off back where it was, and prints `Back: ` and the task. With nothing to undo, print `Nothing to undo.`
+      Once a week Riya ticks off the wrong one. Add an `undo` command that puts the last task taken off back where it was, and prints `Back: ` and the task. With nothing to undo, print `Nothing to undo.`
 
       When `done` takes a task off, keep the task and its index. `tasks.insert(index, task)` puts it back at that index and moves the rest along.
     tests: tests/stretch-undo.py
@@ -95,8 +96,8 @@ stretch:
   - id: abc
     title: "A to Z"
     prompt: |
-      Add `abc`, which prints the tasks in alphabetical order, one per line, without numbers. It must leave the real list alone: after `abc`, `done` with `1` still means the first task in Neil's order.
+      Add `abc`, which prints the tasks in alphabetical order, one per line, without numbers. It must leave the real list alone: after `abc`, `done` with `1` still means the first task in Riya's order.
   - id: today
     title: "Three before class"
     prompt: |
-      Neil does three jobs before the first class. Add `today`, which prints only the first three tasks, numbered like `list`. Use a slice, so a list of two still works.
+      Riya does three jobs before the first class, while the light's good. Add `today`, which prints only the first three tasks, numbered like `list`. Use a slice, so a list of two still works.

@@ -1,4 +1,4 @@
-/* The side sheet: a modal panel from the right edge, full height, the floor's projects as cards. */
+/* The side sheet: a pixel panel from the right edge, full height, the floor's projects as a list. */
 .sheet {
   position: fixed;
   inset: 0 0 0 auto;
@@ -11,12 +11,14 @@
   border: 0;
   background: var(--surface-1);
   color: var(--text);
-  box-shadow: var(--shadow-float);
+  box-shadow:
+    -2px 0 0 0 var(--px-outline),
+    inset 2px 0 0 0 var(--px-hi);
   overflow: hidden;
 }
 
 .sheet[open] {
-  animation: sheet-in var(--dur-slow) var(--ease-out);
+  animation: sheet-in var(--dur-slow) steps(3);
 }
 
 .sheet::backdrop {
@@ -25,8 +27,7 @@
 
 @keyframes sheet-in {
   from {
-    transform: translateX(32px);
-    opacity: 0;
+    transform: translateX(48px);
   }
 }
 
@@ -36,13 +37,22 @@
   height: 100%;
 }
 
+/* The floor itself across the top, in the tower's brick, at two screen pixels to a room pixel. */
 .top {
   padding: var(--s-6) var(--s-6) 0;
 }
 
 .top .banner {
-  height: 88px;
-  border-radius: var(--r-lg);
+  height: 120px;
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
+}
+
+.inner[data-roof] .top .banner {
+  height: 184px;
 }
 
 .headRow {
@@ -68,36 +78,32 @@
 
 .heading {
   display: grid;
-  gap: var(--s-1);
+  gap: var(--s-2);
 }
 
 .title {
-  font-size: var(--fs-6);
-  font-weight: 800;
+  font-size: var(--px-3);
 }
 
 .residents {
   display: flex;
   align-items: center;
   gap: var(--s-3);
-  margin-top: var(--s-2);
+  margin-top: var(--s-1);
   font-size: var(--fs-2);
   color: var(--text-2);
 }
 
 .faces {
   display: flex;
+  gap: var(--s-1);
 }
 
 .face {
-  box-shadow: 0 0 0 2px var(--surface-1);
-  font-size: 13px;
+  flex: none;
 }
 
-.face + .face {
-  margin-left: -6px;
-}
-
+/* A note (shut, or every project shipped): a sunk well with its icon. */
 .note {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
@@ -105,13 +111,12 @@
   gap: var(--s-2) var(--s-3);
   padding: var(--s-4);
   background: var(--surface-3);
-  border-radius: var(--r-lg);
+  box-shadow: inset 0 2px 0 0 var(--px-lo);
   font-size: var(--fs-2);
   color: var(--text-2);
 }
 
 .note > :global(svg) {
-  margin-top: 2px;
   color: var(--text);
 }
 
@@ -119,12 +124,17 @@
   grid-column: 2;
 }
 
+/* The projects: rows with a pixel line between them, not cards inside the panel. */
 .cards {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  gap: var(--s-2);
+  border-top: 2px solid var(--line);
+}
+
+.cards > li {
+  border-bottom: 2px solid var(--line);
 }
 
 .card {
@@ -132,35 +142,24 @@
   grid-template-columns: auto minmax(0, 1fr);
   align-items: start;
   gap: var(--s-4);
-  padding: var(--s-4);
-  background: var(--surface-2);
-  border-radius: var(--r-lg);
+  padding: var(--s-4) var(--s-2);
   color: var(--text);
   text-decoration: none;
 }
 
-:root[data-theme="light"] .card {
-  border: 1px solid var(--line);
-}
-
-@media (prefers-color-scheme: light) {
-  :root[data-theme="system"] .card {
-    border: 1px solid var(--line);
-  }
-}
-
-.cardLink {
-  transition: background var(--dur) var(--ease-out);
-}
-
 .cardLink:hover {
-  background: var(--surface-3);
+  background: var(--surface-2);
 }
 
 .cardLink:hover .cardName {
   text-decoration: underline;
   text-decoration-thickness: 2px;
-  text-underline-offset: 3px;
+  text-underline-offset: 4px;
+}
+
+.cardLink:focus-visible {
+  outline: 2px solid var(--sun);
+  outline-offset: -2px;
 }
 
 .card[data-dim] .cardName,
@@ -176,10 +175,9 @@
 
 .cardName {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--fs-4);
-  line-height: var(--lh-title);
-  letter-spacing: -0.01em;
+  font-size: var(--px-2);
+  line-height: 1;
+  overflow-wrap: anywhere;
 }
 
 .cardLine {
@@ -207,7 +205,7 @@
   gap: var(--s-3);
   padding: var(--s-4) var(--s-6) var(--s-5);
   background: var(--surface-2);
-  border-top: 1px solid var(--line);
+  box-shadow: 0 -2px 0 0 var(--px-outline);
   font-size: var(--fs-2);
   color: var(--text-2);
 }
@@ -223,5 +221,9 @@
 
   .foot {
     padding: var(--s-4);
+  }
+
+  .title {
+    font-size: var(--px-2);
   }
 }

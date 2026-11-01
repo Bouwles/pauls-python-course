@@ -14,7 +14,7 @@ misconceptions: [sentinel-counted, loop-asks-by-itself]
 related: [while-loops, running-totals]
 cards:
   - type: predict
-    prompt: "Riya types `pizza`, `curry`, `sushi`, then `done`. What does this print?"
+    prompt: "Caitlin types `pizza`, `curry`, `sushi`, then `done`. What does this print?"
     code: |
       count = 0
       order = input("Order? ")
@@ -25,7 +25,7 @@ cards:
     inputs: ["pizza", "curry", "sushi", "done"]
     answer: "3"
   - type: choice
-    prompt: "Aaesha types `300`, `200`, then `clear`. What does this print?"
+    prompt: "Aaesha types two reaction times, `300` and `200`, then `clear`. What does this print?"
     code: |
       readings = 0
       entry = input("Reading? ")
@@ -42,7 +42,7 @@ cards:
         misconception: sentinel-counted
         feedback: "`clear` is checked at the top of the loop before anything is counted, so it never gets a pass."
   - type: fix
-    prompt: "Aaesha types parcel names, then `done`. This counts `done` as a parcel. Fix it so it doesn't."
+    prompt: "Riya types the names on her parcels of prints, then `done`. This counts `done` as a parcel. Fix it so it doesn't."
     code: |
       count = 0
       entry = ""

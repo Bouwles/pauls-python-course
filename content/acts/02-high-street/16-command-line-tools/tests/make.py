@@ -1,6 +1,6 @@
 import json
 
-LIST = "1 [ ] oil the bench vice\n2 [x] sharpen the chisels\n3 [ ] order more biscuits"
+LIST = "1 [ ] rename x in grades.py\n2 [x] mark the Act I tests\n3 [ ] retrain the spam filter"
 
 
 def stderr_of(result):
@@ -52,14 +52,14 @@ def add_then_list(ctx):
 
 def tick_off(ctx):
     first = run(ctx, ["done", "3"])
-    expect_output(first, "Done: order more biscuits", "Ticking off task 3.")
+    expect_output(first, "Done: retrain the spam filter", "Ticking off task 3.")
     second = run(ctx, ["list", "--open"], files=first.files_out)
-    expect_output(second, "1 [ ] oil the bench vice", "Run again, task 3 should be done, so --open leaves it out.")
+    expect_output(second, "1 [ ] rename x in grades.py", "Run again, task 3 should be done, so --open leaves it out.")
 
 
 def already_done(ctx):
     result = run(ctx, ["done", "2"])
-    expect_output(result, "Already done: sharpen the chisels", "Ticking off a task that's done already.")
+    expect_output(result, "Already done: mark the Act I tests", "Ticking off a task that's done already.")
     if result.exit_code != 0:
         raise CheckFailed("Already done isn't a failure: exit code 0.", expected=0, actual=result.exit_code)
 
@@ -69,10 +69,10 @@ def no_such_task(ctx):
 
 
 def first_run(ctx):
-    result = run(ctx, ["--file", "shed.json", "add", "count the bikes"])
-    expect_output(result, "Added 1: count the bikes", "With no file yet, the first task is number 1.")
-    if saved(result, "shed.json") != [{"number": 1, "task": "count the bikes", "done": False}]:
-        raise CheckFailed("shed.json should hold the one task.", actual=json.dumps(saved(result, "shed.json")))
+    result = run(ctx, ["--file", "home.json", "add", "buy coffee beans"])
+    expect_output(result, "Added 1: buy coffee beans", "With no file yet, the first task is number 1.")
+    if saved(result, "home.json") != [{"number": 1, "task": "buy coffee beans", "done": False}]:
+        raise CheckFailed("home.json should hold the one task.", actual=json.dumps(saved(result, "home.json")))
 
 
 def next_number(ctx):
@@ -82,14 +82,14 @@ def next_number(ctx):
 
 
 def broken_file(ctx):
-    refused(ctx, ["list"], "todo.json isn't a to-do list I can read.", files={"todo.json": "oil, chisels, biscuits"})
+    refused(ctx, ["list"], "todo.json isn't a to-do list I can read.", files={"todo.json": "rename, mark, retrain"})
 
 
 TESTS = [
     output("The list as it is", argv=["list"], expect=LIST, exit_code=0, visible=True),
     custom("Add a task, then list them", add_then_list, visible=True,
            hint="Load the list, append the new task, save it, then say what was added. Each run starts again from the file."),
-    output("Only what's still to do", argv=["list", "--open"], expect="1 [ ] oil the bench vice\n3 [ ] order more biscuits", exit_code=0,
+    output("Only what's still to do", argv=["list", "--open"], expect="1 [ ] rename x in grades.py\n3 [ ] retrain the spam filter", exit_code=0,
            hint="--open is a flag: action=\"store_true\" makes it True when it's given."),
     custom("Tick one off", tick_off, hint="Mark the task done, and save the list, or the next run won't know."),
     custom("A task that's already done", already_done),

@@ -4,7 +4,7 @@ project_name: "Grade Calculator"
 portfolio_readme: |
   # Grade Calculator
 
-  Type in the marks on each test paper and it works out the paper's average and a letter grade, then the average for the whole class. It's built from small functions that each do one job, so each one can be checked on its own.
+  Type in the marks on each paper from a Python test and it works out the paper's average and a letter grade, then the average for the whole class. It's built from small functions that each do one job, so each one can be checked on its own.
 
   Written by {name} for Paul, at Paul's Python Course. Finished {date}.
 
@@ -44,15 +44,15 @@ datasets: []
 client: paul
 building: pub
 estimated_minutes: 55
-summary: "Marks in, averages and letter grades out, built from small functions that each do one job."
+summary: "Marks for the class's first Python test in, averages and letter grades out, built from small functions that each do one job."
 concepts_introduced: [functions, parameters, return-values, none, scope]
 concepts_reviewed: [split-join, lists, append-pop, for-loops, while-loops, sentinels, if-elif-else, int-conversion, f-strings]
 ask:
   dialogue:
-    - paul: "The class sat its first test on Friday. I've been putting off the marking."
-    - paul: "Papers are marked blind: candidate numbers, no names. Nobody gets a kind mark."
-    - paul: "An average and a letter for each paper, and one for the class. Small functions, each one checkable."
-    - neil: "He means he'll check every function. Twice."
+    - paul.neutral.wave: "The class sat its first Python test on Friday. I've been putting off the marking."
+    - paul.unimpressed: "Papers are marked blind: candidate numbers, no names. Nobody gets a kind mark."
+    - paul.neutral.point: "An average and a letter for each paper, and one for the class. Small functions, each one checkable."
+    - neil.laughing: "He means he'll check every function. Twice."
   spec: |
     Write three functions, then a `main()` that uses them.
 
@@ -76,10 +76,10 @@ ask:
     Class average: 70.0
 ship:
   dialogue:
-    - paul: "Candidate 2, eighty-six point three. Tidy work, whoever you are."
-    - yahya: "Is Candidate 2 me?"
-    - paul: "Blind marking, Yahya. You'll find out on Friday."
-  shelf: { object: exam-paper, label: "Marks for the class's first test" }
+    - paul.pleased: "Candidate 2, eighty-six point three. Tidy code, whoever you are."
+    - yahya.surprised: "Is Candidate 2 me?"
+    - paul.pleased: "Blind marking, Yahya. You'll find out on Friday."
+  shelf: { object: exam-paper, label: "Marks for the class's first Python test" }
   cards: [functions, parameters, return-values, none, scope]
 stretch:
   - id: top

@@ -6,7 +6,7 @@ portfolio_readme: |
 
   An end-to-end machine learning project: will tomorrow be a good day's fishing, from what is known at dawn? It turns three years of a fishing fleet's daily log into features a skipper would recognise (the wind as an arrow, high water as hours from dawn, the change in pressure since yesterday), with nothing that is only known later. It chooses between logistic regression, a random forest and gradient boosting by cross-validation on the first two years, tests the chosen model once on the third, beside the skipper's own rule of thumb and always saying no, and ends with a written account of what worked and what didn't.
 
-  Written by {name} for Riya, at Paul's Python Course. Finished {date}.
+  Written by {name} for Paul, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -42,7 +42,7 @@ portfolio_readme: |
   `fishing.csv` is invented for the project: every day of 2023 to 2025 for a small fishing fleet, with the dawn weather, tide and swell and the boxes each boat landed. A real dataset of this kind would come from a fleet's own records.
 downloadable: true
 datasets: []
-client: riya
+client: paul
 building: observatory
 estimated_minutes: 600
 summary: "The Act VI capstone, an end-to-end machine learning project. Good fishing or not, from what's known at dawn: three years of the fleet's log, features a skipper would recognise, a model chosen by cross-validation, one honest look at the last year, and a write-up of what worked and what didn't."
@@ -50,10 +50,11 @@ concepts_introduced: [baselines, feature-engineering]
 concepts_reviewed: [scikit-learn, pipelines, cross-validation, data-leakage, train-test-split, logistic-regression, ensembles, classification-metrics, feature-scaling, overfitting, pandas-basics, selecting-filtering, missing-data, modules, imports, dictionaries, functions, main-guard, f-strings]
 ask:
   dialogue:
-    - riya: "A fishing co-op on the coast wrote to Paul. Good fishing or not, from the weather and the tide."
-    - riya: "Who's going to use it? Six boats, and the café by the water that cooks whatever they land."
-    - paul: "Three years of the fleet's log. Two to learn from, one locked away. You know how this goes now."
-    - paul: "This one's yours, start to finish. Then write down what worked, and what didn't."
+    - paul.neutral.wave: "A fishing co-op on the coast wrote to me. Good fishing or not, from the weather and the tide."
+    - paul.thinking: "Who's going to use it? Six boats, and the café by the water that cooks whatever they land."
+    - caitlin.pleased: "That café does the best chips on the coast. Get this right."
+    - paul.neutral.point: "Three years of the fleet's log. Two to learn from, one locked away. You know how this goes now."
+    - paul.proud: "This one's yours, start to finish. Then write down what worked, and what didn't."
   spec: |
     The fleet's log is in `fishing.csv`: every day from 2023 to 2025, with what was known at dawn and how many boxes each boat landed. A good day is eight boxes a boat or more.
 
@@ -73,11 +74,12 @@ ask:
     Good days it caught: 0.85
 ship:
   dialogue:
-    - riya: "The co-op wrote back. It said good on Thursday, the boats came in full, and the café sold out by two."
-    - riya: "Eighty-five in a hundred. The skipper's rule gets seventy-two. They're keeping the rule, and using the forecast."
-    - aaesha: "It beat the rule on a year it never saw, and the write-up says how we know."
-    - paul: "A model, a test it hadn't seen, and a page a stranger could check. That's the job done properly."
-  shelf: { object: catch-board, label: "The fishing forecast, tested on a year it never saw" }
+    - paul.pleased: "The co-op wrote back. It said good on Thursday, the boats came in full, and the café sold out by two."
+    - caitlin.laughing.cheer: "Sold out by two. That's the review that counts."
+    - yahya.thinking: "Eighty-five in a hundred, on a year it never saw. The skipper's rule gets seventy-two."
+    - aaesha.neutral: "And the write-up says how we know. That's the part I'd check first."
+    - paul.proud.thumbs: "A model, a test it hadn't seen, and a page a stranger could check. That's the job done properly."
+  shelf: { object: catch-board, label: "Paul's fishing forecast, tested on a year it never saw" }
   cards: [baselines, feature-engineering]
 stretch:
   - id: boats-out

@@ -3,7 +3,7 @@ id: make
 type: make
 title: Make the expense tracker
 timeout_ms: 15000
-on_pass: { aaesha: "Requirement ten: anything else gets told. I typed my own name at it. It told me." }
+on_pass: { yahya.pleased: "Requirement ten: anything else gets told. I typed my own name at it. It told me." }
 hints:
   nudge: "What does the program have to remember from one choice to the next? Set that up before the loop starts."
   plan:
@@ -55,9 +55,9 @@ hints:
     if __name__ == "__main__":
         main()
 ---
-Build the expense tracker to Aaesha's ten requirements, under **The job**. Paul's chalkboard is the plan. The file is empty apart from Aaesha's note.
+Build the expense tracker to Yahya's ten requirements, under **The job**. Paul's chalkboard is the plan. The file is empty apart from Yahya's note.
 
-The checks type whole afternoons at it: receipts added, refused, listed and totalled, and wrong numbers. When one fails, read its inputs. That's the afternoon Aaesha had.
+The checks type whole afternoons at it: receipts added, refused, listed and totalled, and wrong numbers. When one fails, read its inputs. That's the afternoon Yahya had.
 
 `category_totals` and `biggest` are also checked on their own, with lists of receipts the checks make up. They return their answers; leave the printing to the menu.
 

@@ -4,7 +4,7 @@ type: predict
 title: A weight nobody needs
 concept: regularisation
 dialogue:
-  - neil: "My notebook says: shrink every weight a little, every step. I call it rent."
+  - neil.laughing: "My notebook says: shrink every weight a little, every step. I call it rent."
 code: |
   w = 2.0                      # a weight on the moon
   rate, decay = 0.5, 0.2

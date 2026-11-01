@@ -1,4 +1,4 @@
-"""Your tests for the shop's postage. Write them from the docstring in
+"""Your tests for the postage on Riya's prints. Write them from the docstring in
 postage.py, as if you couldn't see the code underneath it.
 
 Plain test functions with no arguments. To check for an error:
@@ -10,7 +10,7 @@ import pytest
 from postage import postage
 
 
-def test_a_local_letter():
+def test_a_small_local_print():
     assert postage(20, "local") == 60
 
 
@@ -40,7 +40,7 @@ def test_nothing_weighs_nothing():
             postage(weight, "local")
 
 
-def test_too_heavy_for_mira():
+def test_too_heavy_to_post():
     with pytest.raises(ValueError):
         postage(2001, "away")
 

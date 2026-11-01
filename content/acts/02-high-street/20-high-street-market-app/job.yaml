@@ -6,7 +6,7 @@ portfolio_readme: |
 
   A personal finance app for the command line. It records every penny in and out with a category and a note, keeps a monthly budget for each kind of spending, and prints a report for any month: money in, money out, what went on each category against its budget, and what was left over. Everything is kept in a JSON file. It's a Python package, with the rules, the file and the command line in separate modules, and a test suite that was checked against deliberately broken copies of the rules.
 
-  Written by {name} for Riya, at Paul's Python Course. Finished {date}.
+  Written by {name} for Caitlin, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -41,20 +41,20 @@ portfolio_readme: |
   The transactions in `money.json` are invented.
 downloadable: true
 datasets: []
-client: riya
+client: caitlin
 building: greengrocer
 estimated_minutes: 480
-summary: "The Act II capstone: a personal finance app with budgets and monthly reports, in four modules with their own tests, taken home as a real package."
+summary: "The Act II capstone: Caitlin's personal finance app, the fun version, with budgets and monthly reports, in four modules with their own tests, taken home as a real package."
 concepts_introduced: []
 concepts_reviewed: [classes, init, attributes, methods, dataclasses, type-hints, exceptions, raising-errors, try-except, json-module, files, with-statement, modules, main-guard, docstrings, mutable-default, copying, list-comprehensions, dict-set-comprehensions, sort-key, lambda, argparse, exit-codes, assert, pytest, edge-cases, standard-library]
 ask:
   dialogue:
-    - riya: "Everyone in our class says they'll keep a budget. Nobody does. The apps are all too complicated."
-    - riya: "I want one that does four things. In, out, a budget for each thing, and a page a month."
-    - riya: "Who's going to use it? Students. Me first, with a made-up month."
-    - paul: "Classes, a file, a command line and tests. Everything you've got. Then make it a proper package."
+    - caitlin.pleased.wave: "Everyone in our class says they'll keep a budget. Nobody does. The apps are all too boring."
+    - caitlin.thinking: "I want one that does four things. In, out, a budget for each thing, and a page a month."
+    - caitlin.laughing: "I'll try it first, with a made-up month. Made-up me has an arcade habit."
+    - paul.neutral: "Classes, a file, a command line and tests. Everything you've got. Then make it a proper package."
   spec: |
-    A personal finance app for Riya, in four files, then a package:
+    A personal finance app for Caitlin, in four files, then a package:
 
     1. Every transaction has a day, an amount in whole pence (more than 0 in, less than 0 out), one of six categories, and a note. Income is the only money in.
     2. An amount of 0, a category that isn't one of the six, income that's money out and spending that's money in are all refused, with a reason.
@@ -81,11 +81,12 @@ ask:
     Left over: £844.45
 ship:
   dialogue:
-    - riya: "Fun, fifty-three ninety-five, against a budget of forty. That's the arcade. I'd have guessed ten."
-    - riya: "Eight hundred and forty-four pounds forty-five left over. Without the report, I'd have guessed six hundred."
-    - aaesha: "And eight planted bugs, eight caught. I'd trust it with real numbers now."
-    - paul: "Four files, and each one knows its job. Then one package that knows it's a program."
-  shelf: { object: till-receipt, label: "Riya's personal finance app" }
+    - caitlin.surprised: "Fun, fifty-three ninety-five, against a budget of forty. That's the arcade. I'd have guessed ten."
+    - caitlin.laughing: "Eight hundred and forty-four pounds forty-five left over. I'd have guessed six hundred."
+    - aaesha.pleased: "And eight planted bugs, eight caught. I'd trust it with real numbers now."
+    - caitlin.pleased.cheer: "It works. It's not even ugly. Shipping it."
+    - paul.proud.thumbs: "Four files, and each one knows its job. Then one package that knows it's a program."
+  shelf: { object: till-receipt, label: "Caitlin's personal finance app" }
   cards: []
 stretch:
   - id: what-if
@@ -95,7 +96,7 @@ stretch:
   - id: undo
     title: "Take it back"
     prompt: |
-      Riya typed a pasty twice. Add `python -m finance undo`, which removes the last transaction added and says what it was, or `Nothing to undo.` Which file does each part belong in?
+      Caitlin typed a pasty twice. Add `python -m finance undo`, which removes the last transaction added and says what it was, or `Nothing to undo.` Which file does each part belong in?
   - id: csv-export
     title: "For the accountant"
     prompt: |

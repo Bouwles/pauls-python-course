@@ -380,11 +380,6 @@ export function CodeWorkspace({
             <p className={styles.opening}>Opening your file.</p>
           )}
         </div>
-        {/* Phone: Run and Check pinned to the bottom of the Code tab. */}
-        <div className={styles.pinned}>
-          {runButton}
-          {mainButton}
-        </div>
       </div>
       {consoleShown && !compact ? (
         <div
@@ -447,6 +442,11 @@ export function CodeWorkspace({
           </div>
         ) : null}
       </section>
+      {/* Phone: Run and Check (or Next step) pinned to the bottom of the Code and Output tabs. */}
+      <div className={styles.pinned}>
+        {runButton}
+        {mainButton}
+      </div>
       {keysOpen ? <ShortcutsSheet onClose={() => setKeysOpen(false)} /> : null}
       {history ? (
         <VersionHistory

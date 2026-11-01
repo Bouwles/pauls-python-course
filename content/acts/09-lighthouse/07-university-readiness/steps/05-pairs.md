@@ -4,7 +4,7 @@ type: make
 title: "Question 4: Two for a pound"
 files: [pairs.py]
 entry: pairs.py
-on_pass: { caitlin: "Mine took a minute on the whole list. Yours took a blink. Fine. Yours is better." }
+on_pass: { caitlin.surprised: "Mine took a minute on the whole list. Yours took a blink. Fine. Yours is better." }
 hints:
   nudge: "A 30p item needs a 70p partner. How could you know how many 70p items you've already gone past, without looking back through the list?"
   plan:
@@ -22,7 +22,7 @@ hints:
             seen[price] = ___
         return pairs
 ---
-A market stall's new offer: any two items that come to exactly a pound. How many pairs on the stall qualify? Caitlin wrote `count_pairs` the plain way. It's right, and far too slow for the whole market's price list.
+Caitlin's favourite food market has a new offer: any two items that come to exactly a pound. How many pairs qualify? Caitlin wrote `count_pairs` the plain way. It's right, and far too slow for the whole market's price list.
 
 `count_pairs(prices, target)` returns how many pairs of different items, at positions `i < j`, have prices adding up to exactly `target` pence.
 

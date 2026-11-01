@@ -4,7 +4,7 @@ type: milestone
 title: "Milestone 4: the handover"
 evidence: link
 dialogue:
-  - paul: "This is the list I use on my own work. Most of it I learned by getting it wrong."
+  - paul.thinking: "This is the list I use on my own work. Most of it I learned by getting it wrong."
 checklist:
   - id: used
     text: "The person it's for has used it without you there, and you've written down what happened."

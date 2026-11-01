@@ -53,6 +53,6 @@ tasks:
           print(level)
       print(sum(readings))
 ---
-Neil's new light sensor reads 50 too high, so every reading needs 50 taking off. The `print` inside the generator shows the exact moment each value is worked out.
+Neil's new tyre sensor reads 50 too high, so every reading needs 50 taking off. The `print` inside the generator shows the exact moment each value is worked out.
 
 This is **lazy evaluation**: nothing is worked out until something asks for it.

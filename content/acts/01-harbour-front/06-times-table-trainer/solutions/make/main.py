@@ -1,4 +1,4 @@
-# Times table trainer, for Riya's cousin's test on Friday
+# Times table trainer, for Aaesha's memory experiment
 # 1. Ask which table
 table = int(input("Which table? "))
 

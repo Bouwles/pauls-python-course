@@ -2,7 +2,7 @@ id: web-scraper
 title: "Web Scraper"
 project_name: "Web Scraper"
 status: outline
-client: aaesha
+client: riya
 building: pier
 estimated_minutes: 90
-summary: "Aaesha wants every second-hand textbook price on one page. Read HTML with BeautifulSoup on saved pages, then a polite real scraper at home: robots.txt, rate limits, manners."
+summary: "A palette scraper: Riya wants the colours from a design site's palette pages, every hex code on one page of her own. Read HTML with BeautifulSoup on saved pages, then a polite real scraper at home: robots.txt, rate limits, manners."

@@ -1,3 +1,3 @@
-length = input("Shelf length in metres? ")
-length = float(length)
-print("Length in centimetres:", length * 100)
+wingspan = input("Wingspan in metres? ")
+wingspan = float(wingspan)
+print("Wingspan in centimetres:", wingspan * 100)

@@ -14,9 +14,9 @@ class Book:
 
 
 books = [
-    Book("Emma", Status.ON_LOAN),
-    Book("The Riddle of the Sands"),
-    Book("Alice's Adventures in Wonderland", Status.ON_LOAN),
+    Book("Carrying the Fire", Status.ON_LOAN),
+    Book("The Mechanic's Tale"),
+    Book("Wind, Sand and Stars", Status.ON_LOAN),
 ]
 
 out = 0

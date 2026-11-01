@@ -4,7 +4,7 @@ type: predict
 title: What followed each tile
 concept: monte-carlo
 dialogue:
-  - caitlin: "Three tiles along the top, then the finish. The perfect race."
+  - caitlin.pleased.point: "Three tiles along the top, then the finish. The perfect race."
 code: |
   gamma = 0.5
   race = [((0, 0), "right", -1), ((0, 1), "right", -1), ((0, 2), "right", 10)]

@@ -2,13 +2,15 @@
 
 // The placement test (Section 8.2): one section per Act, each a short project of Make tasks.
 // Passing a section marks that Act's projects as placed: they stay open, the next Act opens,
-// and the Act's ideas join the review deck.
+// and the Act's ideas join the review deck. Paul, who runs the course, sets it.
 import { duration } from "@/lib/display";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { ActSummary, PlacementSummary } from "@/lib/content/types";
 import type { JobProgressRow } from "@/lib/store/types";
-import { castColour, floorFor } from "@/lib/cast";
+import { castColour, floorFor, PROFESSOR } from "@/lib/cast";
+import { useMedia } from "@/lib/useMedia";
+import { Speech } from "../art/Speech";
 import { useSession } from "@/lib/store/session";
 import { openActs } from "@/lib/progress-rules";
 import { Badge } from "../ui/Badge";
@@ -19,6 +21,7 @@ import styles from "./Placement.module.css";
 export function Placement({ acts, placements }: { acts: ActSummary[]; placements: PlacementSummary[] }) {
   const { store, ready } = useSession();
   const [progress, setProgress] = useState<Record<string, JobProgressRow> | null>(null);
+  const phone = useMedia("(max-width: 720px)");
 
   useEffect(() => {
     if (!store || !ready) return;
@@ -37,6 +40,7 @@ export function Placement({ acts, placements }: { acts: ActSummary[]; placements
         <h1 className={styles.title}>Placement test</h1>
         <p className={styles.lede}>For anyone who has written a fair amount of Python already. Each section is a few Make tasks from one Act, with real checks and no hints.</p>
       </header>
+      <Speech who={PROFESSOR} name="Paul" text="Show me what you already know. Pass a section and I'll open the next floor for you." face="pleased" gesture="point" size={phone ? 72 : 108} className={styles.host} />
       <div className={`prose ${styles.how}`}>
         <p>
           Pass every task in a section and that Act is marked as placed: the next Act opens in the Clocktower, and the Act&apos;s ideas join your review deck, so Morning Rounds still checks them. Its projects stay open if you&apos;d like to do them anyway.
@@ -53,7 +57,7 @@ export function Placement({ acts, placements }: { acts: ActSummary[]; placements
             const passed = placedPast(p);
             const colour = castColour(floorFor(act?.number ?? 0)?.residents[0] ?? "");
             return (
-              <li key={p.jobId} className={styles.section}>
+              <li key={p.jobId} className={`px-panel ${styles.section}`}>
                 <span className={styles.number} style={{ background: colour.face, color: colour.ink }} aria-hidden="true">
                   {act?.number}
                 </span>

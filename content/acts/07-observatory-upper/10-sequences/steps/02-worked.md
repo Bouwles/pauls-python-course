@@ -3,8 +3,8 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "My fog log, one reading an hour. The beacon should keep flashing a while after the fog lifts."
-  - paul: "One neuron that remembers. Three numbers, chosen by hand."
+  - paul.neutral.point: "My fog log, one reading an hour. The beacon should keep flashing a while after the fog lifts."
+  - paul.thinking: "One neuron that remembers. Three numbers, chosen by hand."
 code: |
   import numpy as np
 

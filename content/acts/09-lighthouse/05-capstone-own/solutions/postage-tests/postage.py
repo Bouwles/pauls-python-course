@@ -1,4 +1,4 @@
-"""A shop's postage, as Riya wrote it down for its website. Prices are in pence.
+"""Postage for Riya's prints, as she wrote it down for her shop's website. Prices are in pence.
 
 postage(weight, destination)
         weight in grams; destination "local" (anywhere in the city) or "away"

@@ -4,7 +4,7 @@ type: predict
 title: Round the compass
 concept: feature-engineering
 dialogue:
-  - riya: "The skipper's note says a northerly's a northerly. Three-fifty or ten, it blows the same."
+  - neil.thinking.point: "The skipper's note says a northerly's a northerly. Three-fifty or ten, it blows the same. Pilots would agree."
 code: |
   import numpy as np
 

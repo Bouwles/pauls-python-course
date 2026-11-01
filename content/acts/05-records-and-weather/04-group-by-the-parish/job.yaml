@@ -6,7 +6,7 @@ portfolio_readme: |
 
   Turns a census into the tables a wall chart needs, with pandas: people in each parish in each census year, a summary of each year (people, households, average age, people per household), and people in each sector of work, by merging a separate index of trades onto the census. Every table leaves the data it was made from as it was.
 
-  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
+  Written by {name} for Yahya, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -39,18 +39,18 @@ downloadable: true
 # census.csv and trades.csv are invented for the story: the census of the streets round the
 # Clocktower, and the Archive's index of trades. See the README.
 datasets: []
-client: aaesha
+client: yahya
 building: records-office
 estimated_minutes: 70
-summary: "Pivot tables of the census for Aaesha's wall chart: by parish, by year and by trade, with the Archive's trades index merged in."
+summary: "Pivot tables of the census for Yahya's wall chart: by parish, by year and by trade, with the Archive's trades index merged in."
 concepts_introduced: [groupby, merging]
 concepts_reviewed: [pandas-basics, selecting-filtering, missing-data, data-cleaning, functions, return-values, docstrings, main-guard, f-strings]
 ask:
   dialogue:
-    - aaesha: "The census is going on the wall chart. By parish, by year and by trade."
-    - aaesha: "The Archive has a trades index too. Fisherman, sea. Baker, trade. Forty years of cards."
-    - paul: "Sort it into piles, then count each pile. Same as screws."
-    - aaesha: "I do sort my screws. By length. Don't tell Caitlin."
+    - yahya.pleased.wave: "The census is going on the wall chart. By parish, by year and by trade."
+    - yahya.thinking.point: "The Archive has a trades index too. Fisherman, sea. Baker, trade. Forty years of cards."
+    - paul.neutral: "Sort it into piles, then count each pile. Same as screws."
+    - yahya.laughing: "I do sort my screws. By length. Don't tell Caitlin."
   spec: |
     `census.csv` is the census from the Census Explorer. `trades.csv` is the trades index: one card per line, with an `occupation` and its `sector`.
 
@@ -89,10 +89,10 @@ ask:
     unlisted     0     0     0     5
 ship:
   dialogue:
-    - aaesha: "Five the index never heard of. A barista, three pharmacists and a web designer."
-    - aaesha: "I'll write them cards tonight. In ink."
-    - paul: "Take the spare net maker card out while you're in there."
-    - aaesha: "Filed twice in 1962. Duplicated data. I've been looking forward to this."
+    - yahya.surprised: "Five the index never heard of. A barista, three pharmacists and a web designer."
+    - yahya.pleased: "I'll write them cards tonight. In ink."
+    - paul.laughing.point: "Take the spare net maker card out while you're in there."
+    - yahya.proud.thumbs: "Filed twice in 1962. Duplicated data. I've been looking forward to this."
   shelf: { object: parish-ledger, label: "The census by parish and by trade, for the wall chart" }
   cards: [groupby, merging]
 stretch:

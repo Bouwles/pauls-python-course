@@ -5,7 +5,7 @@ title: Make Deep Q
 files: [track.py, dqn.py]
 entry: dqn.py
 timeout_ms: 20000
-on_pass: { neil: "A network instead of a table, and its line still beats the traditional one. That's Deep Q." }
+on_pass: { neil.proud.thumbs: "A network instead of a table, and its line still beats the traditional one. That's Deep Q." }
 hints:
   nudge: "Before `train_step` can call `gradients`, it needs three things from the batch: features, actions and targets. Which of your functions gives each?"
   plan:

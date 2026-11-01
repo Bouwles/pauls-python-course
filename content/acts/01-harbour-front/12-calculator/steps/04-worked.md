@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "I measured the Workshop for new desks. Half my tape is in inches, and I type some odd things."
+  - paul.laughing: "I measured the Workshop for new desks. Half my tape is in inches, and I type some odd things."
 code: |
   # The Workshop tape: inches or feet to centimetres, until I say done
   CM_PER = {"in": 2.54, "ft": 30.48}

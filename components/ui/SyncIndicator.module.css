@@ -23,3 +23,14 @@
 .error {
   color: var(--fail-text);
 }
+
+/* The spinner holds still when motion is reduced; the words in the tooltip still say "Saving". */
+@media (prefers-reduced-motion: reduce) {
+  .saving svg {
+    animation: none !important;
+  }
+}
+
+:global(:root[data-motion="reduced"]) .saving svg {
+  animation: none !important;
+}

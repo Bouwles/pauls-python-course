@@ -72,7 +72,7 @@ cards:
     tests: |
       TESTS = [output("Every January", expect="[116, 98, 130]")]
   - type: fix
-    prompt: "Riya wants one total per year, and each row is a year. Fix it so it prints `[180, 170]`."
+    prompt: "Yahya wants one total per year, and each row is a year. Fix it so it prints `[180, 170]`."
     code: |
       import numpy as np
 
@@ -90,7 +90,7 @@ cards:
       per_year = rain.sum(axis=1)
       print(per_year.tolist())
   - type: write
-    prompt: "Turn Aaesha's `ledger` into a NumPy array called `rain`, then print its shape."
+    prompt: "Turn Yahya's `ledger` into a NumPy array called `rain`, then print its shape."
     starter: |
       ledger = [[80, 60], [90, 50], [70, 70]]
     tests: |

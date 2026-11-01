@@ -41,7 +41,7 @@ cards:
         misconception: rng-choice-never-repeats
         feedback: "By default `rng.choice` puts each pick back before the next, so repeats happen: here, 3 twice. For k different starting stars, pass `replace=False`."
   - type: choice
-    prompt: "Riya runs k-means for every k from 1 to 10 and keeps the k with the lowest inertia. Which k does she always end up with?"
+    prompt: "Riya runs k-means on a print's colours for every k from 1 to 10 and keeps the k with the lowest inertia. Which k does she always end up with?"
     verify: none
     options:
       - text: "10, the biggest she tried"
@@ -54,7 +54,7 @@ cards:
         misconception: inertia-rises-with-k
         feedback: "Fewer distances, but much longer ones. Every point is at least as close to its nearest of k + 1 centres as to its nearest of k."
   - type: choice
-    prompt: "Aaesha runs k-means twice on the same plate, with k = 4 and two different seeds. Must the two runs find the same groups?"
+    prompt: "Neil runs k-means twice on the same plate of stars, with k = 4 and two different seeds. Must the two runs find the same groups?"
     verify: none
     options:
       - text: "No. Each run walks downhill from its own start and can stop in a different hollow"

@@ -6,12 +6,12 @@
 
 .head {
   display: grid;
-  gap: var(--s-3);
+  gap: var(--s-4);
   max-width: 720px;
 }
 
 .title {
-  font-size: var(--fs-7);
+  font-size: var(--px-5);
 }
 
 .lede {
@@ -19,21 +19,29 @@
   color: var(--text-2);
 }
 
+/* A pixel panel: stepped outline, light top edge, hard drop shadow. */
+.parent,
+.checkout {
+  background: var(--surface-2);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-hi),
+    inset 0 -2px 0 0 var(--px-lo),
+    6px 6px 0 0 var(--px-drop);
+}
+
 .parent {
   display: grid;
   gap: var(--s-3);
   max-width: 720px;
   padding: var(--s-6);
-  background: var(--surface-2);
-  border-radius: var(--r-lg);
-}
-
-:root[data-theme="light"] .parent {
-  border: 1px solid var(--line);
 }
 
 .parentTitle {
-  font-size: var(--fs-5);
+  font-size: var(--px-2);
 }
 
 .ask {
@@ -54,14 +62,14 @@
 }
 
 .sectionTitle {
-  font-size: var(--fs-6);
+  font-size: var(--px-4);
 }
 
 .contact {
   color: var(--text-2);
 }
 
-/* Checkout, the sandbox and thanks: one card, centred. */
+/* Checkout, the sandbox and thanks: one panel, centred. */
 .checkout {
   display: grid;
   gap: var(--s-5);
@@ -69,25 +77,10 @@
   max-width: 560px;
   margin: 0 auto;
   padding: var(--s-8);
-  background: var(--surface-2);
-  border-radius: var(--r-lg);
-}
-
-:root[data-theme="light"] .checkout,
-:root[data-theme="light"] .choice {
-  border: 1px solid var(--line);
-}
-
-@media (prefers-color-scheme: light) {
-  :root[data-theme="system"] .checkout,
-  :root[data-theme="system"] .parent,
-  :root[data-theme="system"] .choice {
-    border: 1px solid var(--line);
-  }
 }
 
 .checkoutTitle {
-  font-size: var(--fs-6);
+  font-size: var(--px-4);
 }
 
 .plan {
@@ -96,7 +89,9 @@
 }
 
 .planName {
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--px-2);
+  line-height: 1.2;
 }
 
 .planPrice {
@@ -105,7 +100,7 @@
 
 .choices {
   display: grid;
-  gap: var(--s-2);
+  gap: var(--s-3);
   border: 0;
   padding: 0;
   margin: 0;
@@ -115,39 +110,73 @@
   margin-bottom: var(--s-2);
 }
 
+/* Each answer is a sunk pixel well; the chosen one is outlined in sun. */
 .choice {
   display: grid;
   grid-template-columns: 20px minmax(0, 1fr);
   gap: var(--s-3);
   align-items: start;
   padding: var(--s-3) var(--s-4);
-  background: var(--surface-3);
-  border-radius: var(--r-md);
+  background: var(--editor);
   cursor: pointer;
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-lo);
 }
 
 .choice:has(input:checked) {
-  box-shadow: inset 0 0 0 2px var(--sun);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 0 0 2px var(--sun);
 }
 
+/* A pixel radio: a small square that fills with sun when chosen. */
 .choice input {
-  width: 18px;
-  height: 18px;
-  margin: 3px 0 0;
-  accent-color: var(--sun);
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  margin: 4px 2px 0;
+  padding: 0;
+  background: var(--surface-3);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
+  cursor: pointer;
+}
+
+.choice input:checked {
+  background: var(--sun);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 0 0 3px var(--surface-3);
+}
+
+.choice input:focus-visible {
+  outline-offset: 4px;
 }
 
 .row {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--s-3);
+  gap: var(--s-4);
   align-items: center;
 }
 
 .error {
   padding: var(--s-3);
   background: var(--fail-wash);
-  border-radius: var(--r-md);
+  box-shadow: inset 4px 0 0 0 var(--fail);
   color: var(--text);
 }
 
@@ -166,8 +195,20 @@
     gap: var(--s-12);
   }
 
+  .title {
+    font-size: var(--px-4);
+  }
+
+  .sectionTitle {
+    font-size: var(--px-3);
+  }
+
   .checkout {
     padding: var(--s-6) var(--s-5);
+  }
+
+  .checkoutTitle {
+    font-size: var(--px-3);
   }
 
   .row > * {

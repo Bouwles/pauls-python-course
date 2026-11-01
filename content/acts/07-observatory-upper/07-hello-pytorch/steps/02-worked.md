@@ -4,7 +4,7 @@ type: worked
 title: How Paul would do it
 language: text
 dialogue:
-  - paul: "Neil ran this on his laptop. The telescope's focus line, from the optimiser race. I've seen it work, so I'll allow it."
+  - paul.neutral.point: "Neil ran this on his laptop. The telescope's focus line, from his time trial. I've seen it work, so I'll allow it."
 code: |
   import numpy as np
   import torch
@@ -58,7 +58,7 @@ explain:
   answer: "loss.backward() adds to each .grad, as the tiny engine did with +=. Without zeroing, every step's gradient is the sum of every gradient so far, so the steps point wherever the early, steep slopes pointed and the line never settles."
   concept: pytorch
 ---
-The same line the formula gives, and momentum found in the optimiser race: `-0.1211 * temperature + 42.318`. This page's code runs at home, not here.
+The same line the formula gives, and momentum found in Neil's time trial: `-0.1211 * temperature + 42.318`. This page's code runs at home, not here.
 
 `readings[:, 1:2]` keeps the column as (30, 1) rather than (30,): a layer wants a row per example, even with one reading in it. `.item()` turns a one-number tensor into a plain float, for printing.
 

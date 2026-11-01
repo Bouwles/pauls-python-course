@@ -4,8 +4,8 @@ type: predict
 title: The worth of a move
 concept: q-learning
 dialogue:
-  - caitlin: "Values tell you which tiles are good. The crab needs to know..."
-  - caitlin: "...which way to go."
+  - caitlin.thinking: "Values tell you which tiles are good. The crab needs to know..."
+  - caitlin.pleased.point: "...which way to go."
 code: |
   Q = {
       (1, 2): {"up": 0.0, "down": -2.0, "left": -1.5, "right": -6.0},

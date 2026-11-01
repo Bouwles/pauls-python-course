@@ -4,7 +4,7 @@ type: investigate
 title: One line, three parts
 concept: split-join
 code: |
-  line = "Riya, 01632 960733, The Model Room"
+  line = "Aaesha, 01632 960733, The Engine Room"
   parts = line.split(", ")
   print(parts)
 tasks:
@@ -21,20 +21,20 @@ tasks:
     feedback: "Six. With nothing in the brackets, `.split()` cuts at every run of spaces, so the commas stay stuck to the words. Splitting a name into words is useful. Splitting a whole contact like this isn't."
     wrong: "Count the items in the printed list. Commas inside the quotes are part of an item."
   - id: words
-    prompt: "Add a line: `print(\"repairs\" in \"Clock Repairs\".lower().split())`. What does it print?"
+    prompt: "Add a line: `print(\"shop\" in \"Print Shop\".lower().split())`. What does it print?"
     kind: answer
     accept: ["True"]
-    feedback: "True. `.lower()` gives `clock repairs`, `.split()` gives `['clock', 'repairs']`, and `in` finds `repairs` among the words. Try `\"rep\"` instead: it's in the letters, but it isn't one of the words, so that's False."
+    feedback: "True. `.lower()` gives `print shop`, `.split()` gives `['print', 'shop']`, and `in` finds `shop` among the words. Try `\"sho\"` instead: it's in the letters, but it isn't one of the words, so that's False."
   - id: join
-    prompt: "Put `.split(\", \")` back. Then add a line that prints the three parts joined back into one, with ` / ` between them: `Riya / 01632 960733 / The Model Room`."
+    prompt: "Put `.split(\", \")` back. Then add a line that prints the three parts joined back into one, with ` / ` between them: `Aaesha / 01632 960733 / The Engine Room`."
     kind: run
     tests: |
       TESTS = [
-          output("Joined with slashes", expect="Riya / 01632 960733 / The Model Room", match="last_line",
+          output("Joined with slashes", expect="Aaesha / 01632 960733 / The Engine Room", match="last_line",
                  hint="\" / \".join(parts) glues the list back into one string, with \" / \" between the pieces."),
       ]
     solution: |
-      line = "Riya, 01632 960733, The Model Room"
+      line = "Aaesha, 01632 960733, The Engine Room"
       parts = line.split(", ")
       print(parts)
       print(" / ".join(parts))

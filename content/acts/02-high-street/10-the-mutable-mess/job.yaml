@@ -6,7 +6,7 @@ portfolio_readme: |
 
   A bake sale's order book. Each customer has a standing order, the same every week, and each week some of them want extras. `saturday_orders` builds this Saturday's orders from the two, and leaves the standing orders exactly as they were, however the result is changed afterwards.
 
-  Written by {name} for Neil's bake sale, at Paul's Python Course. Finished {date}.
+  Written by {name} for Caitlin's bake sale, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -16,9 +16,9 @@ portfolio_readme: |
 
   ```
   Paul {'bread': 3, 'buns': 6}
-  The Studio {'bread': 6, 'lardy cake': 2}
-  Yahya {'lardy cake': 1}
-  Standing: {'Paul': {'bread': 3, 'buns': 4}, 'The Studio': {'bread': 6, 'lardy cake': 2}}
+  The Studio {'bread': 6, 'brownies': 2}
+  Yahya {'brownies': 1}
+  Standing: {'Paul': {'bread': 3, 'buns': 4}, 'The Studio': {'bread': 6, 'brownies': 2}}
   ```
 
   ## What it shows
@@ -29,32 +29,32 @@ portfolio_readme: |
   - A function that changes neither of its arguments, checked
 downloadable: true
 datasets: []
-client: neil
+client: caitlin
 building: bakery
 estimated_minutes: 60
-summary: "The bake sale's stock numbers change on their own. Find out why, then build the order book that never touches the standing orders."
+summary: "Caitlin's bake sale stock numbers change on their own. Find out why, then build the order book that never touches the standing orders."
 concepts_introduced: [references, mutability, copying, is-vs-equals]
 concepts_reviewed: [list-aliasing, dictionaries, nested-data, dict-items, dict-get, functions, return-values, modules, imports, docstrings]
 ask:
   dialogue:
-    - neil: "I run a bake sale on Fridays and Saturdays, for the class trip fund."
-    - neil: "Saturday's sheet said thirty-five loaves sold by nine. We'd been open ten minutes."
-    - neil: "I wrote the stock program last term. I counted three times. It's still wrong."
-    - paul: "Numbers don't move on their own. Something else is holding the same box."
+    - caitlin.pleased.wave: "I run a bake sale on Fridays and Saturdays. The money's for new board games for the Studio."
+    - caitlin.surprised: "Saturday's sheet said thirty-five loaves sold by nine. We'd been open ten minutes."
+    - caitlin.worried: "I wrote the stock program last term. I counted three times. It's still wrong."
+    - paul.thinking: "Numbers don't move on their own. Something else is holding the same box."
   spec: |
-    Neil's stock program keeps a sheet for each day of the bake sale. Find out why one day's sales turn up on the next day's sheet, and fix it.
+    Caitlin's stock program keeps a sheet for each day of the bake sale. Find out why one day's sales turn up on the next day's sheet, and fix it.
 
     Then write `saturday_orders(standing, extras)` for the bake sale's standing orders. It returns Saturday's orders, the standing orders with this week's extras added, and leaves both of its arguments exactly as they were.
   example: |
     bread: 35 left of 40
     buns: 60 left of 60
-    lardy cake: 12 left of 12
+    brownies: 12 left of 12
 ship:
   dialogue:
-    - neil: "Five loaves sold, thirty-five left. That's what the table says. I counted."
-    - neil: "And Paul gets six buns this week. Four next week, like always."
-    - paul: "One box each. That was all it needed."
-  shelf: { object: stock-sheet, label: "Neil's bake sale order book, counting once" }
+    - caitlin.pleased: "Five loaves sold, thirty-five left. That's what the table says. I counted."
+    - caitlin.laughing.cheer: "And Paul gets six buns this week. Four next week, like always."
+    - paul.pleased: "One box each. That was all it needed."
+  shelf: { object: stock-sheet, label: "Caitlin's bake sale order book, counting once" }
   cards: [references, mutability, copying, is-vs-equals]
 stretch:
   - id: week-of-sheets

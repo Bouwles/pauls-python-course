@@ -6,7 +6,7 @@ portfolio_readme: |
 
   Savings accounts as a Python class. Each account knows its holder, its number, its balance and every payment in and out. It refuses a withdrawal bigger than the balance, and raises an error for a payment of nothing or less than nothing, so a mistake can't quietly become money. Amounts are kept in whole pence, so nothing is ever lost to rounding.
 
-  Written by {name} for Riya's class trip fund, at Paul's Python Course. Finished {date}.
+  Written by {name} for Caitlin's festival fund, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -41,24 +41,24 @@ portfolio_readme: |
   - Money kept in whole pence, never in floats
 downloadable: true
 datasets: []
-client: riya
+client: caitlin
 building: post-office
 estimated_minutes: 75
-summary: "Savings accounts for the class trip fund, each one a Python object that keeps its own balance and says no for itself."
+summary: "Savings accounts for the class festival fund, each one a Python object that keeps its own balance and says no for itself."
 concepts_introduced: [classes, init, attributes, methods, self, dunder-methods]
 concepts_reviewed: [functions, parameters, return-values, none, f-strings, raising-errors, exceptions, references, is-vs-equals, docstrings, main-guard, lists, append-pop]
 ask:
   dialogue:
-    - riya: "I'm running the savings for the end-of-term trip. Everyone pays a bit in each week."
-    - riya: "Last week somebody typed minus five pounds into my spreadsheet. It let them. Then they took it out again."
-    - riya: "An account should know its own balance. And nobody takes out more than they put in."
-    - paul: "Then each account should know that about itself, and say no for itself."
+    - caitlin.pleased.wave: "Half the class is going to a festival in the summer. I'm keeping the savings."
+    - caitlin.unimpressed: "Last week somebody wrote minus five pounds on my savings sheet. Then they took it out again."
+    - caitlin.thinking: "An account should know its own balance. And nobody takes out more than they put in."
+    - paul.neutral: "Then each account should know that about itself, and say no for itself."
   spec: |
     Write a class `Account` in `bank.py`. Money is kept in whole pence, so 2000 is £20.
 
     - `Account(holder, number)` opens an account: the holder's name, the account number, a `balance` of 0, and `history`, an empty list.
     - `deposit(pence)` pays money in: it adds to the balance and appends the amount to `history`. An amount that isn't more than 0 raises a `ValueError` and changes nothing.
-    - `withdraw(pence)` takes money out, appends it to `history` as a negative number, and returns `True`. More than the balance changes nothing and returns `False`: the trip fund doesn't lend. An amount that isn't more than 0 raises a `ValueError`.
+    - `withdraw(pence)` takes money out, appends it to `history` as a negative number, and returns `True`. More than the balance changes nothing and returns `False`: the festival fund doesn't lend. An amount that isn't more than 0 raises a `ValueError`.
     - `str(account)` gives one line, the balance in pounds: `Account 1042, Aaesha: £12.50`.
   example: |
     Account 1042, Aaesha: £12.50
@@ -66,10 +66,10 @@ ask:
     [2000, -750]
 ship:
   dialogue:
-    - riya: "Aaesha, twelve pounds fifty. Nobody below zero, which is an improvement."
-    - riya: "Every penny in the history, in the order it moved. My spreadsheet can retire."
-    - paul: "Each account looks after itself. Next time, we find out if it really does. With tests."
-  shelf: { object: abacus, label: "Riya's trip fund accounts" }
+    - caitlin.pleased: "Aaesha, twelve pounds fifty. Nobody below zero, which is an improvement."
+    - caitlin.laughing.cheer: "Every penny in the history, in the order it moved. My savings sheet can retire."
+    - paul.neutral.point: "Each account looks after itself. Next time, we find out if it really does. With tests."
+  shelf: { object: abacus, label: "Caitlin's festival fund accounts" }
   cards: [classes, init, attributes, methods, self, dunder-methods]
 stretch:
   - id: statement
@@ -81,4 +81,4 @@ stretch:
   - id: a-year-on
     title: "A bit of interest"
     prompt: |
-      Riya wants the fund to pay 2% a year, from the bake sale. Add `add_interest(percent)`, which pays in the interest on the balance, rounded to the nearest penny with `round()`, and records it in the history like any deposit. What should it do for an account with nothing in it?
+      Caitlin wants the fund to pay 2% a year, from the bake sale. Add `add_interest(percent)`, which pays in the interest on the balance, rounded to the nearest penny with `round()`, and records it in the history like any deposit. What should it do for an account with nothing in it?

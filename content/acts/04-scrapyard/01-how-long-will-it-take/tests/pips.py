@@ -44,8 +44,8 @@ def no_hidden_loop(ctx):
 
 
 TESTS = [
-    function("A few spares", call="spares", args=(["hubcap", "spring", "hubcap", "gear", "spring", "hubcap"],),
-             expect=["hubcap", "spring"], visible=True),
+    function("A few spares", call="spares", args=(["sprocket", "spark-plug", "sprocket", "axle-30mm", "spark-plug", "sprocket"],),
+             expect=["spark-plug", "sprocket"], visible=True),
     custom("Thousands of parts, no hidden loop", no_hidden_loop, visible=True,
            hint="`part in seen` walks the whole list when seen is a list. A set goes straight to where the part would be."),
     function("No spares", call="spares", args=(["bolt-M8", "nut-M8", "washer-10"],), expect=[]),

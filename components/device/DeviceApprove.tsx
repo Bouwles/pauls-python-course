@@ -35,11 +35,11 @@ export function DeviceApprove({ initialCode }: { initialCode: string }) {
   return (
     <div className={styles.wrap}>
       <span className={styles.icon} aria-hidden="true">
-        <Icon name="terminal" size={28} />
+        <Icon name="terminal" size={24} />
       </span>
       <h1 className={styles.title}>Connect the ppc tool</h1>
       {!ready ? null : !user ? (
-        <div className={styles.card}>
+        <div className={`px-panel ${styles.card}`}>
           <p>Log in first, then come back to this page to connect the tool.</p>
           <LinkButton href={login} variant="primary">
             Log in
@@ -49,7 +49,7 @@ export function DeviceApprove({ initialCode }: { initialCode: string }) {
           </p>
         </div>
       ) : state === "done" ? (
-        <div className={styles.card} role="status">
+        <div className={`px-panel ${styles.card}`} role="status">
           <p className={styles.done}>
             <Icon name="tick" />
             <span>Connected. Go back to your terminal; ppc is signed in as you.</span>
@@ -58,7 +58,7 @@ export function DeviceApprove({ initialCode }: { initialCode: string }) {
         </div>
       ) : (
         <form
-          className={styles.card}
+          className={`px-panel ${styles.card}`}
           onSubmit={(e) => {
             e.preventDefault();
             void submit();

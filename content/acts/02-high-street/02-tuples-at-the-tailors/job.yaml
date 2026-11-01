@@ -4,9 +4,9 @@ project_name: "Measurement Book"
 portfolio_readme: |
   # Measurement Book
 
-  A tailor's measurement book. Each customer's chest, waist and leg are kept together in one tuple, so a name can never slip out of step with its numbers. It prints the book with every line numbered, and finds the customer with the longest leg.
+  The measurement book for a five-a-side team's kit order. Each player's chest, waist and leg are kept together in one tuple, so a name can never slip out of step with its numbers. It prints the book with every line numbered, and finds the player with the longest leg.
 
-  Written by {name} for Riya, at Paul's Python Course, for a tailor who kept her book in two lists. Finished {date}.
+  Written by {name} for Caitlin, at Paul's Python Course, for a kit order once kept in two lists. Finished {date}.
 
   ## Run it
 
@@ -28,27 +28,27 @@ portfolio_readme: |
   - A function that returns two answers at once, unpacked where they land
 downloadable: true
 datasets: []
-client: riya
+client: caitlin
 building: tailor
 estimated_minutes: 50
-summary: "A tailor's measurement book: each customer's numbers kept together in a tuple, every line numbered, and the longest leg found."
+summary: "The measurement book for the Clocktower's five-a-side kit: each player's numbers kept together in a tuple, every line numbered, and the longest leg found."
 concepts_introduced: [tuples, unpacking, multiple-returns, enumerate, zip]
 concepts_reviewed: [lists, looping-lists, for-loops, functions, return-values, negative-indices, f-strings]
 ask:
   dialogue:
-    - riya: "The tailor on the corner keeps her measurements in two lists. Names in one, numbers in the other."
-    - riya: "Last spring the lists slipped by one. A customer was fitted for someone else's trousers."
-    - riya: "She asked if I could fix it. I said yes, then asked Paul how."
-    - paul: "Keep each person's numbers together, then. And keep them still."
+    - caitlin.pleased.wave: "The Clocktower has a five-a-side team now. I'm doing the kit."
+    - caitlin.thinking: "I kept the sizes in two lists. Names in one, numbers in the other."
+    - caitlin.laughing: "Then the lists slipped by one. Our keeper's tracksuit arrived with someone else's legs."
+    - paul.neutral: "Keep each person's numbers together, then. And keep them still."
   spec: |
-    Each customer's measurements are a tuple in centimetres: `(chest, waist, leg)`. The names are in a second list, in the same order.
+    Each player's measurements are a tuple in centimetres: `(chest, waist, leg)`. The names are in a second list, in the same order.
 
     Write two functions:
 
-    - `print_book(names, sizes)` prints one numbered line per customer, starting at 1.
-    - `longest_leg(names, sizes)` returns two values: the name and the leg of the customer with the longest leg. If two tie, the first in the book wins.
+    - `print_book(names, sizes)` prints one numbered line per player, starting at 1.
+    - `longest_leg(names, sizes)` returns two values: the name and the leg of the player with the longest leg. If two tie, the first in the book wins.
 
-    Then print the book and the longest leg for the tailor's three customers.
+    Then print the book and the longest leg for the three players who have sent their sizes so far.
   example: |
     1. Jon Hale: chest 112, waist 98, leg 84
     2. Mae Grant: chest 96, waist 88, leg 74
@@ -56,16 +56,16 @@ ask:
     Longest leg: Jon Hale, 84 cm
 ship:
   dialogue:
-    - riya: "She checked every line against her old book. Every number is beside its owner."
-    - riya: "Then she asked what else I can do. I said a website, probably."
-    - paul: "Names and numbers that can't drift apart. That's the whole fix, and it's a good one."
-  shelf: { object: tape-measure, label: "The tailor's measurement book, for Riya" }
+    - caitlin.pleased.cheer: "Kit's ordered. I checked every line against the forms. Every number is beside its owner."
+    - caitlin.laughing: "The keeper's tracksuit fits. He sent a photo of his ankles to prove it."
+    - paul.proud: "Names and numbers that can't drift apart. That's the whole fix, and it's a good one."
+  shelf: { object: tape-measure, label: "The five-a-side kit book, for Caitlin" }
   cards: [tuples, unpacking, multiple-returns, enumerate, zip]
 stretch:
   - id: what-changed
-    title: "What changed since spring"
+    title: "What changed since last season"
     prompt: |
-      People change. Write `changes(old, new)`: it takes two measurement tuples for the same person and returns a tuple of the differences, new minus old.
+      Players change. Write `changes(old, new)`: it takes two measurement tuples for the same person and returns a tuple of the differences, new minus old.
 
       `changes((112, 98, 84), (113, 100, 84))` gives `(1, 2, 0)`. `zip` works on two tuples as well as two lists.
     tests: tests/stretch-what-changed.py

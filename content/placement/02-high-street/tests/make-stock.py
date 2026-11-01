@@ -1,32 +1,32 @@
 import ast as _ast
 import importlib as _importlib
 
-STALL_ROWS = [
-    {"item": "apples", "price": 0.4, "count": 120},
-    {"item": "pears", "price": 0.55, "count": 8},
-    {"item": "leeks", "price": 0.9, "count": 15},
-    {"item": "carrots", "price": 0.3, "count": 4},
-    {"item": "beetroot", "price": 0.75, "count": 0},
+CUPBOARD_ROWS = [
+    {"item": "pencils", "price": 0.4, "count": 120},
+    {"item": "erasers", "price": 0.55, "count": 8},
+    {"item": "brushes", "price": 0.9, "count": 15},
+    {"item": "charcoal", "price": 0.3, "count": 4},
+    {"item": "crayons", "price": 0.75, "count": 0},
 ]
 
-ORCHARD = """item,price,count
-quinces,1.50,3
-medlars,£2.00,6
-figs,0.80,12
-cobnuts,0.25,4.5
-sloes,0.10,9
+PRINT_ROOM = """item,price,count
+lino,1.50,3
+rollers,£2.00,6
+paper,0.80,12
+ink,0.25,4.5
+rags,0.10,9
 """
 
 PLENTY = """item,price,count
-apples,0.40,120
-leeks,0.90,15
+pencils,0.40,120
+brushes,0.90,15
 """
 
 ROWS = [
-    {"item": "swede", "price": 0.6, "count": 10},
-    {"item": "chard", "price": 1.1, "count": 2},
-    {"item": "onions", "price": 0.2, "count": 9},
-    {"item": "garlic", "price": 0.5, "count": 11},
+    {"item": "sponges", "price": 0.6, "count": 10},
+    {"item": "card", "price": 1.1, "count": 2},
+    {"item": "pens", "price": 0.2, "count": 9},
+    {"item": "glue", "price": 0.5, "count": 11},
 ]
 
 
@@ -103,13 +103,13 @@ def writes_reorder(ctx):
     text = reorder_file(result)
     if text is None:
         raise CheckFailed("main.py should write reorder.txt.")
-    if text.splitlines() != ["beetroot", "carrots", "pears"]:
+    if text.splitlines() != ["charcoal", "crayons", "erasers"]:
         raise CheckFailed("reorder.txt should hold one item a line, in alphabetical order.",
-                          expected="beetroot\ncarrots\npears\n", actual=text)
+                          expected="charcoal\ncrayons\nerasers\n", actual=text)
 
 
 def fresh_file(ctx):
-    result = ctx.run_program(files={"stock.csv": PLENTY, "reorder.txt": "kale\nplums\n"})
+    result = ctx.run_program(files={"stock.csv": PLENTY, "reorder.txt": "canvas\nnibs\n"})
     if result.error is not None:
         raise CheckFailed(f"main.py crashed: {type(result.error).__name__}: {result.error}")
     if result.lines() != ["Reorder: nothing"]:
@@ -117,7 +117,7 @@ def fresh_file(ctx):
                           expected="Reorder: nothing", actual=result.output)
     text = reorder_file(result)
     if text.strip():
-        raise CheckFailed("Last week's reorder.txt said kale and plums. This week's should be empty, written afresh.",
+        raise CheckFailed("Last week's reorder.txt said canvas and nibs. This week's should be empty, written afresh.",
                           expected="", actual=text)
 
 
@@ -136,30 +136,30 @@ def no_stock_file(ctx):
 
 
 TESTS = [
-    output("The stall's list", expect="Skipped lines: 5, 6, 8\nReorder: beetroot, carrots, pears", visible=True),
-    custom("read_stock on the stall's list", read_case("stock.csv", None, STALL_ROWS, [5, 6, 8],
+    output("The cupboard's list", expect="Skipped lines: 5, 6, 8\nReorder: charcoal, crayons, erasers", visible=True),
+    custom("read_stock on the cupboard's list", read_case("stock.csv", None, CUPBOARD_ROWS, [5, 6, 8],
                                                     "A dictionary for each line that reads, in the order they came."),
            visible=True),
-    custom("read_stock on another file", read_case("orchard.csv", {"orchard.csv": ORCHARD},
-                                                   [{"item": "quinces", "price": 1.5, "count": 3},
-                                                    {"item": "figs", "price": 0.8, "count": 12},
-                                                    {"item": "sloes", "price": 0.1, "count": 9}],
+    custom("read_stock on another file", read_case("print-room.csv", {"print-room.csv": PRINT_ROOM},
+                                                   [{"item": "lino", "price": 1.5, "count": 3},
+                                                    {"item": "paper", "price": 0.8, "count": 12},
+                                                    {"item": "rags", "price": 0.1, "count": 9}],
                                                    [3, 5], "Read the file you're given, not always stock.csv."),
            hint="A price with a pound sign won't convert, and neither will a count of 4.5. Both are bad lines."),
     custom("A list with no typos", read_case("plenty.csv", {"plenty.csv": PLENTY},
-                                               [{"item": "apples", "price": 0.4, "count": 120},
-                                                {"item": "leeks", "price": 0.9, "count": 15}],
+                                               [{"item": "pencils", "price": 0.4, "count": 120},
+                                                {"item": "brushes", "price": 0.9, "count": 15}],
                                                [], "Every line reads, so bad_lines is empty.")),
-    custom("Reorder below 10", stock_call("to_reorder", (ROWS,), ["chard", "onions"],
+    custom("Reorder below 10", stock_call("to_reorder", (ROWS,), ["card", "pens"],
                                           "Fewer than 10 left, in alphabetical order.")),
-    custom("Exactly 10 left", stock_call("to_reorder", ([{"item": "swede", "price": 0.6, "count": 10}],), [],
-                                         "Ten swedes is not fewer than ten."),
+    custom("Exactly 10 left", stock_call("to_reorder", ([{"item": "sponges", "price": 0.6, "count": 10}],), [],
+                                         "Ten sponges is not fewer than ten."),
            hint="Fewer than below means count < below. Exactly 10 is enough."),
-    custom("A different line to reorder at", stock_call("to_reorder", (ROWS,), ["chard", "garlic", "onions", "swede"],
+    custom("A different line to reorder at", stock_call("to_reorder", (ROWS,), ["card", "glue", "pens", "sponges"],
                                                         "With below=12, everything under 12.", kwargs={"below": 12}),
            hint="Use the below you're given; 10 is only the default."),
     custom("Nothing to reorder from", stock_call("to_reorder", ([],), [], "No rows, nothing to order.")),
-    custom("The price book", stock_call("price_book", (ROWS,), {"swede": 0.6, "chard": 1.1, "onions": 0.2, "garlic": 0.5},
+    custom("The price book", stock_call("price_book", (ROWS,), {"sponges": 0.6, "card": 1.1, "pens": 0.2, "glue": 0.5},
                                         "Each item and its price.")),
     custom("An empty price book", stock_call("price_book", ([],), {}, "No rows, an empty dictionary.")),
     custom("Built with comprehensions", stock_tree),
@@ -167,8 +167,8 @@ TESTS = [
     custom("main.py writes reorder.txt", writes_reorder,
            hint="Open reorder.txt with \"w\" and write each item followed by a new line."),
     custom("Last week's reorder.txt is replaced", fresh_file,
-           hint="Write reorder.txt every time, even when there's nothing in it. Last week's list would mislead the stall."),
+           hint="Write reorder.txt every time, even when there's nothing in it. Last week's list would mislead Riya."),
     custom("No stock.csv", no_stock_file,
            hint="Catch the FileNotFoundError that opening a missing file raises."),
-    output("The orchard's list", files={"stock.csv": ORCHARD}, expect="Skipped lines: 3, 5\nReorder: quinces, sloes"),
+    output("The print room's list", files={"stock.csv": PRINT_ROOM}, expect="Skipped lines: 3, 5\nReorder: lino, rags"),
 ]

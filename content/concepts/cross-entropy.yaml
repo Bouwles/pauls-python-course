@@ -95,7 +95,7 @@ cards:
     tests: |
       TESTS = [output("Three evenings", expect="0.324")]
   - type: fix
-    prompt: "Riya's log loss prints nan when a forecast of 1.0 turns out right. Fix the function so a chance of exactly 0 or 1 is safe."
+    prompt: "Paul's log loss prints nan when a forecast of 1.0 turns out right. Fix the function so a chance of exactly 0 or 1 is safe."
     code: |
       import numpy as np
 

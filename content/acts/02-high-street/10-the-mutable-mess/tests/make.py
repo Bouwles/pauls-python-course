@@ -2,17 +2,17 @@ import copy as _copy
 
 
 def standing():
-    return {"Paul": {"bread": 3, "buns": 4}, "The Studio": {"bread": 6, "lardy cake": 2}}
+    return {"Paul": {"bread": 3, "buns": 4}, "The Studio": {"bread": 6, "brownies": 2}}
 
 
 def extras():
-    return {"Paul": {"buns": 2}, "Yahya": {"lardy cake": 1}}
+    return {"Paul": {"buns": 2}, "Yahya": {"brownies": 1}}
 
 
 SATURDAY = {
     "Paul": {"bread": 3, "buns": 6},
-    "The Studio": {"bread": 6, "lardy cake": 2},
-    "Yahya": {"lardy cake": 1},
+    "The Studio": {"bread": 6, "brownies": 2},
+    "Yahya": {"brownies": 1},
 }
 
 
@@ -66,8 +66,8 @@ def extras_unchanged(ctx):
     result = fn(standing(), week)
     if week != extras():
         raise CheckFailed("The extras changed.", expected=extras(), actual=_copy.deepcopy(week))
-    result["Yahya"]["lardy cake"] = 5
-    if week["Yahya"]["lardy cake"] != 1:
+    result["Yahya"]["brownies"] = 5
+    if week["Yahya"]["brownies"] != 1:
         raise CheckFailed("Saturday's order for Yahya is the very dictionary from the extras. Changing one changes both.")
 
 

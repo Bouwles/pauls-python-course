@@ -4,9 +4,9 @@ project_name: "Times Table Trainer"
 portfolio_readme: |
   # Times Table Trainer
 
-  A times table trainer for the command line. Choose a table and it prints it from 1 to 12 in neat, lined-up columns. Then it asks the five hardest questions, 8 to 12, marks each answer and gives a score out of 5.
+  A times table trainer for the command line, built for a memory experiment. Choose a table and it prints it from 1 to 12 in neat, lined-up columns. Then it asks the five hardest questions, 8 to 12, marks each answer and gives a score out of 5. The big ones are where memory slips most: the problem-size effect.
 
-  Written by {name} for Riya's cousin, at Paul's Python Course. Finished {date}.
+  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -36,18 +36,18 @@ portfolio_readme: |
   - A loop that asks questions and keeps a running score, set to zero once, before the loop
 downloadable: true
 datasets: []
-client: riya
+client: aaesha
 building: lighthouse
 estimated_minutes: 50
-summary: "Any times table from 1 to 12, lined up neatly, then a quiz on the hard end of it."
+summary: "Any times table from 1 to 12, lined up neatly, then a quiz on the hard end, for Aaesha's memory experiment."
 concepts_introduced: [for-loops, range, loop-variables, tracing-loops]
 concepts_reviewed: [int-conversion, input-returns-text, f-strings, if-elif-else, comparisons, variables]
 ask:
   dialogue:
-    - riya: "I'm tutoring my younger cousin. He has a times tables test on Friday."
-    - riya: "Flash cards bore him in a minute. Anything on a screen, he'll do for an hour."
-    - riya: "He wants the table written out neat, then some questions. The hard ones."
-    - paul: "Twelve lines that look the same. That's what loops are for."
+    - aaesha.pleased.wave: "Nobody works out seven eights. You remember it. Times tables are stored facts."
+    - aaesha.thinking: "But the big ones come back slower, and wrong more often. It's called the problem-size effect."
+    - aaesha.neutral.point: "I want a trainer for my volunteers. The table written out neat, then the hard end as a quiz."
+    - paul.neutral: "Twelve lines that look the same. That's what loops are for."
   spec: |
     Ask which table to practise. Print it from 1 to 12, one line each, with the columns lined up: the first number takes 2 characters and the answer takes 3.
 
@@ -80,15 +80,16 @@ ask:
     Score: 4 out of 5
 ship:
   dialogue:
-    - riya: "Four out of five on the sevens. He says nine sevens is a trick question."
-    - riya: "It isn't. It's sixty-three. He's doing the eights tonight, by choice."
-  shelf: { object: lamp, label: "Times tables for Riya's cousin" }
+    - aaesha.pleased: "Four out of five on the sevens. The slip was nine sevens."
+    - aaesha.proud.point: "Right in the hard end, where the theory says it would be. One volunteer down."
+    - yahya.neutral: "I'm doing all twelve tables. Put my score up first."
+  shelf: { object: lamp, label: "Aaesha's times table trainer" }
   cards: [for-loops, range, loop-variables, tracing-loops]
 stretch:
   - id: square
     title: "The whole square"
     prompt: |
-      If he types `0` for the table, print the whole multiplication square instead, 12 rows of 12, each number 4 characters wide, and skip the quiz. Any other table works as before.
+      If a volunteer types `0` for the table, print the whole multiplication square instead, 12 rows of 12, each number 4 characters wide, and skip the quiz. Any other table works as before.
 
       It's the square from the parsons step, with `size` fixed at 12.
     tests: tests/stretch-square.py
@@ -96,4 +97,4 @@ stretch:
   - id: every-third
     title: "Every third one"
     prompt: |
-      His teacher tests every third one: 3, 6, 9 and 12. Change the quiz to ask those four, using the third number in `range`, and give the score out of 4.
+      Aaesha wants a check from right across the table, not just the hard end: every third one, 3, 6, 9 and 12. Change the quiz to ask those four, using the third number in `range`, and give the score out of 4.

@@ -4,7 +4,7 @@ type: predict
 title: Four hundred and twelve
 concept: data-cleaning
 dialogue:
-  - yahya: "Find the impossible age, make it missing. One line. I've done harder."
+  - yahya.proud: "Find the impossible age, make it missing. One line. I've done harder."
 code: |
   import numpy as np
   import pandas as pd

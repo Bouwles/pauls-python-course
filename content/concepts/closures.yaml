@@ -55,7 +55,7 @@ cards:
         error: NameError
         feedback: "`greet` keeps hold of `name` after `make_greeting` returns. That's the closure."
   - type: fix
-    prompt: "Riya made three offers in a loop. They all come out at half price. Fix it so they print 9.0, 8.0 and 5.0."
+    prompt: "Riya made three discounts for her print sale in a loop. They all come out at half price. Fix it so they print 9.0, 8.0 and 5.0."
     code: |
       offers = []
       for percent in [10, 20, 50]:

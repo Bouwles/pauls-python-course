@@ -1,2 +1,2 @@
 day = 14
-print("Office hours, March " + str(day))
+print("Launch day, March " + str(day))

@@ -4,7 +4,7 @@ project_name: "Log Analyser"
 portfolio_readme: |
   # Log Analyser
 
-  Reads a log file that several machines write to, one line per event (`time | level | machine | message`), and counts the errors from each machine. A line it can't read doesn't stop it: the line is skipped, and the report ends with which lines were skipped and why.
+  Reads a drone's flight log, which every system on board writes to, one line per event (`time | level | system | message`), and counts the errors from each system. A line it can't read doesn't stop it: the line is skipped, and the report ends with which lines were skipped and why.
 
   Written by {name} for Neil, at Paul's Python Course. Finished {date}.
 
@@ -14,14 +14,14 @@ portfolio_readme: |
   python main.py
   ```
 
-  It reads `machines.log` from the same folder:
+  It reads `flight.log` from the same folder:
 
   ```
   11 entries read
-  Errors by machine:
-    lights: 2
-    printer: 2
-    thermostat: 1
+  Errors by system:
+    camera: 2
+    gps: 2
+    motors: 1
   Skipped 3 lines:
     line 6: expected 4 parts, got 3
     line 9: unknown level WARNING
@@ -39,42 +39,44 @@ datasets: []
 client: neil
 building: workshop
 estimated_minutes: 60
-summary: "Count the errors in a log that every machine in the Clocktower writes to, and survive the lines that make no sense."
+summary: "Count the errors in the flight log every system on Neil's drone writes to, and survive the lines that make no sense."
 concepts_introduced: [raising-errors, defensive-input]
 concepts_reviewed: [exceptions, try-except, reading-tracebacks, value-error, enumerate, unpacking, multiple-returns, with-statement, files, strip-replace, dict-get, dict-items, comments]
 ask:
   dialogue:
-    - neil: "Every machine in the Clocktower writes to one log. I wrote the script that reads it, in my first year."
-    - neil: "It stops at the first bad line. These days, a lot of the lines are bad."
-    - paul: "Read it properly before you touch it. Old code usually has its reasons."
+    - neil.pleased.wave: "Everything on my drone writes to one flight log. GPS, motors, battery, camera, radio."
+    - neil.thinking: "I wrote the script that reads it in my first year. It stops at the first bad line."
+    - neil.worried: "Sunday's flight has a lot of bad lines. The drone came down in a hedge."
+    - paul.neutral: "Read it properly before you touch it. Old code usually has its reasons."
   spec: |
-    Neil's script reads `machines.log` and counts the errors from each machine. It stops dead at the first line it can't read.
+    Neil's script reads `flight.log` and counts the errors from each system on the drone. It stops dead at the first line it can't read.
 
     Change it so it reads every line it can, skips the ones it can't, and says which it skipped and why. Blank lines aren't problems, and a level in lower case still counts.
   example: |
     11 entries read
-    Errors by machine:
-      lights: 2
-      printer: 2
-      thermostat: 1
+    Errors by system:
+      camera: 2
+      gps: 2
+      motors: 1
     Skipped 3 lines:
       line 6: expected 4 parts, got 3
       line 9: unknown level WARNING
       line 12: expected 4 parts, got 1
 ship:
   dialogue:
-    - neil: "Eleven read, three skipped, and it says which three. The front door owes me an explanation."
-    - paul: "One bad line no longer hides the other eleven. That's the whole job."
-  shelf: { object: log-book, label: "Neil's log analyser, now with manners" }
+    - neil.pleased.thumbs: "Eleven read, three skipped, and it says which three. The radio owes me an explanation."
+    - neil.thinking.think: "Two GPS errors in four minutes. That's why it drifted towards the hedge."
+    - paul.proud: "One bad line no longer hides the other eleven. That's the whole job."
+  shelf: { object: log-book, label: "Neil's flight log analyser, now with manners" }
   cards: [raising-errors, defensive-input]
 stretch:
   - id: proper-time
     title: "A proper time"
     prompt: |
-      Some machines write `7:5` instead of `07:05`. Make `parse_line` raise a `ValueError` unless the time is five characters with a colon in the middle, like `06:42`. The message should say which line, as his do: `line 3: bad time 7:5`.
+      Some systems write `7:5` instead of `07:05`. Make `parse_line` raise a `ValueError` unless the time is five characters with a colon in the middle, like `06:42`. The message should say which line, as his do: `line 3: bad time 7:5`.
     tests: tests/stretch-proper-time.py
     solution: solutions/stretch-proper-time.py
   - id: by-hour
-    title: "Errors by the hour"
+    title: "Errors by the minute"
     prompt: |
-      Neil suspects the printer fails first thing in the morning. After the report, print how many errors there were in each hour, using the first two characters of the time: `07: 2`, `08: 1`. A dictionary and `.get()` will do it.
+      Neil suspects the drone gets worse the longer it flies. After the report, print how many errors there were in each minute of the flight, using the first two characters of the time: `01: 2`, `02: 1`. A dictionary and `.get()` will do it.

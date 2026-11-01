@@ -15,14 +15,14 @@ portfolio_readme: |
   ```
 
   ```
-  Rounds: Local (4), Science (4), Sea (4), Words (4)
-  Which round? sea
-  1. What is the lowest point of the tide called?
-  > low water
+  Rounds: Food (4), Games (4), Local (4), Music (4)
+  Which round? music
+  1. What does a metronome keep?
+  > time
   ...
   Answers:
-  1. low water: right
-  2. a pup: you said kitten
+  1. time: right
+  2. the piano: you said keyboard
   ...
   Score: 3 out of 4
   ```
@@ -40,46 +40,47 @@ datasets: []
 client: caitlin
 building: pub
 estimated_minutes: 90
-summary: "Caitlin's class quiz: questions in a JSON file, shuffled every week, asked, marked and scored, mostly with lists made out of other lists."
+summary: "Caitlin's Thursday quiz night, with rounds on music, food and games: questions in a JSON file, shuffled every week, asked, marked and scored, mostly with lists made out of other lists."
 concepts_introduced: [list-comprehensions, dict-set-comprehensions, conditional-comprehensions, json-module]
 concepts_reviewed: [random-module, files, with-statement, dictionaries, dict-get, sets, tuples, unpacking, enumerate, zip, string-methods, functions, return-values, while-loops, main-guard, f-strings, docstrings]
 ask:
   dialogue:
-    - caitlin: "I'm running the class quiz on Thursday. My question sheet has a coffee ring over half the answers."
-    - caitlin: "I want the questions in a file, a different order every week, and marking nobody can argue with."
-    - caitlin: "Last time Yahya argued that seal pup and pup were different answers. He won the argument. Not the quiz."
-    - paul: "Load them, shuffle them, mark them. Most of it is lists made out of other lists."
+    - caitlin.pleased.wave: "I'm running the class quiz on Thursday. My question sheet has a coffee ring over half the answers."
+    - caitlin.thinking: "I want the questions in a file, a different order every week, and marking nobody can argue with."
+    - caitlin.laughing: "Last time Yahya argued that piano and the piano were different answers. He won the argument. Not the quiz."
+    - paul.neutral: "Load them, shuffle them, mark them. Most of it is lists made out of other lists."
   spec: |
     Caitlin's questions are in `questions.json`: a list of dictionaries, each with a `round`, a `question`, an `answer`, and sometimes `also`, a list of other answers she'll accept. Write `quiz.py`, with a comprehension at the heart of each of the first four:
 
     1. `round_names(questions)` returns the different rounds, in alphabetical order.
     2. `round_sizes(questions)` returns a dictionary of each round's name and how many questions it has, in the same order.
     3. `in_round(questions, name)` returns the questions in that round, in the order they're in the book. Capitals, and spaces at the ends of `name`, don't matter.
-    4. `answer_sheet(questions, answers)` returns a line for each question, numbered from 1: `1. low water: right`, or `2. a pup: you said kitten`.
+    4. `answer_sheet(questions, answers)` returns a line for each question, numbered from 1: `1. time: right`, or `2. the piano: you said keyboard`.
     5. `is_right(given, question)` is `True` if `given` is the answer or one of its `also`, ignoring capitals and spaces at the ends. `score(questions, answers)` says how many are right.
     6. `main()` prints the rounds, then asks `Which round? ` until the answer is one of them; anything else gets `No round called Sport.` It shuffles that round's questions with `random.shuffle`, prints each one numbered and reads the answer after `> `, then prints `Answers:`, the answer sheet, and `Score: 3 out of 4`.
   example: |
-    Rounds: Local (4), Science (4), Sea (4), Words (4)
-    Which round? sea
-    1. What is the lowest point of the tide called?
-    > low water
-    2. What is a baby seal called?
-    > kitten
-    3. How many hearts does an octopus have?
-    > three
-    4. What do you call a speed of one nautical mile an hour?
-    > knots
+    Rounds: Food (4), Games (4), Local (4), Music (4)
+    Which round? music
+    1. What does a metronome keep?
+    > time
+    2. Which instrument has 88 keys?
+    > keyboard
+    3. How many strings does a standard guitar have?
+    > six
+    4. What do you call a group of four musicians?
+    > Quartet
     Answers:
-    1. low water: right
-    2. a pup: you said kitten
-    3. 3: right
-    4. a knot: right
+    1. time: right
+    2. the piano: you said keyboard
+    3. 6: right
+    4. a quartet: right
     Score: 3 out of 4
 ship:
   dialogue:
-    - caitlin: "Three out of four for Yahya's table. Kitten, for a baby seal. He's appealing."
-    - caitlin: "Different order every week, so nobody can learn it. It works. Shipping it."
-    - paul: "Every function's a list made from a list. Hardly a loop in it, and you can still read it."
+    - caitlin.laughing: "Three out of four for Yahya's table. Keyboard, for the one with 88 keys. He's appealing."
+    - yahya.unimpressed: "A keyboard has keys. I stand by it."
+    - caitlin.pleased.cheer: "Different order every week, so nobody can learn it. It works. Shipping it."
+    - paul.proud: "Every function's a list made from a list. Hardly a loop in it, and you can still read it."
   shelf: { object: quiz-sheet, label: "Caitlin's quiz, marked fairly" }
   cards: [list-comprehensions, dict-set-comprehensions, conditional-comprehensions, json-module]
 stretch:
@@ -94,7 +95,7 @@ stretch:
     prompt: |
       Yahya wrote a quiz of his own, and he's quite proud that this is one line:
 
-      `marks = [q["round"].upper() + (" EASY" if len(q["answer"]) < 4 else " FAIR" if len(q["answer"]) < 10 else "") for q in questions if "also" in q and q["round"] != "Words"]`
+      `marks = [q["round"].upper() + (" EASY" if len(q["answer"]) < 4 else " FAIR" if len(q["answer"]) < 10 else "") for q in questions if "also" in q and q["round"] != "Games"]`
 
       Rewrite it as a plain `for` loop with an `if`, `elif` and `else`, so the next person can read it. Check it makes the same list.
   - id: league

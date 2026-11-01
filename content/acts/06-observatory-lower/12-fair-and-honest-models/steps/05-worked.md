@@ -3,8 +3,8 @@ id: worked
 type: worked
 title: How Paul would check it
 dialogue:
-  - paul: "The lending shelf downstairs. A model says who'll bring books back late, and those it names can't reserve the new ones."
-  - aaesha: "Then before it names anyone, we see who it's wrong about."
+  - paul.neutral.point: "The lending shelf downstairs. A model says who'll bring books back late, and those it names can't reserve the new ones."
+  - aaesha.thinking: "Then before it names anyone, we see who it's wrong about."
 code: |
   import numpy as np
 

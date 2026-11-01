@@ -4,7 +4,7 @@ type: make
 title: Make the search engine
 files: [parts_search.py]
 entry: parts_search.py
-on_pass: { riya: "Seven looks for the brass valve, out of a hundred and eighty-eight. Yahya was right. Don't tell him." }
+on_pass: { neil.proud.cheer: "Seven looks for the slicks, out of a hundred and eighty-eight. That's a pit stop, not a search." }
 hints:
   nudge: "For `find_part`, what are the first and last places the name could be, before you've looked at anything? And for `starting_with`, where would the prefix itself go?"
   plan:
@@ -41,10 +41,10 @@ hints:
 Write the five functions from the brief in `parts_search.py`. The parts list loads itself, `how_many` writes `1 part` or `5 parts`, and the search loop at the bottom is done.
 
 ```
-Search? valve-brass
-valve-brass: part 159, found in 7 looks
+Search? tyre-slick
+tyre-slick: part 159, found in 7 looks
 Search? bolt-M1*
-bolt-M1*: 5 parts: bolt-M10, bolt-M10-brass, bolt-M12, bolt-M12-brass, bolt-M16
+bolt-M1*: 5 parts: bolt-M10, bolt-M10-titanium, bolt-M12, bolt-M12-titanium, bolt-M16
 ```
 
 `find_part` is Paul's search from the index cards, with a count of looks. The others are a few lines each. `parts.insert(position, name)` puts a name in and moves the rest along.

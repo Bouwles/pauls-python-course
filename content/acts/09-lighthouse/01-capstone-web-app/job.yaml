@@ -6,7 +6,7 @@ portfolio_readme: |
 
   A Flask web app for booking the five visitor berths at a small marina. Skippers book a berth for a number of nights from a web page or through a JSON API; the berth master sees who is in every berth on any night. It refuses double bookings, boats too long for their berth and nonsense dates, with a reason in words, and it keeps every booking in a file that survives a restart.
 
-  Written by {name} for Riya, at Paul's Python Course. Finished {date}.
+  Written by {name} for Caitlin, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -35,19 +35,19 @@ portfolio_readme: |
   - An agreed test suite for every route, and tests of my own for what it leaves out
 downloadable: true
 datasets: []
-client: riya
+client: caitlin
 building: lighthouse
 estimated_minutes: 1200
-summary: "Visitor berth bookings for a marina on the river, as a Flask web app on your own computer: agreed routes, your own tests, and a handover the marina can run."
+summary: "Caitlin's first real client: visitor berth bookings for a marina on the river, as a Flask web app on your own computer, with agreed routes, your own tests, and a handover the marina can run."
 concepts_reviewed: [http-basics, json-module, functions, dictionaries, nested-data, decorators, exceptions, raising-errors, try-except, modules, imports, files, with-statement, paths, string-methods, f-strings, pytest, assert, edge-cases, test-first, virtual-environments, terminal-basics, git-basics]
 ask:
   dialogue:
-    - riya: "My first real client. A marina on the river, five visitor berths, all booked in pencil."
-    - riya: "Pencil runs in the rain. They've given me five requirements. The fifth is surviving a switch-off."
-    - riya: "Who'll use it? Skippers on a wet pontoon, and the berth master at a desk."
-    - paul: "This one's yours from the first line. Plan it, test it, and hand it over properly."
+    - caitlin.pleased.wave: "My first real client. A marina on the river, five visitor berths, all booked in pencil."
+    - caitlin.laughing: "Pencil runs in the rain. They've given me five requirements. The fifth is surviving a switch-off."
+    - riya.thinking: "Who'll use it? Skippers on a wet pontoon, and the berth master at a desk. Design for both."
+    - paul.neutral.point: "This one's yours from the first line. Plan it, test it, and hand it over properly."
   spec: |
-    Requirements, from the marina, through Riya. Visiting boats book one of the five visitor berths in `berths.py`, for a number of nights.
+    Requirements, from the marina, through Caitlin. Visiting boats book one of the five visitor berths in `berths.py`, for a number of nights.
 
     1. A skipper can book a berth before arriving, from a web page or through the API.
     2. The berth master can see who is in every berth on any night.
@@ -81,10 +81,10 @@ ask:
     {"berth":2,"boat":"Kittiwake","date":"2027-04-10","id":1,"length":9.5,"nights":2}
 ship:
   dialogue:
-    - riya: "Forty-one bookings in the first fortnight. No berth booked twice. I checked each night."
-    - riya: "The Kittiwake's skipper booked from the pontoon, in the rain, on her phone."
-    - aaesha: "And every test still passes after each change. I looked."
-    - paul: "It has tests, a README and an owner who can run it. That's a handover."
+    - caitlin.proud.cheer: "Forty-one bookings in the first fortnight, and no berth booked twice."
+    - aaesha.pleased: "I checked every night. And every test still passes after each change."
+    - caitlin.laughing: "The Kittiwake's skipper booked from the pontoon, in the rain, on her phone."
+    - paul.proud.thumbs: "It has tests, a README and an owner who can run it. That's a handover."
   shelf: { object: berth-board, label: "The marina's visitor berths, booked on the web" }
   cards: []
 stretch:

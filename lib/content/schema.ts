@@ -4,13 +4,24 @@ import { z } from "zod";
 
 const id = z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, "ids are lower-case words joined by hyphens");
 
-/** A dialogue line is written in YAML as a one-key map: `- bea: "Seven twenty."` */
+export const FACES = ["neutral", "talking", "pleased", "proud", "thinking", "confused", "worried", "surprised", "laughing", "unimpressed"] as const;
+export const GESTURES = ["idle", "wave", "cheer", "think", "point", "thumbs"] as const;
+
+/**
+ * A dialogue line is written in YAML as a one-key map: `- riya: "Six of us, one bill."`. The key
+ * can also carry how they look saying it, an expression and then a gesture (REDESIGN3_PLAN.md):
+ * `- riya.pleased: "..."`, `- neil.thinking.think: "..."`, `- caitlin.laughing.cheer: "..."`.
+ */
 export const dialogueLine = z
   .record(z.string(), z.string())
   .refine((v) => Object.keys(v).length === 1, "each dialogue line is one speaker and one line")
-  .transform((v) => {
-    const [who, text] = Object.entries(v)[0]!;
-    return { who, text: text.trim() };
+  .transform((v, ctx) => {
+    const [key, text] = Object.entries(v)[0]!;
+    const [who, face, gesture, ...rest] = key.split(".");
+    if (rest.length) ctx.addIssue({ code: "custom", message: `"${key}": a speaker, then at most an expression and a gesture` });
+    if (face && !(FACES as readonly string[]).includes(face)) ctx.addIssue({ code: "custom", message: `"${key}": "${face}" isn't an expression (${FACES.join(", ")})` });
+    if (gesture && !(GESTURES as readonly string[]).includes(gesture)) ctx.addIssue({ code: "custom", message: `"${key}": "${gesture}" isn't a gesture (${GESTURES.join(", ")})` });
+    return { who: who!, text: text.trim(), ...(face ? { face } : {}), ...(gesture ? { gesture } : {}) };
   });
 export const dialogue = z.array(dialogueLine);
 

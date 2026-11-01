@@ -4,7 +4,7 @@ type: make
 title: Make the text editor
 files: [editor.py]
 entry: editor.py
-on_pass: { paul: "Wrote it, rubbed it out, put it back. And not a speck of chalk on my sleeve." }
+on_pass: { paul.pleased.thumbs: "Wrote it, rubbed it out, put it back. And not a speck of chalk on my sleeve." }
 hints:
   nudge: "What does undo need to know about an edit to take it back: just what kind it was, or the characters too? And which edits go on the redo stack?"
   plan:

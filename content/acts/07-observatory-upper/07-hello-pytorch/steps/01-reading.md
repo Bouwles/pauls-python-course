@@ -3,8 +3,8 @@ id: side-by-side
 type: reading
 title: Your network, in PyTorch's words
 dialogue:
-  - neil: "Most people use PyTorch. I'd like to know what it does that we didn't."
-  - paul: "Bought tools. Fine, once you know what they're doing for you."
+  - neil.thinking: "So it's our engine, made big. I'd like to know what it does that we didn't."
+  - paul.neutral: "Bought tools. Fine, once you know what they're doing for you."
 code: |
   # What you built                    PyTorch
   # NumPy array                        torch.tensor(..., dtype=torch.float32)

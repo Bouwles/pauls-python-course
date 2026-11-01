@@ -28,20 +28,20 @@ def a_new_book(ctx):
     m = module(ctx)
     if not dataclasses.is_dataclass(m.Book):
         raise CheckFailed("Book should be a dataclass: put @dataclass on the line above it.")
-    book = m.Book("Emma", "Jane Austen", 1815)
+    book = m.Book("Carrying the Fire", "Michael Collins", 1974)
     expect_equal("A new book is on the shelf", book.status, m.Status.ON_SHELF)
     expect_equal("A new book has no borrower", book.borrower, None)
-    expect_equal("str() of a book on the shelf", str(book), "Emma, Jane Austen (1815): on the shelf")
-    expect_equal("Two books with the same fields are ==", book == m.Book("Emma", "Jane Austen", 1815), True)
+    expect_equal("str() of a book on the shelf", str(book), "Carrying the Fire, Michael Collins (1974): on the shelf")
+    expect_equal("Two books with the same fields are ==", book == m.Book("Carrying the Fire", "Michael Collins", 1974), True)
 
 
 def lending(ctx):
     m = module(ctx)
-    book = m.Book("The Riddle of the Sands", "Erskine Childers", 1903)
+    book = m.Book("The Mechanic's Tale", "Steve Matchett", 1999)
     expect_equal("Lending a book on the shelf returns True", book.lend("Aaesha"), True)
     expect_equal("Now it's on loan", book.status, m.Status.ON_LOAN)
     expect_equal("to Aaesha", book.borrower, "Aaesha")
-    expect_equal("str() of a book on loan", str(book), "The Riddle of the Sands, Erskine Childers (1903): on loan")
+    expect_equal("str() of a book on loan", str(book), "The Mechanic's Tale, Steve Matchett (1999): on loan")
     expect_equal("Lending it again returns False", book.lend("Yahya"), False)
     expect_equal("and it's still with Aaesha", book.borrower, "Aaesha")
     book.give_back()
@@ -72,47 +72,47 @@ def the_library(ctx):
     m = module(ctx)
     library = m.Library()
     expect_equal("A new library holds a list called books, empty", library.books, [])
-    emma = m.Book("Emma", "Jane Austen", 1815)
-    riddle = m.Book("The Riddle of the Sands", "Erskine Childers", 1903)
-    expect_equal("Adding a book returns True", library.add(emma), True)
-    library.add(riddle)
+    collins = m.Book("Carrying the Fire", "Michael Collins", 1974)
+    matchett = m.Book("The Mechanic's Tale", "Steve Matchett", 1999)
+    expect_equal("Adding a book returns True", library.add(collins), True)
+    library.add(matchett)
     expect_equal("len(library) counts the books", len(library), 2)
-    expect_equal("find is the same book that was added", library.find("emma") is emma, True)
-    expect_equal("find of a book that isn't there", library.find("Moby-Dick"), None)
+    expect_equal("find is the same book that was added", library.find("carrying the fire") is collins, True)
+    expect_equal("find of a book that isn't there", library.find("Lost Moon"), None)
 
 
 def no_duplicates(ctx):
     m = module(ctx)
     library = m.Library()
-    library.add(m.Book("Emma", "Jane Austen", 1815))
-    expect_equal("A second Emma is refused, whatever its capitals", library.add(m.Book("EMMA", "Jane Austen", 1815)), False)
+    library.add(m.Book("Carrying the Fire", "Michael Collins", 1974))
+    expect_equal("A second Carrying the Fire is refused, whatever its capitals", library.add(m.Book("CARRYING THE FIRE", "Michael Collins", 1974)), False)
     expect_equal("and the library still has one book", len(library), 1)
 
 
 def shelf(ctx):
     m = module(ctx)
     library = m.Library()
-    books = [m.Book("Emma", "Jane Austen", 1815), m.ReferenceBook("House Style", "Paul", 2025),
-             m.Book("The Riddle of the Sands", "Erskine Childers", 1903), m.Book("Fluent Python", "Luciano Ramalho", 2015)]
+    books = [m.Book("Carrying the Fire", "Michael Collins", 1974), m.ReferenceBook("House Style", "Paul", 2025),
+             m.Book("The Mechanic's Tale", "Steve Matchett", 1999), m.Book("Fluent Python", "Luciano Ramalho", 2015)]
     for book in books:
         library.add(book)
     books[0].lend("Aaesha")
     books[3].lend("Riya")
     expect_equal("on_shelf gives the books not on loan, in the order they were added", [b.title for b in library.on_shelf()],
-                 ["House Style", "The Riddle of the Sands"])
+                 ["House Style", "The Mechanic's Tale"])
     expect_equal("on_shelf of an empty library", m.Library().on_shelf(), [])
 
 
 def own_lists(ctx):
     m = module(ctx)
     one, two = m.Library(), m.Library()
-    one.add(m.Book("Emma", "Jane Austen", 1815))
+    one.add(m.Book("Carrying the Fire", "Michael Collins", 1974))
     expect_equal("Adding to one library changed another", len(two), 0)
 
 
 TESTS = [
-    output("Neil's library", visible=True, expect="The library has 3 books\nEmma, Jane Austen (1815): on loan\n"
-           "House Style, Paul (2025): on the shelf, reference only\nOn the shelf: The Riddle of the Sands, House Style"),
+    output("Neil's shelves", visible=True, expect="The library has 3 books\nCarrying the Fire, Michael Collins (1974): on loan\n"
+           "House Style, Paul (2025): on the shelf, reference only\nOn the shelf: The Mechanic's Tale, House Style"),
     custom("Status, with two members", the_enum, visible=True),
     custom("A new book", a_new_book, hint="Fields with defaults go after the ones without: status and borrower come last."),
     custom("Lending and giving back", lending),

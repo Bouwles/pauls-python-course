@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the to-do list
-on_pass: { neil: "Number two done, and three moved up to two. That's my whole week, sorted." }
+on_pass: { riya.pleased: "Number two done, and three moved up to two. Every commission, in the order they asked." }
 hints:
   nudge: "Which command has to turn a person's number into an index? And what should happen before you use a number that might not be on the list?"
   plan:
@@ -37,19 +37,19 @@ hints:
             print("Commands: add, list, done, quit.")
     print(f"Left to do: {___}")
 ---
-Write Neil's to-do list: `add`, `list`, `done` and `quit`.
+Write Riya's to-do list: `add`, `list`, `done` and `quit`.
 
 ```
 Command? add
-Task? Mark the quizzes
+Task? Neil's rocket poster
 Command? add
-Task? Fix the projector
+Task? Caitlin's album cover
 Command? list
-1. Mark the quizzes
-2. Fix the projector
+1. Neil's rocket poster
+2. Caitlin's album cover
 Command? done
 Number? 1
-Done: Mark the quizzes
+Done: Neil's rocket poster
 Command? quit
 Left to do: 1
 ```

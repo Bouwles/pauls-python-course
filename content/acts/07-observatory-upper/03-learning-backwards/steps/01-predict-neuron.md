@@ -4,8 +4,8 @@ type: predict
 title: One neuron, two nights
 concept: perceptron
 dialogue:
-  - aaesha: "One neuron, deciding whether a stargazing night on the roof goes ahead."
-  - aaesha: "It starts knowing nothing. Then it reads the log, one night at a time."
+  - aaesha.neutral.point: "A brain cell adds up what reaches it, and fires if the total is high enough. This copies that."
+  - aaesha.thinking: "This one decides if a stargazing night goes ahead. It starts knowing nothing, and reads the log night by night."
 code: |
   import numpy as np
 
@@ -43,7 +43,7 @@ options:
 after: |
   Run it. Then swap the two nights round and predict again before you run it.
 ---
-This neuron multiplies each reading by a **weight**, adds them up and adds a **bias**. If the total is above 0, it says 1: the night goes ahead. Otherwise 0. That is a **perceptron**.
+This neuron multiplies each reading by a **weight**, adds them up and adds a **bias**. If the total is above 0, it says 1: the night goes ahead. Otherwise 0. That is a **perceptron**, which Frank Rosenblatt published in 1958 as a model of how a brain might learn.
 
 `np.dot(weights, night)` does the multiplying and adding in one go: one number.
 

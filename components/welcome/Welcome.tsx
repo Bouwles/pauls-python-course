@@ -1,12 +1,18 @@
 "use client";
 
-// /welcome, for a new learner: their name, their avatar (REDESIGN-2.md 7.3), and whether they've
-// written code before, which decides where they start: the first project, or the placement test.
+// /welcome, for a new learner: Paul says hello, then their name, their avatar (REDESIGN-2.md 7.3),
+// and whether they've written code before, which decides where they start: the first project, or
+// the placement test. Their new avatar waves them off when they save.
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "@/lib/store/session";
 import { defaultAvatar, readAvatar, type AvatarLook } from "@/lib/avatar";
 import type { ProfileRow } from "@/lib/store/types";
+import { PROFESSOR } from "@/lib/cast";
+import { prefersReducedMotion } from "@/lib/display";
+import { useMedia } from "@/lib/useMedia";
+import { PixelPerson } from "../art/PixelPerson";
+import { Speech } from "../art/Speech";
 import { Button } from "../ui/Button";
 import { AvatarCreator } from "./AvatarCreator";
 import styles from "./Welcome.module.css";
@@ -25,6 +31,7 @@ export function Welcome() {
   const [experience, setExperience] = useState<ProfileRow["experience"]>(null);
   const [saving, setSaving] = useState(false);
   const loaded = useRef(false);
+  const phone = useMedia("(max-width: 720px)");
 
   useEffect(() => {
     if (!ready || loaded.current) return;
@@ -40,6 +47,8 @@ export function Welcome() {
     if (!complete || saving) return;
     setSaving(true);
     await updateProfile({ character: look, displayName: name.trim().slice(0, 40), experience, onboarded: true });
+    // A wave goodbye from the avatar they've just made, then off to their desk.
+    if (!prefersReducedMotion()) await new Promise((r) => setTimeout(r, 1100));
     const last = profile.lastLocation;
     router.push(last ? `/job/${last.jobId}?step=${last.stepId}` : experience === "lots" ? "/placement" : "/job/shop-sign");
   };
@@ -50,6 +59,8 @@ export function Welcome() {
         <h1 className={styles.title}>Before your first project</h1>
         <p className={styles.lede}>Your name, your avatar, and how much code you&apos;ve written. It takes a minute, and you can change all of it later in Settings.</p>
       </header>
+
+      <Speech who={PROFESSOR} name="Paul" text="Welcome to the Clocktower. Tell me what to call you, then make yourself an avatar. I'll find you a desk." face="pleased" gesture="wave" size={phone ? 72 : 108} className={styles.host} />
 
       <section className={styles.section} aria-labelledby="w-name">
         <h2 id="w-name" className={styles.h2}>
@@ -66,7 +77,7 @@ export function Welcome() {
         <h2 id="w-avatar" className={styles.h2}>
           Your avatar
         </h2>
-        <AvatarCreator look={look} name={name} onChange={setLook} />
+        <AvatarCreator look={look} name={name} onChange={setLook} waving={saving} />
       </section>
 
       <section className={styles.section} aria-labelledby="w-experience">
@@ -90,10 +101,16 @@ export function Welcome() {
       </section>
 
       <div className={styles.go}>
-        <Button type="button" variant="primary" className={styles.submit} onClick={() => void start()} disabled={saving || !complete}>
-          {saving ? "Saving" : "Save and start"}
-        </Button>
-        {!user && ready ? <p className={styles.hint}>You&apos;re not logged in, so this is saved on this device only.</p> : null}
+        {/* Their avatar, ready by the door: it waves when they save. */}
+        <span className={`px-panel ${styles.ready}`} style={{ background: look.colour }} aria-hidden="true">
+          <PixelPerson avatar={look} crop="bust" scale={2} expression={saving ? "pleased" : complete ? "pleased" : "neutral"} pose={saving ? "wave" : "idle"} />
+        </span>
+        <div className={styles.goText}>
+          <Button type="button" variant="primary" className={styles.submit} onClick={() => void start()} disabled={saving || !complete}>
+            {saving ? "Saving" : "Save and start"}
+          </Button>
+          {!user && ready ? <p className={styles.hint}>You&apos;re not logged in, so this is saved on this device only.</p> : null}
+        </div>
       </div>
     </div>
   );

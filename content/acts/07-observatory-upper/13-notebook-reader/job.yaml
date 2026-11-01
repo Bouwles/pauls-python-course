@@ -38,16 +38,16 @@ datasets: []
 client: aaesha
 building: observatory
 estimated_minutes: 600
-summary: "The Act VII capstone, a deep learning project from start to finish: a small network learns Paul's notes four characters at a time, beats the bigram on notes it never saw, and finishes a note when you start one. With a write-up."
+summary: "The Act VII capstone, a deep learning project from start to finish: a small network learns Paul's notes four characters at a time, beats the bigram on notes it never saw, and finishes a note when you start one. It learns how he sounds, not what he means. With a write-up."
 concepts_introduced: []
 concepts_reviewed: [language-models, embeddings, tokenisation, backpropagation, numerical-gradient-checking, optimisers, activation-functions, neural-networks, train-test-split, overfitting, regularisation, random-module, json-module, files, modules, docstrings]
 ask:
   dialogue:
-    - aaesha: "Every comment Paul has left on our code, and the notes in the margins of his notebook. Eighty-five, one a line."
-    - aaesha: "I'd like a machine that reads them, and finishes a note when you start one. In his voice."
-    - paul: "And when it finishes one I never wrote?"
-    - aaesha: "Then we'll know how well it learnt you. How you sound, anyway. Not what you mean."
-    - caitlin: "I can do his voice. Name it properly. P."
+    - aaesha.neutral.wave: "Every comment Paul has left on our code, and the notes in the margins of his notebook. Eighty-five, one a line."
+    - aaesha.thinking: "I'd like a machine that reads them, and finishes a note when you start one. In his voice."
+    - paul.thinking: "And when it finishes one I never wrote?"
+    - aaesha.pleased: "Then we'll know how well it learnt you. How you sound, anyway. Not what you mean."
+    - caitlin.laughing: "I can do his voice. Name it properly. P."
   spec: |
     The Notebook Reader, in four files, built in this order. Each starter is almost empty: a docstring listing what to write.
 
@@ -63,17 +63,18 @@ ask:
     Whoever reads this nrom the son. P.
 ship:
   dialogue:
-    - aaesha: "Perplexity 6.9 on notes it never saw. The bigram managed 10.7, and guessing 55."
-    - neil: "Start a note with the duck, and it writes: 'The duck.' Full stop. It's learnt that the duck never says anything."
-    - yahya: "Ask it for the likeliest every time and it says 'the code it has not' for ever. Like the clock."
-    - paul: "It's learnt how I sound. Nobody's learnt what I mean. Not yet."
+    - aaesha.proud: "Perplexity 6.6 on notes it never saw. The bigram managed 10.7, and guessing 55."
+    - neil.laughing: "Start a note with the duck, and it writes: 'The duck.' Full stop. It's learnt that the duck never says anything."
+    - yahya.unimpressed: "Ask it for the likeliest every time and it says 'the code it has not' for ever. Like the clock."
+    - aaesha.thinking: "It sounds like him and doesn't think like him. Now we can measure the gap."
+    - paul.pleased.thumbs: "It's learnt how I sound. Nobody's learnt what I mean. Not yet."
   shelf: { object: lectern, label: "Paul's Notebook Reader" }
   cards: []
 stretch:
   - id: early-stopping
     title: "Stop it when it was best"
     prompt: |
-      Hold back every fourth of the 68 learning notes as a validation set. Train for 5000 steps, measuring the validation perplexity every 100, and keep the weights from the best, as in the Seeing Forecaster. Does it beat 6.89 on the held-back notes? You chose with the validation notes, not the held-back ones, so the held-back score is still fair.
+      Hold back every fourth of the 68 learning notes as a validation set. Train for 5000 steps, measuring the validation perplexity every 100, and keep the weights from the best, as in the Seeing Forecaster. Does it beat 6.60 on the held-back notes? You chose with the validation notes, not the held-back ones, so the held-back score is still fair.
   - id: wider-window
     title: "Further back"
     prompt: |

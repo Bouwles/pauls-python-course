@@ -2,26 +2,26 @@
 
 ## Art
 
-The six characters (Paul, Neil, Aaesha, Caitlin, Riya and Yahya), the Clocktower, the learner's avatar parts and the Shelf objects are **placeholders until the illustrator's work arrives**: flat shapes in each character's colour with their initial, and Phosphor icons for things. The illustrations are being commissioned from a human illustrator (see `art/ARTIST_BRIEF.md`); when they arrive, the artist is credited here and on the Credits page under their name. No artwork is AI-generated.
+The six characters (Paul, Neil, Aaesha, Caitlin, Riya and Yahya), the learner's avatar, the Clocktower and its rooms, and the Shelf objects are **pixel art drawn in code for this project** (`lib/pixel/`, described in `art/README.md`). Each person is put together pixel by pixel from a look and a moment (a face, a gesture, a blink, a word half said), so they can talk and react. The same code draws the certificates' and share cards' people.
 
-The logo, a snake curled into a P, was drawn for this project as an SVG (`public/brand/mark.svg`). The small pixel heart in the "Made with love" credit line is the one piece of pixel art kept, also drawn for this project. The rough pixel portraits in `art/pixel-reference/` are a reference for the illustrator, drawn from written descriptions; the app doesn't use them.
+The logo, a pixel snake curled into a P, was drawn for this project (`lib/pixel/mark.ts`; the favicons, `public/brand/mark.svg` and `public/og.png` are made from it by `scripts/build-brand.tsx`). So was the small pixel heart in the "Made with love" credit line.
 
 ## Fonts (self-hosted)
 
 | Font | Use | Author | Licence |
 | --- | --- | --- | --- |
-| Bricolage Grotesque | Display: titles, names, big numbers, the wordmark, certificates and share cards | Mathieu Triay (The Bricolage Grotesque Project Authors) | SIL OFL 1.1 |
+| Tiny5 | The pixel face: titles, names, buttons, labels, the wordmark, certificates and share cards | The Tiny5 Project Authors | SIL OFL 1.1 |
 | Atkinson Hyperlegible Next | Text and interface | Braille Institute of America | SIL OFL 1.1 |
 | JetBrains Mono | Code | JetBrains | SIL OFL 1.1 |
 
-All three come from Fontsource (`@fontsource-variable/bricolage-grotesque`, `@fontsource/bricolage-grotesque` for the static files the server-drawn images need, `@fontsource/atkinson-hyperlegible-next`, `@fontsource-variable/jetbrains-mono`).
+All three come from Fontsource (`@fontsource/tiny5`, `@fontsource/atkinson-hyperlegible-next`, `@fontsource-variable/jetbrains-mono`); the server-drawn images use their static `.woff` files.
 
 ## Icons
 
 | Icons | Licence |
 | --- | --- |
-| Phosphor Icons (regular weight), by Helena Zhang and Tobias Fried, through `@phosphor-icons/react` | MIT |
-| The duck and the crab, drawn for this project on Phosphor's grid to match (`components/ui/Icon.tsx`) | Part of this project |
+| pixelarticons, by Gerrit Halfmann, through `pixelarticons` | MIT |
+| The duck and the crab, drawn for this project on the same 24-pixel grid to match (`components/ui/Icon.tsx`) | Part of this project |
 
 ## Software
 

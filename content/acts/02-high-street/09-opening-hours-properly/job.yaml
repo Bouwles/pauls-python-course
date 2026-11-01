@@ -6,7 +6,7 @@ portfolio_readme: |
 
   One module of opening-hours helpers, `hours.py`, written once and imported by every floor of the Clocktower. It says whether a room is open at a given moment, prints the seven lines for the door, and finds the busiest day from a list of visits. A board for the front door, `main.py`, imports it and shows every room.
 
-  Written by {name} for Neil, at Paul's Python Course. Finished {date}.
+  Written by {name} for Caitlin, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -34,18 +34,18 @@ portfolio_readme: |
   - The standard library: `datetime` for moments in time, `collections.Counter` for counting
 downloadable: true
 datasets: []
-client: neil
+client: caitlin
 building: high-street
 estimated_minutes: 60
-summary: "One module of opening-hours helpers, imported by every floor of the Clocktower."
+summary: "One module of opening-hours helpers, imported by every floor of the Clocktower, and Caitlin's board by the front door to show it off."
 concepts_introduced: [modules, main-guard, standard-library]
 concepts_reviewed: [imports, functions, return-values, none, dictionaries, dict-get, tuples, unpacking, list-comprehensions, counter]
 ask:
   dialogue:
-    - neil: "Every floor in the Clocktower has its own copy of the opening-hours code."
-    - neil: "Somebody changed the Workshop's copy. Now it closes at half past never."
-    - neil: "I want one copy that everyone uses. One place to fix it."
-    - paul: "That somebody was me. A module, then. Write it once, import it everywhere."
+    - caitlin.pleased.wave: "I want a board by the front door. Every floor, open or shut, right now."
+    - caitlin.thinking: "But every floor has its own copy of the opening-hours code."
+    - caitlin.unimpressed: "Somebody changed the Workshop's copy. Now it closes at half past never."
+    - paul.laughing: "That somebody was me. A module, then. Write it once, import it everywhere."
   spec: |
     Write `hours.py`, a module every floor can import. A room's hours are a dictionary of day to `(opens, closes)`, in whole hours on the 24-hour clock. A day that's missing is a day the room is closed.
 
@@ -72,16 +72,16 @@ ask:
     Busiest in the Studio: Sat
 ship:
   dialogue:
-    - neil: "The Makerspace is shut on a Saturday. Caitlin knew that. Now the board knows it too."
-    - caitlin: "Correct to the hour. I'd like a countdown on it, but one thing at a time."
-    - paul: "One copy. When it's wrong, it's wrong in one place. That's the point."
+    - riya.laughing: "The Makerspace is shut on a Saturday. I knew that. Now the board knows it too."
+    - caitlin.pleased.point: "Correct to the hour. I'd like a countdown on it, but one thing at a time."
+    - paul.proud.thumbs: "One copy. When it's wrong, it's wrong in one place. That's the point."
   shelf: { object: shop-sign, label: "The Clocktower hours module" }
   cards: [modules, main-guard, standard-library]
 stretch:
   - id: closing-soon
     title: "Closing soon"
     prompt: |
-      Add `closing_soon(hours, when)` to `hours.py`: `True` if the room is open now and closes within the next hour. Neil wants to put the kettle on at the right moment. Add a quick check for it under the main guard: Saturday at 12:30 should be `True`, at 11:30 `False`.
+      Add `closing_soon(hours, when)` to `hours.py`: `True` if the room is open now and closes within the next hour. Caitlin wants to start the last game before the Studio shuts. Add a quick check for it under the main guard: Saturday at 12:30 should be `True`, at 11:30 `False`.
   - id: another-program
     title: "A second customer for the module"
     prompt: |

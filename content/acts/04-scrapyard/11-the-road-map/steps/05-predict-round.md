@@ -4,14 +4,14 @@ type: predict
 title: Every road to the end
 concept: dfs
 dialogue:
-  - yahya: "My long run. Down a road, keep going, and only turn back when there's nowhere new."
+  - neil.pleased: "How I explore a new circuit. Down a road, keep going, and only turn back when there's nowhere new."
 code: |
   ROADS = {
-      "market": ["clocktower", "museum"],
-      "clocktower": ["market", "cafe", "bookshop"],
-      "cafe": ["clocktower"],
-      "bookshop": ["clocktower", "museum"],
-      "museum": ["market", "bookshop"],
+      "campsite": ["main-gate", "car-park"],
+      "main-gate": ["campsite", "fan-zone", "food-court"],
+      "fan-zone": ["main-gate"],
+      "food-court": ["main-gate", "car-park"],
+      "car-park": ["campsite", "food-court"],
   }
   order = []
 
@@ -23,19 +23,19 @@ code: |
               explore(neighbour)
 
 
-  explore("market")
+  explore("campsite")
   print(order)
 question: What does this print?
 options:
-  - text: "['market', 'clocktower', 'cafe', 'bookshop', 'museum']"
+  - text: "['campsite', 'main-gate', 'fan-zone', 'food-court', 'car-park']"
     correct: true
-    feedback: "Right. From the Clocktower it goes to the cafe, a dead end, so it comes back and takes the Clocktower's next road, to the bookshop, and on to the museum from there."
-  - text: "['market', 'clocktower', 'museum', 'cafe', 'bookshop']"
+    feedback: "Right. From the main gate it goes to the fan zone, a dead end, so it comes back and takes the main gate's next road, to the food court, and on to the car park from there."
+  - text: "['campsite', 'main-gate', 'car-park', 'fan-zone', 'food-court']"
     misconception: dfs-goes-by-distance
-    feedback: "That's nearest first, breadth first. `explore` doesn't wait to finish the market's roads: it follows the Clocktower all the way down before it ever looks at the museum."
-  - text: "['market', 'clocktower', 'cafe']"
+    feedback: "That's nearest first, breadth first. `explore` doesn't wait to finish the campsite's roads: it follows the main gate all the way down before it ever looks at the car park."
+  - text: "['campsite', 'main-gate', 'fan-zone']"
     misconception: dfs-stops-at-dead-end
-    feedback: "The cafe is a dead end, but that only ends the call for the cafe. The Clocktower's loop carries on with its next road, the bookshop."
+    feedback: "The fan zone is a dead end, but that only ends the call for the fan zone. The main gate's loop carries on with its next road, the food court."
   - text: A RecursionError
     misconception: dfs-loops-forever
     error: RecursionError

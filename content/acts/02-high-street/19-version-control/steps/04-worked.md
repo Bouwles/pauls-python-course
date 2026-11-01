@@ -4,7 +4,7 @@ type: worked
 title: How Paul would try an idea
 language: text
 dialogue:
-  - paul: "An idea goes on a branch. If it's good, it comes home. If not, nothing's lost."
+  - paul.neutral: "An idea goes on a branch. If it's good, it comes home. If not, nothing's lost."
 code: |
   workshop $ git switch -c urgent
   Switched to a new branch 'urgent'

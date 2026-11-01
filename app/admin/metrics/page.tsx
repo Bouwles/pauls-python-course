@@ -25,7 +25,7 @@ export default async function Metrics() {
     <Page wide>
       <div className={styles.page}>
         <h1 className={styles.title}>Metrics</h1>
-        <section className={styles.card} aria-labelledby="all-time">
+        <section className={`px-panel ${styles.card}`} aria-labelledby="all-time">
           <h2 id="all-time" className={styles.h2}>
             The funnel, all time
           </h2>
@@ -47,7 +47,7 @@ export default async function Metrics() {
           </ol>
           <p className={styles.note}>The percentage is the share of people from the step above. Cancelled counts subscribers who left.</p>
         </section>
-        <section className={styles.card} aria-labelledby="weekly">
+        <section className={`px-panel ${styles.card}`} aria-labelledby="weekly">
           <h2 id="weekly" className={styles.h2}>
             By week
           </h2>

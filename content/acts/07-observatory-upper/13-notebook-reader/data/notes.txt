@@ -25,7 +25,7 @@ The marks for the first test are in. Everyone passed. Three of you named a varia
 Neil says the error message was confusing. He is right. Error messages are for people. Write them for people. P.
 Delete the code you commented out. It is in the history if you ever need it. You will not need it. P.
 The bigger the number on the screen, the more I want to know where it came from, and who it has been talking to. P.
-A chart that starts at forty is not a chart. It is an opinion. Aaesha caught it before I did, which she will mention. P.
+A chart that starts at forty is not a chart. It is an opinion. Yahya caught it before I did, which he will mention. P.
 When two functions do nearly the same thing, the word nearly is where the bug lives. P.
 Run it. Then run it again with something you did not expect. Then you know something you did not know before. P.
 Caitlin shipped the game on Friday. It was ugly. People played it all weekend. There is a lesson there, and it is not about ugly. P.
@@ -45,9 +45,9 @@ The test failed because the test was wrong. That happens. Fix the test, then tha
 Before you make it faster, make it right. Before you make it right, make it run. Before you make it run, make it exist. P.
 Riya's model got every training example right and half of the new ones wrong. It had learnt the list, not the rule. P.
 A function should fit on one screen. If it does not, it is two functions wearing one coat. P.
-Aaesha labelled every folder in the Archive. I found my old notes in four seconds. I have never found anything in four seconds. P.
+Yahya labelled every folder in the Archive. I found my old notes in four seconds. I have never found anything in four seconds. P.
 Name your files for what is in them. final_final_two.py is not a name. It is a story about a long week. P.
-The servers in the Engine Room are louder in the afternoon. Neil says they are thinking. I say it is the fans. We are both right. P.
+The servers in the Engine Room are louder in the afternoon. Aaesha says they are thinking. I say it is the fans. We are both right. P.
 Every time you copy a number into your code, ask where it came from. Then write that down too, next to the number. P.
 Caitlin wants every program to have a screen. Most of mine have a terminal. We have agreed that a terminal is a screen. P.
 The worked example is not there to copy. It is there so you can see the steps with their names on. P.
@@ -67,7 +67,7 @@ When someone asks why, the answer is never because I said so. It is because of t
 Aaesha found the test with the typo. It was mine. She was very kind about it, which somehow made it worse. P.
 Comments should say why. The code already says what. If the code does not say what, fix the code. P.
 The Clocktower has nine floors and one kettle that works. The kettle is on the first floor. Plan your day around it. P.
-The Makerspace smells of solder and toast. Caitlin says that is the smell of things getting made. I have no better theory. P.
+The Makerspace smells of paint and toast. Riya says that is the smell of things getting made. I have no better theory. P.
 A program you cannot run twice and get the same answer is a program you cannot test. Seed it, and write the seed down. P.
 Riya asked whether the model knows what it is doing. It does not. It knows what usually comes next. That is not the same thing. P.
 Nobody writes good code the first time. Good code is bad code that someone was patient with. P.

@@ -1,10 +1,10 @@
 ---
 id: votes
 type: make
-title: "Question 2: Naming the boat"
+title: "Question 2: The poster vote"
 files: [votes.py]
 entry: votes.py
-on_pass: { riya: "Gannet, by the third slip. The marina will be pleased. It's a good name for a boat." }
+on_pass: { riya.pleased: "Gannet, by the third slip. It goes on the poster. Good choice: it has the best colours." }
 hints:
   nudge: "Going through the slips one at a time, what do you need to remember to know who's winning so far?"
   plan:
@@ -25,11 +25,11 @@ hints:
                 leader = ___
         return leader
 ---
-The marina from Riya's capstone is naming its new safety boat. Every vote is a name on a slip, read out in the order the slips come out of the box.
+Riya's exhibition of seabird prints ends with a vote: which print goes on the poster for the next one. Every vote is a print's name on a slip, read out in the order the slips come out of the box.
 
 Write `winner(ballots)`: the name with the most votes. On a tie, the winner is the name that reached the winning number of votes first, counting slips in order. With no ballots, return `None`.
 
-**Limits:** up to 200,000 ballots. Names are compared exactly: `"Gull"` and `"gull"` are different boats.
+**Limits:** up to 200,000 ballots. Names are compared exactly: `"Gull"` and `"gull"` are different prints.
 
 ```
 winner(["Gull", "Tern", "Gull"])                                    gives "Gull"

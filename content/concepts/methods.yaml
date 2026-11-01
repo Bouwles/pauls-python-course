@@ -80,7 +80,7 @@ cards:
       kettle.fill()
       print(kettle.full)
   - type: fill
-    prompt: "Fill the gap to put four biscuits in Neil's tin."
+    prompt: "Fill the gap to put four biscuits in Caitlin's tin."
     code: |
       class Tin:
           def __init__(self):

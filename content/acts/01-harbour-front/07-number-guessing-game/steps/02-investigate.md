@@ -47,7 +47,7 @@ tasks:
       print("Tea round finished.")
       print(f"Drinks: {drinks}")
 ---
-A **sentinel** is a value that means stop, not here's another one. Neil does the Studio's tea round, and his sentinel is the word `done`.
+A **sentinel** is a value that means stop, not here's another one. Caitlin does the Studio's tea round, and her sentinel is the word `done`.
 
 `!=` means is not equal to, so this loop runs while the order is anything but `done`.
 

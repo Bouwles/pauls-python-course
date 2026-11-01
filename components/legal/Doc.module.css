@@ -1,4 +1,4 @@
-/* Credits, privacy and terms: no panel, just well-set text on the page. */
+/* Credits, privacy and terms: no panel, just well-set text on the page, titles in the pixel face. */
 .doc {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -7,11 +7,11 @@
 
 .head {
   display: grid;
-  gap: var(--s-3);
+  gap: var(--s-4);
 }
 
 .title {
-  font-size: var(--fs-7);
+  font-size: var(--px-5);
 }
 
 .lede {
@@ -22,16 +22,16 @@
 .draft {
   display: flex;
   gap: var(--s-3);
-  align-items: flex-start;
+  align-items: center;
   padding: var(--s-3) var(--s-4);
   background: var(--sun-wash);
-  border-radius: var(--r-md);
+  box-shadow: inset 4px 0 0 0 var(--sun);
   font-size: var(--fs-2);
   line-height: 1.5;
 }
 
 .draft svg {
-  margin-top: 1px;
+  flex: none;
   color: var(--sun-text);
 }
 
@@ -40,8 +40,8 @@
 }
 
 .body h2 {
-  font-size: var(--fs-5);
-  margin-top: var(--s-10);
+  font-size: var(--px-3);
+  margin-top: var(--s-12);
 }
 
 .body h2:first-child {
@@ -49,15 +49,28 @@
 }
 
 .body h2 + * {
-  margin-top: var(--s-3);
+  margin-top: var(--s-4);
 }
 
+/* Square bullets, like pixels. */
 .body ul {
   display: grid;
   gap: var(--s-2);
   padding-left: 1.2em;
+  list-style: square;
 }
 
 .body li::marker {
   color: var(--text-2);
+}
+
+@media (max-width: 720px) {
+  .title {
+    font-size: var(--px-4);
+  }
+
+  .body h2 {
+    font-size: var(--px-2);
+    margin-top: var(--s-10);
+  }
 }

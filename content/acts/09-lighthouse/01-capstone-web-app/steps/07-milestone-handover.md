@@ -4,8 +4,8 @@ type: milestone
 title: "Milestone 4: tested, documented, handed over"
 evidence: link
 dialogue:
-  - riya: "The marina won't read code. They'll read instructions, and follow them exactly."
-  - paul: "Then the instructions had better be right."
+  - caitlin.thinking: "The marina won't read code. They'll read instructions, and follow them exactly."
+  - paul.neutral: "Then the instructions had better be right."
 checklist:
   - id: agreed
     text: "Every agreed test passes, and the report is handed in on the Take It Home step."

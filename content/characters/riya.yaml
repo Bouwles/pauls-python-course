@@ -1,10 +1,10 @@
 id: riya
 name: Riya
-role: Classmate. Practical projects and machine learning; leads the Model Room on the fifth floor.
+role: "Classmate. An artist: colour, pattern, generative art and design. Runs the Makerspace on floor 2."
 colour: "#4CC36F"
-floor: 6
-look: Long, straight, jet-black hair with a sharp centre parting, strong dark eyebrows, playful smile. A cream varsity jacket with navy stripes over a dark top.
-voice: Practical and entrepreneurial. Always asks what something is for. Good at explaining things simply.
+floor: 3
+look: "Long, straight, glossy jet-black hair falling behind her shoulders, bold dark eyebrows, a playful smirk. A cream varsity jacket with navy trim over a dark top."
+voice: "Practical about her art. Always asks who it is for and what it should feel like. Good at explaining things simply."
 pools:
   # Reactive lines (REDESIGN-2.md 7.4). lib/cast.ts says which events are Riya's.
   # When the learner fixes Riya's version, or fixes it in fewer lines.
@@ -12,14 +12,17 @@ pools:
     - "Oh. I only tested the easy case. Thank you."
     - "Fixed. People are going to use this, so that matters. Thanks."
     - "So that was it. I'll try the awkward inputs first next time."
+    - "Fixed. Like a sketch that only worked from one angle. Thanks."
   shorter-than-mine:
     - "Yours is shorter and does the same thing. I'm using yours."
     - "Fewer lines than mine. Easier to explain, too."
-  # Riya is the client for the Bill Splitter, the Times Table Trainer and the Calculator.
+    - "Fewer strokes, same picture. I like that."
+  # Riya is the client for the To-Do List and the Contact Book.
   waiting:
     - "Who's actually going to use this? Me, soon. So no pressure."
     - "No rush. I'd rather it worked on the awkward cases too."
     - "Take your time. Make it something I could explain to someone else."
+    - "No hurry. I'll be sketching. Shout when it works."
   recap:
     - "Back to my {job}. You'd got to {step}"
     - "Where you left my {job}: {step}"

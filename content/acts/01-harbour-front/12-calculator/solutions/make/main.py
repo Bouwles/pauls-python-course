@@ -1,4 +1,4 @@
-# Riya's calculator. Type a sum, get the answer, and never fall over.
+# Yahya's calculator. Type a sum, get the answer, and never fall over.
 
 
 def calculate(a, op, b):

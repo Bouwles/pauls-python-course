@@ -4,14 +4,13 @@ import time
 
 from piles import draw, insertion_sort, selection_sort
 
-KINDS = ["anchor-shackle", "bike-bell", "clock-spring", "gear-12t", "hubcap", "kettle-element",
-         "lamp-lens", "mangle-roller", "pram-wheel", "spring-coil", "valve-brass", "winch-handle"]
+DRIVERS = ["Aaesha", "Caitlin", "Neil", "Paul", "Riya", "Yahya"]
 
 
-def clockmaker_lot(count, seed=1):
-    """The clockmaker's parts as (name, kg) pairs, in the order they come out of the crates."""
-    crates = random.Random(seed)
-    return [(crates.choice(KINDS), crates.randint(1, 40)) for _ in range(count)]
+def league_laps(count, seed=1):
+    """The sim league's laps as (driver, tenths off the record) pairs, in the order they were set."""
+    timing = random.Random(seed)
+    return [(timing.choice(DRIVERS), timing.randint(1, 40)) for _ in range(count)]
 
 
 def merge(left, right, key):
@@ -20,9 +19,9 @@ def merge(left, right, key):
     merged = []
     next_left = 0
     next_right = 0
-    # While both piles have parts left
+    # While both piles have laps left
     while next_left < len(left) and next_right < len(right):
-        # Take the lighter front part; on a tie, take from the left
+        # Take the faster front lap; on a tie, take from the left
         if key(left[next_left]) <= key(right[next_right]):
             merged.append(left[next_left])
             next_left = next_left + 1
@@ -72,22 +71,22 @@ def quick_sort(items, key=lambda item: item, frames=None):
                 split_piles.append(pile)
                 continue
             pivot = key(pile[0])
-            lighter = [item for item in pile if key(item) < pivot]
+            faster = [item for item in pile if key(item) < pivot]
             same = [item for item in pile if key(item) == pivot]
-            heavier = [item for item in pile if key(item) > pivot]
-            if lighter:
-                split_piles.append(lighter)
+            slower = [item for item in pile if key(item) > pivot]
+            if faster:
+                split_piles.append(faster)
             split_piles.extend([item] for item in same)
-            if heavier:
-                split_piles.append(heavier)
+            if slower:
+                split_piles.append(slower)
         piles = split_piles
         if frames is not None:
             frames.append([item for pile in piles for item in pile])
     return [item for pile in piles for item in pile]
 
 
-def weight_of(part):
-    return part[1]
+def tenths_of(lap):
+    return lap[1]
 
 
 def show(choice, pile):
@@ -115,16 +114,16 @@ if __name__ == "__main__":
     print(draw(pile))
     show(input("Which sort: selection, insertion, merge or quick? ").strip().lower(), pile)
 
-    lot = clockmaker_lot(10_000)
+    laps = league_laps(10_000)
     timings = {}
     start = time.perf_counter()
-    expected = sorted(lot, key=weight_of)
+    expected = sorted(laps, key=tenths_of)
     timings["sorted()"] = time.perf_counter() - start
     agreed = True
     for name, sort in [("merge", merge_sort), ("quick", quick_sort)]:
         start = time.perf_counter()
-        result = sort(lot, key=weight_of)
+        result = sort(laps, key=tenths_of)
         timings[name] = time.perf_counter() - start
         agreed = agreed and result == expected
-    print(f"Clockmaker's lot: {len(lot)} parts, merge and quick agree with sorted(): {agreed}")
+    print(f"Sim league: {len(laps)} laps, merge and quick agree with sorted(): {agreed}")
     print(", ".join(f"{name} {seconds:.3f} s" for name, seconds in timings.items()))

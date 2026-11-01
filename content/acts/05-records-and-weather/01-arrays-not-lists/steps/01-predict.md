@@ -4,7 +4,7 @@ type: predict
 title: Twice the marks
 concept: numpy-arrays
 dialogue:
-  - paul: "Same three marks. Two kinds of box. Decide before you run it."
+  - paul.thinking.point: "Same three marks. Two kinds of box. Decide before you run it."
 code: |
   import numpy as np
 

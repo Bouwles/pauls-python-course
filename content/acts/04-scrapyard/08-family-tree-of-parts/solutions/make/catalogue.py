@@ -1,4 +1,4 @@
-"""The family tree of parts: the clockmaker's catalogue, as a binary search tree."""
+"""The family tree of parts: Neil's rocket catalogue, as a binary search tree."""
 
 
 class Card:
@@ -121,19 +121,19 @@ class Catalogue:
         return pairs
 
 
-# The clockmaker's catalogue cards, in the order they were filed. Every card
+# Neil's rocket catalogue cards, in the order he filed them. Every card
 # knows which side of its parent it belongs on, and why: smaller, or bigger.
-CLOCKMAKERS_CARDS = [
-    (500, "anchor chain"), (250, "bike bell"), (750, "tin bath"), (101, "bolt tin"),
-    (342, "brass valve"), (621, "mangle roller"), (977, "winch handle"), (188, "clock spring"),
-    (377, "brass bell"), (430, "lamp lens"), (702, "pram wheel"), (850, "kettle element"),
-    (133, "gear wheel"), (555, "hubcap"), (915, "spring coil"),
+ROCKET_CARDS = [
+    (500, "nose cone"), (250, "fin set"), (750, "launch rail"), (101, "body tube"),
+    (342, "parachute"), (621, "motor mount"), (977, "launch pad"), (188, "centering ring"),
+    (377, "shock cord"), (430, "altimeter"), (702, "launch lug"), (850, "igniter"),
+    (133, "coupler"), (555, "nose weight"), (915, "launch controller"),
 ]
 
 
 if __name__ == "__main__":
     catalogue = Catalogue()
-    for number, name in CLOCKMAKERS_CARDS:
+    for number, name in ROCKET_CARDS:
         catalogue.add(number, name)
     print(f"Catalogue: {len(catalogue)} cards, {catalogue.height()} levels")
     catalogue.looks = 0
@@ -143,5 +143,5 @@ if __name__ == "__main__":
         print(f"Card 999: not in the catalogue, {catalogue.looks} looks")
     pairs = catalogue.in_order()
     print(f"In order: {pairs[0][0]} {pairs[0][1]} first, {pairs[-1][0]} {pairs[-1][1]} last")
-    print("Brass section, 300 to 399:", catalogue.between(300, 399))
+    print("Recovery section, 300 to 399:", catalogue.between(300, 399))
     print("Copied out:", catalogue.pre_order())

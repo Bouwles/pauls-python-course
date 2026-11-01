@@ -148,9 +148,9 @@ def due_north(ctx):
     module = ctx.module()
     wind = np.array([[0.0, 10.0]])
     frame_check(module.along_and_across(wind, 0), np.array([[10.0, 0.0]]),
-                "A 10-knot northerly, for a bike heading north,")
+                "A 10-knot northerly, for a plane heading north,")
     frame_check(module.along_and_across(wind, 90), np.array([[0.0, -10.0]]),
-                "A 10-knot northerly, for a bike heading east,")
+                "A 10-knot northerly, for a plane heading east,")
 
 
 def ride_january(ctx):
@@ -212,7 +212,7 @@ TESTS = [
            hint="If you get nan, the cosine came out a hair over 1 from rounding. np.clip(cosine, -1, 1) keeps it in range."),
     custom("A northerly, heading north and heading east", due_north,
            hint="Ahead is the one-knot arrow for the heading. Starboard is a quarter turn clockwise from it: (cos, -sin) of the heading."),
-    custom("Riya's January", ride_january),
+    custom("January on runway 04", ride_january),
     custom("Other headings", other_headings),
     custom("No loops", no_loops, hint="Each function is array arithmetic on every arrow at once. No for, no while."),
     custom("A matrix moves the arrows", uses_a_matrix),

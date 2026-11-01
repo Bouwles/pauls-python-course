@@ -147,7 +147,7 @@ TESTS = [
     custom("They catch 500 g charged at 150", _catches(boundary_at_500, "charges 150 for exactly 500 g"),
            hint="If only this fails, test exactly 500 g."),
     custom("They catch away costing 60 more, not twice", _catches(adds_sixty_for_away, "adds 60 for away instead of doubling"),
-           hint="If only this fails: for a light letter, adding 60 and doubling give the same answer. Try a heavier parcel going away."),
+           hint="If only this fails: for a small print, adding 60 and doubling give the same answer. Try a heavier parcel going away."),
     custom("They catch a parcel over 2 kg accepted", _catches(no_upper_limit, "accepts parcels over 2 kg"),
            hint="If only this fails, check that 2001 g is refused with a ValueError."),
     custom("They catch exactly 2 kg refused", _catches(refuses_2000, "refuses exactly 2000 g"),

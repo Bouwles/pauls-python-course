@@ -1,7 +1,7 @@
 ---
 id: predict-relink
 type: predict
-title: A gong after the anchor
+title: A fuel tank after the axle
 concept: linked-lists
 code: |
   class Crate:
@@ -18,26 +18,26 @@ code: |
       print(parts)
 
 
-  anchor = Crate("anchor")
-  anchor.next = Crate("bell")
-  anchor.next.next = Crate("chain")
+  axle = Crate("axle")
+  axle.next = Crate("brakes")
+  axle.next.next = Crate("chassis")
 
-  gong = Crate("gong")
-  anchor.next = gong
-  show(anchor)
-question: "Yahya wants the gong between the anchor and the bell. What does this print?"
+  tank = Crate("fuel-tank")
+  axle.next = tank
+  show(axle)
+question: "Neil wants the fuel tank between the axle and the brakes. What does this print?"
 options:
-  - text: "['anchor', 'gong']"
+  - text: "['axle', 'fuel-tank']"
     correct: true
-    feedback: "Right. The anchor's only arrow now points at the gong, and the gong points at nothing. The bell and the chain are still there, but no crate on the round points at them any more."
-  - text: "['anchor', 'gong', 'bell', 'chain']"
+    feedback: "Right. The axle's only arrow now points at the fuel tank, and the tank points at nothing. The brakes and the chassis are still there, but no crate on the round points at them any more."
+  - text: "['axle', 'fuel-tank', 'brakes', 'chassis']"
     misconception: relinking-keeps-the-rest
-    feedback: "Nothing told the gong where to go next. Its `next` is still `None`, so the walk stops there. Give `gong.next` the bell first, then point the anchor at the gong."
-  - text: "['anchor', 'gong', 'chain']"
+    feedback: "Nothing told the tank where to go next. Its `next` is still `None`, so the walk stops there. Give `tank.next` the brakes first, then point the axle at the tank."
+  - text: "['axle', 'fuel-tank', 'chassis']"
     misconception: next-assign-replaces-item
-    feedback: "This isn't a list, where one position is swapped. The anchor points at the gong now, and the gong's `next` is `None`, so the chain is lost along with the bell."
+    feedback: "This isn't a list, where one position is swapped. The axle points at the tank now, and the tank's `next` is `None`, so the chassis is lost along with the brakes."
 after: |
-  Run it. Then add `gong.next = anchor.next` on the line before `anchor.next = gong`, and run it again.
+  Run it. Then add `tank.next = axle.next` on the line before `axle.next = tank`, and run it again.
 ---
 Putting a crate into the middle of a round takes two arrows: the new crate has to point at the rest of the round, and the crate before it has to point at the new crate.
 

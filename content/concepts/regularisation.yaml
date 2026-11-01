@@ -45,7 +45,7 @@ cards:
         misconception: early-stop-compares-last
         feedback: "That compares each loss with the epoch before. 0.61 beats 0.62, but not 0.6, the best so far. The best stays at epoch 2, so patience runs out at epoch 5."
   - type: choice
-    prompt: "Riya switched on weight decay. The training loss went from 0.0000 to 0.0451, and the validation loss from 0.2455 to 0.1340. Is something wrong?"
+    prompt: "Aaesha switched on weight decay. The training loss went from 0.0000 to 0.0451, and the validation loss from 0.2455 to 0.1340. Is something wrong?"
     verify: none
     options:
       - text: "No. It gave up fit on the 24 training nights for a better fit on the 36 it never saw"

@@ -97,7 +97,7 @@ cards:
       print(axes.shape, len(fig.axes))
     answer: "(2, 3) 6"
   - type: fill
-    prompt: "Aaesha wants the temperature scale to start at 0. Fill the gap."
+    prompt: "Yahya wants the temperature scale to start at 0. Fill the gap."
     code: |
       import matplotlib
       matplotlib.use("Agg")

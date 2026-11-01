@@ -1,4 +1,4 @@
-"""The Clocktower Weather Report, for Aaesha. Run it, and it prints the report
+"""The Clocktower Weather Report, for Yahya. Run it, and it prints the report
 and draws its three charts.
 
 It prints this, in this order, with every number worked out from ledger.csv

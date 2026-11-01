@@ -3,9 +3,9 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "The chalk cupboard has a padlock. I forget the code. Same shape as Caitlin's game."
+  - paul.laughing: "The server cupboard has a padlock. I forget the code. Same shape as Caitlin's game."
 code: |
-  # The chalk cupboard padlock. q gives up and asks Neil.
+  # The server cupboard padlock. q gives up and asks Neil.
   secret = 4172
   tries = 0
 

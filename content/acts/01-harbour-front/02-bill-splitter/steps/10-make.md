@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the bill splitter
-on_pass: { riya: "Forty-five fifty-four, six ways, seven fifty-nine. I checked it twice." }
+on_pass: { caitlin.pleased: "Forty-five fifty-four, six ways, seven fifty-nine. Quicker than the card machine." }
 hints:
   nudge: "What does `input()` give you, and what does arithmetic need? And which comes first: adding the tip, or splitting the bill?"
   plan:

@@ -4,9 +4,9 @@ type: predict
 title: Hot and cold
 concept: language-models
 dialogue:
-  - aaesha: "Now it has been taught. Three Men in a Boat, three hundred and fifty thousand characters of it."
-  - yahya: "So it writes the most likely next letter, every time. Simple."
-  - neil: "Then it writes the same thing every time, too."
+  - aaesha.neutral: "Now it has been taught. Three Men in a Boat, three hundred and fifty thousand characters of it."
+  - yahya.pleased: "So it writes the most likely next letter, every time. Simple."
+  - neil.laughing: "Then it writes the same thing every time, too."
 code: |
   import numpy as np
 

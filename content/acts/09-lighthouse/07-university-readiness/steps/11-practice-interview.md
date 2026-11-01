@@ -3,7 +3,7 @@ id: practice-interview
 type: milestone
 title: "Practice interview"
 dialogue:
-  - paul: "Two minutes, out loud. Writing it down doesn't count."
+  - paul.neutral.point: "Two minutes, out loud. Writing it down doesn't count."
 test_plan: false
 evidence: none
 checklist:

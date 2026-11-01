@@ -7,8 +7,8 @@ def big_pile(ctx):
     pile = [pile_maker.randint(1, 20) for _ in range(300)]
     got = module.quick_sort(list(pile))
     if got != sorted(pile):
-        raise CheckFailed("300 weights between 1 and 20, so plenty of repeats. Every one should come out, in order.",
-                          expected=f"{len(pile)} weights in order", actual=f"{len(got)} weights")
+        raise CheckFailed("300 laps between 1 and 20 tenths off the record, so plenty of repeats. Every one should come out, in order.",
+                          expected=f"{len(pile)} laps in order", actual=f"{len(got)} laps")
 
 
 def leaves_pile_alone(ctx):
@@ -21,12 +21,12 @@ def leaves_pile_alone(ctx):
 
 
 TESTS = [
-    function("Three 7 kg engines", call="quick_sort", args=([7, 3, 9, 7, 1, 7, 4],), expect=[1, 3, 4, 7, 7, 7, 9], visible=True,
-             hint="Count the 7s going in and coming out. Where does a part go if it weighs the same as the pivot?"),
-    function("All the same weight", call="quick_sort", args=([5, 5, 5],), expect=[5, 5, 5], visible=True),
+    function("Three laps at seven tenths", call="quick_sort", args=([7, 3, 9, 7, 1, 7, 4],), expect=[1, 3, 4, 7, 7, 7, 9], visible=True,
+             hint="Count the 7s going in and coming out. Where does a lap go if it's exactly as quick as the pivot?"),
+    function("All the same time", call="quick_sort", args=([5, 5, 5],), expect=[5, 5, 5], visible=True),
     function("No repeats", call="quick_sort", args=([9, 4, 6, 1],), expect=[1, 4, 6, 9]),
     function("An empty pile", call="quick_sort", args=([],), expect=[]),
     function("Two, back to front", call="quick_sort", args=([2, 1],), expect=[1, 2]),
-    custom("Three hundred weights, with repeats", big_pile),
+    custom("Three hundred laps, with repeats", big_pile),
     custom("The pile it's given stays as it was", leaves_pile_alone),
 ]

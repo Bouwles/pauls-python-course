@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "Neil's bake sale till, with its tests. Every program should come with a way to check it."
+  - paul.neutral.point: "Caitlin's bake sale till, with its tests. Every program should come with a way to check it."
 code: |
   def price(item, quantity):
       """Price of an order in pence. Bread is 240; anything else is a bun at 85."""

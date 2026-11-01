@@ -6,7 +6,7 @@ portfolio_readme: |
 
   A small gridworld written as a Markov decision process: every tile, every move, the chance of slipping sideways, and the reward for each step. It simulates races that follow a policy and works out what each race was worth, so two ways round the grid can be compared fairly over a thousand races.
 
-  Written by {name} for Yahya, at Paul's Python Course. Finished {date}.
+  Written by {name} for Neil, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -38,19 +38,19 @@ portfolio_readme: |
   - In the browser the races are drawn with the workshop's `show_grid`; anywhere else the drawing is skipped and the rest runs as normal
 downloadable: true
 datasets: []
-client: yahya
+client: neil
 building: crab-club
 estimated_minutes: 80
-summary: "The Arcade's racing grid as a Markov decision process: tiles, moves, slips, rewards, policies and what a race is worth."
+summary: "Neil's search for a better racing line on the crab cabinet's grid, as a Markov decision process: tiles, moves, slips, rewards, policies and what a race is worth."
 concepts_introduced: [mdps, returns-discounting]
 concepts_reviewed: [bandits, dictionaries, tuples, while-loops, functions, default-arguments, numpy-arrays, probability]
 ask:
   dialogue:
-    - yahya: "League night isn't a straight race. It's the grid."
-    - yahya: "Everyone races the traditional line. Along the bottom and up the far side."
-    - paul: "Right past the pool."
-    - yahya: "It's the shortest way round. I've raced it a hundred times."
-    - paul: "Then work out what it's worth. With the slips in."
+    - neil.pleased.wave: "Caitlin's crab cabinet. League night isn't a straight race. It's the grid."
+    - neil.thinking: "Everyone races the traditional line. Along the bottom and up the far side."
+    - paul.unimpressed: "Right past the pool."
+    - neil.neutral: "It's the shortest way round. In karting, shortest is rarely fastest. I want numbers."
+    - paul.thinking.point: "Then work out what it's worth. With the slips in."
   spec: |
     Write `track.py`, the racing grid as a Markov decision process:
 
@@ -84,11 +84,11 @@ ask:
     Average return over 1000 races: 0.92
 ship:
   dialogue:
-    - yahya: "Minus seven point eight. The line everyone races averages minus seven point eight."
-    - caitlin: "Including you. Twice a week."
-    - yahya: "Fine. Yours is better. For now."
-    - paul: "Next time, the worth of every tile, without running a single race."
-  shelf: { object: racing-grid, label: "The Arcade's racing grid, slips and all" }
+    - neil.surprised: "Minus seven point eight. The line everyone races averages minus seven point eight."
+    - caitlin.laughing: "Including you. Twice a week."
+    - neil.pleased.thumbs: "Not any more. That's a racing line, and I'll be studying it."
+    - paul.neutral: "Next time, the worth of every tile, without running a single race."
+  shelf: { object: racing-grid, label: "Neil's racing line on the crab's grid, slips and all" }
   cards: [mdps, returns-discounting]
 stretch:
   - id: rough-weather
@@ -98,4 +98,4 @@ stretch:
   - id: how-long
     title: "How long is a race"
     prompt: |
-      Print the average number of steps in a race for each line, and how often each ends in the pool. Yahya wants both figures beside the leaderboard.
+      Print the average number of steps in a race for each line, and how often each ends in the pool. Neil wants both figures, the way a race engineer would.

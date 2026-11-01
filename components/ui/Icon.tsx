@@ -1,247 +1,233 @@
-// One icon set (REDESIGN-2.md 2.6): Phosphor, regular weight, 20 px. Icons only where they
-// help. Phosphor has no duck and no crab, so those two are drawn here on Phosphor's grid
-// (256 units, 16-unit round strokes) to match the rest.
+// One icon set (REDESIGN3_PLAN.md P2): pixelarticons (MIT), drawn on a 24-pixel grid so they sit
+// with the pixel cast and the pixel font. Icons only where they help. The set has no duck and no
+// crab, so those two are drawn here on the same grid, pixel by pixel.
 import {
-  AddressBook,
   Archive,
-  ArrowCounterClockwise,
   ArrowRight,
   Article,
-  BookOpenText,
-  Books,
-  Brain,
+  BookOpen,
+  Brush,
   Bug,
   Building,
+  Bulletlist,
   Calculator,
   Camera,
-  CaretDown,
-  CaretLeft,
-  CaretRight,
-  CaretUp,
-  ChalkboardTeacher,
-  ChartBar,
+  Car,
+  ChartBarBig,
   ChartLine,
-  ChatCircleText,
   Check,
-  CheckCircle,
-  CircleNotch,
+  CheckboxOn,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  ChevronUp,
+  CircleQuestion,
+  CircuitBoard,
+  ClipboardNote,
   Clock,
-  ClockCounterClockwise,
-  CloudCheck,
-  CloudSlash,
+  Close,
+  Cloud,
   CloudSun,
   Code,
   Coffee,
   Coins,
+  Contact,
   Copy,
   Cpu,
   Database,
-  DotsThree,
-  DownloadSimple,
-  Envelope,
-  Exam,
-  FileCsv,
+  Directions,
+  Download,
   FileText,
   Flag,
-  Flower,
-  Footprints,
   Folder,
-  Function,
-  GameController,
-  GearSix,
-  GithubLogo,
+  Gamepad,
+  Github,
   Globe,
-  GraduationCap,
-  Graph,
-  GridFour,
-  HandFist,
-  House,
+  Grid2x3,
+  Grid3x3,
+  Hand,
+  Home,
+  Hourglass,
+  Human,
   Image,
   Key,
   Keyboard,
+  Layout,
+  Leaf,
+  Library,
   Lightbulb,
-  Lightning,
-  List,
-  ListChecks,
+  ListBox,
+  Loader,
   Lock,
-  MagnifyingGlass,
+  Logout,
+  Mail,
   MapPin,
-  Medal,
+  Menu,
+  Message,
   Minus,
   Moon,
+  MoreHorizontal,
   Notebook,
   Package,
   Pause,
-  Password,
-  Path,
-  Plant,
   Play,
-  PuzzlePiece,
-  Question,
-  Queue,
   Receipt,
+  RoadSign,
   Robot,
-  Rocket,
-  Ruler,
+  Scale,
   Scissors,
+  Search,
+  Send,
+  SettingsCog,
   Shield,
-  SignOut,
-  SidebarSimple,
-  Signpost,
-  SortAscending,
+  SortVertical,
   Sparkle,
-  Stack,
   Star,
   Stop,
   Sun,
-  Table,
+  Teach,
   Terminal,
-  Timer,
-  TreeStructure,
+  Tools,
+  Tree,
   Trophy,
+  Undo,
+  University,
+  Unlink,
   User,
   Users,
   Wallet,
-  Warning,
-  Wrench,
-  X,
-  XCircle,
-} from "@phosphor-icons/react/dist/ssr";
-import type { Icon as PhosphorIcon } from "@phosphor-icons/react/dist/lib/types";
+  WarningDiamond,
+  Zap,
+} from "pixelarticons/react";
 
-function drawn(paths: React.ReactNode) {
-  return function Drawn({ size = 20, className, ...rest }: { size?: number; className?: string } & React.SVGProps<SVGSVGElement>) {
+type PixelIconComponent = (props: React.SVGProps<SVGSVGElement>) => React.ReactElement;
+
+/** Draws an icon from cells on the 24 grid, given as [x, y, width] runs. */
+function cells(runs: [number, number, number][]) {
+  const d = runs.map(([x, y, w]) => `M${x} ${y}h${w}v1h-${w}z`).join("");
+  return function Drawn(props: React.SVGProps<SVGSVGElement>) {
     return (
-      <svg width={size} height={size} viewBox="0 0 256 256" fill="none" stroke="currentColor" strokeWidth={16} strokeLinecap="round" strokeLinejoin="round" className={className} {...rest}>
-        {paths}
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <path d={d} />
       </svg>
     );
   };
 }
 
-/** A rubber duck, side on, facing right. */
-const Duck = drawn(
-  <>
-    <circle cx="150" cy="84" r="40" />
-    <path d="M188,90l36,10-34,14" />
-    <path d="M118,120C94,104,58,106,32,122c2,54,42,94,98,94,54,0,94-32,94-74,0-16-6-28-18-36" />
-    <circle cx="160" cy="76" r="12" fill="currentColor" stroke="none" />
-  </>,
-);
+/** A rubber duck, facing right. */
+const Duck = cells([
+  [13, 3, 4], [12, 4, 6], [11, 5, 2], [14, 5, 4], [11, 6, 2], [14, 6, 4], [18, 6, 3], [11, 7, 7], [18, 7, 4], [12, 8, 6],
+  [3, 9, 2], [11, 9, 6], [3, 10, 3], [9, 10, 10], [3, 11, 17], [3, 12, 17], [4, 13, 16], [4, 14, 15], [5, 15, 13], [6, 16, 11], [7, 17, 9],
+]);
 
 /** A crab, from the front, claws up. */
-const Crab = drawn(
-  <>
-    <ellipse cx="128" cy="160" rx="64" ry="40" />
-    <path d="M108,121l-6-29M148,121l6-29" />
-    <circle cx="100" cy="80" r="12" fill="currentColor" stroke="none" />
-    <circle cx="156" cy="80" r="12" fill="currentColor" stroke="none" />
-    <path d="M70,142L44,112M186,142l26-30" />
-    <path d="M44,112c-16-8-20-30-6-42l18,20,8-26c18,10,16,36-2,44" />
-    <path d="M212,112c16-8,20-30,6-42l-18,20-8-26c-18,10-16,36,2,44" />
-    <path d="M68,176l-32,14M72,192l-24,26M188,176l32,14M184,192l24,26" />
-  </>,
-);
+const Crab = cells([
+  [2, 4, 3], [19, 4, 3], [1, 5, 2], [4, 5, 1], [19, 5, 1], [21, 5, 2], [1, 6, 4], [19, 6, 4], [2, 7, 2], [20, 7, 2], [3, 8, 2], [19, 8, 2],
+  [8, 8, 1], [15, 8, 1], [8, 9, 1], [15, 9, 1], [4, 10, 2], [7, 10, 10], [18, 10, 2], [6, 11, 12], [5, 12, 14], [5, 13, 14], [5, 14, 14], [6, 15, 12],
+  [3, 16, 3], [8, 16, 2], [14, 16, 2], [18, 16, 3], [2, 17, 2], [7, 17, 2], [15, 17, 2], [20, 17, 2], [6, 18, 2], [16, 18, 2],
+]);
 
 const ICONS = {
   run: Play,
   check: Check,
   stop: Stop,
   hint: Lightbulb,
-  history: ClockCounterClockwise,
-  reset: ArrowCounterClockwise,
+  history: Clock,
+  reset: Undo,
   keys: Keyboard,
-  settings: GearSix,
-  shelf: Books,
+  settings: SettingsCog,
+  shelf: Library,
   map: Building,
   lock: Lock,
-  tick: CheckCircle,
-  cross: XCircle,
+  tick: CheckboxOn,
+  cross: Close,
   dash: Minus,
-  saved: CloudCheck,
-  offline: CloudSlash,
-  loader: CircleNotch,
-  more: DotsThree,
+  saved: Cloud,
+  offline: Unlink,
+  loader: Loader,
+  more: MoreHorizontal,
   next: ArrowRight,
-  download: DownloadSimple,
-  github: GithubLogo,
+  download: Download,
+  github: Github,
   copy: Copy,
-  close: X,
-  menu: List,
-  warning: Warning,
-  caretDown: CaretDown,
-  caretRight: CaretRight,
-  caretLeft: CaretLeft,
-  caretUp: CaretUp,
-  sidebar: SidebarSimple,
-  footprints: Footprints,
-  timer: Timer,
+  close: Close,
+  menu: Menu,
+  warning: WarningDiamond,
+  caretDown: ChevronDown,
+  caretRight: ChevronRight,
+  caretLeft: ChevronLeft,
+  caretUp: ChevronUp,
+  sidebar: Layout,
+  footprints: Human,
+  timer: Hourglass,
   trophy: Trophy,
   user: User,
-  signOut: SignOut,
+  signOut: Logout,
   sun: Sun,
   moon: Moon,
-  handbook: BookOpenText,
-  teach: ChalkboardTeacher,
-  chalkboard: ChalkboardTeacher,
+  handbook: BookOpen,
+  teach: Teach,
+  chalkboard: Teach,
   notebook: Notebook,
-  wrench: Wrench,
-  puzzle: PuzzlePiece,
+  wrench: Tools,
+  brush: Brush,
+  car: Car,
+  puzzle: Grid3x3,
   archive: Archive,
   chartLine: ChartLine,
-  chartBar: ChartBar,
+  chartBar: ChartBarBig,
   cpu: Cpu,
-  gamepad: GameController,
+  gamepad: Gamepad,
   clock: Clock,
-  signpost: Signpost,
-  ruler: Ruler,
-  grid: GridFour,
-  question: Question,
-  flower: Flower,
-  house: House,
-  envelope: Envelope,
-  search: MagnifyingGlass,
-  tree: TreeStructure,
-  graph: Graph,
-  path: Path,
+  signpost: RoadSign,
+  ruler: Scale,
+  grid: Grid3x3,
+  question: CircleQuestion,
+  flower: Leaf,
+  house: Home,
+  envelope: Mail,
+  search: Search,
+  tree: Tree,
+  graph: Directions,
+  path: Directions,
   receipt: Receipt,
-  password: Password,
-  listChecks: ListChecks,
-  addressBook: AddressBook,
-  exam: Exam,
-  handFist: HandFist,
+  password: Key,
+  listChecks: ListBox,
+  addressBook: Contact,
+  exam: ClipboardNote,
+  handFist: Hand,
   scissors: Scissors,
   wallet: Wallet,
   terminal: Terminal,
   cloudSun: CloudSun,
   globe: Globe,
   robot: Robot,
-  brain: Brain,
+  brain: CircuitBoard,
   package: Package,
   bug: Bug,
   calculator: Calculator,
   sparkle: Sparkle,
   image: Image,
-  table: Table,
-  fileCsv: FileCsv,
+  table: Grid2x3,
+  fileCsv: FileText,
   folder: Folder,
   database: Database,
   key: Key,
-  stack: Stack,
-  queue: Queue,
-  sort: SortAscending,
-  function: Function,
+  stack: Layout,
+  queue: Bulletlist,
+  sort: SortVertical,
+  function: Code,
   code: Code,
-  chat: ChatCircleText,
-  lightning: Lightning,
+  chat: Message,
+  lightning: Zap,
   users: Users,
-  medal: Medal,
+  medal: Trophy,
   flag: Flag,
-  plant: Plant,
+  plant: Leaf,
   coffee: Coffee,
-  graduation: GraduationCap,
+  graduation: University,
   article: Article,
-  rocket: Rocket,
+  rocket: Send,
   shield: Shield,
   coins: Coins,
   mapPin: MapPin,
@@ -249,14 +235,15 @@ const ICONS = {
   camera: Camera,
   star: Star,
   pause: Pause,
-} satisfies Record<string, PhosphorIcon>;
+  duck: Duck,
+  crab: Crab,
+} satisfies Record<string, PixelIconComponent>;
 
-const DRAWN = { duck: Duck, crab: Crab };
-
-export type IconName = keyof typeof ICONS | keyof typeof DRAWN;
+export type IconName = keyof typeof ICONS;
 
 export interface IconProps {
   name: IconName;
+  /** Pixel icons are drawn on a 24 grid: 24 (or 48) stays crisp; 20 is fine for small UI. */
   size?: number;
   /** Set for an icon that means something on its own; leave out for decoration beside text. */
   label?: string;
@@ -264,13 +251,9 @@ export interface IconProps {
   spin?: boolean;
 }
 
-export function Icon({ name, size = 20, label, className, spin }: IconProps) {
+export function Icon({ name, size = 24, label, className, spin }: IconProps) {
   const a11y = label ? { role: "img", "aria-label": label } : { "aria-hidden": true as const };
-  const style: React.CSSProperties = { flex: "none", display: "block", ...(spin ? { animation: "icon-spin 0.9s linear infinite" } : {}) };
-  if (name in DRAWN) {
-    const D = DRAWN[name as keyof typeof DRAWN];
-    return <D size={size} className={className} style={style} focusable="false" {...a11y} />;
-  }
-  const P = ICONS[name as keyof typeof ICONS];
-  return <P size={size} weight="regular" className={className} style={style} focusable="false" {...a11y} />;
+  const style: React.CSSProperties = { flex: "none", display: "block", shapeRendering: "crispEdges", ...(spin ? { animation: "icon-spin 0.9s steps(8) infinite" } : {}) };
+  const P = ICONS[name] as PixelIconComponent;
+  return <P width={size} height={size} className={className} style={style} focusable="false" {...a11y} />;
 }

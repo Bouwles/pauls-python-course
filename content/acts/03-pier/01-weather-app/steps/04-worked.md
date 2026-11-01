@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "Yahya runs while it's light. So, a daylight board for Penzance, from a saved reply."
+  - paul.neutral.point: "Riya paints while it's light. So, a daylight board for Penzance, from a saved reply."
 code: |
   import json
 

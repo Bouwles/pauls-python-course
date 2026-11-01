@@ -52,7 +52,7 @@ cards:
         misconception: loop-condition-updates-itself
         feedback: "A loop's variables don't change by themselves. Something in the body has to change `level`."
   - type: fix
-    prompt: "Riya types sales, then `done`. Run it with `5`, `3`, `done`: it hangs. Press Stop, then fix it so it prints 8."
+    prompt: "Riya types her print sales, then `done`. Run it with `5`, `3`, `done`: it hangs. Press Stop, then fix it so it prints 8."
     code: |
       total = 0
       entry = input("Sale? ")

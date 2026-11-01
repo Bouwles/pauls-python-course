@@ -6,7 +6,7 @@ portfolio_readme: |
 
   A weather forecast for anywhere, on the command line. Type a place: it looks the place up with Open-Meteo's geocoding service, asks Open-Meteo's forecast service for the next three days, and prints them in plain words, with the weather, the low and the high, the chance of rain and the strongest wind. It needs no API key.
 
-  Written by {name} for Yahya, at Paul's Python Course. Finished {date}.
+  Written by {name} for Riya, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -52,18 +52,18 @@ datasets:
     licence: "CC BY 4.0 (https://open-meteo.com/en/licence)"
     file: daylight.json
     notes: "Saved on 25 October 2026: three days of sunrise, sunset and daylight duration, for Paul's worked example. Indented for reading; no values changed."
-client: yahya
+client: riya
 building: pier
 estimated_minutes: 110
-summary: "A forecast for anywhere, from a real weather service: ask Open-Meteo, read the JSON it sends back, cope when it goes wrong, and print three plain days."
+summary: "A forecast for anywhere, for Riya's painting trip: ask a real weather service, read the JSON it sends back, cope when it goes wrong, and print three plain days."
 concepts_introduced: [web-apis, http-basics]
 concepts_reviewed: [json-module, nested-data, dictionaries, dict-get, zip, tuples, unpacking, functions, return-values, none, exceptions, try-except, raising-errors, standard-library, main-guard, f-strings, string-methods, with-statement, files]
 ask:
   dialogue:
-    - yahya: "I run every morning. Checking the weather takes me longer than tying my laces."
-    - yahya: "I want a forecast in one command. A real one, from a real service. Three days, plain words."
-    - yahya: "And it credits its source. Aaesha says a forecast without one is a rumour."
-    - paul: "A program that talks to another computer. It fails in new ways. Plan for every one."
+    - riya.pleased.wave: "I'm painting outdoors in Penzance next week. Painters have gone there for the light for over a hundred years."
+    - riya.worried: "Rain ruins a watercolour. Wind takes the easel. I want three days of forecast, in plain words."
+    - riya.thinking: "From a real service, and it credits its source. Aaesha says a forecast without one is a rumour."
+    - paul.neutral: "A program that talks to another computer. It fails in new ways. Plan for every one."
   spec: |
     Write `weather.py`. It asks `Where? `, looks the place up with Open-Meteo's geocoding service, asks Open-Meteo's forecast service about the next three days, and prints a plain forecast.
 
@@ -87,10 +87,10 @@ ask:
     Weather data by Open-Meteo.com
 ship:
   dialogue:
-    - yahya: "Penzance, three days, rain on all of them. I'm running Tuesday's 10K anyway. In a better jacket."
-    - yahya: "And it answers in under a second. I timed it, obviously."
-    - paul: "It asks another computer and stays calm when nobody answers. That's most of the job."
-  shelf: { object: weathervane, label: "Yahya's three-day forecast" }
+    - riya.laughing: "Penzance, three days, rain on all of them. Then I'm painting the rain. From under the harbour wall."
+    - riya.pleased.thumbs: "And it says where its numbers came from, on the last line. Like signing a painting."
+    - paul.proud: "It asks another computer and stays calm when nobody answers. That's most of the job."
+  shelf: { object: weathervane, label: "Riya's three-day forecast for painting outdoors" }
   cards: [web-apis, http-basics]
 stretch:
   - id: not-known
@@ -104,9 +104,9 @@ stretch:
     tests: tests/stretch-not-known.py
     solution: solutions/stretch-not-known.py
   - id: knots
-    title: "Knots, for sailors"
+    title: "Knots, for the harbour"
     prompt: |
-      Sailors read wind in knots. Open-Meteo will send knots if the URL asks for them with `wind_speed_unit=kn`. Give `forecast_url` a keyword argument, `wind_unit="kmh"`, add it to the query string, and make the line say `knots` when that's what came back. The reply's `daily_units` says which it is.
+      The sailors in Penzance harbour read wind in knots, and Riya wants to talk to them in it. Open-Meteo will send knots if the URL asks for them with `wind_speed_unit=kn`. Give `forecast_url` a keyword argument, `wind_unit="kmh"`, add it to the query string, and make the line say `knots` when that's what came back. The reply's `daily_units` says which it is.
   - id: which-penzance
     title: "Which Penzance"
     prompt: |

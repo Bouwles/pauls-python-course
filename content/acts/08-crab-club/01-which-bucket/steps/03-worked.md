@@ -3,8 +3,8 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "The coffee machine in the Model Room. Three blends and a queue every morning."
-  - paul: "Mostly it makes the best one. Now and then, one at random. Same shape of problem."
+  - paul.pleased: "The coffee machine in the Model Room. Three blends and a queue every morning."
+  - paul.thinking.think: "Mostly it makes the best one. Now and then, one at random. Same shape of problem."
 code: |
   import numpy as np
 

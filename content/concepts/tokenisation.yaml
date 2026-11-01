@@ -32,7 +32,7 @@ cards:
         misconception: ids-count-from-one
         feedback: "`enumerate` counts from 0, so the space is 0 and 's' is 3. Ids are indexes, ready to pick a row of a table."
   - type: choice
-    prompt: "Riya's word vocabulary was built from thirty forecasts. Tonight's forecast says \"light drizzle\", and \"drizzle\" isn't in any of the thirty. What can a character vocabulary do that hers can't?"
+    prompt: "Aaesha's word vocabulary was built from thirty forecasts. Tonight's forecast says \"light drizzle\", and \"drizzle\" isn't in any of the thirty. What can a character vocabulary do that hers can't?"
     verify: none
     options:
       - text: "Spell \"drizzle\" out of characters it already knows"

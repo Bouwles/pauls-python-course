@@ -5,4 +5,4 @@ status: outline
 client: caitlin
 building: weather-station
 estimated_minutes: 120
-summary: "Caitlin's take on Aaesha's dashboard: the same charts made interactive with Plotly. Hover for the exact reading, zoom into a decade, switch a line off from the key, and export the lot as one HTML page anyone can open without Python."
+summary: "Caitlin's take on Yahya's dashboard: the same charts made interactive with Plotly. Hover for the exact reading, zoom into a decade, switch a line off from the key, and export the lot as one HTML page anyone can open without Python."

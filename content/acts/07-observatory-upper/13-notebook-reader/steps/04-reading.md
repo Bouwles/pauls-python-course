@@ -3,7 +3,7 @@ id: window
 type: reading
 title: Four characters in
 dialogue:
-  - neil: "My favourite network before the transformer. Four characters in, one guess out."
+  - neil.pleased: "My favourite network before the transformer. Four characters in, one guess out."
 code: |
   flat = E[X].reshape(len(X), -1)      # (n, 4, 10) to (n, 40): a window's embeddings in a row
   H = np.tanh(flat @ W1 + b1)          # (n, 64)

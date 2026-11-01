@@ -3,7 +3,7 @@ id: make
 type: make
 title: Make the census answers
 timeout_ms: 20000
-on_pass: { aaesha: "Eighteen on the Hill in 1951. Counted by hand, that took me an afternoon." }
+on_pass: { yahya.pleased.thumbs: "Eighteen on the Hill in 1951. Counted by hand, that took me an afternoon. That took you a line." }
 hints:
   nudge: "Every function starts by keeping one year's rows. What goes inside `census[...]` for that, and how do you add a second condition?"
   plan:
@@ -36,7 +36,7 @@ hints:
     def parish_sizes(census, year):
         return census_year(census, year)["parish"].___()
 ---
-Write Aaesha's five functions. Loading the file and the report are done.
+Write Yahya's five functions. Loading the file and the report are done.
 
 ```
 Census of 1951: 98 people

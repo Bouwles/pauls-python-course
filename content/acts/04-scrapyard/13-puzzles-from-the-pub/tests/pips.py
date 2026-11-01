@@ -22,7 +22,7 @@ def counts(teams, rivals, message):
 
 
 TESTS = [
-    function("Six teams for chess night", call="count_seatings", args=(TEAMS, RIVALS), expect=216, visible=True),
+    function("Six teams for games night", call="count_seatings", args=(TEAMS, RIVALS), expect=216, visible=True),
     custom("Three teams, no rivals", counts(["Bishops", "Pawns", "Knights"], set(), "With no rivals, three teams can sit in 3 x 2 x 1 = 6 orders."),
            visible=True, hint="After a team has been tried at a table, it has to be free to sit somewhere else in the next seating."),
     custom("Four teams, two rivalries", counts(TEAMS[:4], {("Rooks", "Knights"), ("Bishops", "Pawns")}, "Four teams with two rivalries can sit 8 ways.")),

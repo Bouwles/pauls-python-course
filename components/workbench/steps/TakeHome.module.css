@@ -6,7 +6,7 @@
 
 .section + .section {
   padding-top: var(--s-5);
-  border-top: 1px solid var(--line);
+  border-top: 2px solid var(--line);
 }
 
 .small {
@@ -19,7 +19,7 @@
   display: flex;
   gap: var(--s-1);
   flex-wrap: wrap;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 2px solid var(--line);
 }
 
 .tab {
@@ -61,7 +61,7 @@
   padding: var(--s-2) var(--s-2) var(--s-2) var(--s-3);
   border-radius: var(--r-md);
   background: var(--editor);
-  border: 1px solid var(--line);
+  border: 2px solid var(--px-outline);
   color: var(--text);
   font-family: var(--font-code);
   font-size: 14px;
@@ -205,13 +205,13 @@
 
 :root[data-theme="light"] .check {
   background: var(--surface-1);
-  border: 1px solid var(--line);
+  border: 2px solid var(--px-outline);
 }
 
 @media (prefers-color-scheme: light) {
   :root[data-theme="system"] .check {
     background: var(--surface-1);
-    border: 1px solid var(--line);
+    border: 2px solid var(--px-outline);
   }
 }
 

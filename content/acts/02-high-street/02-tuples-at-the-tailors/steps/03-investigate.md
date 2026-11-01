@@ -23,7 +23,7 @@ tasks:
     feedback: "Still three. `zip` stops at the end of the shorter list and says nothing. Sam gets no line and no error, which is worth knowing."
     wrong: "Count the lines in the output panel. Has Sam appeared?"
   - id: number-them
-    prompt: "The tailor numbers her customers from 1. Wrap the `zip(...)` in `enumerate(..., start=1)` and unpack `number, (name, chest)`, so the first line is `1 Jon Hale 112`."
+    prompt: "Caitlin numbers her players from 1. Wrap the `zip(...)` in `enumerate(..., start=1)` and unpack `number, (name, chest)`, so the first line is `1 Jon Hale 112`."
     kind: run
     tests: |
       TESTS = [

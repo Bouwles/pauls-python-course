@@ -4,8 +4,8 @@ type: predict
 title: Which way round
 concept: neural-networks
 dialogue:
-  - neil: "My next page has two layers. Four readings in, three answers out."
-  - neil: "I wrote the first layer down as five rows of four. It made sense at the time."
+  - neil.neutral: "My next page has two layers. Four readings in, three answers out."
+  - neil.laughing: "I wrote the first layer down as five rows of four. It made sense at the time."
 code: |
   import numpy as np
 

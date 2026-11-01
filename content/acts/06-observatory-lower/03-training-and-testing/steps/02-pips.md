@@ -5,11 +5,11 @@ title: Fix Riya's version
 files: [predictor.py]
 entry: predictor.py
 dialogue:
-  - riya: "Can you look at mine? Exam predictor. Five columns, all scaled, trained in half a second."
-  - riya: "It's fine on all 357 students. Then the new student gets nan out of twenty. Something's off."
+  - riya.pleased: "Can you look at mine? Exam predictor. Five columns, all scaled, trained in half a second."
+  - riya.confused: "It's fine on all 357 students. Then the new student gets nan out of twenty. Something's off."
 dialogue_after:
-  - riya: "So the new student borrows everyone else's ruler. One student hasn't got a spread of their own."
-  - riya: "I only ever tried it on the table it learnt from. Who's actually going to use it? New students."
+  - riya.surprised: "So the new student borrows everyone else's ruler. One student hasn't got a spread of their own."
+  - riya.pleased: "I only ever tried it on the table it learnt from. Who's actually going to use it? New students."
 hints:
   nudge: "What is the spread of a column with only one number in it?"
   plan:

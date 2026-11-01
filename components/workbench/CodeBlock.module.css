@@ -14,12 +14,12 @@
 }
 
 :root[data-theme="light"] .block {
-  border: 1px solid var(--line);
+  border: 2px solid var(--px-outline);
 }
 
 @media (prefers-color-scheme: light) {
   :root[data-theme="system"] .block {
-    border: 1px solid var(--line);
+    border: 2px solid var(--px-outline);
   }
 }
 

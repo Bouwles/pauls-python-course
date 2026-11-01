@@ -3,26 +3,26 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "I made Neil a chart for the Studio kettle: cups into millilitres. Same shape of job."
+  - paul.pleased: "I made a chart for my training runs: batches into images. Same shape of job."
 code: |
-  # The Studio kettle: cups into millilitres, then three questions
-  size = int(input("Cup size in ml? "))
+  # Training runs: how many images a model sees, then three questions
+  size = int(input("Batch size? "))
 
-  for cups in range(1, 7):
-      print(f"{cups} x {size} ml = {cups * size:4} ml")
+  for batches in range(1, 7):
+      print(f"{batches} x {size} = {batches * size:4} images")
 
   print("Questions.")
   score = 0
-  for cups in range(2, 5):
-      answer = int(input(f"{cups} cups in ml? "))
-      if answer == cups * size:
+  for batches in range(2, 5):
+      answer = int(input(f"{batches} batches in images? "))
+      if answer == batches * size:
           print("Right.")
           score = score + 1
       else:
-          print(f"No, {cups * size}.")
+          print(f"No, {batches * size}.")
 
   print(f"Score: {score} out of 3")
-inputs: ["250", "500", "700", "1000"]
+inputs: ["256", "512", "700", "1024"]
 subgoals:
   - label: Ask which one
     lines: [2, 2]
@@ -41,8 +41,8 @@ explain:
   answer: "It would print after every question, three scores instead of one. At the left edge it isn't part of the loop, so it runs once, after the last question."
   concept: for-loops
 ---
-Two loops, one after the other. The first prints the chart. The second asks three questions, one per pass.
+Paul's models learn from images a batch at a time. Two loops, one after the other. The first prints the chart. The second asks three questions, one per pass.
 
-`{cups * size:4}` gives the answer 4 characters, because six cups is 1500 ml and the short numbers should line up under it.
+`{batches * size:4}` gives the answer 4 characters, because six batches of 256 is 1536 images and the short numbers should line up under it.
 
 `score` starts at 0 before the questions and goes up by 1 for each right answer.

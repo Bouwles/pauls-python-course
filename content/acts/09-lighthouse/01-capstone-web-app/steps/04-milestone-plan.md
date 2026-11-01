@@ -5,9 +5,9 @@ title: "Milestone 1: the plan and the routes"
 test_plan: true
 evidence: none
 dialogue:
-  - paul: "Before any code: what it does, what it says when it can't, and how you'll know."
-  - caitlin: "I'd start with the pages. People like pages."
-  - riya: "They like a berth that's really theirs even more. Routes first."
+  - paul.thinking: "Before any code: what it does, what it says when it can't, and how you'll know."
+  - caitlin.pleased: "I'd start with the pages. People like pages."
+  - aaesha.unimpressed: "They like a berth that's really theirs even more. Routes first."
 checklist:
   - id: starts
     text: "The skeleton starts with one command, and you've written that command down."
@@ -20,7 +20,7 @@ checklist:
     why: "Most of what a web app does is answer wrong requests. Plan for them now, while it's cheap."
   - id: pages
     text: "You've sketched two pages: what the berth master sees at the desk, and what a skipper sees on the pontoon."
-    why: "Riya can read JSON. The skipper of the Kittiwake, in oilskins, in the rain, can't."
+    why: "Caitlin can read JSON. The skipper of the Kittiwake, in oilskins, in the rain, can't."
   - id: plan
     text: "Your test plan has at least three tests the agreed suite doesn't already have."
     why: "The agreed tests are the marina's. Yours are for the things only you know might break."

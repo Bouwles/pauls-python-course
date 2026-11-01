@@ -3,8 +3,8 @@ id: worked-pca
 type: worked
 title: How Paul would squash it
 dialogue:
-  - paul: "The tailor's records again. Five measurements for every customer. I suspect they're one measurement, five times."
-  - riya: "Let's find out how many there really are."
+  - paul.thinking: "The tailor's records again. Five measurements for every customer. I suspect they're one measurement, five times."
+  - riya.pleased: "In life drawing, one measurement sets all the rest. Let's see if the tailor's agree."
 code: |
   import numpy as np
 

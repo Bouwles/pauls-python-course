@@ -1,5 +1,5 @@
 # The League course, raced by the Arcade League's own rules, from club-course.json.
-# Yahya copied them out and checked them against the League's notes. Twice.
+# Aaesha copied them out and checked them against the League's notes. Twice.
 
 import json
 

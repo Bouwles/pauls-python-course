@@ -6,7 +6,7 @@ files: [reproduce.py, descent.py, test_descent.py]
 entry: reproduce.py
 starter_from: pieces
 timeout_ms: 30000
-on_pass: { neil: "Down, up at forty, down again, first time. I'm suspicious. Try other seeds." }
+on_pass: { paul.thinking: "Down, up at forty, down again, first time. I'm suspicious. Try other seeds." }
 hints:
   nudge: "Everything random comes from one generator, made from the seed. What has to be the same, and in the same order, for two people to get the same numbers?"
   plan:
@@ -33,7 +33,7 @@ hints:
         return [float(np.___([run_once(width, seed, n_train, noise)[1] for seed in seeds]))
                 for width in widths]
 ---
-`reproduce.py` runs the experiment: `run_once` is one trial, and `descent_curve` the whole sweep. Your `descent.py` comes with you. Draw everything from the seed in exactly the agreed order, and your numbers will match Neil's to the last digit:
+`reproduce.py` runs the experiment: `run_once` is one trial, and `descent_curve` the whole sweep. Your `descent.py` comes with you. Draw everything from the seed in exactly the agreed order, and your numbers will match Paul's to the last digit:
 
 ```text
 features  test error

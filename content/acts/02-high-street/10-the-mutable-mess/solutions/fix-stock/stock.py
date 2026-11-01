@@ -1,4 +1,4 @@
-# Bake sale stock sheets, for the trip fund. Neil, last term.
+# Bake sale stock sheets, for the Studio's new board games. Caitlin, last term.
 # By hand, everything gets counted twice. This counts it once, carefully.
 
 import copy
@@ -6,13 +6,13 @@ import copy
 STANDARD_BAKE = {
     "bread": {"baked": 40, "sold": 0},
     "buns": {"baked": 60, "sold": 0},
-    "lardy cake": {"baked": 12, "sold": 0},
+    "brownies": {"baked": 12, "sold": 0},
 }
 
 
 def new_day():
     """Return a fresh stock sheet for the day, from the standard bake."""
-    # Copies are cheap. Finding out you needed one is not. N.
+    # Copies are cheap. Finding out you needed one is not. C.
     return copy.deepcopy(STANDARD_BAKE)
 
 

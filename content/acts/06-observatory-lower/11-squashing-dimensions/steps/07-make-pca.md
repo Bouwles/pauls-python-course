@@ -6,7 +6,7 @@ files: [segments.py]
 entry: segments.py
 starter_from: make-kmeans
 timeout_ms: 30000
-on_pass: { riya: "Shop goods one way, kitchen goods the other. Seven tenths of everything, on two axes I can name." }
+on_pass: { yahya.proud: "Shop goods one way, kitchen goods the other. Seven tenths of everything, on two axes I can name." }
 hints:
   nudge: "What order does `np.linalg.eigh` give the eigenvalues in, and where does each eigenvector live: a row or a column?"
   plan:

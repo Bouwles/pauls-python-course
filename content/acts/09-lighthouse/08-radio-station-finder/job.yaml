@@ -6,7 +6,7 @@ portfolio_readme: |
 
   Finds the real stations on a noisy FM dial. It smooths a signal reading for every 0.1 MHz from 88.0 to 108.0 with a moving average, picks out the peaks that stand above the noise, and lists their frequencies, strongest first.
 
-  Written by {name} for Neil, on the roof of the Clocktower at Paul's Python Course. Finished {date}.
+  Written by {name} for Caitlin, on the roof of the Clocktower at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -24,16 +24,17 @@ portfolio_readme: |
   - Sorting results by a value they don't show, and rounding frequencies for people to read
 downloadable: true
 datasets: []
-client: neil
+client: caitlin
 building: workshop
 estimated_minutes: 60
-summary: "The old radio Neil carried up to the roof hisses from one end of the dial to the other. Smooth the dial, find the real stations, and get some music for the last night of term."
+summary: "Caitlin wants music on the roof for the last night of term, and the old Studio radio hisses from one end of the dial to the other. Smooth the dial, find the real stations, and turn it up."
 concepts_reviewed: [functions, looping-lists, slicing, sorted-vs-sort, edge-cases, numpy-arrays]
 ask:
   dialogue:
-    - neil: "I brought the old Studio radio up for tonight. The whole dial is hiss."
-    - caitlin: "I pressed auto-tune. It found one very loud crackle, then nothing."
-    - neil: "Smooth the dial, find the real stations, and we'll have music up here."
+    - caitlin.pleased.wave: "Last night of term needs music. I brought the old Studio radio up."
+    - caitlin.unimpressed: "The whole dial is hiss. Auto-tune found one very loud crackle, then nothing."
+    - neil.thinking.think: "That's a noisy signal. Rocket telemetry looks like that. You smooth it before you trust it."
+    - caitlin.laughing.point: "Smooth the dial, find the real stations, and we'll have music up here."
   spec: |
     The dial gives one signal reading for every 0.1 MHz from 88.0 to 108.0, in `dial.txt`. Write `find_stations(readings, start=88.0, step=0.1, window=5, floor=0.5)` in `tuner.py`:
 
@@ -46,8 +47,8 @@ ask:
 ship:
   dialogue:
     - narrator: "The hiss thins. Music, then a voice: it's nine o'clock."
-    - caitlin: "Nine o'clock. The clock says 3:14."
-    - yahya: "It's said 3:14 all term."
-    - paul: "Then it's tonight. Everyone stay on the roof."
+    - caitlin.surprised.point: "Nine o'clock. The clock says 3:14."
+    - yahya.unimpressed: "It's said 3:14 all term."
+    - paul.proud: "Then it's tonight. Everyone stay on the roof."
   shelf: { object: valve-radio, label: "The roof radio, tuned at last" }
   cards: []

@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Caitlin's version
 dialogue:
-  - caitlin: "I had a go at Riya's calculator. Nothing can crash it. I caught everything."
-  - caitlin: "She typed 2 + 2 and it said they weren't both numbers. Can you look? Something's off."
+  - caitlin.proud: "I had a go at Yahya's calculator. Nothing can crash it. I caught everything."
+  - caitlin.confused: "He typed 2 + 2 and it said they weren't both numbers. Can you look? Something's off."
 dialogue_after:
-  - caitlin: "So the except was hiding my typo and blaming Riya. Catching everything isn't the same as working."
+  - caitlin.surprised: "So the except was hiding my typo and blaming Yahya. Catching everything isn't the same as working."
 hints:
   nudge: "Which error did Caitlin mean to catch? Catch only that one, run `2 + 2` again, and read what appears."
   plan:

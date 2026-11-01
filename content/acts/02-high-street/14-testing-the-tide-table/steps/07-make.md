@@ -5,7 +5,7 @@ title: Make the bank pass
 files: [bank.py, test_bank.py]
 entry: test_bank.py
 starter_from: test-first
-on_pass: { aaesha: "Every test passes, and they fail when they should. If anyone breaks it now, we'll know by lunchtime." }
+on_pass: { caitlin.pleased: "Every test passes, and they fail when they should. If anyone breaks it now, we'll know by lunchtime." }
 hints:
   nudge: "`withdraw` already refuses when there isn't enough. How can `transfer` use what it says?"
   plan:

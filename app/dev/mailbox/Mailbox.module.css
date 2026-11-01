@@ -1,16 +1,16 @@
-/* The development mailbox: one card per email, newest first. */
+/* The development mailbox: one pixel panel per email, newest first. */
 .page {
   display: grid;
-  gap: var(--s-6);
+  gap: var(--s-8);
 }
 
 .head {
   display: grid;
-  gap: var(--s-2);
+  gap: var(--s-4);
 }
 
 .title {
-  font-size: var(--fs-6);
+  font-size: var(--px-4);
 }
 
 .lede {
@@ -22,20 +22,14 @@
   margin: 0;
   padding: 0;
   display: grid;
-  gap: var(--s-3);
+  gap: var(--s-6);
 }
 
 .mail {
   display: grid;
-  gap: var(--s-2);
+  gap: var(--s-3);
   padding: var(--s-5);
-  background: var(--surface-2);
-  border-radius: var(--r-lg);
   overflow-wrap: anywhere;
-}
-
-:global(:root[data-theme="light"]) .mail {
-  border: 1px solid var(--line);
 }
 
 .meta {
@@ -45,12 +39,17 @@
 
 .subject {
   font-family: var(--font-display);
-  font-size: var(--fs-4);
-  font-weight: 700;
-  letter-spacing: -0.01em;
+  font-size: var(--px-2);
+  line-height: 1.1;
 }
 
 .body {
   font-size: var(--fs-2);
   white-space: pre-wrap;
+}
+
+@media (max-width: 720px) {
+  .title {
+    font-size: var(--px-3);
+  }
 }

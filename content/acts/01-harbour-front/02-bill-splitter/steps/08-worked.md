@@ -3,9 +3,9 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "The Clocktower's floors share the cost of new cable. Same shape of problem, different bill."
+  - paul.neutral: "The floors are sharing the cost of network cable for the servers. Same shape of problem, different bill."
 code: |
-  # Cable for the Clocktower, shared between the floors that use it
+  # Network cable for the Clocktower, shared between the floors that use it
   metres = input("Metres of cable? ")
   floors = input("Floors sharing it? ")
 

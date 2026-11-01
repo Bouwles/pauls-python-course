@@ -24,12 +24,13 @@ export interface Areas {
 /** Why the coach is speaking. "Less talk" keeps only hints and errors. */
 export type CoachKind = "step" | "react" | "hint" | "error" | "pass";
 
-/** One thing the coach says: one or two short lines from one character. */
+/** One line the coach says: who says it, and the face and gesture they say it with. */
 export interface Utterance {
   id: number;
   who: string;
-  lines: string[];
+  text: string;
   face?: string;
+  gesture?: string;
   kind: CoachKind;
 }
 
@@ -66,11 +67,11 @@ export interface WorkbenchContextValue {
   markPassed: (stepId: string, patch?: Partial<StepProgressRow>) => Promise<void>;
   /** The coach reacts to something that just happened. Who speaks comes from lib/cast.ts. */
   react: (event: string, opts?: { vars?: Record<string, string>; kind?: CoachKind }) => Promise<void>;
-  /** The coach says a line from content (an onPass line, a sign-off). */
-  say: (who: string, text: string | string[], opts?: { face?: string; kind?: CoachKind }) => void;
+  /** The coach says a line from content (an onPass line, a sign-off). Several lines are said one after another. */
+  say: (who: string, text: string | (string | Omit<Line, "who">)[], opts?: { face?: string; gesture?: string; kind?: CoachKind }) => void;
   /** React to the learner's code: the first cue with a fresh line is said. */
   cue: (cues: Cue[], kind?: CoachKind) => Promise<void>;
-  /** What the coach has said on this step, and which one is showing. */
+  /** What the coach has said on this step, a line each, and which line is showing. */
   coach: { said: Utterance[]; index: number };
   coachTo: (index: number) => void;
   goTo: (stepId: string) => void;

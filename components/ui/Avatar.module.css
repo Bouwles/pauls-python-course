@@ -1,11 +1,17 @@
+/* Initials, when there's no saved look: the pixel face on the learner's colour, in a pixel tile. */
 .avatar {
   display: inline-grid;
   place-items: center;
   flex: none;
-  border-radius: 50%;
+  border-radius: 0;
+  box-shadow: inset 0 0 0 2px var(--px-outline);
   font-family: var(--font-display);
-  font-weight: 800;
   line-height: 1;
-  letter-spacing: -0.02em;
   user-select: none;
+}
+
+/* The pixel avatar: a square tile with a two-pixel edge, the person standing on its bottom edge. */
+.pixel {
+  place-items: end center;
+  overflow: hidden;
 }

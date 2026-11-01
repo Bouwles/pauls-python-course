@@ -1,78 +1,79 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import type { AskStep } from "@/lib/content/types";
 import type { StepProgressRow } from "@/lib/store/types";
-import { duration, prefersReducedMotion } from "@/lib/display";
+import { duration } from "@/lib/display";
 import { Track } from "@/lib/track";
-import { Figure } from "../../art/Portrait";
 import { Button, LinkButton } from "../../ui/Button";
 import { Icon } from "../../ui/Icon";
-import { SpeechBubble } from "../../ui/SpeechBubble";
 import { Prose } from "../Instructions";
+import { SpokenLine, Stage, othersIn, personOnStage, roomOf, useConversation } from "../Scene";
 import { useWorkbench } from "../context";
 import { isSpoken } from "../labels";
 import styles from "./ask.module.css";
 
-const BEAT_MS = 1100;
-
 /**
- * The Ask (REDESIGN-2.md 4.6): the whole Workbench given over to whoever needs the program.
- * Their illustration on the left; on the right their request, a line at a time, then the
- * project spec and "Start building". Skippable, and replayable from the spec later.
+ * The Ask (REDESIGN3_PLAN.md P3), as a cutscene: the client at their desk in their room on the
+ * Clocktower, big and alive, asking for the program a line at a time under the scene. Each line types out while its speaker's mouth moves, with the face
+ * and gesture the line calls for; the client waves on their first line. Then the project spec
+ * and "Start building". Skip shows every line at once; reduced motion does that from the start.
  */
 export function AskStepView({ step, row }: { step: AskStep; row: StepProgressRow }) {
   const { job, areas, conceptTitles, markPassed, goNext, preview, nameOf } = useWorkbench();
-  const lines = step.dialogue.filter((l) => isSpoken(l.who));
-  const [shown, setShown] = useState(() => (prefersReducedMotion() || lines.length < 2 ? lines.length : 1));
-  const playing = shown < lines.length;
-  const clientName = nameOf(job.client);
-
-  // The request arrives a line at a time (all at once with reduced motion).
-  useEffect(() => {
-    if (prefersReducedMotion() || lines.length < 2) return;
-    const t = setInterval(() => setShown((n) => (n >= lines.length ? n : n + 1)), BEAT_MS);
-    return () => clearInterval(t);
-    // Once per visit to the Ask.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const lines = useMemo(() => step.dialogue.filter((l) => isSpoken(l.who)), [step.dialogue]);
+  const client = job.client;
+  const clientName = nameOf(client);
+  const talk = useConversation(lines.length);
 
   const start = async () => {
     if (row.status !== "passed") await markPassed(step.id);
     goNext();
   };
 
+  // Who is on the stage, and how they look right now: the one speaking says their line; the
+  // others listen with the face of the last thing they said. When it's all said, the client
+  // stays with their last face, standing easy.
+  const stage = (who: string) => personOnStage(who, lines, talk, client);
+  const guests = othersIn(lines, client).map(stage);
+
   return (
     <div className={areas.full}>
       <div className={styles.ask}>
-        <div className={styles.figureWrap}>
-          <Figure who={job.client} name={clientName} height={420} className={styles.figure} caption={`${clientName}, who needs the ${job.title.toLowerCase()}`} />
+        <header className={styles.head}>
+          <p className={styles.kicker}>A new project for {clientName}</p>
+          <h1 className={styles.title}>{job.title}</h1>
+        </header>
+        <div className={styles.stageWrap}>
+          <Stage act={roomOf(client, job.actNumber)} lead={stage(client)} guests={guests} name={clientName} label={`${clientName}, at their desk, who needs the ${job.title.toLowerCase()}`} />
         </div>
         <div className={styles.side}>
-          <header className={styles.head}>
-            <p className={styles.kicker}>A new project for {clientName}</p>
-            <h1 className={styles.title}>{job.title}</h1>
-          </header>
           {lines.length ? (
-            <ol className={styles.bubbles} aria-label={`What ${clientName} asks for`} aria-live="polite">
-              {lines.slice(0, shown).map((l, i) => (
-                <li key={i} className={[styles.bubbleItem, i > 0 && lines[i - 1]!.who === l.who ? styles.same : ""].join(" ")}>
-                  <SpeechBubble who={l.who} name={i > 0 && lines[i - 1]!.who === l.who ? undefined : nameOf(l.who)} tail="left">
-                    <p>{l.text}</p>
-                  </SpeechBubble>
-                </li>
-              ))}
+            <ol className={styles.lines} aria-label={`What ${clientName} asks for`}>
+              {lines.slice(0, talk.shown).map((l, i) => {
+                const again = i > 0 && lines[i - 1]!.who === l.who;
+                const live = talk.live(i);
+                return (
+                  <li key={i} className={[styles.lineItem, again ? styles.same : ""].join(" ")}>
+                    <SpokenLine who={l.who} name={again ? undefined : nameOf(l.who)} text={l.text} tail={again ? "none" : "top"} live={live} onMouth={talk.setMouth} onDone={live ? talk.lineDone : undefined} />
+                  </li>
+                );
+              })}
             </ol>
           ) : null}
-          {playing ? (
-            <div>
-              <Button variant="ghost" size="sm" onClick={() => setShown(lines.length)}>
+          {/* Each line once, whole, for screen readers: the typing is only for the eyes. */}
+          <p className="visually-hidden" aria-live="polite">
+            {talk.skipped || !lines[talk.at] ? "" : `${nameOf(lines[talk.at]!.who)}: ${lines[talk.at]!.text}`}
+          </p>
+          {talk.playing ? (
+            <div className={styles.skipRow}>
+              <Button variant="ghost" size="sm" onClick={talk.skip}>
                 Skip
               </Button>
             </div>
           ) : (
             <>
-              <section className={styles.spec} aria-labelledby="spec-title">
+              <section className={`px-panel ${styles.spec}`} aria-labelledby="spec-title">
                 <h2 id="spec-title" className={styles.specTitle}>
                   Project spec
                 </h2>
@@ -80,12 +81,14 @@ export function AskStepView({ step, row }: { step: AskStep; row: StepProgressRow
                 {step.example ? (
                   <div className={styles.example}>
                     <p className="label">Example run</p>
-                    <pre className="code-dark">{step.example}</pre>
+                    <pre className="code-dark" tabIndex={0} role="group" aria-label="Example run">
+                      {step.example}
+                    </pre>
                   </div>
                 ) : null}
                 <div className={styles.meta}>
                   <span className={styles.metaItem}>
-                    <Icon name="clock" size={18} />
+                    <Icon name="clock" size={16} />
                     About {duration(job.estimatedMinutes)}
                   </span>
                   {job.conceptsIntroduced.length ? (

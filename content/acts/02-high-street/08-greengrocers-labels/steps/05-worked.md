@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "Snack orders for the end-of-term trip. Three things out of one list, then a plain loop to print."
+  - paul.neutral: "Snack orders for quiz night. Three things out of one list, then a plain loop to print."
 code: |
   orders = [
       ("Aaesha", "crisps", 3),

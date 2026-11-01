@@ -1,24 +1,24 @@
 ---
 id: predict-compare
 type: predict
-title: Faster than five
+title: Faster than three hundred
 concept: comparisons
 code: |
-  pace = 5
-  print(pace > 5)
-  print(pace >= 5)
-question: "Yahya's pace today is 5 minutes a kilometre. What does this print?"
+  speed = 300
+  print(speed > 300)
+  print(speed >= 300)
+question: "Neil hit exactly 300 km/h on the racing simulator. What does this print?"
 options:
   - text: |-
       False
       True
     correct: true
-    feedback: "Right. 5 is not more than 5, but it is more than or equal to it. A comparison gives back `True` or `False`."
+    feedback: "Right. 300 is not more than 300, but it is more than or equal to it. A comparison gives back `True` or `False`."
   - text: |-
       True
       True
     misconception: greater-includes-equal
-    feedback: "`>` means strictly more than, and 5 is not more than 5. `>=` is the one that lets 5 in."
+    feedback: "`>` means strictly more than, and 300 is not more than 300. `>=` is the one that lets 300 in."
   - text: An error
     misconception: comparison-needs-if
     error: SyntaxError
@@ -26,7 +26,7 @@ options:
 after: |
   Now run it.
 ---
-Every decision starts with a question that has a yes-or-no answer. Is it option 1? Was today's run faster than yesterday's?
+Every decision starts with a question that has a yes-or-no answer. Is it option 1? Was today's lap faster than yesterday's?
 
 In Python those questions are **comparisons**: `<`, `>`, `<=`, `>=`, `==` (is equal to) and `!=` (is not equal to). The answer is a **bool**: `True` or `False`, with a capital letter and no quotes.
 

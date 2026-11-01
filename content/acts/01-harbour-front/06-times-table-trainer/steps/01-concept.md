@@ -6,7 +6,7 @@ concept: for-loops
 widget: lamp-loop
 params: { count: 4 }
 dialogue:
-  - paul: "Watch the dots. Count the passes."
+  - paul.neutral.point: "Watch the dots. Count the passes."
 ---
 One more dot lights up for every pass of this loop:
 

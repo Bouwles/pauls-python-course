@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Caitlin's version
 dialogue:
-  - caitlin: "I did the grade part for Paul. It puts the letter straight on the screen. Instant."
-  - caitlin: "Then None turns up in the brackets, and the C is on a line of its own. Can you look?"
+  - caitlin.pleased: "I did the grade part for Paul. It puts the letter straight on the screen. Instant."
+  - caitlin.confused: "Then None turns up in the brackets, and the C is on a line of its own. Can you look?"
 dialogue_after:
-  - caitlin: "So print is for people and return is for code. Mine was showing off to the wrong one."
+  - caitlin.laughing: "So print is for people and return is for code. Mine was showing off to the wrong one."
 hints:
   nudge: "What does `grade` hand back to the f-string in `main()`? Where does that `None` come from?"
   plan:

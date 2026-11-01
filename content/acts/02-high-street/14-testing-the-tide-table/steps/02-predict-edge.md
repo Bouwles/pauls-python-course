@@ -29,4 +29,4 @@ options:
 ---
 An **edge case** is an input at the boundary of what a function handles: zero, empty, exactly on a limit. Most bugs live there, because it's where nobody looked.
 
-Caitlin has £8 in her trip account, and wants all of it out for the train fare.
+Caitlin has £8 in her festival account, and wants all of it out for the train fare.

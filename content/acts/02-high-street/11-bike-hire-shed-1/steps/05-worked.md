@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "The Workshop's repair list works the same way. Each repair knows about itself."
+  - paul.neutral: "The Workshop's repair list works the same way. Each repair knows about itself."
 code: |
   class Repair:
       """One job on the Workshop bench."""

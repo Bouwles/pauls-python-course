@@ -62,16 +62,16 @@ cards:
       box = Parcel(2)
       print(box.weight)
   - type: fill
-    prompt: "Fill the gap so this defines a pattern for kettles."
+    prompt: "Fill the gap so this defines a pattern for racing helmets."
     code: |
-      ___ Kettle:
+      ___ Helmet:
           def __init__(self, owner):
               self.owner = owner
 
-      print(Kettle("Neil").owner)
+      print(Helmet("Neil").owner)
     blanks: [["class"]]
     tests: |
-      TESTS = [output("Neil's kettle", expect="Neil")]
+      TESTS = [output("Neil's helmet", expect="Neil")]
   - type: write
     prompt: "Write a class `Crate` whose `__init__` takes `fruit` and keeps it, and starts `count` at 0."
     starter: |

@@ -4,9 +4,9 @@ project_name: "Seeing Forecaster"
 portfolio_readme: |
   # Seeing Forecaster
 
-  Forecasts the astronomical seeing (how much the stars shimmer, in arcseconds) from the evening's weather, with a small neural network that has been taught not to memorise. Trained as it was, it fits its 24 training nights perfectly and new nights badly; weight decay, dropout and early stopping, each written from scratch in NumPy, are compared on nights it never learnt from. Batch normalisation is written too, for training and for evaluation.
+  Forecasts the astronomical seeing (how much the stars shimmer, in arcseconds) for the stargazing nights on the Clocktower's roof, from the evening's weather, with a small neural network that has been taught not to memorise. Trained as it was, it fits its 24 training nights perfectly and new nights badly; weight decay, dropout and early stopping, each written from scratch in NumPy, are compared on nights it never learnt from. Batch normalisation is written too, for training and for evaluation.
 
-  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
+  Written by {name} for Neil, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -38,19 +38,19 @@ portfolio_readme: |
   `seeing.csv` is invented for the project: nights of weather readings, each with the seeing measured that night.
 downloadable: true
 datasets: []
-client: aaesha
+client: neil
 building: observatory
 estimated_minutes: 90
-summary: "A network that forecasts the seeing from the weather, taught not to memorise: Riya's fits 24 nights perfectly and the rest badly, until weight decay, dropout, early stopping and batch norm teach it to hold back."
+summary: "A network that forecasts the seeing for Neil's stargazing nights from the weather, taught not to memorise: Riya's fits 24 nights perfectly and the rest badly, until weight decay, dropout, early stopping and batch norm teach it to hold back."
 concepts_introduced: [regularisation, dropout, batch-normalisation]
 concepts_reviewed: [overfitting, train-test-split, neural-networks, backpropagation, gradient-descent, mean-squared-error, feature-scaling, copying, mutability, dictionaries, numpy-arrays, broadcasting, matplotlib, default-arguments]
 ask:
   dialogue:
-    - aaesha: "I rate the seeing before every stargazing night. How much the stars shimmer, in arcseconds."
-    - aaesha: "Under one, and we stay up late. Over three, everyone goes home."
-    - riya: "I've trained a network on it. Training loss: zero. Wait."
-    - aaesha: "And on the nights it hasn't seen?"
-    - riya: "I haven't asked it those yet. That's the suspicious part, isn't it."
+    - neil.pleased.wave: "I rate the seeing before every stargazing night. How much the stars shimmer, in arcseconds."
+    - neil.neutral.point: "Under one, and we stay up late. Over three, everyone goes home."
+    - riya.proud: "I've trained a network on it. Training loss: zero."
+    - neil.thinking: "And on the nights it hasn't seen?"
+    - riya.worried: "I haven't asked it those yet. That's the suspicious part, isn't it."
   spec: |
     In `regular.py`, add three regularisers to the seeing network in `net.py`, and compare them on the nights it never learnt from.
 
@@ -68,11 +68,12 @@ ask:
     Guessing the average                0.4213
 ship:
   dialogue:
-    - aaesha: "Weight decay: 0.134 on nights it never saw. Riya's scored 0.246, and guessing scored 0.421."
-    - aaesha: "So it's out by a third of an arcsecond. The square root, yes. I did it in my head. Twice."
-    - riya: "Mine was perfect for 24 nights. That's nearly a month."
-    - paul: "A model that only fits the nights it's seen isn't a forecast. It's a diary."
-  shelf: { object: seeing-chart, label: "The seeing network, held back" }
+    - neil.pleased: "Weight decay: 0.134 on nights it never saw. Riya's scored 0.246, and guessing scored 0.421."
+    - neil.laughing: "So it's out by a third of an arcsecond. The square root, yes. I did it in my head. Twice."
+    - riya.laughing: "Mine was perfect for 24 nights. That's nearly a month."
+    - aaesha.thinking: "It learnt them by heart. People do that too, the night before an exam. It doesn't last either."
+    - paul.proud.thumbs: "A model that only fits the nights it's seen isn't a forecast. It's a diary."
+  shelf: { object: seeing-chart, label: "Neil's seeing network, held back" }
   cards: [regularisation, dropout, batch-normalisation]
 stretch:
   - id: draw-the-curves
@@ -86,4 +87,4 @@ stretch:
   - id: choose-the-decay
     title: "Choose the decay"
     prompt: |
-      Try weight decay of 0.005, 0.01, 0.02, 0.05 and 0.1, each with patience 100, and choose the one with the lowest validation loss. Then remember Aaesha's bottom drawer: the nights you chose with are no longer a fair test. What would you need to report an honest error?
+      Try weight decay of 0.005, 0.01, 0.02, 0.05 and 0.1, each with patience 100, and choose the one with the lowest validation loss. Then remember the Model Evaluation Clinic's bottom drawer: the nights you chose with are no longer a fair test. What would you need to report an honest error?

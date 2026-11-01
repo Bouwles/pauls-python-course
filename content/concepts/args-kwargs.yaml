@@ -6,7 +6,7 @@ example: |
   def label(*lines, border="-", **notes):
       print(lines, border, notes)
 
-  label("Kettle", "Neil", border="=", spout="descaled")
+  label("Helmet", "Neil", border="=", visor="tinted")
 misconceptions: [star-args-is-list, star-args-takes-one, positional-reaches-keyword-only, kwargs-gathers-values-only]
 related: [keyword-arguments, default-arguments]
 drill: true

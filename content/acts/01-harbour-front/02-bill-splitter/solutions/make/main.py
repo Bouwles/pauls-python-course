@@ -1,4 +1,4 @@
-# Riya's bill splitter, for the class dinner
+# Caitlin's bill splitter, for the class dinner
 # 1. Ask for the text
 bill = input("Bill? ")
 people = input("People? ")

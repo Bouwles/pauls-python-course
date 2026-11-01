@@ -3,7 +3,7 @@ id: reading-block
 type: reading
 title: One block
 dialogue:
-  - neil: "Under the heads, two lines. I boxed them and wrote: one block. Stack them."
+  - neil.neutral.point: "Under the heads, two lines. I boxed them and wrote: one block. Stack them."
 code: |
   X = X + multi_head(layer_norm(X, ln1_gain, ln1_shift), heads, Wo)
   X = X + feed_forward(layer_norm(X, ln2_gain, ln2_shift), W1, b1, W2, b2)

@@ -50,23 +50,23 @@ cards:
         misconception: argparse-gives-text
         feedback: "`type=int` turns the text into a whole number before your code sees it."
   - type: fix
-    prompt: "Neil's coffee tool crashes on the last line. Fix the way the option is read."
+    prompt: "Neil's lap counter crashes on the last line. Fix the way the option is read."
     code: |
       import argparse
 
       parser = argparse.ArgumentParser()
-      parser.add_argument("--extra-cups", type=int, default=0)
-      args = parser.parse_args(["--extra-cups", "2"])
-      print(args.extra-cups + 1)
+      parser.add_argument("--extra-laps", type=int, default=0)
+      args = parser.parse_args(["--extra-laps", "2"])
+      print(args.extra-laps + 1)
     tests: |
-      TESTS = [output("Three cups", expect="3", hint="argparse turns the dash in --extra-cups into an underscore.")]
+      TESTS = [output("Three laps", expect="3", hint="argparse turns the dash in --extra-laps into an underscore.")]
     solution: |
       import argparse
 
       parser = argparse.ArgumentParser()
-      parser.add_argument("--extra-cups", type=int, default=0)
-      args = parser.parse_args(["--extra-cups", "2"])
-      print(args.extra_cups + 1)
+      parser.add_argument("--extra-laps", type=int, default=0)
+      args = parser.parse_args(["--extra-laps", "2"])
+      print(args.extra_laps + 1)
   - type: fill
     prompt: "Fill the gap so `args.hours` is a number with a decimal point."
     code: |

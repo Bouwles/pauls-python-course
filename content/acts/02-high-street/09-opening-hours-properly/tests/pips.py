@@ -15,9 +15,9 @@ def module_not_shadowed(tree, source):
 
 
 TESTS = [
-    output("This week's delivery", expect="apples: 4 crates\npears: 2 crates\nkale: 3 crates", visible=True,
+    output("Riya's prints", expect="postcards: 4 crates\nposters: 2 crates\nbadges: 3 crates", visible=True,
            hint="After the first time round the loop, what does the name crates point at?"),
-    output("Another delivery", set_vars={"deliveries": {"plums": 200, "figs": 41}},
-           expect="plums: 5 crates\nfigs: 2 crates"),
+    output("Another order", set_vars={"deliveries": {"stickers": 200, "tote bags": 41}},
+           expect="stickers: 5 crates\ntote bags: 2 crates"),
     structure("The module keeps its name", check=module_not_shadowed),
 ]

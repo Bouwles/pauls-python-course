@@ -6,7 +6,7 @@ portfolio_readme: |
 
   REINFORCE on a gridworld: a policy that is a softmax over four preferences on every tile, learned directly from races by nudging the preferences towards whatever went well. It measures how much a baseline steadies the gradient estimates, then trains with one and races the result.
 
-  Written by {name} for Riya, at Paul's Python Course. Finished {date}.
+  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -34,17 +34,18 @@ portfolio_readme: |
   - A stochastic policy raced as it is, chances and all
 downloadable: true
 datasets: []
-client: riya
+client: aaesha
 building: crab-club
 estimated_minutes: 120
-summary: "REINFORCE on the racing grid: a softmax policy nudged towards whatever went well, and a baseline that steadies every nudge."
+summary: "The law of effect, in code: REINFORCE on the racing grid, a softmax policy nudged towards whatever went well, and a baseline that steadies every nudge."
 concepts_introduced: [policy-gradients]
 concepts_reviewed: [dqn, monte-carlo, returns-discounting, mdps, bandits, exploration-exploitation, numerical-gradient-checking, gradient-descent, numpy-arrays]
 ask:
   dialogue:
-    - riya: "Values, Q-values, targets, frozen copies. I've got a simpler question."
-    - riya: "On each tile, what should the crab do? Not what it's worth. What to do."
-    - paul: "Then learn that and nothing else. Whatever went well, more often."
+    - aaesha.pleased.wave: "Values, Q-values, targets, frozen copies. I've got a simpler question."
+    - aaesha.thinking: "Over a century ago, Thorndike watched cats learn puzzle boxes. Whatever worked, they did more often."
+    - aaesha.neutral.point: "On each tile, what should the crab do? Not what it's worth. What to do."
+    - paul.pleased: "Then learn that and nothing else. Whatever went well, more often."
   spec: |
     Write `reinforce.py`, REINFORCE on the racing grid in `track.py`. The crab's policy is `theta`, an array of shape `(3, 4, 4)`: four preferences for every tile, in the order of `ACTIONS`.
 
@@ -67,10 +68,10 @@ ask:
     Average return over 1000 races: 1.12
 ship:
   dialogue:
-    - riya: "One point one two. And it still takes a wrong turning now and then, on purpose."
-    - caitlin: "In case it isn't wrong. I respect that."
-    - riya: "A policy that keeps exploring by itself. That's useful."
-    - paul: "It waits for the end of every race to learn anything. Next, someone tells it sooner."
+    - aaesha.proud: "One point one two. And it still takes a wrong turning now and then, on purpose."
+    - caitlin.laughing: "In case it isn't wrong. I respect that."
+    - aaesha.pleased.thumbs: "A policy that keeps exploring by itself. Thorndike would have liked it."
+    - paul.thinking: "It waits for the end of every race to learn anything. Next, someone tells it sooner."
   shelf: { object: pennant, label: "The crab's own policy" }
   cards: [policy-gradients]
 stretch:

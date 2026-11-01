@@ -5,9 +5,9 @@ title: "Milestone 1: the claim, in your words"
 test_plan: true
 evidence: none
 dialogue:
-  - neil: "Explain it to someone who wasn't in the room. If they get it, you've got it."
-  - riya: "Bigger is better. Done."
-  - neil: "That's a headline, not a claim."
+  - paul.neutral: "Explain it to someone who wasn't in the room. If they get it, you've got it."
+  - caitlin.pleased: "Bigger is better. Done."
+  - paul.unimpressed: "That's a headline, not a claim."
 checklist:
   - id: own-words
     text: "You've written the claim in two or three sentences of your own, plain enough for someone outside the class."

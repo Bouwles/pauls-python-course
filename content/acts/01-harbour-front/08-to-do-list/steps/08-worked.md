@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "My office-hours queue. First come, first answered. Same machinery as Neil's list."
+  - paul.neutral: "My office-hours queue for code questions. First come, first answered. Same machinery as Riya's list."
 code: |
   # Office hours: questions in the order they came in
   questions = []

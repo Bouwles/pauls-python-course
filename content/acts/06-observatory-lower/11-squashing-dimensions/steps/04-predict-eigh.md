@@ -4,8 +4,8 @@ type: predict
 title: The directions that don't turn
 concept: eigenvectors
 dialogue:
-  - paul: "A tailor's records. Chest and waist: when one is generous, so is the other. Not always, but usually."
-  - riya: "Then the measurements spread out along a slant. That slant is what I'm after."
+  - paul.neutral.point: "A tailor's records. Chest and waist: when one is generous, so is the other. Not always, but usually."
+  - yahya.thinking: "Then the measurements spread out along a slant. That slant is what I'm after."
 code: |
   import numpy as np
 

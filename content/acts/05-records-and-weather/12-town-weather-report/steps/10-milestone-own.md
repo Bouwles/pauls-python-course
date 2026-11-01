@@ -5,7 +5,7 @@ title: "Milestone: your own data story"
 evidence: link
 test_plan: true
 dialogue:
-  - aaesha: "Same checklist. I don't have a softer one for strangers."
+  - yahya.unimpressed: "Same checklist. I don't have a softer one for strangers."
 checklist:
   - id: question
     text: "The page asks one plain question near the top, and the conclusion answers it."
@@ -18,7 +18,7 @@ checklist:
     why: "Every cleaning step is a decision. Written down, it can be argued with; hidden, it can only be trusted."
   - id: axes
     text: "Every chart's scale is honest, every axis names what it measures and its units, and every chart says where its numbers came from."
-    why: "A scale that starts in the wrong place makes a small change look like a cliff, in your data as much as Aaesha's."
+    why: "A scale that starts in the wrong place makes a small change look like a cliff, in your data as much as Yahya's."
   - id: uncertainty
     text: "Every claim of a difference or a change comes with how sure you are, a p from a permutation test or something like it, said in words."
     why: "Luck makes differences too. Readers deserve to know which ones luck could have made."
@@ -33,4 +33,4 @@ Tell a data story of your own, from a public dataset of your choice, and publish
 
 Use what this job built: clean in one file, work the numbers out in another, draw honest charts in a third, and write the page from the report's own lines. Write your test plan first: at least three checks you'll run on your own functions.
 
-When the page is up, put its link below and go through Aaesha's list. Tick only what's true. She'll read it.
+When the page is up, put its link below and go through Yahya's list. Tick only what's true. He'll read it.

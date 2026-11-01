@@ -6,7 +6,7 @@ concept: reading-tracebacks
 code: |
   name = "Neil"
   print("Morning, " + name)
-  print("Help desk opens at " + 9)
+  print("Practice starts at " + 9)
 question: This program crashes. Which line causes it?
 verify: crash-line
 options:

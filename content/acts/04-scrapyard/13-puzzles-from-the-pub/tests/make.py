@@ -173,7 +173,7 @@ No solution. It can't be done."""
 
 TESTS = [
     custom("Puzzle one, solved", solves_one, visible=True),
-    output("Yahya's three puzzles", expect=ROUND, visible=True),
+    output("Caitlin's three puzzles", expect=ROUND, visible=True),
     custom("Already in the row", places(0, 0, 7, False, "7 is already in the top row, so it can't go in the top left square.")),
     custom("Already in the column", places(0, 0, 8, False, "8 is already in the first column."),
            hint="Look down the whole column, every row from 0 to 8."),

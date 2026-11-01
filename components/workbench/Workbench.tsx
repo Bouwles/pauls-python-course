@@ -42,44 +42,46 @@ export const PANEL_MIN = 340;
 export const PANEL_MAX = 520;
 const PANEL_DEFAULT = 400;
 
-// The portrait expression for each kind of reaction, for when the final art arrives.
-const FACE: Record<string, string> = {
-  "check-passed": "pleased",
-  "check-failed": "thinking",
-  "run-error": "thinking",
-  "stopped-loop": "surprised",
-  "third-hint": "worried",
-  "solution-seen": "neutral",
-  idle: "neutral",
-  returning: "pleased",
-  recap: "neutral",
-  "error-name": "thinking",
-  "error-text-number": "thinking",
-  "error-zero": "surprised",
-  "error-index": "thinking",
-  "error-int-text": "thinking",
-  "error-indent": "laughing",
-  "ran-nothing": "confused",
-  "loop-never-runs": "confused",
-  "first-fstring": "pleased",
-  "converts-input": "pleased",
-  "first-function": "proud",
-  "nested-loop": "surprised",
-  "good-name": "pleased",
-  "letter-name": "unimpressed",
-  "long-function": "unimpressed",
-  "long-line": "thinking",
-  "long-no-loop": "laughing",
-  "pass-first-try": "proud",
-  "pass-after-many": "proud",
-  "pass-no-hints": "pleased",
-  "third-fail": "worried",
-  "one-left": "pleased",
-  "shorter-than-mine": "surprised",
-  "fixed-by-learner": "pleased",
-  "predict-right": "pleased",
-  "predict-wrong": "thinking",
-  "after-explain": "thinking",
+// How the speaker looks saying each kind of reaction (REDESIGN3_PLAN.md P3): a pass gets a
+// pleased or proud face and a thumbs up or a cheer, a miss a thinking or worried face, a hint
+// Neil thinking or pointing at the problem. The words come from content/characters/.
+const MOOD: Record<string, { face: string; gesture?: string }> = {
+  "check-passed": { face: "pleased", gesture: "thumbs" },
+  "check-failed": { face: "thinking", gesture: "think" },
+  "run-error": { face: "thinking", gesture: "point" },
+  "stopped-loop": { face: "surprised" },
+  "third-hint": { face: "thinking", gesture: "point" },
+  "solution-seen": { face: "neutral", gesture: "point" },
+  idle: { face: "neutral", gesture: "wave" },
+  returning: { face: "pleased", gesture: "wave" },
+  recap: { face: "neutral", gesture: "point" },
+  "error-name": { face: "thinking", gesture: "point" },
+  "error-text-number": { face: "thinking", gesture: "point" },
+  "error-zero": { face: "surprised" },
+  "error-index": { face: "thinking", gesture: "point" },
+  "error-int-text": { face: "thinking", gesture: "point" },
+  "error-indent": { face: "laughing" },
+  "ran-nothing": { face: "confused", gesture: "think" },
+  "loop-never-runs": { face: "confused", gesture: "think" },
+  "first-fstring": { face: "pleased", gesture: "thumbs" },
+  "converts-input": { face: "pleased", gesture: "thumbs" },
+  "first-function": { face: "proud", gesture: "cheer" },
+  "nested-loop": { face: "surprised" },
+  "good-name": { face: "pleased", gesture: "thumbs" },
+  "letter-name": { face: "unimpressed" },
+  "long-function": { face: "unimpressed" },
+  "long-line": { face: "thinking", gesture: "think" },
+  "long-no-loop": { face: "laughing" },
+  "pass-first-try": { face: "proud", gesture: "cheer" },
+  "pass-after-many": { face: "proud", gesture: "cheer" },
+  "pass-no-hints": { face: "pleased", gesture: "thumbs" },
+  "third-fail": { face: "worried", gesture: "think" },
+  "one-left": { face: "proud", gesture: "point" },
+  "shorter-than-mine": { face: "surprised" },
+  "fixed-by-learner": { face: "pleased", gesture: "cheer" },
+  "predict-right": { face: "pleased", gesture: "thumbs" },
+  "predict-wrong": { face: "thinking", gesture: "think" },
+  "after-explain": { face: "thinking", gesture: "think" },
 };
 
 // "Less talk" (Settings) keeps the coach for hints and errors only.
@@ -212,8 +214,10 @@ export function Workbench({ job, characters, conceptTitles, actTitle, actProject
     setHintsOpen(false);
     setDuckOpen(false);
     lastActivity.current = Date.now();
+    // Keyed on the step's id, not the object: a fresh server render after router.replace hands
+    // over an equal job, and that mustn't wipe the coach, the checks and the hints mid-step.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [store, step, job.id, landing, router]);
+  }, [store, step?.id, job.id, landing]);
 
   // Escape puts the duck away; other parts of the app can call it up.
   useEffect(() => {
@@ -254,15 +258,16 @@ export function Workbench({ job, characters, conceptTitles, actTitle, actProject
     [store, job.id, stepId],
   );
 
-  // The coach: a new utterance goes on the end of this step's list and is the one showing.
-  const push = useCallback((u: Utterance) => setCoach((c) => ({ said: [...c.said, u], index: c.said.length })), []);
+  // The coach: new lines go on the end of this step's list, and the first of them is the one showing.
+  const push = useCallback((...u: Utterance[]) => setCoach((c) => ({ said: [...c.said, ...u], index: c.said.length })), []);
   const allowed = useCallback((kind: CoachKind) => !lessTalk || kind === "hint" || kind === "error", [lessTalk]);
 
   const say = useCallback<WorkbenchContextValue["say"]>(
     (who, text, opts = {}) => {
       const kind = opts.kind ?? "react";
       if (!allowed(kind) || !isSpoken(who)) return;
-      push({ id: nextId(), who, lines: (Array.isArray(text) ? text : [text]).slice(0, 2), face: opts.face, kind });
+      const lines = (Array.isArray(text) ? text : [text]).slice(0, 2).map((t) => (typeof t === "string" ? { text: t } : t));
+      push(...lines.map((l) => ({ id: nextId(), who, text: l.text, face: l.face ?? opts.face, gesture: l.gesture ?? opts.gesture, kind })));
     },
     [allowed, push],
   );
@@ -273,7 +278,7 @@ export function Workbench({ job, characters, conceptTitles, actTitle, actProject
       if (!allowed(kind)) return;
       const who = speakerFor(event, { classmate, client: job.client });
       const text = await pickLine(store, characters, who, event, opts.vars);
-      if (text) push({ id: nextId(), who, lines: [text], face: FACE[event], kind });
+      if (text) push({ id: nextId(), who, text, ...MOOD[event], kind });
     },
     [allowed, classmate, job.client, store, characters, push],
   );
@@ -292,7 +297,7 @@ export function Workbench({ job, characters, conceptTitles, actTitle, actProject
         const text = await pickLine(store, characters, who, c.event, c.vars);
         if (!text) continue;
         saidThisStep.current.add(key);
-        push({ id: nextId(), who, lines: [text], face: FACE[c.event], kind });
+        push({ id: nextId(), who, text, ...MOOD[c.event], kind });
         return;
       }
     },
@@ -313,10 +318,10 @@ export function Workbench({ job, characters, conceptTitles, actTitle, actProject
       if (lessTalk || !last || Date.now() - last < RECAP_AFTER_MS || !started) return;
       const here = job.steps.find((s) => s.id === stepId);
       const back = await pickLine(store, characters, speakerFor("returning"), "returning");
-      if (back) push({ id: nextId(), who: speakerFor("returning"), lines: [back], face: "pleased", kind: "react" });
+      if (back) push({ id: nextId(), who: speakerFor("returning"), text: back, ...MOOD.returning, kind: "react" });
       const who = speakerFor("recap", { client: job.client });
       const where = await pickLine(store, characters, who, "recap", { step: here?.title ?? "it", job: job.title });
-      if (where) push({ id: nextId(), who, lines: [where], face: "neutral", kind: "react" });
+      if (where) push({ id: nextId(), who, text: where, ...MOOD.recap, kind: "react" });
     })();
     const beat = setInterval(() => void store.kvSet(LAST_SEEN, Date.now()), 60_000);
     return () => clearInterval(beat);

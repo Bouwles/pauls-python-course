@@ -5,7 +5,7 @@ title: Catching it
 concept: try-except
 code: |
   try:
-      temperature = float("warm")
+      temperature = float("hot")
       print("Temperature read")
   except ValueError:
       print("Not a number")
@@ -30,8 +30,8 @@ options:
     misconception: try-cannot-catch
     feedback: "Without the `try`, yes. With it, the ValueError is caught by `except ValueError:` and never reaches the top."
 after: |
-  Run it. Then change `"warm"` to `"19.5"` and run it again.
+  Run it. Then change `"hot"` to `"41.5"` and run it again.
 ---
 `try:` runs a block that might go wrong. If a `ValueError` happens inside it, Python jumps to the `except ValueError:` block instead of stopping the program.
 
-One of the thermostat's readings isn't a number.
+One of the motors' temperature readings isn't a number.

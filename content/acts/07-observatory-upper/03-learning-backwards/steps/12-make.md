@@ -5,7 +5,7 @@ title: Learning backwards
 files: [network.py, learn.py]
 entry: learn.py
 starter_from: make-forward
-on_pass: { aaesha: "W1 ok, b1 ok, W2 ok, b2 ok. Arithmetic agrees with calculus. It usually does. I still check." }
+on_pass: { aaesha.proud: "W1 ok, b1 ok, W2 ok, b2 ok. Arithmetic agrees with calculus. It usually does. I still check." }
 hints:
   nudge: "Read the board from the bottom up. Which value's gradient do you know first, and which one does each line need from the line before?"
   plan:

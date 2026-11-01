@@ -2,7 +2,7 @@ id: autocomplete
 title: "Autocomplete"
 project_name: "Autocomplete"
 status: outline
-client: yahya
+client: paul
 building: scrapyard
 estimated_minutes: 90
-summary: "Type three letters of a part into the store room's search box and see every part that starts that way, most asked-for first: a trie built by hand from the parts list, a letter to a node, with counts at the ends."
+summary: "Type three letters of a name in Paul's code editor and see every function and variable that starts that way, most used first: a trie built by hand from the names in the class's code, a letter to a node, with counts at the ends."

@@ -1,4 +1,4 @@
-"""Savings accounts for the class trip fund. Money is kept in whole pence."""
+"""Savings accounts for the class festival fund. Money is kept in whole pence."""
 
 
 class Account:

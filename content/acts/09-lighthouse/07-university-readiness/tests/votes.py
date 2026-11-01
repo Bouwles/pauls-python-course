@@ -1,14 +1,14 @@
 import random as _random
 
 
-def whole_town(ctx):
+def whole_exhibition(ctx):
     # 50,000 names with three or four votes each, in shuffled order, then two
     # names that reach five. "Avocet" appears first and sorts first, but
     # "Shearwater" gets to five votes first.
     module = ctx.module()
     shuffle = _random.Random(87)
-    ballots = [f"Boat {number}" for number in range(50_000) for _ in range(3)]
-    ballots += [f"Boat {number}" for number in range(0, 50_000, 2)]
+    ballots = [f"Print {number}" for number in range(50_000) for _ in range(3)]
+    ballots += [f"Print {number}" for number in range(0, 50_000, 2)]
     shuffle.shuffle(ballots)
     ballots = ["Avocet"] * 4 + ["Shearwater"] * 4 + ballots + ["Shearwater", "Avocet"]
     got = module.winner(ballots)
@@ -19,7 +19,7 @@ def whole_town(ctx):
 
 def landslide(ctx):
     module = ctx.module()
-    ballots = [f"Boat {number}" for number in range(100_000)] + ["Cormorant"] * 2
+    ballots = [f"Print {number}" for number in range(100_000)] + ["Cormorant"] * 2
     got = module.winner(ballots)
     if got != "Cormorant":
         raise CheckFailed("100,000 names with one vote each, then Cormorant with two.", expected="Cormorant", actual=got)
@@ -43,7 +43,7 @@ TESTS = [
     function("Three draw level", call="winner",
              args=(["Gull", "Auk", "Tern", "Tern", "Auk", "Gull", "Auk", "Gull", "Tern"],), expect="Auk"),
     function("Capitals count", call="winner", args=(["gull", "Gull", "Tern", "Tern"],), expect="Tern"),
-    custom("Everyone at the marina votes", whole_town, timeout=6,
+    custom("Everyone at the exhibition votes", whole_exhibition, timeout=6,
            hint="Count every slip once, keeping the leader as you go. Calling ballots.count() for each name reads the whole list 50,000 times."),
     custom("A hundred thousand names", landslide, timeout=6,
            hint="Working out the biggest count again after every slip is a loop inside a loop. Keep the leader as you go."),

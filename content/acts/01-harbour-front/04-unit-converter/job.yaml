@@ -4,9 +4,9 @@ project_name: "Unit Converter"
 portfolio_readme: |
   # Unit Converter
 
-  A small menu-driven converter for runners: kilometres to miles, a pace in minutes per kilometre to minutes per mile, and laps of a running track to kilometres, indoor or outdoor.
+  A small menu-driven converter for speeds from racing, flying and rocketry: kilometres per hour to miles per hour, knots to kilometres per hour, and a Mach number to kilometres per hour, at sea level or high up.
 
-  Written by {name} for Yahya, at Paul's Python Course. Finished {date}.
+  Written by {name} for Neil, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -14,84 +14,84 @@ portfolio_readme: |
   python main.py
   ```
 
-  Pick a conversion from the menu, then type the amount:
+  Pick a conversion from the menu, then type the speed:
 
   ```
-  1. Km to miles
-  2. Min per km to min per mile
-  3. Laps to km
+  1. Km/h to mph
+  2. Knots to km/h
+  3. Mach to km/h
   Choose 1, 2 or 3: 3
-  How many? 12
-  Indoor track (yes or no)? no
-  That's 4.80 km.
+  Speed? 2
+  At sea level (yes or no)? no
+  That's 2124.00 km/h.
   ```
 
-  A mile is 1.609344 km. An outdoor track is 400 metres a lap; an indoor one is 200.
+  A mile is 1.609344 km and a knot is 1.852 km/h. Mach 1, the speed of sound, is about 1225 km/h at sea level and about 1062 km/h at 11 km up, where the air is colder.
 
   ## What it shows
 
   - A menu that chooses what to do with `if`, `elif` and `else`, and catches any choice that isn't on it
   - Comparisons, and the `True` or `False` each one gives back
   - A decision inside a decision, for the one option that needs a second question
-  - Comparing what `input()` gives back as text, and turning amounts into floats for the arithmetic
+  - Comparing what `input()` gives back as text, and turning speeds into floats for the arithmetic
 downloadable: true
 datasets: []
-client: yahya
+client: neil
 building: ferry-dock
 estimated_minutes: 45
-summary: "A menu that converts distances, paces and laps, for a runner whose app and training plan disagree on units."
+summary: "A menu that converts racing, flying and rocket speeds, so Neil can compare an F1 car with a jet."
 concepts_introduced: [bool, comparisons, if-elif-else, nested-conditions]
 concepts_reviewed: [print, input-returns-text, float-conversion, f-strings, variables, arithmetic]
 ask:
   dialogue:
-    - yahya: "My running app gives me kilometres. Every training plan I read wants miles."
-    - yahya: "My pace is in minutes per kilometre. The plans want minutes per mile."
-    - yahya: "Then the track counts laps, and indoor laps are half the size. One converter for all of it."
-    - paul: "It'll have to choose what to do. That's new."
+    - neil.pleased.wave: "F1 gives me speeds in km/h. American racing gives me mph. I want to compare them."
+    - neil.thinking: "Planes come in knots. Rockets come in Mach, and Mach depends on how high you are."
+    - neil.neutral.point: "One converter for every speed I read about. Mach's the awkward one."
+    - paul.neutral: "It'll have to choose what to do. That's new."
   spec: |
-    Print a menu of three conversions and ask which one (`Choose 1, 2 or 3: `). Then ask for the amount (`How many? `), which may have a decimal point.
+    Print a menu of three conversions and ask which one (`Choose 1, 2 or 3: `). Then ask for the speed (`Speed? `), which may have a decimal point.
 
-    - 1: kilometres to miles. One mile is 1.609344 km, so divide by it.
-    - 2: a pace in minutes per km to minutes per mile. Multiply by 1.609344.
-    - 3: laps to km. Ask `Indoor track (yes or no)? `. An indoor lap is 0.2 km; an outdoor lap is 0.4 km.
+    - 1: km/h to mph. One mile is 1.609344 km, so divide by it.
+    - 2: knots to km/h. One knot is 1.852 km/h, so multiply by it.
+    - 3: Mach to km/h. Ask `At sea level (yes or no)? `. Mach 1 is 1225 km/h at sea level and 1062 km/h high up.
     - Anything else: print `No such option.`
 
     Show the answer with two decimal places.
   example: |
-    1. Km to miles
-    2. Min per km to min per mile
-    3. Laps to km
+    1. Km/h to mph
+    2. Knots to km/h
+    3. Mach to km/h
     Choose 1, 2 or 3: 3
-    How many? 12
-    Indoor track (yes or no)? no
-    That's 4.80 km.
+    Speed? 2
+    At sea level (yes or no)? no
+    That's 2124.00 km/h.
 ship:
   dialogue:
-    - yahya: "Five minutes a kilometre is eight oh five a mile. Faster than the plan asks."
-    - yahya: "Twelve outdoor laps, four point eight kilometres. Converted before I'd finished typing."
-    - paul: "That was Yahya being pleased. It's subtle."
-  shelf: { object: compass, label: "Yahya's unit converter" }
+    - neil.surprised: "Three hundred and forty km/h is two hundred and eleven mph. I always guessed lower."
+    - neil.pleased.cheer: "Mach 2 up high, two thousand one hundred and twenty-four. Converted before I'd finished reading."
+    - paul.laughing: "He'll be converting speeds over lunch now. All of them."
+  shelf: { object: compass, label: "Neil's unit converter" }
   cards: [bool, comparisons, if-elif-else, nested-conditions]
 stretch:
   - id: yes-or-no
     title: "Yes or no"
     prompt: |
-      At the moment anything but `yes` counts as an outdoor track, including `yse`. Make option 3 accept only `yes` or `no`, and print `Yes or no, please.` for anything else.
+      At the moment anything but `yes` counts as high up, including `yse`. Make option 3 accept only `yes` or `no`, and print `Yes or no, please.` for anything else.
     tests: tests/stretch-yes-or-no.py
     solution: solutions/stretch-yes-or-no.py
   - id: both-ways
     title: "Both ways"
     prompt: |
-      Yahya wants to go back the other way. Add a fourth option, `4. Miles to km`, that turns miles into kilometres: multiply by 1.609344.
+      Neil wants to go back the other way. Add a fourth option, `4. Mph to km/h`, that turns miles per hour into kilometres per hour: multiply by 1.609344.
 
       ```
       Choose 1, 2, 3 or 4: 4
-      How many? 10
-      That's 16.09 km.
+      Speed? 10
+      That's 16.09 km/h.
       ```
     tests: tests/stretch-both-ways.py
     solution: solutions/stretch-both-ways.py
   - id: below-zero
     title: "Below zero"
     prompt: |
-      A distance, a pace or a lap count below zero is a typing mistake. Before converting, check the amount, and print `Can't be below zero.` instead of an answer.
+      A speed below zero is a typing mistake. Before converting, check the speed, and print `Can't be below zero.` instead of an answer.

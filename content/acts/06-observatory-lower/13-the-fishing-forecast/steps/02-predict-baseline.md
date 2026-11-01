@@ -4,8 +4,8 @@ type: predict
 title: Eighty-eight in a hundred
 concept: baselines
 dialogue:
-  - caitlin: "This gale model I found is right eighty-eight days in a hundred. That's brilliant."
-  - aaesha: "Is it. Compared with what?"
+  - caitlin.pleased: "This gale model I found is right eighty-eight days in a hundred. That's brilliant."
+  - aaesha.unimpressed: "Is it. Compared with what?"
 code: |
   import numpy as np
 

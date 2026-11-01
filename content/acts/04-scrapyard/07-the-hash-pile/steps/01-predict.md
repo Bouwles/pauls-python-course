@@ -4,7 +4,7 @@ type: predict
 title: A first guess at a rule
 concept: hashing
 dialogue:
-  - paul: "A first guess at a rule. Add up the letters, as numbers. Keep the remainder."
+  - paul.thinking.think: "A first guess at a rule. Add up the letters, as numbers. Keep the remainder."
 code: |
   def letter_sum(name):
       total = 0

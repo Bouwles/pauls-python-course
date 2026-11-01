@@ -3,42 +3,42 @@ id: worked
 type: worked
 title: How far Paul walks
 dialogue:
-  - paul: "I walk everywhere. I like to know how far, in roads."
+  - paul.neutral: "I'm coming on the Sunday. I like to know how far everything is from the gate, in roads."
 code: |
   from collections import deque
   from workshop import show_graph
 
   ROADS = {
-      "market": ["clocktower", "bookshop", "museum"],
-      "clocktower": ["market", "cafe", "bookshop"],
-      "cafe": ["clocktower", "station", "library"],
-      "station": ["cafe", "cinema", "city-hall", "theatre"],
-      "cinema": ["station", "bridge", "school"],
-      "bridge": ["cinema", "theatre", "pool", "stadium"],
-      "theatre": ["station", "bridge"],
-      "stadium": ["bridge"],
-      "bookshop": ["market", "clocktower", "library"],
-      "library": ["bookshop", "cafe", "city-hall"],
-      "city-hall": ["library", "station", "school", "gallery"],
-      "school": ["city-hall", "cinema", "gym"],
-      "gym": ["school", "pool", "park"],
-      "pool": ["gym", "bridge"],
-      "museum": ["market", "gallery"],
-      "gallery": ["museum", "city-hall", "park"],
-      "park": ["gallery", "gym"],
+      "campsite": ["main-gate", "food-court", "car-park"],
+      "main-gate": ["campsite", "fan-zone", "food-court"],
+      "fan-zone": ["main-gate", "paddock", "merch-stand"],
+      "paddock": ["fan-zone", "big-screen", "grandstand", "hairpin"],
+      "big-screen": ["paddock", "footbridge", "chicane"],
+      "footbridge": ["big-screen", "hairpin", "tunnel", "viewing-bank"],
+      "hairpin": ["paddock", "footbridge"],
+      "viewing-bank": ["footbridge"],
+      "food-court": ["campsite", "main-gate", "merch-stand"],
+      "merch-stand": ["food-court", "fan-zone", "grandstand"],
+      "grandstand": ["merch-stand", "paddock", "chicane", "media-centre"],
+      "chicane": ["grandstand", "big-screen", "kart-track"],
+      "kart-track": ["chicane", "tunnel", "back-straight"],
+      "tunnel": ["kart-track", "footbridge"],
+      "car-park": ["campsite", "media-centre"],
+      "media-centre": ["car-park", "grandstand", "back-straight"],
+      "back-straight": ["media-centre", "kart-track"],
   }
 
-  roads_from_clocktower = {"clocktower": 0}
-  queue = deque(["clocktower"])
+  roads_from_gate = {"main-gate": 0}
+  queue = deque(["main-gate"])
   while queue:
       place = queue.popleft()
-      show_graph(ROADS, visited=roads_from_clocktower, frontier=queue, current=place)
+      show_graph(ROADS, visited=roads_from_gate, frontier=queue, current=place)
       for neighbour in ROADS.get(place, []):
-          if neighbour not in roads_from_clocktower:
-              roads_from_clocktower[neighbour] = roads_from_clocktower[place] + 1
+          if neighbour not in roads_from_gate:
+              roads_from_gate[neighbour] = roads_from_gate[place] + 1
               queue.append(neighbour)
 
-  for place, roads_away in roads_from_clocktower.items():
+  for place, roads_away in roads_from_gate.items():
       print(f"{place}: {roads_away}")
 subgoals:
   - label: Mark the start as reached, and queue it

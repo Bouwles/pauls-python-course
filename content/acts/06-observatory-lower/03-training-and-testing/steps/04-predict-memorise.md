@@ -4,8 +4,8 @@ type: predict
 title: By heart
 concept: overfitting
 dialogue:
-  - riya: "The heating goes off at six. I logged the radiator every quarter of an hour, two evenings running."
-  - riya: "Degrees above the room. My curve goes through every one of Tuesday's readings."
+  - yahya.neutral: "The heating goes off at six. I logged the radiator every quarter of an hour, two evenings running."
+  - yahya.proud.point: "Degrees above the room. My curve goes through every one of Tuesday's readings."
 code: |
   import numpy as np
 
@@ -50,6 +50,6 @@ after: |
 ---
 The radiator cools in a curve, and a straight line can't follow it. Linear regression can, though, if you give it more columns: `x ** 0` (all ones, for `b`), `x`, `x ** 2`, `x ** 3` and so on, each with a weight of its own. These are **polynomial features**, and the highest power is the **degree**. It's still least squares, on a wider table.
 
-Riya took Tuesday's twelve readings every quarter of an hour. Wednesday's came at the same pace, three minutes later. Both curves learn from Tuesday only, then try Wednesday.
+Yahya took Tuesday's twelve readings every quarter of an hour. Wednesday's came at the same pace, three minutes later. Both curves learn from Tuesday only, then try Wednesday.
 
 Predict which does better on each evening.

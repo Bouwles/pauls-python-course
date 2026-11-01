@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Riya's version
 dialogue:
-  - riya: "I made Aaesha a quick phone list first. Every name I tried worked."
-  - riya: "Then she typed Yahya, and it said KeyError. Can you look? Something's off."
+  - riya.pleased: "I made a quick phone list first, before the proper book. Every name I tried worked."
+  - riya.confused: "Then Aaesha typed Yahya, and it said KeyError. Can you look? Something's off."
 dialogue_after:
-  - riya: "So a missing name isn't blank. It's a crash. I only ever tried the names I'd typed in."
+  - riya.thinking.think: "So a missing name isn't blank. It's a crash. I only ever tried the names I'd typed in."
 hints:
   nudge: "What does `phones[name]` do when the name isn't a key at all? Read the traceback."
   plan:

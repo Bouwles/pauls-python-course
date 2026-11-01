@@ -34,23 +34,20 @@
   grid-row: 3;
 }
 
+/* Each card is a pixel panel: a stepped outline, a light top edge and a hard drop shadow. */
 .card {
   display: flex;
   flex-direction: column;
   min-width: 0;
   background: var(--surface-2);
-  border-radius: var(--r-lg);
-  overflow: hidden;
-}
-
-:root[data-theme="light"] .card {
-  border: 1px solid var(--line);
-}
-
-@media (prefers-color-scheme: light) {
-  :root[data-theme="system"] .card {
-    border: 1px solid var(--line);
-  }
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-hi),
+    inset 0 -2px 0 0 var(--px-lo),
+    6px 6px 0 0 var(--px-drop);
 }
 
 .artefact {
@@ -68,7 +65,7 @@
 }
 
 .name {
-  font-size: var(--fs-5);
+  font-size: var(--px-2);
 }
 
 .line {
@@ -80,20 +77,29 @@
 .meta {
   display: flex;
   align-items: center;
-  gap: var(--s-2);
-  margin-top: var(--s-2);
-  font-size: var(--fs-1);
+  gap: var(--s-3);
+  margin-top: var(--s-3);
+  font-size: var(--fs-2);
   font-weight: 700;
   color: var(--text-2);
 }
 
-/* ---- A terminal ---- */
+.client {
+  display: inline-flex;
+}
+
+/* ---- A terminal: sunk into the card ---- */
 .terminal {
   margin: 0;
   height: 100%;
   min-width: 0;
   background: var(--editor);
-  border-radius: var(--r-md);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-lo);
 }
 
 .termText {
@@ -122,9 +128,13 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  border-radius: var(--r-md);
   overflow: hidden;
   background: var(--surface-3);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
 }
 
 .webBar {
@@ -144,7 +154,6 @@
 .webDots span {
   width: 8px;
   height: 8px;
-  border-radius: 50%;
   background: var(--line);
 }
 
@@ -155,7 +164,6 @@
   display: flex;
   align-items: center;
   padding: 0 var(--s-3);
-  border-radius: var(--r-sm);
   background: var(--bg);
   color: var(--text-2);
   font-size: 12px;
@@ -302,13 +310,11 @@
 .cell {
   height: 68px;
   padding: 0 var(--s-4);
-  border-radius: var(--r-md);
   background: color-mix(in oklab, var(--blue) var(--share), var(--surface-3));
+  box-shadow: inset 0 2px 0 0 var(--px-hi);
   font-family: var(--font-display);
-  font-size: var(--fs-6);
-  font-weight: 700;
-  letter-spacing: var(--tracking-display);
-  font-variant-numeric: tabular-nums;
+  font-size: var(--px-3);
+  font-weight: 400;
   color: var(--text);
 }
 
@@ -332,7 +338,12 @@
   height: 100%;
   padding: var(--s-4);
   background: var(--editor);
-  border-radius: var(--r-md);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-lo);
 }
 
 .snakeSvg {
@@ -343,8 +354,8 @@
 }
 
 .score {
-  font-family: var(--font-code);
-  font-size: 13px;
+  font-family: var(--font-display);
+  font-size: 16px;
   fill: var(--text-2);
 }
 
@@ -435,6 +446,6 @@
 
   .cell {
     height: 56px;
-    font-size: var(--fs-5);
+    font-size: var(--px-2);
   }
 }

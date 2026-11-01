@@ -67,7 +67,7 @@ cards:
         misconception: boosting-trees-independent
         feedback: "That's a forest. A boosting tree is fitted to the leftovers, y minus the prediction so far, so each one only has to fix what's left."
   - type: choice
-    prompt: "Riya boosts with a rate of 1.0 and deep trees. After 100 rounds her training error is 0. What should she expect on new nights?"
+    prompt: "Yahya boosts with a rate of 1.0 and deep trees. After 100 rounds his training error is 0. What should he expect on new nights?"
     verify: none
     options:
       - text: "Worse than careful boosting, most likely: it has fitted the training noise"

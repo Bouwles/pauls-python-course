@@ -2,9 +2,9 @@
 
 No files and no printing in here. storage.py and cli.py do that.
 """
-# Riya's note, from the first page of her plan:
-# Who's going to use this? Students with a part-time job and rent to pay.
-# Test it on a made-up month first. Real money only goes in once it works. R.
+# Caitlin's note, from the first page of her plan:
+# The fun version first. A budget nobody enjoys is a budget nobody keeps.
+# Test it on a made-up month first. Real money only goes in once it works. C.
 
 from dataclasses import dataclass
 from datetime import date

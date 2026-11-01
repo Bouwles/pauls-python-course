@@ -3,7 +3,7 @@ id: reading
 type: reading
 title: Learning what counting knew
 dialogue:
-  - neil: "The same model, but learnt. Downhill, like everything else in this room."
+  - neil.pleased: "The same model, but learnt. Downhill, like everything else in this room."
 code: |
   X = one_hot(ids[:-1], size)          # every character but the last
   targets = ids[1:]                    # each one's next character

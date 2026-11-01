@@ -36,7 +36,7 @@ def complete(start, params, vocab, rng, temperature=1.0, limit=200):
 if __name__ == "__main__":
     vocab = build_vocab(load_notes())
     if os.path.exists("my_weights.json"):
-        params, whose = load_params("my_weights.json"), "yours"
+        params, whose = load_params("my_weights.json"), "your"
     else:
         params, whose = load_params("trained.json"), "Aaesha's"
     print(f"Reading with {whose} weights.")

@@ -4,7 +4,7 @@ type: predict
 title: Every character once
 concept: tokenisation
 dialogue:
-  - neil: "A network only takes numbers. So first, every character gets a number of its own."
+  - neil.neutral.point: "A network only takes numbers. So first, every character gets a number of its own."
 code: |
   text = "sea state"
   vocab = sorted(set(text))

@@ -10,15 +10,15 @@ concepts_introduced: []
 concepts_reviewed: [big-o, binary-search, linear-search, simple-sorts, merge-sort, sort-stability, sort-key, edge-cases]
 ask:
   dialogue:
-    - paul: "Show me what you know, then."
-    - paul: "Three from upstairs. Caitlin's hardware shelves, my cupboard of crates, and Yahya's way to the park."
-    - paul: "The checks count what your code does. They don't care how fast your computer is."
+    - paul.neutral.wave: "Show me what you know, then."
+    - paul.thinking.point: "Three from upstairs. Neil's sim-rig shelves, my cupboard of crates, and Caitlin's way to the park."
+    - paul.unimpressed: "The checks count what your code does. They don't care how fast your computer is."
   spec: |
     Three Make tasks from the Puzzle Room. There are no hints: each task has its brief, two visible checks and a good many hidden ones. Some checks hand your functions big piles that count every look, so the right algorithm matters as much as the right answer.
 
     Pass all three and Act IV is placed: its projects are marked as placed, and its ideas join your review deck.
 ship:
   dialogue:
-    - paul: "Sorted, searched, unpacked and routed. Yahya says his would have run faster."
-    - paul: "He'd have to prove it. You just did."
+    - paul.proud.thumbs: "Sorted, searched, unpacked and routed. Yahya says his would have run faster."
+    - paul.laughing: "He'd have to prove it. You just did."
   cards: []

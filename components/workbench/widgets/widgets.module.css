@@ -33,7 +33,7 @@
 .chart {
   border-radius: var(--r-lg);
   background: var(--editor);
-  border: 1px solid var(--line);
+  border: 2px solid var(--px-outline);
 }
 
 /* ---- Pigeonholes ---------------------------------------------------------- */
@@ -204,7 +204,7 @@
   padding: var(--s-2);
   border-radius: var(--r-md);
   background: var(--surface-2);
-  border: 1px solid var(--line);
+  border: 2px solid var(--px-outline);
 }
 
 .item {
@@ -227,7 +227,7 @@
   padding: var(--s-3) var(--s-4);
   border-radius: var(--r-lg);
   background: var(--editor);
-  border: 1px solid var(--line);
+  border: 2px solid var(--px-outline);
   font-family: var(--font-code);
   font-variant-ligatures: none;
   font-size: var(--editor-font-size);
@@ -258,7 +258,6 @@
   place-items: center;
   width: 36px;
   height: 36px;
-  border-radius: 50%;
   background: var(--surface-3);
   color: var(--text-2);
   font-family: var(--font-code);
@@ -291,7 +290,7 @@
   padding: var(--s-3);
   border-radius: var(--r-md);
   background: var(--editor);
-  border: 1px solid var(--line);
+  border: 2px solid var(--px-outline);
   font-size: 14px;
   min-height: 3em;
 }

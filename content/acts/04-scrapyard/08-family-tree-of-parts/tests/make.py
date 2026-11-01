@@ -1,10 +1,10 @@
 import random as _random
 
 CARDS = [
-    (500, "anchor chain"), (250, "bike bell"), (750, "tin bath"), (101, "bolt tin"),
-    (342, "brass valve"), (621, "mangle roller"), (977, "winch handle"), (188, "clock spring"),
-    (377, "brass bell"), (430, "lamp lens"), (702, "pram wheel"), (850, "kettle element"),
-    (133, "gear wheel"), (555, "hubcap"), (915, "spring coil"),
+    (500, "nose cone"), (250, "fin set"), (750, "launch rail"), (101, "body tube"),
+    (342, "parachute"), (621, "motor mount"), (977, "launch pad"), (188, "centering ring"),
+    (377, "shock cord"), (430, "altimeter"), (702, "launch lug"), (850, "igniter"),
+    (133, "coupler"), (555, "nose weight"), (915, "launch controller"),
 ]
 
 
@@ -91,9 +91,9 @@ def same(got, expected, message):
 
 
 def a_few_cards(ctx):
-    catalogue = filed(ctx, [(500, "anchor chain"), (250, "bike bell"), (750, "tin bath")])
-    same(catalogue.find(250), "bike bell", "find gives back the name filed under the number.")
-    same(catalogue.in_order(), [(250, "bike bell"), (500, "anchor chain"), (750, "tin bath")],
+    catalogue = filed(ctx, [(500, "nose cone"), (250, "fin set"), (750, "launch rail")])
+    same(catalogue.find(250), "fin set", "find gives back the name filed under the number.")
+    same(catalogue.in_order(), [(250, "fin set"), (500, "nose cone"), (750, "launch rail")],
          "in_order lists the pairs, smallest number first.")
 
 
@@ -111,11 +111,11 @@ def empty(ctx):
 
 
 def one_card(ctx):
-    catalogue = filed(ctx, [(342, "brass valve")])
+    catalogue = filed(ctx, [(342, "parachute")])
     same(len(catalogue), 1, "One card filed.")
     same(catalogue.height(), 1, "A single card is one level.")
-    same(shape(catalogue.root), (342, "brass valve", None, None), "The only card is the root, with nothing below it.")
-    same(catalogue.find(342), "brass valve", "The root card is found.")
+    same(shape(catalogue.root), (342, "parachute", None, None), "The only card is the root, with nothing below it.")
+    same(catalogue.find(342), "parachute", "The root card is found.")
     same(catalogue.looks, 1, "Finding the root takes one look.")
 
 
@@ -126,19 +126,19 @@ def in_place(ctx):
 
 
 def filed_twice(ctx):
-    catalogue = filed(ctx, CARDS + [(342, "brass valve, large"), (500, "anchor chain, rusty")])
-    reference = _Reference(CARDS + [(342, "brass valve, large"), (500, "anchor chain, rusty")])
+    catalogue = filed(ctx, CARDS + [(342, "parachute, large"), (500, "nose cone, scorched")])
+    reference = _Reference(CARDS + [(342, "parachute, large"), (500, "nose cone, scorched")])
     same(len(catalogue), 15, "Filing a number again replaces its name and adds no card.")
-    same(catalogue.find(342), "brass valve, large", "The newer name replaces the old one.")
+    same(catalogue.find(342), "parachute, large", "The newer name replaces the old one.")
     same(shape(catalogue.root), shape(reference.root), "Replacing a name doesn't change the shape of the tree.")
 
 
 def looks_counted(ctx):
     catalogue = filed(ctx, CARDS)
     for number, expected_name, expected_looks, path in [
-        (500, "anchor chain", 1, "500"),
-        (342, "brass valve", 3, "500, 250, 342"),
-        (430, "lamp lens", 5, "500, 250, 342, 377, 430"),
+        (500, "nose cone", 1, "500"),
+        (342, "parachute", 3, "500, 250, 342"),
+        (430, "altimeter", 5, "500, 250, 342, 377, 430"),
         (999, None, 3, "500, 750, 977, then nothing to the right"),
         (0, None, 3, "500, 250, 101, then nothing to the left"),
         (600, None, 4, "500, 750, 621, 555, then nothing to the right"),
@@ -157,7 +157,7 @@ def looks_add_up(ctx):
 
 
 def heights(ctx):
-    same(filed(ctx, CARDS).height(), 5, "The clockmaker's fifteen cards make five levels: 500, 250, 101, 188, 133 is the longest way down.")
+    same(filed(ctx, CARDS).height(), 5, "Neil's fifteen cards make five levels: 500, 250, 101, 188, 133 is the longest way down.")
     same(filed(ctx, [(2, "b"), (1, "a"), (3, "c")]).height(), 2, "A card with one card on each side is two levels.")
     same(filed(ctx, [(1, "a"), (2, "b"), (3, "c"), (4, "d")]).height(), 4, "Four cards filed in order make a stick, four levels high.")
 
@@ -172,11 +172,11 @@ def orders(ctx):
 
 def between(ctx):
     catalogue = filed(ctx, CARDS)
-    same(catalogue.between(300, 399), [(342, "brass valve"), (377, "brass bell")], "The brass section.")
-    same(catalogue.between(342, 377), [(342, "brass valve"), (377, "brass bell")], "Both ends are included.")
+    same(catalogue.between(300, 399), [(342, "parachute"), (377, "shock cord")], "The recovery section.")
+    same(catalogue.between(342, 377), [(342, "parachute"), (377, "shock cord")], "Both ends are included.")
     same(catalogue.between(378, 429), [], "Nothing is numbered from 378 to 429.")
     same(catalogue.between(400, 300), [], "A range whose low end is above its high end holds nothing.")
-    same(catalogue.between(-5, 101), [(101, "bolt tin")], "Only 101 is in range.")
+    same(catalogue.between(-5, 101), [(101, "body tube")], "Only 101 is in range.")
     same(catalogue.between(0, 1000), sorted(CARDS), "The whole catalogue is in range.")
 
 
@@ -229,9 +229,9 @@ def in_order_new_list(ctx):
 TESTS = [
     custom("A few cards", a_few_cards, visible=True),
     output("The main block", visible=True,
-           expect="Catalogue: 15 cards, 5 levels\nCard 342: brass valve, in 3 looks\nCard 999: not in the catalogue, 3 looks\n"
-                  "In order: 101 bolt tin first, 977 winch handle last\n"
-                  "Brass section, 300 to 399: [(342, 'brass valve'), (377, 'brass bell')]\n"
+           expect="Catalogue: 15 cards, 5 levels\nCard 342: parachute, in 3 looks\nCard 999: not in the catalogue, 3 looks\n"
+                  "In order: 101 body tube first, 977 launch pad last\n"
+                  "Recovery section, 300 to 399: [(342, 'parachute'), (377, 'shock cord')]\n"
                   "Copied out: [500, 250, 101, 188, 133, 342, 377, 430, 750, 621, 555, 702, 977, 850, 915]"),
     custom("An empty catalogue", empty, hint="An empty side counts 0 cards and 0 levels. Every method should cope with a root of None."),
     custom("One card", one_card),

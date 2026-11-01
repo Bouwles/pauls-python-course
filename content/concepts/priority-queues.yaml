@@ -7,7 +7,7 @@ example: |
 
   pile = []
   arrival = 0
-  for repair, priority in [("Neil's kettle", 3), ("Caitlin's joystick", 3), ("the Studio's wifi", 1)]:
+  for repair, priority in [("Neil's sim rig", 3), ("Caitlin's joystick", 3), ("the Studio's wifi", 1)]:
       heapq.heappush(pile, (priority, arrival, repair))
       arrival = arrival + 1
   while pile:
@@ -82,7 +82,7 @@ cards:
       import heapq
 
       pile = []
-      heapq.heappush(pile, (3, 0, "Neil's kettle"))
+      heapq.heappush(pile, (3, 0, "Neil's sim rig"))
       heapq.heappush(pile, (3, 1, "Caitlin's joystick"))
       heapq.heappush(pile, (1, 2, "the Studio's wifi"))
 
@@ -95,13 +95,13 @@ cards:
       print(take(pile))
       print(take(pile))
     tests: |
-      TESTS = [output("The wifi, then Neil's kettle", expect="the Studio's wifi\nNeil's kettle",
+      TESTS = [output("The wifi, then Neil's sim rig", expect="the Studio's wifi\nNeil's sim rig",
                       hint="Each tuple has three things in it now. Unpack all three.")]
     solution: |
       import heapq
 
       pile = []
-      heapq.heappush(pile, (3, 0, "Neil's kettle"))
+      heapq.heappush(pile, (3, 0, "Neil's sim rig"))
       heapq.heappush(pile, (3, 1, "Caitlin's joystick"))
       heapq.heappush(pile, (1, 2, "the Studio's wifi"))
 

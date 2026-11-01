@@ -10,7 +10,7 @@ portfolio_readme: |
 
   ## What's in this folder
 
-  This folder holds the practice from the course: tests for a shop's postage, written from its docstring alone, which caught every one of eight deliberately broken versions.
+  This folder holds the practice from the course: tests for the postage on Riya's prints, written from its docstring alone, which caught every one of eight deliberately broken versions.
 
   ```
   pip install pytest
@@ -30,15 +30,15 @@ datasets: []
 client: paul
 building: lighthouse
 estimated_minutes: 1500
-summary: "A project of your own choosing, for someone real: proposed, built a slice at a time with tests, and handed over with Paul's review."
+summary: "A project of your own choosing, in your own interest, for someone real: proposed, built a slice at a time with tests, and handed over with Paul's review."
 concepts_introduced: [mutation-testing]
 concepts_reviewed: [pytest, assert, edge-cases, test-first, raising-errors, exceptions, functions, docstrings, modules, main-guard, naming, git-basics, virtual-environments]
 ask:
   dialogue:
-    - paul: "The rest of the list was for other people. This one's yours. Choose it well."
-    - paul: "Someone who'll use it, small enough to finish, and testable. Drop any one of the three and it goes wrong."
-    - caitlin: "I'm doing a game engine. A small one. With physics."
-    - paul: "Then read the next page twice."
+    - paul.pleased.wave: "The rest of the list was for other people. This one's yours. Choose it well."
+    - paul.neutral.point: "Someone who'll use it, small enough to finish, and testable. Drop any one of the three and it goes wrong."
+    - caitlin.pleased: "I'm doing a game engine. A small one. With physics."
+    - paul.unimpressed: "Then read the next page twice."
   spec: |
     A project of your own choosing, built the way the other capstones are.
 
@@ -57,17 +57,17 @@ ask:
 
     Any part of Python, any libraries, at home or here in the browser. Each milestone's evidence is a link: a repository, or a gist for the proposal.
   example: |
-    For:     the owner of a small shop, posting orders on Saturday mornings
-    Done:    they type a parcel's weight and where it's going, and get the price
+    For:     Riya, posting her prints on Saturday mornings
+    Done:    she types a parcel's weight and where it's going, and gets the price
              and a label to print
-    Risks:   the label printer; parcels weighed in ounces; Saturday queues
+    Risks:   the label printer; big prints sent in tubes; Saturday queues
     Slice 1: weight and destination in, price out, with tests
 ship:
   dialogue:
-    - paul: "Your own idea, finished, tested, and in somebody else's hands. That's the trade."
-    - paul: "Most projects never get a second user. Yours has one."
-    - caitlin: "My game engine has a README now. And a first slice: a square that falls."
-    - paul: "A square that falls, with tests. I've seen worse starts. I've made worse starts."
+    - paul.proud: "Your own idea, finished, tested, and in somebody else's hands. That's the trade."
+    - paul.pleased: "Most projects never get a second user. Yours has one."
+    - caitlin.laughing.cheer: "My game engine has a README now. And a first slice: a square that falls."
+    - paul.laughing: "A square that falls, with tests. I've seen worse starts. I've made worse starts."
   shelf: { object: makers-mark, label: "Your own project, with your name on it" }
   cards: [mutation-testing]
 stretch:

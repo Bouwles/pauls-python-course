@@ -4,7 +4,7 @@ type: investigate
 title: The January vane
 concept: vectors
 dialogue:
-  - aaesha: "The old summary says January blew from the south. The vane spent the month pointing north."
+  - yahya.unimpressed.point: "The old summary says January blew from the south. The vane spent the month pointing north."
 code: |
   import numpy as np
 
@@ -14,7 +14,7 @@ code: |
   speeds = data[:, 1]
   print(f"Average bearing: {bearings.mean():.0f} degrees")
 
-  # Aaesha's way: each day as an arrow, (east, north) in knots,
+  # Riya's way: each day as an arrow, (east, north) in knots,
   # pointing where the wind came from, as the vane does
   angles = np.radians(bearings)
   arrows = np.column_stack([speeds * np.sin(angles), speeds * np.cos(angles)])
@@ -65,7 +65,7 @@ tasks:
       speeds = data[:, 1]
       print(f"Average bearing: {bearings.mean():.0f} degrees")
 
-      # Aaesha's way: each day as an arrow, (east, north) in knots,
+      # Riya's way: each day as an arrow, (east, north) in knots,
       # pointing where the wind came from, as the vane does
       angles = np.radians(bearings)
       arrows = np.column_stack([speeds * np.sin(angles), speeds * np.cos(angles)])
@@ -84,7 +84,7 @@ tasks:
     feedback: "The same way every day. Arrows that point different ways partly cancel when they're added, so the average arrow comes out shorter than the average speed. How much shorter says how changeable the month was."
     wrong: "Arrows pointing opposite ways cancel when you add them. When would nothing cancel at all?"
 ---
-A **vector** is a few numbers that belong together, in a fixed order. Aaesha draws each day's wind as an arrow: knots east, then knots north. In NumPy that's an array, `np.array([3.0, 4.0])`, and a table of arrows has one per row.
+A **vector** is a few numbers that belong together, in a fixed order. Riya draws each day's wind as an arrow: knots east, then knots north. In NumPy that's an array, `np.array([3.0, 4.0])`, and a table of arrows has one per row.
 
 `np.radians` turns degrees into the radians that `np.sin` and `np.cos` expect. `np.linalg.norm(arrow)` is an arrow's length: Pythagoras, `np.sqrt(3 ** 2 + 4 ** 2)`.
 

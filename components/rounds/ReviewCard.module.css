@@ -1,26 +1,14 @@
-/* A review card: a plain card, the task, the answer, "Check", and the feedback under it. */
+/* A review card: a pixel panel with the task, the answer, "Check", and the feedback under it. */
 .wrap {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--s-4);
+  gap: var(--s-5);
 }
 
 .card {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  background: var(--surface-2);
-  border-radius: var(--r-lg);
   min-width: 0;
-}
-
-:global(:root[data-theme="light"]) .card {
-  border: 1px solid var(--line);
-}
-
-@media (prefers-color-scheme: light) {
-  :global(:root[data-theme="system"]) .card {
-    border: 1px solid var(--line);
-  }
 }
 
 .task {
@@ -40,7 +28,6 @@
 .prompt code {
   font-size: 0.85em;
   background: var(--surface-3);
-  border-radius: var(--r-sm);
   padding: 1px 5px;
 }
 
@@ -72,22 +59,21 @@
   line-height: 1.5;
   resize: vertical;
   padding: var(--s-3);
-  background: var(--editor);
 }
 
 .answer:focus-visible,
 .blank:focus-visible {
   outline: 2px solid var(--sun);
-  outline-offset: 1px;
+  outline-offset: 4px;
 }
 
-/* Choices: large, clearly selectable cards with a real radio underneath. */
+/* Choices: large pixel tiles over real radios. Chosen is blue, with a filled pixel box. */
 .options {
   display: grid;
-  gap: var(--s-2);
+  gap: var(--s-3);
   border: 0;
   margin: 0;
-  padding: 0;
+  padding: 2px;
   min-width: 0;
 }
 
@@ -96,15 +82,18 @@
   align-items: flex-start;
   gap: var(--s-3);
   padding: var(--s-3) var(--s-4);
-  border-radius: var(--r-md);
   background: var(--surface-3);
-  border: 1px solid transparent;
   cursor: pointer;
-  transition: background-color var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 -4px 0 0 var(--px-lo);
 }
 
 .option:hover {
-  border-color: var(--line);
+  background: var(--line);
 }
 
 .options:disabled .option {
@@ -113,27 +102,34 @@
 
 .option:focus-within {
   outline: 2px solid var(--sun);
-  outline-offset: 2px;
+  outline-offset: 4px;
 }
 
 .chosen,
 .chosen:hover {
   background: var(--blue-wash);
-  border-color: var(--blue);
+  box-shadow:
+    0 -2px 0 0 var(--blue),
+    0 2px 0 0 var(--blue),
+    -2px 0 0 0 var(--blue),
+    2px 0 0 0 var(--blue),
+    inset 0 -4px 0 0 var(--px-lo);
 }
 
 .mark {
   flex: none;
-  width: 18px;
-  height: 18px;
-  margin-top: 3px;
-  border-radius: 50%;
-  border: 2px solid var(--text-3);
+  width: 16px;
+  height: 16px;
+  margin-top: 4px;
+  background: var(--editor);
+  box-shadow: inset 0 0 0 2px var(--text-3);
 }
 
 .chosen .mark {
-  border: 5px solid var(--blue);
-  background: var(--surface-1);
+  background: var(--blue);
+  box-shadow:
+    inset 0 0 0 2px var(--blue),
+    inset 0 0 0 4px var(--editor);
 }
 
 .optionText {
@@ -149,12 +145,10 @@
   font-variant-ligatures: none;
 }
 
-/* Fill in the gaps: the code stays dark in both themes, the gaps are inputs in it. */
+/* Fill in the gaps: the code in a sunk well, the gaps are inputs in it. */
 .fill {
   margin: 0;
-  background: var(--editor);
   color: var(--text);
-  border-radius: var(--r-md);
   padding: var(--s-4);
   font-size: var(--fs-2);
   line-height: 1.9;
@@ -162,27 +156,24 @@
   white-space: pre;
 }
 
-:global(:root[data-theme="light"]) .fill {
-  border: 1px solid var(--line);
-}
-
 .blank {
   font-family: var(--font-code);
   font-size: inherit;
   padding: 0 4px;
   height: 26px;
-  border-radius: var(--r-sm);
+  margin: 0 2px;
   background: var(--surface-3);
   color: var(--text);
-  border: 1px solid var(--sun);
+  box-shadow:
+    0 -2px 0 0 var(--sun),
+    0 2px 0 0 var(--sun),
+    -2px 0 0 0 var(--sun),
+    2px 0 0 0 var(--sun);
 }
 
 .editor {
-  border-radius: var(--r-md);
   overflow: hidden;
   min-height: 160px;
-  background: var(--editor);
-  border: 1px solid var(--line);
 }
 
 .row {
@@ -192,28 +183,39 @@
   gap: var(--s-3);
 }
 
-/* Feedback: an icon and words, never colour alone. */
+/* Feedback: an icon and words in pass or fail colours, never colour alone. */
 .feedback {
   display: grid;
   gap: var(--s-2);
   padding: var(--s-4);
-  border-radius: var(--r-md);
+  margin: 2px;
 }
 
 .good {
   background: var(--pass-wash);
+  box-shadow:
+    0 -2px 0 0 var(--pass-text),
+    0 2px 0 0 var(--pass-text),
+    -2px 0 0 0 var(--pass-text),
+    2px 0 0 0 var(--pass-text);
 }
 
 .bad {
   background: var(--fail-wash);
+  box-shadow:
+    0 -2px 0 0 var(--fail-text),
+    0 2px 0 0 var(--fail-text),
+    -2px 0 0 0 var(--fail-text),
+    2px 0 0 0 var(--fail-text);
 }
 
 .fbTitle {
   display: flex;
   align-items: center;
   gap: var(--s-2);
-  font-weight: 700;
-  font-size: var(--fs-3);
+  font-family: var(--font-display);
+  font-size: var(--px-2);
+  line-height: 1;
 }
 
 .good .fbTitle {
@@ -235,7 +237,7 @@
   justify-content: flex-end;
   gap: var(--s-3);
   padding: var(--s-4) var(--s-6);
-  border-top: 1px solid var(--line);
+  border-top: 2px solid var(--line);
 }
 
 .report {
@@ -245,7 +247,7 @@
 @media (max-width: 720px) {
   .task {
     padding: var(--s-4);
-    gap: var(--s-3);
+    gap: var(--s-4);
   }
 
   .prompt {

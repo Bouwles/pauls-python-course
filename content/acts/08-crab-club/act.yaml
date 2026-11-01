@@ -4,13 +4,14 @@ title: "The Arcade"
 district: crab-club
 subject: "Reinforcement learning"
 hours: 50
-summary: "Yahya and Caitlin's floor: a row of cabinets, a leaderboard, a prize shelf and a racing crab that knows nothing yet. Bandits, Markov decision processes, dynamic programming, Monte Carlo and TD learning, Q-learning, DQN, policy gradients, actor-critic and PPO, all the way to the weekly Arcade League."
-locked_line: "The seventh floor. The cabinets are under dust sheets and the leaderboard is blank."
+summary: "Aaesha and Caitlin's floor: a row of cabinets, a leaderboard, a prize shelf and a racing crab that knows nothing yet. Caitlin brings the games; Aaesha wants to know how anything learns to decide. Bandits, Markov decision processes, dynamic programming, Monte Carlo and TD learning, Q-learning, DQN, policy gradients, actor-critic and PPO, all the way to the weekly Arcade League."
+locked_line: "The seventh floor. Dust sheets over the cabinets, a blank leaderboard, and the crab asleep in cabinet three."
 intro:
-  - paul: "Seventh floor. The Arcade. Mind the cables."
-  - paul: "Until now you've told programs what to do. Up here they work it out by trying."
-  - yahya: "Leaderboard's by the door. Your name isn't on it yet."
-  - caitlin: "The crab's in cabinet three. It doesn't know anything. That's your job."
+  - paul.neutral.wave: "Seventh floor. The Arcade. Mind the cables."
+  - paul.thinking: "Until now you've told programs what to do. Up here they work it out by trying."
+  - aaesha.pleased: "The way people learn. Try something, see how it went, do a bit better next time."
+  - caitlin.laughing.point: "The crab's in cabinet three. It doesn't know anything yet. That's your job."
+  - yahya.unimpressed: "Leaderboard's by the door. Your name isn't on it yet."
 jobs:
   - which-bucket
   - the-racing-grid

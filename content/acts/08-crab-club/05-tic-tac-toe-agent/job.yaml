@@ -5,7 +5,7 @@ status: outline
 client: caitlin
 building: crab-club
 estimated_minutes: 120
-summary: "An agent for Caitlin's noughts and crosses cabinet that learns by playing itself: Monte Carlo control from whole games, then self-play until it never loses."
+summary: "An opponent for Caitlin's noughts and crosses cabinet that learns by playing itself: Monte Carlo control from whole games, then self-play until it never loses, even to Yahya."
 # Outline, for whoever writes it in full:
 # - Comes after the Value Estimator (learning-by-racing), which introduces
 #   monte-carlo; this project reviews it and introduces self-play.

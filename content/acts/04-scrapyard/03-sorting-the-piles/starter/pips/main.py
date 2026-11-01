@@ -2,10 +2,10 @@ def quick_sort(pile):
     if len(pile) <= 1:
         return pile
     pivot = pile[0]
-    lighter = [weight for weight in pile if weight < pivot]
-    heavier = [weight for weight in pile if weight > pivot]
-    return quick_sort(lighter) + [pivot] + quick_sort(heavier)
+    faster = [lap for lap in pile if lap < pivot]
+    slower = [lap for lap in pile if lap > pivot]
+    return quick_sort(faster) + [pivot] + quick_sort(slower)
 
 
-engines = [7, 3, 9, 7, 1, 7, 4]
-print(quick_sort(engines))
+laps = [7, 3, 9, 7, 1, 7, 4]
+print(quick_sort(laps))

@@ -1,6 +1,6 @@
 "use client";
 
-// One review card: a tiny retrieval task (predict, choose, fix, fill in, write) on a plain card,
+// One review card: a tiny retrieval task (predict, choose, fix, fill in, write) on a pixel panel,
 // with "Check" under it. Morning Rounds and the Drills both use it. When a check fails, the
 // report prints under the card, the way it does on the Workbench.
 import { useMemo, useState } from "react";
@@ -33,6 +33,7 @@ export function ReviewCard({
   card,
   runner,
   onAnswered,
+  onAttempt,
   head,
   children,
   label,
@@ -40,6 +41,8 @@ export function ReviewCard({
   card: Card;
   runner: Runner;
   onAnswered: (o: CardOutcome) => void;
+  /** Every go, right or wrong, as it's marked: whoever is watching can react to it. */
+  onAttempt?: (correct: boolean, attempt: number) => void;
   /** The top of the card: the project it comes from, or the task number. */
   head?: React.ReactNode;
   /** The foot of the card, under the feedback (the "next" button). */
@@ -61,6 +64,7 @@ export function ReviewCard({
     const n = attempts + 1;
     setAttempts(n);
     setResult({ correct, text });
+    onAttempt?.(correct, n);
     if (correct || n >= 2) onAnswered({ correct, attempts: n, misconception });
   };
 
@@ -112,7 +116,7 @@ export function ReviewCard({
 
   return (
     <div className={styles.wrap}>
-      <article className={styles.card} aria-label={label}>
+      <article className={`px-panel ${styles.card}`} aria-label={label}>
         {head}
         <div className={styles.task}>
           <p className={styles.prompt} dangerouslySetInnerHTML={{ __html: card.promptHtml }} />
@@ -155,7 +159,7 @@ export function ReviewCard({
           ) : null}
 
           {card.type === "fill" ? (
-            <pre className={`code-dark ${styles.fill}`}>
+            <pre className={`code-dark px-inset ${styles.fill}`}>
               <code>
                 {fillParts.map((part, i) => (
                   <span key={i}>
@@ -178,7 +182,7 @@ export function ReviewCard({
           ) : null}
 
           {card.type === "fix" || card.type === "write" ? (
-            <div className={styles.editor}>
+            <div className={`px-inset ${styles.editor}`}>
               <Editor docKey={card.id} value={code} onChange={(v) => setCode(v)} label="Code for this card" onCheck={() => void check()} readOnly={done} />
             </div>
           ) : null}

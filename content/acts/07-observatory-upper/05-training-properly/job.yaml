@@ -4,9 +4,9 @@ project_name: "Optimiser Benchmark"
 portfolio_readme: |
   # Optimiser Benchmark
 
-  The same small neural network, trained on the same 800 examples from the same starting weights with three optimisers written from scratch in NumPy: plain stochastic gradient descent, momentum and Adam. Then Adam again from all-zero weights, to show why the starting weights matter as much as the optimiser.
+  The same small neural network, trained on the same 800 examples from the same starting weights with three optimisers written from scratch in NumPy: plain stochastic gradient descent, momentum and Adam. It's run like a time trial: same car, same track, same tyres, and only the driver changes. Then Adam again from all-zero weights, to show why the starting weights matter as much as the optimiser.
 
-  Written by {name} for Yahya, at Paul's Python Course. Finished {date}.
+  Written by {name} for Neil, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -38,18 +38,19 @@ portfolio_readme: |
   `evenings.csv` is invented for the project: 800 evenings of visibility, wind, rain and darkness, each scaled from 0 to 1, with whether the clock-face lights, the beacon and the storm shutters were used.
 downloadable: true
 datasets: []
-client: yahya
+client: neil
 building: observatory
 estimated_minutes: 90
-summary: "One network, one start, one log of 800 evenings, and three optimisers written from scratch: plain SGD, momentum and Adam, compared fairly, then Adam again from all zeros."
+summary: "A time trial for optimisers. One network, one start, one log of 800 evenings, and three optimisers written from scratch: plain SGD, momentum and Adam, compared fairly, then Adam again from all zeros."
 concepts_introduced: [optimisers, weight-initialisation]
 concepts_reviewed: [backpropagation, gradient-descent, neural-networks, activation-functions, numpy-arrays, random-module, classes, init, methods, dictionaries, generators, feature-scaling, mean-squared-error]
 ask:
   dialogue:
-    - yahya: "Neil's network learnt Paul's whole log the plain way. It got there. Eventually."
-    - yahya: "Eight hundred evenings. Three optimisers, same network, same start. Fastest wins."
-    - neil: "A fair race, then. Same start, same batches, same epochs, or it doesn't count."
-    - paul: "A good start and a sensible stride. That's most of training."
+    - neil.pleased.wave: "My network learnt Paul's whole log the plain way. It got there. Eventually."
+    - neil.thinking.point: "So, a time trial. Same car, same track, same tyres. Only the driver changes."
+    - neil.neutral: "Three optimisers, same network, same start, same batches. Fastest down the loss wins."
+    - yahya.proud: "Adam. Calling it now."
+    - paul.neutral: "A good start and a sensible stride. That's most of training."
   spec: |
     The network from Neural Network from Scratch is in `brain.py`: `forward`, `loss`, `backward`, and `batches`, mended from Caitlin's version. In `optimisers.py`, plain `SGD` is already written, as the pattern.
 
@@ -67,11 +68,12 @@ ask:
     adam      loss 0.1756, every answer right on 40% of evenings
 ship:
   dialogue:
-    - yahya: "Adam: every answer right on ninety-seven evenings in a hundred. Thirty epochs. A fair win."
-    - neil: "From zeros, forty. Sixteen hidden neurons, every one saying the same thing."
-    - caitlin: "Sixteen neurons agreeing. That's a strong result, surely."
-    - aaesha: "It's one neuron, sixteen times."
-  shelf: { object: pendulum, label: "Yahya's optimiser race, run fairly" }
+    - neil.pleased.cheer: "Adam: every answer right on ninety-seven evenings in a hundred. Thirty epochs. Pole position, fairly won."
+    - neil.worried: "From zeros, forty. Sixteen hidden neurons, every one saying the same thing."
+    - caitlin.pleased: "Sixteen neurons agreeing. That's a strong result, surely."
+    - aaesha.laughing: "It's one neuron, sixteen times."
+    - yahya.proud.thumbs: "Adam. Called it."
+  shelf: { object: pendulum, label: "Neil's optimiser time trial, run fairly" }
   cards: [optimisers, weight-initialisation]
 stretch:
   - id: rate-sweep

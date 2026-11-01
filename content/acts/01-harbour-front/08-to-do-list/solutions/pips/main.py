@@ -1,5 +1,5 @@
-# Neil's jobs, in the order he means to do them
-tasks = ["mark the quizzes", "fix the projector", "order chalk", "answer Caitlin"]
+# Riya's jobs, in the order she means to do them
+tasks = ["rocket poster", "album cover", "order ink", "answer Caitlin"]
 
 board = sorted(tasks)
 

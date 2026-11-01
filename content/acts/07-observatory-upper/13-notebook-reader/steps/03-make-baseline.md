@@ -5,7 +5,7 @@ title: The scores to beat
 files: [notes.py, baseline.py]
 entry: baseline.py
 starter_from: make-notes
-on_pass: { aaesha: "Guessing evenly: 55. The bigram: 10.7. That's the bar. A low one, but a bar." }
+on_pass: { aaesha.neutral: "Guessing evenly: 55. The bigram: 10.7. That's the bar. A low one, but a bar." }
 hints:
   nudge: "A bigram looks one character back. Which column of `X` is the character just before each target?"
   plan:
@@ -30,7 +30,7 @@ Before the network, two scores it has to beat. Guessing evenly among 55 characte
 
 ```
 Guessing evenly: perplexity 55
-Bigram on the held-back notes: perplexity 10.71
+Bigram on the held-back notes: perplexity 10.73
 ```
 
 `perplexity` takes the chances a model gave to the characters that really came next, so the network can use it too.

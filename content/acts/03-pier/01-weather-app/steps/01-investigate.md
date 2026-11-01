@@ -4,7 +4,7 @@ type: investigate
 title: What came back
 concept: json-module
 dialogue:
-  - yahya: "There's a 10K in Penzance on Tuesday. I asked Open-Meteo about it on Sunday and kept the reply."
+  - riya.pleased.point: "This is for my painting trip. I asked Open-Meteo about Penzance on Sunday and kept the reply."
 code: |
   import json
 
@@ -31,7 +31,7 @@ tasks:
     prompt: "Add `print(forecast[\"daily\"][\"snowfall_sum\"])` at the end and run it. What kind of error stops it?"
     kind: answer
     accept: ["KeyError", "a KeyError", "key error"]
-    feedback: "A `KeyError`. Yahya never asked about snow, so there's no `snowfall_sum` in the reply. A reply only holds what the URL asked for."
+    feedback: "A `KeyError`. Riya never asked about snow, so there's no `snowfall_sum` in the reply. A reply only holds what the URL asked for."
     wrong: "Read the last line of the traceback, before the colon."
   - id: day-by-day
     prompt: "Take out the snow line. Then print each day's date and its highest temperature on one line, like `2026-10-25 12.7`, by walking `time` and `temperature_2m_max` together with `zip`."
@@ -55,4 +55,4 @@ tasks:
 ---
 `forecast.json` is a real reply from Open-Meteo's forecast service, saved so you can read it at your own pace: same question, same answer, every time you open it. `json.load` turns the JSON into what you already know: dictionaries, lists, numbers and text.
 
-The reply keeps its days in columns, not rows. `forecast["daily"]["time"]` is a list of dates, and every other list in `daily` lines up with it, one value a day, the way the tailor's two lists did.
+The reply keeps its days in columns, not rows. `forecast["daily"]["time"]` is a list of dates, and every other list in `daily` lines up with it, one value a day, the way the two lists in Caitlin's kit book did.

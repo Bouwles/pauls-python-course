@@ -4,16 +4,16 @@ type: milestone
 title: "Milestone 3: the analysis, and honest charts"
 evidence: link
 dialogue:
-  - aaesha: "That axis starts at 1,050 millimetres. Start it at zero, or say on the chart that you didn't."
-  - caitlin: "It looked much more dramatic from 1,050."
-  - aaesha: "Yes. That's the problem."
+  - yahya.unimpressed.point: "That axis starts at 1,050 millimetres. Start it at zero, or say on the chart that you didn't."
+  - caitlin.laughing: "It looked much more dramatic from 1,050."
+  - yahya.neutral: "Yes. That's the problem."
 checklist:
   - id: answers
     text: "Each chart answers part of your question, and its title says which part."
     why: "A chart with no question behind it is wallpaper. Nice wallpaper, sometimes."
   - id: axes
     text: "Every axis is labelled with its units, and starts at zero or says on the chart that it doesn't."
-    why: "An axis that starts at 1,050 turns a puddle into a flood. Aaesha will look at the axes before the title."
+    why: "An axis that starts at 1,050 turns a puddle into a flood. Yahya will look at the axes before the title."
   - id: wobble
     text: "Your charts show how much single years vary, not only averages, before any change is claimed."
     why: "Without the wobble, any slope looks like a trend. With it, the reader can judge for themselves."
@@ -36,4 +36,4 @@ Show the year-to-year wobble before claiming a change: a dot for each year, with
 
 Then try one other reasonable choice: another pair of periods, the median instead of the mean, or the provisional months kept in. If the answer changes, that's the most important thing you've found, and it goes in the write-up.
 
-Put `investigation.py`, `station.py`, your tests and the charts somewhere Aaesha can see them, a repository or a gist, and paste the link.
+Put `investigation.py`, `station.py`, your tests and the charts somewhere Yahya can see them, a repository or a gist, and paste the link.

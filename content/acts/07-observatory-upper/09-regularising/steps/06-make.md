@@ -4,7 +4,7 @@ type: make
 title: Three ways to hold back
 files: [net.py, regular.py]
 entry: regular.py
-on_pass: { aaesha: "Weight decay: 0.134 on the nights it never saw, against Riya's 0.246. That one I'll believe." }
+on_pass: { neil.pleased: "Weight decay: 0.134 on the nights it never saw, against Riya's 0.246. That one I'll believe." }
 hints:
   nudge: "Which of the three changes the forward pass, which changes the gradients, and which only watches?"
   plan:

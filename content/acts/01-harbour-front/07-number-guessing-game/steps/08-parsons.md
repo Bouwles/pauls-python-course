@@ -3,7 +3,7 @@ id: parsons
 type: parsons
 title: On the board
 dialogue:
-  - caitlin: "Anything under twenty doesn't go on the board. Even I agree on that."
+  - caitlin.unimpressed: "Anything under twenty doesn't go on the board. Even I agree on that."
 blocks:
   - { code: "on_board = 0", indent: 0 }
   - { code: "while True:", indent: 0 }

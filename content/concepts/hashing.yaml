@@ -61,7 +61,7 @@ cards:
         misconception: different-names-different-piles
         feedback: "There are far more possible names than piles, so some must share. The pile keeps both, and a lookup compares names along it."
   - type: choice
-    prompt: "Aaesha files `kettle` in pile 3 on Monday morning. On Monday afternoon the program, still running, works out `part_hash(\"kettle\") % 8` again. What does it get?"
+    prompt: "Caitlin files `kettle` in pile 3 on Monday morning. On Monday afternoon the program, still running, works out `part_hash(\"kettle\") % 8` again. What does it get?"
     verify: none
     options:
       - text: "3, the same as before"

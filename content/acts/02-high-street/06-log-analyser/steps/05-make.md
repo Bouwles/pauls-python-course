@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Teach it some manners
-on_pass: { neil: "Every line read or accounted for. First-year me would be impressed." }
+on_pass: { neil.proud: "Every line read or accounted for. First-year me would be impressed." }
 hints:
   nudge: "The ValueError starts in parse_line. Where would you rather catch it: in parse_line itself, or in the loop that calls it for each line?"
   plan:
@@ -47,10 +47,10 @@ Change Neil's script so one bad line can't stop the report:
 
 ```
 11 entries read
-Errors by machine:
-  lights: 2
-  printer: 2
-  thermostat: 1
+Errors by system:
+  camera: 2
+  gps: 2
+  motors: 1
 Skipped 3 lines:
   line 6: expected 4 parts, got 3
   line 9: unknown level WARNING

@@ -50,7 +50,7 @@ cards:
         misconception: tail-names-the-bulk
         feedback: "The skew is named after the tail, not the bulk. One very wet day drags the mean up, and the other six sit below it."
   - type: choice
-    prompt: "The fences flag 38 days of rain in 2024, out of 366. What should Aaesha do with them?"
+    prompt: "The fences flag 38 days of rain in 2024, out of 366. What should Yahya do with them?"
     verify: none
     options:
       - text: "Keep them. Daily rain has a long tail, so wet days fall outside fences built for tidy readings. Check any that look impossible."
@@ -72,7 +72,7 @@ cards:
     tests: |
       TESTS = [output("Both ends", expect="[58, 2]")]
   - type: fix
-    prompt: "Riya flags anything three standard deviations from the mean. The 58 drags the mean and the spread out so far that it isn't caught. Build the fences from the quartiles instead, so it prints `[58]`."
+    prompt: "Yahya flags anything three standard deviations from the mean. The 58 drags the mean and the spread out so far that it isn't caught. Build the fences from the quartiles instead, so it prints `[58]`."
     code: |
       import pandas as pd
 

@@ -31,6 +31,6 @@ options:
     misconception: closures-share-last-value
     feedback: "The second call doesn't overwrite the first. Every call to `make_offer` gets its own `percent`, so the two offers stay different."
 ---
-The stall's offers change every week, so `make_offer` builds a new pricing function for each one.
+The fruit table's offers change every week, so `make_offer` builds a new pricing function for each one.
 
 Notice that `apply` uses `percent`, which belongs to `make_offer`, and that `make_offer` has finished by the time `apply` is called.

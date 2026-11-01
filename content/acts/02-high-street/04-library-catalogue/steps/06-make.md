@@ -5,7 +5,7 @@ title: Make the word counter
 files: [words.py]
 entry: words.py
 timeout_ms: 15000
-on_pass: { aaesha: "Two thousand six hundred and sixty-nine different words, and one row for each. Not a duplicate among them." }
+on_pass: { aaesha.pleased: "Two thousand six hundred and sixty-nine different words, and one row for each. Not a duplicate among them." }
 hints:
   nudge: "Before anything is counted, what has to happen to `\"Alice,` so that it counts as `alice`?"
   plan:

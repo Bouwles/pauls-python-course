@@ -5,6 +5,7 @@ import { duration } from "@/lib/display";
 import { getConcepts, getIndex } from "@/lib/content/server";
 import { Page } from "@/components/site/Page";
 import { Badge } from "@/components/ui/Badge";
+import { FloorResident } from "@/components/site/FloorResident";
 import { LinkButton } from "@/components/ui/Button";
 import styles from "@/components/legal/Syllabus.module.css";
 
@@ -12,7 +13,7 @@ export const metadata: Metadata = { title: "Syllabus" };
 
 const WORDS: Record<number, string> = { 8: "Eight", 9: "Nine", 10: "Ten" };
 
-/** The floor's resident colour, for the small square beside each Act (REDESIGN-2.md 6). */
+/** The floor's resident colour, for the small square beside each Act in the contents (REDESIGN-2.md 6). */
 function square(act: number): React.CSSProperties {
   const who = floorFor(act)?.residents[0] ?? "paul";
   return { background: `var(--c-${who}, ${castColour(who).face})` };
@@ -24,6 +25,7 @@ export default function Syllabus() {
   const totalHours = index.acts.reduce((n, a) => n + a.hours, 0);
   const totalJobs = index.acts.reduce((n, a) => n + a.jobs.filter((j) => !j.placementFor).length, 0);
   const first = index.acts[0]?.jobs[0];
+  const names = Object.fromEntries(Object.values(index.characters).map((c) => [c.id, c.name]));
   return (
     <Page>
       <header className={styles.head}>
@@ -52,8 +54,8 @@ export default function Syllabus() {
           return (
             <section key={act.id} id={`act-${act.id}`} className={styles.act} aria-labelledby={`act-${act.id}-title`}>
               <div className={styles.actHead}>
+                <FloorResident act={act.number} names={names} className={styles.resident} />
                 <p className={styles.actLabel}>
-                  <span className={styles.square} style={square(act.number)} aria-hidden="true" />
                   Act {act.number}
                   {floor ? `, ${floor.label.toLowerCase()}` : null}
                 </p>

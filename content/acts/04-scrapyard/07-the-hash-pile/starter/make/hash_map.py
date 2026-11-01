@@ -1,10 +1,10 @@
 """Hash map from scratch: a dictionary made by hand, to see how dict does it."""
 
-KINDS = ["bolt", "nut", "washer", "spring", "hinge", "valve", "gear", "chain", "hubcap", "bell"]
+KINDS = ["bolt", "nut", "washer", "spring", "kingpin", "valve", "gear", "chain", "rotor", "sprocket"]
 
 
 def stock_parts(count):
-    """count different part names, the way the store room's stock list writes them."""
+    """count different part names, the way Neil's parts list writes them."""
     return [f"{KINDS[number % len(KINDS)]}-{number // len(KINDS) + 1}" for number in range(count)]
 
 

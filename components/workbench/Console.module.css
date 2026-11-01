@@ -128,58 +128,73 @@
   word-break: break-word;
 }
 
-/* The error panel: Neil, a heading, the explanation, a button. */
+/* The error panel: a pixel panel with Neil, thinking and pointing at the problem, beside a
+   heading in the pixel face, the plain explanation and Go to line. */
 .explain {
   display: grid;
-  gap: var(--s-3);
+  grid-template-columns: 80px minmax(0, 1fr);
+  column-gap: var(--s-4);
+  row-gap: var(--s-3);
+  align-items: start;
   max-width: 720px;
+  margin: 2px 8px 8px 2px;
   padding: var(--s-5);
-  border-radius: var(--r-lg);
   background: var(--surface-2);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-hi),
+    inset 0 -2px 0 0 var(--px-lo),
+    6px 6px 0 0 var(--px-drop);
 }
 
 :root[data-theme="light"] .explain {
   background: var(--bg);
-  border: 1px solid var(--line);
 }
 
 @media (prefers-color-scheme: light) {
   :root[data-theme="system"] .explain {
     background: var(--bg);
-    border: 1px solid var(--line);
   }
 }
 
 .explainHead {
-  display: flex;
-  align-items: center;
-  gap: var(--s-4);
+  display: contents;
+}
+
+.explainHead > :first-child {
+  grid-row: 1 / span 3;
 }
 
 .explainTitle {
-  font-family: var(--font-display);
-  font-size: var(--fs-5);
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: var(--tracking-display);
+  align-self: center;
+  font-size: var(--px-2);
+  line-height: 1.1;
 }
 
 .explainBody {
+  grid-column: 2;
   font-size: var(--fs-3);
   line-height: var(--lh-text);
   max-width: var(--measure);
-  padding-left: calc(48px + var(--s-4));
 }
 
 .explainActions {
-  padding-left: calc(48px + var(--s-4));
+  grid-column: 2;
+  padding: 2px;
 }
 
 .loadError {
   padding: var(--s-4);
-  margin-bottom: var(--s-3);
-  border-radius: var(--r-lg);
+  margin: 2px 2px var(--s-3);
   background: var(--sun-wash);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
 }
 
 .loadError pre {
@@ -203,8 +218,13 @@
 .figure {
   max-width: 100%;
   height: auto;
-  border-radius: var(--r-md);
+  margin: 2px;
   background: var(--surface-1);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
 }
 
 @container wb (max-width: 860px) {
@@ -213,15 +233,16 @@
   }
 
   .explain {
+    grid-template-columns: 72px minmax(0, 1fr);
     padding: var(--s-4);
   }
 
-  .explainTitle {
-    font-size: var(--fs-4);
+  .explainHead > :first-child {
+    grid-row: 1;
   }
 
   .explainBody,
   .explainActions {
-    padding-left: 0;
+    grid-column: 1 / -1;
   }
 }

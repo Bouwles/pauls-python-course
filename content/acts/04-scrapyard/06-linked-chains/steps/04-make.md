@@ -1,10 +1,10 @@
 ---
 id: make
 type: make
-title: Make the clockmaker's round
+title: Make the round of crates
 files: [chalk_round.py]
 entry: chalk_round.py
-on_pass: { yahya: "Gong in, anchor out, round the other way. And not one crate lifted." }
+on_pass: { neil.proud.thumbs: "Tank in, axle out, round the other way. And not one crate lifted." }
 hints:
   nudge: "To change the round just after a crate, which crate's `next` has to change, and what must you hold on to before you change it?"
   plan:
@@ -43,8 +43,8 @@ Write `Crate` and `Round` in `chalk_round.py`. `append`, `parts` and `__len__` a
 `reverse` walks the round once, turning each arrow to point back at the crate before it:
 
 ```text
-before:  anchor -> bell -> chain -> None
-after:   None <- anchor <- bell <- chain
+before:  axle -> brakes -> chassis -> None
+after:   None <- axle <- brakes <- chassis
 ```
 
 Keep three names as you walk: the crate before, this crate, and the crate after, which you must hold on to before you turn this crate's arrow round.

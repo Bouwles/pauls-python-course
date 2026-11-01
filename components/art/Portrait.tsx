@@ -1,35 +1,65 @@
 import { castColour } from "@/lib/cast";
-import { Art, hasFinalArt } from "./Art";
-import { bodyId, portraitId, type Expression, type Pose } from "./spec";
+import type { Pose as Gesture } from "@/lib/pixel/people";
+import { PixelPerson } from "./PixelPerson";
+import type { Expression, Pose } from "./spec";
 import styles from "./Portrait.module.css";
 
 export type { Expression, Pose } from "./spec";
+export type { Gesture };
 
-const initial = (name: string) => name.trim().charAt(0).toUpperCase();
-
-/** The portrait to show: the expression asked for, else their neutral one, else none yet. */
-function portraitArt(who: string, expression: Expression): string | null {
-  const id = portraitId(who, expression);
-  if (hasFinalArt(id)) return id;
-  const neutral = portraitId(who, "neutral");
-  return hasFinalArt(neutral) ? neutral : null;
+/** Fit a person's crop into `inner` pixels: whole-number scales when there's room, else shrink. */
+function fit(inner: number, cropWidth: number): number {
+  return inner >= cropWidth ? Math.floor(inner / cropWidth) : inner / cropWidth;
 }
 
 /**
- * A character's portrait in a circle (REDESIGN-2.md 4.4 and 8.5): the coach, name tags, the
- * class. With the illustrator's art, the half-body portrait in the expression asked for, cut to
- * a circle on the character's colour. Until then a circle in their colour with their initial.
+ * A character's portrait (REDESIGN3_PLAN.md P1): their pixel self, head and shoulders, on a square
+ * tile in their colour with a pixel edge. Alive: they blink and breathe, and their mouth moves
+ * while `talking`. Used for the coach, name tags, the class and the Clocktower's residents.
  */
-export function Portrait({ who, name, size = 64, expression = "neutral", className, onClick, label }: { who: string; name: string; size?: number; expression?: Expression; className?: string; onClick?: () => void; label?: string }) {
+export function Portrait({
+  who,
+  name,
+  size = 64,
+  expression = "neutral",
+  gesture = "idle",
+  talking = false,
+  mouthOpen,
+  crop,
+  animate = true,
+  className,
+  onClick,
+  label,
+}: {
+  who: string;
+  name: string;
+  size?: number;
+  expression?: Expression;
+  /** Shown when the crop is the bust (from 96 px up, or asked for). */
+  gesture?: Gesture;
+  talking?: boolean;
+  mouthOpen?: boolean | 0 | 1 | 2;
+  crop?: "head" | "bust";
+  animate?: boolean;
+  className?: string;
+  onClick?: () => void;
+  label?: string;
+}) {
   const c = castColour(who);
-  const art = portraitArt(who, expression);
-  const style = { width: size, height: size, background: c.face, color: c.ink, fontSize: Math.round(size * 0.46) } as React.CSSProperties;
-  const inner = art ? (
-    <Art id={art} size={size} alt="" className={styles.art} />
-  ) : (
-    <span className={styles.initial} aria-hidden="true">
-      {initial(name)}
-    </span>
+  const style = { width: size, height: size, background: c.face } as React.CSSProperties;
+  const shown = crop ?? (size >= 96 ? "bust" : "head");
+  const inner = (
+    <PixelPerson
+      who={who}
+      expression={expression}
+      pose={shown === "bust" ? gesture : "idle"}
+      talking={talking}
+      mouthOpen={mouthOpen}
+      animate={animate}
+      crop={shown}
+      scale={fit(size - 4, shown === "bust" ? 48 : 32)}
+      className={styles.person}
+    />
   );
   if (onClick)
     return (
@@ -45,27 +75,40 @@ export function Portrait({ who, name, size = 64, expression = "neutral", classNa
 }
 
 /**
- * The large illustration slot (Ask, Ship, "Meet the class"): a half-body portrait in an
- * expression, or a full-body pose. With the illustrator's art, the drawing itself at `height`;
- * until then a rounded rectangle in the character's colour, their initial large, and their name.
+ * The large slot (Ask, Ship, "Meet the class"): the character's pixel self from the waist up on a
+ * tile in their colour, their name below. They can talk and gesture (wave, cheer, think...).
  */
-export function Figure({ who, name, height = 360, className, caption, expression = "neutral", pose }: { who: string; name: string; height?: number; className?: string; caption?: string; expression?: Expression; pose?: Pose }) {
-  const id = pose ? bodyId(who, pose) : portraitArt(who, expression);
+export function Figure({
+  who,
+  name,
+  height = 360,
+  className,
+  caption,
+  expression = "neutral",
+  gesture = "idle",
+  talking = false,
+  mouthOpen,
+}: {
+  who: string;
+  name: string;
+  height?: number;
+  className?: string;
+  caption?: string;
+  expression?: Expression;
+  /** Older name for a pose from the illustration plan; pixel people use `gesture`. */
+  pose?: Pose;
+  gesture?: Gesture;
+  talking?: boolean;
+  mouthOpen?: boolean | 0 | 1 | 2;
+}) {
   const c = castColour(who);
-  if (id && hasFinalArt(id)) {
-    const width = pose ? Math.round(height / 2) : height;
-    return (
-      <figure className={[styles.figureArt, className].filter(Boolean).join(" ")} style={{ minHeight: height }}>
-        <Art id={id} size={width} alt={caption ?? name} />
-      </figure>
-    );
-  }
+  const k = Math.max(2, Math.floor((height - 64) / 52));
   return (
-    <figure className={[styles.figure, className].filter(Boolean).join(" ")} style={{ minHeight: height, background: c.face, color: c.ink }} aria-label={caption ?? name}>
-      <span className={styles.figureInitial} aria-hidden="true">
-        {initial(name)}
-      </span>
-      <figcaption className={styles.figureName}>{name}</figcaption>
+    <figure className={[styles.figure, className].filter(Boolean).join(" ")} style={{ minHeight: height, background: c.face }} aria-label={caption ?? name}>
+      <PixelPerson who={who} expression={expression} pose={gesture} talking={talking} mouthOpen={mouthOpen} scale={k} className={styles.figurePerson} />
+      <figcaption className={styles.figureName} style={{ background: c.face, color: c.ink }}>
+        {name}
+      </figcaption>
     </figure>
   );
 }

@@ -4,9 +4,9 @@ project_name: "Maze Solver"
 portfolio_readme: |
   # Maze Solver
 
-  Reads a maze drawn as text, `#` for walls and `.` for open ground with an `S` and a `G`, and solves it. Breadth-first search finds the shortest way through; depth-first search walks every tile it can reach, as deep as it can go first; and anything the walk never reaches is reported as cut off. The answer is drawn back onto the maze.
+  Reads a maze drawn as text, `#` for walls and `.` for open ground with an `S` and a `G`, and solves it: here, the car park at a race circuit, from the gate to Neil's car. Breadth-first search finds the shortest way through; depth-first search walks every tile it can reach, as deep as it can go first; and anything the walk never reaches is reported as cut off. The answer is drawn back onto the maze.
 
-  Written by {name} for Yahya, at Paul's Python Course. Finished {date}.
+  Written by {name} for Neil, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -14,7 +14,7 @@ portfolio_readme: |
   python maze.py
   ```
 
-  It solves `maze.txt`, Yahya's maze from the Puzzle Room wall:
+  It solves `maze.txt`, the circuit's car park on Neil's race weekend, hedges and all:
 
   ```
   Start to goal: 19 steps
@@ -40,23 +40,23 @@ portfolio_readme: |
   - Depth-first search by recursion, and using it to find what can't be reached at all
   - Edge cases a maze is full of: corners, edges, no way through, and a start that is the goal
 downloadable: true
-# maze.txt is invented for the story: Yahya's maze, from the Puzzle Room wall. Mazes are
+# maze.txt is invented for the story: a race weekend car park, hedged into a maze. Mazes are
 # drawn, not measured, so no public dataset is needed. See the README.
 datasets: []
-client: yahya
+client: neil
 building: scrapyard
 estimated_minutes: 100
-summary: "A maze solver for Yahya's maze: graphs first, on his running routes across the city, then the maze as a grid, solved breadth first for the fewest steps and depth first for everywhere that can be reached."
+summary: "A maze solver for Neil's race weekend: graphs first, on the roads round the circuit, then the car park as a grid, solved breadth first for the fewest steps to his car and depth first for everywhere that can be reached."
 concepts_introduced: [graphs, bfs, dfs]
 concepts_reviewed: [dictionaries, dict-get, sets, lists, tuples, negative-indices, while-loops, queues, deque, stacks, recursion, big-o, list-comprehensions, edge-cases, files]
 ask:
   dialogue:
-    - yahya: "I drew a maze on the Puzzle Room wall. The class races it. Caitlin's best is twenty-three steps."
-    - yahya: "I say nineteen is possible. She says prove it."
-    - yahya: "And I want to know if there's anywhere in it nobody can get to."
-    - paul: "Places, and the ways between them. Write it down like that and it's a graph."
+    - neil.pleased.wave: "Race weekend. The circuit's car park is a field of hedges, one gate, and my car."
+    - neil.thinking: "The steward says twenty-three steps from the gate to my car. I say nineteen is possible."
+    - neil.worried: "And I want to know if any space is hedged in, so nobody can get to it."
+    - paul.neutral.point: "Places, and the ways between them. Write it down like that and it's a graph."
   spec: |
-    `maze.txt` is Yahya's maze, drawn as text: `#` is a wall, `.` is open floor, `S` is the start and `G` is the goal. A tile is a `(row, col)` pair. `read_maze` is written: it gives back `(grid, start, goal)`, where `grid` is the list of lines. In `maze.py`, write:
+    `maze.txt` is the car park, drawn as text: `#` is a hedge, a wall to you, `.` is open grass, `S` is the gate and `G` is Neil's car. A tile is a `(row, col)` pair. `read_maze` is written: it gives back `(grid, start, goal)`, where `grid` is the list of lines. In `maze.py`, write:
 
     1. `neighbours(grid, tile)`: the tiles up, down, left and right of `tile`, in that order, that are inside the maze and not walls.
     2. `shortest_path(grid, start, goal)`: the list of tiles from `start` to `goal` in the fewest steps, found by breadth-first search; `[start]` if they're the same tile; `None` if there's no way through. If two ways tie, either will do.
@@ -80,16 +80,16 @@ ask:
     Cut off: (8, 7), (8, 9), (8, 10), (8, 11)
 ship:
   dialogue:
-    - yahya: "Nineteen steps, start to goal. Caitlin checked every one. She's racing it again tomorrow."
-    - yahya: "Four squares in the bottom corner nobody can reach. I'll have a door in by Friday."
-    - paul: "One maze, three questions. Breadth first for the nearest, depth first for everywhere."
-  shelf: { object: track-map, label: "Yahya's maze, solved" }
+    - neil.pleased.cheer: "Nineteen steps, gate to car. I'll be first out on Sunday night."
+    - neil.surprised: "Four spaces in the bottom corner nobody can reach. I've told the circuit."
+    - paul.thinking: "One map, three questions. Breadth first for the nearest, depth first for everywhere."
+  shelf: { object: track-map, label: "Neil's car park, solved" }
   cards: [graphs, bfs, dfs]
 stretch:
   - id: every-step
     title: "How far is everywhere"
     prompt: |
-      Write `steps_from(grid, start)`, a dictionary of every tile you can reach and how many steps away it is. It's Paul's walk round the city, on tiles. Then draw the maze with each open tile's distance, last digit only, and find the tile furthest from the start.
+      Write `steps_from(grid, start)`, a dictionary of every tile you can reach and how many steps away it is. It's Paul's walk round the circuit, on tiles. Then draw the maze with each open tile's distance, last digit only, and find the tile furthest from the start.
   - id: watch-it
     title: "Watch it spread"
     prompt: |

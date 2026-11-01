@@ -4,7 +4,7 @@ type: make
 title: Make the password generator
 files: [passwords.py]
 entry: passwords.py
-on_pass: { neil: "Two hundred passwords, and not one O pretending to be a nought. I looked." }
+on_pass: { caitlin.surprised: "Two hundred passwords, and not one O pretending to be a nought. I looked." }
 hints:
   nudge: "Which kinds of character does this call want? Build the pool from those, then keep making passwords until one has every kind in it."
   plan:

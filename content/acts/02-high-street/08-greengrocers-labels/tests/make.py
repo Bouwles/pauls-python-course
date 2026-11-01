@@ -8,19 +8,19 @@ BANK = [
     {"round": "Python", "question": "Which character starts a comment in Python?", "answer": "#", "also": ["hash", "a hash"]},
     {"round": "Games", "question": "How many squares are on a chess board?", "answer": "64", "also": ["sixty-four", "sixty four"]},
 ]
-SEAL = {"round": "Sea", "question": "What is a baby seal called?", "answer": "a pup", "also": ["pup", "seal pup"]}
+PIANO = {"round": "Music", "question": "Which instrument has 88 keys?", "answer": "the piano", "also": ["piano", "a piano", "grand piano"]}
 GOLD = {"round": "Science", "question": "What is the chemical symbol for gold?", "answer": "Au"}
 
-SEA_NIGHT = """Rounds: Local (4), Science (4), Sea (4), Words (4)
-1. What is the lowest point of the tide called?
-2. What is a baby seal called?
-3. How many hearts does an octopus have?
-4. What do you call a speed of one nautical mile an hour?
+MUSIC_NIGHT = """Rounds: Food (4), Games (4), Local (4), Music (4)
+1. What does a metronome keep?
+2. Which instrument has 88 keys?
+3. How many strings does a standard guitar have?
+4. What do you call a group of four musicians?
 Answers:
-1. low water: right
-2. a pup: you said kitten
-3. 3: right
-4. a knot: right
+1. time: right
+2. the piano: you said keyboard
+3. 6: right
+4. a quartet: right
 Score: 3 out of 4"""
 
 
@@ -54,7 +54,7 @@ def night_output(inputs, expect, message, files=None):
 def different_orders(ctx):
     firsts = set()
     for seed in range(8):
-        result = ctx.run_program(inputs=["sea", "a", "b", "c", "d"], seed=seed)
+        result = ctx.run_program(inputs=["music", "a", "b", "c", "d"], seed=seed)
         lines = result.lines()
         if len(lines) > 1:
             firsts.add(lines[1])
@@ -63,31 +63,31 @@ def different_orders(ctx):
 
 
 TESTS = [
-    custom("Quiz night: the Sea round", night_output(["sea", "low water", "kitten", "three", "Knots"], SEA_NIGHT,
+    custom("Quiz night: the Music round", night_output(["music", "time", "keyboard", "six", "Quartet"], MUSIC_NIGHT,
                                                       "With the questions in a known order, the night should go like this."), visible=True),
     function("The rounds, in alphabetical order", call="round_names", args=(BANK,), expect=["Games", "Python"], visible=True,
              hint="A set comprehension gives each round once; sorted() puts them in order and makes a list."),
     function("round_names of an empty book", call="round_names", args=([],), expect=[]),
-    function("How many in each round", call="round_sizes", args=([SEAL, GOLD, SEAL],), expect={"Science": 1, "Sea": 2},
+    function("How many in each round", call="round_sizes", args=([PIANO, GOLD, PIANO],), expect={"Music": 2, "Science": 1},
              hint="A dictionary comprehension: for each name in round_names, the name and how many questions are in that round."),
     function("in_round keeps the book's order, whatever the capitals", call="in_round", args=(BANK, " PYTHON "),
              expect=[BANK[0], BANK[2], BANK[3]],
              hint="Compare the rounds in lower case, with the spaces stripped off the name typed. Keep the questions in the order they're in the book."),
     function("in_round with no such round", call="in_round", args=(BANK, "Sport"), expect=[]),
-    function("is_right with the answer", call="is_right", args=("a pup", SEAL), expect=True),
-    function("is_right with an answer Caitlin also allows", call="is_right", args=(" Seal Pup ", SEAL), expect=True,
+    function("is_right with the answer", call="is_right", args=("the piano", PIANO), expect=True),
+    function("is_right with an answer Caitlin also allows", call="is_right", args=(" Grand Piano ", PIANO), expect=True,
              hint="The also list holds other answers Caitlin accepts. Capitals and spaces at the ends don't count."),
-    function("is_right with a wrong answer", call="is_right", args=("kitten", SEAL), expect=False),
+    function("is_right with a wrong answer", call="is_right", args=("keyboard", PIANO), expect=False),
     function("is_right with no also list", call="is_right", args=("au", GOLD), expect=True,
              hint="Not every question has an also. question.get(\"also\", []) gives an empty list for those."),
-    function("score", call="score", args=([SEAL, GOLD, SEAL], ["pup", "Ag", "PUP"]), expect=2),
+    function("score", call="score", args=([PIANO, GOLD, PIANO], ["piano", "Ag", "PIANO"]), expect=2),
     function("score with nothing asked", call="score", args=([], []), expect=0),
-    function("answer_sheet", call="answer_sheet", args=([GOLD, SEAL], ["Au", "a calf"]),
-             expect=["1. Au: right", "2. a pup: you said a calf"],
+    function("answer_sheet", call="answer_sheet", args=([GOLD, PIANO], ["Au", "an organ"]),
+             expect=["1. Au: right", "2. the piano: you said an organ"],
              hint="One line per question, numbered from 1: the answer, then right, or what was said instead."),
     custom("A round that isn't there, then one that is", night_output(
         ["Sport", "  local ", "two", "the first floor", "Yellow", "12:00"],
-        "Rounds: Local (4), Science (4), Sea (4), Words (4)\nNo round called Sport.\n"
+        "Rounds: Food (4), Games (4), Local (4), Music (4)\nNo round called Sport.\n"
         "1. How many spaces does Python use for one indent?\n2. Which floor of the Clocktower is the Studio on?\n"
         "3. What colour is the duck on Neil's desk?\n4. What time has the Clocktower's clock said for years?\n"
         "Answers:\n1. 4: you said two\n2. the first floor: right\n3. yellow: right\n4. 3:14: you said 12:00\nScore: 2 out of 4",

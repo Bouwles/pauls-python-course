@@ -4,7 +4,7 @@ type: make
 title: "Question 3: The courier's round"
 files: [post_round.py]
 entry: post_round.py
-on_pass: { aaesha: "Up the odd side, down the even, and two parcels for one house in the order they came. Tidy." }
+on_pass: { aaesha.pleased: "Up the odd side, down the even, and two parcels for one house in the order they came. Tidy." }
 hints:
   nudge: "What key could you give `sorted`, so that one tuple per parcel puts it in its place? What could stand for \"odd side first\"?"
   plan:

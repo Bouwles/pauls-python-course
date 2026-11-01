@@ -130,12 +130,12 @@ cards:
                   moves.append(move)
           return moves
   - type: choice
-    prompt: "Riya adds 4 cables, then 2 fuses, then 40 cables when she meant 4. She presses undo once. Which change should it take back?"
+    prompt: "Riya adds 4 tubes of paint, then 2 brushes, then 40 tubes when she meant 4. She presses undo once. Which change should it take back?"
     verify: none
     options:
-      - text: The 40 cables
+      - text: The 40 tubes
         correct: true
         feedback: "Undo takes back the latest change first. That's why an undo history is a stack: the latest change is always on top."
-      - text: The first 4 cables
+      - text: The first 4 tubes
         misconception: undo-takes-oldest
         feedback: "Undo works backwards from the latest change. Taking back the first would leave her mistake standing and remove a change she meant."

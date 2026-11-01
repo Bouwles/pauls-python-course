@@ -22,10 +22,10 @@ concepts_introduced: [terminal-basics, virtual-environments]
 concepts_reviewed: [functions, return-values, strip-replace]
 ask:
   dialogue:
-    - neil: "Everything so far ran here in the Workshop. Real programs run on real computers."
-    - neil: "Yours, for a start. Set it up properly once and it stays set up."
-    - neil: "My first laptop had Python installed four times. Three of them are still in there somewhere."
-    - paul: "Mine had five. We don't talk about it."
+    - neil.pleased.wave: "Everything so far ran here in the Workshop. Real programs run on real computers."
+    - neil.neutral.point: "Yours, for a start. Set it up properly once and it stays set up."
+    - neil.laughing: "My first laptop had Python installed four times. Three of them are still in there somewhere."
+    - paul.laughing: "Mine had five. We don't talk about it."
   spec: |
     Set Python up on your own computer, and prove it with a small program and its tests:
 
@@ -38,9 +38,9 @@ ask:
     Morning, Paul.
 ship:
   dialogue:
-    - neil: "Same tests, your own computer. That's the whole trick of it."
-    - paul: "One Python, one environment per project. Neil, check yours."
-    - neil: "One Python. I checked twice."
+    - neil.pleased.thumbs: "Same tests, your own computer. That's the whole trick of it."
+    - paul.unimpressed: "One Python, one environment per project. Neil, check yours."
+    - neil.proud: "One Python. I checked twice."
   shelf:
     object: terminal
     label: "A terminal of your own"

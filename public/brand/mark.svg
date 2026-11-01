@@ -1,8 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <title>Paul's Python Course</title>
-  <!-- A snake curled into a P: the tail curls at the foot of the stem, the body loops round the bowl, the head rests inside it. -->
-  <path d="M14 59c4 0 7-2.4 7-6.5V22c0-9.4 6.6-16 15-16 8.6 0 15 6.4 15 14.5S44.6 35 39 35" fill="none" stroke="#FFB627" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-  <ellipse cx="38" cy="35" rx="8" ry="6.8" fill="#FFB627"/>
-  <circle cx="35.6" cy="33" r="1.8" fill="#2A1E00"/>
-  <path d="M30.6 37.2h-1.9m0 0l-1.3-1.1m1.3 1.1l-1.3 1.1" fill="none" stroke="#F2545B" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 16 16" shape-rendering="crispEdges"><title>Paul's Python Course</title><path d="M4 0h7v1h-7zM3 1h1v1h-1zM11 1h1v1h-1zM2 2h1v1h-1zM12 2h1v1h-1zM2 3h1v1h-1zM5 3h5v1h-5zM13 3h1v1h-1zM2 4h1v1h-1zM5 4h1v1h-1zM10 4h1v1h-1zM13 4h1v1h-1zM2 5h1v1h-1zM5 5h1v1h-1zM10 5h1v1h-1zM13 5h1v1h-1zM2 6h1v1h-1zM5 6h1v1h-1zM7 6h3v1h-3zM13 6h1v1h-1zM2 7h1v1h-1zM5 7h2v1h-2zM12 7h1v1h-1zM2 8h1v1h-1zM5 8h1v1h-1zM12 8h1v1h-1zM2 9h1v1h-1zM11 9h1v1h-1zM2 10h1v1h-1zM5 10h2v1h-2zM10 10h1v1h-1zM2 11h1v1h-1zM5 11h1v1h-1zM7 11h3v1h-3zM2 12h1v1h-1zM5 12h1v1h-1zM1 13h1v1h-1zM5 13h1v1h-1zM0 14h1v1h-1zM4 14h1v1h-1zM1 15h3v1h-3z" fill="#050608"/><path d="M4 1h7v1h-7zM3 2h9v1h-9zM3 3h2v1h-2zM11 3h2v1h-2zM3 4h2v1h-2zM12 4h1v1h-1zM3 5h2v1h-2zM12 5h1v1h-1zM3 6h2v1h-2zM11 6h2v1h-2zM3 7h2v1h-2zM7 7h5v1h-5zM3 8h2v1h-2zM6 8h1v1h-1zM8 8h3v1h-3zM3 9h2v1h-2zM6 9h5v1h-5zM3 10h2v1h-2zM3 11h1v1h-1zM3 12h1v1h-1zM2 13h2v1h-2zM1 14h1v1h-1z" fill="#FFB627"/><path d="M10 3h1v1h-1zM11 4h1v1h-1zM11 5h1v1h-1zM10 6h1v1h-1zM11 8h1v1h-1zM7 10h3v1h-3zM4 11h1v1h-1zM4 12h1v1h-1zM4 13h1v1h-1zM2 14h2v1h-2z" fill="#F0A410"/><path d="M7 8h1v1h-1z" fill="#2A1E00"/><path d="M5 9h1v1h-1z" fill="#F2545B"/></svg>

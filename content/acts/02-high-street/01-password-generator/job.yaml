@@ -4,9 +4,9 @@ project_name: "Password Generator"
 portfolio_readme: |
   # Password Generator
 
-  Makes passwords and passphrases that nobody can guess. Sensible defaults for everyday use, and options for the rest: the length, digits, symbols, and leaving out characters that look like each other. Written for Neil, who needed a password for everyone in the class on the Studio's new server.
+  Makes passwords and passphrases that nobody can guess. Sensible defaults for everyday use, and options for the rest: the length, digits, symbols, and leaving out characters that look like each other. Written for Caitlin, who needed a password for everyone in the class on the Studio's new game server.
 
-  Written by {name} for Neil, at Paul's Python Course. Finished {date}.
+  Written by {name} for Caitlin, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -14,7 +14,7 @@ portfolio_readme: |
   python passwords.py
   ```
 
-  It prints a password for three classmates and a passphrase for the Wi-Fi. Keep `wordlist.txt` in the same folder.
+  It prints a password for three players and a passphrase for the Wi-Fi. Keep `wordlist.txt` in the same folder.
 
   ## Use it in your own programs
 
@@ -43,18 +43,18 @@ datasets:
     licence: "CC BY 4.0 (EFF's site licence, https://www.eff.org/copyright)"
     file: wordlist.txt
     notes: "Short Wordlist 1 (1,296 words), dice numbers removed. yo-yo removed so a hyphen always separates words: 1,295 words."
-client: neil
+client: caitlin
 building: post-office
 estimated_minutes: 100
-summary: "Passwords and passphrases for the Studio's new server: sensible defaults, options by name, and nothing anyone can guess."
+summary: "Passwords and passphrases for the Studio's Friday-night game server: sensible defaults, options by name, and nothing anyone can guess."
 concepts_introduced: [default-arguments, keyword-arguments, args-kwargs, mutable-default, docstrings]
 concepts_reviewed: [functions, parameters, return-values, none, random-module, imports, strings, string-methods, in-operator, for-loops, while-loops, dictionaries, dict-items, f-strings]
 ask:
   dialogue:
-    - neil: "The Studio's getting its own server. Everyone in the class needs a password for it."
-    - neil: "I made six up. Aaesha ran them through her password checker. It turned down five."
-    - neil: "The sixth was kettle3. It got through, but she gave me a look."
-    - paul: "Then let a program make them. Good defaults, and options for anyone fussy."
+    - caitlin.pleased.wave: "The Studio's getting a game server for Friday nights. Everyone in the class needs a password."
+    - caitlin.thinking: "I made six up myself. Yahya guessed four of them before the kettle boiled."
+    - caitlin.laughing: "The other two were highscore1 and highscore2. He got those after."
+    - paul.neutral: "Then let a program make them. Good defaults, and options for anyone fussy."
   spec: |
     Write `passwords.py`, with a docstring in every function.
 
@@ -64,23 +64,24 @@ ask:
 
     Anything a password is made from comes from `secrets`, never `random`.
   example: |
-    Passwords for the Studio:
+    Passwords for the game server:
       Aaesha: tK7fWq2mRbXe
       Caitlin: Hn3zVp8sCwYd
       Yahya: qD4hTx9jMkPa
     Passphrase for the Wi-Fi: ample-crust-vowel-tidal
 ship:
   dialogue:
-    - neil: "Three passwords, no two alike, and no O pretending to be a zero."
-    - neil: "Aaesha's checker passed all three. She didn't even look up."
-    - paul: "And it's secrets, not random. Nobody works those out from yesterday's."
-  shelf: { object: type-case, label: "Neil's password generator for the Studio" }
+    - caitlin.pleased: "Server's up. A password each, a passphrase for the Wi-Fi, and no highscore1 anywhere."
+    - yahya.unimpressed: "I spent ten minutes on Caitlin's. Nothing. I don't usually give up."
+    - paul.proud: "It's secrets, not random. Nobody works those out from yesterday's."
+    - caitlin.laughing.cheer: "Friday's on. Bring snacks."
+  shelf: { object: type-case, label: "Caitlin's password generator for the game server" }
   cards: [default-arguments, keyword-arguments, args-kwargs, mutable-default, docstrings]
 stretch:
   - id: pin
     title: "Codes for the lockers"
     prompt: |
-      The lockers on the Studio landing want number codes, not passwords. Write `make_pin(length=4)`: `length` digits from `secrets`, never one of the codes everybody tries first.
+      The controller lockers in the Studio want number codes, not passwords. Write `make_pin(length=4)`: `length` digits from `secrets`, never one of the codes everybody tries first.
 
       ```python
       COMMON_PINS = ["0000", "1111", "1234", "1212", "7777", "2580", "4321", "6969", "1004", "2000"]
@@ -92,4 +93,4 @@ stretch:
   - id: strength
     title: "How strong is it"
     prompt: |
-      A password picked from a pool of `n` characters has `n` choices for each place. Its strength in bits is `length * math.log2(n)`. Work it out for the default password (letters and digits without the lookalikes: 56 characters) and for a four-word passphrase (1,295 words a word). Which is stronger, and which would Neil rather type?
+      A password picked from a pool of `n` characters has `n` choices for each place. Its strength in bits is `length * math.log2(n)`. Work it out for the default password (letters and digits without the lookalikes: 56 characters) and for a four-word passphrase (1,295 words a word). Which is stronger, and which would Caitlin rather type at midnight?

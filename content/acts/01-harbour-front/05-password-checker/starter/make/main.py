@@ -1,4 +1,5 @@
-# Password checker for the class's shared accounts. Aaesha's six rules:
+# Password checker for the class server, where Aaesha's experiments keep their results.
+# Aaesha's six rules:
 # 1. At least 10 characters.
 # 2. At least one capital and one lower-case letter.
 # 3. Not only letters.

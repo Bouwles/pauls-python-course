@@ -11,13 +11,13 @@ portfolio_readme: |
   ## Run it
 
   ```
-  $ python logstream.py --level ERROR --machine printer --first 3
-  06:12 ERROR printer: out of paper
-  06:37 ERROR printer: out of paper
-  07:57 ERROR printer: out of paper
+  $ python logstream.py --level ERROR --system brakes --first 3
+  06:12 ERROR brakes: overheating
+  06:37 ERROR brakes: overheating
+  07:57 ERROR brakes: overheating
   ```
 
-  `python logstream.py --help` lists the options. It reads `machines.log` from the same folder: each line is `time | level | machine | message`.
+  `python logstream.py --help` lists the options. It reads `race.log` from the same folder: each line is `time | level | system | message`.
 
   ## What it shows
 
@@ -26,45 +26,46 @@ portfolio_readme: |
   - Generators chained into a pipeline, each asking the one before it for one item at a time
   - Stopping early, so the end of a file nobody needed is never read
 
-  The log in this folder is invented: a day of one line a minute from the Clocktower's machines.
+  The log in this folder is invented: a 24-hour race on Neil's racing simulator, a line a minute from each part of the car.
 downloadable: true
 datasets: []
 client: neil
 building: workshop
 estimated_minutes: 75
-summary: "Search a log too long to read all at once: a chain of generators that reads a line at a time and stops as soon as it has enough."
+summary: "Search Neil's sim-racing telemetry, too long to read all at once: a chain of generators that reads a line at a time and stops as soon as it has enough."
 concepts_introduced: [iterators, generators, lazy-evaluation]
 concepts_reviewed: [files, with-statement, functions, return-values, tuples, unpacking, split-join, strip-replace, keyword-arguments, none, argparse, main-guard, f-strings, list-comprehensions]
 ask:
   dialogue:
-    - neil: "Every machine in the Clocktower writes a line a minute to that log now. It's years long."
-    - neil: "My old report reads the whole lot into a list first. It took fifteen minutes this morning."
-    - neil: "I only ever want the first few that matter. Printer errors, today."
-    - paul: "So don't read what you don't need. Hand it over a line at a time."
+    - neil.pleased.wave: "My racing sim logs every part of the car, a line a minute, every race. It's years long."
+    - neil.worried: "My old report reads the whole lot into a list first. It took fifteen minutes this morning."
+    - neil.thinking: "I only want the first few that matter. Brake errors, from last weekend's 24-hour race."
+    - paul.neutral: "So don't read what you don't need. Hand it over a line at a time."
   spec: |
-    `machines.log` has a line for each event, `time | level | machine | message`, and the odd line that doesn't. Write `logstream.py` as a chain of generators, so it never reads further than it has to:
+    `race.log` has a line a minute for each part of the car, `time | level | system | message`, and the odd line that doesn't. Write `logstream.py` as a chain of generators, so it never reads further than it has to:
 
     1. `read_lines(path)` yields each line of the file without its newline, skipping blank lines.
-    2. `parse(lines)` yields `(time, level, machine, message)` for each line with all four parts, each part stripped and the level in capitals. Split with `split("|", 3)`, so a message with `|` in it stays whole. Lines without four parts are skipped.
-    3. `matching(entries, level=None, machine=None)` yields only the entries at that level (whatever its capitals) and from that machine. `None` means any.
+    2. `parse(lines)` yields `(time, level, system, message)` for each line with all four parts, each part stripped and the level in capitals. Split with `split("|", 3)`, so a message with `|` in it stays whole. Lines without four parts are skipped.
+    3. `matching(entries, level=None, system=None)` yields only the entries at that level (whatever its capitals) and from that system. `None` means any.
     4. `first(entries, count)` returns a list of the first `count` entries, taking no more than that from `entries`.
 
-    `main` takes `--level`, `--machine` and `--first` (a number, 10 if it's not given), chains the four together and prints each entry as `06:12 ERROR printer: out of paper`, or `Nothing found.`
+    `main` takes `--level`, `--system` and `--first` (a number, 10 if it's not given), chains the four together and prints each entry as `06:12 ERROR brakes: overheating`, or `Nothing found.`
   example: |
-    $ python logstream.py --level ERROR --machine printer --first 3
-    06:12 ERROR printer: out of paper
-    06:37 ERROR printer: out of paper
-    07:57 ERROR printer: out of paper
+    $ python logstream.py --level ERROR --system brakes --first 3
+    06:12 ERROR brakes: overheating
+    06:37 ERROR brakes: overheating
+    07:57 ERROR brakes: overheating
 ship:
   dialogue:
-    - neil: "Printer errors, the first three, before the kettle boiled. It never read past eight o'clock."
-    - neil: "And at two in the morning, the clock again. Still 3:14. Same as every night."
-    - paul: "It's on my list. One line at a time: that's how you read anything long."
-  shelf: { object: logbook, label: "Neil's log streamer" }
+    - neil.pleased: "Brake errors, the first three, before the kettle boiled. It never read past hour eight."
+    - neil.laughing: "And at two in the morning, a driver change. Yahya took over and set the fastest lap of the night."
+    - yahya.proud.thumbs: "He's not exaggerating. It's in the log."
+    - paul.neutral: "One line at a time. That's how you read anything long."
+  shelf: { object: logbook, label: "Neil's race log streamer" }
   cards: [iterators, generators, lazy-evaluation]
 stretch:
   - id: hours
-    title: "Errors by the hour"
+    title: "Errors by the hour of the race"
     prompt: |
       Write `by_hour(entries)`, which counts the entries in each hour, using the first two characters of the time, and returns a dictionary in the order the hours turned up: `{"06": 2, "07": 1}`. It has to read every entry, so it can't stop early. Does that mean it needs a list?
     tests: tests/stretch-hours.py

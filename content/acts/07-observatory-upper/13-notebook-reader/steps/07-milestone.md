@@ -5,8 +5,8 @@ title: "Milestone: the write-up"
 test_plan: true
 evidence: none
 dialogue:
-  - aaesha: "Write down what it is, how it learnt, and where it goes wrong. Paul always does."
-  - paul: "And what you'd check, if someone handed it to you cold."
+  - aaesha.neutral.point: "Write down what it is, how it learnt, and where it goes wrong. Paul always does."
+  - paul.thinking: "And what you'd check, if someone handed it to you cold."
 checklist:
   - id: beats-bigram
     text: "Your model's perplexity on the held-back notes is lower than the bigram's, and both are in your write-up, with guessing evenly beside them."

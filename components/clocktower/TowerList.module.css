@@ -1,36 +1,32 @@
-/* The list view: one folding table per Act, ground floor first. */
+/* The list view: one folding table per Act, ground floor first, each in a pixel panel. */
 .list {
   display: grid;
-  gap: var(--s-3);
+  gap: var(--s-5);
+  padding-right: 6px;
 }
 
 .act {
-  background: var(--surface-1);
-  border-radius: var(--r-lg);
-}
-
-:root[data-theme="light"] .act {
-  border: 1px solid var(--line);
-}
-
-@media (prefers-color-scheme: light) {
-  :root[data-theme="system"] .act {
-    border: 1px solid var(--line);
-  }
+  background: var(--surface-2);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-hi),
+    6px 6px 0 0 var(--px-drop);
 }
 
 .summary {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto auto;
   grid-template-areas:
-    "swatch title state caret"
-    "swatch room state caret";
+    "thumb title state caret"
+    "thumb room state caret";
   align-items: center;
-  gap: 2px var(--s-4);
-  padding: var(--s-4) var(--s-5);
+  gap: var(--s-1) var(--s-4);
+  padding: var(--s-3) var(--s-5) var(--s-3) var(--s-3);
   cursor: pointer;
   list-style: none;
-  border-radius: var(--r-lg);
 }
 
 .summary::-webkit-details-marker {
@@ -38,21 +34,27 @@
 }
 
 .summary:hover {
-  background: var(--surface-2);
+  background: var(--surface-3);
 }
 
-.swatch {
-  grid-area: swatch;
-  width: 14px;
-  height: 14px;
-  border-radius: var(--r-sm);
-  background: var(--face);
+.summary:focus-visible {
+  outline: 2px solid var(--sun);
+  outline-offset: -2px;
+}
+
+/* The Act's room, small and still, framed like a window into the tower. */
+.thumb {
+  grid-area: thumb;
+  display: block;
+  box-shadow: 0 0 0 2px var(--px-outline);
+  margin: 2px;
 }
 
 .actTitle {
   grid-area: title;
-  font-size: var(--fs-4);
-  font-weight: 700;
+  align-self: end;
+  font-size: var(--px-2);
+  line-height: 1;
 }
 
 .actNo {
@@ -61,7 +63,8 @@
 
 .actRoom {
   grid-area: room;
-  font-size: var(--fs-1);
+  align-self: start;
+  font-size: var(--fs-2);
   color: var(--text-2);
 }
 
@@ -78,7 +81,6 @@
 .caret {
   grid-area: caret;
   color: var(--text-2);
-  transition: transform var(--dur) var(--ease-out);
 }
 
 .act[open] .caret {
@@ -97,12 +99,12 @@
   font-weight: 700;
   color: var(--text-2);
   padding: var(--s-2) var(--s-3);
-  border-top: 1px solid var(--line);
+  border-top: 2px solid var(--line);
 }
 
 .table td {
   padding: var(--s-3);
-  border-top: 1px solid var(--line);
+  border-top: 2px solid var(--line);
   vertical-align: top;
 }
 
@@ -158,17 +160,22 @@ a.project:hover {
 
 @media (max-width: 720px) {
   .summary {
-    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) auto;
     grid-template-areas:
-      "swatch title caret"
-      "swatch room caret"
-      "swatch state caret";
+      "title caret"
+      "room caret"
+      "state caret";
     padding: var(--s-4);
     align-items: start;
   }
 
-  .swatch {
-    margin-top: 6px;
+  .thumb {
+    display: none;
+  }
+
+  .actTitle {
+    font-size: var(--px-1);
+    line-height: 16px;
   }
 
   .caret {

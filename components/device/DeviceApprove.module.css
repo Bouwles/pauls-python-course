@@ -13,13 +13,15 @@
   place-items: center;
   width: 56px;
   height: 56px;
-  border-radius: var(--r-lg);
   background: var(--sun);
   color: var(--sun-ink);
+  box-shadow:
+    inset 0 0 0 2px var(--px-outline),
+    inset 0 -6px 0 0 var(--px-lo);
 }
 
 .title {
-  font-size: var(--fs-6);
+  font-size: var(--px-4);
 }
 
 .card {
@@ -28,19 +30,7 @@
   gap: var(--s-4);
   width: 100%;
   padding: var(--s-6);
-  background: var(--surface-2);
-  border-radius: var(--r-lg);
   text-align: left;
-}
-
-:global(:root[data-theme="light"]) .card {
-  border: 1px solid var(--line);
-}
-
-@media (prefers-color-scheme: light) {
-  :global(:root[data-theme="system"]) .card {
-    border: 1px solid var(--line);
-  }
 }
 
 .field {
@@ -52,7 +42,6 @@
   height: 56px;
   font-family: var(--font-code);
   font-size: var(--fs-5);
-  letter-spacing: -0.01em;
   text-align: center;
 }
 
@@ -81,6 +70,10 @@
 @media (max-width: 720px) {
   .wrap {
     margin-top: 0;
+  }
+
+  .title {
+    font-size: var(--px-3);
   }
 
   .card {

@@ -20,7 +20,7 @@ options:
 after: |
   Run it. Then try `"tower" in password`, and `"clocktower" in password.lower()`.
 ---
-Last year, every shared account in the class had `clocktower1` as its password. Aaesha would like that stopped.
+Last year, every account on the class server had `clocktower1` as its password. Aaesha keeps her experiment results there, and she would like that stopped.
 
 `in` asks whether one piece of text appears anywhere inside another: `"tower" in "clocktower"` is `True`. Like a comparison, it always answers `True` or `False`.
 

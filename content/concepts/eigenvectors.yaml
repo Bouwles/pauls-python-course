@@ -50,7 +50,7 @@ cards:
         misconception: eigenvectors-are-rows
         feedback: "`eigh` stands each eigenvector up as a column. The first row mixes a piece of every eigenvector, and isn't a direction of anything."
   - type: choice
-    prompt: "Riya's covariance gives a first eigenvector of `[0.71, 0.71]`. The same readings on Aaesha's computer give `[-0.71, -0.71]`. Is one of them wrong?"
+    prompt: "Yahya's covariance gives a first eigenvector of `[0.71, 0.71]`. The same readings on Aaesha's computer give `[-0.71, -0.71]`. Is one of them wrong?"
     verify: none
     options:
       - text: "No. They're the same line, pointing opposite ways, and either is an eigenvector"

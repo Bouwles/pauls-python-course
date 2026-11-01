@@ -5,10 +5,10 @@ title: Fix Caitlin's version
 files: [track.py, main.py]
 entry: main.py
 dialogue:
-  - caitlin: "Can you look at mine? TD(0). I move the crab on first, so the screen keeps up. Then the update."
-  - caitlin: "The finish comes out worth ten. Every other tile is a disaster. It's a pessimist."
+  - caitlin.neutral: "Can you look at mine? TD(0). I move the crab on first, so the screen keeps up. Then the update."
+  - caitlin.confused: "The finish comes out worth ten. Every other tile is a disaster. It's a pessimist."
 dialogue_after:
-  - caitlin: "So I was updating the tile it landed on, with its own worth as the target. The finish learned to love itself."
+  - caitlin.laughing: "So I was updating the tile it landed on, with its own worth as the target. The finish learned to love itself."
 hints:
   nudge: "When the update line runs, which tile does `tile` name: the one the crab left, or the one it landed on?"
   plan:

@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Aaesha's version
 dialogue:
-  - aaesha: "Neil wants to know how many books are out. Emma's out. Alice is out. That's two."
-  - aaesha: "My program says nought. No error, nothing red. Can you look?"
+  - aaesha.pleased: "Neil wants to know how many of his books are out. I counted two gaps on the shelf."
+  - aaesha.confused: "My program says nought. No error, nothing red. Can you look?"
 dialogue_after:
-  - aaesha: "\"ON_LOAN\" is just text. Status.ON_LOAN is the status. They never match, and nothing complains."
+  - aaesha.surprised: "\"ON_LOAN\" is just text. Status.ON_LOAN is the status. They never match, and nothing complains."
 hints:
   nudge: "What is `book.status`: a string, or a member of `Status`?"
   plan:

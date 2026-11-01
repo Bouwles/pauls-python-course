@@ -4,8 +4,8 @@ type: predict
 title: What it remembers
 concept: rnns
 dialogue:
-  - neil: "My network reads one hour at a time. Between hours it keeps a number. Eight numbers."
-  - neil: "Here's the idea with one number and no squashing. You could do it in your head."
+  - neil.neutral: "My network reads one hour at a time. Between hours it keeps a number. Eight numbers."
+  - neil.pleased.point: "Here's the idea with one number and no squashing. You could do it in your head."
 code: |
   readings = [1.0, 0.0, 0.0, 0.0]
   memory = 0.0
@@ -37,7 +37,7 @@ options:
     misconception: rnn-memory-permanent
     feedback: "The old memory is multiplied by 0.5 every hour before the new reading is added. A memory weight under 1 makes old hours fade."
 after: |
-  Run it. Then change 0.5 to 0.9, and then to 0.
+  Run it. Then change 0.5 to 0.9, and then to 0. A memory that fades a little each step makes a forgetting curve, the shape Hermann Ebbinghaus measured in his own memory in the 1880s.
 ---
 A tide reading on its own says little: 2.6 metres could be rising or falling. The hours before it say which.
 

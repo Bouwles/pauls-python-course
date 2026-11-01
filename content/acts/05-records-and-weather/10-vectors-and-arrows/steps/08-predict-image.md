@@ -4,8 +4,8 @@ type: predict
 title: A picture is a matrix
 concept: matrices
 dialogue:
-  - caitlin: "I found a photograph to practise on. A lighthouse in North Carolina. My phone keeps pictures as numbers."
-  - neil: "A matrix of brightnesses. Well, an array. Well, it's the same thing, and you know what I mean."
+  - riya.pleased.wave: "I found a photograph to practise on. A lighthouse in North Carolina. My drawing app keeps pictures as numbers."
+  - neil.laughing: "A matrix of brightnesses. Well, an array. Well, it's the same thing, and you know what I mean."
 code: |
   import numpy as np
 

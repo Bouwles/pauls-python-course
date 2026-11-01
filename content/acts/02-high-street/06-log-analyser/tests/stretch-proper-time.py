@@ -12,8 +12,8 @@ def refuses(text, number, wanted):
 
 
 TESTS = [
-    function("A proper time is fine", call="parse_line", args=("06:42 | INFO | lights | on\n", 1),
-             expect=("06:42", "INFO", "lights", "on"), visible=True),
-    custom("7:5 is refused", refuses("7:5 | INFO | lights | on\n", 3, "line 3: bad time 7:5"), visible=True),
-    custom("0642 is refused", refuses("0642 | INFO | lights | on\n", 9, "line 9: bad time 0642")),
+    function("A proper time is fine", call="parse_line", args=("00:42 | INFO | gps | locked\n", 1),
+             expect=("00:42", "INFO", "gps", "locked"), visible=True),
+    custom("7:5 is refused", refuses("7:5 | INFO | gps | locked\n", 3, "line 3: bad time 7:5"), visible=True),
+    custom("0042 is refused", refuses("0042 | INFO | gps | locked\n", 9, "line 9: bad time 0042")),
 ]

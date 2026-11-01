@@ -5,7 +5,7 @@ title: Tested honestly
 files: [exam_scores.py]
 entry: exam_scores.py
 starter_from: make-model
-on_pass: { paul: "Out by one and a third marks on students it had never seen. Guessing the average is out by over three. That I believe." }
+on_pass: { paul.proud: "Out by one and a third marks on students it had never seen. Guessing the average is out by over three. That I believe." }
 hints:
   nudge: "Which pile does each step get to look at? Which pile should be looked at only once, at the very end?"
   plan:

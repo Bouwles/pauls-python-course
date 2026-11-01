@@ -36,10 +36,10 @@ summary: "Rock paper scissors against the computer, first to three: functions, r
 concepts_reviewed: [functions, parameters, return-values, random-module, imports, dictionaries, while-loops, break-continue, boolean-operators, string-methods, in-operator, f-strings]
 ask:
   dialogue:
-    - caitlin: "Yahya and I play rock paper scissors for who does the coffee run. I've won nine days in a row."
-    - yahya: "Because she reads faces. It's not skill. Against a machine, it's pure chance."
-    - caitlin: "Fine. Build us a machine. A machine hasn't got a face."
-    - paul: "Then it'll need to choose without thinking. Python's good at that."
+    - caitlin.pleased.wave: "Yahya and I play rock paper scissors for who does the coffee run. I've won nine days in a row."
+    - yahya.unimpressed: "Because she reads faces. Against a machine, it's pure chance. The numbers will show it."
+    - caitlin.laughing.point: "Fine. Build us a machine. A machine hasn't got a face."
+    - paul.thinking: "Then it'll need to choose without thinking. Python's good at that."
   spec: |
     A game against the machine, first to three wins.
 
@@ -62,8 +62,8 @@ ask:
     You 1, me 1, draws 1.
 ship:
   dialogue:
-    - caitlin: "Played it twice. Won once, lost once. I'm calling that skill."
-    - yahya: "That's exactly what chance looks like. Best of five?"
+    - caitlin.pleased.cheer: "Played it twice. Won once, lost once. I'm calling that skill."
+    - yahya.neutral.point: "One each is exactly what chance looks like. Two games isn't a dataset. Best of five?"
   shelf: { object: beer-mat, label: "Rock paper scissors, to settle it" }
   cards: []
 stretch:
@@ -76,4 +76,4 @@ stretch:
   - id: favourite
     title: "A tell"
     prompt: |
-      Yahya is sure Caitlin always opens with rock. Caitlin says that's what she wants him to think. Count every hand the player chooses in a second dictionary, using `.get(hand, 0) + 1`, and at the end print `Your favourite: rock (3)`, the hand chosen most. A tie goes to whichever comes first in rock, paper, scissors. If no rounds were played, leave the line out.
+      Yahya is sure the data will show Caitlin always opens with rock. Caitlin says that's what she wants him to think. Count every hand the player chooses in a second dictionary, using `.get(hand, 0) + 1`, and at the end print `Your favourite: rock (3)`, the hand chosen most. A tie goes to whichever comes first in rock, paper, scissors. If no rounds were played, leave the line out.

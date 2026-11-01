@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul: "The Workshop's glue pot. Minutes to melt, nine mornings. One of them is wrong, and I know why."
+  - paul.thinking: "The Workshop's glue pot. Minutes to melt, nine mornings. One of them is wrong, and I know why."
 code: |
   import pandas as pd
 

@@ -3,7 +3,7 @@ id: what-git-is
 type: reading
 title: Photographs, not drawers
 dialogue:
-  - paul: "A commit is a photograph of every file, with a note on the back."
+  - paul.neutral.point: "A commit is a photograph of every file, with a note on the back."
 ---
 **git** keeps the history of a folder of files. It works in three places:
 

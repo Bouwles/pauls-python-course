@@ -1,13 +1,19 @@
 "use client";
 
 // The Arcade League (Section 13.5): a weekly race on the Arcade course for policies trained in
-// Act 8, run by the classmates who live on the Arcade floor. Opt-in by entering; the table shows
-// display names and scores only. Every race is seeded, so the replay here is the race that was scored.
+// Act 8, run by the classmates who live on the Arcade floor (Aaesha and Caitlin). They host it in
+// person: they introduce the race, one after the other, and react to where your entry finished.
+// Opt-in by entering; the table shows display names and scores only. Every race is seeded, so the
+// replay here is the race that was scored.
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSession } from "@/lib/store/session";
 import { baselinePolicy, courseJson, hash, MAX_STEPS, race, RACES, readEntry, SLIP_POOL, SLIP_SAND, type Policy } from "@/lib/league/course";
 import { download } from "@/lib/export";
+import type { Expression, Pose } from "@/lib/pixel/people";
+import { useMedia } from "@/lib/useMedia";
+import { Portrait } from "../art/Portrait";
+import { Speech } from "../art/Speech";
 import { Button } from "../ui/Button";
 import { Icon } from "../ui/Icon";
 import { CodeBlock } from "../workbench/CodeBlock";
@@ -37,6 +43,48 @@ entry = {"format": "ppc-league-1", "policy": policy}
 with open("league.json", "w") as f:
     json.dump(entry, f)
 `;
+
+interface Line {
+  text: string;
+  face: Expression;
+  gesture: Pose;
+}
+
+/** What each host says to open the page, in their own voice; anyone else hosting gets a plain line. */
+const HELLO: Record<string, Line> = {
+  caitlin: { text: "Can it have a high score? It already does. Lowest average wins.", face: "pleased", gesture: "wave" },
+  aaesha: { text: "Every entry races the same seeds, so luck can't pick the winner. Only the policy can.", face: "neutral", gesture: "point" },
+};
+const HELLO_ANYONE: Line = { text: "New race every Monday. Enter as often as you like; your newest entry counts.", face: "pleased", gesture: "wave" };
+
+/** How the hosts take your place on this week's table. */
+function verdict(place: number, of: number): { host: number; line: Line } {
+  if (place === 1) return { host: 1, line: { text: of > 1 ? "Top of the table. I'm writing your name on the cabinet." : "First entry this week, so you're top. Someone will come for that.", face: "laughing", gesture: "cheer" } };
+  if (place <= 3) return { host: 1, line: { text: `Place ${place}. That's a podium.`, face: "pleased", gesture: "thumbs" } };
+  return { host: 0, line: { text: `Place ${place} of ${of}. Train it for longer and enter again. Your newest entry counts.`, face: "thinking", gesture: "think" } };
+}
+
+/** The hosts, side by side: the first speaks, then the second answers. */
+function Hosts({ hosts, said }: { hosts: { id: string; name: string }[]; said: { host: number; line: Line } | null }) {
+  const phone = useMedia("(max-width: 720px)");
+  const [turn, setTurn] = useState(0);
+  const size = phone ? 72 : 108;
+  return (
+    <div className={styles.hosts}>
+      {hosts.slice(0, 2).map((h, i) => {
+        const line = said ? (said.host === i ? said.line : null) : (HELLO[h.id] ?? HELLO_ANYONE);
+        // Whoever isn't speaking listens: there, but quiet, until it's their turn.
+        if (!line || (!said && i > turn))
+          return (
+            <div key={h.id} className={styles.host}>
+              <Portrait who={h.id} name={h.name} size={size} crop={size >= 96 ? "bust" : "head"} expression={said ? "pleased" : "neutral"} />
+            </div>
+          );
+        return <Speech key={`${h.id}-${line.text}`} who={h.id} name={h.name} text={line.text} face={line.face} gesture={line.gesture} size={size} onDone={() => setTurn((t) => Math.max(t, i + 1))} className={styles.host} />;
+      })}
+    </div>
+  );
+}
 
 const together = (names: string[]) => (names.length > 1 ? `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}` : (names[0] ?? ""));
 
@@ -95,6 +143,8 @@ export function League({ hosts }: { hosts: { id: string; name: string }[] }) {
   const myPolicy = data?.mine?.policy?.policy ?? null;
   const replay = useMemo(() => (myPolicy && viewing ? race(myPolicy, hash(`${viewing}/0`)).path : null), [myPolicy, viewing]);
   const baseline = useMemo(() => race(baselinePolicy(), hash("baseline/0")).steps, []);
+  const myRow = isCurrent ? data?.table.find((r) => r.mine) : undefined;
+  const said = myRow && data ? verdict(myRow.place, data.table.length) : null;
 
   return (
     <div className={styles.wrap}>
@@ -105,8 +155,10 @@ export function League({ hosts }: { hosts: { id: string; name: string }[] }) {
         </p>
       </header>
 
+      {hosts.length ? <Hosts hosts={hosts} said={said} /> : null}
+
       <div className={styles.columns}>
-        <section className={styles.block} aria-labelledby="course-title">
+        <section className={`px-panel ${styles.block}`} aria-labelledby="course-title">
           <h2 id="course-title" className={styles.h2}>
             The course
           </h2>
@@ -122,7 +174,7 @@ export function League({ hosts }: { hosts: { id: string; name: string }[] }) {
           </div>
         </section>
 
-        <section className={styles.block} aria-labelledby="enter-title">
+        <section className={`px-panel ${styles.block}`} aria-labelledby="enter-title">
           <h2 id="enter-title" className={styles.h2}>
             Enter this week
           </h2>
@@ -178,7 +230,7 @@ export function League({ hosts }: { hosts: { id: string; name: string }[] }) {
       </div>
 
       {replay ? (
-        <section className={styles.block} aria-labelledby="replay-title">
+        <section className={`px-panel ${styles.block}`} aria-labelledby="replay-title">
           <h2 id="replay-title" className={styles.h2}>
             Your first race this week
           </h2>
@@ -187,7 +239,7 @@ export function League({ hosts }: { hosts: { id: string; name: string }[] }) {
         </section>
       ) : null}
 
-      <section className={styles.block} aria-labelledby="table-title">
+      <section className={`px-panel ${styles.block}`} aria-labelledby="table-title">
         <div className={styles.tableHead}>
           <h2 id="table-title" className={styles.h2}>
             {!viewing || isCurrent ? "This week" : `Week ${Number(viewing.split("-W")[1])}, ${viewing.split("-W")[0]}`}
@@ -218,7 +270,12 @@ export function League({ hosts }: { hosts: { id: string; name: string }[] }) {
               <tbody>
                 {data.table.map((r) => (
                   <tr key={`${r.place}-${r.name}`} className={r.mine ? styles.me : undefined}>
-                    <td className={styles.place}>{r.place}</td>
+                    <td className={styles.place}>
+                      <span className={styles.placeInner}>
+                        {r.place === 1 ? <Icon name="trophy" size={24} className={styles.trophy} /> : null}
+                        {r.place}
+                      </span>
+                    </td>
                     <td>
                       {r.name}
                       {r.mine ? <span className={styles.you}> (you)</span> : null}

@@ -1,4 +1,4 @@
-"""Speed Tester: how the work grows as the pile grows, for Paul's spares check."""
+"""Speed Tester: how the work grows as the pile grows, for Neil's spares check."""
 import math
 import time
 
@@ -8,9 +8,9 @@ GROWTHS = ["O(1)", "O(log n)", "O(n)", "O(n log n)", "O(n^2)"]
 BAR_WIDTH = 40
 
 
-# Spares check, from Paul's stock script.
-# Compares every part with every part after it. Fine for two hundred parts;
-# if the store room ever holds two thousand, find another way.
+# Spares check, from Neil's parts script.
+# Compares every part with every part after it. Fine for the two hundred in
+# the drawers; if the kart track's lot ever turns up, find another way.
 def spares(parts):
     found = set()
     for first in range(len(parts)):
@@ -21,7 +21,7 @@ def spares(parts):
 
 
 def spares_by_pairs(parts):
-    """Paul's way: compare every part with every part after it.
+    """Neil's way: compare every part with every part after it.
 
     Returns (spares, comparisons).
     """
@@ -111,7 +111,7 @@ if __name__ == "__main__":
     with open(STOCK_FILE) as stock_file:
         parts = [line.strip() for line in stock_file if line.strip()]
     found, lookups = spares_by_set(parts)
-    print(f"Store room today: {len(parts)} parts, {len(found)} kinds with spares")
+    print(f"Parts drawers today: {len(parts)} parts, {len(found)} kinds with spares")
 
     sizes = [200, 400, 800]
     stocks = [[f"part-{number}" for number in range(n)] for n in sizes]
@@ -124,4 +124,4 @@ if __name__ == "__main__":
     today = time_once(spares_by_pairs, parts)
     with_lot = today * scale(len(parts), len(parts) + LOT_PARTS, growth)
     print()
-    print(f"By pairs today: {today:.4f} s. With the clockmaker's lot: about {with_lot:.1f} s, every time a part comes in.")
+    print(f"By pairs today: {today:.4f} s. With the track's lot: about {with_lot:.1f} s, every time a part comes in.")

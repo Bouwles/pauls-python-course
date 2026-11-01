@@ -4,8 +4,8 @@ type: predict
 title: The morning after
 concept: data-leakage
 dialogue:
-  - aaesha: "The telescope log has a column I'd never noticed. How long the telescope was out each night."
-  - caitlin: "That must help. Out for hours, good night. Obviously."
+  - neil.thinking: "The telescope log has a column I'd never noticed. How long the telescope was out each night."
+  - caitlin.pleased: "That must help. Out for hours, good night. Obviously."
 code: |
   import numpy as np
   from sklearn.model_selection import cross_val_score

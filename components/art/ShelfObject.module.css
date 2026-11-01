@@ -1,0 +1,10 @@
+/* A Shelf tile: a square in the client's colour, a stepped two-pixel edge, lit from the top left. */
+.tile {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  box-shadow:
+    inset 0 0 0 2px var(--px-outline),
+    inset 4px 4px 0 0 var(--px-hi),
+    inset -4px -4px 0 0 var(--px-lo);
+}

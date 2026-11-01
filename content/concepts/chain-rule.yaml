@@ -76,7 +76,7 @@ cards:
     tests: |
       TESTS = [output("Slopes at 0 and 1", expect="20 70")]
   - type: fix
-    prompt: "Riya's slope of `(w * x - y) ** 2` with respect to `w` disagrees with the measured one. Fix `slope`."
+    prompt: "Aaesha's slope of `(w * x - y) ** 2` with respect to `w` disagrees with the measured one. Fix `slope`."
     code: |
       def loss(w, x, y):
           return (w * x - y) ** 2

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { ShipStep, StretchTask } from "@/lib/content/types";
 import type { CheckReport, Files, ReviewResult } from "@/lib/python/protocol";
 import { getRuntime } from "@/lib/python/runtime";
@@ -8,19 +8,19 @@ import type { StepProgressRow } from "@/lib/store/types";
 import { updateJob } from "@/lib/store/progress";
 import { useSession } from "@/lib/store/session";
 import { playSound } from "@/lib/sound";
-import { PROFESSOR } from "@/lib/cast";
+import { PROFESSOR, castColour } from "@/lib/cast";
+import { moodOf } from "@/lib/mood";
 import { pickLine } from "@/lib/reactions";
 import { download, readme, withWorkshopStub, zip } from "@/lib/export";
 import { usePlan } from "@/lib/usePlan";
-import { Figure } from "../../art/Portrait";
 import { ProGate } from "../../pricing/ProGate";
 import { Button, LinkButton } from "../../ui/Button";
 import { Icon } from "../../ui/Icon";
-import { SpeechBubble } from "../../ui/SpeechBubble";
 import { CodeWorkspace } from "../CodeWorkspace";
 import { Instructions } from "../Instructions";
-import { useWorkbench, type Utterance } from "../context";
-import { isSpoken, utterancesFor } from "../labels";
+import { SpokenLine, Stage, othersIn, personOnStage, roomOf, useConversation, type Mouth, type StagePerson } from "../Scene";
+import { useWorkbench } from "../context";
+import { isSpoken } from "../labels";
 import styles from "./ship.module.css";
 
 function plainText(html: string): string {
@@ -42,7 +42,7 @@ function plainText(html: string): string {
  * code home. Before the Build step passes, the client is waiting for it.
  */
 export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressRow }) {
-  const { areas, job, progress, jobProgress, shipJob, markPassed, goTo, characters, conceptTitles, landing, guest, store, gateActs, nextJob, nameOf, actTitle } = useWorkbench();
+  const { areas, job, progress, jobProgress, shipJob, markPassed, goTo, characters, conceptTitles, landing, guest, store, gateActs, nextJob, nameOf, actTitle, compact } = useWorkbench();
   const { status: plan } = usePlan();
   const { profile } = useSession();
   const [stretch, setStretch] = useState<StretchTask | null>(null);
@@ -51,6 +51,7 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
   const [stamping, setStamping] = useState(false);
   const [busy, setBusy] = useState(false);
   const [waitingLine, setWaitingLine] = useState<string | null>(null);
+  const [waitMouth, setWaitMouth] = useState<Mouth>(0);
   const screen = useRef<HTMLPreElement>(null);
   const done = (id: string) => ["passed", "seen-solution"].includes(progress[id]?.status ?? "");
   const waitingFor = (step.requires ?? (step.shipsFrom ? [step.shipsFrom] : [])).filter((id) => !done(id));
@@ -62,7 +63,15 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
   const client = job.client;
   const clientName = nameOf(client);
   const paul = nameOf(PROFESSOR);
-  const reaction: Utterance[] = utterancesFor(step.dialogue.filter((l) => isSpoken(l.who)));
+  const lines = useMemo(() => step.dialogue.filter((l) => isSpoken(l.who)).slice(0, 3), [step.dialogue]);
+  const talk = useConversation(lines.length, ready && !step.places);
+  // The client cheers when it lands on the Shelf, then stands there beaming.
+  const [cheering, setCheering] = useState(false);
+  useEffect(() => {
+    if (!cheering) return;
+    const t = setTimeout(() => setCheering(false), 2600);
+    return () => clearTimeout(t);
+  }, [cheering]);
 
   // A placement ships as soon as its tasks pass: there's nothing to put on a Shelf.
   useEffect(() => {
@@ -88,6 +97,7 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
     setBusy(false);
     if (first) {
       setStamping(true);
+      setCheering(true);
       playSound("stamp", profile.settings.sound);
     }
   };
@@ -227,20 +237,19 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
   }
 
   if (!ready) {
+    const mood = moodOf(waitingLine ?? "", {});
     return (
       <div className={areas.full}>
         <div className={[styles.ship, styles.waiting].join(" ")}>
-          <Figure who={client} name={clientName} height={360} className={styles.figure} caption={`${clientName}, waiting for the finished program`} />
+          <div className={styles.stageWrap}>
+            <Stage act={roomOf(client, job.actNumber)} lead={{ who: client, face: waitingLine ? mood.face : "neutral", gesture: "idle", mouthOpen: waitMouth }} name={clientName} label={`${clientName} at their desk, waiting for the finished program`} />
+          </div>
           <div className={styles.side}>
             <header className={styles.head}>
               <p className={styles.kicker}>Not shipped yet</p>
               <h1 className={styles.title}>{clientName} is waiting for it</h1>
             </header>
-            {waitingLine ? (
-              <SpeechBubble who={client} name={clientName} tail="left" className={styles.bubble}>
-                <p>{waitingLine}</p>
-              </SpeechBubble>
-            ) : null}
+            {waitingLine ? <SpokenLine who={client} name={clientName} text={waitingLine} tail={compact ? "top" : "left"} live onMouth={setWaitMouth} className={styles.line} /> : null}
             <p className={styles.lede}>{waitingFor.length > 1 ? `This ships when all its tasks pass. ${waitingFor.length} still to go.` : `It ships when ${from?.title ?? "the Build step"} passes its checks.`}</p>
             {from ? (
               <div className={styles.actions}>
@@ -256,31 +265,52 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
   }
 
   const stampText = step.places ? "Placed" : shipped ? "Shipped" : null;
+  const stamp = stampText ? (
+    <p className={[styles.stamp, stamping ? styles.thud : ""].join(" ")} role="status">
+      <Icon name="check" size={24} />
+      {stampText}
+    </p>
+  ) : null;
+  // The client on their stage: cheering and laughing as it lands on the Shelf, saying their lines
+  // (a cheer on the first unless it says otherwise), then beaming.
+  const onStage = (who: string): StagePerson => {
+    if (who === client && cheering) return { who, face: "laughing", gesture: "cheer" };
+    const p = personOnStage(who, lines, talk, client, "cheer");
+    return who === client && !talk.playing ? { who, face: "pleased", gesture: "idle" } : p;
+  };
+  const c = castColour(client);
 
   return (
     <div className={areas.full}>
       <div className={styles.ship}>
         {step.places ? (
-          <Figure who={PROFESSOR} name={paul} height={360} className={styles.figure} />
+          <div className={styles.stageWrap}>
+            <Stage act={roomOf(PROFESSOR, 1)} lead={{ who: PROFESSOR, face: "proud", gesture: stamping ? "cheer" : "thumbs" }} name={paul} label={`${paul} in the Workshop, pleased with your placement`} />
+            {stamp}
+          </div>
         ) : (
           <div className={styles.demo}>
             <p className={styles.deviceLabel}>
               {job.title} on {clientName}&apos;s phone
             </p>
-            <div className={`code-dark ${styles.phone}`}>
-              <div className={styles.phoneBar} aria-hidden="true">
-                <span className={styles.phoneDot} />
-                <span>{job.title}</span>
+            <div className={`code-dark ${styles.device}`} style={{ ["--device" as string]: c.face }}>
+              <span className={styles.speaker} aria-hidden="true" />
+              <div className={styles.glass}>
+                <div className={styles.appBar} aria-hidden="true">
+                  <span className={styles.appIcon} />
+                  <span className={styles.appName}>{job.title}</span>
+                </div>
+                <pre ref={screen} className={styles.screen} aria-label={`Your program running: ${job.title}`} tabIndex={0}>
+                  {demo
+                    ? demo.text.map((p, i) => (
+                        <span key={i} className={p.kind === "input" ? styles.typed : p.kind === "err" ? styles.err : undefined}>
+                          {p.text}
+                        </span>
+                      ))
+                    : "Starting up."}
+                </pre>
               </div>
-              <pre ref={screen} className={styles.screen} aria-label={`Your program running: ${job.title}`} tabIndex={0}>
-                {demo
-                  ? demo.text.map((p, i) => (
-                      <span key={i} className={p.kind === "input" ? styles.typed : p.kind === "err" ? styles.err : undefined}>
-                        {p.text}
-                      </span>
-                    ))
-                  : "Starting up."}
-              </pre>
+              <span className={styles.home} aria-hidden="true" />
             </div>
             {demo?.failed ? <p className={styles.small}>It tripped on the demo run. The checks passed, so this is a case they don&apos;t cover: worth a look.</p> : null}
           </div>
@@ -290,26 +320,30 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
             <p className={styles.kicker}>{step.places ? `Placed past ${step.places.actTitle}` : `For ${clientName}`}</p>
             <h1 className={styles.title}>{step.places ? "You're placed" : shipped ? `${job.title}, shipped` : "Ready to ship"}</h1>
           </header>
-          <div className={styles.reaction}>
-            {step.places ? null : <Figure who={client} name={clientName} height={220} className={styles.smallFigure} caption={`${clientName}, pleased with it`} />}
-            {stampText ? (
-              <p className={[styles.stamp, stamping ? styles.thud : ""].join(" ")} role="status">
-                <Icon name="check" size={22} />
-                {stampText}
+          {step.places ? null : (
+            <div className={styles.reaction}>
+              <div className={styles.reactionStage}>
+                <Stage act={roomOf(client, job.actNumber)} lead={onStage(client)} guests={othersIn(lines, client).map(onStage)} name={clientName} label={`${clientName} at their desk, pleased with it`} />
+                {stamp}
+              </div>
+              {lines.length ? (
+                <ol className={styles.lines} aria-label={`What ${clientName} says`}>
+                  {lines.slice(0, talk.shown).map((l, i) => {
+                    const again = i > 0 && lines[i - 1]!.who === l.who;
+                    const live = talk.live(i);
+                    return (
+                      <li key={i} className={[styles.lineItem, again ? styles.same : ""].join(" ")}>
+                        <SpokenLine who={l.who} name={again ? undefined : nameOf(l.who)} text={l.text} tail={again ? "none" : "top"} live={live} onMouth={talk.setMouth} onDone={live ? talk.lineDone : undefined} />
+                      </li>
+                    );
+                  })}
+                </ol>
+              ) : null}
+              <p className="visually-hidden" aria-live="polite">
+                {talk.skipped || !lines[talk.at] ? "" : `${nameOf(lines[talk.at]!.who)}: ${lines[talk.at]!.text}`}
               </p>
-            ) : null}
-          </div>
-          {reaction.length && !step.places ? (
-            <div className={styles.bubbles}>
-              {reaction.slice(0, 2).map((u) => (
-                <SpeechBubble key={u.id} who={u.who} name={nameOf(u.who)} tail="left" className={styles.bubble}>
-                  {u.lines.map((l, i) => (
-                    <p key={i}>{l}</p>
-                  ))}
-                </SpeechBubble>
-              ))}
             </div>
-          ) : null}
+          )}
           {step.places ? (
             <p className={styles.lede}>The next Act is open in the Clocktower. These projects stay open if you want them, and their ideas join your review deck, so Morning Rounds will still check you remember them.</p>
           ) : null}

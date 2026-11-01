@@ -3,7 +3,7 @@ id: worked-records
 type: worked
 title: How Paul would keep a record
 dialogue:
-  - paul: "Yahya's running log. A record for each run, and only three kinds of weather."
+  - paul.neutral: "Neil's flight log. A record for each drone flight, and only three kinds of weather."
 code: |
   from dataclasses import dataclass
   from enum import Enum
@@ -16,28 +16,28 @@ code: |
 
 
   @dataclass(frozen=True)
-  class Run:
-      """One of Yahya's morning runs."""
+  class Flight:
+      """One of Neil's drone flights."""
 
       day: int
       weather: Weather
-      km: float = 5.0
+      minutes: float = 5.0
 
       def needs_lights(self) -> bool:
           return self.weather == Weather.FOG
 
 
-  def foggy_runs(runs: list[Run]) -> int:
-      return len([run for run in runs if run.needs_lights()])
+  def foggy_flights(flights: list[Flight]) -> int:
+      return len([flight for flight in flights if flight.needs_lights()])
 
 
   log = [
-      Run(1, Weather.CLEAR),
-      Run(2, Weather.FOG, 7.5),
-      Run(3, Weather.FOG),
+      Flight(1, Weather.CLEAR),
+      Flight(2, Weather.FOG, 7.5),
+      Flight(3, Weather.FOG),
   ]
   print(log[1])
-  print(foggy_runs(log))
+  print(foggy_flights(log))
 subgoals:
   - label: List the choices
     lines: [5, 8]
@@ -54,6 +54,6 @@ explain:
   answer: "A string could be \"Fog\", \"foggy\" or \"fgo\", and a typo would quietly never match. `Weather` has exactly three members, and a misspelt one is an error the first time the line runs."
   concept: enums
 ---
-A dataclass can have methods like any class. `frozen=True` means a run's record can't be changed once it's written. `list[Run]` is the type hint for a list of runs.
+A dataclass can have methods like any class. `frozen=True` means a flight's record can't be changed once it's written. `list[Flight]` is the type hint for a list of flights.
 
-Yahya's log has no STORM runs in it yet. He says that's a choice, not luck.
+Neil's log has no STORM flights in it yet. He says that's a choice, not luck.

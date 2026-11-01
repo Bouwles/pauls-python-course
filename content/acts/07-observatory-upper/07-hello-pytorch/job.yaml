@@ -6,7 +6,7 @@ portfolio_readme: |
 
   The handwritten digit recogniser again, rebuilt in PyTorch on my own computer: tensors, autograd, an `nn.Module`, Adam and cross-entropy in a mini-batch training loop, all checked by a pytest suite. It gets within a couple of digits of the NumPy version written from scratch.
 
-  Written by {name} for Neil, at Paul's Python Course. Finished {date}.
+  Written by {name} for Paul, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -34,7 +34,7 @@ portfolio_readme: |
   The 1,797 handwritten digits that scikit-learn ships as `load_digits`: a copy of the UCI "Optical Recognition of Handwritten Digits" data (Alpaydin and Kaynak, 1998), licensed CC BY 4.0. `notebooks.py` loads them.
 downloadable: true
 datasets: []
-client: neil
+client: paul
 building: observatory
 estimated_minutes: 120
 summary: "Take It Home: the digit recogniser rebuilt in PyTorch on your own computer, with tensors, autograd, nn.Module and a training loop, checked by a real pytest suite."
@@ -42,10 +42,10 @@ concepts_introduced: [pytorch]
 concepts_reviewed: [autograd, classification-networks, optimisers, weight-initialisation, neural-networks, classes, init, super, methods, virtual-environments, terminal-basics, pytest, train-test-split]
 ask:
   dialogue:
-    - neil: "Nearly everyone out there trains their networks in PyTorch. I'd like to know if they're right to."
-    - neil: "Your NumPy network reads the digits. Build the same one in PyTorch, at home, and see if it agrees."
-    - caitlin: "PyTorch does the backward pass for you. So the cards were a waste of a week."
-    - paul: "The cards are how you'll know what it's doing when it goes wrong."
+    - paul.neutral.wave: "Nearly everyone out there trains their networks in PyTorch. I'd like to know if they're right to."
+    - paul.neutral.point: "Your NumPy network reads the digits. Build the same one in PyTorch, at home, and see if it agrees."
+    - caitlin.pleased: "PyTorch does the backward pass for you. So the cards were a waste of a week."
+    - paul.unimpressed: "The cards are how you'll know what it's doing when it goes wrong."
   spec: |
     On your own computer, in `reader.py`:
 
@@ -63,9 +63,9 @@ ask:
     Read 291 of 297 digits it had never seen
 ship:
   dialogue:
-    - neil: "Two hundred and ninety-one. Ours read two hundred and ninety-three. Within two digits of each other."
-    - neil: "Different engine, different shuffles, nearly the same answers. That's the nicest thing I can say about either."
-    - paul: "And you know what it does under the lid. That's what makes it a tool and not a charm."
+    - paul.pleased: "Two hundred and ninety-one. Ours read two hundred and ninety-three. Within two digits of each other."
+    - neil.laughing: "Different engine, different shuffles, nearly the same answers. That's the nicest thing I can say about either."
+    - paul.proud.thumbs: "And you know what it does under the lid. That's what makes it a tool and not a charm."
   shelf: { object: torch, label: "The digit reader, in PyTorch, at home" }
   cards: [pytorch]
 stretch:

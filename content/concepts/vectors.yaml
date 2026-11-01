@@ -53,7 +53,7 @@ cards:
       print(2 * morning + evening)
     answer: "[2 1]"
   - type: choice
-    prompt: "Yahya runs 6 km east, then 8 km north. What does this print?"
+    prompt: "Neil's drone flies 6 km east, then 8 km north. What does this print?"
     code: |
       import numpy as np
 
@@ -63,10 +63,10 @@ cards:
     options:
       - text: "10.0"
         correct: true
-        feedback: "`east + north` is the arrow (6, 8), from the start to where Yahya ends up. Its length is the square root of 36 + 64."
+        feedback: "`east + north` is the arrow (6, 8), from the start to where the drone ends up. Its length is the square root of 36 + 64."
       - text: "14.0"
         misconception: vector-adds-lengths
-        feedback: "Yahya ran 14 km, but he isn't 14 km from the start. The sum is the arrow (6, 8), and its length is 10. Lengths add only when the arrows point the same way."
+        feedback: "The drone flew 14 km, but it isn't 14 km from the start. The sum is the arrow (6, 8), and its length is 10. Lengths add only when the arrows point the same way."
   - type: choice
     prompt: What does this print?
     code: |

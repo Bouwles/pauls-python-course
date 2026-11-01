@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the wind report
-on_pass: { aaesha: "From 350 at 11.4 knots. That's January. I'll sign that one." }
+on_pass: { riya.pleased.thumbs: "From 350 at 11.4 knots. That's January's arrow, and it goes in the middle of the print." }
 hints:
   nudge: "Every one of these starts from the arrows, never the bearings. Which ones need the mean arrow, and which need a dot product?"
   plan:
@@ -40,7 +40,7 @@ hints:
         frame = np.array([ahead, right])
         return arrows @ ___
 ---
-Write Aaesha's five functions. The loader, Yahya's `to_arrows` (fixed) and the report are done.
+Write the five wind functions. The loader, Yahya's `to_arrows` (fixed) and the report are done.
 
 ```
 January 2024: 31 days
@@ -48,8 +48,8 @@ Average of the bearings: 197 degrees
 Prevailing wind: from 350 degrees at 11.4 knots
 Steadiness: 0.81
 Biggest swing overnight: 120 degrees, 2024-01-28 to 2024-01-29
-Cycling on 040: worst headwind 25.1 knots on 2024-01-26
-Cycling on 040: worst crosswind 23.1 knots on 2024-01-15
+Runway 04: worst headwind 25.1 knots on 2024-01-26
+Runway 04: worst crosswind 23.1 knots on 2024-01-15
 ```
 
 - **Steadiness** is the mean arrow's length over the mean speed: 1 if the wind never moved, near 0 if it went all round the compass.

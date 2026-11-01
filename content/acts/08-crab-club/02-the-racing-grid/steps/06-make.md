@@ -4,7 +4,7 @@ type: make
 title: Make the racing grid
 files: [track.py]
 entry: track.py
-on_pass: { yahya: "Your line beats the traditional one. I'm not putting that on the leaderboard yet." }
+on_pass: { neil.proud.thumbs: "Your line beats the traditional one by nearly nine points. That's a racing line." }
 hints:
   nudge: "Told up, the crab can end up in three places. Which three, with what chances, and what is each worth?"
   plan:

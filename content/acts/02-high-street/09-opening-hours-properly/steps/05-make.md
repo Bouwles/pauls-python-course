@@ -4,7 +4,7 @@ type: make
 title: Make the hours module
 files: [hours.py, main.py]
 entry: main.py
-on_pass: { neil: "One copy, seven floors. And the Workshop closes at five again, not half past never." }
+on_pass: { caitlin.pleased: "One copy, seven floors. And the Workshop closes at five again, not half past never." }
 hints:
   nudge: "`when.weekday()` gives a number, with Monday as 0. How do you turn it into `Mon` or `Sat`, and what if that day isn't in the room's hours?"
   plan:

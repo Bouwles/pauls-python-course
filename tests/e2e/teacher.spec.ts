@@ -53,7 +53,7 @@ test("a teacher makes a class, a learner joins with the code, and sees the Job s
   // The learner sees it on the map, quietly, linking to the Job.
   await learner.goto("/map");
   const assigned = learner.getByRole("region", { name: "Set by your class" });
-  await expect(assigned).toContainText(`Assigned by ${className}:`);
+  await expect(assigned).toContainText(className);
   await expect(assigned.getByRole("link", { name: "Bill Splitter" })).toHaveAttribute("href", "/job/bill-splitter");
 
   await teacherCtx.close();

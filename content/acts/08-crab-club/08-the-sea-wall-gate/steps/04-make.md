@@ -4,7 +4,7 @@ type: make
 title: Make the grid Gymnasium-shaped
 files: [gridenv.py]
 entry: gridenv.py
-on_pass: { aaesha: "The same grid, in the agreed shape. Any agent can race it now." }
+on_pass: { aaesha.pleased.thumbs: "The same grid, in the agreed shape. Any agent can race it now." }
 hints:
   nudge: "What does the grid have to remember between one call to step and the next, and which of those does reset put back?"
   plan:
@@ -30,7 +30,7 @@ hints:
         truncated = ___ and self.steps >= self.max_steps
         return ___, reward, terminated, truncated, {"slipped": slipped}
 ---
-Gymnasium doesn't run in the workshop, but its shape does. Write the old racing grid as a class with `reset` and `step`, exactly as Gymnasium would want them: Paul's ballast tanks, without the import.
+Gymnasium doesn't run in the workshop, but its shape does. Write the old racing grid as a class with `reset` and `step`, exactly as Gymnasium would want them: Neil's drone, without the import.
 
 The observation is the tile number, `row * 4 + col`, so a learner can use it to index a table. Rewards are floats. `info` says whether the crab slipped.
 

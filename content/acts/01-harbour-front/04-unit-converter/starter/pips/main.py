@@ -1,10 +1,10 @@
-print("1. Km to miles")
-print("2. Min per km to min per mile")
+print("1. Km/h to mph")
+print("2. Knots to km/h")
 choice = input("Choose 1 or 2: ")
-amount = float(input("How many? "))
+speed = float(input("Speed? "))
 if choice == 1:
-    print(f"That's {amount / 1.609344:.2f} miles.")
+    print(f"That's {speed / 1.609344:.2f} mph.")
 elif choice == 2:
-    print(f"That's {amount * 1.609344:.2f} min per mile.")
+    print(f"That's {speed * 1.852:.2f} km/h.")
 else:
     print("No such option.")

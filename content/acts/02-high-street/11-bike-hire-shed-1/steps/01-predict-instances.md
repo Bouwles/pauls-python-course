@@ -32,4 +32,4 @@ options:
 ---
 A **class** is a pattern for making objects. `Account("Riya", 500)` makes one account, then runs `__init__` on it with `self` as the new account. Each `self.something = ...` line sticks an **attribute** on that account: a value it keeps.
 
-Riya's trip fund has an account for everyone in the class, and one pattern would do for all of them. Read it, then lock in your answer.
+Caitlin's festival fund has an account for everyone going, and one pattern would do for all of them. Read it, then lock in your answer.

@@ -44,22 +44,22 @@ project_name: "Bill Splitter"   # required; shown first on tickets, the client s
 portfolio_readme: |             # required for written projects: the README in the learner's download
   # Bill Splitter
   Splits one bill between a table of people and shows each share to the penny.
-  Written by {name} for Riya, at Paul's Python Course. Finished {date}.
+  Written by {name} for Caitlin, at Paul's Python Course. Finished {date}.
 downloadable: true              # downloads from the Shelf as a runnable folder
 datasets:                       # real public data used, each bundled in data/ (also listed in CREDITS.md)
   - name: "Open-Meteo forecast (saved response)"
     source: "https://open-meteo.com/"
     licence: "CC BY 4.0"
     file: "forecast.json"
-client: riya                    # a cast id: paul, neil, aaesha, caitlin, riya or yahya
-building: workshop              # old town-map field, still required by the schema
+client: caitlin                 # a cast id: paul, neil, aaesha, caitlin, riya or yahya
+building: workshop              # old map field, still required by the schema
 estimated_minutes: 30
 summary: "Split a bill between a table of people, tip included."
 concepts_introduced: [input-returns-text, int-conversion]   # each concept is introduced by exactly one job
 concepts_reviewed: [print, strings]                         # must already exist
 ask:
   dialogue:                     # two to five short lines
-    - riya: "Class dinner on Friday. Six of us, one bill."
+    - caitlin.pleased.wave: "Class dinner on Friday. Six of us, one bill."   # who.face.gesture
   spec: |                       # what goes in, what comes out
     Ask for the bill, the number of people and the tip...
   example: |                    # one example run, exactly as a terminal shows it
@@ -70,8 +70,8 @@ ask:
     Each pays: 7.59
 ship:
   dialogue:
-    - riya: "Six ways, seven fifty-nine each. Same as my sums."
-  shelf: { object: till-receipt, label: "Riya's bill splitter" }
+    - caitlin.proud.thumbs: "Six ways, seven fifty-nine each. Same as my sums."
+  shelf: { object: till-receipt, label: "Caitlin's bill splitter" }
   cards: [input-returns-text, int-conversion]               # usually = concepts_introduced
 stretch:                        # optional extras; never block progress
   - id: collected
@@ -91,6 +91,8 @@ Optional flags:
 ## Step types
 
 Every step file starts with YAML frontmatter between `---` lines; the markdown after it is the step's prose (150 words at most, and usually far fewer). Common fields: `id` (lower-case-with-hyphens), `type`, `title`, and optional `dialogue` (one-key maps, as in job.yaml).
+
+Every dialogue line names who says it, and how: `who.face.gesture` (`caitlin.pleased.wave`), `who.face` (`neil.thinking`), or just `who`, when the app guesses the face from the words. Faces: neutral, talking, pleased, proud, thinking, confused, worried, surprised, laughing, unimpressed. Gestures: idle, wave, cheer, think, point, thumbs. A client opens their Ask with a wave; a Ship ends with a cheer or a thumbs up. `on_pass` takes the same key.
 
 ### predict
 
@@ -185,7 +187,7 @@ All four have starter files, tests and a reference solution. `pips` is a classma
 type: make
 files: [main.py]                # default; several files make tabs
 entry: main.py
-on_pass: { riya: "Forty-five fifty-four, six ways, seven fifty-nine. I checked it twice." }   # one specific line
+on_pass: { caitlin.pleased: "Forty-five fifty-four, six ways, seven fifty-nine. I checked it twice." }   # one specific line
 hints:                          # required for make and modify
   nudge: "What does `input()` give you, and what does multiplication need?"
   plan: [Ask for the text, Turn the text into a number, Choose the price, Show it rounded]

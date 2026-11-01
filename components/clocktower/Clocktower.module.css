@@ -17,7 +17,7 @@
 }
 
 .title {
-  font-size: var(--fs-7);
+  font-size: var(--px-5);
 }
 
 .progress {
@@ -25,125 +25,114 @@
   color: var(--text-2);
 }
 
-.views {
-  margin-top: var(--s-3);
-}
-
 .main {
   grid-area: main;
+  display: grid;
+  gap: var(--s-6);
   min-width: 0;
 }
 
+/* The view switch sits over the view it changes, lined up with the tower. */
+.views {
+  justify-self: center;
+  width: min(100%, 476px);
+}
+
+.main[data-view="list"] .views {
+  justify-self: stretch;
+  width: auto;
+}
+
+.panel {
+  min-width: 0;
+}
+
+/* The desk stays in view while the tower scrolls past. */
 .side {
   grid-area: side;
+  position: sticky;
+  top: calc(var(--header-h) + var(--s-6));
 }
 
 .hint {
-  margin-top: var(--s-4);
+  margin-top: var(--s-6);
   text-align: center;
   font-size: var(--fs-1);
   color: var(--text-2);
 }
 
-/* A floor as a button: no chrome of its own, the art is the button. */
+/* A floor as a button: the room is the button. */
 .floorButton {
+  position: relative;
   display: block;
-  width: 100%;
-  height: 100%;
   padding: 0;
   border: 0;
-  border-radius: var(--r-sm);
   background: none;
   color: inherit;
   font: inherit;
   text-align: left;
 }
 
-.floorButton > span {
-  border-radius: var(--r-sm);
-  outline: 2px solid transparent;
-  outline-offset: -2px;
-  transition: filter var(--dur) var(--ease-out), outline-color var(--dur) var(--ease-out);
+/* Pointed at or open: a dark edge and a sun-coloured one round the room, stepped at the corners. */
+.floorButton:hover > span:first-child,
+.floorButton[data-selected] > span:first-child {
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    0 -4px 0 0 var(--sun),
+    0 4px 0 0 var(--sun),
+    -4px 0 0 0 var(--sun),
+    4px 0 0 0 var(--sun);
 }
 
-.floorButton:hover > span,
-.floorButton:focus-visible > span,
-.floorButton[data-selected] > span {
-  filter: brightness(1.12);
-  outline-color: var(--on);
-}
-
+/* Focus: the same, the sun edge twice as thick. */
 .floorButton:focus-visible {
-  outline: 2px solid var(--sun);
-  outline-offset: 2px;
+  outline: none;
+}
+
+.floorButton:focus-visible > span:first-child {
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    0 -6px 0 0 var(--sun),
+    0 6px 0 0 var(--sun),
+    -6px 0 0 0 var(--sun),
+    6px 0 0 0 var(--sun);
 }
 
 .lock {
-  display: inline-grid;
-  place-items: center;
-  width: 22px;
-  height: 22px;
   flex: none;
-  border-radius: var(--r-sm);
-  background: var(--surface-3);
-  color: var(--text);
 }
 
-/* The hover label: "Floor 2: Real-World Python. 3 of 10 shipped." */
-.tip {
-  position: absolute;
-  right: var(--s-3);
-  bottom: calc(100% - var(--s-2));
-  z-index: 2;
-  padding: var(--s-2) var(--s-3);
-  background: var(--surface-2);
-  color: var(--text);
-  border-radius: var(--r-md);
-  box-shadow: var(--shadow-float);
-  font-size: var(--fs-1);
-  font-weight: 700;
-  line-height: 1.3;
-  white-space: nowrap;
-  pointer-events: none;
-  opacity: 0;
-  transform: translateY(4px);
-  transition: opacity var(--dur) var(--ease-out), transform var(--dur) var(--ease-out);
-}
-
-.tip::after {
-  content: "";
-  position: absolute;
-  right: var(--s-6);
-  top: 100%;
-  border: 6px solid transparent;
-  border-top-color: var(--surface-2);
-}
-
-.floor:hover .tip,
-.floor:has(:focus-visible) .tip {
-  opacity: 1;
-  transform: none;
-}
-
-.floor:hover,
-.floor:has(:focus-visible) {
-  z-index: 1;
-}
-
-@media (hover: none) {
-  .tip {
-    display: none;
-  }
-}
-
+/* On a phone the desk comes first: Continue is what you came for; the tower follows. */
 @media (max-width: 959px) {
   .layout {
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas:
       "head"
-      "main"
-      "side";
+      "side"
+      "main";
     grid-template-rows: none;
     gap: var(--s-6);
+  }
+
+  .side {
+    position: static;
+  }
+
+  .main {
+    margin-top: var(--s-4);
+  }
+
+  .views {
+    width: 100%;
+  }
+
+  .title {
+    font-size: var(--px-4);
   }
 }

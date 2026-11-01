@@ -1,4 +1,5 @@
-// The editor themes (REDESIGN-2.md 3): ppc-dark and ppc-light, built from the design tokens.
+// The editor themes (REDESIGN-2.md 3, REDESIGN3_PLAN.md P2): ppc-dark and ppc-light, built from
+// the design tokens. The code stays in the code face; the chrome around it is pixel.
 // Syntax: keywords in the light blue, strings green, numbers in the sun colour, comments in
 // the tertiary text colour (never italic: they're for reading), function names in the text
 // colour and bold, builtins orange. Every colour is a CSS variable from tokens.css, so the two
@@ -43,19 +44,26 @@ const spec = {
   "&.cm-focused .cm-selectionBackground, .cm-selectionBackground, ::selection": { backgroundColor: "var(--selection) !important" },
   ".cm-matchingBracket": { backgroundColor: "var(--selection)", outline: "none" },
   ".cm-errorLine": { backgroundColor: "var(--error-line)" },
-  ".cm-markLine": { backgroundColor: "var(--sun-wash)", boxShadow: "inset 2px 0 0 var(--sun)" },
+  ".cm-markLine": { backgroundColor: "var(--sun-wash)", boxShadow: "inset 4px 0 0 var(--sun)" },
   ".cm-errorGutter": { width: "18px", padding: "0 0 0 4px" },
   ".cm-errorMark": { display: "flex", alignItems: "center", height: "100%", color: "var(--fail)" },
   ".cm-placeholder": { color: "var(--text-2)" },
-  ".cm-tooltip": { backgroundColor: "var(--surface-2)", color: "var(--text)", border: "none", borderRadius: "6px", boxShadow: "var(--shadow-float)", overflow: "hidden" },
+  // Tooltips and completions are pixel panels: square, a stepped two-pixel outline, a hard shadow.
+  ".cm-tooltip": {
+    backgroundColor: "var(--surface-2)",
+    color: "var(--text)",
+    border: "none",
+    borderRadius: "0",
+    boxShadow: "0 -2px 0 0 var(--px-outline), 0 2px 0 0 var(--px-outline), -2px 0 0 0 var(--px-outline), 2px 0 0 0 var(--px-outline), 4px 4px 0 0 var(--px-drop)",
+  },
   ".cm-tooltip-autocomplete > ul": { fontFamily: "var(--font-code)", padding: "4px" },
-  ".cm-tooltip-autocomplete > ul > li": { borderRadius: "4px", padding: "2px 8px" },
+  ".cm-tooltip-autocomplete > ul > li": { borderRadius: "0", padding: "2px 8px" },
   ".cm-tooltip-autocomplete > ul > li[aria-selected]": { backgroundColor: "var(--sun)", color: "var(--sun-ink)" },
   ".cm-completionIcon": { display: "none" },
   ".cm-panels": { backgroundColor: "var(--surface-1)", color: "var(--text)" },
-  ".cm-panels.cm-panels-bottom": { borderTop: "1px solid var(--line)" },
+  ".cm-panels.cm-panels-bottom": { borderTop: "2px solid var(--line)" },
   ".cm-panel input, .cm-panel button": { fontSize: "14px" },
-  ".cm-searchMatch": { backgroundColor: "var(--sun-wash)", outline: "1px solid var(--sun)" },
+  ".cm-searchMatch": { backgroundColor: "var(--sun-wash)", outline: "2px solid var(--sun)" },
   ".cm-searchMatch.cm-searchMatch-selected": { backgroundColor: "var(--selection)" },
 };
 

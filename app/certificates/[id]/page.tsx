@@ -50,7 +50,7 @@ export default async function CertificatePage(props: { params: Promise<{ id: str
         />
         <section className={styles.verify} aria-labelledby="verify-title">
           <p className={styles.status}>
-            <Icon name="tick" size={20} />
+            <Icon name="tick" size={24} />
             Verified certificate
           </p>
           <h1 id="verify-title" className={styles.title}>

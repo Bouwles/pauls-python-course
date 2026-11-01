@@ -4,12 +4,13 @@ title: "The Studio"
 district: high-street
 subject: "Fluent Python"
 hours: 45
-summary: "Twenty real programs on the Studio floor, from a password generator to a personal finance app, with a word counter, a quiz, a trip fund, a lending library, a to-do tool and a log streamer on the way. Tuples, sets, files, JSON, exceptions, comprehensions, modules, classes, tests, generators, decorators, the command line and git."
-locked_line: "The Studio opens once the Workshop's projects are shipped. Neil has the kettle ready."
+summary: "Twenty programs on Caitlin's floor, from passwords for the game server to a personal finance app, with a quiz night, a bake sale, a festival fund, Neil's race log and Aaesha's reading experiment on the way. Tuples, sets, files, JSON, exceptions, comprehensions, modules, classes, tests, generators, decorators, the command line and git."
+locked_line: "The Studio opens once the Workshop's projects are shipped. Caitlin has the board games out already."
 intro:
-  - paul: "First floor: the Studio. Neil's room. The kettle is his, and so are the rules about it."
-  - paul: "The programs get bigger up here. So do the problems people bring you."
-  - neil: "Kettle's on. And Aaesha has written the tests for whatever you build next."
+  - paul.neutral.point: "First floor: the Studio. Caitlin's room. The board games are hers, and so are the rules about them."
+  - paul.neutral: "The programs get bigger up here. So do the problems people bring you."
+  - caitlin.pleased.wave: "Quiz nights, bake sales, game nights. I've a list of things that need a program."
+  - caitlin.laughing: "Most of them are fun. The rest will be fun once they work."
 jobs:
   - password-generator
   - tuples-at-the-tailors

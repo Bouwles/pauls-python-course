@@ -63,7 +63,7 @@ cards:
     options:
       - text: "No. One split's score depends on which rows landed in it. The mean over five folds wobbles far less"
         correct: true
-        feedback: "Right. Riya's five folds scored anywhere from 0.75 to 0.88. One split could have been any of those."
+        feedback: "Right. Paul's five folds scored anywhere from 0.75 to 0.88. One split could have been any of those."
       - text: "Yes. A validation score is a validation score"
         misconception: one-split-is-enough
         feedback: "On a few hundred rows, a single split can come out lucky or unlucky by several points. Every row gets a turn at being scored in cross-validation, so its mean is much steadier."

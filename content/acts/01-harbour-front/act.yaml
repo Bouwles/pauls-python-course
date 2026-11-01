@@ -4,13 +4,14 @@ title: "The Workshop"
 district: harbour-front
 subject: "Foundations"
 hours: 25
-summary: "Thirteen real programs on the ground floor, from a door sign to an expense tracker. Printing, numbers, input, decisions, loops, lists, strings, functions, dictionaries and handling errors."
-locked_line: "The ground floor, where Paul's class begins."
+summary: "Thirteen real programs in Paul's Workshop, from the door sign to the trip fund, for Neil's racing, Riya's art, Aaesha's experiments, Yahya's data and Caitlin's games. Printing, numbers, input, decisions, loops, lists, strings, functions, dictionaries and handling errors."
+locked_line: "The ground floor: Paul's Workshop, where every class begins."
 intro:
-  - paul: "Welcome to the Clocktower. This is the Workshop. Every class starts here."
-  - paul: "You'll build real programs for real people. Mostly the people in this room."
-  - neil: "I'm Neil. When you're stuck, ask me. Or the duck on my desk."
-  - paul: "Build it ugly first. Then make it good. And ignore the clock. It's been 3:14 for years."
+  - paul.pleased.wave: "Welcome to the Clocktower. This is the Workshop, my floor. Every class starts here."
+  - paul.neutral.point: "You'll build real programs for real people. Mostly the people in this room."
+  - paul.thinking: "Racing cars, rockets, art, data, how minds work. Everyone here has something worth building."
+  - neil.laughing.wave: "I'm Neil. When you're stuck, ask me. Or the duck on my desk."
+  - paul.neutral: "Build it ugly first. Then make it good. And ignore the clock. It's been 3:14 for years."
 jobs:
   - shop-sign
   - bill-splitter

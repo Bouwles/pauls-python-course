@@ -5,7 +5,7 @@ title: The notebook reader
 files: [notes.py, baseline.py, model.py, reader.py]
 entry: reader.py
 starter_from: make-model
-on_pass: { aaesha: "It finished a note about the duck in two words. It has learnt that the duck never says anything." }
+on_pass: { aaesha.laughing: "It finished a note about the duck in two words. It has learnt that the duck never says anything." }
 hints:
   nudge: "What does the window hold before the model has guessed anything? And after each guess, what goes on the end of it?"
   plan:

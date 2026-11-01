@@ -6,7 +6,7 @@ portfolio_readme: |
 
   A century of real weather from one station, on one page. It resamples a hundred years of monthly Met Office readings into years, leaving out any year with a month missing rather than passing eleven months off as twelve, prints the headline numbers, and draws a dashboard of four honest charts: the warming as a difference from the century's average with a ten-year average, each year's rain as bars from zero, a histogram of every month's rain, and July's sunshine against its temperature.
 
-  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
+  Written by {name} for Yahya, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -43,7 +43,7 @@ datasets:
     licence: "Open Government Licence v3.0"
     file: stornoway.csv
     notes: "From https://www.metoffice.gov.uk/pub/data/weather/uk/climate/stationdata/stornowaydata.txt, downloaded October 2026. Contains public sector information licensed under the Open Government Licence v3.0, Crown copyright, Met Office. Kept January 1925 to December 2024 (1,200 months, none of them marked provisional) and every column as published: tmax and tmin (mean daily maximum and minimum, degrees C), frost (days of air frost), rain (mm) and sun (hours). The Met Office's markers were taken off the numbers: * for an estimated value is recorded instead as the column's name in a new estimated column, and # for sunshine from the automatic Kipp & Zonen sensor (used from 2002) was dropped. Missing values, shown by the Met Office as ---, are left empty: all of April 1927 but its rain, and the sunshine for 1925 to 1928, May 2004 and January 2007. The month became a single column, YYYY-MM. Nothing else was changed."
-client: aaesha
+client: yahya
 building: weather-station
 estimated_minutes: 100
 summary: "A weather history dashboard for the Archive wall: a century of real Met Office readings resampled into years and drawn as four honest charts on one page."
@@ -51,11 +51,11 @@ concepts_introduced: [matplotlib, honest-charts]
 concepts_reviewed: [pandas-basics, selecting-filtering, groupby, missing-data, data-provenance, numpy-arrays, functions, return-values, docstrings, main-guard, f-strings]
 ask:
   dialogue:
-    - aaesha: "A hundred years of weather, and the Archive wall has one chart on it. From 1974."
-    - aaesha: "Our own station book has gaps and Fahrenheit in it. For the wall I want a record anyone can check."
-    - aaesha: "The Met Office has kept a station at Stornoway since 1873. Far north, and wet. One page, four charts."
-    - paul: "And honest, I expect."
-    - aaesha: "Bars start at zero. Every axis says what it measures. Anyone who wants drama can read a novel."
+    - yahya.pleased.wave: "A hundred years of weather, and the Archive wall has one chart on it. From 1974."
+    - yahya.unimpressed: "Our own station book has gaps and Fahrenheit in it. For the wall I want a record anyone can check."
+    - yahya.thinking.point: "The Met Office has kept a station at Stornoway since 1873. Far north, and wet. One page, four charts."
+    - paul.neutral: "And honest, I expect."
+    - yahya.proud: "Bars start at zero. Every axis says what it measures. Anyone who wants drama can read a novel."
   spec: |
     `stornoway.csv` is real: the Met Office's monthly readings at Stornoway from 1925 to 2024, one row a month: `month`, `tmax` and `tmin` (the mean daily high and low, degrees C), `frost` (days), `rain` (mm), `sun` (hours) and `estimated`. A few months are missing a reading. `load_station` is written: it reads the file with the month as a date index and adds `temp`, the mean of `tmax` and `tmin`.
 
@@ -78,10 +78,10 @@ ask:
     Saved dashboard.png
 ship:
   dialogue:
-    - aaesha: "Half a degree warmer than the first thirty years, drawn as half a degree. That goes in the middle."
-    - aaesha: "And sunny Julys are warm Julys, mostly. The one furthest right is 1955."
-    - paul: "Caitlin has redrawn hers from zero, by the way."
-    - aaesha: "Then it can go up next to mine."
+    - yahya.pleased.point: "Half a degree warmer than the first thirty years, drawn as half a degree. That goes in the middle."
+    - yahya.thinking: "And sunny Julys are warm Julys, mostly. The one furthest right is 1955."
+    - paul.laughing: "Caitlin has redrawn hers from zero, by the way."
+    - yahya.pleased.thumbs: "Then it can go up next to mine."
   shelf: { object: noticeboard, label: "A century at Stornoway, on one honest page" }
   cards: [matplotlib, honest-charts]
 stretch:

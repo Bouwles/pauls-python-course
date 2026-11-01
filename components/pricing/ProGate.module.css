@@ -1,33 +1,31 @@
-/* The paywall gate (REDESIGN-2.md 6): one centred card, the locked floor at the top. */
+/* The paywall gate (REDESIGN-2.md 6): one centred pixel panel, the locked floor's room at the top,
+   its resident saying what's up there, then the choice. */
 .card {
   display: grid;
   width: 100%;
-  max-width: 600px;
+  max-width: 640px;
   margin: 0 auto;
   background: var(--surface-2);
-  border-radius: var(--r-lg);
-  overflow: hidden;
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-hi),
+    inset 0 -2px 0 0 var(--px-lo),
+    6px 6px 0 0 var(--px-drop);
 }
 
-:root[data-theme="light"] .card {
-  border: 1px solid var(--line);
-}
-
-@media (prefers-color-scheme: light) {
-  :root[data-theme="system"] .card {
-    border: 1px solid var(--line);
-  }
-}
-
-/* The floor's illustration slot: the placeholder floor, tall enough to read as a room. */
+/* The floor's room, sunk into the top of the card, tall enough to read as a room. */
 .art {
-  height: 140px;
-  padding: var(--s-5) var(--s-5) 0;
-}
-
-.art > * {
-  border-radius: var(--r-md);
+  height: 160px;
+  margin: var(--s-5) var(--s-5) 0;
   overflow: hidden;
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
 }
 
 .lock {
@@ -41,17 +39,21 @@
   padding: var(--s-6) var(--s-8) var(--s-8);
 }
 
+.resident {
+  margin-bottom: var(--s-3);
+}
+
 .kicker {
   display: flex;
   align-items: center;
   gap: var(--s-3);
-  font-size: var(--fs-2);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--px-1);
   color: var(--text-2);
 }
 
 .title {
-  font-size: var(--fs-6);
+  font-size: var(--px-4);
   overflow-wrap: anywhere;
 }
 
@@ -81,15 +83,15 @@
 
 .square {
   flex: none;
-  width: 10px;
-  height: 10px;
-  border-radius: var(--r-sm);
+  width: 12px;
+  height: 12px;
+  box-shadow: inset 0 0 0 2px var(--px-outline);
 }
 
 .row {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--s-3);
+  gap: var(--s-4);
   margin-top: var(--s-3);
 }
 
@@ -99,12 +101,16 @@
   }
 
   .art {
-    height: 112px;
-    padding: var(--s-4) var(--s-4) 0;
+    height: 128px;
+    margin: var(--s-4) var(--s-4) 0;
   }
 
   .body {
     padding: var(--s-5) var(--s-5) var(--s-6);
+  }
+
+  .title {
+    font-size: var(--px-3);
   }
 
   .row > * {

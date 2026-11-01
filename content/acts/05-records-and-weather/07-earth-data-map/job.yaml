@@ -2,7 +2,7 @@ id: earth-data-map
 title: "Earth Data Map"
 project_name: "Earth Data Map"
 status: outline
-client: riya
+client: neil
 building: records-office
 estimated_minutes: 120
-summary: "Real geographic data on a map: Riya's question about where last year's earthquakes struck, answered with points plotted by latitude and longitude, sized by magnitude and coloured by depth, over a public coastline, with an honest note on what a map projection does to distances."
+summary: "Real geographic data on a map: Neil's question about where in the world last year's rockets went up from, answered with every orbital launch site plotted by latitude and longitude, sized by its number of launches and coloured by how many reached orbit, over a public coastline, with an honest note on what a map projection does to distances."

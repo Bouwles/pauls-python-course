@@ -48,7 +48,7 @@ cards:
       print((rain - rain.mean(axis=0)).tolist())
     answer: "[[-10.0, -10.0], [10.0, 10.0]]"
   - type: choice
-    prompt: "Aaesha wants each year's total taken off that year's months. What does this print?"
+    prompt: "Yahya wants each year's total taken off that year's months. What does this print?"
     code: |
       import numpy as np
 
@@ -61,7 +61,7 @@ cards:
         feedback: "No error and no warning. The totals `[3, 7]` were taken off the columns, because shapes line up from the right. With a square array, the wrong axis runs quietly."
       - text: "[[-2, -1], [-4, -3]]"
         misconception: broadcast-matches-rows
-        feedback: "That's what Aaesha wanted, and what `rain.sum(axis=1, keepdims=True)` would give. A plain `(2,)` array lines up with the columns, not the rows."
+        feedback: "That's what Yahya wanted, and what `rain.sum(axis=1, keepdims=True)` would give. A plain `(2,)` array lines up with the columns, not the rows."
   - type: fill
     prompt: "Fill the gap so each month becomes its share of that year's rain."
     code: |

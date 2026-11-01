@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the hill survey
-on_pass: { riya: "Uphill from the gorse is 340, not straight at the top. We'll carry the screen up that way." }
+on_pass: { paul.pleased.cheer: "Uphill from the gorse is 340, not straight at the top. Upstairs, we walk the other way." }
 hints:
   nudge: "Which input does each partial slope nudge, and which does it hold still? And for `miss_slopes`, what is the inner value, and what is the outer function done to it?"
   plan:
@@ -34,7 +34,7 @@ hints:
         square_slope = 2 * ___
         return square_slope * ___, square_slope * ___
 ---
-Write Riya's four functions. The hill's survey, the path and the report are done.
+Write Paul's four functions. The hill's survey, the path and the report are done.
 
 ```
 Steepest on the path: 650 m from the gate, slope 0.243, about 1 in 4

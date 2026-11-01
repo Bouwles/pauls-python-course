@@ -4,10 +4,10 @@ type: pips
 title: Fix Aaesha's version
 argv_field: true
 dialogue:
-  - aaesha: "I made Paul's hours tool. You type a name after it, and it adds up their repairs."
-  - aaesha: "It says no jobs for main.py. Nobody here is called main.py. Can you look?"
+  - aaesha.pleased: "I made Paul's hours tool. You type a name after it, and it adds up their repairs."
+  - aaesha.confused: "It says no jobs for main.py. Nobody here is called main.py. Can you look?"
 dialogue_after:
-  - aaesha: "So argv starts with the program's own name. Noted. Twice."
+  - aaesha.laughing: "So argv starts with the program's own name. Noted. Twice."
 hints:
   nudge: "What's in `sys.argv[0]`? And what does finishing with 0 tell Paul's backup script?"
   plan:

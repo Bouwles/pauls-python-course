@@ -5,7 +5,7 @@ title: "Milestone 1: the plan and the rules of the game"
 test_plan: true
 evidence: none
 dialogue:
-  - caitlin: "Write the rules so a player could referee. They will, whether you write them or not."
+  - caitlin.thinking.point: "Write the rules so a player could referee. They will, whether you write them or not."
 checklist:
   - id: rules
     text: "Caitlin's five rules are in your own words, precise enough to settle an argument."

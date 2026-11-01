@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the game
-on_pass: { caitlin: "Three games, three different endings. It never once looked at anyone's face." }
+on_pass: { caitlin.laughing: "Three games, three different endings. It never once looked at anyone's face." }
 hints:
   nudge: "What has to be true for the game to keep going? Put that in the `while` line, and let `quit` use `break`."
   plan:

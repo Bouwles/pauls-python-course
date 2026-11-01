@@ -1,31 +1,31 @@
 import heapq as _heapq
 
 MINUTES = {
-    "market": {"clocktower": 8, "bookshop": 4, "museum": 7},
-    "clocktower": {"market": 8, "cafe": 2, "bookshop": 3},
-    "cafe": {"clocktower": 2, "station": 2, "library": 3},
-    "station": {"cafe": 2, "cinema": 3, "city-hall": 2, "theatre": 4},
-    "cinema": {"station": 3, "bridge": 2, "school": 3},
-    "bridge": {"cinema": 2, "theatre": 3, "pool": 4, "stadium": 9},
-    "theatre": {"station": 4, "bridge": 3},
-    "stadium": {"bridge": 9},
-    "bookshop": {"market": 4, "clocktower": 3, "library": 2},
-    "library": {"bookshop": 2, "cafe": 3, "city-hall": 2},
-    "city-hall": {"library": 2, "station": 2, "school": 3, "gallery": 8},
-    "school": {"city-hall": 3, "cinema": 3, "gym": 2},
-    "gym": {"school": 2, "pool": 3, "park": 10},
-    "pool": {"gym": 3, "bridge": 4},
-    "museum": {"market": 7, "gallery": 3},
-    "gallery": {"museum": 3, "city-hall": 8, "park": 6},
-    "park": {"gallery": 6, "gym": 10},
+    "campsite": {"main-gate": 8, "food-court": 4, "car-park": 7},
+    "main-gate": {"campsite": 8, "fan-zone": 2, "food-court": 3},
+    "fan-zone": {"main-gate": 2, "paddock": 2, "merch-stand": 3},
+    "paddock": {"fan-zone": 2, "big-screen": 3, "grandstand": 2, "hairpin": 4},
+    "big-screen": {"paddock": 3, "footbridge": 2, "chicane": 3},
+    "footbridge": {"big-screen": 2, "hairpin": 3, "tunnel": 4, "viewing-bank": 9},
+    "hairpin": {"paddock": 4, "footbridge": 3},
+    "viewing-bank": {"footbridge": 9},
+    "food-court": {"campsite": 4, "main-gate": 3, "merch-stand": 2},
+    "merch-stand": {"food-court": 2, "fan-zone": 3, "grandstand": 2},
+    "grandstand": {"merch-stand": 2, "paddock": 2, "chicane": 3, "media-centre": 8},
+    "chicane": {"grandstand": 3, "big-screen": 3, "kart-track": 2},
+    "kart-track": {"chicane": 2, "tunnel": 3, "back-straight": 10},
+    "tunnel": {"kart-track": 3, "footbridge": 4},
+    "car-park": {"campsite": 7, "media-centre": 3},
+    "media-centre": {"car-park": 3, "grandstand": 8, "back-straight": 6},
+    "back-straight": {"media-centre": 6, "kart-track": 10},
 }
 
-TRIANGLE = {"square": {"church": 10, "florist": 3}, "florist": {"square": 3, "church": 4}, "church": {"square": 10, "florist": 4}}
+TRIANGLE = {"garage": {"pit-wall": 10, "timing-room": 3}, "timing-room": {"garage": 3, "pit-wall": 4}, "pit-wall": {"garage": 10, "timing-room": 4}}
 
-LONG_WAY = {"home": {"bus-stop": 1, "office": 10}, "bus-stop": {"crossing": 1}, "crossing": {"alley": 1}, "alley": {"office": 1}}
+LONG_WAY = {"tent": {"shower-block": 1, "pit-lane": 10}, "shower-block": {"crossing": 1}, "crossing": {"service-road": 1}, "service-road": {"pit-lane": 1}}
 
-CLOSED = {place: {n: m for n, m in near.items() if n != "stadium"} for place, near in MINUTES.items()}
-CLOSED["stadium"] = {}
+CLOSED = {place: {n: m for n, m in near.items() if n != "viewing-bank"} for place, near in MINUTES.items()}
+CLOSED["viewing-bank"] = {}
 
 
 def quiet(module):
@@ -71,15 +71,15 @@ def quickest(roads, start, goal):
 
 
 TESTS = [
-    function("The market to the clocktower", call="quickest_route", args=(MINUTES, "market", "clocktower"),
-             expect=(7, ["market", "bookshop", "clocktower"]), visible=True),
-    function("The market to the theatre", call="quickest_route", args=(MINUTES, "market", "theatre"),
-             expect=(14, ["market", "bookshop", "library", "city-hall", "station", "theatre"]), visible=True),
-    custom("Round the triangle", quickest(TRIANGLE, "square", "church"),
+    function("The campsite to the main gate", call="quickest_route", args=(MINUTES, "campsite", "main-gate"),
+             expect=(7, ["campsite", "food-court", "main-gate"]), visible=True),
+    function("The campsite to the hairpin", call="quickest_route", args=(MINUTES, "campsite", "hairpin"),
+             expect=(14, ["campsite", "food-court", "merch-stand", "grandstand", "paddock", "hairpin"]), visible=True),
+    custom("Round the triangle", quickest(TRIANGLE, "garage", "pit-wall"),
            hint="When a quicker way to a place turns up, its minutes and its came_from should change, and it goes back on the heap."),
-    custom("The long way round", quickest(LONG_WAY, "home", "office"),
-           hint="Four one-minute roads beat one ten-minute road. The office is seen first at 10, and that mustn't be final."),
-    custom("The stadium", quickest(MINUTES, "park", "stadium")),
-    function("Already there", call="quickest_route", args=(MINUTES, "cinema", "cinema"), expect=(0, ["cinema"])),
-    function("The road to the stadium is closed", call="quickest_route", args=(CLOSED, "clocktower", "stadium"), expect=None),
+    custom("The long way round", quickest(LONG_WAY, "tent", "pit-lane"),
+           hint="Four one-minute roads beat one ten-minute road. The pit lane is seen first at 10, and that mustn't be final."),
+    custom("The viewing bank", quickest(MINUTES, "back-straight", "viewing-bank")),
+    function("Already there", call="quickest_route", args=(MINUTES, "big-screen", "big-screen"), expect=(0, ["big-screen"])),
+    function("The road to the viewing bank is closed", call="quickest_route", args=(CLOSED, "main-gate", "viewing-bank"), expect=None),
 ]

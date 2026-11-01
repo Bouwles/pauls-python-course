@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Riya's version
 dialogue:
-  - riya: "I made my cousin a quiz last night. I tested it on one question. One out of one."
-  - riya: "Then he got all five right, and it said one out of five. Can you look at it?"
+  - riya.pleased: "I made Aaesha a quiz on the nines. I tested it on one question. One out of one."
+  - riya.worried: "Then Neil got all five right, and it said one out of five. Can you look at it?"
 dialogue_after:
-  - riya: "Once, before the loop. One question was never going to show me that. Test with five."
+  - riya.thinking.think: "Once, before the loop. One question was never going to show me that. Test with five."
 hints:
   nudge: "Trace it. What is `score` at the start of each pass? What happens to the point he won on the pass before?"
   plan:

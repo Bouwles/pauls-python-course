@@ -4,7 +4,7 @@ type: predict
 title: The sun's height
 concept: correlation-causation
 dialogue:
-  - aaesha: "The sun climbs all morning and sinks all afternoon. Its height depends entirely on the hour."
+  - aaesha.pleased.point: "The sun climbs all morning and sinks all afternoon. Its height depends entirely on the hour."
 code: |
   import numpy as np
 

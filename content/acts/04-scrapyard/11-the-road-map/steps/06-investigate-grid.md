@@ -4,8 +4,8 @@ type: investigate
 title: A maze is a graph
 concept: graphs
 dialogue:
-  - yahya: "My maze, off the Puzzle Room wall. The class races it every Friday."
-  - paul: "Every open square is a place, and its roads are the four ways off it."
+  - neil.pleased.point: "The car park, off the circuit's website. Hedges, grass, and my car somewhere in the middle."
+  - paul.thinking: "Every open square is a place, and its roads are the four ways off it."
 code: |
   maze = ["S.#",
           "..#",

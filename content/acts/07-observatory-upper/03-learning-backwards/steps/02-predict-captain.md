@@ -4,8 +4,8 @@ type: predict
 title: The stairs light
 concept: perceptron
 dialogue:
-  - neil: "The stairs light. A switch at the top, a switch at the bottom. Both up or both down, it's on."
-  - neil: "Anything else, it's off. One neuron can learn that, surely."
+  - neil.neutral.point: "The stairs light. A switch at the top, a switch at the bottom. Both up or both down, it's on."
+  - neil.pleased: "Anything else, it's off. One neuron can learn that, surely."
 code: |
   import numpy as np
 

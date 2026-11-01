@@ -5,15 +5,11 @@
 
 .top {
   display: grid;
-  gap: var(--s-2);
+  gap: var(--s-4);
 }
 
 .title {
-  font-family: var(--font-display);
-  font-size: var(--fs-7);
-  font-weight: 800;
-  line-height: var(--lh-title);
-  letter-spacing: var(--tracking-display);
+  font-size: var(--px-5);
 }
 
 .lede {
@@ -58,17 +54,12 @@
   height: 40px;
   min-width: 180px;
   padding: 0 var(--s-3);
-  border: 1px solid var(--line);
-  border-radius: var(--r-md);
-  background: var(--surface-3);
-  color: var(--text);
-  font: inherit;
   font-size: var(--fs-2);
 }
 
 .select:focus-visible {
   outline: 2px solid var(--sun);
-  outline-offset: 2px;
+  outline-offset: 4px;
 }
 
 .list {
@@ -80,10 +71,8 @@
 
 .entry {
   display: grid;
-  gap: var(--s-2);
+  gap: var(--s-3);
   padding: var(--s-5) var(--s-6);
-  border-radius: var(--r-lg);
-  background: var(--surface-1);
   min-width: 0;
 }
 
@@ -144,9 +133,14 @@
   min-width: 0;
   overflow-x: auto;
   padding: var(--s-4);
-  border-radius: var(--r-lg);
+  margin: 2px;
   background: var(--bg);
   color: var(--text);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
 }
 
 .dark {
@@ -159,6 +153,11 @@
   --text: #F2F3F5;
   --text-2: #A4ABB8;
   --text-3: #6E7584;
+  --editor: #12141A;
+  --px-outline: #050608;
+  --px-drop: #050608;
+  --px-hi: rgb(255 255 255 / 0.16);
+  --px-lo: rgb(0 0 0 / 0.28);
 }
 
 .light {
@@ -171,12 +170,17 @@
   --text: #14171D;
   --text-2: #4F5665;
   --text-3: #6B7280;
-  border: 1px solid var(--line);
+  --editor: #FFFFFF;
+  --px-outline: #14171D;
+  --px-drop: #B7BFCC;
+  --px-hi: rgb(255 255 255 / 0.5);
+  --px-lo: rgb(0 0 0 / 0.16);
 }
 
 .paneName {
-  font-size: var(--fs-1);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  line-height: 1;
   color: var(--text-2);
 }
 
@@ -208,8 +212,7 @@
 .none {
   display: grid;
   place-items: center;
-  border: 1px dashed var(--line);
-  border-radius: var(--r-md);
+  border: 2px dashed var(--line);
   color: var(--text-3);
   font-size: var(--fs-1);
 }

@@ -9,9 +9,9 @@ def names_the_error(tree, source):
 
 
 TESTS = [
-    output("The Clocktower's log", expect="12 entries read, 3 skipped", visible=True,
+    output("Sunday's flight log", expect="12 entries read, 3 skipped", visible=True,
            hint="Catch only ValueError, then run it again and read the traceback. There's a second problem underneath."),
-    output("A tidy log", files={"machines.log": "06:00 | INFO | lights | on\n07:00 | ERROR | lights | off\n"},
+    output("A tidy log", files={"flight.log": "00:00 | INFO | gps | locked\n01:00 | ERROR | gps | signal lost\n"},
            expect="2 entries read, 0 skipped"),
     structure("Catches only ValueError", check=names_the_error),
 ]

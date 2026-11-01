@@ -5,4 +5,4 @@ status: outline
 client: caitlin
 building: observatory
 estimated_minutes: 150
-summary: "Take It Home, for Caitlin: a small app built on a large language model API. A prompt kept in a file, a test set of questions with the answers they should get, an evaluation that scores every change, and a limit on what it may spend."
+summary: "Take It Home, for Caitlin: a small app built on a large language model API that suggests what to cook from whatever is in the cupboard. A prompt kept in a file, a test set of questions with the answers they should get, an evaluation that scores every change, and a limit on what it may spend."

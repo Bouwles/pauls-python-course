@@ -1,4 +1,6 @@
-/* The editor side: file tabs with Run and Check, the editor, then the console. */
+/* The editor side: file tabs with Run and Check, the editor, then the console. Bars are
+   surface-1 with two-pixel edges; tabs and labels in the pixel face, file names and code in
+   the code face. */
 .workspace {
   display: flex;
   flex-direction: column;
@@ -21,17 +23,18 @@
   justify-content: space-between;
   gap: var(--s-3);
   min-height: 56px;
-  padding: var(--s-2) var(--s-3) var(--s-2) var(--s-3);
+  padding: var(--s-2) var(--s-3) var(--s-2) var(--s-4);
   background: var(--surface-1);
-  border-bottom: 1px solid var(--line);
+  box-shadow: inset 0 -2px 0 0 var(--line);
   flex: none;
 }
 
 .files {
   display: flex;
   align-items: center;
-  gap: var(--s-1);
+  gap: var(--s-3);
   min-width: 0;
+  padding: 4px;
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -40,32 +43,38 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  height: 36px;
+  height: 32px;
   padding: 0 var(--s-3);
   border: 0;
-  border-radius: var(--r-md);
   background: none;
   color: var(--text-2);
   font-family: var(--font-code);
   font-size: 14px;
   white-space: nowrap;
-  transition:
-    background-color var(--dur) var(--ease-out),
-    color var(--dur) var(--ease-out);
 }
 
 .fileTab:hover {
   color: var(--text);
+  background: var(--surface-2);
 }
 
+/* The open file: a raised pixel plate. */
 .fileTab[aria-selected="true"] {
   background: var(--surface-3);
   color: var(--text);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-hi);
 }
 
 .readonly {
-  margin-left: var(--s-2);
-  font-size: var(--fs-1);
+  margin-left: var(--s-1);
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  line-height: 1;
   color: var(--text-2);
   white-space: nowrap;
 }
@@ -73,8 +82,9 @@
 .actions {
   display: flex;
   align-items: center;
-  gap: var(--s-2);
+  gap: var(--s-3);
   flex: none;
+  padding: 2px;
 }
 
 .wide {
@@ -82,12 +92,12 @@
 }
 
 .nextButton {
-  animation: arrive var(--dur-slow) var(--ease-spring);
+  animation: arrive 160ms steps(2, jump-none);
 }
 
 @keyframes arrive {
   from {
-    transform: scale(0.92);
+    transform: scale(0.88);
   }
 }
 
@@ -113,7 +123,7 @@
   font-size: var(--fs-1);
   color: var(--text-2);
   background: var(--surface-1);
-  border-bottom: 1px solid var(--line);
+  box-shadow: inset 0 -2px 0 0 var(--line);
 }
 
 .conflict {
@@ -139,7 +149,7 @@
   font-family: var(--font-code);
   font-size: 14px;
   background: var(--surface-1);
-  border-bottom: 1px solid var(--line);
+  box-shadow: inset 0 -2px 0 0 var(--line);
 }
 
 .argv span {
@@ -175,10 +185,9 @@
   position: absolute;
   left: 0;
   right: 0;
-  top: 4px;
-  height: 2px;
+  top: 3px;
+  height: 4px;
   background: transparent;
-  transition: background-color var(--dur) var(--ease-out);
 }
 
 .handle:hover::after,
@@ -197,20 +206,20 @@
   flex: none;
   min-height: 0;
   background: var(--editor);
-  border-top: 1px solid var(--line);
+  box-shadow: inset 0 2px 0 0 var(--line);
 }
 
 .bar {
   display: flex;
   align-items: center;
   gap: var(--s-3);
-  padding: 0 var(--s-2) 0 var(--s-3);
+  padding: 2px var(--s-2) 0 var(--s-3);
   background: var(--surface-1);
   flex: none;
 }
 
 .workspace[data-open] .bar {
-  border-bottom: 1px solid var(--line);
+  box-shadow: inset 0 -2px 0 0 var(--line);
 }
 
 .tabs {
@@ -222,30 +231,30 @@
   align-self: stretch;
 }
 
+/* Console tabs: the pixel face, and a chunky four-pixel sun bar under the open one. */
 .tab {
   display: inline-flex;
   align-items: center;
   gap: var(--s-2);
-  padding: 0 var(--s-2);
+  padding: 2px var(--s-3) 0;
   border: 0;
   background: none;
   color: var(--text-2);
-  font-size: var(--fs-1);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  line-height: 1;
   white-space: nowrap;
-  box-shadow: inset 0 -2px 0 transparent;
-  transition:
-    color var(--dur) var(--ease-out),
-    box-shadow var(--dur) var(--ease-out);
+  box-shadow: inset 0 -4px 0 0 transparent;
 }
 
 .tab:hover {
   color: var(--text);
+  box-shadow: inset 0 -4px 0 0 var(--line);
 }
 
 .tab[aria-selected="true"] {
   color: var(--text);
-  box-shadow: inset 0 -2px 0 var(--sun);
+  box-shadow: inset 0 -4px 0 0 var(--sun);
 }
 
 .tab:focus-visible {
@@ -253,20 +262,27 @@
 }
 
 .count {
-  font-size: 13px;
-  font-weight: 700;
-  padding: 1px 6px;
-  border-radius: var(--r-sm);
+  padding: 3px 5px;
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  line-height: 1;
   background: var(--surface-3);
-  color: var(--text-2);
+  color: var(--text);
   font-variant-numeric: tabular-nums;
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
 }
 
 .loading {
   display: inline-flex;
   align-items: center;
   gap: var(--s-2);
-  font-size: var(--fs-1);
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  line-height: 1;
   color: var(--text-2);
   white-space: nowrap;
 }
@@ -277,7 +293,6 @@
   width: 32px;
   height: 32px;
   border: 0;
-  border-radius: var(--r-md);
   background: none;
   color: var(--text-2);
 }
@@ -285,6 +300,11 @@
 .toggle:hover {
   background: var(--surface-3);
   color: var(--text);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
 }
 
 .body {
@@ -315,18 +335,18 @@
     display: none;
   }
 
-  /* Run and Check pinned at the bottom of the Code tab, 56 px. */
+  /* Run and Check (or Next step) pinned at the bottom of the Code and Output tabs, 60 px. */
   .pinned {
     display: grid;
     grid-auto-flow: column;
     grid-auto-columns: 1fr;
-    gap: var(--s-2);
+    gap: var(--s-4);
     align-items: center;
-    height: 56px;
-    padding: 0 var(--s-2);
+    height: 60px;
+    padding: 0 var(--s-3);
     flex: none;
     background: var(--surface-1);
-    border-top: 1px solid var(--line);
+    box-shadow: inset 0 2px 0 0 var(--line);
   }
 
   .pinned > button {
@@ -344,6 +364,6 @@
 
   .workspace[data-zone="output"] .console {
     flex: 1;
-    border-top: 0;
+    box-shadow: none;
   }
 }

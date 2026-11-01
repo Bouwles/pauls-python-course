@@ -4,7 +4,7 @@ type: predict
 title: A kind of book
 concept: inheritance
 dialogue:
-  - yahya: "A new book is a book you only get for a week. So it's a kind of book. Watch."
+  - yahya.proud.point: "A new book is a book you only get for a week. So it's a kind of book. Watch."
 code: |
   class Book:
       def __init__(self, title):
@@ -39,4 +39,4 @@ options:
 ---
 `class NewBook(Book):` makes a **subclass**: a new book is a kind of book. It **inherits** everything `Book` has and replaces only the methods it writes itself. Replacing one is called **overriding** it.
 
-Neil has asked Yahya and Caitlin to write a program for the Studio's shelves. They have already started arguing.
+Neil has asked Yahya and Caitlin to write a program for his books on the Studio's shelves. They have already started arguing.

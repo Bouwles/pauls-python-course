@@ -4,7 +4,7 @@ type: make
 title: An hour ahead
 files: [rnn.py]
 entry: rnn.py
-on_pass: { aaesha: "Under six centimetres, an hour ahead. That's an hour's warning for the river path." }
+on_pass: { aaesha.pleased: "Under six centimetres, an hour ahead. That's an hour's warning for the river path." }
 hints:
   nudge: "What does each step need from the step before it, and what does `forecast` use as a reading once the readings run out?"
   plan:

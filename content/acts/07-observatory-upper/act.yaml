@@ -4,13 +4,14 @@ title: "The Engine Room"
 district: observatory-upper
 subject: "Deep learning and AI"
 hours: 60
-summary: "The floor behind the clock's gears, beside a rack of servers. A neural network from scratch, an autograd engine, a digit recogniser, PyTorch, an image classifier, a tide predictor, a text generator and a tiny GPT, built up from the chain rule and checked at every step."
-locked_line: "The Engine Room, sixth floor. The servers hum behind the door. The gears don't move."
+summary: "Aaesha's floor, behind the clock's gears: a rack of servers, and a model of a brain on the shelf. How networks perceive, remember and attend, and where they're nothing like a mind. A neural network from scratch, an autograd engine, a digit recogniser, PyTorch, an image classifier, a tide predictor, a text generator and a tiny GPT, built up from the chain rule and checked at every step."
+locked_line: "The Engine Room, sixth floor. A model of a brain sits on the shelf. The gears behind the glass don't move."
 intro:
-  - paul: "Sixth floor. The clock's gears are behind that glass. Still stuck at 3:14. I'm getting to it."
-  - paul: "Aaesha and Neil run this room. Neural networks, from one neuron up."
-  - aaesha: "Every network gets a test before it gets trained."
-  - neil: "And when it learns nothing, we find out why. That's the fun part."
+  - paul.neutral.point: "Sixth floor. The clock's gears are behind that glass. Still stuck at 3:14. I'm getting to it."
+  - paul.neutral: "Aaesha's room. Neural networks, from one neuron up."
+  - aaesha.pleased.wave: "Every network up here was borrowed from a brain, loosely. We'll see what it perceives, remembers and attends to."
+  - aaesha.thinking: "And where it's nothing like a mind. Every network gets a test before it gets trained."
+  - neil.laughing: "And when it learns nothing, we find out why. That's my favourite part."
 jobs:
   - learning-backwards
   - the-tiny-engine

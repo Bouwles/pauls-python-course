@@ -39,7 +39,7 @@ cards:
         misconception: dropout-mask-fixed
         feedback: "The rng moves on with every call. The same seed gives the same sequence of masks, but not the same mask twice."
   - type: choice
-    prompt: "The seeing network is trained with dropout 0.5. Tonight Riya asks it for the seeing. What should dropout do?"
+    prompt: "The seeing network is trained with dropout 0.5. Tonight Neil asks it for the seeing. What should dropout do?"
     verify: none
     options:
       - text: "Nothing: every neuron is awake and nothing is scaled"

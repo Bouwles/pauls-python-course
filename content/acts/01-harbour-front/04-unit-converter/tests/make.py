@@ -1,17 +1,17 @@
-MENU = "1. Km to miles\n2. Min per km to min per mile\n3. Laps to km"
+MENU = "1. Km/h to mph\n2. Knots to km/h\n3. Mach to km/h"
 
 TESTS = [
-    output("Twelve outdoor laps", inputs=["3", "12", "no"], expect="That's 4.80 km.", match="last_line", visible=True),
-    output("A pace of five minutes a km", inputs=["2", "5"], expect="That's 8.05 min per mile.", match="last_line", visible=True),
+    output("Mach 2, high up", inputs=["3", "2", "no"], expect="That's 2124.00 km/h.", match="last_line", visible=True),
+    output("An airliner at 450 knots", inputs=["2", "450"], expect="That's 833.40 km/h.", match="last_line", visible=True),
     output("The menu comes first", inputs=["1", "12"], expect=MENU, match="contains",
            hint="Print the three menu lines exactly as in the brief, before asking for a choice."),
-    output("Ten km in miles", inputs=["1", "10"], expect="That's 6.21 miles.", match="last_line"),
-    output("Twelve indoor laps", inputs=["3", "12", "yes"], expect="That's 2.40 km.", match="last_line",
-           hint="An indoor lap is 0.2 km. Only yes means indoor."),
-    output("Half a km", inputs=["1", "0.5"], expect="That's 0.31 miles.", match="last_line",
-           hint="Amounts can have a decimal point. Which conversion reads 0.5?"),
-    output("Two and a half indoor laps", inputs=["3", "2.5", "yes"], expect="That's 0.50 km.", match="last_line"),
-    output("Standing still", inputs=["2", "0"], expect="That's 0.00 min per mile.", match="last_line"),
+    output("An F1 car at 340 km/h", inputs=["1", "340"], expect="That's 211.27 mph.", match="last_line"),
+    output("Mach 1 at sea level", inputs=["3", "1", "yes"], expect="That's 1225.00 km/h.", match="last_line",
+           hint="At sea level, Mach 1 is 1225 km/h. Only yes means sea level."),
+    output("80.5 km/h in the pit lane", inputs=["1", "80.5"], expect="That's 50.02 mph.", match="last_line",
+           hint="Speeds can have a decimal point. Which conversion reads 80.5?"),
+    output("Mach 0.8 at sea level", inputs=["3", "0.8", "yes"], expect="That's 980.00 km/h.", match="last_line"),
+    output("Standing still", inputs=["2", "0"], expect="That's 0.00 km/h.", match="last_line"),
     output("A 4 is not on the menu", inputs=["4", "10", "no"], expect="No such option.", match="last_line",
            hint="Anything that isn't 1, 2 or 3 gets No such option. An else at the end catches it."),
     output("Nor is a 0", inputs=["0", "10", "no"], expect="No such option.", match="last_line"),

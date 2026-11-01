@@ -51,10 +51,10 @@ concepts_introduced: [dynamic-programming]
 concepts_reviewed: [recursion, memoisation, decorators, base-cases, nested-data, lists, dictionaries, tuples, sort-key, string-methods, strip-replace, files, big-o, edge-cases]
 ask:
   dialogue:
-    - paul: "End-of-term quiz, capital cities. Riya wrote Copenhagan. I'd give it her."
-    - paul: "Yahya wrote Kito, for Quito, and says that's near enough too. I need a rule, not an argument."
-    - yahya: "And nobody got the bonus question: how many ways to make fifty pence."
-    - neil: "Never work anything out twice. Both questions come apart into smaller ones."
+    - paul.pleased.wave: "End-of-term quiz, capital cities. I'm marking. Riya wrote Copenhagan. I'd give it her."
+    - paul.unimpressed: "Yahya wrote Kito, for Quito, and says that's near enough too. I need a rule, not an argument."
+    - yahya.proud: "And nobody got the bonus question: how many ways to make fifty pence."
+    - neil.thinking.point: "Never work anything out twice. Both questions come apart into smaller ones."
   spec: |
     `words.csv` is a word list with a count for each word: every word that turns up at least twice in two old novels, *Great Expectations* and *Treasure Island*, and how many times. `load_counts` reads it into a dictionary, and `words_in` gives back the words of a text in lower case. In `spell.py`, write:
 
@@ -78,10 +78,10 @@ ask:
     Check?
 ship:
   dialogue:
-    - paul: "Copenhagan, near enough: Riya gets her point. Kito, wrong. Yahya has appealed."
-    - yahya: "Appeal withdrawn. The table was very clear. Four hundred and fifty ways, by the way."
-    - neil: "Every pair of beginnings worked out once, and written in the table. That's the whole trick."
-    - paul: "And that's the Puzzle Room's wall explained. Most of it."
+    - paul.pleased: "Copenhagan, near enough: Riya gets her point. Kito, wrong. Yahya has appealed."
+    - yahya.unimpressed: "Appeal withdrawn. The table was very clear. Four hundred and fifty ways, by the way."
+    - neil.pleased.thumbs: "Every pair of beginnings worked out once, and written in the table. That's the whole trick."
+    - paul.laughing: "And that's the Puzzle Room's wall explained. Most of it."
   shelf: { object: quiz-sheet, label: "Paul's spell checker, near enough" }
   cards: [dynamic-programming]
 stretch:
@@ -96,4 +96,4 @@ stretch:
   - id: biggest-crate
     title: "The biggest load"
     prompt: |
-      A store room shelf holds 50 kg. Write `best_load(crates, limit)` for a list of `(name, kg, pounds)` crates from the clockmaker's lot: the most value the shelf can hold without going over the limit, each crate taken whole or left. It's the knapsack problem: a table with a row for each crate and a column for every kilo from 0 to the limit.
+      Neil's kart trailer takes 50 kg more. Write `best_load(crates, limit)` for a list of `(name, kg, pounds)` crates from the kart track's lot: the most value the trailer can hold without going over the limit, each crate taken whole or left. It's the knapsack problem: a table with a row for each crate and a column for every kilo from 0 to the limit.

@@ -1,13 +1,13 @@
 import types as _types
 
-PRINTER = "06:12 ERROR printer: out of paper\n06:37 ERROR printer: out of paper\n07:57 ERROR printer: out of paper"
+BRAKES = "06:12 ERROR brakes: overheating\n06:37 ERROR brakes: overheating\n07:57 ERROR brakes: overheating"
 MIDNIGHT = "\n".join([
-    "00:00 INFO lights: all on", "00:01 INFO thermostat: reading 18.5 C", "00:02 INFO printer: ready",
-    "00:03 INFO front-door: nobody in", "00:04 INFO server: backup done", "00:05 INFO lights: lights on",
-    "00:06 INFO thermostat: reading 18.5 C", "00:07 INFO printer: standing by", "00:08 INFO front-door: nobody in",
-    "00:09 INFO server: backup running",
+    "00:00 INFO tyres: pressures good", "00:01 INFO engine: reading 88.5 C", "00:02 INFO brakes: cool",
+    "00:03 INFO radio: quiet", "00:04 INFO fuel: on target", "00:05 INFO tyres: grip good",
+    "00:06 INFO engine: reading 88.5 C", "00:07 INFO brakes: warm", "00:08 INFO radio: quiet",
+    "00:09 INFO fuel: lean mix",
 ])
-SHORT_LOG = "07:05 | ERROR | printer | out of paper\n\n07:15 | ERROR | front-door\n 08:10 |  error  | lights | bulb failed\n08:22 | INFO | front-door | 14 people in\n"
+SHORT_LOG = "07:05 | ERROR | brakes | overheating\n\n07:15 | ERROR | radio\n 08:10 |  error  | tyres | puncture\n08:22 | INFO | radio | 14 laps to go\n"
 
 
 class Endless:
@@ -38,42 +38,42 @@ def read_short(ctx):
     lines = m.read_lines("short.log")
     is_generator("read_lines(...)", lines)
     got = list(lines)
-    want = ["07:05 | ERROR | printer | out of paper", "07:15 | ERROR | front-door", " 08:10 |  error  | lights | bulb failed", "08:22 | INFO | front-door | 14 people in"]
+    want = ["07:05 | ERROR | brakes | overheating", "07:15 | ERROR | radio", " 08:10 |  error  | tyres | puncture", "08:22 | INFO | radio | 14 laps to go"]
     if got != want:
         raise CheckFailed("read_lines should give every line without its newline, and skip the blank one.", expected=repr(want), actual=repr(got))
 
 
 def parse_short(ctx):
     m = ctx.module()
-    entries = m.parse(["07:05 | ERROR | printer | out of paper", "07:15 | ERROR | front-door", " 08:10 |  error  | lights | bulb failed", "08:11 | INFO | printer | tray | stuck"])
+    entries = m.parse(["07:05 | ERROR | brakes | overheating", "07:15 | ERROR | radio", " 08:10 |  error  | tyres | puncture", "08:11 | INFO | radio | box | box"])
     is_generator("parse(...)", entries)
     got = list(entries)
-    want = [("07:05", "ERROR", "printer", "out of paper"), ("08:10", "ERROR", "lights", "bulb failed"), ("08:11", "INFO", "printer", "tray | stuck")]
+    want = [("07:05", "ERROR", "brakes", "overheating"), ("08:10", "ERROR", "tyres", "puncture"), ("08:11", "INFO", "radio", "box | box")]
     if got != want:
         raise CheckFailed("parse should give a tuple for each line with four parts, stripped, with the level in capitals.", expected=repr(want), actual=repr(got))
 
 
 def parse_lazily(ctx):
     m = ctx.module()
-    endless = Endless("09:00 | INFO | lights | lights on")
+    endless = Endless("09:00 | INFO | tyres | grip good")
     entries = m.parse(endless)
     got = [next(entries), next(entries)]
-    if got[0] != ("09:00", "INFO", "lights", "lights on") or endless.pulled > 2:
+    if got[0] != ("09:00", "INFO", "tyres", "grip good") or endless.pulled > 2:
         raise CheckFailed("Asked for two entries, parse should read two lines.", expected="2 lines read", actual=f"{endless.pulled} lines read")
 
 
-ENTRIES = [("06:12", "ERROR", "printer", "out of paper"), ("06:13", "INFO", "server", "backup done"),
-           ("07:35", "ERROR", "lights", "bulb failed"), ("07:36", "WARN", "printer", "low toner")]
+ENTRIES = [("06:12", "ERROR", "brakes", "overheating"), ("06:13", "INFO", "fuel", "on target"),
+           ("07:35", "ERROR", "tyres", "puncture"), ("07:36", "WARN", "brakes", "glazing")]
 
 
 def matching_cases(ctx):
     m = ctx.module()
     checks = [
         ({"level": "error"}, [ENTRIES[0], ENTRIES[2]], "level=\"error\": capitals don't matter"),
-        ({"machine": "printer"}, [ENTRIES[0], ENTRIES[3]], "machine=\"printer\""),
-        ({"level": "ERROR", "machine": "printer"}, [ENTRIES[0]], "both at once"),
+        ({"system": "brakes"}, [ENTRIES[0], ENTRIES[3]], "system=\"brakes\""),
+        ({"level": "ERROR", "system": "brakes"}, [ENTRIES[0]], "both at once"),
         ({}, ENTRIES, "neither: every entry"),
-        ({"machine": "kettle"}, [], "a machine that isn't there"),
+        ({"system": "kettle"}, [], "a system that isn't there"),
     ]
     for kwargs, want, what in checks:
         result = m.matching(iter(ENTRIES), **kwargs)
@@ -85,7 +85,7 @@ def matching_cases(ctx):
 
 def matching_lazily(ctx):
     m = ctx.module()
-    endless = Endless(("10:00", "ERROR", "lights", "bulb failed"))
+    endless = Endless(("10:00", "ERROR", "tyres", "puncture"))
     found = m.matching(endless, level="ERROR")
     next(found)
     if endless.pulled > 1:
@@ -94,7 +94,7 @@ def matching_lazily(ctx):
 
 def first_takes_no_more(ctx):
     m = ctx.module()
-    endless = Endless(("10:00", "ERROR", "lights", "bulb failed"))
+    endless = Endless(("10:00", "ERROR", "tyres", "puncture"))
     got = m.first(endless, 4)
     if not isinstance(got, list) or len(got) != 4:
         raise CheckFailed("first(entries, 4) should give a list of four.", expected="4 entries", actual=repr(got)[:120])
@@ -104,7 +104,7 @@ def first_takes_no_more(ctx):
 
 def first_of_none(ctx):
     m = ctx.module()
-    endless = Endless(("10:00", "ERROR", "lights", "bulb failed"))
+    endless = Endless(("10:00", "ERROR", "tyres", "puncture"))
     if m.first(endless, 0) != [] or endless.pulled != 0:
         raise CheckFailed("first(entries, 0) is an empty list, and reads nothing at all.", expected="[] and nothing read", actual=f"{endless.pulled} read")
     if m.first(iter(ENTRIES[:2]), 5) != ENTRIES[:2]:
@@ -112,23 +112,23 @@ def first_of_none(ctx):
 
 
 TESTS = [
-    output("Printer errors, the first three", argv=["--level", "ERROR", "--machine", "printer", "--first", "3"], expect=PRINTER, visible=True),
-    output("The first ten of the day", argv=[], expect=MIDNIGHT, visible=True,
+    output("Brake errors, the first three", argv=["--level", "ERROR", "--system", "brakes", "--first", "3"], expect=BRAKES, visible=True),
+    output("The first ten minutes of the race", argv=[], expect=MIDNIGHT, visible=True,
            hint="With no options, every entry matches, and --first is 10."),
     custom("read_lines of a short log", read_short, hint="Take the newline off the end of each line, but leave the rest of it alone; skip lines with nothing on them."),
     custom("parse of a few lines", parse_short,
            hint="split(\"|\", 3) keeps a message that has | in it in one piece. Skip a line that hasn't four parts."),
     custom("parse reads only what it's asked for", parse_lazily),
-    custom("matching by level, by machine, by both", matching_cases,
+    custom("matching by level, by system, by both", matching_cases,
            hint="None means any. Compare levels in capitals, so error finds ERROR."),
     custom("matching reads only what it's asked for", matching_lazily),
     custom("first takes no more than it needs", first_takes_no_more,
            hint="Stop asking as soon as the list has count in it: break out of the loop."),
     custom("first of nothing, and first of not enough", first_of_none,
            hint="With a count of 0, don't ask for anything at all."),
-    output("A machine nobody has", argv=["--machine", "duck"], expect="Nothing found."),
+    output("A system no car has", argv=["--system", "duck"], expect="Nothing found."),
     output("Warnings, in lower case", argv=["--level", "warn", "--first", "2"],
-           expect="01:03 WARN front-door: card reader slow\n01:48 WARN front-door: card reader slow"),
-    output("Two in the morning", argv=["--machine", "clock"], expect="02:00 INFO clock: still 3:14"),
+           expect="01:03 WARN radio: signal weak\n01:48 WARN radio: signal weak"),
+    output("Two in the morning", argv=["--system", "pit"], expect="02:00 INFO pit: driver change, Yahya in"),
     structure("Generators", requires=["Yield"], message="read_lines, parse and matching should be generators, with yield."),
 ]

@@ -4,9 +4,9 @@ type: make
 title: Make the speed tester
 files: [speed_tester.py]
 entry: speed_tester.py
-on_pass: { yahya: "Twice the parts, four times the comparisons. I said it would fall over." }
+on_pass: { neil.laughing.cheer: "Twice the parts, four times the comparisons. I said it would fall over." }
 hints:
-  nudge: "Where, in Paul's loops, do two parts actually get compared? That's where the counting goes. And what does `scale` say for each growth when n doubles?"
+  nudge: "Where, in Neil's loops, do two parts actually get compared? That's where the counting goes. And what does `scale` say for each growth when n doubles?"
   plan:
     - "spares_by_pairs: his loops, plus a count that goes up at every comparison"
     - "spares_by_set: one loop, a set of parts seen, a count for every lookup"
@@ -43,7 +43,7 @@ hints:
             lines.append(f"{size:>6} | {bar:<{BAR_WIDTH}} {value}")
         return "\n".join(___)
 ---
-Build the speed tester in `speed_tester.py`. Paul's spares check is at the top, with his notes. Write the six functions from the brief below it. The report and the main block are written, and Paul's timing subgoals are in there as comments.
+Build the speed tester in `speed_tester.py`. Neil's spares check is at the top, with his notes. Write the six functions from the brief below it. The report and the main block are written, and Paul's timing subgoals are in there as comments.
 
 ```
 By pairs, comparisons:

@@ -1,4 +1,4 @@
-"""Passwords and passphrases for the Studio."""
+"""Passwords and passphrases for the Studio's game server."""
 import secrets
 import string
 
@@ -102,7 +102,7 @@ def make_pin(length=4):
 # The demo: it runs when you run this file, but not when another program imports it.
 if __name__ == "__main__":
     classmates = make_passwords("Aaesha", "Caitlin", "Yahya")
-    print("Passwords for the Studio:")
+    print("Passwords for the game server:")
     for name, password in classmates.items():
         print(f"  {name}: {password}")
     print("Passphrase for the Wi-Fi:", make_passphrase())

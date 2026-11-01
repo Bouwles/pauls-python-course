@@ -4,7 +4,7 @@ type: investigate
 title: Three volunteers
 concept: data-cleaning
 dialogue:
-  - aaesha: "One volunteer per thirty years. They never met. You can tell."
+  - yahya.laughing: "One volunteer per thirty years. They never met. You can tell."
 code: |
   import pandas as pd
 
@@ -39,7 +39,7 @@ tasks:
     prompt: "`raw.duplicated()` marks each row that exactly matches an earlier one. How many are there?"
     kind: answer
     accept: ["3", "three"]
-    feedback: "Three exact copies. Aaesha knows of more: the others differ by a space, a capital or a date format, so they don't match yet."
+    feedback: "Three exact copies. Yahya knows of more: the others differ by a space, a capital or a date format, so they don't match yet."
     wrong: "It's the last number printed."
   - id: tidy-parish
     prompt: "Tidy the parishes. Before the `unique()` line, assign `raw[\"parish\"].str.strip().str.title()` back to `raw[\"parish\"]`. There should be four parishes left."

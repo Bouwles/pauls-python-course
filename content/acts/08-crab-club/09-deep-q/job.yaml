@@ -36,16 +36,16 @@ datasets: []
 client: neil
 building: crab-club
 estimated_minutes: 210
-summary: "Q-values from a small network instead of a table, kept steady by a replay buffer and a frozen target network: built on the racing grid, then taken home to balance Gymnasium's CartPole."
+summary: "Q-values from a small network instead of a table, kept steady by a replay buffer and a frozen target network: built on the racing grid, then taken home to balance Gymnasium's CartPole, which Neil calls a rocket landing in miniature."
 concepts_introduced: [dqn]
 concepts_reviewed: [q-learning, td-learning, neural-networks, activation-functions, backpropagation, numerical-gradient-checking, gradient-descent, optimisers, mean-squared-error, mdps, returns-discounting, exploration-exploitation, gymnasium, classes, copying, numpy-arrays, pytest, virtual-environments]
 ask:
   dialogue:
-    - neil: "The crab's Q-values live in a table. A number for every tile and every move."
-    - neil: "A network could hold them instead, and cope with worlds far too big for any table."
-    - riya: "And tiles in the same row would learn from each other. A table can't do that."
-    - paul: "A network that sets its own homework wobbles. There are two old tricks for that."
-    - paul: "Learn them on the grid. Then take them home to the standard test: a pole on a cart."
+    - neil.pleased.wave: "The crab's Q-values live in a table. A number for every tile and every move."
+    - neil.thinking: "A network could hold them instead, and cope with worlds far too big for any table."
+    - aaesha.pleased: "And tiles in the same row would learn from each other. Brains generalise like that. Tables can't."
+    - paul.thinking.think: "A network that sets its own homework wobbles. There are two old tricks for that."
+    - neil.proud.point: "Then the standard test: a pole balanced on a cart. It's a booster landing on its tail, in miniature."
   spec: |
     First, in the workshop, write `dqn.py`, Deep Q on the racing grid in `track.py`. A memory is `(tile, action, reward, after, over)`, with `action` a number from 0 to 3, in the order of `ACTIONS`.
 
@@ -74,10 +74,10 @@ ask:
     The network: 500.0 steps of 500, on average
 ship:
   dialogue:
-    - neil: "Ten points better than random on the grid, and the pole stays up for all five hundred steps."
-    - riya: "Pushing at random keeps it up for twenty-two. Yours manages five hundred."
-    - neil: "Every reinforcement learning course does CartPole. Now you have too."
-    - paul: "Next, the crab stops valuing moves and learns which ones to make."
+    - neil.proud.cheer: "Ten points better than random on the grid, and the pole stays up for all five hundred steps."
+    - aaesha.surprised: "Pushing at random keeps it up for twenty-two. Yours manages five hundred."
+    - neil.laughing: "A pole on a cart today. A booster on a landing pad, one day."
+    - paul.thinking: "Next, the crab stops valuing moves and learns which ones to make."
   shelf: { object: abacus, label: "The Q-network that balanced the pole" }
   cards: [dqn]
 stretch:

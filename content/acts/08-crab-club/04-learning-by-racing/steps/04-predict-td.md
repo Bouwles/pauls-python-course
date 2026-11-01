@@ -3,6 +3,8 @@ id: predict-td
 type: predict
 title: Learning from a guess
 concept: td-learning
+dialogue:
+  - aaesha.thinking.think: "The gap between what it expected and what it got. That gap is the whole idea."
 code: |
   values = {(1, 2): 0.0, (0, 2): 8.0}
   alpha = 0.5

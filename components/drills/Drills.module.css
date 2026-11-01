@@ -1,4 +1,4 @@
-/* Drills: topic cards in a grid under each Act, and the race when one starts. */
+/* Drills: Yahya at the top, topic cards in a grid under each Act, and the race when one starts. */
 .drills {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -7,11 +7,11 @@
 
 .head {
   display: grid;
-  gap: var(--s-3);
+  gap: var(--s-4);
 }
 
 .title {
-  font-size: var(--fs-7);
+  font-size: var(--px-5);
 }
 
 .lede {
@@ -26,46 +26,30 @@
   color: var(--text-2);
 }
 
-.empty {
-  display: grid;
-  justify-items: start;
-  gap: var(--s-2);
-  padding: var(--s-8);
-  background: var(--surface-2);
-  border-radius: var(--r-lg);
+/* Yahya: room for him from the start, so nothing jumps when he speaks. */
+.host {
   max-width: 720px;
+  min-height: 108px;
 }
 
-.emptyIcon {
-  color: var(--text-2);
-  margin-bottom: var(--s-2);
-}
-
-.emptyTitle {
-  font-family: var(--font-display);
-  font-size: var(--fs-5);
-  font-weight: 700;
-  letter-spacing: -0.01em;
-}
-
-/* An Act: its heading with the floor's colour as a small square, then the cards. */
+/* An Act: its heading with the floor's colour as a small pixel square, then the cards. */
 .act {
   display: grid;
-  gap: var(--s-4);
+  gap: var(--s-5);
 }
 
 .actTitle {
   display: flex;
   align-items: center;
   gap: var(--s-3);
-  font-size: var(--fs-5);
+  font-size: var(--px-3);
 }
 
 .marker {
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
   flex: none;
-  border-radius: var(--r-sm);
+  box-shadow: inset 0 0 0 2px var(--px-outline);
 }
 
 .grid {
@@ -74,7 +58,7 @@
   padding: 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: var(--s-4);
+  gap: var(--s-6);
 }
 
 .card {
@@ -82,31 +66,13 @@
   grid-template-rows: 1fr auto auto;
   gap: var(--s-4);
   padding: var(--s-5);
-  background: var(--surface-2);
-  border-radius: var(--r-lg);
   min-width: 0;
 }
 
-:global(:root[data-theme="light"]) .card,
-:global(:root[data-theme="light"]) .empty,
-:global(:root[data-theme="light"]) .race,
-:global(:root[data-theme="light"]) .result,
-:global(:root[data-theme="light"]) .locked {
-  border: 1px solid var(--line);
-}
-
-@media (prefers-color-scheme: light) {
-  :global(:root[data-theme="system"]) .card,
-  :global(:root[data-theme="system"]) .race,
-  :global(:root[data-theme="system"]) .result {
-    border: 1px solid var(--line);
-  }
-}
-
 .topic {
-  font-size: var(--fs-4);
-  line-height: 1.2;
-  letter-spacing: -0.01em;
+  font-size: var(--px-2);
+  line-height: 1;
+  overflow-wrap: anywhere;
 }
 
 .times {
@@ -118,39 +84,43 @@
 
 .time {
   display: grid;
-  gap: 2px;
+  align-content: start;
+  gap: var(--s-1);
   min-width: 0;
 }
 
 .time dt {
-  display: flex;
-  align-items: center;
-  gap: 6px;
   font-size: var(--fs-1);
   font-weight: 700;
   color: var(--text-2);
 }
 
-.time dt > span {
-  display: inline-flex;
-}
-
 .time dd {
   margin: 0;
   font-family: var(--font-display);
-  font-size: var(--fs-4);
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.01em;
+  font-size: var(--px-2);
+  line-height: 1;
 }
 
 .time .noTime {
   font-family: var(--font-text);
   font-size: var(--fs-2);
-  font-weight: 400;
+  line-height: 1.3;
   color: var(--text-2);
-  letter-spacing: normal;
-  padding-top: 3px;
+}
+
+/* The rival's time, with his face beside it. */
+.rivalCell {
+  position: relative;
+  min-height: 40px;
+  padding-left: 44px;
+}
+
+.rivalFace {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: inline-flex;
 }
 
 .card button {
@@ -158,29 +128,28 @@
 }
 
 /* Not unlocked yet: collapsed, a plain list by Act. */
-.locked {
-  background: var(--surface-1);
-  border-radius: var(--r-lg);
-}
-
 .locked summary {
   display: flex;
   align-items: center;
   gap: var(--s-2);
   padding: var(--s-4) var(--s-5);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  line-height: 1;
   cursor: pointer;
   list-style: none;
-  border-radius: var(--r-lg);
 }
 
 .locked summary::-webkit-details-marker {
   display: none;
 }
 
+.locked summary:focus-visible {
+  outline-offset: 4px;
+}
+
 .caret {
   color: var(--text-2);
-  transition: transform var(--dur) var(--ease-out);
 }
 
 .locked[open] .caret {
@@ -190,7 +159,8 @@
 .lockedBody {
   display: grid;
   gap: var(--s-5);
-  padding: 0 var(--s-5) var(--s-5);
+  padding: var(--s-4) var(--s-5) var(--s-5);
+  border-top: 2px solid var(--line);
 }
 
 .lockedAct {
@@ -223,7 +193,7 @@
 }
 
 .runTop {
-  margin-bottom: calc(-1 * var(--s-4));
+  margin-bottom: calc(-1 * var(--s-2));
 }
 
 .runTop button {
@@ -232,19 +202,17 @@
 
 .runHead {
   display: grid;
-  gap: var(--s-2);
+  gap: var(--s-3);
 }
 
 .runTitle {
-  font-size: var(--fs-7);
+  font-size: var(--px-5);
 }
 
 .race {
   display: grid;
   gap: var(--s-5);
   padding: var(--s-6);
-  background: var(--surface-2);
-  border-radius: var(--r-lg);
 }
 
 .clocks {
@@ -256,7 +224,7 @@
 
 .clock {
   display: grid;
-  gap: var(--s-1);
+  gap: var(--s-2);
 }
 
 .clockRival {
@@ -265,22 +233,18 @@
 
 .bigTime {
   font-family: var(--font-display);
-  font-size: var(--fs-8);
-  font-weight: 800;
+  font-size: var(--px-6);
   line-height: 1;
-  letter-spacing: var(--tracking-display);
-  font-variant-numeric: tabular-nums;
 }
 
 .rivalTime {
   font-family: var(--font-display);
-  font-size: var(--fs-6);
-  font-weight: 700;
+  font-size: var(--px-4);
   line-height: 1;
   color: var(--text-2);
-  font-variant-numeric: tabular-nums;
 }
 
+/* Two lanes: each runner's pixel head moves along a sunk track to the flag. */
 .lanes {
   display: grid;
   gap: var(--s-3);
@@ -294,50 +258,83 @@
 }
 
 .laneName {
-  font-size: var(--fs-1);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  line-height: 1;
   color: var(--text-2);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
+.track {
+  position: relative;
+  height: 48px;
+  padding: 0 32px 0 0;
+  background: var(--editor);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-lo);
+  margin: 2px;
+}
+
 .segments {
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 6px 0 6px 6px;
+  height: 100%;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: var(--s-1);
+  gap: 4px;
 }
 
 .segments li {
-  height: 10px;
-  border-radius: var(--r-sm);
   background: var(--surface-3);
 }
 
 .segments .segDone {
   background: var(--sun);
+  box-shadow: inset 0 -4px 0 0 var(--px-lo);
 }
 
 .segments .segNow {
-  background: var(--sun-wash);
-  box-shadow: inset 0 0 0 1px var(--sun);
-}
-
-.track {
-  height: 10px;
-  border-radius: var(--r-sm);
-  background: var(--surface-3);
-  overflow: hidden;
+  background: color-mix(in srgb, var(--sun) 22%, var(--surface-3));
+  box-shadow: inset 0 0 0 2px var(--sun);
 }
 
 .trackFill {
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  max-width: calc(100% - 32px);
+  box-shadow: inset 0 -4px 0 0 var(--px-lo);
+}
+
+.flag {
+  position: absolute;
+  right: 4px;
+  top: 12px;
+  color: var(--sun-text);
+}
+
+.runner {
+  position: absolute;
+  bottom: 4px;
+  left: calc(var(--at) * (100% - 72px) + 2px);
+  transition: left var(--dur-slow) steps(4);
+}
+
+.runnerFace {
   display: block;
-  height: 100%;
-  border-radius: var(--r-sm);
-  transition: width 100ms linear;
+  width: 36px;
+  height: 40px;
+  padding: 2px 2px 0;
+  box-shadow: inset 0 0 0 2px var(--px-outline);
+  overflow: hidden;
 }
 
 .raceNote {
@@ -357,17 +354,19 @@
   justify-items: start;
   gap: var(--s-3);
   padding: var(--s-6);
-  background: var(--surface-2);
-  border-radius: var(--r-lg);
+}
+
+.resultTop {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-4);
 }
 
 .resultTime {
   font-family: var(--font-display);
-  font-size: var(--fs-8);
-  font-weight: 800;
+  font-size: var(--px-6);
   line-height: 1;
-  letter-spacing: var(--tracking-display);
-  font-variant-numeric: tabular-nums;
 }
 
 .resultText {
@@ -386,12 +385,12 @@
 
 .taskHead {
   padding: var(--s-4) var(--s-6);
-  border-bottom: 1px solid var(--line);
+  border-bottom: 2px solid var(--line);
 }
 
 .taskTitle {
-  font-size: var(--fs-3);
-  letter-spacing: normal;
+  font-size: var(--px-2);
+  line-height: 1;
 }
 
 @media (max-width: 720px) {
@@ -401,16 +400,20 @@
 
   .title,
   .runTitle {
-    font-size: var(--fs-6);
+    font-size: var(--px-4);
   }
 
   .lede {
     font-size: var(--fs-3);
   }
 
+  .host {
+    min-height: 72px;
+  }
+
   .grid {
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--s-3);
+    gap: var(--s-5);
   }
 
   .card {
@@ -424,15 +427,16 @@
 
   .bigTime,
   .resultTime {
-    font-size: var(--fs-7);
+    font-size: var(--px-5);
   }
 
   .rivalTime {
-    font-size: var(--fs-5);
+    font-size: var(--px-3);
   }
 
   .lane {
-    grid-template-columns: 56px minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-2);
   }
 
   .taskHead {

@@ -49,7 +49,7 @@ cards:
         misconception: json-keeps-int-keys
         feedback: "In JSON every key is text. After the round trip the key is `\"1\"`, and `get(1)` finds nothing."
   - type: fix
-    prompt: "Neil's bookings should be saved as JSON, then read back. Fix the saving so this prints `Studio`."
+    prompt: "Caitlin's room bookings should be saved as JSON, then read back. Fix the saving so this prints `Studio`."
     code: |
       import json
 

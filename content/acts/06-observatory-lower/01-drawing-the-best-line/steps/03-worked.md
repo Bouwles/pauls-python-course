@@ -3,9 +3,9 @@ id: worked
 type: worked
 title: How Paul would walk it
 dialogue:
-  - paul: "The wall clock in here. I've timed it all week. It loses a bit every day."
-  - paul: "The big clock's still stuck at 3:14. This one at least moves."
-  - riya: "One number to find: seconds lost a day. One setting, so one hill."
+  - paul.neutral.point: "The wall clock in here. I've timed it all week. It loses a bit every day."
+  - paul.unimpressed: "The big clock's still stuck at 3:14. This one at least moves."
+  - neil.thinking: "One number to find: seconds lost a day. One setting, so one hill."
 code: |
   import numpy as np
   from workshop import show_hill

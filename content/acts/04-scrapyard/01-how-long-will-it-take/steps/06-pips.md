@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Riya's version
 dialogue:
-  - riya: "Can you look at mine? Paul's check has a loop inside a loop. Mine has one. So it's O(n)."
-  - riya: "Instant on the store room's two hundred. Twenty thousand takes ages. Must be the computer."
+  - riya.pleased.wave: "Can you look at mine? Neil's check has a loop inside a loop. Mine has one. So it's O(n)."
+  - riya.confused: "Instant on his two hundred parts. Twenty thousand takes ages. Must be the computer."
 dialogue_after:
-  - riya: "So `in` was a loop the whole time. It just didn't say so."
+  - riya.surprised: "So `in` was a loop the whole time. It just didn't say so."
 hints:
   nudge: "Riya's loop runs once per part. What does `part in seen` do when `seen` is a list?"
   plan:

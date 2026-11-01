@@ -1,11 +1,14 @@
 import { Badge } from "../ui/Badge";
+import { Portrait } from "../art/Portrait";
 import { billSplitter, flaskApp, snake, spamFilter, weatherApp, type FlaskPage, type Project, type TermLine } from "./artefacts";
 import styles from "./BuildGrid.module.css";
 
 // "What you'll build" (REDESIGN-2.md 6): real projects, each shown by what it really does,
-// in cards of different sizes. The outputs come from the projects' reference solutions.
+// in pixel cards of different sizes, with the classmate who brings it. The outputs come from the
+// projects' reference solutions.
 
-function Card({ project, line, area, children, wide = false }: { project: Project; line: string; area: string; children: React.ReactNode; wide?: boolean }) {
+function Card({ project, line, area, children, wide = false, names }: { project: Project; line: string; area: string; children: React.ReactNode; wide?: boolean; names: Record<string, string> }) {
+  const client = names[project.client] ?? project.client.charAt(0).toUpperCase() + project.client.slice(1);
   return (
     <li className={`${styles.card} ${styles[area]}`}>
       <div className={[styles.artefact, wide ? styles.artefactWide : ""].join(" ")}>{children}</div>
@@ -13,7 +16,12 @@ function Card({ project, line, area, children, wide = false }: { project: Projec
         <h3 className={styles.name}>{project.title}</h3>
         <p className={styles.line}>{line}</p>
         <p className={styles.meta}>
-          <span>Act {project.act}</span>
+          <span className={styles.client} aria-hidden="true">
+            <Portrait who={project.client} name={client} size={40} crop="head" animate={false} />
+          </span>
+          <span>
+            For {client}, Act {project.act}
+          </span>
           {project.free ? <Badge tone="free">Free</Badge> : null}
         </p>
       </div>
@@ -182,26 +190,26 @@ function SnakeBoard() {
   const [hx, hy] = SNAKE[0]!;
   return (
     <figure className={`code-dark ${styles.snakeBox}`}>
-      <svg viewBox={`0 0 ${w} ${h + 28}`} className={styles.snakeSvg} role="img" aria-label={`A game of Snake: the snake is ${SNAKE.length} squares long and heading right for the food. Score ${SNAKE.length - 3}.`}>
+      <svg viewBox={`0 0 ${w} ${h + 28}`} shapeRendering="crispEdges" className={styles.snakeSvg} role="img" aria-label={`A game of Snake: the snake is ${SNAKE.length} squares long and heading right for the food. Score ${SNAKE.length - 3}.`}>
         <text x="2" y="16" className={styles.score}>
           Score {SNAKE.length - 3}
         </text>
         <g transform="translate(0 28)">
-          <rect width={w} height={h} rx="4" className={styles.board} />
+          <rect width={w} height={h} className={styles.board} />
           {SNAKE.slice(1).map(([x, y], i) => (
-            <rect key={i} x={x * CELL + 1.5} y={y * CELL + 1.5} width={CELL - 3} height={CELL - 3} rx="3" className={styles.body} />
+            <rect key={i} x={x * CELL + 2} y={y * CELL + 2} width={CELL - 4} height={CELL - 4} className={styles.body} />
           ))}
-          <rect x={hx * CELL + 1} y={hy * CELL + 1} width={CELL - 2} height={CELL - 2} rx="4" className={styles.head} />
-          <circle cx={hx * CELL + 13} cy={hy * CELL + 6} r="2" className={styles.eye} />
-          <circle cx={hx * CELL + 13} cy={hy * CELL + 14} r="2" className={styles.eye} />
-          <circle cx={FOOD[0] * CELL + CELL / 2} cy={FOOD[1] * CELL + CELL / 2} r={CELL / 2 - 3} className={styles.food} />
+          <rect x={hx * CELL + 2} y={hy * CELL + 2} width={CELL - 4} height={CELL - 4} className={styles.head} />
+          <rect x={hx * CELL + 12} y={hy * CELL + 4} width="4" height="4" className={styles.eye} />
+          <rect x={hx * CELL + 12} y={hy * CELL + 12} width="4" height="4" className={styles.eye} />
+          <path d={`M${FOOD[0] * CELL + 6} ${FOOD[1] * CELL + 4}h8v4h4v8h-4v4h-8v-4h-4v-8h4z`} className={styles.food} />
         </g>
       </svg>
     </figure>
   );
 }
 
-export function BuildGrid() {
+export function BuildGrid({ names }: { names: Record<string, string> }) {
   const bill = billSplitter();
   const weather = weatherApp();
   const flask = flaskApp();
@@ -209,19 +217,19 @@ export function BuildGrid() {
   const game = snake();
   return (
     <ul className={styles.grid}>
-      <Card project={bill.project} line="Splits a bill and the tip between a table of people, to the penny." area="bill">
+      <Card project={bill.project} line="Splits a bill and the tip between a table of people, to the penny." area="bill" names={names}>
         <Terminal command="python main.py" run={bill.run} label="The Bill Splitter running in a terminal" />
       </Card>
-      <Card project={weather.project} line="A three-day forecast for anywhere, from a real weather service." area="weather" wide>
+      <Card project={weather.project} line="A three-day forecast for anywhere, from a real weather service." area="weather" wide names={names}>
         <Terminal command="python weather.py" run={weather.run} label="The Weather App running in a terminal" />
       </Card>
-      <Card project={flask.project} line="A Flask web app: pages, a booking form, a JSON API and its own tests." area="flask" wide>
+      <Card project={flask.project} line="A Flask web app: pages, a booking form, a JSON API and its own tests." area="flask" wide names={names}>
         <FlaskView page={flask.page} />
       </Card>
-      <Card project={spam.project} line="Naive Bayes written from scratch, then tested honestly." area="spam">
+      <Card project={spam.project} line="Naive Bayes written from scratch, then tested honestly." area="spam" names={names}>
         <Matrix m={spam.matrix} />
       </Card>
-      <Card project={game.project} line="A real-time game loop: the snake, the food, the walls and the score." area="snake">
+      <Card project={game.project} line="A real-time game loop: the snake, the food, the walls and the score." area="snake" names={names}>
         <SnakeBoard />
       </Card>
     </ul>

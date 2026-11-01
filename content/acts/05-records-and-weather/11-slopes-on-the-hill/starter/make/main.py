@@ -1,4 +1,4 @@
-# Riya's hill survey: the path, the hill, and Aaesha's thermometer.
+# Paul's hill survey: the path, the hill, and the Archive's thermometer.
 import math
 
 try:

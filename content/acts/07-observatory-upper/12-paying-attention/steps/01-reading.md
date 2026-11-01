@@ -3,8 +3,8 @@ id: reading
 type: reading
 title: Questions, labels and contents
 dialogue:
-  - neil: "My blackboard. Nobody rub this one out."
-  - neil: "Q, K, V. And underneath: every letter asks the ones before it a question."
+  - neil.proud.point: "My blackboard. Nobody rub this one out."
+  - neil.neutral: "Q, K, V. And underneath: every letter asks the ones before it a question."
 ---
 A bigram looks one character back. **Attention** lets every character look back at all the ones before it, and decide how much each one matters.
 

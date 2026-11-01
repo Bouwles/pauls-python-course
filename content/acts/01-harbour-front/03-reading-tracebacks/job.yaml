@@ -4,7 +4,7 @@ project_name: "Reading Tracebacks"
 portfolio_readme: |
   # Reading Tracebacks
 
-  Neil's help-desk board, put back together from five broken scripts. Each script crashed in a different way, and each one was fixed by reading its traceback.
+  Neil's race-day board for his karting club, put back together from five broken scripts about racing, rockets and the clock. Each script crashed in a different way, and each one was fixed by reading its traceback.
 
   Written by {name} for Neil, at Paul's Python Course. Finished {date}.
 
@@ -14,12 +14,12 @@ portfolio_readme: |
   python main.py
   ```
 
-  It prints the help desk's hours:
+  It prints the race day's times:
 
   ```
-  Help desk in the Studio
-  Opens 09:30
-  Closes 16:00
+  Race day at the indoor track
+  Practice 09:30
+  Race 16:00
   ```
 
   ## What it shows
@@ -37,27 +37,27 @@ datasets: []
 client: neil
 building: workshop
 estimated_minutes: 35
-summary: "Five broken scripts, the tracebacks that explain them, and the four errors every Python programmer meets."
+summary: "Five broken racing and rocket scripts from Neil's first term, and the four errors every Python programmer meets."
 concepts_introduced: [reading-tracebacks, syntax-error, name-error, type-error, value-error, str-conversion]
 concepts_reviewed: [print, strings, variables, input-returns-text, int-conversion, float-conversion, f-strings]
 ask:
   dialogue:
-    - neil: "Five scripts from my first term. Every one of them crashes."
-    - neil: "I kept them on purpose. Best teaching material I own."
-    - paul: "When Python breaks, it leaves a note. Today you learn to read the note."
+    - neil.pleased.wave: "Five scripts from my first term. Karting, rockets, one about the clock. Every one crashes."
+    - neil.laughing: "I kept them on purpose. Best teaching material I own."
+    - paul.neutral: "When Python breaks, it leaves a note. Today you learn to read the note."
   spec: |
-    Neil's old help-desk board is five small scripts, and each one crashes.
+    Neil's first-term scripts: a race-day board for his karting club, a rocket launch date, a glider's wings, and the clock. Five small scripts, and each one crashes.
     Read the traceback, find the line, fix it. Between them they hold the four errors you will meet most: SyntaxError, NameError, TypeError and ValueError.
-    When the last script runs, the help-desk board prints again.
+    When the last script runs, the race-day board prints again.
   example: |
-    Help desk in the Studio
-    Opens 09:30
-    Closes 16:00
+    Race day at the indoor track
+    Practice 09:30
+    Race 16:00
 ship:
   dialogue:
-    - neil: "Opens nine thirty, closes four. Exactly what I meant to print in my first term."
-    - paul: "Five scripts, six tracebacks. Most people never read one."
-  shelf: { object: tide-table, label: "Neil's help-desk board, working again" }
+    - neil.pleased.cheer: "Practice at nine thirty, race at four. Exactly what I meant to print in my first term."
+    - paul.proud: "Five scripts, six tracebacks. Most people never read one."
+  shelf: { object: tide-table, label: "Neil's race-day board, working again" }
   cards: [reading-tracebacks, syntax-error, name-error, type-error, value-error, str-conversion]
 stretch:
   - id: on-purpose

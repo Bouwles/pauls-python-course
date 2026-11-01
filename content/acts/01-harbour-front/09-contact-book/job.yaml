@@ -4,9 +4,9 @@ project_name: "Contact Book"
 portfolio_readme: |
   # Contact Book
 
-  A contact book for the command line. It keeps a phone number and an address for each person, looks people up by name, suggests who you might mean when you only type part of a name, and adds new contacts from a single typed line.
+  A contact book for an artist, on the command line: everyone she draws for, and everyone she buys from. It keeps a phone number and an address for each one, looks people up by name, suggests who you might mean when you only type part of a name, and adds new contacts from a single typed line.
 
-  Written by {name} for Aaesha, at Paul's Python Course. Finished {date}.
+  Written by {name} for Riya, at Paul's Python Course. Finished {date}.
 
   ## Run it
 
@@ -14,12 +14,12 @@ portfolio_readme: |
   python main.py
   ```
 
-  Type a full name to look someone up. Type part of a name, like `clock`, to see who it might be. Type `add`, then a line like `Riya, 01632 960733, The Model Room`, to add someone. A blank line stops it.
+  Type a full name to look someone up. Type part of a name, like `shop`, to see who it might be. Type `add`, then a line like `Aaesha, 01632 960733, The Engine Room`, to add someone. A blank line stops it.
 
   ```
-  Name? clock
-  No contact called clock.
-  Try: Clock Repairs, Clock Parts
+  Name? shop
+  No contact called shop.
+  Try: Print Shop, Frame Shop
   ```
 
   ## What it shows
@@ -32,48 +32,48 @@ portfolio_readme: |
   The phone numbers are from the range set aside for fiction, so none of them will ring anyone.
 downloadable: true
 datasets: []
-client: aaesha
+client: riya
 building: post-office
 estimated_minutes: 55
-summary: "Look people up, find them from half a name, and add new ones from one typed line."
+summary: "Riya's clients and suppliers: look people up, find them from half a name, and add new ones from one typed line."
 concepts_introduced: [dictionaries, dict-get, dict-items, nested-data, split-join]
 concepts_reviewed: [while-loops, sentinels, lists, append-pop, in-operator, string-methods, f-strings, list-aliasing]
 ask:
   dialogue:
-    - aaesha: "The class's numbers are everywhere. A group chat, a sticky note, the back of a quiz."
-    - aaesha: "Paul's number is written down four times. Two of them are wrong."
-    - aaesha: "One contact book. A name in, a number out. Even from half a name."
-    - paul: "Names to details. That wants a dictionary."
+    - riya.pleased.wave: "I'm drawing for half the class now. Posters, covers, portraits."
+    - riya.worried: "Their numbers are everywhere. A group chat, a sketchbook, the back of a print."
+    - riya.neutral.point: "Plus the print shop and the framer, every week. A name in, a number out. Even from half a name."
+    - paul.thinking: "Names to details. That wants a dictionary."
   spec: |
     `contacts` holds a record for each name: a dictionary with a `phone` and an `address`. Ask `Name? ` until a blank line.
 
     1. A name in the book gets its record: `Paul: 01632 960101, The Workshop`.
-    2. `add` asks `New contact? ` for a whole contact on one line, like `Riya, 01632 960733, The Model Room`. Split it at each `, `, add the record, and print `Added Riya.` A line that doesn't split into exactly three parts gets `Name, phone, address, please.`
-    3. Any other name gets `No contact called repairs.` Then, if what was typed is one of the words in any contact's name, ignoring capitals, print `Try: ` and those names, in book order, with `, ` between them.
+    2. `add` asks `New contact? ` for a whole contact on one line, like `Aaesha, 01632 960733, The Engine Room`. Split it at each `, `, add the record, and print `Added Aaesha.` A line that doesn't split into exactly three parts gets `Name, phone, address, please.`
+    3. Any other name gets `No contact called print.` Then, if what was typed is one of the words in any contact's name, ignoring capitals, print `Try: ` and those names, in book order, with `, ` between them.
   example: |
     Name? Paul
     Paul: 01632 960101, The Workshop
-    Name? clock
-    No contact called clock.
-    Try: Clock Repairs, Clock Parts
+    Name? shop
+    No contact called shop.
+    Try: Print Shop, Frame Shop
     Name? add
-    New contact? Riya, 01632 960733, The Model Room
-    Added Riya.
-    Name? Riya
-    Riya: 01632 960733, The Model Room
+    New contact? Aaesha, 01632 960733, The Engine Room
+    Added Aaesha.
+    Name? Aaesha
+    Aaesha: 01632 960733, The Engine Room
     Name?
 ship:
   dialogue:
-    - aaesha: "Clock Repairs, then Clock Parts. Both of them, in the order they went in."
-    - aaesha: "One record for everyone. No copies, so nothing to go out of date."
-    - paul: "Clock Repairs. I'll ring them. Soon."
-  shelf: { object: address-book, label: "Aaesha's contact book" }
+    - riya.pleased: "Print Shop, then Frame Shop. Both of them, in the order they went in."
+    - riya.proud.thumbs: "Who's going to use it? Me, every time a print needs a frame."
+    - aaesha.pleased: "One record for everyone. No copies, so nothing to go out of date."
+  shelf: { object: address-book, label: "Riya's contact book" }
   cards: [dictionaries, dict-get, dict-items, nested-data, split-join]
 stretch:
   - id: nicknames
     title: "Prof means Paul"
     prompt: |
-      Nobody types the full name. Add a dictionary of nicknames, `{"Prof": "Paul", "Repairs": "Clock Repairs", "Parts": "Clock Parts"}`, and turn each typed name into the full one before looking it up. Names that aren't nicknames stay as they are.
+      Nobody types the full name. Add a dictionary of nicknames, `{"Prof": "Paul", "Prints": "Print Shop", "Frames": "Frame Shop"}`, and turn each typed name into the full one before looking it up. Names that aren't nicknames stay as they are.
 
       `nicknames.get(name, name)` does exactly that in one line.
     tests: tests/stretch-nicknames.py
@@ -81,4 +81,4 @@ stretch:
   - id: everyone
     title: "The whole book"
     prompt: |
-      Aaesha wants to see who's in it. Typing `list` prints `Contacts: ` and every name in alphabetical order, with `, ` between them. `sorted(contacts)` gives the names of a dictionary in order.
+      Riya wants to see who's in it. Typing `list` prints `Contacts: ` and every name in alphabetical order, with `, ` between them. `sorted(contacts)` gives the names of a dictionary in order.

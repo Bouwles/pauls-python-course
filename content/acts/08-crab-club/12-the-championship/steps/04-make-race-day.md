@@ -6,7 +6,7 @@ files: [course.py, crab.py, race_day.py]
 entry: race_day.py
 starter_from: make-crab
 timeout_ms: 40000
-on_pass: { aaesha: "Two baselines, a table, and courses held back until the end. That's an honest result." }
+on_pass: { aaesha.pleased: "Two baselines, a table, and courses held back until the end. That's an honest result." }
 hints:
   nudge: "The shortest line needs to know how far every tile is from the finish. Which search, from Act IV, finds that from one starting point?"
   plan:

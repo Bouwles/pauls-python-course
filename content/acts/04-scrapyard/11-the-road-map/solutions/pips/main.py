@@ -1,26 +1,26 @@
-"""Yahya's fewest roads, from the market to anywhere."""
+"""Yahya's fewest roads round the circuit, from the campsite to anywhere."""
 from collections import deque
 
 from workshop import show_graph
 
 ROADS = {
-    "market": ["clocktower", "bookshop", "museum"],
-    "clocktower": ["market", "cafe", "bookshop"],
-    "cafe": ["clocktower", "station", "library"],
-    "station": ["cafe", "cinema", "city-hall", "theatre"],
-    "cinema": ["station", "bridge", "school"],
-    "bridge": ["cinema", "theatre", "pool", "stadium"],
-    "theatre": ["station", "bridge"],
-    "stadium": ["bridge"],
-    "bookshop": ["market", "clocktower", "library"],
-    "library": ["bookshop", "cafe", "city-hall"],
-    "city-hall": ["library", "station", "school", "gallery"],
-    "school": ["city-hall", "cinema", "gym"],
-    "gym": ["school", "pool", "park"],
-    "pool": ["gym", "bridge"],
-    "museum": ["market", "gallery"],
-    "gallery": ["museum", "city-hall", "park"],
-    "park": ["gallery", "gym"],
+    "campsite": ["main-gate", "food-court", "car-park"],
+    "main-gate": ["campsite", "fan-zone", "food-court"],
+    "fan-zone": ["main-gate", "paddock", "merch-stand"],
+    "paddock": ["fan-zone", "big-screen", "grandstand", "hairpin"],
+    "big-screen": ["paddock", "footbridge", "chicane"],
+    "footbridge": ["big-screen", "hairpin", "tunnel", "viewing-bank"],
+    "hairpin": ["paddock", "footbridge"],
+    "viewing-bank": ["footbridge"],
+    "food-court": ["campsite", "main-gate", "merch-stand"],
+    "merch-stand": ["food-court", "fan-zone", "grandstand"],
+    "grandstand": ["merch-stand", "paddock", "chicane", "media-centre"],
+    "chicane": ["grandstand", "big-screen", "kart-track"],
+    "kart-track": ["chicane", "tunnel", "back-straight"],
+    "tunnel": ["kart-track", "footbridge"],
+    "car-park": ["campsite", "media-centre"],
+    "media-centre": ["car-park", "grandstand", "back-straight"],
+    "back-straight": ["media-centre", "kart-track"],
 }
 
 
@@ -48,5 +48,5 @@ def fewest_roads(roads, start, goal):
 
 
 if __name__ == "__main__":
-    route = fewest_roads(ROADS, "market", "theatre")
+    route = fewest_roads(ROADS, "campsite", "hairpin")
     print(f"{len(route) - 1} roads: {', '.join(route)}")

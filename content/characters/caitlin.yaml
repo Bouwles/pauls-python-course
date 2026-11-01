@@ -1,10 +1,10 @@
 id: caitlin
 name: Caitlin
-role: Classmate. Games, web apps and making things; runs the Makerspace on the second floor.
+role: "Classmate. Into a bit of everything; runs the Studio on floor 1 and co-runs the Arcade."
 colour: "#8C6BF2"
-floor: 3
-look: Long dark-brown hair with caramel ends, centre parting. Round thin tortoiseshell glasses. A loose overshirt over a plain T-shirt. A calm, knowing smile.
-voice: Creative, fast, impatient. Builds the fun version first. Bored by anything without a screen.
+floor: 2
+look: "Long wavy dark-brown hair turning purple from about chin height to the ends. Round black glasses. A sage overshirt over a cream T-shirt. A calm, knowing smile."
+voice: "Creative, fast, impatient. Builds the fun version first. Bored by anything without a screen."
 pools:
   # Reactive lines (REDESIGN-2.md 7.4). lib/cast.ts says which events are Caitlin's.
   long-no-loop:
@@ -14,6 +14,7 @@ pools:
     - "First try. It works. Ship it."
     - "First go. I usually need three."
     - "Passed first time. Can it have a high score next?"
+    - "First go. That deserves a biscuit."
   # When the learner fixes Caitlin's version, or fixes it in fewer lines.
   fixed-by-learner:
     - "Oh. That's what it was. Thanks."
@@ -22,11 +23,12 @@ pools:
   shorter-than-mine:
     - "Yours is shorter. Mine had more features. Possibly."
     - "Shorter than mine, and it works. Fine. Fair."
-  # Caitlin is the client for the Number Guessing Game and Rock Paper Scissors.
+  # Caitlin is the client for the Bill Splitter, the Number Guessing Game and Rock Paper Scissors.
   waiting:
     - "Can it have a high score?"
     - "Take your time. Actually, don't. I'm keen."
     - "Does it work yet? No pressure. Some pressure."
+    - "I'm making toast. Finish before it pops and you win."
   recap:
     - "Back to my {job}. You'd got to {step}"
     - "My {job} is waiting. You were here: {step}"

@@ -3,7 +3,7 @@ id: round-and-round
 type: reading
 title: Sixty times a second
 dialogue:
-  - paul: "A game is a loop that never stops asking what happened, and drawing the answer."
+  - paul.thinking.point: "A game is a loop that never stops asking what happened, and drawing the answer."
 code: |
   clock = pygame.time.Clock()
   game = Game()
