@@ -15,12 +15,12 @@ fs.mkdirSync(OUT, { recursive: true });
 const SCALE = 4;
 const PAD = 3;
 
-// Each person and a move of their own, with a face to match.
+// Each person and a move that suits them, with a face to match.
 const STRIP: [string, string, Expression][] = [
   ["paul", "chalk-write", "focused"],
   ["neil", "rocket-launch", "excited"],
   ["aaesha", "test-pass", "pleased"],
-  ["caitlin", "guitar-strum", "laughing"],
+  ["caitlin", "shrug", "laughing"],
   ["riya", "paint-palette", "pleased"],
   ["yahya", "stopwatch-click", "smug"],
 ];
