@@ -61,7 +61,7 @@
 
   /* Type (REDESIGN-2.md 2.3): a display face for titles and names, a text face for
      everything else including the UI, and code. Sizes: 14, 15, 17, 20, 24, 32, 44, 60. */
-  --font-display: var(--font-display-loaded, "Tiny5"), var(--font-text);
+  --font-display: var(--font-display-loaded, "Fredoka"), var(--font-text);
   --font-text: var(--font-text-loaded, "Atkinson Hyperlegible Next"), system-ui, sans-serif;
   --font-code: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
   --fs-1: 14px;
@@ -72,7 +72,7 @@
   --fs-6: 32px;
   --fs-7: 44px;
   --fs-8: 60px;
-  /* The pixel face is drawn on an 8-unit grid: it's only crisp at multiples of 8 px. */
+  /* The display face's sizes (Fredoka): titles, names, buttons, tabs and labels. */
   --px-1: 16px;
   --px-2: 24px;
   --px-3: 32px;

@@ -1,0 +1,39 @@
+# Misconceptions for the Learn steps and Quick checks added to Acts VI and VII.
+
+# -- House Price Predictor ----------------------------------------------------------
+intercept-only-at-zero:
+  concept: linear-regression
+  description: Thinks the intercept b only matters for an input of zero, and leaves it out of the other guesses.
+
+# -- Exam Score Model ----------------------------------------------------------------
+scaling-only-subtracts:
+  concept: feature-scaling
+  description: Thinks standardising only takes away the mean, leaving each column in its own units.
+scaling-only-divides:
+  concept: feature-scaling
+  description: Thinks standardising only divides by the spread, without taking the mean away first.
+test-also-trains:
+  concept: train-test-split
+  description: Thinks the test rows are also in the training set after a split.
+split-slices-swapped:
+  concept: train-test-split
+  description: Thinks the first slice of the shuffled row numbers is the training set, when the code makes it the test set.
+
+# -- Iris and Penguins Classifier -------------------------------------------------------
+knn-vote-is-nearest:
+  concept: knn
+  description: Thinks the vote of the k nearest neighbours always goes to the very nearest one, rather than to the commonest label among them.
+argsort-largest-first:
+  concept: knn
+  description: Thinks np.argsort puts the largest value first, so the first positions are the furthest rows.
+
+# -- Loan Approval Tree ----------------------------------------------------------------
+tree-sides-swapped:
+  concept: decision-trees
+  description: Thinks the yes side of a tree's question, where the reading is at most the threshold, is the right-hand branch.
+tree-asks-only-top:
+  concept: decision-trees
+  description: Thinks a tree answers after its first question, rather than following the questions down until it reaches a leaf.
+bootstrap-is-half:
+  concept: ensembles
+  description: Thinks a bootstrap sample takes half the rows, like a split, rather than as many rows as the data has, drawn with putting back.

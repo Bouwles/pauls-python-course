@@ -13,7 +13,8 @@ def saturday_orders(standing, extras):
     Changes neither argument.
     """
     # Copy before you change, all the way down
-    # Add each customer's extras to the copy
+    # Find or make each entry in the copy
+    # Add each extra to the copy
     # Hand back the copy
 
 

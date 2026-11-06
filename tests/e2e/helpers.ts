@@ -63,53 +63,60 @@ export async function step(page: Page, name: RegExp) {
   await page.getByRole("navigation", { name: "Steps in this project" }).getByRole("button", { name }).click();
 }
 
-/** Play the first project, Course Sign, from the Ask to the Ship, with the answers from the content. */
+/** Play the first project, Course Sign, from the brief to the Ship, with the answers from the content. */
 export async function completeJobOne(page: Page) {
-  const j = job("shop-sign");
-  // The Ask: skip the walk-in if it's playing, then start.
+  const id = "shop-sign";
+  const j = job(id);
+  // The brief: skip the walk-in if it's playing, then start.
   const skip = page.getByRole("button", { name: "Skip", exact: true });
   if (await skip.isVisible().catch(() => false)) await skip.click();
   await page.getByRole("button", { name: "Start building" }).click();
 
-  // Predict: the correct option, by position (two options can read alike).
-  const predict = j.steps.find((s) => s.type === "predict")!;
-  const right = predict.type === "predict" ? predict.options!.findIndex((o) => o.correct) : 0;
-  await page.getByRole("radio").nth(right).check({ force: true });
-  await page.getByRole("button", { name: "Lock in my answer" }).click();
-  await page.getByRole("button", { name: "Run", exact: true }).click();
-  await expect(page.getByRole("log", { name: "Output" })).not.toBeEmpty({ timeout: 60_000 });
-  await page.getByRole("button", { name: "Next step" }).click();
-
-  // Investigate: each written answer, then the change to the code.
-  const investigate = j.steps.find((s) => s.type === "investigate")!;
-  if (investigate.type === "investigate") {
-    let answer = 0;
-    for (const t of investigate.tasks) {
-      if (t.kind === "answer") {
-        await page.getByLabel("Your answer").nth(answer).fill(t.accept[0]!);
-        await page.getByRole("button", { name: "Check answer" }).nth(answer).click();
-        answer++;
-      } else if (t.kind === "run") {
-        await typeCode(page, solution(`shop-sign/investigate/${t.id}`));
-        await page.getByRole("button", { name: "Check my change" }).click();
+  // Every step in order, whatever kinds the project has.
+  for (const s of j.steps) {
+    if (s.type === "ask" || s.type === "ship") continue;
+    if (s.type === "learn") {
+      if (s.code) {
+        await page.getByRole("button", { name: "Run", exact: true }).click();
+        await expect(page.getByRole("log", { name: "Output" })).not.toBeEmpty({ timeout: 60_000 });
       }
+      await page.getByRole("button", { name: "Got it" }).click();
+    } else if (s.type === "predict") {
+      // The correct option, by position (two options can read alike).
+      const right = s.options!.findIndex((o) => o.correct);
+      await page.getByRole("radio").nth(right).check({ force: true });
+      await page.getByRole("button", { name: "Lock in my answer" }).click();
+      await page.getByRole("button", { name: "Run", exact: true }).click();
+      await expect(page.getByRole("log", { name: "Output" })).not.toBeEmpty({ timeout: 60_000 });
+    } else if (s.type === "investigate") {
+      // Each written answer, then any change to the code.
+      let answer = 0;
+      for (const t of s.tasks) {
+        if (t.kind === "answer") {
+          // Each answer box in turn; a finished task drops its Check answer button, so press Enter.
+          const field = page.getByLabel("Your answer").nth(answer);
+          await field.fill(t.accept[0]!);
+          await field.press("Enter");
+          answer++;
+        } else if (t.kind === "run") {
+          await typeCode(page, solution(`${id}/${s.id}/${t.id}`));
+          await page.getByRole("button", { name: "Check my change" }).click();
+        }
+      }
+    } else if (s.type === "worked") {
+      await page.getByPlaceholder("In your own words.").fill("Because the text has double quotes inside it.");
+      await page.getByRole("button", { name: "Show Paul's answer" }).click();
+      await page.getByRole("button", { name: "I had that" }).click();
+    } else if (s.type === "pips" || s.type === "make" || s.type === "fix" || s.type === "modify") {
+      // The classmate's code and the Build: the reference solutions.
+      await typeCode(page, solution(`${id}/${s.id}`));
+      await page.getByRole("button", { name: "Check", exact: true }).click();
+      await expect(page.getByText(/^All \d+ checks passed$/)).toBeVisible({ timeout: 60_000 });
+    } else {
+      throw new Error(`completeJobOne doesn't know how to play a ${s.type} step`);
     }
-  }
-  await expect(page.getByRole("button", { name: "Next step" })).toBeVisible({ timeout: 60_000 });
-  await page.getByRole("button", { name: "Next step" }).click();
-
-  // Worked example
-  await page.getByPlaceholder("In your own words.").fill("Because the text has double quotes inside it.");
-  await page.getByRole("button", { name: "Show Paul's answer" }).click();
-  await page.getByRole("button", { name: "I had that" }).click();
-  await page.getByRole("button", { name: "Next step" }).click();
-
-  // The classmate's version, then Build: the reference solutions.
-  for (const key of ["shop-sign/pips", "shop-sign/make"]) {
-    await typeCode(page, solution(key));
-    await page.getByRole("button", { name: "Check", exact: true }).click();
-    await expect(page.getByText(/^All \d+ checks passed$/)).toBeVisible({ timeout: 60_000 });
-    await page.getByRole("button", { name: "Next step" }).click();
+    await expect(page.getByRole("button", { name: "Next step" }).first()).toBeVisible({ timeout: 60_000 });
+    await page.getByRole("button", { name: "Next step" }).first().click();
   }
 
   // Ship: it goes on the Shelf when the learner says so.

@@ -5,6 +5,10 @@
 // time and the rival's. The rival (RIVAL in lib/cast.ts, Yahya) is there in person: he sets the
 // time, races you down the track, and takes the result the way he would: proud when he wins,
 // unimpressed or surprised when you beat him. His time moves as the learner gets quicker.
+// The race is run by full-body figures (lib/pixel/figures.ts): you and him, side on, him with his
+// stopwatch. He warms up before the start and waits at the flag if he's there first; at the end
+// the winner cheers and the other shrugs or claps. What each of them does, and the gestures he
+// says his lines with, change from visit to visit (lib/pixel/variety.ts).
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -15,8 +19,11 @@ import { useSession } from "@/lib/store/session";
 import { useMedia } from "@/lib/useMedia";
 import type { DrillBestRow, JobProgressRow } from "@/lib/store/types";
 import { isShipped } from "@/lib/progress-rules";
-import { avatarBackground } from "@/lib/pixel/looks";
-import { PixelPerson } from "../art/PixelPerson";
+import type { View } from "@/lib/pixel/figures";
+import { moodOf } from "@/lib/mood";
+import { oneOf } from "@/lib/moments";
+import { useVisit } from "@/lib/useVisit";
+import { PixelFigure } from "../art/PixelFigure";
 import { Portrait } from "../art/Portrait";
 import { Speech } from "../art/Speech";
 import { Badge } from "../ui/Badge";
@@ -64,6 +71,7 @@ export function Drills({ acts, characters }: { acts: DrillAct[]; characters: Rec
   const phone = useMedia("(max-width: 720px)");
   const rival = speakerFor("drill-start");
   const rivalName = nameOf(characters, rival);
+  const visit = useVisit();
 
   useEffect(() => {
     if (!store) return;
@@ -109,7 +117,7 @@ export function Drills({ acts, characters }: { acts: DrillAct[]; characters: Rec
         name={rivalName}
         text={unlocked.length ? INTRO_LINE : NOTHING_LINE}
         face={unlocked.length ? "proud" : "neutral"}
-        gesture={unlocked.length ? "point" : "idle"}
+        gesture={moodOf(unlocked.length ? INTRO_LINE : NOTHING_LINE, { face: unlocked.length ? "proud" : "neutral", gesture: unlocked.length ? "point" : undefined }, { who: rival, seed: `drills|${visit}`, small: phone }).gesture}
         size={phone ? 72 : 108}
         className={styles.host}
       />
@@ -179,14 +187,19 @@ export function Drills({ acts, characters }: { acts: DrillAct[]; characters: Rec
   );
 }
 
-/** A runner on the track: their pixel head, moved along by `at` (0 to 1). */
-function Runner({ at, children }: { at: number; children: React.ReactNode }) {
+/** A runner on the track: their whole pixel self, moved along by `at` (0 to 1), doing `action`. */
+function Runner({ at, who, avatar, action, facing }: { at: number; who?: string; avatar?: unknown; action: string; facing: View }) {
   return (
-    <span className={styles.runner} style={{ ["--at" as string]: String(Math.min(1, Math.max(0, at))) }}>
-      {children}
+    <span className={styles.runner} style={{ ["--at" as string]: String(Math.min(1, Math.max(0, at))) }} data-action={action}>
+      <PixelFigure who={who} avatar={avatar} action={action} facing={facing} scale={2} />
     </span>
   );
 }
+
+/** Before the start, he warms up; first to the flag, he waits for you; at the end, the loser takes it well. */
+const WARM_UP = ["stretch", "stand", "drink", "think"] as const;
+const AT_THE_FLAG = ["drink", "phone", "stand", "think"] as const;
+const GOOD_LOSER = ["shrug", "clap"] as const;
 
 function DrillRun({ concept, best, characters, rival, onDone }: { concept: Concept; best: number | null; characters: Record<string, Character>; rival: string; onDone: () => void }) {
   const { store, profile } = useSession();
@@ -242,6 +255,31 @@ function DrillRun({ concept, best, characters, rival, onDone }: { concept: Conce
   const youAt = tasksDone / ROUND;
   const rivalDone = elapsed >= target;
 
+  // The runners: you run when a task's done and you move up the track, and think while you're on
+  // one; he sprints with his stopwatch the whole way. What they do either side of the race is this
+  // visit's.
+  const visit = useVisit();
+  const [moving, setMoving] = useState(false);
+  useEffect(() => {
+    if (!tasksDone) return;
+    setMoving(true);
+    const t = setTimeout(() => setMoving(false), 900);
+    return () => clearTimeout(t);
+  }, [tasksDone]);
+  const youWon = Boolean(result?.beat);
+  const you: { action: string; facing: View } = result
+    ? { action: youWon ? "cheer" : oneOf(GOOD_LOSER, `you|${visit}`), facing: "front" }
+    : !started
+      ? { action: "stand", facing: "right" }
+      : { action: moving ? "run" : "think", facing: "right" };
+  const him: { action: string; facing: View } = result
+    ? { action: youWon ? oneOf(GOOD_LOSER, `him|${visit}`) : "cheer", facing: "front" }
+    : !started
+      ? { action: oneOf(WARM_UP, `warm|${visit}`), facing: "front" }
+      : rivalDone
+        ? { action: oneOf(AT_THE_FLAG, `flag|${visit}`), facing: "left" }
+        : { action: "stopwatch", facing: "right" };
+
   // What the rival says, and how he looks saying it. He watches the race as it goes.
   let say: { who: string; text: string; face: Expression; gesture: Pose } | null = null;
   if (result?.beat) {
@@ -286,23 +324,15 @@ function DrillRun({ concept, best, characters, rival, onDone }: { concept: Conce
                   <li key={i} className={i < tasksDone ? styles.segDone : started && !result && i === index ? styles.segNow : undefined} />
                 ))}
               </ol>
-              <Runner at={youAt}>
-                <span className={styles.runnerFace} style={{ background: avatarBackground(profile.character) }}>
-                  <PixelPerson avatar={profile.character} crop="head" scale={1} />
-                </span>
-              </Runner>
+              <Runner at={youAt} avatar={profile.character} action={you.action} facing={you.facing} />
               <Icon name="flag" size={24} className={styles.flag} />
             </div>
           </div>
           <div className={styles.lane}>
             <span className={styles.laneName}>{rivalName}</span>
             <div className={styles.track}>
-              <span className={styles.trackFill} style={{ width: `${rivalAt * 100}%`, background: castColour(rival).face }} />
-              <Runner at={rivalAt}>
-                <span className={styles.runnerFace} style={{ background: castColour(rival).face }}>
-                  <PixelPerson who={rival} crop="head" scale={1} expression={say?.who === rival || say?.who === loser ? say.face : "neutral"} />
-                </span>
-              </Runner>
+              <span className={styles.trackFill} style={{ width: `calc(${rivalAt} * (100% - 38px))`, background: castColour(rival).face }} />
+              <Runner at={rivalAt} who={rival} action={him.action} facing={him.facing} />
               <Icon name="flag" size={24} className={styles.flag} />
             </div>
           </div>
@@ -321,7 +351,17 @@ function DrillRun({ concept, best, characters, rival, onDone }: { concept: Conce
         </p>
       </section>
 
-      {say ? <Speech who={say.who} name={nameOf(characters, say.who)} text={say.text} face={say.face} gesture={say.gesture} size={phone ? 72 : 108} className={styles.host} /> : null}
+      {say ? (
+        <Speech
+          who={say.who}
+          name={nameOf(characters, say.who)}
+          text={say.text}
+          face={say.face}
+          gesture={say.gesture === "idle" ? "idle" : moodOf(say.text, { face: say.face, gesture: say.gesture }, { who: say.who, seed: `race|${visit}`, small: phone }).gesture}
+          size={phone ? 72 : 108}
+          className={styles.host}
+        />
+      ) : null}
 
       {!started ? (
         <div className={styles.start}>

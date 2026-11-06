@@ -32,4 +32,4 @@ options:
 after: |
   Run it. Then double every score and run it again. Bigger differences make softmax pickier.
 ---
-Softmax again: `np.exp` of each score, divided by their total. Here it turns three scores into three weights.
+Three pigeonholes, their scores against one query, and what each holds.

@@ -1,7 +1,7 @@
 id: args-kwargs
 title: "*args and **kwargs"
 summary: |
-  `*lines` in a `def` line gathers any number of positional arguments into a tuple. `**notes` gathers the keyword arguments that match no parameter into a dictionary, names as keys. A parameter after `*lines` can only be passed by name. In a call, `*` and `**` do the reverse: they spread a list or dictionary out into separate arguments.
+  `*lines` in a `def` line gathers any number of unnamed arguments into a tuple, a list that can't be changed. `**notes` gathers the named arguments that match no other parameter into a dictionary, names as keys. A parameter after `*lines` can only be given by name. In a call, `*` and `**` do the reverse: they spread a list or dictionary out into separate arguments.
 example: |
   def label(*lines, border="-", **notes):
       print(lines, border, notes)

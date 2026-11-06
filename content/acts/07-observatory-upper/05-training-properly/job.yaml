@@ -47,16 +47,14 @@ concepts_reviewed: [backpropagation, gradient-descent, neural-networks, activati
 ask:
   dialogue:
     - neil.pleased.wave: "My network learnt Paul's whole log the plain way. It got there. Eventually."
-    - neil.thinking.point: "So, a time trial. Same car, same track, same tyres. Only the driver changes."
-    - neil.neutral: "Three optimisers, same network, same start, same batches. Fastest down the loss wins."
+    - neil.thinking.point: "So, a time trial. Same network, same start, same batches. Fastest down the loss wins."
     - yahya.proud: "Adam. Calling it now."
-    - paul.neutral: "A good start and a sensible stride. That's most of training."
   spec: |
     The network from Neural Network from Scratch is in `brain.py`: `forward`, `loss`, `backward`, and `batches`, mended from Caitlin's version. In `optimisers.py`, plain `SGD` is already written, as the pattern.
 
     1. `init_params(n_in, n_hidden, n_out, rng)`: `W1` from `rng.normal(0, np.sqrt(2 / n_in), (n_in, n_hidden))`, then `W2` from `rng.normal(0, np.sqrt(1 / n_hidden), (n_hidden, n_out))`, in that order. Both biases start at zeros. It returns the dict.
     2. `Momentum(rate, beta=0.9)`: its `step(params, grads)` keeps a velocity for every weight, starting at zeros. Each step, `velocity = beta * velocity + gradient`, then the weight moves by `rate` times the velocity.
-    3. `Adam(rate=0.001, beta1=0.9, beta2=0.999, eps=1e-8)`: its `step(params, grads)` is Adam, as in the reading.
+    3. `Adam(rate=0.001, beta1=0.9, beta2=0.999, eps=1e-8)`: its `step(params, grads)` is Adam, as in its Learn step.
     4. `train(X, T, params, optimiser, epochs, batch_size, rng)`: each epoch, for each batch from `batches(X, T, batch_size, rng)`, forward and backward on that batch alone, then `optimiser.step`. After each epoch, the loss on every row of `X`. It changes `params` in place and returns the losses.
     5. Run as a program, it trains the network on all eight hundred evenings with each optimiser from the same start, then once from all zeros.
   example: |
@@ -70,7 +68,6 @@ ship:
   dialogue:
     - neil.pleased.cheer: "Adam: every answer right on ninety-seven evenings in a hundred. Thirty epochs. Pole position, fairly won."
     - neil.worried: "From zeros, forty. Sixteen hidden neurons, every one saying the same thing."
-    - caitlin.pleased: "Sixteen neurons agreeing. That's a strong result, surely."
     - aaesha.laughing: "It's one neuron, sixteen times."
     - yahya.proud.thumbs: "Adam. Called it."
   shelf: { object: pendulum, label: "Neil's optimiser time trial, run fairly" }

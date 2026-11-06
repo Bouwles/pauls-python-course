@@ -1,7 +1,7 @@
 id: returns-discounting
 title: Returns and discounting
 summary: |
-  The return is what an episode is worth from a given moment: the rewards from then on, each multiplied by `gamma` once more than the one before, so `r0 + gamma * r1 + gamma**2 * r2 + ...`. The first reward counts in full. With `gamma` near 0 only the next reward or two matter; near 1 the far future counts almost as much as now, so gamma can change which choice is best. Discounting also keeps the return of an endless episode finite. Working backwards from the last reward, `total = reward + gamma * total` gives the return without any powers.
+  The return is what an episode is worth from a given moment: the rewards from then on, each multiplied by `gamma` (the Greek letter γ, a number from 0 to 1) once more than the one before, so `r0 + gamma * r1 + gamma**2 * r2 + ...`. The first reward counts in full. With `gamma` near 0 only the next reward or two matter; near 1 the far future counts almost as much as now, so gamma can change which choice is best. Discounting also keeps the return of an endless episode finite. Working backwards from the last reward, `total = reward + gamma * total` gives the return without any powers.
 example: |
   def discounted_return(rewards, gamma):
       total = 0

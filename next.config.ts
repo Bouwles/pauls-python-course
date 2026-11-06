@@ -81,8 +81,8 @@ const nextConfig: NextConfig = {
 const tracedFiles = {
   "/**": ["./generated/content/**/*.json", "./cli/pyproject.toml", "./cli/README.md", "./cli/src/**/*.py"],
   // Certificates and share cards are drawn on request with these fonts (components/certificates/og.tsx).
-  "/certificates/**": ["./node_modules/@fontsource/tiny5/files/*-normal.woff", "./node_modules/@fontsource/atkinson-hyperlegible-next/files/*-normal.woff"],
-  "/u/**": ["./node_modules/@fontsource/tiny5/files/*-normal.woff", "./node_modules/@fontsource/atkinson-hyperlegible-next/files/*-normal.woff"],
+  "/certificates/**": ["./node_modules/@fontsource/fredoka/files/*-normal.woff", "./node_modules/@fontsource/atkinson-hyperlegible-next/files/*-normal.woff"],
+  "/u/**": ["./node_modules/@fontsource/fredoka/files/*-normal.woff", "./node_modules/@fontsource/atkinson-hyperlegible-next/files/*-normal.woff"],
 };
 
 export default function config(phase: string): NextConfig {

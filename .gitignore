@@ -14,3 +14,6 @@ next-env.d.ts
 /public/sw.js
 .env
 tsconfig.tsbuildinfo
+
+# The cast's GIFs, made by scripts/export-cast-animations.ts (big, and made from the code)
+/Paul's Python Course Cast/

@@ -1,11 +1,74 @@
 // Characters react to real events with lines from small pools (REDESIGN-2.md 7.4); lib/cast.ts
-// says who speaks for each event.
+// says who speaks for each event, and LOOKS below how they look saying it.
 // The last 30 lines shown to this learner are remembered and not repeated. Lines may
 // name something from the learner's code: "{name}" is filled in from `vars`.
 import type { Character } from "./content/types";
 import type { LocalStore } from "./store/local";
 import type { CheckReport, RunResult } from "./python/protocol";
+import type { Expression } from "./pixel/people";
+import type { GestureTag } from "./pixel/gestures";
 import { FIRST_TRY, speakerFor } from "./cast";
+
+/** What kind of gesture fits each sort of reaction: a pass approves or celebrates, a miss encourages or thinks, an error worries or explains, a hint explains. */
+export const PASS_TAGS: GestureTag[] = ["approve", "celebrate"];
+export const MISS_TAGS: GestureTag[] = ["encourage", "think"];
+export const ERROR_TAGS: GestureTag[] = ["worry", "explain"];
+export const HINT_TAGS: GestureTag[] = ["explain"];
+
+/** How the speaker looks saying a reaction: a face, and the kinds of gesture that fit it. */
+export interface ReactionLook {
+  face: Expression;
+  tags: GestureTag[];
+}
+
+/**
+ * How the speaker looks saying each reaction. The gesture itself is chosen for the moment from
+ * these tags (lib/pixel/variety.ts), with the speaker's own moves among them, so the third pass of
+ * the day doesn't look like the first. The words come from content/characters/.
+ */
+const LOOKS: Record<string, ReactionLook> = {
+  "check-passed": { face: "pleased", tags: PASS_TAGS },
+  "pass-no-hints": { face: "pleased", tags: PASS_TAGS },
+  "pass-first-try": { face: "proud", tags: ["celebrate", "approve"] },
+  "pass-after-many": { face: "proud", tags: ["celebrate", "approve"] },
+  "fixed-by-learner": { face: "pleased", tags: PASS_TAGS },
+  "predict-right": { face: "pleased", tags: PASS_TAGS },
+  "first-fstring": { face: "pleased", tags: PASS_TAGS },
+  "converts-input": { face: "pleased", tags: PASS_TAGS },
+  "first-function": { face: "proud", tags: ["celebrate", "approve"] },
+  "good-name": { face: "pleased", tags: ["approve"] },
+  "check-failed": { face: "thinking", tags: MISS_TAGS },
+  "third-fail": { face: "worried", tags: MISS_TAGS },
+  "one-left": { face: "proud", tags: MISS_TAGS },
+  "predict-wrong": { face: "thinking", tags: MISS_TAGS },
+  "run-error": { face: "thinking", tags: ERROR_TAGS },
+  "error-name": { face: "thinking", tags: ERROR_TAGS },
+  "error-text-number": { face: "thinking", tags: ERROR_TAGS },
+  "error-zero": { face: "surprised", tags: ERROR_TAGS },
+  "error-index": { face: "thinking", tags: ERROR_TAGS },
+  "error-int-text": { face: "thinking", tags: ERROR_TAGS },
+  "error-indent": { face: "laughing", tags: ERROR_TAGS },
+  "stopped-loop": { face: "surprised", tags: ["surprise", ...ERROR_TAGS] },
+  "ran-nothing": { face: "confused", tags: ["confuse", "think"] },
+  "loop-never-runs": { face: "confused", tags: ["confuse", "think"] },
+  "third-hint": { face: "thinking", tags: HINT_TAGS },
+  "solution-seen": { face: "neutral", tags: HINT_TAGS },
+  "after-explain": { face: "thinking", tags: HINT_TAGS },
+  idle: { face: "neutral", tags: ["encourage", "explain"] },
+  returning: { face: "pleased", tags: ["greet"] },
+  recap: { face: "neutral", tags: ["explain"] },
+  "nested-loop": { face: "surprised", tags: ["surprise", "explain"] },
+  "letter-name": { face: "unimpressed", tags: ["tease", "explain"] },
+  "long-function": { face: "unimpressed", tags: ["explain", "think"] },
+  "long-line": { face: "thinking", tags: ["explain", "think"] },
+  "long-no-loop": { face: "laughing", tags: ["tease"] },
+  "shorter-than-mine": { face: "surprised", tags: ["surprise", "approve"] },
+};
+
+/** How the speaker looks saying the line for `event`, when it has a look of its own. */
+export function reactionLook(event: string): ReactionLook | undefined {
+  return LOOKS[event];
+}
 
 const KEY = "recent-lines";
 const SEEN = "seen-events";

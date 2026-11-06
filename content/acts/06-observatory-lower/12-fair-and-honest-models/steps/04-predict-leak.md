@@ -1,0 +1,45 @@
+---
+id: predict-leak
+type: predict
+title: The morning after
+concept: data-leakage
+dialogue:
+  - caitlin.pleased: "How long the telescope was out each night. That must help. Out for hours, good night."
+code: |
+  import numpy as np
+  from sklearn.model_selection import cross_val_score
+  from sklearn.tree import DecisionTreeClassifier
+
+  rng = np.random.default_rng(3)
+  cloud = rng.integers(0, 9, 200)
+  usable = (cloud + rng.normal(0, 1.5, 200) < 4).astype(int)
+  scope_hours = usable * rng.uniform(2, 8, 200)  # filled in the morning after
+
+  X = np.column_stack([cloud, scope_hours])
+  model = DecisionTreeClassifier(max_depth=3, random_state=0)
+  print(round(cross_val_score(model, X, usable, cv=5).mean(), 2))
+
+  model.fit(X, usable)
+  tonight = [[0, 0.0]]    # not a cloud in the sky, and the telescope isn't out yet
+  print(model.predict(tonight))
+question: "What does this print: the cross-validated accuracy, then tonight's forecast?"
+options:
+  - text: |-
+      1.0
+      [1]
+    misconception: leak-still-forecasts
+    feedback: "A perfect score, yes. But the model learnt that the telescope was out on every usable night and packed away on every other, and tonight, before anyone has carried it up, its hours are 0. So it says no, under a cloudless sky."
+  - text: |-
+      1.0
+      [0]
+    correct: true
+    feedback: "Right. A perfect score, and useless. `scope_hours` is only written down after the night has turned out well, so it knows the answer. Tonight it's 0, as it is every evening before the telescope goes out, and the model says no to a clear sky."
+  - text: |-
+      0.8
+      [1]
+    misconception: cross-validation-catches-leaks
+    feedback: "Cross-validation can't tell a leak from skill. The leaky column is in every fold, training and scoring alike, so every fold scores perfectly. Only asking when each column is known catches it."
+after: |
+  Run it. Then take `scope_hours` out of `X` and run it again: lower, and honest. Try `tonight = [[7, 0.0]]` with it back in, too.
+---
+A made-up telescope log: the cloud each night, whether the night was usable, and how many hours the telescope was out, which is written down the morning after. The tree is cross-validated, then fitted and asked about tonight.

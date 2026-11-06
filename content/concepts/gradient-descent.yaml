@@ -1,7 +1,7 @@
 id: gradient-descent
 title: Gradient descent
 summary: |
-  Gradient descent finds the bottom of a loss by walking downhill. Each step works out the slope of the loss for every setting, then moves each setting by the learning rate times its slope, against the slope: `w = w - rate * dw`. Steep slopes give long strides, and the strides shrink near the bottom on their own. Too small a rate crawls; too big a rate overshoots and climbs further every step, and nothing stops it except someone watching the loss.
+  Gradient descent finds the bottom of a loss by walking downhill, like a walker in fog who can only feel the slope underfoot. Each step works out the slope of the loss for every dial, then moves each dial against its slope by the learning rate times the slope: `w = w - rate * dw`. Steep ground gives long strides, and the strides shrink near the bottom on their own. Too small a rate crawls; too big a rate overshoots and climbs further every step, and nothing stops it except someone watching the loss.
 example: |
   import numpy as np
 

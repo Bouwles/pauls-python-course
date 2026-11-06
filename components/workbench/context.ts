@@ -6,6 +6,7 @@ import type { LocalStore } from "@/lib/store/local";
 import type { JobProgressRow, StepProgressRow } from "@/lib/store/types";
 import type { Runner } from "./useRunner";
 import type { Cue } from "@/lib/reactions";
+import type { GestureTag } from "@/lib/pixel/gestures";
 
 export interface GateAct {
   id: string;
@@ -24,13 +25,18 @@ export interface Areas {
 /** Why the coach is speaking. "Less talk" keeps only hints and errors. */
 export type CoachKind = "step" | "react" | "hint" | "error" | "pass";
 
-/** One line the coach says: who says it, and the face and gesture they say it with. */
+/**
+ * One line the coach says: who says it, and the face and gesture they say it with. A gesture
+ * content names is kept (one of the first six becomes a fitting variety); otherwise `tags` say
+ * what kind fits (a pass approves or celebrates), and the coach picks one for the moment.
+ */
 export interface Utterance {
   id: number;
   who: string;
   text: string;
   face?: string;
   gesture?: string;
+  tags?: GestureTag[];
   kind: CoachKind;
 }
 
@@ -68,7 +74,7 @@ export interface WorkbenchContextValue {
   /** The coach reacts to something that just happened. Who speaks comes from lib/cast.ts. */
   react: (event: string, opts?: { vars?: Record<string, string>; kind?: CoachKind }) => Promise<void>;
   /** The coach says a line from content (an onPass line, a sign-off). Several lines are said one after another. */
-  say: (who: string, text: string | (string | Omit<Line, "who">)[], opts?: { face?: string; gesture?: string; kind?: CoachKind }) => void;
+  say: (who: string, text: string | (string | Omit<Line, "who">)[], opts?: { face?: string; gesture?: string; tags?: GestureTag[]; kind?: CoachKind }) => void;
   /** React to the learner's code: the first cue with a fresh line is said. */
   cue: (cues: Cue[], kind?: CoachKind) => Promise<void>;
   /** What the coach has said on this step, a line each, and which line is showing. */

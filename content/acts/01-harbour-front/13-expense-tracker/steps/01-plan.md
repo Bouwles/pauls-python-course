@@ -5,7 +5,7 @@ title: How Paul would break it down
 dialogue:
   - paul.neutral.point: "Big jobs are small jobs in a row. Write the row down first."
 ---
-Before any code, Paul writes the subgoals on the chalkboard:
+Before any code, Paul writes the steps on the chalkboard:
 
 1. **Decide what the program remembers.** One list, `expenses`, with a dictionary for each receipt.
 2. **Add one expense.** Ask, tidy, try the amount, and only then append a dictionary.
@@ -14,4 +14,4 @@ Before any code, Paul writes the subgoals on the chalkboard:
 5. **The empty case.** Every option has to cope with no expenses at all.
 6. **Try to break it.** `twenty`, `0`, `-5`, a `7`, ` Travel ` and `travel`. Yahya will.
 
-A function given `expenses` gets a second label on the same list, so appending inside it changes the one list `main()` keeps. Two names for one list caught people out in the To-Do List. Here it works for you.
+The next few steps show the three things you haven't built before: a list of dictionaries, a total for each category, and finding the biggest.

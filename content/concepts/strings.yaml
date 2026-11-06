@@ -1,7 +1,7 @@
 id: strings
 title: Strings are text in quotes
 summary: |
-  Text in a program goes inside quotes and is called a string. Single or double quotes both work, as long as both ends match. To put one kind of quote inside the text, use the other kind outside. The quotes aren't part of the text, so they don't print.
+  Text in a program goes inside quotes and is called a string. Single or double quotes both work, as long as both ends match. To put one kind of quote inside the text, use the other kind outside. The quotes aren't part of the text, so they don't print. `+` joins two strings into one.
 example: |
   print("Riya's laptop")
   print('Aaesha said "no"')

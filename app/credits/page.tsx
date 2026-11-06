@@ -9,7 +9,7 @@ export const metadata: Metadata = { title: "Credits" };
 // The same credits as CREDITS.md at the project root; the datasets come from the content itself.
 
 const FONTS: [string, string, string][] = [
-  ["Tiny5", "the pixel face, for titles, names, buttons and labels", "by the Tiny5 Project Authors, SIL Open Font License 1.1"],
+  ["Fredoka", "the display face, for titles, names, buttons and labels", "by the Fredoka Project Authors, SIL Open Font License 1.1"],
   ["Atkinson Hyperlegible Next", "the text face, for reading and for anything you type", "by the Braille Institute of America, SIL Open Font License 1.1"],
   ["JetBrains Mono", "the code face", "by JetBrains, SIL Open Font License 1.1"],
 ];

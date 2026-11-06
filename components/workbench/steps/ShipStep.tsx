@@ -10,15 +10,17 @@ import { useSession } from "@/lib/store/session";
 import { playSound } from "@/lib/sound";
 import { PROFESSOR, castColour } from "@/lib/cast";
 import { moodOf } from "@/lib/mood";
+import { gestureOf } from "@/lib/pixel/gestures";
 import { pickLine } from "@/lib/reactions";
 import { download, readme, withWorkshopStub, zip } from "@/lib/export";
 import { usePlan } from "@/lib/usePlan";
+import { pickShown, showsInRoom } from "../../art/PixelRoom";
 import { ProGate } from "../../pricing/ProGate";
 import { Button, LinkButton } from "../../ui/Button";
 import { Icon } from "../../ui/Icon";
 import { CodeWorkspace } from "../CodeWorkspace";
 import { Instructions } from "../Instructions";
-import { SpokenLine, Stage, othersIn, personOnStage, roomOf, useConversation, type Mouth, type StagePerson } from "../Scene";
+import { AT_SOMEONE, GLUM, SpokenLine, Stage, celebrationFor, othersIn, roomOf, useAsides, useConversation, useStageCast, useVisit, type Mouth, type StagePerson } from "../Scene";
 import { useWorkbench } from "../context";
 import { isSpoken } from "../labels";
 import styles from "./ship.module.css";
@@ -38,8 +40,10 @@ function plainText(html: string): string {
 
 /**
  * The Ship (REDESIGN-2.md 4.6): the finished program running in a demo frame, the client's
- * reaction, and "Add to my Shelf", which stamps it shipped. "Download the project" takes the
- * code home. Before the Build step passes, the client is waiting for it.
+ * reaction, and "Add to my Shelf", which stamps it shipped, with the client celebrating in a way
+ * of their own (Neil launches a rocket, Caitlin wins on her controller), different for each
+ * project. "Download the project" takes the code home. Before the Build step passes, the client
+ * is waiting for it, getting on with something in their room.
  */
 export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressRow }) {
   const { areas, job, progress, jobProgress, shipJob, markPassed, goTo, characters, conceptTitles, landing, guest, store, gateActs, nextJob, nameOf, actTitle, compact } = useWorkbench();
@@ -51,7 +55,10 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
   const [stamping, setStamping] = useState(false);
   const [busy, setBusy] = useState(false);
   const [waitingLine, setWaitingLine] = useState<string | null>(null);
+  const [waitLoaded, setWaitLoaded] = useState(false);
+  const [waitSaid, setWaitSaid] = useState(false);
   const [waitMouth, setWaitMouth] = useState<Mouth>(0);
+  const visit = useVisit();
   const screen = useRef<HTMLPreElement>(null);
   const done = (id: string) => ["passed", "seen-solution"].includes(progress[id]?.status ?? "");
   const waitingFor = (step.requires ?? (step.shipsFrom ? [step.shipsFrom] : [])).filter((id) => !done(id));
@@ -65,13 +72,31 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
   const paul = nameOf(PROFESSOR);
   const lines = useMemo(() => step.dialogue.filter((l) => isSpoken(l.who)).slice(0, 3), [step.dialogue]);
   const talk = useConversation(lines.length, ready && !step.places);
-  // The client cheers when it lands on the Shelf, then stands there beaming.
+  // The client says their lines (the first celebrates, as only they would), then gets on with
+  // something cheerful while you decide; and when it lands on the Shelf, they celebrate with one
+  // of their own moves, a different one for each project.
+  const seed = `${job.id}|ship|${visit}`;
+  const room = roomOf(client, job.actNumber);
+  const onStage = useStageCast(lines, talk, client, { act: room, seed, hello: "celebrate", tags: ["celebrate", "idle"], avoid: GLUM, after: "pleased", on: ready && !step.places });
+  const cheer = useMemo(() => celebrationFor(client, `${job.id}|shelf|${visit}`, { act: room }), [client, job.id, visit, room]);
   const [cheering, setCheering] = useState(false);
   useEffect(() => {
     if (!cheering) return;
-    const t = setTimeout(() => setCheering(false), 2600);
+    // Long enough to see the whole move (a rocket takes three seconds to go up).
+    const g = gestureOf(cheer);
+    const t = setTimeout(() => setCheering(false), Math.min(6000, Math.max(2600, g.beats * g.ms + 600)));
     return () => clearTimeout(t);
-  }, [cheering]);
+  }, [cheering, cheer]);
+  // Waiting: the client says their line about it, then gets on with something in their room.
+  const waitLook = useMemo(() => {
+    if (!waitingLine) return null;
+    const mood = (hidden: string[]) => moodOf(waitingLine, undefined, { who: client, seed: `${job.id}|waiting|${visit}`, avoid: hidden });
+    return { face: mood([]).face, gesture: pickShown((hidden) => mood(hidden).gesture, (g) => showsInRoom(room, client, g)) };
+  }, [waitingLine, client, job.id, visit, room]);
+  const saying = Boolean(waitingLine) && !waitSaid;
+  const waitAside = useAsides([{ who: client, free: !ready && (waitLoaded || landing) && !saying, tags: ["wait", "idle", "work"], act: room }], { seed: `${job.id}|waiting|${visit}`, avoid: [waitLook?.gesture, ...AT_SOMEONE] })[client]!;
+  // A placement: Paul in the Workshop, pleased with you, now approving, now celebrating.
+  const placed = useAsides([{ who: PROFESSOR, free: Boolean(ready && step.places), tags: ["celebrate", "approve"], act: roomOf(PROFESSOR, 1) }], { seed: `${job.id}|placed|${visit}`, avoid: GLUM })[PROFESSOR]!;
 
   // A placement ships as soon as its tasks pass: there's nothing to put on a Shelf.
   useEffect(() => {
@@ -86,7 +111,10 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
   // While the learner is still building, the client says one line about waiting.
   useEffect(() => {
     if (ready || landing) return;
-    void pickLine(store, characters, client, "waiting").then(setWaitingLine);
+    void pickLine(store, characters, client, "waiting").then((line) => {
+      setWaitingLine(line);
+      setWaitLoaded(true);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready]);
 
@@ -237,19 +265,20 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
   }
 
   if (!ready) {
-    const mood = moodOf(waitingLine ?? "", {});
+    const resting = waitLook?.face ?? "neutral";
+    const lead: StagePerson = saying && waitLook ? { who: client, face: waitLook.face, gesture: waitLook.gesture, mouthOpen: waitMouth, speaking: true } : { who: client, face: waitAside.face ?? resting, gesture: waitAside.gesture };
     return (
       <div className={areas.full}>
         <div className={[styles.ship, styles.waiting].join(" ")}>
           <div className={styles.stageWrap}>
-            <Stage act={roomOf(client, job.actNumber)} lead={{ who: client, face: waitingLine ? mood.face : "neutral", gesture: "idle", mouthOpen: waitMouth }} name={clientName} label={`${clientName} at their desk, waiting for the finished program`} />
+            <Stage act={room} lead={lead} name={clientName} label={`${clientName} at their desk, waiting for the finished program`} />
           </div>
           <div className={styles.side}>
             <header className={styles.head}>
               <p className={styles.kicker}>Not shipped yet</p>
               <h1 className={styles.title}>{clientName} is waiting for it</h1>
             </header>
-            {waitingLine ? <SpokenLine who={client} name={clientName} text={waitingLine} tail={compact ? "top" : "left"} live onMouth={setWaitMouth} className={styles.line} /> : null}
+            {waitingLine ? <SpokenLine who={client} name={clientName} text={waitingLine} tail={compact ? "top" : "left"} live onMouth={setWaitMouth} onDone={() => setWaitSaid(true)} className={styles.line} /> : null}
             <p className={styles.lede}>{waitingFor.length > 1 ? `This ships when all its tasks pass. ${waitingFor.length} still to go.` : `It ships when ${from?.title ?? "the Build step"} passes its checks.`}</p>
             {from ? (
               <div className={styles.actions}>
@@ -271,13 +300,8 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
       {stampText}
     </p>
   ) : null;
-  // The client on their stage: cheering and laughing as it lands on the Shelf, saying their lines
-  // (a cheer on the first unless it says otherwise), then beaming.
-  const onStage = (who: string): StagePerson => {
-    if (who === client && cheering) return { who, face: "laughing", gesture: "cheer" };
-    const p = personOnStage(who, lines, talk, client, "cheer");
-    return who === client && !talk.playing ? { who, face: "pleased", gesture: "idle" } : p;
-  };
+  // The client on their stage: celebrating as it lands on the Shelf, else as useStageCast has them.
+  const person = (who: string): StagePerson => (who === client && cheering ? { who, face: gestureOf(cheer).faces?.[0] ?? "laughing", gesture: cheer } : onStage(who));
   const c = castColour(client);
 
   return (
@@ -285,7 +309,7 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
       <div className={styles.ship}>
         {step.places ? (
           <div className={styles.stageWrap}>
-            <Stage act={roomOf(PROFESSOR, 1)} lead={{ who: PROFESSOR, face: "proud", gesture: stamping ? "cheer" : "thumbs" }} name={paul} label={`${paul} in the Workshop, pleased with your placement`} />
+            <Stage act={roomOf(PROFESSOR, 1)} lead={{ who: PROFESSOR, face: placed.face ?? "proud", gesture: placed.gesture }} name={paul} label={`${paul} in the Workshop, pleased with your placement`} />
             {stamp}
           </div>
         ) : (
@@ -323,7 +347,7 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
           {step.places ? null : (
             <div className={styles.reaction}>
               <div className={styles.reactionStage}>
-                <Stage act={roomOf(client, job.actNumber)} lead={onStage(client)} guests={othersIn(lines, client).map(onStage)} name={clientName} label={`${clientName} at their desk, pleased with it`} />
+                <Stage act={room} lead={person(client)} guests={othersIn(lines, client).map(person)} name={clientName} label={`${clientName} at their desk, pleased with it`} />
                 {stamp}
               </div>
               {lines.length ? (

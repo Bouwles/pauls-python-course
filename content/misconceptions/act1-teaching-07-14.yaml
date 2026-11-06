@@ -1,0 +1,14 @@
+# Misconceptions for the Learn steps and Quick checks added to Act I, projects 7 to 14.
+
+split-cuts-every-space:
+  concept: split-join
+  description: Thinks text.split(", ") also cuts at the spaces inside each piece, not only at the comma-and-space.
+else-runs-always:
+  concept: try-except
+  description: Thinks the else after try and except runs every time, whether or not something went wrong.
+get-default-always:
+  concept: dict-get
+  description: Thinks .get(key, 0) gives the default even when the key is already there.
+get-missing-crashes:
+  concept: dict-get
+  description: Thinks .get() raises a KeyError for a missing key, the way square brackets do.

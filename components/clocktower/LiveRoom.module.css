@@ -1,0 +1,29 @@
+/* A busy room's residents up and about (LiveRoom.tsx): a full-body figure standing on the room's
+   bottom row, in front of the furniture. Walking slides it one room pixel at a time (steps(), so
+   it stays on the pixel grid); nothing moves it up or down. */
+.life {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.walker {
+  position: absolute;
+  left: 0;
+  transform: translateX(var(--to));
+}
+
+.moving {
+  animation-name: walk-across;
+  animation-fill-mode: both;
+}
+
+@keyframes walk-across {
+  from {
+    transform: translateX(var(--from));
+  }
+
+  to {
+    transform: translateX(var(--to));
+  }
+}

@@ -49,8 +49,6 @@ concepts_reviewed: [embeddings, language-models, batch-normalisation, neural-net
 ask:
   dialogue:
     - aaesha.pleased.wave: "In psychology, attention is choosing what to notice. One voice across a noisy room, and not the rest."
-    - aaesha.neutral.point: "Neil's blackboard, this morning. Three letters across the top: Q, K, V."
-    - neil.pleased: "Underneath: every letter asks the ones before it a question. Then a block, boxed, and the word stack."
     - yahya.thinking: "The forecast model looked one letter back. This looks at all of them?"
     - aaesha.thinking.think: "All of them, and it decides how much each one counts. That's attention. Literally."
   spec: |
@@ -73,7 +71,6 @@ ship:
     - aaesha.pleased: "Nine characters in, nine out, and nothing looks ahead. Then two blocks that had read a whole book."
     - caitlin.laughing: "Montmorency would have stopped half a man. That's literature."
     - aaesha.thinking: "It's spelling. It learnt which letters keep company. Not what any of them mean."
-    - aaesha.neutral: "And it attends to every letter at once, every time. A person can't. That's where the likeness stops."
     - paul.proud.thumbs: "The big models are this, only bigger. Now you know what's inside them."
   shelf: { object: magnifier, label: "Aaesha's tiny GPT, from Neil's blackboard" }
   cards: [attention, transformers]

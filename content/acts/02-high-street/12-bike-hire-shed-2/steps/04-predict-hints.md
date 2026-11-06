@@ -16,7 +16,7 @@ options:
       30
       33
     correct: true
-    feedback: "Right. Type hints are notes for people and tools. Python doesn't check them when the program runs, so `\"3\" * 2` repeats the text."
+    feedback: "Type hints are notes for people and tools. Python doesn't check them when the program runs, so `\"3\" * 2` repeats the text."
   - text: 30, then a TypeError
     misconception: type-hints-enforced
     error: TypeError
@@ -27,6 +27,4 @@ options:
     misconception: type-hints-convert
     feedback: "A hint doesn't convert anything. `\"3\"` stays text, and text times 2 is the text twice."
 ---
-`days_late: int` is a **type hint**: a note saying what the function expects. `-> int` says what it gives back. Neil charges ten pence a day for a late book, and every penny goes on more books about rockets.
-
-Hints make code easier to read, and editors use them to catch mistakes as you type. Python itself mostly ignores them.
+Neil charges ten pence a day for a late book, and every penny goes on more books about rockets.

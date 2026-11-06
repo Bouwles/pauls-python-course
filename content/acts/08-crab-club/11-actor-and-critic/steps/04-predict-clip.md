@@ -13,7 +13,7 @@ code: |
 
   print(round(clipped_objective(0.5, 2.0), 2))     # a good move, now half as likely
   print(round(clipped_objective(0.5, -2.0), 2))    # a bad move, now half as likely
-question: "The crab's new policy makes a move half as likely as when the batch was raced. What does PPO's objective give for a good move, and for a bad one?"
+question: What does this print?
 options:
   - text: |-
       1.0
@@ -36,4 +36,4 @@ options:
     misconception: ppo-takes-max
     feedback: "Those are the bigger of each pair. PPO takes the smaller, the less flattering verdict."
 ---
-Two moves from the same batch. Work out both versions of each, then take the smaller.
+Two moves from the same batch, each now half as likely as when it was raced: a ratio of 0.5. One was good, one bad. Work out both scores for each, then take the smaller.

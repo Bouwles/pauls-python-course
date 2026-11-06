@@ -2,7 +2,9 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { drawBricks, drawRoom, drawTowerScene, layerRGBA, residentsOf, roomHeight, ROOM_W, STUCK_CLOCK, TOWER, type Layer, type RoomState, type Spot } from "@/lib/pixel/rooms";
-import type { Expression, Pose } from "@/lib/pixel/people";
+import type { Expression, Gaze, Pose } from "@/lib/pixel/people";
+import { gestureOf, type GestureTag } from "@/lib/pixel/gestures";
+import { pickGesture } from "@/lib/pixel/variety";
 import { prefersReducedMotion } from "@/lib/display";
 import { PixelPerson, type PixelPersonProps } from "./PixelPerson";
 import { useOnScreen } from "./useOnScreen";
@@ -12,9 +14,9 @@ import styles from "./PixelRoom.module.css";
 // whole-number scale so every pixel stays crisp:
 //   <PixelRoom act={2} state="busy" size={480} />
 // Locked rooms are dark with the furniture under dust sheets, open rooms have the lights on, and
-// busy rooms have their residents in, at work, gesturing now and then. Screens flicker, gears turn
-// and kettles steam; with reduced motion everything holds still. A room draws and moves only while
-// it's on screen.
+// busy rooms have their residents in, at work, doing something of their own now and then (lib/pixel/
+// variety.ts: never the same thing twice running). Screens flicker, gears turn and kettles steam;
+// with reduced motion everything holds still. A room draws and moves only while it's on screen.
 //
 // For a scene (the Ask, the Ship), put someone in the room yourself: `people` replaces the
 // residents, each taking one of the room's places (spot 0 is the resident's own chair), with
@@ -27,6 +29,8 @@ export interface RoomPerson {
   avatar?: unknown;
   expression?: Expression;
   gesture?: Pose;
+  /** Where they look, when not at you (at whoever is speaking). */
+  gaze?: Gaze;
   talking?: boolean;
   /** The mouth in time with a line being typed out (useSpeech). */
   mouthOpen?: PixelPersonProps["mouthOpen"];
@@ -118,29 +122,78 @@ function paint(canvas: HTMLCanvasElement | null, image: ImageData) {
   if (ctx) ctx.putImageData(image, 0, 0);
 }
 
+// ---------------------------------------------------------------- what shows from a seat
+
+// Whether a gesture shows over the desk is looked up in a table made ahead of time
+// (lib/pixel/shown.ts), so a page full of rooms never has to draw to find out.
+import { showsInRoom } from "@/lib/pixel/shown";
+export { showsInRoom };
+
+/** A pick that shows: `pick` again, steering clear of each one that doesn't, a few times at most. */
+export function pickShown(pick: (hidden: string[]) => string, shows: (gesture: string) => boolean, tries = 8): string {
+  const hidden: string[] = [];
+  let g = pick(hidden);
+  for (let i = 0; i < tries && !shows(g); i++) {
+    hidden.push(g);
+    g = pick(hidden);
+  }
+  return g;
+}
+
 // ---------------------------------------------------------------- now and then
 
 type Moment = { pose: Pose; expression: Expression; talking?: boolean };
 
-/** Residents at work, each doing something now and then: a gesture, a laugh, a word. */
-function useMoments(spots: Spot[], live: boolean): (Moment | null)[] {
+/** What a room's moment names (one of the first six) stands for, with their work and idle moves. */
+const MOMENT_TAGS: Record<string, GestureTag[]> = {
+  idle: ["idle", "work"],
+  wave: ["greet", "idle"],
+  cheer: ["celebrate", "work"],
+  think: ["think", "work"],
+  point: ["explain"],
+  thumbs: ["approve", "work"],
+};
+
+/**
+ * One of a resident's moments, made fresh: the face and the kind of thing the room gives them,
+ * and a gesture that fits it from their own moves and everyday ones, never the last one again.
+ * A moment the room names exactly (not one of the first six) is kept.
+ */
+function freshMoment(act: number, who: string, m: Moment, seed: string, last: string | undefined): Moment {
+  const tags = MOMENT_TAGS[m.pose];
+  if (!tags) return m;
+  const pose = pickShown((hidden) => pickGesture({ who, tags, face: m.talking ? undefined : m.expression, seed, avoid: [last, ...hidden], mode: m.talking ? "talk" : "moment" }), (g) => showsInRoom(act, who, g));
+  const g = gestureOf(pose);
+  // Talking keeps the room's face; anything else brings the face that goes with it.
+  return { pose, expression: m.talking || g.faces?.includes(m.expression) ? m.expression : (g.faces?.[0] ?? m.expression), talking: m.talking };
+}
+
+/** Residents at work, each doing something now and then: one of their own moves, a laugh, a word. */
+function useMoments(act: number, spots: Spot[], live: boolean): (Moment | null)[] {
   const [now, setNow] = useState<(Moment | null)[]>([]);
   const key = spots.map((s) => s.who).join(",");
   useEffect(() => {
     setNow([]);
     if (!live || !spots.length) return;
     let t: ReturnType<typeof setTimeout>;
+    let count = 0;
+    const visit = Math.random().toString(36).slice(2, 8);
+    const last: (string | undefined)[] = [];
     const next = () => {
       t = setTimeout(
         () => {
           const i = Math.floor(Math.random() * spots.length);
-          const options = spots[i]!.moments;
-          const m = options[Math.floor(Math.random() * options.length)]!;
+          const s = spots[i]!;
+          const options = s.moments;
+          const m = freshMoment(act, s.who, options[Math.floor(Math.random() * options.length)]!, `${key}|${visit}|${count++}`, last[i]);
+          last[i] = m.pose;
           setNow((cur) => {
             const out = [...cur];
             out[i] = m;
             return out;
           });
+          // Long enough to see it through: a gesture's whole loop, or a word or two.
+          const g = gestureOf(m.pose);
           t = setTimeout(
             () => {
               setNow((cur) => {
@@ -150,7 +203,7 @@ function useMoments(spots: Spot[], live: boolean): (Moment | null)[] {
               });
               next();
             },
-            m.talking ? 3200 : 2400,
+            m.talking ? 3200 : Math.min(6000, Math.max(2400, g.beats * g.ms * 2)),
           );
         },
         3500 + Math.random() * 6000,
@@ -159,7 +212,8 @@ function useMoments(spots: Spot[], live: boolean): (Moment | null)[] {
     next();
     return () => clearTimeout(t);
     // The spots are fixed for a room; `key` says when the room changes.
-  }, [key, live]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key, live, act]);
   return now;
 }
 
@@ -184,16 +238,16 @@ export function PixelRoom({ act, state = "open", size = ROOM_W * 2, scale, peopl
 
   const spots = residentsOf(act);
   const residents = useMemo(() => (people ? [] : state === "busy" ? spots : []), [people, state, spots]);
-  const moments = useMoments(residents, moving);
+  const moments = useMoments(act, residents, moving);
 
   const placed = people
     ? people.map((p, i) => {
         const at = spots[p.spot ?? i] ?? spots[0] ?? { x: Math.round(ROOM_W / 2) - 24, y: 2 };
-        return { key: `p${i}`, x: at.x, y: at.y, who: p.who, avatar: p.avatar, expression: p.expression ?? "neutral", pose: p.gesture ?? "idle", talking: p.talking ?? false, mouthOpen: p.mouthOpen };
+        return { key: `p${i}`, x: at.x, y: at.y, who: p.who, avatar: p.avatar, expression: p.expression ?? "neutral", pose: p.gesture ?? "idle", gaze: p.gaze, talking: p.talking ?? false, mouthOpen: p.mouthOpen };
       })
     : residents.map((s, i) => {
         const m = moments[i];
-        return { key: s.who + i, x: s.x, y: s.y, who: s.who, avatar: undefined, expression: m?.expression ?? s.work, pose: m?.pose ?? "idle", talking: m?.talking ?? false, mouthOpen: undefined };
+        return { key: s.who + i, x: s.x, y: s.y, who: s.who, avatar: undefined, expression: m?.expression ?? s.work, pose: m?.pose ?? "idle", gaze: undefined, talking: m?.talking ?? false, mouthOpen: undefined };
       });
 
   return (
@@ -207,8 +261,8 @@ export function PixelRoom({ act, state = "open", size = ROOM_W * 2, scale, peopl
     >
       <canvas ref={back} width={ROOM_W} height={h} className={styles.layer} aria-hidden="true" />
       {placed.map((p) => (
-        <span key={p.key} className={styles.person} style={{ left: p.x * k, top: p.y * k }} aria-hidden="true">
-          <PixelPerson who={p.who} avatar={p.avatar} expression={p.expression} pose={p.pose} talking={p.talking} mouthOpen={p.mouthOpen} animate={animate} scale={k} />
+        <span key={p.key} className={styles.person} style={{ left: p.x * k, top: p.y * k }} aria-hidden="true" data-who={p.who} data-pose={p.pose}>
+          <PixelPerson who={p.who} avatar={p.avatar} expression={p.expression} pose={p.pose} gaze={p.gaze} talking={p.talking} mouthOpen={p.mouthOpen} animate={animate} scale={k} />
         </span>
       ))}
       <canvas ref={front} width={ROOM_W} height={h} className={styles.layer} aria-hidden="true" />

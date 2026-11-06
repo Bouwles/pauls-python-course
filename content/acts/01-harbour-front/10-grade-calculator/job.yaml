@@ -43,7 +43,7 @@ downloadable: true
 datasets: []
 client: paul
 building: pub
-estimated_minutes: 55
+estimated_minutes: 70
 summary: "Marks for the class's first Python test in, averages and letter grades out, built from small functions that each do one job."
 concepts_introduced: [functions, parameters, return-values, none, scope]
 concepts_reviewed: [split-join, lists, append-pop, for-loops, while-loops, sentinels, if-elif-else, int-conversion, f-strings]

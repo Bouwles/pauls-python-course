@@ -18,16 +18,16 @@ tasks:
     prompt: "Run it. How many characters are in `string.ascii_letters`?"
     kind: answer
     accept: ["52", "fifty-two", "fifty two"]
-    feedback: "52: the 26 lower case letters, then the 26 capitals."
+    feedback: "52: the 26 small letters, then the 26 capitals."
     wrong: "It's the third line of the output."
   - id: same-letter
-    prompt: "Run it two or three more times. Does the last line stay the same each time?"
+    prompt: "Run it two or three more times. Does the last line stay the same each time? Answer yes or no."
     kind: answer
     accept: ["no", "no it changes", "it changes", "no, it changes", "changes", "different", "no, it's different"]
-    feedback: "No. `secrets.choice` picks one character at random, and there's no way to know in advance which."
+    feedback: "No. `secrets.choice` picks one capital each run, and there's no way to know in advance which."
     wrong: "Look only at the last line, run after run."
   - id: six-digits
-    prompt: "Replace the last two lines with a loop that builds a six-digit code one `secrets.choice(string.digits)` at a time, then prints it."
+    prompt: "Replace the last two lines with a loop that builds a six-digit code, adding one `secrets.choice(string.digits)` each time round, then prints it."
     kind: run
     tests: |
       def six_digits(ctx):
@@ -56,6 +56,4 @@ tasks:
           code += secrets.choice(string.digits)
       print(code)
 ---
-The `string` module keeps the alphabet for you: `string.ascii_lowercase`, `string.ascii_uppercase`, `string.digits`, and `string.ascii_letters` for both kinds of letter.
-
-`secrets` is like `random`, but for anything that must not be guessed. `secrets.choice(text)` picks one character from `text`. `_` is the usual name for a loop variable you never use.
+Caitlin's passwords will be built from these characters. Run it and read each line of the output.

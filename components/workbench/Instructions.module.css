@@ -23,7 +23,7 @@
   gap: var(--s-3);
 }
 
-/* The most prominent text in the panel, in the pixel face at 32 px. */
+/* The most prominent text in the panel, in the display face at 32 px. */
 .title {
   font-size: var(--px-3);
   line-height: 1.1;
@@ -343,5 +343,76 @@
 
   .title {
     font-size: var(--px-3);
+  }
+}
+
+/* What to do: the step's actions in one small numbered run of text, above the explanation. */
+.howTo {
+  margin-top: calc(var(--s-2) * -1);
+  font-size: var(--fs-1);
+  line-height: 1.5;
+  color: var(--text-2);
+}
+
+.howToTitle {
+  display: inline;
+  margin-right: var(--s-3);
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  line-height: 1;
+  color: var(--sun-text);
+}
+
+.howToList {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  counter-reset: how;
+  list-style: none;
+}
+
+.howToList li {
+  display: inline;
+  margin-right: var(--s-3);
+  counter-increment: how;
+}
+
+.howToList li::before {
+  content: counter(how);
+  margin-right: 5px;
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  line-height: 1;
+  color: var(--text);
+}
+
+/* The main action, straight after the explanation; at the panel's foot when the explanation runs long. */
+.action {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  /* Edge to edge in the panel, short of its right-hand rule. */
+  margin: calc(var(--s-2) * -1) calc(var(--s-6) * -1 + 2px) 0 calc(var(--s-8) * -1);
+  padding: var(--s-3) calc(var(--s-6) - 2px) var(--s-4) var(--s-8);
+  background: var(--surface-1);
+}
+
+.wide .action {
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+  background: var(--bg);
+}
+
+@container wb (max-width: 860px) {
+  .action {
+    margin-left: calc(var(--s-4) * -1);
+    margin-right: calc(var(--s-4) * -1);
+    padding-left: var(--s-4);
+    padding-right: var(--s-4);
   }
 }

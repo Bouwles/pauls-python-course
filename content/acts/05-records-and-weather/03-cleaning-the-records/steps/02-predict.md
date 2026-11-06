@@ -31,6 +31,4 @@ options:
 after: |
   Run it. Then add `print(ages.mean())` and see whether the missing ages counted.
 ---
-pandas marks a missing number as `NaN`, short for "not a number". NumPy calls it `np.nan`. `isna()` gives `True` for each missing value.
-
-Four ages from the register, two of them missing.
+Four ages from the register, two of them missing, counted two ways.

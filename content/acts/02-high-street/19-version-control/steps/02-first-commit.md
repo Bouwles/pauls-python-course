@@ -19,4 +19,4 @@ tasks:
     check: [{ kind: commits, min: 1 }, { kind: clean }]
     feedback: "One commit. `git log` shows it, with its id, its message and which branch points at it."
 ---
-Work through the tasks in order. They tick off as the repository changes.
+The Workshop's job tracker is in the editor's files. Make it a **repository**, git's word for a folder whose history it keeps, and take its first photograph. Type each command in the terminal below the editor. The tasks tick off as the repository changes.

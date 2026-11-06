@@ -25,6 +25,6 @@ options:
     misconception: nested-loop-skips-repeats
     feedback: "Six is the number of different pairs. These loops don't skip anything: each part meets every part, itself included, and every pair is met twice."
 after: |
-  Run it. Then add a fifth part and run it again. One more part, nine more checks.
+  Run it. Then add a fifth part and run it again: one more part, nine more checks.
 ---
 Neil's spares check compares parts with each other. This is its skeleton, with the comparing taken out and a counter put in.

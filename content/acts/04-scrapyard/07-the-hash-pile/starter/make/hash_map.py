@@ -18,5 +18,17 @@ def part_hash(name):
     return number
 
 
+class HashMap:
+    """Names and values, filed in piles by part_hash, every probe counted."""
+    # Start with empty piles, a count, and no probes
+    # Which pile: the hash, remainder by the number of piles
+    # Look along that pile, a probe per comparison
+    # put: already there? Replace its pair where it stands
+    #      a new one goes on the end of its pile, and is counted
+    #      too full? Double the piles
+    # Doubling: twice the piles, and everything moved to its new pile
+    # get, remove, __contains__, __len__ and load
+
+
 if __name__ == "__main__":
     parts = stock_parts(200)

@@ -8,16 +8,18 @@ import { Track } from "@/lib/track";
 import { Button, LinkButton } from "../../ui/Button";
 import { Icon } from "../../ui/Icon";
 import { Prose } from "../Instructions";
-import { SpokenLine, Stage, othersIn, personOnStage, roomOf, useConversation } from "../Scene";
+import { SpokenLine, Stage, othersIn, roomOf, useConversation, useStageCast, useVisit } from "../Scene";
 import { useWorkbench } from "../context";
 import { isSpoken } from "../labels";
 import styles from "./ask.module.css";
 
 /**
  * The Ask (REDESIGN3_PLAN.md P3), as a cutscene: the client at their desk in their room on the
- * Clocktower, big and alive, asking for the program a line at a time under the scene. Each line types out while its speaker's mouth moves, with the face
- * and gesture the line calls for; the client waves on their first line. Then the project spec
- * and "Start building". Skip shows every line at once; reduced motion does that from the start.
+ * Clocktower, big and alive, asking for the program a line at a time under the scene. Each line
+ * types out while its speaker's mouth moves, with a face and gesture that fit it; the client
+ * greets on their first line in a way of their own, and between lines and after the brief gets
+ * on with something of their own in their room. Then the project spec and "Start building".
+ * Skip shows every line at once; reduced motion does that from the start.
  */
 export function AskStepView({ step, row }: { step: AskStep; row: StepProgressRow }) {
   const { job, areas, conceptTitles, markPassed, goNext, preview, nameOf } = useWorkbench();
@@ -25,6 +27,7 @@ export function AskStepView({ step, row }: { step: AskStep; row: StepProgressRow
   const client = job.client;
   const clientName = nameOf(client);
   const talk = useConversation(lines.length);
+  const visit = useVisit();
 
   const start = async () => {
     if (row.status !== "passed") await markPassed(step.id);
@@ -32,9 +35,10 @@ export function AskStepView({ step, row }: { step: AskStep; row: StepProgressRow
   };
 
   // Who is on the stage, and how they look right now: the one speaking says their line; the
-  // others listen with the face of the last thing they said. When it's all said, the client
-  // stays with their last face, standing easy.
-  const stage = (who: string) => personOnStage(who, lines, talk, client);
+  // others listen, looking at them; the client gets on with their own work in their room
+  // whenever they aren't speaking, and when it's all said, everyone does.
+  const act = roomOf(client, job.actNumber);
+  const stage = useStageCast(lines, talk, client, { act, seed: `${job.id}|${step.id}|${visit}`, tags: ["idle", "work", "wait"], avoid: ["fingers-crossed"] });
   const guests = othersIn(lines, client).map(stage);
 
   return (
@@ -45,7 +49,7 @@ export function AskStepView({ step, row }: { step: AskStep; row: StepProgressRow
           <h1 className={styles.title}>{job.title}</h1>
         </header>
         <div className={styles.stageWrap}>
-          <Stage act={roomOf(client, job.actNumber)} lead={stage(client)} guests={guests} name={clientName} label={`${clientName}, at their desk, who needs the ${job.title.toLowerCase()}`} />
+          <Stage act={act} lead={stage(client)} guests={guests} name={clientName} label={`${clientName}, at their desk, who needs the ${job.title.toLowerCase()}`} />
         </div>
         <div className={styles.side}>
           {lines.length ? (

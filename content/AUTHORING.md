@@ -1,6 +1,41 @@
 # Writing a Job
 
-How curriculum content is laid out, what each file holds, and how to check it. Read `STYLE.md` and `../CHARACTERS.md` first. The first four Act I projects (`acts/01-harbour-front/01-*` to `04-*`) are the quality bar: match their length, voice and structure.
+How curriculum content is laid out, what each file holds, and how to check it. Read "How we teach" below first, then `STYLE.md` and `../CHARACTERS.md`.
+
+## How we teach
+
+The owner found the teaching confusing: steps asked about things nobody had explained, used teaching jargon, and mixed the story into the questions. Every step follows these rules.
+
+1. **Explain first, then ask.** Every new idea gets a `learn` step before any step asks about it or uses it. A Learn step says:
+   - what the idea is, in one plain sentence
+   - why you'd want it
+   - a tiny example, with what it prints
+   - the one thing people usually get wrong
+   
+   Never ask the learner to predict, answer or use something they haven't been shown. A Quick check (`predict`) comes straight after the Learn step it checks, about the same idea, with code a little different from the example.
+2. **One new idea at a time.** A Learn step explains one idea. A Quick check or Try it (`investigate`) uses only ideas already explained. If a task uses `//` and `%`, both were explained before it.
+3. **Plain words.** Define every technical word the first time it appears, in the same sentence: "a string, Python's word for a piece of text". Nothing the learner reads uses teaching jargon: no "subgoal", "PRIMM", "misconception", "investigate", "scaffold" or "worked example". Say "the steps Paul took" or "the labels beside his code".
+4. **Short.**
+   - A Learn step is at most about 120 words plus its example.
+   - A Quick check or Try it has two or three sentences above its question or tasks.
+   - Use short sentences, and put code in backticks.
+5. **Ask about the code, plainly.** "What does this print?" Story can colour one sentence ("Caitlin's table has six people"). But the numbers in a question are the numbers in the code, and the question never needs the story to be answered.
+6. **Tasks say exactly what to do and what to look at.** For example: "Change line 2 to `drinks = 5`. Press Run. What number appears?" Give one action per task, and a sentence of feedback that says why.
+7. **The example matches what comes next.** "How Paul would do it" (`worked`) is a program like the one the learner is about to build.
+   - It uses only ideas from this project and earlier ones.
+   - The labels beside it explain every part.
+   - The Build step's starter comments are the same steps as those labels.
+   - Never refer to something the learner hasn't seen. If you mention Paul's cable program, it's the example they've just read.
+8. **The order of a project:** The brief (the Ask), then for each new idea a Learn, a Quick check and, where it helps, a Try it. Then the Example, Fix their code (`pips`), Build it (`make`) and Ship it. Small ideas can share one Try it once each has been explained.
+9. **The Build says what done looks like:** what to make, an example run, what the checks look for, and which ideas to use.
+10. **Feedback teaches.** A wrong answer's feedback says what the code really does and why, without blame. A right answer's feedback adds one useful fact.
+11. **Everything matches.** Names, numbers and wording agree from step to step. The example's variable names are the ones the Build uses.
+12. **The story serves the lesson.**
+    - Dialogue is short: one to three lines a step.
+    - Dialogue never carries something the learner needs to do the step. That goes in the step's text.
+    - The learning screen already shows "What to do" (two or three plain actions for the kind of step), so the step's text doesn't repeat them. It explains the idea and the task.
+
+The step bar names steps by kind: the brief, Learn, Quick check, Try it, Example, Fix Caitlin's code, Build it, Ship it.
 
 ## Commands
 
@@ -243,6 +278,21 @@ show_hill(x, loss, curve=None, title=None)
 - `show_hill`: a hiker on a hill (gradient descent). Call it once per step of gradient descent with the current position and loss; pass `curve=loss_function` (a function of one number) at least once and the hill is drawn from it.
 
 At most 400 frames of each kind are kept, spread evenly over the run, and the last is always kept, so a training loop of 10,000 episodes is fine. Mention it in step prose ("add `show_grid(V, policy)` inside your loop and run it"); it's a way to see, never a requirement a test checks.
+
+### learn
+
+```yaml
+type: learn
+id: learn-precedence
+title: "Which sum comes first"
+concept: operator-precedence      # the concept it explains (optional)
+code: |                           # a small example to run and change (optional)
+  print(2 + 3 * 4)
+inputs: []                        # answers for any input() in the example
+error: ValueError                 # only when the example stops with an error on purpose
+```
+
+The body is the explanation ("How we teach", rule 1). Nothing the learner does is checked: they run the example, change it if they like, and press Got it. The content tests run every example, which must run cleanly, or stop with exactly the `error` it names.
 
 ### reading, explain
 

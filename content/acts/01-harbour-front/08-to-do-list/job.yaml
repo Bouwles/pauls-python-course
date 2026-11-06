@@ -44,7 +44,7 @@ downloadable: true
 datasets: []
 client: riya
 building: post-office
-estimated_minutes: 60
+estimated_minutes: 80
 summary: "Add, list, tick off and quit: Riya's commissions, numbered and kept in the order people asked."
 concepts_introduced: [lists, indexing, negative-indices, append-pop, looping-lists, list-methods, slicing, sorted-vs-sort, list-aliasing]
 concepts_reviewed: [in-operator, while-loops, sentinels, break-continue, for-loops, range, if-elif-else, boolean-operators, int-conversion, f-strings]

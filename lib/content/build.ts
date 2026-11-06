@@ -576,6 +576,9 @@ export async function loadContent(root: string, opts: LoadOptions = {}): Promise
         case "reading":
           steps.push({ ...common, type: "reading", code: s.code ?? null });
           break;
+        case "learn":
+          steps.push({ ...common, type: "learn", concept: s.concept ?? null, code: s.code ?? null, inputs: s.inputs, error: s.error ?? null });
+          break;
         case "git": {
           const files = readFilesUnder(path.join(jobPath, "starter", s.id));
           for (const t of s.tasks) lint(t.prompt, `${where} task ${t.id}`);

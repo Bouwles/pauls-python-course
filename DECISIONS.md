@@ -134,7 +134,7 @@ One line per non-obvious choice: the choice, then the reason.
   - Dialogue keys carry the face and gesture (`caitlin.pleased.wave`). When content doesn't say, `moodOf` guesses the face from the words.
   - While a line types, its button is named "Name text…" so the visible words are in the name (WCAG 2.5.3).
 - **Animations as GIFs:** `scripts/export-cast-animations.ts` writes every feeling (talking and quiet) and every gesture as GIFs, by default to "Paul's Python Course Cast" on the Desktop. `scripts/draw-cast-pixels.ts` remakes the sheets in `art/pixel-reference/`.
-- **Type:** the pixel face is Tiny5, which has one weight and is crisp only at multiples of 8 px. So display text uses `--px-1` to `--px-6` (16 to 64 px) and never a `--fs-*` size, and `font-synthesis` is off. Pixelify Sans was tried first and dropped because its "C" closed up at small sizes.
+- **Type:** the display face was first Tiny5, a pixel face. The owner found it too pixelated and hard to read, so it is now Fredoka, chosen from a sheet of ten in the site's style (`next/font/local`, from `@fontsource/fredoka`). Fredoka's semi-bold is loaded as its normal weight and its bold as bold, so every title and label is semi-bold without each rule saying so. `font-synthesis` stays off. Display text keeps the `--px-1` to `--px-6` scale (16 to 64 px). The pixel art, the stepped edges and the cast stay pixel. Pixelify Sans was ruled out because its "C" closes up and "fi" reads as "A" at small sizes.
 - **Surfaces:** all radii are 0. Pixel edges are a stepped two-pixel outline made from four box-shadows, shadows are hard, and there are no gradients, blur or glows. `scripts/style-lint.ts` enforces these rules.
 - **Icons** are pixelarticons (MIT) on a 24 grid, with the duck and the crab drawn on the same grid. Phosphor and Bricolage Grotesque are uninstalled.
 - **The logo** is a pixel snake-P on a 16 grid (`lib/pixel/mark.ts`), used by the site, the server-drawn images and `scripts/build-brand.tsx`. That script also makes the favicons, `public/brand/mark.svg` and the OG image (the class along the bottom) without a browser.
@@ -157,7 +157,7 @@ One line per non-obvious choice: the choice, then the reason.
 - **The Notebook Reader's weights:** four lines of Paul's notes changed in the re-theme, but `trained.json` was kept so the sample notes read as before. Retraining from the new notes won't reproduce it exactly, though it still beats the bigram.
 - **Rooms** are drawn in code too (`lib/pixel/rooms.ts`, `<PixelRoom>`): 160x56 (the roof 160x88), with back and front layers so people sit behind the desk, in three states (locked, open and busy). The Clocktower is a night scene in both themes.
 - **Ask and Ship are cutscenes in the client's room:** the client waves, talks with their mouth in time and cheers at the Ship. The coach is a pixel bust with the same talking.
-- **Certificates and share cards** use Tiny5 at multiples of 8, the pixel mark, the floor's residents on the certificate's seal and the client and the learner on the share card, all drawn from the same engine as SVG (`lib/pixel/svg.ts`).
+- **Certificates and share cards** use Fredoka, the pixel mark, the floor's residents on the certificate's seal and the client and the learner on the share card, all drawn from the same engine as SVG (`lib/pixel/svg.ts`).
 - **Credits:** the sentence "No artwork is AI-generated" was dropped, because the art is now drawn by code. What to say there instead is the owner's call.
 - **Performance:** pixel people and rooms draw, and listen to the shared clock, only while on screen (`components/art/useOnScreen.ts`), and a tick re-renders a person only when their frame changes. On the production build, Lighthouse's mobile run of the landing page went from 72 to 92 on performance (total blocking time from 546 ms to 20 ms). The Handbook page scores 90. Accessibility, best practices and SEO are 100 on both.
 - **Acceptance:** all checks pass:
@@ -167,3 +167,48 @@ One line per non-obvious choice: the choice, then the reason.
   - type check, style lint, copy lint and the brand check on the production build
   
   The after screenshots of the 20 screens are in `tests/screenshots/redesign-3/after/`.
+
+## Redesign 3, second round: more of the cast, no bouncing, and teaching that makes sense
+- **The owner's three asks:**
+  - "The characters look repetitive: make hundreds of new animations and sprites of the same characters."
+  - "Stop making the sprites bounce up and down: make them stand properly."
+  - "The way you teach is confusing and doesn't make sense."
+- **Nothing bounces:**
+  - The breathing bob is gone.
+  - Gestures have no `lift`. tests/unit/gestures.test.ts fails if one is added, and tests/unit/figures.test.ts fails if a figure's head moves between frames.
+  - People stand still and level. Only faces, arms, hands, legs and props move.
+- **The engine:**
+  - `lib/pixel/kit.ts` is the shared drawing kit: grid, colours, arms, hands, stamps.
+  - `lib/pixel/gestures/` is a registry of gestures, each with tags, faces, beats and its own speed:
+    - basic.ts: the first six
+    - everyday.ts: 73 anyone can make
+    - signature.ts: 56 of each person's own, tied to their interests
+  - `lib/pixel/props.ts` and `props-interests.ts` hold the things they hold. Effects (steam, sparkles, notes) are in the region "fx" and get no dark outline.
+  - There are 22 expressions (12 new), and eyes can look left, right, up and down.
+- **Full-body figures:** `lib/pixel/figures.ts` and `<PixelFigure>`. The grid is 31x48, and a standing figure is 44 px tall, so it fits a room at the same scale. There are 26 actions, in front, back and side views.
+- **Variety:** `lib/pixel/variety.ts` picks a gesture for each moment from what it's for, who it is and a seed (the line, the step, the visit). It never repeats the last pick.
+  - "Talk" mode: hand gestures, often standing still.
+  - "Moment" mode: celebrations and rooms, where each person's own moves come up most.
+  - A gesture that content names exactly is kept. One of the first six becomes a fitting variant.
+  - Rooms re-pick a gesture the desk would hide. The desks were lowered so most gestures show.
+- **Where the variety shows:**
+  - **Rooms:** residents get up as full-body figures for errands: Paul to the chalkboard, Neil with his rocket, Riya to her easel.
+  - **Drills:** the race has full-body runners.
+  - **Morning Rounds:** Paul dances when you finish.
+  - **Avatar creator:** it shows your full-body figure.
+  - **404:** Neil wanders in.
+  - **Everywhere else:** gestures differ from visit to visit.
+- **The GIFs:** `scripts/export-cast-animations.ts` writes 1,334 GIFs (about 222 a person: feelings, gestures, moves) into "Paul's Python Course Cast" in the project, where the owner keeps the folder. Git ignores it.
+- **Teaching:**
+  - **The rules:** "How we teach" at the top of content/AUTHORING.md: explain first, then ask; one idea at a time; plain words; ask about the code plainly; the example matches the Build; the story serves the lesson.
+  - **A Learn step type (`learn`):** one idea in plain words, with a small example to run and change, then Got it. The content tests run every example, which must run cleanly or stop with exactly the `error` it names.
+  - **The rewrite:** all 94 written projects were rewritten to the rules, Act I to Act IX, with a Learn step before every new idea. No step ids, job ids or concepts changed.
+  - **Step names:** the step bar uses plain names (The brief, Learn, Quick check, Try it, Example, Fix Caitlin's code, Build it, Ship it) as one small block per step, so 24 steps fit. Every step shows a short "What to do".
+- **Performance:** whether a gesture shows over a desk is worked out ahead of time (`scripts/build-room-visibility.ts` writes `lib/pixel/shown.generated.ts`, and tests/unit/shown.test.ts fails when it's stale), so pages never draw to find out.
+  - Lighthouse couldn't be reinstalled (the npm registry stalled), so the production build was measured with Playwright at a 4x slower CPU, over the first 8 seconds:
+    - landing page, 412 px: 279 ms blocking time
+    - landing page, 1440 px: 321 ms
+    - Handbook page: 114 ms
+    - largest paint under 200 ms on all of them
+  - On the landing page, the pixel engine accounts for about 180 ms of the slowed-down load, drawing the six people in the hero.
+- **Local test accounts:** made by the agents for screenshots of Pro pages: `act45-teacher@ppc.test`, `act67-teacher@ppc.test` and `act89-teacher@ppc.test`, in the local database only.

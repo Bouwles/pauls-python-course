@@ -10,7 +10,7 @@ code: |
   reward = -1                              # every move costs a point
   error = reward + gamma * values["there"] - values["here"]
   print(round(error, 2), "likelier" if error > 0 else "less likely")
-question: "The crab moved from here to there. What is the critic's verdict, and does the actor make the move likelier?"
+question: What does this print?
 options:
   - text: "0.6 likelier"
     correct: true
@@ -27,4 +27,4 @@ options:
 after: |
   A move that costs a point can still be a good move. The critic judges it against what it expected from that tile, not against nothing.
 ---
-Every move on the grid costs a point. Here the crab moved from a tile the critic rates at 2.0 to one it rates at 4.0.
+The crab moved from a tile the critic rates at 2.0 to one it rates at 4.0, and paid a point for the move. Work out the verdict, then which way the actor goes.

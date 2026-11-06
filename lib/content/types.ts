@@ -182,6 +182,16 @@ export interface ReadingStep extends StepCommon {
   code: string | null;
 }
 
+/** One new idea, explained, with an example to run and change. */
+export interface LearnStep extends StepCommon {
+  type: "learn";
+  concept: string | null;
+  code: string | null;
+  inputs: string[];
+  /** The error the example stops with on purpose, if that's the point. */
+  error: string | null;
+}
+
 export interface ExplainStep extends StepCommon {
   type: "explain";
   code: string | null;
@@ -246,6 +256,7 @@ export type Step =
   | ParsonsStep
   | ConceptStep
   | ReadingStep
+  | LearnStep
   | ExplainStep
   | GitStep
   | TakeHomeStep

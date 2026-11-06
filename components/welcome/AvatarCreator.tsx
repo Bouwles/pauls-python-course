@@ -2,13 +2,21 @@
 
 // Avatar creation (REDESIGN-2.md 7.3, REDESIGN3_PLAN.md): the learner builds their pixel self from
 // parts, the way you build a character in a game. Their avatar stands large beside the choices,
-// alive, and reacts to every change (a new haircut surprises them, a new top makes them proud);
-// every part is shown on a little copy of them, so you see a choice before you make it. It waves
-// when you're done (`waving`). Used on /welcome and in Settings.
+// alive, and reacts to every change (a new haircut surprises them, a new top makes them proud),
+// with a gesture that's different each time (lib/pixel/variety.ts). Under it stands the whole of
+// them, head to toe (lib/pixel/figures.ts), trying something new with every change: a stretch, a
+// dance, a book. Every part is shown on a little copy of them, so you see a choice before you
+// make it. It waves when you're done (`waving`). Used on /welcome and in Settings.
 import { useEffect, useId, useRef, useState } from "react";
 import { useMedia } from "@/lib/useMedia";
 import { prefersReducedMotion } from "@/lib/display";
 import type { Expression, Pose } from "@/lib/pixel/people";
+import type { FigureTag } from "@/lib/pixel/figures";
+import type { GestureTag } from "@/lib/pixel/gestures";
+import { pickGesture } from "@/lib/pixel/variety";
+import { pickAction } from "@/lib/moments";
+import { useVisit } from "@/lib/useVisit";
+import { PixelFigure } from "../art/PixelFigure";
 import { ACCESSORIES, AVATAR_COLOURS, BROWS, FACES, HAIR_COLOURS, HAIR_STYLES, SKIN_TONES, TOP_COLOURS, TOPS, type AvatarLook, type AvatarOption } from "@/lib/avatar";
 import { PixelPerson } from "../art/PixelPerson";
 import { Tabs } from "../ui/Tabs";
@@ -68,20 +76,26 @@ const TABS: { id: Tab; label: string }[] = [
   { id: "colour", label: "Colour" },
 ];
 
-/** How the avatar takes a change to each part: a face and a gesture, held for a moment. */
-const REACT: Partial<Record<keyof AvatarLook, { face: Expression; pose: Pose }>> = {
-  colour: { face: "laughing", pose: "idle" },
-  face: { face: "thinking", pose: "think" },
-  skin: { face: "pleased", pose: "idle" },
-  brows: { face: "surprised", pose: "idle" },
-  facialHair: { face: "proud", pose: "idle" },
-  hair: { face: "surprised", pose: "idle" },
-  hairColour: { face: "laughing", pose: "idle" },
-  top: { face: "proud", pose: "thumbs" },
-  topColour: { face: "pleased", pose: "thumbs" },
-  glasses: { face: "pleased", pose: "point" },
-  accessory: { face: "pleased", pose: "cheer" },
+/**
+ * How the avatar takes a change to each part: a face, what the gesture is for, and what their
+ * whole self tries next.
+ */
+const REACT: Partial<Record<keyof AvatarLook, { face: Expression; tags: GestureTag[]; try: FigureTag[] }>> = {
+  colour: { face: "laughing", tags: ["celebrate", "approve"], try: ["celebrate", "greet"] },
+  face: { face: "thinking", tags: ["think"], try: ["think", "talk"] },
+  skin: { face: "pleased", tags: ["approve", "idle"], try: ["greet", "idle"] },
+  brows: { face: "surprised", tags: ["surprise"], try: ["think", "talk"] },
+  facialHair: { face: "proud", tags: ["approve", "tease"], try: ["think", "rest"] },
+  hair: { face: "surprised", tags: ["surprise", "celebrate"], try: ["celebrate", "rest"] },
+  hairColour: { face: "laughing", tags: ["celebrate", "approve"], try: ["celebrate", "hobby"] },
+  top: { face: "proud", tags: ["approve", "celebrate"], try: ["celebrate", "greet"] },
+  topColour: { face: "pleased", tags: ["approve"], try: ["rest", "idle"] },
+  glasses: { face: "pleased", tags: ["explain", "think"], try: ["sit", "work"] },
+  accessory: { face: "pleased", tags: ["celebrate", "idle"], try: ["hobby", "celebrate"] },
 };
+
+/** What their whole self can try on the spot: anything that doesn't need walking somewhere. */
+const ON_THE_SPOT = ["stand", "sit", "type", "read", "wave", "cheer", "dance", "clap", "talk", "point", "think", "shrug", "stretch", "phone", "drink", "drone", "easel", "clipboard", "guitar", "chalkboard"];
 
 /**
  * One set of choices over real radios, so arrow keys work. Parts show on a small copy of the
@@ -146,28 +160,39 @@ export function AvatarCreator({ look, name, onChange, waving = false }: { look: 
   const id = useId();
   const [tab, setTab] = useState<Tab>("face");
   const [reaction, setReaction] = useState<{ face: Expression; pose: Pose } | null>(null);
+  const [tries, setTries] = useState<{ action: string; n: number } | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const narrow = useMedia("(max-width: 860px)");
+  const visit = useVisit();
   const prefix = `${id}-avatar`;
   const panel = (t: Tab) => ({ role: "tabpanel", id: `${prefix}-${t}-panel`, "aria-labelledby": `${prefix}-${t}`, hidden: tab !== t, className: styles.panel });
 
   const set = (patch: Partial<AvatarLook>) => {
     onChange({ ...look, ...patch });
-    const r = REACT[Object.keys(patch)[0] as keyof AvatarLook];
+    const key = Object.keys(patch)[0] as keyof AvatarLook;
+    const r = REACT[key];
     if (!r) return;
-    setReaction(r);
+    const n = (tries?.n ?? 0) + 1;
+    const seed = `avatar|${visit}|${n}|${key}|${String(patch[key])}`;
+    setReaction({ face: r.face, pose: pickGesture({ tags: r.tags, face: r.face, seed, avoid: [reaction?.pose] }) });
+    setTries({ action: pickAction({ tags: r.try, seed, avoid: [tries?.action], only: ON_THE_SPOT }), n });
     if (timer.current) clearTimeout(timer.current);
     timer.current = setTimeout(() => setReaction(null), prefersReducedMotion() ? 2400 : 1600);
   };
   useEffect(() => () => void (timer.current && clearTimeout(timer.current)), []);
 
   const mood = waving ? { face: "pleased" as Expression, pose: "wave" as Pose } : (reaction ?? { face: "neutral" as Expression, pose: "idle" as Pose });
+  // Their whole self: says hello to start with (a hello of this visit's), then tries whatever the last change suggested.
+  const action = waving ? "wave" : (tries?.action ?? pickAction({ tags: ["greet", "idle"], seed: `avatar|${visit}`, only: ON_THE_SPOT }));
 
   return (
     <div className={styles.creator}>
       <div className={styles.preview}>
         <div className={`px-panel ${styles.stage}`} style={{ background: look.colour }}>
           <PixelPerson avatar={look} crop="bust" scale={narrow ? 3 : 4} expression={mood.face} pose={mood.pose} label={`Your avatar: ${describeAvatar(look)}`} />
+        </div>
+        <div className={`px-panel ${styles.whole}`} style={{ background: look.colour }} aria-hidden="true">
+          <PixelFigure avatar={look} action={action} scale={2} />
         </div>
         <div className={styles.who}>
           <p className={styles.name}>{name.trim() || "You"}</p>

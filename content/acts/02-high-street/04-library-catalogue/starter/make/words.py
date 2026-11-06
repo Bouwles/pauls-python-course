@@ -40,5 +40,6 @@ def main():
     pass
 
 
+# Runs main() when you run this file, but not when the checks import it.
 if __name__ == "__main__":
     main()

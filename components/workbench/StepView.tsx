@@ -13,6 +13,7 @@ import { SimpleStepView } from "./steps/SimpleStep";
 import { GitStepView } from "./steps/GitStep";
 import { TakeHomeStepView } from "./steps/TakeHomeStep";
 import { MilestoneStepView } from "./steps/MilestoneStep";
+import { LearnStepView } from "./steps/LearnStep";
 
 export function StepView({ step, row }: { step: Step; row: StepProgressRow }) {
   switch (step.type) {
@@ -39,6 +40,8 @@ export function StepView({ step, row }: { step: Step; row: StepProgressRow }) {
       return <TakeHomeStepView step={step} row={row} />;
     case "milestone":
       return <MilestoneStepView step={step} row={row} />;
+    case "learn":
+      return <LearnStepView step={step} row={row} />;
     default:
       return <SimpleStepView step={step} row={row} />;
   }

@@ -21,8 +21,8 @@ while name != "":
             print("Name, phone, address, please.")
     else:
         # Look the name up
-        record = contacts.get(name)
-        if record is not None:
+        if name in contacts:
+            record = contacts[name]
             # Show what's inside the record
             print(f"{name}: {record['phone']}, {record['address']}")
         else:

@@ -10,10 +10,20 @@
 }
 
 .person {
+  position: relative;
   display: grid;
   align-content: start;
   gap: var(--s-4);
   min-width: 0;
+}
+
+/* Their small figure, head to toe, standing on the bottom edge of their 232-pixel tile at its
+   right: the tile's 3-pixel edge, then the grid's empty bottom row, at two screen pixels each. */
+.pastime {
+  position: absolute;
+  top: calc(232px - 3px - 96px + 2px);
+  right: 14px;
+  pointer-events: none;
 }
 
 .speech {

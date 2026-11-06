@@ -36,8 +36,8 @@ downloadable: true
 datasets: []
 client: caitlin
 building: pub
-estimated_minutes: 55
-summary: "The machine picks a number from 1 to 100. You guess, and it counts every try."
+estimated_minutes: 70
+summary: "The computer picks a number from 1 to 100. You guess, and it counts every try."
 concepts_introduced: [while-loops, sentinels, running-totals, infinite-loops, random-module, imports, break-continue]
 concepts_reviewed: [comparisons, if-elif-else, boolean-operators, int-conversion, f-strings, for-loops]
 ask:
@@ -47,7 +47,7 @@ ask:
     - caitlin.laughing: "Fewest guesses is basically a high score. So it's a proper game."
     - paul.thinking: "It'll need a loop that doesn't know when it ends. That's new."
   spec: |
-    The machine picks a whole number from 1 to 100 with `random.randint(1, 100)`. Then it asks `Guess? ` until the game is over.
+    The computer picks a whole number from 1 to 100. Then it asks `Guess? ` until the game is over.
 
     - Too low or too high: say so.
     - Right: print `Got it in 4.` (however many guesses it took) and stop.

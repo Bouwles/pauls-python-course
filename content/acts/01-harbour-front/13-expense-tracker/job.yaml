@@ -35,7 +35,7 @@ downloadable: true
 datasets: []
 client: yahya
 building: bakery
-estimated_minutes: 180
+estimated_minutes: 200
 summary: "The Act I capstone: a menu-driven expense tracker, built from a list of dictionaries and functions."
 concepts_reviewed: [while-loops, if-elif-else, break-continue, lists, append-pop, sorted-vs-sort, list-aliasing, dictionaries, dict-get, dict-items, nested-data, string-methods, strip-replace, functions, parameters, return-values, none, scope, exceptions, try-except, float-conversion, f-strings]
 ask:

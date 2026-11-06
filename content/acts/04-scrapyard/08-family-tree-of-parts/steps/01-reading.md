@@ -1,20 +1,31 @@
 ---
 id: reading
-type: reading
+type: learn
 title: The family tree
+concept: trees
+code: |
+  class Card:
+      def __init__(self, number, left=None, right=None):
+          self.number = number
+          self.left = left
+          self.right = right
+
+
+  def count(card):
+      if card is None:
+          return 0
+      return 1 + count(card.left) + count(card.right)
+
+
+  root = Card(500, Card(250), Card(750))
+  print(count(root))
 ---
-A **tree** is a card with cards below it, and those cards have cards below them. The top card is the **root**; a card with nothing below it is a **leaf**. The tree's **height** is how many levels it has, from the root down to the deepest leaf.
+A **tree** is a card with cards below it, and those have cards below them. The top card is the **root**. A card with nothing below it is a **leaf**. The **height** is how many levels there are, from the root down to the deepest leaf.
 
-Neil's rocket catalogue is a **binary search tree**. Each card has at most two cards just below it, and everything down its left side has a smaller number, everything down its right side a bigger one.
+In Neil's catalogue each card has at most two cards just below it, `left` and `right`, and either can be `None`.
 
-```text
-                500 nose cone
-              /               \
-       250 fin set         750 launch rail
-        /         \                \
-  101 body tube   342 parachute   977 launch pad
-```
+Every side of a tree is a smaller tree, so tree code is usually recursive, like the folders in the file tree printer. An empty side, `None`, is the base case.
 
-To find 342: smaller than 500, go left; bigger than 250, go right; there. Each look rules out a whole side, as binary search did on the bolt drawers. Adding a card is the same walk, until it steps off the bottom: the new card goes there.
+The example counts a three-card tree: an empty side counts 0, and a card counts 1 plus both its sides. It prints `3`.
 
-Every side of a tree is a smaller tree, so most tree code is recursive.
+The usual slip is to forget the empty sides. A leaf still has two, both `None`.

@@ -1,0 +1,26 @@
+# Misconceptions for the Learn steps and Quick checks added to Acts II and III.
+
+csv-no-quotes:
+  concept: csv-module
+  description: Thinks csv.writer writes a value with a comma inside exactly as it is, so the comma splits it into two columns.
+csv-writes-lists:
+  concept: csv-module
+  description: Thinks writerow writes the list the way print shows it, brackets and quotes included.
+exists-raises-if-missing:
+  concept: paths
+  description: Thinks Path(name).exists() raises an error for a missing file, as open() does, rather than answering False.
+json-looks-like-print:
+  concept: json-module
+  description: Thinks JSON text is written the way print shows a dictionary, with single quotes, True, False and None.
+guard-never-runs:
+  concept: main-guard
+  description: Thinks the code under if __name__ == "__main__" is skipped even when the file is run directly.
+left-out-option-is-none:
+  concept: argparse
+  description: Thinks an option that's left out of the command line is None even when it has a default.
+own-error-not-real:
+  concept: exceptions
+  description: Thinks only Python's own errors can be raised and caught, not an error class you define yourself.
+month-without-year:
+  concept: standard-library
+  description: Thinks checking a date's month finds only this year's month, forgetting the same month comes round every year.

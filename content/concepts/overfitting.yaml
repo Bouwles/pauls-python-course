@@ -1,7 +1,7 @@
 id: overfitting
 title: Overfitting and underfitting
 summary: |
-  A model overfits when it follows the noise in its training data instead of the pattern: a tiny training error, a big error on anything new. It underfits when it's too simple to follow the pattern at all, and both errors stay big. A validation curve plots both errors against how flexible the model is: training error keeps falling, while validation error falls, bottoms out, then climbs. Choose the flexibility at the bottom of the validation curve.
+  A model overfits when it memorises the answers instead of learning the rule: it follows the wobbles in its training data, so its training error is tiny and its error on anything new is big. It underfits when it's too simple to follow the pattern at all, and both errors stay big. A validation curve plots both errors against how flexible the model is: training error keeps falling, while validation error falls, bottoms out, then climbs. Choose the flexibility at the bottom of the validation curve.
 example: |
   degrees = [1, 2, 3, 4, 5]
   train_errors = [0.553, 0.140, 0.087, 0.077, 0.076]

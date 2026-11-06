@@ -143,10 +143,23 @@
 }
 
 /* Rounds done: the score, big, a tally of every card, then the ideas worth another look. */
+/* The score, and Paul beside it celebrating, head to toe, standing on the panel's bottom edge. */
 .score {
   display: grid;
-  gap: var(--s-3);
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: var(--s-4);
   padding: var(--s-6);
+}
+
+.scoreBody {
+  display: grid;
+  gap: var(--s-3);
+  min-width: 0;
+}
+
+.scoreFigure {
+  margin-bottom: calc(-1 * var(--s-6));
 }
 
 .scoreBig {

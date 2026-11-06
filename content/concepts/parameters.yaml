@@ -1,10 +1,10 @@
 id: parameters
 title: Parameters
 summary: |
-  Names in the brackets of a `def` are parameters. Each call fills them, in order, with the values you pass: `round_cost(4, 3.5)` makes `pints` 4 and `price` 3.5. The names outside don't have to match the names inside; only the order matters. Pass the wrong number of values and you get a TypeError.
+  Names in the brackets of a `def` are parameters. Each call fills them, in order, with the values you pass: `round_cost(4, 3.5)` makes `coffees` 4 and `price` 3.5. The names outside don't have to match the names inside; only the order matters. Pass the wrong number of values and you get a TypeError.
 example: |
-  def round_cost(pints, price):
-      return pints * price
+  def round_cost(coffees, price):
+      return coffees * price
 
   print(round_cost(4, 3.5))
   print(round_cost(2, 4.0))

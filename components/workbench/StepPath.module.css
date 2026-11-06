@@ -1,18 +1,23 @@
-/* The step bar: named steps as pixel plates, joined by a dotted track. */
+/* The step bar: a track of small pixel blocks, one per step, and a line saying where you are. */
 .bar {
   position: relative;
   flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--s-5);
+  height: 52px;
   padding: 0 var(--s-4);
   background: var(--surface-1);
   box-shadow: inset 0 -2px 0 0 var(--line);
   min-width: 0;
 }
 
-.list {
+.track {
+  flex: none;
+  max-width: 100%;
   display: flex;
   align-items: center;
-  gap: 0;
-  height: 52px;
+  height: 100%;
   margin: 0;
   padding: 0 4px;
   list-style: none;
@@ -21,65 +26,69 @@
   overscroll-behavior-x: contain;
 }
 
-.list::-webkit-scrollbar {
+.track::-webkit-scrollbar {
   display: none;
 }
 
-.item,
-.groupItem {
+.item {
   flex: none;
   display: flex;
+  align-items: center;
 }
 
-.groupItem {
-  position: relative;
-}
-
-/* Between steps: three square pixels, like a path drawn on a map. */
-.sep {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 28px;
-  color: var(--text-3);
-}
-
-.sep::before {
+/* Between blocks: a short piece of track, green where the step before it is done. */
+.joined::before {
   content: "";
-  width: 4px;
-  height: 4px;
-  background: currentColor;
-  box-shadow:
-    -6px 0 0 0 currentColor,
-    6px 0 0 0 currentColor;
+  flex: none;
+  width: 6px;
+  height: 2px;
+  background: var(--line);
 }
 
-.pill {
+.joinedDone::before {
+  background: var(--pass-text);
+}
+
+.block {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: var(--s-2);
-  height: 32px;
-  padding: 0 var(--s-3);
+  min-width: 28px;
+  height: 28px;
+  padding: 0 3px;
   border: 0;
-  background: transparent;
+  background: var(--surface-2);
+  color: var(--text-2);
   font-family: var(--font-display);
   font-size: var(--px-1);
   line-height: 1;
   white-space: nowrap;
+  box-shadow:
+    0 -2px 0 0 var(--line),
+    0 2px 0 0 var(--line),
+    -2px 0 0 0 var(--line),
+    2px 0 0 0 var(--line);
 }
 
-.pill:focus-visible {
+.block:focus-visible {
   outline: 2px solid var(--sun);
   outline-offset: 4px;
 }
 
-.done {
-  color: var(--text-2);
+/* The brief, Build it and Ship it keep their names. */
+.landmark {
+  padding: 0 var(--s-2) 0 4px;
 }
 
-.done:hover {
-  background: var(--surface-3);
-  color: var(--text);
+.name {
+  padding-top: 1px;
+}
+
+/* Done: filled green, the mark in the green's ink. */
+.done {
+  background: var(--pass);
+  color: var(--pass-ink);
   box-shadow:
     0 -2px 0 0 var(--px-outline),
     0 2px 0 0 var(--px-outline),
@@ -87,27 +96,34 @@
     2px 0 0 0 var(--px-outline);
 }
 
-.done svg {
-  color: var(--pass-text);
+.done:hover {
+  background: var(--pass-hover, var(--pass));
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 -3px 0 0 var(--px-lo);
 }
 
-/* Not reached yet: tertiary, nudged up a little so it still reads at 4.5:1 on the bar. */
-.future {
-  color: color-mix(in srgb, var(--text-3) 60%, var(--text-2));
-}
-
-.future:not([aria-disabled="true"]):hover {
+/* Reached but not done (opened, and left for later). */
+.ahead:hover {
   background: var(--surface-3);
   color: var(--text);
 }
 
-.future[aria-disabled="true"] {
+/* Not reached yet: just an outline and a quiet mark. */
+.locked {
+  background: transparent;
+  color: color-mix(in srgb, var(--text-3) 60%, var(--text-2));
   cursor: default;
 }
 
 /* Where you are: a raised plate in the sun colour, a light top edge and a dark bottom one. */
 .current,
 .passed {
+  min-width: 32px;
+  height: 32px;
   margin: 0 2px;
   box-shadow:
     0 -2px 0 0 var(--px-outline),
@@ -128,127 +144,65 @@
   background: var(--sun-hover);
 }
 
-/* The current step once its checks pass: green, and it hops once. */
+/* The current step once its checks pass: green, raised. */
 .passed {
   background: var(--pass);
   color: var(--pass-ink);
-  animation: passed 240ms steps(1, end);
 }
 
-.passed svg {
-  color: var(--pass-ink);
-}
-
-@keyframes passed {
-  0% {
-    transform: translateY(-4px);
-  }
-
-  50% {
-    transform: translateY(-2px);
-  }
-
-  100% {
-    transform: none;
-  }
-}
-
-.group {
-  cursor: pointer;
-}
-
-.group svg:last-child {
+/* Where you are, in words. */
+.caption {
+  flex: 1 1 0;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--fs-2);
+  line-height: 1.3;
   color: var(--text-2);
 }
 
-.popover {
-  position: absolute;
-  top: calc(100% - 4px);
-  left: var(--s-4);
-  z-index: 50;
-  min-width: 280px;
-  max-width: 360px;
-  padding: var(--s-1);
-}
-
-.popover ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.popItem {
-  display: grid;
-  grid-template-columns: 16px 1fr;
-  column-gap: var(--s-3);
-  row-gap: var(--s-1);
-  align-items: center;
-  width: 100%;
-  padding: var(--s-2) var(--s-3);
-  border: 0;
-  background: none;
-  color: var(--text);
-  text-align: left;
-}
-
-.popItem svg {
-  color: var(--pass-text);
-}
-
-.popItem:hover,
-.popItem:focus-visible {
-  background: var(--surface-3);
-  outline: none;
-}
-
-.popLabel {
+.count {
   font-family: var(--font-display);
   font-size: var(--px-1);
-  line-height: 1;
-}
-
-.popTitle {
-  grid-column: 2;
-  font-size: var(--fs-1);
   color: var(--text-2);
 }
 
-/* The invisible copy used to measure the pills. */
-.ruler {
-  position: absolute;
-  top: 0;
-  left: 0;
-  visibility: hidden;
-  pointer-events: none;
-  overflow: visible;
-  width: max-content;
+.dot {
+  padding: 0 var(--s-2);
+  color: var(--text-3);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .passed {
-    animation: none;
-  }
+.kind {
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  color: var(--text);
 }
 
-:root[data-motion="reduced"] .passed {
-  animation: none;
+.title {
+  color: var(--text);
 }
 
-@container wb (max-width: 860px) {
-  .bar {
-    padding: 0;
-  }
+/* A phone (or the landing page's frame): the line above, the track below, scrolling. */
+.compact {
+  flex-direction: column-reverse;
+  align-items: stretch;
+  gap: 0;
+  height: auto;
+  padding: 6px 0 0;
+}
 
-  .list {
-    height: 48px;
-    padding: 0 var(--s-3);
-  }
+.compact .caption {
+  flex: none;
+  padding: 0 var(--s-4);
+}
 
-  .sep {
-    width: 24px;
-  }
+.compact .track {
+  height: 44px;
+  padding: 0 var(--s-4);
+}
 
-  .list > li:last-child {
-    padding-right: var(--s-3);
-  }
+.compact .item:last-child {
+  padding-right: var(--s-4);
 }

@@ -19,29 +19,24 @@ cards:
   - type: choice
     prompt: What does this print?
     code: |
-      laps = 5
-      print(laps)
-      laps = 9
+      print("Ring the bell")
+      print("Mind the step")
     options:
-      - text: "5"
+      - text: "Ring the bell\nMind the step"
         correct: true
-        feedback: "The print runs before the change. Later lines can't reach back."
-      - text: "9"
-        misconception: later-line-changes-earlier-output
-        feedback: "By the time line 3 runs, line 2 has already printed 5."
-  - type: choice
-    prompt: What happens when this runs?
-    code: |
-      print(total)
-      total = 5
-    verify: error
-    options:
-      - text: It prints 5
+        feedback: "Top to bottom, one line at a time, and each print() starts a new line."
+      - text: "Mind the step\nRing the bell"
         misconception: lines-run-in-any-order
-        feedback: "Python doesn't look ahead. When line 1 runs, total doesn't exist yet."
-      - text: A NameError, because total doesn't exist yet when line 1 runs
-        correct: true
-        error: NameError
+        feedback: "Python never picks its own order. The first line runs first."
+      - text: "Ring the bell Mind the step"
+        misconception: print-same-line
+        feedback: "Each print() finishes its line, so the second starts on a new one."
+  - type: predict
+    prompt: What does this print?
+    code: |
+      print("Last")
+      print("First")
+    answer: "Last\nFirst"
   - type: fix
     prompt: The greeting should come before the question. Fix the order.
     code: |

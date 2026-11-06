@@ -44,8 +44,7 @@ ask:
     - aaesha.neutral.wave: "When a network gets an answer wrong, which of its numbers is to blame? Brains have the same puzzle."
     - aaesha.thinking: "Nobody knows yet how a brain shares out the blame. A network can do it mechanically."
     - neil.laughing: "Right now somebody rewrites backward by hand every time. Usually me. Usually wrong."
-    - neil.neutral.point: "So picture a shoebox of index cards. One number on each, and on the back, the cards it was made from."
-    - aaesha.pleased: "Every number with its receipt. I approve of receipts."
+    - aaesha.pleased: "So: every number with its receipt. I approve of receipts."
   spec: |
     In `engine.py`, finish `Value`: one number that remembers how it was made. `+` is already written, as the pattern for the rest.
 
@@ -65,7 +64,6 @@ ask:
 ship:
   dialogue:
     - neil.proud: "Twenty-four nights out of twenty-four, and nobody wrote a backward pass. The cards did."
-    - aaesha.pleased.point: "Every number got its fair share of the blame. That's the part brains still keep to themselves."
     - yahya.unimpressed: "Mine was faster."
     - aaesha.laughing: "Yours was wrong faster."
     - yahya.pleased.thumbs: "Fair. The set's back in."

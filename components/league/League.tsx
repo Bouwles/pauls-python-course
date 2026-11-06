@@ -4,7 +4,8 @@
 // Act 8, run by the classmates who live on the Arcade floor (Aaesha and Caitlin). They host it in
 // person: they introduce the race, one after the other, and react to where your entry finished.
 // Opt-in by entering; the table shows display names and scores only. Every race is seeded, so the
-// replay here is the race that was scored.
+// replay here is the race that was scored. The hosts' gestures, and how the one not talking
+// listens, are chosen per line and per visit (lib/pixel/variety.ts).
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSession } from "@/lib/store/session";
@@ -12,6 +13,9 @@ import { baselinePolicy, courseJson, hash, MAX_STEPS, race, RACES, readEntry, SL
 import { download } from "@/lib/export";
 import type { Expression, Pose } from "@/lib/pixel/people";
 import { useMedia } from "@/lib/useMedia";
+import { moodOf } from "@/lib/mood";
+import { pickGesture } from "@/lib/pixel/variety";
+import { useVisit } from "@/lib/useVisit";
 import { Portrait } from "../art/Portrait";
 import { Speech } from "../art/Speech";
 import { Button } from "../ui/Button";
@@ -67,6 +71,7 @@ function verdict(place: number, of: number): { host: number; line: Line } {
 /** The hosts, side by side: the first speaks, then the second answers. */
 function Hosts({ hosts, said }: { hosts: { id: string; name: string }[]; said: { host: number; line: Line } | null }) {
   const phone = useMedia("(max-width: 720px)");
+  const visit = useVisit();
   const [turn, setTurn] = useState(0);
   const size = phone ? 72 : 108;
   return (
@@ -77,10 +82,18 @@ function Hosts({ hosts, said }: { hosts: { id: string; name: string }[]; said: {
         if (!line || (!said && i > turn))
           return (
             <div key={h.id} className={styles.host}>
-              <Portrait who={h.id} name={h.name} size={size} crop={size >= 96 ? "bust" : "head"} expression={said ? "pleased" : "neutral"} />
+              <Portrait
+                who={h.id}
+                name={h.name}
+                size={size}
+                crop={size >= 96 ? "bust" : "head"}
+                expression={said ? "pleased" : "neutral"}
+                gesture={visit ? pickGesture({ who: h.id, tags: ["listen", "idle"], seed: `league|${visit}|${said?.line.text ?? "hello"}`, small: phone }) : "idle"}
+              />
             </div>
           );
-        return <Speech key={`${h.id}-${line.text}`} who={h.id} name={h.name} text={line.text} face={line.face} gesture={line.gesture} size={size} onDone={() => setTurn((t) => Math.max(t, i + 1))} className={styles.host} />;
+        const gesture = visit ? moodOf(line.text, { face: line.face, gesture: line.gesture }, { who: h.id, seed: `league|${visit}`, small: phone }).gesture : line.gesture;
+        return <Speech key={`${h.id}-${line.text}`} who={h.id} name={h.name} text={line.text} face={line.face} gesture={gesture} size={size} onDone={() => setTurn((t) => Math.max(t, i + 1))} className={styles.host} />;
       })}
     </div>
   );

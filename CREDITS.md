@@ -10,11 +10,11 @@ The logo, a pixel snake curled into a P, was drawn for this project (`lib/pixel/
 
 | Font | Use | Author | Licence |
 | --- | --- | --- | --- |
-| Tiny5 | The pixel face: titles, names, buttons, labels, the wordmark, certificates and share cards | The Tiny5 Project Authors | SIL OFL 1.1 |
+| Fredoka | The display face: titles, names, buttons, labels, the wordmark, certificates and share cards | The Fredoka Project Authors | SIL OFL 1.1 |
 | Atkinson Hyperlegible Next | Text and interface | Braille Institute of America | SIL OFL 1.1 |
 | JetBrains Mono | Code | JetBrains | SIL OFL 1.1 |
 
-All three come from Fontsource (`@fontsource/tiny5`, `@fontsource/atkinson-hyperlegible-next`, `@fontsource-variable/jetbrains-mono`); the server-drawn images use their static `.woff` files.
+All three come from Fontsource (`@fontsource/fredoka`, `@fontsource/atkinson-hyperlegible-next`, `@fontsource-variable/jetbrains-mono`); the server-drawn images use their static `.woff` files.
 
 ## Icons
 

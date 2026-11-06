@@ -1,8 +1,7 @@
 // What the server-drawn images (certificates and share cards) share: the fonts, the colours,
 // the pixel snake-P mark and the learner's pixel avatar. They're drawn with next/og, which reads
 // TTF, OTF and WOFF but not WOFF2, so the fonts come from the static .woff files in @fontsource.
-// An image has no CSS, so the colours are the values of the tokens in tokens.css. The pixel face
-// (Tiny5) is crisp only at multiples of 8 px, so every DISPLAY size in these images is one. Server only.
+// An image has no CSS, so the colours are the values of the tokens in tokens.css. Server only.
 import fs from "node:fs";
 import path from "node:path";
 import { MARK_GRID, markSvg } from "@/lib/pixel/mark";
@@ -20,21 +19,24 @@ export interface OgFont {
 
 let fonts: OgFont[] | null = null;
 
-/** Tiny5, the pixel face, for titles, names and numbers; Atkinson Hyperlegible Next for the rest. */
+/** Fredoka for titles, names and numbers; Atkinson Hyperlegible Next for the rest. */
 export function ogFonts(): OgFont[] {
   if (fonts) return fonts;
-  // Each path written out in full, so the production build's file tracing finds the files. Tiny5
-  // has one weight; it's registered at every weight the images ask for, so nothing is faked bold.
-  const tiny5 = fs.readFileSync(path.join(process.cwd(), "node_modules/@fontsource/tiny5/files/tiny5-latin-400-normal.woff"));
-  const tiny5Ext = fs.readFileSync(path.join(process.cwd(), "node_modules/@fontsource/tiny5/files/tiny5-latin-ext-400-normal.woff"));
+  // Each path written out in full, so the production build's file tracing finds the files. As on
+  // the site, Fredoka's semi-bold is its normal weight and its bold is bold.
+  const file = (f: string) => fs.readFileSync(path.join(process.cwd(), "node_modules/@fontsource", f));
   fonts = [
-    ...([400, 700, 800] as const).map((weight) => ({ name: "Display", weight, style: "normal" as const, data: tiny5 })),
-    { name: "Text", weight: 400, style: "normal", data: fs.readFileSync(path.join(process.cwd(), "node_modules/@fontsource/atkinson-hyperlegible-next/files/atkinson-hyperlegible-next-latin-400-normal.woff")) },
-    { name: "Text", weight: 700, style: "normal", data: fs.readFileSync(path.join(process.cwd(), "node_modules/@fontsource/atkinson-hyperlegible-next/files/atkinson-hyperlegible-next-latin-700-normal.woff")) },
+    { name: "Display", weight: 400, style: "normal", data: file("fredoka/files/fredoka-latin-600-normal.woff") },
+    { name: "Display", weight: 700, style: "normal", data: file("fredoka/files/fredoka-latin-700-normal.woff") },
+    { name: "Display", weight: 800, style: "normal", data: file("fredoka/files/fredoka-latin-700-normal.woff") },
+    { name: "Text", weight: 400, style: "normal", data: file("atkinson-hyperlegible-next/files/atkinson-hyperlegible-next-latin-400-normal.woff") },
+    { name: "Text", weight: 700, style: "normal", data: file("atkinson-hyperlegible-next/files/atkinson-hyperlegible-next-latin-700-normal.woff") },
     // Latin Extended, for names like Łukasz or Dvořák: a separate family, listed second in DISPLAY and TEXT.
-    ...([400, 700, 800] as const).map((weight) => ({ name: "DisplayExt", weight, style: "normal" as const, data: tiny5Ext })),
-    { name: "TextExt", weight: 400, style: "normal", data: fs.readFileSync(path.join(process.cwd(), "node_modules/@fontsource/atkinson-hyperlegible-next/files/atkinson-hyperlegible-next-latin-ext-400-normal.woff")) },
-    { name: "TextExt", weight: 700, style: "normal", data: fs.readFileSync(path.join(process.cwd(), "node_modules/@fontsource/atkinson-hyperlegible-next/files/atkinson-hyperlegible-next-latin-ext-700-normal.woff")) },
+    { name: "DisplayExt", weight: 400, style: "normal", data: file("fredoka/files/fredoka-latin-ext-600-normal.woff") },
+    { name: "DisplayExt", weight: 700, style: "normal", data: file("fredoka/files/fredoka-latin-ext-700-normal.woff") },
+    { name: "DisplayExt", weight: 800, style: "normal", data: file("fredoka/files/fredoka-latin-ext-700-normal.woff") },
+    { name: "TextExt", weight: 400, style: "normal", data: file("atkinson-hyperlegible-next/files/atkinson-hyperlegible-next-latin-ext-400-normal.woff") },
+    { name: "TextExt", weight: 700, style: "normal", data: file("atkinson-hyperlegible-next/files/atkinson-hyperlegible-next-latin-ext-700-normal.woff") },
   ];
   return fonts;
 }

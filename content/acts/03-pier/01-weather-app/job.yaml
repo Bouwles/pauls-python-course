@@ -51,7 +51,7 @@ datasets:
     source: "https://open-meteo.com/en/docs"
     licence: "CC BY 4.0 (https://open-meteo.com/en/licence)"
     file: daylight.json
-    notes: "Saved on 25 October 2026: three days of sunrise, sunset and daylight duration, for Paul's worked example. Indented for reading; no values changed."
+    notes: "Saved on 25 October 2026: three days of sunrise, sunset and daylight duration, for Paul's daylight board. Indented for reading; no values changed."
 client: riya
 building: pier
 estimated_minutes: 110

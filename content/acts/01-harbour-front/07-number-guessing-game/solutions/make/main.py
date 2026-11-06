@@ -8,12 +8,12 @@ guesses = 0
 # 2. Keep going until something stops it
 while True:
     # 3. Ask, and stop on the quit word
-    reply = input("Guess? ")
-    if reply == "q":
+    entry = input("Guess? ")
+    if entry == "q":
         print(f"It was {secret}.")
         break
     # 4. Skip a daft guess without counting it
-    guess = int(reply)
+    guess = int(entry)
     if guess < 1 or guess > 100:
         print("Between 1 and 100.")
         continue

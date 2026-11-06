@@ -38,7 +38,7 @@ downloadable: true
 datasets: []
 client: neil
 building: ferry-dock
-estimated_minutes: 45
+estimated_minutes: 50
 summary: "A menu that converts racing, flying and rocket speeds, so Neil can compare an F1 car with a jet."
 concepts_introduced: [bool, comparisons, if-elif-else, nested-conditions]
 concepts_reviewed: [print, input-returns-text, float-conversion, f-strings, variables, arithmetic]

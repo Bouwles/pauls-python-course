@@ -3,11 +3,18 @@
 // Morning Rounds (REDESIGN-2.md 6, REDESIGN3_PLAN.md): up to ten review cards, one at a time,
 // centred. Paul runs them: he says his rounds-start line as they begin, and stays at the top of the
 // page reacting to each answer with a face and a gesture that fit it, then sends you off at the end.
-// Each card shows the project its idea came from.
+// Each card shows the project its idea came from. His gestures are chosen per card and per visit
+// (lib/pixel/variety.ts), never the same twice running; when the rounds are done he celebrates in
+// person, head to toe (lib/pixel/figures.ts), with a dance, a cheer or a clap.
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import type { Card, Character, Concept, JobSummary } from "@/lib/content/types";
 import type { Expression, Pose } from "@/lib/pixel/people";
+import type { GestureTag } from "@/lib/pixel/gestures";
+import { pickGesture } from "@/lib/pixel/variety";
+import { pickAction } from "@/lib/moments";
+import { useVisit } from "@/lib/useVisit";
+import { PixelFigure } from "../art/PixelFigure";
 import { speakerFor } from "@/lib/cast";
 import { useSession } from "@/lib/store/session";
 import { useMedia } from "@/lib/useMedia";
@@ -39,12 +46,12 @@ interface Said {
   gesture: Pose;
 }
 
-/** How Paul takes each answer: a face, a gesture, and a few short lines to choose between. */
-const REACTIONS: Record<"right" | "second" | "retry" | "missed", { face: Expression; gesture: Pose; lines: string[] }> = {
-  right: { face: "pleased", gesture: "thumbs", lines: ["Straight from memory. Good.", "That one's stuck.", "Right, and no hesitating.", "You didn't even need to think about that one."] },
-  second: { face: "pleased", gesture: "idle", lines: ["Got there. It'll come back a little sooner.", "Second go counts. It's nearly stuck.", "There it is. Slower than you'd like, but there."] },
-  retry: { face: "thinking", gesture: "think", lines: ["Not quite. Slow down and try once more.", "Read it again, the way Python would. Line by line.", "Look at it one more time. It's in there."] },
-  missed: { face: "thinking", gesture: "idle", lines: ["No harm done. That one comes round again soon.", "That's what Rounds are for. You'll see it again tomorrow.", "Read the answer once. It'll be back before long."] },
+/** How Paul takes each answer: a face, what his gesture is for, and a few short lines to choose between. */
+const REACTIONS: Record<"right" | "second" | "retry" | "missed", { face: Expression; tags: GestureTag[]; lines: string[] }> = {
+  right: { face: "pleased", tags: ["approve", "celebrate"], lines: ["Straight from memory. Good.", "That one's stuck.", "Right, and no hesitating.", "You didn't even need to think about that one."] },
+  second: { face: "pleased", tags: ["approve", "encourage"], lines: ["Got there. It'll come back a little sooner.", "Second go counts. It's nearly stuck.", "There it is. Slower than you'd like, but there."] },
+  retry: { face: "thinking", tags: ["encourage", "think"], lines: ["Not quite. Slow down and try once more.", "Read it again, the way Python would. Line by line.", "Look at it one more time. It's in there."] },
+  missed: { face: "thinking", tags: ["encourage", "listen"], lines: ["No harm done. That one comes round again soon.", "That's what Rounds are for. You'll see it again tomorrow.", "Read the answer once. It'll be back before long."] },
 };
 
 export function Rounds({ concepts, jobs, characters }: { concepts: Record<string, Concept>; jobs: Record<string, JobSummary>; characters: Record<string, Character> }) {
@@ -57,6 +64,7 @@ export function Rounds({ concepts, jobs, characters }: { concepts: Record<string
   const [reaction, setReaction] = useState<Said | null>(null);
   const [said, setSaid] = useState(0);
   const phone = useMedia("(max-width: 720px)");
+  const visit = useVisit();
   const coach = speakerFor("rounds-start");
   const coachName = nameOf(characters, coach);
   const finished = plan !== null && index >= plan.length;
@@ -83,12 +91,15 @@ export function Rounds({ concepts, jobs, characters }: { concepts: Record<string
 
   const current = plan?.[index];
 
-  /** Paul reacts to every go: a new line, a new face. The lines take turns so none repeats twice running. */
+  /** Paul reacts to every go: a new line, a new face, a new gesture. The lines take turns so none repeats twice running. */
   const react = (kind: keyof typeof REACTIONS) => {
     const r = REACTIONS[kind];
-    setReaction({ text: r.lines[said % r.lines.length]!, face: r.face, gesture: r.gesture });
+    const gesture = pickGesture({ who: coach, tags: r.tags, face: r.face, seed: `rounds|${visit}|${index}|${said}`, avoid: [reaction?.gesture], small: phone });
+    setReaction({ text: r.lines[said % r.lines.length]!, face: r.face, gesture });
     setSaid((n) => n + 1);
   };
+  /** A gesture for one of his own lines (hello, goodbye, well done), this visit's. */
+  const gestureFor = (tags: GestureTag[], key: string) => pickGesture({ who: coach, tags, seed: `rounds|${visit}|${key}`, small: phone });
 
   const onAttempt = (correct: boolean, attempt: number) => {
     if (correct) react(attempt === 1 ? "right" : "second");
@@ -120,7 +131,7 @@ export function Rounds({ concepts, jobs, characters }: { concepts: Record<string
     return (
       <div className={styles.rounds}>
         <h1 className={styles.title}>Morning Rounds</h1>
-        <Speech who={coach} name={coachName} text={NOTHING_DUE} face="pleased" gesture="wave" size={size} className={styles.host} />
+        <Speech who={coach} name={coachName} text={NOTHING_DUE} face="pleased" gesture={gestureFor(["greet", "bye"], "nothing")} size={size} className={styles.host} />
         <div className={`px-panel ${styles.emptyCard}`}>
           <p className={styles.quiet}>Each idea comes back a day or two after you first use it, then less and less often as it sticks.</p>
           <LinkButton href="/map" variant="primary">
@@ -134,21 +145,37 @@ export function Rounds({ concepts, jobs, characters }: { concepts: Record<string
   if (finished) {
     const firstTime = outcomes.filter((o) => o.correct && o.attempts === 1).length;
     const held = shaky.length === 0;
+    const doneBy = speakerFor("rounds-done");
+    // Every one held: a dance or a cheer. Otherwise a cheer or a clap. This visit's.
+    const party = pickAction({ who: doneBy, tags: ["celebrate"], seed: `rounds-done|${visit}`, only: held ? ["dance", "cheer"] : ["cheer", "clap"] });
     return (
       <div className={styles.rounds}>
         <h1 className={styles.title}>Rounds done</h1>
-        {closing ? <Speech who={speakerFor("rounds-done")} name={nameOf(characters, speakerFor("rounds-done"))} text={closing} face={held ? "proud" : "pleased"} gesture={held ? "cheer" : "thumbs"} size={size} className={styles.host} /> : null}
+        {closing ? (
+          <Speech
+            who={doneBy}
+            name={nameOf(characters, doneBy)}
+            text={closing}
+            face={held ? "proud" : "pleased"}
+            gesture={pickGesture({ who: doneBy, tags: held ? ["celebrate", "approve"] : ["approve", "encourage", "bye"], seed: `rounds|${visit}|closing`, small: phone })}
+            size={size}
+            className={styles.host}
+          />
+        ) : null}
         <div className={`px-panel ${styles.score}`}>
-          <p className={styles.scoreBig}>
-            {firstTime}
-            <span className={styles.scoreOf}> of {outcomes.length}</span>
-          </p>
-          <p className={styles.scoreText}>right first time. {held ? "Every one held." : `${shaky.length} needed a second look.`}</p>
-          <ol className={styles.tally} aria-hidden="true">
-            {outcomes.map((o, i) => (
-              <li key={i} className={o.correct && o.attempts === 1 ? styles.tallyRight : o.correct ? styles.tallySecond : styles.tallyMissed} />
-            ))}
-          </ol>
+          <div className={styles.scoreBody}>
+            <p className={styles.scoreBig}>
+              {firstTime}
+              <span className={styles.scoreOf}> of {outcomes.length}</span>
+            </p>
+            <p className={styles.scoreText}>right first time. {held ? "Every one held." : `${shaky.length} needed a second look.`}</p>
+            <ol className={styles.tally} aria-hidden="true">
+              {outcomes.map((o, i) => (
+                <li key={i} className={o.correct && o.attempts === 1 ? styles.tallyRight : o.correct ? styles.tallySecond : styles.tallyMissed} />
+              ))}
+            </ol>
+          </div>
+          <PixelFigure who={doneBy} action={party} scale={2} className={styles.scoreFigure} />
         </div>
         {shaky.length ? (
           <section className={`px-panel ${styles.shaky}`} aria-labelledby="shaky-title">
@@ -187,7 +214,7 @@ export function Rounds({ concepts, jobs, characters }: { concepts: Record<string
 
   const job = current!.job;
   const done = index + (answered ? 1 : 0);
-  const line: Said | null = reaction ?? (opening ? { text: opening, face: "pleased", gesture: "wave" } : null);
+  const line: Said | null = reaction ?? (opening ? { text: opening, face: "pleased", gesture: gestureFor(["greet"], "opening") } : null);
   return (
     <div className={styles.rounds}>
       <header className={styles.head}>

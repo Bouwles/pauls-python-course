@@ -47,7 +47,6 @@ ask:
     - aaesha.thinking: "I'd like a machine that reads them, and finishes a note when you start one. In his voice."
     - paul.thinking: "And when it finishes one I never wrote?"
     - aaesha.pleased: "Then we'll know how well it learnt you. How you sound, anyway. Not what you mean."
-    - caitlin.laughing: "I can do his voice. Name it properly. P."
   spec: |
     The Notebook Reader, in four files, built in this order. Each starter is almost empty: a docstring listing what to write.
 
@@ -66,7 +65,6 @@ ship:
     - aaesha.proud: "Perplexity 6.6 on notes it never saw. The bigram managed 10.7, and guessing 55."
     - neil.laughing: "Start a note with the duck, and it writes: 'The duck.' Full stop. It's learnt that the duck never says anything."
     - yahya.unimpressed: "Ask it for the likeliest every time and it says 'the code it has not' for ever. Like the clock."
-    - aaesha.thinking: "It sounds like him and doesn't think like him. Now we can measure the gap."
     - paul.pleased.thumbs: "It's learnt how I sound. Nobody's learnt what I mean. Not yet."
   shelf: { object: lectern, label: "Paul's Notebook Reader" }
   cards: []

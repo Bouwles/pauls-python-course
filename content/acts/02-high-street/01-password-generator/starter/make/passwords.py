@@ -25,6 +25,7 @@ def has_any(text, chars):
 
 
 # make_password(length=12, digits=True, symbols=False, avoid_lookalikes=True)
+#   Give each setting a default
 #   Say what it does, in a docstring
 #   Collect the kinds of character to use
 #   Make the pool, leaving out LOOKALIKES if asked
@@ -33,14 +34,15 @@ def has_any(text, chars):
 
 
 # make_passphrase(words=4, sep="-", capitalise=False)
+#   Give each setting a default
 #   Say what it does, in a docstring
 #   Pick each word with secrets.choice, then join them with sep
 
 
 # make_passwords(*names, issued=None, **options)
+#   Gather any number of names with *
 #   Say what it does, in a docstring
 #   A new dictionary when none is given
-#   Gather any number of names with *
 #   Pass the options straight on with **
 
 

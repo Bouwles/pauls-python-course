@@ -1,0 +1,8 @@
+/* A full-body pixel figure (PixelFigure.tsx): crisp at whole-number scales, never smoothed. It
+   stands still and level: the only motion is the action's own frames, drawn on the canvas. */
+.figure {
+  display: block;
+  flex: none;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}

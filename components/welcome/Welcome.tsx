@@ -2,7 +2,8 @@
 
 // /welcome, for a new learner: Paul says hello, then their name, their avatar (REDESIGN-2.md 7.3),
 // and whether they've written code before, which decides where they start: the first project, or
-// the placement test. Their new avatar waves them off when they save.
+// the placement test. Their new avatar waves them off when they save. Paul's gesture and the
+// avatar's goodbye are this visit's (lib/pixel/variety.ts).
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "@/lib/store/session";
@@ -11,11 +12,16 @@ import type { ProfileRow } from "@/lib/store/types";
 import { PROFESSOR } from "@/lib/cast";
 import { prefersReducedMotion } from "@/lib/display";
 import { useMedia } from "@/lib/useMedia";
+import { moodOf } from "@/lib/mood";
+import { pickGesture } from "@/lib/pixel/variety";
+import { useVisit } from "@/lib/useVisit";
 import { PixelPerson } from "../art/PixelPerson";
 import { Speech } from "../art/Speech";
 import { Button } from "../ui/Button";
 import { AvatarCreator } from "./AvatarCreator";
 import styles from "./Welcome.module.css";
+
+const HELLO = "Welcome to the Clocktower. Tell me what to call you, then make yourself an avatar. I'll find you a desk.";
 
 const EXPERIENCE: [NonNullable<ProfileRow["experience"]>, string, string][] = [
   ["none", "No, never", "Start at the beginning. The first project takes about twenty minutes."],
@@ -32,6 +38,8 @@ export function Welcome() {
   const [saving, setSaving] = useState(false);
   const loaded = useRef(false);
   const phone = useMedia("(max-width: 720px)");
+  const visit = useVisit();
+  const bye = pickGesture({ tags: ["bye", "greet"], seed: `welcome-bye|${visit}` });
 
   useEffect(() => {
     if (!ready || loaded.current) return;
@@ -60,7 +68,15 @@ export function Welcome() {
         <p className={styles.lede}>Your name, your avatar, and how much code you&apos;ve written. It takes a minute, and you can change all of it later in Settings.</p>
       </header>
 
-      <Speech who={PROFESSOR} name="Paul" text="Welcome to the Clocktower. Tell me what to call you, then make yourself an avatar. I'll find you a desk." face="pleased" gesture="wave" size={phone ? 72 : 108} className={styles.host} />
+      <Speech
+        who={PROFESSOR}
+        name="Paul"
+        text={HELLO}
+        face="pleased"
+        gesture={visit ? moodOf(HELLO, { face: "pleased", gesture: "wave" }, { who: PROFESSOR, seed: `welcome|${visit}`, small: phone }).gesture : "wave"}
+        size={phone ? 72 : 108}
+        className={styles.host}
+      />
 
       <section className={styles.section} aria-labelledby="w-name">
         <h2 id="w-name" className={styles.h2}>
@@ -103,7 +119,7 @@ export function Welcome() {
       <div className={styles.go}>
         {/* Their avatar, ready by the door: it waves when they save. */}
         <span className={`px-panel ${styles.ready}`} style={{ background: look.colour }} aria-hidden="true">
-          <PixelPerson avatar={look} crop="bust" scale={2} expression={saving ? "pleased" : complete ? "pleased" : "neutral"} pose={saving ? "wave" : "idle"} />
+          <PixelPerson avatar={look} crop="bust" scale={2} expression={saving ? "pleased" : complete ? "pleased" : "neutral"} pose={saving ? bye : "idle"} />
         </span>
         <div className={styles.goText}>
           <Button type="button" variant="primary" className={styles.submit} onClick={() => void start()} disabled={saving || !complete}>

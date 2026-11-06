@@ -4,11 +4,11 @@ secret = random.randint(1, 100)
 guesses = 0
 
 while True:
-    reply = input("Guess? ")
-    if reply == "q":
+    entry = input("Guess? ")
+    if entry == "q":
         print(f"It was {secret}.")
         break
-    guess = int(reply)
+    guess = int(entry)
     if guess < 1 or guess > 100:
         print("Between 1 and 100.")
         continue

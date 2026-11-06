@@ -67,15 +67,14 @@ ask:
     - aaesha.thinking.point: "In code, that's k nearest neighbours. We'll try it on three kinds of penguin, and Fisher's irises."
     - riya.pleased: "Done it. One nearest penguin. Ninety-seven per cent on the penguins it learnt from."
     - aaesha.unimpressed: "Every penguin it learnt from is its own nearest penguin."
-    - riya.worried: "So it was remembering, not naming. That's why it felt suspicious."
   spec: |
     `penguins.csv` holds 342 real penguins of three species from Palmer Station in Antarctica, Adelie, Chinstrap and Gentoo, with bill length and depth, flipper length and body mass. `iris.csv` holds Fisher's 150 irises of three species, with four measurements each.
 
-    In `classifier.py`, name the species with k nearest neighbours, from scratch:
+    In `classifier.py`, name the species from the named animals most like it, from scratch:
 
     1. Load the `MEASUREMENTS` columns of `DATASET`. Lock a fifth of the rows away for testing, and split the rest into training and validation.
     2. Scale every measurement with the training rows' ruler.
-    3. For each k, score the vote of the k nearest training rows, on the training rows and on the validation rows. Choose the k that does best on validation.
+    3. For each number of neighbours, k, let the k nearest training rows vote, and score the votes on the training rows and on the validation rows. Choose the k that does best on validation.
     4. Open the test rows once. Then name the species of `NEW`.
 
     It starts with the penguins, by flipper length and body mass. The same code must work on the irises.

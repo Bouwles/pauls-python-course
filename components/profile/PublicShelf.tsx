@@ -1,11 +1,15 @@
-// A learner's public page (/u/<address>): their pixel avatar, waving hello, their name, and what
-// they've shipped, by Act, each with the classmate it was made for, pleased with it. Nothing
-// private: no code here, no dates, no times. Each project links to its own page.
+// A learner's public page (/u/<address>): their pixel avatar, saying hello, their name, and what
+// they've shipped, by Act, each with the classmate it was made for, pleased with it, each in a
+// mood of their own. Nothing private: no code here, no dates, no times. Each project links to
+// its own page.
 import Link from "next/link";
 import { BRAND } from "@/lib/brand";
 import { CAST_IDS, castColour, floorFor } from "@/lib/cast";
 import { avatarBackground } from "@/lib/pixel/looks";
+import type { Expression } from "@/lib/pixel/people";
+import { oneOf } from "@/lib/moments";
 import { PixelPerson } from "../art/PixelPerson";
+import { PublicAvatar } from "./PublicAvatar";
 import { ShelfObject } from "../art/ShelfObject";
 import styles from "./PublicShelf.module.css";
 
@@ -16,12 +20,15 @@ export interface PublicAct {
   items: { jobId: string; name: string; client: string; clientName: string }[];
 }
 
+/** How the classmates look at what was made for them: pleased, each in their own way. */
+const PLEASED: Expression[] = ["pleased", "laughing", "proud", "excited", "relieved"];
+
 export function PublicShelf({ name, character, shipped, acts, slug }: { name: string; character: unknown; shipped: number; acts: PublicAct[]; slug?: string }) {
   return (
     <div className={styles.layout}>
       <header className={styles.who}>
         <span className={`px-panel ${styles.avatar}`} style={{ background: avatarBackground(character) }}>
-          <PixelPerson avatar={character} crop="bust" scale={3} expression="pleased" pose="wave" label={`${name}'s avatar`} />
+          <PublicAvatar character={character} name={name} />
         </span>
         <div className={styles.text}>
           <h1 className={styles.name}>{name}</h1>
@@ -46,7 +53,7 @@ export function PublicShelf({ name, character, shipped, acts, slug }: { name: st
                   <>
                     {(CAST_IDS as readonly string[]).includes(i.client) ? (
                       <span className={styles.client} style={{ background: castColour(i.client).face }} aria-hidden="true">
-                        <PixelPerson who={i.client} crop="head" scale={2} expression="pleased" />
+                        <PixelPerson who={i.client} crop="head" scale={2} expression={oneOf(PLEASED, `${slug ?? name}|${i.jobId}`)} />
                       </span>
                     ) : (
                       <ShelfObject jobId={i.jobId} title={i.name} client={i.client} size={64} />

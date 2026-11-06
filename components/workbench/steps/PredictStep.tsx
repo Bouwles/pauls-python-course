@@ -8,7 +8,7 @@ import { recordMisconception } from "@/lib/store/progress";
 import { Button } from "../../ui/Button";
 import { Icon } from "../../ui/Icon";
 import { CodeWorkspace } from "../CodeWorkspace";
-import { Instructions } from "../Instructions";
+import { Instructions, StepAction } from "../Instructions";
 import { useWorkbench } from "../context";
 import { NextRow, Prose, isDone } from "./common";
 import styles from "./steps.module.css";
@@ -95,11 +95,11 @@ export function PredictStepView({ step, row }: { step: PredictStep; row: StepPro
           </fieldset>
         )}
         {!committed ? (
-          <div>
+          <StepAction>
             <Button variant="primary" onClick={() => void commit()} disabled={step.kind === "typed" ? !typed.trim() : !choice}>
               Lock in my answer
             </Button>
-          </div>
+          </StepAction>
         ) : (
           <div ref={feedbackRef} className={[styles.feedback, correct ? styles.feedbackGood : styles.feedbackBad].join(" ")} role="status">
             <p className={styles.feedbackTitle}>

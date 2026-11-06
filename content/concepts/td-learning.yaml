@@ -1,7 +1,7 @@
 id: td-learning
 title: Temporal difference learning
 summary: |
-  TD(0) learns after every step, without waiting for the episode to end. The **TD target** is the reward just received plus `gamma` times the next state's current estimate (just the reward, if the episode is over). The estimate moves a fraction `alpha` of the way towards it: `V[s] += alpha * (target - V[s])`. Target minus the old estimate is the **TD error**. TD learns a guess from a guess, so news of a reward travels back one state per visit, and with a fixed `alpha` the estimates keep wobbling a little.
+  TD(0) learns after every step, without waiting for the episode to end. The **TD target** is the reward just received plus `gamma` times the next state's current estimate (just the reward, if the episode is over). The estimate moves a fraction `alpha` (the Greek letter α, a number from 0 to 1) of the way towards it: `V[s] += alpha * (target - V[s])`. Target minus the old estimate is the **TD error**. TD learns a guess from a guess, so news of a reward travels back one state per visit, and with a fixed `alpha` the estimates keep wobbling a little.
 example: |
   values = {(1, 2): 0.0, (0, 2): 8.0}
   alpha, gamma = 0.5, 0.9

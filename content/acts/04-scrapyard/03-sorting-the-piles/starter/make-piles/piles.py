@@ -19,7 +19,7 @@ def insertion_sort(laps, frames=None):
     """
     # Take each one in turn, from the second
     # Pick it up
-    # While the one to its left is slower, move that one right
+    # While the one to its left belongs after it, move that one right
     # Put it down in the gap
 
 

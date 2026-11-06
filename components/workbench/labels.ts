@@ -1,20 +1,22 @@
-// The step bar's names (REDESIGN-2.md 4.2): a short name for what kind of step it is. The
-// step's own title is in the instructions panel and is each pill's accessible description.
+// The step bar's names: a plain name for what you do on each kind of step, never teaching jargon
+// (the owner found "Predict" and "Investigate" confusing). The step's own title is in the
+// instructions panel and is each pill's accessible description.
 import type { Character, Line, Step } from "@/lib/content/types";
 import type { CoachKind, Utterance } from "./context";
 
 const KIND: Record<Step["type"], string> = {
-  ask: "Ask",
-  predict: "Predict",
-  investigate: "Investigate",
+  ask: "The brief",
+  learn: "Learn",
+  predict: "Quick check",
+  investigate: "Try it",
   worked: "Example",
-  pips: "Fix their version",
-  parsons: "Arrange",
-  modify: "Modify",
-  make: "Build",
-  fix: "Fix",
-  ship: "Ship",
-  concept: "Picture it",
+  pips: "Fix their code",
+  parsons: "Put in order",
+  modify: "Change it",
+  make: "Build it",
+  fix: "Fix it",
+  ship: "Ship it",
+  concept: "See it",
   reading: "Read",
   explain: "Explain",
   git: "Terminal",
@@ -33,20 +35,56 @@ export function classmateOf(step: Step | null): string | null {
   return step.dialogue.find((l) => isSpoken(l.who))?.who ?? null;
 }
 
-/** "Predict", "Example", "Fix Caitlin's version", "Build". */
+/** "Learn", "Quick check", "Fix Caitlin's code", "Build it". */
 export function stepLabel(step: Step, characters: Record<string, Character>): string {
   if (step.type === "make" && step.stretch) return "Stretch";
   if (step.type === "pips") {
     const who = classmateOf(step);
     const name = who ? (characters[who]?.name ?? who) : null;
-    return name ? `Fix ${name.split(" ")[0]}'s version` : KIND.pips;
+    return name ? `Fix ${name.split(" ")[0]}'s code` : KIND.pips;
   }
   return KIND[step.type];
 }
 
+/**
+ * What to do on a step, in two or three short plain actions, shown under its title on every step
+ * of that kind, so nobody has to work out what a step wants from its name. Short enough to sit on
+ * a line or two above the explanation. `compact` is the phone layout, where the code is in its own
+ * tab rather than on the right.
+ */
+export function howTo(step: Step, characters: Record<string, Character>, { compact = false }: { compact?: boolean } = {}): string[] {
+  const there = compact ? "in the Code tab" : "on the right";
+  switch (step.type) {
+    case "learn":
+      return step.code ? ["Read this.", `Run the example ${there}, and change it if you like.`, "Press Got it."] : ["Read this.", "Press Got it."];
+    case "predict":
+      return [`Read the code ${there}.`, "Pick what it prints and lock it in.", "Run it to see."];
+    case "investigate":
+      return ["Do the tasks in order.", "Run or change the code as each one asks.", "Type what you see and check it."];
+    case "worked":
+      // Some examples aren't Python (a traceback, say): nothing to run, only to read.
+      return step.language === "python" ? ["Read it label by label.", "Press Run to see it work.", "Answer the question underneath."] : ["Read it from the top, label by label.", "Answer the question underneath."];
+    case "pips": {
+      const who = classmateOf(step);
+      const name = who ? (characters[who]?.name ?? who).split(" ")[0] : null;
+      return [name ? `Run ${name}'s code.` : "Run their code.", "Find the mistake and fix it.", "Press Check."];
+    }
+    case "fix":
+      return ["Run it and see what goes wrong.", "Fix the mistake.", "Press Check."];
+    case "modify":
+      return ["Run it to see what it does now.", "Make the change below.", "Press Check."];
+    case "make":
+      return ["Write the program.", "Run it as you go.", "Press Check when it's done, or Hint if you're stuck."];
+    case "parsons":
+      return ["Put the lines in order.", "Indent the ones that go inside another.", "Press Check."];
+    default:
+      return [];
+  }
+}
+
 /** Steps whose right-hand side is the code editor (and so get the Code and Output tabs on a phone). */
 export function usesEditor(step: Step | null): boolean {
-  return Boolean(step && ["predict", "investigate", "pips", "fix", "modify", "make"].includes(step.type));
+  return Boolean(step && (["predict", "investigate", "pips", "fix", "modify", "make"].includes(step.type) || (step.type === "learn" && step.code)));
 }
 
 let said = 0;

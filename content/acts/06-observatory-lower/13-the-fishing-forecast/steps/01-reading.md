@@ -3,7 +3,7 @@ id: reading
 type: reading
 title: The brief
 dialogue:
-  - paul.neutral.point: "Two Makes, then the write-up. The write-up's half the job."
+  - paul.neutral.point: "Two Builds, then the write-up. The write-up's half the job."
   - caitlin.unimpressed: "The boring half."
   - paul.pleased: "The half anyone else will read."
 ---
@@ -12,5 +12,5 @@ The fleet's log is in `fishing.csv`: every day from 2023 to 2025. Each row has w
 Three rules hold for the whole job:
 
 1. **Only what's known at dawn.** The forecast is made before the boats leave.
-2. **2025 is in the drawer.** Weather comes in spells, so a shuffled split would test each day beside its twin from the same week. Learn from 2023 and 2024; open 2025 once, at the end.
-3. **Beat the baselines.** The skipper's own rule, a tide range of 4 m or more and under 20 knots, and always saying no.
+2. **2025 is in the drawer.** Weather comes in spells, so a shuffled split would test each day beside its near twin from the same week. Split by time instead: learn from 2023 and 2024, and open 2025 once, at the end.
+3. **Beat the baselines.** The skipper's own rule and always saying no, both explained next.

@@ -10,6 +10,7 @@
 
 import { FLOORS } from "../cast";
 import { mix, type Expression, type Pose } from "./people";
+import type { View } from "./figures";
 
 export type RoomState = "locked" | "open" | "busy";
 
@@ -275,27 +276,31 @@ function pendant(c: Ctx, x: number, drop = 4, shade = "#3b4150") {
   b.set(x, y + 4, c.locked ? C.bulbOff : C.bulb, !c.locked);
 }
 
-/** A desk in front of where someone sits: the top, a front panel, a drawer. In the front layer. */
+/**
+ * A desk in front of where someone sits: the top, a front panel, a drawer. In the front layer,
+ * drawn with its top on row 41 like everything on it; the whole front layer is then lowered by
+ * DESK_DROP (drawRoom), so it reaches the bottom of the room.
+ */
 function desk(c: Ctx, x: number, w: number, top = C.woodLight, front = C.wood) {
   const { f } = c;
   const y = 41;
-  f.box(x, y, w, 13, front, { hi: false });
+  f.box(x, y, w, 11, front, { hi: false });
   f.hl(x + 1, x + w - 2, y + 1, lt(top, 0.25));
   f.hl(x + 1, x + w - 2, y + 2, top);
   f.hl(x + 1, x + w - 2, y + 3, dk(top, 0.3));
   f.hl(x, x + w - 1, y + 4, OUT);
   // A drawer on the right, a panel line on the left.
-  f.box(x + w - 16, y + 6, 12, 5, front, { hi: lt(front, 0.15) });
-  f.hl(x + w - 12, x + w - 9, y + 8, OUT);
-  f.vl(x + 4, y + 6, y + 10, dk(front, 0.25));
+  f.box(x + w - 16, y + 5, 12, 5, front, { hi: lt(front, 0.15) });
+  f.hl(x + w - 12, x + w - 9, y + 7, OUT);
+  f.vl(x + 4, y + 6, y + 9, dk(front, 0.25));
   f.hl(x + 4, x + w - 20, y + 6, dk(front, 0.25));
 }
 
 /** A chair's back, behind where someone sits (hidden once they do). */
 function chair(c: Ctx, cx: number, col = "#3d3a4a") {
   if (c.locked) return;
-  c.b.box(cx - 7, 27, 15, 15, col, { round: true, hi: false });
-  c.b.box(cx - 5, 29, 11, 10, lt(col, 0.18), { line: dk(col, 0.45), hi: lt(col, 0.4), lo: false, round: true });
+  c.b.box(cx - 7, 27 + DESK_DROP, 15, 15, col, { round: true, hi: false });
+  c.b.box(cx - 5, 29 + DESK_DROP, 11, 10, lt(col, 0.18), { line: dk(col, 0.45), hi: lt(col, 0.4), lo: false, round: true });
 }
 
 /**
@@ -438,8 +443,9 @@ interface RoomDef {
   residents: Spot[];
 }
 
-// Who sits where. People are 48x52; the desk's top hides everything below their shoulders.
-const AT_DESK = 2;
+// Who sits where. People are 48x52; the desk's top (row 45, once lowered) hides them from the
+// middle of the chest down, so hands and what they hold at chest height show above it.
+const AT_DESK = 1;
 
 const ROOMS: Record<number, RoomDef> = {
   // Paul's classroom: the chalkboard, the big desk, the duck.
@@ -1158,13 +1164,13 @@ const ROOMS: Record<number, RoomDef> = {
       }
       // The prize counter they lean on, glass at the front.
       const { f } = c;
-      f.box(44, 41, 92, 13, "#2b2550", { hi: false });
+      f.box(44, 41, 92, 11, "#2b2550", { hi: false });
       f.hl(45, 134, 42, "#c9a0e8"), f.hl(45, 134, 43, "#8a66b8"), f.hl(44, 135, 44, OUT);
-      f.rect(47, 46, 86, 6, "#1b2a44", true);
+      f.rect(47, 46, 86, 4, "#1b2a44", true);
       for (const [x, col] of [[52, C.pink], [62, C.yellow], [74, C.teal], [86, C.red], [98, C.green], [110, C.purple], [122, C.orange]] as const) {
-        f.box(x, 48, 5, 4, col, { round: true, hi: lt(col, 0.3), lo: false, lit: true });
+        f.box(x, 46, 5, 4, col, { round: true, hi: lt(col, 0.3), lo: false, lit: true });
       }
-      for (let x = 50; x < 132; x += 14) f.line(x, 51, x + 3, 46, "#3d5a80", true);
+      for (let x = 50; x < 132; x += 14) f.line(x, 49, x + 3, 46, "#3d5a80", true);
       // A ticket stub and a bell.
       f.box(126, 38, 6, 3, C.yellow, { hi: false });
       f.disc(52, 39, 2, C.brass), f.hl(50, 54, 41, OUT), f.set(52, 36, OUT);
@@ -1174,12 +1180,12 @@ const ROOMS: Record<number, RoomDef> = {
   // The roof: the clock, the city at night, string lights, the whole class.
   9: {
     residents: [
-      { who: "riya", x: -4, y: 34, work: "pleased", moments: [{ pose: "wave", expression: "pleased" }, { pose: "point", expression: "talking", talking: true }] },
-      { who: "yahya", x: 116, y: 35, work: "neutral", moments: [{ pose: "thumbs", expression: "proud" }, { pose: "think", expression: "thinking" }] },
-      { who: "caitlin", x: 18, y: 36, work: "laughing", moments: [{ pose: "cheer", expression: "laughing" }, { pose: "point", expression: "talking", talking: true }] },
-      { who: "aaesha", x: 94, y: 36, work: "pleased", moments: [{ pose: "wave", expression: "pleased" }, { pose: "idle", expression: "laughing" }] },
-      { who: "neil", x: 70, y: 35, work: "pleased", moments: [{ pose: "cheer", expression: "laughing" }, { pose: "thumbs", expression: "pleased" }] },
-      { who: "paul", x: 43, y: 35, work: "proud", moments: [{ pose: "point", expression: "talking", talking: true }, { pose: "wave", expression: "pleased" }] },
+      { who: "riya", x: -4, y: 30, work: "pleased", moments: [{ pose: "wave", expression: "pleased" }, { pose: "point", expression: "talking", talking: true }] },
+      { who: "yahya", x: 116, y: 31, work: "neutral", moments: [{ pose: "thumbs", expression: "proud" }, { pose: "think", expression: "thinking" }] },
+      { who: "caitlin", x: 18, y: 32, work: "laughing", moments: [{ pose: "cheer", expression: "laughing" }, { pose: "point", expression: "talking", talking: true }] },
+      { who: "aaesha", x: 94, y: 32, work: "pleased", moments: [{ pose: "wave", expression: "pleased" }, { pose: "idle", expression: "laughing" }] },
+      { who: "neil", x: 70, y: 31, work: "pleased", moments: [{ pose: "cheer", expression: "laughing" }, { pose: "thumbs", expression: "pleased" }] },
+      { who: "paul", x: 43, y: 31, work: "proud", moments: [{ pose: "point", expression: "talking", talking: true }, { pose: "wave", expression: "pleased" }] },
     ],
     draw(c) {
       const { b, h } = c;
@@ -1308,18 +1314,20 @@ function lights(c: Ctx, x0: number, y0: number, x1: number, y1: number) {
 }
 
 /** The roof's railing, in front of whoever is up there. */
+/** The roof's parapet, low enough that what the class holds up shows over it. */
 function railing(f: Layer, h: number) {
   const stone = "#b7aea0";
-  f.box(0, 77, W, h - 77, dk(stone, 0.12), { hi: false, lo: false });
-  for (let y = 77; y < h - 1; y++) {
-    const course = Math.floor((y - 77) / 4);
+  const top = 77;
+  f.box(0, top + 4, W, h - top - 4, dk(stone, 0.12), { hi: false, lo: false });
+  for (let y = top + 4; y < h - 1; y++) {
+    const course = Math.floor((y - top - 4) / 4);
     for (let x = 1; x < W - 1; x++) {
-      if ((y - 77) % 4 === 3) f.set(x, y, dk(stone, 0.32));
+      if ((y - top - 4) % 4 === 3) f.set(x, y, dk(stone, 0.32));
       else if ((x + (course % 2) * 6) % 12 === 0) f.set(x, y, dk(stone, 0.32));
-      else if ((y - 77) % 4 === 0) f.set(x, y, lt(stone, 0.08));
+      else if ((y - top - 4) % 4 === 0) f.set(x, y, lt(stone, 0.08));
     }
   }
-  f.box(0, 73, W, 5, stone, { hi: lt(stone, 0.35), lo: dk(stone, 0.2) });
+  f.box(0, top, W, 5, stone, { hi: lt(stone, 0.35), lo: dk(stone, 0.2) });
 }
 
 // ---------------------------------------------------------------- drawing a room
@@ -1340,12 +1348,33 @@ export interface RoomOptions {
 
 export const STUCK_CLOCK = { h: 3, m: 14 };
 
+/**
+ * How far below where they're drawn the desks and counters stand: low enough that the hands and
+ * whatever they hold at chest height show above them (a mug, a laptop, a rocket), with the
+ * residents sitting a row higher too.
+ */
+const DESK_DROP = 4;
+
+/** Move a layer's pixels down `dy` rows; what goes off the bottom is gone. */
+function lower(L: Layer, dy: number) {
+  for (let y = L.h - 1; y >= 0; y--)
+    for (let x = 0; x < L.w; x++) {
+      const i = y * L.w + x;
+      const from = y - dy;
+      L.c[i] = from >= 0 ? L.c[from * L.w + x]! : null;
+      L.lit[i] = from >= 0 ? L.lit[from * L.w + x]! : 0;
+    }
+}
+
 /** Draw a floor's room in a state: the back layer and the front layer. */
 export function drawRoom(act: number, state: RoomState, { frame = 0, clock = STUCK_CLOCK }: RoomOptions = {}): DrawnRoom {
   const h = roomHeight(act);
   const def = ROOMS[act] ?? ROOMS[1]!;
   const c: Ctx = { b: new Layer(W, h), f: new Layer(W, h), h, locked: state === "locked", busy: state === "busy", frame: ((frame % 8) + 8) % 8, clock, after: [] };
   def.draw(c);
+  // Desks and counters, and everything on them, sit lower than they're drawn (not the roof's
+  // parapet, which is placed where it goes).
+  if (act < FLOORS.length) lower(c.f, DESK_DROP);
   if (c.locked) {
     c.b.darken();
     c.f.darken();
@@ -1357,6 +1386,91 @@ export function drawRoom(act: number, state: RoomState, { frame = 0, clock = STU
 /** Who's in a floor's room when it's busy, and where they sit. */
 export function residentsOf(act: number): Spot[] {
   return ROOMS[act]?.residents ?? [];
+}
+
+// ---------------------------------------------------------------- getting up from the desk
+
+/**
+ * Something a resident gets up to do in a busy room (components/clocktower/LiveRoom.tsx): they
+ * leave their desk as a full-body figure (lib/pixel/figures.ts, one grid pixel to one room
+ * pixel, the grid's bottom row on the room's bottom row, in front of the furniture), go to `to`
+ * (the figure's middle column) and do each of `then` in turn, then come back and sit down again.
+ * `via` is how they get there (a walk, or an action that travels by itself: a sprint, carrying a
+ * rocket); `back`, how they come back (carrying a box they went for). With `and`, they go on to
+ * that column too before coming back (a lap of the room).
+ */
+export interface Errand {
+  who: string;
+  to: number;
+  then?: { action: string; facing: View; loops: number }[];
+  via?: string;
+  back?: string;
+  and?: number;
+}
+
+/** Room by room: where the residents go, chosen from at random now and then. */
+const ERRANDS: Record<number, Errand[]> = {
+  // The Workshop: Paul to his chalkboard, to the window with a coffee.
+  1: [
+    { who: "paul", to: 34, then: [{ action: "point", facing: "back", loops: 3 }, { action: "think", facing: "front", loops: 1 }] },
+    { who: "paul", to: 128, then: [{ action: "drink", facing: "front", loops: 2 }] },
+    { who: "paul", to: 40, then: [{ action: "talk", facing: "back", loops: 2 }, { action: "point", facing: "back", loops: 2 }] },
+    { who: "paul", to: 130, then: [{ action: "stretch", facing: "front", loops: 1 }] },
+  ],
+  // The Studio: Caitlin's guitar, a dance, a box from the bookshelf.
+  2: [
+    { who: "caitlin", to: 128, then: [{ action: "guitar", facing: "front", loops: 5 }] },
+    { who: "caitlin", to: 132, then: [{ action: "dance", facing: "front", loops: 3 }] },
+    { who: "caitlin", to: 22, back: "carry" },
+    { who: "caitlin", to: 126, then: [{ action: "phone", facing: "front", loops: 2 }, { action: "clap", facing: "front", loops: 2 }] },
+  ],
+  // The Makerspace: Riya to her easel, a look at the painting on the wall.
+  3: [
+    { who: "riya", to: 112, then: [{ action: "easel", facing: "right", loops: 4 }] },
+    { who: "riya", to: 46, then: [{ action: "think", facing: "left", loops: 2 }] },
+    { who: "riya", to: 116, then: [{ action: "easel", facing: "back", loops: 3 }, { action: "shrug", facing: "front", loops: 1 }] },
+    { who: "riya", to: 126, then: [{ action: "phone", facing: "front", loops: 2 }] },
+  ],
+  // The Puzzle Room: Neil with his rocket, his drone, a think at the racing sim.
+  4: [
+    { who: "neil", via: "rocket", to: 146, and: 16 },
+    { who: "neil", to: 36, then: [{ action: "drone", facing: "front", loops: 5 }] },
+    { who: "neil", to: 112, then: [{ action: "think", facing: "right", loops: 2 }, { action: "cheer", facing: "front", loops: 2 }] },
+    { who: "neil", to: 138, back: "rocket" },
+  ],
+  // The Archive: Yahya timing a sprint, a box from the cabinets, a point at his chart.
+  5: [
+    { who: "yahya", via: "stopwatch", to: 14, and: 146 },
+    { who: "yahya", to: 134, back: "carry" },
+    { who: "yahya", to: 36, then: [{ action: "point", facing: "back", loops: 3 }] },
+    { who: "yahya", to: 132, then: [{ action: "drink", facing: "front", loops: 2 }] },
+  ],
+  // The Model Room: Paul at a board, at the loss curve, with a coffee.
+  6: [
+    { who: "paul", to: 128, then: [{ action: "chalkboard", facing: "back", loops: 3 }] },
+    { who: "paul", to: 30, then: [{ action: "point", facing: "back", loops: 3 }, { action: "shrug", facing: "front", loops: 1 }] },
+    { who: "paul", to: 134, then: [{ action: "drink", facing: "front", loops: 2 }] },
+  ],
+  // The Engine Room: Aaesha's checks at the rack, a coffee, a stretch.
+  7: [
+    { who: "aaesha", to: 116, then: [{ action: "clipboard", facing: "right", loops: 3 }] },
+    { who: "aaesha", to: 36, then: [{ action: "drink", facing: "front", loops: 2 }] },
+    { who: "aaesha", to: 40, then: [{ action: "think", facing: "left", loops: 2 }] },
+    { who: "aaesha", to: 118, then: [{ action: "stretch", facing: "front", loops: 1 }] },
+  ],
+  // The Arcade: Caitlin's guitar and a dance, Aaesha logging the high scores.
+  8: [
+    { who: "caitlin", to: 140, then: [{ action: "guitar", facing: "front", loops: 5 }] },
+    { who: "caitlin", to: 138, then: [{ action: "dance", facing: "front", loops: 3 }] },
+    { who: "caitlin", to: 28, then: [{ action: "cheer", facing: "front", loops: 3 }] },
+    { who: "aaesha", to: 26, then: [{ action: "clipboard", facing: "front", loops: 3 }] },
+    { who: "aaesha", to: 140, then: [{ action: "phone", facing: "front", loops: 2 }] },
+  ],
+};
+
+/** What the residents of a floor's room get up to do. The roof has nobody walking about. */
+export function errandsOf(act: number): Errand[] {
+  return ERRANDS[act] ?? [];
 }
 
 /** Whether anything in the room moves (so a still room needn't be redrawn). */

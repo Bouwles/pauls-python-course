@@ -2,7 +2,8 @@
 
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { drawTowerScene, layerRGBA, roomHeight, ROOM_W, STUCK_CLOCK as STUCK, TOWER, TOWER_W, towerLayout } from "@/lib/pixel/rooms";
-import { PixelBricks, PixelRoom } from "../art/PixelRoom";
+import { PixelBricks } from "../art/PixelRoom";
+import { LiveRoom } from "./LiveRoom";
 import { FLOORS_TOP_DOWN, type FloorState } from "./floors";
 import styles from "./Tower.module.css";
 
@@ -69,13 +70,13 @@ export function TowerFrame({ children, label, clock = STUCK_CLOCK, className }: 
   );
 }
 
-/** A floor's room inside the tower, at the tower's scale, with its name on a sign. */
+/** A floor's room inside the tower, at the tower's scale, with its name on a sign. Busy rooms are lived in (LiveRoom). */
 export function FloorRoom({ act, state, sign }: { act: number; state: FloorState; sign?: React.ReactNode }) {
   const { k, clock } = useContext(TowerScale);
   return (
-    <PixelRoom act={act} state={state} scale={k} clock={clock} className={styles.room}>
+    <LiveRoom act={act} state={state} scale={k} clock={clock} className={styles.room}>
       {sign}
-    </PixelRoom>
+    </LiveRoom>
   );
 }
 
@@ -130,9 +131,9 @@ export function FloorFace({ act, state, room, sub, badges, bare = false, classNa
   return (
     <span ref={ref} className={[styles.face, className].filter(Boolean).join(" ")} data-state={state}>
       {act >= ROOF ? <span className={styles.night} /> : <PixelBricks scale={k} />}
-      <PixelRoom act={act} state={state} scale={k} className={styles.faceRoom}>
+      <LiveRoom act={act} state={state} scale={k} className={styles.faceRoom}>
         {bare ? null : <Sign room={room} badges={badges} sub={sub} />}
-      </PixelRoom>
+      </LiveRoom>
     </span>
   );
 }

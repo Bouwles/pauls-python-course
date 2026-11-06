@@ -154,7 +154,8 @@
     2px 0 0 0 var(--px-outline);
 }
 
-/* Start building stays in reach while the spec is read. */
+/* Start building stays in reach while the spec is read: a bar along the foot of the screen, with
+   a two-pixel edge on top so what scrolls under it reads as going behind a bar, not cut off. */
 .actions {
   position: sticky;
   bottom: 0;
@@ -166,6 +167,7 @@
   margin-top: calc(var(--s-2) * -1);
   padding: var(--s-4) 2px var(--s-6);
   background: var(--bg);
+  box-shadow: 0 -2px 0 0 var(--line);
 }
 
 .note {

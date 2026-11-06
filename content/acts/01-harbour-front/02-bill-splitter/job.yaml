@@ -35,7 +35,7 @@ downloadable: true
 datasets: []
 client: caitlin
 building: bakery
-estimated_minutes: 60
+estimated_minutes: 75
 summary: "Split a bill between a table of people, tip included, and show every share to the penny."
 concepts_introduced: [arithmetic, operator-precedence, variables, naming, input-returns-text, int-conversion, float-conversion, f-strings, type-function]
 concepts_reviewed: [print, strings, comments]

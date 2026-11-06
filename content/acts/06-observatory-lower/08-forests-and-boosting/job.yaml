@@ -59,7 +59,6 @@ ask:
   dialogue:
     - paul.neutral.wave: "A lender should be able to explain a no. Not a score. Questions, written down."
     - paul.thinking: "A German bank's thousand applicants, public since the nineties. Seven answers each, and whether they repaid."
-    - paul.pleased.point: "A model you can read is a model you can mark. I like those."
     - riya.pleased: "I've started growing one already. How deep can it go?"
     - paul.neutral: "As deep as the questions stay true. Then stop."
   spec: |
@@ -67,9 +66,9 @@ ask:
 
     In `loans.py`:
 
-    1. Grow a decision tree from scratch with Gini impurity. Lock a fifth of the applicants away for testing, choose the depth on validation applicants, print the chosen tree as questions, and test it once against approving everyone.
-    2. Grow a random forest from scratch: each tree on a bootstrap sample, each question looking at three columns chosen at random. Approve when half the trees say so.
-    3. Fit gradient boosting with scikit-learn.
+    1. Grow a tree of yes-or-no questions from scratch, choosing each question by how well it sorts the applicants. Lock a fifth of the applicants away for testing, choose the depth on validation applicants, print the chosen tree as questions, and test it once against approving everyone.
+    2. Grow a forest of 50 different trees from scratch: each tree learns from its own random draw of applicants, and each question looks at three columns chosen at random. Approve when half the trees say so.
+    3. Boost small trees with scikit-learn, each fixing what the last got wrong.
     4. Compare them all on the test applicants by accuracy and by the bank's cost: 5 for a bad loan approved, 1 for a good one declined. Then the forest again, approving only when five trees in six agree.
   example: |
     depth  training  validation

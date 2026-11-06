@@ -1,7 +1,7 @@
 id: input-returns-text
 title: input() gives you text
 summary: |
-  `input()` shows a question, waits for an answer and hands it back as text, even when the person types digits. To do arithmetic with the answer, turn it into a number first with `int()` or `float()`.
+  `input()` shows a question, waits for an answer and hands it back as text, even when the person types digits. So typing `3` into `count * 2` gives `33`: a string times 2 is the text twice. To do arithmetic with the answer, turn it into a number first with `int()` or `float()`.
 example: |
   count = input("How many? ")
   print(count * 2)

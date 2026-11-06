@@ -1,7 +1,7 @@
 id: f-strings
 title: f-strings
 summary: |
-  An f-string has an `f` before the opening quote. Anything inside `{}` is worked out and dropped into the text. After a colon you can say how to show it: `{total:.2f}` shows two decimal places. The stored value doesn't change, only what is shown.
+  An f-string has an `f` before the opening quote. Anything inside `{}` is worked out and dropped into the text. After a colon you can say how to show it: `{total:.2f}` shows two decimal places, and `{n:3}` gives the value at least 3 characters, so columns line up. The stored value doesn't change, only what is shown.
 example: |
   total = 7.199999999999999
   print(f"That's {total:.2f}, please.")

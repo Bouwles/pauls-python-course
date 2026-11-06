@@ -4,13 +4,65 @@
 // a pose with arms, a blink, a mouth open mid-word, a hand mid-wave. The same code draws in the
 // browser (components/art/PixelPerson.tsx) and in Node (scripts/draw-cast-pixels.ts).
 
-export const W = 48;
-export const H = 52;
+import { Grid, H, M, mix, OUTLINE, torsoOf, sleeveOf, topColour, W, hex } from "./kit";
+import { gestureOf } from "./gestures";
 
-export type Expression = "neutral" | "talking" | "pleased" | "proud" | "thinking" | "confused" | "worried" | "surprised" | "laughing" | "unimpressed";
-export type Pose = "idle" | "wave" | "cheer" | "think" | "point" | "thumbs";
-export const EXPRESSIONS: Expression[] = ["neutral", "talking", "pleased", "proud", "thinking", "confused", "worried", "surprised", "laughing", "unimpressed"];
+export { Grid, H, W, mix };
+
+export type Expression =
+  | "neutral"
+  | "talking"
+  | "pleased"
+  | "proud"
+  | "thinking"
+  | "confused"
+  | "worried"
+  | "surprised"
+  | "laughing"
+  | "unimpressed"
+  // Redesign 3, more feelings so nobody wears the same face all day.
+  | "excited"
+  | "determined"
+  | "focused"
+  | "curious"
+  | "smug"
+  | "mischievous"
+  | "embarrassed"
+  | "nervous"
+  | "sad"
+  | "relieved"
+  | "sleepy"
+  | "annoyed";
+export const EXPRESSIONS: Expression[] = [
+  "neutral",
+  "talking",
+  "pleased",
+  "proud",
+  "thinking",
+  "confused",
+  "worried",
+  "surprised",
+  "laughing",
+  "unimpressed",
+  "excited",
+  "determined",
+  "focused",
+  "curious",
+  "smug",
+  "mischievous",
+  "embarrassed",
+  "nervous",
+  "sad",
+  "relieved",
+  "sleepy",
+  "annoyed",
+];
+/** A gesture's id (lib/pixel/gestures): "idle", "wave", "sip", "glasses-push"... */
+export type Pose = string;
+/** The first six gestures, which every page and script can rely on. */
 export const POSES: Pose[] = ["idle", "wave", "cheer", "think", "point", "thumbs"];
+/** Where the eyes look, when not at you: "left" and "right" are the viewer's (the screen's). */
+export type Gaze = "left" | "right" | "up" | "down";
 
 export type FaceShape = "standard" | "oval" | "strong" | "round" | "square" | "long" | "heart";
 export type BrowShape = "straight" | "thick" | "arched" | "defined" | "bold" | "fine";
@@ -75,6 +127,8 @@ export interface PersonLook {
   /** Shoulder width: slim (28 px) or regular (30 px), against a 20 px head. */
   build?: "slim" | "regular";
   top: Top;
+  /** Below the waist, for the full-body figures (lib/pixel/figures.ts). */
+  legs?: { trousers: string; shoes: string; kind?: "trousers" | "jeans" | "shorts" | "skirt" };
 }
 
 export interface Moment {
@@ -86,38 +140,8 @@ export interface Moment {
   open?: boolean | 0 | 1 | 2;
   /** Which frame of a gesture (a wave goes 0, 1, 0, 1...). */
   beat?: number;
-}
-
-// ---------------------------------------------------------------- colour
-
-const hex = (h: string): [number, number, number] => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
-export const mix = (a: string, b: string, t: number): string => {
-  const [x, y] = [hex(a), hex(b)];
-  return "#" + x.map((v, i) => Math.round(v + (y[i]! - v) * t).toString(16).padStart(2, "0")).join("");
-};
-const OUTLINE = "#1a1418";
-const M = (x: number) => W - 1 - x;
-
-// ---------------------------------------------------------------- the grid
-
-export class Grid {
-  c: (string | null)[][] = Array.from({ length: H }, () => Array<string | null>(W).fill(null));
-  r: (string | null)[][] = Array.from({ length: H }, () => Array<string | null>(W).fill(null));
-  set(x: number, y: number, colour: string, region: string) {
-    if (x < 0 || y < 0 || x >= W || y >= H) return;
-    this.c[y]![x] = colour;
-    this.r[y]![x] = region;
-  }
-  row(y: number, hw: number, colour: string, region: string) {
-    for (let x = 24 - hw; x <= 23 + hw; x++) this.set(x, y, colour, region);
-  }
-  get(x: number, y: number): string | null {
-    return x < 0 || y < 0 || x >= W || y >= H ? null : this.r[y]![x]!;
-  }
-  /** Recolour a pixel already in `region`. */
-  tint(x: number, y: number, colour: string, region: string) {
-    if (this.get(x, y) === region) this.c[y]![x] = colour;
-  }
+  /** Where they're looking, when not at you. */
+  gaze?: Gaze;
 }
 
 type Run = [number, number];
@@ -149,27 +173,13 @@ const FACES: Record<FaceShape, Record<number, number>> = {
   heart: { ...TOP, 14: 10, 24: 9, 25: 9, 26: 8, 27: 8, 28: 7, 29: 6, 30: 5, 31: 4, 32: 2, 33: 1 },
 };
 
-/** Half-widths of the torso, shoulder line to the bottom of the frame. */
-function torsoOf(p: PersonLook): Record<number, number> {
-  const w = p.build === "regular" ? 15 : 14;
-  return { 38: w - 6, 39: w - 3, 40: w - 1, 41: w, 42: w, 43: w, 44: w, 45: w, 46: w, 47: w, 48: w, 49: w, 50: w, 51: w };
-}
-
 /** Which arms hang at the sides: a gesture lifts one or both away. */
 type Arms = { left: boolean; right: boolean };
-const ARMS: Record<Pose, Arms> = {
-  idle: { left: true, right: true },
-  wave: { left: true, right: false },
-  cheer: { left: false, right: false },
-  think: { left: true, right: false },
-  point: { left: true, right: false },
-  thumbs: { left: true, right: false },
-};
 
 function body(g: Grid, p: PersonLook, arms: Arms) {
   for (let y = 32; y <= 38; y++) g.row(y, 3, y < 35 ? p.skinShade : p.skin, "neck");
   const torso = torsoOf(p);
-  const base = p.top.kind === "varsity" ? p.top.body : p.top.kind === "overshirt" || p.top.kind === "jacket" ? p.top.outer : p.top.colour;
+  const base = topColour(p);
   for (const [y, hw] of Object.entries(torso)) g.row(+y, hw, base, "body");
   clothes(g, p, torso);
   // The arms hang at the sides from the shoulder: four pixels of sleeve, a crease where they
@@ -256,13 +266,6 @@ function clothes(g: Grid, p: PersonLook, torso: Record<number, number>) {
   }
 }
 
-function sleeveOf(p: PersonLook): string {
-  const t = p.top;
-  if (t.kind === "varsity") return t.sleeves;
-  if (t.kind === "overshirt" || t.kind === "jacket") return t.outer;
-  return t.colour;
-}
-
 function head(g: Grid, p: PersonLook) {
   for (const [y, hw] of Object.entries(FACES[p.face])) {
     g.row(+y, hw, p.skin, "skin");
@@ -276,33 +279,122 @@ function head(g: Grid, p: PersonLook) {
 
 // ---------------------------------------------------------------- the face, by expression
 
-type EyeMode = "open" | "closed" | "happy" | "wide" | "half" | "up";
+const LASH = "#1d1514";
+const WHITE = "#f4efe9";
+const PUPIL = "#100c0b";
 
-function eyes(g: Grid, p: PersonLook, mode: EyeMode) {
-  const lash = "#1d1514";
-  for (const [x0, flip] of [[17, false], [27, true]] as const) {
-    const xs = flip ? [x0 + 3, x0 + 2, x0 + 1, x0] : [x0, x0 + 1, x0 + 2, x0 + 3];
-    if (mode === "closed") {
-      for (const x of xs) g.set(x, 22, lash, "eye");
-      continue;
+type EyeMode =
+  | "open"
+  | "closed"
+  | "happy"
+  | "wide"
+  | "half"
+  | "up"
+  // Redesign 3
+  | "sparkle" // excited: wide, big dark irises with a glint
+  | "squint" // focused: the lower lids raised
+  | "peer" // curious: one eye opened wider, under the raised brow
+  | "lidded" // smug: lids lowered, a flick at the corner
+  | "sly" // mischievous: narrowed, glancing to the side
+  | "tiny" // nervous: wide, small irises in a lot of white
+  | "droop" // sad: the lids drooping at the outer corners
+  | "soft" // relieved: closed, curving down
+  | "sleepy" // sleepy: heavy lids nearly shut
+  | "glare"; // annoyed: the lids slanting down to the nose
+
+type IrisKind = "normal" | "sparkle" | "small" | "dim";
+
+/**
+ * An eye, as a pattern of the left eye from just past its outer corner inwards (the right eye is
+ * its mirror): K lash, W white, b the lower edge (only the iris shows there, or white under an
+ * iris that looks up), h a heavy lid, l a lower lid, u a shadow under the eye. `iris` is the
+ * iris's top row and height, in the middle of the eye; a gaze moves it a pixel that way, as far
+ * as the eye is open. `over` is drawn after the iris (a lid that covers part of it).
+ */
+interface EyeArt {
+  y: number;
+  rows: string[];
+  over?: { y: number; rows: string[] };
+  iris?: { y: number; h: number; kind?: IrisKind; dx?: number };
+}
+
+const EYE_ART: Record<Exclude<EyeMode, "up" | "peer">, EyeArt> = {
+  open: { y: 21, rows: [".KKKK", ".WWWW", ".bbbb"], iris: { y: 22, h: 2 } },
+  wide: { y: 20, rows: [".KKKK", ".WWWW", ".WWWW", ".bbbb"], iris: { y: 22, h: 2 } },
+  half: { y: 21, rows: [".KKKK", ".WWWW", ".bbbb"], over: { y: 22, rows: [".hhhh"] }, iris: { y: 22, h: 2 } },
+  closed: { y: 22, rows: [".KKKK"] },
+  happy: { y: 21, rows: ["..KK.", ".K..K"] },
+  sparkle: { y: 20, rows: ["..KK.", ".KWWK", ".WWWW", ".bbbb"], iris: { y: 21, h: 3, kind: "sparkle" } },
+  squint: { y: 21, rows: [".KKKK", ".WWWW", ".llll"], iris: { y: 22, h: 1 } },
+  lidded: { y: 20, rows: ["K....", ".KKKK", ".WWWW", ".bbbb"], over: { y: 22, rows: [".hhhh"] }, iris: { y: 22, h: 2 } },
+  sly: { y: 22, rows: [".KKKK", ".WWWW"], iris: { y: 23, h: 1, dx: 1 } },
+  tiny: { y: 20, rows: [".KKKK", ".WWWW", ".WWWW", ".bbbb"], iris: { y: 22, h: 1, kind: "small" } },
+  droop: { y: 21, rows: ["..KKK", ".KWWW", ".bbbb"], iris: { y: 22, h: 2 } },
+  soft: { y: 22, rows: [".K..K", "..KK."] },
+  sleepy: { y: 21, rows: [".hhhh", ".hKKK", ".Kbb.", "..uu."], iris: { y: 23, h: 1, kind: "dim" } },
+  glare: { y: 21, rows: [".KKhh", ".WWKK", ".bbbb"], iris: { y: 22, h: 2 } },
+};
+
+function eyes(g: Grid, p: PersonLook, mode: EyeMode, gaze?: Gaze) {
+  const hi = mix(p.iris, "#ffffff", 0.35);
+  const dark = mix(p.iris, "#000000", 0.25);
+  const lid = mix(p.skin, "#000000", 0.12);
+  const lower = mix(p.skin, p.skinShade, 0.7);
+  const gx = gaze === "left" ? -1 : gaze === "right" ? 1 : 0;
+  const gy = gaze === "up" ? -1 : gaze === "down" ? 1 : 0;
+  // Thinking's own look to the side, as approved, when nothing else is asked.
+  const legacyUp = mode === "up" && !gaze;
+  for (const side of [0, 1] as const) {
+    const art = EYE_ART[mode === "up" ? "open" : mode === "peer" ? (side ? "wide" : "open") : mode];
+    const xOf = (i: number) => (side ? 31 - i : 16 + i);
+    const cell = (x: number, y: number) => art.rows[y - art.y]?.[side ? 31 - x : x - 16] ?? ".";
+    const S = (x: number, y: number, c: string) => g.set(x, y, c, "eye");
+    const paint = (rows: string[], y0: number, open: boolean) =>
+      rows.forEach((row, r) =>
+        [...row].forEach((ch, i) => {
+          const x = xOf(i);
+          const y = y0 + r;
+          if (open && ch === "W") S(x, y, WHITE);
+          else if (open && ch === "b") S(x, y, p.skin);
+          else if (!open && ch === "K") S(x, y, LASH);
+          else if (!open && ch === "h") S(x, y, lid);
+          else if (!open && ch === "l") S(x, y, p.skinShade);
+          else if (!open && ch === "u") S(x, y, lower);
+        }),
+      );
+    paint(art.rows, art.y, true);
+    if (art.iris) {
+      const kind = art.iris.kind ?? "normal";
+      const pal: string[][] =
+        kind === "sparkle"
+          ? [["#ffffff", dark], [dark, PUPIL], [p.iris, mix(p.iris, "#ffffff", 0.5)]]
+          : kind === "small"
+            ? [side ? [PUPIL, dark] : [dark, PUPIL]]
+            : kind === "dim"
+              ? [[dark, dark]]
+              : legacyUp && side
+                ? [[p.iris, hi], [dark, p.iris]]
+                : side
+                  ? [[hi, p.iris], [p.iris, dark]]
+                  : [[hi, PUPIL], [dark, p.iris]];
+      const isOpen = (x: number, y: number) => "Wb".includes(cell(x, y));
+      const rowsOpen = art.rows.flatMap((row, r) => (/[Wb]/.test(row) ? [art.y + r] : []));
+      const first = Math.min(...rowsOpen);
+      const last = Math.max(...rowsOpen);
+      const bx = (side ? 28 : 18) + (legacyUp ? (side ? 0 : -1) : gaze ? gx : (art.iris.dx ?? 0));
+      let top = art.iris.y + gy;
+      let h = art.iris.h;
+      if (top < first) (h -= first - top), (top = first);
+      h = Math.max(1, Math.min(h, last - top + 1));
+      top = Math.min(top, last - h + 1);
+      // An iris squeezed to one row by looking up or down keeps its pupil, in both eyes.
+      if (h < art.iris.h && kind === "normal") pal[0] = [hi, PUPIL];
+      for (let r = 0; r < h; r++) for (const k of [0, 1]) if (isOpen(bx + k, top + r)) S(bx + k, top + r, pal[r]![k]!);
+      // White under an iris that has moved up, on the eye's lower edge.
+      for (let y = top + h; y <= last; y++) for (const k of [0, 1]) if (cell(bx + k, y) === "b") S(bx + k, y, WHITE);
     }
-    if (mode === "happy") {
-      // Closed in a smile: an upward arc.
-      g.set(xs[0]!, 22, lash, "eye"), g.set(xs[1]!, 21, lash, "eye"), g.set(xs[2]!, 21, lash, "eye"), g.set(xs[3]!, 22, lash, "eye");
-      continue;
-    }
-    const lid = mode === "wide" ? 20 : 21;
-    for (const x of xs) g.set(x, lid, lash, "eye");
-    const rows = mode === "wide" ? [21, 22, 23] : [22, 23];
-    const iris = mode === "up" ? (flip ? [xs[2]!, xs[1]!] : [xs[0]!, xs[1]!]) : [xs[1]!, xs[2]!];
-    for (const y of rows) for (const x of xs) g.set(x, y, y === rows[rows.length - 1] && !iris.includes(x) ? p.skin : "#f4efe9", "eye");
-    const top = mode === "up" ? rows[0]! : rows[rows.length - 2]!;
-    g.set(iris[0]!, top, p.iris, "eye");
-    g.set(iris[1]!, top, "#100c0b", "eye");
-    g.set(iris[0]!, top + 1, mix(p.iris, "#000000", 0.25), "eye");
-    g.set(iris[1]!, top + 1, p.iris, "eye");
-    g.set(flip ? iris[1]! : iris[0]!, top, mix(p.iris, "#ffffff", 0.35), "eye");
-    if (mode === "half") for (const x of xs) g.set(x, 22, mix(p.skin, "#000000", 0.12), "eye");
+    paint(art.rows, art.y, false);
+    if (art.over) paint(art.over.rows, art.over.y, false);
   }
 }
 
@@ -315,21 +407,47 @@ const BROWS: Record<BrowShape, [number, number][]> = {
   fine: [[16, 19], [17, 18], [18, 18], [19, 18], [20, 18], [21, 19]],
 };
 
-type BrowMode = "rest" | "up" | "worried" | "cross" | "one-up" | "low";
+type BrowMode =
+  | "rest"
+  | "up"
+  | "worried"
+  | "cross"
+  | "one-up"
+  | "low"
+  // Redesign 3
+  | "fierce" // determined: a steep V
+  | "knit" // focused: lowered at the nose and drawn together
+  | "scowl" // annoyed: lowered, the inner ends lowest
+  | "high" // curious: both raised, one higher
+  | "droop" // sad: inner ends up, outer ends down
+  | "anxious"; // nervous: raised, the inner ends highest
 
 function brows(g: Grid, p: PersonLook, mode: BrowMode) {
   const shape = BROWS[p.browShape];
   for (const side of [0, 1]) {
     for (const [x, y] of shape) {
-      let dy = 0;
       const inner = x >= 20; // the end nearest the nose
+      const outer = x <= 17;
+      let dy = 0;
       if (mode === "up") dy = -1;
       else if (mode === "worried") dy = inner ? -1 : 0;
-      else if (mode === "cross") dy = inner ? 1 : 0;
+      else if (mode === "cross" || mode === "knit") dy = inner ? 1 : 0;
       else if (mode === "one-up") dy = side === 1 ? -1 : 0;
       else if (mode === "low") dy = 1;
+      else if (mode === "fierce") dy = inner ? 1 : outer ? -1 : 0;
+      else if (mode === "scowl") dy = inner ? 2 : 1;
+      else if (mode === "high") dy = side === 1 ? -2 : -1;
+      else if (mode === "droop") dy = inner ? -1 : outer ? 1 : 0;
+      else if (mode === "anxious") dy = inner ? -2 : -1;
       g.set(side ? M(x) : x, y + dy, p.brow, "brow");
     }
+  }
+  // Drawn together: the inner ends reach a pixel further towards the nose.
+  if (mode === "knit" || mode === "scowl") {
+    const ix = Math.max(...shape.map(([x]) => x));
+    const iy = Math.max(...shape.filter(([x]) => x === ix).map(([, y]) => y)) + (mode === "scowl" ? 2 : 1);
+    // Never so far that the two meet (bold brows already reach x 22).
+    if (ix < 22) g.set(ix + 1, iy, p.brow, "brow"), g.set(M(ix + 1), iy, p.brow, "brow");
   }
 }
 
@@ -340,85 +458,166 @@ function nose(g: Grid, p: PersonLook) {
   g.set(24, 26, mix(p.skinShade, "#000000", 0.12), "skin");
 }
 
-type MouthMode = RestingMouth | "open" | "ajar" | "o" | "laugh" | "frown" | "wavy" | "side";
+type MouthMode =
+  | RestingMouth
+  | "open"
+  | "ajar"
+  | "o"
+  | "laugh"
+  | "frown"
+  | "wavy"
+  | "side"
+  // Redesign 3
+  | "beam" // excited: open, a strip of teeth
+  | "set" // determined: pressed firm
+  | "pursed" // focused: small and drawn in
+  | "ooh" // curious: a small round "oh?"
+  | "sly" // mischievous: a lopsided smile, one corner high
+  | "bashful" // embarrassed: a small shy smile
+  | "wobble" // nervous: unsteady
+  | "pout" // sad: turned down, the lower lip out
+  | "slack" // sleepy: loose, a little open
+  | "grumble"; // annoyed: pulled down to one side
 
 /**
  * Mouths: small, soft and set just under the nose, in the person's own skin and lip tones, so they
- * belong to the face. A line for a closed mouth, a small dark opening when talking, a thin strip
- * of teeth only on a grin or a laugh.
+ * belong to the face. Each is drawn at rest, a little open (e, i, u) and wide open (a, o), so a
+ * face keeps its feeling mid-word: L line, s soft lip, i inside, T teeth (only on a grin or a
+ * laugh). Patterns start at x 20 and row 27 (or `MOUTH_TOP`).
  */
-function mouth(g: Grid, p: PersonLook, m: MouthMode) {
-  const y = 28;
-  const line = mix(mix(p.skinShade, p.lip, 0.55), "#000000", 0.18);
-  const soft = mix(p.skinShade, p.lip, 0.35);
-  const inside = mix(p.lip, "#2a0f0f", 0.55);
-  const teeth = mix("#f4efe8", p.skin, 0.15);
-  const S = (x: number, yy: number, c: string) => g.set(x, yy, c, "mouth");
-  const row = (yy: number, a: number, b2: number, c: string) => {
-    for (let x = a; x <= b2; x++) S(x, yy, c);
+const OPEN = ["........", "..LLLL..", "..LiiL..", "...LL..."];
+const AJAR = ["........", "..LiiL..", "...ss..."];
+const MOUTHS: Record<MouthMode, [string[], string[], string[]]> = {
+  smile: [
+    [".L....L.", "..LLLL..", "...ss..."],
+    [".L....L.", "..LiiL..", "...ss..."],
+    [".L....L.", "..LLLL..", "..LiiL..", "...LL..."],
+  ],
+  half: [
+    ["......L.", "..LLLL..", "...ss..."],
+    ["......L.", "..LiiL..", "...ss..."],
+    ["......L.", "..LLLL..", "..LiiL..", "...LL..."],
+  ],
+  smirk: [
+    ["......Ls", "..LLLL.."],
+    ["......Ls", "..LiiL..", "...ss..."],
+    ["......Ls", "..LLLL..", "..LiiL..", "...LL..."],
+  ],
+  flat: [
+    ["........", "..LLLL.."],
+    ["........", "..LiiL.."],
+    ["........", "..LLLL..", "..LiiL..", "..LLLL.."],
+  ],
+  grin: [
+    ["L......L", ".LTTTTL.", "..LLLL.."],
+    ["L......L", ".LTTTTL.", "..LiiL..", "...LL..."],
+    ["L......L", ".LTTTTL.", ".LiiiiL.", "..LLLL.."],
+  ],
+  laugh: [
+    ["L......L", ".LTTTTL.", ".LiiiiL.", "..LLLL.."],
+    ["L......L", ".LTTTTL.", "..LLLL.."],
+    ["L......L", ".LTTTTL.", ".LiiiiL.", "..LLLL.."],
+  ],
+  // A plain mouth mid-word, for a face with no feeling of its own (neutral, talking).
+  open: [OPEN, AJAR, OPEN],
+  ajar: [AJAR, AJAR, OPEN],
+  o: [
+    ["........", "...LL...", "..LiiL..", "...LL..."],
+    ["........", "...LL...", "..LiiL..", "..LiiL..", "...LL..."],
+    ["........", "..LLLL..", ".LiiiiL.", "..LLLL.."],
+  ],
+  frown: [
+    ["........", "..LLLL..", ".L....L."],
+    ["........", "..LiiL..", ".L....L."],
+    ["........", "..LLLL..", ".LLiiLL.", "...LL..."],
+  ],
+  wavy: [
+    ["........", ".L.LL.L.", "..L..L.."],
+    ["........", ".L.LL.L.", "..LiiL.."],
+    ["........", ".L.LL.L.", "..LiiL..", "...LL..."],
+  ],
+  side: [
+    [".......L", "....LLL."],
+    [".......L", "...LiiL.", "....ss.."],
+    [".......L", "...LLLL.", "...LiiL.", "....LL.."],
+  ],
+  beam: [
+    [".L....L.", "..TTTT..", "..LiiL..", "...LL..."],
+    [".L....L.", "..TTTT..", "..LLLL.."],
+    ["L......L", ".LTTTTL.", ".LiiiiL.", "..LLLL.."],
+  ],
+  set: [
+    ["........", ".LLLLLL.", "...ss..."],
+    ["........", ".LLiiLL.", "...ss..."],
+    ["........", ".LLLLLL.", "..LiiL..", "...LL..."],
+  ],
+  pursed: [
+    ["........", "...LL...", "...ss..."],
+    ["........", "...ii...", "...ss..."],
+    ["........", "...LL...", "..LiiL..", "...LL..."],
+  ],
+  ooh: [
+    ["........", "...LL...", "...ii..."],
+    ["........", "...LL...", "..LiiL..", "...LL..."],
+    ["........", "...LL...", "..LiiL..", "..LiiL..", "...LL..."],
+  ],
+  sly: [
+    [".......L", ".L....L.", "..LLLL..", "...ss..."],
+    [".......L", ".L....L.", "..LiiL..", "...ss..."],
+    [".......L", ".L....L.", "..LLLL..", "..LiiL..", "...LL..."],
+  ],
+  bashful: [
+    ["........", "..L..L..", "...LL..."],
+    ["........", "..LiiL..", "...LL..."],
+    ["........", "..LLLL..", "..LiiL..", "...LL..."],
+  ],
+  wobble: [
+    ["........", ".LL..LL.", "...LL..."],
+    ["........", ".LLiiLL.", "...LL..."],
+    ["........", ".LLLLLL.", ".LiiiiL.", "..L..L.."],
+  ],
+  pout: [
+    ["........", "...LL...", "..L..L..", "...ss..."],
+    ["........", "...LL...", "..LiiL..", "...ss..."],
+    ["........", "..LLLL..", ".LLiiLL.", "...ss..."],
+  ],
+  slack: [
+    ["........", "..LLL...", ".....s.."],
+    ["........", "..LiL...", "...ss..."],
+    ["........", "..LLL...", "..LiiL..", "...LL..."],
+  ],
+  grumble: [
+    ["........", "...LLL..", "..L...L."],
+    ["........", "...LiL..", "..L...L."],
+    ["........", "...LLL..", "..LiiLL.", "...LL..."],
+  ],
+};
+const MOUTH_TOP: Partial<Record<MouthMode, number>> = { sly: 26 };
+
+function mouth(g: Grid, p: PersonLook, m: MouthMode, open: 0 | 1 | 2) {
+  const colours: Record<string, string> = {
+    L: mix(mix(p.skinShade, p.lip, 0.55), "#000000", 0.18),
+    s: mix(p.skinShade, p.lip, 0.35),
+    i: mix(p.lip, "#2a0f0f", 0.55),
+    T: mix("#f4efe8", p.skin, 0.15),
   };
-  switch (m) {
-    case "smile":
-      row(y, 22, 25, line);
-      S(21, y - 1, line), S(26, y - 1, line);
-      row(y + 1, 23, 24, soft);
-      break;
-    case "half":
-      row(y, 22, 25, line);
-      S(26, y - 1, line);
-      row(y + 1, 23, 24, soft);
-      break;
-    case "smirk":
-      row(y, 22, 25, line);
-      S(26, y - 1, line), S(27, y - 1, soft);
-      break;
-    case "flat":
-      row(y, 22, 25, line);
-      break;
-    case "grin":
-      // A wide smile with a thin strip of teeth.
-      S(20, y - 1, line), S(27, y - 1, line);
-      S(21, y, line), row(y, 22, 25, teeth), S(26, y, line);
-      row(y + 1, 22, 25, line);
-      break;
-    case "laugh":
-      S(20, y - 1, line), S(27, y - 1, line);
-      S(21, y, line), row(y, 22, 25, teeth), S(26, y, line);
-      S(21, y + 1, line), row(y + 1, 22, 25, inside), S(26, y + 1, line);
-      row(y + 2, 22, 25, line);
-      break;
-    case "open":
-      // Mid-word, wide: a small dark oval.
-      row(y, 22, 25, line);
-      S(22, y + 1, line), row(y + 1, 23, 24, inside), S(25, y + 1, line);
-      row(y + 2, 23, 24, line);
-      break;
-    case "ajar":
-      // Mid-word, a little.
-      S(22, y, line), row(y, 23, 24, inside), S(25, y, line);
-      row(y + 1, 23, 24, soft);
-      break;
-    case "o":
-      row(y, 23, 24, line);
-      S(22, y + 1, line), row(y + 1, 23, 24, inside), S(25, y + 1, line);
-      row(y + 2, 23, 24, line);
-      break;
-    case "frown":
-      row(y, 22, 25, line);
-      S(21, y + 1, line), S(26, y + 1, line);
-      break;
-    case "wavy":
-      S(21, y, line), S(22, y + 1, line), S(23, y, line), S(24, y, line), S(25, y + 1, line), S(26, y, line);
-      break;
-    case "side":
-      row(y, 24, 26, line);
-      S(27, y - 1, line);
-      break;
-  }
+  const top = MOUTH_TOP[m] ?? 27;
+  MOUTHS[m][open].forEach((row, r) => [...row].forEach((ch, i) => colours[ch] && g.set(20 + i, top + r, colours[ch]!, "mouth")));
 }
 
-function face(g: Grid, p: PersonLook, expression: Expression, blink: boolean, open: 0 | 1 | 2) {
-  const E: Record<Expression, { eyes: EyeMode; brows: BrowMode; mouth: MouthMode | "rest" }> = {
+type FaceEffect = "blush" | "sweat" | "tear";
+
+interface Face {
+  eyes: EyeMode;
+  brows: BrowMode;
+  mouth: MouthMode | "rest";
+  /** Where they look when nothing else is asked. */
+  gaze?: Gaze;
+  fx?: FaceEffect[];
+}
+
+function faceOf(p: PersonLook, expression: Expression): Face {
+  const E: Record<Expression, Face> = {
     neutral: { eyes: "open", brows: "rest", mouth: "rest" },
     talking: { eyes: "open", brows: "rest", mouth: "rest" },
     pleased: { eyes: "open", brows: "rest", mouth: p.mouth === "grin" ? "grin" : "smile" },
@@ -429,17 +628,74 @@ function face(g: Grid, p: PersonLook, expression: Expression, blink: boolean, op
     surprised: { eyes: "wide", brows: "up", mouth: "o" },
     laughing: { eyes: "happy", brows: "up", mouth: "laugh" },
     unimpressed: { eyes: "half", brows: "low", mouth: "flat" },
+    excited: { eyes: "sparkle", brows: "up", mouth: "beam" },
+    determined: { eyes: "open", brows: "fierce", mouth: "set" },
+    focused: { eyes: "squint", brows: "knit", mouth: "pursed" },
+    curious: { eyes: "peer", brows: "high", mouth: "ooh" },
+    smug: { eyes: "lidded", brows: "one-up", mouth: "smirk" },
+    mischievous: { eyes: "sly", brows: "cross", mouth: "sly" },
+    embarrassed: { eyes: "open", brows: "worried", mouth: "bashful", gaze: "down", fx: ["blush"] },
+    nervous: { eyes: "tiny", brows: "anxious", mouth: "wobble", fx: ["sweat"] },
+    sad: { eyes: "droop", brows: "droop", mouth: "pout", fx: ["tear"] },
+    relieved: { eyes: "soft", brows: "worried", mouth: "smile" },
+    sleepy: { eyes: "sleepy", brows: "up", mouth: "slack" },
+    annoyed: { eyes: "glare", brows: "scowl", mouth: "grumble" },
   };
-  const e = E[expression];
-  eyes(g, p, blink && e.eyes !== "happy" ? "closed" : e.eyes);
+  return E[expression];
+}
+
+const CLOSED_ALREADY: EyeMode[] = ["happy", "soft", "closed"];
+
+function face(g: Grid, p: PersonLook, expression: Expression, blink: boolean, open: 0 | 1 | 2, gaze?: Gaze) {
+  const e = faceOf(p, expression);
+  eyes(g, p, blink && !CLOSED_ALREADY.includes(e.eyes) ? "closed" : e.eyes, gaze ?? e.gaze);
   brows(g, p, e.brows);
   nose(g, p);
-  const resting: MouthMode = e.mouth === "rest" ? p.mouth : e.mouth;
-  const m: MouthMode = open === 2 ? (expression === "laughing" ? "laugh" : "open") : open === 1 ? "ajar" : resting;
-  mouth(g, p, m);
+  // At rest a neutral face wears the person's own mouth, and talks with a plain one.
+  const m: MouthMode = e.mouth === "rest" ? (open === 2 ? "open" : open === 1 ? "ajar" : p.mouth) : e.mouth;
+  mouth(g, p, m, e.mouth === "rest" ? 0 : open);
   if (p.blush) for (const [x, y] of [[17, 26], [18, 26], [29, 26], [30, 26]] as const) g.set(x, y, p.blush, "skin");
+  if (e.fx?.includes("blush")) blush(g, p);
+  if (e.fx?.includes("tear")) tear(g);
   if (p.stubble) stubble(g, p);
   if (p.moustache) for (let x = 22; x <= 25; x++) g.set(x, 27, mix(p.hair, p.skin, 0.35), "skin");
+}
+
+/** Cheeks gone pink, in a tone that shows on every skin. */
+function blush(g: Grid, p: PersonLook) {
+  const deep = mix(p.blush ?? mix(p.skin, "#e0485a", 0.45), "#d23c4c", 0.2);
+  const soft = mix(p.skin, deep, 0.55);
+  for (const [x, y, c] of [[17, 25, soft], [18, 25, deep], [19, 25, soft], [16, 26, soft], [17, 26, deep], [18, 26, deep], [19, 26, soft]] as const) {
+    g.set(x, y, c, "skin");
+    g.set(M(x), y, c, "skin");
+  }
+}
+
+const TEAR = "#8fc8ee";
+
+/** One small tear on the cheek, under the eye. */
+function tear(g: Grid) {
+  g.set(31, 24, mix(TEAR, "#ffffff", 0.5), "eye");
+  g.set(31, 25, TEAR, "eye");
+  g.set(31, 26, mix(TEAR, "#3d7fb8", 0.3), "eye");
+}
+
+/** Effects drawn over the hair: a single drop of sweat at the temple. */
+function faceOver(g: Grid, p: PersonLook, expression: Expression) {
+  if (!faceOf(p, expression).fx?.includes("sweat")) return;
+  const drop: [number, number, string][] = [
+    [1, 0, mix(TEAR, "#ffffff", 0.3)],
+    [0, 1, TEAR],
+    [1, 1, "#ffffff"],
+    [0, 2, mix(TEAR, "#3d7fb8", 0.35)],
+    [1, 2, TEAR],
+  ];
+  // At the temple, or where hair or glasses cover it, lower down the side of the face.
+  for (const [x0, y0] of [[31, 15], [30, 15], [31, 16], [30, 16], [29, 16], [31, 22], [30, 23], [31, 23], [30, 25], [29, 25]] as const) {
+    if (!drop.every(([dx, dy]) => g.get(x0 + dx, y0 + dy) === "skin")) continue;
+    for (const [dx, dy, c] of drop) g.set(x0 + dx, y0 + dy, c, "fx");
+    return;
+  }
 }
 
 function stubble(g: Grid, p: PersonLook) {
@@ -740,119 +996,19 @@ function accessory(g: Grid, p: PersonLook) {
   }
 }
 
-// ---------------------------------------------------------------- arms
-
-type Pt = [number, number];
-
-/** One segment of sleeve, three pixels thick, shaded on the side away from the light. */
-function limb(g: Grid, sleeve: string, [x0, y0]: Pt, [x1, y1]: Pt) {
-  const n = Math.max(Math.abs(x1 - x0), Math.abs(y1 - y0), 1);
-  const steep = Math.abs(y1 - y0) >= Math.abs(x1 - x0);
-  for (let i = 0; i <= n; i++) {
-    const x = Math.round(x0 + ((x1 - x0) * i) / n);
-    const y = Math.round(y0 + ((y1 - y0) * i) / n);
-    for (let d = -1; d <= 1; d++) {
-      const [px, py] = steep ? [x + d, y] : [x, y + d];
-      g.set(px, py, d === 1 ? mix(sleeve, "#000000", 0.16) : d === -1 ? mix(sleeve, "#ffffff", 0.1) : sleeve, "arm");
-    }
-  }
-}
-
-type HandKind = "open" | "fist" | "thumb" | "point";
-
-/**
- * A hand at the wrist (hx, hy), drawn from a small pattern: S skin, s shade, k knuckle line.
- * Hands are about a fifth of the head's width, like a real hand to a face at this scale.
- */
-const HANDS: Record<HandKind, string[]> = {
-  // Fingers up, palm out, thumb to the side.
-  open: [
-    "S.S.S.",
-    "SSSSS.",
-    "SSSSsS",
-    "SSSSsS",
-    "SSSSs.",
-    ".SSs..",
-  ],
-  fist: [
-    ".SSSs",
-    "SkkkS",
-    "SSSSs",
-    "SSSSs",
-    ".SSs.",
-  ],
-  thumb: [
-    ".S...",
-    ".S...",
-    "SSSSs",
-    "SkkkS",
-    "SSSSs",
-    ".SSs.",
-  ],
-  point: [
-    ".SSSs....",
-    "SSSSSSSSs",
-    "SkkkS....",
-    "SSSSs....",
-    ".SSs.....",
-  ],
-};
-
-function hand(g: Grid, p: PersonLook, kind: HandKind, [hx, hy]: Pt, flip = false) {
-  const rows = HANDS[kind];
-  const h = rows.length;
-  rows.forEach((row, ry) => {
-    [...row].forEach((ch, rx) => {
-      if (ch === ".") return;
-      const x = flip ? hx + 2 - rx : hx - 2 + rx;
-      const y = hy - h + 1 + ry;
-      g.set(x, y, ch === "S" ? p.skin : ch === "s" ? p.skinShade : mix(p.skinShade, "#3a2016", 0.35), "hand");
-    });
-  });
-}
-
-/** An arm from the shoulder, bent at the elbow, ending in a hand at the wrist. */
-function arm(g: Grid, p: PersonLook, shoulder: Pt, elbow: Pt, wrist: Pt, kind: HandKind, flip = false) {
-  const sleeve = sleeveOf(p);
-  limb(g, sleeve, shoulder, elbow);
-  limb(g, sleeve, elbow, wrist);
-  // A darker cuff where the sleeve ends.
-  for (let d = -1; d <= 1; d++) g.set(wrist[0] + d, wrist[1], mix(sleeve, "#000000", 0.22), "arm");
-  hand(g, p, kind, [wrist[0], wrist[1] - 1], flip);
-}
-
-function pose(g: Grid, p: PersonLook, pose: Pose, beat: number) {
-  const hw = torsoOf(p)[44]!;
-  const R = 23 + hw - 1; // the right shoulder's outer column (the character's left)
-  const L = 24 - hw + 1;
-  const b4 = beat % 4;
-  if (pose === "wave") {
-    const sway = [0, 1, 2, 1, 0, -1][beat % 6]!;
-    arm(g, p, [R - 1, 43], [R + 3, 37], [R + 3 + sway, 31], "open");
-  } else if (pose === "cheer") {
-    const lift = beat % 2;
-    arm(g, p, [L + 1, 43], [L - 3, 37], [L - 2, 30 - lift], "fist", true);
-    arm(g, p, [R - 1, 43], [R + 3, 37], [R + 2, 30 - lift], "fist");
-  } else if (pose === "think") {
-    const tap = beat % 2;
-    arm(g, p, [R - 1, 43], [R + 2, 50], [28, 37 - tap], "fist", true);
-  } else if (pose === "point") {
-    const thrust = beat % 2;
-    arm(g, p, [R - 1, 43], [R + 2, 41], [R + 5 + thrust, 40], "point");
-  } else if (pose === "thumbs") {
-    const bob = beat % 2;
-    arm(g, p, [R - 1, 43], [R + 2, 49], [R + 2, 41 - bob], "thumb", true);
-  }
-}
-
 // ---------------------------------------------------------------- outline and drawing
 
+/** The dark edge round everything solid. Effects (region "fx": steam, sparkles, smoke, notes)
+ *  get no edge, so they read as light, not as objects. */
 function outline(g: Grid) {
-  const filled = (x: number, y: number) => g.get(x, y) !== null;
+  const filled = (x: number, y: number) => {
+    const r = g.get(x, y);
+    return r !== null && r !== "fx";
+  };
   const add: [number, number][] = [];
   for (let y = 0; y < H; y++)
     for (let x = 0; x < W; x++)
-      if (!filled(x, y) && ([[1, 0], [-1, 0], [0, 1], [0, -1]] as const).some(([dx, dy]) => filled(x + dx, y + dy))) add.push([x, y]);
+      if (g.get(x, y) === null && ([[1, 0], [-1, 0], [0, 1], [0, -1]] as const).some(([dx, dy]) => filled(x + dx, y + dy))) add.push([x, y]);
   for (const [x, y] of add) g.set(x, y, OUTLINE, "outline");
   for (let y = 0; y < H; y++)
     for (let x = 0; x < W; x++) {
@@ -875,14 +1031,18 @@ function outline(g: Grid) {
 export function drawPerson(look: PersonLook, m: Moment = {}): Grid {
   const g = new Grid();
   const expression = m.expression ?? "neutral";
+  const gesture = gestureOf(m.pose);
+  const beat = m.beat ?? 0;
+  gesture.behind?.(g, look, beat);
   BACK[look.hairStyle]?.(g, look);
-  body(g, look, ARMS[m.pose ?? "idle"]);
+  body(g, look, gesture.arms);
   head(g, look);
-  face(g, look, expression, Boolean(m.blink), m.open === true ? 2 : m.open ? m.open : 0);
+  face(g, look, expression, Boolean(m.blink), m.open === true ? 2 : m.open ? m.open : 0, m.gaze);
   FRONT[look.hairStyle](g, look);
   if (look.glasses) glasses(g, look.glasses, look.glassesColour ?? "#121214");
   accessory(g, look);
-  pose(g, look, m.pose ?? "idle", m.beat ?? 0);
+  faceOver(g, look, expression);
+  gesture.draw(g, look, beat);
   outline(g);
   return g;
 }

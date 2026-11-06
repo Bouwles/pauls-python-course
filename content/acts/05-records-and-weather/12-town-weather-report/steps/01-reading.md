@@ -21,4 +21,4 @@ Each file starts with its requirements, exactly as the checks read them: the nam
 
 The files you've written come with you into each step. If a later step turns up a bug in an earlier file, fix it there.
 
-Last of all, Yahya reads the write-up against his checklist.
+A few new tools turn up on the way, each with a short Learn step just before the file that needs it. Last of all, Yahya reads the write-up against his checklist.

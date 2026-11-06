@@ -23,11 +23,11 @@ body {
   font-kerning: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* The pixel face has one weight: never let the browser fake a bold one. */
+  /* Every face is loaded in the weights it's used in: never let the browser fake one. */
   font-synthesis: none;
 }
 
-/* Titles, names and big numbers are in the pixel face (REDESIGN3_PLAN.md P2). */
+/* Titles, names and big numbers are in the display face, Fredoka. */
 h1,
 h2,
 h3,

@@ -25,7 +25,7 @@ options:
       Card(title='Carrying the Fire', author='Michael Collins')
       True
     correct: true
-    feedback: "Right. `@dataclass` wrote `__init__`, `__repr__` and `__eq__` from the fields. Two cards with the same fields are equal, which is how Neil finds a duplicate."
+    feedback: "`@dataclass` wrote `__init__`, `__repr__` and `__eq__` from the fields. Two cards with the same fields are equal, which is how Neil finds a duplicate."
   - text: |-
       Card(title='Carrying the Fire', author='Michael Collins')
       False
@@ -36,6 +36,4 @@ options:
     error: TypeError
     feedback: "`@dataclass` reads the fields and writes `__init__` for you. That's the point of it."
 ---
-For Caitlin's festival fund you wrote `__init__` and `__str__` by hand. A **dataclass** writes the usual methods for you: list the fields with their types, and `@dataclass` above the class does the rest.
-
-The `@` line is a decorator. A later project shows how they work; for now, it's an instruction to Python about the class below it.
+Two cards for one book, as Neil found them on his shelves.

@@ -45,7 +45,6 @@ concepts_reviewed: [neural-networks, activation-functions, backpropagation, chai
 ask:
   dialogue:
     - aaesha.neutral.wave: "The river path floods at high tide, and half the class walks it. Requirement: an hour's warning."
-    - aaesha.thinking.point: "One gauge reading can't tell you if the river's rising or falling. You have to remember the hours before."
     - neil.pleased: "I trained a network that reads one hour at a time and remembers. The weights are in the file."
     - paul.thinking: "Remembers what?"
     - aaesha.pleased: "The hours before. Some of them. How many is what I want to find out."
@@ -67,7 +66,6 @@ ship:
     - aaesha.pleased: "Out by six centimetres an hour ahead. Same as last hour was out by forty-seven."
     - neil.thinking: "Six hours ahead it drifts. By then it's reading its own guesses."
     - caitlin.pleased.thumbs: "One hour is all the path needs. I'll take the one hour."
-    - aaesha.thinking: "And the gated one is called long short-term memory. A psychologist's phrase, borrowed."
     - paul.proud: "A short memory, well kept. That'll do for a tide."
   shelf: { object: tide-drum, label: "Aaesha's tide network, remembering" }
   cards: [rnns, lstm-gates]

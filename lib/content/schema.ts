@@ -1,11 +1,14 @@
 // Zod schemas for every content file in /content. scripts/validate-content.ts
 // and scripts/build-content.ts both use these; an invalid file fails the build.
 import { z } from "zod";
+import { EXPRESSIONS } from "../pixel/people";
+import { allGestures } from "../pixel/gestures";
 
 const id = z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, "ids are lower-case words joined by hyphens");
 
-export const FACES = ["neutral", "talking", "pleased", "proud", "thinking", "confused", "worried", "surprised", "laughing", "unimpressed"] as const;
-export const GESTURES = ["idle", "wave", "cheer", "think", "point", "thumbs"] as const;
+/** The expressions and gestures the pixel engine draws (lib/pixel/people.ts, lib/pixel/gestures). */
+export const FACES: readonly string[] = EXPRESSIONS;
+export const GESTURES = (): string[] => allGestures().map((g) => g.id);
 
 /**
  * A dialogue line is written in YAML as a one-key map: `- riya: "Six of us, one bill."`. The key
@@ -19,8 +22,8 @@ export const dialogueLine = z
     const [key, text] = Object.entries(v)[0]!;
     const [who, face, gesture, ...rest] = key.split(".");
     if (rest.length) ctx.addIssue({ code: "custom", message: `"${key}": a speaker, then at most an expression and a gesture` });
-    if (face && !(FACES as readonly string[]).includes(face)) ctx.addIssue({ code: "custom", message: `"${key}": "${face}" isn't an expression (${FACES.join(", ")})` });
-    if (gesture && !(GESTURES as readonly string[]).includes(gesture)) ctx.addIssue({ code: "custom", message: `"${key}": "${gesture}" isn't a gesture (${GESTURES.join(", ")})` });
+    if (face && !FACES.includes(face)) ctx.addIssue({ code: "custom", message: `"${key}": "${face}" isn't an expression (${FACES.join(", ")})` });
+    if (gesture && !GESTURES().includes(gesture)) ctx.addIssue({ code: "custom", message: `"${key}": "${gesture}" isn't a gesture (${GESTURES().join(", ")})` });
     return { who: who!, text: text.trim(), ...(face ? { face } : {}), ...(gesture ? { gesture } : {}) };
   });
 export const dialogue = z.array(dialogueLine);
@@ -259,6 +262,21 @@ export const readingStep = z.object({
   code: z.string().optional(),
 });
 
+/**
+ * Learn: one new idea explained in plain words before anything asks about it (AUTHORING.md, "How
+ * we teach"). The body is the explanation; `code` is a small example the learner can run and change.
+ */
+export const learnStep = z.object({
+  ...stepBase,
+  type: z.literal("learn"),
+  concept: id.optional(),
+  code: z.string().optional(),
+  /** What the example's input() calls are answered with, when it asks. */
+  inputs: z.array(z.string()).default([]),
+  /** The error the example stops with on purpose ("ValueError"), when that's the point. */
+  error: z.string().optional(),
+});
+
 export const explainStep = z.object({
   ...stepBase,
   type: z.literal("explain"),
@@ -326,6 +344,7 @@ export const stepFile = z.discriminatedUnion("type", [
   parsonsStep,
   conceptStep,
   readingStep,
+  learnStep,
   explainStep,
 ]);
 export type StepFile = z.infer<typeof stepFile>;

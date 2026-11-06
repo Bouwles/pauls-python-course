@@ -70,12 +70,12 @@ ask:
   spec: |
     `diabetes.csv` holds 2,000 real respondents to the US CDC's 2015 health survey: body mass index, age band (1 to 13), high blood pressure, high cholesterol, general health (1 excellent to 5 poor) and exercise, each 1 or 0 where it's a yes or no, and whether they have diabetes or prediabetes. About one in eight does.
 
-    In `diabetes.py`, build the classifier from scratch, then score it honestly:
+    In `diabetes.py`, build the model from scratch, then score it honestly:
 
-    1. Lock a quarter of the respondents away for testing. Scale with the training respondents' ruler, and learn the chance by logistic regression and gradient descent on the log loss.
-    2. On the test respondents at a threshold of 0.5: the confusion matrix, accuracy, precision, recall and F1, against saying no to everyone.
-    3. The ROC curve and the area under it.
-    4. The threshold that would catch 85% of the training respondents with diabetes, and what it does on the test respondents. Then the chance for one respondent, and whether to flag them.
+    1. Lock a quarter of the respondents away for testing. Scale with the training respondents' ruler, and learn each respondent's chance of diabetes by walking downhill.
+    2. On the test respondents, with a threshold of 0.5: count the four kinds of right and wrong, and score it with accuracy, precision, recall and F1, against saying no to everyone.
+    3. Score every threshold at once: the ROC curve and the area under it.
+    4. Find the threshold that would catch 85% of the training respondents with diabetes, and see what it does on the test respondents. Then give one respondent's chance, and whether to flag them.
   example: |
     bmi              +0.39
     age_band         +0.30

@@ -45,9 +45,9 @@ export function CodeStepView({ step, row }: { step: CheckableStep; row: StepProg
     if (ok) {
       await markPassed(step.id);
       // One line when it passes: the step's own, or the classmate's thanks, or a reaction. A pass
-      // is said pleased with a thumbs up unless the line says how.
-      if (step.onPass) say(step.onPass.who, step.onPass.text, { face: step.onPass.face ?? "pleased", gesture: step.onPass.gesture ?? "thumbs", kind: "pass" });
-      else if (after[0]) say(after[0].who, after.filter((l) => l.who === after[0]!.who), { face: "pleased", gesture: "cheer", kind: "pass" });
+      // is said pleased, approving or celebrating (the coach picks how) unless the line says.
+      if (step.onPass) say(step.onPass.who, step.onPass.text, { face: step.onPass.face ?? "pleased", gesture: step.onPass.gesture, kind: "pass" });
+      else if (after[0]) say(after[0].who, after.filter((l) => l.who === after[0]!.who), { face: "pleased", kind: "pass" });
       else void cue(cues);
     } else if (attemptsBefore >= 1 || report.status === "syntax-error") {
       // The coach stays quiet on a first miss: the checks already say what happened.

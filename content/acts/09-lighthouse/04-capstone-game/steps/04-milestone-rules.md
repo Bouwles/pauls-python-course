@@ -29,8 +29,11 @@ checklist:
     text: "You've sketched the screen: where the score, lives and level go, and what game over looks like."
     why: "Players read the score from across the Arcade. Put it where they'll look."
 ---
-Read `pier.py`'s docstring and `tests/test_rules.py` side by side: the tests are Caitlin's rules, made exact. Then write the rules out in your own words, with every number in them: how wide the bucket is, how fast things fall at each level, how often something new appears.
+1. Read `pier.py`'s docstring and `tests/test_rules.py` side by side: the tests are Caitlin's rules, made exact.
+2. Write the five rules in your own words, with every number in them: how wide the bucket is, how fast things fall at each level, how often something new appears.
+3. List the awkward moments. A mackerel and a boot landing in the same frame; the last life going in the same frame as the tenth mackerel. Each is a line in your test plan, with what should happen.
+4. Write which file does what: rules, high scores, keys and drawing.
+5. Make the virtual environment with pygame, and a git repository.
+6. Sketch the screen on paper, last. It's the part everyone wants to do first.
 
-List the awkward moments. What if a mackerel and a boot land in the same frame? What if the last life goes in the same frame as the tenth mackerel? Each one is a line in your test plan, with what should happen.
-
-Sketch the screen on paper last. It's the part everyone wants to do first.
+Done: every box below ticked.

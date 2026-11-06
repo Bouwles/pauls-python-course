@@ -22,6 +22,8 @@ export const CAST_LOOKS: Record<string, PersonLook> = {
     stubble: true,
     build: "regular",
     top: { kind: "varsity", body: "#22304f", sleeves: "#ece3cf", trim: "#ece3cf", shirt: "#f7f6f2" },
+    // Black jeans and white trainers.
+    legs: { trousers: "#2a2b33", shoes: "#ecebe6", kind: "jeans" },
   },
   // Short black hair swept up, thick brows, a wide smile, black rectangular glasses, a white shirt.
   neil: {
@@ -40,6 +42,8 @@ export const CAST_LOOKS: Record<string, PersonLook> = {
     glasses: "rect",
     build: "regular",
     top: { kind: "shirt", colour: "#f3f3f1" },
+    // Navy chinos and dark trainers.
+    legs: { trousers: "#2c3a5a", shoes: "#2b2a2e", kind: "trousers" },
   },
   // Very long straight dark hair, rosy cheeks, gold earrings and necklace, a dark-brown T-shirt.
   aaesha: {
@@ -59,6 +63,8 @@ export const CAST_LOOKS: Record<string, PersonLook> = {
     earrings: "#e8b440",
     necklace: "#e8b440",
     top: { kind: "tee", colour: "#4a3226" },
+    // Mid-blue jeans and white trainers.
+    legs: { trousers: "#4d6489", shoes: "#efe9df", kind: "jeans" },
   },
   // Long dark-brown hair turning purple towards the ends, round black glasses, an overshirt.
   caitlin: {
@@ -77,6 +83,8 @@ export const CAST_LOOKS: Record<string, PersonLook> = {
     ends: { colour: "#7a4cc6", shade: "#57339a", light: "#a07ce8", from: 28 },
     glasses: "round",
     top: { kind: "overshirt", outer: "#5f7a6b", inner: "#ece6da" },
+    // Dark jeans and cream canvas trainers.
+    legs: { trousers: "#2e3550", shoes: "#e6dccb", kind: "jeans" },
   },
   // Long straight glossy black hair behind her shoulders, bold brows, a cream varsity jacket.
   riya: {
@@ -93,6 +101,8 @@ export const CAST_LOOKS: Record<string, PersonLook> = {
     hairShade: "#050405",
     hairLight: "#3a4152",
     top: { kind: "varsity", body: "#efe7d4", sleeves: "#efe7d4", trim: "#22304f" },
+    // Black jeans and white trainers.
+    legs: { trousers: "#18181d", shoes: "#f0ece4", kind: "jeans" },
   },
   // Tight dark curls, a few on his forehead, clean-shaven, a black jacket over a grey T-shirt.
   yahya: {
@@ -110,6 +120,8 @@ export const CAST_LOOKS: Record<string, PersonLook> = {
     hairLight: "#3d3537",
     build: "regular",
     top: { kind: "jacket", outer: "#1b1c21", inner: "#94979d" },
+    // Charcoal trousers and white running shoes.
+    legs: { trousers: "#3b3e47", shoes: "#e9e9e6", kind: "trousers" },
   },
 };
 
@@ -132,6 +144,9 @@ const HAIR_STYLE: Record<string, HairStyle> = {
   turban: "turban",
   beanie: "beanie",
 };
+
+/** Whether a colour is light enough that dark jeans sit better under it. */
+const lightTop = (c: string) => [1, 3, 5].reduce((n, i) => n + parseInt(c.slice(i, i + 2), 16), 0) / 3 > 120;
 
 const hexOf = (list: { id: string; hex?: string }[], id: string, fallback: string) => list.find((o) => o.id === id)?.hex ?? fallback;
 
@@ -162,6 +177,8 @@ export function avatarToLook(saved: unknown): PersonLook {
     stubble: a.facialHair,
     accessory: (ACCESSORIES.some((o) => o.id === a.accessory) ? a.accessory : "none") as PersonLook["accessory"],
     top: a.top === "jacket" ? { kind: "jacket", outer: top, inner: "#e9e6df" } : a.top === "shirt" ? { kind: "shirt", colour: top } : a.top === "jumper" ? { kind: "jumper", colour: top } : { kind: "hoodie", colour: top },
+    // Jeans and light trainers for the full-body figure (lib/pixel/figures.ts): a darker wash under a light top.
+    legs: { trousers: lightTop(top) ? "#2e3a57" : "#4a5f86", shoes: "#e6e2da", kind: "jeans" },
   };
 }
 

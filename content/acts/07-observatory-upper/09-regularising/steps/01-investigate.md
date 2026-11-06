@@ -49,8 +49,6 @@ tasks:
 ---
 Riya's network is the seeing network from `net.py`. Six readings go in: the wind, the jet stream overhead, humidity, how fast the air cooled, the moon and the pressure. Out comes the seeing: how much the stars shimmer, in arcseconds. Smaller is steadier.
 
-Neil rated 60 nights. The first 24 are for learning; the other 36 only check.
+Neil rated 60 nights. The first 24 are for learning; the other 36 only check. The chart shows both losses against epochs, like the validation curve for the exam scores.
 
-The chart is a validation curve, like the one for the exam scores downstairs, but drawn against epochs rather than degrees. The training loss falls for ever. The validation loss falls, bottoms out, and climbs.
-
-Riya's network has 513 numbers with which to fit 24 nights. It can learn the noise, so it does.
+Riya's network has 513 weights and biases with which to fit 24 nights. It can learn the noise, so it does.

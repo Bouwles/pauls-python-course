@@ -25,6 +25,16 @@
   overflow: hidden;
 }
 
+/* Their whole self, head to toe, standing on the bottom edge of a strip under the stage. */
+.whole {
+  display: grid;
+  place-items: end center;
+  width: 240px;
+  height: 112px;
+  margin: 2px;
+  overflow: hidden;
+}
+
 .who {
   display: grid;
   gap: var(--s-2);
@@ -212,17 +222,38 @@
     gap: var(--s-6);
   }
 
+  /* Bust and whole self side by side, the name and description under them. */
   .preview {
     position: static;
-    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-columns: auto auto minmax(0, 1fr);
+    grid-template-areas:
+      "stage whole ."
+      "who who who";
     justify-items: start;
     align-items: end;
     text-align: left;
     gap: var(--s-4);
   }
 
+  .preview > .stage {
+    grid-area: stage;
+  }
+
+  .preview > .whole {
+    grid-area: whole;
+  }
+
+  .preview > .who {
+    grid-area: who;
+  }
+
   .stage {
     width: 160px;
+    height: 164px;
+  }
+
+  .whole {
+    width: 76px;
     height: 164px;
   }
 }

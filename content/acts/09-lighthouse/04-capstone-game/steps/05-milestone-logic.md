@@ -30,10 +30,11 @@ checklist:
     text: "High scores survive the game being closed, and a missing scores file means an empty table, not a crash."
     why: "The first time the cabinet is switched on, there is no file. That's the time it most needs to work."
 ---
-All the rules, and no window. Write `pier.py` until `tests/test_rules.py` passes, then `scores.py` until `tests/test_scores.py` does.
+All the rules, and no window.
 
-`update()` does one frame and nothing more, in the order the docstring gives: everything falls, catches and misses are settled, the level is worked out, and only then might something new appear. Change the order and a mackerel can be caught the frame it appears, or a game can carry on after its last life.
+1. Write `pier.py` until `tests/test_rules.py` passes. `update()` does one frame, in the docstring's order: everything falls, catches and misses are settled, the level is worked out, and only then might something new appear. Change the order and a mackerel can be caught the frame it appears.
+2. Keep every random choice on `self.rng`, the game's own seeded generator, so one seed replays one game.
+3. Write `scores.py` until `tests/test_scores.py` passes.
+4. Add at least five tests of your own, and paste a link to the repository.
 
-Keep every random choice on `self.rng`, the game's own generator. Python's shared `random` module would work too, until two games run at once in a test and draw each other's numbers.
-
-Paste a link to the repository.
+Done: every box below ticked.

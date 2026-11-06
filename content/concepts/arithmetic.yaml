@@ -1,7 +1,7 @@
 id: arithmetic
 title: Arithmetic
 summary: |
-  `+`, `-` and `*` work as on paper. `/` always gives a float: even `6 / 2` is `3.0`. `//` divides and drops the remainder, `%` gives the remainder, and `**` raises to a power.
+  `+`, `-` and `*` work as on paper. `/` always gives a float: even `6 / 2` is `3.0`. `//` divides and drops the remainder, and `%` gives the remainder: it has nothing to do with per cent. `**` raises to a power.
 example: |
   print(7 / 2)
   print(7 // 2)

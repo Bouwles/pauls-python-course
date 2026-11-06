@@ -30,22 +30,20 @@ code: |
   print(decide(ordinary))
 tasks:
   - id: clear-night
-    prompt: "Try the clearest night of the winter: dark, visibility 15000 m, no ice, wind 3. Is the face lit? Answer True or False."
+    prompt: "The clearest night of the winter. Change the `ordinary` line to `ordinary = {\"dark\": 1, \"visibility_m\": 15000, \"ice_mm\": 0.0, \"wind\": 3}` and run it. Is the face lit? Read `lamp`, and answer True or False."
     kind: answer
     accept: ["False"]
     feedback: "False. On the clearest nights the controller leaves the face dark. Every dark night it learned from was murkier than this, so it decided visibility mattered more than darkness."
     wrong: "Change ordinary to those readings and run it again. Read the lamp value."
   - id: spring-fog
-    prompt: "Now thick fog with ice on the hands: dark, visibility 300 m, 4.8 mm of ice, wind 3. Is the fog lamp on?"
+    prompt: "Thick fog with ice on the hands. Change the readings to visibility 300 m and 4.8 mm of ice, still dark, wind 3, and run it. Is the fog lamp on?"
     kind: answer
     accept: ["False"]
     feedback: "False. The foggy nights it learned from were all mild, with no ice, so it learned that ice means no fog lamp. The rules never mention ice for the fog lamp."
   - id: gale
-    prompt: "Last, the night it stopped: visibility 5000 m, 4.2 mm of ice, wind 9. Is the heater on?"
+    prompt: "The night it stopped: visibility 5000 m, 4.2 mm of ice, wind 9. Change the readings and run it. Is the heater on?"
     kind: answer
     accept: ["False"]
     feedback: "False. Its weight for wind is 0.0: it never saw a gale with ice on the hands, so it never learned that wind matters. That's the night the hands froze at 3:14."
 ---
-These numbers are everything the controller knows. Each output is a weighted sum of the night's readings; above zero means yes.
-
-Ask it about nights it never saw.
+These numbers are everything the controller knows. Each output is a weighted sum of the night's readings, as in a perceptron; above zero means yes. Each task changes the readings on the `ordinary` line to a night the controller never saw.

@@ -1,10 +1,11 @@
 import { castColour } from "@/lib/cast";
-import type { Pose as Gesture } from "@/lib/pixel/people";
+import type { Expression, Pose as Gesture } from "@/lib/pixel/people";
 import { PixelPerson } from "./PixelPerson";
-import type { Expression, Pose } from "./spec";
+import type { Pose } from "./spec";
 import styles from "./Portrait.module.css";
 
-export type { Expression, Pose } from "./spec";
+export type { Expression } from "@/lib/pixel/people";
+export type { Pose } from "./spec";
 export type { Gesture };
 
 /** Fit a person's crop into `inner` pixels: whole-number scales when there's room, else shrink. */
@@ -14,7 +15,7 @@ function fit(inner: number, cropWidth: number): number {
 
 /**
  * A character's portrait (REDESIGN3_PLAN.md P1): their pixel self, head and shoulders, on a square
- * tile in their colour with a pixel edge. Alive: they blink and breathe, and their mouth moves
+ * tile in their colour with a pixel edge. Alive: they blink, and their mouth moves
  * while `talking`. Used for the coach, name tags, the class and the Clocktower's residents.
  */
 export function Portrait({
@@ -63,12 +64,12 @@ export function Portrait({
   );
   if (onClick)
     return (
-      <button type="button" className={[styles.portrait, styles.button, className].filter(Boolean).join(" ")} style={style} onClick={onClick} aria-label={label ?? name} data-expression={expression}>
+      <button type="button" className={[styles.portrait, styles.button, className].filter(Boolean).join(" ")} style={style} onClick={onClick} aria-label={label ?? name} data-expression={expression} data-gesture={shown === "bust" ? gesture : "idle"}>
         {inner}
       </button>
     );
   return (
-    <span className={[styles.portrait, className].filter(Boolean).join(" ")} style={style} role="img" aria-label={label ?? name} data-expression={expression}>
+    <span className={[styles.portrait, className].filter(Boolean).join(" ")} style={style} role="img" aria-label={label ?? name} data-expression={expression} data-gesture={shown === "bust" ? gesture : "idle"}>
       {inner}
     </span>
   );

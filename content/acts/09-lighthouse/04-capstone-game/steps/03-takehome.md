@@ -10,11 +10,14 @@ setup: |
 dialogue:
   - caitlin.laughing: "The rules are in the tests. I wrote them with Aaesha. She kept saying 'exactly'."
 ---
-The project has `pier.py` and `scores.py` with their docstrings and empty methods, a `main.py` that opens a window and runs the loop but draws nothing yet, and the agreed tests in `tests/`.
+Download the project: `pier.py` and `scores.py` with their docstrings and empty methods, a `main.py` that opens a window and runs the loop but draws nothing yet, and the agreed tests in `tests/`.
 
-The tests import `pier.py` and `scores.py` and never pygame, except one, marked `local`, which runs `python main.py --frames 30` with no window to check your loop runs. Your own tests go in `tests/test_mine.py`.
+1. Work through the four milestones below, with the project open.
+2. Put your own tests in `tests/test_mine.py`.
 
-Download it now and keep it open through the milestones. When every test passes, yours included, hand the report in here.
+The tests import `pier.py` and `scores.py`, never pygame, except one marked `local`, which runs `python main.py --frames 30` to check your loop runs.
+
+Done: `pytest` passes every test, yours included. Then hand the report in here.
 
 ```console
 (.venv) $ pytest -x

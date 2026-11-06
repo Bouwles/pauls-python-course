@@ -41,7 +41,7 @@ downloadable: true
 datasets: []
 client: aaesha
 building: harbour-office
-estimated_minutes: 45
+estimated_minutes: 55
 summary: "Six rules for the server that holds Aaesha's experiment results, and a reason for every one a password breaks."
 concepts_introduced: [string-methods, string-slicing, immutability, strip-replace, boolean-operators, in-operator]
 concepts_reviewed: [strings, bool, comparisons, if-elif-else, input-returns-text, variables, f-strings]

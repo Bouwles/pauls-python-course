@@ -6,9 +6,8 @@ DAY_FILE = "day.txt"
 def push(heap, item):
     """Add item to the heap, keeping the smallest at heap[0]."""
     # Put it at the bottom
-    # While it isn't at the top
-    #     Find its parent
-    #     If the parent is no bigger, stop
+    # While it isn't at the top, find its parent
+    #     If the parent belongs above it, stop
     #     Otherwise swap them, and climb
 
 
@@ -16,8 +15,7 @@ def pop(heap):
     """Remove and return the smallest item. IndexError if the heap is empty."""
     # Keep the top to hand back
     # Move the last item up into its place
-    # While it has a child smaller than itself
-    #     Swap it with the smaller child, and sink
+    # While a child belongs above it, swap it with the one that belongs highest, and sink
 
 
 class TaskScheduler:

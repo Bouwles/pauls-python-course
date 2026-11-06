@@ -42,7 +42,7 @@ downloadable: true
 datasets: []
 client: caitlin
 building: crab-club
-estimated_minutes: 90
+estimated_minutes: 110
 summary: "Four attract screens for Caitlin's new cabinet, five thousand visitors walking past, and a test that shows the winner more often as it learns: epsilon-greedy, UCB and Thompson sampling."
 concepts_introduced: [bandits, exploration-exploitation, ab-testing]
 concepts_reviewed: [numpy-arrays, matplotlib, probability, functions-as-values, lambda, mutability, default-arguments, f-strings, zip]

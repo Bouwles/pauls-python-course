@@ -19,8 +19,8 @@ while name != "":
             print("Name, phone, address, please.")
     else:
         name = nicknames.get(name, name)
-        record = contacts.get(name)
-        if record is not None:
+        if name in contacts:
+            record = contacts[name]
             print(f"{name}: {record['phone']}, {record['address']}")
         else:
             print(f"No contact called {name}.")

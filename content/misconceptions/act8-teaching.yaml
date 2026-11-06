@@ -1,0 +1,26 @@
+# Misconceptions named by the Arcade's Learn and Quick check steps (Act VIII),
+# and by the capstones' new Learn steps (Act IX).
+
+# -- A/B Test Bandit ---------------------------------------------------------------
+running-average-is-total:
+  concept: bandits
+  description: Thinks estimate += (reward - estimate) / count adds the rewards up, when dividing by the count keeps their average.
+bincount-backwards:
+  concept: exploration-exploitation
+  description: Reads np.bincount's answer the wrong way round. Position i holds how many times the number i appears.
+
+# -- Gridworld Simulator -----------------------------------------------------------
+bump-moves-anyway:
+  concept: mdps
+  description: Thinks a step into the rock or off the edge still moves the agent there, when it stays on the tile it started from.
+
+# -- Radio Station Finder (Act IX) ---------------------------------------------------
+ends-divide-by-window:
+  concept: slicing
+  description: Thinks a moving average at the ends of a list still divides by the full window, when the slice there is shorter and the mean is of the readings it holds.
+plateau-counted-twice:
+  concept: looping-lists
+  description: Thinks a flat-topped peak counts once for every reading on its top, when "higher than the one before" picks only the first of them.
+peak-ignores-floor:
+  concept: looping-lists
+  description: Counts every bump in the readings as a station, leaving out the floor that the hiss has to clear.

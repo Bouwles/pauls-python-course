@@ -35,7 +35,7 @@ downloadable: true
 datasets: []
 client: yahya
 building: ferry-dock
-estimated_minutes: 60
+estimated_minutes: 70
 summary: "Type a sum as text, get the answer, and survive bad input with try and except, until quit."
 concepts_introduced: [exceptions, try-except]
 concepts_reviewed: [reading-tracebacks, value-error, float-conversion, split-join, functions, parameters, return-values, none, while-loops, break-continue, if-elif-else, f-strings]

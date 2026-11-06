@@ -27,13 +27,13 @@ tasks:
     feedback: "`do:`. Punctuation stays attached to the word next to it, so `do:` and `do` would be counted as two different words."
     wrong: "Look for a `:` near the end of the list."
   - id: exactly-alice
-    prompt: "Add `print(pieces.count(\"Alice\"))`. How many pieces are exactly `Alice`?"
+    prompt: "Add `print(pieces.count(\"Alice\"))` at the end and run it. `.count()` works on a list as it does on a string. How many pieces are exactly `Alice`?"
     kind: answer
     accept: ["221"]
     feedback: "221. But `Alice,` and `Alice.` and `\"Alice` aren't exactly `Alice`, so they're missed. She's in the book far more than that."
     wrong: "It's the last number printed."
   - id: every-alice
-    prompt: "Count her properly. Go through the pieces; for each one, strip `string.punctuation` off both ends, lower it, and count it if it's `alice`. Print the count. You'll need `import string` at the top."
+    prompt: "Count her properly. Add `import string` at the top. Then loop over the pieces: strip `string.punctuation` off both ends of each one, lower it, and add 1 to a count if it's `alice`. Print the count last."
     kind: run
     tests: |
       TESTS = [
@@ -57,6 +57,6 @@ tasks:
               total += 1
       print(total)
 ---
-`open()` opens a file. `with ... as book:` keeps it open for the indented block and closes it when the block ends, even if something inside goes wrong. `.read()` gives back the whole file as one string.
+Aaesha's copy of the book. `split()` with nothing in the brackets cuts text at every space and new line.
 
-`alice.txt` is *Alice's Adventures in Wonderland*, the copy Aaesha's experiment uses. `string.punctuation` is every punctuation mark on the keyboard, and `.strip(string.punctuation)` takes any of them off the ends of a word.
+`string.punctuation`, from the `string` module, is every punctuation mark on the keyboard. `.strip(string.punctuation)` takes any of them off the ends of a word.

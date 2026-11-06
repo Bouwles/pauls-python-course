@@ -9,5 +9,8 @@ def greeting(name):
 
 if __name__ == "__main__":
     # Run as `python hello.py Paul`: the name comes from the command line.
-    name = sys.argv[1] if len(sys.argv) > 1 else "Neil"
+    if len(sys.argv) > 1:
+        name = sys.argv[1]
+    else:
+        name = "Neil"
     print(greeting(name))

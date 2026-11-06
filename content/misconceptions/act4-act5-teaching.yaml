@@ -1,0 +1,240 @@
+# Misconceptions for the Learn steps and Quick checks added to Acts IV and V.
+
+# -- Speed Tester ----------------------------------------------------------------
+in-never-stops-early:
+  concept: big-o
+  description: Thinks `in` on a list always looks at every item, even after it has found a match.
+square-is-double:
+  concept: big-o
+  description: Thinks squaring a number doubles it, so 3 squared is 6.
+
+# -- Search Engine for a Parts List ------------------------------------------------
+binary-starts-at-front:
+  concept: binary-search
+  description: Thinks a binary search starts at the front of the list, like a linear search, rather than in the middle.
+binary-steps-one-place:
+  concept: binary-search
+  description: Thinks that after a miss a binary search moves one place along, rather than jumping to the middle of what's left.
+
+# -- Sorting Visualiser ---------------------------------------------------------------
+insertion-slides-to-front:
+  concept: simple-sorts
+  description: Thinks insertion sort slides each item all the way to the front, rather than stopping at the first item that belongs before it.
+split-sorts-piles:
+  concept: quicksort
+  description: Thinks one quicksort split also sorts the items inside each pile, rather than only putting them on the right side of the pivot.
+pivot-kept-once:
+  concept: quicksort
+  description: Thinks only the pivot itself is kept in the middle pile, so other items equal to it are lost or counted once.
+merge-loop-takes-all:
+  concept: merge-sort
+  description: Thinks the merge loop carries on until both piles are empty, rather than stopping as soon as one runs out.
+merge-takes-whole-pile:
+  concept: merge-sort
+  description: Thinks merging takes the whole pile whose front item is smaller, rather than one item at a time.
+
+# -- Recursive File Tree Printer ----------------------------------------------------
+memo-forgets-between-calls:
+  concept: memoisation
+  description: Thinks a memo dictionary passed into a second call starts empty again, so everything is worked out from scratch.
+memo-knows-unasked:
+  concept: memoisation
+  description: Thinks a memo already holds answers that nothing has worked out yet.
+
+# -- Linked List -------------------------------------------------------------------------
+one-pass-reverses:
+  concept: linked-lists
+  description: Thinks one pass of the reversing loop turns the whole linked list round, rather than one arrow.
+
+# -- Hash Map --------------------------------------------------------------------------
+hash-lookup-one-probe:
+  concept: hash-maps
+  description: Thinks a hash map lookup always takes exactly one probe, even when the key's pile holds several keys.
+doubling-doubles-pile-number:
+  concept: hash-maps
+  description: Thinks that when a hash map doubles its piles, each key's pile number doubles too, rather than being worked out again as a remainder.
+
+# -- Parts Catalogue -----------------------------------------------------------------------
+height-counts-links:
+  concept: trees
+  description: Thinks height counts the links between cards on the longest path, so a single card has height 0.
+bst-stops-at-root:
+  concept: binary-search-trees
+  description: Thinks a new card in a binary search tree goes straight beside the root, rather than walking down to an empty place.
+bst-new-card-at-end:
+  concept: binary-search-trees
+  description: Thinks a new card goes after the biggest card, as if the tree were a list with an end.
+
+# -- Task Scheduler ---------------------------------------------------------------------------
+tuples-cannot-compare:
+  concept: priority-queues
+  description: Thinks Python can't compare two tuples with < at all, rather than comparing them item by item.
+
+# -- Maze Solver -------------------------------------------------------------------------------
+neighbour-list-reaches-all:
+  concept: graphs
+  description: Thinks a place's list in a graph holds everywhere that can be reached from it, rather than only the places one road away.
+path-needs-no-reverse:
+  concept: bfs
+  description: Thinks following came_from notes back from the goal gives the route in order from the start, without turning it round.
+path-includes-every-place:
+  concept: bfs
+  description: Thinks the route rebuilt from a search includes every place the search reached, not only those on the way.
+
+# -- Route Planner --------------------------------------------------------------------------------
+dijkstra-settles-in-reached-order:
+  concept: dijkstra
+  description: Thinks Dijkstra's algorithm settles places in the order they were first reached, as breadth-first search does, rather than in order of minutes.
+dijkstra-keeps-first:
+  concept: dijkstra
+  description: Thinks Dijkstra's algorithm keeps the first minutes it finds for a place, rather than replacing them when a quicker way turns up.
+
+# -- Sudoku Solver ------------------------------------------------------------------------------
+backtrack-keeps-partial:
+  concept: backtracking
+  description: Thinks a failed backtracking search leaves its partial answer behind, not realising every choice is undone on the way back.
+backtrack-gives-best-try:
+  concept: backtracking
+  description: Thinks backtracking hands back the furthest partial answer it reached when there's no full solution.
+
+# -- Spell Checker -----------------------------------------------------------------------------------
+dp-ignores-better:
+  concept: dynamic-programming
+  description: Thinks a dynamic programming table keeps the first answer written in a slot, even when a later choice beats it.
+edit-distance-is-length-gap:
+  concept: dynamic-programming
+  description: Thinks the edit distance between two words is how much longer one is than the other.
+edit-swap-is-two:
+  concept: dynamic-programming
+  description: Thinks swapping one letter for another counts as two changes in an edit distance, a take-out and a put-in.
+
+# -- Grade Book (Act V) ----------------------------------------------------------------------------
+array-index-col-first:
+  concept: numpy-arrays
+  description: Thinks the first number in marks[a, b] picks the column and the second the row.
+axis-gives-one-number:
+  concept: numpy-arrays
+  description: Thinks a method like min or mean gives one number for the whole array even when it's given an axis.
+
+# -- Census Explorer ---------------------------------------------------------------------------------
+shape-columns-first:
+  concept: pandas-basics
+  description: Thinks a DataFrame's shape gives the number of columns first, then rows.
+max-gives-row:
+  concept: pandas-basics
+  description: Thinks max on one column hands back the whole row, or the name beside the biggest value, rather than the value.
+filter-changes-original:
+  concept: selecting-filtering
+  description: Thinks filtering a DataFrame takes the other rows out of the original table, rather than giving back a new one.
+value-counts-per-row:
+  concept: pandas-basics
+  description: Thinks value_counts gives one count per row, rather than one per different value.
+
+# -- Cleaning Pipeline -------------------------------------------------------------------------------
+title-strips-spaces:
+  concept: data-cleaning
+  description: Thinks str.title() also removes spaces from the ends of the text, not only changing capitals.
+coerce-reads-words:
+  concept: data-cleaning
+  description: Thinks pd.to_numeric with errors="coerce" understands words like "none" as numbers, rather than making them missing.
+dedupe-keeps-last:
+  concept: data-cleaning
+  description: Thinks drop_duplicates keeps the last copy of a repeated row, rather than the first.
+
+# -- Pivot Tables ------------------------------------------------------------------------------------
+nunique-counts-rows:
+  concept: groupby
+  description: Thinks nunique counts every value in a group, rather than how many different values there are.
+agg-ignores-groups:
+  concept: groupby
+  description: Thinks each answer from agg is worked out over the whole table, rather than separately for each group.
+fill-value-ignored:
+  concept: groupby
+  description: Thinks an empty cell in a pivot table stays NaN even when fill_value is given.
+pivot-counts-row-total:
+  concept: groupby
+  description: Thinks a pivot table cell counts every row for its index value, whatever the column value.
+
+# -- Weather Dashboard -----------------------------------------------------------------------------
+hist-bar-per-value:
+  concept: matplotlib
+  description: Thinks a histogram draws one bar for each value, rather than one bar for each bin, as tall as the count in it.
+rolling-drops-start:
+  concept: pandas-basics
+  description: Thinks a rolling average leaves out the first values, rather than keeping them as NaN.
+rolling-uses-what-it-has:
+  concept: pandas-basics
+  description: Thinks a rolling average averages whatever values it has at the start, rather than giving NaN until the window is full.
+
+# -- Summary Statistics ---------------------------------------------------------------------------
+fences-flag-ends:
+  concept: distributions
+  description: Thinks the smallest and largest readings are always outliers, whatever the fences say.
+outlier-needs-huge-gap:
+  concept: distributions
+  description: Thinks a reading has to be many times bigger than the rest to fall outside the fences, rather than one and a half middle-halves beyond the quartiles.
+
+# -- Statistics Toolkit ------------------------------------------------------------------------------
+probability-two-outcomes-even:
+  concept: probability
+  description: Thinks anything that either happens or doesn't has a probability of 0.5, whatever the odds.
+probability-counts-the-rest:
+  concept: probability
+  description: Counts the share of tries where the thing didn't happen, rather than where it did.
+p-value-is-the-difference:
+  concept: permutation-tests
+  description: Thinks the p-value is the size of the difference between the groups, rather than the share of shuffles that matched or beat it.
+
+# -- Linear Algebra Lab ---------------------------------------------------------------------------
+sin-cos-swapped:
+  concept: vectors
+  description: Thinks the cosine of a bearing gives the east part of an arrow and the sine the north part, the wrong way round for angles measured from north.
+arrow-never-negative:
+  concept: vectors
+  description: Thinks an arrow's parts are always positive, like a length, rather than below zero when it points south or west.
+rotation-flips-one-axis:
+  concept: matrices
+  description: Thinks a half turn changes the sign of only one part of a point, like a mirror, rather than both.
+pad-adds-zeros:
+  concept: matrices
+  description: Thinks np.pad with mode="edge" adds a border of zeros, rather than repeating the edge pixels.
+blur-keeps-pixel:
+  concept: matrices
+  description: Thinks a blurred pixel keeps its own value, rather than becoming the average of the window around it.
+
+# -- Calculus for ML ------------------------------------------------------------------------------------
+step-either-side-is-one-step:
+  concept: numerical-gradients
+  description: Thinks the points a step either side of x are one step apart, so dividing by the step gives the slope.
+slope-is-rise:
+  concept: numerical-gradients
+  description: Thinks the rise between two nearby points is the slope, without dividing by the run.
+gradient-sign-ignored:
+  concept: derivatives
+  description: Thinks a negative slope in one direction still means uphill lies that way.
+steepness-negative:
+  concept: derivatives
+  description: Thinks the steepness of the gradient takes the sign of the slopes, rather than being an arrow's length, never negative.
+miss-sign-backwards:
+  concept: chain-rule
+  description: Thinks the miss is the true value minus the reading, so a reading that's too high has a negative miss.
+
+# -- Town Weather Report (Act V capstone) ---------------------------------------------------------
+where-replaces-true:
+  concept: data-cleaning
+  description: Thinks column.where(condition, other) replaces the values where the condition is True, rather than keeping them.
+where-drops-rows:
+  concept: data-cleaning
+  description: Thinks column.where(condition, other) drops the rows that fail the condition, like a filter.
+polyfit-intercept-first:
+  concept: descriptive-statistics
+  description: Thinks np.polyfit(x, y, 1) gives the intercept first and the slope second.
+trend-is-last-minus-first:
+  concept: descriptive-statistics
+  description: Thinks a trend's slope is the last value minus the first, rather than the rise per step of a line through every point.
+decode-leaves-bytes:
+  concept: modules
+  description: Thinks .decode("ascii") on base64 output still leaves bytes, rather than giving a string.
+b64decode-gives-text:
+  concept: modules
+  description: Thinks base64.b64decode gives back a string, rather than the bytes that were encoded.

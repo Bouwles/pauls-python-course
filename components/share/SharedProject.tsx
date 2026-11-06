@@ -1,13 +1,16 @@
 "use client";
 
 // A learner's shipped project, runnable in the page (REDESIGN.md 9.2). Read only: it's theirs.
-// The classmate it was made for stands at the top, cheering it; the learner's pixel avatar signs it.
+// The classmate it was made for stands at the top, celebrating it in a way of their own (a
+// different one each visit, lib/pixel/variety.ts); the learner's pixel avatar signs it.
 import { useState } from "react";
 import Link from "next/link";
 import { BRAND } from "@/lib/brand";
 import type { Files } from "@/lib/python/protocol";
 import { CAST_IDS, castColour } from "@/lib/cast";
 import { avatarBackground } from "@/lib/pixel/looks";
+import { gestureLabel, pickGesture } from "@/lib/pixel/variety";
+import { useVisit } from "@/lib/useVisit";
 import { PixelPerson } from "../art/PixelPerson";
 import { ShelfObject } from "../art/ShelfObject";
 import { Button, LinkButton } from "../ui/Button";
@@ -31,6 +34,9 @@ export function SharedProjectView(props: {
   shippedAt: string | null;
 }) {
   const runner = useRunner();
+  const visit = useVisit();
+  // A plain cheer until the visit's seed arrives, so the page hydrates as it was sent.
+  const cheer = visit ? pickGesture({ who: props.clientId, tags: ["celebrate", "approve"], seed: `share|${visit}|${props.jobId}`, mode: "moment" }) : "cheer";
   const names = Object.keys(props.files);
   const [active, setActive] = useState(names.includes(props.entry) ? props.entry : (names[0] ?? props.entry));
   const running = runner.state.phase === "running" || runner.state.phase === "starting";
@@ -41,7 +47,7 @@ export function SharedProjectView(props: {
       <header className={styles.head}>
         {(CAST_IDS as readonly string[]).includes(props.clientId) ? (
           <span className={`px-panel ${styles.client}`} style={{ background: castColour(props.clientId).face }}>
-            <PixelPerson who={props.clientId} crop="bust" scale={2} expression="pleased" pose="cheer" label={`${props.client}, cheering`} />
+            <PixelPerson who={props.clientId} crop="bust" scale={2} expression="pleased" pose={cheer} label={`${props.client} ${gestureLabel(cheer)}`} />
           </span>
         ) : (
           <ShelfObject jobId={props.jobId} title={props.projectName} client={props.clientId} size={64} />

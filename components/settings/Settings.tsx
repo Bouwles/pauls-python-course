@@ -12,6 +12,8 @@ import { useSession } from "@/lib/store/session";
 import { DEFAULT_SETTINGS, TABLES, type Settings as SettingsData } from "@/lib/store/types";
 import { download, zip } from "@/lib/export";
 import { prefersReducedMotion } from "@/lib/display";
+import { pickGesture } from "@/lib/pixel/variety";
+import { useVisit } from "@/lib/useVisit";
 import { PixelPerson } from "../art/PixelPerson";
 import { Button } from "../ui/Button";
 import { useToast } from "../ui/Toast";
@@ -43,7 +45,10 @@ export function Settings() {
   const [name, setName] = useState(profile.displayName);
   const [look, setLook] = useState<AvatarLook>(readAvatar(profile.character));
   const [creatorOpen, setCreatorOpen] = useState(false);
-  const [waving, setWaving] = useState(false);
+  // The gesture the new avatar says hello with once it's saved: a different one every time.
+  const [hello, setHello] = useState<string | null>(null);
+  const hellos = useRef(0);
+  const visit = useVisit();
   const [passwordOpen, setPasswordOpen] = useState(false);
   const [flags, setFlags] = useFlags(Boolean(user));
 
@@ -106,7 +111,7 @@ export function Settings() {
               {/* While the creator is open, its large live avatar stands in for this one. */}
               {creatorOpen ? null : (
                 <span className={`px-panel ${styles.youTile}`} style={{ background: look.colour }}>
-                  <PixelPerson avatar={look} crop="bust" scale={2} expression={waving ? "pleased" : "neutral"} pose={waving ? "wave" : "idle"} label={name || profile.displayName ? `${name || profile.displayName}'s avatar` : "Your avatar"} />
+                  <PixelPerson avatar={look} crop="bust" scale={2} expression={hello ? "pleased" : "neutral"} pose={hello ?? "idle"} label={name || profile.displayName ? `${name || profile.displayName}'s avatar` : "Your avatar"} />
                 </span>
               )}
               <div className={styles.youText}>
@@ -122,8 +127,9 @@ export function Settings() {
                     toast("Avatar saved.");
                     // Finished: the new avatar says hello.
                     if (!prefersReducedMotion()) {
-                      setWaving(true);
-                      setTimeout(() => setWaving(false), 2400);
+                      hellos.current += 1;
+                      setHello(pickGesture({ tags: ["greet", "celebrate"], seed: `settings|${visit}|${hellos.current}` }));
+                      setTimeout(() => setHello(null), 2400);
                     }
                   }
                   setCreatorOpen((o) => !o);

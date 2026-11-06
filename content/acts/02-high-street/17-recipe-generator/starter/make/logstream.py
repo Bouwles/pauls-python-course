@@ -18,6 +18,7 @@ LOG = "race.log"
 
 
 # first(entries, count) returns a list of the first count, taking no more.
+#   Take no more than you need
 
 
 def main():

@@ -41,11 +41,11 @@ ask:
   dialogue:
     - paul.pleased.wave: "Welcome to the Workshop. First program: the sign on the front door."
     - paul.unimpressed: "The old one fell off in the rain. People started asking us to fix the clock."
-    - paul.neutral.point: "Name, what we teach, the hours, and a warning. Four lines of print. Nothing clever."
+    - paul.neutral.point: "Name, what we teach, the hours, and a warning. Four lines. Nothing clever."
   spec: |
-    Write a program that prints the sign for the Clocktower's front door: the course's name, what it teaches, the opening hours and a note for visitors.
+    Write a program that shows the sign for the Clocktower's front door: the course's name, what it teaches, the opening hours and a note for visitors.
 
-    Four lines, exactly as below, in this order.
+    Four lines, exactly as below, in this order. You don't need to know any Python yet. The next steps explain each thing you'll use, one at a time.
   example: |
     PAUL'S PYTHON COURSE
     Python, from the ground floor up
@@ -61,10 +61,12 @@ stretch:
   - id: border
     title: "A border"
     prompt: |
-      Put a line of `=` signs above and below the sign, exactly as long as the longest line (32 characters). Then the sign looks finished from across the street.
+      Put a line of 32 `=` signs above and below the sign, as long as its longest line. Then the sign looks finished from across the street.
+
+      You can type all 32, or let Python count: `*` after a string repeats it, so `print("=" * 32)` prints 32 of them.
     tests: tests/stretch-border.py
     solution: solutions/stretch-border.py
   - id: second-sign
     title: "One for the back door"
     prompt: |
-      Paul wants a smaller sign for the back door: `DELIVERIES` on the first line and `Knock twice. Then wait.` on the second. Add it under the main sign, with an empty line between them. `print()` with nothing inside prints an empty line.
+      Paul wants a smaller sign for the back door: `DELIVERIES` on the first line and `Knock twice. Then wait.` on the second. Add it under the main sign, with an empty line between them. `print()` with nothing inside the brackets prints an empty line.

@@ -26,11 +26,16 @@ export const viewport: Viewport = {
   ],
 };
 
-// Three faces (REDESIGN3_PLAN.md P2): Tiny5, a pixel face, for titles, names, buttons, tabs and
-// labels (one weight: pixel faces must never be fake-bolded); Atkinson Hyperlegible Next for reading and for anything typed; JetBrains Mono
-// for code. Both loaded faces preload with matched fallbacks.
+// Three faces: Fredoka, rounded and friendly, for titles, names, buttons, tabs and labels;
+// Atkinson Hyperlegible Next for reading and for anything typed; JetBrains Mono for code. Fredoka
+// is loaded semi-bold as its normal weight, so every title and label is semi-bold without each
+// rule saying so, and bold for anything marked bold. Both loaded faces preload with matched
+// fallbacks.
 const display = localFont({
-  src: [{ path: "../node_modules/@fontsource/tiny5/files/tiny5-latin-400-normal.woff2", weight: "400", style: "normal" }],
+  src: [
+    { path: "../node_modules/@fontsource/fredoka/files/fredoka-latin-600-normal.woff2", weight: "400", style: "normal" },
+    { path: "../node_modules/@fontsource/fredoka/files/fredoka-latin-700-normal.woff2", weight: "700", style: "normal" },
+  ],
   variable: "--font-display-loaded",
   display: "swap",
   adjustFontFallback: "Arial",

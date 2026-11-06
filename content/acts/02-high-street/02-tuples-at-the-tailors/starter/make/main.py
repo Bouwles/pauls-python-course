@@ -5,7 +5,7 @@ sizes = [(112, 98, 84), (96, 88, 74), (101, 95, 79)]
 
 def print_book(names, sizes):
     # Number the lines with enumerate, starting at 1
-    # Walk both lists together with zip, unpacking each pair
+    # Unpack each tuple into honest names
     pass  # pass means "nothing here yet". Replace it.
 
 

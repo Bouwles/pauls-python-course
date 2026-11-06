@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { explainError } from "@/lib/errors";
 import { ASSISTANT } from "@/lib/cast";
+import { hash } from "@/lib/pixel/variety";
+import type { Expression } from "@/lib/pixel/people";
 import type { PyError } from "@/lib/python/protocol";
 import type { RunnerState } from "./useRunner";
 import { Button } from "../ui/Button";
@@ -19,21 +21,26 @@ interface Props {
   onRetry?: () => void;
 }
 
+/** Neil's faces for an error, one per error so they don't all look alike: he's calm about them. */
+const DEBUG_FACES: Expression[] = ["thinking", "focused", "curious", "thinking", "determined"];
+
 /**
- * The traceback, then the error panel (REDESIGN-2.md 3): Neil beside it thinking, since debugging
- * is his, a short heading in the pixel face, the plain explanation and a "Go to line" button.
+ * The traceback, then the error panel (REDESIGN-2.md 3): Neil beside it working it out, since
+ * debugging is his, a short heading in the pixel face, the plain explanation and a "Go to line"
+ * button. His portrait is a small head and shoulders, so it's his face that changes, error to error.
  */
 export function ErrorExplanation({ error, source, onShowLine }: { error: PyError; source: string; onShowLine?: (line: number) => void }) {
   const wb = useMaybeWorkbench();
   const explanation = explainError(error, source);
   const name = wb?.characters[ASSISTANT]?.name ?? "Neil";
+  const face = DEBUG_FACES[hash(`${error.type}|${error.line ?? ""}|${error.message}`) % DEBUG_FACES.length]!;
   return (
     <div className={styles.error}>
       <pre className={styles.traceback}>{error.traceback || `${error.type}: ${error.message}`}</pre>
       {explanation ? (
         <section className={styles.explain} aria-label={`${name} explains the error`}>
           <div className={styles.explainHead}>
-            <Portrait who={ASSISTANT} name={name} size={wb?.compact ? 72 : 80} expression="thinking" />
+            <Portrait who={ASSISTANT} name={name} size={wb?.compact ? 72 : 80} expression={face} />
             <h2 className={styles.explainTitle}>{explanation.title.replace(/\.$/, "")}</h2>
           </div>
           <p className={styles.explainBody}>{explanation.body}</p>

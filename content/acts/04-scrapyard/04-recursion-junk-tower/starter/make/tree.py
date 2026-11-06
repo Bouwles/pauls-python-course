@@ -10,6 +10,8 @@ FOLDER = "backup"
 # and over. It writes nothing down.
 def folder_size(path, sizes):
     """Bytes in every file under path, however deep. Each folder's total is kept in sizes."""
+    # Worked out before? Hand that back
+    # Otherwise, work it out from smaller cases
     total = 0
     for name in sorted(os.listdir(path)):
         inside = os.path.join(path, name)
@@ -17,6 +19,7 @@ def folder_size(path, sizes):
             total = total + folder_size(inside, sizes)
         else:
             total = total + os.path.getsize(inside)
+    # Write it down, then hand it back
     return total
 
 

@@ -47,7 +47,6 @@ ask:
   dialogue:
     - caitlin.pleased.wave: "My sailing game has a radio. It reads the shipping forecast for the game's sea areas."
     - caitlin.neutral.point: "I wrote thirty forecasts, and kept five back. I want the game to make up its own."
-    - neil.thinking: "Then it learns from yours. Thirty is a small library, but it's enough to learn some spelling."
     - yahya.proud: "It'll be writing the forecast by Friday."
     - paul.unimpressed: "It'll be writing something by Friday."
   spec: |

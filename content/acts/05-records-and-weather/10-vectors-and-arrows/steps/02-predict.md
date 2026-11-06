@@ -33,6 +33,4 @@ options:
 after: |
   Run it. Then try `print(2 * monday)`: twice as long, pointing the same way.
 ---
-Adding two arrays adds them number by number, so adding two arrows puts one on the end of the other.
-
-`np.linalg.norm` gives an arrow's length.
+Two days of wind, as arrows, added together.

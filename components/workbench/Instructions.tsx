@@ -7,6 +7,7 @@ import { Button } from "../ui/Button";
 import { Icon } from "../ui/Icon";
 import { Coach } from "./Coach";
 import { useWorkbench } from "./context";
+import { howTo } from "./labels";
 import styles from "./Instructions.module.css";
 
 export function Prose({ html, className }: { html: string | null | undefined; className?: string }) {
@@ -15,15 +16,18 @@ export function Prose({ html, className }: { html: string | null | undefined; cl
 }
 
 /**
- * The instructions panel (REDESIGN-2.md 4.3), top to bottom: the step's title, what to do, the
- * coach, Hint and the duck, the step's own controls (answer cards, tasks), then the project spec
- * and the checks you can see, both folded away. No paper, no pin.
+ * The instructions panel (REDESIGN-2.md 4.3), top to bottom: the step's title, "What to do" (the
+ * same two or three short actions on every step of its kind, on a line or two), the step's
+ * explanation, the step's main action (Got it), held in view at the panel's foot when the
+ * explanation is long, the coach, Hint and the duck, the step's own controls (answer cards,
+ * tasks), then the project spec and the checks you can see, both folded away. No paper, no pin.
  */
 export function Instructions({
   step,
   title,
   html,
   children,
+  action,
   hints,
   duck,
   checks,
@@ -37,6 +41,8 @@ export function Instructions({
   /** What to do. The step's own text unless given. */
   html?: string | null;
   children?: React.ReactNode;
+  /** The step's main action (Got it), straight after the explanation and always in view. */
+  action?: React.ReactNode;
   /** The step's hints: shows the Hint button. */
   hints?: React.ReactNode;
   /** The duck's questions: shows "Explain it to the duck". */
@@ -49,7 +55,8 @@ export function Instructions({
   /** The coach speaks after the step's own controls (Predict: it reacts to the answer). */
   coachAfter?: boolean;
 }) {
-  const { areas, compact, panelCollapsed, setPanelCollapsed, hintsOpen, setHintsOpen, duckOpen, setDuckOpen, say, nameOf } = useWorkbench();
+  const { areas, compact, panelCollapsed, setPanelCollapsed, hintsOpen, setHintsOpen, duckOpen, setDuckOpen, say, nameOf, characters } = useWorkbench();
+  const steps = howTo(step, characters, { compact });
   const folded = panelCollapsed && !compact && !wide;
 
   if (folded) {
@@ -69,7 +76,7 @@ export function Instructions({
   const openHints = () => {
     const open = !hintsOpen;
     setHintsOpen(open);
-    if (open) say(ASSISTANT, "Stuck? Pick how much help you want. Each one gives a little more away.", { kind: "hint", face: "thinking", gesture: "point" });
+    if (open) say(ASSISTANT, "Stuck? Pick how much help you want. Each one gives a little more away.", { kind: "hint", face: "thinking" });
   };
 
   return (
@@ -86,7 +93,20 @@ export function Instructions({
             </button>
           )}
         </header>
+        {steps.length ? (
+          <div className={styles.howTo}>
+            <p className={styles.howToTitle} id="how-to-title">
+              What to do
+            </p>
+            <ol className={styles.howToList} aria-labelledby="how-to-title">
+              {steps.map((t) => (
+                <li key={t}>{t}</li>
+              ))}
+            </ol>
+          </div>
+        ) : null}
         <Prose html={html === undefined ? step.html : html} />
+        {action ? <div className={styles.action}>{action}</div> : null}
         {coachAfter ? null : (
           <div className={styles.coach}>
             <Coach />
@@ -156,6 +176,14 @@ export function Instructions({
       </div>
     </section>
   );
+}
+
+/**
+ * A step's main action among its own controls (Predict's Lock in, after the answers): where it
+ * falls, but held at the panel's foot while what comes before it runs past the bottom.
+ */
+export function StepAction({ children }: { children: React.ReactNode }) {
+  return <div className={styles.action}>{children}</div>;
 }
 
 /** The project spec: what the program does and an example run. Folded after the Ask. */

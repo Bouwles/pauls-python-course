@@ -40,7 +40,7 @@ datasets:
     source: "https://archive.ics.uci.edu/dataset/292/wholesale+customers"
     licence: "CC BY 4.0"
     file: "customers.csv"
-    notes: "All 440 rows, in the original order and numbered from 1. Channel 1 and 2 written as horeca and retail, Region 1 to 3 as lisbon, oporto and other; the six spending columns renamed in lower case, Delicassen as delicatessen. measurements.csv, used only by Paul's worked example, is invented."
+    notes: "All 440 rows, in the original order and numbered from 1. Channel 1 and 2 written as horeca and retail, Region 1 to 3 as lisbon, oporto and other; the six spending columns renamed in lower case, Delicassen as delicatessen. measurements.csv, used only by Paul's example, is invented."
 client: yahya
 building: observatory
 estimated_minutes: 140
@@ -59,9 +59,9 @@ ask:
     In `segments.py`:
 
     1. Take the log of the spending and standardise each column.
-    2. Sort the customers into groups with k-means, written from scratch: the best of ten random starts for each k from 1 to 8, then k chosen at the elbow and checked against scikit-learn.
+    2. Sort the customers into groups, from scratch, with nobody saying what the groups are: the best of ten random starts for each number of groups from 1 to 8, then the number chosen where an extra group stops helping, and checked against scikit-learn.
     3. Describe each segment: how many customers, what share are shops, and which goods it buys more of than average.
-    4. Find the principal components, written from scratch, and say what the first two explain and which goods each leans on.
+    4. Find the directions the customers differ along most, from scratch, and say how much of the difference the first two hold and which goods each leans on.
   example: |
     k   inertia
     1    2640.0

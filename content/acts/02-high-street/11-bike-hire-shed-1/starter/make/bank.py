@@ -6,8 +6,9 @@ class Account:
 
     # Give each new one its starting attributes: holder, number, balance, history
 
-    # Methods that change the object: deposit(pence), withdraw(pence)
+    # deposit(pence), then withdraw(pence)
     #   Say no before you change anything
+    #   Then change the object
 
     # Methods that answer a question about it: __str__
 

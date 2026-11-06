@@ -39,9 +39,9 @@ hints:
 ---
 The rules and constants are at the top of `course.py`. Write the rest:
 
-1. `generate(seed, rows=7, cols=9)`. Each tile is a rock with chance `ROCK_CHANCE`, otherwise a pool with chance `POOL_CHANCE`, otherwise sand. Then two **groynes**: two different columns from 2 to `cols - 3`, rock all the way down but for a sand gap in a random row. The start goes in a random row of the first column, the finish in a random row of the last. No way through: draw again.
-2. `Course(layout)`, with `layout`, `rows`, `cols`, `start`, `finish`, sets of `rocks` and `pools`, `move(tile, action)` and `step(tile, action, rng)`.
-3. `race(course, policy, rng)`. A policy is rows of actions, as the League takes them.
-4. `OutOfPractice`, and `Practice(course, budget, rng)`, with `rows`, `cols`, `start`, `finish`, `moves_left`, `reset()` and `step(action)`.
+1. `generate(seed, rows=7, cols=9)`. Each tile is a rock with chance `ROCK_CHANCE`, otherwise a pool with chance `POOL_CHANCE`, otherwise sand. Then two **groynes**, low walls across a beach: two different columns from 2 to `cols - 3`, all rock but for a sand gap in a random row. The start goes in a random row of the first column, the finish in one of the last. No way through, searching as in the Puzzle Room: draw again.
+2. `Course(layout)`, with `rows`, `cols`, `start`, `finish`, sets of `rocks` and `pools`, `move` and `step`.
+3. `race(course, policy, rng)`, for a policy given as rows of actions.
+4. `OutOfPractice`, and `Practice(course, budget, rng)` with `reset()` and `step(action)`.
 
-The checks try `generate` on hundreds of seeds.
+Done: the same seed always gives the same course, every course has a way through, and `Practice` raises `OutOfPractice` once its budget is spent.

@@ -47,10 +47,8 @@ concepts_reviewed: [overfitting, train-test-split, neural-networks, backpropagat
 ask:
   dialogue:
     - neil.pleased.wave: "I rate the seeing before every stargazing night. How much the stars shimmer, in arcseconds."
-    - neil.neutral.point: "Under one, and we stay up late. Over three, everyone goes home."
     - riya.proud: "I've trained a network on it. Training loss: zero."
     - neil.thinking: "And on the nights it hasn't seen?"
-    - riya.worried: "I haven't asked it those yet. That's the suspicious part, isn't it."
   spec: |
     In `regular.py`, add three regularisers to the seeing network in `net.py`, and compare them on the nights it never learnt from.
 
@@ -69,7 +67,6 @@ ask:
 ship:
   dialogue:
     - neil.pleased: "Weight decay: 0.134 on nights it never saw. Riya's scored 0.246, and guessing scored 0.421."
-    - neil.laughing: "So it's out by a third of an arcsecond. The square root, yes. I did it in my head. Twice."
     - riya.laughing: "Mine was perfect for 24 nights. That's nearly a month."
     - aaesha.thinking: "It learnt them by heart. People do that too, the night before an exam. It doesn't last either."
     - paul.proud.thumbs: "A model that only fits the nights it's seen isn't a forecast. It's a diary."

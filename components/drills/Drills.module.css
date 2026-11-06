@@ -244,7 +244,9 @@
   color: var(--text-2);
 }
 
-/* Two lanes: each runner's pixel head moves along a sunk track to the flag. */
+/* Two lanes: each runner, head to toe, runs along a sunk track to the flag, on a band of ground
+   marked into the five tasks. The figures are drawn at two screen pixels to a pixel; one stands
+   with its soles just into the band. */
 .lanes {
   display: grid;
   gap: var(--s-3);
@@ -269,8 +271,7 @@
 
 .track {
   position: relative;
-  height: 48px;
-  padding: 0 32px 0 0;
+  height: 124px;
   background: var(--editor);
   box-shadow:
     0 -2px 0 0 var(--px-outline),
@@ -281,11 +282,26 @@
   margin: 2px;
 }
 
+/* The ground: the band the runners run on. */
+.track::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  right: 32px;
+  bottom: 6px;
+  height: 20px;
+  background: var(--surface-3);
+}
+
 .segments {
   list-style: none;
+  position: absolute;
+  left: 6px;
+  right: 32px;
+  bottom: 6px;
+  height: 20px;
   margin: 0;
-  padding: 6px 0 6px 6px;
-  height: 100%;
+  padding: 0;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 4px;
@@ -307,34 +323,25 @@
 
 .trackFill {
   position: absolute;
-  left: 0;
-  top: 6px;
+  left: 6px;
   bottom: 6px;
-  max-width: calc(100% - 32px);
+  height: 20px;
   box-shadow: inset 0 -4px 0 0 var(--px-lo);
 }
 
 .flag {
   position: absolute;
   right: 4px;
-  top: 12px;
+  bottom: 30px;
   color: var(--sun-text);
 }
 
+/* Soles 4 pixels into the band: the grid's empty bottom row is 2 more. */
 .runner {
   position: absolute;
-  bottom: 4px;
-  left: calc(var(--at) * (100% - 72px) + 2px);
+  bottom: calc(6px + 20px - 4px - 2px);
+  left: calc(var(--at) * (100% - 32px - 62px) + 2px);
   transition: left var(--dur-slow) steps(4);
-}
-
-.runnerFace {
-  display: block;
-  width: 36px;
-  height: 40px;
-  padding: 2px 2px 0;
-  box-shadow: inset 0 0 0 2px var(--px-outline);
-  overflow: hidden;
 }
 
 .raceNote {

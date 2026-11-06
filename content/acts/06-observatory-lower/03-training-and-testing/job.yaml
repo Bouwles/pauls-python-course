@@ -61,19 +61,18 @@ concepts_reviewed: [linear-regression, mean-squared-error, gradient-descent, num
 ask:
   dialogue:
     - paul.neutral.wave: "I mark your tests. I'd like to know by Christmas who needs help, before the marks say so."
-    - paul.neutral: "Not on you lot. On 357 real students from two schools in Portugal, one year, all public."
+    - paul.neutral: "Not on you lot. On 357 real students from two schools in Portugal, all public."
     - riya.pleased: "I've done one already. It's perfect on every student I gave it."
     - paul.unimpressed: "Perfect on the ones you gave it. And the rest?"
-    - riya.worried: "Perfect is suspicious, isn't it."
   spec: |
     `students.csv` holds 357 real maths students from two schools in Portugal: their first-term grade, weekly study time (1 to 4), past failures, how often they go out (1 to 5) and absences, and their final grade, all grades out of 20.
 
-    In `exam_scores.py`, predict the final grade from those five columns:
+    In `exam_scores.py`, guess the final grade from those five columns:
 
-    1. Scale each column, learn the five weights by gradient descent, and check them against least squares.
-    2. Lock a fifth of the students away for testing. Split the rest into training and validation, and learn only from the training students.
-    3. Ask whether absences need a curve: add powers of absences up to 8, score each on validation, and choose.
-    4. Open the test students once, and compare with guessing the average. Then predict for a new student.
+    1. Put the five columns on the same scale, learn one weight for each by walking downhill, and check the weights against the exact answer.
+    2. Lock a fifth of the students away for testing. Split the rest into students to learn from and students to choose with.
+    3. Ask whether absences need a curve: try absences up to the power 8, score each on the students you choose with, and pick one.
+    4. Open the locked-away students once, and compare with guessing the average. Then guess for a new student.
   example: |
     Learning from 214 students, choosing with 72, testing with 71
     first_term   +2.71

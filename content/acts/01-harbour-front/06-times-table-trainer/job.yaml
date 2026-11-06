@@ -38,7 +38,7 @@ downloadable: true
 datasets: []
 client: aaesha
 building: lighthouse
-estimated_minutes: 50
+estimated_minutes: 60
 summary: "Any times table from 1 to 12, lined up neatly, then a quiz on the hard end, for Aaesha's memory experiment."
 concepts_introduced: [for-loops, range, loop-variables, tracing-loops]
 concepts_reviewed: [int-conversion, input-returns-text, f-strings, if-elif-else, comparisons, variables]
@@ -91,7 +91,7 @@ stretch:
     prompt: |
       If a volunteer types `0` for the table, print the whole multiplication square instead, 12 rows of 12, each number 4 characters wide, and skip the quiz. Any other table works as before.
 
-      It's the square from the parsons step, with `size` fixed at 12.
+      It's the square you put in order earlier, with `size` fixed at 12.
     tests: tests/stretch-square.py
     solution: solutions/stretch-square.py
   - id: every-third

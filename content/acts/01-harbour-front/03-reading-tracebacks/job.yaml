@@ -36,7 +36,7 @@ downloadable: true
 datasets: []
 client: neil
 building: workshop
-estimated_minutes: 35
+estimated_minutes: 45
 summary: "Five broken racing and rocket scripts from Neil's first term, and the four errors every Python programmer meets."
 concepts_introduced: [reading-tracebacks, syntax-error, name-error, type-error, value-error, str-conversion]
 concepts_reviewed: [print, strings, variables, input-returns-text, int-conversion, float-conversion, f-strings]
@@ -47,7 +47,7 @@ ask:
     - paul.neutral: "When Python breaks, it leaves a note. Today you learn to read the note."
   spec: |
     Neil's first-term scripts: a race-day board for his karting club, a rocket launch date, a glider's wings, and the clock. Five small scripts, and each one crashes.
-    Read the traceback, find the line, fix it. Between them they hold the four errors you will meet most: SyntaxError, NameError, TypeError and ValueError.
+    Read the traceback, find the line, fix it. Between them they hold the four errors you will meet most: SyntaxError, NameError, TypeError and ValueError. Each one is explained just before you fix it.
     When the last script runs, the race-day board prints again.
   example: |
     Race day at the indoor track

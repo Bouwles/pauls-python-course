@@ -106,6 +106,18 @@
   text-overflow: ellipsis;
 }
 
+/* The Act's plate never shrinks; the project's name gives way instead. */
+.crumbs li:first-child {
+  flex: none;
+}
+
+/* The project's name is a block (so a long one can end in an ellipsis), so its dot sits inline. */
+.crumbs li.job::before {
+  display: inline-block;
+  vertical-align: middle;
+  margin: -2px var(--s-3) 0 0;
+}
+
 .position {
   font-family: var(--font-display);
   font-size: var(--px-1);

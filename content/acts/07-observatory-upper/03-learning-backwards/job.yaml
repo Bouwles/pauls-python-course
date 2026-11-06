@@ -49,12 +49,11 @@ ask:
     - aaesha.thinking.think: "Can a network learn how he decides? Not why. Just how."
     - neil.pleased: "I trained a small one on his log once. Four readings in, three answers out. I kept the weights, not the code."
     - aaesha.proud: "I've already written a gradient checker."
-    - neil.laughing: "Then we'll check that too."
   spec: |
-    Paul's log, `evenings.csv`, has 800 evenings. Each is four readings from 0 to 1, visibility, wind, rain and dark, and three answers: whether the clock-face lights came on, the beacon flashed and the storm shutters closed. Neil's network has a ReLU hidden layer and a sigmoid output, with its weights in a dict under `"W1"`, `"b1"`, `"W2"` and `"b2"`.
+    Paul's log, `evenings.csv`, has 800 evenings. Each is four readings from 0 to 1, visibility, wind, rain and dark, and three answers: whether the clock-face lights came on, the beacon flashed and the storm shutters closed. Neil's network has a hidden layer of five neurons and an output layer of three, with its weights in a dict under `"W1"`, `"b1"`, `"W2"` and `"b2"`.
 
     1. In `network.py`: `relu`, `sigmoid`, and `forward(X, params)`, which returns the answers for every row of `X` and a dict of the values on the way. Then `decisions`, which names the answers above 0.5. Run as a program, it puts four evenings through Neil's weights.
-    2. In `learn.py`: `backward`, the gradient of the mean squared error for every weight and bias, with no loops; `check_gradients`, which compares each one with a measured gradient; and `train`, gradient descent.
+    2. In `learn.py`: `backward`, which works out how the mean squared error changes with every weight and bias, with no loops; `check_gradients`, which compares each one with a measured slope; and `train`, which walks downhill.
     3. Run as a program, `learn.py` checks every gradient, trains a network from random weights on 600 evenings, tests it on the other 200, and answers for tonight.
   example: |
     Gradients: W1 ok, b1 ok, W2 ok, b2 ok

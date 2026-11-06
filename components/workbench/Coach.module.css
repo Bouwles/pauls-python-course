@@ -4,8 +4,8 @@
   gap: var(--s-3);
 }
 
-.speech {
-  /* The bubble lands with a two-frame pop, the way a sprite would. */
+.bubble {
+  /* The bubble lands with a two-frame pop, the way a sprite would. The speaker stands still. */
   animation: say 160ms steps(2, jump-none);
   transform-origin: 0 32px;
 }
@@ -105,11 +105,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .speech {
+  .bubble {
     animation: none;
   }
 }
 
-:root[data-motion="reduced"] .speech {
+:root[data-motion="reduced"] .bubble {
   animation: none;
 }

@@ -1,30 +1,21 @@
 ---
-id: predict-remove
+id: predict
 type: predict
-title: Taking one off
-concept: list-methods
+title: Which job
+concept: indexing
 code: |
-  tasks = ["ink", "posters", "ink", "frames"]
-  tasks.remove("ink")
-  print(tasks)
+  tasks = ["rocket poster", "album cover", "order ink", "frame the prints"]
+  print(tasks[1])
 question: What does this print?
 options:
-  - text: "['posters', 'ink', 'frames']"
+  - text: rocket poster
+    misconception: index-from-one
+    feedback: "Python counts from 0. `tasks[0]` is the rocket poster, so `tasks[1]` is the next one along: the album cover."
+  - text: album cover
     correct: true
-    feedback: "Right. `.remove()` finds the first `\"ink\"`, takes it off and stops looking."
-  - text: "['posters', 'frames']"
-    misconception: remove-deletes-every-match
-    feedback: "`.remove()` takes off one item: the first match. The second `\"ink\"` stays on the list."
-  - text: "['ink', 'posters', 'frames']"
-    misconception: remove-takes-last-match
-    feedback: "It searches from the front, so the first `\"ink\"` goes. The later one moves up a place."
-  - text: An error
-    misconception: remove-takes-index
-    error: TypeError
-    feedback: "`.remove()` takes the value to look for, not a position. `.pop()` is the one that takes a position."
-after: |
-  Run it. Then put `"brushes"` in place of `"ink"` on line 2 and run it again.
+    feedback: "Index 0 is the poster, so index 1, one step along, is the album cover."
+  - text: "['album cover']"
+    misconception: index-gives-list
+    feedback: "Square brackets after a list's name pick out one item. You get the text itself, not a list with it inside."
 ---
-`.remove()` is another list method. Like `.append()`, it belongs to the list, you call it with a dot, and it changes the list itself. It takes a value, not an index.
-
-Riya wrote `ink` down twice. Decide what one `.remove()` does.
+Riya's jobs for Tuesday are a list. This picks out one of them.

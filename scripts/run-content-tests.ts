@@ -2,6 +2,7 @@
 // - every reference solution passes its required tests
 // - every starter fails at least one required test
 // - every predict answer matches what the code really does
+// - every Learn example runs (or stops with the error it's there to show)
 // - every review card's answer is confirmed by running it
 import path from "node:path";
 import os from "node:os";
@@ -112,6 +113,21 @@ function jobTasks(job: Job, tests: Record<string, string>, solutions: Record<str
               const orig = await py.check({ files: { ...job.data, "main.py": step.code }, tests: tests[tkey]! });
               if (passesAll(orig)) return `${where} / ${t.id}: the unchanged code already passes`;
               return null;
+            },
+          });
+        }
+        break;
+      case "learn":
+        // A Learn step's example runs, or stops with exactly the error it's there to show.
+        if (step.code) {
+          const code = step.code;
+          const expected = step.error;
+          tasks.push({
+            name: `${where}: learn example runs`,
+            run: async (py) => {
+              const r = await py.run({ files: { ...job.data, "main.py": code }, inputs: step.inputs });
+              if (expected) return r.status === "error" && r.error?.type === expected ? null : `${where}: the example should stop with ${expected}, but ${r.status === "ok" ? "it ran" : `it stopped with ${r.error?.type}`}`;
+              return r.status === "ok" ? null : `${where}: learn example crashes: ${r.error?.type}: ${r.error?.message}`;
             },
           });
         }

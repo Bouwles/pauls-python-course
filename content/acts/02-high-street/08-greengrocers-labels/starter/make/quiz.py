@@ -18,8 +18,10 @@ def load_questions(path):
 #   key: value for a dictionary
 
 # in_round(questions, name)
+#   Keep the round's questions in the book's order
 
 # is_right(given, question)
+#   Every answer Caitlin allows, in lower case
 
 # score(questions, answers)
 
@@ -27,8 +29,11 @@ def load_questions(path):
 #   A value for every item: if-else at the front
 
 # main()
+#   Ask until the round is a real one
+#   Shuffle, ask, then mark
 #   Doing, not building: a plain loop
 
 
+# Runs main() when you run this file, but not when the checks import it.
 if __name__ == "__main__":
     main()

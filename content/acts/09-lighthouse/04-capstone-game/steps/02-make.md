@@ -46,6 +46,11 @@ Before there's a window, the rules in text. `catch.py` is Mackerel Night on a pi
 ___U___
 ```
 
-The loop at the bottom is written already: draw, read a key, update. It never changes the rules, and the rules never print anything. Press Run to play it, with `a`, `d` and Enter.
+1. Start with the bucket in the middle and nothing falling.
+2. `move`: one column, never off the ends. `drop`: a fish or a boot into row 0.
+3. `update`: everything falls a row; on the bottom row, settle it, caught or missed.
+4. `render`: the rows as text, then the pier.
 
-The checks drop fish and boots in columns they choose and count the turns, so nothing inside `Catch` is random: the randomness lives in the loop. That's the same line you'll keep at home.
+The loop at the bottom is written: draw, read a key, update. Press Run to play, with `a`, `d` and Enter.
+
+Done: the checks drop fish and boots in columns they choose, count the turns, and get the scores and lives the docstring promises. Nothing inside `Catch` is random: the randomness lives in the loop.

@@ -31,7 +31,7 @@ downloadable: true
 datasets: []
 client: caitlin
 building: pub
-estimated_minutes: 50
+estimated_minutes: 55
 summary: "Rock paper scissors against the computer, first to three: functions, random choices and a score dictionary in one whole game."
 concepts_reviewed: [functions, parameters, return-values, random-module, imports, dictionaries, while-loops, break-continue, boolean-operators, string-methods, in-operator, f-strings]
 ask:

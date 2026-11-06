@@ -7,7 +7,8 @@ import { useSession } from "@/lib/store/session";
 import { blankStep, getJob, logEvent as saveEvent, setLocation, updateJob, updateStep as saveStep } from "@/lib/store/progress";
 import type { JobProgressRow, StepProgressRow } from "@/lib/store/types";
 import { addCardsForJob } from "@/lib/review/deck";
-import { firstTime, pickLine } from "@/lib/reactions";
+import { ERROR_TAGS, HINT_TAGS, PASS_TAGS, firstTime, pickLine, reactionLook } from "@/lib/reactions";
+import type { GestureTag } from "@/lib/pixel/gestures";
 import { speakerFor } from "@/lib/cast";
 import { track } from "@/lib/track";
 import { WorkbenchContext, type CoachKind, type GateAct, type Utterance, type WorkbenchContextValue, type Zone } from "./context";
@@ -42,48 +43,6 @@ export const PANEL_MIN = 340;
 export const PANEL_MAX = 520;
 const PANEL_DEFAULT = 400;
 
-// How the speaker looks saying each kind of reaction (REDESIGN3_PLAN.md P3): a pass gets a
-// pleased or proud face and a thumbs up or a cheer, a miss a thinking or worried face, a hint
-// Neil thinking or pointing at the problem. The words come from content/characters/.
-const MOOD: Record<string, { face: string; gesture?: string }> = {
-  "check-passed": { face: "pleased", gesture: "thumbs" },
-  "check-failed": { face: "thinking", gesture: "think" },
-  "run-error": { face: "thinking", gesture: "point" },
-  "stopped-loop": { face: "surprised" },
-  "third-hint": { face: "thinking", gesture: "point" },
-  "solution-seen": { face: "neutral", gesture: "point" },
-  idle: { face: "neutral", gesture: "wave" },
-  returning: { face: "pleased", gesture: "wave" },
-  recap: { face: "neutral", gesture: "point" },
-  "error-name": { face: "thinking", gesture: "point" },
-  "error-text-number": { face: "thinking", gesture: "point" },
-  "error-zero": { face: "surprised" },
-  "error-index": { face: "thinking", gesture: "point" },
-  "error-int-text": { face: "thinking", gesture: "point" },
-  "error-indent": { face: "laughing" },
-  "ran-nothing": { face: "confused", gesture: "think" },
-  "loop-never-runs": { face: "confused", gesture: "think" },
-  "first-fstring": { face: "pleased", gesture: "thumbs" },
-  "converts-input": { face: "pleased", gesture: "thumbs" },
-  "first-function": { face: "proud", gesture: "cheer" },
-  "nested-loop": { face: "surprised" },
-  "good-name": { face: "pleased", gesture: "thumbs" },
-  "letter-name": { face: "unimpressed" },
-  "long-function": { face: "unimpressed" },
-  "long-line": { face: "thinking", gesture: "think" },
-  "long-no-loop": { face: "laughing" },
-  "pass-first-try": { face: "proud", gesture: "cheer" },
-  "pass-after-many": { face: "proud", gesture: "cheer" },
-  "pass-no-hints": { face: "pleased", gesture: "thumbs" },
-  "third-fail": { face: "worried", gesture: "think" },
-  "one-left": { face: "proud", gesture: "point" },
-  "shorter-than-mine": { face: "surprised" },
-  "fixed-by-learner": { face: "pleased", gesture: "cheer" },
-  "predict-right": { face: "pleased", gesture: "thumbs" },
-  "predict-wrong": { face: "thinking", gesture: "think" },
-  "after-explain": { face: "thinking", gesture: "think" },
-};
-
 // "Less talk" (Settings) keeps the coach for hints and errors only.
 const HINT_EVENTS = new Set(["third-hint", "solution-seen", "after-explain"]);
 function kindOf(event: string): CoachKind {
@@ -92,6 +51,9 @@ function kindOf(event: string): CoachKind {
   if (event === "check-passed" || event.startsWith("pass-") || event === "fixed-by-learner") return "pass";
   return "react";
 }
+
+/** What a line from `say` is for, when it names no gesture: a pass approves or celebrates, an error worries or explains, a hint explains. */
+const KIND_TAGS: Partial<Record<CoachKind, GestureTag[]>> = { pass: PASS_TAGS, error: ERROR_TAGS, hint: HINT_TAGS };
 
 // Away this long and Paul (and the client) say where you'd got to. Never guilt.
 const RECAP_AFTER_MS = 4 * 60 * 60 * 1000;
@@ -267,7 +229,8 @@ export function Workbench({ job, characters, conceptTitles, actTitle, actProject
       const kind = opts.kind ?? "react";
       if (!allowed(kind) || !isSpoken(who)) return;
       const lines = (Array.isArray(text) ? text : [text]).slice(0, 2).map((t) => (typeof t === "string" ? { text: t } : t));
-      push(...lines.map((l) => ({ id: nextId(), who, text: l.text, face: l.face ?? opts.face, gesture: l.gesture ?? opts.gesture, kind })));
+      // The first line is the reaction (a pass, a hint); any after it go by their own words.
+      push(...lines.map((l, i) => ({ id: nextId(), who, text: l.text, face: l.face ?? opts.face, gesture: l.gesture ?? opts.gesture, tags: opts.tags ?? (i === 0 ? KIND_TAGS[kind] : undefined), kind })));
     },
     [allowed, push],
   );
@@ -278,7 +241,7 @@ export function Workbench({ job, characters, conceptTitles, actTitle, actProject
       if (!allowed(kind)) return;
       const who = speakerFor(event, { classmate, client: job.client });
       const text = await pickLine(store, characters, who, event, opts.vars);
-      if (text) push({ id: nextId(), who, text, ...MOOD[event], kind });
+      if (text) push({ id: nextId(), who, text, ...reactionLook(event), kind });
     },
     [allowed, classmate, job.client, store, characters, push],
   );
@@ -297,7 +260,7 @@ export function Workbench({ job, characters, conceptTitles, actTitle, actProject
         const text = await pickLine(store, characters, who, c.event, c.vars);
         if (!text) continue;
         saidThisStep.current.add(key);
-        push({ id: nextId(), who, text, ...MOOD[c.event], kind });
+        push({ id: nextId(), who, text, ...reactionLook(c.event), kind });
         return;
       }
     },
@@ -318,10 +281,10 @@ export function Workbench({ job, characters, conceptTitles, actTitle, actProject
       if (lessTalk || !last || Date.now() - last < RECAP_AFTER_MS || !started) return;
       const here = job.steps.find((s) => s.id === stepId);
       const back = await pickLine(store, characters, speakerFor("returning"), "returning");
-      if (back) push({ id: nextId(), who: speakerFor("returning"), text: back, ...MOOD.returning, kind: "react" });
+      if (back) push({ id: nextId(), who: speakerFor("returning"), text: back, ...reactionLook("returning"), kind: "react" });
       const who = speakerFor("recap", { client: job.client });
       const where = await pickLine(store, characters, who, "recap", { step: here?.title ?? "it", job: job.title });
-      if (where) push({ id: nextId(), who, text: where, ...MOOD.recap, kind: "react" });
+      if (where) push({ id: nextId(), who, text: where, ...reactionLook("recap"), kind: "react" });
     })();
     const beat = setInterval(() => void store.kvSet(LAST_SEEN, Date.now()), 60_000);
     return () => clearInterval(beat);

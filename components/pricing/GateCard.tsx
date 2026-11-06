@@ -1,12 +1,13 @@
 import { floorFor } from "@/lib/cast";
 import { FloorFace } from "../clocktower/Tower";
-import { Speech } from "../art/Speech";
+import { VisitSpeech } from "../site/VisitSpeech";
 import { Badge } from "../ui/Badge";
 import { Icon } from "../ui/Icon";
 import styles from "./ProGate.module.css";
 
 // Who greets you at each locked floor, and what they say about it: the floor's resident, in
-// their own voice (the Arcade is Caitlin's half; the roof is Paul's to show off).
+// their own voice (the Arcade is Caitlin's half; the roof is Paul's to show off), with a gesture
+// that's different each visit (VisitSpeech).
 const RESIDENT: Record<number, { who: string; text: string; face: string; gesture: string }> = {
   2: { who: "caitlin", text: "The Studio's up here. Files, classes, tests: the bits that make code last. Coming up?", face: "pleased", gesture: "wave" },
   3: { who: "riya", text: "This is the Makerspace. We make real things for real people up here, and some art.", face: "pleased", gesture: "wave" },
@@ -48,7 +49,7 @@ export function GateCard({ act, subject, kicker, title, titleId, children, actio
         </div>
       ) : null}
       <div className={styles.body}>
-        {resident ? <Speech who={resident.who} name={cap(resident.who)} text={resident.text} face={resident.face} gesture={resident.gesture} size={112} className={styles.resident} /> : null}
+        {resident ? <VisitSpeech place={`gate-${act}`} who={resident.who} name={cap(resident.who)} text={resident.text} face={resident.face} gesture={resident.gesture} size={112} className={styles.resident} /> : null}
         <p className={styles.kicker}>
           <Badge tone="pro">Pro</Badge>
           <span>{kicker}</span>

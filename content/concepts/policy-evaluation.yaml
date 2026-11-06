@@ -1,7 +1,7 @@
 id: policy-evaluation
 title: Policy evaluation
 summary: |
-  The value of a state under a policy is the return you can expect from there, following that policy. Each value depends on its neighbours: for every outcome of the policy's action, the reward plus `gamma` times the value of where it leads (nothing, if the episode is over), weighted by its chance. Policy evaluation starts every value at 0 and sweeps through the states, setting each from its neighbours, until the biggest change in a sweep is below a small threshold. News of a reward travels back about one step per sweep.
+  The value of a state under a policy is how good it is to stand there: the return you can expect from there, following that policy. Each value depends on its neighbours: what the policy's action is worth there, its Q-value, is for every outcome the reward plus `gamma` times the value of where it leads (nothing, if the episode is over), weighted by its chance and added up. Policy evaluation starts every value at 0 and sweeps through the states, setting each from its neighbours, until the biggest change in a sweep is below a small threshold, `theta`. News of a reward travels back about one step per sweep.
 example: |
   values = [0.0, 0.0, 0.0, 0.0]      # tile 3 is the finish
   for sweep in range(50):

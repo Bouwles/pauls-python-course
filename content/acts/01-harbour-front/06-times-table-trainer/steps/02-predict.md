@@ -32,13 +32,11 @@ options:
       Question
       Quiz done
     misconception: range-includes-end
-    feedback: "`range(3)` gives 0, 1 and 2. Three numbers, three questions. It stops before 3."
+    feedback: "`range(3)` means three passes: three questions."
   - text: |-
       Question
       Quiz done
     misconception: loop-body-runs-once
-    feedback: "A `for` loop runs its body once for every number in the range. Three numbers, three passes."
-after: |
-  Run it.
+    feedback: "A `for` loop runs its body once on every pass. `range(3)` gives three passes."
 ---
-A `for` loop repeats the indented lines under it. The colon at the end of the first line is where the repeating part starts.
+A quiz of three questions, then one line at the left edge. Work out which lines repeat.

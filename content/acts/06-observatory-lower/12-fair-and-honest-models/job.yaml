@@ -44,7 +44,7 @@ portfolio_readme: |
 
   ## Data
 
-  The bookings are invented, deliberately: a planted leak (`signed_book`, filled in on the night) and a group the model can't see the reason for (visitors from outside the city, who book far ahead because of the train) need data where the truth is known. `saturdays.csv` and `dials.csv`, used by the worked example and the fix-it step, are invented too.
+  The bookings are invented, deliberately: a planted leak (`signed_book`, filled in on the night) and a group the model can't see the reason for (visitors from outside the city, who book far ahead because of the train) need data where the truth is known. `saturdays.csv` and `dials.csv`, used by Paul's example and the fix-it step, are invented too.
 downloadable: true
 datasets: []
 client: neil

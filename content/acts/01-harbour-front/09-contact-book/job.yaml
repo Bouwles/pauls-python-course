@@ -25,7 +25,7 @@ portfolio_readme: |
   ## What it shows
 
   - A dictionary of dictionaries: each name holds its own record, with a phone and an address.
-  - `.get()` for names that might not be there, so a missing name never crashes it.
+  - `in` to check a name is there before looking it up, so a missing name never crashes it.
   - A search through every name, word by word, with `.split()`.
   - One typed line turned into a record with `.split(", ")`, and a list turned back into one line with `", ".join()`.
 
@@ -34,7 +34,7 @@ downloadable: true
 datasets: []
 client: riya
 building: post-office
-estimated_minutes: 55
+estimated_minutes: 70
 summary: "Riya's clients and suppliers: look people up, find them from half a name, and add new ones from one typed line."
 concepts_introduced: [dictionaries, dict-get, dict-items, nested-data, split-join]
 concepts_reviewed: [while-loops, sentinels, lists, append-pop, in-operator, string-methods, f-strings, list-aliasing]

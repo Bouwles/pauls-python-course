@@ -38,6 +38,6 @@ explain:
   answer: "The slope for `w` is far steeper than the slope for `b`, because the temperatures multiply into it. A rate big enough to move `b` quickly throws `w` off the hill. Momentum doesn't change the rate: it lets `b`'s small, steady slope build up speed, because it points the same way step after step, while `w`'s zig-zags cancel out."
   concept: optimisers
 ---
-Thirty nights of focus readings from the roof telescope, the sharp focus in millimetres against the temperature, and the same 300 steps twice: plain descent, then momentum. The best line, by formula, was `-0.1211 * temperature + 42.318`.
+Thirty nights of the roof telescope's sharp focus, in millimetres, against the temperature: a straight line, walked 300 steps twice, plainly and then with momentum. The best line, by formula, is `-0.1211 * temperature + 42.318`.
 
-The velocity is kept in a dict with a key per weight, because each weight has its own slope and so its own speed.
+The velocity is kept in a dict with a key per weight, because each weight has its own slope and so its own speed. The labels beside the code are Paul's steps, and the momentum you build uses them.

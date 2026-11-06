@@ -1,8 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { prefersReducedMotion } from "@/lib/display";
 import type { Expression, Pose } from "@/lib/pixel/people";
+import { gestureOf, type GestureTag } from "@/lib/pixel/gestures";
+import { pickGesture } from "@/lib/pixel/variety";
+import { momentFor } from "@/lib/moments";
+import { useVisit } from "@/lib/useVisit";
 import { PixelPerson } from "../art/PixelPerson";
 import { useSpeech } from "../art/useSpeech";
 import { SpeechBubble } from "../ui/SpeechBubble";
@@ -12,10 +16,13 @@ import styles from "./ClassScene.module.css";
 // The hero's picture (REDESIGN3_PLAN.md P3): the whole class in one pixel scene, like a class
 // photo. Paul and Neil stand at the back, the four classmates in front behind a long desk with
 // Neil's rubber duck on it. Paul greets the visitor: his line types out and his mouth moves with
-// it, and he waves. Then the class comes alive: now and then someone waves, cheers or gives a
-// thumbs up. Positions are in sprite pixels; the CSS multiplies them by the scale (3 on wide
-// screens, 2 on phones), so every pixel stays crisp. With reduced motion everyone holds still
-// and the line is there whole.
+// it, with a greeting of his own (a different one each visit). Then the class comes alive: every
+// few seconds someone does something, from their own moves (Neil's rocket, Riya's palette,
+// Yahya's stopwatch) and everyday ones (a stretch, a sip of coffee), never the same twice
+// running and different on every visit (lib/pixel/variety.ts). Nobody moves up or down: only
+// arms, hands and props. Positions are in sprite pixels; the CSS multiplies them by the scale (3
+// on wide screens, 2 on phones), so every pixel stays crisp. With reduced motion everyone holds
+// still and the line is there whole.
 
 type Spot = { who: string; x: number; y: number; face: Expression };
 
@@ -29,29 +36,14 @@ const CLASS: Spot[] = [
   { who: "yahya", x: 129, y: 32, face: "neutral" },
 ];
 
-/** What each of them does when it's their moment: a gesture and the face that goes with it. */
-const MOMENTS: Record<string, { pose: Pose; face: Expression }[]> = {
-  neil: [
-    { pose: "thumbs", face: "pleased" },
-    { pose: "cheer", face: "laughing" },
-  ],
-  aaesha: [
-    { pose: "wave", face: "pleased" },
-    { pose: "think", face: "thinking" },
-  ],
-  caitlin: [
-    { pose: "cheer", face: "laughing" },
-    { pose: "point", face: "pleased" },
-  ],
-  riya: [
-    { pose: "wave", face: "pleased" },
-    { pose: "thumbs", face: "proud" },
-  ],
-  yahya: [
-    { pose: "thumbs", face: "proud" },
-    { pose: "think", face: "unimpressed" },
-  ],
-};
+/** What a moment in class can be: anything from a cheer to a sip of coffee, their own moves most. */
+const MOMENT_TAGS: GestureTag[] = ["celebrate", "approve", "greet", "idle", "work", "think", "tease", "listen", "surprise"];
+
+/** How long a moment lasts: two loops of its gesture, within reason. */
+function momentMs(gesture: string): number {
+  const g = gestureOf(gesture);
+  return Math.min(3600, Math.max(1800, g.beats * g.ms * 2));
+}
 
 export function ClassScene({ greeting, names }: { greeting: string; names: Record<string, string> }) {
   const [still, setStill] = useState(true);
@@ -75,29 +67,36 @@ export function ClassScene({ greeting, names }: { greeting: string; names: Recor
     onDone: () => setSaid(true),
   });
 
-  // Once Paul has said his line, someone does something every few seconds.
+  // Paul's greeting while he says his line: a wave, a salute, a tip of the cap, chosen per visit.
+  const visit = useVisit();
+  const hello = useMemo(() => pickGesture({ who: "paul", tags: ["greet"], seed: `class|${visit}`, mode: "talk" }), [visit]);
+
+  // Once Paul has said his line, someone does something every few seconds, Paul too.
   useEffect(() => {
     if (!said || still) return;
-    const who = Object.keys(MOMENTS);
+    const who = CLASS.map((s) => s.who);
+    const past: Record<string, string[]> = { paul: [hello] };
     let last = "";
-    let off: ReturnType<typeof setTimeout> | undefined;
+    let n = 0;
+    let t: ReturnType<typeof setTimeout>;
     const next = () => {
       const pool = who.filter((w) => w !== last);
       const pick = pool[Math.floor(Math.random() * pool.length)]!;
-      const options = MOMENTS[pick]!;
-      const m = options[Math.floor(Math.random() * options.length)]!;
+      const spot = CLASS.find((s) => s.who === pick)!;
+      const seen = (past[pick] ??= []);
+      const m = momentFor({ who: pick, tags: MOMENT_TAGS, seed: `class|${visit}|${pick}|${n++}`, avoid: seen.slice(-6), mode: "moment" }, spot.face);
+      seen.push(m.gesture);
       last = pick;
-      setMoment({ who: pick, ...m });
-      off = setTimeout(() => setMoment(null), 1700);
+      setMoment({ who: pick, pose: m.gesture, face: m.face });
+      const ms = momentMs(m.gesture);
+      t = setTimeout(() => {
+        setMoment(null);
+        t = setTimeout(next, 900 + Math.random() * 1400);
+      }, ms);
     };
-    const first = setTimeout(next, 900);
-    const every = setInterval(next, 3600);
-    return () => {
-      clearTimeout(first);
-      clearInterval(every);
-      if (off) clearTimeout(off);
-    };
-  }, [said, still]);
+    t = setTimeout(next, 900);
+    return () => clearTimeout(t);
+  }, [said, still, visit, hello]);
 
   const name = (id: string) => names[id] ?? id.charAt(0).toUpperCase() + id.slice(1);
   const paul = name("paul");
@@ -126,8 +125,9 @@ export function ClassScene({ greeting, names }: { greeting: string; names: Recor
           {CLASS.map((s) => {
             const now = moment?.who === s.who ? moment : null;
             const isPaul = s.who === "paul";
-            const pose: Pose = isPaul ? (speech.talking && ready && !still ? "wave" : "idle") : (now?.pose ?? "idle");
-            const face: Expression = isPaul ? (speech.talking && ready ? "talking" : "pleased") : (now?.face ?? s.face);
+            const greets = isPaul && speech.talking && ready;
+            const pose: Pose = greets ? (still ? "idle" : hello) : (now?.pose ?? "idle");
+            const face: Expression = greets ? "talking" : (now?.face ?? s.face);
             return (
               <span
                 key={s.who}

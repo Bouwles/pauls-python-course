@@ -2,11 +2,12 @@ import { Suspense } from "react";
 import { getIndex } from "@/lib/content/server";
 import { ASSISTANT, PROFESSOR } from "@/lib/cast";
 import { Page } from "../site/Page";
-import { Speech } from "../art/Speech";
+import { VisitSpeech } from "../site/VisitSpeech";
 import { AuthForm } from "./AuthForm";
 import styles from "./AuthPage.module.css";
 
-// Who says hello at the door: Paul to someone new, Neil to someone coming back.
+// Who says hello at the door: Paul to someone new, Neil to someone coming back, with a greeting
+// that's different each visit (VisitSpeech).
 const WELCOME = {
   signup: { who: PROFESSOR, text: "Welcome to the class. Pull up a chair: the ground floor is free.", face: "pleased", gesture: "wave" },
   login: { who: ASSISTANT, text: "Welcome back. Your code's exactly where you left it, bugs and all.", face: "laughing", gesture: "wave" },
@@ -20,7 +21,7 @@ export function AuthPage({ mode }: { mode: "signup" | "login" }) {
     <Page narrow>
       <div className={styles.wrap}>
         <div className={styles.card}>
-          <Speech who={hello.who} name={name} text={hello.text} face={hello.face} gesture={hello.gesture} size={112} />
+          <VisitSpeech place={mode} who={hello.who} name={name} text={hello.text} face={hello.face} gesture={hello.gesture} size={112} />
           <div className={styles.head}>
             <h1 className={styles.title}>{mode === "signup" ? "Make an account" : "Log in"}</h1>
             <p className={styles.lede}>

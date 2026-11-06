@@ -4,8 +4,10 @@
 // of project cards. Each card shows what the program really prints: the learner's last run from
 // here when there is one (or its chart), otherwise the project's example run. The client it was
 // made for stands beside it, pleased with it: whoever got the newest one is still cheering, and
-// the others cheer again when you point at their card. Run opens the program in a sheet with its
-// code and a console; Download and Push to GitHub work as they always have.
+// the others cheer again when you point at their card. How they stand and how they celebrate is
+// their own, chosen per card and per visit (lib/pixel/variety.ts), so no two cards are alike. Run
+// opens the program in a sheet with its code and a console; Download and Push to GitHub work as
+// they always have.
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSession } from "@/lib/store/session";
 import { getCode } from "@/lib/store/progress";
@@ -15,6 +17,9 @@ import { download, projectFolder, readme, repoReadme, slug, withWorkshopStub, zi
 import type { Files } from "@/lib/python/protocol";
 import { castColour, CAST_IDS, PROFESSOR } from "@/lib/cast";
 import { useMedia } from "@/lib/useMedia";
+import { moodOf } from "@/lib/mood";
+import { pickGesture } from "@/lib/pixel/variety";
+import { useVisit } from "@/lib/useVisit";
 import { PixelPerson } from "../art/PixelPerson";
 import { ShelfObject } from "../art/ShelfObject";
 import { Speech } from "../art/Speech";
@@ -46,6 +51,7 @@ interface SavedRun {
 
 const runKey = (jobId: string) => `shelf-run/${jobId}`;
 const PREVIEW_LINES = 8;
+const EMPTY_LINE = "Nothing on the Shelf yet. Your first project is the sign on my door. It takes about twenty minutes.";
 
 const longDate = (ms: number | null) => (ms ? new Date(ms).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) : "");
 
@@ -56,6 +62,7 @@ export function Shelf({ cards }: { cards: ShelfCard[] }) {
   const [open, setOpen] = useState<string | null>(null);
   const [pointed, setPointed] = useState<string | null>(null);
   const phone = useMedia("(max-width: 720px)");
+  const visit = useVisit();
 
   useEffect(() => {
     if (!store) return;
@@ -142,7 +149,14 @@ export function Shelf({ cards }: { cards: ShelfCard[] }) {
 
       {shipped.length === 0 ? (
         <div className={styles.empty}>
-          <Speech who={PROFESSOR} name="Paul" text="Nothing on the Shelf yet. Your first project is the sign on my door. It takes about twenty minutes." face="pleased" gesture="point" size={phone ? 72 : 108} />
+          <Speech
+            who={PROFESSOR}
+            name="Paul"
+            text={EMPTY_LINE}
+            face="pleased"
+            gesture={moodOf(EMPTY_LINE, { face: "pleased", gesture: "point" }, { who: PROFESSOR, seed: `shelf|${visit}`, small: phone }).gesture}
+            size={phone ? 72 : 108}
+          />
           <LinkButton href="/job/shop-sign" variant="primary">
             Start the first project
           </LinkButton>
@@ -177,7 +191,17 @@ export function Shelf({ cards }: { cards: ShelfCard[] }) {
                   <div className={styles.body}>
                     {person ? (
                       <span className={styles.client} style={{ background: castColour(c.clientId).face }} aria-hidden="true">
-                        <PixelPerson who={c.clientId} crop="bust" scale={2} expression={c.item.jobId === newest ? "laughing" : "pleased"} pose={cheering ? "cheer" : "idle"} />
+                        <PixelPerson
+                          who={c.clientId}
+                          crop="bust"
+                          scale={2}
+                          expression={c.item.jobId === newest ? "laughing" : "pleased"}
+                          pose={
+                            cheering
+                              ? pickGesture({ who: c.clientId, tags: ["celebrate"], seed: `shelf|${visit}|${c.item.jobId}`, mode: "moment" })
+                              : pickGesture({ who: c.clientId, tags: ["idle", "listen", "approve"], seed: `shelf-rest|${visit}|${c.item.jobId}` })
+                          }
+                        />
                       </span>
                     ) : (
                       <ShelfObject jobId={c.item.jobId} title={c.item.title} client={c.clientId} size={48} />
