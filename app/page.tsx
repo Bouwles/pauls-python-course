@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
 import { BRAND } from "@/lib/brand";
-import { FREE_ACTS } from "@/lib/plans";
 import { getConcepts, getIndex, getJob } from "@/lib/content/server";
 import { getSessionUser } from "@/lib/server/auth";
 import { duration } from "@/lib/display";
@@ -14,21 +13,18 @@ import { BuildGrid } from "@/components/landing/BuildGrid";
 import { MeetTheClass } from "@/components/landing/MeetTheClass";
 import { FloorDirectory } from "@/components/landing/FloorDirectory";
 import { TowerStatic } from "@/components/clocktower/TowerStatic";
-import { PricingPlans } from "@/components/pricing/PricingPlans";
-import { Faq } from "@/components/pricing/Faq";
+import { Faq } from "@/components/landing/Faq";
 import { LinkButton } from "@/components/ui/Button";
 import { Track } from "@/lib/track";
 import styles from "@/components/landing/Landing.module.css";
 
 const FAQ = [
-  ["What's free?", "All of Act I: thirteen real projects, review and Drills for them, your Shelf, downloads, and the Python Handbook. No card, no trial clock."],
-  ["What does Pro add?", "The other Acts: real-world Python, algorithms, data science, machine learning, deep learning and reinforcement learning, with Take It Home kits, GitHub push and a certificate for each Act."],
-  ["What happens to my code if I stop paying?", "Nothing. You keep everything you built and all your progress, to read, run and download. Only new Pro projects lock."],
+  ["What does it cost?", "Nothing. Every Act is open: real-world Python, algorithms, data science, machine learning, deep learning and reinforcement learning, with Take It Home kits and a certificate for each Act."],
   ["Do I need to install anything?", "No. Python runs inside the page. Later Acts have Take It Home kits for your own computer, with a guide for Windows, macOS and Linux."],
   ["How long does it take?", "Act I is about 25 hours. The whole course is several hundred. Every project shows an honest time estimate."],
   ["What level does it reach?", "A strong first year of a computer science or AI degree: data structures and algorithms, NumPy and pandas, machine learning built from scratch, neural networks, a small transformer, and reinforcement learning."],
   ["Who is it for?", "Anyone 13 or older who wants to get properly good at Python. It assumes you're clever, not that you've written code before."],
-  ["Is there a student or school price?", "Schools and teachers can buy Classroom seats. Student pricing, where it's offered, is applied at checkout."],
+  ["Can I teach a class with it?", "Yes. Make a class from the Teach page, share its code, set projects, and see how everyone's getting on."],
 ] as const;
 
 export default async function Landing() {
@@ -40,11 +36,7 @@ export default async function Landing() {
   const job = getJob(firstId)!;
   const conceptTitles = Object.fromEntries(Object.values(getConcepts()).map((c) => [c.id, c.title]));
   const names = Object.fromEntries(Object.values(index.characters).map((c) => [c.id, c.name]));
-  const projects = (acts: typeof index.acts) => acts.flatMap((a) => a.jobs.filter((j) => !j.sidequest && !j.placementFor));
   const total = index.acts.reduce((n, a) => n + a.jobs.filter((j) => !j.placementFor).length, 0);
-  const free = projects(index.acts.filter((a) => FREE_ACTS.has(a.id)));
-  const proActs = index.acts.filter((a) => !FREE_ACTS.has(a.id));
-  const pro = projects(proActs);
 
   return (
     <div className={styles.page}>
@@ -60,13 +52,13 @@ export default async function Landing() {
             <p className={styles.description}>{BRAND.description}</p>
             <div className={styles.ctas}>
               <LinkButton href={`/job/${firstId}`} variant="primary">
-                Start the first project, free
+                Start the first project
               </LinkButton>
               <LinkButton href="/syllabus" variant="secondary">
                 See all {total} projects
               </LinkButton>
             </div>
-            <p className={styles.small}>No card, and no account needed to start.</p>
+            <p className={styles.small}>No account needed to start.</p>
           </div>
           <div className={styles.heroArt}>
             <ClassScene names={names} greeting="Welcome to the Clocktower. We build real things here, starting with the sign on the front door." />
@@ -119,7 +111,7 @@ export default async function Landing() {
               <h2 id="tower-title" className={styles.h2}>
                 The Clocktower
               </h2>
-              <p className={styles.lede}>An old clocktower that Paul turned into a code school. Each floor is an Act, and the rooms fill up as you ship projects. The ground floor is free.</p>
+              <p className={styles.lede}>An old clocktower that Paul turned into a code school. Each floor is an Act, and the rooms fill up as you ship projects.</p>
             </div>
             <div className={styles.tower}>
               <div className={styles.towerArt}>
@@ -130,19 +122,7 @@ export default async function Landing() {
           </div>
         </section>
 
-        <section id="pricing" className={`${styles.section} ${styles.band}`} aria-labelledby="pricing-title">
-          <div className={styles.inner}>
-            <div className={styles.head}>
-              <h2 id="pricing-title" className={styles.h2}>
-                Pricing
-              </h2>
-              <p className={styles.lede}>Act I is free. Pro opens the rest of the Clocktower.</p>
-            </div>
-            <PricingPlans freeProjects={free.length} proProjects={pro.length} proActs={proActs.length} freeRange={free.length ? [free[0]!.title, free.at(-1)!.title] : undefined} />
-          </div>
-        </section>
-
-        <section id="faq" className={styles.section} aria-labelledby="faq-title">
+        <section id="faq" className={`${styles.section} ${styles.band}`} aria-labelledby="faq-title">
           <div className={styles.inner}>
             <div className={styles.head}>
               <h2 id="faq-title" className={styles.h2}>

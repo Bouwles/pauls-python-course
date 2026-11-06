@@ -8,7 +8,7 @@ import { Speech } from "../art/Speech";
 // A <Speech> whose gesture is this visit's: the kind the line asks for (a wave is a greeting, a
 // point is explaining), in one of the speaker's many ways of doing it (lib/pixel/variety.ts),
 // different from one visit to the next. For server pages, which can't choose per visit
-// themselves (the 404, sign-up and log-in, the paywall). `place` keeps one page's choice apart
+// themselves (the 404, sign-up and log-in). `place` keeps one page's choice apart
 // from another's. Until the visit's seed arrives (the server's render, and hydrating it), the
 // line's own gesture is passed on as it is, so the page hydrates exactly as it was sent.
 export function VisitSpeech({ place, ...props }: ComponentProps<typeof Speech> & { place: string }) {

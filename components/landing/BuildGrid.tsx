@@ -1,4 +1,3 @@
-import { Badge } from "../ui/Badge";
 import { Portrait } from "../art/Portrait";
 import { billSplitter, flaskApp, snake, spamFilter, weatherApp, type FlaskPage, type Project, type TermLine } from "./artefacts";
 import styles from "./BuildGrid.module.css";
@@ -22,7 +21,6 @@ function Card({ project, line, area, children, wide = false, names }: { project:
           <span>
             For {client}, Act {project.act}
           </span>
-          {project.free ? <Badge tone="free">Free</Badge> : null}
         </p>
       </div>
     </li>

@@ -21,7 +21,6 @@ import { Credit } from "../site/Credit";
 import { AvatarCreator, describeAvatar } from "../welcome/AvatarCreator";
 import { Choice, Row, Section } from "./controls";
 import { Classes, ConnectedTools, GitHubConnection, PublicProfile, useFlags } from "./Elsewhere";
-import { Billing } from "./Billing";
 import styles from "./Settings.module.css";
 
 const SECTIONS: [string, string, boolean][] = [
@@ -32,7 +31,6 @@ const SECTIONS: [string, string, boolean][] = [
   ["s-sound", "Sound", false],
   ["s-goals", "Goals", false],
   ["s-public", "Privacy", true],
-  ["billing", "Billing", false],
   ["s-classes", "Classes and teaching", true],
   ["s-data", "Your data", false],
 ];
@@ -205,10 +203,6 @@ export function Settings() {
           </Section>
 
           {user && flags ? <PublicProfile flags={flags} onFlags={setFlags} /> : null}
-
-          <Section id="billing" title="Billing">
-            <Billing />
-          </Section>
 
           {user && flags ? <Classes flags={flags} onFlags={setFlags} /> : null}
 

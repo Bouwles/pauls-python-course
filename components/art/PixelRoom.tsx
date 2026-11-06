@@ -273,7 +273,7 @@ export function PixelRoom({ act, state = "open", size = ROOM_W * 2, scale, peopl
 
 // ---------------------------------------------------------------- brick, and the whole tower as one picture
 
-/** The tower's brick, filling whatever box it's in (the side sheet's banner, the paywall's floor). */
+/** The tower's brick, filling whatever box it's in (the side sheet's banner). */
 export function PixelBricks({ scale = 2, className }: { scale?: number; className?: string }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const box = useRef<HTMLSpanElement>(null);

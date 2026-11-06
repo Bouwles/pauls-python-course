@@ -20,15 +20,9 @@
   margin: 2px;
 }
 
-.free,
 .shipped {
   background: var(--pass);
   color: var(--pass-ink);
-}
-
-.pro {
-  background: var(--sun);
-  color: var(--sun-ink);
 }
 
 .progress {

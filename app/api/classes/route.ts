@@ -1,6 +1,5 @@
 import { getDb } from "@/lib/server/db";
 import { joinClass, leaveClass, myClasses } from "@/lib/server/classes";
-import { claimSeat } from "@/lib/payments/apply";
 import { json, limited, readJson, requireUser, sameOrigin } from "@/lib/server/http";
 
 export const dynamic = "force-dynamic";
@@ -25,9 +24,7 @@ export async function POST(req: Request) {
   const db = await getDb();
   const joined = await joinClass(db, user.id, code);
   if (!joined) return json({ error: "No class has that code. Check it with your teacher." }, 404);
-  // If the teacher bought Classroom seats for this class, joining takes one: Pro for the learner.
-  const seat = await claimSeat(db, user.id, joined.classId);
-  return json({ class: joined, seat });
+  return json({ class: joined });
 }
 
 /** Leave one. The teacher stops seeing this learner's work straight away. */

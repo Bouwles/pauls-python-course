@@ -6,8 +6,7 @@ import type { ActSummary, JobSummary, PlacementSummary } from "@/lib/content/typ
 import type { JobProgressRow } from "@/lib/store/types";
 import { duration } from "@/lib/display";
 import { isDone } from "@/lib/progress-rules";
-import { FREE_ACTS } from "@/lib/plans";
-import { Button, LinkButton } from "../ui/Button";
+import { Button } from "../ui/Button";
 import { Badge } from "../ui/Badge";
 import { Icon } from "../ui/Icon";
 import { Portrait } from "../art/Portrait";
@@ -36,7 +35,7 @@ export function opener(acts: ActSummary[], act: ActSummary): JobSummary | null {
 
 /**
  * The side sheet for one floor (REDESIGN-2.md 5.2): the floor's art, who lives there, and its
- * projects as cards. Pro floors list every project with a "Pro" badge and "Get Pro" at the foot.
+ * projects as cards.
  * A native modal dialog: focus moves in and comes back, Escape and the backdrop close it.
  */
 export function FloorSheet({ info, progress, names, acts, placements, onClose }: { info: FloorInfo | null; progress: Record<string, JobProgressRow>; names: Record<string, string>; acts: ActSummary[]; placements: PlacementSummary[]; onClose: () => void }) {
@@ -71,7 +70,7 @@ export function FloorSheet({ info, progress, names, acts, placements, onClose }:
 }
 
 function SheetBody({ info, progress, names, acts, placements, onClose }: { info: FloorInfo; progress: Record<string, JobProgressRow>; names: Record<string, string>; acts: ActSummary[]; placements: PlacementSummary[]; onClose: () => void }) {
-  const { floor, act, stats, state, open, pro } = info;
+  const { floor, act, stats, state, open } = info;
   const first = opener(acts, act);
   const canPlace = placements.some((p) => p.act === acts.find((a) => a.number === act.number - 1)?.id);
   const allDone = mainJobs(act).filter((j) => j.status === "written").every((j) => isDone(progress[j.id]));
@@ -118,7 +117,7 @@ function SheetBody({ info, progress, names, acts, placements, onClose }: { info:
           </div>
         ) : null}
 
-        {!FREE_ACTS.has(act.id) && stats.written > 0 && allDone ? (
+        {stats.written > 0 && allDone ? (
           <div className={styles.note}>
             <Icon name="medal" />
             <p>Every project on this floor is shipped.</p>
@@ -128,28 +127,19 @@ function SheetBody({ info, progress, names, acts, placements, onClose }: { info:
 
         <ul className={styles.cards} aria-label="Projects on this floor">
           {act.jobs.map((j) => (
-            <ProjectCard key={j.id} j={j} row={progress[j.id]} open={open} pro={pro} />
+            <ProjectCard key={j.id} j={j} row={progress[j.id]} open={open} />
           ))}
         </ul>
       </div>
 
-      {pro ? (
-        <div className={styles.foot}>
-          <p>Part of Pro. The first project&apos;s Ask is a free preview.</p>
-          <LinkButton href="/pricing" variant="primary">
-            Get Pro
-          </LinkButton>
-        </div>
-      ) : null}
     </div>
   );
 }
 
 /** A project card: its Shelf object, name, one line on what it does, time and status. */
-function ProjectCard({ j, row, open, pro }: { j: JobSummary; row: JobProgressRow | undefined; open: boolean; pro: boolean }) {
+function ProjectCard({ j, row, open }: { j: JobSummary; row: JobProgressRow | undefined; open: boolean }) {
   const playable = open && j.status === "written";
   const status = jobBadge(row, j);
-  const showStatus = !(pro && status.text === "Not started");
   const inner = (
     <>
       <ShelfObject jobId={j.id} title={j.title} client={j.client} size={48} />
@@ -157,15 +147,14 @@ function ProjectCard({ j, row, open, pro }: { j: JobSummary; row: JobProgressRow
         <span className={styles.cardName}>{j.title}</span>
         <span className={styles.cardLine}>{j.summary}</span>
         <span className={styles.cardMeta}>
-          {pro ? <Badge tone="pro">Pro</Badge> : null}
-          {!open && !pro ? (
+          {!open ? (
             <Badge tone="neutral">
               <Icon name="lock" size={14} />
               Locked
             </Badge>
-          ) : showStatus ? (
+          ) : (
             <Badge tone={status.tone}>{status.text}</Badge>
-          ) : null}
+          )}
           {j.sidequest ? <span>Sidequest</span> : null}
           {j.status === "written" ? <span>About {duration(j.estimatedMinutes)}</span> : null}
         </span>

@@ -28,7 +28,7 @@ const SHOTS: Shot[] = [
   { name: "job-make", path: "/job/bill-splitter?step=make", theme: "light", width: 390 },
   { name: "job-ship", path: "/job/shop-sign?step=ship", theme: "dark", width: 1440 },
   { name: "job-lamp-room", path: "/job/the-lamp-room?step=ask", theme: "dark", width: 1440 },
-  { name: "pricing", path: "/pricing", theme: "dark", width: 1440 },
+  { name: "handbook", path: "/handbook", theme: "dark", width: 1440 },
   { name: "syllabus", path: "/syllabus", theme: "dark", width: 1440 },
   { name: "concept", path: "/handbook/input-returns-text", theme: "light", width: 1440 },
   // The demo learner: the character, the town, and everything around the jobs.

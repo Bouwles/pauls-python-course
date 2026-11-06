@@ -20,7 +20,7 @@ const cap = (id: string) => id.charAt(0).toUpperCase() + id.slice(1);
 export function TowerList({ floors, progress, names }: { floors: FloorInfo[]; progress: Record<string, JobProgressRow>; names: Record<string, string> }) {
   return (
     <div className={styles.list}>
-      {floors.map(({ floor, act, stats, state, open, pro }) => (
+      {floors.map(({ floor, act, stats, state, open }) => (
         <details key={act.id} className={styles.act} open={state !== "locked"}>
           <summary className={styles.summary}>
             <span className={styles.thumb}>
@@ -33,7 +33,6 @@ export function TowerList({ floors, progress, names }: { floors: FloorInfo[]; pr
               {floor.label}, {floor.room}
             </span>
             <span className={styles.actState}>
-              {pro ? <Badge tone="pro">Pro</Badge> : null}
               {state === "locked" ? (
                 <Badge tone="neutral">
                   <Icon name="lock" size={14} />
@@ -89,7 +88,7 @@ export function TowerList({ floors, progress, names }: { floors: FloorInfo[]; pr
                     <td className={styles.wideOnly}>{names[j.client] ?? cap(j.client)}</td>
                     <td className={styles.wideOnly}>{time}</td>
                     <td>
-                      {!open && !pro ? (
+                      {!open ? (
                         <span className={styles.muted}>Locked</span>
                       ) : badge.tone === "neutral" ? (
                         <span className={styles.muted}>{badge.text}</span>

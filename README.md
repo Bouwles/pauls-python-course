@@ -88,4 +88,4 @@ Start with `content/AUTHORING.md`, `content/STYLE.md` and `CHARACTERS.md`. A job
 
 ## Decisions the owner still needs to make
 
-See "Owner decisions" in `DECISIONS.md`: pricing (free for now), hosting accounts and keys, the optional AI tutor (off), and the analytics provider (self-hosted events only).
+See "Owner decisions" in `DECISIONS.md`. The course runs locally for the owner and their friends: everything is free, with no payment system, and teachers can make classes, set projects and follow their class. The optional AI tutor is off, and analytics are self-hosted events only.

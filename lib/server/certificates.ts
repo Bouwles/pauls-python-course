@@ -1,12 +1,9 @@
-// Act certificates (REDESIGN.md 9.2): for Pro learners who've shipped every main project in an
-// Act. One per learner per Act, with a public verification page. Act I is free and so isn't
-// certified; the certificate is part of Pro. The picture of it (PNG and PDF) is drawn by
+// Act certificates: for anyone who's shipped every main project in an Act. One per learner per
+// Act, with a verification page. The picture of it (PNG and PDF) is drawn by
 // components/certificates/CertificateImage.tsx.
 import { randomBytes } from "node:crypto";
 import { getIndex } from "../content/server";
-import { FREE_ACTS } from "../plans";
 import type { Db } from "./db";
-import { getAccess } from "./entitlements";
 
 export interface Certificate {
   id: string;
@@ -41,13 +38,11 @@ export async function myCertificates(db: Db, userId: string): Promise<Certificat
   return rows.map(fromRow);
 }
 
-export type IssueResult = { ok: true; certificate: Certificate } | { ok: false; reason: "not-pro" | "free-act" | "not-finished" | "no-act" };
+export type IssueResult = { ok: true; certificate: Certificate } | { ok: false; reason: "not-finished" | "no-act" };
 
 export async function issueCertificate(db: Db, userId: string, actId: string, name: string): Promise<IssueResult> {
   const act = getIndex().acts.find((a) => a.id === actId);
   if (!act) return { ok: false, reason: "no-act" };
-  if (FREE_ACTS.has(act.id)) return { ok: false, reason: "free-act" };
-  if (!(await getAccess(db, userId)).pro) return { ok: false, reason: "not-pro" };
   const main = act.jobs.filter((j) => !j.sidequest && !j.placementFor && j.status === "written").map((j) => j.id);
   const shipped = await db.asService((q) => q<{ job_id: string }>("select job_id from public.job_progress where user_id = $1 and status in ('shipped', 'shipped-stretch', 'placed')", [userId]));
   const done = new Set(shipped.map((r) => r.job_id));

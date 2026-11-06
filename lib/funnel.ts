@@ -6,11 +6,6 @@ export const FUNNEL = [
   ["sign-up", "Signed up"],
   ["ship-1", "Shipped project 1"],
   ["ship-5", "Shipped project 5"],
-  ["ship-capstone", "Shipped the Act I capstone"],
-  ["view-paywall", "Saw the paywall"],
-  ["start-checkout", "Started checkout"],
-  ["subscribe", "Subscribed"],
-  ["cancel", "Cancelled"],
 ] as const;
 
 export type FunnelEvent = (typeof FUNNEL)[number][0];

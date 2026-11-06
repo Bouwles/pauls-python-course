@@ -1,8 +1,6 @@
 import { FLOORS } from "@/lib/cast";
 import type { ActSummary } from "@/lib/content/types";
-import { FREE_ACTS } from "@/lib/plans";
 import { FloorResident } from "../site/FloorResident";
-import { Badge } from "../ui/Badge";
 import styles from "./FloorDirectory.module.css";
 
 // Beside the tower, the floors as a building's directory lists them, top floor first: who runs
@@ -28,7 +26,6 @@ export function FloorDirectory({ acts, names }: { acts: Pick<ActSummary, "id" | 
       {floors.map((f) => {
         const act = acts.find((a) => a.number === f.act);
         const projects = act?.jobs.filter((j) => !j.sidequest && !j.placementFor).length ?? 0;
-        const free = act ? FREE_ACTS.has(act.id) : false;
         return (
           <li key={f.act} className={styles.floor}>
             <FloorResident act={f.act} names={names} />
@@ -42,7 +39,6 @@ export function FloorDirectory({ acts, names }: { acts: Pick<ActSummary, "id" | 
               <p className={styles.subject}>
                 {act?.subject ?? ""}
                 {projects ? <span className={styles.count}>{projects} projects</span> : null}
-                {free ? <Badge tone="free">Free</Badge> : null}
               </p>
               <p className={styles.teaches}>{TEACHES[f.act]}</p>
             </div>

@@ -13,9 +13,7 @@ import { moodOf } from "@/lib/mood";
 import { gestureOf } from "@/lib/pixel/gestures";
 import { pickLine } from "@/lib/reactions";
 import { download, readme, withWorkshopStub, zip } from "@/lib/export";
-import { usePlan } from "@/lib/usePlan";
 import { pickShown, showsInRoom } from "../../art/PixelRoom";
-import { ProGate } from "../../pricing/ProGate";
 import { Button, LinkButton } from "../../ui/Button";
 import { Icon } from "../../ui/Icon";
 import { CodeWorkspace } from "../CodeWorkspace";
@@ -46,8 +44,7 @@ function plainText(html: string): string {
  * is waiting for it, getting on with something in their room.
  */
 export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressRow }) {
-  const { areas, job, progress, jobProgress, shipJob, markPassed, goTo, characters, conceptTitles, landing, guest, store, gateActs, nextJob, nameOf, actTitle, compact } = useWorkbench();
-  const { status: plan } = usePlan();
+  const { areas, job, progress, jobProgress, shipJob, markPassed, goTo, characters, conceptTitles, landing, guest, store, nextJob, nameOf, actTitle, compact } = useWorkbench();
   const { profile } = useSession();
   const [stretch, setStretch] = useState<StretchTask | null>(null);
   const [review, setReview] = useState<ReviewResult | null>(null);
@@ -415,12 +412,6 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
           ) : null}
         </div>
       </div>
-
-      {gateActs && plan && !plan.access.pro && !landing && shipped ? (
-        <div className={styles.more}>
-          <ProGate acts={gateActs} />
-        </div>
-      ) : null}
 
       {review || step.cards.length || job.stretch.length || step.awards.length ? (
         <div className={styles.more}>

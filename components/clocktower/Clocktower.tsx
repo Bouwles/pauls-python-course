@@ -7,8 +7,6 @@ import type { JobProgressRow } from "@/lib/store/types";
 import { useSession } from "@/lib/store/session";
 import { dueCards } from "@/lib/review/deck";
 import { isDone, isShipped, openActs } from "@/lib/progress-rules";
-import { usePlan } from "@/lib/usePlan";
-import { FREE_ACTS } from "@/lib/plans";
 import { Tabs } from "../ui/Tabs";
 import { Icon } from "../ui/Icon";
 import { FloorRoom, Sign, STUCK_CLOCK, TowerFrame, towerStyles } from "./Tower";
@@ -29,14 +27,11 @@ export interface FloorInfo {
   state: FloorState;
   /** Open by progress: the Act before it is done, or placed past. */
   open: boolean;
-  /** Needs Pro, and the learner doesn't have it. */
-  pro: boolean;
 }
 
 export function Clocktower({ acts, placements, names, steps }: { acts: ActSummary[]; placements: PlacementSummary[]; names: Record<string, string>; steps: Record<string, [string, string][]> }) {
   const { store, ready, synced, user, profile } = useSession();
   const router = useRouter();
-  const { status: plan } = usePlan();
   const [progress, setProgress] = useState<Record<string, JobProgressRow>>({});
   const [due, setDue] = useState<number | null>(null);
   const [selected, setSelected] = useState<number | null>(null);
@@ -81,9 +76,6 @@ export function Clocktower({ acts, placements, names, steps }: { acts: ActSummar
   }, [store]);
 
   const open = useMemo(() => openActs(acts, progress, placements), [acts, progress, placements]);
-  // Pro floors keep their lock until the learner has Pro (REDESIGN.md 8.4); until the plan
-  // has loaded nothing is marked, so a Pro learner never sees a flash of locks.
-  const noPro = plan ? !plan.access.pro : false;
 
   const floors: FloorInfo[] = useMemo(
     () =>
@@ -92,10 +84,9 @@ export function Clocktower({ acts, placements, names, steps }: { acts: ActSummar
         if (!act) return [];
         const stats = floorStats(act, progress);
         const isOpen = open.has(act.id);
-        const pro = noPro && !FREE_ACTS.has(act.id);
-        return [{ floor, act, stats, open: isOpen, pro, state: floorState({ open: isOpen, proLocked: pro, stats }) }];
+        return [{ floor, act, stats, open: isOpen, state: floorState({ open: isOpen, stats }) }];
       }),
-    [acts, progress, open, noPro],
+    [acts, progress, open],
   );
 
   const shipped = acts.flatMap((a) => a.jobs).filter((j) => isShipped(progress[j.id])).length;
@@ -151,11 +142,11 @@ export function Clocktower({ acts, placements, names, steps }: { acts: ActSummar
 
 /** One floor as a button: its room, and the room's name on a sign (with a lock when shut) that says more when pointed at. */
 function FloorButton({ info, selected, onOpen }: { info: FloorInfo; names: Record<string, string>; selected: boolean; onOpen: () => void }) {
-  const { floor, act, stats, state, pro } = info;
+  const { floor, act, stats, state } = info;
   const locked = state === "locked";
   // The button's name starts with the sign's words ("The Workshop"), so voice control finds it,
   // then the rest for screen readers.
-  const more = [`, ${floor.label.toLowerCase()}: ${act.subject}.`, `${stats.shipped} of ${stats.total} shipped.`, locked ? (pro ? "Locked, part of Pro." : "Locked.") : ""].filter(Boolean).join(" ");
+  const more = [`, ${floor.label.toLowerCase()}: ${act.subject}.`, `${stats.shipped} of ${stats.total} shipped.`, locked ? "Locked." : ""].filter(Boolean).join(" ");
   return (
     <li className={towerStyles.floor}>
       <button type="button" className={styles.floorButton} onClick={onOpen} aria-haspopup="dialog" aria-expanded={selected} data-selected={selected || undefined}>

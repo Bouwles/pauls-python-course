@@ -30,6 +30,9 @@ const nextConfig: NextConfig = {
   // Act I's projects were renamed to plain program names (REDESIGN.md 7.3); old links still work.
   async redirects() {
     return [
+      // No payments: the old pricing and checkout pages go to the front page.
+      { source: "/pricing", destination: "/", permanent: false },
+      { source: "/pricing/:rest*", destination: "/", permanent: false },
       { source: "/job/sign-on-the-door", destination: "/job/shop-sign", permanent: true },
       { source: "/job/beas-till-2", destination: "/job/bill-splitter", permanent: true },
       { source: "/job/beas-till-1", destination: "/job/bill-splitter", permanent: true },

@@ -37,10 +37,10 @@ export default async function Metrics() {
                 <li key={event}>
                   <span className={styles.label}>{label}</span>
                   <span className={styles.barTrack} aria-hidden="true">
-                    <span className={[styles.bar, event === "cancel" ? styles.barCancel : ""].join(" ")} style={{ width: `${(n / top) * 100}%` }} />
+                    <span className={styles.bar} style={{ width: `${(n / top) * 100}%` }} />
                   </span>
                   <span className={styles.count}>{n.toLocaleString("en-GB")}</span>
-                  <span className={styles.conv}>{i > 0 && event !== "cancel" ? pct(n, prev) : ""}</span>
+                  <span className={styles.conv}>{i > 0 ? pct(n, prev) : ""}</span>
                 </li>
               );
             })}

@@ -32,11 +32,11 @@ export function floorStats(act: Pick<ActSummary, "jobs">, progress: Record<strin
 }
 
 /**
- * Locked until the floor is open and, for Pro floors, the learner has Pro. Busy once about
+ * Locked until the floor is open. Busy once about
  * half the floor's written projects are shipped (REDESIGN-2.md 5.2).
  */
-export function floorState({ open, proLocked, stats }: { open: boolean; proLocked: boolean; stats: FloorStats }): FloorState {
-  if (!open || proLocked) return "locked";
+export function floorState({ open, stats }: { open: boolean; stats: FloorStats }): FloorState {
+  if (!open) return "locked";
   const half = Math.max(1, Math.ceil(stats.written / 2));
   return stats.shipped >= half ? "busy" : "open";
 }

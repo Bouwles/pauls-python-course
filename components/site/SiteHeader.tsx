@@ -20,7 +20,6 @@ const LEARNER_LINKS = [
 
 const VISITOR_LINKS = [
   ["/syllabus", "Syllabus"],
-  ["/pricing", "Pricing"],
   ["/handbook", "Handbook"],
 ] as const;
 

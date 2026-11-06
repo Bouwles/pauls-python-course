@@ -5,7 +5,6 @@ import styles from "./SiteFooter.module.css";
 
 const LINKS = [
   ["/syllabus", "Syllabus"],
-  ["/pricing", "Pricing"],
   ["/handbook", "Python Handbook"],
   ["/credits", "Credits"],
   ["/privacy", "Privacy"],

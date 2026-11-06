@@ -2,17 +2,17 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { usePlan } from "@/lib/usePlan";
+import { useSession } from "@/lib/store/session";
 import { Button } from "../ui/Button";
 import styles from "./Certificate.module.css";
 
-/** On a finished Pro Act: issue its certificate and go to the verification page. */
+/** On a finished Act: issue its certificate and go to the verification page. */
 export function CertificateButton({ actId }: { actId: string }) {
-  const { status } = usePlan();
+  const { user } = useSession();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  if (!status?.signedIn) return null;
+  if (!user) return null;
   const get = async () => {
     setBusy(true);
     setError(null);
@@ -26,7 +26,7 @@ export function CertificateButton({ actId }: { actId: string }) {
   };
   return (
     <span className={styles.issue}>
-      <Button size="sm" variant="primary" icon="graduation" onClick={() => void get()} disabled={busy} locked={status.access.pro ? false : "Certificates are part of Pro."}>
+      <Button size="sm" variant="primary" icon="graduation" onClick={() => void get()} disabled={busy}>
         Get the certificate
       </Button>
       {error ? (

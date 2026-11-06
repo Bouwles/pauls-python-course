@@ -10,7 +10,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
   const fixed: MetadataRoute.Sitemap = [
     { url: base, lastModified: now, changeFrequency: "weekly", priority: 1 },
-    { url: `${base}/pricing`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${base}/syllabus`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${base}${handbookPath()}`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${base}/credits`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },

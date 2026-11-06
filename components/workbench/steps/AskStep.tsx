@@ -4,8 +4,7 @@ import { useMemo } from "react";
 import type { AskStep } from "@/lib/content/types";
 import type { StepProgressRow } from "@/lib/store/types";
 import { duration } from "@/lib/display";
-import { Track } from "@/lib/track";
-import { Button, LinkButton } from "../../ui/Button";
+import { Button } from "../../ui/Button";
 import { Icon } from "../../ui/Icon";
 import { Prose } from "../Instructions";
 import { SpokenLine, Stage, othersIn, roomOf, useConversation, useStageCast, useVisit } from "../Scene";
@@ -22,7 +21,7 @@ import styles from "./ask.module.css";
  * Skip shows every line at once; reduced motion does that from the start.
  */
 export function AskStepView({ step, row }: { step: AskStep; row: StepProgressRow }) {
-  const { job, areas, conceptTitles, markPassed, goNext, preview, nameOf } = useWorkbench();
+  const { job, areas, conceptTitles, markPassed, goNext, nameOf } = useWorkbench();
   const lines = useMemo(() => step.dialogue.filter((l) => isSpoken(l.who)), [step.dialogue]);
   const client = job.client;
   const clientName = nameOf(client);
@@ -107,24 +106,11 @@ export function AskStepView({ step, row }: { step: AskStep; row: StepProgressRow
                   ) : null}
                 </div>
               </section>
-              {preview ? (
-                <div className={styles.actions}>
-                  <Track event="view-paywall" />
-                  <LinkButton href="/pricing/checkout?plan=pro-yearly" variant="primary">
-                    Get Pro
-                  </LinkButton>
-                  <LinkButton href="/map" variant="ghost">
-                    Not now
-                  </LinkButton>
-                  <p className={styles.note}>This project is part of Pro. The ask is a free preview.</p>
-                </div>
-              ) : (
-                <div className={styles.actions}>
-                  <Button variant="primary" icon="next" onClick={() => void start()}>
-                    Start building
-                  </Button>
-                </div>
-              )}
+              <div className={styles.actions}>
+                <Button variant="primary" icon="next" onClick={() => void start()}>
+                  Start building
+                </Button>
+              </div>
             </>
           )}
         </div>

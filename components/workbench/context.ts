@@ -8,13 +8,6 @@ import type { Runner } from "./useRunner";
 import type { Cue } from "@/lib/reactions";
 import type { GestureTag } from "@/lib/pixel/gestures";
 
-export interface GateAct {
-  id: string;
-  number: number;
-  title: string;
-  subject: string;
-}
-
 /** Where a step's parts go: the instructions panel, the editor side, or one full-width panel (Ask, Ship). */
 export interface Areas {
   panel: string;
@@ -54,10 +47,6 @@ export interface WorkbenchContextValue {
   jobProgress: JobProgressRow | null;
   /** True on the landing page, where the Workbench is cut down and nobody is signed in. */
   landing: boolean;
-  /** A Pro project's Ask, shown as a free preview: the rest of the project isn't here. */
-  preview: boolean;
-  /** The free Act's last project: the Acts the Pro gate offers once it ships. */
-  gateActs: GateAct[] | null;
   /** The next project in the Act, for the Ship panel. */
   nextJob: { id: string; title: string } | null;
   guest: boolean;

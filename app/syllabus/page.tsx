@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { castColour, floorFor } from "@/lib/cast";
-import { FREE_ACTS } from "@/lib/plans";
 import { duration } from "@/lib/display";
 import { getConcepts, getIndex } from "@/lib/content/server";
 import { Page } from "@/components/site/Page";
@@ -66,7 +65,6 @@ export default function Syllabus() {
                   <span>
                     {act.subject}. About {act.hours} hours, {jobs.length} projects.
                   </span>
-                  {FREE_ACTS.has(act.id) ? <Badge tone="free">Free</Badge> : <Badge tone="pro">Pro</Badge>}
                 </p>
                 <p className={styles.actSummary}>{act.summary}</p>
               </div>

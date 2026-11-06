@@ -6,9 +6,9 @@ import { json, limited, readJson, sameOrigin } from "@/lib/server/http";
 
 export const dynamic = "force-dynamic";
 
-// Events the browser may report. Sign-ups, checkouts and subscriptions are recorded by the
-// server where they happen, so they can't be faked from here.
-const FROM_BROWSER = new Set<string>(["visit-landing", "guest-start", "ship-1", "ship-5", "ship-capstone", "view-paywall"]);
+// Events the browser may report. Sign-ups are recorded by the server where they happen, so they
+// can't be faked from here.
+const FROM_BROWSER = new Set<string>(["visit-landing", "guest-start", "ship-1", "ship-5"]);
 
 export async function POST(req: Request) {
   if (!sameOrigin(req)) return json({ error: "Bad origin." }, 403);

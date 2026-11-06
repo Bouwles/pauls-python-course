@@ -11,7 +11,7 @@ import { ERROR_TAGS, HINT_TAGS, PASS_TAGS, firstTime, pickLine, reactionLook } f
 import type { GestureTag } from "@/lib/pixel/gestures";
 import { speakerFor } from "@/lib/cast";
 import { track } from "@/lib/track";
-import { WorkbenchContext, type CoachKind, type GateAct, type Utterance, type WorkbenchContextValue, type Zone } from "./context";
+import { WorkbenchContext, type CoachKind, type Utterance, type WorkbenchContextValue, type Zone } from "./context";
 import { classmateOf, isSpoken, nextId, usesEditor, utterancesFor } from "./labels";
 import { useRunner } from "./useRunner";
 import { StepBar } from "./StepPath";
@@ -29,10 +29,6 @@ interface Props {
   /** The next project in the Act, offered when this one ships. */
   nextJob?: { id: string; title: string } | null;
   landing?: boolean;
-  /** A Pro project shown to someone without Pro: only its Ask is here, as a preview. */
-  preview?: boolean;
-  /** Set on the free Act's last project: the Acts to offer in the Pro gate after it ships. */
-  gateActs?: GateAct[];
 }
 
 const TICK_SECONDS = 5;
@@ -65,7 +61,7 @@ export function isComplete(row: StepProgressRow | undefined) {
   return row?.status === "passed" || row?.status === "seen-solution";
 }
 
-export function Workbench({ job, characters, conceptTitles, actTitle, actProjects, nextJob = null, landing = false, preview = false, gateActs }: Props) {
+export function Workbench({ job, characters, conceptTitles, actTitle, actProjects, nextJob = null, landing = false }: Props) {
   const { store, ready, user, profile, syncStatus } = useSession();
   const runner = useRunner();
   const router = useRouter();
@@ -327,13 +323,12 @@ export function Workbench({ job, characters, conceptTitles, actTitle, actProject
     if (shipStep?.type === "ship") for (const award of shipStep.awards) await setFlag(store, "collectibles", award);
     window.dispatchEvent(new CustomEvent("ppc:flags-changed"));
     logEvent("job-shipped");
-    // Funnel steps: the first and fifth project shipped, and the free Act's capstone.
+    // Funnel steps: the first and fifth project shipped.
     const shippedCount = (await store.all("job_progress")).filter((r) => r.status === "shipped" || r.status === "shipped-stretch").length;
     if (shippedCount >= 1) track("ship-1");
     if (shippedCount >= 5) track("ship-5");
-    if (gateActs) track("ship-capstone");
     return true;
-  }, [store, job, logEvent, gateActs]);
+  }, [store, job, logEvent]);
 
   // Time on step: counted in 5-second ticks while the tab is visible and the learner is active.
   useEffect(() => {
@@ -376,7 +371,7 @@ export function Workbench({ job, characters, conceptTitles, actTitle, actProject
 
   // The funnel: a guest opening the first project.
   useEffect(() => {
-    if (ready && !user && !preview) track("guest-start");
+    if (ready && !user) track("guest-start");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready, user]);
 
@@ -413,8 +408,6 @@ export function Workbench({ job, characters, conceptTitles, actTitle, actProject
     progress,
     jobProgress,
     landing,
-    preview,
-    gateActs: gateActs ?? null,
     nextJob,
     guest: !user,
     lessTalk,

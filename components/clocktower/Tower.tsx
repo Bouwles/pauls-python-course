@@ -123,8 +123,8 @@ function useFitScale(act: number, fallback = 2): [React.RefObject<HTMLSpanElemen
 
 /**
  * One floor seen from outside, filling its box: the tower's brick and the room in the middle at
- * the biggest whole-number scale its height allows, the room's name on its sign. The paywall's
- * locked floor uses it; with `bare`, there's no sign (the side sheet's banner, under its title).
+ * the biggest whole-number scale its height allows, the room's name on its sign. With `bare`,
+ * there's no sign (the side sheet's banner, under its title).
  */
 export function FloorFace({ act, state, room, sub, badges, bare = false, className }: { act: number; state: FloorState; room: string; sub?: React.ReactNode; badges?: React.ReactNode; bare?: boolean; names?: Record<string, string>; className?: string }) {
   const [ref, k] = useFitScale(act);

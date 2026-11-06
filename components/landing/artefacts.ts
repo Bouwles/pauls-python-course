@@ -11,16 +11,15 @@ export interface Project {
   act: number;
   /** Who it's for, by id, for their colour. */
   client: string;
-  free: boolean;
 }
 
 function project(id: string, fallback: Omit<Project, "id" | "free">): Project {
   const index = getIndex();
   for (const act of index.acts) {
     const j: JobSummary | undefined = act.jobs.find((x) => x.id === id);
-    if (j) return { id, title: j.title, act: act.number, client: j.client, free: act.number === index.acts[0]?.number };
+    if (j) return { id, title: j.title, act: act.number, client: j.client };
   }
-  return { id, ...fallback, free: fallback.act === 1 };
+  return { id, ...fallback };
 }
 
 /** A project's example run, from its Ask (the reference solution prints exactly this). */

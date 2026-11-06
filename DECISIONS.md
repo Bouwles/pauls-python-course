@@ -212,3 +212,18 @@ One line per non-obvious choice: the choice, then the reason.
     - largest paint under 200 ms on all of them
   - On the landing page, the pixel engine accounts for about 180 ms of the slowed-down load, drawing the six people in the hero.
 - **Local test accounts:** made by the agents for screenshots of Pro pages: `act45-teacher@ppc.test`, `act67-teacher@ppc.test` and `act89-teacher@ppc.test`, in the local database only.
+
+## Local, free, no payments
+- **The owner's call:** "keep this local, just for me and my friends; remove the pay system, but keep the system where I can make a class and check up on them; don't make it a full-scale project".
+- **Removed:**
+  - the payment providers (`lib/payments`: Paddle, Stripe and the sandbox), the billing API routes and the pricing, checkout and thanks pages
+  - plans and entitlements (`lib/plans.ts`, `lib/usePlan.ts`, `lib/server/entitlements.ts`), and the Billing section in Settings
+  - the Pro gate after Act I and the "Get Pro" preview on a project's brief
+  - the Pro and Free badges, the pricing section and its questions on the landing page, the Pricing links, the paid classroom seats, and the payment events in the funnel
+- **What's open now:**
+  - Every Act and project is open to everyone. `lib/server/gate.ts` only checks that a project exists.
+  - Floors open by progress alone.
+  - Certificates are for anyone who finishes an Act, Act I included.
+- **Kept:** classes: a teacher makes a class, shares its code, sets projects and follows each learner (`/teach`).
+- **Left alone:** the old payment tables in the database. They're unused, and leaving them saved a migration.
+- **Old links:** `/pricing` and anything under it redirect to the front page.
