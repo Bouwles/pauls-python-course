@@ -135,10 +135,12 @@ function WhoIsPlaying({ heading, onSomeoneElse }: { heading: React.RefObject<HTM
                   <p className={styles.about} id={`about-${p.id}`}>
                     {p.role}. {p.about}
                   </p>
-                  <p className={styles.line} id={`line-${p.id}`}>
-                    &ldquo;{p.line}&rdquo;
-                  </p>
-                  <button type="button" className={styles.play} aria-describedby={`about-${p.id} line-${p.id}`} disabled={Boolean(picked)} onClick={() => void pick(p)} onFocus={() => point(p.id)} onBlur={() => point(null)}>
+                  {p.line ? (
+                    <p className={styles.line} id={`line-${p.id}`}>
+                      &ldquo;{p.line}&rdquo;
+                    </p>
+                  ) : null}
+                  <button type="button" className={styles.play} aria-describedby={p.line ? `about-${p.id} line-${p.id}` : `about-${p.id}`} disabled={Boolean(picked)} onClick={() => void pick(p)} onFocus={() => point(p.id)} onBlur={() => point(null)}>
                     Play as {p.name}
                   </button>
                 </div>

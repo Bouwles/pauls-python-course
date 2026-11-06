@@ -309,7 +309,7 @@ The owner said the site looked and read as if it was AI generated.
 - **Headers:** the save cloud shows only with an account, since a guest has nothing to sync. The map icon went because the logo already goes home, "Log in" moved to Settings only, and the step bar's caption went because each step has a tooltip and the page has its title.
 - **"What to do":** removed from every step. The step's own words and its one main button already say it.
 - **Wording:** intros and hints that explained how a page works were cut or reduced to a line. Warnings and what a save merge does stay, because they change what someone chooses.
-- **Who you play as (`playable.ts`):** `about` is a whole sentence, where it used to be a phrase after "Into", so a card can say something else. Caitlin's says "Let's act like I knew what to put here.", in the owner's words.
+- **Who you play as (`playable.ts`):** `about` is a whole sentence, where it used to be a phrase after "Into", so a card can say something else. Caitlin's says "Let's act like I knew what to put here.", in the owner's words. Only Paul and Neil keep a quote on their cards, at the owner's request; everyone's lines still come up in the game itself.
 - **Code in speech:** lines in `content/characters/` put code in backticks, which used to show as typed. `Speech` now sets it as code and leaves the backticks out for screen readers.
 - **Take It Home commands:** a long command wraps in its box and Copy takes it whole. A box that scrolled sideways couldn't be reached by keyboard.
 

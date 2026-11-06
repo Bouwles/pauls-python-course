@@ -103,7 +103,7 @@
 }
 
 .about {
-  margin: 0;
+  margin: 0 0 var(--s-3);
   font-size: var(--fs-2);
   line-height: 1.45;
   color: var(--text-2);
@@ -112,7 +112,7 @@
 /* A line of theirs, in a small bubble. */
 .line {
   display: block;
-  margin: var(--s-2) 2px var(--s-4);
+  margin: 0 2px var(--s-4);
   padding: var(--s-2) var(--s-3);
   font-size: var(--fs-2);
   line-height: 1.45;
