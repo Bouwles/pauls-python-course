@@ -1,4 +1,4 @@
-// Every project is open to everyone: the course runs locally for the owner and their friends,
+// Every project is open to everyone: the course is for friends,
 // with no payments. Content routes still ask here, so a project that doesn't exist is a 404.
 import { getJobSummary } from "../content/server";
 

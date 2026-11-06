@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { mouthFor, pauseAfter } from "@/lib/mood";
 import { prefersReducedMotion } from "@/lib/display";
 
-// Talking (REDESIGN3_PLAN.md): a line appears a letter at a time, about 35 a second, with a beat
+// Talking: a line appears a letter at a time, about 35 a second, with a beat
 // at commas and a longer one at full stops, and the speaker's mouth opens on the vowels it's
 // saying and closes on spaces and stops. Click or press to finish the line at once. With reduced
 // motion the whole line is there straight away and nobody's mouth moves.

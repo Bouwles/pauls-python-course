@@ -96,7 +96,7 @@ async function init(message) {
 
 let ready = null;
 
-// Where each heavy package is fetched from, in town terms (Section 10.1).
+// Where each heavy package is fetched from, in town terms.
 const FETCH_LINES = {
   numpy: "Fetching NumPy from the Records Office.",
   pandas: "Fetching pandas from the Records Office.",

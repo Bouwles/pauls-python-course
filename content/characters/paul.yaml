@@ -6,7 +6,7 @@ floor: 1
 look: "A black cap worn backwards with a little wavy dark-brown hair showing at the back and sides, strong dark eyebrows, light stubble, an easy half-smile. A navy-and-cream varsity jacket over a white T-shirt."
 voice: "Calm, sharp, dryly funny. High standards, delivered kindly. Build it, break it, make it readable. Obsessed with good variable names, and with what a model has actually learned."
 pools:
-  # Reactive lines (REDESIGN-2.md 7.4). lib/cast.ts says which events are Paul's.
+  # Reactive lines. lib/cast.ts says which events are Paul's.
   first-fstring:
     - "An f-string. The value goes exactly where you put it."
     - "f-strings. You'll write one a day from now on."

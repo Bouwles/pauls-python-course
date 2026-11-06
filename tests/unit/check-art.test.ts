@@ -1,4 +1,4 @@
-// The art pipeline (REDESIGN-2.md 8.4): the manifest is complete and follows the naming rule,
+// The art pipeline: the manifest is complete and follows the naming rule,
 // and scripts/check-art.ts passes good art, fails art with the wrong size or an opaque
 // background where one must be transparent, and keeps the manifest's statuses in step.
 import fs from "node:fs";

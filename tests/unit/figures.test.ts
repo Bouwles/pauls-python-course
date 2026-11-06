@@ -8,7 +8,7 @@ import { errandsOf, residentsOf } from "../../lib/pixel/rooms";
 // The full-body figures (lib/pixel/figures.ts): every action draws for every one of the cast and
 // for a learner's default avatar, in every view it lists and on every frame of its loop, without
 // throwing and never empty. And nobody bobs: the top of the head stays on the same row all the
-// way through a loop (the owner: "stop making the sprites bounce up and down").
+// way through a loop.
 
 const LOOKS = [...CAST_IDS.map((id) => [id, CAST_LOOKS[id]!] as const), ["a default avatar", avatarToLook(defaultAvatar())] as const];
 

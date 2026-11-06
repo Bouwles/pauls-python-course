@@ -1,4 +1,4 @@
-// Pushing the Shelf to a new GitHub repository (Section 8.7), through the
+// Pushing the Shelf to a new GitHub repository, through the
 // learner's own GitHub account (OAuth, scope public_repo). The token is stored
 // encrypted, server side only.
 import { createCipheriv, createDecipheriv, createHash, randomBytes } from "node:crypto";

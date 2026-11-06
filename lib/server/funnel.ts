@@ -1,4 +1,4 @@
-// Records funnel events (REDESIGN.md 9.3). Never throws: analytics must not break a request.
+// Records funnel events. Never throws: analytics must not break a request.
 import type { FunnelEvent } from "../funnel";
 import type { Db } from "./db";
 

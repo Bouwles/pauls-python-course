@@ -63,7 +63,7 @@ const MIN_CONSOLE = 120;
 type Pane = "output" | "checks" | "steps";
 
 /**
- * The editor side (REDESIGN-2.md 4.5): the file tabs with Run and Check at the top right (and
+ * The editor side: the file tabs with Run and Check at the top right (and
  * Reset, History and Keys in the "..." menu), the editor, then the console. The console is a
  * 40 px bar until the first Run or Check, then opens to 35 per cent of the height; drag it to
  * any size and it keeps that size. Once the step is done, "Next step" stands where Check was.
@@ -131,7 +131,7 @@ export function CodeWorkspace({
     if (state.awaitingInput !== null) setOpen(true);
   }, [state.awaitingInput]);
 
-  // Files the learner's programs have written in this project (Section 10.4).
+  // Files the learner's programs have written in this project.
   const [written, setWritten] = useState<Files>({});
   useEffect(() => {
     if (!store) return;

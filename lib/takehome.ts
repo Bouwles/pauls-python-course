@@ -1,4 +1,4 @@
-// Take It Home (Section 10.5): the starter project a learner downloads, and the
+// Take It Home: the starter project a learner downloads, and the
 // pytest report they bring back. Shared by the Job page, the server routes and
 // the ppc CLI's endpoints, so the zip is the same whichever way it is fetched.
 import type { Job, TakeHomeStep } from "./content/types";

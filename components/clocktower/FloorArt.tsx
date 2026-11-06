@@ -2,7 +2,7 @@ import { floorFor } from "@/lib/cast";
 import { FloorFace } from "./Tower";
 import type { FloorState } from "./floors";
 
-// One floor of the Clocktower as a picture (REDESIGN3_PLAN.md P3): its pixel room in its state,
+// One floor of the Clocktower as a picture: its pixel room in its state,
 // set in the tower's brick. Locked is dark with the furniture under dust sheets, open has the
 // lights on, busy has the residents in. The side sheet's banner and anything else that shows a
 // floor on its own use this; the tower itself lays the rooms out in TowerFrame.

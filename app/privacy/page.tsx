@@ -23,13 +23,13 @@ export default function Privacy() {
           <li>Your code runs in your own browser. It is sent to our server only to be saved for you.</li>
         </ul>
         <h2>Where it lives</h2>
-        <p>Your data is stored by our database provider (currently Supabase) and on your own device, so you can keep working offline. The owner will name the storage region here before launch.</p>
+        <p>Your data is stored by our database provider (currently Supabase) and on your own device, so you can keep working offline.</p>
         <h2>Age</h2>
         <p>You need to be 13 or older to make an account. If you are under 16, please check with a parent or guardian first: in some countries the law asks for their consent.</p>
         <h2>Taking it back</h2>
         <p>In Settings you can download everything we hold about you as a file, and you can delete your account. Deleting removes your data from our database straight away.</p>
         <h2>Contact</h2>
-        <p>The owner will add a contact address here before launch.</p>
+        <p>Ask Paul.</p>
       </Doc>
     </Page>
   );

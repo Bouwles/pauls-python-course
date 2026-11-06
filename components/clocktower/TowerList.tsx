@@ -14,7 +14,7 @@ import styles from "./TowerList.module.css";
 const cap = (id: string) => id.charAt(0).toUpperCase() + id.slice(1);
 
 /**
- * The list view (REDESIGN-2.md 5.2): every Act and its projects as plain tables, ground floor
+ * The list view: every Act and its projects as plain tables, ground floor
  * first, each Act a pixel panel with its room beside its name. Open floors start expanded;
  * locked ones fold away but still list everything.
  */

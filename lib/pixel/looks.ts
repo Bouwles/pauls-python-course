@@ -1,4 +1,4 @@
-// The cast's looks, as the owner picked them in art/pixel-reference/, and the learner's avatar
+// The cast's looks, as picked in art/pixel-reference/, and the learner's avatar
 // choices (lib/avatar.ts) turned into a look the same engine draws (lib/pixel/people.ts).
 import { ACCESSORIES, AVATAR_COLOURS, HAIR_COLOURS, SKIN_TONES, TOP_COLOURS, readAvatar, type AvatarLook } from "../avatar";
 import { mix, type HairStyle, type PersonLook } from "./people";

@@ -7,7 +7,7 @@ export type SelfRating = "had" | "partly" | "missed";
 
 import type { AvatarLook } from "../avatar";
 
-/** The old animal look, from before REDESIGN-2.md. Read through readAvatar(). */
+/** The old animal look, from an earlier version. Read through readAvatar(). */
 export interface CharacterLook {
   species: Species;
   coat: string;

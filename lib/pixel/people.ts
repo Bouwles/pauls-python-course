@@ -1,4 +1,4 @@
-// Pixel people (REDESIGN3_PLAN.md P1): every person in the course, the cast and each learner's
+// Pixel people: every person in the course, the cast and each learner's
 // avatar, drawn on one 48x52 grid in the style of the cast reference (art/pixel-reference/).
 // A person is a look (face, skin, hair, brows, glasses, clothes) plus a moment: an expression,
 // a pose with arms, a blink, a mouth open mid-word, a hand mid-wave. The same code draws in the

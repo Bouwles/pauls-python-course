@@ -32,7 +32,7 @@ export function coachLooks(said: Utterance[], stepId: string): { face: Expressio
 }
 
 /**
- * The coach (REDESIGN3_PLAN.md P3): whoever is speaking, as a 112 px pixel bust beside a speech
+ * The coach: whoever is speaking, as a 112 px pixel bust beside a speech
  * bubble, saying one line at a time. The words type out while their mouth moves, with the face
  * and a gesture that fits the line and the speaker (coachLooks), never the same one twice in a
  * row. Back and Next step through everything said on this step; a new reaction jumps to the

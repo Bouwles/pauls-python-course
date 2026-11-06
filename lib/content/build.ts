@@ -37,7 +37,7 @@ import { lintText } from "./lint";
 import { BRAND } from "../brand";
 
 /**
- * Content is read as written. The old `{{town}}` token went with the town (REDESIGN-2.md 1):
+ * Content is read as written. The old `{{town}}` token went with the town:
  * a leftover one is an error, so it can't reach a learner as literal braces.
  */
 export function brandText(text: string, file = "content"): string {
@@ -264,7 +264,7 @@ export async function loadContent(root: string, opts: LoadOptions = {}): Promise
   }
   for (const c of Object.values(concepts)) for (const r of c.related) if (!concepts[r]) errors.push(`concepts/${c.id}.yaml: unknown related concept "${r}"`);
 
-  // -- the Python Handbook's long-form pages (REDESIGN.md 9.1): content/handbook/<concept-id>.md,
+  // -- the Python Handbook's long-form pages: content/handbook/<concept-id>.md,
   // with search titles in content/handbook/titles.yaml.
   const titlesFile = path.join(root, "handbook", "titles.yaml");
   const titles = fs.existsSync(titlesFile) ? ((yaml(titlesFile) ?? {}) as Record<string, string>) : {};
@@ -353,7 +353,7 @@ export async function loadContent(root: string, opts: LoadOptions = {}): Promise
       errors.push(`${rel(jy)}: a written job needs ask and ship`);
       return null;
     }
-    // REDESIGN.md 7.3: every written project has a portfolio README, and its datasets are real files with licences.
+    // Every written project has a portfolio README, and its datasets are real files with licences.
     if (!job.portfolio_readme && !job.placement_for) errors.push(`${rel(jy)}: a written project needs a portfolio_readme`);
     for (const d of job.datasets) if (!fs.existsSync(path.join(jobPath, "data", d.file))) errors.push(`${rel(jy)}: dataset ${d.name} names data/${d.file}, which isn't there`);
     if (!job.ship.shelf && !job.placement_for) errors.push(`${rel(jy)}: ship needs a shelf object`);
@@ -684,7 +684,7 @@ export async function loadContent(root: string, opts: LoadOptions = {}): Promise
     });
 
     summary.stepCount = steps.length;
-    // The old story notes were removed with the old cast (REDESIGN-2.md 1); a leftover
+    // The old story notes were removed with the old cast; a leftover
     // `story_note` is ignored until the writers take it out.
     jobs[job.id] = {
       ...summary,
@@ -760,7 +760,7 @@ export async function loadContent(root: string, opts: LoadOptions = {}): Promise
   }
   acts.sort((a, b) => a.number - b.number);
 
-  // -- placement (Section 8.2): Jobs that place an experienced learner past an Act ----
+  // -- placement: Jobs that place an experienced learner past an Act ----
   const placements: PlacementSummary[] = [];
   for (const dir of listDir(path.join(root, "placement"))) {
     const dirPath = path.join(root, "placement", dir);

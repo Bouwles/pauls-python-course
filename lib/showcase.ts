@@ -1,4 +1,4 @@
-// Real projects from across the course, each with one plain line about it (REDESIGN-2.md 6).
+// Real projects from across the course, each with one plain line about it.
 export const SHOWCASE: { sprite: string; name: string; act: string; line: string }[] = [
   { sprite: "shelf-abacus", name: "Calculator", act: "Act I", line: "Calculator. Parse what's typed, survive bad input with try and except, loop until quit." },
   { sprite: "shelf-workshop-ledger", name: "Expense tracker", act: "Act I", line: "Expense tracker. A menu-driven program that totals spending by category." },

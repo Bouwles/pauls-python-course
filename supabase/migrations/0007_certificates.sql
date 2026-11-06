@@ -1,4 +1,4 @@
--- Act certificates (REDESIGN.md 9.2), a Pro feature. Each has a public verification page at
+-- Act certificates, a Pro feature. Each has a public verification page at
 -- /certificates/<id>; the id is random and unguessable. Only the server writes them.
 create table public.certificates (
   id text primary key,

@@ -7,7 +7,7 @@ import { useWorkbench } from "./context";
 import styles from "./DuckPanel.module.css";
 
 /**
- * Explain it to the duck (Section 9.6). The duck never answers. That's the point: saying what the
+ * Explain it to the duck. The duck never answers. That's the point: saying what the
  * code should do and what it does is usually enough to see the gap. Then the line that surprised
  * you is marked, and the step-through starts there.
  */

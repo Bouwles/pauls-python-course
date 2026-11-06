@@ -1,6 +1,6 @@
 "use client";
 
-// Avatar creation (REDESIGN-2.md 7.3, REDESIGN3_PLAN.md): the learner builds their pixel self from
+// Avatar creation: the learner builds their pixel self from
 // parts, the way you build a character in a game. Their avatar stands large beside the choices,
 // alive, and reacts to every change (a new haircut surprises them, a new top makes them proud),
 // with a gesture that's different each time (lib/pixel/variety.ts). Under it stands the whole of

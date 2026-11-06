@@ -19,7 +19,7 @@
   cursor: pointer;
 }
 
-/* Hover lights the tile's edge; the person stands still (the owner: no bouncing). */
+/* Hover lights the tile's edge; the person stands still. */
 .button:hover {
   box-shadow:
     inset 0 0 0 2px var(--px-outline),

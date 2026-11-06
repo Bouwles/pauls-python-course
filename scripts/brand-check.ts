@@ -1,4 +1,4 @@
-// The rebrand test (REDESIGN-2.md 1): fails if the old town or cast survives in what ships.
+// The rebrand test: fails if the old town or cast survives in what ships.
 // "Fixwick", "Saltmarsh" and "Penhallow" anywhere; "Moss" and "Pip" as names (capitalised, so
 // `pip` the installer and moss the plant are fine); and old cast ids as speakers or clients in
 // the compiled content. Scans the production build (.next), the compiled content and public/

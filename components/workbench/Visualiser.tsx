@@ -1,6 +1,6 @@
 "use client";
 
-// Step-through visualiser (Section 9.4): the current line, the variables in
+// Step-through visualiser: the current line, the variables in
 // each frame, and objects drawn as boxes with arrows. Below them, plain
 // pictures from the same trace: a count of loop passes, a list slot by slot
 // (or as bars, for numbers), a dictionary's keys and values, and the stack of

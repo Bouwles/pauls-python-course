@@ -1,4 +1,4 @@
-// Plain-language explanations shown under a traceback (Section 3.6).
+// Plain-language explanations shown under a traceback.
 // Each rule is written by hand. Rules are tried in order; the first match wins.
 // They can look at the learner's code, so the same error can be explained
 // differently depending on what led to it.

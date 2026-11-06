@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import styles from "./Tabs.module.css";
 
-// Text tabs with a 2 px sun underline on the selected one (REDESIGN-2.md 3), and an
+// Text tabs with a 2 px sun underline on the selected one, and an
 // optional count badge ("Checks 3/5"). Arrow keys move between tabs.
 export interface TabItem {
   id: string;

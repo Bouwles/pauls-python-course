@@ -12,7 +12,7 @@ export function Doc({ title, lede, draft = false, children }: { title: string; l
       {draft ? (
         <p className={styles.draft}>
           <Icon name="warning" />
-          <span>Draft for the owner to review before launch. It is not yet a final legal document.</span>
+          <span>This is a draft, not a final legal document.</span>
         </p>
       ) : null}
       <div className={`prose ${styles.body}`}>{children}</div>

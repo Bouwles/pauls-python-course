@@ -10,7 +10,7 @@ import { PixelPerson, type PixelPersonProps } from "./PixelPerson";
 import { useOnScreen } from "./useOnScreen";
 import styles from "./PixelRoom.module.css";
 
-// A floor's room as pixel art (REDESIGN3_PLAN.md P3), drawn by lib/pixel/rooms.ts on canvases at a
+// A floor's room as pixel art, drawn by lib/pixel/rooms.ts on canvases at a
 // whole-number scale so every pixel stays crisp:
 //   <PixelRoom act={2} state="busy" size={480} />
 // Locked rooms are dark with the furniture under dust sheets, open rooms have the lights on, and

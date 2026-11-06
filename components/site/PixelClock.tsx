@@ -1,4 +1,4 @@
-// The Clocktower's clock in pixels (REDESIGN-2.md 7.2): stuck at 3:14, as it has been for years.
+// The Clocktower's clock in pixels: stuck at 3:14, as it has been for years.
 // Drawn cell by cell on a 21-pixel grid: a brass rim with a dark outline, four marks, and the two
 // hands. Shown at whole-number scales only (21, 42, 63, 84 px...), so it stays crisp.
 

@@ -1,4 +1,4 @@
-// The weekly note from Paul (Section 16): opt-in, three lines, what you shipped,
+// The weekly note from Paul: opt-in, three lines, what you shipped,
 // what is due for review, nothing else. No streaks, no guilt.
 
 export interface WeeklyFacts {

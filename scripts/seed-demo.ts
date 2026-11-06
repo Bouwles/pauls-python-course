@@ -1,4 +1,4 @@
-// Seeds a demo learner with progress through half of Act I (Section 13.3),
+// Seeds a demo learner with progress through half of Act I,
 // through the app's own API, so it works against the local backend or Supabase.
 // Needs the server running:  npx tsx scripts/seed-demo.ts [base-url]
 import fs from "node:fs";

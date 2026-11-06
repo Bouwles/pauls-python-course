@@ -1,6 +1,6 @@
 "use client";
 
-// A learner's shipped project, runnable in the page (REDESIGN.md 9.2). Read only: it's theirs.
+// A learner's shipped project, runnable in the page. Read only: it's theirs.
 // The classmate it was made for stands at the top, celebrating it in a way of their own (a
 // different one each visit, lib/pixel/variety.ts); the learner signs it, drawn as themselves or as
 // the classmate they play as. It opens from a share link (/share/#..., ShareView.tsx) or, on the

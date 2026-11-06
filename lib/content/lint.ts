@@ -1,4 +1,4 @@
-// Copy rules from Section 7.8 of the spec. Used by content validation and by
+// The copy rules. Used by content validation and by
 // scripts/copy-lint.ts for UI strings. Code (inline or fenced) is ignored.
 
 const BANNED: [RegExp, string][] = [
@@ -38,7 +38,7 @@ const AMERICAN: [RegExp, string][] = [
 
 const EMOJI = /\p{Extended_Pictographic}/u;
 
-// Old names (REDESIGN-2.md 1 and 9). The town and its story: checked on the whole text, code
+// Old names. The town and its story: checked on the whole text, code
 // included. The old cast: checked on prose only and case-sensitively, so `pip` the installer
 // and moss the plant are fine.
 const OLD_NAMES = /fixwick|saltmarsh|penhallow|townsfolk/i;

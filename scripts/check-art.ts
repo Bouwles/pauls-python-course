@@ -1,4 +1,4 @@
-// The art check (REDESIGN-2.md 8.4). Looks at every PNG in art/final/, checks it against its
+// The art check. Looks at every PNG in art/final/, checks it against its
 // entry in art/manifest.json (the exact canvas size, and a transparent background where one is
 // required), marks the good ones final, and writes components/art/final.generated.ts so <Art>
 // shows them. Then reports which images are still placeholders. Exits 1 on any problem.

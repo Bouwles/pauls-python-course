@@ -1,6 +1,6 @@
 "use client";
 
-// The Arcade course as square pixel cells (REDESIGN-2.md 6, REDESIGN3_PLAN.md): sand, rocks in one host's colour, rock pools
+// The Arcade course as square pixel cells: sand, rocks in one host's colour, rock pools
 // in the other's, the finish in sun, and the crab. With a race's path it becomes a replay.
 import { useEffect, useMemo, useState } from "react";
 import { course, type Policy } from "@/lib/league/course";

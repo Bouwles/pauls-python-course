@@ -27,7 +27,7 @@ export async function generateMetadata(props: { params: Promise<{ slug: string; 
   };
 }
 
-/** A shipped project's public page (REDESIGN.md 9.2): opt-in, through the learner's public profile. */
+/** A shipped project's public page: opt-in, through the learner's public profile. */
 export default async function SharedProjectPage(props: { params: Promise<{ slug: string; jobId: string }> }) {
   const { slug, jobId } = await props.params;
   const p = await load(slug, jobId);

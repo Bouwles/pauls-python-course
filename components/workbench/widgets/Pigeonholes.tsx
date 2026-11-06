@@ -1,6 +1,6 @@
 "use client";
 
-// Concept before code (Section 3.7): find a parcel in pigeonholes numbered from 0.
+// Concept before code: find a parcel in pigeonholes numbered from 0.
 import { useState } from "react";
 import { Button } from "../../ui/Button";
 import styles from "./widgets.module.css";

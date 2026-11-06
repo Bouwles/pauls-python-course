@@ -1,6 +1,6 @@
 "use client";
 
-// Take It Home (Section 10.5): set Python up, download the project, run its
+// Take It Home: set Python up, download the project, run its
 // pytest suite on your own computer, and hand the results in, with the ppc
 // tool or by uploading pytest's report. Signed in on the local version, they go
 // to the server (app/api/takehome). Without an account (always, on GitHub

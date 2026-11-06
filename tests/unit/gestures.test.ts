@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { allGestures } from "../../lib/pixel/gestures";
 
 // Every gesture id is defined once across the gesture files, and none moves the whole person
-// (the owner asked for no bouncing: only arms, hands and props move).
+// (only arms, hands and props move).
 describe("gestures", () => {
   const dir = path.join(process.cwd(), "lib/pixel/gestures");
   const ids = fs

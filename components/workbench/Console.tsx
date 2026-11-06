@@ -27,7 +27,7 @@ interface Props {
 const DEBUG_FACES: Expression[] = ["thinking", "focused", "curious", "thinking", "determined"];
 
 /**
- * The traceback, then the error panel (REDESIGN-2.md 3): Neil beside it working it out, since
+ * The traceback, then the error panel: Neil beside it working it out, since
  * debugging is his (Paul, when you're playing as Neil), a short heading in the pixel face, the
  * plain explanation and a "Go to line" button. The portrait is a small head and shoulders, so it's
  * the face that changes, error to error.

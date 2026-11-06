@@ -1,6 +1,6 @@
--- Funnel analytics (REDESIGN.md 9.3): self-hosted, no third-party trackers. A visitor is a
+-- Funnel analytics: self-hosted, no third-party trackers. A visitor is a
 -- random id kept in the browser; once someone signs in, their user id is kept too. Only the
--- server writes here, and only the owner's metrics page reads it.
+-- server writes here, and only the metrics page reads it.
 create table public.funnel_events (
   id bigserial primary key,
   event text not null check (event in (

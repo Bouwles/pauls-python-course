@@ -19,7 +19,7 @@ export function projectPosition(job: Pick<Job, "number" | "sidequest" | "placeme
 }
 
 /**
- * The Workbench header (REDESIGN-2.md 4.1): the logo and name, where you are ("Act 1 / Bill
+ * The Workbench header: the logo and name, where you are ("Act 1 / Bill
  * Splitter", "Project 2 of 13"), then you. The logo goes back to the Clocktower.
  */
 export function Hud({ job, actProjects, syncStatus, guest, secondsSpent = 0 }: { job: Job; actTitle?: string; actProjects?: number; syncStatus: SyncStatus; guest: boolean; secondsSpent?: number }) {

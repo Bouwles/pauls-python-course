@@ -1,6 +1,6 @@
-// Server-side checking (Section 12.4), behind an interface so it can be built later.
+// Server-side checking, behind an interface so it can be built later.
 //
-// TODO(PLAN.md, "deliberate stubs"): run uploaded Take It Home projects and capstone
+// TODO: run uploaded Take It Home projects and capstone
 // milestones in an isolated container job runner (no network, CPU and memory limits,
 // a timeout) and compare its results with what the learner reported. Until then,
 // results from the learner's own computer are trusted, and the Job page says so.

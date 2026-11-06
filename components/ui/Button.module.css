@@ -1,5 +1,5 @@
 /*
-  Pixel buttons (REDESIGN3_PLAN.md P2): square, a stepped two-pixel outline (four box-shadows,
+  Pixel buttons: square, a stepped two-pixel outline (four box-shadows,
   so the corners step), a light top edge and a darker bottom edge, and a real press: the button
   drops two pixels and its bottom edge goes. The label is in the pixel face.
 */

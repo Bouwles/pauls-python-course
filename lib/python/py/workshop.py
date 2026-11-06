@@ -1,5 +1,5 @@
 """
-Living Visualisations (Section 7.6) for the learner's own code.
+Living Visualisations for the learner's own code.
 
 Call these from a program and the Workbench draws what was sent, one frame per
 call, with play, pause and step controls under the output:

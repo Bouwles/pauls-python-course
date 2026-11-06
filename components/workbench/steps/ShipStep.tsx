@@ -42,7 +42,7 @@ function plainText(html: string): string {
 }
 
 /**
- * The Ship (REDESIGN-2.md 4.6): the finished program running in a demo frame, the client's
+ * The Ship: the finished program running in a demo frame, the client's
  * reaction (yours, as "You", on your own project: lib/playas.ts), and "Add to my Shelf", which stamps it shipped, with the client celebrating in a way
  * of their own (Neil launches a rocket, Caitlin wins on her controller), different for each
  * project. "Download the project" takes the code home. Before the Build step passes, the client

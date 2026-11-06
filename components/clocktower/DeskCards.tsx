@@ -17,7 +17,7 @@ const cap = (id: string) => id.charAt(0).toUpperCase() + id.slice(1);
 
 /**
  * Beside the tower (under it on a phone): Continue, with the exact project and step; Morning
- * Rounds, with the cards due; and the Shelf (REDESIGN-2.md 5.2). Then anything set by a class,
+ * Rounds, with the cards due; and the Shelf. Then anything set by a class,
  * the Arcade League once its floor is open, and the placement test for anyone who's coded before.
  */
 export function DeskCards({

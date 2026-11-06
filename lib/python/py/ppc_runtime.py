@@ -37,7 +37,7 @@ try:
 except ImportError:  # pragma: no cover - older hosts without the module
     workshop = None
 
-# Plots render off-screen; figures are captured as PNGs after a run (Section 10.4).
+# Plots render off-screen; figures are captured as PNGs after a run.
 os.environ.setdefault("MPLBACKEND", "Agg")
 import warnings
 warnings.filterwarnings("ignore", message=".*non-interactive.*")
@@ -475,7 +475,7 @@ def run(request_json):
 
 # ---------------------------------------------------------------------------
 # code_events(): cheap static facts about the learner's code, so the cast can
-# react to what was actually written (REDESIGN.md 6.5). Never judged, never shown
+# react to what was actually written. Never judged, never shown
 # as notes: they only choose which line a character says.
 # ---------------------------------------------------------------------------
 
@@ -1303,7 +1303,7 @@ def check(request_json):
 
 
 # ---------------------------------------------------------------------------
-# review(): Paul's code style notes on a shipped project (Section 5.1)
+# review(): Paul's code style notes on a shipped project
 #
 # A small, beginner-sized subset of PEP 8 checks, written against the AST so it
 # runs in Pyodide (Ruff can't). Every rule carries Paul's reason. Notes never

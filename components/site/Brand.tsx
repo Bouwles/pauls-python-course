@@ -1,4 +1,4 @@
-// The logo (REDESIGN3_PLAN.md P2): a snake curled into a P, drawn pixel by pixel on a 16-pixel
+// The logo: a snake curled into a P, drawn pixel by pixel on a 16-pixel
 // grid with a dark outline like the cast's, and the wordmark "Paul's Python Course" in the pixel
 // face beside it. Both are drawn at whole-pixel scales only (the mark at 16, 32, 48 or 64 px, the
 // name at 16, 24, 32 or 40 px), so every edge stays crisp. The snake itself is in lib/pixel/mark.ts,

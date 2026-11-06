@@ -1,6 +1,6 @@
 "use client";
 
-// The cast outside the Workbench (REDESIGN-2.md 4.4, 6): who's who, and which line they say.
+// The cast outside the Workbench: who's who, and which line they say.
 // Morning Rounds has Paul; the Drills have Yahya; their stand-ins when you're playing as them
 // (lib/playas.ts). They speak through <Speech> (components/art);
 // who speaks comes from lib/cast.ts, the line from their pool in content/characters/.

@@ -1,4 +1,4 @@
-// Generates tokens.css (REDESIGN-2.md 2.4 to 2.7): the dark theme (default), the light
+// Generates tokens.css: the dark theme (default), the light
 // theme, the sun and blue accents, status and character colours, type, radius, the one
 // floating shadow, and motion. Components use these tokens only; style-lint checks it.
 //   npx tsx scripts/build-tokens.ts
@@ -19,7 +19,7 @@ const fixed = {
   fail: "#F2545B",
   "fail-ink": "#2B0507",
   warn: "#FFB627",
-  // The cast (REDESIGN-2.md 7.1). Violet is a flat colour only, never in a gradient.
+  // The cast. Violet is a flat colour only, never in a gradient.
   "c-paul": "#FFB627",
   "c-neil": "#1FB5A8",
   "c-aaesha": "#FF7A6B",
@@ -57,7 +57,7 @@ const dark = {
   "px-hi": "rgb(255 255 255 / 0.16)",
   "px-lo": "rgb(0 0 0 / 0.28)",
   scrim: "rgb(8 10 14 / 0.6)",
-  // Code (REDESIGN-2.md 3): keywords blue-light, strings green, numbers sun, comments text-3.
+  // Code: keywords blue-light, strings green, numbers sun, comments text-3.
   "syn-keyword": "#7FA6F0",
   "syn-string": "#8FD18A",
   "syn-number": "#FFB627",
@@ -234,7 +234,7 @@ const css = `/*
 ${block(fixed)}
 ${block(dark)}
 
-  /* Type (REDESIGN-2.md 2.3): a display face for titles and names, a text face for
+  /* Type: a display face for titles and names, a text face for
      everything else including the UI, and code. Sizes: 14, 15, 17, 20, 24, 32, 44, 60. */
   --font-display: var(--font-display-loaded, "Fredoka"), var(--font-text);
   --font-text: var(--font-text-loaded, "Atkinson Hyperlegible Next"), system-ui, sans-serif;
@@ -276,7 +276,7 @@ ${block(dark)}
   --s-20: 80px;
   --s-24: 96px;
 
-  /* Shape (REDESIGN3_PLAN.md P2): square pixel corners everywhere. Edges are stepped pixel
+  /* Shape: square pixel corners everywhere. Edges are stepped pixel
      outlines and depth is a hard offset shadow, both from box-shadow (see .px-panel). */
   --r-sm: 0;
   --r-md: 0;
@@ -284,7 +284,7 @@ ${block(dark)}
   --px: 2px;
   --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--sun);
 
-  /* Motion (REDESIGN-2.md 2.7) */
+  /* Motion */
   --dur: 160ms;
   --dur-slow: 200ms;
   --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);

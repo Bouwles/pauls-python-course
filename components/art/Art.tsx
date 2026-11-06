@@ -4,7 +4,7 @@ import { BodyPlaceholder, DuckPlaceholder, FloorPlaceholder, GroupPlaceholder, P
 import { canvasFor, parseArtId } from "./spec";
 import styles from "./Art.module.css";
 
-// One illustration from the art pipeline (REDESIGN-2.md 8.4), by its id in art/manifest.json:
+// One illustration from the art pipeline, by its id in art/manifest.json:
 //   <Art id="paul.portrait.pleased" size={64} alt="Paul, pleased" />
 // When the manifest marks the image final (scripts/check-art.ts keeps final.generated.ts in
 // step with it), the artist's PNG from art/final/ is shown through Next.js image optimisation:

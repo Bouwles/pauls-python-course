@@ -13,7 +13,7 @@ import { SpeechBubble } from "../ui/SpeechBubble";
 import { PixelClock } from "../site/PixelClock";
 import styles from "./ClassScene.module.css";
 
-// The hero's picture (REDESIGN3_PLAN.md P3): the whole class in one pixel scene, like a class
+// The hero's picture: the whole class in one pixel scene, like a class
 // photo. Paul and Neil stand at the back, the four classmates in front behind a long desk with
 // Neil's rubber duck on it. Paul greets the visitor: his line types out and his mouth moves with
 // it, with a greeting of his own (a different one each visit). Then the class comes alive: every
@@ -150,7 +150,7 @@ export function ClassScene({ greeting, names }: { greeting: string; names: Recor
   );
 }
 
-// Neil's rubber duck (REDESIGN-2.md 7.2): yellow, facing the class, with a chip out of its beak.
+// Neil's rubber duck: yellow, facing the class, with a chip out of its beak.
 // # body, s shade, b beak, e eye; the outline is worked out round it.
 const DUCK = ["....###.....", "...#####....", "..##e###....", "bb######....", ".b######..#.", "..#########.", ".##########s", ".#########ss", "..sssssssss."];
 const DUCK_FILL: Record<string, string> = {

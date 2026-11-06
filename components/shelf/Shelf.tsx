@@ -1,6 +1,6 @@
 "use client";
 
-// The Shelf (REDESIGN-2.md 6, REDESIGN3_PLAN.md): everything the learner has shipped, as a grid
+// The Shelf: everything the learner has shipped, as a grid
 // of project cards. Each card shows what the program really prints: the learner's last run from
 // here when there is one (or its chart), otherwise the project's example run. The client it was
 // made for stands beside it, pleased with it: whoever got the newest one is still cheering, and

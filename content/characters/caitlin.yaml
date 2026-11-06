@@ -6,7 +6,7 @@ floor: 2
 look: "Long wavy dark-brown hair turning purple from about chin height to the ends. Round black glasses. A sage overshirt over a cream T-shirt. A calm, knowing smile."
 voice: "Creative, fast, impatient. Builds the fun version first. Bored by anything without a screen."
 pools:
-  # Reactive lines (REDESIGN-2.md 7.4). lib/cast.ts says which events are Caitlin's.
+  # Reactive lines. lib/cast.ts says which events are Caitlin's.
   long-no-loop:
     - "That's a lot of lines that look the same. Isn't that what loops are for?"
     - "Twenty lines and no loop. I've shipped worse. A loop would be shorter, though."

@@ -1,5 +1,5 @@
-// The funnel's steps, in order (REDESIGN.md 9.3). Shared by the browser, the server and the
-// owner's metrics page.
+// The funnel's steps, in order. Shared by the browser, the server and the
+// metrics page.
 export const FUNNEL = [
   ["visit-landing", "Visited the landing page"],
   ["guest-start", "Started the first project as a guest"],

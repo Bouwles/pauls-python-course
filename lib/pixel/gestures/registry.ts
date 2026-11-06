@@ -42,7 +42,7 @@ export interface GestureDef {
   /** Drawn behind the body and hair (a guitar's neck, an easel). */
   behind?: (g: Grid, p: PersonLook, beat: number) => void;
   /** Drawn over everything: arms, hands, what they hold. People always stand still and level:
-   *  only arms, hands and props move (the owner asked for no bouncing). */
+   *  only arms, hands and props move. */
   draw: (g: Grid, p: PersonLook, beat: number) => void;
 }
 

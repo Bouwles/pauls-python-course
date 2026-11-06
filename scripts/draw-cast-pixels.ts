@@ -1,5 +1,5 @@
 // Renders the pixel people (lib/pixel/people.ts) to PNG sheets in art/pixel-reference/: the cast
-// as the owner picked them, every expression and pose, and every avatar hair style. The app
+// as picked, every expression and pose, and every avatar hair style. The app
 // draws the same people live; these sheets are for looking at them all at once.
 //   npx tsx scripts/draw-cast-pixels.ts
 import fs from "node:fs";

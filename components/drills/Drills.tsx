@@ -1,6 +1,6 @@
 "use client";
 
-// Drills (REDESIGN-2.md 6, REDESIGN3_PLAN.md): five quick tasks against the clock, for speed once
+// Drills: five quick tasks against the clock, for speed once
 // an idea is understood. A grid of topic cards under Act headings, each with the learner's best
 // time and the rival's. The rival (RIVAL in lib/cast.ts, Yahya) is there in person: he sets the
 // time, races you down the track, and takes the result the way he would: proud when he wins,

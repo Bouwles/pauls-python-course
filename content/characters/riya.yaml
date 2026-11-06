@@ -6,7 +6,7 @@ floor: 3
 look: "Long, straight, glossy jet-black hair falling behind her shoulders, bold dark eyebrows, a playful smirk. A cream varsity jacket with navy trim over a dark top."
 voice: "Practical about her art. Always asks who it is for and what it should feel like. Good at explaining things simply."
 pools:
-  # Reactive lines (REDESIGN-2.md 7.4). lib/cast.ts says which events are Riya's.
+  # Reactive lines. lib/cast.ts says which events are Riya's.
   # When the learner fixes Riya's version, or fixes it in fewer lines.
   fixed-by-learner:
     - "Oh. I only tested the easy case. Thank you."

@@ -1,6 +1,6 @@
 "use client";
 
-// Push to a GitHub repository (Section 8.7): the whole Shelf, or one project. Two ways:
+// Push to a GitHub repository: the whole Shelf, or one project. Two ways:
 // - on the local version, when the site has a GitHub OAuth app set up and you're signed in, the
 //   server pushes for you (app/api/github);
 // - everywhere else (GitHub Pages, or no OAuth app), the browser pushes itself with a fine-grained

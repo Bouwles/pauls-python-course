@@ -1,5 +1,5 @@
 {
-  "about": "Every image the illustrator delivers (REDESIGN-2.md 8). Written by scripts/build-art-manifest.ts; statuses are kept up to date by scripts/check-art.ts. See art/README.md.",
+  "about": "Every image the illustrator delivers. Written by scripts/build-art-manifest.ts; statuses are kept up to date by scripts/check-art.ts. See art/README.md.",
   "naming": "The file name is the id with every \".\" replaced by \"_\", plus \".png\": paul.portrait.pleased is paul_portrait_pleased.png.",
   "entries": [
     {

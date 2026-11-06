@@ -27,7 +27,7 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
     imageSizes: [32, 48, 64, 96, 128, 180, 256, 360, 384, 512],
   },
-  // Act I's projects were renamed to plain program names (REDESIGN.md 7.3); old links still work.
+  // Act I's projects were renamed to plain program names; old links still work.
   async redirects() {
     return [
       // No payments: the old pricing and checkout pages go to the front page.
@@ -57,12 +57,12 @@ const nextConfig: NextConfig = {
       { source: "/job/one-neuron", destination: "/job/learning-backwards", permanent: true },
       { source: "/job/a-small-brain", destination: "/job/learning-backwards", permanent: true },
       { source: "/job/scrapyard-route-planner", destination: "/job/interview-prep-set", permanent: true },
-      // Projects whose ids carried the old cast's names (REDESIGN-2.md 1).
+      // Projects whose ids carried the old cast's names.
       { source: "/job/penhallows-logs", destination: "/job/log-analyser", permanent: true },
       { source: "/job/penhallows-handwriting", destination: "/job/handwritten-digits", permanent: true },
       { source: "/job/penhallows-notebook-reader", destination: "/job/notebook-reader", permanent: true },
       { source: "/job/mosss-radio", destination: "/job/radio-station-finder", permanent: true },
-      // The Concept Index became the public Python Handbook (REDESIGN.md 9.1).
+      // The Concept Index became the public Python Handbook.
       { source: "/concepts", destination: "/handbook", permanent: true },
       { source: "/concepts/:id", destination: "/handbook/:id", permanent: true },
     ];

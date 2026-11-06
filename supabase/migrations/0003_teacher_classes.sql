@@ -1,4 +1,4 @@
--- Phase 4: teacher and class mode (Section 8.10).
+-- Phase 4: teacher and class mode.
 -- The tables and the read policies for teachers are in 0001. This adds the
 -- rules the routes rely on, so they hold in the database and not only in code.
 

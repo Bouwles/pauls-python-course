@@ -14,7 +14,7 @@ import { Speech } from "../art/Speech";
 import { useOnScreen } from "../art/useOnScreen";
 import styles from "./MeetTheClass.module.css";
 
-// "Meet the class" (REDESIGN-2.md 6 and 7, REDESIGN3_PLAN.md P3): the six people in the
+// "Meet the class": the six people in the
 // Clocktower, each standing on their colour like the cast sheet, saying a line in their own voice
 // about what they're into, with the face and gesture that go with it. The teachers first, then
 // the four classmates. They start talking when the section comes into view, one after another.

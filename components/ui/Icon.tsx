@@ -1,4 +1,4 @@
-// One icon set (REDESIGN3_PLAN.md P2): pixelarticons (MIT), drawn on a 24-pixel grid so they sit
+// One icon set: pixelarticons (MIT), drawn on a 24-pixel grid so they sit
 // with the pixel cast and the pixel font. Icons only where they help. The set has no duck and no
 // crab, so those two are drawn here on the same grid, pixel by pixel.
 import {

@@ -7,7 +7,7 @@ import { PixelHeart } from "./PixelHeart";
 import styles from "./Credit.module.css";
 
 /**
- * "Made with [heart] by Paul Nercessian" (REDESIGN-2.md 1): the 8x7 pixel heart at 2x, read as
+ * "Made with [heart] by Paul Nercessian": the 8x7 pixel heart at 2x, read as
  * "love". Hovering or tapping it makes it beat once. Shown in the footer and at the foot of Settings.
  */
 export function Credit({ className }: { className?: string }) {

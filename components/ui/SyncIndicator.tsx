@@ -4,7 +4,7 @@ import type { SyncStatus } from "@/lib/store/sync";
 import { Icon } from "./Icon";
 import styles from "./SyncIndicator.module.css";
 
-// Save status as a pixel icon (REDESIGN.md 4.7): a floppy disk when saved, the spanner
+// Save status as a pixel icon: a floppy disk when saved, the spanner
 // turning while saving, a cloud with a cross when offline. The words are in the tooltip.
 const TEXT: Record<SyncStatus, string> = {
   local: "Saved on this device",

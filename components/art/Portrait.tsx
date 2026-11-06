@@ -14,7 +14,7 @@ function fit(inner: number, cropWidth: number): number {
 }
 
 /**
- * A character's portrait (REDESIGN3_PLAN.md P1): their pixel self, head and shoulders, on a square
+ * A character's portrait: their pixel self, head and shoulders, on a square
  * tile in their colour with a pixel edge. Alive: they blink, and their mouth moves
  * while `talking`. Used for the coach, name tags, the class and the Clocktower's residents.
  */

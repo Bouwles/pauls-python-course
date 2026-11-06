@@ -41,7 +41,7 @@ export default async function HandbookEntry(props: { params: Promise<{ id: strin
   const jobs = Object.fromEntries(index.acts.flatMap((a) => a.jobs).map((j) => [j.id, { id: j.id, title: j.title, status: j.status }]));
   const misconceptions = c.misconceptions.map((m) => index.misconceptions[m]).filter(Boolean).map((m) => m!.description);
   const related = c.related.map((r) => concepts[r]).filter(Boolean).map((r) => ({ id: r!.id, title: r!.title }));
-  // Structured data (REDESIGN.md 9.1), so search engines know what the page teaches.
+  // Structured data, so search engines know what the page teaches.
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "LearningResource",

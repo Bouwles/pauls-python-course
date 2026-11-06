@@ -7,7 +7,7 @@ import { LiveRoom } from "./LiveRoom";
 import { FLOORS_TOP_DOWN, type FloorState } from "./floors";
 import styles from "./Tower.module.css";
 
-// The Clocktower as a pixel building (REDESIGN3_PLAN.md P3): the night sky and the city behind,
+// The Clocktower as a pixel building: the night sky and the city behind,
 // brick walls, a stone band between floors, the roof with its clock on top, and in every floor
 // its room (lib/pixel/rooms.ts) in its state. The floors are passed in as list items, top floor
 // first, so the same frame serves the learner's tower and the visitors' overview. Everything is

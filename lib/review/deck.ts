@@ -1,4 +1,4 @@
-// The review deck (Section 3.4), scheduled with FSRS.
+// The review deck, scheduled with FSRS.
 //
 // One scheduling card per concept (review_cards.cardId is the concept id).
 // Each review shows one of the concept's variants, preferring the one seen
@@ -116,7 +116,7 @@ export async function queueSoon(store: LocalStore, conceptIds: string[], inHours
   }
 }
 
-/** Self-explanation ratings (Section 9.5) feed the schedule. */
+/** Self-explanation ratings feed the schedule. */
 export async function applySelfRating(store: LocalStore, conceptId: string, rating: SelfRating): Promise<void> {
   const existing = await store.get("review_cards", conceptId);
   if (!existing) {

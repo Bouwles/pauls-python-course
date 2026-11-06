@@ -1,4 +1,4 @@
-// Characters react to real events with lines from small pools (REDESIGN-2.md 7.4); lib/cast.ts
+// Characters react to real events with lines from small pools; lib/cast.ts
 // says who speaks for each event, and LOOKS below how they look saying it.
 // The last 30 lines shown to this learner are remembered and not repeated. Lines may
 // name something from the learner's code: "{name}" is filled in from `vars`.

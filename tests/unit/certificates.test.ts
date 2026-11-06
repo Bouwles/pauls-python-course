@@ -1,4 +1,4 @@
-// Certificates and share cards, drawn without pixel art (REDESIGN-2.md 1 and 2): the PNG is the
+// Certificates and share cards, drawn without pixel art: the PNG is the
 // right size, the PDF holds the same picture on one A4 page, the verification address is the
 // one the page lives at, and a shipped project's share card is a 1200 x 630 PNG.
 import zlib from "node:zlib";

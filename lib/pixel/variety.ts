@@ -1,5 +1,4 @@
-// Choosing what someone does, so the cast don't do the same few things all day (the owner: "the
-// characters look repetitive, don't reuse the same ones over and over again"). Given what a
+// Choosing what someone does, so the cast don't do the same few things all day. Given what a
 // moment is for (a greeting, a celebration, a line of explanation...), who it is and a seed, it
 // picks one of the gestures that fit, from everyday ones and that person's own. The pick is the
 // same for the same seed, so the server and the browser agree, and different seeds (each line,

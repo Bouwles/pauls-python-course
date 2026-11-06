@@ -94,7 +94,7 @@ function Progress({ passed, failed, total }: { passed: number; failed: number; t
 }
 
 /**
- * Check results (REDESIGN-2.md 4.5): "3 of 5 checks passed" over a pixel block per check, every
+ * Check results: "3 of 5 checks passed" over a pixel block per check, every
  * check in a list, and the first failing one open with what went in, what was expected and what
  * came out side by side, the differences marked character by character.
  */

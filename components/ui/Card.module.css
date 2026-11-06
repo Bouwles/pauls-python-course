@@ -1,4 +1,4 @@
-/* A card is a pixel panel (REDESIGN3_PLAN.md P2): a stepped outline and a hard drop shadow. */
+/* A card is a pixel panel: a stepped outline and a hard drop shadow. */
 .card {
   background: var(--surface-2);
   padding: var(--s-5) var(--s-6);

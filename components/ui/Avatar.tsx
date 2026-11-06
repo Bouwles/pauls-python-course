@@ -1,7 +1,7 @@
 import { PixelPerson } from "../art/PixelPerson";
 import styles from "./Avatar.module.css";
 
-// The learner's avatar (REDESIGN-2.md 7.3, REDESIGN3_PLAN.md P1): their pixel self, head and
+// The learner's avatar: their pixel self, head and
 // shoulders, on the colour they chose, or the cast member they're playing as (`who`, lib/useMe.ts). Without a saved look (old data, or a name alone) it falls
 // back to their initials. Shown in the header, on the Shelf and on public pages.
 export const AVATAR_COLOURS = ["#FFB627", "#1FB5A8", "#FF7A6B", "#8C6BF2", "#4CC36F", "#3B6FD8", "#F29E6D", "#E86FA8", "#7FA6F0", "#A4ABB8"] as const;

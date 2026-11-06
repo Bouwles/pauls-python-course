@@ -1,4 +1,4 @@
-// The learner's avatar (REDESIGN-2.md 7.3): a human, built from layered parts in the cast's
+// The learner's avatar: a human, built from layered parts in the cast's
 // illustrated style. Until the illustrated parts exist, it's drawn as the learner's initials
 // on the colour they chose (components/ui/Avatar.tsx); the parts are saved now so the art can
 // use them the day it arrives. Stored in the profile's `character` field, which used to hold

@@ -50,7 +50,7 @@ async function patchProfile(body: { teacher?: boolean; slug?: string | null }): 
   return res.ok ? { flags: out } : { error: out.error ?? "That didn't save." };
 }
 
-/** Command-line tools signed in with a device code (Section 10.5). */
+/** Command-line tools signed in with a device code. */
 export function ConnectedTools() {
   const [tokens, setTokens] = useState<Token[] | null>(null);
   const load = () =>
@@ -102,7 +102,7 @@ export function GitHubConnection() {
   );
 }
 
-/** Classes this learner is in, joining with a code, and the teaching switch (Section 8.10). */
+/** Classes this learner is in, joining with a code, and the teaching switch. */
 export function Classes({ flags, onFlags }: { flags: Flags; onFlags: (f: Flags) => void }) {
   const [classes, setClasses] = useState<Membership[] | null>(null);
   const [code, setCode] = useState("");

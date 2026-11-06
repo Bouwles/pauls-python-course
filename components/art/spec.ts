@@ -1,4 +1,4 @@
-// The art pipeline's rules (REDESIGN-2.md 8.4): the kinds of image there are, the canvas each
+// The art pipeline's rules: the kinds of image there are, the canvas each
 // is drawn on, the sizes it's shown at, and how an id becomes a file name. <Art>, the /dev/art
 // page, scripts/build-art-manifest.ts and scripts/check-art.ts all read them from here.
 //

@@ -1,7 +1,7 @@
 import type { Strength as Level } from "@/lib/review/strength";
 import { Badge, type BadgeTone } from "../ui/Badge";
 
-// How well an idea is holding (REDESIGN-2.md 6): a small text badge, never a bar or colour alone.
+// How well an idea is holding: a small text badge, never a bar or colour alone.
 // The review deck's six levels read as three words here.
 const WORDS: Record<Level, { text: string; tone: BadgeTone }> = {
   unseen: { text: "Not met yet", tone: "neutral" },

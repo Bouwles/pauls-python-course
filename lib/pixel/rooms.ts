@@ -1,4 +1,4 @@
-// Pixel rooms (REDESIGN3_PLAN.md P3): each floor of the Clocktower as pixel art in the cast's
+// Pixel rooms: each floor of the Clocktower as pixel art in the cast's
 // style (lib/pixel/people.ts): a dark outline, flat colours with one shade, light from the top
 // left, a small palette. A room is drawn in two layers, the back (walls, windows, furniture behind
 // the people) and the front (the desk or counter the people sit behind), so the residents, drawn

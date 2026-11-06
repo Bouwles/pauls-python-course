@@ -1,4 +1,4 @@
-// The cast (REDESIGN-2.md 7): who speaks for what. Interface code asks here instead of
+// The cast: who speaks for what. Interface code asks here instead of
 // naming a character, so the cast lives in content/characters/ and this one table. When you're
 // playing as one of the class, their lines go to their stand-in (lib/playas.ts).
 import { isYou, speakerOf } from "./playas";
@@ -99,7 +99,7 @@ export const FIRST_TRY = [RIVAL, "caitlin"] as const;
 /** The reaction events and which pools in content/characters/ must hold lines for them. */
 export const REACTION_EVENTS = Object.keys(SPEAKER);
 
-/** A character's signature colour, and the text colour that reads on it (REDESIGN-2.md 7.1). */
+/** A character's signature colour, and the text colour that reads on it. */
 export interface CastColour {
   face: string;
   ink: string;
@@ -126,7 +126,7 @@ export function hasNamePlate(id: string): boolean {
 }
 
 /**
- * The Clocktower's floors, bottom to top (REDESIGN-2.md 5.1): each Act is a floor, with a room,
+ * The Clocktower's floors, bottom to top: each Act is a floor, with a room,
  * who lives there, and a Phosphor icon for the room in placeholder art.
  */
 export interface Floor {

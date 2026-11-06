@@ -12,8 +12,7 @@ import { PixelRoom, pickShown, showsInRoom, useMotion, type PixelRoomProps, type
 import { useOnScreen } from "../art/useOnScreen";
 import styles from "./LiveRoom.module.css";
 
-// A floor's room with its residents living in it (REDESIGN3_PLAN.md P3, the owner: "don't reuse
-// the same ones over and over"). In a busy room they sit at their desks getting on with their own
+// A floor's room with its residents living in it. In a busy room they sit at their desks getting on with their own
 // work, a different move every few seconds (lib/pixel/variety.ts, mode "moment"), and now and
 // then one of them gets up and goes somewhere as a full-body figure (lib/pixel/figures.ts): Paul
 // to his chalkboard, Neil pacing with his rocket, Riya to her easel, Yahya timing a sprint. The

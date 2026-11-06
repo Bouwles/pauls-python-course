@@ -12,7 +12,7 @@ export interface MenuItem {
 }
 
 /**
- * A small "..." menu for the quiet actions (REDESIGN.md 5.1), so they aren't a row of grey words.
+ * A small "..." menu for the quiet actions, so they aren't a row of grey words.
  * Arrow keys move, Enter picks, Escape closes and puts focus back on the button.
  */
 export function Menu({ label, items }: { label: string; items: MenuItem[] }) {

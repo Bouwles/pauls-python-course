@@ -1,4 +1,4 @@
-// Writes art/manifest.json (REDESIGN-2.md 8.4): every image the illustrator delivers, built
+// Writes art/manifest.json: every image the illustrator delivers, built
 // from the cast (lib/cast.ts), the Clocktower's floors (FLOORS), the avatar's options
 // (lib/avatar.ts) and Act I's projects (content/acts). Run it when any of those change; the
 // status of every image already in the manifest is kept. scripts/check-art.ts then marks
@@ -16,7 +16,7 @@ const MANIFEST = path.join(root, "art", "manifest.json");
 
 const name = (id: string) => id.charAt(0).toUpperCase() + id.slice(1);
 
-// What each expression looks like (REDESIGN-2.md 8.3), and the moments that belong to one
+// What each expression looks like, and the moments that belong to one
 // person (8.6).
 const EXPRESSION_NOTES: Record<string, string> = {
   neutral: "At rest and friendly, looking at the viewer.",
@@ -58,7 +58,7 @@ const FLOOR_STATES: Record<string, string> = {
   busy: "Lights on, the residents there and doing something, more props, plants grown.",
 };
 
-// Act I's Shelf objects: what to draw for each project (REDESIGN-2.md 8.3).
+// Act I's Shelf objects: what to draw for each project.
 const SHELF_NOTES: Record<string, string> = {
   "shop-sign": "The small painted sign on the Clocktower's front door, reading \"Paul's Python Course\".",
   "bill-splitter": "A restaurant receipt from the class dinner, with the total split into equal shares in pen.",
@@ -187,7 +187,7 @@ if (isMain) {
   const status = new Map(before?.entries.map((e) => [e.id, e.status]) ?? []);
   const entries = buildEntries(actOneProjects()).map((e) => ({ ...e, status: status.get(e.id) ?? e.status }));
   const manifest: Manifest = {
-    about: "Every image the illustrator delivers (REDESIGN-2.md 8). Written by scripts/build-art-manifest.ts; statuses are kept up to date by scripts/check-art.ts. See art/README.md.",
+    about: "Every image the illustrator delivers. Written by scripts/build-art-manifest.ts; statuses are kept up to date by scripts/check-art.ts. See art/README.md.",
     naming: "The file name is the id with every \".\" replaced by \"_\", plus \".png\": paul.portrait.pleased is paul_portrait_pleased.png.",
     entries,
   };

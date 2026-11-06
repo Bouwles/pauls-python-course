@@ -1,5 +1,5 @@
 // The step bar's names: a plain name for what you do on each kind of step, never teaching jargon
-// (the owner found "Predict" and "Investigate" confusing). The step's own title is in the
+// like "Predict" or "Investigate". The step's own title is in the
 // instructions panel and is each pill's accessible description.
 import type { Character, Line, Step } from "@/lib/content/types";
 import { isYou } from "@/lib/playas";

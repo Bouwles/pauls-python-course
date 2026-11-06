@@ -8,7 +8,7 @@ alter table public.job_progress add constraint job_progress_status_check
   check (status in ('not-started', 'in-progress', 'shipped', 'shipped-stretch', 'placed'));
 
 -- ---------------------------------------------------------------------------
--- The ppc CLI signs in with a device code (Section 10.5).
+-- The ppc CLI signs in with a device code.
 -- The CLI holds device_code; the learner types user_code on /device.
 -- Only the server (service role) touches these tables.
 -- ---------------------------------------------------------------------------
@@ -38,7 +38,7 @@ revoke insert, update on public.api_tokens from authenticated;
 revoke all on public.device_codes from authenticated;
 
 -- ---------------------------------------------------------------------------
--- The Crab League (Section 13.5): one entry per learner per week, opt-in.
+-- The Crab League: one entry per learner per week, opt-in.
 -- The server races each policy on the week's fixed seed and stores the score;
 -- other learners see display names and scores only, never the policy.
 -- ---------------------------------------------------------------------------

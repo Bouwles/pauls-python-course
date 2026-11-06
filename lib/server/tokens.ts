@@ -1,4 +1,4 @@
-// The ppc CLI (Section 10.5) signs in with a device code and then sends a
+// The ppc CLI signs in with a device code and then sends a
 // Bearer token. Tokens and device codes are stored hashed.
 import { createHash, randomBytes, randomInt } from "node:crypto";
 import { getDb } from "./db";

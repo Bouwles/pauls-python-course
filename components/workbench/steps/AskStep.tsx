@@ -13,7 +13,7 @@ import { isSpoken } from "../labels";
 import styles from "./ask.module.css";
 
 /**
- * The Ask (REDESIGN3_PLAN.md P3), as a cutscene: the client at their desk in their room on the
+ * The Ask, as a cutscene: the client at their desk in their room on the
  * Clocktower, big and alive, asking for the program a line at a time under the scene. Your own
  * project (you're playing as its client, lib/playas.ts): you at your own desk, saying your lines
  * as "You". Each line

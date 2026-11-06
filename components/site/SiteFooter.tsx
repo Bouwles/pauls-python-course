@@ -9,7 +9,7 @@ const LINKS = [
   ["/credits", "Credits"],
 ] as const;
 
-/** The footer: the mark, the links in the pixel face, and the credit line with the pixel heart (REDESIGN-2.md 1). */
+/** The footer: the mark, the links in the pixel face, and the credit line with the pixel heart. */
 export function SiteFooter() {
   return (
     <footer className={styles.footer}>

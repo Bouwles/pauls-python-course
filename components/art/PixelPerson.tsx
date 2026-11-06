@@ -8,9 +8,8 @@ import { prefersReducedMotion } from "@/lib/display";
 import { useOnScreen } from "./useOnScreen";
 import styles from "./PixelPerson.module.css";
 
-// A pixel person, alive (REDESIGN3_PLAN.md P1): drawn by lib/pixel/people.ts on a canvas at a
-// whole-number scale, so every pixel stays crisp. They stand still and level (the owner: no
-// bouncing), blink now and then, move their
+// A pixel person, alive: drawn by lib/pixel/people.ts on a canvas at a
+// whole-number scale, so every pixel stays crisp. They stand still and level, blink now and then, move their
 // mouth while `talking`, and play a gesture when given a pose. With reduced motion they hold still.
 // Everyone on a page shares one clock, so a tower full of people costs one timer, and a person
 // only draws, and only listens to the clock, while they're on screen.

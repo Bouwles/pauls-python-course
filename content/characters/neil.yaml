@@ -6,7 +6,7 @@ floor: 4
 look: "Short black hair swept up at the front, thick dark eyebrows, clean-shaven, a wide friendly grin. Black rectangular glasses. A white collared shirt."
 voice: "Energetic and approachable. Explains it a second way when the first did not land. Loves a bug hunt, a fast lap and a launch window."
 pools:
-  # Reactive lines (REDESIGN-2.md 7.4). lib/cast.ts says which events are Neil's.
+  # Reactive lines. lib/cast.ts says which events are Neil's.
   check-failed:
     - "Okay. What did you expect it to print? What did it actually print?"
     - "Close. Look at the first check that failed, and read what it expected."

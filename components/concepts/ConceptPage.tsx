@@ -20,7 +20,7 @@ interface Props {
   related: { id: string; title: string }[];
 }
 
-/** A Handbook page (REDESIGN-2.md 6): the title, the explanation, a runnable example in an editor card. */
+/** A Handbook page: the title, the explanation, a runnable example in an editor card. */
 export function ConceptPage({ concept, jobsUsing, misconceptions, related }: Props) {
   const { store } = useSession();
   const runner = useRunner();

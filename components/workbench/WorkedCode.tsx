@@ -1,4 +1,4 @@
-// A worked example with its subgoal labels in the margin (Section 3.2, step 4).
+// A worked example with its subgoal labels in the margin.
 import { highlightLines } from "./CodeBlock";
 import cb from "./CodeBlock.module.css";
 import styles from "./WorkedCode.module.css";

@@ -1,4 +1,4 @@
-// The placeholders (REDESIGN-2.md 8.5), shown by <Art> until the illustrator's file arrives:
+// The placeholders, shown by <Art> until the illustrator's file arrives:
 // the pixel cast (lib/pixel/people.ts), the pixel rooms and tower (lib/pixel/rooms.ts), and a
 // pixel tile with an icon for things.
 import { CAST_IDS, castColour, type Floor } from "@/lib/cast";
@@ -61,7 +61,7 @@ export function TowerPlaceholder({ size, alt, className }: { size: number; alt: 
 }
 
 /**
- * One floor of the Clocktower (REDESIGN-2.md 5.3): its pixel room in the state, at the biggest
+ * One floor of the Clocktower: its pixel room in the state, at the biggest
  * whole-number scale that fits `size`. Locked is dark under dust sheets, open has the lights on,
  * busy has the residents in.
  */

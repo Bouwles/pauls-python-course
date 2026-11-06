@@ -37,7 +37,7 @@ const MARK: Record<Step["type"], IconName> = {
 const LANDMARKS = new Set<Step["type"]>(["ask", "make", "ship"]);
 
 /**
- * The step bar (REDESIGN-2.md 4.2, REDESIGN3_PLAN.md P2): a compact track with one pixel block
+ * The step bar: a compact track with one pixel block
  * per step, so a project of twenty-odd steps fits across the screen. Each block carries its
  * kind's mark (a book for Learn, a question for a Quick check, a bug for a fix...), and the
  * brief, Build it and Ship it keep their names as landmarks. Done blocks are filled green, the

@@ -1,6 +1,6 @@
 "use client";
 
-// Morning Rounds (REDESIGN-2.md 6, REDESIGN3_PLAN.md): up to ten review cards, one at a time,
+// Morning Rounds: up to ten review cards, one at a time,
 // centred. Paul runs them: he says his rounds-start line as they begin, and stays at the top of the
 // page reacting to each answer with a face and a gesture that fit it, then sends you off at the end.
 // Each card shows the project its idea came from. His gestures are chosen per card and per visit

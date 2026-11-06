@@ -1,6 +1,6 @@
 "use client";
 
-// Reports a funnel step to our own server (REDESIGN.md 9.3). No third-party trackers, no
+// Reports a funnel step to our own server. No third-party trackers, no
 // cookies: a random id in this browser's storage ties a visitor's steps together.
 import { STATIC } from "./static";
 import { useEffect } from "react";

@@ -4,7 +4,7 @@ import { createContext, useCallback, useContext, useEffect, useRef, useState } f
 import { Icon, type IconName } from "./Icon";
 import styles from "./Toast.module.css";
 
-// Toasts (REDESIGN-2.md 3): bottom centre, one line, an icon, gone after a few seconds.
+// Toasts: bottom centre, one line, an icon, gone after a few seconds.
 interface Toast {
   id: number;
   text: string;

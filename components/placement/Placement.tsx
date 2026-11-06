@@ -1,6 +1,6 @@
 "use client";
 
-// The placement test (Section 8.2): one section per Act, each a short project of Make tasks.
+// The placement test: one section per Act, each a short project of Make tasks.
 // Passing a section marks that Act's projects as placed: they stay open, the next Act opens,
 // and the Act's ideas join the review deck. Paul, who runs the course, sets it.
 import { duration } from "@/lib/display";

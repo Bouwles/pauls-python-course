@@ -1,4 +1,4 @@
--- Pro subscriptions (REDESIGN.md 8.3). Webhooks from the payments provider are the source
+-- Pro subscriptions. Webhooks from the payments provider are the source
 -- of truth: only the server (the service role) writes these tables. A learner can read
 -- their own entitlement, nothing else.
 
@@ -62,7 +62,7 @@ create policy "read own seat" on public.seat_grants for select using (user_id = 
 create policy "teacher reads seats in own pools" on public.seat_grants for select
   using (exists (select 1 from public.seat_pools p where p.id = pool_id and p.teacher_id = auth.uid()));
 
--- Purchases by learners under 18 need an adult's say-so (REDESIGN.md 8.3): recorded with the checkout.
+-- Purchases by learners under 18 need an adult's say-so: recorded with the checkout.
 create table public.checkout_consents (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users (id) on delete cascade,

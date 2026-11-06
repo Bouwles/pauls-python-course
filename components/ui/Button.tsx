@@ -2,7 +2,7 @@ import { forwardRef } from "react";
 import { Icon, type IconName } from "./Icon";
 import styles from "./Button.module.css";
 
-// Buttons (REDESIGN-2.md 3). 40 px tall (44 on phones), 6 px corners, 15 px bold text.
+// Buttons. 40 px tall (44 on phones), 6 px corners, 15 px bold text.
 //   primary:   sun, for the one main action in a region (Check, Start)
 //   secondary: surface-3, for ordinary actions
 //   ghost:     transparent, for tertiary actions (Reset)

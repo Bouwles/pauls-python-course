@@ -1,4 +1,4 @@
-// Stored files (Section 12): uploaded Take It Home projects.
+// Stored files: uploaded Take It Home projects.
 // Production: a private Supabase Storage bucket, "submissions".
 // Local development: files under .data/uploads.
 import fs from "node:fs";

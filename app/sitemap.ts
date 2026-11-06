@@ -6,7 +6,7 @@ import { handbookPath } from "@/lib/handbook";
 // The same for every visitor, so it can be a plain file (and is, on GitHub Pages).
 export const dynamic = "force-static";
 
-// Every public page, for search engines (REDESIGN.md 9.1): the landing page, pricing and
+// Every public page, for search engines: the landing page, pricing and
 // syllabus, and one Handbook page per concept.
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = siteUrl();

@@ -12,7 +12,7 @@ export const metadata: Metadata = { title: "Syllabus" };
 
 const WORDS: Record<number, string> = { 8: "Eight", 9: "Nine", 10: "Ten" };
 
-/** The floor's resident colour, for the small square beside each Act in the contents (REDESIGN-2.md 6). */
+/** The floor's resident colour, for the small square beside each Act in the contents. */
 function square(act: number): React.CSSProperties {
   const who = floorFor(act)?.residents[0] ?? "paul";
   return { background: `var(--c-${who}, ${castColour(who).face})` };

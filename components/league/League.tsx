@@ -1,6 +1,6 @@
 "use client";
 
-// The Arcade League (Section 13.5): a weekly race on the Arcade course for policies trained in
+// The Arcade League: a weekly race on the Arcade course for policies trained in
 // Act 8, run by the classmates who live on the Arcade floor (Aaesha and Caitlin). They host it in
 // person: they introduce the race, one after the other, and react to where your entry finished.
 // The hosts' gestures, and how the one not talking listens, are chosen per line and per visit

@@ -20,7 +20,7 @@ export async function generateMetadata(props: { params: Promise<{ id: string }> 
   return { title, description: `${actName(c)}: ${c.projects} projects shipped.`, openGraph: { title, images: [{ url: `/certificates/${c.id}/image`, ...CERTIFICATE_SIZE }] } };
 }
 
-/** The public verification page (REDESIGN.md 9.2): anyone with the link can check it's real. */
+/** The public verification page: anyone with the link can check it's real. */
 export default async function CertificatePage(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;
   const c = await getCertificate(await getDb(), id);

@@ -1,4 +1,4 @@
-// The editor themes (REDESIGN-2.md 3, REDESIGN3_PLAN.md P2): ppc-dark and ppc-light, built from
+// The editor themes: ppc-dark and ppc-light, built from
 // the design tokens. The code stays in the code face; the chrome around it is pixel.
 // Syntax: keywords in the light blue, strings green, numbers in the sun colour, comments in
 // the tertiary text colour (never italic: they're for reading), function names in the text

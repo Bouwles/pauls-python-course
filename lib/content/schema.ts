@@ -12,7 +12,7 @@ export const GESTURES = (): string[] => allGestures().map((g) => g.id);
 
 /**
  * A dialogue line is written in YAML as a one-key map: `- riya: "Six of us, one bill."`. The key
- * can also carry how they look saying it, an expression and then a gesture (REDESIGN3_PLAN.md):
+ * can also carry how they look saying it, an expression and then a gesture:
  * `- riya.pleased: "..."`, `- neil.thinking.think: "..."`, `- caitlin.laughing.cheer: "..."`.
  */
 export const dialogueLine = z
@@ -62,7 +62,7 @@ export const stretchTask = z.object({
   solution: z.string().optional(),
 });
 
-/** A real public dataset a project uses (REDESIGN.md 7.1), with its source and licence. */
+/** A real public dataset a project uses, with its source and licence. */
 export const dataset = z.object({
   name: z.string(),
   /** Where the original lives. */
@@ -77,7 +77,7 @@ export const jobFile = z.object({
   id,
   title: z.string(),
   status: z.enum(["written", "outline"]).default("written"),
-  /** The plain name of the real program (REDESIGN.md 7.1): "Bill Splitter", "Spam Filter". Shown first; the client second. */
+  /** The plain name of the real program: "Bill Splitter", "Spam Filter". Shown first; the client second. */
   project_name: z.string().min(2),
   /** The README for the learner's portfolio copy (Markdown). {name} and {date} are filled in at download. */
   portfolio_readme: z.string().min(40).optional(),
@@ -104,17 +104,17 @@ export const jobFile = z.object({
       /** Optional only for placement Jobs, which earn nothing for the Shelf. */
       shelf: z.object({ object: id, label: z.string() }).optional(),
       cards: z.array(id).default([]),
-      /** Cosmetic unlocks earned by shipping this Job (Section 7.5): real milestones only. */
+      /** Cosmetic unlocks earned by shipping this Job: real milestones only. */
       awards: z.array(z.enum(["name-plate", "keeper-coat"])).default([]),
     })
     .optional(),
   stretch: z.array(stretchTask).default([]),
   story_note: id.optional(),
-  /** A Take It Home sidequest (Section 5.1): optional, unnumbered, never blocks the next Act. */
+  /** A Take It Home sidequest: optional, unnumbered, never blocks the next Act. */
   sidequest: z.boolean().default(false),
   /** Placement Jobs (content/placement): the Act a pass places the learner past. */
   placement_for: id.optional(),
-  /** Old: where the pixel scene strip was set. Unused since REDESIGN-2.md; kept so older content still parses. */
+  /** Old: where the pixel scene strip was set. Unused now; kept so older content still parses. */
   scene: z.enum(["workshop", "lamp-room"]).default("workshop"),
   /** University Readiness: a suggested time, shown as a clock, never enforced. */
   timed_minutes: z.number().int().positive().optional(),
@@ -206,7 +206,7 @@ const checkable = {
   timeout_ms: z.number().int().positive().optional(),
   /** Copy the learner's latest code from another step as the starting point. */
   starter_from: id.optional(),
-  /** One short, specific line when every check passes (Section 3.8). */
+  /** One short, specific line when every check passes. */
   on_pass: dialogueLine.optional(),
   /** Show an Arguments box next to Run, for command-line programs (sys.argv). */
   argv_field: z.boolean().default(false),
@@ -263,8 +263,8 @@ export const readingStep = z.object({
 });
 
 /**
- * Learn: one new idea explained in plain words before anything asks about it (AUTHORING.md, "How
- * we teach"). The body is the explanation; `code` is a small example the learner can run and change.
+ * Learn: one new idea explained in plain words before anything asks about it.
+ * The body is the explanation; `code` is a small example the learner can run and change.
  */
 export const learnStep = z.object({
   ...stepBase,
@@ -410,7 +410,7 @@ export const characterFile = z.object({
   id,
   name: z.string(),
   role: z.string(),
-  /** The character's signature colour (REDESIGN-2.md 7.1): name tags, bubbles, their floor. */
+  /** The character's signature colour: name tags, bubbles, their floor. */
   colour: z.string().regex(/^#[0-9a-fA-F]{6}$/).default("#6E7584"),
   /** The Clocktower floor they live on, as an Act number (0 for none). */
   floor: z.number().int().min(0).max(9).default(0),

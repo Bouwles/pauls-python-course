@@ -26,3 +26,6 @@ tsconfig.tsbuildinfo
 /public/data/
 # Written by scripts/build-pages.ts for the GitHub Pages build, and removed after.
 /public/ppc.zip
+
+# Screenshots taken by the screenshot tests
+/tests/screenshots/

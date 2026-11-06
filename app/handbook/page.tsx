@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   alternates: { canonical: `${siteUrl()}${handbookPath()}` },
 };
 
-/** The public Python Handbook (REDESIGN.md 9.1): every concept in the course, free and crawlable. */
+/** The public Python Handbook: every concept in the course, free and crawlable. */
 export default function HandbookPage() {
   const index = getIndex();
   const jobs = Object.fromEntries(index.acts.flatMap((a) => a.jobs).map((j) => [j.id, { title: j.title, act: j.actNumber, number: j.number }]));

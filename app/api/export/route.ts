@@ -6,7 +6,7 @@ import { BRAND } from "@/lib/brand";
 
 export const dynamic = "force-dynamic";
 
-// Everything we hold about the learner, as JSON (Section 13.4).
+// Everything we hold about the learner, as JSON.
 export async function GET() {
   const user = await requireUser();
   if (user instanceof Response) return user;

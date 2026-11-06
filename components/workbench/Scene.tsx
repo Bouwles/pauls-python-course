@@ -15,7 +15,7 @@ import { useSpeech } from "../art/useSpeech";
 import { SpeechBubble } from "../ui/SpeechBubble";
 import styles from "./Scene.module.css";
 
-// The Ask and the Ship as small pixel scenes (REDESIGN3_PLAN.md P3): the client at their desk in
+// The Ask and the Ship as small pixel scenes: the client at their desk in
 // their room on the Clocktower, anyone else in the conversation in the foreground, and the lines
 // said in bubbles beside them. A line types out like <Speech> does (lib/mood.ts, useSpeech), and
 // its speaker's mouth moves with it here on the stage instead of in a portrait by the bubble.
@@ -294,8 +294,7 @@ function turnMs(gesture: string | null, seed: string): number {
 }
 
 /**
- * What people get on with when they aren't speaking (REDESIGN3_PLAN.md P3, the owner: "don't
- * reuse the same ones over and over again"): one of their own goings-on (Neil flies his drone,
+ * What people get on with when they aren't speaking: one of their own goings-on (Neil flies his drone,
  * Riya paints, Yahya clicks his stopwatch), then standing easy for a few seconds, then something
  * else, never the same thing twice running. Back from saying a line, they pick up where they
  * left off. With reduced motion each keeps their first, standing still.

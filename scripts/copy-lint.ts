@@ -1,4 +1,4 @@
-// Copy lint (Section 21): scans UI strings in components and pages, and all
+// Copy lint: scans UI strings in components and pages, and all
 // content, for em dashes, emoji, banned phrases, exclamation marks in UI copy
 // and American spellings. Fails (exit 1) on any finding.
 import fs from "node:fs";
@@ -67,7 +67,6 @@ for (const file of [...walk(path.join(root, "app"), [".tsx", ".ts"]), ...walk(pa
 
 for (const file of walk(path.join(root, "content"), [".md", ".yaml"])) {
   const rel = path.relative(root, file);
-  if (["content/STYLE.md", "content/AUTHORING.md"].includes(rel)) continue; // they quote the banned list
   const text = fs.readFileSync(file, "utf8");
   // Dialogue may carry one exclamation mark per job; the build counts those, so only the rest is checked here.
   for (const problem of lintText(text, { ui: false })) findings.push(`${rel}: ${problem}`);

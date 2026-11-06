@@ -178,7 +178,7 @@ function WhoIsPlaying({ heading, onSomeoneElse }: { heading: React.RefObject<HTM
 
 // ---------------------------------------------------------------- someone else: your own avatar
 
-// Paul says hello, then your name, your avatar (REDESIGN-2.md 7.3), and whether you've written
+// Paul says hello, then your name, your avatar, and whether you've written
 // code before, which decides where you start: the first project, or the placement test. The new
 // avatar waves you off when you save. Paul's gesture and the avatar's goodbye are this visit's.
 

@@ -1,4 +1,4 @@
-// Playing as one of the class (the owner: "make it where you can pick who to play as"). You can be
+// Playing as one of the class. You can be
 // Paul, Neil, Aaesha, Caitlin, Riya or Yahya, or someone of your own. You learn exactly the same
 // things; what changes is the story around you:
 // - your own projects, your old buggy code and your Ships are yours: those lines are said by you,

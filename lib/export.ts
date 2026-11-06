@@ -38,7 +38,7 @@ export function projectFolder(item: ShelfItem) {
 
 export function readme(item: ShelfItem, shippedAt: number | null, name = ""): string {
   const date = shippedAt ? new Date(shippedAt).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) : null;
-  // The project's own portfolio README (REDESIGN.md 7.1), with the learner's name and the date filled in.
+  // The project's own portfolio README, with the learner's name and the date filled in.
   if (item.portfolioReadme) {
     const filled = item.portfolioReadme.replace(/\{name\}/g, name.trim() || "me").replace(/\{date\}/g, date ?? "recently").trim();
     return `${filled}\n\n---\n\nFor ${item.client}. Act ${item.actNumber}, ${item.actTitle}, of ${BRAND.name}.\n`;

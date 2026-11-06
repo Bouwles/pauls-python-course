@@ -13,7 +13,7 @@ const WELCOME = {
   login: { who: ASSISTANT, text: "Welcome back. Your code's exactly where you left it, bugs and all.", face: "laughing", gesture: "wave" },
 } as const;
 
-/** Sign up and log in (REDESIGN-2.md 6): one pixel card in the middle, with someone saying hello. */
+/** Sign up and log in: one pixel card in the middle, with someone saying hello. */
 export function AuthPage({ mode }: { mode: "signup" | "login" }) {
   const hello = WELCOME[mode];
   const name = getIndex().characters[hello.who]?.name ?? hello.who.charAt(0).toUpperCase() + hello.who.slice(1);

@@ -1,4 +1,4 @@
-// The logo's snake, curled into a P (REDESIGN3_PLAN.md P2), drawn once here and used by the site
+// The logo's snake, curled into a P, drawn once here and used by the site
 // (components/site/Brand.tsx), the server-drawn images (components/certificates/og.tsx) and the
 // favicons and OG image (scripts/build-brand.tsx).
 

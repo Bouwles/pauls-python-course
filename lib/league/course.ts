@@ -1,4 +1,4 @@
-// The Arcade League (Section 13.5): the Club Course, the entry format, and the races.
+// The Arcade League: the Club Course, the entry format, and the races.
 // Every race is seeded by the week, so the same code gives the same score wherever it runs: in
 // the browser that enters an entry (lib/league/local.ts), the browser that opens a progress link
 // carrying one (lib/classes/link.ts), and on the local version's server (app/api/league). A

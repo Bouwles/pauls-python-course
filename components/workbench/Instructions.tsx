@@ -15,7 +15,7 @@ export function Prose({ html, className }: { html: string | null | undefined; cl
 }
 
 /**
- * The instructions panel (REDESIGN-2.md 4.3), top to bottom: the step's title, the step's
+ * The instructions panel, top to bottom: the step's title, the step's
  * explanation, the step's main action (Got it), held in view at the panel's foot when the
  * explanation is long, the coach, Hint and the duck, the step's own controls (answer cards,
  * tasks), then the project spec and the checks you can see, both folded away. No paper, no pin.

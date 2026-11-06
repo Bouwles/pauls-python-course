@@ -7,7 +7,7 @@ import { Figure, Portrait } from "./Portrait";
 import { useSpeech } from "./useSpeech";
 import styles from "./Speech.module.css";
 
-// A character saying a line (REDESIGN3_PLAN.md): their pixel self with the face and gesture the
+// A character saying a line: their pixel self with the face and gesture the
 // line calls for, the words typing out in a bubble, and the mouth moving with them. Click the
 // bubble to finish the line. `face` and `gesture` come from content (`- riya.pleased.wave:`);
 // without them the words choose the face (lib/mood.ts). The gesture is chosen for the speaker and

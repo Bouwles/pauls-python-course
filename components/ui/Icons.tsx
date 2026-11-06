@@ -1,4 +1,4 @@
-// The small status icons used across the app (REDESIGN-2.md 2.6): pass is a green tick,
+// The small status icons used across the app: pass is a green tick,
 // fail a red cross, not run a grey dash. Always beside words, never on their own.
 import { Icon } from "./Icon";
 

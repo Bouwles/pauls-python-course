@@ -1,4 +1,4 @@
-// The Clocktower's rules (REDESIGN-2.md 5): which floors are open, which are busy, and how a
+// The Clocktower's rules: which floors are open, which are busy, and how a
 // floor is named. Pure functions, shared by the tower, the side sheet, the list view and the
 // visitors' overview on the landing page.
 import { FLOORS, type Floor } from "@/lib/cast";
@@ -34,7 +34,7 @@ export function floorStats(act: Pick<ActSummary, "jobs">, progress: Record<strin
 
 /**
  * Locked until the floor is open. Busy once about
- * half the floor's written projects are shipped (REDESIGN-2.md 5.2).
+ * half the floor's written projects are shipped.
  */
 export function floorState({ open, stats }: { open: boolean; stats: FloorStats }): FloorState {
   if (!open) return "locked";

@@ -54,7 +54,7 @@ export function ShelfTile({ jobId, title, who, size, alt = "", className }: { jo
 }
 
 /**
- * A project's Shelf object (REDESIGN-2.md 8.5). With the illustrator's drawing, that; until then
+ * A project's Shelf object. With the illustrator's drawing, that; until then
  * the pixel tile. Decoration: the project's name always sits beside it.
  */
 export function ShelfObject({ jobId, title, client, size = 48, className }: { jobId: string; title?: string; client?: string; size?: number; className?: string }) {

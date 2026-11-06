@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import { test } from "@playwright/test";
 
-// Section 21: every screen at 1440 and 390, light and dark, saved for review.
+// Every screen at 1440 and 390, light and dark, saved for review.
 const SCREENS: [string, string][] = [
   ["landing", "/"],
   ["signup", "/signup"],

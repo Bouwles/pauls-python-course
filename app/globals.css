@@ -236,7 +236,7 @@ samp {
 }
 
 /*
-  Pixel panels (REDESIGN3_PLAN.md P2). The outline is four box-shadows, one per side, so the
+  Pixel panels. The outline is four box-shadows, one per side, so the
   corners are left out and come out stepped, like a sprite's; a hard drop shadow sits under it.
   .px-panel   a raised surface (cards, sheets, the coach's bubble)
   .px-inset   a sunk one (editors, wells, consoles)

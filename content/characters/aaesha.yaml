@@ -6,7 +6,7 @@ floor: 7
 look: "Very long, straight, dark hair framing her face, rosy cheeks, a warm smile. Small gold earrings and a fine gold necklace. A dark-brown T-shirt."
 voice: "Precise, organised, quietly funny. Curious about how people and machines think. Asks how you will know it worked before you run it."
 pools:
-  # Reactive lines (REDESIGN-2.md 7.4). lib/cast.ts says which events are Aaesha's.
+  # Reactive lines. lib/cast.ts says which events are Aaesha's.
   # When the learner fixes Aaesha's version, or fixes it in fewer lines.
   fixed-by-learner:
     - "That's it. Everything else was right. Thank you."

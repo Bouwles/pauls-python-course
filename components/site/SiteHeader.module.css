@@ -1,4 +1,4 @@
-/* The site header (REDESIGN3_PLAN.md P2): a pixel bar the same height as the Workbench's, with a
+/* The site header: a pixel bar the same height as the Workbench's, with a
    light top edge and a two-pixel outline where it meets the page. Nav in the pixel face. */
 .header {
   position: relative;
@@ -141,7 +141,7 @@
   }
 }
 
-/* "PPC" where the full name doesn't fit beside what's on the right (REDESIGN-2.md 1). */
+/* "PPC" where the full name doesn't fit beside what's on the right. */
 .home .short {
   display: none;
 }

@@ -7,7 +7,7 @@ import { ArtReview } from "./ArtReview";
 
 export const metadata: Metadata = { title: "Art review", robots: { index: false, follow: false } };
 
-// Development only (REDESIGN-2.md 8.4): every image in art/manifest.json, its status, and how
+// Development only: every image in art/manifest.json, its status, and how
 // it looks at every size the app shows it, on the dark and the light theme.
 export default function ArtPage() {
   if (process.env.NODE_ENV === "production") notFound();

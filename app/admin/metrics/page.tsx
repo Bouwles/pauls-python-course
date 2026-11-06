@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 
 const pct = (a: number, b: number) => (b ? `${Math.round((a / b) * 100)}%` : "");
 
-// Owner only (REDESIGN.md 9.3): weekly counts of each funnel step, and conversion from one
+// Owner only: weekly counts of each funnel step, and conversion from one
 // step to the next. Counts are distinct people. Our own events only, no trackers.
 export default async function Metrics() {
   const user = await getSessionUser().catch(() => null);

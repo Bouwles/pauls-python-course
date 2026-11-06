@@ -1,6 +1,6 @@
 "use client";
 
-// Settings (REDESIGN-2.md 6, REDESIGN3_PLAN.md): sections with pixel headings, no frames inside
+// Settings: sections with pixel headings, no frames inside
 // frames. A list of the sections on the left on wide screens; on a phone the sections simply stack.
 // Who you're playing as comes first (lib/playas.ts): one of the class, or someone of your own.
 // The learner's pixel avatar heads the avatar section, and waves when they finish changing it;

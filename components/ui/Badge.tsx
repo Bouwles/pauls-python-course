@@ -1,6 +1,6 @@
 import styles from "./Badge.module.css";
 
-// Badges (REDESIGN-2.md 3): 4 px corners, 13 px bold. "Shipped", "In progress", "Locked".
+// Badges: 4 px corners, 13 px bold. "Shipped", "In progress", "Locked".
 export type BadgeTone = "neutral" | "shipped" | "progress" | "fail" | "info";
 
 export function Badge({ tone = "neutral", children, className }: { tone?: BadgeTone; children: React.ReactNode; className?: string }) {

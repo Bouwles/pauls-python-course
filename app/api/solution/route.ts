@@ -5,7 +5,7 @@ import { json, readJson, sameOrigin } from "@/lib/server/http";
 
 export const dynamic = "force-dynamic";
 
-// Section 3.5: the full solution only after the step is passed, or after all
+// The full solution only after the step is passed, or after all
 // three hints and a minimum time on the step.
 const MIN_SECONDS = Number(process.env.SOLUTION_MIN_SECONDS ?? 480);
 

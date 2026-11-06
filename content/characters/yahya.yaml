@@ -6,7 +6,7 @@ floor: 5
 look: "Tight dark curls piled on top with a few falling on his forehead, shorter sides, clean-shaven. A black jacket over a grey T-shirt. Cool, deadpan look; a rare, earned smile."
 voice: "Competitive, quick, a good sport. Loves an elegant answer and a clean dataset, and hates slow code."
 pools:
-  # Reactive lines (REDESIGN-2.md 7.4). lib/cast.ts says which events are Yahya's.
+  # Reactive lines. lib/cast.ts says which events are Yahya's.
   nested-loop:
     - "A loop inside a loop. That's n squared. Fine for twelve rows, slow for a million."
     - "Nested loops. Neat. Just watch how big n gets."

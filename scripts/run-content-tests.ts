@@ -1,4 +1,4 @@
-// Content tests (Section 21):
+// Content tests:
 // - every reference solution passes its required tests
 // - every starter fails at least one required test
 // - every predict answer matches what the code really does

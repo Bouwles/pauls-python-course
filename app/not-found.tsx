@@ -11,7 +11,7 @@ import styles from "@/components/site/NotFound.module.css";
 export const metadata: Metadata = { title: "Not found" };
 
 /**
- * A page that isn't there (REDESIGN3_PLAN.md P3): the Clocktower's clock, stuck at 3:14 as it has
+ * A page that isn't there: the Clocktower's clock, stuck at 3:14 as it has
  * been for years, and Neil, who helps when you're stuck, as puzzled as you are: he walks into an
  * empty room, looks round, and says so (with a different gesture each visit).
  */

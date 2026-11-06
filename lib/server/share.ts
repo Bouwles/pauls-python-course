@@ -1,4 +1,4 @@
-// Shareable project pages (REDESIGN.md 9.2): a shipped project on a learner's public profile
+// Shareable project pages: a shipped project on a learner's public profile
 // gets its own page with their character, the project's name and their code, plus a share card
 // (drawn by app/u/[slug]/[jobId]/card/ShareCard.tsx). Only for learners who switched their
 // public profile on.

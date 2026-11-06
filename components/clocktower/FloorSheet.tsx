@@ -37,7 +37,7 @@ export function opener(acts: ActSummary[], act: ActSummary): JobSummary | null {
 }
 
 /**
- * The side sheet for one floor (REDESIGN-2.md 5.2): the floor's art, who lives there, and its
+ * The side sheet for one floor: the floor's art, who lives there, and its
  * projects as cards.
  * A native modal dialog: focus moves in and comes back, Escape and the backdrop close it.
  */

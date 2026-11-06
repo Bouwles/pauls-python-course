@@ -206,7 +206,7 @@ export interface GitStep extends StepCommon {
   tasks: { id: string; promptHtml: string; check: import("../gitsim").GitCheck[]; feedback: string | null }[];
 }
 
-/** Take It Home (Section 10.5): a project the learner runs on their own computer with pytest. */
+/** Take It Home: a project the learner runs on their own computer with pytest. */
 export interface TakeHomeStep extends StepCommon {
   type: "takehome";
   /** The project: starter files and its pytest suite, as they go in the zip. */

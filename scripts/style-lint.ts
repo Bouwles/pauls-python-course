@@ -1,4 +1,4 @@
-// The look rules (REDESIGN3_PLAN.md P2, on top of REDESIGN-2.md 2 and 10), checked on every
+// The look rules, checked on every
 // stylesheet and component: square pixel corners only, hard shadows only (no blur), no gradients,
 // glows or backdrop filters, no uppercase tracked labels, no 9-slice frames, no raw colours
 // outside tokens.css, and none of the first redesign's old tokens.

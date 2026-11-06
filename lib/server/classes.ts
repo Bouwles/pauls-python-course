@@ -1,4 +1,4 @@
-// Teacher and class mode (Section 8.10), and the public profile address.
+// Teacher and class mode, and the public profile address.
 // Every query runs as the signed-in user, so the RLS policies in
 // supabase/migrations decide what a teacher or a learner can see:
 // a teacher reads learners in their own classes only, read-only;

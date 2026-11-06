@@ -1,4 +1,4 @@
-// The Shelf object for each project, until the illustrator draws them (REDESIGN-2.md 8.5): a
+// The Shelf object for each project, until the illustrator draws them: a
 // Phosphor icon that matches the program. Act I's thirteen are named outright (they're the
 // ones the illustrator draws first, art/manifest.json); every other project's is found from
 // its id and title.

@@ -1,6 +1,6 @@
 "use client";
 
-// Living Visualisations the learner's own code sends with the workshop module (Section 7.6):
+// Living Visualisations the learner's own code sends with the workshop module:
 // a racing grid with the crab on it, a graph of nodes and edges, and a point rolling down a
 // loss curve. One frame per call, played back sped up, with pause and step. Drawn cleanly:
 // no sprites.

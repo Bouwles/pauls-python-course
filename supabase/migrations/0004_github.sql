@@ -1,4 +1,4 @@
--- One-click push of the Shelf to a new GitHub repository (Section 8.7).
+-- One-click push of the Shelf to a new GitHub repository.
 -- Tokens are encrypted by the server and never readable by the learner's browser.
 create table public.github_tokens (
   user_id uuid primary key references auth.users (id) on delete cascade,
