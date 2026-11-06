@@ -83,7 +83,7 @@ export function PublicShelf({ name, character, shipped, acts, slug }: { name: st
 
       <footer className={styles.foot}>
         <p className={styles.meta}>{BRAND.tagline}</p>
-        <Link href="/">Start the first project, free</Link>
+        <Link href="/">Start the first project</Link>
       </footer>
     </div>
   );

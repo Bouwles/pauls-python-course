@@ -63,7 +63,7 @@ describe("class links: round trips", () => {
 
   it("a join link carries the class, its teacher and its projects", () => {
     const hash = encodeJoin(cls);
-    expect(hash).toMatch(/^1\.[A-Za-z0-9_-]+$/);
+    expect(hash).toMatch(/^2\.[A-Za-z0-9_-]+$/);
     expect(decodeJoin(hash)).toEqual({ ok: true, value: cls });
     // With the "#", as location.hash gives it.
     expect(decodeJoin(`#${hash}`)).toEqual({ ok: true, value: cls });
@@ -88,6 +88,7 @@ describe("class links: round trips", () => {
   it("builds the absolute link under the site's base path", () => {
     expect(linkUrl("https://example.github.io", "/pauls-python-course", "join", "1.abc")).toBe("https://example.github.io/pauls-python-course/class/join/#1.abc");
     expect(linkUrl("http://localhost:3000", "", "report", "1.abc")).toBe("http://localhost:3000/class/report/#1.abc");
+    expect(linkUrl("https://example.github.io", "/pauls-python-course", "table", "2.abc")).toBe("https://example.github.io/pauls-python-course/league/#2.abc");
   });
 });
 
@@ -163,7 +164,18 @@ describe("class links: what they refuse", () => {
   it("tells an old link from one made by a newer version", () => {
     const body = encodeJoin(cls).slice(2);
     expect(decodeJoin(`0.${body}`)).toEqual({ ok: false, problem: "old" });
-    expect(decodeJoin(`2.${body}`)).toEqual({ ok: false, problem: "newer" });
+    expect(decodeJoin(`3.${body}`)).toEqual({ ok: false, problem: "newer" });
+  });
+
+  it("still reads version 1 links, made before the League", () => {
+    // Version 1 had the same packing, and progress links without an entry.
+    const body = (hash: string) => hash.slice(2);
+    expect(decodeJoin(`1.${body(encodeJoin(cls))}`)).toEqual({ ok: true, value: cls });
+    const old = decodeReport(`1.${body(encodeReport(report()))}`);
+    expect(old).toEqual({ ok: true, value: report() });
+    expect(old.ok && old.value.league).toBeUndefined();
+    const register = [report()];
+    expect(decodeTeach(`1.${body(encodeTeach(cls, register))}`)).toEqual({ ok: true, value: { cls, register } });
   });
 
   it("knows a link opened on the wrong page", () => {

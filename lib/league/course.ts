@@ -1,6 +1,8 @@
 // The Arcade League (Section 13.5): the Club Course, the entry format, and the races.
-// The same code scores entries on the server and replays them in the browser, so
-// a replay always matches the score on the leaderboard.
+// Every race is seeded by the week, so the same code gives the same score wherever it runs: in
+// the browser that enters an entry (lib/league/local.ts), the browser that opens a progress link
+// carrying one (lib/classes/link.ts), and on the local version's server (app/api/league). A
+// replay always matches the score on the table.
 import type { GridFrame, Move } from "../python/protocol";
 
 /** The Club Course. S start, F finish, # rock, ~ rock pool (slippery), . sand. Rows top to bottom. */
@@ -180,6 +182,47 @@ export function league(policy: Policy, week: string, races = RACES): { score: nu
   return { score: Math.round((total / races) * 100) / 100, finished, races };
 }
 
+const scored = new Map<string, { score: number; finished: number; races: number }>();
+
+/** league() for the usual races, remembered: a policy's score for a week never changes. */
+export function scoreOf(policy: Policy, week: string): { score: number; finished: number; races: number } {
+  const key = `${week}/${policyText(policy)}`;
+  const have = scored.get(key);
+  if (have) return have;
+  const got = league(policy, week);
+  if (scored.size > 500) scored.clear();
+  scored.set(key, got);
+  return got;
+}
+
+/** A week's name as isoWeek writes it ("2026-W43"). */
+export const WEEK = /^(\d{4})-W(\d{2})$/;
+export const isWeek = (x: unknown): x is string => {
+  if (typeof x !== "string") return false;
+  const m = WEEK.exec(x);
+  return Boolean(m && Number(m[2]) >= 1 && Number(m[2]) <= 53 && Number(m[1]) >= 2000 && Number(m[1]) <= 2100);
+};
+
+/** The week before ("2026-W01" comes after the last week of 2025). */
+export function previousWeek(week: string): string {
+  const [y, w] = week.split("-W").map(Number) as [number, number];
+  if (w > 1) return `${y}-W${String(w - 1).padStart(2, "0")}`;
+  // The last ISO week of the previous year is the one containing 28 December.
+  return isoWeek(new Date(Date.UTC(y - 1, 11, 28)));
+}
+
+/** "Week 43, 2026". */
+export const weekName = (week: string) => `Week ${Number(week.split("-W")[1])}, ${week.split("-W")[0]}`;
+
+/** Midnight UTC on the Monday a week starts. */
+export function weekStart(week: string): number {
+  const [y, w] = week.split("-W").map(Number) as [number, number];
+  // 4 January is always in week 1.
+  const jan4 = new Date(Date.UTC(y, 0, 4));
+  const monday = Date.UTC(y, 0, 4 - ((jan4.getUTCDay() || 7) - 1));
+  return monday + (w - 1) * 7 * 86400000;
+}
+
 /** ISO 8601 week, e.g. "2026-W43". Weeks start on Monday. */
 export function isoWeek(date = new Date()): string {
   const d = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
@@ -188,6 +231,42 @@ export function isoWeek(date = new Date()): string {
   const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
   const week = Math.ceil(((d.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
   return `${d.getUTCFullYear()}-W${String(week).padStart(2, "0")}`;
+}
+
+/** A number that changes whenever the course or its rules do: the cast's entries are made per course (lib/league/cast.ts). */
+export function courseKey(): number {
+  return hash(JSON.stringify([COURSE_ROWS, SLIP_SAND, SLIP_POOL, MAX_STEPS, RACES]));
+}
+
+// ---------------------------------------------------------------------------
+// A policy as a line of letters, for links and the browser's copy
+// ---------------------------------------------------------------------------
+
+const LETTER: Record<MoveName, string> = { up: "u", down: "d", left: "l", right: "r" };
+const FROM_LETTER: Record<string, MoveName> = { u: "up", d: "down", l: "left", r: "right" };
+
+/** A policy as one letter a tile (u, d, l, r), row by row: 63 letters for the Club Course. */
+export const policyText = (policy: Policy): string => policy.map((row) => row.map((m) => LETTER[m]).join("")).join("");
+
+/** A policy back from its letters; null when they aren't one letter for every tile of this course. */
+export function readPolicyText(text: unknown): Policy | null {
+  const c = course();
+  if (typeof text !== "string" || text.length !== c.rows * c.cols || !/^[udlr]+$/.test(text)) return null;
+  return Array.from({ length: c.rows }, (_, r) => Array.from({ length: c.cols }, (_, col) => FROM_LETTER[text[r * c.cols + col]!]!));
+}
+
+/** Moves along the policy from the start when nothing slips; null if it never gets there. */
+export function movesWithoutSlips(policy: Policy): number | null {
+  const c = course();
+  let [r, col] = c.start;
+  for (let step = 1; step <= c.rows * c.cols; step++) {
+    const [dr, dc] = DELTA[policy[r]![col]!];
+    const nr = r + dr;
+    const nc = col + dc;
+    if (nr >= 0 && nr < c.rows && nc >= 0 && nc < c.cols && !isRock(c, nr, nc)) [r, col] = [nr, nc];
+    if (r === c.finish[0] && col === c.finish[1]) return step;
+  }
+  return null;
 }
 
 /** Frames of one race for the Living player: the crab's path over the course. */

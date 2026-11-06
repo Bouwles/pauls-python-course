@@ -1,0 +1,30 @@
+/* Your save: the copied code's note, or the code itself to copy by hand. */
+.copied {
+  display: grid;
+  gap: var(--s-2);
+  padding-bottom: var(--s-4);
+}
+
+.out {
+  width: calc(100% - 4px);
+  margin: 2px;
+  resize: vertical;
+  font-family: var(--font-code);
+  font-size: var(--fs-1);
+  line-height: 1.4;
+  word-break: break-all;
+}
+
+/* The save reminder after a Ship: one quiet line with a link. */
+.reminder {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-size: var(--fs-2);
+  color: var(--text-2);
+}
+
+.reminder svg {
+  flex: none;
+  color: var(--sun);
+}

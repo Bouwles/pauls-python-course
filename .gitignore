@@ -24,3 +24,5 @@ tsconfig.tsbuildinfo
 /.next-pages/
 /out/
 /public/data/
+# Written by scripts/build-pages.ts for the GitHub Pages build, and removed after.
+/public/ppc.zip

@@ -97,7 +97,7 @@ export function JoinClass({ acts, names }: { acts: CourseAct[]; names: Record<st
                 ? cls.updatedAt > already.updatedAt
                   ? "This link has newer projects than the copy in this browser. Update it to bring them in."
                   : "Updating brings in anything changed since you joined."
-                : `Your progress stays yours, in this browser. When you want to, you send it to ${cls.teacher} as a link.`}
+                : `You send your progress to ${cls.teacher} as a link when you want to.`}
               {yours ? " This is one of your own classes, so send this link to your students." : ""}
             </p>
             {needsName ? (

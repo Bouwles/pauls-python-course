@@ -2,20 +2,24 @@
 
 // Take It Home (Section 10.5): set Python up, download the project, run its
 // pytest suite on your own computer, and hand the results in, with the ppc
-// tool or by uploading pytest's report.
-import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+// tool or by uploading pytest's report. Signed in on the local version, they go
+// to the server (app/api/takehome). Without an account (always, on GitHub
+// Pages) they're kept in this browser: paste what ppc test or pytest printed,
+// or choose report.xml, and it's read here (lib/takehome.ts). It counts as done
+// like any other step, and goes to the teacher in the class progress link
+// (lib/classes/report.ts).
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { TakeHomeStep } from "@/lib/content/types";
 import type { StepProgressRow } from "@/lib/store/types";
 import { download, zip } from "@/lib/export";
-import { starterFiles, type TestReport } from "@/lib/takehome";
+import { parseReport, reportPasses, starterFiles, type TestReport } from "@/lib/takehome";
 import { Button } from "../../ui/Button";
 import { Icon } from "../../ui/Icon";
 import { Instructions, Prose } from "../Instructions";
 import { useWorkbench } from "../context";
 import { NextRow } from "./common";
 import styles from "./steps.module.css";
-import { STATIC } from "@/lib/static";
+import { BASE, STATIC } from "@/lib/static";
 import th from "./TakeHome.module.css";
 
 type Os = "mac" | "windows" | "linux";
@@ -81,7 +85,7 @@ function Command({ text }: { text: string }) {
 }
 
 export function TakeHomeStepView({ step, row }: { step: TakeHomeStep; row: StepProgressRow }) {
-  const { areas, job, markPassed, guest, landing } = useWorkbench();
+  const { areas, job, markPassed, updateStep, guest, landing } = useWorkbench();
   const [os, setOs] = useState<Os>("mac");
   const [route, setRoute] = useState<"ppc" | "upload">("ppc");
   const [report, setReport] = useState<TestReport | null>((row.data.report as TestReport | undefined) ?? null);
@@ -90,7 +94,11 @@ export function TakeHomeStepView({ step, row }: { step: TakeHomeStep; row: StepP
   const [message, setMessage] = useState<string | null>(null);
   const [pasted, setPasted] = useState("");
   const done = row.status === "passed";
-  const site = typeof window !== "undefined" ? window.location.origin : "";
+  // The course's address, with its base path on GitHub Pages.
+  const site = typeof window !== "undefined" ? `${window.location.origin}${BASE}` : "";
+  // No account to hand in to (always, on GitHub Pages): results are kept in this browser.
+  const here = STATIC || guest;
+  const reportFile = useRef<HTMLInputElement>(null);
 
   useEffect(() => setOs(detectOs()), []);
 
@@ -105,7 +113,7 @@ export function TakeHomeStepView({ step, row }: { step: TakeHomeStep; row: StepP
 
   const fetchLatest = useCallback(
     async (quiet = false) => {
-      if (guest) return;
+      if (guest || STATIC) return;
       setBusy(true);
       if (!quiet) setMessage(null);
       try {
@@ -124,7 +132,7 @@ export function TakeHomeStepView({ step, row }: { step: TakeHomeStep; row: StepP
 
   // Results sent by the ppc tool turn up when the learner comes back to this tab.
   useEffect(() => {
-    if (done || guest) return;
+    if (done || guest || STATIC) return;
     void fetchLatest(true);
     const onFocus = () => void fetchLatest(true);
     window.addEventListener("focus", onFocus);
@@ -157,6 +165,46 @@ export function TakeHomeStepView({ step, row }: { step: TakeHomeStep; row: StepP
     }
   };
 
+  /** Read what was pasted or chosen, here in the browser, and keep it with the step. */
+  const handInHere = async () => {
+    setMessage(null);
+    let text = pasted;
+    const file = reportFile.current?.files?.[0];
+    if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        setMessage("That file is over 2 MB, which is far bigger than a pytest report. Choose report.xml, or paste the results instead.");
+        return;
+      }
+      text = await file.text();
+    }
+    if (!text.trim()) {
+      setMessage(route === "ppc" ? "Paste the line ppc test printed first." : "Paste what pytest printed first, or choose report.xml.");
+      return;
+    }
+    const r = parseReport(text);
+    if (!r) {
+      setMessage("That doesn't look like test results. Paste the line starting ppc-result, or the last line pytest prints (it ends like 12 passed in 0.84s).");
+      return;
+    }
+    if (r.for && (r.for.job !== job.id || r.for.step !== step.id)) {
+      setMessage(`Those results are for another project (${r.for.job}). Run ppc test in this project's folder, ${step.folder}.`);
+      return;
+    }
+    const passes = reportPasses(r, step);
+    // Handed in already: a later run with failures doesn't undo it.
+    if (done && !passes) {
+      setMessage(`That run has ${r.passed} of ${r.total} passing, which isn't enough to finish it. The results you handed in before still count.`);
+      return;
+    }
+    const at = Date.now();
+    setReport(r);
+    setReportAt(at);
+    setPasted("");
+    if (reportFile.current) reportFile.current.value = "";
+    if (passes) await markPassed(step.id, { data: { ...row.data, report: r, reportAt: at, keptHere: true } });
+    else await updateStep(step.id, (current) => ({ data: { ...current.data, report: r, reportAt: at, keptHere: true } }));
+  };
+
   const failing = report?.cases.filter((c) => c.outcome === "failed" || c.outcome === "error") ?? [];
 
   return (
@@ -170,7 +218,7 @@ export function TakeHomeStepView({ step, row }: { step: TakeHomeStep; row: StepP
             A folder with the brief, the starter files, requirements.txt and {step.testCount} pytest {step.testCount === 1 ? "test" : "tests"}.
           </p>
           <div className={styles.row}>
-            <Button variant="primary" icon="download" onClick={() => download(`${step.folder}.zip`, zip(starterFiles(job, step, site)), "application/zip")}>
+            <Button variant="primary" icon="download" onClick={() => download(`${step.folder}.zip`, zip(starterFiles(job, step, site, { paste: here })), "application/zip")}>
               Download {step.folder}.zip
             </Button>
           </div>
@@ -186,16 +234,62 @@ export function TakeHomeStepView({ step, row }: { step: TakeHomeStep; row: StepP
           <h2 id="th-hand" className="label">
             Hand it in
           </h2>
-          {landing || guest ? (
-            <p className={th.small}>
-              {STATIC ? (
-                <>Handing in needs an account, which this version doesn&apos;t have. The checks you ran on your computer are what count.</>
-              ) : (
-                <>
-                  Handing in needs an account, so the result is kept. <Link href="/login">Log in</Link>; your progress comes with you.
-                </>
-              )}
-            </p>
+          {landing ? (
+            <p className={th.small}>Open the project on its own page to hand it in.</p>
+          ) : here ? (
+            <>
+              <div className={th.tabs} role="tablist" aria-label="How to hand it in">
+                <button role="tab" aria-selected={route === "ppc"} className={th.tab} onClick={() => setRoute("ppc")}>
+                  With the ppc tool
+                </button>
+                <button role="tab" aria-selected={route === "upload"} className={th.tab} onClick={() => setRoute("upload")}>
+                  With pytest
+                </button>
+              </div>
+              <form
+                className={th.panel}
+                role="tabpanel"
+                aria-label={route === "ppc" ? "With the ppc tool" : "With pytest"}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  void handInHere();
+                }}
+              >
+                {route === "ppc" ? (
+                  <>
+                    <p className={th.small}>Install it once (with the virtual environment switched on, or anywhere you keep tools):</p>
+                    <Command text={`pip install ${site}/ppc.zip`} />
+                    <p className={th.small}>Then, in the project folder, run the tests. It needs no account: it prints a line starting ppc-result to paste here.</p>
+                    <Command text="ppc test" />
+                  </>
+                ) : (
+                  <>
+                    <p className={th.small}>In the project folder, run the tests:</p>
+                    <Command text="pytest" />
+                    <p className={th.small}>Then paste what it printed (the last line is enough). For each test by name, run pytest --junitxml=report.xml and choose report.xml instead.</p>
+                    <label className={th.field}>
+                      <span>report.xml (optional)</span>
+                      <input ref={reportFile} type="file" accept=".xml,.txt,text/xml" />
+                    </label>
+                  </>
+                )}
+                <label className={th.field}>
+                  <span>{route === "ppc" ? "Paste what ppc test printed" : "Paste what pytest printed"}</span>
+                  <textarea value={pasted} onChange={(e) => setPasted(e.target.value)} placeholder={route === "ppc" ? "ppc-result 1 ..." : "===== 12 passed in 0.84s ====="} autoComplete="off" spellCheck={false} />
+                </label>
+                <div className={styles.row}>
+                  <Button variant="primary" type="submit">
+                    Hand it in
+                  </Button>
+                </div>
+                <p className={th.small}>It&apos;s kept in this browser and counts as done here. If you&apos;re in a class, it goes to your teacher with your progress link.</p>
+              </form>
+              {message ? (
+                <p className={th.message} role="status">
+                  {message}
+                </p>
+              ) : null}
+            </>
           ) : (
             <>
               <div className={th.tabs} role="tablist" aria-label="How to hand it in">
@@ -265,7 +359,8 @@ export function TakeHomeStepView({ step, row }: { step: TakeHomeStep; row: StepP
               </p>
               {done ? (
                 <p className={th.small}>
-                  Handed in. {step.heavy ? "This one needs packages the browser can't run, so nothing here can re-run it; the report is taken as it is." : "The results come from your computer; checking them again here isn't switched on yet, so they're taken on trust."}
+                  {row.data.keptHere ? "Handed in, and kept in this browser. " : "Handed in. "}
+                  {step.heavy ? "This one needs packages the browser can't run, so nothing here can re-run it; the report is taken as it is." : "The results come from your computer; checking them again here isn't switched on yet, so they're taken on trust."}
                 </p>
               ) : (
                 <p className={th.small}>

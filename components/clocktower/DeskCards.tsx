@@ -1,6 +1,5 @@
 "use client";
 
-import { STATIC } from "@/lib/static";
 import Link from "next/link";
 import type { ActSummary, PlacementSummary } from "@/lib/content/types";
 import type { JobProgressRow } from "@/lib/store/types";
@@ -98,7 +97,7 @@ export function DeskCards({
           <h2 id="desk-continue" className={styles.head}>
             Continue
           </h2>
-          <p className={styles.meta}>Every project you can open is shipped. Choose a floor to see what comes next.</p>
+          <p className={styles.meta}>All shipped so far. Pick a floor.</p>
         </Card>
       )}
 
@@ -110,7 +109,7 @@ export function DeskCards({
           {due === null ? (
             <p className={styles.meta}>Checking what&apos;s due.</p>
           ) : due === 0 ? (
-            <p className={styles.meta}>Nothing due today. Cards come back here as you ship projects.</p>
+            <p className={styles.meta}>Nothing due today.</p>
           ) : (
             <>
               <p className={styles.big}>
@@ -129,7 +128,7 @@ export function DeskCards({
             Shelf
           </h2>
           {shipped === 0 ? (
-            <p className={styles.meta}>Nothing on the Shelf yet. Everything you ship goes here.</p>
+            <p className={styles.meta}>Nothing here yet.</p>
           ) : (
             <>
               <p className={styles.big}>
@@ -146,8 +145,8 @@ export function DeskCards({
 
       <Assignments jobs={allJobs} progress={progress} />
 
-      {/* The League needs a server, so it isn't on GitHub Pages. */}
-      {arcade && open.has(arcade.id) && !STATIC ? (
+      {/* The League races entries in the browser, so it's on GitHub Pages too. */}
+      {arcade && open.has(arcade.id) ? (
         <p className={styles.aside}>
           <Link href="/league">The Arcade League</Link>: this week&apos;s races on the Club Course.
         </p>

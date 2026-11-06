@@ -129,7 +129,7 @@ export function TestReport({
   if (!report) {
     return (
       <div className={styles.report}>
-        <p className={styles.idle}>Press Check to run your program against the checks. You&apos;ll see which pass, and for any that don&apos;t, what was expected and what you got.</p>
+        <p className={styles.idle}>Press Check to run your program against the checks.</p>
       </div>
     );
   }

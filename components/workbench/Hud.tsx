@@ -20,7 +20,7 @@ export function projectPosition(job: Pick<Job, "number" | "sidequest" | "placeme
 
 /**
  * The Workbench header (REDESIGN-2.md 4.1): the logo and name, where you are ("Act 1 / Bill
- * Splitter", "Project 2 of 13"), then the save status, the Clocktower and you.
+ * Splitter", "Project 2 of 13"), then you. The logo goes back to the Clocktower.
  */
 export function Hud({ job, actProjects, syncStatus, guest, secondsSpent = 0 }: { job: Job; actTitle?: string; actProjects?: number; syncStatus: SyncStatus; guest: boolean; secondsSpent?: number }) {
   const me = useMe();
@@ -54,11 +54,8 @@ export function Hud({ job, actProjects, syncStatus, guest, secondsSpent = 0 }: {
             {minutes}/{job.timedMinutes} min
           </p>
         ) : null}
-        <SyncIndicator status={syncStatus} />
-        <Link href="/" className={styles.iconLink} title="The Clocktower">
-          <Icon name="map" />
-          <span className="visually-hidden">The Clocktower</span>
-        </Link>
+        {/* Only an account has anything to sync; a guest's progress is just kept. */}
+        {guest ? null : <SyncIndicator status={syncStatus} />}
         {/* Everyone, guest or not: progress is kept as you go, so there's nothing to sign up for. */}
         <Link href="/settings" className={styles.avatar} title="You and your settings">
           <Avatar name={me.name} colour={me.colour} look={me.avatar} who={me.who} size={36} />

@@ -7,7 +7,7 @@ import { ConceptIndex } from "@/components/concepts/ConceptIndex";
 
 export const metadata: Metadata = {
   title: "Python Handbook",
-  description: `A free reference for Python, from print() to transformers: plain explanations, examples you can run in the page, and the mistakes people really make. From ${BRAND.name}.`,
+  description: `Python, from print() to transformers, with examples you can run in the page. From ${BRAND.name}.`,
   alternates: { canonical: `${siteUrl()}${handbookPath()}` },
 };
 

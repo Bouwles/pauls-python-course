@@ -357,11 +357,6 @@
   }
 }
 
-.foot {
-  padding-top: var(--s-8);
-  border-top: 2px solid var(--line);
-}
-
 /* Delete your account. */
 .dialog {
   width: min(520px, calc(100vw - 32px));

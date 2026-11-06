@@ -134,7 +134,6 @@
   color: var(--text-2);
 }
 
-.iconLink,
 .avatar {
   display: grid;
   place-items: center;
@@ -144,12 +143,6 @@
   text-decoration: none;
 }
 
-.iconLink:link,
-.iconLink:visited {
-  color: var(--text-2);
-}
-
-.iconLink:hover,
 .avatar:hover {
   background: var(--surface-3);
   color: var(--text);

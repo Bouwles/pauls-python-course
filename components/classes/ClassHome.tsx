@@ -1,11 +1,14 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { BRAND } from "@/lib/brand";
 import { BASE } from "@/lib/static";
 import { useSession } from "@/lib/store/session";
 import { encodeJoin, fitTeach, line, linkUrl, LIMITS } from "@/lib/classes/link";
+import { leagueForReport } from "@/lib/classes/league";
 import { projectReport } from "@/lib/classes/report";
+import { useMyEntries } from "@/lib/league/local";
 import { dropJoined, dropStudent, dropTaught, loadBook, newId, putTaught, saveBook, useClassBook } from "@/lib/classes/store";
 import type { Assignment, CourseAct, JoinedClass, ProjectReport, TaughtClass } from "@/lib/classes/types";
 import { shortDate, statusLabel } from "@/lib/teaching";
@@ -13,6 +16,7 @@ import { Badge } from "../ui/Badge";
 import { Button } from "../ui/Button";
 import { Tabs } from "../ui/Tabs";
 import teach from "../teach/Teach.module.css";
+import { ClassLeague } from "./ClassLeague";
 import { copyText, LinkBox } from "./LinkBox";
 import { ProjectPicker } from "./ProjectPicker";
 import { Register } from "./Register";
@@ -45,18 +49,17 @@ export function ClassHome({ acts, names }: { acts: CourseAct[]; names: Record<st
   const teacherCast = first ? castFor(first.teacher) : null;
   const speech =
     teaching.length > 0
-      ? { who: "neil", text: "When someone sends you their progress, open their link in this browser and add it to the register." }
+      ? { who: "neil", text: "Got someone's progress link? Open it here and add it to the register." }
       : first && teacherCast
         ? { who: teacherCast, text: "Have a go at what I've set, then send me your progress. I'll look at it before we next meet.", third: `Have a go at what ${first.teacher} set, then send your progress over.` }
         : first
-          ? { who: "neil", text: `Have a go at what ${first.teacher} set, then send your progress over. It goes straight into the register.` }
-          : { who: "paul", text: "Got a join link from me? Open it and the class turns up here. Or make a class of your own and teach it.", third: "Got a join link from Paul? Open it and the class turns up here. Or make a class of your own." };
+          ? { who: "neil", text: `Have a go at what ${first.teacher} set, then send your progress over.` }
+          : { who: "paul", text: "Got a join link from me? Open it and the class shows up here.", third: "Got a join link from Paul? Open it and the class shows up here." };
 
   return (
     <div className={teach.page}>
       <header className={teach.head}>
         <h1 className={teach.title}>Your class</h1>
-        <p className={teach.lede}>Classes here work by link. The teacher sends a join link, everyone sends their progress back the same way, and it&apos;s all kept in your browser.</p>
         {mounted ? <ClassLine who={speech.who} text={speech.text} third={speech.third} names={names} /> : null}
       </header>
 
@@ -74,7 +77,7 @@ export function ClassHome({ acts, names }: { acts: CourseAct[]; names: Record<st
           ))}
         </section>
       ) : mounted && teaching.length === 0 ? (
-        <p className={teach.empty}>In someone&apos;s class? Open the join link they sent you, and it shows here with what&apos;s set.</p>
+        <p className={teach.empty}>You&apos;re not in a class yet.</p>
       ) : null}
 
       {current ? (
@@ -128,6 +131,8 @@ function JoinedView({ cls, course, many, onLeft }: { cls: JoinedClass; course: C
   const { store } = useSession();
   const [mine, setMine] = useState<Record<string, ProjectReport>>({});
   const [leaving, setLeaving] = useState(false);
+  const entries = useMyEntries();
+  const entry = leagueForReport(entries);
   const facts = useCallback((jobId: string) => ({ total: course[jobId]?.total ?? 0, build: course[jobId]?.build ?? cls.build[jobId] ?? null }), [course, cls.build]);
 
   useEffect(() => {
@@ -170,6 +175,12 @@ function JoinedView({ cls, course, many, onLeft }: { cls: JoinedClass; course: C
           ) : null;
         }}
       />
+      {entry || cls.table ? (
+        <p className={teach.meta}>
+          <Link href="/league">The Arcade League</Link>
+          {entry ? `: your entry this week, ${entry.score.toFixed(2)} moves, goes with your progress.` : `: ${cls.teacher} has shared the class's table.`}
+        </p>
+      ) : null}
       <SendProgress cls={cls} facts={facts} withClassName={many} />
       <div className={styles.dangerRow}>
         {leaving ? (
@@ -250,24 +261,26 @@ function TaughtView({ cls, acts, course, names, onDeleted }: { cls: TaughtClass;
       </div>
       {shown?.kind === "join" ? (
         <LinkBox key={shown.at} url={shown.url} label={`Join link for ${cls.name}`} shareTitle={`Join ${cls.name}`} shareText={`Join ${cls.name} on ${BRAND.name}.`} copied={shown.copied}>
-          <p className={styles.linkNote}>Anyone with it can join. It holds the class and what&apos;s set, so send it again after changing the projects.</p>
+          <p className={styles.linkNote}>Anyone with this link can join.</p>
         </LinkBox>
       ) : null}
       {shown?.kind === "teach" ? (
         <LinkBox key={shown.at} url={shown.url} label={`Co-teacher link for ${cls.name}`} shareTitle={`Help teach ${cls.name}`} shareText={`${cls.name}, with what's set and the register.`}>
           <p className={styles.linkNote}>
-            For whoever helps you teach. It holds the class, what&apos;s set and the register
-            {shown.leftOut ? ", without some students' code, which made it too long" : ""}. Opening it adds the class to their class page, so progress links can go to either of you.
+            For whoever helps you teach. They get the class and the register
+            {shown.leftOut ? " (without some students' code, which made it too long)" : ""}, and progress links can go to either of you.
           </p>
         </LinkBox>
       ) : null}
 
       <Register cls={cls} course={course} names={names} onRemove={(id) => setProblem(saveBook(dropStudent(loadBook(), cls.id, id)) ? null : WONT_SAVE)} />
 
+      <ClassLeague cls={cls} />
+
       <div className={teach.files}>
         <h3 className={teach.h3}>What&apos;s set</h3>
         <ProjectPicker acts={acts} value={draft} onChange={setWork} idPrefix={`set-${cls.id}`} />
-        <p className={teach.meta}>Changed what&apos;s set? Copy the join link again and send it round: opening it brings the change in for everyone who&apos;s joined.</p>
+        <p className={teach.meta}>Changed it? Send the join link again.</p>
       </div>
 
       {problem ? (
@@ -296,7 +309,7 @@ function TaughtView({ cls, acts, course, names, onDeleted }: { cls: TaughtClass;
           <h2 id={`delete-${cls.id}`} className={teach.h2}>
             Delete {cls.name}
           </h2>
-          <p>Its register goes from this browser. Anyone who joined keeps the class on their side until they leave it, and anyone co-teaching keeps their copy.</p>
+          <p>This deletes it from this browser. Students and co-teachers keep their copies.</p>
           <div className={teach.row}>
             <Button type="submit" variant="danger">
               Delete the class
@@ -346,7 +359,6 @@ function MakeClass({ acts, defaultTeacher, first, onMade, onCancel }: { acts: Co
       <h2 id="make-title" className={teach.h2}>
         {first ? "Make a class" : "Make another class"}
       </h2>
-      <p className={teach.meta}>It&apos;s kept in this browser. Students join from a link you send them, and send their progress back as a link too.</p>
       <form className={styles.makeForm} onSubmit={make}>
         <div className={styles.twoFields}>
           <div className={teach.field}>
@@ -363,7 +375,7 @@ function MakeClass({ acts, defaultTeacher, first, onMade, onCancel }: { acts: Co
           </div>
         </div>
         <fieldset className={styles.fieldset}>
-          <legend className="label">What to set: any of the course&apos;s projects, each with a date and a note if you like</legend>
+          <legend className="label">Projects to set</legend>
           <ProjectPicker acts={acts} value={work} onChange={setWork} idPrefix="make" />
         </fieldset>
         {error ? (

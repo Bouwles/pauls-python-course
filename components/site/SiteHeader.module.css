@@ -40,8 +40,7 @@
   align-self: stretch;
 }
 
-.link,
-.login {
+.link {
   display: inline-flex;
   align-items: center;
   color: var(--text-2);
@@ -54,17 +53,13 @@
 }
 
 .link:hover,
-.login:hover,
-.link:link:hover,
-.login:link:hover {
+.link:link:hover {
   color: var(--text);
   text-decoration: none;
 }
 
 .link:link,
-.link:visited,
-.login:link,
-.login:visited {
+.link:visited {
   color: var(--text-2);
 }
 
@@ -76,8 +71,7 @@
   box-shadow: inset 0 -4px 0 0 var(--sun);
 }
 
-.link:focus-visible,
-.login:focus-visible {
+.link:focus-visible {
   outline-offset: -2px;
 }
 
@@ -86,14 +80,6 @@
   align-items: center;
   gap: var(--s-5);
   flex: none;
-}
-
-.login {
-  height: 40px;
-}
-
-.login[aria-current="page"] {
-  color: var(--text);
 }
 
 /* Your avatar: a square pixel tile; pointing at it raises a pixel outline round it. */

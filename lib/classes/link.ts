@@ -1,16 +1,22 @@
-// The class links (app/class): a join link, a progress link and a co-teacher link, each carrying
-// its data in the hash, since a static export has one page per path and no server to ask. The
-// data is JSON, deflated (fflate), then base64url, behind a version number: "#1.eJy...". Links
+// The class links (app/class): a join link, a progress link, a co-teacher link and a League table
+// link, each carrying its data in the hash, since a static export has one page per path and no
+// server to ask. The data is JSON, deflated (fflate), then base64url, behind a version number:
+// "#2.eJy...". Version 2 added the League (a progress link's entry, and the table link); version 1
+// links still read, as reports with no entry. Links
 // arrive from anywhere, so decoding trusts nothing: every field is checked, text is cleaned and
 // capped, lists are capped, and a link that doesn't read says why (broken, old or newer). Nothing
 // decoded here is ever treated as HTML; the pages show it as text.
 import { Inflate, deflateSync, strFromU8, strToU8 } from "fflate";
 import { ACCESSORIES, AVATAR_COLOURS, BROWS, FACES, HAIR_COLOURS, HAIR_STYLES, SKIN_TONES, TOPS, TOP_COLOURS, defaultAvatar, type AvatarLook } from "../avatar";
+import { isWeek, MAX_STEPS, policyText, readPolicyText, scoreOf } from "../league/course";
 import { isCast } from "../playas";
 import type { JobStatus } from "../store/types";
-import type { Assignment, ClassInfo, CodeFile, ProjectReport, Report, Student } from "./types";
+import type { Assignment, ClassInfo, CodeFile, LeagueEntryReport, ProjectReport, Report, SharedRow, SharedTable, Student } from "./types";
 
-export const LINK_VERSION = 1;
+/** The version new links are made with. */
+export const LINK_VERSION = 2;
+/** The oldest version still read. */
+export const OLDEST_VERSION = 1;
 
 /** What a decoded link may hold. Longer text is cut to these; longer lists lose their tail. */
 export const LIMITS = {
@@ -28,6 +34,10 @@ export const LIMITS = {
   fileName: 80,
   fileChars: 20_000,
   register: 100,
+  /** Rows in a League table link. */
+  tableRows: 100,
+  /** Races in a week's League score. */
+  races: 1_000,
   count: 10_000,
   seconds: 100_000_000,
 } as const;
@@ -39,12 +49,14 @@ export const REPORT_TARGET = 8_000;
 /** The same for a co-teacher link, which carries the whole register. */
 export const TEACH_TARGET = 30_000;
 
-export type LinkKind = "join" | "report" | "teach";
+export type LinkKind = "join" | "report" | "teach" | "table";
+const KINDS: LinkKind[] = ["join", "report", "teach", "table"];
+const isKind = (k: unknown): k is LinkKind => typeof k === "string" && (KINDS as string[]).includes(k);
 export type LinkProblem = "empty" | "broken" | "old" | "newer" | "too-long" | "wrong-kind";
 export type Decoded<T> = { ok: true; value: T } | { ok: false; problem: LinkProblem; kind?: LinkKind };
 
-/** Where each kind of link opens, under the site's base path. */
-export const LINK_PATH: Record<LinkKind, string> = { join: "/class/join/", report: "/class/report/", teach: "/class/teach/" };
+/** Where each kind of link opens, under the site's base path. A League table opens on the League page. */
+export const LINK_PATH: Record<LinkKind, string> = { join: "/class/join/", report: "/class/report/", teach: "/class/teach/", table: "/league/" };
 
 /** An absolute link to share: `origin` and `base` from the page that makes it (location.origin, BASE). */
 export const linkUrl = (origin: string, base: string, kind: LinkKind, hash: string) => `${origin}${base}${LINK_PATH[kind]}#${hash}`;
@@ -131,7 +143,7 @@ export function unpack(raw: string): { ok: true; value: unknown } | { ok: false;
   if (!m) return { ok: false, problem: "broken" };
   const version = Number(m[1]);
   if (version > LINK_VERSION) return { ok: false, problem: "newer" };
-  if (version < LINK_VERSION) return { ok: false, problem: "old" };
+  if (version < OLDEST_VERSION) return { ok: false, problem: "old" };
   const bytes = fromBase64Url(m[2]!);
   if (!bytes) return { ok: false, problem: "broken" };
   const json = inflateCapped(bytes, LIMITS.json);
@@ -256,7 +268,11 @@ export function readClass(x: unknown): ClassInfo | null {
 // ---------------------------------------------------------------- a student's progress
 
 type ProjectWire = [string, JobStatus, number, number, number, number, number, number | null, 0 | 1, [string, string][]];
-export type ReportWire = { c: string; cn: string; t: string; s: [string, string, (string | number)[] | 0, string | 0]; at: number; sh: number; p: ProjectWire[] };
+/** A League entry: week, score, finished, races, when it went in, and the policy as 63 letters (or 0). */
+type LeagueWire = [string, number, number, number, number, string | 0];
+/** A hand-in: the project, the step, "t" (Take It Home tests) or "m" (a milestone), done, tests passed and of how many (-1 for none), when, and a link (or 0). */
+type HandInWire = [string, string, "t" | "m", 0 | 1, number, number, number, string | 0];
+export type ReportWire = { c: string; cn: string; t: string; s: [string, string, (string | number)[] | 0, string | 0]; at: number; sh: number; p: ProjectWire[]; lg?: LeagueWire; hi?: HandInWire[] };
 
 export function reportWire(r: Report): ReportWire {
   return {
@@ -267,7 +283,59 @@ export function reportWire(r: Report): ReportWire {
     at: r.sentAt,
     sh: r.shipped,
     p: r.projects.map((p) => [p.jobId, p.status, p.passed, p.seen, p.total, p.hints, p.seconds, p.lastWorked, p.codeLeftOut ? 1 : 0, p.code.map((f) => [f.name, f.content])]),
+    ...(r.league ? { lg: [r.league.week, r.league.score, r.league.finished, r.league.races, r.league.enteredAt, r.league.policy ? policyText(r.league.policy) : 0] as LeagueWire } : {}),
+    ...(r.projects.some((p) => p.handIns?.length) ? { hi: handInsWire(r.projects) } : {}),
   };
+}
+
+// Hand-ins travel beside the projects rather than inside them, so a link without them reads as it
+// always did, and a course that doesn't know them yet simply doesn't show them.
+const HAND_INS = 60;
+const LINK_CHARS = 300;
+
+function handInsWire(projects: ProjectReport[]): HandInWire[] {
+  return projects
+    .flatMap((p) => (p.handIns ?? []).map((h): HandInWire => [p.jobId, h.stepId, h.kind === "tests" ? "t" : "m", h.done ? 1 : 0, h.passed ?? -1, h.total ?? -1, h.at ?? 0, h.link ?? 0]))
+    .slice(0, HAND_INS);
+}
+
+/** The hand-ins in a link, each put with its project. Anything that doesn't read is left out rather than spoiling the rest. */
+function readHandIns(x: unknown, projects: ProjectReport[]): void {
+  if (!Array.isArray(x)) return;
+  for (const h of x.slice(0, HAND_INS)) {
+    if (!Array.isArray(h) || h.length !== 8) continue;
+    const [jobId, stepId, kind, done, passed, total, at, link] = h as unknown[];
+    const project = projects.find((p) => p.jobId === jobId);
+    if (!project || !isJobId(stepId) || (kind !== "t" && kind !== "m")) continue;
+    const tests = count(passed, 10_000);
+    const of = count(total, 10_000);
+    const url = typeof link === "string" && /^https:\/\/\S+$/.test(link) && link.length <= LINK_CHARS ? link : null;
+    const list = (project.handIns ??= []);
+    if (list.some((i) => i.stepId === stepId)) continue;
+    list.push({ stepId, kind: kind === "t" ? "tests" : "milestone", done: done === 1, passed: tests, total: of === null ? null : Math.max(of, tests ?? 0), link: url, at: time(at) || null });
+  }
+}
+
+/** A score as sent: a number of moves the League could give. */
+const isScore = (x: unknown): x is number => typeof x === "number" && Number.isFinite(x) && x >= 0 && x <= MAX_STEPS;
+
+/**
+ * A League entry from a link: undefined when there's none, null when it doesn't read. With the
+ * policy, the score is raced again here on the week's seeds, so what's shown is the course's own
+ * count, whatever the link said.
+ */
+export function readLeague(x: unknown): LeagueEntryReport | undefined | null {
+  if (x === undefined || x === null || x === 0) return undefined;
+  if (!Array.isArray(x) || x.length !== 6) return null;
+  const [week, score, finished, races, at, letters] = x as unknown[];
+  const n = count(races, LIMITS.races);
+  const f = count(finished, LIMITS.races);
+  if (!isWeek(week) || !isScore(score) || n === null || n < 1 || f === null || f > n) return null;
+  const policy = letters === 0 ? null : readPolicyText(letters);
+  if (letters !== 0 && !policy) return null;
+  const enteredAt = time(at) ?? 0;
+  if (policy) return { week, ...scoreOf(policy, week), enteredAt, policy, checked: true };
+  return { week, score: Math.round(score * 100) / 100, finished: f, races: n, enteredAt, policy: null, checked: false };
 }
 
 function readStudent(x: unknown): Student | null {
@@ -325,7 +393,40 @@ export function readReport(x: unknown): Report | null {
     seen.add(read.jobId);
     projects.push(read);
   }
-  return { classId: x.c, className, teacher, student, sentAt, shipped, projects };
+  const league = readLeague(x.lg);
+  if (league === null) return null;
+  readHandIns(x.hi, projects);
+  return { classId: x.c, className, teacher, student, sentAt, shipped, projects, ...(league ? { league } : {}) };
+}
+
+// ---------------------------------------------------------------- a League table
+
+/** One row: the student's id, name, score, finished and races. */
+type RowWire = [string, string, number, number, number];
+export type TableWire = { c: string; cn: string; t: string; w: string; at: number; e: RowWire[] };
+
+export function tableWire(t: SharedTable): TableWire {
+  return { c: t.classId, cn: t.className, t: t.teacher, w: t.week, at: t.sentAt, e: t.rows.map((r) => [r.id, r.name, r.score, r.finished, r.races]) };
+}
+
+export function readTable(x: unknown): SharedTable | null {
+  if (!isObj(x) || !isId(x.c) || !Array.isArray(x.e) || !isWeek(x.w)) return null;
+  const className = line(x.cn, LIMITS.className);
+  const teacher = line(x.t, LIMITS.teacher);
+  const sentAt = time(x.at);
+  if (!className || !teacher || sentAt === null) return null;
+  const rows: SharedRow[] = [];
+  for (const e of x.e.slice(0, LIMITS.tableRows)) {
+    if (!Array.isArray(e) || e.length !== 5) return null;
+    const [id, name, score, finished, races] = e as unknown[];
+    const shown = line(name, LIMITS.studentName);
+    const n = count(races, LIMITS.races);
+    const f = count(finished, LIMITS.races);
+    if (!isId(id) || shown === null || !isScore(score) || n === null || n < 1 || f === null || f > n) return null;
+    if (rows.some((r) => r.id === id)) continue;
+    rows.push({ id, name: shown || "A student", score: Math.round(score * 100) / 100, finished: f, races: n });
+  }
+  return { classId: x.c, className, teacher, week: x.w, sentAt, rows };
 }
 
 // ---------------------------------------------------------------- the three links
@@ -335,7 +436,7 @@ function decode<T>(raw: string, kind: LinkKind, read: (body: Obj) => T | null): 
   if (!got.ok) return got;
   if (!isObj(got.value)) return { ok: false, problem: "broken" };
   const k = got.value.k;
-  if (k !== kind) return k === "join" || k === "report" || k === "teach" ? { ok: false, problem: "wrong-kind", kind: k } : { ok: false, problem: "broken" };
+  if (k !== kind) return isKind(k) ? { ok: false, problem: "wrong-kind", kind: k } : { ok: false, problem: "broken" };
   const value = read(got.value);
   return value === null ? { ok: false, problem: "broken" } : { ok: true, value };
 }
@@ -365,6 +466,10 @@ export const decodeTeach = (raw: string): Decoded<CoTeach> =>
     }
     return { cls, register };
   });
+
+/** A League table link: a class's standings for a week, for anyone to open on the League page. */
+export const encodeTable = (t: SharedTable) => pack({ k: "table", l: tableWire(t) });
+export const decodeTable = (raw: string): Decoded<SharedTable> => decode(raw, "table", (b) => readTable(b.l));
 
 // ---------------------------------------------------------------- keeping links short
 
@@ -401,11 +506,21 @@ function fit(projects: ProjectReport[][], make: (projects: ProjectReport[][]) =>
   return { hash, projects: current, leftOut };
 }
 
-/** A progress link's hash, with code cut or left out to keep it a sensible length. `leftOut` lists the projects whose code didn't fit. */
+/**
+ * A progress link's hash, with code cut or left out to keep it a sensible length. `leftOut` lists
+ * the projects whose code didn't fit. The League policy is 63 letters, so it goes along unless the
+ * link is still too long with every project's code left out.
+ */
 export function fitReport(report: Report, target = REPORT_TARGET): { hash: string; report: Report; leftOut: string[] } {
-  const done = fit([report.projects], ([projects]) => encodeReport({ ...report, projects: projects! }), target);
+  const attempt = (r: Report) => fit([r.projects], ([projects]) => encodeReport({ ...r, projects: projects! }), target);
+  let sent = report;
+  let done = attempt(sent);
+  if (done.hash.length > target && sent.league?.policy) {
+    sent = { ...sent, league: { ...sent.league, policy: null, checked: false } };
+    done = attempt(sent);
+  }
   const projects = done.projects[0]!;
-  return { hash: done.hash, report: { ...report, projects }, leftOut: projects.filter((p, i) => p.codeLeftOut && !report.projects[i]!.codeLeftOut).map((p) => p.jobId) };
+  return { hash: done.hash, report: { ...sent, projects }, leftOut: projects.filter((p, i) => p.codeLeftOut && !report.projects[i]!.codeLeftOut).map((p) => p.jobId) };
 }
 
 /** A co-teacher link's hash, with students' code left out, biggest first, if the register is too long. */
@@ -423,5 +538,5 @@ export function kindOf(raw: string): LinkKind | null {
   const got = unpack(raw);
   if (!got.ok || !isObj(got.value)) return null;
   const k = got.value.k;
-  return k === "join" || k === "report" || k === "teach" ? k : null;
+  return isKind(k) ? k : null;
 }

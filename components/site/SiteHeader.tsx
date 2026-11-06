@@ -6,7 +6,6 @@ import { useSession } from "@/lib/store/session";
 import { useMe } from "@/lib/useMe";
 import { Avatar } from "../ui/Avatar";
 import { SyncIndicator } from "../ui/SyncIndicator";
-import { STATIC } from "@/lib/static";
 import { Wordmark } from "./Brand";
 import styles from "./SiteHeader.module.css";
 
@@ -44,11 +43,6 @@ export function SiteHeader() {
       </nav>
       <div className={styles.right}>
         {user ? <SyncIndicator status={syncStatus} /> : null}
-        {!user && !STATIC ? (
-          <Link href="/login" className={styles.login} aria-current={here("/login")}>
-            Log in
-          </Link>
-        ) : null}
         {/* Named for where it goes; the picture inside is kept out of the name (WCAG 2.5.3). */}
         <Link href="/settings" className={styles.avatar} aria-label={profile.displayName ? `Settings, ${user ? "signed in as " : ""}${profile.displayName}` : "Settings"} title="Settings" aria-current={here("/settings")}>
           <span aria-hidden="true" className={styles.avatarArt}>

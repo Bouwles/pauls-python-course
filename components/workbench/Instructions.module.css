@@ -346,46 +346,6 @@
   }
 }
 
-/* What to do: the step's actions in one small numbered run of text, above the explanation. */
-.howTo {
-  margin-top: calc(var(--s-2) * -1);
-  font-size: var(--fs-1);
-  line-height: 1.5;
-  color: var(--text-2);
-}
-
-.howToTitle {
-  display: inline;
-  margin-right: var(--s-3);
-  font-family: var(--font-display);
-  font-size: var(--px-1);
-  line-height: 1;
-  color: var(--sun-text);
-}
-
-.howToList {
-  display: inline;
-  margin: 0;
-  padding: 0;
-  counter-reset: how;
-  list-style: none;
-}
-
-.howToList li {
-  display: inline;
-  margin-right: var(--s-3);
-  counter-increment: how;
-}
-
-.howToList li::before {
-  content: counter(how);
-  margin-right: 5px;
-  font-family: var(--font-display);
-  font-size: var(--px-1);
-  line-height: 1;
-  color: var(--text);
-}
-
 /* The main action, straight after the explanation; at the panel's foot when the explanation runs long. */
 .action {
   position: sticky;

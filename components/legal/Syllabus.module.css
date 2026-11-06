@@ -208,13 +208,6 @@
     6px 6px 0 0 var(--px-drop);
 }
 
-.footText {
-  font-family: var(--font-display);
-  font-size: var(--px-2);
-  line-height: 1.25;
-  max-width: 28em;
-}
-
 .footButtons {
   display: flex;
   flex-wrap: wrap;

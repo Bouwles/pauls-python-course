@@ -48,7 +48,7 @@ export function Placement({ acts, placements }: { acts: ActSummary[]; placements
         <p>
           Pass every task in a section and that Act is marked as placed: the next Act opens in the Clocktower, and the Act&apos;s ideas join your review deck, so Morning Rounds still checks them. Its projects stay open if you&apos;d like to do them anyway.
         </p>
-        <p>Take the sections in order. A section you don&apos;t pass costs nothing: the Act is waiting where it always was.</p>
+        <p>Take the sections in order. A section you don&apos;t pass costs nothing.</p>
       </div>
       {placements.length === 0 ? (
         <p className={styles.meta}>The placement test isn&apos;t written yet. Start with the first project; the early ones go quickly if you know them.</p>

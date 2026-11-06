@@ -223,7 +223,6 @@ export function AvatarCreator({ look, name, onChange, waving = false }: { look: 
         </div>
         <div {...panel("colour")}>
           <Group legend="Colour" name={`${id}-colour`} options={AVATAR_COLOURS} value={look.colour} onChange={(v) => set({ colour: v })} look={look} />
-          <p className={styles.hint}>You stand on this colour in the header, on the Shelf and on your public page.</p>
         </div>
       </div>
     </div>

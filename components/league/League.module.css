@@ -93,6 +93,55 @@
     inset 0 -4px 0 0 var(--px-lo);
 }
 
+/* Pasting league.json: code, so it's set as code. */
+.paste {
+  width: 100%;
+  min-width: 0;
+  min-height: 96px;
+  resize: vertical;
+  font-family: var(--font-code);
+  font-size: var(--fs-1);
+  line-height: 1.45;
+}
+
+.status {
+  font-size: var(--fs-2);
+  color: var(--text-2);
+}
+
+/* Empty, it takes no room but stays a live region. */
+.status:empty {
+  position: absolute;
+}
+
+/* A class's table from a link: where you stand, said plainly under it. */
+.block.shared {
+  box-shadow:
+    0 -2px 0 0 var(--sun),
+    0 2px 0 0 var(--sun),
+    -2px 0 0 0 var(--sun),
+    2px 0 0 0 var(--sun),
+    inset 0 2px 0 0 var(--px-hi),
+    inset 0 -2px 0 0 var(--px-lo),
+    6px 6px 0 0 var(--px-drop);
+}
+
+.standing {
+  font-size: var(--fs-3);
+  line-height: 1.45;
+  max-width: 72ch;
+}
+
+.tabs {
+  margin-bottom: calc(var(--s-2) * -1);
+}
+
+.panel {
+  display: grid;
+  gap: var(--s-4);
+  min-width: 0;
+}
+
 .error {
   display: flex;
   align-items: flex-start;

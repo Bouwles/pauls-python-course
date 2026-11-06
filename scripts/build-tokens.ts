@@ -38,6 +38,10 @@ const dark = {
   "text-2": "#A4ABB8",
   "text-3": "#6E7584",
   editor: "#12141A",
+  // The main button: chalk on the dark page, ink on the light one.
+  btn: "#E8E4DA",
+  "btn-hover": "#F7F4EC",
+  "btn-ink": "#14171D",
   // Text versions of the accents, for words in colour on the page.
   "sun-text": "#FFB627",
   "blue-text": "#7FA6F0",
@@ -80,6 +84,9 @@ const light: Record<keyof typeof dark, string> = {
   "text-2": "#4F5665",
   "text-3": "#6B7280",
   editor: "#FFFFFF",
+  btn: "#1F2430",
+  "btn-hover": "#353C4B",
+  "btn-ink": "#F6F7F9",
   "sun-text": "#8A5A00",
   "blue-text": "#2C5BC0",
   "pass-text": "#147A43",

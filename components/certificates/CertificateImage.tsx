@@ -53,7 +53,7 @@ function CertificateArt({ c, url }: { c: Certificate; url: string }) {
               completed Act {roman}: {actName(c)}
             </span>
             <span style={{ fontSize: 36, color: DAY.text2, lineHeight: 1.4 }}>
-              {c.projects} real Python projects, built, tested and shipped.
+              {c.projects} Python projects shipped.
             </span>
             {floor ? (
               <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 28 }}>

@@ -64,7 +64,7 @@ export function ProjectPicker({ acts, value, onChange, idPrefix }: { acts: Cours
           })}
         </ol>
       ) : (
-        <p className={teach.empty}>No projects chosen yet. Pick one below; you can add more later.</p>
+        <p className={teach.empty}>No projects yet.</p>
       )}
       <div className={styles.addRow}>
         <div className={[teach.field, styles.fieldGrow].join(" ")}>

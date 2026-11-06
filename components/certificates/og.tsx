@@ -45,32 +45,8 @@ export function ogFonts(): OgFont[] {
 export const DISPLAY = "Display, DisplayExt";
 export const TEXT = "Text, TextExt";
 
-/** The dark theme, for share cards. */
-export const NIGHT = {
-  bg: "#0F1115",
-  surface: "#1D212A",
-  line: "#2E3441",
-  text: "#F2F3F5",
-  text2: "#A4ABB8",
-  text3: "#6E7584",
-};
-
-/** The light theme, for certificates (they get printed). */
-export const DAY = {
-  bg: "#FFFFFF",
-  surface: "#F6F7F9",
-  line: "#DDE1E8",
-  text: "#14171D",
-  text2: "#4F5665",
-  sunText: "#8A5A00",
-};
-
-export const SUN = "#FFB627";
-/** The dark edge round pixel panels (--px-outline). */
-export const OUTLINE = "#050608";
-export const SUN_INK = "#2A1E00";
-export const PASS = "#2FBF71";
-export const PASS_TEXT = "#4FD38B";
+// The colours, the Roman numerals and the date, shared with the certificate drawn in the browser.
+export { NIGHT, DAY, SUN, OUTLINE, SUN_INK, PASS, PASS_TEXT } from "./look";
 
 /** The pixel snake-P, at a whole-number scale of its 16-pixel grid (16, 32, 48, 64 ...). */
 export function OgMark({ size }: { size: number }) {
@@ -87,10 +63,4 @@ export function OgPerson({ character, look, scale, crop = "bust", expression = "
   return <img width={w * scale} height={h * scale} alt="" src={personDataUrl(l, { expression, pose }, { scale, crop, background })} />;
 }
 
-export const ROMAN = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
-
-/** "30 October 2026" */
-export const longDate = (iso: string) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
-
-/** The site's address without the scheme, for printing. */
-export const bareUrl = (url: string) => url.replace(/^https?:\/\//, "").replace(/\/$/, "");
+export { ROMAN, longDate, bareUrl } from "./look";

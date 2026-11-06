@@ -110,7 +110,7 @@ export function Drills({ acts, characters }: { acts: DrillAct[]; characters: Rec
       <header className={styles.head}>
         <h1 className={styles.title}>Drills</h1>
         <p className={styles.lede}>
-          Five quick tasks against the clock, for speed once you understand an idea. Each one opens when you ship the project that first uses it. {rivalName} sets the time to beat.
+          Five quick tasks against the clock. Each one opens when you ship the project that first uses it. {rivalName} sets the time to beat.
         </p>
       </header>
 

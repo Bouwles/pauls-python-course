@@ -376,3 +376,14 @@
     height: 88px;
   }
 }
+
+/* A project's hand-ins from the student's own computer, under its name in a progress table. */
+.handIns {
+  display: grid;
+  gap: 2px;
+  margin-top: var(--s-1);
+}
+
+.handInLink {
+  overflow-wrap: anywhere;
+}

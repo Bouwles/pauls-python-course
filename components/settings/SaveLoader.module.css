@@ -1,0 +1,146 @@
+/* Loading a save: a file button and a box for a pasted code side by side, then what's in the save
+   on a raised panel, with the choice under it. */
+.loader {
+  display: grid;
+  gap: var(--s-4);
+  width: 100%;
+  min-width: 0;
+}
+
+.ways {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: var(--s-4) var(--s-6);
+}
+
+.way {
+  padding-top: calc(var(--fs-2) * 1.45 + var(--s-1));
+}
+
+.paste {
+  display: grid;
+  gap: var(--s-2);
+  min-width: 0;
+}
+
+.pasteLabel {
+  font-size: var(--fs-2);
+  font-weight: 700;
+  color: var(--text-2);
+}
+
+.code {
+  width: calc(100% - 4px);
+  margin: 2px;
+  min-height: 72px;
+  resize: vertical;
+  font-family: var(--font-code);
+  font-size: var(--fs-1);
+  line-height: 1.4;
+  word-break: break-all;
+}
+
+.error {
+  font-size: var(--fs-2);
+  color: var(--fail-text);
+}
+
+.found {
+  display: grid;
+  gap: var(--s-4);
+  padding: var(--s-5);
+  margin: 2px 2px var(--s-2);
+}
+
+.what {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+}
+
+.face {
+  display: grid;
+  place-items: end center;
+  flex: none;
+  width: 68px;
+  height: 68px;
+  overflow: hidden;
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
+  margin: 2px;
+}
+
+.whatText {
+  display: grid;
+  gap: var(--s-1);
+  min-width: 0;
+}
+
+.line {
+  font-size: var(--fs-3);
+  font-weight: 700;
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+.line:focus {
+  outline: none;
+}
+
+.line:focus-visible {
+  outline: 2px solid var(--sun);
+  outline-offset: 2px;
+}
+
+.hint {
+  font-size: var(--fs-2);
+  line-height: 1.45;
+  color: var(--text-2);
+  max-width: 62ch;
+}
+
+.here {
+  display: grid;
+  gap: var(--s-1);
+  padding-top: var(--s-4);
+  border-top: 2px solid var(--line);
+  font-size: var(--fs-2);
+}
+
+.strong {
+  color: var(--text);
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+}
+
+.done {
+  font-size: var(--fs-2);
+  font-weight: 700;
+  color: var(--pass-text);
+}
+
+@media (max-width: 720px) {
+  .ways {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .way {
+    padding-top: 0;
+  }
+
+  .found {
+    padding: var(--s-4);
+  }
+
+  .what {
+    align-items: flex-start;
+  }
+}

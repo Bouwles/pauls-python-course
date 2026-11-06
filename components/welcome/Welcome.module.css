@@ -67,11 +67,11 @@
 .card[data-picked] {
   background: var(--surface-3);
   box-shadow:
-    0 -2px 0 0 var(--sun),
-    0 2px 0 0 var(--sun),
-    -2px 0 0 0 var(--sun),
-    2px 0 0 0 var(--sun),
-    inset 0 0 0 2px var(--sun),
+    0 -2px 0 0 var(--text),
+    0 2px 0 0 var(--text),
+    -2px 0 0 0 var(--text),
+    2px 0 0 0 var(--text),
+    inset 0 0 0 2px var(--text),
     6px 6px 0 0 var(--px-drop);
 }
 
@@ -163,8 +163,8 @@
 .card:not([data-dim]):hover .play,
 .play:focus-visible,
 .card[data-picked] .play {
-  background: var(--sun);
-  color: var(--sun-ink);
+  background: var(--btn);
+  color: var(--btn-ink);
 }
 
 /* Someone else: a wide card under the six. */

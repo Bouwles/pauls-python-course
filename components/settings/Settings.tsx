@@ -4,13 +4,14 @@
 // frames. A list of the sections on the left on wide screens; on a phone the sections simply stack.
 // Who you're playing as comes first (lib/playas.ts): one of the class, or someone of your own.
 // The learner's pixel avatar heads the avatar section, and waves when they finish changing it;
-// playing as one of the class, it's them. The credit line at the foot.
+// playing as one of the class, it's them. Your save (lib/save) comes straight after the account:
+// for anyone not logged in, and everyone on GitHub Pages, it's how work moves between browsers.
+// The credit line at the foot.
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { BRAND } from "@/lib/brand";
 import { readAvatar, type AvatarLook } from "@/lib/avatar";
 import { useSession } from "@/lib/store/session";
-import { DEFAULT_SETTINGS, TABLES, type Settings as SettingsData } from "@/lib/store/types";
+import { DEFAULT_SETTINGS, type Settings as SettingsData } from "@/lib/store/types";
 import { download, zip } from "@/lib/export";
 import { prefersReducedMotion } from "@/lib/display";
 import { pickGesture } from "@/lib/pixel/variety";
@@ -22,15 +23,18 @@ import { PixelPerson } from "../art/PixelPerson";
 import { PLAYABLE, playableOf } from "../welcome/playable";
 import { Button } from "../ui/Button";
 import { useToast } from "../ui/Toast";
-import { Credit } from "../site/Credit";
 import { AvatarCreator, describeAvatar } from "../welcome/AvatarCreator";
 import { Choice, Row, Section } from "./controls";
 import { Classes, ConnectedTools, GitHubConnection, PublicProfile, useFlags } from "./Elsewhere";
-import { STATIC } from "@/lib/static";
+import { BASE, STATIC } from "@/lib/static";
+import { collectSave, deleteBrowserData } from "@/lib/save/browser";
+import { exportFiles } from "@/lib/save/export";
+import { YourSave } from "./YourSave";
 import styles from "./Settings.module.css";
 
 const SECTIONS: [string, string, boolean][] = [
   ["s-account", "Account", false],
+  ["s-save", "Your save", false],
   ["s-playas", "Who you're playing as", false],
   ["s-avatar", "Your avatar", false],
   ["s-display", "Display", false],
@@ -71,6 +75,13 @@ export function Settings() {
     setName(profile.displayName);
     setLook(readAvatar(profile.character));
   }, [profile.displayName, profile.character]);
+
+  // Arriving at a section ("download your save" after a Ship links to #s-save): the page only
+  // draws once the session is ready, so the browser's own jump to it has nothing to land on.
+  useEffect(() => {
+    if (!ready || !window.location.hash) return;
+    document.getElementById(decodeURIComponent(window.location.hash.slice(1)))?.scrollIntoView();
+  }, [ready]);
 
   const set = async (patch: Partial<SettingsData>) => {
     await updateProfile({ settings: { ...s, ...patch } });
@@ -113,7 +124,7 @@ export function Settings() {
                 </Row>
               </>
             ) : (
-              <Row label="You're not logged in" hint={STATIC ? "Your work is saved in this browser as you go." : "Your work is saved in this browser as you go. An account is only needed to join a class."}>
+              <Row label="You're not logged in" hint="Your work is saved in this browser.">
                 {STATIC ? null : (
                   <Button variant="secondary" onClick={() => router.push("/login")}>
                     Log in
@@ -123,7 +134,9 @@ export function Settings() {
             )}
           </Section>
 
-          <Section id="s-playas" title="Who you're playing as" intro="You learn the same Python whoever you are. Playing as one of the class, their projects and their old code are yours, someone else gives the help they'd give, and everyone talks to you by name.">
+          <YourSave />
+
+          <Section id="s-playas" title="Who you're playing as">
             <fieldset className={styles.playAs}>
               <legend className="visually-hidden">Who you&apos;re playing as</legend>
               <div className={styles.castGrid}>
@@ -162,7 +175,7 @@ export function Settings() {
               )}
               <div className={styles.youText}>
                 <p className={styles.youName}>{name || "No name yet"}</p>
-                <p className={styles.hint}>{playing ? `You're playing as ${playing.name}, so this is how you look. Your own avatar is kept for when you want it back.` : describeAvatar(look)}</p>
+                <p className={styles.hint}>{playing ? `You're playing as ${playing.name}.` : describeAvatar(look)}</p>
               </div>
               {playing ? (
                 <Button
@@ -210,7 +223,7 @@ export function Settings() {
                 />
               </div>
             ) : null}
-            <Row label="Display name" htmlFor="display-name" hint="Shown on your Shelf and, only if you choose, on your public profile.">
+            <Row label="Display name" htmlFor="display-name" hint="Shown on your Shelf.">
               <input
                 id="display-name"
                 className={styles.text}
@@ -224,7 +237,7 @@ export function Settings() {
 
           <Section id="s-display" title="Display">
             <Choice label="Theme" value={s.theme} options={[["dark", "Dark"], ["light", "Light"], ["system", "Follow my device"]]} onChange={(v) => void set({ theme: v as SettingsData["theme"] })} />
-            <Row label={`Code size: ${s.editorFontSize}px`} htmlFor="code-size" hint="Indents are always four spaces. Python reads indentation as structure, and one fixed width avoids errors you can't see." wide>
+            <Row label={`Code size: ${s.editorFontSize}px`} htmlFor="code-size" wide>
               <input id="code-size" className={styles.range} type="range" min={12} max={22} step={1} value={s.editorFontSize} onChange={(e) => void set({ editorFontSize: Number(e.target.value) })} />
               <pre className={`code-dark px-inset ${styles.sample}`} aria-hidden="true">
                 <code style={{ fontSize: s.editorFontSize }}>
@@ -251,7 +264,7 @@ export function Settings() {
               options={[["none", "None"], ["15", "15 min"], ["30", "30 min"], ["60", "1 hour"], ["90", "90 min"]]}
               onChange={(v) => void set({ dailyGoalMinutes: v === "none" ? null : Number(v) })}
             />
-            <Choice label="Streaks" value={s.streaks ? "on" : "off"} options={[["off", "Off"], ["on", "Show my streak"]]} onChange={(v) => void set({ streaks: v === "on" })} hint="Off unless you want it. Missing a day is never held against you." />
+            <Choice label="Streaks" value={s.streaks ? "on" : "off"} options={[["off", "Off"], ["on", "Show my streak"]]} onChange={(v) => void set({ streaks: v === "on" })} hint="Missing a day doesn't count against you." />
             {user ? (
               <Choice
                 label="Email"
@@ -268,13 +281,21 @@ export function Settings() {
           {user && flags ? <Classes flags={flags} onFlags={setFlags} /> : null}
 
           <Section id="s-data" title="Your data">
-            <Row label={user ? "Download all my data" : "Download my work"} hint="A zip of everything: your code for every step, your progress and your review deck.">
+            <Row
+              label="Download all my data"
+              hint={user ? "Your code as files, and the rest as JSON." : "Your code as files, and the rest as JSON."}
+            >
               <Button variant="secondary" icon="download" onClick={() => void exportEverything(store, Boolean(user))}>
-                {user ? "Download all my data" : "Download my work"}
+                Download all my data
               </Button>
             </Row>
             {user ? <ConnectedTools /> : null}
             {user ? <GitHubConnection /> : null}
+            {user ? null : (
+              <Row label="Delete my data" hint="Clears everything from this browser. It can't be undone.">
+                <DeleteData onDelete={() => deleteBrowserData(store)} />
+              </Row>
+            )}
             {user ? (
               <Row label="Delete my account" hint="Removes your account, your code, your Shelf and your review deck. It can't be undone.">
                 <DeleteAccount
@@ -288,10 +309,6 @@ export function Settings() {
               </Row>
             ) : null}
           </Section>
-
-          <footer className={styles.foot}>
-            <Credit />
-          </footer>
         </div>
       </div>
     </div>
@@ -396,20 +413,59 @@ function DeleteAccount({ expected, onDeleted }: { expected: string; onDeleted: (
   );
 }
 
+/** Everything in this browser (and, logged in, the account's copy from /api/export) as a zip. */
 async function exportEverything(store: ReturnType<typeof useSession>["store"], signedIn: boolean) {
-  const files: Record<string, string> = {};
-  let data: Record<string, unknown> = {};
-  if (signedIn) {
-    const res = await fetch("/api/export");
-    if (res.ok) data = (await res.json()) as Record<string, unknown>;
+  if (!store) return;
+  const save = await collectSave(store);
+  let server: Record<string, unknown> | null = null;
+  // GitHub Pages has no server; without an account there's nothing on it to ask for.
+  if (signedIn && !STATIC) {
+    try {
+      const res = await fetch("/api/export");
+      if (res.ok) server = (await res.json()) as Record<string, unknown>;
+    } catch {
+      // Offline: what this browser holds is the next best thing.
+    }
   }
-  if (store) {
-    const local: Record<string, unknown> = {};
-    for (const t of TABLES) local[t] = await store.all(t);
-    if (!signedIn) data = { exportedAt: new Date().toISOString(), ...local };
-    for (const c of (local.code_files as { jobId: string; stepId: string; filename: string; content: string }[]) ?? []) files[`code/${c.jobId}/${c.stepId}/${c.filename}`] = c.content;
-  }
-  const slug = BRAND.shortName.toLowerCase();
-  files[`${slug}-data.json`] = JSON.stringify(data, null, 2);
-  download(`${slug}-export.zip`, zip(files), "application/zip");
+  const { name, files } = exportFiles(save, server);
+  download(name, zip(files), "application/zip");
+}
+
+/** Delete my data, when there's no account: everything in this browser, after asking. */
+function DeleteData({ onDelete }: { onDelete: () => Promise<void> }) {
+  const dialog = useRef<HTMLDialogElement>(null);
+  const [busy, setBusy] = useState(false);
+  return (
+    <>
+      <Button variant="danger" onClick={() => dialog.current?.showModal()}>
+        Delete my data
+      </Button>
+      <dialog ref={dialog} className={`float ${styles.dialog}`} aria-labelledby="del-data-title">
+        <form
+          method="dialog"
+          className={styles.dialogBody}
+          onSubmit={async (e) => {
+            e.preventDefault();
+            setBusy(true);
+            await onDelete();
+            // A fresh start: the course begins again at "Who's playing?".
+            window.location.assign(`${BASE}/`);
+          }}
+        >
+          <h2 id="del-data-title" className={styles.dialogTitle}>
+            Delete everything in this browser
+          </h2>
+          <p>Your progress, your code, your review deck and your classes all go, and the course starts again at Who&apos;s playing. It can&apos;t be undone, so download your save first if you might want any of it.</p>
+          <div className={styles.buttons}>
+            <Button type="submit" variant="danger" disabled={busy}>
+              {busy ? "Deleting" : "Delete everything"}
+            </Button>
+            <Button type="button" variant="secondary" onClick={() => dialog.current?.close()} disabled={busy}>
+              Keep it
+            </Button>
+          </div>
+        </form>
+      </dialog>
+    </>
+  );
 }

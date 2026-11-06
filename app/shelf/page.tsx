@@ -60,6 +60,8 @@ export default function ShelfPage() {
         clientId: job.client,
         example: ask && ask.type === "ask" ? ask.example : null,
         draws: DRAWS.test(starter) || job.conceptsIntroduced.some((c) => /matplotlib|plot|chart/.test(c)),
+        // Built in the browser, so its code is here to share; a Take It Home or capstone project was built on the learner's own computer.
+        code: Boolean(from && "entry" in from),
       });
     }
   }

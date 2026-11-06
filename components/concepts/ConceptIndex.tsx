@@ -64,7 +64,7 @@ export function ConceptIndex({ concepts, jobs, acts }: { concepts: Item[]; jobs:
     <div className={styles.index}>
       <header className={styles.head}>
         <h1 className={styles.title}>Python Handbook</h1>
-        <p className={styles.lede}>Every idea in the course, in the order the projects meet them. Each page has a plain explanation and an example you can run, and shows how well the idea is holding for you.</p>
+        <p className={styles.lede}>Every idea in the course, in the order the projects use them.</p>
       </header>
       <div className={styles.controls}>
         <label className={styles.search}>

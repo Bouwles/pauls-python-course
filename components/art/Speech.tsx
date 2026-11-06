@@ -17,6 +17,12 @@ import styles from "./Speech.module.css";
 // button is named by its contents (the speaker's name and the whole line), not an aria-label, so
 // the name always holds what's visible.
 
+/** A line as it's read aloud: the same words, without the backticks round any code. */
+export const plainLine = (line: string) => line.replaceAll("`", "");
+
+/** A line on the page: anything in backticks is set as code. Half typed, the code so far still is. */
+const asWritten = (line: string) => line.split("`").map((part, i) => (i % 2 ? <code key={i}>{part}</code> : part));
+
 export function Speech({
   who,
   name,
@@ -73,12 +79,12 @@ export function Speech({
               readers get the whole line at once, never the letters as they arrive. */}
           <span className={styles.line}>
             <span className={styles.ghost} aria-hidden="true">
-              {text}
+              {asWritten(text)}
             </span>
             <span className={styles.typed} aria-hidden={speech.talking ? true : undefined}>
-              {speech.shown}
+              {asWritten(speech.shown)}
             </span>
-            {speech.talking ? <span className="visually-hidden">{text}</span> : null}
+            {speech.talking ? <span className="visually-hidden">{plainLine(text)}</span> : null}
           </span>
         </SpeechBubble>
       </button>

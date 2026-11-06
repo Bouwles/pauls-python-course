@@ -3,6 +3,7 @@
 // link; the teacher opens that and adds it to the class's register. Everything here lives in the
 // browser that made or opened it (lib/classes/store.ts), and travels in links (lib/classes/link.ts).
 import type { AvatarLook } from "../avatar";
+import type { Policy } from "../league/course";
 import type { CastId } from "../playas";
 import type { JobStatus } from "../store/types";
 
@@ -46,6 +47,26 @@ export interface ProjectReport {
   code: CodeFile[];
   /** The code was there but left out to keep the link short. */
   codeLeftOut: boolean;
+  /** Work done on the learner's own computer: Take It Home results and capstone milestones (links from before these have none). */
+  handIns?: HandIn[];
+}
+
+/**
+ * Something handed in from the learner's own computer, kept in their browser: a Take It Home
+ * step's test results (pasted from pytest or ppc test), or a capstone milestone signed off, with
+ * the link they showed and any test results.
+ */
+export interface HandIn {
+  stepId: string;
+  kind: "tests" | "milestone";
+  /** It counts: the step is passed. */
+  done: boolean;
+  /** Tests passed, of how many, when there were results. */
+  passed: number | null;
+  total: number | null;
+  /** The https link they showed, for a milestone. */
+  link: string | null;
+  at: number | null;
 }
 
 export interface Student {
@@ -55,6 +76,20 @@ export interface Student {
   character: AvatarLook | null;
   /** Who they play as: a cast id, or null for someone of their own (lib/playas.ts). */
   playAs: CastId | null;
+}
+
+/** A student's Arcade League entry for the week their progress link was made (lib/league). */
+export interface LeagueEntryReport {
+  week: string;
+  /** Average moves over the week's races (lower is better), and how many of them finished. */
+  score: number;
+  finished: number;
+  races: number;
+  enteredAt: number;
+  /** The policy, so the teacher's browser can race it again and replay it. Null when it was left out. */
+  policy: Policy | null;
+  /** True when the score was raced again from the policy where the link was opened, not taken as sent. */
+  checked: boolean;
 }
 
 /** What a progress link carries. */
@@ -67,6 +102,28 @@ export interface Report {
   /** Projects shipped in all, set or not. */
   shipped: number;
   projects: ProjectReport[];
+  /** Their League entry this week, if they entered (links from before the League have none). */
+  league?: LeagueEntryReport;
+}
+
+/** One row of a shared League table: who, and their score. Names and scores only. */
+export interface SharedRow {
+  /** The student's id, so they can find themselves on it. */
+  id: string;
+  name: string;
+  score: number;
+  finished: number;
+  races: number;
+}
+
+/** What a League table link carries: a class's standings for one week, from its register. */
+export interface SharedTable {
+  classId: string;
+  className: string;
+  teacher: string;
+  week: string;
+  sentAt: number;
+  rows: SharedRow[];
 }
 
 /** A class this browser teaches: made here, or added from a co-teacher link. */
@@ -82,6 +139,8 @@ export interface JoinedClass extends ClassInfo {
   joinedAt: number;
   /** Each set project's main Build step, from the course this browser has (jobId to step id). */
   build: Record<string, string>;
+  /** The newest League table the teacher shared, opened in this browser. */
+  table?: SharedTable;
 }
 
 export interface ClassBook {

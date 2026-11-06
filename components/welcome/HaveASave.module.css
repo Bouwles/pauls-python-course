@@ -1,0 +1,22 @@
+/* "Load a save": one line at the foot of the picker; the loader opens
+   under it, before the class. */
+.save {
+  display: grid;
+  gap: var(--s-5);
+}
+
+.line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2) var(--s-4);
+  font-size: var(--fs-2);
+  color: var(--text-2);
+}
+
+.loader {
+  max-width: 880px;
+  padding: var(--s-5) 0 var(--s-2);
+  border-top: 2px solid var(--line);
+  border-bottom: 2px solid var(--line);
+}

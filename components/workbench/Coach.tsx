@@ -5,7 +5,7 @@ import { prefersReducedMotion } from "@/lib/display";
 import { moodOf } from "@/lib/mood";
 import { pickGesture } from "@/lib/pixel/variety";
 import type { Expression, Pose } from "@/lib/pixel/people";
-import { Speech } from "../art/Speech";
+import { Speech, plainLine } from "../art/Speech";
 import { Icon } from "../ui/Icon";
 import { useWorkbench, type Utterance } from "./context";
 import styles from "./Coach.module.css";
@@ -77,7 +77,7 @@ export function Coach() {
         </div>
       ) : null}
       <p className="visually-hidden" aria-live="polite">
-        {name}: {current.text}
+        {name}: {plainLine(current.text)}
         {count > 1 ? ` Line ${coach.index + 1} of ${count}.` : ""}
       </p>
     </section>

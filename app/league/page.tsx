@@ -6,6 +6,10 @@ import { League } from "@/components/league/League";
 
 export const metadata: Metadata = { title: "The Arcade League" };
 
+// A plain page, the same on GitHub Pages as in the local version: entries are raced in the
+// browser (lib/league/local.ts), and a League table link (/league/#...) is read there too. The
+// server only adds who hosts, from the content.
+
 export default function LeaguePage() {
   const characters = getIndex().characters;
   // The Arcade is the Act VIII floor; whoever lives there runs the League.

@@ -81,9 +81,9 @@
 }
 
 .primary {
-  --face: var(--sun);
-  --face-hover: var(--sun-hover);
-  --label: var(--sun-ink);
+  --face: var(--btn);
+  --face-hover: var(--btn-hover);
+  --label: var(--btn-ink);
 }
 
 .secondary {
@@ -120,7 +120,7 @@
   --label: var(--fail-ink);
 }
 
-/* Disabled: flat and grey whatever the kind, so a sun button doesn't turn a muddy half-sun; the
+/* Disabled: flat and grey whatever the kind, so a main button doesn't turn a muddy half-tone; the
    outline stays so it still reads as a button. */
 .button:disabled {
   --face: var(--surface-2);

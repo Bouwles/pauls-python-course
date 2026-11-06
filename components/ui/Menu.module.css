@@ -57,8 +57,8 @@
 
 .item:hover:not(:disabled),
 .item:focus-visible {
-  background: var(--sun);
-  color: var(--sun-ink);
+  background: var(--btn);
+  color: var(--btn-ink);
   outline: none;
 }
 

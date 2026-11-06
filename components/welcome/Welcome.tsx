@@ -24,6 +24,7 @@ import { PixelPerson } from "../art/PixelPerson";
 import { Speech } from "../art/Speech";
 import { Button } from "../ui/Button";
 import { AvatarCreator } from "./AvatarCreator";
+import { HaveASave } from "./HaveASave";
 import { PLAYABLE, type Playable } from "./playable";
 import styles from "./Welcome.module.css";
 
@@ -116,7 +117,6 @@ function WhoIsPlaying({ heading, onSomeoneElse }: { heading: React.RefObject<HTM
         <h1 ref={heading} tabIndex={-1} className={styles.title}>
           Who&apos;s playing?
         </h1>
-        <p className={styles.lede}>Pick who you are. Whoever you choose, you learn the same Python. What changes is the story: your own projects and your old code are yours, and the class talk to you by name. You can switch in Settings.</p>
       </header>
 
       <ul className={styles.cast} aria-label="The class">
@@ -133,7 +133,7 @@ function WhoIsPlaying({ heading, onSomeoneElse }: { heading: React.RefObject<HTM
                 <div className={styles.body}>
                   <h2 className={styles.name}>{p.name}</h2>
                   <p className={styles.about} id={`about-${p.id}`}>
-                    {p.role}. Into {p.into}.
+                    {p.role}. {p.about}
                   </p>
                   <p className={styles.line} id={`line-${p.id}`}>
                     &ldquo;{p.line}&rdquo;
@@ -154,7 +154,7 @@ function WhoIsPlaying({ heading, onSomeoneElse }: { heading: React.RefObject<HTM
             <div className={styles.body}>
               <h2 className={styles.name}>Someone else</h2>
               <p className={styles.about} id="about-else">
-                You, as you. Make your own avatar and choose what the class call you.
+                Make your own.
               </p>
               <button type="button" className={styles.play} aria-describedby="about-else" disabled={Boolean(picked)} onClick={onSomeoneElse}>
                 Play as someone else
@@ -163,6 +163,9 @@ function WhoIsPlaying({ heading, onSomeoneElse }: { heading: React.RefObject<HTM
           </div>
         </li>
       </ul>
+
+      {/* Played before somewhere else: bring the save, and skip the choosing. */}
+      <HaveASave disabled={Boolean(picked)} />
 
       <p className="visually-hidden" role="status">
         {picked ? `Playing as ${picked.name}. Off to the Clocktower.` : ""}
@@ -229,7 +232,7 @@ function OwnAvatar({ heading, onBack }: { heading: React.RefObject<HTMLHeadingEl
         <h1 ref={heading} tabIndex={-1} className={styles.title}>
           Before your first project
         </h1>
-        <p className={styles.lede}>Your name, your avatar, and how much code you&apos;ve written. It takes a minute, and you can change all of it later in Settings.</p>
+
       </header>
 
       <Speech
@@ -249,7 +252,6 @@ function OwnAvatar({ heading, onBack }: { heading: React.RefObject<HTMLHeadingEl
         <label className={styles.field}>
           <span className="label">What should we call you?</span>
           <input value={name} onChange={(e) => setName(e.target.value)} maxLength={40} autoComplete="nickname" required aria-required="true" placeholder="A name, or a nickname" />
-          <small className={styles.hint}>Shown on your Shelf and, only if you choose, on a public profile.</small>
         </label>
       </section>
 
@@ -289,7 +291,7 @@ function OwnAvatar({ heading, onBack }: { heading: React.RefObject<HTMLHeadingEl
           <Button type="button" variant="primary" className={styles.submit} onClick={() => void start()} disabled={saving || !complete}>
             {saving ? "Saving" : "Save and start"}
           </Button>
-          {!user && ready ? <p className={styles.hint}>You&apos;re not logged in, so this is saved on this device only.</p> : null}
+          {!user && ready ? <p className={styles.hint}>Saved in this browser.</p> : null}
         </div>
       </div>
     </div>

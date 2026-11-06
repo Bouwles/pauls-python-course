@@ -70,8 +70,21 @@
 
 .command code {
   flex: 1;
-  overflow-x: auto;
-  white-space: pre;
+  min-width: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* A long command (the address of ppc.zip) wraps inside its box, and Copy takes it whole. */
+.section,
+.panel,
+.command {
+  min-width: 0;
+}
+
+.section > *,
+.panel > * {
+  min-width: 0;
 }
 
 .copy {

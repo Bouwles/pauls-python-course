@@ -34,7 +34,7 @@ export function DuckPanel({ stepId, row, source }: { stepId: string; row: StepPr
 
   return (
     <form className={styles.panel} onSubmit={submit} aria-label="Explain it to the duck">
-      <p className={styles.intro}>Say it out loud, or type it. The duck won&apos;t answer. That&apos;s the point.</p>
+      <p className={styles.intro}>Say it out loud, or type it. The duck won&apos;t answer.</p>
       <label className={styles.field}>
         <span>What should this do?</span>
         <textarea rows={3} value={should} onChange={(e) => setShould(e.target.value)} />

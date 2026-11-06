@@ -1,17 +1,18 @@
 // Builds the GitHub Pages version of the course: plain files in pages-out/, served from
 // https://<user>.github.io/<repo>/. There's no server there, so:
-// - the pages that need one (accounts, classes, the League, certificates, admin, the API) are
-//   left out of this build;
+// - the pages that need one (accounts, account classes, certificates, admin, the API) are left
+//   out of this build; the League races entries in the browser, so it stays;
 // - everyone is a guest, with their progress kept in their browser;
 // - each step's checks and solution are written as files under /data for the browser to read
 //   (lib/static-data.ts);
 // - the service worker adds the headers that input() and Stop need (lib/sw/sw-template.js).
 // The left-out pages are set aside while it builds and always put back, even if the build fails.
-// The workflow in .github/workflows/pages.yml runs this on every push to main.
+// The workflow in .github/workflows/deploy.yml runs this on every push to main.
 //   npx tsx scripts/build-pages.ts [--base /pauls-python-course]
 import { execSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
+import { ppcZip } from "../lib/ppc-zip";
 
 const root = process.cwd();
 const arg = (name: string) => {
@@ -23,7 +24,7 @@ const OUT = path.join(root, "pages-out");
 const STASH = path.join(root, ".pages-stash");
 
 /** Everything under app/ that needs a server. */
-const SERVER_ONLY = ["api", "admin", "teach", "u", "certificates", "auth", "login", "signup", "device", "dev", "league", "ppc.zip"];
+const SERVER_ONLY = ["api", "admin", "teach", "u", "certificates", "auth", "login", "signup", "device", "dev", "ppc.zip"];
 
 function restore() {
   if (!fs.existsSync(STASH)) return;
@@ -57,8 +58,16 @@ for (const [kind, file] of [["tests", "tests.json"], ["solutions", "solutions.js
   console.log(`public/data/${kind}: ${Object.keys(all).length} files`);
 }
 
+// The ppc tool, as a plain file at <site>/ppc.zip (app/ppc.zip makes it on request locally, and is
+// set aside here). Marked as the copy for a course with no accounts, so it prints a result to paste.
+const ppcFile = path.join(root, "public", "ppc.zip");
+const ppcSite = arg("--site") ?? process.env.NEXT_PUBLIC_SITE_URL ?? `https://bouwles.github.io${base}`;
+fs.writeFileSync(ppcFile, ppcZip(ppcSite, { pages: true }).bytes);
+console.log(`public/ppc.zip for ${ppcSite}`);
+
 const stop = () => {
   restore();
+  fs.rmSync(ppcFile, { force: true });
   process.exit(1);
 };
 process.on("SIGINT", stop);
@@ -73,6 +82,7 @@ try {
 } finally {
   restore();
   fs.rmSync(data, { recursive: true, force: true });
+  fs.rmSync(ppcFile, { force: true });
   // Put the local service worker back (isolation off) for the local version.
   run("npx tsx scripts/copy-pyodide.ts", { NEXT_PUBLIC_PPC_STATIC: "" });
   // A running dev server may have rewritten its route list while pages were set aside.

@@ -7,8 +7,8 @@
 // The operations are plain functions from one book to the next, so they can be tested without a
 // browser: load the book, apply one, save what comes back.
 import { useSyncExternalStore } from "react";
-import { classWire, isId, isJobId, readClass, readReport, reportWire, toBase64Url, LIMITS, type ClassWire, type ReportWire } from "./link";
-import type { ClassBook, ClassInfo, JoinedClass, Report, TaughtClass } from "./types";
+import { classWire, isId, isJobId, readClass, readReport, readTable, reportWire, tableWire, toBase64Url, LIMITS, type ClassWire, type ReportWire, type TableWire } from "./link";
+import type { ClassBook, ClassInfo, JoinedClass, Report, SharedTable, TaughtClass } from "./types";
 
 const KEY = "ppc-classes";
 
@@ -16,7 +16,8 @@ interface Stored {
   v: 1;
   me: string;
   teaching: { role: TaughtClass["role"]; createdAt: number; c: ClassWire; r: ReportWire[] }[];
-  joined: { joinedAt: number; build: Record<string, string>; c: ClassWire }[];
+  /** `t`: the newest League table shared for the class (lib/classes/league.ts). */
+  joined: { joinedAt: number; build: Record<string, string>; c: ClassWire; t?: TableWire }[];
 }
 
 export const EMPTY_BOOK: ClassBook = Object.freeze({ me: "", teaching: [], joined: [] }) as ClassBook;
@@ -58,7 +59,8 @@ export function readBook(raw: string | null): ClassBook {
     const build: Record<string, string> = {};
     if (j.build && typeof j.build === "object")
       for (const [jobId, step] of Object.entries(j.build)) if (isJobId(jobId) && typeof step === "string" && /^[a-z0-9-]{1,60}$/.test(step)) build[jobId] = step;
-    joined.push({ ...cls, joinedAt: stamp(j.joinedAt), build });
+    const table = j.t ? readTable(j.t) : null;
+    joined.push({ ...cls, joinedAt: stamp(j.joinedAt), build, ...(table && table.classId === cls.id ? { table } : {}) });
   }
   return { me: isId(data.me) ? data.me : "", teaching, joined };
 }
@@ -68,7 +70,7 @@ export function writeBook(book: ClassBook): string {
     v: 1,
     me: book.me,
     teaching: book.teaching.map((t) => ({ role: t.role, createdAt: t.createdAt, c: classWire(t), r: t.register.map(reportWire) })),
-    joined: book.joined.map((j) => ({ joinedAt: j.joinedAt, build: j.build, c: classWire(j) })),
+    joined: book.joined.map((j) => ({ joinedAt: j.joinedAt, build: j.build, c: classWire(j), ...(j.table ? { t: tableWire(j.table) } : {}) })),
   };
   return JSON.stringify(stored);
 }
@@ -90,13 +92,22 @@ export function dropTaught(book: ClassBook, id: string): ClassBook {
 /** Join a class, or bring in its newer projects if already in it. */
 export function putJoined(book: ClassBook, cls: ClassInfo, build: Record<string, string>, now = Date.now()): { book: ClassBook; result: "joined" | "updated" } {
   const before = book.joined.find((j) => j.id === cls.id);
-  const next: JoinedClass = { ...info(cls), joinedAt: before?.joinedAt || now, build };
+  const next: JoinedClass = { ...info(cls), joinedAt: before?.joinedAt || now, build, ...(before?.table ? { table: before.table } : {}) };
   const others = book.joined.filter((j) => j.id !== cls.id);
   return { book: { ...book, joined: [...others, next].sort((a, b) => a.joinedAt - b.joinedAt) }, result: before ? "updated" : "joined" };
 }
 
 export function dropJoined(book: ClassBook, id: string): ClassBook {
   return { ...book, joined: book.joined.filter((j) => j.id !== id) };
+}
+
+/** Keep a League table with the class it's for, if this browser has joined it: the newest one wins. */
+export function putTable(book: ClassBook, table: SharedTable): { book: ClassBook; result: "kept" | "same" | "older" | "not-joined" } {
+  const cls = book.joined.find((j) => j.id === table.classId);
+  if (!cls) return { book, result: "not-joined" };
+  if (cls.table && cls.table.sentAt === table.sentAt) return { book, result: "same" };
+  if (cls.table && cls.table.sentAt > table.sentAt) return { book, result: "older" };
+  return { book: { ...book, joined: book.joined.map((j) => (j.id === cls.id ? { ...j, table } : j)) }, result: "kept" };
 }
 
 export type AddResult = "added" | "replaced" | "same" | "older" | "no-class";

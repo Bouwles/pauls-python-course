@@ -30,7 +30,7 @@ export default function Syllabus() {
       <header className={styles.head}>
         <h1 className={styles.title}>The syllabus</h1>
         <p className={styles.lede}>
-          {WORDS[index.acts.length] ?? index.acts.length} Acts, {totalJobs} projects, about {totalHours} hours. From a first print statement to an agent that wins at the Arcade. The first four Acts are Python and computer science; the next four are data, machine learning, deep learning and reinforcement learning; the last is capstone projects.
+          {WORDS[index.acts.length] ?? index.acts.length} Acts, {totalJobs} projects, about {totalHours} hours, from a first print statement to an agent that wins at the Arcade. The first four Acts are Python and computer science; the next four are data, machine learning, deep learning and reinforcement learning; the last is capstone projects.
         </p>
         <nav className={styles.contents} aria-label="Acts">
           <ol>
@@ -104,7 +104,6 @@ export default function Syllabus() {
         })}
       </div>
       <div className={styles.foot}>
-        <p className={styles.footText}>No account needed: start, and your work is kept as you go.</p>
         <div className={styles.footButtons}>
           <LinkButton href={`/job/${first?.id ?? "shop-sign"}`} variant="primary">
             Start the first project

@@ -39,7 +39,7 @@ export function ShortcutsSheet({ onClose }: { onClose: () => void }) {
           </div>
         ))}
       </dl>
-      <p className={styles.note}>Indents are always four spaces. Python reads indentation as structure, so mixing widths causes errors that are hard to see.</p>
+      <p className={styles.note}>Indents are always four spaces.</p>
     </dialog>
   );
 }

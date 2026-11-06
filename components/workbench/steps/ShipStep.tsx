@@ -17,6 +17,10 @@ import { download, readme, withWorkshopStub, zip } from "@/lib/export";
 import { pickShown, showsInRoom } from "../../art/PixelRoom";
 import { Button, LinkButton } from "../../ui/Button";
 import { Icon } from "../../ui/Icon";
+import { SaveReminder } from "../../settings/SaveReminder";
+import { ShareButton } from "../../share/ShareButton";
+import { shippedCode } from "../../share/code";
+import { encodeProject } from "@/lib/share-links";
 import { CodeWorkspace } from "../CodeWorkspace";
 import { Instructions } from "../Instructions";
 import { AT_SOMEONE, GLUM, SpokenLine, Stage, celebrationFor, othersIn, roomOf, useAsides, useConversation, useStageCast, useVisit, type Mouth, type StagePerson } from "../Scene";
@@ -376,7 +380,7 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
             </div>
           )}
           {step.places ? (
-            <p className={styles.lede}>The next Act is open in the Clocktower. These projects stay open if you want them, and their ideas join your review deck, so Morning Rounds will still check you remember them.</p>
+            <p className={styles.lede}>The next Act is open in the Clocktower. These projects stay open, and Morning Rounds keeps checking their ideas.</p>
           ) : null}
           <div className={styles.actions}>
             {step.places ? (
@@ -405,6 +409,18 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
                 Download the project
               </Button>
             )}
+            {/* A link to the project, with its code, for friends to run (components/share). */}
+            {shipped && !step.places && !landing && store && step.shipsFrom && from && "entry" in from ? (
+              <ShareButton
+                label="Share this project"
+                title={`Share ${job.projectName || job.title}`}
+                holds="Anyone with the link can read your code and run it in their browser. The link holds your name, who you play as, and the code. Nothing is uploaded: the link is all there is."
+                make={async (maker) => {
+                  const { hash, cut } = encodeProject({ maker, jobId: job.id, shippedAt: jobProgress?.shippedAt ?? Date.now(), files: await shippedCode(store, job.id, step.shipsFrom!), cut: false });
+                  return { kind: "project", hash, note: cut ? "Some of the code was cut short to keep the link a sensible length." : null };
+                }}
+              />
+            ) : null}
           </div>
           {shipped && !step.places && !landing ? (
             <p className={styles.small}>
@@ -420,6 +436,8 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
               )}
             </p>
           ) : null}
+          {/* Only this browser holds a guest's work (always, on GitHub Pages): now and then, a nudge to keep a copy. */}
+          {shipped && !step.places && !landing && guest ? <SaveReminder store={store} className={styles.small} /> : null}
         </div>
       </div>
 

@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { decodeReport } from "@/lib/classes/link";
+import { isoWeek, weekName } from "@/lib/league/course";
 import { loadBook, putReport, saveBook, useClassBook, type AddResult } from "@/lib/classes/store";
 import type { CourseAct } from "@/lib/classes/types";
 import { shortDate } from "@/lib/teaching";
@@ -116,6 +117,22 @@ export function ReportView({ acts, names }: { acts: CourseAct[]; names: Record<s
         </h2>
         <ProjectTable report={report} course={course} labelledBy="projects-title" />
       </section>
+
+      {report.league ? (
+        <section className={`px-panel ${teach.section}`} aria-labelledby="league-title">
+          <h2 id="league-title" className={teach.h2}>
+            The Arcade League
+          </h2>
+          <p>
+            {report.league.week === isoWeek() ? "This week" : weekName(report.league.week)}: {report.league.score.toFixed(2)} moves on average, {report.league.finished} of {report.league.races} finished.
+          </p>
+          <p className={teach.meta}>
+            {report.league.checked
+              ? `Raced again in this browser from ${student.name}'s policy, so it's the course's own count. Adding this to the register puts it on the class's table.`
+              : "Their policy didn't fit in the link, so this is the score as sent."}
+          </p>
+        </section>
+      ) : null}
 
       <section className={`px-panel ${teach.section}`} aria-labelledby="code-title">
         <h2 id="code-title" className={teach.h2}>

@@ -124,7 +124,7 @@ function SheetBody({ info, progress, names, playAs, acts, placements, onClose }:
           <div className={styles.note}>
             <Icon name="medal" />
             <p>Every project on this floor is shipped.</p>
-            <CertificateButton actId={act.id} />
+            <CertificateButton act={act} progress={progress} />
           </div>
         ) : null}
 

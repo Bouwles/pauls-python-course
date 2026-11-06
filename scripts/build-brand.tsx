@@ -58,7 +58,7 @@ async function main() {
             <span style={{ fontFamily: DISPLAY, fontSize: 48 }}>{BRAND.name}</span>
           </div>
           <span style={{ fontFamily: DISPLAY, fontSize: 56, color: SUN, lineHeight: 1.1 }}>{BRAND.tagline}</span>
-          <span style={{ fontSize: 26, lineHeight: 1.4, color: NIGHT.text2 }}>Pick who you play as, then build real programs in Python with Paul, Neil and the class.</span>
+          <span style={{ fontSize: 26, lineHeight: 1.4, color: NIGHT.text2 }}>Pick who you play as, then build programs in Python with Paul, Neil and the class.</span>
         </div>
         <div style={{ display: "flex", flex: 1, alignItems: "flex-end", justifyContent: "center", gap: 0, padding: "0 80px" }}>
           {cast.map((who, i) => (

@@ -119,7 +119,7 @@
   cursor: default;
 }
 
-/* Where you are: a raised plate in the sun colour, a light top edge and a dark bottom one. */
+/* Where you are: a raised plate in the main button colour, a light top edge and a dark bottom one. */
 .current,
 .passed {
   min-width: 32px;
@@ -136,52 +136,18 @@
 }
 
 .current {
-  background: var(--sun);
-  color: var(--sun-ink);
+  background: var(--btn);
+  color: var(--btn-ink);
 }
 
 .current:hover {
-  background: var(--sun-hover);
+  background: var(--btn-hover);
 }
 
 /* The current step once its checks pass: green, raised. */
 .passed {
   background: var(--pass);
   color: var(--pass-ink);
-}
-
-/* Where you are, in words. */
-.caption {
-  flex: 1 1 0;
-  min-width: 0;
-  margin: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: var(--fs-2);
-  line-height: 1.3;
-  color: var(--text-2);
-}
-
-.count {
-  font-family: var(--font-display);
-  font-size: var(--px-1);
-  color: var(--text-2);
-}
-
-.dot {
-  padding: 0 var(--s-2);
-  color: var(--text-3);
-}
-
-.kind {
-  font-family: var(--font-display);
-  font-size: var(--px-1);
-  color: var(--text);
-}
-
-.title {
-  color: var(--text);
 }
 
 /* A phone (or the landing page's frame): the line above, the track below, scrolling. */
@@ -191,11 +157,6 @@
   gap: 0;
   height: auto;
   padding: 6px 0 0;
-}
-
-.compact .caption {
-  flex: none;
-  padding: 0 var(--s-4);
 }
 
 .compact .track {

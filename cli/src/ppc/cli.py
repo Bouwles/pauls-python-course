@@ -20,10 +20,14 @@ import urllib.request
 import webbrowser
 import xml.etree.ElementTree as ET
 import zipfile
+import zlib
 from pathlib import Path
 
-from . import __version__
+from . import __version__, _site
 from ._site import DEFAULT_SITE
+
+# The copy from the GitHub Pages version: no accounts there, so nothing to sign in to or send to.
+STATIC = bool(getattr(_site, "STATIC", False))
 
 SKIP_DIRS = {".venv", "venv", "env", "__pycache__", ".git", ".pytest_cache", ".mypy_cache", ".ruff_cache", "node_modules", ".ipynb_checkpoints"}
 MAX_FILE = 1_000_000
@@ -78,8 +82,13 @@ def site_for(args, project=None) -> str:
 def token_for(site: str) -> str:
     token = load_config().get("tokens", {}).get(site)
     if not token:
-        raise Problem(f"Not signed in to {site}. Run: ppc login")
+        raise Problem(f"Not signed in to {site}. Run: ppc login (or ppc test, to run the tests and get a result to paste on the project's page)")
     return token
+
+
+def no_accounts(site: str) -> Problem:
+    """What to say when asked for something that needs an account, on a copy of the course without them."""
+    return Problem(f"This copy of ppc comes from {site}, which has no accounts, so there's nothing to sign in to or send to. In the project folder, run: ppc test\nIt runs the tests and prints a line to paste on the project's page.")
 
 
 # ---------------------------------------------------------------------------
@@ -196,12 +205,29 @@ def summary_line(cases) -> str:
     return ", ".join(parts)
 
 
+def result_line(project: dict, cases) -> str:
+    """One line to paste on the project's page: the project, each test's outcome, and this Python, deflated."""
+    payload = {
+        "j": project.get("job"),
+        "s": project.get("step"),
+        "c": [[c["name"][:200], c["outcome"], (c["message"] or "")[:200]] for c in cases[:300]],
+        "e": f"Python {platform.python_version()} on {platform.system()} {platform.machine()}",
+        "v": __version__,
+    }
+    raw = json.dumps(payload, separators=(",", ":")).encode("utf-8")
+    squash = zlib.compressobj(9, zlib.DEFLATED, -15)
+    data = squash.compress(raw) + squash.flush()
+    return "ppc-result 1 " + base64.urlsafe_b64encode(data).decode("ascii").rstrip("=")
+
+
 # ---------------------------------------------------------------------------
 # Commands
 # ---------------------------------------------------------------------------
 
 def cmd_login(args) -> int:
     site = site_for(args)
+    if STATIC:
+        raise no_accounts(site)
     start = request("POST", f"{site}/api/device/code")
     if "user_code" not in start:
         raise Problem(start.get("error") or "The site didn't give a code. Try again in a minute.")
@@ -248,7 +274,10 @@ def cmd_status(args) -> int:
     signed_in = bool(load_config().get("tokens", {}).get(site))
     print(f"ppc {__version__}, Python {platform.python_version()}")
     print(f"Site: {site}")
-    print("Signed in." if signed_in else "Not signed in. Run: ppc login")
+    if STATIC:
+        print("No accounts on this copy of the course: run ppc test in a project and paste what it prints.")
+    else:
+        print("Signed in." if signed_in else "Not signed in. Run: ppc login")
     try:
         folder, project = find_project(Path.cwd())
         print(f"Project: {folder.name} (Job {project.get('job')}, step {project.get('step')})")
@@ -259,6 +288,8 @@ def cmd_status(args) -> int:
 
 def cmd_get(args) -> int:
     site = site_for(args)
+    if STATIC:
+        raise Problem(f"Download the project from its page instead: {site}/job/{args.job}/")
     url = f"{site}/api/takehome/starter?jobId={urllib.request.quote(args.job)}"
     data = request("GET", url, raw=True)
     if isinstance(data, dict):
@@ -283,6 +314,8 @@ def cmd_get(args) -> int:
 def hand_in(args, final: bool) -> int:
     folder, project = find_project(Path.cwd())
     site = site_for(args, project)
+    if STATIC:
+        raise no_accounts(site)
     token = token_for(site)
     cases = run_tests(folder)
     if not cases:
@@ -316,6 +349,21 @@ def hand_in(args, final: bool) -> int:
     return 0 if res.get("passes") else 1
 
 
+def cmd_test(args) -> int:
+    """Run the tests and print a result to paste on the project's page. No account needed."""
+    folder, project = find_project(Path.cwd())
+    cases = run_tests(folder)
+    if not cases:
+        raise Problem("pytest found no tests. Run ppc from inside the project folder.")
+    failing = [c for c in cases if c["outcome"] in ("failed", "error")]
+    print(f"\n{summary_line(cases)}.")
+    for c in failing[:8]:
+        print(f"  {c['name'].split('::')[-1]}: {(c['message'] or '').splitlines()[0] if c['message'] else ''}")
+    print("\nTo hand it in, copy the line below and paste it on the project's page:\n")
+    print(result_line(project, cases))
+    return 0 if not failing else 1
+
+
 def cmd_check(args) -> int:
     return hand_in(args, final=False)
 
@@ -335,6 +383,7 @@ def main(argv=None) -> int:
     p.set_defaults(fn=cmd_login)
     sub.add_parser("logout", help="forget the sign-in on this computer").set_defaults(fn=cmd_logout)
     sub.add_parser("status", help="who you're signed in as, and where").set_defaults(fn=cmd_status)
+    sub.add_parser("test", help="run the tests and print a result to paste on the project's page").set_defaults(fn=cmd_test)
     p = sub.add_parser("get", help="download a Job's starter project into this folder")
     p.add_argument("job", help="the Job's id, from its address: /job/<id>")
     p.set_defaults(fn=cmd_get)

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import type { Step } from "@/lib/content/types";
 import type { StepProgressRow } from "@/lib/store/types";
 import { Icon, type IconName } from "../ui/Icon";
@@ -49,7 +49,6 @@ const LANDMARKS = new Set<Step["type"]>(["ask", "make", "ship"]);
 export function StepBar({ steps, current, progress, onSelect }: { steps: Step[]; current: string | null; progress: Record<string, StepProgressRow>; onSelect: (id: string) => void }) {
   const { characters, compact, playAs } = useWorkbench();
   const list = useRef<HTMLOListElement>(null);
-  const [peek, setPeek] = useState<number | null>(null);
 
   const at = steps.findIndex((s) => s.id === current);
   let furthest = at;
@@ -82,12 +81,9 @@ export function StepBar({ steps, current, progress, onSelect }: { steps: Step[];
     return () => clearTimeout(t);
   }, [current, compact, centre]);
 
-  const shown = peek ?? at;
-  const said = steps[shown];
-
   return (
     <nav className={[styles.bar, compact ? styles.compact : ""].join(" ")} aria-label="Steps in this project">
-      <ol ref={list} className={styles.track} onPointerLeave={() => setPeek(null)}>
+      <ol ref={list} className={styles.track}>
         {steps.map((s, i) => {
           const row = progress[s.id];
           const done = isDone(row);
@@ -105,9 +101,6 @@ export function StepBar({ steps, current, progress, onSelect }: { steps: Step[];
                 aria-current={isCurrent ? "step" : undefined}
                 aria-disabled={!reachable || undefined}
                 title={`${label}: ${s.title}`}
-                onPointerEnter={() => setPeek(i)}
-                onFocus={() => setPeek(i)}
-                onBlur={() => setPeek(null)}
                 onClick={() => {
                   if (reachable) onSelect(s.id);
                 }}
@@ -127,17 +120,6 @@ export function StepBar({ steps, current, progress, onSelect }: { steps: Step[];
           );
         })}
       </ol>
-      {/* What the block in view is: the current step, or the one under the pointer or focus. The
-          buttons already say it to screen readers. */}
-      {said ? (
-        <p className={styles.caption} aria-hidden="true">
-          <span className={styles.count}>
-            Step {shown + 1} of {steps.length}
-          </span>
-          <span className={styles.dot}>·</span>
-          <span className={styles.kind}>{stepLabel(said, characters, playAs)}:</span> <span className={styles.title}>{said.title}</span>
-        </p>
-      ) : null}
     </nav>
   );
 }

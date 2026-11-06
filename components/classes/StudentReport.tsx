@@ -9,6 +9,30 @@ import styles from "./Classes.module.css";
 
 export const statusTone = (s: ProjectReport["status"]) => (s === "shipped" || s === "shipped-stretch" ? "shipped" : s === "in-progress" ? "progress" : "neutral");
 
+/** What was handed in from the student's own computer: Take It Home results, and milestones signed off with the link they showed. */
+function HandIns({ project }: { project: ProjectReport }) {
+  if (!project.handIns?.length) return null;
+  return (
+    <span className={styles.handIns}>
+      {project.handIns.map((h) => (
+        <span key={h.stepId} className={teach.meta}>
+          {h.kind === "tests"
+            ? `Take It Home: ${h.passed} of ${h.total} tests passed${h.done ? ", handed in" : ", not finished yet"}.`
+            : `Milestone signed off${h.passed !== null && h.total ? `, ${h.passed} of ${h.total} tests passed` : ""}.`}
+          {h.link ? (
+            <>
+              {" "}
+              <a href={h.link} target="_blank" rel="noopener noreferrer nofollow" className={styles.handInLink}>
+                {h.link.replace(/^https:\/\//, "")}
+              </a>
+            </>
+          ) : null}
+        </span>
+      ))}
+    </span>
+  );
+}
+
 export const stepsText = (p: ProjectReport) => (p.total ? `${p.passed} of ${p.total} steps` : `${p.passed} ${p.passed === 1 ? "step" : "steps"}`);
 
 /** Each set project in a report: how far, with what help, for how long, and when. */
@@ -42,6 +66,7 @@ export function ProjectTable({ report, course, labelledBy }: { report: Report; c
               <tr key={p.jobId}>
                 <th scope="row" className={teach.jobCell}>
                   {name} <span className={teach.meta}>{place}</span>
+                  <HandIns project={p} />
                 </th>
                 <td className={teach.nowrap}>
                   <Badge tone={statusTone(p.status)}>{statusLabel(p.status)}</Badge>

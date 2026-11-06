@@ -31,6 +31,8 @@ import { Editor } from "../workbench/Editor";
 import { Console } from "../workbench/Console";
 import { useRunner } from "../workbench/useRunner";
 import { GitHubPush } from "./GitHubPush";
+import { ShareButton } from "../share/ShareButton";
+import { encodeProject, encodeShelf, type SharedFile } from "@/lib/share-links";
 import styles from "./Shelf.module.css";
 
 export interface ShelfCard {
@@ -42,6 +44,8 @@ export interface ShelfCard {
   example: string | null;
   /** The program draws a chart. */
   draws: boolean;
+  /** Its code was written here in the browser, so it can be shared with a link. */
+  code?: boolean;
 }
 
 /** The learner's last run of a project from the Shelf, kept on this device for the preview. */
@@ -56,6 +60,9 @@ const PREVIEW_LINES = 8;
 const EMPTY_LINE = "Nothing on the Shelf yet. Your first project is the sign on my door. It takes about twenty minutes.";
 /** The same, from Neil, when you're playing as Paul: it's your door. */
 const EMPTY_LINE_YOURS = "Nothing on the Shelf yet. Your first project is the sign on your door. It takes about twenty minutes.";
+
+/** A project's code as the share links carry it: its files, by name. */
+const sharedFiles = (code: Files): SharedFile[] => Object.entries(code).filter(([, content]) => content.trim()).map(([name, content]) => ({ name, content }));
 
 const longDate = (ms: number | null) => (ms ? new Date(ms).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) : "");
 
@@ -149,8 +156,8 @@ export function Shelf({ cards }: { cards: ShelfCard[] }) {
         <h1 className={styles.title}>The Shelf</h1>
         <p className={styles.lede}>
           {shipped.length === 0
-            ? "Everything you ship lands here, and every one of them still runs."
-            : `${shipped.length} ${shipped.length === 1 ? "program" : "programs"} you've made. Every one of them still runs.`}
+            ? "What you ship goes here."
+            : `${shipped.length} ${shipped.length === 1 ? "program" : "programs"} you've made.`}
         </p>
       </header>
 
@@ -175,13 +182,27 @@ export function Shelf({ cards }: { cards: ShelfCard[] }) {
               <h2 id="export-title" className={styles.exportTitle}>
                 Everything, as one repository
               </h2>
-              <p className={styles.quiet}>A folder for each Act, your code, and a README for each project saying what it does and what it uses. Unzip it and push it to GitHub as it is.</p>
+              <p className={styles.quiet}>A folder for each Act, with your code and a README for each project.</p>
             </div>
             <div className={styles.exportActions}>
               <Button variant="primary" icon="download" className={styles.big} onClick={() => void exportAll()}>
                 Export everything as a repository
               </Button>
-              <GitHubPush defaultName={repoName} files={repoFiles} />
+              <GitHubPush defaultName={repoName} files={repoFiles} what="your Shelf" onDownload={() => void exportAll()} downloadLabel="Download everything" />
+              <ShareButton
+                label="Share my Shelf"
+                title="Share your Shelf"
+                holds="A link to everything you've shipped, for friends to look through and run. It holds your name, who you play as, and each project's code where it fits. Nothing is uploaded: the link is all there is."
+                make={async (maker) => {
+                  const items = [];
+                  for (const c of shipped) {
+                    const files = c.code === false ? [] : sharedFiles(await codeFor(c.item));
+                    items.push({ jobId: c.item.jobId, shippedAt: progress[c.item.jobId]?.shippedAt ?? null, files: files.length ? files : null });
+                  }
+                  const { hash, leftOut } = encodeShelf({ maker, items });
+                  return { kind: "shelf", hash, note: leftOut ? `${leftOut === 1 ? "One project's code didn't" : `${leftOut} projects' code didn't`} fit in a link, so ${leftOut === 1 ? "that one is" : "those are"} listed without it. Share a project on its own to send its code.` : null };
+                }}
+              />
             </div>
           </section>
 
@@ -229,7 +250,20 @@ export function Shelf({ cards }: { cards: ShelfCard[] }) {
                     <Button variant="secondary" size="sm" icon="download" onClick={() => void downloadOne(c)} aria-label={`Download ${c.name}`}>
                       Download
                     </Button>
-                    <GitHubPush defaultName={c.item.jobId} files={async () => projectFiles(c, await codeFor(c.item))} size="sm" label={`Push ${c.name} to GitHub`} />
+                    {c.code === false ? null : (
+                    <ShareButton
+                      label="Share"
+                      size="sm"
+                      ariaLabel={`Share ${c.name}`}
+                      title={`Share ${c.name}`}
+                      holds="Anyone with the link can read your code and run it in their browser. The link holds your name, who you play as, and the code. Nothing is uploaded: the link is all there is."
+                      make={async (maker) => {
+                        const { hash, cut } = encodeProject({ maker, jobId: c.item.jobId, shippedAt: row.shippedAt, files: sharedFiles(await codeFor(c.item)), cut: false });
+                        return { kind: "project", hash, note: cut ? "Some of the code was cut short to keep the link a sensible length." : null };
+                      }}
+                    />
+                    )}
+                    <GitHubPush defaultName={c.item.jobId} files={async () => projectFiles(c, await codeFor(c.item))} size="sm" label={`Push ${c.name} to GitHub`} what={c.name} onDownload={() => void downloadOne(c)} />
                   </div>
                 </li>
               );

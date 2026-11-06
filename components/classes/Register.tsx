@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { isoWeek } from "@/lib/league/course";
 import type { TaughtClass } from "@/lib/classes/types";
 import { duration, lastActive, shortDate, statusLabel } from "@/lib/teaching";
 import { Badge } from "../ui/Badge";
@@ -20,6 +21,9 @@ export function Register({ cls, course, names, onRemove }: { cls: TaughtClass; c
   const reading = students.find((r) => r.student.id === open) ?? null;
   const titleId = `register-${cls.id}`;
   const now = Date.now();
+  // The League column: each student's entry this week, if their latest progress link had one.
+  const week = isoWeek(new Date(now));
+  const league = students.some((r) => r.league);
 
   return (
     <div className={teach.files}>
@@ -27,7 +31,7 @@ export function Register({ cls, course, names, onRemove }: { cls: TaughtClass; c
         Register
       </h3>
       {students.length === 0 ? (
-        <p className={teach.empty}>No progress in yet. When a student sends you their progress link, open it in this browser and add it here.</p>
+        <p className={teach.empty}>No progress in yet.</p>
       ) : (
         <>
           <div className={teach.tableWrap} role="region" aria-labelledby={titleId} tabIndex={0}>
@@ -41,6 +45,7 @@ export function Register({ cls, course, names, onRemove }: { cls: TaughtClass; c
                       {jobLabel(course, a.jobId).name}
                     </th>
                   ))}
+                  {league ? <th scope="col">League this week</th> : null}
                   <th scope="col">Sent</th>
                   <th scope="col" className={teach.end}>
                     <span className="visually-hidden">Code</span>
@@ -79,6 +84,20 @@ export function Register({ cls, course, names, onRemove }: { cls: TaughtClass; c
                           </td>
                         );
                       })}
+                      {league ? (
+                        <td>
+                          {r.league?.week === week ? (
+                            <span className={styles.cell}>
+                              <span>{r.league.score.toFixed(2)}</span>
+                              <span className={styles.cellMeta}>
+                                {r.league.finished} of {r.league.races} finished
+                              </span>
+                            </span>
+                          ) : (
+                            <span className={teach.meta}>Not this week</span>
+                          )}
+                        </td>
+                      ) : null}
                       <td className={teach.nowrap}>
                         <span title={new Date(r.sentAt).toLocaleString("en-GB")}>{lastActive(r.sentAt, now)}</span>
                       </td>
@@ -93,7 +112,6 @@ export function Register({ cls, course, names, onRemove }: { cls: TaughtClass; c
               </tbody>
             </table>
           </div>
-          <p className={teach.meta}>Each row is the latest progress link added for that student. A newer one from them replaces it.</p>
         </>
       )}
       <div id={`code-${cls.id}`}>

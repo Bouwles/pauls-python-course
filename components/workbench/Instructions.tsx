@@ -7,7 +7,6 @@ import { Button } from "../ui/Button";
 import { Icon } from "../ui/Icon";
 import { Coach } from "./Coach";
 import { useWorkbench } from "./context";
-import { howTo } from "./labels";
 import styles from "./Instructions.module.css";
 
 export function Prose({ html, className }: { html: string | null | undefined; className?: string }) {
@@ -16,8 +15,7 @@ export function Prose({ html, className }: { html: string | null | undefined; cl
 }
 
 /**
- * The instructions panel (REDESIGN-2.md 4.3), top to bottom: the step's title, "What to do" (the
- * same two or three short actions on every step of its kind, on a line or two), the step's
+ * The instructions panel (REDESIGN-2.md 4.3), top to bottom: the step's title, the step's
  * explanation, the step's main action (Got it), held in view at the panel's foot when the
  * explanation is long, the coach, Hint and the duck, the step's own controls (answer cards,
  * tasks), then the project spec and the checks you can see, both folded away. No paper, no pin.
@@ -56,7 +54,6 @@ export function Instructions({
   coachAfter?: boolean;
 }) {
   const { areas, compact, panelCollapsed, setPanelCollapsed, hintsOpen, setHintsOpen, duckOpen, setDuckOpen, say, nameOf, speaker, characters, playAs } = useWorkbench();
-  const steps = howTo(step, characters, { compact, playAs });
   const folded = panelCollapsed && !compact && !wide;
 
   if (folded) {
@@ -93,18 +90,6 @@ export function Instructions({
             </button>
           )}
         </header>
-        {steps.length ? (
-          <div className={styles.howTo}>
-            <p className={styles.howToTitle} id="how-to-title">
-              What to do
-            </p>
-            <ol className={styles.howToList} aria-labelledby="how-to-title">
-              {steps.map((t) => (
-                <li key={t}>{t}</li>
-              ))}
-            </ol>
-          </div>
-        ) : null}
         <Prose html={html === undefined ? step.html : html} />
         {action ? <div className={styles.action}>{action}</div> : null}
         {coachAfter ? null : (

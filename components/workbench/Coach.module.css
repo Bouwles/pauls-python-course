@@ -59,10 +59,10 @@
     2px 0 0 0 var(--px-outline);
 }
 
-/* Lines still to read: Next is a raised pixel button in the sun colour. */
+/* Lines still to read: Next is a raised pixel button, as the main buttons. */
 .more {
-  background: var(--sun);
-  color: var(--sun-ink);
+  background: var(--btn);
+  color: var(--btn-ink);
   box-shadow:
     0 -2px 0 0 var(--px-outline),
     0 2px 0 0 var(--px-outline),
@@ -73,8 +73,8 @@
 }
 
 .more:hover:not(:disabled) {
-  background: var(--sun-hover);
-  color: var(--sun-ink);
+  background: var(--btn-hover);
+  color: var(--btn-ink);
   box-shadow:
     0 -2px 0 0 var(--px-outline),
     0 2px 0 0 var(--px-outline),

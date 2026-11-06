@@ -71,10 +71,10 @@ export function playingAs(s: Student, names: Record<string, string>): string | n
   return cast.toLowerCase() === s.name.toLowerCase() ? null : `Playing as ${cast}`;
 }
 
-const KIND_NAME: Record<LinkKind, string> = { join: "a join link", report: "a progress link", teach: "a co-teacher link" };
+const KIND_NAME: Record<LinkKind, string> = { join: "a join link", report: "a progress link", teach: "a co-teacher link", table: "a League table link" };
 
-/** What to say about a link that doesn't read. */
-export function LinkTrouble({ problem, kind, hash }: { problem: LinkProblem; kind?: LinkKind; hash: string }) {
+/** What to say about a link that doesn't read. `level` 2 for a page that has its own h1 (the League). */
+export function LinkTrouble({ problem, kind, hash, level = 1 }: { problem: LinkProblem; kind?: LinkKind; hash: string; level?: 1 | 2 }) {
   const [title, text] =
     problem === "empty"
       ? ["This link has nothing after the #", "The part that holds the class didn't come through. Ask for the link again, and copy all of it."]
@@ -89,9 +89,15 @@ export function LinkTrouble({ problem, kind, hash }: { problem: LinkProblem; kin
               : ["This link didn't come through whole", "It may have been cut short or changed when it was copied. Ask for it again, and copy all of it."];
   return (
     <section className={`px-panel ${teach.section} ${styles.trouble}`} aria-labelledby="trouble-title">
-      <h1 id="trouble-title" className={teach.h2}>
-        {title}
-      </h1>
+      {level === 1 ? (
+        <h1 id="trouble-title" className={teach.h2}>
+          {title}
+        </h1>
+      ) : (
+        <h2 id="trouble-title" className={teach.h2}>
+          {title}
+        </h2>
+      )}
       <p className={styles.troubleText}>{text}</p>
       <div className={styles.actions}>
         {problem === "wrong-kind" && kind ? (
@@ -114,7 +120,7 @@ export function ClassLine({ who, text, third, names }: { who: string; text: stri
   const speaker = speakerOf(who, profile.settings.playAs);
   // Their stand-in can't say "I" for them.
   const words = speaker !== who && third ? third : text;
-  return <Speech who={speaker} name={names[speaker] ?? speaker} text={words} size={phone ? 72 : 96} className={styles.speech} />;
+  return <Speech who={speaker} name={names[speaker] ?? speaker} text={words} size={phone ? 72 : 108} className={styles.speech} />;
 }
 
 /** The projects set for a class, with dates and notes. `side` adds something on the right of each (a status). */

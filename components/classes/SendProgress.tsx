@@ -21,7 +21,7 @@ export function SendProgress({ cls, facts, variant = "primary", withClassName = 
   const { store, profile, updateProfile } = useSession();
   const [name, setName] = useState("");
   const [busy, setBusy] = useState(false);
-  const [made, setMade] = useState<{ url: string; leftOut: number; at: number } | null>(null);
+  const [made, setMade] = useState<{ url: string; leftOut: number; league: boolean; at: number } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const needsName = !profile.displayName.trim();
   const fieldId = `send-name-${cls.id}`;
@@ -39,7 +39,7 @@ export function SendProgress({ cls, facts, variant = "primary", withClassName = 
       }
       const report = await gatherReport(store, me, cls, myId(), facts);
       const fitted = fitReport(report);
-      setMade({ url: linkUrl(window.location.origin, BASE, "report", fitted.hash), leftOut: fitted.leftOut.length, at: Date.now() });
+      setMade({ url: linkUrl(window.location.origin, BASE, "report", fitted.hash), leftOut: fitted.leftOut.length, league: Boolean(report.league), at: Date.now() });
     } catch {
       setError("That didn't work. Try again in a moment.");
     } finally {
@@ -71,7 +71,8 @@ export function SendProgress({ cls, facts, variant = "primary", withClassName = 
         <LinkBox key={made.at} url={made.url} label={`Your progress link for ${cls.teacher}`} shareTitle={`${profile.displayName || name.trim()}'s progress`} shareText={`My progress in ${cls.name}.`}>
           <p className={styles.linkNote}>
             Send it to {cls.teacher} however you like. It holds how far you are with each set project and your code for each Build step
-            {made.leftOut ? `, except ${made.leftOut === 1 ? "one project's code, which was" : `${made.leftOut} projects' code, which were`} too long for a link` : ""}.
+            {made.leftOut ? `, except ${made.leftOut === 1 ? "one project's code, which was" : `${made.leftOut} projects' code, which were`} too long for a link` : ""}
+            {made.league ? ". Your Arcade League entry this week goes too, for the class's table" : ""}.
           </p>
         </LinkBox>
       ) : null}

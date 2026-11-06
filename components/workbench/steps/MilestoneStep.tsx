@@ -2,11 +2,18 @@
 
 // A capstone milestone (Act IX): the learner writes their own test plan,
 // shows their work, and goes through Paul's checklist. Paul's review is the
-// checklist: anything not yet true comes back with why it matters.
+// checklist: anything not yet true comes back with why it matters. Signed in
+// on the local version, the work goes to the server (app/api/milestone).
+// Without an account (always, on GitHub Pages) it's kept in this browser: a
+// link (https), and the results of its tests pasted from pytest or ppc test,
+// in place of a zip there's nowhere to send. Signed off, it counts as done and
+// goes to the teacher in the class progress link (lib/classes/report.ts).
 import { useEffect, useRef, useState } from "react";
 import type { MilestoneStep } from "@/lib/content/types";
 import type { StepProgressRow } from "@/lib/store/types";
 import { PROFESSOR } from "@/lib/cast";
+import { STATIC } from "@/lib/static";
+import { parseReport, type TestReport } from "@/lib/takehome";
 import { Button } from "../../ui/Button";
 import { Instructions } from "../Instructions";
 import { useWorkbench } from "../context";
@@ -20,6 +27,8 @@ interface Saved {
   checks?: Record<string, boolean>;
   plan?: string;
   link?: string;
+  /** Test results pasted from pytest or ppc test, kept in this browser. */
+  results?: TestReport;
   reviewedAt?: number;
 }
 
@@ -30,6 +39,9 @@ export function MilestoneStepView({ step, row }: { step: MilestoneStep; row: Ste
   const [checks, setChecks] = useState<Record<string, boolean>>(saved.checks ?? {});
   const [plan, setPlan] = useState(saved.plan ?? "");
   const [link, setLink] = useState(saved.link ?? "");
+  const [resultsText, setResultsText] = useState("");
+  // No account to send it to (always, on GitHub Pages): it's kept here.
+  const here = STATIC || guest;
   const [review, setReview] = useState<{ missing: { id: string; textHtml: string; whyHtml: string }[]; notes: string[] } | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -50,11 +62,16 @@ export function MilestoneStepView({ step, row }: { step: MilestoneStep; row: Ste
     const notes: string[] = [];
     if (step.testPlan && planLines < PLAN_MIN_LINES) notes.push(`Your test plan has ${planLines} ${planLines === 1 ? "test" : "tests"}. Write at least ${PLAN_MIN_LINES}: what you'll check, and what result tells you it works.`);
     const hasZip = Boolean(zipInput.current?.files?.length);
-    if (step.evidence === "link" && !/^https:\/\/\S+$/.test(link.trim())) notes.push(`${paul} needs to see it: a link to the repository or the running project, starting with https://.`);
-    if (step.evidence === "zip" && !hasZip && !saved.reviewedAt) notes.push(`${paul} needs to see it: add the project as a zip.`);
+    const hasLink = /^https:\/\/\S+$/.test(link.trim());
+    const results = here && resultsText.trim() ? parseReport(resultsText) : null;
+    if (here && resultsText.trim() && !results) notes.push(`${paul} can't read those test results. Paste the line starting ppc-result, or the last line pytest prints (it ends like 12 passed in 0.84s).`);
+    if (results?.for && results.for.job !== job.id) notes.push(`Those test results are for another project (${results.for.job}). Run them in this project's folder.`);
+    if (step.evidence === "link" && !hasLink) notes.push(`${paul} needs to see it: a link to the repository or the running project, starting with https://.`);
+    if (step.evidence === "zip" && here && !hasLink && !results && !saved.reviewedAt) notes.push(`${paul} needs to see it: a link to the repository, starting with https://, or the results of its tests.`);
+    if (step.evidence === "zip" && !here && !hasZip && !saved.reviewedAt) notes.push(`${paul} needs to see it: add the project as a zip.`);
     setReview({ missing, notes });
     if (missing.length || notes.length) return;
-    if (!guest && !landing) {
+    if (!here && !landing) {
       setBusy(true);
       const data = new FormData();
       data.set("jobId", job.id);
@@ -78,7 +95,8 @@ export function MilestoneStepView({ step, row }: { step: MilestoneStep; row: Ste
         setBusy(false);
       }
     }
-    await markPassed(step.id, { data: { ...row.data, checks, plan, link, reviewedAt: Date.now() } });
+    await markPassed(step.id, { data: { ...row.data, checks, plan, link, ...(results ? { results } : {}), reviewedAt: Date.now() } });
+    setResultsText("");
     say(PROFESSOR, step.testPlan ? "Signed off. Keep the test plan; you'll want it at the next milestone." : "Signed off.", { kind: "pass", face: "pleased" });
   };
 
@@ -102,9 +120,9 @@ export function MilestoneStepView({ step, row }: { step: MilestoneStep; row: Ste
             <h2 id="ms-evidence" className="label">
               Show {paul}
             </h2>
-            {step.evidence === "link" ? (
+            {step.evidence === "link" || here ? (
               <label className={th.field}>
-                <span>A link to the repository or the running project</span>
+                <span>{step.evidence === "link" ? "A link to the repository or the running project" : "A link to the repository (or paste its test results below)"}</span>
                 <input type="text" inputMode="url" value={link} onChange={(e) => setLink(e.target.value)} placeholder="https://github.com/..." autoComplete="off" spellCheck={false} />
               </label>
             ) : (
@@ -113,6 +131,20 @@ export function MilestoneStepView({ step, row }: { step: MilestoneStep; row: Ste
                 <input ref={zipInput} type="file" accept=".zip,application/zip" />
               </label>
             )}
+            {here ? (
+              <>
+                <label className={th.field}>
+                  <span>{step.evidence === "link" ? "Its test results, if it has tests (optional)" : "Its test results"}</span>
+                  <textarea value={resultsText} onChange={(e) => setResultsText(e.target.value)} placeholder={"ppc-result 1 ...\nor: ===== 12 passed in 0.84s ====="} autoComplete="off" spellCheck={false} />
+                </label>
+                <p className={th.small}>Run ppc test or pytest in the project folder, and paste what it prints. It&apos;s all kept in this browser, and goes to your teacher with your progress link.</p>
+                {saved.results && done ? (
+                  <p className={th.small}>
+                    Handed in with {saved.results.passed} of {saved.results.total} {saved.results.total === 1 ? "test" : "tests"} passing.
+                  </p>
+                ) : null}
+              </>
+            ) : null}
           </section>
         ) : null}
       </Instructions>
@@ -134,7 +166,7 @@ export function MilestoneStepView({ step, row }: { step: MilestoneStep; row: Ste
                 </li>
               ))}
             </ul>
-            <p className={th.small}>Tick only what is true of your project now. Nobody checks the ticks but you; the checklist is for finding what isn&apos;t done yet.</p>
+            <p className={th.small}>Tick what&apos;s true of your project now. Nobody checks the ticks but you.</p>
             {done ? (
               <div className={th.review} role="status">
                 <p>

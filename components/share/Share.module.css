@@ -1,0 +1,116 @@
+/* Sharing what you've made: the share dialog, a link that doesn't read, and the shared Shelf's
+   project buttons. The shared project itself is SharedProject.module.css; the Shelf's cards are
+   PublicShelf.module.css. */
+
+.trouble {
+  display: grid;
+  gap: var(--s-4);
+  padding: var(--s-6);
+  max-width: 720px;
+}
+
+.troubleTitle {
+  font-size: var(--px-3);
+}
+
+.quiet {
+  font-size: var(--fs-2);
+  line-height: 1.5;
+  color: var(--text-2);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  font-size: var(--fs-2);
+  font-weight: 700;
+}
+
+/* The share dialog: what the link holds, and the link to copy. */
+.dialog {
+  width: min(560px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  padding: 0;
+  overflow: auto;
+  color: var(--text);
+  background: var(--surface-2);
+  border: 0;
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    6px 6px 0 0 var(--px-drop);
+}
+
+.dialog::backdrop {
+  background: var(--scrim);
+}
+
+.dialogBody {
+  display: grid;
+  gap: var(--s-4);
+  padding: var(--s-6);
+}
+
+.dialogHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s-3);
+}
+
+.dialogTitle {
+  font-size: var(--px-3);
+  overflow-wrap: anywhere;
+}
+
+.small {
+  font-size: var(--fs-1);
+  line-height: 1.45;
+  color: var(--text-2);
+}
+
+.error {
+  font-size: var(--fs-2);
+  color: var(--fail-text);
+}
+
+/* On the shared Shelf: a project whose code came with the link opens in the page. */
+.open {
+  width: 100%;
+  border: 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  background: var(--surface-2);
+}
+
+.open:hover {
+  background: var(--surface-3);
+}
+
+.open:hover .openName {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.openName {
+  font-family: var(--font-display);
+  font-size: var(--px-2);
+  line-height: 1;
+}
+
+.shelfNote {
+  font-size: var(--fs-2);
+  color: var(--text-2);
+}

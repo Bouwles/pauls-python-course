@@ -248,10 +248,67 @@ One line per non-obvious choice: the choice, then the reason.
   - **Who you are there:** everyone is a guest, with progress in their browser.
   - **Checks and solutions** are written as files under `/data`. The solution keeps the server's rule: passed, or three hints and 8 minutes.
   - **Isolation headers:** Pages can't send the headers that `input()` and Stop need, so the service worker adds them and the page reloads once when it takes over (`lib/sw/sw-template.js` with `ISOLATE`).
-  - **What isn't there:** the League, certificates, account-based classes and GitHub push need a server, so they aren't on Pages.
+  - **What isn't there:** account-based classes and public profiles need a server, so they aren't on Pages. The League, certificates, sharing, Take It Home hand-ins and GitHub push work in the browser instead (below).
 - **Classes through links (`/class`, `lib/classes/`):**
   - No server: a class lives in the teacher's browser.
   - The join link carries the class and what's set. A student's progress link carries their progress and their Build code. A co-teacher link carries the class and its register.
   - Each link is deflated JSON in the URL's hash, decoded defensively.
   - It works the same locally and on Pages.
 - **Public repository:** Bouwles/pauls-python-course had an earlier, separate static site. Its history was kept by merging it into this one, and its MIT licence is kept. The new site replaces the old one on the same address.
+
+## On GitHub Pages too: certificates, sharing, hand-ins, the ppc tool and GitHub push
+- **The owner's call:** "Fix everything missing on Pages. Find a way." No full sign-in.
+- **Links carry the work (`lib/share-links.ts`):**
+  - A certificate opens at `/certificate/#1.<data>`, a shared project or a whole Shelf at `/share/#1.<data>`. The data is deflated JSON in base64url, like the class links, decoded just as defensively.
+  - They have their own version number, separate from the class links, so a change there never breaks a certificate someone printed.
+  - Nothing is uploaded: the link is all there is.
+- **Certificates (`components/certificates`):**
+  - "Get the certificate" on a finished floor checks this browser's progress: every main project in the Act shipped. It asks for a name if there isn't one.
+  - The link holds the name, the Act, how many projects, the day the last of them shipped (so the same progress always makes the same link), and who you play as.
+  - The page draws the server version's design from one layout (`art.ts`): an SVG on the page, which prints as vectors, and the same shapes on a canvas for "Save as a picture" (2000 by 1414). Text is measured with the fonts the page has loaded, so both agree.
+  - "Print or save as PDF" uses a print stylesheet: the certificate alone, on one A4 landscape page.
+  - The page says plainly what it is: drawn from the link, which nothing signs, so a keepsake for friends rather than proof.
+  - Signed in on the local version, the server still issues its own verified certificate (`/certificates/<id>`).
+- **Sharing (`components/share`):**
+  - "Share" on each Shelf card and "Share this project" after the Ship carry your name, who you play as, the project and your code. Each file is capped, then the biggest halved until the link is under 16,000 characters, and the page says if it was cut.
+  - "Share my Shelf" lists everything shipped, with each project's code where it fits (the biggest left out first), so a friend can open any of them and run it.
+  - The page runs it read only in the same editor and console. A project's data files come from `/share/data/<project>.json`, written at build time, so a CSV-reading program runs there too.
+  - Take It Home and capstone projects were built on the learner's own computer, so they have no Share button.
+- **Take It Home and milestones without an account (always, on Pages):**
+  - The result is pasted and read in the browser: the line `ppc test` prints, pytest's last line, or report.xml. Results for another project are refused.
+  - It counts like any other step, and goes to the teacher in the progress link.
+  - A milestone takes its https link and, if you like, its test results; on Pages these replace the zip there's nowhere to send.
+  - A progress link carries hand-ins beside the projects (`hi`, next to the League's `lg`), so a link without them reads as it always did and no version change was needed. The teacher sees them under each project.
+- **The ppc tool:**
+  - `lib/ppc-zip.ts` builds ppc.zip for both the route and the Pages build. The Pages copy is written into `public/` before the build and removed after; it's marked `STATIC = True`.
+  - New `ppc test` runs the tests and prints one line to paste (no account needed, anywhere).
+  - On the Pages copy, `ppc login`, `check`, `submit` and `get` explain that there are no accounts and point to `ppc test`, or the project's page for its download.
+- **GitHub push from the browser (`components/shelf/github.ts`):**
+  - With no OAuth app (always, on Pages), "Push to GitHub" asks once for a fine-grained token, kept in this browser only. It's in its own localStorage key, so it's never in a save file or a link.
+  - The steps it shows: make an empty repository, then a token for just that repository with Contents set to Read and write and nothing else.
+  - Contents can't make repositories, so when the repository isn't there, and the token can't make it, it links to GitHub's new-repository page with the name filled in.
+  - An empty repository is started with its README through the contents API; everything else goes in one tree and one commit.
+  - "Download the project" (or "Download everything") stays in the same dialog as the simple way.
+
+## Saving without an account, and the League in the browser
+
+- **A save (`lib/save/`, `components/settings/YourSave.tsx`):** students needed a way to keep their work without signing in.
+  - It's everything the browser holds (progress, code, the review deck, classes, League entries) as a file, or as one line of text starting `ppc-save.1.`, for pasting into a note.
+  - Loading shows what's in it first, then offers replace or merge. Merging keeps the furthest you got on each step and project, the newest code, and the newest League entry for each week.
+  - "Load a save" sits at the foot of "Who's playing?", so someone coming back on a new device can skip the choosing.
+- **The League (`lib/league/`):** it raced on the server before, and now races in the browser.
+  - The course and each week's seeds are fixed, so any browser works out the same score for the same entry.
+  - The class are on the table with entries of their own (`lib/league/cast.ts`), so a lone player still has a time to beat.
+  - In a class, an entry travels with the progress link (`lg`), and the teacher can share the table as a link.
+
+## Plainer: fewer words, no yellow buttons
+
+The owner said the site looked and read as if it was AI generated.
+
+- **Main buttons (`--btn` tokens):** chalk on the dark page and ink on the light one, in place of the yellow. Yellow stays as an accent on things that aren't buttons: floor signs, progress, Paul's colour.
+- **Headers:** the save cloud shows only with an account, since a guest has nothing to sync. The map icon went because the logo already goes home, "Log in" moved to Settings only, and the step bar's caption went because each step has a tooltip and the page has its title.
+- **"What to do":** removed from every step. The step's own words and its one main button already say it.
+- **Wording:** intros and hints that explained how a page works were cut or reduced to a line. Warnings and what a save merge does stay, because they change what someone chooses.
+- **Who you play as (`playable.ts`):** `about` is a whole sentence, where it used to be a phrase after "Into", so a card can say something else. Caitlin's says "Let's act like I knew what to put here.", in the owner's words.
+- **Code in speech:** lines in `content/characters/` put code in backticks, which used to show as typed. `Speech` now sets it as code and leaves the backticks out for screen readers.
+- **Take It Home commands:** a long command wraps in its box and Copy takes it whole. A box that scrolled sideways couldn't be reached by keyboard.
