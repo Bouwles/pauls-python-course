@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { ShipStep, StretchTask } from "@/lib/content/types";
 import type { CheckReport, Files, ReviewResult } from "@/lib/python/protocol";
@@ -8,7 +9,7 @@ import type { StepProgressRow } from "@/lib/store/types";
 import { updateJob } from "@/lib/store/progress";
 import { useSession } from "@/lib/store/session";
 import { playSound } from "@/lib/sound";
-import { PROFESSOR, castColour } from "@/lib/cast";
+import { PROFESSOR, castColour, floorFor } from "@/lib/cast";
 import { moodOf } from "@/lib/mood";
 import { gestureOf } from "@/lib/pixel/gestures";
 import { pickLine } from "@/lib/reactions";
@@ -38,13 +39,13 @@ function plainText(html: string): string {
 
 /**
  * The Ship (REDESIGN-2.md 4.6): the finished program running in a demo frame, the client's
- * reaction, and "Add to my Shelf", which stamps it shipped, with the client celebrating in a way
+ * reaction (yours, as "You", on your own project: lib/playas.ts), and "Add to my Shelf", which stamps it shipped, with the client celebrating in a way
  * of their own (Neil launches a rocket, Caitlin wins on her controller), different for each
  * project. "Download the project" takes the code home. Before the Build step passes, the client
  * is waiting for it, getting on with something in their room.
  */
 export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressRow }) {
-  const { areas, job, progress, jobProgress, shipJob, markPassed, goTo, characters, conceptTitles, landing, guest, store, nextJob, nameOf, actTitle, compact } = useWorkbench();
+  const { areas, job, progress, jobProgress, shipJob, markPassed, goTo, characters, conceptTitles, landing, guest, store, nextJob, nameOf, speaker, speakerName, ownProject, actTitle, compact } = useWorkbench();
   const { profile } = useSession();
   const [stretch, setStretch] = useState<StretchTask | null>(null);
   const [review, setReview] = useState<ReviewResult | null>(null);
@@ -66,7 +67,11 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
   const shipFiles = from && "entry" in from ? { files: from.files, entry: from.entry } : { files: ["main.py"], entry: "main.py" };
   const client = job.client;
   const clientName = nameOf(client);
-  const paul = nameOf(PROFESSOR);
+  // On the stage's name plate: "You", on your own project.
+  const plate = speakerName(client);
+  // Paul reviews it and welcomes a placement; Neil does when you're Paul.
+  const host = speaker(PROFESSOR);
+  const paul = nameOf(host);
   const lines = useMemo(() => step.dialogue.filter((l) => isSpoken(l.who)).slice(0, 3), [step.dialogue]);
   const talk = useConversation(lines.length, ready && !step.places);
   // The client says their lines (the first celebrates, as only they would), then gets on with
@@ -93,7 +98,7 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
   const saying = Boolean(waitingLine) && !waitSaid;
   const waitAside = useAsides([{ who: client, free: !ready && (waitLoaded || landing) && !saying, tags: ["wait", "idle", "work"], act: room }], { seed: `${job.id}|waiting|${visit}`, avoid: [waitLook?.gesture, ...AT_SOMEONE] })[client]!;
   // A placement: Paul in the Workshop, pleased with you, now approving, now celebrating.
-  const placed = useAsides([{ who: PROFESSOR, free: Boolean(ready && step.places), tags: ["celebrate", "approve"], act: roomOf(PROFESSOR, 1) }], { seed: `${job.id}|placed|${visit}`, avoid: GLUM })[PROFESSOR]!;
+  const placed = useAsides([{ who: host, free: Boolean(ready && step.places), tags: ["celebrate", "approve"], act: roomOf(host, 1) }], { seed: `${job.id}|placed|${visit}`, avoid: GLUM })[host]!;
 
   // A placement ships as soon as its tasks pass: there's nothing to put on a Shelf.
   useEffect(() => {
@@ -105,9 +110,14 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready]);
 
-  // While the learner is still building, the client says one line about waiting.
+  // While the learner is still building, the client says one line about waiting. Nobody waits
+  // on your own project but you, so then it's quiet.
   useEffect(() => {
     if (ready || landing) return;
+    if (ownProject) {
+      setWaitLoaded(true);
+      return;
+    }
     void pickLine(store, characters, client, "waiting").then((line) => {
       setWaitingLine(line);
       setWaitLoaded(true);
@@ -268,12 +278,12 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
       <div className={areas.full}>
         <div className={[styles.ship, styles.waiting].join(" ")}>
           <div className={styles.stageWrap}>
-            <Stage act={room} lead={lead} name={clientName} label={`${clientName} at their desk, waiting for the finished program`} />
+            <Stage act={room} lead={lead} name={plate} label={ownProject ? "You, at your own desk, waiting for the finished program" : `${clientName} at their desk, waiting for the finished program`} />
           </div>
           <div className={styles.side}>
             <header className={styles.head}>
               <p className={styles.kicker}>Not shipped yet</p>
-              <h1 className={styles.title}>{clientName} is waiting for it</h1>
+              <h1 className={styles.title}>{ownProject ? "Yours once it works" : `${clientName} is waiting for it`}</h1>
             </header>
             {waitingLine ? <SpokenLine who={client} name={clientName} text={waitingLine} tail={compact ? "top" : "left"} live onMouth={setWaitMouth} onDone={() => setWaitSaid(true)} className={styles.line} /> : null}
             <p className={styles.lede}>{waitingFor.length > 1 ? `This ships when all its tasks pass. ${waitingFor.length} still to go.` : `It ships when ${from?.title ?? "the Build step"} passes its checks.`}</p>
@@ -306,13 +316,13 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
       <div className={styles.ship}>
         {step.places ? (
           <div className={styles.stageWrap}>
-            <Stage act={roomOf(PROFESSOR, 1)} lead={{ who: PROFESSOR, face: placed.face ?? "proud", gesture: placed.gesture }} name={paul} label={`${paul} in the Workshop, pleased with your placement`} />
+            <Stage act={roomOf(host, 1)} lead={{ who: host, face: placed.face ?? "proud", gesture: placed.gesture }} name={paul} label={`${paul} in the ${floorFor(roomOf(host, 1))?.room.replace(/^The /, "") ?? "Workshop"}, pleased with your placement`} />
             {stamp}
           </div>
         ) : (
           <div className={styles.demo}>
             <p className={styles.deviceLabel}>
-              {job.title} on {clientName}&apos;s phone
+              {job.title} on {ownProject ? "your" : `${clientName}'s`} phone
             </p>
             <div className={`code-dark ${styles.device}`} style={{ ["--device" as string]: c.face }}>
               <span className={styles.speaker} aria-hidden="true" />
@@ -338,30 +348,30 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
         )}
         <div className={styles.side}>
           <header className={styles.head}>
-            <p className={styles.kicker}>{step.places ? `Placed past ${step.places.actTitle}` : `For ${clientName}`}</p>
+            <p className={styles.kicker}>{step.places ? `Placed past ${step.places.actTitle}` : ownProject ? "Your own project" : `For ${clientName}`}</p>
             <h1 className={styles.title}>{step.places ? "You're placed" : shipped ? `${job.title}, shipped` : "Ready to ship"}</h1>
           </header>
           {step.places ? null : (
             <div className={styles.reaction}>
               <div className={styles.reactionStage}>
-                <Stage act={room} lead={person(client)} guests={othersIn(lines, client).map(person)} name={clientName} label={`${clientName} at their desk, pleased with it`} />
+                <Stage act={room} lead={person(client)} guests={othersIn(lines, client).map(person)} name={plate} label={ownProject ? "You, at your own desk, pleased with it" : `${clientName} at their desk, pleased with it`} />
                 {stamp}
               </div>
               {lines.length ? (
-                <ol className={styles.lines} aria-label={`What ${clientName} says`}>
+                <ol className={styles.lines} aria-label={ownProject ? "What you say" : `What ${clientName} says`}>
                   {lines.slice(0, talk.shown).map((l, i) => {
                     const again = i > 0 && lines[i - 1]!.who === l.who;
                     const live = talk.live(i);
                     return (
                       <li key={i} className={[styles.lineItem, again ? styles.same : ""].join(" ")}>
-                        <SpokenLine who={l.who} name={again ? undefined : nameOf(l.who)} text={l.text} tail={again ? "none" : "top"} live={live} onMouth={talk.setMouth} onDone={live ? talk.lineDone : undefined} />
+                        <SpokenLine who={l.who} name={again ? undefined : speakerName(l.who)} text={l.text} tail={again ? "none" : "top"} live={live} onMouth={talk.setMouth} onDone={live ? talk.lineDone : undefined} />
                       </li>
                     );
                   })}
                 </ol>
               ) : null}
               <p className="visually-hidden" aria-live="polite">
-                {talk.skipped || !lines[talk.at] ? "" : `${nameOf(lines[talk.at]!.who)}: ${lines[talk.at]!.text}`}
+                {talk.skipped || !lines[talk.at] ? "" : `${speakerName(lines[talk.at]!.who)}: ${lines[talk.at]!.text}`}
               </p>
             </div>
           )}
@@ -378,8 +388,8 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
                 Add to my Shelf
               </Button>
             ) : landing ? (
-              <LinkButton href="/signup?keep=1" variant="primary">
-                Keep it: make an account
+              <LinkButton href="/" variant="primary" icon="next">
+                Keep going in the Clocktower
               </LinkButton>
             ) : nextJob ? (
               <LinkButton href={`/job/${nextJob.id}`} variant="primary" icon="next">
@@ -400,12 +410,12 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
             <p className={styles.small}>
               {guest ? (
                 <>
-                  It&apos;s on this device&apos;s Shelf. <a href="/signup?keep=1">Make an account</a> to keep it everywhere.
+                  It&apos;s on your Shelf, in this browser. <Link href="/shelf">Open the Shelf</Link>
                 </>
               ) : (
                 <>
                   {step.shelf ? `On your Shelf: ${step.shelf.label}. ` : null}
-                  <a href="/shelf">Open the Shelf</a>
+                  <Link href="/shelf">Open the Shelf</Link>
                 </>
               )}
             </p>

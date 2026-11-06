@@ -25,6 +25,8 @@ fs.writeFileSync(
   path.join(pyOut, "config.json"),
   JSON.stringify({ version, packageBaseUrl: `https://cdn.jsdelivr.net/pyodide/v${version}/full/` }),
 );
-const sw = fs.readFileSync(path.join(root, "lib", "sw", "sw-template.js"), "utf8").replace("__PYODIDE_VERSION__", version);
+// The GitHub Pages build has the service worker add the isolation headers (lib/sw/sw-template.js).
+const isolate = process.env.NEXT_PUBLIC_PPC_STATIC === "1";
+const sw = fs.readFileSync(path.join(root, "lib", "sw", "sw-template.js"), "utf8").replace("__PYODIDE_VERSION__", version).replace("__ISOLATE__", String(isolate));
 fs.writeFileSync(path.join(root, "public", "sw.js"), sw);
 console.log(`pyodide ${version} copied to public/pyodide; service worker written`);

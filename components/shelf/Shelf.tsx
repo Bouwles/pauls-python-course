@@ -7,7 +7,8 @@
 // the others cheer again when you point at their card. How they stand and how they celebrate is
 // their own, chosen per card and per visit (lib/pixel/variety.ts), so no two cards are alike. Run
 // opens the program in a sheet with its code and a console; Download and Push to GitHub work as
-// they always have.
+// they always have. Playing as one of the class (lib/playas.ts), the projects you were the client
+// of are yours: you stand beside them, and they say "Yours".
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSession } from "@/lib/store/session";
 import { getCode } from "@/lib/store/progress";
@@ -16,6 +17,7 @@ import { isShipped } from "@/lib/progress-rules";
 import { download, projectFolder, readme, repoReadme, slug, withWorkshopStub, zip, type ShelfItem } from "@/lib/export";
 import type { Files } from "@/lib/python/protocol";
 import { castColour, CAST_IDS, PROFESSOR } from "@/lib/cast";
+import { isYou, playingAs, speakerOf } from "@/lib/playas";
 import { useMedia } from "@/lib/useMedia";
 import { moodOf } from "@/lib/mood";
 import { pickGesture } from "@/lib/pixel/variety";
@@ -52,6 +54,8 @@ interface SavedRun {
 const runKey = (jobId: string) => `shelf-run/${jobId}`;
 const PREVIEW_LINES = 8;
 const EMPTY_LINE = "Nothing on the Shelf yet. Your first project is the sign on my door. It takes about twenty minutes.";
+/** The same, from Neil, when you're playing as Paul: it's your door. */
+const EMPTY_LINE_YOURS = "Nothing on the Shelf yet. Your first project is the sign on your door. It takes about twenty minutes.";
 
 const longDate = (ms: number | null) => (ms ? new Date(ms).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) : "");
 
@@ -63,6 +67,9 @@ export function Shelf({ cards }: { cards: ShelfCard[] }) {
   const [pointed, setPointed] = useState<string | null>(null);
   const phone = useMedia("(max-width: 720px)");
   const visit = useVisit();
+  const playAs = playingAs(profile.settings.playAs);
+  const host = speakerOf(PROFESSOR, playAs);
+  const emptyLine = host === PROFESSOR ? EMPTY_LINE : EMPTY_LINE_YOURS;
 
   useEffect(() => {
     if (!store) return;
@@ -150,11 +157,11 @@ export function Shelf({ cards }: { cards: ShelfCard[] }) {
       {shipped.length === 0 ? (
         <div className={styles.empty}>
           <Speech
-            who={PROFESSOR}
-            name="Paul"
-            text={EMPTY_LINE}
+            who={host}
+            name={host.charAt(0).toUpperCase() + host.slice(1)}
+            text={emptyLine}
             face="pleased"
-            gesture={moodOf(EMPTY_LINE, { face: "pleased", gesture: "point" }, { who: PROFESSOR, seed: `shelf|${visit}`, small: phone }).gesture}
+            gesture={moodOf(emptyLine, { face: "pleased", gesture: "point" }, { who: host, seed: `shelf|${visit}`, small: phone }).gesture}
             size={phone ? 72 : 108}
           />
           <LinkButton href="/job/shop-sign" variant="primary">
@@ -208,7 +215,7 @@ export function Shelf({ cards }: { cards: ShelfCard[] }) {
                     )}
                     <div className={styles.bodyText}>
                       <h2 className={styles.name}>{c.name}</h2>
-                      <p className={styles.meta}>For {c.item.client}.</p>
+                      <p className={styles.meta}>{isYou(c.clientId, playAs) ? "Yours." : `For ${c.item.client}.`}</p>
                       <p className={styles.meta}>
                         Shipped {longDate(row.shippedAt)}
                         {row.status === "shipped-stretch" ? ", with a stretch task" : ""}
@@ -231,7 +238,7 @@ export function Shelf({ cards }: { cards: ShelfCard[] }) {
         </>
       )}
 
-      {openCard ? <RunSheet key={openCard.item.jobId} card={openCard} codeFor={codeFor} onRan={(run) => void saveRun(openCard.item.jobId, run)} onClose={() => setOpen(null)} /> : null}
+      {openCard ? <RunSheet key={openCard.item.jobId} card={openCard} yours={isYou(openCard.clientId, playAs)} codeFor={codeFor} onRan={(run) => void saveRun(openCard.item.jobId, run)} onClose={() => setOpen(null)} /> : null}
     </div>
   );
 }
@@ -266,7 +273,7 @@ function Preview({ card, run }: { card: ShelfCard; run: SavedRun | null }) {
 }
 
 /** The program open on the bench: its code, read only, and a console. It runs as it opens. */
-function RunSheet({ card, codeFor, onRan, onClose }: { card: ShelfCard; codeFor: (i: ShelfItem) => Promise<Files>; onRan: (r: SavedRun) => void; onClose: () => void }) {
+function RunSheet({ card, yours, codeFor, onRan, onClose }: { card: ShelfCard; yours: boolean; codeFor: (i: ShelfItem) => Promise<Files>; onRan: (r: SavedRun) => void; onClose: () => void }) {
   const runner = useRunner();
   const dialog = useRef<HTMLDialogElement>(null);
   const [code, setCode] = useState<Files | null>(null);
@@ -309,7 +316,9 @@ function RunSheet({ card, codeFor, onRan, onClose }: { card: ShelfCard; codeFor:
           <h2 id="sheet-title" className={styles.name}>
             {card.name}
           </h2>
-          <p className={styles.meta}>For {item.client}. Act {item.actNumber}.</p>
+          <p className={styles.meta}>
+            {yours ? "Yours" : `For ${item.client}`}. Act {item.actNumber}.
+          </p>
         </div>
         <Button variant="ghost" size="sm" icon="close" onClick={close} aria-label="Close" className={styles.close} />
       </header>

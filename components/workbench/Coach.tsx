@@ -39,7 +39,7 @@ export function coachLooks(said: Utterance[], stepId: string): { face: Expressio
  * newest line.
  */
 export function Coach() {
-  const { coach, coachTo, nameOf, step } = useWorkbench();
+  const { coach, coachTo, speakerName, step } = useWorkbench();
   const box = useRef<HTMLElement>(null);
   const current: Utterance | undefined = coach.said[coach.index];
   const stepId = step?.id ?? "";
@@ -52,7 +52,8 @@ export function Coach() {
   }, [reacting]);
 
   if (!current) return null;
-  const name = nameOf(current.who);
+  // Your own lines (your old code, on a "fix my version" step) are labelled "You".
+  const name = speakerName(current.who);
   const count = coach.said.length;
   const first = coach.index === 0;
   const last = coach.index === count - 1;

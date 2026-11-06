@@ -451,3 +451,77 @@
     padding: var(--s-4);
   }
 }
+
+/* Who you're playing as: seven pixel tiles over real radios, a face on each one's colour. The
+   chosen one is pressed in, in blue, like the segmented choices. */
+.playAs {
+  border: 0;
+  margin: 0;
+  padding: var(--s-2) 0 0;
+  min-width: 0;
+}
+
+.castGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: var(--s-4);
+  padding: 2px;
+}
+
+.castTile {
+  display: grid;
+  justify-items: center;
+  gap: var(--s-2);
+  padding: var(--s-3) var(--s-2);
+  background: var(--surface-2);
+  cursor: pointer;
+  text-align: center;
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-hi),
+    inset 0 -4px 0 0 var(--px-lo),
+    4px 4px 0 0 var(--px-drop);
+}
+
+.castTile:hover {
+  background: var(--surface-3);
+}
+
+.castTile:focus-within {
+  outline: 2px solid var(--sun);
+  outline-offset: 4px;
+}
+
+.castTile.on,
+.castTile.on:hover {
+  background: var(--blue-wash);
+  box-shadow:
+    0 -2px 0 0 var(--blue),
+    0 2px 0 0 var(--blue),
+    -2px 0 0 0 var(--blue),
+    2px 0 0 0 var(--blue),
+    inset 0 0 0 2px var(--blue),
+    4px 4px 0 0 var(--px-drop);
+}
+
+.castFace {
+  display: grid;
+  place-items: end center;
+  width: 68px;
+  height: 68px;
+  overflow: hidden;
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline);
+}
+
+.castName {
+  font-size: var(--fs-2);
+  font-weight: 700;
+  line-height: 1.2;
+}

@@ -3,6 +3,7 @@
 // Who is here, and where their work is kept.
 // Guests get a local-only store. Signed-in learners get a store that syncs,
 // and any guest progress on this device is moved into their account.
+import { BASE, STATIC } from "../static";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { LocalStore, databaseExists } from "./local";
 import { SyncEngine, type SyncStatus } from "./sync";
@@ -57,11 +58,16 @@ export function SessionProvider({ children, initialUser = null }: { children: Re
 
   const attachSeq = useRef(0);
 
+  // Settles once the attach that opened the current store has loaded its profile.
+  const loadingRef = useRef<Promise<void> | null>(null);
   const attach = useCallback(async (next: SessionUser | null) => {
     const seq = ++attachSeq.current;
     const scope = next ? next.id : "guest";
-    // Same person as before: keep the store (and anything subscribed to it).
+    // Same person as before: keep the store (and anything subscribed to it). If the attach that
+    // opened it is still loading the profile (React runs the first one twice in development),
+    // wait for it: until the profile is in, nothing may decide this is a new player.
     if (storeRef.current && storeRef.current.scope === scope) {
+      await loadingRef.current;
       if (next && syncRef.current) {
         if (await pullWithRetry(syncRef.current)) setSynced(true);
         void syncRef.current.flush();
@@ -69,6 +75,8 @@ export function SessionProvider({ children, initialUser = null }: { children: Re
       setReady(true);
       return;
     }
+    let loaded = () => {};
+    loadingRef.current = new Promise<void>((resolve) => (loaded = resolve));
     syncRef.current?.stop();
     syncRef.current = null;
     const previous = storeRef.current;
@@ -85,6 +93,7 @@ export function SessionProvider({ children, initialUser = null }: { children: Re
     if (seq !== attachSeq.current) {
       // A newer attach has taken over.
       await s.close();
+      loaded();
       return;
     }
     storeRef.current = s;
@@ -105,10 +114,16 @@ export function SessionProvider({ children, initialUser = null }: { children: Re
     setProfile(p);
     applyDisplaySettings(p.settings);
     s.subscribe("profile", () => void getProfile(s).then(setProfile));
+    loaded();
     setReady(true);
   }, []);
 
   const refresh = useCallback(async () => {
+    // GitHub Pages: no server, so everyone is a guest with their progress in this browser.
+    if (STATIC) {
+      await attach(null);
+      return null;
+    }
     const res = await fetch("/api/auth/me", { cache: "no-store" });
     const body = (await res.json()) as { user: SessionUser | null; mode: "local" | "supabase"; oauth: ("google" | "github")[] };
     setMode(body.mode);
@@ -144,7 +159,7 @@ export function SessionProvider({ children, initialUser = null }: { children: Re
     // Don't leave a learner's work on a shared computer.
     if (storeRef.current) await storeRef.current.destroy();
     storeRef.current = null;
-    window.location.href = "/";
+    window.location.href = `${BASE}/`;
   }, []);
 
   const value = useMemo<SessionValue>(

@@ -3,9 +3,8 @@
 export const BRAND = {
   name: "Paul's Python Course",
   shortName: "PPC",
-  tagline: "Learn Python by building real things.",
-  description:
-    "Paul's Python Course takes you from your first line of Python to machine learning and reinforcement learning, one real project at a time. A bill splitter, a to-do app, a weather app, a Flask website, a spam filter, a game-playing AI. You write real code in your browser, and everything you build is yours to keep.",
+  tagline: "Python with the class, in the Clocktower.",
+  description: "Paul's Python class for his friends: real projects in Python, from a first print() to machine learning, with Paul, Neil and the class.",
   domain: "paulspythoncourse.example", // the owner will replace this
   supportEmail: "hello@paulspythoncourse.example",
   creditName: "Paul Nercessian",

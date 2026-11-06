@@ -9,7 +9,8 @@ import type { JobProgressRow, StepProgressRow } from "@/lib/store/types";
 import { addCardsForJob } from "@/lib/review/deck";
 import { ERROR_TAGS, HINT_TAGS, PASS_TAGS, firstTime, pickLine, reactionLook } from "@/lib/reactions";
 import type { GestureTag } from "@/lib/pixel/gestures";
-import { speakerFor } from "@/lib/cast";
+import { isOwnWork, ownerFor } from "@/lib/cast";
+import { castJob, displayName, isYou, playingAs, speakerOf, voiceFor } from "@/lib/playas";
 import { track } from "@/lib/track";
 import { WorkbenchContext, type CoachKind, type Utterance, type WorkbenchContextValue, type Zone } from "./context";
 import { classmateOf, isSpoken, nextId, usesEditor, utterancesFor } from "./labels";
@@ -61,8 +62,13 @@ export function isComplete(row: StepProgressRow | undefined) {
   return row?.status === "passed" || row?.status === "seen-solution";
 }
 
-export function Workbench({ job, characters, conceptTitles, actTitle, actProjects, nextJob = null, landing = false }: Props) {
+export function Workbench({ job: given, characters, conceptTitles, actTitle, actProjects, nextJob = null, landing = false }: Props) {
   const { store, ready, user, profile, syncStatus } = useSession();
+  // Playing as one of the class (lib/playas.ts): the same steps, with every line said by whoever
+  // says it to you, and the titles that name you reading right.
+  const playAs = playingAs(profile.settings.playAs);
+  const names = useMemo(() => Object.fromEntries(Object.values(characters).map((c) => [c.id, c.name])), [characters]);
+  const job = useMemo(() => castJob(given, playAs, names), [given, playAs, names]);
   const runner = useRunner();
   const router = useRouter();
   const params = useSearchParams();
@@ -114,6 +120,10 @@ export function Workbench({ job, characters, conceptTitles, actTitle, actProject
   const nextStep = index >= 0 && index < job.steps.length - 1 ? job.steps[index + 1]! : null;
   const classmate = classmateOf(step);
   const nameOf = useCallback((who: string) => characters[who]?.name ?? (who ? who.charAt(0).toUpperCase() + who.slice(1) : ""), [characters]);
+  // Your own moment (your project's brief and Ship, your old code), or anyone else's.
+  const voice = step ? voiceFor(step, job, playAs) : "other";
+  const speaker = useCallback((who: string) => speakerOf(who, playAs), [playAs]);
+  const speakerName = useCallback((who: string) => displayName(who, nameOf(who), playAs), [nameOf, playAs]);
 
   // Narrow Workbench (a phone, or the landing page's frame): the three-tab layout.
   useEffect(() => {
@@ -221,25 +231,31 @@ export function Workbench({ job, characters, conceptTitles, actTitle, actProject
   const allowed = useCallback((kind: CoachKind) => !lessTalk || kind === "hint" || kind === "error", [lessTalk]);
 
   const say = useCallback<WorkbenchContextValue["say"]>(
-    (who, text, opts = {}) => {
+    (whose, text, opts = {}) => {
       const kind = opts.kind ?? "react";
-      if (!allowed(kind) || !isSpoken(who)) return;
+      if (!allowed(kind) || !isSpoken(whose)) return;
+      // A line written for your character is yours in your own moments, their stand-in's otherwise.
+      const who = speakerOf(whose, playAs, voice);
       const lines = (Array.isArray(text) ? text : [text]).slice(0, 2).map((t) => (typeof t === "string" ? { text: t } : t));
       // The first line is the reaction (a pass, a hint); any after it go by their own words.
       push(...lines.map((l, i) => ({ id: nextId(), who, text: l.text, face: l.face ?? opts.face, gesture: l.gesture ?? opts.gesture, tags: opts.tags ?? (i === 0 ? KIND_TAGS[kind] : undefined), kind })));
     },
-    [allowed, push],
+    [allowed, push, playAs, voice],
   );
 
   const react = useCallback<WorkbenchContextValue["react"]>(
     async (event, opts = {}) => {
       const kind = opts.kind ?? kindOf(event);
       if (!allowed(kind)) return;
-      const who = speakerFor(event, { classmate, client: job.client });
-      const text = await pickLine(store, characters, who, event, opts.vars);
+      const ctx = { classmate, client: job.client, playAs };
+      // Your old version, your own project: nobody else can say those lines for you.
+      if (isOwnWork(event, ctx)) return;
+      const owner = ownerFor(event, ctx);
+      const who = speakerOf(owner, playAs);
+      const text = await pickLine(store, characters, owner, event, opts.vars, { by: who });
       if (text) push({ id: nextId(), who, text, ...reactionLook(event), kind });
     },
-    [allowed, classmate, job.client, store, characters, push],
+    [allowed, classmate, job.client, playAs, store, characters, push],
   );
 
   // Reactions to the learner's code: the first cue that has something fresh to say wins.
@@ -249,18 +265,21 @@ export function Workbench({ job, characters, conceptTitles, actTitle, actProject
         const kind = forceKind ?? kindOf(c.event);
         if (!allowed(kind)) continue;
         // A cue made without this step's classmate or client gets them filled in here.
-        const who = c.who === speakerFor(c.event) ? speakerFor(c.event, { classmate, client: job.client }) : c.who;
-        const key = `${who}:${c.event}`;
+        const ctx = { classmate, client: job.client, playAs };
+        const owner = c.who === ownerFor(c.event) ? ownerFor(c.event, ctx) : c.who;
+        if (isOwnWork(c.event, ctx) && owner === playAs) continue;
+        const who = speakerOf(owner, playAs);
+        const key = `${owner}:${c.event}`;
         if (c.perStep && saidThisStep.current.has(key)) continue;
         if (c.once && !(await firstTime(store, key))) continue;
-        const text = await pickLine(store, characters, who, c.event, c.vars);
+        const text = await pickLine(store, characters, owner, c.event, c.vars, { by: who });
         if (!text) continue;
         saidThisStep.current.add(key);
         push({ id: nextId(), who, text, ...reactionLook(c.event), kind });
         return;
       }
     },
-    [allowed, classmate, job.client, store, characters, push],
+    [allowed, classmate, job.client, playAs, store, characters, push],
   );
 
   const coachTo = useCallback((i: number) => setCoach((c) => ({ ...c, index: Math.max(0, Math.min(c.said.length - 1, i)) })), []);
@@ -276,9 +295,12 @@ export function Workbench({ job, characters, conceptTitles, actTitle, actProject
       const started = Object.values(progress).some((r) => r.status !== "not-started" || r.timeSpent > 0);
       if (lessTalk || !last || Date.now() - last < RECAP_AFTER_MS || !started) return;
       const here = job.steps.find((s) => s.id === stepId);
-      const back = await pickLine(store, characters, speakerFor("returning"), "returning");
-      if (back) push({ id: nextId(), who: speakerFor("returning"), text: back, ...reactionLook("returning"), kind: "react" });
-      const who = speakerFor("recap", { client: job.client });
+      const host = speakerOf(ownerFor("returning"), playAs);
+      const back = await pickLine(store, characters, ownerFor("returning"), "returning", {}, { by: host });
+      if (back) push({ id: nextId(), who: host, text: back, ...reactionLook("returning"), kind: "react" });
+      // The client says where you'd got to with their project; your own project, nobody does.
+      if (isOwnWork("recap", { client: job.client, playAs })) return;
+      const who = ownerFor("recap", { client: job.client });
       const where = await pickLine(store, characters, who, "recap", { step: here?.title ?? "it", job: job.title });
       if (where) push({ id: nextId(), who, text: where, ...reactionLook("recap"), kind: "react" });
     })();
@@ -415,6 +437,10 @@ export function Workbench({ job, characters, conceptTitles, actTitle, actProject
     step,
     classmate,
     nameOf,
+    playAs,
+    ownProject: isYou(job.client, playAs),
+    speaker,
+    speakerName,
     updateStep,
     markPassed,
     react,

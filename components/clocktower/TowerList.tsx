@@ -8,6 +8,7 @@ import { Icon } from "../ui/Icon";
 import { PixelRoom } from "../art/PixelRoom";
 import { jobBadge } from "./floors";
 import type { FloorInfo } from "./Clocktower";
+import { isYou } from "@/lib/playas";
 import styles from "./TowerList.module.css";
 
 const cap = (id: string) => id.charAt(0).toUpperCase() + id.slice(1);
@@ -17,7 +18,7 @@ const cap = (id: string) => id.charAt(0).toUpperCase() + id.slice(1);
  * first, each Act a pixel panel with its room beside its name. Open floors start expanded;
  * locked ones fold away but still list everything.
  */
-export function TowerList({ floors, progress, names }: { floors: FloorInfo[]; progress: Record<string, JobProgressRow>; names: Record<string, string> }) {
+export function TowerList({ floors, progress, names, playAs = null }: { floors: FloorInfo[]; progress: Record<string, JobProgressRow>; names: Record<string, string>; playAs?: string | null }) {
   return (
     <div className={styles.list}>
       {floors.map(({ floor, act, stats, state, open }) => (
@@ -85,7 +86,7 @@ export function TowerList({ floors, progress, names }: { floors: FloorInfo[]; pr
                       {j.sidequest ? <span className={styles.aside}>Sidequest</span> : null}
                       <span className={styles.narrowOnly}>{time}</span>
                     </td>
-                    <td className={styles.wideOnly}>{names[j.client] ?? cap(j.client)}</td>
+                    <td className={styles.wideOnly}>{isYou(j.client, playAs) ? "You" : (names[j.client] ?? cap(j.client))}</td>
                     <td className={styles.wideOnly}>{time}</td>
                     <td>
                       {!open ? (

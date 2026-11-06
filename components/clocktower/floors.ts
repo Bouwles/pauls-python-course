@@ -3,6 +3,7 @@
 // visitors' overview on the landing page.
 import { FLOORS, type Floor } from "@/lib/cast";
 import { isDone, isShipped } from "@/lib/progress-rules";
+import { isYou } from "@/lib/playas";
 import type { ActSummary, JobSummary } from "@/lib/content/types";
 import type { JobProgressRow } from "@/lib/store/types";
 
@@ -40,6 +41,9 @@ export function floorState({ open, stats }: { open: boolean; stats: FloorStats }
   const half = Math.max(1, Math.ceil(stats.written / 2));
   return stats.shipped >= half ? "busy" : "open";
 }
+
+/** A room you live in, playing as one of the class (lib/playas.ts): not the roof, which is everyone's. */
+export const isYourRoom = (floor: Pick<Floor, "residents">, playAs: string | null) => floor.residents.length < 3 && floor.residents.some((r) => isYou(r, playAs));
 
 /** "Floor 2: Real-World Python". */
 export function floorName(floor: Floor, subject: string): string {

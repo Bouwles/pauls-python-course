@@ -14,7 +14,7 @@ import styles from "./steps.module.css";
 
 /** A worked example: Paul's code with its subgoals labelled, runnable, then a question about it. */
 export function WorkedStepView({ step, row }: { step: WorkedStep; row: StepProgressRow }) {
-  const { areas, runner, job, nameOf } = useWorkbench();
+  const { areas, runner, job, nameOf, speaker } = useWorkbench();
   const { state } = runner;
   const running = state.phase === "running";
   const ran = state.output.length > 0 || state.result !== null || state.phase !== "idle";
@@ -37,7 +37,7 @@ export function WorkedStepView({ step, row }: { step: WorkedStep; row: StepProgr
                   </Button>
                 ) : (
                   <Button size="sm" variant="run" onClick={() => void runner.run({ ...job.data, "main.py": step.code })} disabled={state.phase !== "idle"}>
-                    Run {nameOf(PROFESSOR)}&apos;s version
+                    Run {nameOf(speaker(PROFESSOR))}&apos;s version
                   </Button>
                 )}
                 {step.inputs.length ? <span className={styles.workedTip}>Try typing {step.inputs.map((i) => `"${i}"`).join(", then ")}.</span> : null}

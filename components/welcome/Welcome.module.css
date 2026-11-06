@@ -1,4 +1,234 @@
-/* /welcome: Paul's hello, three short sections, then the one button beside the new avatar. */
+/* /welcome: "Who's playing?" first, the six of the class on cards in their colours and a wide
+   card for someone else; then, for someone else, Paul's hello, three short sections and the one
+   button beside the new avatar. */
+
+/* ---------------------------------------------------------------- who's playing? */
+
+.pick {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-8);
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.title:focus {
+  outline: none;
+}
+
+.cast {
+  list-style: none;
+  margin: 0;
+  padding: 2px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-8) var(--s-6);
+}
+
+.slot {
+  display: flex;
+  min-width: 0;
+}
+
+/* A card: their tile, their name, what they're into, a line of theirs, and the verb, whose button
+   reaches across the whole card. */
+.card {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  width: 100%;
+  margin: 2px;
+  color: var(--text);
+  background: var(--surface-2);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 2px 0 0 var(--px-hi),
+    inset 0 -4px 0 0 var(--px-lo),
+    6px 6px 0 0 var(--px-drop);
+}
+
+.card:not([data-dim]):hover,
+.card:has(.play:focus-visible) {
+  background: var(--surface-3);
+}
+
+.card:has(.play:focus-visible) {
+  outline: 2px solid var(--sun);
+  outline-offset: 4px;
+}
+
+.card[data-dim] {
+  opacity: 0.45;
+}
+
+.card[data-picked] {
+  background: var(--surface-3);
+  box-shadow:
+    0 -2px 0 0 var(--sun),
+    0 2px 0 0 var(--sun),
+    -2px 0 0 0 var(--sun),
+    2px 0 0 0 var(--sun),
+    inset 0 0 0 2px var(--sun),
+    6px 6px 0 0 var(--px-drop);
+}
+
+/* Their colour, with them standing on its bottom edge. */
+.tile {
+  display: grid;
+  place-items: end center;
+  height: 168px;
+  overflow: hidden;
+  box-shadow: inset 0 -2px 0 0 var(--px-outline);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--s-2);
+  padding: var(--s-4) var(--s-5) var(--s-5);
+  min-width: 0;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: var(--px-3);
+  font-weight: 400;
+  line-height: var(--lh-title);
+  margin: 0;
+  padding: 0;
+}
+
+.about {
+  margin: 0;
+  font-size: var(--fs-2);
+  line-height: 1.45;
+  color: var(--text-2);
+}
+
+/* A line of theirs, in a small bubble. */
+.line {
+  display: block;
+  margin: var(--s-2) 2px var(--s-4);
+  padding: var(--s-2) var(--s-3);
+  font-size: var(--fs-2);
+  line-height: 1.45;
+  background: var(--surface-1);
+  box-shadow:
+    0 -2px 0 0 var(--line),
+    0 2px 0 0 var(--line),
+    -2px 0 0 0 var(--line),
+    2px 0 0 0 var(--line);
+}
+
+/* The verb, a key that lights up while the card is pointed at. */
+.play {
+  align-self: flex-start;
+  margin: auto 2px 2px;
+  padding: var(--s-2) var(--s-4) calc(var(--s-2) + 2px);
+  border: 0;
+  font-family: var(--font-display);
+  font-size: var(--px-1);
+  font-weight: 400;
+  line-height: 1;
+  cursor: pointer;
+  background: var(--surface-3);
+  color: var(--text);
+  box-shadow:
+    0 -2px 0 0 var(--px-outline),
+    0 2px 0 0 var(--px-outline),
+    -2px 0 0 0 var(--px-outline),
+    2px 0 0 0 var(--px-outline),
+    inset 0 -2px 0 0 var(--px-lo);
+}
+
+/* Its reach: the whole card. */
+.play::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.play:focus-visible {
+  outline: none;
+}
+
+.play:disabled {
+  cursor: default;
+}
+
+.card:not([data-dim]):hover .play,
+.play:focus-visible,
+.card[data-picked] .play {
+  background: var(--sun);
+  color: var(--sun-ink);
+}
+
+/* Someone else: a wide card under the six. */
+.elseSlot {
+  grid-column: 1 / -1;
+}
+
+.elseCard {
+  grid-template-columns: 168px minmax(0, 1fr);
+  grid-template-rows: auto;
+}
+
+.elseTile {
+  height: auto;
+  min-height: 128px;
+  background: var(--surface-1);
+  box-shadow: inset -2px 0 0 0 var(--px-outline);
+}
+
+@media (max-width: 1020px) {
+  .cast {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .pick {
+    gap: var(--s-6);
+  }
+
+  .cast {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-5);
+  }
+
+  /* On a phone each card lies on its side: them on the left, the words on the right. */
+  .card,
+  .elseCard {
+    grid-template-columns: 112px minmax(0, 1fr);
+    grid-template-rows: auto;
+  }
+
+  .tile {
+    height: auto;
+    min-height: 120px;
+    box-shadow: inset -2px 0 0 0 var(--px-outline);
+  }
+
+  .body {
+    padding: var(--s-3) var(--s-4) var(--s-4);
+  }
+
+  .name {
+    font-size: var(--px-2);
+  }
+
+  .about,
+  .line {
+    font-size: var(--fs-1);
+  }
+}
+
+/* ---------------------------------------------------------------- someone else */
+
 .welcome {
   display: grid;
   grid-template-columns: minmax(0, 1fr);

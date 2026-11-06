@@ -113,3 +113,30 @@ test("a review round, the Shelf export, and deleting the account", async ({ page
   await page.getByRole("button", { name: "Log in" }).click();
   await expect(page.getByText("That email and password don't match.")).toBeVisible();
 });
+
+test("play as Neil: Paul gives the hints, you look like Neil, and Neil's projects are your own", async ({ page }) => {
+  // Anyone new starts at "Who's playing?", account or not.
+  await page.goto("/");
+  await page.waitForURL("**/welcome");
+  await page.getByRole("button", { name: "Play as Neil" }).click();
+  await page.waitForURL((url) => url.pathname === "/");
+
+  // The header avatar is Neil, under his name.
+  await expect(page.getByRole("link", { name: "Settings, Neil" })).toBeVisible();
+  await expect(page.locator("header [data-who='neil']")).toBeVisible();
+
+  // Neil can't give himself a hint: Paul, his stand-in, does.
+  await page.goto("/job/bill-splitter?step=make");
+  await expect(page.locator("header [data-who='neil']")).toBeVisible();
+  await page.getByRole("button", { name: "Hint", exact: true }).click();
+  await expect(page.getByRole("heading", { name: "Hints from Paul" })).toBeVisible();
+  await expect(page.getByRole("region", { name: "Coach" }).getByText("Paul", { exact: true })).toBeVisible();
+
+  // Neil's own project: the brief is his, and his lines are said as "You".
+  await page.goto("/job/unit-converter?step=ask");
+  await expect(page.getByText("Your own project", { exact: true })).toBeVisible();
+  const skip = page.getByRole("button", { name: "Skip", exact: true });
+  if (await skip.isVisible().catch(() => false)) await skip.click();
+  await expect(page.getByRole("list", { name: "What you need" }).getByText("You", { exact: true }).first()).toBeVisible();
+  await expect(page.getByRole("list", { name: "What you need" }).getByText("Neil", { exact: true })).toHaveCount(0);
+});

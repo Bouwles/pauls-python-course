@@ -227,3 +227,31 @@ One line per non-obvious choice: the choice, then the reason.
 - **Kept:** classes: a teacher makes a class, shares its code, sets projects and follows each learner (`/teach`).
 - **Left alone:** the old payment tables in the database. They're unused, and leaving them saved a migration.
 - **Old links:** `/pricing` and anything under it redirect to the front page.
+
+## For friends: who you play as, classes through links, and GitHub Pages
+- **The owner's calls:**
+  - "It's just for my friends; I don't like it looking like it's trying to sell the site."
+  - "Pick who to play as; the game changes based on that, but you still learn the core material."
+  - "Make it where I can make classes so I can teach them. In real life I am Paul and I do actually teach the others, and Neil does really help. Make it work online through GitHub Pages alone."
+- **Not selling anything:**
+  - Home is the Clocktower and the landing page is gone, with no tagline pitch or FAQ.
+  - "Start free", "Save my progress" and the sign-up nudges are gone. An account is only for the local version's classes.
+  - The footer is Syllabus, Handbook and Credits.
+- **Who you play as (`lib/playas.ts`, `settings.playAs`):**
+  - **The first screen** is "Who's playing?": the six, or someone of your own.
+  - **Your own moments:** your character's lines in your own projects' brief and Ship, and in your old code's Fix step, are said by you ("You").
+  - **Stand-ins:** everything else your character would say is said by their stand-in. Paul's goes to Neil, Neil's to Paul, Aaesha's to Caitlin, Caitlin's to Aaesha, Riya's to Caitlin and Yahya's to Neil.
+  - **Your own floors and projects:** they say so ("Your room", "Your own project").
+  - **The lessons** are the same whoever you are.
+- **GitHub Pages (`scripts/build-pages.ts`, `.github/workflows/deploy.yml`):**
+  - **How it's built:** a static export under `/pauls-python-course`, built in its own folder (`.next-pages`) so it never touches the local build. The pages that need a server are set aside while it builds and always put back.
+  - **Who you are there:** everyone is a guest, with progress in their browser.
+  - **Checks and solutions** are written as files under `/data`. The solution keeps the server's rule: passed, or three hints and 8 minutes.
+  - **Isolation headers:** Pages can't send the headers that `input()` and Stop need, so the service worker adds them and the page reloads once when it takes over (`lib/sw/sw-template.js` with `ISOLATE`).
+  - **What isn't there:** the League, certificates, account-based classes and GitHub push need a server, so they aren't on Pages.
+- **Classes through links (`/class`, `lib/classes/`):**
+  - No server: a class lives in the teacher's browser.
+  - The join link carries the class and what's set. A student's progress link carries their progress and their Build code. A co-teacher link carries the class and its register.
+  - Each link is deflated JSON in the URL's hash, decoded defensively.
+  - It works the same locally and on Pages.
+- **Public repository:** Bouwles/pauls-python-course had an earlier, separate static site. Its history was kept by merging it into this one, and its MIT licence is kept. The new site replaces the old one on the same address.

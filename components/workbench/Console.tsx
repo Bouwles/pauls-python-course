@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { explainError } from "@/lib/errors";
 import { ASSISTANT } from "@/lib/cast";
+import { speakerOf } from "@/lib/playas";
+import { useSession } from "@/lib/store/session";
 import { hash } from "@/lib/pixel/variety";
 import type { Expression } from "@/lib/pixel/people";
 import type { PyError } from "@/lib/python/protocol";
@@ -26,13 +28,16 @@ const DEBUG_FACES: Expression[] = ["thinking", "focused", "curious", "thinking",
 
 /**
  * The traceback, then the error panel (REDESIGN-2.md 3): Neil beside it working it out, since
- * debugging is his, a short heading in the pixel face, the plain explanation and a "Go to line"
- * button. His portrait is a small head and shoulders, so it's his face that changes, error to error.
+ * debugging is his (Paul, when you're playing as Neil), a short heading in the pixel face, the
+ * plain explanation and a "Go to line" button. The portrait is a small head and shoulders, so it's
+ * the face that changes, error to error.
  */
 export function ErrorExplanation({ error, source, onShowLine }: { error: PyError; source: string; onShowLine?: (line: number) => void }) {
   const wb = useMaybeWorkbench();
+  const { profile } = useSession();
   const explanation = explainError(error, source);
-  const name = wb?.characters[ASSISTANT]?.name ?? "Neil";
+  const who = speakerOf(ASSISTANT, profile.settings.playAs);
+  const name = wb?.characters[who]?.name ?? who.charAt(0).toUpperCase() + who.slice(1);
   const face = DEBUG_FACES[hash(`${error.type}|${error.line ?? ""}|${error.message}`) % DEBUG_FACES.length]!;
   return (
     <div className={styles.error}>
@@ -40,7 +45,7 @@ export function ErrorExplanation({ error, source, onShowLine }: { error: PyError
       {explanation ? (
         <section className={styles.explain} aria-label={`${name} explains the error`}>
           <div className={styles.explainHead}>
-            <Portrait who={ASSISTANT} name={name} size={wb?.compact ? 72 : 80} expression={face} />
+            <Portrait who={who} name={name} size={wb?.compact ? 72 : 80} expression={face} />
             <h2 className={styles.explainTitle}>{explanation.title.replace(/\.$/, "")}</h2>
           </div>
           <p className={styles.explainBody}>{explanation.body}</p>

@@ -29,6 +29,8 @@ export interface Settings {
   streaks: boolean;
   weeklyEmail: boolean;
   publicProfile: boolean;
+  /** Who you're playing as: a cast id ("neil"), or null for someone of your own (lib/playas.ts). */
+  playAs: string | null;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -42,6 +44,7 @@ export const DEFAULT_SETTINGS: Settings = {
   streaks: false,
   weeklyEmail: false,
   publicProfile: false,
+  playAs: null,
 };
 
 export interface Location {

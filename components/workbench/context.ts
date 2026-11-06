@@ -7,6 +7,7 @@ import type { JobProgressRow, StepProgressRow } from "@/lib/store/types";
 import type { Runner } from "./useRunner";
 import type { Cue } from "@/lib/reactions";
 import type { GestureTag } from "@/lib/pixel/gestures";
+import type { CastId } from "@/lib/playas";
 
 /** Where a step's parts go: the instructions panel, the editor side, or one full-width panel (Ask, Ship). */
 export interface Areas {
@@ -58,9 +59,17 @@ export interface WorkbenchContextValue {
   classmate: string | null;
   /** A character's name from content, or the id when content doesn't know them. */
   nameOf: (who: string) => string;
+  /** Who you're playing as (lib/playas.ts), or null for someone of your own. */
+  playAs: CastId | null;
+  /** This is your own project: you're its client. */
+  ownProject: boolean;
+  /** Who says a line written for `who` outside your own moments: them, or their stand-in when they're you. */
+  speaker: (who: string) => string;
+  /** A speaker's name tag: "You" for your own lines, their name for anyone else's. */
+  speakerName: (who: string) => string;
   updateStep: (stepId: string, patch: Partial<StepProgressRow> | ((r: StepProgressRow) => Partial<StepProgressRow>)) => Promise<StepProgressRow | null>;
   markPassed: (stepId: string, patch?: Partial<StepProgressRow>) => Promise<void>;
-  /** The coach reacts to something that just happened. Who speaks comes from lib/cast.ts. */
+  /** The coach reacts to something that just happened. Who speaks comes from lib/cast.ts, through the stand-ins. */
   react: (event: string, opts?: { vars?: Record<string, string>; kind?: CoachKind }) => Promise<void>;
   /** The coach says a line from content (an onPass line, a sign-off). Several lines are said one after another. */
   say: (who: string, text: string | (string | Omit<Line, "who">)[], opts?: { face?: string; gesture?: string; tags?: GestureTag[]; kind?: CoachKind }) => void;

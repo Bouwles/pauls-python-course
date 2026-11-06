@@ -18,5 +18,5 @@
     "paths": { "@/*": ["./*"] }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".next/dev/types/**/*.ts"],
-  "exclude": ["node_modules", "cli", "public"]
+  "exclude": ["node_modules", "cli", "public", "pages-out", ".next-pages", ".pages-stash"]
 }

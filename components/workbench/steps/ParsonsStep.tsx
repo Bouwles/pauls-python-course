@@ -40,7 +40,7 @@ function Code({ text }: { text: string }) {
 }
 
 export function ParsonsStepView({ step, row }: { step: ParsonsStep; row: StepProgressRow }) {
-  const { areas, updateStep, markPassed, runner, job, react, logEvent, nameOf } = useWorkbench();
+  const { areas, updateStep, markPassed, runner, job, react, logEvent, nameOf, speaker } = useWorkbench();
   const saved = row.data.parsons as Arrangement | undefined;
   const [arr, setArr] = useState<Arrangement>(saved ?? { program: [], fails: 0 });
   const [result, setResult] = useState<{ ok: boolean; message: string; report?: CheckReport } | null>(null);
@@ -257,7 +257,7 @@ export function ParsonsStepView({ step, row }: { step: ParsonsStep; row: StepPro
               <Button variant="primary" icon="check" onClick={() => void check()} disabled={arr.program.length === 0 || runner.state.phase !== "idle" || passed}>
                 Check
               </Button>
-              {lockNote ? <p className={styles.note}>{nameOf(PROFESSOR)} has fixed one block in its place.</p> : null}
+              {lockNote ? <p className={styles.note}>{nameOf(speaker(PROFESSOR))} has fixed one block in its place.</p> : null}
             </div>
           </section>
         </div>

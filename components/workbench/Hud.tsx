@@ -2,15 +2,13 @@
 
 import Link from "next/link";
 import { BRAND } from "@/lib/brand";
-import { readAvatar } from "@/lib/avatar";
 import type { Job } from "@/lib/content/types";
 import type { SyncStatus } from "@/lib/store/sync";
-import { useSession } from "@/lib/store/session";
+import { useMe } from "@/lib/useMe";
 import { Mark } from "../site/Brand";
 import { Avatar } from "../ui/Avatar";
 import { Icon } from "../ui/Icon";
 import { SyncIndicator } from "../ui/SyncIndicator";
-import { LinkButton } from "../ui/Button";
 import styles from "./Hud.module.css";
 
 /** "Project 2 of 13", or what an unnumbered project is. */
@@ -25,11 +23,11 @@ export function projectPosition(job: Pick<Job, "number" | "sidequest" | "placeme
  * Splitter", "Project 2 of 13"), then the save status, the Clocktower and you.
  */
 export function Hud({ job, actProjects, syncStatus, guest, secondsSpent = 0 }: { job: Job; actTitle?: string; actProjects?: number; syncStatus: SyncStatus; guest: boolean; secondsSpent?: number }) {
-  const { profile } = useSession();
+  const me = useMe();
   const minutes = Math.floor(secondsSpent / 60);
   return (
     <header className={styles.hud}>
-      <Link href={guest ? "/" : "/map"} className={styles.home} aria-label={BRAND.name}>
+      <Link href="/" className={styles.home} aria-label={BRAND.name}>
         <Mark size={32} />
         <span className={styles.brand} aria-hidden="true">
           {BRAND.name}
@@ -57,20 +55,15 @@ export function Hud({ job, actProjects, syncStatus, guest, secondsSpent = 0 }: {
           </p>
         ) : null}
         <SyncIndicator status={syncStatus} />
-        <Link href="/map" className={styles.iconLink} title="The Clocktower">
+        <Link href="/" className={styles.iconLink} title="The Clocktower">
           <Icon name="map" />
           <span className="visually-hidden">The Clocktower</span>
         </Link>
-        {guest ? (
-          <LinkButton href="/signup?keep=1" variant="primary" size="sm" className={styles.save}>
-            Save<span className={styles.saveMore}> my progress</span>
-          </LinkButton>
-        ) : (
-          <Link href="/settings" className={styles.avatar} title="You and your settings">
-            <Avatar name={profile.displayName} colour={readAvatar(profile.character).colour} look={profile.character} size={36} />
-            <span className="visually-hidden">Your settings</span>
-          </Link>
-        )}
+        {/* Everyone, guest or not: progress is kept as you go, so there's nothing to sign up for. */}
+        <Link href="/settings" className={styles.avatar} title="You and your settings">
+          <Avatar name={me.name} colour={me.colour} look={me.avatar} who={me.who} size={36} />
+          <span className="visually-hidden">Your settings</span>
+        </Link>
       </div>
     </header>
   );

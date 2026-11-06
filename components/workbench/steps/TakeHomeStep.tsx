@@ -3,6 +3,7 @@
 // Take It Home (Section 10.5): set Python up, download the project, run its
 // pytest suite on your own computer, and hand the results in, with the ppc
 // tool or by uploading pytest's report.
+import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import type { TakeHomeStep } from "@/lib/content/types";
 import type { StepProgressRow } from "@/lib/store/types";
@@ -14,6 +15,7 @@ import { Instructions, Prose } from "../Instructions";
 import { useWorkbench } from "../context";
 import { NextRow } from "./common";
 import styles from "./steps.module.css";
+import { STATIC } from "@/lib/static";
 import th from "./TakeHome.module.css";
 
 type Os = "mac" | "windows" | "linux";
@@ -186,7 +188,13 @@ export function TakeHomeStepView({ step, row }: { step: TakeHomeStep; row: StepP
           </h2>
           {landing || guest ? (
             <p className={th.small}>
-              Handing in needs an account, so the result is kept. <a href="/signup?keep=1">Make one</a>; your progress comes with you.
+              {STATIC ? (
+                <>Handing in needs an account, which this version doesn&apos;t have. The checks you ran on your computer are what count.</>
+              ) : (
+                <>
+                  Handing in needs an account, so the result is kept. <Link href="/login">Log in</Link>; your progress comes with you.
+                </>
+              )}
             </p>
           ) : (
             <>

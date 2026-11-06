@@ -2,8 +2,9 @@
 
 // Settings (REDESIGN-2.md 6, REDESIGN3_PLAN.md): sections with pixel headings, no frames inside
 // frames. A list of the sections on the left on wide screens; on a phone the sections simply stack.
-// The learner's pixel avatar heads the avatar section, and waves when they finish changing it.
-// The credit line at the foot.
+// Who you're playing as comes first (lib/playas.ts): one of the class, or someone of your own.
+// The learner's pixel avatar heads the avatar section, and waves when they finish changing it;
+// playing as one of the class, it's them. The credit line at the foot.
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { BRAND } from "@/lib/brand";
@@ -14,17 +15,23 @@ import { download, zip } from "@/lib/export";
 import { prefersReducedMotion } from "@/lib/display";
 import { pickGesture } from "@/lib/pixel/variety";
 import { useVisit } from "@/lib/useVisit";
+import { useMe } from "@/lib/useMe";
+import { castColour } from "@/lib/cast";
+import type { CastId } from "@/lib/playas";
 import { PixelPerson } from "../art/PixelPerson";
+import { PLAYABLE, playableOf } from "../welcome/playable";
 import { Button } from "../ui/Button";
 import { useToast } from "../ui/Toast";
 import { Credit } from "../site/Credit";
 import { AvatarCreator, describeAvatar } from "../welcome/AvatarCreator";
 import { Choice, Row, Section } from "./controls";
 import { Classes, ConnectedTools, GitHubConnection, PublicProfile, useFlags } from "./Elsewhere";
+import { STATIC } from "@/lib/static";
 import styles from "./Settings.module.css";
 
 const SECTIONS: [string, string, boolean][] = [
   ["s-account", "Account", false],
+  ["s-playas", "Who you're playing as", false],
   ["s-avatar", "Your avatar", false],
   ["s-display", "Display", false],
   ["s-coach", "The coach", false],
@@ -49,6 +56,16 @@ export function Settings() {
   const visit = useVisit();
   const [passwordOpen, setPasswordOpen] = useState(false);
   const [flags, setFlags] = useFlags(Boolean(user));
+  const me = useMe();
+  const playing = playableOf(me.playAs);
+
+  /** Play as one of the class, or (null) as yourself. A name that was a cast member's follows the switch. */
+  const playAs = async (id: CastId | null) => {
+    const p = playableOf(id);
+    const castName = !profile.displayName || PLAYABLE.some((c) => c.name === profile.displayName);
+    await updateProfile({ settings: { ...s, playAs: id }, character: look, ...(p && castName ? { displayName: p.name } : {}) });
+    toast(p ? `You're playing as ${p.name}.` : "You're playing as yourself.");
+  };
 
   useEffect(() => {
     setName(profile.displayName);
@@ -96,48 +113,92 @@ export function Settings() {
                 </Row>
               </>
             ) : (
-              <Row label="You're not logged in" hint="Your work is saved on this device only. An account keeps it safe and lets you carry on anywhere.">
-                <Button variant="primary" onClick={() => router.push("/signup?keep=1")}>
-                  Make an account
-                </Button>
+              <Row label="You're not logged in" hint={STATIC ? "Your work is saved in this browser as you go." : "Your work is saved in this browser as you go. An account is only needed to join a class."}>
+                {STATIC ? null : (
+                  <Button variant="secondary" onClick={() => router.push("/login")}>
+                    Log in
+                  </Button>
+                )}
               </Row>
             )}
+          </Section>
+
+          <Section id="s-playas" title="Who you're playing as" intro="You learn the same Python whoever you are. Playing as one of the class, their projects and their old code are yours, someone else gives the help they'd give, and everyone talks to you by name.">
+            <fieldset className={styles.playAs}>
+              <legend className="visually-hidden">Who you&apos;re playing as</legend>
+              <div className={styles.castGrid}>
+                {[...PLAYABLE, null].map((p) => {
+                  const id = p?.id ?? null;
+                  const on = me.playAs === id;
+                  return (
+                    <label key={id ?? "own"} className={[styles.castTile, on ? styles.on : ""].join(" ")}>
+                      <input type="radio" className="visually-hidden" name="play-as" value={id ?? "own"} checked={on} onChange={() => void playAs(id)} />
+                      <span className={styles.castFace} style={{ background: p ? castColour(p.id).face : look.colour }} aria-hidden="true">
+                        <PixelPerson who={p?.id} avatar={p ? undefined : look} crop="head" scale={2} animate={false} />
+                      </span>
+                      <span className={styles.castName}>{p ? p.name : "Your own avatar"}</span>
+                    </label>
+                  );
+                })}
+              </div>
+            </fieldset>
           </Section>
 
           <Section id="s-avatar" title="Your avatar">
             <div className={styles.you}>
               {/* While the creator is open, its large live avatar stands in for this one. */}
               {creatorOpen ? null : (
-                <span className={`px-panel ${styles.youTile}`} style={{ background: look.colour }}>
-                  <PixelPerson avatar={look} crop="bust" scale={2} expression={hello ? "pleased" : "neutral"} pose={hello ?? "idle"} label={name || profile.displayName ? `${name || profile.displayName}'s avatar` : "Your avatar"} />
+                <span className={`px-panel ${styles.youTile}`} style={{ background: me.colour }}>
+                  <PixelPerson
+                    who={me.who}
+                    avatar={look}
+                    crop="bust"
+                    scale={2}
+                    expression={hello ? "pleased" : "neutral"}
+                    pose={hello ?? "idle"}
+                    label={playing ? `${playing.name}, who you're playing as` : name || profile.displayName ? `${name || profile.displayName}'s avatar` : "Your avatar"}
+                  />
                 </span>
               )}
               <div className={styles.youText}>
                 <p className={styles.youName}>{name || "No name yet"}</p>
-                <p className={styles.hint}>{describeAvatar(look)}</p>
+                <p className={styles.hint}>{playing ? `You're playing as ${playing.name}, so this is how you look. Your own avatar is kept for when you want it back.` : describeAvatar(look)}</p>
               </div>
-              <Button
-                variant="secondary"
-                aria-expanded={creatorOpen}
-                aria-controls="avatar-creator"
-                onClick={() => {
-                  if (creatorOpen) {
-                    toast("Avatar saved.");
-                    // Finished: the new avatar says hello.
-                    if (!prefersReducedMotion()) {
-                      hellos.current += 1;
-                      setHello(pickGesture({ tags: ["greet", "celebrate"], seed: `settings|${visit}|${hellos.current}` }));
-                      setTimeout(() => setHello(null), 2400);
+              {playing ? (
+                <Button
+                  variant="secondary"
+                  onClick={() => {
+                    void playAs(null);
+                    setCreatorOpen(true);
+                  }}
+                  className={styles.youButton}
+                >
+                  Use your own avatar
+                </Button>
+              ) : (
+                <Button
+                  variant="secondary"
+                  aria-expanded={creatorOpen}
+                  aria-controls="avatar-creator"
+                  onClick={() => {
+                    if (creatorOpen) {
+                      toast("Avatar saved.");
+                      // Finished: the new avatar says hello.
+                      if (!prefersReducedMotion()) {
+                        hellos.current += 1;
+                        setHello(pickGesture({ who: me.who, tags: ["greet", "celebrate"], seed: `settings|${visit}|${hellos.current}` }));
+                        setTimeout(() => setHello(null), 2400);
+                      }
                     }
-                  }
-                  setCreatorOpen((o) => !o);
-                }}
-                className={styles.youButton}
-              >
-                {creatorOpen ? "Done" : "Change your avatar"}
-              </Button>
+                    setCreatorOpen((o) => !o);
+                  }}
+                  className={styles.youButton}
+                >
+                  {creatorOpen ? "Done" : "Change your avatar"}
+                </Button>
+              )}
             </div>
-            {creatorOpen ? (
+            {creatorOpen && !playing ? (
               <div id="avatar-creator" className={`px-panel ${styles.creator}`}>
                 <AvatarCreator
                   look={look}

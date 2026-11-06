@@ -24,8 +24,8 @@ interface Saved {
 }
 
 export function MilestoneStepView({ step, row }: { step: MilestoneStep; row: StepProgressRow }) {
-  const { areas, job, updateStep, markPassed, guest, landing, say, nameOf } = useWorkbench();
-  const paul = nameOf(PROFESSOR);
+  const { areas, job, updateStep, markPassed, guest, landing, say, nameOf, speaker } = useWorkbench();
+  const paul = nameOf(speaker(PROFESSOR));
   const saved = row.data as Saved;
   const [checks, setChecks] = useState<Record<string, boolean>>(saved.checks ?? {});
   const [plan, setPlan] = useState(saved.plan ?? "");

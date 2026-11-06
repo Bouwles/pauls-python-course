@@ -6,6 +6,7 @@ import { roomHeight, ROOM_W } from "@/lib/pixel/rooms";
 import { oneOf } from "@/lib/moments";
 import { useMedia } from "@/lib/useMedia";
 import { useVisit } from "@/lib/useVisit";
+import { useSpeaker } from "@/lib/useMe";
 import { PixelRoom } from "../art/PixelRoom";
 import { useLegs, Walker, type Leg } from "../clocktower/LiveRoom";
 import styles from "./NotFound.module.css";
@@ -17,7 +18,9 @@ import styles from "./NotFound.module.css";
 
 const ROOMS = [1, 2, 3, 4, 5, 6, 7, 8];
 
-export function NotFoundScene({ who }: { who: string }) {
+export function NotFoundScene({ who: given }: { who: string }) {
+  // Whoever says the 404's line walks in: Neil, or Paul when you're playing as Neil.
+  const who = useSpeaker(given);
   const visit = useVisit();
   const phone = useMedia("(max-width: 720px)");
   // Nobody in the room until it's known whether he may walk in, so he never appears twice.

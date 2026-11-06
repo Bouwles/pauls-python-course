@@ -4,17 +4,18 @@ import "@fontsource-variable/jetbrains-mono/wght.css";
 import "./globals.css";
 import { SessionProvider } from "@/lib/store/session";
 import { getSessionUser } from "@/lib/server/auth";
+import { asset } from "@/lib/static";
 import { ServiceWorker } from "@/components/site/ServiceWorker";
 import { ToastProvider } from "@/components/ui/Toast";
 import { BRAND, siteUrl } from "@/lib/brand";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl()),
-  title: { default: `${BRAND.name}: ${BRAND.tagline}`, template: `%s · ${BRAND.name}` },
+  title: { default: BRAND.name, template: `%s · ${BRAND.name}` },
   description: BRAND.description,
   applicationName: BRAND.name,
-  icons: { icon: [{ url: "/icon-32.png", sizes: "32x32" }, { url: "/icon-16.png", sizes: "16x16" }], apple: "/apple-icon.png" },
-  openGraph: { title: BRAND.name, description: BRAND.description, siteName: BRAND.name, images: [{ url: "/og.png", width: 1200, height: 630 }] },
+  icons: { icon: [{ url: asset("/icon-32.png"), sizes: "32x32" }, { url: asset("/icon-16.png"), sizes: "16x16" }], apple: asset("/apple-icon.png") },
+  openGraph: { title: BRAND.name, description: BRAND.description, siteName: BRAND.name, images: [{ url: asset("/og.png"), width: 1200, height: 630 }] },
 };
 
 export const viewport: Viewport = {

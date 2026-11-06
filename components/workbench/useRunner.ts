@@ -1,5 +1,7 @@
 "use client";
 
+import { STATIC } from "@/lib/static";
+import { staticTests } from "@/lib/static-data";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { getRuntime, type OutKind, type RuntimeState } from "@/lib/python/runtime";
 import type { CheckReport, Files, RunResult, TestMeta, TestResult, TraceResult } from "@/lib/python/protocol";
@@ -32,7 +34,7 @@ const testsCache = new Map<string, string>();
 export async function fetchTests(key: string): Promise<string> {
   const hit = testsCache.get(key);
   if (hit) return hit;
-  const res = await fetch(`/api/tests?key=${encodeURIComponent(key)}`);
+  const res = STATIC ? await staticTests(key) : await fetch(`/api/tests?key=${encodeURIComponent(key)}`);
   if (!res.ok) throw new Error("Couldn't fetch the checks for this step.");
   const body = (await res.json()) as { tests: string };
   testsCache.set(key, body.tests);

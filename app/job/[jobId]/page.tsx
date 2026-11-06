@@ -4,7 +4,12 @@ import type { Metadata } from "next";
 import { getConcepts, getIndex, getJob } from "@/lib/content/server";
 import { Workbench } from "@/components/workbench/Workbench";
 
-export const dynamic = "force-dynamic";
+// Every written project's page is made ahead of time (and is all there is on GitHub Pages).
+export function generateStaticParams() {
+  const index = getIndex();
+  const ids = new Set([...index.acts.flatMap((a) => a.jobs.filter((j) => j.status === "written").map((j) => j.id)), ...index.placements.map((p) => p.jobId)]);
+  return [...ids].filter((id) => getJob(id)?.status === "written").map((jobId) => ({ jobId }));
+}
 
 export async function generateMetadata(props: PageProps<"/job/[jobId]">): Promise<Metadata> {
   const { jobId } = await props.params;

@@ -12,6 +12,7 @@ import { castColour, floorFor, PROFESSOR } from "@/lib/cast";
 import { useMedia } from "@/lib/useMedia";
 import { Speech } from "../art/Speech";
 import { useSession } from "@/lib/store/session";
+import { useSpeaker } from "@/lib/useMe";
 import { openActs } from "@/lib/progress-rules";
 import { Badge } from "../ui/Badge";
 import { Icon } from "../ui/Icon";
@@ -20,6 +21,8 @@ import styles from "./Placement.module.css";
 
 export function Placement({ acts, placements }: { acts: ActSummary[]; placements: PlacementSummary[] }) {
   const { store, ready } = useSession();
+  // Paul opens the floors for you; Neil does when you're Paul.
+  const host = useSpeaker(PROFESSOR);
   const [progress, setProgress] = useState<Record<string, JobProgressRow> | null>(null);
   const phone = useMedia("(max-width: 720px)");
 
@@ -40,7 +43,7 @@ export function Placement({ acts, placements }: { acts: ActSummary[]; placements
         <h1 className={styles.title}>Placement test</h1>
         <p className={styles.lede}>For anyone who has written a fair amount of Python already. Each section is a few Make tasks from one Act, with real checks and no hints.</p>
       </header>
-      <Speech who={PROFESSOR} name="Paul" text="Show me what you already know. Pass a section and I'll open the next floor for you." face="pleased" gesture="point" size={phone ? 72 : 108} className={styles.host} />
+      <Speech who={host} name={host.charAt(0).toUpperCase() + host.slice(1)} text="Show me what you already know. Pass a section and I'll open the next floor for you." face="pleased" gesture="point" size={phone ? 72 : 108} className={styles.host} />
       <div className={`prose ${styles.how}`}>
         <p>
           Pass every task in a section and that Act is marked as placed: the next Act opens in the Clocktower, and the Act&apos;s ideas join your review deck, so Morning Rounds still checks them. Its projects stay open if you&apos;d like to do them anyway.

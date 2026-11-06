@@ -3,6 +3,7 @@
 // Loads Pyodide lazily, streams output, answers input() through a
 // SharedArrayBuffer, and stops runaway code: first politely with Pyodide's
 // interrupt buffer, then by terminating and restarting the worker.
+import { asset } from "../static";
 import type { CheckReport, Files, RunResult, TestMeta, TestResult, TraceResult, ReviewResult } from "./protocol";
 
 export type RuntimeStatus = "idle" | "loading" | "ready" | "busy" | "failed";
@@ -96,7 +97,7 @@ class PythonRuntime {
   private spawn() {
     const isolated = typeof crossOriginIsolated !== "undefined" && crossOriginIsolated && typeof SharedArrayBuffer !== "undefined";
     this.setState({ status: "loading", isolated, error: null });
-    const worker = new Worker("/py-worker.mjs", { type: "module" });
+    const worker = new Worker(asset("/py-worker.mjs"), { type: "module" });
     this.worker = worker;
     let buffers: { interrupt: SharedArrayBuffer; inputCtl: SharedArrayBuffer; inputData: SharedArrayBuffer } | undefined;
     if (isolated) {

@@ -74,8 +74,14 @@ const KEY = "recent-lines";
 const SEEN = "seen-events";
 const REMEMBER = 30;
 
-export async function pickLine(store: LocalStore | null, characters: Record<string, Character>, who: string, event: string, vars: Record<string, string> = {}): Promise<string | null> {
-  const pool = characters[who]?.pools[event];
+/**
+ * A fresh line from `who`'s pool for `event`. `by` is who says it when that's someone else: a
+ * stand-in, when you're playing as `who` (lib/playas.ts). They say `who`'s line, but never one
+ * that names them, so Paul doesn't say Neil's "Including Paul."
+ */
+export async function pickLine(store: LocalStore | null, characters: Record<string, Character>, who: string, event: string, vars: Record<string, string> = {}, { by }: { by?: string } = {}): Promise<string | null> {
+  const name = by && by !== who ? (characters[by]?.name ?? by).split(" ")[0]! : null;
+  const pool = characters[who]?.pools[event]?.filter((l) => !name || !new RegExp(`\\b${name}\\b`, "i").test(l));
   if (!pool || pool.length === 0) return null;
   const recent = ((store ? await store.kvGet<string[]>(KEY) : null) ?? []).slice(-REMEMBER);
   const fresh = pool.filter((l) => !recent.includes(l));

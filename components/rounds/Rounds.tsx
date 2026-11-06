@@ -5,7 +5,8 @@
 // page reacting to each answer with a face and a gesture that fit it, then sends you off at the end.
 // Each card shows the project its idea came from. His gestures are chosen per card and per visit
 // (lib/pixel/variety.ts), never the same twice running; when the rounds are done he celebrates in
-// person, head to toe (lib/pixel/figures.ts), with a dance, a cheer or a clap.
+// person, head to toe (lib/pixel/figures.ts), with a dance, a cheer or a clap. When you're playing
+// as Paul, Neil runs them in his place (lib/playas.ts), with Paul's lines.
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import type { Card, Character, Concept, JobSummary } from "@/lib/content/types";
@@ -15,7 +16,8 @@ import { pickGesture } from "@/lib/pixel/variety";
 import { pickAction } from "@/lib/moments";
 import { useVisit } from "@/lib/useVisit";
 import { PixelFigure } from "../art/PixelFigure";
-import { speakerFor } from "@/lib/cast";
+import { ownerFor, speakerFor } from "@/lib/cast";
+import { isYou } from "@/lib/playas";
 import { useSession } from "@/lib/store/session";
 import { useMedia } from "@/lib/useMedia";
 import { dueCards, gradeFor, pickVariant, review } from "@/lib/review/deck";
@@ -55,7 +57,8 @@ const REACTIONS: Record<"right" | "second" | "retry" | "missed", { face: Express
 };
 
 export function Rounds({ concepts, jobs, characters }: { concepts: Record<string, Concept>; jobs: Record<string, JobSummary>; characters: Record<string, Character> }) {
-  const { store, ready } = useSession();
+  const { store, ready, profile } = useSession();
+  const playAs = profile.settings.playAs;
   const runner = useRunner();
   const [plan, setPlan] = useState<Planned[] | null>(null);
   const [index, setIndex] = useState(0);
@@ -65,11 +68,11 @@ export function Rounds({ concepts, jobs, characters }: { concepts: Record<string
   const [said, setSaid] = useState(0);
   const phone = useMedia("(max-width: 720px)");
   const visit = useVisit();
-  const coach = speakerFor("rounds-start");
+  const coach = speakerFor("rounds-start", { playAs });
   const coachName = nameOf(characters, coach);
   const finished = plan !== null && index >= plan.length;
-  const opening = useLine(characters, coach, "rounds-start", OPENING, Boolean(plan && plan.length > 0));
-  const closing = useLine(characters, speakerFor("rounds-done"), "rounds-done", CLOSING, finished);
+  const opening = useLine(characters, ownerFor("rounds-start"), "rounds-start", OPENING, Boolean(plan && plan.length > 0), coach);
+  const closing = useLine(characters, ownerFor("rounds-done"), "rounds-done", CLOSING, finished, speakerFor("rounds-done", { playAs }));
 
   useEffect(() => {
     if (!store || !ready) return;
@@ -145,7 +148,7 @@ export function Rounds({ concepts, jobs, characters }: { concepts: Record<string
   if (finished) {
     const firstTime = outcomes.filter((o) => o.correct && o.attempts === 1).length;
     const held = shaky.length === 0;
-    const doneBy = speakerFor("rounds-done");
+    const doneBy = speakerFor("rounds-done", { playAs });
     // Every one held: a dance or a cheer. Otherwise a cheer or a clap. This visit's.
     const party = pickAction({ who: doneBy, tags: ["celebrate"], seed: `rounds-done|${visit}`, only: held ? ["dance", "cheer"] : ["cheer", "clap"] });
     return (
@@ -253,7 +256,7 @@ export function Rounds({ concepts, jobs, characters }: { concepts: Record<string
             <div className={styles.cardWho}>
               <h2 className={styles.project}>{job ? job.projectName || job.title : "From earlier"}</h2>
               {/* Not the idea's name: on a "which error is it?" card, that would be the answer. */}
-              <p className={styles.cardMeta}>{job ? `For ${nameOf(characters, job.client)}, Act ${job.actNumber}` : "A review card"}</p>
+              <p className={styles.cardMeta}>{job ? `${isYou(job.client, playAs) ? "Your own project" : `For ${nameOf(characters, job.client)}`}, Act ${job.actNumber}` : "A review card"}</p>
             </div>
           </header>
         }

@@ -1,5 +1,7 @@
 "use client";
 
+import { STATIC } from "@/lib/static";
+import { staticSolution } from "@/lib/static-data";
 import { useState } from "react";
 import type { Hints as HintsData } from "@/lib/content/types";
 import type { StepProgressRow } from "@/lib/store/types";
@@ -18,7 +20,7 @@ const LEVELS = ["Nudge", "Plan", "Shape"] as const;
 
 /** Nudge, Plan, Shape, then (only when allowed) the full solution. Each gives a little more away. */
 export function Hints({ stepId, hints, row }: { stepId: string; hints: HintsData; row: StepProgressRow }) {
-  const { updateStep, react, job, store, logEvent, nameOf } = useWorkbench();
+  const { updateStep, react, job, store, logEvent, nameOf, speaker } = useWorkbench();
   const { flush } = useSession();
   const [solution, setSolution] = useState<Files | null>(null);
   const [notYet, setNotYet] = useState<string | null>(null);
@@ -35,13 +37,15 @@ export function Hints({ stepId, hints, row }: { stepId: string; hints: HintsData
   const askSolution = async () => {
     setNotYet(null);
     await flush();
-    const res = await fetch("/api/solution", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ jobId: job.id, stepId, hintsUsed: used, timeSpent: row.timeSpent, passed }),
-    });
-    const body = (await res.json()) as { files?: Files; secondsNeeded?: number; hintsNeeded?: number };
-    if (res.ok && body.files) {
+    // On GitHub Pages the same rule is applied here and the solution read from a file.
+    const body: { files?: Files; secondsNeeded?: number; hintsNeeded?: number } = STATIC
+      ? await staticSolution(job.id, stepId, used, row.timeSpent, passed)
+      : await fetch("/api/solution", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ jobId: job.id, stepId, hintsUsed: used, timeSpent: row.timeSpent, passed }),
+        }).then((r) => r.json() as Promise<{ files?: Files; secondsNeeded?: number; hintsNeeded?: number }>);
+    if (body.files) {
       setSolution(body.files);
       if (!passed) {
         await updateStep(stepId, { status: "seen-solution", seenSolution: true });
@@ -118,7 +122,7 @@ export function Hints({ stepId, hints, row }: { stepId: string; hints: HintsData
       ) : null}
       {solution ? (
         <div className={styles.level}>
-          <p className={styles.note}>{passed ? `${nameOf(PROFESSOR)}'s version, for comparison.` : "Read why each line is there. A fresh version of this task will come up in your review."}</p>
+          <p className={styles.note}>{passed ? `${nameOf(speaker(PROFESSOR))}'s version, for comparison.` : "Read why each line is there. A fresh version of this task will come up in your review."}</p>
           {Object.entries(solution).map(([name, code]) => (
             <div key={name} className={styles.level}>
               {Object.keys(solution).length > 1 ? <p className={styles.file}>{name}</p> : null}

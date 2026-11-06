@@ -5,12 +5,13 @@ import { useRouter } from "next/navigation";
 import type { ActSummary, PlacementSummary } from "@/lib/content/types";
 import type { JobProgressRow } from "@/lib/store/types";
 import { useSession } from "@/lib/store/session";
+import { playingAs } from "@/lib/playas";
 import { dueCards } from "@/lib/review/deck";
 import { isDone, isShipped, openActs } from "@/lib/progress-rules";
 import { Tabs } from "../ui/Tabs";
 import { Icon } from "../ui/Icon";
 import { FloorRoom, Sign, STUCK_CLOCK, TowerFrame, towerStyles } from "./Tower";
-import { FLOORS_TOP_DOWN, floorState, floorStats, mainJobs, type Floor, type FloorState, type FloorStats } from "./floors";
+import { FLOORS_TOP_DOWN, floorState, floorStats, isYourRoom, mainJobs, type Floor, type FloorState, type FloorStats } from "./floors";
 import { FloorSheet } from "./FloorSheet";
 import { TowerList } from "./TowerList";
 import { DeskCards } from "./DeskCards";
@@ -55,9 +56,13 @@ export function Clocktower({ acts, placements, names, steps }: { acts: ActSummar
   };
 
   useEffect(() => {
-    // Only once the server's copy is here: on a new device an onboarded learner's profile arrives with the first pull.
-    if (ready && user && synced && !profile.onboarded) router.replace("/welcome");
+    // Anyone who hasn't chosen who's playing yet, guest or signed in, starts at "Who's playing?".
+    // Signed in, only once the server's copy is here: on a new device an onboarded learner's
+    // profile arrives with the first pull.
+    if (!ready || profile.onboarded || (user && !synced)) return;
+    router.replace("/welcome");
   }, [ready, user, synced, profile.onboarded, router]);
+  const playAs = playingAs(profile.settings.playAs);
 
   useEffect(() => {
     if (!store) return;
@@ -122,38 +127,39 @@ export function Clocktower({ acts, placements, names, steps }: { acts: ActSummar
             <>
               <TowerFrame label="Floors of the Clocktower, top floor first" clock={clock}>
                 {floors.map((f) => (
-                  <FloorButton key={f.floor.act} info={f} names={names} selected={selected === f.floor.act} onOpen={() => setSelected(f.floor.act)} />
+                  <FloorButton key={f.floor.act} info={f} names={names} playAs={playAs} selected={selected === f.floor.act} onOpen={() => setSelected(f.floor.act)} />
                 ))}
               </TowerFrame>
               <p className={styles.hint}>Choose a floor to see its projects.</p>
             </>
           ) : (
-            <TowerList floors={[...floors].reverse()} progress={progress} names={names} />
+            <TowerList floors={[...floors].reverse()} progress={progress} names={names} playAs={playAs} />
           )}
         </section>
       </div>
 
       <DeskCards className={styles.side} acts={acts} placements={placements} progress={progress} steps={steps} names={names} due={due} shipped={shipped} open={open} />
 
-      <FloorSheet info={current} progress={progress} names={names} acts={acts} placements={placements} onClose={() => setSelected(null)} />
+      <FloorSheet info={current} progress={progress} names={names} playAs={playAs} acts={acts} placements={placements} onClose={() => setSelected(null)} />
     </div>
   );
 }
 
-/** One floor as a button: its room, and the room's name on a sign (with a lock when shut) that says more when pointed at. */
-function FloorButton({ info, selected, onOpen }: { info: FloorInfo; names: Record<string, string>; selected: boolean; onOpen: () => void }) {
+/** One floor as a button: its room, and the room's name on a sign (with a lock when shut) that says more when pointed at. Your own room says so. */
+function FloorButton({ info, selected, onOpen, playAs }: { info: FloorInfo; names: Record<string, string>; playAs: string | null; selected: boolean; onOpen: () => void }) {
   const { floor, act, stats, state } = info;
   const locked = state === "locked";
+  const yours = isYourRoom(floor, playAs);
   // The button's name starts with the sign's words ("The Workshop"), so voice control finds it,
   // then the rest for screen readers.
-  const more = [`, ${floor.label.toLowerCase()}: ${act.subject}.`, `${stats.shipped} of ${stats.total} shipped.`, locked ? "Locked." : ""].filter(Boolean).join(" ");
+  const more = [`, ${floor.label.toLowerCase()}: ${act.subject}.`, yours ? "Your room." : "", `${stats.shipped} of ${stats.total} shipped.`, locked ? "Locked." : ""].filter(Boolean).join(" ");
   return (
     <li className={towerStyles.floor}>
       <button type="button" className={styles.floorButton} onClick={onOpen} aria-haspopup="dialog" aria-expanded={selected} data-selected={selected || undefined}>
         <FloorRoom
           act={floor.act}
           state={state}
-          sign={<Sign room={floor.room} badges={locked ? <Icon name="lock" size={16} className={styles.lock} /> : null} more={`${stats.shipped} of ${stats.total} shipped`} />}
+          sign={<Sign room={floor.room} badges={locked ? <Icon name="lock" size={16} className={styles.lock} /> : null} sub={yours ? "Your room" : undefined} more={`${stats.shipped} of ${stats.total} shipped`} />}
         />
         <span className="visually-hidden">{more}</span>
       </button>

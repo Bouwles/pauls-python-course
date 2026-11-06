@@ -7,8 +7,6 @@ const LINKS = [
   ["/syllabus", "Syllabus"],
   ["/handbook", "Python Handbook"],
   ["/credits", "Credits"],
-  ["/privacy", "Privacy"],
-  ["/terms", "Terms"],
 ] as const;
 
 /** The footer: the mark, the links in the pixel face, and the credit line with the pixel heart (REDESIGN-2.md 1). */

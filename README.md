@@ -1,15 +1,23 @@
 # Paul's Python Course
 
-A project-based Python course. Learners join Paul's class in the Clocktower, an old brick tower turned code school, and build one real program at a time with Paul, his teaching assistant Neil and four classmates, from a first `print` to reinforcement learning. Python runs in the browser (Pyodide); every check is a real test.
+Paul's Python class for his friends. You pick who you play as (Paul, Neil, Aaesha, Caitlin, Riya, Yahya, or someone of your own), then build one real program at a time in the Clocktower, an old brick tower turned code school, from a first `print` to reinforcement learning. Python runs in the browser (Pyodide); every check is a real test.
 
-The original brief is `pauls-python-course-prompt.md`, revised by `REDESIGN.md` and `REDESIGN-2.md`. The current plan is `REDESIGN2_PLAN.md` (`PLAN.md` is the first build's record); every non-obvious choice is in `DECISIONS.md`.
+**Play it:** https://bouwles.github.io/pauls-python-course/
 
-## Quick start
+- **No account:** your progress stays in your own browser.
+- **Classes:** open **Class** to make one, send the join link to everyone, and they send back a progress link for you to open. A co-teacher link gives Neil the class too.
+- **Deploying:** GitHub Pages is built by `.github/workflows/deploy.yml` (`scripts/build-pages.ts`) on every push to `main`.
+
+Every non-obvious choice is in `DECISIONS.md`.
+
+## Running it on your own computer
 
 ```
 npm install
 npm run dev          # http://localhost:3000
 ```
+
+The local version also has optional accounts (for account-based classes at `/teach`, the Arcade League and certificates). The GitHub Pages version has none of those; build it locally with `npx tsx scripts/build-pages.ts` (it writes `pages-out/`).
 
 No accounts or keys are needed for development: without Supabase settings the app runs on a local backend (Postgres in WebAssembly, stored in `.data/`, with built-in email and password sign-in). Sign-in links are shown at `/dev/mailbox`.
 

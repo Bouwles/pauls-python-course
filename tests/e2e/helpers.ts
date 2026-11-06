@@ -40,6 +40,8 @@ export async function signUp(page: Page, email: string, name = "Ruth") {
   await page.getByLabel("I'm 13 or older.").check();
   await page.getByRole("button", { name: "Make the account" }).click();
   await page.waitForURL("**/welcome");
+  // "Who's playing?": someone of their own, so the avatar, the name and the question follow.
+  await page.getByRole("button", { name: "Play as someone else" }).click();
   // The avatar is in tabs: Colour, Face, Hair, Clothes and Extras.
   await page.getByRole("tab", { name: "Hair" }).click();
   await page.getByText("Curly, medium length", { exact: true }).first().click();

@@ -88,6 +88,22 @@ const tracedFiles = {
   "/u/**": ["./node_modules/@fontsource/fredoka/files/*-normal.woff", "./node_modules/@fontsource/atkinson-hyperlegible-next/files/*-normal.woff"],
 };
 
+// The GitHub Pages build (scripts/build-pages.ts): plain files under the repository's path, with
+// no server, so no headers or redirects (the service worker adds the isolation headers instead).
+const pagesConfig: NextConfig = {
+  reactStrictMode: true,
+  devIndicators: false,
+  output: "export",
+  // Its own build folder, so it never touches the local version's (.next).
+  distDir: ".next-pages",
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH || undefined,
+  trailingSlash: true,
+  images: { unoptimized: true },
+  // The local build type-checks everything; here some files it would check are set aside.
+  typescript: { ignoreBuildErrors: true },
+};
+
 export default function config(phase: string): NextConfig {
+  if (process.env.NEXT_PUBLIC_PPC_STATIC === "1") return pagesConfig;
   return phase === PHASE_PRODUCTION_BUILD ? { ...nextConfig, outputFileTracingIncludes: tracedFiles } : nextConfig;
 }

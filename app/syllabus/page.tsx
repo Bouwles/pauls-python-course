@@ -104,13 +104,10 @@ export default function Syllabus() {
         })}
       </div>
       <div className={styles.foot}>
-        <p className={styles.footText}>Try the first project without an account, or make one to keep your work.</p>
+        <p className={styles.footText}>No account needed: start, and your work is kept as you go.</p>
         <div className={styles.footButtons}>
           <LinkButton href={`/job/${first?.id ?? "shop-sign"}`} variant="primary">
             Start the first project
-          </LinkButton>
-          <LinkButton href="/signup" variant="secondary">
-            Make an account
           </LinkButton>
         </div>
       </div>

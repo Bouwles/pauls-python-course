@@ -2,6 +2,7 @@
 // (the owner found "Predict" and "Investigate" confusing). The step's own title is in the
 // instructions panel and is each pill's accessible description.
 import type { Character, Line, Step } from "@/lib/content/types";
+import { isYou } from "@/lib/playas";
 import type { CoachKind, Utterance } from "./context";
 
 const KIND: Record<Step["type"], string> = {
@@ -35,11 +36,12 @@ export function classmateOf(step: Step | null): string | null {
   return step.dialogue.find((l) => isSpoken(l.who))?.who ?? null;
 }
 
-/** "Learn", "Quick check", "Fix Caitlin's code", "Build it". */
-export function stepLabel(step: Step, characters: Record<string, Character>): string {
+/** "Learn", "Quick check", "Fix Caitlin's code" (or "Fix your old code" when you're Caitlin), "Build it". */
+export function stepLabel(step: Step, characters: Record<string, Character>, playAs?: string | null): string {
   if (step.type === "make" && step.stretch) return "Stretch";
   if (step.type === "pips") {
     const who = classmateOf(step);
+    if (who && isYou(who, playAs)) return "Fix your old code";
     const name = who ? (characters[who]?.name ?? who) : null;
     return name ? `Fix ${name.split(" ")[0]}'s code` : KIND.pips;
   }
@@ -52,7 +54,7 @@ export function stepLabel(step: Step, characters: Record<string, Character>): st
  * a line or two above the explanation. `compact` is the phone layout, where the code is in its own
  * tab rather than on the right.
  */
-export function howTo(step: Step, characters: Record<string, Character>, { compact = false }: { compact?: boolean } = {}): string[] {
+export function howTo(step: Step, characters: Record<string, Character>, { compact = false, playAs }: { compact?: boolean; playAs?: string | null } = {}): string[] {
   const there = compact ? "in the Code tab" : "on the right";
   switch (step.type) {
     case "learn":
@@ -66,6 +68,7 @@ export function howTo(step: Step, characters: Record<string, Character>, { compa
       return step.language === "python" ? ["Read it label by label.", "Press Run to see it work.", "Answer the question underneath."] : ["Read it from the top, label by label.", "Answer the question underneath."];
     case "pips": {
       const who = classmateOf(step);
+      if (who && isYou(who, playAs)) return ["Run your old code.", "Find the mistake and fix it.", "Press Check."];
       const name = who ? (characters[who]?.name ?? who).split(" ")[0] : null;
       return [name ? `Run ${name}'s code.` : "Run their code.", "Find the mistake and fix it.", "Press Check."];
     }

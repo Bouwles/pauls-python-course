@@ -55,8 +55,8 @@ export function Instructions({
   /** The coach speaks after the step's own controls (Predict: it reacts to the answer). */
   coachAfter?: boolean;
 }) {
-  const { areas, compact, panelCollapsed, setPanelCollapsed, hintsOpen, setHintsOpen, duckOpen, setDuckOpen, say, nameOf, characters } = useWorkbench();
-  const steps = howTo(step, characters, { compact });
+  const { areas, compact, panelCollapsed, setPanelCollapsed, hintsOpen, setHintsOpen, duckOpen, setDuckOpen, say, nameOf, speaker, characters, playAs } = useWorkbench();
+  const steps = howTo(step, characters, { compact, playAs });
   const folded = panelCollapsed && !compact && !wide;
 
   if (folded) {
@@ -135,7 +135,7 @@ export function Instructions({
           <section className={styles.card} aria-labelledby="hints-title">
             <div className={styles.cardHead}>
               <h2 id="hints-title" className={styles.cardTitle}>
-                Hints from {nameOf(ASSISTANT)}
+                Hints from {nameOf(speaker(ASSISTANT))}
               </h2>
               <button type="button" className={styles.close} onClick={() => setHintsOpen(false)} title="Close the hints">
                 <Icon name="close" />

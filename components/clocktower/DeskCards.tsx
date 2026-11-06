@@ -1,9 +1,11 @@
 "use client";
 
+import { STATIC } from "@/lib/static";
 import Link from "next/link";
 import type { ActSummary, PlacementSummary } from "@/lib/content/types";
 import type { JobProgressRow } from "@/lib/store/types";
 import { useSession } from "@/lib/store/session";
+import { castTitle, isYou } from "@/lib/playas";
 import { duration } from "@/lib/display";
 import { isShipped, nextJob } from "@/lib/progress-rules";
 import { LinkButton } from "../ui/Button";
@@ -41,6 +43,7 @@ export function DeskCards({
   className?: string;
 }) {
   const { profile } = useSession();
+  const playAs = profile.settings.playAs;
   const allJobs = acts.flatMap((a) => a.jobs);
   const last = profile.lastLocation;
   const lastJob = last ? allJobs.find((j) => j.id === last.jobId && j.status === "written") : undefined;
@@ -65,7 +68,7 @@ export function DeskCards({
             <ShelfObject jobId={resume.id} title={resume.title} client={resume.client} size={48} />
             <div className={styles.projectText}>
               <p className={styles.projectName}>{resume.title}</p>
-              <p className={styles.meta}>{step ? `Step ${stepAt + 1} of ${stepList.length}: ${step[1]}` : `Act ${resume.actNumber}, project ${resume.number}`}</p>
+              <p className={styles.meta}>{step ? `Step ${stepAt + 1} of ${stepList.length}: ${castTitle(step[1], playAs, names)}` : `Act ${resume.actNumber}, project ${resume.number}`}</p>
             </div>
           </div>
           <LinkButton variant="primary" href={`/job/${resume.id}${step ? `?step=${encodeURIComponent(step[0])}` : ""}`} className={styles.wide}>
@@ -82,7 +85,7 @@ export function DeskCards({
             <div className={styles.projectText}>
               <p className={styles.projectName}>{next.title}</p>
               <p className={styles.meta}>
-                For {names[next.client] ?? cap(next.client)}. About {duration(next.estimatedMinutes)}.
+                {isYou(next.client, playAs) ? "Your own project" : `For ${names[next.client] ?? cap(next.client)}`}. About {duration(next.estimatedMinutes)}.
               </p>
             </div>
           </div>
@@ -143,7 +146,8 @@ export function DeskCards({
 
       <Assignments jobs={allJobs} progress={progress} />
 
-      {arcade && open.has(arcade.id) ? (
+      {/* The League needs a server, so it isn't on GitHub Pages. */}
+      {arcade && open.has(arcade.id) && !STATIC ? (
         <p className={styles.aside}>
           <Link href="/league">The Arcade League</Link>: this week&apos;s races on the Club Course.
         </p>

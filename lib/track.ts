@@ -2,6 +2,7 @@
 
 // Reports a funnel step to our own server (REDESIGN.md 9.3). No third-party trackers, no
 // cookies: a random id in this browser's storage ties a visitor's steps together.
+import { STATIC } from "./static";
 import { useEffect } from "react";
 import type { FunnelEvent } from "./funnel";
 
@@ -23,6 +24,7 @@ function visitor(): string | null {
 
 /** Sends each step once per browser, which is what the funnel counts. */
 export function track(event: FunnelEvent) {
+  if (STATIC) return; // GitHub Pages: nowhere to send it.
   try {
     const sent = new Set<string>(JSON.parse(localStorage.getItem(SENT) ?? "[]") as string[]);
     if (sent.has(event)) return;

@@ -47,7 +47,7 @@ const LANDMARKS = new Set<Step["type"]>(["ask", "make", "ship"]);
  * phone the line sits above the track, and the track scrolls with the current step in the middle.
  */
 export function StepBar({ steps, current, progress, onSelect }: { steps: Step[]; current: string | null; progress: Record<string, StepProgressRow>; onSelect: (id: string) => void }) {
-  const { characters, compact } = useWorkbench();
+  const { characters, compact, playAs } = useWorkbench();
   const list = useRef<HTMLOListElement>(null);
   const [peek, setPeek] = useState<number | null>(null);
 
@@ -93,7 +93,7 @@ export function StepBar({ steps, current, progress, onSelect }: { steps: Step[];
           const done = isDone(row);
           const isCurrent = i === at;
           const reachable = i <= furthest || done;
-          const label = stepLabel(s, characters);
+          const label = stepLabel(s, characters, playAs);
           const landmark = LANDMARKS.has(s.type) && !compact;
           const state = isCurrent ? (done ? styles.passed : styles.current) : done ? styles.done : reachable ? styles.ahead : styles.locked;
           const status = done ? (row?.status === "seen-solution" ? ", done, solution seen" : ", done") : reachable || isCurrent ? "" : ", not reached yet";
@@ -135,7 +135,7 @@ export function StepBar({ steps, current, progress, onSelect }: { steps: Step[];
             Step {shown + 1} of {steps.length}
           </span>
           <span className={styles.dot}>·</span>
-          <span className={styles.kind}>{stepLabel(said, characters)}:</span> <span className={styles.title}>{said.title}</span>
+          <span className={styles.kind}>{stepLabel(said, characters, playAs)}:</span> <span className={styles.title}>{said.title}</span>
         </p>
       ) : null}
     </nav>

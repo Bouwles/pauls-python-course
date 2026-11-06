@@ -5,10 +5,12 @@
 // person: they introduce the race, one after the other, and react to where your entry finished.
 // Opt-in by entering; the table shows display names and scores only. Every race is seeded, so the
 // replay here is the race that was scored. The hosts' gestures, and how the one not talking
-// listens, are chosen per line and per visit (lib/pixel/variety.ts).
+// listens, are chosen per line and per visit (lib/pixel/variety.ts). When you're playing as one of
+// the hosts, someone else hosts in your place with your lines (lib/playas.ts).
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSession } from "@/lib/store/session";
+import { speakersOf } from "@/lib/playas";
 import { baselinePolicy, courseJson, hash, MAX_STEPS, race, RACES, readEntry, SLIP_POOL, SLIP_SAND, type Policy } from "@/lib/league/course";
 import { download } from "@/lib/export";
 import type { Expression, Pose } from "@/lib/pixel/people";
@@ -68,8 +70,15 @@ function verdict(place: number, of: number): { host: number; line: Line } {
   return { host: 0, line: { text: `Place ${place} of ${of}. Train it for longer and enter again. Your newest entry counts.`, face: "thinking", gesture: "think" } };
 }
 
+/** A host: who's there (`id`), and whose lines they say (`owner`, the Arcade's resident they stand in for). */
+interface Host {
+  id: string;
+  owner: string;
+  name: string;
+}
+
 /** The hosts, side by side: the first speaks, then the second answers. */
-function Hosts({ hosts, said }: { hosts: { id: string; name: string }[]; said: { host: number; line: Line } | null }) {
+function Hosts({ hosts, said }: { hosts: Host[]; said: { host: number; line: Line } | null }) {
   const phone = useMedia("(max-width: 720px)");
   const visit = useVisit();
   const [turn, setTurn] = useState(0);
@@ -77,7 +86,7 @@ function Hosts({ hosts, said }: { hosts: { id: string; name: string }[]; said: {
   return (
     <div className={styles.hosts}>
       {hosts.slice(0, 2).map((h, i) => {
-        const line = said ? (said.host === i ? said.line : null) : (HELLO[h.id] ?? HELLO_ANYONE);
+        const line = said ? (said.host === i ? said.line : null) : (HELLO[h.owner] ?? HELLO_ANYONE);
         // Whoever isn't speaking listens: there, but quiet, until it's their turn.
         if (!line || (!said && i > turn))
           return (
@@ -101,14 +110,23 @@ function Hosts({ hosts, said }: { hosts: { id: string; name: string }[]; said: {
 
 const together = (names: string[]) => (names.length > 1 ? `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}` : (names[0] ?? ""));
 
-export function League({ hosts }: { hosts: { id: string; name: string }[] }) {
-  const { user, ready, store } = useSession();
+export function League({ hosts: residents, names = {} }: { hosts: { id: string; name: string }[]; names?: Record<string, string> }) {
+  const { user, ready, store, profile } = useSession();
+  const stand = speakersOf(
+    residents.map((h) => h.id),
+    profile.settings.playAs,
+  );
+  const hosts: Host[] = residents.map((h, i) => {
+    const id = stand[i] ?? h.id;
+    return { id, owner: h.id, name: id === h.id ? h.name : (names[id] ?? id.charAt(0).toUpperCase() + id.slice(1)) };
+  });
   const [data, setData] = useState<Table | null>(null);
   const [week, setWeek] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [saved, setSaved] = useState<{ job: string; content: string }[]>([]);
-  const hostIds = hosts.map((h) => h.id);
+  // The course keeps the Arcade's colours, whoever is hosting.
+  const hostIds = residents.map((h) => h.id);
 
   const load = useCallback(async (w: string | null) => {
     const res = await fetch(`/api/league${w ? `?week=${w}` : ""}`);

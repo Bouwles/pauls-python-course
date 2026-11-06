@@ -1,7 +1,8 @@
 // The Workbench's Python worker. Runs Pyodide off the main thread so the page
 // never freezes. Protocol: see lib/python/runtime.ts.
 // Loaded as a module worker: Pyodide 314 no longer supports classic workers.
-import { loadPyodide } from "/pyodide/pyodide.mjs";
+// The site may live under a path (GitHub Pages): find Python next to this file.
+const BASE = new URL(".", self.location.href).pathname;
 
 let pyodide = null;
 let runtime = null;
@@ -73,9 +74,10 @@ async function init(message) {
     sleeper = new Int32Array(new SharedArrayBuffer(4));
   }
   post({ type: "loading", stage: "python" });
-  const config = await (await fetch("/python/config.json")).json().catch(() => ({}));
+  const config = await (await fetch(`${BASE}python/config.json`)).json().catch(() => ({}));
+  const { loadPyodide } = await import(`${BASE}pyodide/pyodide.mjs`);
   pyodide = await loadPyodide({
-    indexURL: "/pyodide/",
+    indexURL: `${BASE}pyodide/`,
     packageBaseUrl: config.packageBaseUrl,
     stdout: (text) => post({ type: "out", id: currentId, kind: "out", text: text + "\n" }),
     stderr: (text) => post({ type: "out", id: currentId, kind: "err", text: text + "\n" }),
@@ -84,7 +86,7 @@ async function init(message) {
   pyodide.registerJsModule("ppc_bridge", bridge);
   pyodide.FS.mkdirTree("/home/pyodide/ppc");
   for (const name of ["workshop.py", "ppc_runtime.py"]) {
-    const source = await (await fetch(`/python/${name}?v=${message.version || ""}`)).text();
+    const source = await (await fetch(`${BASE}python/${name}?v=${message.version || ""}`)).text();
     pyodide.FS.writeFile(`/home/pyodide/ppc/${name}`, source);
   }
   pyodide.runPython("import sys; sys.path.insert(0, '/home/pyodide/ppc'); import ppc_runtime");

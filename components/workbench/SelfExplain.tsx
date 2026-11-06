@@ -10,11 +10,12 @@ import styles from "./SelfExplain.module.css";
 
 /** A short answer in your own words, then Paul's answer, then an honest self-rating (Section 9.5). */
 export function SelfExplain({ stepId, promptHtml, answer, concept, row }: { stepId: string; promptHtml: string; answer: string; concept: string | null; row: StepProgressRow }) {
-  const { updateStep, markPassed, store, logEvent, nameOf } = useWorkbench();
+  const { updateStep, markPassed, store, logEvent, nameOf, speaker } = useWorkbench();
   const [text, setText] = useState(row.selfExplanation ?? "");
   const [revealed, setRevealed] = useState(Boolean(row.selfRating));
   const rating = row.selfRating;
-  const paul = nameOf(PROFESSOR);
+  // Paul's answer, or Neil's when you're Paul.
+  const paul = nameOf(speaker(PROFESSOR));
 
   const rate = async (r: SelfRating) => {
     await updateStep(stepId, { selfExplanation: text, selfRating: r });

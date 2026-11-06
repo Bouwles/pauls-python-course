@@ -15,15 +15,18 @@ import { CertificateButton } from "../certificates/CertificateButton";
 import { FloorArt } from "./FloorArt";
 import { floorName, jobBadge, mainJobs, type Floor } from "./floors";
 import type { FloorInfo } from "./Clocktower";
+import { isYou } from "@/lib/playas";
 import styles from "./FloorSheet.module.css";
 
 const cap = (id: string) => id.charAt(0).toUpperCase() + id.slice(1);
 
-/** "Caitlin's floor", "Aaesha and Neil's floor", "Everyone's floor". */
-export function residentsLine(floor: Floor, names: Record<string, string>): string {
-  const n = floor.residents.map((r) => names[r] ?? cap(r));
-  if (n.length > 2) return "Everyone's floor";
-  return `${n.join(" and ")}'s floor`;
+/** "Caitlin's floor", "Aaesha and Neil's floor", "Everyone's floor"; "Your floor" or "Aaesha's floor and yours" where you live. */
+export function residentsLine(floor: Floor, names: Record<string, string>, playAs: string | null = null): string {
+  if (floor.residents.length > 2) return "Everyone's floor";
+  const others = floor.residents.filter((r) => !isYou(r, playAs)).map((r) => names[r] ?? cap(r));
+  const yours = others.length < floor.residents.length;
+  if (yours) return others.length ? `${others.join(" and ")}'s floor and yours` : "Your floor";
+  return `${others.join(" and ")}'s floor`;
 }
 
 /** The project that opens a floor: the last written, numbered project on the floor below. */
@@ -38,7 +41,7 @@ export function opener(acts: ActSummary[], act: ActSummary): JobSummary | null {
  * projects as cards.
  * A native modal dialog: focus moves in and comes back, Escape and the backdrop close it.
  */
-export function FloorSheet({ info, progress, names, acts, placements, onClose }: { info: FloorInfo | null; progress: Record<string, JobProgressRow>; names: Record<string, string>; acts: ActSummary[]; placements: PlacementSummary[]; onClose: () => void }) {
+export function FloorSheet({ info, progress, names, playAs = null, acts, placements, onClose }: { info: FloorInfo | null; progress: Record<string, JobProgressRow>; names: Record<string, string>; playAs?: string | null; acts: ActSummary[]; placements: PlacementSummary[]; onClose: () => void }) {
   const ref = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -64,12 +67,12 @@ export function FloorSheet({ info, progress, names, acts, placements, onClose }:
         if (e.target === e.currentTarget) close();
       }}
     >
-      {info ? <SheetBody info={info} progress={progress} names={names} acts={acts} placements={placements} onClose={close} /> : null}
+      {info ? <SheetBody info={info} progress={progress} names={names} playAs={playAs} acts={acts} placements={placements} onClose={close} /> : null}
     </dialog>
   );
 }
 
-function SheetBody({ info, progress, names, acts, placements, onClose }: { info: FloorInfo; progress: Record<string, JobProgressRow>; names: Record<string, string>; acts: ActSummary[]; placements: PlacementSummary[]; onClose: () => void }) {
+function SheetBody({ info, progress, names, playAs, acts, placements, onClose }: { info: FloorInfo; progress: Record<string, JobProgressRow>; names: Record<string, string>; playAs: string | null; acts: ActSummary[]; placements: PlacementSummary[]; onClose: () => void }) {
   const { floor, act, stats, state, open } = info;
   const first = opener(acts, act);
   const canPlace = placements.some((p) => p.act === acts.find((a) => a.number === act.number - 1)?.id);
@@ -96,7 +99,7 @@ function SheetBody({ info, progress, names, acts, placements, onClose }: { info:
               ))}
             </span>
             <span>
-              {residentsLine(floor, names)}. {stats.shipped} of {stats.total} shipped.
+              {residentsLine(floor, names, playAs)}. {stats.shipped} of {stats.total} shipped.
             </span>
           </p>
         </div>

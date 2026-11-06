@@ -8,20 +8,22 @@
 // The race is run by full-body figures (lib/pixel/figures.ts): you and him, side on, him with his
 // stopwatch. He warms up before the start and waits at the flag if he's there first; at the end
 // the winner cheers and the other shrugs or claps. What each of them does, and the gestures he
-// says his lines with, change from visit to visit (lib/pixel/variety.ts).
+// says his lines with, change from visit to visit (lib/pixel/variety.ts). When you're playing as
+// Yahya, his stand-in races you instead (lib/playas.ts), and you run as Yahya.
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import type { Card, Character, Concept } from "@/lib/content/types";
 import type { Expression, Pose } from "@/lib/pixel/people";
-import { castColour, floorFor, speakerFor } from "@/lib/cast";
+import { castColour, floorFor, ownerFor, speakerFor } from "@/lib/cast";
+import { useMe } from "@/lib/useMe";
 import { useSession } from "@/lib/store/session";
 import { useMedia } from "@/lib/useMedia";
 import type { DrillBestRow, JobProgressRow } from "@/lib/store/types";
 import { isShipped } from "@/lib/progress-rules";
 import type { View } from "@/lib/pixel/figures";
 import { moodOf } from "@/lib/mood";
-import { oneOf } from "@/lib/moments";
+import { oneOf, pickAction } from "@/lib/moments";
 import { useVisit } from "@/lib/useVisit";
 import { PixelFigure } from "../art/PixelFigure";
 import { Portrait } from "../art/Portrait";
@@ -63,13 +65,13 @@ function fmt(ms: number) {
 }
 
 export function Drills({ acts, characters }: { acts: DrillAct[]; characters: Record<string, Character> }) {
-  const { store, ready } = useSession();
+  const { store, ready, profile } = useSession();
   const params = useSearchParams();
   const [shipped, setShipped] = useState<Set<string> | null>(null);
   const [bests, setBests] = useState<Record<string, DrillBestRow>>({});
   const [active, setActive] = useState<Concept | null>(null);
   const phone = useMedia("(max-width: 720px)");
-  const rival = speakerFor("drill-start");
+  const rival = speakerFor("drill-start", { playAs: profile.settings.playAs });
   const rivalName = nameOf(characters, rival);
   const visit = useVisit();
 
@@ -203,6 +205,7 @@ const GOOD_LOSER = ["shrug", "clap"] as const;
 
 function DrillRun({ concept, best, characters, rival, onDone }: { concept: Concept; best: number | null; characters: Record<string, Character>; rival: string; onDone: () => void }) {
   const { store, profile } = useSession();
+  const me = useMe();
   const runner = useRunner();
   const phone = useMedia("(max-width: 720px)");
   const tasks: Card[] = useMemo(() => {
@@ -218,9 +221,10 @@ function DrillRun({ concept, best, characters, rival, onDone }: { concept: Conce
   const target = rivalTime(best);
   const done = useRef(false);
   const rivalName = nameOf(characters, rival);
-  const loser = speakerFor("drill-beaten");
-  const startLine = useLine(characters, rival, "drill-start", START_LINE);
-  const beatenLine = useLine(characters, loser, "drill-beaten", BEATEN_LINE, Boolean(result?.beat));
+  const loser = speakerFor("drill-beaten", { playAs: profile.settings.playAs });
+  // His lines, whoever's racing you: the stand-in says Yahya's when you're Yahya.
+  const startLine = useLine(characters, ownerFor("drill-start"), "drill-start", START_LINE, true, rival);
+  const beatenLine = useLine(characters, ownerFor("drill-beaten"), "drill-beaten", BEATEN_LINE, Boolean(result?.beat), loser);
   const wonLine = useMemo(() => WON_LINES[Math.floor(Math.random() * WON_LINES.length)]!, []);
 
   useEffect(() => {
@@ -268,7 +272,8 @@ function DrillRun({ concept, best, characters, rival, onDone }: { concept: Conce
   }, [tasksDone]);
   const youWon = Boolean(result?.beat);
   const you: { action: string; facing: View } = result
-    ? { action: youWon ? "cheer" : oneOf(GOOD_LOSER, `you|${visit}`), facing: "front" }
+    ? // Playing as one of the class, you celebrate in a way of theirs (Caitlin's guitar).
+      { action: youWon ? (me.who ? pickAction({ who: me.who, tags: ["celebrate"], seed: `you-won|${visit}` }) : "cheer") : oneOf(GOOD_LOSER, `you|${visit}`), facing: "front" }
     : !started
       ? { action: "stand", facing: "right" }
       : { action: moving ? "run" : "think", facing: "right" };
@@ -324,7 +329,7 @@ function DrillRun({ concept, best, characters, rival, onDone }: { concept: Conce
                   <li key={i} className={i < tasksDone ? styles.segDone : started && !result && i === index ? styles.segNow : undefined} />
                 ))}
               </ol>
-              <Runner at={youAt} avatar={profile.character} action={you.action} facing={you.facing} />
+              <Runner at={youAt} who={me.who} avatar={me.avatar} action={you.action} facing={you.facing} />
               <Icon name="flag" size={24} className={styles.flag} />
             </div>
           </div>

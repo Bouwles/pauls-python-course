@@ -130,6 +130,8 @@ async function createLocalUser(email: string, password: string | null): Promise<
 // ---------------------------------------------------------------------------
 
 export async function getSessionUser(): Promise<SessionUser | null> {
+  // The GitHub Pages build has no server: everyone is a guest.
+  if (process.env.NEXT_PUBLIC_PPC_STATIC === "1") return null;
   if (supabaseEnabled()) {
     const supabase = await supabaseServer();
     const { data } = await supabase.auth.getUser();

@@ -17,3 +17,10 @@ tsconfig.tsbuildinfo
 
 # The cast's GIFs, made by scripts/export-cast-animations.ts (big, and made from the code)
 /Paul's Python Course Cast/
+
+# The GitHub Pages build (scripts/build-pages.ts)
+/pages-out/
+/.pages-stash/
+/.next-pages/
+/out/
+/public/data/

@@ -1,5 +1,7 @@
 // The cast (REDESIGN-2.md 7): who speaks for what. Interface code asks here instead of
-// naming a character, so the cast lives in content/characters/ and this one table.
+// naming a character, so the cast lives in content/characters/ and this one table. When you're
+// playing as one of the class, their lines go to their stand-in (lib/playas.ts).
+import { isYou, speakerOf } from "./playas";
 
 export const PROFESSOR = "paul";
 export const ASSISTANT = "neil";
@@ -57,12 +59,38 @@ const SPEAKER: Record<string, string> = {
   recap: "client",
 };
 
-/** Who says `event`. `classmate` is the step's classmate, `client` the project's client. */
-export function speakerFor(event: string, ctx: { classmate?: string | null; client?: string | null } = {}): string {
+export interface SpeakerContext {
+  /** The step's classmate, on a "fix my version" step. */
+  classmate?: string | null;
+  /** The project's client. */
+  client?: string | null;
+  /** Who you're playing as (lib/playas.ts). */
+  playAs?: string | null;
+}
+
+/** Whose line `event` is: the character whose pool in content/characters/ holds it. */
+export function ownerFor(event: string, ctx: SpeakerContext = {}): string {
   const who = SPEAKER[event] ?? PROFESSOR;
   if (who === "classmate") return ctx.classmate ?? PROFESSOR;
   if (who === "client") return ctx.client ?? PROFESSOR;
   return who;
+}
+
+/**
+ * Who says `event`: its owner, or the owner's stand-in when that's who you're playing as (Paul
+ * gives the hints when you're Neil). The words still come from the owner's pool.
+ */
+export function speakerFor(event: string, ctx: SpeakerContext = {}): string {
+  return speakerOf(ownerFor(event, ctx), ctx.playAs);
+}
+
+/**
+ * A line about the speaker's own work, their old version or their project ("Back to my {job}"),
+ * which nobody else can say for them: when that person is you, it isn't said at all.
+ */
+export function isOwnWork(event: string, ctx: SpeakerContext = {}): boolean {
+  const role = SPEAKER[event];
+  return (role === "classmate" || role === "client") && isYou(ownerFor(event, ctx), ctx.playAs);
 }
 
 /** A first try that passes: Yahya or Caitlin, whoever has something fresh to say. */

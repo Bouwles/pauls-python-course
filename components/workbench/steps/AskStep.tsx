@@ -14,17 +14,21 @@ import styles from "./ask.module.css";
 
 /**
  * The Ask (REDESIGN3_PLAN.md P3), as a cutscene: the client at their desk in their room on the
- * Clocktower, big and alive, asking for the program a line at a time under the scene. Each line
+ * Clocktower, big and alive, asking for the program a line at a time under the scene. Your own
+ * project (you're playing as its client, lib/playas.ts): you at your own desk, saying your lines
+ * as "You". Each line
  * types out while its speaker's mouth moves, with a face and gesture that fit it; the client
  * greets on their first line in a way of their own, and between lines and after the brief gets
  * on with something of their own in their room. Then the project spec and "Start building".
  * Skip shows every line at once; reduced motion does that from the start.
  */
 export function AskStepView({ step, row }: { step: AskStep; row: StepProgressRow }) {
-  const { job, areas, conceptTitles, markPassed, goNext, nameOf } = useWorkbench();
+  const { job, areas, conceptTitles, markPassed, goNext, nameOf, speakerName, ownProject } = useWorkbench();
   const lines = useMemo(() => step.dialogue.filter((l) => isSpoken(l.who)), [step.dialogue]);
   const client = job.client;
   const clientName = nameOf(client);
+  // On the stage's name plate: "You", at your own desk.
+  const plate = speakerName(client);
   const talk = useConversation(lines.length);
   const visit = useVisit();
 
@@ -44,21 +48,27 @@ export function AskStepView({ step, row }: { step: AskStep; row: StepProgressRow
     <div className={areas.full}>
       <div className={styles.ask}>
         <header className={styles.head}>
-          <p className={styles.kicker}>A new project for {clientName}</p>
+          <p className={styles.kicker}>{ownProject ? "Your own project" : `A new project for ${clientName}`}</p>
           <h1 className={styles.title}>{job.title}</h1>
         </header>
         <div className={styles.stageWrap}>
-          <Stage act={act} lead={stage(client)} guests={guests} name={clientName} label={`${clientName}, at their desk, who needs the ${job.title.toLowerCase()}`} />
+          <Stage
+            act={act}
+            lead={stage(client)}
+            guests={guests}
+            name={plate}
+            label={ownProject ? `You, at your own desk, needing the ${job.title.toLowerCase()}` : `${clientName}, at their desk, who needs the ${job.title.toLowerCase()}`}
+          />
         </div>
         <div className={styles.side}>
           {lines.length ? (
-            <ol className={styles.lines} aria-label={`What ${clientName} asks for`}>
+            <ol className={styles.lines} aria-label={ownProject ? "What you need" : `What ${clientName} asks for`}>
               {lines.slice(0, talk.shown).map((l, i) => {
                 const again = i > 0 && lines[i - 1]!.who === l.who;
                 const live = talk.live(i);
                 return (
                   <li key={i} className={[styles.lineItem, again ? styles.same : ""].join(" ")}>
-                    <SpokenLine who={l.who} name={again ? undefined : nameOf(l.who)} text={l.text} tail={again ? "none" : "top"} live={live} onMouth={talk.setMouth} onDone={live ? talk.lineDone : undefined} />
+                    <SpokenLine who={l.who} name={again ? undefined : speakerName(l.who)} text={l.text} tail={again ? "none" : "top"} live={live} onMouth={talk.setMouth} onDone={live ? talk.lineDone : undefined} />
                   </li>
                 );
               })}
@@ -66,7 +76,7 @@ export function AskStepView({ step, row }: { step: AskStep; row: StepProgressRow
           ) : null}
           {/* Each line once, whole, for screen readers: the typing is only for the eyes. */}
           <p className="visually-hidden" aria-live="polite">
-            {talk.skipped || !lines[talk.at] ? "" : `${nameOf(lines[talk.at]!.who)}: ${lines[talk.at]!.text}`}
+            {talk.skipped || !lines[talk.at] ? "" : `${speakerName(lines[talk.at]!.who)}: ${lines[talk.at]!.text}`}
           </p>
           {talk.playing ? (
             <div className={styles.skipRow}>
