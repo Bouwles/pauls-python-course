@@ -1,4 +1,4 @@
-import { BRAND, siteUrl } from "@/lib/brand";
+import { BRAND } from "@/lib/brand";
 import { getCertificate } from "@/lib/server/certificates";
 import { getDb } from "@/lib/server/db";
 import { certificateImage } from "@/components/certificates/CertificateImage";
@@ -13,7 +13,7 @@ export async function GET(req: Request, ctx: { params: Promise<{ id: string }> }
   const c = await getCertificate(await getDb(), id);
   if (!c) return new Response("Not found", { status: 404 });
   const download = new URL(req.url).searchParams.has("download");
-  return certificateImage(c, siteUrl(), {
+  return certificateImage(c, {
     "Cache-Control": "public, max-age=3600",
     "Content-Disposition": `${download ? "attachment" : "inline"}; filename="${slug}-certificate-act-${c.actNumber}.png"`,
   });

@@ -12,6 +12,9 @@ const FONTS: [string, string, string][] = [
   ["Fredoka", "the display face, for titles, names, buttons and labels", "by the Fredoka Project Authors, SIL Open Font License 1.1"],
   ["Atkinson Hyperlegible Next", "the text face, for reading and for anything you type", "by the Braille Institute of America, SIL Open Font License 1.1"],
   ["JetBrains Mono", "the code face", "by JetBrains, SIL Open Font License 1.1"],
+  ["UnifrakturMaguntia", "the course's name on certificates", "by j. 'mach' wust, SIL Open Font License 1.1"],
+  ["Pinyon Script", "names on certificates", "by Nicole Fally, SIL Open Font License 1.1"],
+  ["Old Standard TT", "the wording on certificates", "by Alexey Kryukov, SIL Open Font License 1.1"],
 ];
 
 const SOFTWARE: [string, string, string][] = [

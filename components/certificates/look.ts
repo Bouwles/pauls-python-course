@@ -13,14 +13,20 @@ export const NIGHT = {
   text3: "#6E7584",
 };
 
-/** The light theme, for certificates (they get printed). */
-export const DAY = {
-  bg: "#FFFFFF",
-  surface: "#F6F7F9",
-  line: "#DDE1E8",
-  text: "#14171D",
-  text2: "#4F5665",
-  sunText: "#8A5A00",
+/** The certificate, printed as a banknote is: one green ink on pale paper, with gold for the seal. */
+export const ENGRAVED = {
+  paper: "#fbf9f1",
+  /** The faint pattern under the words. */
+  tint: "#e3ebdf",
+  ink: "#1c4a3a",
+  /** The words. */
+  black: "#191d1a",
+  soft: "#47524a",
+  /** The pen Paul signs with. */
+  pen: "#17264f",
+  gold: "#c2a04e",
+  goldLight: "#ecd693",
+  goldDark: "#7d5f1e",
 };
 
 export const SUN = "#FFB627";

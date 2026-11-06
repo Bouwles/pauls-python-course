@@ -1,4 +1,4 @@
-import { BRAND, siteUrl } from "@/lib/brand";
+import { BRAND } from "@/lib/brand";
 import { getCertificate } from "@/lib/server/certificates";
 import { getDb } from "@/lib/server/db";
 import { certificatePng } from "@/components/certificates/CertificateImage";
@@ -13,7 +13,7 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
   const { id } = await ctx.params;
   const c = await getCertificate(await getDb(), id);
   if (!c) return new Response("Not found", { status: 404 });
-  const pdf = pngToPdf(await certificatePng(c, siteUrl()), `${BRAND.name} certificate: ${c.name}, Act ${c.actNumber}`);
+  const pdf = pngToPdf(await certificatePng(c), `${BRAND.name} certificate: ${c.name}, Act ${c.actNumber}`);
   return new Response(new Uint8Array(pdf), {
     headers: { "Content-Type": "application/pdf", "Cache-Control": "public, max-age=3600", "Content-Disposition": `attachment; filename="${slug}-certificate-act-${c.actNumber}.pdf"` },
   });

@@ -265,7 +265,7 @@ One line per non-obvious choice: the choice, then the reason.
 - **Certificates (`components/certificates`):**
   - "Get the certificate" on a finished floor checks this browser's progress: every main project in the Act shipped. It asks for a name if there isn't one.
   - The link holds the name, the Act, how many projects, the day the last of them shipped (so the same progress always makes the same link), and who you play as.
-  - The page draws the server version's design from one layout (`art.ts`): an SVG on the page, which prints as vectors, and the same shapes on a canvas for "Save as a picture" (2000 by 1414). Text is measured with the fonts the page has loaded, so both agree.
+  - One layout (`art.ts`) is drawn three ways: an SVG on the page, which prints as vectors, the same shapes on a canvas for "Save as a picture" (2000 by 1414), and by the server. Text is measured with the fonts the page has loaded, so they agree.
   - "Print or save as PDF" uses a print stylesheet: the certificate alone, on one A4 landscape page.
   - The page says plainly what it is: drawn from the link, which nothing signs, so a keepsake for friends rather than proof.
   - Signed in on the local version, the server still issues its own verified certificate (`/certificates/<id>`).
@@ -312,3 +312,14 @@ The owner said the site looked and read as if it was AI generated.
 - **Who you play as (`playable.ts`):** `about` is a whole sentence, where it used to be a phrase after "Into", so a card can say something else. Caitlin's says "Let's act like I knew what to put here.", in the owner's words.
 - **Code in speech:** lines in `content/characters/` put code in backticks, which used to show as typed. `Speech` now sets it as code and leaves the backticks out for screen readers.
 - **Take It Home commands:** a long command wraps in its box and Copy takes it whole. A box that scrolled sideways couldn't be reached by keyboard.
+
+## The certificate: formal, engraved, signed by hand
+
+The owner said the certificate looked AI generated, and asked for it to be formal and to look like real ones. A chalkboard version was tried first and turned down for not being formal.
+
+- **What it copies:** old stock certificates and university diplomas. A guilloche border in one green ink, an engraved vignette at the head, the institution's name in blackletter, "This certifies that" in italics, the name in copperplate on a ruled line, then a gold seal between the date and the signature.
+- **Worked out, as the real thing is (`engraving.ts`):** the border and rosettes are phase-shifted waves laid over each other, as a guilloche engine draws them. The vignette is the Clocktower in hatched lines, with its clock saying 3:14 as it always does.
+- **The signature (`signature.ts`):** only "Paul", in one go of the pen, with connected letters, a looped l and a flourish back under the word. It's a filled outline that's thin going up and thick coming down, in blue-black, so it reads as signed rather than printed.
+- **No address on it:** it printed the site's address, which showed `localhost` on a local copy. Nothing on it needs one.
+- **No pixel art on it:** the rest of the site is pixels, and this one page isn't meant to be. It's the one thing people frame.
+

@@ -5,9 +5,12 @@
 import type { Shape } from "./art";
 import { SHEET } from "./art";
 
+const SERIF = "var(--font-cert-serif), serif";
 const FAMILY = {
-  display: "var(--font-display-ext), var(--font-display)",
-  text: "var(--font-text)",
+  title: `var(--font-cert-title), ${SERIF}`,
+  script: `var(--font-cert-script), var(--font-cert-script-ext), ${SERIF}`,
+  serif: SERIF,
+  italic: SERIF,
 };
 
 export function CertificateSvg({ shapes, label, className }: { shapes: Shape[]; label: string; className?: string }) {
@@ -15,15 +18,11 @@ export function CertificateSvg({ shapes, label, className }: { shapes: Shape[]; 
     <svg className={className} viewBox={`0 0 ${SHEET.width} ${SHEET.height}`} role="img" aria-label={label} preserveAspectRatio="xMidYMid meet">
       {shapes.map((s, i) =>
         s.kind === "rect" ? (
-          <rect key={i} x={s.x} y={s.y} width={s.w} height={s.h} fill={s.fill} shapeRendering="crispEdges" />
-        ) : s.kind === "pixels" ? (
-          <g key={i} transform={`translate(${s.x} ${s.y}) scale(${s.scale})`} shapeRendering="crispEdges">
-            {s.runs.map((r, j) => (
-              <rect key={j} x={r.x} y={r.y} width={r.n} height={1} fill={r.fill} />
-            ))}
-          </g>
+          <rect key={i} x={s.x} y={s.y} width={s.w} height={s.h} fill={s.fill} />
+        ) : s.kind === "path" ? (
+          <path key={i} d={s.d} fill={s.fill ?? "none"} stroke={s.stroke} strokeWidth={s.width} strokeLinejoin="round" />
         ) : (
-          <text key={i} x={s.x} y={s.y} fontSize={s.size} fontWeight={s.weight} fill={s.fill} textAnchor={s.anchor} style={{ fontFamily: FAMILY[s.face] }}>
+          <text key={i} x={s.x} y={s.y} fontSize={s.size} fill={s.fill} textAnchor={s.anchor} transform={s.turn === undefined ? undefined : `rotate(${s.turn} ${s.x} ${s.y})`} style={{ fontFamily: FAMILY[s.face], fontStyle: s.face === "italic" ? "italic" : "normal", fontWeight: 400 }}>
             {s.text}
           </text>
         ),

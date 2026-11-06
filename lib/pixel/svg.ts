@@ -1,7 +1,6 @@
 // A pixel person as an SVG document, for places with no canvas: the server-drawn share cards and
 // certificates (next/og), and scripts. Each row's runs of one colour become one rectangle, and
-// every edge stays crisp at any whole-number scale. The runs themselves (personRuns) are what the
-// certificate drawn in the browser paints, as an SVG on the page and on a canvas for the picture.
+// every edge stays crisp at any whole-number scale.
 import { drawPerson, H, W, type Moment, type PersonLook } from "./people";
 
 /** The part of the 48x52 grid each crop shows (as PixelPerson's crops). */

@@ -25,16 +25,16 @@ describe("certificates", () => {
   });
 
   it("draw a PNG the shape of A4 landscape, with no background left clear", async () => {
-    const png = await certificatePng(cert, "https://paulspythoncourse.example");
+    const png = await certificatePng(cert);
     expect(pngInfo(png)).toMatchObject(CERTIFICATE_SIZE);
     const { rgba, width } = decodePng(png);
-    // White paper at the edge, the sun band along the top.
-    expect([...rgba.subarray((700 * width + 4) * 4, (700 * width + 4) * 4 + 4)]).toEqual([255, 255, 255, 255]);
-    expect([...rgba.subarray((4 * width + 1000) * 4, (4 * width + 1000) * 4 + 3)]).toEqual([255, 182, 39]);
+    // Pale paper at the edge, inside it the green ruled border.
+    expect([...rgba.subarray((700 * width + 4) * 4, (700 * width + 4) * 4 + 4)]).toEqual([251, 249, 241, 255]);
+    expect([...rgba.subarray((700 * width + 50) * 4, (700 * width + 50) * 4 + 3)]).toEqual([28, 74, 58]);
   });
 
   it("make a one-page PDF of the same picture", async () => {
-    const png = await certificatePng(cert, "https://paulspythoncourse.example");
+    const png = await certificatePng(cert);
     const pdf = pngToPdf(png, `Certificate: ${cert.name}`);
     const text = pdf.toString("latin1");
     expect(text.startsWith("%PDF-1.4")).toBe(true);

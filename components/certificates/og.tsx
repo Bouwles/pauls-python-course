@@ -14,7 +14,7 @@ export interface OgFont {
   name: string;
   data: Buffer;
   weight: Weight;
-  style: "normal";
+  style: "normal" | "italic";
 }
 
 let fonts: OgFont[] | null = null;
@@ -37,6 +37,12 @@ export function ogFonts(): OgFont[] {
     { name: "DisplayExt", weight: 800, style: "normal", data: file("fredoka/files/fredoka-latin-ext-700-normal.woff") },
     { name: "TextExt", weight: 400, style: "normal", data: file("atkinson-hyperlegible-next/files/atkinson-hyperlegible-next-latin-ext-400-normal.woff") },
     { name: "TextExt", weight: 700, style: "normal", data: file("atkinson-hyperlegible-next/files/atkinson-hyperlegible-next-latin-ext-700-normal.woff") },
+    // The certificate's formal faces.
+    { name: "CertTitle", weight: 400, style: "normal", data: file("unifrakturmaguntia/files/unifrakturmaguntia-latin-400-normal.woff") },
+    { name: "CertScript", weight: 400, style: "normal", data: file("pinyon-script/files/pinyon-script-latin-400-normal.woff") },
+    { name: "CertScriptExt", weight: 400, style: "normal", data: file("pinyon-script/files/pinyon-script-latin-ext-400-normal.woff") },
+    { name: "CertSerif", weight: 400, style: "normal", data: file("old-standard-tt/files/old-standard-tt-latin-400-normal.woff") },
+    { name: "CertSerif", weight: 400, style: "italic", data: file("old-standard-tt/files/old-standard-tt-latin-400-italic.woff") },
   ];
   return fonts;
 }
@@ -46,7 +52,7 @@ export const DISPLAY = "Display, DisplayExt";
 export const TEXT = "Text, TextExt";
 
 // The colours, the Roman numerals and the date, shared with the certificate drawn in the browser.
-export { NIGHT, DAY, SUN, OUTLINE, SUN_INK, PASS, PASS_TEXT } from "./look";
+export { NIGHT, SUN, OUTLINE, SUN_INK, PASS, PASS_TEXT } from "./look";
 
 /** The pixel snake-P, at a whole-number scale of its 16-pixel grid (16, 32, 48, 64 ...). */
 export function OgMark({ size }: { size: number }) {

@@ -8,7 +8,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { BRAND } from "@/lib/brand";
-import { BASE } from "@/lib/static";
 import { decodeShare, playingAsLine, type CertificateLink } from "@/lib/share-links";
 import { Button } from "../ui/Button";
 import { Icon } from "../ui/Icon";
@@ -17,8 +16,8 @@ import { copyText } from "../classes/LinkBox";
 import { ShareTrouble } from "../share/Trouble";
 import { CertificateSvg } from "./CertificateSheet";
 import { SHEET, certificateShapes, certificateWords, floorLine, paint, roughMeasure, type CertificateFacts, type Families, type Measure } from "./art";
-import { ROMAN, bareUrl, longDate } from "./look";
-import { displayExt } from "./fonts";
+import { ROMAN, longDate } from "./look";
+import { certificateFonts } from "./fonts";
 import styles from "./Certificate.module.css";
 
 export interface CertificateAct {
@@ -34,27 +33,21 @@ const slug = BRAND.name.toLowerCase().replace(/'/g, "").replace(/[^a-z0-9]+/g, "
 /** The faces the page shows, as lists the canvas can use. */
 function familiesOf(el: Element): Families {
   const css = getComputedStyle(el);
-  const ext = css.getPropertyValue("--font-display-ext").trim();
-  const display = css.getPropertyValue("--font-display").trim() || "sans-serif";
-  const text = css.getPropertyValue("--font-text").trim() || "sans-serif";
-  return { display: ext ? `${ext}, ${display}` : display, text };
+  const list = (...names: string[]) => [...names.map((n) => css.getPropertyValue(n).trim()).filter(Boolean), "serif"].join(", ");
+  const serif = list("--font-cert-serif");
+  return { title: list("--font-cert-title", "--font-cert-serif"), script: list("--font-cert-script", "--font-cert-script-ext", "--font-cert-serif"), serif, italic: serif };
 }
 
-/** Load every face the certificate uses (the name may need the Latin Extended one), then measure with them. */
+/** Load every face the certificate uses (the name may need a Latin Extended one), then measure with them. */
 async function loadMeasure(el: Element, name: string): Promise<{ measure: Measure; families: Families }> {
   const families = familiesOf(el);
   const sample = `${name} ${BRAND.name} 0123456789`;
-  await Promise.all([
-    document.fonts.load(`400 56px ${families.display}`, sample),
-    document.fonts.load(`700 56px ${families.display}`, sample),
-    document.fonts.load(`400 36px ${families.text}`, sample),
-    document.fonts.load(`700 30px ${families.text}`, sample),
-  ]).catch(() => undefined);
+  await Promise.all([document.fonts.load(`400 56px ${families.title}`, sample), document.fonts.load(`400 56px ${families.script}`, sample), document.fonts.load(`400 56px ${families.serif}`, sample), document.fonts.load(`italic 400 56px ${families.italic}`, sample)]).catch(() => undefined);
   await document.fonts.ready;
   const ctx = document.createElement("canvas").getContext("2d");
   if (!ctx) return { measure: roughMeasure, families };
-  const measure: Measure = (text, face, weight, size) => {
-    ctx.font = `${weight} ${size}px ${families[face]}`;
+  const measure: Measure = (text, face, size) => {
+    ctx.font = `${face === "italic" ? "italic " : ""}400 ${size}px ${families[face]}`;
     return ctx.measureText(text).width;
   };
   return { measure, families };
@@ -86,7 +79,6 @@ function Certificate({ cert, acts, names }: { cert: CertificateLink; acts: Certi
       projects: cert.projects,
       day: cert.day,
       playingAs: playing && cert.maker.playAs ? { id: cert.maker.playAs, name: names[cert.maker.playAs] ?? cert.maker.playAs } : null,
-      site: bareUrl(`${window.location.origin}${BASE}`),
     }),
     [cert, act, roman, playing, names],
   );
@@ -136,7 +128,7 @@ function Certificate({ cert, acts, names }: { cert: CertificateLink; acts: Certi
   const copy = async () => setNote((await copyText(window.location.href)) ? "Copied the link. Anyone you send it to sees this page." : "This browser wouldn't copy it. Copy the address from the address bar instead.");
 
   return (
-    <div className={`${styles.page} ${displayExt.variable}`} ref={holder}>
+    <div className={`${styles.page} ${certificateFonts}`} ref={holder}>
       <CertificateSvg className={styles.image} shapes={shapes} label={words} />
       <section className={styles.verify} aria-labelledby="verify-title">
         <p className={styles.kicker}>
@@ -186,7 +178,7 @@ function Certificate({ cert, acts, names }: { cert: CertificateLink; acts: Certi
         <p className={styles.honest}>A keepsake for friends. Nothing signs the link, so it doesn&apos;t prove anything.</p>
       </section>
       {/* What prints: the certificate alone, filling an A4 landscape page. */}
-      {mounted ? createPortal(<div className={`${styles.print} ${displayExt.variable}`} aria-hidden="true"><CertificateSvg shapes={shapes} label={words} /></div>, document.body) : null}
+      {mounted ? createPortal(<div className={`${styles.print} ${certificateFonts}`} aria-hidden="true"><CertificateSvg shapes={shapes} label={words} /></div>, document.body) : null}
     </div>
   );
 }

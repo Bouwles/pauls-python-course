@@ -1,14 +1,14 @@
 // The certificate drawn in the browser (components/certificates/art.ts): one layout, painted as an
 // SVG on the page and onto a canvas for the picture. Everything stays on the A4 sheet, long names
 // get smaller or a second line, and the words say what it is.
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { SHEET, certificateShapes, certificateWords, fitName, paint, roughMeasure, wrap, type CertificateFacts, type Shape } from "@/components/certificates/art";
 import { encodeCertificate } from "@/lib/share-links";
 import { certificateHash, certificateJobs } from "@/components/certificates/CertificateButton";
 import { getIndex } from "@/lib/content/server";
 import type { JobProgressRow } from "@/lib/store/types";
 
-const facts: CertificateFacts = { name: "Ruth Okafor", act: 4, actName: "Algorithms and data structures", projects: 14, day: "2026-11-06", playingAs: { id: "neil", name: "Neil" }, site: "bouwles.github.io/pauls-python-course" };
+const facts: CertificateFacts = { name: "Ruth Okafor", act: 4, actName: "Algorithms and data structures", projects: 14, day: "2026-11-06", playingAs: { id: "neil", name: "Neil" } };
 const texts = (shapes: Shape[]) => shapes.filter((s) => s.kind === "text").map((s) => (s.kind === "text" ? s.text : ""));
 
 describe("the certificate's layout", () => {
@@ -16,17 +16,17 @@ describe("the certificate's layout", () => {
     for (const act of [1, 4, 8, 9]) {
       for (const s of certificateShapes({ ...facts, act })) {
         if (s.kind === "text") {
-          const w = roughMeasure(s.text, s.face, s.weight, s.size);
+          const w = roughMeasure(s.text, s.face, s.size);
           const left = s.anchor === "start" ? s.x : s.anchor === "end" ? s.x - w : s.x - w / 2;
           expect(left).toBeGreaterThanOrEqual(0);
           expect(left + w).toBeLessThanOrEqual(SHEET.width);
           expect(s.y).toBeLessThanOrEqual(SHEET.height);
         } else {
-          const [w, h] = s.kind === "rect" ? [s.w, s.h] : [s.w * s.scale, s.h * s.scale];
+          if (s.kind !== "rect") continue;
           expect(s.x).toBeGreaterThanOrEqual(0);
           expect(s.y).toBeGreaterThanOrEqual(0);
-          expect(s.x + w).toBeLessThanOrEqual(SHEET.width);
-          expect(s.y + h).toBeLessThanOrEqual(SHEET.height);
+          expect(s.x + s.w).toBeLessThanOrEqual(SHEET.width);
+          expect(s.y + s.h).toBeLessThanOrEqual(SHEET.height);
         }
       }
     }
@@ -34,23 +34,27 @@ describe("the certificate's layout", () => {
 
   it("says who, what, when, where and who signed it", () => {
     const words = texts(certificateShapes(facts));
-    expect(words).toEqual(expect.arrayContaining(["Certificate of completion", "This certifies that", "Ruth Okafor", "completed Act IV: Algorithms and data", "structures", "14 Python projects shipped.", "The Puzzle Room, floor 3 of the Clocktower", "Playing as Neil", "6 November 2026", "bouwles.github.io/pauls-python-course", "Paul Nercessian", "IV"]));
-    expect(certificateWords(facts)).toBe("Paul's Python Course certificate of completion: Ruth Okafor completed Act IV, Algorithms and data structures, with 14 projects shipped. Completed 6 November 2026. Playing as Neil. Signed Paul Nercessian.");
+    expect(words).toEqual(expect.arrayContaining(["Paul's Python Course", "Certificate of Completion", "This certifies that", "Ruth Okafor", "has completed Act IV: Algorithms and data structures", "and shipped fourteen Python projects", "in the Puzzle Room, floor 3 of the Clocktower, playing as Neil", "6 November 2026", "Date", "Professor"]));
+    // Signed by hand, in pen: an outline, not a typed name. And no address printed on it.
+    expect(certificateShapes(facts).some((s) => s.kind === "path" && s.fill === "#17264f")).toBe(true);
+    expect(words).not.toContain("Paul Nercessian");
+    expect(words.join(" ")).not.toMatch(/localhost|github\.io/);
+    expect(certificateWords(facts)).toBe("Paul's Python Course certificate of completion: Ruth Okafor completed Act IV, Algorithms and data structures, with 14 projects shipped. Completed 6 November 2026. Playing as Neil. Signed by Paul.");
   });
 
-  it("stands the floor's residents on the seal: one for the Workshop, six heads on the roof", () => {
-    const people = (act: number) => certificateShapes({ ...facts, act }).filter((s) => s.kind === "pixels" && s.w !== 16);
-    expect(people(1)).toHaveLength(1);
-    expect(people(8)).toHaveLength(2);
-    expect(people(9)).toHaveLength(6);
+  it("runs the course's name round the seal, and keeps everything clear of it", () => {
+    const shapes = certificateShapes({ ...facts, name: "Maximiliana Konstantina Okafor-Featherstonehaugh de la Cruz" });
+    expect(shapes.filter((s) => s.kind === "text" && s.turn !== undefined).length).toBeGreaterThan(20);
+    // Everything in the middle of the page stops above the seal, even with a two-line name.
+    for (const s of shapes) if (s.kind === "text" && s.turn === undefined && !["Act", "IV", "Date", "Professor", "6 November 2026"].includes(s.text)) expect(s.y).toBeLessThan(1012);
   });
 
   it("gives a long name a smaller size, then a second line", () => {
-    expect(fitName("Ruth", roughMeasure)).toEqual({ size: 144, lines: ["Ruth"] });
-    expect(fitName("Maximilian Okafor-Featherstonehaugh", roughMeasure).size).toBeLessThan(144);
-    const long = fitName("Maximiliana Konstantina Okafor-Featherstonehaugh de la Cruz", roughMeasure);
+    expect(fitName("Ruth", roughMeasure)).toEqual({ size: 152, lines: ["Ruth"] });
+    expect(fitName("Maximilian Okafor-Featherstonehaugh", roughMeasure).size).toBeLessThan(152);
+    const long = fitName("Maximiliana Konstantina Okafor-Featherstonehaugh de la Cruz Montgomery-Wellington the Third of Somewhere", roughMeasure);
     expect(long.lines.length).toBe(2);
-    for (const l of long.lines) expect(roughMeasure(l, "display", 400, long.size)).toBeLessThanOrEqual(1240);
+    for (const l of long.lines) expect(roughMeasure(l, "script", long.size)).toBeLessThanOrEqual(1480);
   });
 
   it("wraps by words, and cuts a word too long for any line", () => {
@@ -71,12 +75,22 @@ describe("the certificate's layout", () => {
       textAlign: "",
       textBaseline: "",
       fillRect: () => calls.push("rect"),
+      fill: () => calls.push("path"),
+      stroke: () => calls.push("stroke"),
+      save: () => undefined,
+      restore: () => undefined,
+      translate: () => undefined,
+      rotate: () => undefined,
       fillText: (t: string) => calls.push(`text ${t}`),
     } as unknown as CanvasRenderingContext2D;
-    paint(ctx, certificateShapes(facts), { display: "Fredoka", text: "Atkinson" });
+    vi.stubGlobal("Path2D", class {});
+    paint(ctx, certificateShapes(facts), { title: "Title", script: "Script", serif: "Serif", italic: "Serif" });
+    vi.unstubAllGlobals();
     expect(calls).toContain("text Ruth Okafor");
-    expect(calls).toContain("font 400 144px Fredoka");
-    expect(calls.filter((c) => c === "rect").length).toBeGreaterThan(100);
+    expect(calls).toContain("font 400 152px Script");
+    expect(calls).toContain("font italic 400 42px Serif");
+    expect(calls).toContain("path");
+    expect(calls.filter((c) => c === "stroke").length).toBeGreaterThan(10);
   });
 });
 

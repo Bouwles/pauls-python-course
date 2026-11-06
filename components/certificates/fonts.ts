@@ -1,16 +1,21 @@
 import localFont from "next/font/local";
 
-// Fredoka's Latin Extended half, for names like Łukasz or Dvořák on the certificate. The site
-// loads only the Latin half (app/layout.tsx); this one is used on the certificate page alone, and
-// only for the letters it covers, so everything else stays in the site's own Fredoka.
-export const displayExt = localFont({
+// The faces of a formal certificate, on the certificate page alone: blackletter for the course's
+// name as on a diploma, copperplate for the person's name, and an engraver's serif for the wording.
+// A person's name may need letters like the ones in Łukasz or Dvořák, so copperplate has both halves.
+const title = localFont({ src: "../../node_modules/@fontsource/unifrakturmaguntia/files/unifrakturmaguntia-latin-400-normal.woff2", variable: "--font-cert-title", display: "swap", preload: false, adjustFontFallback: false });
+const script = localFont({ src: "../../node_modules/@fontsource/pinyon-script/files/pinyon-script-latin-400-normal.woff2", variable: "--font-cert-script", display: "swap", preload: false, adjustFontFallback: false });
+const scriptExt = localFont({ src: "../../node_modules/@fontsource/pinyon-script/files/pinyon-script-latin-ext-400-normal.woff2", variable: "--font-cert-script-ext", display: "swap", preload: false, adjustFontFallback: false });
+const serif = localFont({
   src: [
-    { path: "../../node_modules/@fontsource/fredoka/files/fredoka-latin-ext-600-normal.woff2", weight: "400", style: "normal" },
-    { path: "../../node_modules/@fontsource/fredoka/files/fredoka-latin-ext-700-normal.woff2", weight: "700", style: "normal" },
+    { path: "../../node_modules/@fontsource/old-standard-tt/files/old-standard-tt-latin-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "../../node_modules/@fontsource/old-standard-tt/files/old-standard-tt-latin-400-italic.woff2", weight: "400", style: "italic" },
   ],
-  variable: "--font-display-ext",
+  variable: "--font-cert-serif",
   display: "swap",
   preload: false,
   adjustFontFallback: false,
-  declarations: [{ prop: "unicode-range", value: "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF" }],
 });
+
+/** Every certificate face, as class names that set their variables. */
+export const certificateFonts = [title, script, scriptExt, serif].map((f) => f.variable).join(" ");

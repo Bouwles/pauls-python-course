@@ -12,6 +12,9 @@ The logo, a pixel snake curled into a P, was drawn for this project (`lib/pixel/
 | --- | --- | --- | --- |
 | Fredoka | The display face: titles, names, buttons, labels, the wordmark, certificates and share cards | The Fredoka Project Authors | SIL OFL 1.1 |
 | Atkinson Hyperlegible Next | Text and interface | Braille Institute of America | SIL OFL 1.1 |
+| UnifrakturMaguntia | The course's name on certificates | j. 'mach' wust | SIL OFL 1.1 |
+| Pinyon Script | Names on certificates | Nicole Fally | SIL OFL 1.1 |
+| Old Standard TT | The wording on certificates | Alexey Kryukov | SIL OFL 1.1 |
 | JetBrains Mono | Code | JetBrains | SIL OFL 1.1 |
 
 All three come from Fontsource (`@fontsource/fredoka`, `@fontsource/atkinson-hyperlegible-next`, `@fontsource-variable/jetbrains-mono`); the server-drawn images use their static `.woff` files.
