@@ -423,7 +423,7 @@ function HillView({ frames, index, curve }: { frames: HillFrame[]; index: number
   const points = frames.map((f) => [f.x, f.loss] as const).filter((p): p is readonly [number, number] => p[0] !== null && p[1] !== null);
   const shown = frames.slice(0, index + 1);
   const all = [...(curve ?? []).filter((p): p is [number, number] => p[1] !== null), ...points];
-  if (!all.length) return <p className={styles.readout}>There&apos;s nothing to draw: every position or loss was not a number.</p>;
+  if (!all.length) return <p className={styles.readout}>There&apos;s nothing to draw, because every position or loss was not a number.</p>;
   const xs = all.map((p) => p[0]);
   const ys = all.map((p) => p[1]);
   const [x0, x1] = [Math.min(...xs), Math.max(...xs)];
@@ -468,7 +468,7 @@ function HillView({ frames, index, curve }: { frames: HillFrame[]; index: number
       </svg>
       <p className={styles.readout} aria-live="polite">
         {here ? `Step ${index}: x = ${fmt(here.x, 4)}, loss = ${fmt(here.loss, 4)}.` : ""}
-        {here?.loss !== null && here?.loss !== undefined && here.loss > yTop ? " Off the top of the drawing: the steps are too big." : ""}
+        {here?.loss !== null && here?.loss !== undefined && here.loss > yTop ? " It's gone off the top of the drawing, so the steps are too big." : ""}
       </p>
     </div>
   );

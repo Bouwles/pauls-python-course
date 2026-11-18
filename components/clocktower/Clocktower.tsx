@@ -106,7 +106,7 @@ export function Clocktower({ acts, placements, names, steps }: { acts: ActSummar
       <header className={styles.head}>
         <h1 className={styles.title}>The Clocktower</h1>
         <p className={styles.progress}>
-          {shipped === 0 ? "No projects shipped yet." : `${shipped} ${shipped === 1 ? "project" : "projects"} shipped.`} {floorsOpen} {floorsOpen === 1 ? "floor" : "floors"} open.
+          {shipped === 0 ? "No projects shipped yet" : `${shipped} ${shipped === 1 ? "project" : "projects"} shipped`}, and {floorsOpen} {floorsOpen === 1 ? "floor is" : "floors are"} open.
         </p>
       </header>
 

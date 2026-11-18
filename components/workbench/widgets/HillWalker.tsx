@@ -33,7 +33,7 @@ export function HillWalker({ params, onDone, done }: { params: { start?: number;
 
   return (
     <div className={styles.widget}>
-      <p className={styles.question}>The point wants the bottom of the curve. Each step moves it downhill by (learning rate) times (slope).</p>
+      <p className={styles.question}>The point wants to get to the bottom of the curve, and each step moves it downhill by (learning rate) times (slope).</p>
       <label className={styles.rateRow}>
         Learning rate: {rate.toFixed(2)}
         <input type="range" min={0.01} max={1.1} step={0.01} value={rate} onChange={(e) => setRate(Number(e.target.value))} className={styles.range} />
@@ -58,8 +58,8 @@ export function HillWalker({ params, onDone, done }: { params: { start?: number;
       </div>
       <p className={tried.small && tried.big ? styles.fbGood : styles.dim}>
         {tried.small && tried.big
-          ? "Too small and the descent takes forever; too big and each step overshoots further than the last. The learning rate is a choice you make, not something the model learns."
-          : `Try two things: reach the bottom with a rate of 0.5 or less${tried.small ? " (done)" : ""}, and then try a rate above 1${tried.big ? " (done)" : ""}.`}
+          ? "If it's too small the descent takes forever, and if it's too big each step overshoots further than the last. The learning rate is a choice you make yourself, because the model doesn't learn it."
+          : `Try reaching the bottom with a rate of 0.5 or less${tried.small ? " (done)" : ""}, and then try a rate above 1${tried.big ? " (done)" : ""}.`}
       </p>
     </div>
   );

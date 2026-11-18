@@ -127,7 +127,7 @@ export function useRunner() {
         flushOutput();
         const result: RunResult = {
           status: "error",
-          error: { type: "RuntimeError", message: "Python stopped unexpectedly. Very deep recursion is the usual cause.", file: null, line: null, column: null, text: null, frames: [], traceback: String((err as Error).message) },
+          error: { type: "RuntimeError", message: "Python stopped unexpectedly, which is usually very deep recursion.", file: null, line: null, column: null, text: null, frames: [], traceback: String((err as Error).message) },
           exitCode: 1,
           filesOut: {},
           output: "",

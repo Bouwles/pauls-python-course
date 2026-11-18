@@ -13,5 +13,5 @@ export async function POST(req: Request) {
   const body = await readJson<{ code?: string }>(req, 1_000);
   if (!body?.code) return json({ error: "Type the code from your terminal." }, 400);
   const ok = await approveDeviceCode(user.id, body.code);
-  return ok ? json({ ok: true }) : json({ error: "That code doesn't match, or it has expired. Run ppc login again for a new one." }, 400);
+  return ok ? json({ ok: true }) : json({ error: "That code doesn't match or it has expired, so run ppc login again for a new one." }, 400);
 }

@@ -83,12 +83,12 @@ export function Console({ state, source, onInput, onShowLine, onRetry }: Props) 
 
   const { phase, result, runtime } = state;
   let statusLine: string | null = null;
-  if (phase === "starting" || (runtime.status === "loading" && phase !== "idle")) statusLine = "Starting Python. The first time takes a few seconds.";
+  if (phase === "starting" || (runtime.status === "loading" && phase !== "idle")) statusLine = "Starting Python, which takes a few seconds the first time.";
   else if (phase === "running" && state.packages) statusLine = state.packages;
   else if (phase === "running") statusLine = state.awaitingInput !== null ? "Waiting for you to type." : "Running.";
-  else if (result?.status === "ok" && !result.output) statusLine = "Ran. Nothing was printed.";
-  else if (result?.status === "stopped") statusLine = "Stopped. If it was going round forever, look for a loop whose condition never changes.";
-  else if (result?.status === "output-limit") statusLine = "Stopped after 2000 lines of output. A loop that never ends is the usual cause.";
+  else if (result?.status === "ok" && !result.output) statusLine = "It ran, but nothing was printed.";
+  else if (result?.status === "stopped") statusLine = "Stopped, and if it was going round forever, look for a loop whose condition never changes.";
+  else if (result?.status === "output-limit") statusLine = "Stopped after 2000 lines of output, which is usually a loop that never ends.";
   else if (result?.status === "ok" && result.exitCode) statusLine = `Finished with exit code ${result.exitCode}.`;
   const empty = !state.output.length && !result && phase === "idle" && !state.loadError;
 
@@ -106,7 +106,7 @@ export function Console({ state, source, onInput, onShowLine, onRetry }: Props) 
       >
         {state.loadError ? (
           <div className={styles.loadError}>
-            <p>Python didn&apos;t start. This is usually the connection. Try again.</p>
+            <p>Python didn&apos;t start, which is usually the connection, so give it another go.</p>
             <div className={styles.row}>
               {onRetry ? (
                 <Button size="sm" onClick={onRetry}>
@@ -160,7 +160,7 @@ export function Console({ state, source, onInput, onShowLine, onRetry }: Props) 
             </form>
           ) : null}
         </pre>
-        {state.inputUnavailable ? <p className={styles.status}>This browser blocked typing into a running program. Reload the page; if it keeps happening, try another browser.</p> : null}
+        {state.inputUnavailable ? <p className={styles.status}>This browser blocked typing into a running program, so reload the page, and if it keeps happening try another browser.</p> : null}
         {result?.figures?.length ? (
           <div className={styles.figures}>
             {result.figures.map((png, i) => (

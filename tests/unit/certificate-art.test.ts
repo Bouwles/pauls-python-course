@@ -39,7 +39,7 @@ describe("the certificate's layout", () => {
     expect(certificateShapes(facts).some((s) => s.kind === "path" && s.fill === "#17264f")).toBe(true);
     expect(words).not.toContain("Paul Nercessian");
     expect(words.join(" ")).not.toMatch(/localhost|github\.io/);
-    expect(certificateWords(facts)).toBe("Paul's Python Course certificate of completion: Ruth Okafor completed Act IV, Algorithms and data structures, with 14 projects shipped. Completed 6 November 2026. Playing as Neil. Signed by Paul.");
+    expect(certificateWords(facts)).toBe("Paul's Python Course certificate of completion, saying Ruth Okafor completed Act IV, Algorithms and data structures, with 14 projects shipped. It was completed on 6 November 2026 playing as Neil, and it's signed by Paul.");
   });
 
   it("runs the course's name round the seal, and keeps everything clear of it", () => {

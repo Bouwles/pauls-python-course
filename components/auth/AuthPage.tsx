@@ -14,18 +14,18 @@ export type AuthMode = "signup" | "login" | "forgot" | "reset" | "confirm";
 // Who says hello at the door: Paul to someone new, Neil to someone coming back, with a greeting
 // that's different each visit (VisitSpeech).
 const WELCOME = {
-  signup: { who: PROFESSOR, text: "Welcome to the class. Pull up a chair: the ground floor is free.", face: "pleased", gesture: "wave" },
-  login: { who: ASSISTANT, text: "Welcome back. Your code's exactly where you left it, bugs and all.", face: "laughing", gesture: "wave" },
-  forgot: { who: ASSISTANT, text: "Happens to everyone. Paul resets his about once a term.", face: "laughing", gesture: "shrug" },
+  signup: { who: PROFESSOR, text: "Welcome to the class, pull up a chair, the ground floor is free.", face: "pleased", gesture: "wave" },
+  login: { who: ASSISTANT, text: "Welcome back, your code's exactly where you left it, bugs and all.", face: "laughing", gesture: "wave" },
+  forgot: { who: ASSISTANT, text: "Happens to everyone, Paul resets his about once a term.", face: "laughing", gesture: "shrug" },
   reset: { who: ASSISTANT, text: "Pick something you'll remember this time.", face: "pleased", gesture: "point" },
-  confirm: { who: PROFESSOR, text: "Nearly there. One check that the email is yours.", face: "pleased", gesture: "wave" },
+  confirm: { who: PROFESSOR, text: "Nearly there, I just need to check the email is yours.", face: "pleased", gesture: "wave" },
 } as const;
 
 const TITLES: Record<AuthMode, { title: string; lede: string }> = {
-  signup: { title: "Make an account", lede: "It keeps your code, your Shelf and your friends, on any device. The whole course is free." },
+  signup: { title: "Make an account", lede: "It keeps your code, your Shelf and your friends on any device, and the whole course is free." },
   login: { title: "Log in", lede: "Your work is where you left it." },
   forgot: { title: "A new password", lede: "We'll email you a link to set one." },
-  reset: { title: "A new password", lede: "Type it twice, and you're back in." },
+  reset: { title: "A new password", lede: "Type it twice and you're back in." },
   confirm: { title: "Confirming your email", lede: "One moment." },
 };
 

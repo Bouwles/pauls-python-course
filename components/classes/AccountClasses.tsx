@@ -84,8 +84,8 @@ function ClassesHome({ names, course, code }: { acts: CourseAct[]; names: Record
         <ClassLine
           who={teacherCast ?? "paul"}
           names={names}
-          text={mine?.length ? "Have a go at what's set. I can see how you're getting on, so you don't need to send me anything." : "Got a class code from your teacher? Type it below and you're in."}
-          third={mine?.length ? "Have a go at what's set. Your teacher sees how you're getting on." : "Got a class code? Type it below and you're in."}
+          text={mine?.length ? "Have a go at what's set, and I can see how you're getting on, so you don't need to send me anything." : "Got a class code from your teacher? Type it below and you're in."}
+          third={mine?.length ? "Have a go at what's set, and your teacher can see how you're getting on." : "Got a class code? Type it below and you're in."}
         />
       </header>
 
@@ -98,7 +98,7 @@ function ClassesHome({ names, course, code }: { acts: CourseAct[]; names: Record
         </p>
       ) : null}
 
-      <JoinForm initial={code} onJoined={(name) => (setNote(`You're in ${name}. What's set is on your desk in the Clocktower.`), void load())} />
+      <JoinForm initial={code} onJoined={(name) => (setNote(`You're in ${name}, and what's set is on your desk in the Clocktower.`), void load())} />
 
       {mine?.length ? (
         <section className={`px-panel ${teach.section}`} aria-labelledby="in-title">
@@ -112,7 +112,7 @@ function ClassesHome({ names, course, code }: { acts: CourseAct[]; names: Record
                 <div className={teach.titleRow}>
                   <h3 className={teach.h3}>{c.name}</h3>
                   <span className={teach.meta}>
-                    {c.teacher ? `With ${c.teacher}. ` : ""}Joined {shortDate(c.joinedAt)}.
+                    {c.teacher ? `With ${c.teacher}, joined` : "Joined"} {shortDate(c.joinedAt)}.
                   </span>
                 </div>
                 {set.length === 0 ? (
@@ -145,7 +145,7 @@ function ClassesHome({ names, course, code }: { acts: CourseAct[]; names: Record
                     })}
                   </ul>
                 )}
-                <LeaveClass cls={c} userId={user?.id ?? ""} onLeft={() => (setNote(`You've left ${c.name}. Its code brings you back.`), void load())} />
+                <LeaveClass cls={c} userId={user?.id ?? ""} onLeft={() => (setNote(`You've left ${c.name}, but its code will get you back in.`), void load())} />
               </div>
             );
           })}
@@ -172,14 +172,14 @@ function JoinForm({ initial, onJoined }: { initial: string; onJoined: (name: str
     setError(null);
     try {
       const id = await remote.joinClass(clean);
-      if (!id) return setError("No class has that code. Check it with your teacher.");
+      if (!id) return setError("No class has that code, so check it with your teacher.");
       const name = (await remote.myClasses()).find((c) => c.classId === id)?.name ?? "the class";
       setCode("");
       // The code has done its job: take it out of the address.
       if (initial) router.replace("/class");
       onJoined(name);
     } catch {
-      setError("That didn't work. Try again in a moment.");
+      setError("That didn't work, so try again in a moment.");
     } finally {
       setBusy(false);
     }
@@ -206,7 +206,7 @@ function JoinForm({ initial, onJoined }: { initial: string; onJoined: (name: str
           {error}
         </p>
       ) : (
-        <p className={teach.meta}>Your teacher sees your progress and code on the projects in this course while you&apos;re in their class. Leave whenever you like.</p>
+        <p className={teach.meta}>Your teacher sees your progress and code on the projects in this course while you&apos;re in their class, and you can leave whenever you like.</p>
       )}
     </section>
   );
@@ -218,7 +218,7 @@ function LeaveClass({ cls, userId, onLeft }: { cls: remote.Membership; userId: s
     <div className={styles.dangerRow}>
       {asking ? (
         <span className={styles.inlineConfirm}>
-          <span>Leave {cls.name}? Your work stays; only the class goes.</span>
+          <span>Leave {cls.name}? Your work stays, it&apos;s only the class that goes.</span>
           <Button size="sm" variant="danger" onClick={() => void remote.leaveClass(cls.classId, userId).then(onLeft)}>
             Leave the class
           </Button>
@@ -250,11 +250,11 @@ function TaughtList({ classes, onChanged, setNote }: { classes: remote.TaughtCla
     setError(null);
     try {
       await remote.createClass(name);
-      setNote(`Made ${name.trim()}. Give your students its code or join link.`);
+      setNote(`Made ${name.trim()}, so now give your students its code or join link.`);
       setName("");
       await onChanged();
     } catch {
-      setError("That didn't work. Try again in a moment.");
+      setError("That didn't work, so try again in a moment.");
     } finally {
       setBusy(false);
     }
@@ -303,7 +303,7 @@ function TaughtList({ classes, onChanged, setNote }: { classes: remote.TaughtCla
           </div>
           {shown ? (
             <LinkBox key={shown.id} url={shown.url} label={`Join link for ${classes.find((c) => c.id === shown.id)?.name ?? "the class"}`} shareTitle="Join my class" shareText={`Join my class on ${BRAND.name}.`}>
-              <p className={styles.linkNote}>Anyone with an account who opens it can join. It fills the code in for them.</p>
+              <p className={styles.linkNote}>Anyone with an account who opens it can join, and it fills the code in for them.</p>
             </LinkBox>
           ) : null}
           <p className={teach.meta}>Pick a class to see its students, their progress and code, and to set projects.</p>
@@ -330,7 +330,7 @@ function TaughtList({ classes, onChanged, setNote }: { classes: remote.TaughtCla
             {error}
           </p>
         ) : (
-          <p className={teach.meta}>It gets a six-character code. Students who join see what you set, and you see their progress and code.</p>
+          <p className={teach.meta}>It gets a six-character code, and students who join see what you set while you see their progress and code.</p>
         )}
       </section>
     </>
@@ -402,7 +402,7 @@ function TaughtClassPage({ classId, acts, course }: { classId: string; acts: Cou
       try {
         return (await remote.setAssignment(classId, jobId, /^\d{4}-\d{2}-\d{2}$/.test(due) ? due : null)) ? null : "That didn't work.";
       } catch {
-        return "That didn't work. Try again in a moment.";
+        return "That didn't work, so try again in a moment.";
       }
     },
     async remove(a) {
@@ -447,7 +447,7 @@ function TaughtClassPage({ classId, acts, course }: { classId: string; acts: Cou
             >
               <label className={teach.field}>
                 <span className="label">
-                  Type <strong>{cls.name}</strong> to delete it. Students keep their own work.
+                  Type <strong>{cls.name}</strong> to delete it (students keep their own work).
                 </span>
                 <input value={typed} onChange={(e) => setTyped(e.target.value)} autoComplete="off" />
               </label>
@@ -524,7 +524,7 @@ function StudentWork({ classId, studentId, job, course, steps }: { classId: stri
           <div className={teach.whoText}>
             <h1 className={teach.title}>{student.name}</h1>
             <p className={teach.meta}>
-              @{student.username}. Joined {shortDate(student.joinedAt, now)}. Last active: {lastActive(latest, now).toLowerCase()}. {shipped} {shipped === 1 ? "project" : "projects"} shipped.
+              @{student.username}, joined {shortDate(student.joinedAt, now)} and last active {lastActive(latest, now).toLowerCase()}, with {shipped} {shipped === 1 ? "project" : "projects"} shipped.
             </p>
           </div>
         </div>
@@ -598,7 +598,7 @@ function StudentWork({ classId, studentId, job, course, steps }: { classId: stri
             <p className={teach.empty}>No code saved for this project yet.</p>
           ) : (
             <div className={teach.files}>
-              <p className={teach.meta}>The latest saved version of each file. Read only.</p>
+              <p className={teach.meta}>This is the latest saved version of each file, and you can only read it.</p>
               {stepIds.map((stepId) => (
                 <div key={stepId} className={teach.files}>
                   <h3 className={teach.h3}>{stepTitle(stepId)}</h3>

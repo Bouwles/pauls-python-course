@@ -15,7 +15,7 @@ export function AuthForm({ mode }: { mode: "signup" | "login" }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [age, setAge] = useState(false);
-  const [error, setError] = useState<string | null>(params.get("error") === "link" ? "That link has expired or has already been used. Ask for a new one." : null);
+  const [error, setError] = useState<string | null>(params.get("error") === "link" ? "That link has expired or has already been used, so ask for a new one." : null);
   const [busy, setBusy] = useState(false);
   const [linkSent, setLinkSent] = useState(false);
   const [useLink, setUseLink] = useState(false);
@@ -61,11 +61,11 @@ export function AuthForm({ mode }: { mode: "signup" | "login" }) {
       <div className={styles.sent} role="status">
         <h2 className={styles.sentTitle}>Check your email</h2>
         <p>
-          A link is on its way to <strong>{email}</strong>. It works once, for fifteen minutes.
+          A link is on its way to <strong>{email}</strong>, and it works once, for fifteen minutes.
         </p>
         {backend === "local" ? (
           <p className={styles.dev}>
-            Running without an email service: the link is in the <Link href="/dev/mailbox">development mailbox</Link>.
+            This is running without an email service, so the link is in the <Link href="/dev/mailbox">development mailbox</Link>.
           </p>
         ) : null}
       </div>
@@ -109,7 +109,7 @@ export function AuthForm({ mode }: { mode: "signup" | "login" }) {
             <input type="checkbox" checked={age} onChange={(e) => setAge(e.target.checked)} required />
             <span>I&apos;m 13 or older.</span>
           </label>
-          <p className={styles.hint}>If you&apos;re under 16, check with a parent or guardian first. In some countries the law asks for their consent.</p>
+          <p className={styles.hint}>If you&apos;re under 16, check with a parent or guardian first, because in some countries the law asks for their consent.</p>
         </div>
       ) : null}
       {error ? (

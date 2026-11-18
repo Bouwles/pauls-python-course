@@ -37,7 +37,7 @@ export function SaveReminder({ store, className }: { store: LocalStore | null; c
     <p className={[styles.reminder, className].filter(Boolean).join(" ")}>
       <Icon name="saved" size={20} />
       <span>
-        Keep your work safe: <Link href="/settings#s-save">download your save</Link>
+        To keep your work safe, <Link href="/settings#s-save">download your save</Link>
       </span>
     </p>
   );

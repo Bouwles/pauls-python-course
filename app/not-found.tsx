@@ -23,7 +23,7 @@ export default function NotFound() {
         <PixelClock scale={4} className={styles.clock} />
         <h1 className={styles.title}>This page isn&apos;t here</h1>
         <NotFoundScene who={ASSISTANT} />
-        <VisitSpeech place="404" who={ASSISTANT} name={neil} text="Okay. What did you expect to find here? Because this room's empty." face="confused" gesture="think" size={112} className={styles.speech} />
+        <VisitSpeech place="404" who={ASSISTANT} name={neil} text="Okay, what did you expect to find here? Because this room's empty." face="confused" gesture="think" size={112} className={styles.speech} />
         <p className={styles.text}>The link may be old or mistyped.</p>
         <div className={styles.row}>
           <LinkButton href="/" variant="primary">

@@ -106,8 +106,8 @@ export function PredictStepView({ step, row }: { step: PredictStep; row: StepPro
               <Icon name={correct ? "tick" : "cross"} />
               {correct ? "Right" : "Not quite"}
             </p>
-            {step.kind === "typed" ? <p>{correct ? "That's exactly what it prints." : `It prints ${JSON.stringify(step.accept[0])}. Run it to see.`}</p> : <p dangerouslySetInnerHTML={{ __html: chosenOption?.feedback ?? "" }} />}
-            {!correct && step.kind !== "typed" ? <p>The right answer is marked. Run it and watch.</p> : null}
+            {step.kind === "typed" ? <p>{correct ? "That's exactly what it prints." : `It prints ${JSON.stringify(step.accept[0])}, and you can run it to see.`}</p> : <p dangerouslySetInnerHTML={{ __html: chosenOption?.feedback ?? "" }} />}
+            {!correct && step.kind !== "typed" ? <p>The right answer is marked, so run it and watch.</p> : null}
           </div>
         )}
         {committed && step.afterHtml ? <Prose html={step.afterHtml} /> : null}
@@ -125,7 +125,7 @@ export function PredictStepView({ step, row }: { step: PredictStep; row: StepPro
           starter={{ "main.py": step.code }}
           readOnly
           showReset={false}
-          runDisabledReason={committed ? null : "Lock in an answer first. Then run it."}
+          runDisabledReason={committed ? null : "Lock in an answer first, then run it."}
           onRun={() => void onRun()}
           done={isDone(row)}
         />

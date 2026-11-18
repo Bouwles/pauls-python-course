@@ -69,7 +69,7 @@ export function CodeStepView({ step, row }: { step: CheckableStep; row: StepProg
         checks={step.visibleTests.length ? { tests: step.visibleTests, required: step.requiredCount } : null}
         footer={<NextRow row={row} editor doneText={passed && step.type === "make" ? "Next is the Ship." : undefined} />}
       >
-        {seen ? <p className={styles.note}>You&apos;ve seen the solution for this one. A fresh version will turn up in your review.</p> : null}
+        {seen ? <p className={styles.note}>You&apos;ve seen the solution for this one, so a fresh version of it will turn up in your review.</p> : null}
       </Instructions>
       <div className={areas.stage}>
         <CodeWorkspace

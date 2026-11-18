@@ -44,7 +44,7 @@ export function LampLoop({ params, onDone, done }: { params: { count?: number };
         </Button>
       ) : (
         <p className={styles.fbGood}>
-          {count} passes, and i went from 0 to {count - 1}. range({count}) stops before {count}.
+          {count} passes, and i went from 0 to {count - 1}, because range({count}) stops before {count}.
         </p>
       )}
     </div>

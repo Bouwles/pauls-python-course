@@ -30,7 +30,7 @@ export default function Syllabus() {
       <header className={styles.head}>
         <h1 className={styles.title}>The syllabus</h1>
         <p className={styles.lede}>
-          {WORDS[index.acts.length] ?? index.acts.length} Acts, {totalJobs} projects, about {totalHours} hours, from a first print statement to an agent that wins at the Arcade. The first four Acts are Python and computer science; the next four are data, machine learning, deep learning and reinforcement learning; the last is capstone projects.
+          {WORDS[index.acts.length] ?? index.acts.length} Acts, {totalJobs} projects and about {totalHours} hours, going from a first print statement to an agent that wins at the Arcade. The first four Acts are Python and computer science, the next four are data, machine learning, deep learning and reinforcement learning, and the last one is capstone projects.
         </p>
         <nav className={styles.contents} aria-label="Acts">
           <ol>
@@ -63,7 +63,7 @@ export default function Syllabus() {
                 </h2>
                 <p className={styles.actMeta}>
                   <span>
-                    {act.subject}. About {act.hours} hours, {jobs.length} projects.
+                    {act.subject}, with {jobs.length} projects and about {act.hours} hours of work.
                   </span>
                 </p>
                 <p className={styles.actSummary}>{act.summary}</p>

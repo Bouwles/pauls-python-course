@@ -21,7 +21,7 @@ test("sign up, make an avatar, finish the first project, and find it all on anot
   const second = await browser.newContext();
   const again = await second.newPage();
   await logIn(again, email);
-  await expect(again.getByText("1 project shipped.", { exact: false })).toBeVisible();
+  await expect(again.getByText("1 project shipped,", { exact: false })).toBeVisible();
   await expect(again.getByRole("link", { name: "Back to your desk" })).toBeVisible();
   await again.getByRole("link", { name: "Back to your desk" }).click();
   await again.waitForURL("**/job/bill-splitter?step=make");
@@ -188,7 +188,7 @@ test("a finished Act's certificate, drawn in the browser: as a picture, and prin
   await page.getByRole("button", { name: "Get the certificate" }).click();
   await page.waitForURL(/\/certificate\/?#1\./);
   await expect(page.getByRole("heading", { name: "Ruth Okafor" })).toBeVisible();
-  await expect(page.getByRole("img", { name: /Ruth Okafor completed Act I, Foundations, with \d+ projects shipped\. Completed 6 November 2026\. Playing as Neil\./ })).toBeVisible();
+  await expect(page.getByRole("img", { name: /Ruth Okafor completed Act I, Foundations, with \d+ projects shipped\. It was completed on 6 November 2026 playing as Neil/ })).toBeVisible();
   // It says what it is: a link, not a signed proof.
   await expect(page.getByText(/Nothing signs the link/)).toBeVisible();
 

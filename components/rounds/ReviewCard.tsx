@@ -83,7 +83,7 @@ export function ReviewCard({
         const right = card.options.find((x) => x.correct)!;
         finish(
           o.correct,
-          o.correct ? (o.feedback?.replace(/<[^>]+>/g, "") ?? "Right.") : `${o.feedback?.replace(/<[^>]+>/g, "") ?? "Not that one."} The answer: ${right.text}`,
+          o.correct ? (o.feedback?.replace(/<[^>]+>/g, "") ?? "Right.") : `${o.feedback?.replace(/<[^>]+>/g, "") ?? "Not that one."} The answer is ${right.text}`,
           o.correct ? null : o.misconception,
         );
         break;
@@ -97,7 +97,7 @@ export function ReviewCard({
         }
         const r = await runner.check({ ...card.files, "main.py": filled }, { source: card.tests });
         setReport(r);
-        finish(passed(r), passed(r) ? "That works too." : `One answer: ${card.blanks.map((b) => b[0]).join(", ")}`);
+        finish(passed(r), passed(r) ? "That works too." : `One answer that works is ${card.blanks.map((b) => b[0]).join(", ")}`);
         break;
       }
       case "fix":
@@ -199,7 +199,7 @@ export function ReviewCard({
             <div className={[styles.feedback, result.correct ? styles.good : styles.bad].join(" ")} role="status">
               <p className={styles.fbTitle}>
                 <Icon name={result.correct ? "tick" : "cross"} />
-                <span>{result.correct ? (attempts > 1 ? "Got there." : "Right.") : done ? "Not this time." : "Not quite. One more go."}</span>
+                <span>{result.correct ? (attempts > 1 ? "Got there." : "Right.") : done ? "Not this time." : "Not quite, have one more go."}</span>
               </p>
               {result.text !== "Right." ? <p className={styles.fbText}>{result.text}</p> : null}
               {done && !result.correct && (card.type === "fix" || card.type === "write") ? (

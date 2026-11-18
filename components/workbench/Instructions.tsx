@@ -73,7 +73,7 @@ export function Instructions({
   const openHints = () => {
     const open = !hintsOpen;
     setHintsOpen(open);
-    if (open) say(ASSISTANT, "Stuck? Pick how much help you want. Each one gives a little more away.", { kind: "hint", face: "thinking" });
+    if (open) say(ASSISTANT, "Stuck? Pick how much help you want, and each one gives a little more away.", { kind: "hint", face: "thinking" });
   };
 
   return (

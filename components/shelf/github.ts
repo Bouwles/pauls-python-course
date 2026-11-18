@@ -91,7 +91,7 @@ function client(token: string, fetcher: Fetch) {
         body: body === undefined ? undefined : JSON.stringify(body),
       });
     } catch {
-      throw new PushError("Couldn't reach GitHub. Check your connection and try again.", "network");
+      throw new PushError("Couldn't reach GitHub, so check your connection and try again.", "network");
     }
     const text = await res.text();
     let parsed: unknown = null;
@@ -100,7 +100,7 @@ function client(token: string, fetcher: Fetch) {
     } catch {
       parsed = text;
     }
-    if (res.status === 401) throw new PushError("GitHub didn't accept the token. It may have expired or been deleted: make a new one and paste it again.", "token");
+    if (res.status === 401) throw new PushError("GitHub didn't accept the token, so it may have expired or been deleted, and you'll need to make a new one and paste it again.", "token");
     return { status: res.status, body: parsed as T };
   };
 }
@@ -126,15 +126,15 @@ export async function pushFiles({ token, login, name, description, message, file
   const paths = Object.keys(files).filter((p) => p && !p.startsWith("/") && !p.includes(".."));
   if (!paths.length) throw new PushError("There's nothing to push yet.", "name");
   const api = client(token, fetcher);
-  const noAccess = () => new PushError(`This token can't write to ${login}/${name}. Check that it can reach that repository, with Contents set to Read and write.`, "no-access");
+  const noAccess = () => new PushError(`This token can't write to ${login}/${name}, so check that it can reach that repository, with Contents set to Read and write.`, "no-access");
 
   // The repository: the one there, or a new one.
   let repo = await api<{ name: string; owner: { login: string }; default_branch: string; html_url: string; size?: number }>("GET", `/repos/${login}/${encodeURIComponent(name)}`);
   if (repo.status === 404) {
     const made = await api<typeof repo.body>("POST", "/user/repos", { name, description, private: false, auto_init: true });
     if (made.status === 201) repo = made;
-    else if (made.status === 403 || made.status === 404) throw new PushError(`There's no repository called ${name} on ${login}'s GitHub yet, and this token isn't allowed to make one. Make it on GitHub, then push again.`, "no-repo", newRepoUrl(name, description));
-    else if (made.status === 422) throw new PushError("GitHub wouldn't make a repository with that name. Pick another.", "name");
+    else if (made.status === 403 || made.status === 404) throw new PushError(`There's no repository called ${name} on ${login}'s GitHub yet, and this token isn't allowed to make one, so make it on GitHub and then push again.`, "no-repo", newRepoUrl(name, description));
+    else if (made.status === 422) throw new PushError("GitHub wouldn't make a repository with that name, so pick another.", "name");
     else throw new PushError(`GitHub said no (${made.status}${said(made)}).`, "github");
   } else if (repo.status !== 200) throw new PushError(`GitHub said no (${repo.status}${said(repo)}).`, "github");
   const owner = repo.body.owner.login;

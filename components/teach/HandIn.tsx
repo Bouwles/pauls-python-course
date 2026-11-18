@@ -35,7 +35,7 @@ function Report({ results, kind, when }: { results: Record<string, unknown>; kin
   return (
     <>
       <p className={styles.meta}>
-        Take It Home, handed in {when} {how}. {report.passed} of {report.total} tests passed{results.passes ? ", which ships the project" : ""}.
+        Take It Home, handed in {when} {how} with {report.passed} of {report.total} tests passed{results.passes ? ", which ships the project" : ""}.
       </p>
       {cases.length ? (
         <ul className={styles.results} aria-label="Test results">
@@ -66,7 +66,7 @@ function Milestone({ results, checklist, when }: { results: Record<string, unkno
   return (
     <>
       <p className={styles.meta}>
-        Milestone, handed in {when}. {ticked} of {total} checklist items ticked.
+        Milestone, handed in {when} with {ticked} of {total} checklist items ticked.
       </p>
       {checklist.length ? (
         <ul className={styles.results} aria-label="Checklist">

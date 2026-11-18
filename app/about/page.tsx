@@ -7,7 +7,7 @@ import { landingData } from "@/components/landing/data";
 
 const TITLE = "About the course";
 const DESCRIPTION =
-  "A free Python course that runs in your browser, with nothing to install. Real programs for real people, from a first print() to machine learning, deep learning and a tiny GPT.";
+  "A free Python course that runs in your browser with nothing to install, where you build real programs for real people, from a first print() to machine learning, deep learning and a tiny GPT.";
 
 export const metadata: Metadata = {
   title: TITLE,

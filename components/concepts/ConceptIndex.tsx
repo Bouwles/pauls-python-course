@@ -100,7 +100,7 @@ export function ConceptIndex({ concepts, jobs, acts }: { concepts: Item[]; jobs:
           </nav>
         ) : null}
         <div className={styles.groups}>
-          {groups.length === 0 ? <p className={styles.empty}>Nothing in the Handbook matches that. Try a shorter word.</p> : null}
+          {groups.length === 0 ? <p className={styles.empty}>Nothing in the Handbook matches that, so try a shorter word.</p> : null}
           {groups.map((g) => (
             <section key={g.key} id={g.key} className={styles.group} aria-labelledby={`${g.key}-title`}>
               <h2 id={`${g.key}-title`} className={styles.groupTitle}>

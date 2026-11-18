@@ -236,7 +236,7 @@ export function certificateShapes(c: CertificateFacts, measure: Measure = roughM
 /** What the certificate says, for its alternative text. */
 export function certificateWords(c: CertificateFacts): string {
   const roman = ROMAN[c.act] ?? String(c.act);
-  return `${BRAND.name} certificate of completion: ${c.name} completed Act ${roman}, ${c.actName}, with ${c.projects} ${c.projects === 1 ? "project" : "projects"} shipped. Completed ${longDate(c.day)}.${c.playingAs ? ` Playing as ${c.playingAs.name}.` : ""} Signed by Paul.`;
+  return `${BRAND.name} certificate of completion, saying ${c.name} completed Act ${roman}, ${c.actName}, with ${c.projects} ${c.projects === 1 ? "project" : "projects"} shipped. It was completed on ${longDate(c.day)}${c.playingAs ? ` playing as ${c.playingAs.name}` : ""}, and it's signed by Paul.`;
 }
 
 /** The font-family lists the canvas draws with: the same faces the page shows. */

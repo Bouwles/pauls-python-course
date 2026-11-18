@@ -15,8 +15,8 @@ export interface Playable {
 }
 
 export const PLAYABLE: Playable[] = [
-  { id: "paul", name: "Paul", role: "The professor", about: "Into coding, AI and machine learning.", line: "Build it ugly first. Then make it good.", moves: ["loss-curve", "robot-hold", "cap-push", "laptop-mug"] },
-  { id: "neil", name: "Neil", role: "The teaching assistant", about: "Into racing cars and aerospace.", line: "Every programmer has written this exact bug. Including Paul.", moves: ["rocket-launch", "helmet-show", "drone-fly", "steering-wheel"] },
+  { id: "paul", name: "Paul", role: "The professor", about: "Into coding, AI and machine learning.", line: "Build it ugly first and then make it good.", moves: ["loss-curve", "robot-hold", "cap-push", "laptop-mug"] },
+  { id: "neil", name: "Neil", role: "The teaching assistant", about: "Into racing cars and aerospace.", line: "Every programmer has written this exact bug, including Paul.", moves: ["rocket-launch", "helmet-show", "drone-fly", "steering-wheel"] },
   { id: "aaesha", name: "Aaesha", role: "Classmate", about: "Into how minds and machines think.", moves: ["brain-model", "test-pass", "memory-pairs", "card-sort"] },
   { id: "caitlin", name: "Caitlin", role: "Classmate", about: "Let's act like I knew what to put here.", moves: ["guitar-strum", "controller-victory", "cupcake-tray", "arcade-stick"] },
   { id: "riya", name: "Riya", role: "Classmate", about: "Into art, colour and pixel art.", moves: ["paint-palette", "pixel-canvas", "framed-print", "camera-snap"] },

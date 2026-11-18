@@ -84,7 +84,7 @@ export function DeskCards({
             <div className={styles.projectText}>
               <p className={styles.projectName}>{next.title}</p>
               <p className={styles.meta}>
-                {isYou(next.client, playAs) ? "Your own project" : `For ${names[next.client] ?? cap(next.client)}`}. About {duration(next.estimatedMinutes)}.
+                {isYou(next.client, playAs) ? "Your own project" : `For ${names[next.client] ?? cap(next.client)}`}, about {duration(next.estimatedMinutes)}.
               </p>
             </div>
           </div>
@@ -97,7 +97,7 @@ export function DeskCards({
           <h2 id="desk-continue" className={styles.head}>
             Continue
           </h2>
-          <p className={styles.meta}>All shipped so far. Pick a floor.</p>
+          <p className={styles.meta}>Everything so far is shipped, so pick a floor.</p>
         </Card>
       )}
 
@@ -148,7 +148,7 @@ export function DeskCards({
       {/* The League races entries in the browser, so it's on GitHub Pages too. */}
       {arcade && open.has(arcade.id) ? (
         <p className={styles.aside}>
-          <Link href="/league">The Arcade League</Link>: this week&apos;s races on the Club Course.
+          <Link href="/league">The Arcade League</Link> has this week&apos;s races on the Club Course.
         </p>
       ) : null}
       {profile.experience && profile.experience !== "none" && floor1 && !open.has(floor1.id) ? (

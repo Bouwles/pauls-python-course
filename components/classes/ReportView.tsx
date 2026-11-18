@@ -15,8 +15,8 @@ import { CodeList, ProjectTable } from "./StudentReport";
 import styles from "./Classes.module.css";
 
 const SAID: Record<Exclude<AddResult, "no-class">, (name: string, cls: string) => string> = {
-  added: (name, cls) => `Added to ${cls}. ${name} is in the register now.`,
-  replaced: (name, cls) => `Added to ${cls}. It replaces ${name}'s last progress.`,
+  added: (name, cls) => `Added to ${cls}, so ${name} is in the register now.`,
+  replaced: (name, cls) => `Added to ${cls}, and it replaces ${name}'s last progress.`,
   same: (name, cls) => `This one is already in ${cls}'s register.`,
   older: (name, cls) => `The register for ${cls} already has newer progress from ${name}, so this one wasn't added.`,
 };
@@ -59,12 +59,12 @@ export function ReportView({ acts, names }: { acts: CourseAct[]; names: Record<s
             <p className={styles.kicker}>Progress for {report.className}</p>
             <h1 className={teach.title}>{student.name}</h1>
             <p className={teach.meta}>
-              Sent {shortDate(report.sentAt)} at {new Date(report.sentAt).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}. {report.shipped} {report.shipped === 1 ? "project" : "projects"} shipped in all.
-              {as ? ` ${as}.` : ""}
+              Sent {shortDate(report.sentAt)} at {new Date(report.sentAt).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}, with {report.shipped} {report.shipped === 1 ? "project" : "projects"} shipped in all
+              {as ? `, ${as.replace(/^Playing/, "playing")}.` : "."}
             </p>
           </div>
         </div>
-        <ClassLine who="neil" names={names} text={`${student.name} sent this. Add it to the register and it replaces anything older from them.`} />
+        <ClassLine who="neil" names={names} text={`${student.name} sent this, and if you add it to the register it replaces anything older from them.`} />
       </header>
 
       <section className={`px-panel ${teach.section}`} aria-labelledby="add-title">
@@ -80,7 +80,7 @@ export function ReportView({ acts, names }: { acts: CourseAct[]; names: Record<s
                     ? kept.sentAt === report.sentAt
                       ? `This one is already in ${cls.name}'s register.`
                       : `${cls.name}'s register already has newer progress from ${student.name}.`
-                    : `${cls.name}'s register has older progress from ${student.name}. This replaces it.`
+                    : `${cls.name}'s register has older progress from ${student.name}, and this replaces it.`
                   : `${student.name} isn't in ${cls.name}'s register yet.`}
               </p>
             ) : null}
@@ -89,7 +89,7 @@ export function ReportView({ acts, names }: { acts: CourseAct[]; names: Record<s
             </p>
             {result === "unsaved" ? (
               <p className={teach.error} role="alert">
-                This browser wouldn&apos;t save it. It may be a private window, or site data may be switched off.
+                This browser wouldn&apos;t save it, which usually means it&apos;s a private window or site data is switched off.
               </p>
             ) : null}
             <div className={styles.actions}>
@@ -128,7 +128,7 @@ export function ReportView({ acts, names }: { acts: CourseAct[]; names: Record<s
           </p>
           <p className={teach.meta}>
             {report.league.checked
-              ? `Raced again in this browser from ${student.name}'s policy, so it's the course's own count. Adding this to the register puts it on the class's table.`
+              ? `Raced again in this browser from ${student.name}'s policy, so it's the course's own count, and adding this to the register puts it on the class's table.`
               : "Their policy didn't fit in the link, so this is the score as sent."}
           </p>
         </section>
@@ -138,7 +138,7 @@ export function ReportView({ acts, names }: { acts: CourseAct[]; names: Record<s
         <h2 id="code-title" className={teach.h2}>
           Code
         </h2>
-        <p className={teach.meta}>What {student.name} had for each project&apos;s Build step when they sent this. Read only.</p>
+        <p className={teach.meta}>This is what {student.name} had for each project&apos;s Build step when they sent it, and you can only read it.</p>
         <CodeList report={report} course={course} />
       </section>
     </div>

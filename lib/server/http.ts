@@ -29,7 +29,7 @@ export async function requireUser(): Promise<SessionUser | Response> {
 
 export function limited(req: Request, name: string, limit: number, windowMs: number): Response | null {
   const r = rateLimit(`${name}:${clientIp(req)}`, limit, windowMs);
-  return r.ok ? null : json({ error: "Too many attempts. Wait a minute and try again." }, 429, { "Retry-After": String(r.retryAfter) });
+  return r.ok ? null : json({ error: "That's too many attempts, so wait a minute and try again." }, 429, { "Retry-After": String(r.retryAfter) });
 }
 
 export async function readJson<T>(req: Request, maxBytes = 2_000_000): Promise<T | null> {

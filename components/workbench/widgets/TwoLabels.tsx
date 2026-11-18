@@ -11,10 +11,10 @@ interface Box {
 }
 
 const SCRIPT = [
-  { code: 'order = ["flour", "eggs"]', note: "One box, one label." },
-  { code: "saturday = order", note: "A second label. Not a second box." },
+  { code: 'order = ["flour", "eggs"]', note: "One box with one label on it." },
+  { code: "saturday = order", note: "That's a second label, but it's still the same box." },
   { code: 'saturday.append("butter")', note: "Butter goes into the box both labels are stuck on." },
-  { code: "print(order)", note: 'Prints ["flour", "eggs", "butter"]. Nobody touched order directly.' },
+  { code: "print(order)", note: 'Prints ["flour", "eggs", "butter"], even though nobody touched order directly.' },
   { code: "sunday = order.copy()", note: "copy() builds a new box with the same things in it." },
   { code: 'sunday.append("cream")', note: "Only Sunday's box gets cream." },
 ];
@@ -83,7 +83,7 @@ export function TwoLabels({ onDone, done }: { onDone: () => void; done: boolean 
       </div>
       {atPredict ? (
         <div className={styles.predict}>
-          <p className={styles.question}>Before you run line 4: does order have butter in it?</p>
+          <p className={styles.question}>Before you run line 4, does order have butter in it?</p>
           <div className={styles.row}>
             <Button size="sm" onClick={() => setGuess("yes")}>
               Yes
@@ -98,11 +98,11 @@ export function TwoLabels({ onDone, done }: { onDone: () => void; done: boolean 
           Run line {step + 1}
         </Button>
       ) : (
-        <p className={styles.fbGood}>Two labels can share one box. Change the box through either label and both see it. Only a copy gives you a box of your own.</p>
+        <p className={styles.fbGood}>Two labels can share one box, so if you change the box through either label they both see it, and only a copy gives you a box of your own.</p>
       )}
       {guess && step === 3 ? (
         <p className={[styles.feedback, guess === "yes" ? styles.fbGood : styles.fbBad].join(" ")} role="status">
-          {guess === "yes" ? "Yes. Both labels point at the same box." : "It does. saturday and order are two labels on one box, so butter is in both."}
+          {guess === "yes" ? "Yes, because both labels point at the same box." : "It does, because saturday and order are two labels on one box, so butter is in both."}
         </p>
       ) : null}
     </div>

@@ -172,7 +172,7 @@ export function ParsonsStepView({ step, row }: { step: ParsonsStep; row: StepPro
     const hasDistractor = arr.program.some((p) => p.key.startsWith("d"));
     setResult({
       ok: false,
-      message: hasDistractor ? "One of the blocks you used doesn't belong in this program." : step.check === "order" ? "Not in the right order yet. Watch the indentation too." : "Not yet. The report below shows what happened when it ran.",
+      message: hasDistractor ? "One of the blocks you used doesn't belong in this program." : step.check === "order" ? "It's not in the right order yet, and watch the indentation too." : "Not yet, but the report below shows what happened when it ran.",
       report,
     });
     if (fails >= 2) void react("check-failed");
@@ -186,7 +186,7 @@ export function ParsonsStepView({ step, row }: { step: ParsonsStep; row: StepPro
       <Instructions step={step} hints={step.hints ? <Hints stepId={step.id} hints={step.hints} row={row} /> : null} footer={<NextRow row={row} />}>
         <p className={s.note}>
           <Icon name="keys" size={16} />
-          Drag blocks across, or use the buttons. On a block: Alt and the arrow keys move it, Tab and Shift+Tab indent it, Delete puts it back.
+          Drag blocks across or use the buttons, and on a block, Alt and the arrow keys move it, Tab and Shift+Tab indent it and Delete puts it back.
         </p>
       </Instructions>
       <div className={areas.stage}>

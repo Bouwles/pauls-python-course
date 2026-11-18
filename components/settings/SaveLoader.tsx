@@ -79,7 +79,7 @@ export function SaveLoader({ where = "settings" }: { where?: "settings" | "welco
     try {
       await read(await file.text());
     } catch {
-      setError("That file couldn't be opened. Try choosing it again.");
+      setError("That file couldn't be opened, so try choosing it again.");
     }
   };
 
@@ -93,7 +93,7 @@ export function SaveLoader({ where = "settings" }: { where?: "settings" | "welco
       setTimeout(() => window.location.assign(`${BASE}/`), 900);
     } catch {
       setBusy(null);
-      setError("This browser wouldn't take the save. If it's in a private window, try a normal one.");
+      setError("This browser wouldn't take the save, so if it's a private window, try a normal one.");
     }
   };
 
@@ -175,19 +175,19 @@ export function SaveLoader({ where = "settings" }: { where?: "settings" | "welco
           </div>
 
           {user ? (
-            <p className={styles.hint}>You&apos;re logged in, so it&apos;s added to your account&apos;s work: the furthest you got on each step and project, and the newest code, from either.</p>
+            <p className={styles.hint}>You&apos;re logged in, so it gets added to your account&apos;s work, keeping the furthest you got on each step and project and the newest code from either.</p>
           ) : fresh ? null : (
             <div className={styles.here}>
               <p>
                 This browser has <strong className={styles.strong}>{describeSave(found.here, { saved: false })}</strong>.
               </p>
-              <p className={styles.hint}>Replacing swaps all of that for the save. Merging keeps both: the furthest you got on each step and project, and the newest code.</p>
+              <p className={styles.hint}>Replacing swaps all of that for the save, and merging keeps both, with the furthest you got on each step and project and the newest code.</p>
             </div>
           )}
 
           {done ? (
             <p className={styles.done} role="status">
-              Loaded. Off to the Clocktower.
+              That&apos;s loaded, so off to the Clocktower.
             </p>
           ) : (
             <div className={styles.buttons}>

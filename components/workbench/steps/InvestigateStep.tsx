@@ -69,7 +69,7 @@ function Task({ task, done, saved, onDone, check, onAttempt }: { task: Investiga
       setFeedback({ good: true, text: task.feedback ?? "Right." });
       onDone(answer);
     } else {
-      setFeedback({ good: false, text: task.wrong ?? "Not that. Run the code and look again." });
+      setFeedback({ good: false, text: task.wrong ?? "Not that one, so run the code and have another look." });
     }
   };
 
@@ -85,7 +85,7 @@ function Task({ task, done, saved, onDone, check, onAttempt }: { task: Investiga
       onDone();
     } else {
       const first = report.results.find((r) => !r.passed);
-      setFeedback({ good: false, text: first?.hint ?? first?.message ?? "Not yet. The Checks tab shows what happened." });
+      setFeedback({ good: false, text: first?.hint ?? first?.message ?? "Not yet, but the Checks tab shows what happened." });
     }
   };
 

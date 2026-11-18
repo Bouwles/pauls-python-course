@@ -46,7 +46,7 @@ export function YourSave() {
       const save = await make();
       if (save) {
         download(saveFileName(save), saveJson(save), "application/json");
-        toast("Save downloaded. Keep it somewhere safe.");
+        toast("Save downloaded, so keep it somewhere safe.");
       }
     } finally {
       setBusy(null);
@@ -74,10 +74,10 @@ export function YourSave() {
     }
   };
 
-  const lastLine = last === undefined ? "" : last ? `Your last save: ${shortDay(last.at)}.` : "You haven't made one yet.";
+  const lastLine = last === undefined ? "" : last ? `Your last save was on ${shortDay(last.at)}.` : "You haven't made one yet.";
   const intro = user
-    ? "Your work is kept in your account. A save is a copy of it as a file."
-    : "Your progress, code, review deck and classes, in one file. Load it in another browser to carry on there.";
+    ? "Your work is kept in your account, and a save is just a copy of it as a file."
+    : "Your progress, code, review deck and classes all in one file, which you can load in another browser to carry on there.";
 
   return (
     <Section id="s-save" title="Your save" intro={intro}>
@@ -95,14 +95,14 @@ export function YourSave() {
         <div className={own.copied}>
           {copied ? (
             <p className={styles.hint} role="status">
-              Copied: {copied.length.toLocaleString("en-GB")} characters. Paste it somewhere you&apos;ll find it again.
+              Copied all {copied.length.toLocaleString("en-GB")} characters, so paste it somewhere you&apos;ll find it again.
               {copied.length > LONG_CODE ? " It's a long one, so a save file may be easier to keep." : ""}
             </p>
           ) : null}
           {manual ? (
             <>
               <label htmlFor="save-code-out" className={styles.hint}>
-                This browser wouldn&apos;t copy it for you. Select all of it here and copy it.
+                This browser wouldn&apos;t copy it for you, so select all of it here and copy it yourself.
               </label>
               <textarea id="save-code-out" className={own.out} readOnly value={manual} rows={4} onFocus={(e) => e.currentTarget.select()} />
             </>

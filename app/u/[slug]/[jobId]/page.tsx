@@ -19,7 +19,7 @@ export async function generateMetadata(props: { params: Promise<{ slug: string; 
   const title = `${p.name} shipped a ${p.job.projectName} in ${BRAND.name}`;
   return {
     title,
-    description: `${p.job.projectName}: a real Python program, written by ${p.name}. Run it in the page.`,
+    description: `${p.job.projectName} is a real Python program written by ${p.name}, and you can run it right there in the page.`,
     openGraph: { title, images: [{ url: `/u/${slug}/${jobId}/card`, width: 1200, height: 630 }] },
     twitter: { card: "summary_large_image", title, images: [`/u/${slug}/${jobId}/card`] },
     // Opted in to a page, not to search engines.

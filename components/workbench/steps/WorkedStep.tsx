@@ -20,7 +20,7 @@ export function WorkedStepView({ step, row }: { step: WorkedStep; row: StepProgr
   const ran = state.output.length > 0 || state.result !== null || state.phase !== "idle";
   return (
     <>
-      <Instructions step={step} footer={<NextRow row={row} doneText="The labels beside the code are worth remembering. You'll use them next." />}>
+      <Instructions step={step} footer={<NextRow row={row} doneText="The labels beside the code are worth remembering, because you'll use them next." />}>
         <SelfExplain stepId={step.id} promptHtml={step.explain.promptHtml} answer={step.explain.answer} concept={step.explain.concept} row={row} />
       </Instructions>
       <div className={areas.stage}>

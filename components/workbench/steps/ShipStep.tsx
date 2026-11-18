@@ -290,7 +290,7 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
               <h1 className={styles.title}>{ownProject ? "Yours once it works" : `${clientName} is waiting for it`}</h1>
             </header>
             {waitingLine ? <SpokenLine who={client} name={clientName} text={waitingLine} tail={compact ? "top" : "left"} live onMouth={setWaitMouth} onDone={() => setWaitSaid(true)} className={styles.line} /> : null}
-            <p className={styles.lede}>{waitingFor.length > 1 ? `This ships when all its tasks pass. ${waitingFor.length} still to go.` : `It ships when ${from?.title ?? "the Build step"} passes its checks.`}</p>
+            <p className={styles.lede}>{waitingFor.length > 1 ? `This ships when all its tasks pass, and there are ${waitingFor.length} still to go.` : `It ships when ${from?.title ?? "the Build step"} passes its checks.`}</p>
             {from ? (
               <div className={styles.actions}>
                 <Button variant="primary" icon="next" onClick={() => goTo(from.id)}>
@@ -347,7 +347,7 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
               </div>
               <span className={styles.home} aria-hidden="true" />
             </div>
-            {demo?.failed ? <p className={styles.small}>It tripped on the demo run. The checks passed, so this is a case they don&apos;t cover: worth a look.</p> : null}
+            {demo?.failed ? <p className={styles.small}>It tripped on the demo run even though the checks passed, so this is a case they don&apos;t cover and it&apos;s worth a look.</p> : null}
           </div>
         )}
         <div className={styles.side}>
@@ -380,7 +380,7 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
             </div>
           )}
           {step.places ? (
-            <p className={styles.lede}>The next Act is open in the Clocktower. These projects stay open, and Morning Rounds keeps checking their ideas.</p>
+            <p className={styles.lede}>The next Act is open in the Clocktower now, and these projects stay open too, with Morning Rounds still checking their ideas.</p>
           ) : null}
           <div className={styles.actions}>
             {step.places ? (
@@ -414,7 +414,7 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
               <ShareButton
                 label="Share this project"
                 title={`Share ${job.projectName || job.title}`}
-                holds="Anyone with the link can read your code and run it in their browser. The link holds your name, who you play as, and the code. Nothing is uploaded: the link is all there is."
+                holds="Anyone with the link can read your code and run it in their browser. The link holds your name, who you play as and the code, and nothing gets uploaded anywhere, because the link is all there is."
                 make={async (maker) => {
                   const { hash, cut } = encodeProject({ maker, jobId: job.id, shippedAt: jobProgress?.shippedAt ?? Date.now(), files: await shippedCode(store, job.id, step.shipsFrom!), cut: false });
                   return { kind: "project", hash, note: cut ? "Some of the code was cut short to keep the link a sensible length." : null };
@@ -426,7 +426,7 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
             <p className={styles.small}>
               {guest ? (
                 <>
-                  It&apos;s on your Shelf, in this browser. <Link href="/shelf">Open the Shelf</Link>
+                  It&apos;s on your Shelf in this browser. <Link href="/shelf">Open the Shelf</Link>
                 </>
               ) : (
                 <>
@@ -443,15 +443,15 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
 
       {review || step.cards.length || job.stretch.length || step.awards.length ? (
         <div className={styles.more}>
-          {step.cards.length ? <p className={styles.small}>New in your review deck: {step.cards.map((c) => conceptTitles[c] ?? c).join(", ")}. They come up from tomorrow.</p> : null}
-          {step.awards.length ? <p className={styles.small}>You earned something for your avatar. It&apos;s in Settings.</p> : null}
+          {step.cards.length ? <p className={styles.small}>{step.cards.map((c) => conceptTitles[c] ?? c).join(", ")} just went into your review deck, and they start coming up tomorrow.</p> : null}
+          {step.awards.length ? <p className={styles.small}>You earned something for your avatar, and it&apos;s waiting in Settings.</p> : null}
           {review ? (
             <section className={styles.section} aria-labelledby="review-title">
               <h2 id="review-title" className={styles.sectionTitle}>
                 {paul}&apos;s review
               </h2>
               {review.notes.length === 0 ? (
-                <p className={styles.small}>{paul} reads it through twice and hands it back. Nothing to say, which is the review.</p>
+                <p className={styles.small}>{paul} reads it through twice and hands it back without a word, which is the review.</p>
               ) : (
                 <>
                   <ul className={styles.notes}>
@@ -468,7 +468,7 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
                       </li>
                     ))}
                   </ul>
-                  <p className={styles.small}>Style notes never stop a project shipping. Tidy them now, or carry them into the next one.</p>
+                  <p className={styles.small}>Style notes never stop a project shipping, so tidy them now or just carry them into the next one.</p>
                 </>
               )}
             </section>

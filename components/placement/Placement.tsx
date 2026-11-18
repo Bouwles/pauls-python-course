@@ -41,17 +41,18 @@ export function Placement({ acts, placements }: { acts: ActSummary[]; placements
     <div className={styles.wrap}>
       <header className={styles.head}>
         <h1 className={styles.title}>Placement test</h1>
-        <p className={styles.lede}>For anyone who has written a fair amount of Python already. Each section is a few Make tasks from one Act, with real checks and no hints.</p>
+        <p className={styles.lede}>This is for anyone who&apos;s written a fair bit of Python already, and each section is a few Make tasks from one Act, with real checks and no hints.</p>
       </header>
-      <Speech who={host} name={host.charAt(0).toUpperCase() + host.slice(1)} text="Show me what you already know. Pass a section and I'll open the next floor for you." face="pleased" gesture="point" size={phone ? 72 : 108} className={styles.host} />
+      <Speech who={host} name={host.charAt(0).toUpperCase() + host.slice(1)} text="Show me what you already know, and if you pass a section I'll open the next floor for you." face="pleased" gesture="point" size={phone ? 72 : 108} className={styles.host} />
       <div className={`prose ${styles.how}`}>
         <p>
-          Pass every task in a section and that Act is marked as placed: the next Act opens in the Clocktower, and the Act&apos;s ideas join your review deck, so Morning Rounds still checks them. Its projects stay open if you&apos;d like to do them anyway.
+          Pass every task in a section and that Act is marked as placed, which means the next Act opens in the Clocktower and the Act&apos;s ideas join your review deck, so Morning Rounds still checks
+          them. Its projects stay open too if you&apos;d like to do them anyway.
         </p>
-        <p>Take the sections in order. A section you don&apos;t pass costs nothing.</p>
+        <p>Take the sections in order, and don&apos;t worry about failing one because it doesn&apos;t cost you anything.</p>
       </div>
       {placements.length === 0 ? (
-        <p className={styles.meta}>The placement test isn&apos;t written yet. Start with the first project; the early ones go quickly if you know them.</p>
+        <p className={styles.meta}>The placement test isn&apos;t written yet, so start with the first project, and the early ones will go quickly if you already know them.</p>
       ) : (
         <ol className={styles.sections}>
           {placements.map((p) => {
@@ -96,7 +97,7 @@ export function Placement({ acts, placements }: { acts: ActSummary[]; placements
         </ol>
       )}
       <p className={styles.meta}>
-        Rather start from the beginning? <Link href="/job/shop-sign">The first project</Link> takes about twenty minutes. Or <Link href="/map">go to the Clocktower</Link>.
+        Rather start from the beginning? <Link href="/job/shop-sign">The first project</Link> takes about twenty minutes, or you can just <Link href="/map">go to the Clocktower</Link>.
       </p>
     </div>
   );

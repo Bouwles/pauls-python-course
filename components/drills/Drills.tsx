@@ -39,13 +39,13 @@ import styles from "./Drills.module.css";
 const ROUND = 5;
 const MISS_PENALTY_MS = 10_000;
 const RIVAL_START_MS = 150_000;
-const START_LINE = "Mine runs in 0.02 seconds. Yours?";
-const BEATEN_LINE = "Fine. Rematch tomorrow.";
-const INTRO_LINE = "Every card has my time on it. Pick one and try to beat it.";
-const NOTHING_LINE = "Nothing to race yet. Ship a project and I'll set you a time.";
-const MY_TIME_LINE = "That's my time. Finish anyway, it still counts.";
+const START_LINE = "Mine runs in 0.02 seconds, so let's see what yours does.";
+const BEATEN_LINE = "Fine, but I want a rematch tomorrow.";
+const INTRO_LINE = "Every card has my time on it, so pick one and try to beat it.";
+const NOTHING_LINE = "There's nothing to race yet, but ship a project and I'll set you a time.";
+const MY_TIME_LINE = "That's my time gone, but finish anyway because it still counts.";
 /** When the rival wins: he's proud of it, and a good sport. */
-const WON_LINES = ["Still mine. Go again whenever you like.", "My time stands. For now.", "Close. Not close enough, but close."];
+const WON_LINES = ["Still my record, but go again whenever you like.", "My time stands, for now anyway.", "That was close, just not quite close enough."];
 
 export interface DrillAct {
   number: number;
@@ -110,7 +110,7 @@ export function Drills({ acts, characters }: { acts: DrillAct[]; characters: Rec
       <header className={styles.head}>
         <h1 className={styles.title}>Drills</h1>
         <p className={styles.lede}>
-          Five quick tasks against the clock. Each one opens when you ship the project that first uses it. {rivalName} sets the time to beat.
+          Five quick tasks against the clock, with {rivalName} setting the time to beat, and each one opens when you ship the project that first uses it.
         </p>
       </header>
 
@@ -305,7 +305,7 @@ function DrillRun({ concept, best, characters, rival, onDone }: { concept: Conce
       <header className={styles.runHead}>
         <h1 className={styles.runTitle}>{concept.title}</h1>
         <p className={styles.quiet}>
-          {ROUND} tasks. Each miss adds {MISS_PENALTY_MS / 1000} seconds.
+          {ROUND} tasks, and each miss adds {MISS_PENALTY_MS / 1000} seconds.
         </p>
       </header>
 
@@ -382,7 +382,8 @@ function DrillRun({ concept, best, characters, rival, onDone }: { concept: Conce
             {result.newBest ? <Badge tone="shipped">New best</Badge> : null}
           </div>
           <p className={styles.resultText}>
-            {result.newBest ? "Your fastest yet." : `Your best is still ${fmt(best!)}.`} {misses ? `${misses} ${misses === 1 ? "miss" : "misses"}.` : "No misses."}
+            {result.newBest ? "That's your fastest yet" : `Your best is still ${fmt(best!)}`}
+            {misses ? `, with ${misses} ${misses === 1 ? "miss" : "misses"}.` : ", with no misses."}
           </p>
           <div className={styles.resultActions}>
             <Button variant="primary" onClick={onDone}>

@@ -189,7 +189,7 @@ export function AvatarCreator({ look, name, onChange, waving = false }: { look: 
     <div className={styles.creator}>
       <div className={styles.preview}>
         <div className={`px-panel ${styles.stage}`} style={{ background: look.colour }}>
-          <PixelPerson avatar={look} crop="bust" scale={narrow ? 3 : 4} expression={mood.face} pose={mood.pose} label={`Your avatar: ${describeAvatar(look)}`} />
+          <PixelPerson avatar={look} crop="bust" scale={narrow ? 3 : 4} expression={mood.face} pose={mood.pose} label={`Your avatar, with ${describeAvatar(look).replace(/^./, (c) => c.toLowerCase())}`} />
         </div>
         <div className={`px-panel ${styles.whole}`} style={{ background: look.colour }} aria-hidden="true">
           <PixelFigure avatar={look} action={action} scale={2} />

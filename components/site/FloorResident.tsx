@@ -15,7 +15,7 @@ export function FloorResident({ act, names, className }: { act: number; names: R
   return (
     <span className={[styles.who, className].filter(Boolean).join(" ")}>
       {floor.residents.length > 2 ? (
-        <span className={styles.roof} role="img" aria-label="Everyone's floor: the clock, stuck at 3:14">
+        <span className={styles.roof} role="img" aria-label="Everyone's floor, with the clock stuck at 3:14">
           <PixelClock scale={3} />
         </span>
       ) : (

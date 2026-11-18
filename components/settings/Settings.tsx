@@ -284,7 +284,7 @@ export function Settings() {
                 value={s.weeklyEmail ? "on" : "off"}
                 options={[["off", "Only account emails"], ["on", "A weekly note"]]}
                 onChange={(v) => void set({ weeklyEmail: v === "on" })}
-                hint="Three lines on a Monday: what you shipped and what's due for review. Nothing in a quiet week."
+                hint="Three lines on a Monday about what you shipped and what's due for review, and nothing at all in a quiet week."
               />
             ) : null}
           </Section>
@@ -305,12 +305,12 @@ export function Settings() {
             {server ? <ConnectedTools /> : null}
             {server ? <GitHubConnection /> : null}
             {user ? null : (
-              <Row label="Delete my data" hint="Clears everything from this browser. It can't be undone.">
+              <Row label="Delete my data" hint="Clears everything from this browser, and it can't be undone.">
                 <DeleteData onDelete={() => deleteBrowserData(store)} />
               </Row>
             )}
             {user ? (
-              <Row label="Delete my account" hint="Removes your account, your code, your Shelf and your review deck. It can't be undone.">
+              <Row label="Delete my account" hint="Removes your account, your code, your Shelf and your review deck, and it can't be undone.">
                 <DeleteAccount
                   expected={(ACCOUNTS && username) || profile.displayName || user.email}
                   onDeleted={async () => {
@@ -419,7 +419,7 @@ function DeleteAccount({ expected, onDeleted }: { expected: string; onDeleted: (
           <h2 id="del-title" className={styles.dialogTitle}>
             Delete your account
           </h2>
-          <p>This removes your account, your code, your Shelf and your review deck from our database. It can&apos;t be undone. Download your data first if you want to keep it.</p>
+          <p>This removes your account, your code, your Shelf and your review deck from our database, and it can&apos;t be undone, so download your data first if you want to keep it.</p>
           <label className={styles.field}>
             <span className="label">
               Type <strong className={styles.strong}>{expected}</strong> to confirm

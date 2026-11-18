@@ -52,7 +52,7 @@ export function JoinClass({ acts, names }: { acts: CourseAct[]; names: Record<st
     if (saveBook(next)) {
       setError(null);
       setDone(result);
-    } else setError("This browser wouldn't save the class. It may be a private window, or site data may be switched off.");
+    } else setError("This browser wouldn't save the class, which usually means it's a private window or site data is switched off.");
   };
 
   return (
@@ -61,10 +61,10 @@ export function JoinClass({ acts, names }: { acts: CourseAct[]; names: Record<st
         <p className={styles.kicker}>A class to join</p>
         <h1 className={teach.title}>{cls.name}</h1>
         <p className={teach.lede}>
-          With {cls.teacher}. {count === 0 ? "Nothing set yet." : `${count} ${count === 1 ? "project" : "projects"} set.`}
+          {cls.teacher}&apos;s class, {count === 0 ? "with nothing set yet." : `with ${count} ${count === 1 ? "project" : "projects"} set.`}
         </p>
         {cast ? (
-          <ClassLine who={cast} names={names} text="Join, and what I've set turns up on your desk in the Clocktower. Send me your progress when you've had a go." third={`Join, and what ${cls.teacher} has set turns up on your desk in the Clocktower.`} />
+          <ClassLine who={cast} names={names} text="Join, and what I've set turns up on your desk in the Clocktower, then send me your progress when you've had a go." third={`Join, and what ${cls.teacher} has set turns up on your desk in the Clocktower.`} />
         ) : (
           <ClassLine who="neil" names={names} text={`Join, and what ${cls.teacher} has set turns up on your desk in the Clocktower.`} />
         )}
@@ -83,7 +83,7 @@ export function JoinClass({ acts, names }: { acts: CourseAct[]; names: Record<st
         </h2>
         {done ? (
           <>
-            <p className={styles.troubleText}>{done === "joined" ? `You're in ${cls.name}. What's set is on your desk in the Clocktower.` : `${cls.name} is up to date with this link.`}</p>
+            <p className={styles.troubleText}>{done === "joined" ? `You're in ${cls.name}, and what's set is on your desk in the Clocktower.` : `${cls.name} is up to date with this link.`}</p>
             <div className={styles.actions}>
               <Link href="/" className={teach.back}>
                 Go to the Clocktower
@@ -98,7 +98,7 @@ export function JoinClass({ acts, names }: { acts: CourseAct[]; names: Record<st
             <p className={teach.meta}>
               {already
                 ? cls.updatedAt > already.updatedAt
-                  ? "This link has newer projects than the copy in this browser. Update it to bring them in."
+                  ? "This link has newer projects than the copy in this browser, so update it to bring them in."
                   : "Updating brings in anything changed since you joined."
                 : `You send your progress to ${cls.teacher} as a link when you want to.`}
               {yours ? " This is one of your own classes, so send this link to your students." : ""}

@@ -16,7 +16,7 @@ const NUMBER = ["No", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Ei
 /** Null when there's nothing to say: a quiet week with nothing due gets no email at all. */
 export function weeklyNote(facts: WeeklyFacts): { subject: string; lines: string[] } | null {
   if (facts.shipped.length === 0 && facts.dueCards === 0) return null;
-  const shipped = facts.shipped.length ? `This week you shipped ${list(facts.shipped.slice(0, 4))}${facts.shipped.length > 4 ? `, and ${facts.shipped.length - 4} more` : ""}.` : "Nothing shipped this week. Your desk is where you left it.";
+  const shipped = facts.shipped.length ? `This week you shipped ${list(facts.shipped.slice(0, 4))}${facts.shipped.length > 4 ? `, and ${facts.shipped.length - 4} more` : ""}.` : "Nothing shipped this week, but your desk is where you left it.";
   const due = facts.dueCards === 0 ? "Nothing due in Morning Rounds." : `${facts.dueCards <= 10 ? NUMBER[facts.dueCards] : facts.dueCards} ${facts.dueCards === 1 ? "card is" : "cards are"} due in Morning Rounds.`;
   return { subject: "From the Workshop", lines: [shipped, due, "Paul"] };
 }

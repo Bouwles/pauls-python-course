@@ -38,11 +38,11 @@ export function Visualiser({ trace, source, startLine, onLine }: { trace: TraceR
   };
 
   if (!step) {
-    return <p className={styles.empty}>{trace.error ? `It stopped before the first line: ${trace.error.type}.` : "Nothing ran."}</p>;
+    return <p className={styles.empty}>{trace.error ? `It hit ${trace.error.type} before the first line ran.` : "Nothing ran."}</p>;
   }
 
   return (
-    <div className={styles.vis} ref={host} tabIndex={0} onKeyDown={onKey} aria-label="Step-through visualiser. Use the arrow keys to move between steps.">
+    <div className={styles.vis} ref={host} tabIndex={0} onKeyDown={onKey} aria-label="Step-through visualiser, where the arrow keys move you between steps">
       <div className={styles.bar}>
         <Button size="sm" variant="ghost" onClick={() => setI(0)} disabled={i === 0}>
           First
@@ -58,7 +58,7 @@ export function Visualiser({ trace, source, startLine, onLine }: { trace: TraceR
           Step {i + 1} of {steps.length}
         </span>
       </div>
-      {trace.status === "limit" ? <p className={styles.note}>Stopped after {trace.limit} steps. That is as far as the visualiser goes; a long loop is the usual reason.</p> : null}
+      {trace.status === "limit" ? <p className={styles.note}>Stopped after {trace.limit} steps, because that&apos;s as far as the visualiser goes, and a long loop is usually the reason.</p> : null}
       <p className={styles.where} aria-live="polite">
         {step.event === "return" ? `Line ${step.line}: returning ${step.ret ? describe(step.ret, step.heap) : "None"}.` : step.event === "exception" ? `Line ${step.line}: ${step.exc}.` : `About to run line ${step.line}.`}
       </p>

@@ -33,13 +33,13 @@ export function PublicShelf({ name, character, shipped, acts, slug }: { name: st
         <div className={styles.text}>
           <h1 className={styles.name}>{name}</h1>
           <p className={styles.line}>
-            Learning Python at {BRAND.name}. {shipped === 0 ? "Nothing shipped yet." : `${shipped} ${shipped === 1 ? "project" : "projects"} shipped.`}
+            Learning Python at {BRAND.name}, {shipped === 0 ? "with nothing shipped yet." : `with ${shipped} ${shipped === 1 ? "project" : "projects"} shipped so far.`}
           </p>
         </div>
       </header>
 
       {acts.length === 0 ? (
-        <p className={styles.meta}>Nothing shipped yet. Projects appear here as they're finished.</p>
+        <p className={styles.meta}>Nothing shipped yet, but projects turn up here as they're finished.</p>
       ) : (
         acts.map((act) => (
           <section key={act.id} className={styles.act} aria-labelledby={`act-${act.id}`}>

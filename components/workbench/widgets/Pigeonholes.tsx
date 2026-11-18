@@ -15,7 +15,7 @@ export function Pigeonholes({ params, onDone, done }: { params: Params; onDone: 
   const items = params.items ?? ["Paul", "Neil", "Aaesha", "Caitlin", "Riya", "Yahya", "the duck"];
   const ask = params.ask ?? 3;
   const questions = [{ index: ask, label: `"Parcel number ${ask}, please." Which pigeonhole?`, code: `parcels[${ask}]` }];
-  if (params.negative) questions.push({ index: items.length - 1, label: `"Now the last one. Python can also call it number -1." Which pigeonhole?`, code: "parcels[-1]" });
+  if (params.negative) questions.push({ index: items.length - 1, label: `"Now the last one, which Python can also call number -1." Which pigeonhole?`, code: "parcels[-1]" });
   const [q, setQ] = useState(done ? questions.length : 0);
   const [picked, setPicked] = useState<number | null>(null);
   const [feedback, setFeedback] = useState<{ good: boolean; text: string } | null>(null);
@@ -25,12 +25,12 @@ export function Pigeonholes({ params, onDone, done }: { params: Params; onDone: 
     if (!current) return;
     setPicked(i);
     if (i === current.index) {
-      setFeedback({ good: true, text: q === 0 ? `Right: hole ${i}. ${current.code} is "${items[i]}". The first hole is number 0, so number ${ask} is the ${ordinal(ask + 1)} from the left.` : `Right. ${current.code} is "${items[i]}". Negative numbers count back from the end, starting at -1.` });
+      setFeedback({ good: true, text: q === 0 ? `That's right, it's hole ${i}, and ${current.code} is "${items[i]}". The first hole is number 0, so number ${ask} is the ${ordinal(ask + 1)} from the left.` : `That's right, ${current.code} is "${items[i]}", because negative numbers count back from the end, starting at -1.` });
       if (q === questions.length - 1) onDone();
     } else if (q === 0 && i === ask - 1) {
-      setFeedback({ good: false, text: `That's the ${ordinal(ask)} hole, the one you'd call number ${ask} if counting started at 1. These numbers start at 0.` });
+      setFeedback({ good: false, text: `That's the ${ordinal(ask)} hole, the one you'd call number ${ask} if counting started at 1, but these numbers start at 0.` });
     } else {
-      setFeedback({ good: false, text: "Not that one. Read the numbers under the holes, not the order you'd count them in." });
+      setFeedback({ good: false, text: "Not that one, so go by the numbers under the holes rather than the order you'd count them in." });
     }
   };
 

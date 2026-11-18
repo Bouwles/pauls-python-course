@@ -67,8 +67,8 @@ export async function pushRepository(token: string, name: string, description: s
     });
     if (!res.ok) {
       const text = await res.text();
-      if (res.status === 422 && path === "/user/repos") throw new GitHubError("You already have a repository with that name. Pick another.", 409);
-      if (res.status === 401) throw new GitHubError("GitHub didn't accept the connection. Connect it again.", 401);
+      if (res.status === 422 && path === "/user/repos") throw new GitHubError("You already have a repository with that name, so pick another one.", 409);
+      if (res.status === 401) throw new GitHubError("GitHub didn't accept the connection, so connect it again.", 401);
       throw new GitHubError(`GitHub said no (${res.status}): ${text.slice(0, 200)}`, 502);
     }
     return (await res.json()) as T;

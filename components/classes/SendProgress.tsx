@@ -43,7 +43,7 @@ export function SendProgress({ cls, facts, variant = "primary", withClassName = 
       const fitted = fitReport(report);
       setMade({ url: linkUrl(window.location.origin, BASE, "report", fitted.hash), leftOut: fitted.leftOut.length, league: Boolean(report.league), at: Date.now() });
     } catch {
-      setError("That didn't work. Try again in a moment.");
+      setError("That didn't work, so try again in a moment.");
     } finally {
       setBusy(false);
     }
@@ -72,7 +72,7 @@ export function SendProgress({ cls, facts, variant = "primary", withClassName = 
       {made ? (
         <LinkBox key={made.at} url={made.url} label={`Your progress link for ${cls.teacher}`} shareTitle={`${known || name.trim()}'s progress`} shareText={`My progress in ${cls.name}.`}>
           <p className={styles.linkNote}>
-            Send it to {cls.teacher} however you like. It holds how far you are with each set project and your code for each Build step
+            Send it to {cls.teacher} however you like, and it holds how far you are with each set project and your code for each Build step
             {made.leftOut ? `, except ${made.leftOut === 1 ? "one project's code, which was" : `${made.leftOut} projects' code, which were`} too long for a link` : ""}
             {made.league ? ". Your Arcade League entry this week goes too, for the class's table" : ""}.
           </p>

@@ -35,7 +35,7 @@ export function ShareTable({ cls, week, disabled = false }: { cls: TaughtClass; 
       </div>
       {shown ? (
         <LinkBox key={shown.at} url={shown.url} label={`League table link for ${cls.name}`} shareTitle={`${cls.name} in the Arcade League`} shareText={`${cls.name}'s Arcade League table, ${weekName(week).toLowerCase()}.`}>
-          <p className={styles.linkNote}>Shows names and scores, nothing else.</p>
+          <p className={styles.linkNote}>It only shows names and scores.</p>
         </LinkBox>
       ) : null}
     </div>
@@ -65,7 +65,7 @@ export function ClassLeague({ cls }: { cls: TaughtClass }) {
       {rows.length ? (
         <LeagueTable rows={rows} labelledBy={titleId} caption={`${cls.name}'s Arcade League table, ${weekName(week)}.`} />
       ) : (
-        <p className={teach.empty}>No entries for {last ? "that week" : "this week"} yet. Each student&apos;s entry comes with their progress link.</p>
+        <p className={teach.empty}>No entries for {last ? "that week" : "this week"} yet, because each student&apos;s entry comes in with their progress link.</p>
       )}
       <ShareTable cls={cls} week={week} disabled={rows.length === 0} />
     </div>

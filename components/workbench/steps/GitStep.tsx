@@ -25,7 +25,7 @@ export function GitStepView({ step, row }: { step: GitStep; row: StepProgressRow
   const { areas, updateStep, markPassed, logEvent } = useWorkbench();
   const saved = row.data.git as Saved | undefined;
   const [repo, setRepo] = useState<RepoState>(saved?.repo ?? newRepo(step.files));
-  const [lines, setLines] = useState<TermLine[]>(saved?.lines ?? [{ kind: "out", text: "The project folder. Type git help for the commands." }]);
+  const [lines, setLines] = useState<TermLine[]>(saved?.lines ?? [{ kind: "out", text: "This is the project folder, and git help lists the commands." }]);
   const files = Object.keys(repo.files).sort();
   const [active, setActive] = useState(files[0] ?? "");
   const [version, setVersion] = useState(0);

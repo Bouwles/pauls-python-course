@@ -57,7 +57,7 @@ export function Hints({ stepId, hints, row }: { stepId: string; hints: HintsData
       const mins = Math.ceil((body.secondsNeeded ?? 0) / 60);
       setNotYet(
         mins > 0
-          ? `The full solution opens after ${MIN_MINUTES} minutes on a step: about ${mins} more ${mins === 1 ? "minute" : "minutes"}. The Shape hint is most of the way there.`
+          ? `The full solution opens after ${MIN_MINUTES} minutes on a step, so that's about ${mins} more ${mins === 1 ? "minute" : "minutes"}, but the Shape hint gets you most of the way there anyway.`
           : "Use all three hints first.",
       );
     }
@@ -92,7 +92,7 @@ export function Hints({ stepId, hints, row }: { stepId: string; hints: HintsData
           </p>
         </div>
       ) : (
-        <p className={styles.note}>Start with a nudge. Each level gives a little more away.</p>
+        <p className={styles.note}>Start with a nudge, and each level after that gives a little more away.</p>
       )}
       {used >= 2 ? (
         <div className={styles.level}>
@@ -122,7 +122,7 @@ export function Hints({ stepId, hints, row }: { stepId: string; hints: HintsData
       ) : null}
       {solution ? (
         <div className={styles.level}>
-          <p className={styles.note}>{passed ? `${nameOf(speaker(PROFESSOR))}'s version, for comparison.` : "Read why each line is there. A fresh version of this task will come up in your review."}</p>
+          <p className={styles.note}>{passed ? `${nameOf(speaker(PROFESSOR))}'s version, for comparison.` : "Read why each line is there, and a fresh version of this task will come up in your review."}</p>
           {Object.entries(solution).map(([name, code]) => (
             <div key={name} className={styles.level}>
               {Object.keys(solution).length > 1 ? <p className={styles.file}>{name}</p> : null}
