@@ -1,5 +1,6 @@
 // Builds the GitHub Pages version of the course: plain files in pages-out/, served from
-// https://<user>.github.io/<repo>/. There's no server there, so:
+// https://<user>.github.io/<repo>/, or from the root of a custom domain (an empty base).
+// There's no server there, so:
 // - the pages that need one (accounts, account classes, certificates, admin, the API) are left
 //   out of this build; the League races entries in the browser, so it stays;
 // - everyone is a guest, with their progress kept in their browser;
@@ -8,7 +9,8 @@
 // - the service worker adds the headers that input() and Stop need (lib/sw/sw-template.js).
 // The left-out pages are set aside while it builds and always put back, even if the build fails.
 // The workflow in .github/workflows/deploy.yml runs this on every push to main.
-//   npx tsx scripts/build-pages.ts [--base /pauls-python-course]
+//   npx tsx scripts/build-pages.ts [--base /pauls-python-course] [--site https://www.example.com]
+// PPC_PAGES_BASE does the same as --base, and can be empty: the site's own domain, served from "/".
 import { execSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
@@ -19,7 +21,7 @@ const arg = (name: string) => {
   const i = process.argv.indexOf(name);
   return i >= 0 ? process.argv[i + 1] : undefined;
 };
-const base = (arg("--base") ?? "/pauls-python-course").replace(/\/$/, "");
+const base = (arg("--base") ?? process.env.PPC_PAGES_BASE ?? "/pauls-python-course").replace(/\/$/, "");
 const OUT = path.join(root, "pages-out");
 const STASH = path.join(root, ".pages-stash");
 

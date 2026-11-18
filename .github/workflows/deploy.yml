@@ -3,6 +3,10 @@ name: Deploy to GitHub Pages
 # Builds the course as plain files (scripts/build-pages.ts) and publishes it on GitHub Pages, on
 # every push to main. There's no server there: everyone plays as a guest with their progress in
 # their own browser, and classes work through links (/class).
+#
+# Where it's served comes from the repository's own Pages settings: under /<repo> on github.io,
+# or at the root of a custom domain (Settings, Pages, Custom domain) once one is set there. After
+# changing that setting, run this workflow again so the files are built for the new address.
 on:
   push:
     branches: [main]
@@ -20,10 +24,14 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      NEXT_PUBLIC_SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
     steps:
       - uses: actions/checkout@v4
+
+      # First, since it says where the site lives: "https://www.example.com" with no base path
+      # on a custom domain, "https://<owner>.github.io/<repo>" with "/<repo>" without one.
+      - name: Configure Pages
+        id: pages
+        uses: actions/configure-pages@v5
 
       - uses: actions/setup-node@v4
         with:
@@ -34,10 +42,11 @@ jobs:
         run: npm ci
 
       - name: Build the course as plain files
-        run: npx tsx scripts/build-pages.ts --base /${{ github.event.repository.name }}
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
+        run: npx tsx scripts/build-pages.ts
+        env:
+          # Empty on a custom domain, which is why it goes in as a variable and not an argument.
+          PPC_PAGES_BASE: ${{ steps.pages.outputs.base_path }}
+          NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.base_url }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
