@@ -30,10 +30,10 @@ type Spot = { who: string; x: number; y: number; face: Expression };
 const CLASS: Spot[] = [
   { who: "paul", x: 22, y: 0, face: "pleased" },
   { who: "neil", x: 107, y: 0, face: "pleased" },
-  { who: "aaesha", x: 0, y: 32, face: "neutral" },
-  { who: "caitlin", x: 43, y: 32, face: "pleased" },
-  { who: "riya", x: 86, y: 32, face: "pleased" },
-  { who: "yahya", x: 129, y: 32, face: "neutral" },
+  { who: "aaesha", x: 0, y: 46, face: "neutral" },
+  { who: "caitlin", x: 43, y: 46, face: "pleased" },
+  { who: "riya", x: 86, y: 46, face: "pleased" },
+  { who: "yahya", x: 129, y: 46, face: "neutral" },
 ];
 
 /** What a moment in class can be: anything from a cheer to a sip of coffee, their own moves most. */
@@ -122,6 +122,12 @@ export function ClassScene({ greeting, names }: { greeting: string; names: Recor
           </SpeechBubble>
         </button>
         <div className={styles.stage} aria-hidden="true">
+          {/* The chalkboard on the wall behind Paul and Neil, a few lines of Python chalked on it. */}
+          <span className={styles.board}>
+            {WORDS.map(([x, y, w], i) => (
+              <span key={i} className={styles.chalk} style={{ ["--cx" as string]: x, ["--cy" as string]: y, ["--cw" as string]: w }} />
+            ))}
+          </span>
           {CLASS.map((s) => {
             const now = moment?.who === s.who ? moment : null;
             const isPaul = s.who === "paul";
@@ -135,13 +141,15 @@ export function ClassScene({ greeting, names }: { greeting: string; names: Recor
                 style={{
                   ["--x" as string]: s.x,
                   ["--y" as string]: s.y,
-                  zIndex: s.y ? 2 : 1,
+                  zIndex: s.y ? 3 : 1,
                 }}
               >
                 <PixelPerson who={s.who} expression={face} pose={pose} mouthOpen={isPaul ? speech.open : undefined} scale={1} className={styles.person} />
               </span>
             );
           })}
+          {/* Paul and Neil stand behind the teacher's desk, so they show down to the chest too. */}
+          <span className={styles.backDesk} />
           <span className={styles.desk} />
           <Duck className={styles.duck} />
         </div>
@@ -149,6 +157,32 @@ export function ClassScene({ greeting, names }: { greeting: string; names: Recor
     </div>
   );
 }
+
+/** Chalk on the board, as [x, y, width] in sprite pixels from the board's corner: lines of code
+ * where the board shows round Paul and Neil, between them most of all. */
+const CHALK: [number, number, number][] = [
+  [4, 8, 9],
+  [4, 13, 13],
+  [6, 18, 7],
+  [4, 23, 11],
+  [70, 7, 22],
+  [70, 12, 14],
+  [74, 17, 20],
+  [74, 22, 11],
+  [70, 27, 18],
+  [70, 32, 9],
+  [155, 9, 9],
+  [153, 14, 11],
+  [155, 19, 6],
+  [153, 24, 10],
+];
+
+/** Each line of chalk as words: four pixels of chalk, a gap of one, like handwriting. */
+const WORDS: [number, number, number][] = CHALK.flatMap(([x, y, w]) => {
+  const out: [number, number, number][] = [];
+  for (let at = 0; at < w; at += 5) out.push([x + at, y, Math.min(4, w - at)]);
+  return out;
+});
 
 // Neil's rubber duck: yellow, facing the class, with a chip out of its beak.
 // # body, s shade, b beak, e eye; the outline is worked out round it.

@@ -72,7 +72,7 @@
 .stage {
   position: relative;
   width: calc(177 * var(--u));
-  height: calc(90 * var(--u));
+  height: calc(112 * var(--u));
 }
 
 .spot {
@@ -89,12 +89,64 @@
 }
 
 /* The long desk in front of the class: wood, a lighter top, a one-sprite-pixel outline. */
+/* The chalkboard on the wall behind Paul and Neil: dark green in a wooden frame, a lighter band at
+   the top where the light catches it, and a chalk ledge along the bottom. Behind everyone. */
+.board {
+  --board: #2f4d3e;
+  --board-light: #3a5c4a;
+  --board-chalk: #dfe9de;
+  position: absolute;
+  z-index: 0;
+  left: calc(2 * var(--u));
+  top: calc(2 * var(--u));
+  width: calc(173 * var(--u));
+  height: calc(46 * var(--u));
+  background: var(--board);
+  box-shadow:
+    inset 0 var(--u) 0 0 var(--board-light),
+    0 0 0 calc(2 * var(--u)) var(--wood),
+    0 0 0 calc(3 * var(--u)) var(--px-outline),
+    0 calc(3 * var(--u)) 0 0 var(--wood-top),
+    0 calc(4 * var(--u)) 0 0 var(--px-outline);
+}
+
+/* A word of chalk writing: a pixel tall. A line of code is a few of these with gaps between. */
+.chalk {
+  position: absolute;
+  left: calc(var(--cx) * var(--u));
+  top: calc((var(--cy) - 2) * var(--u));
+  width: calc(var(--cw) * var(--u));
+  height: var(--u);
+  background: var(--board-chalk);
+  opacity: 0.85;
+}
+
+/* The teacher's desk in front of Paul and Neil: darker than the class's, not wall to wall, its top
+   where their pictures end, so nobody is cut off. Between the two rows in depth. */
+.backDesk {
+  position: absolute;
+  z-index: 2;
+  left: calc(10 * var(--u));
+  width: calc(157 * var(--u));
+  top: calc(52 * var(--u));
+  height: calc(14 * var(--u));
+  background: color-mix(in srgb, var(--wood) 78%, var(--px-outline));
+  box-shadow:
+    0 calc(-1 * var(--u)) 0 0 var(--px-outline),
+    0 var(--u) 0 0 var(--px-outline),
+    calc(-1 * var(--u)) 0 0 0 var(--px-outline),
+    var(--u) 0 0 0 var(--px-outline),
+    inset 0 calc(3 * var(--u)) 0 0 var(--wood),
+    inset 0 calc(4 * var(--u)) 0 0 var(--px-outline),
+    inset 0 calc(-2 * var(--u)) 0 0 var(--px-lo);
+}
+
 .desk {
   position: absolute;
-  z-index: 3;
+  z-index: 4;
   left: -50vw;
   right: -50vw;
-  top: calc(76 * var(--u));
+  top: calc(98 * var(--u));
   height: calc(14 * var(--u));
   background: var(--wood);
   box-shadow:
@@ -109,9 +161,9 @@
 
 .duck {
   position: absolute;
-  z-index: 4;
+  z-index: 5;
   left: calc(161 * var(--u));
-  top: calc(66 * var(--u));
+  top: calc(88 * var(--u));
   width: calc(var(--w) * var(--u));
   height: calc(var(--h) * var(--u));
 }
