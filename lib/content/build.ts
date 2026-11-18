@@ -35,6 +35,7 @@ import type {
 import type { Files, TestMeta } from "../python/protocol";
 import { asksForAChange, lintText } from "./lint";
 import { BRAND } from "../brand";
+import { page } from "../static";
 
 /**
  * Content is read as written. The old `{{town}}` token went with the town:
@@ -75,14 +76,17 @@ const PROSE_MAX = 175;
 
 marked.setOptions({ gfm: true, breaks: false });
 
+/** Links to the course's own pages ("/handbook/strings"), as they need to be where this build is served (lib/static.ts). */
+const siteLinks = (html: string) => html.replace(/(<a\s[^>]*?href=")(\/[^"]*)"/g, (_, before: string, href: string) => `${before}${page(href)}"`);
+
 export function md(text: string | undefined | null): string {
   if (!text) return "";
-  return (marked.parse(text.trim(), { async: false }) as string).trim();
+  return siteLinks((marked.parse(text.trim(), { async: false }) as string).trim());
 }
 
 export function mdInline(text: string | undefined | null): string {
   if (!text) return "";
-  return (marked.parseInline(text.trim(), { async: false }) as string).trim();
+  return siteLinks((marked.parseInline(text.trim(), { async: false }) as string).trim());
 }
 
 function proseWords(body: string): number {

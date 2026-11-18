@@ -85,6 +85,8 @@ try {
   fs.rmSync(ppcFile, { force: true });
   // Put the local service worker back (isolation off) for the local version.
   run("npx tsx scripts/copy-pyodide.ts", { NEXT_PUBLIC_PPC_STATIC: "" });
+  // And the content as the local version reads it: its links carry this build's base path.
+  run("npx tsx scripts/build-content.ts", { NEXT_PUBLIC_PPC_STATIC: "", NEXT_PUBLIC_BASE_PATH: "" });
   // A running dev server may have rewritten its route list while pages were set aside.
   run("npx next typegen", { NEXT_PUBLIC_PPC_STATIC: "" });
 }

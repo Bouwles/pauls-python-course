@@ -5,7 +5,7 @@ import { BASE } from "@/lib/static";
 import { useSession } from "@/lib/store/session";
 import { fitReport, linkUrl } from "@/lib/classes/link";
 import { gatherReport, type ProjectFacts } from "@/lib/classes/report";
-import { myId } from "@/lib/classes/store";
+import { loadBook, myId, myName, saveBook, useClassBook, withName } from "@/lib/classes/store";
 import type { JoinedClass } from "@/lib/classes/types";
 import { Button } from "../ui/Button";
 import teach from "../teach/Teach.module.css";
@@ -19,11 +19,14 @@ import styles from "./Classes.module.css";
  */
 export function SendProgress({ cls, facts, variant = "primary", withClassName = false, block = false }: { cls: JoinedClass; facts: (jobId: string) => ProjectFacts; variant?: "primary" | "secondary"; withClassName?: boolean; block?: boolean }) {
   const { store, profile, updateProfile } = useSession();
+  const book = useClassBook();
   const [name, setName] = useState("");
   const [busy, setBusy] = useState(false);
   const [made, setMade] = useState<{ url: string; leftOut: number; league: boolean; at: number } | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const needsName = !profile.displayName.trim();
+  // Their own name, not the classmate's they may be playing as: it's what the teacher's register shows.
+  const known = myName(book, profile);
+  const needsName = !known;
   const fieldId = `send-name-${cls.id}`;
 
   const make = async () => {
@@ -31,13 +34,12 @@ export function SendProgress({ cls, facts, variant = "primary", withClassName = 
     setBusy(true);
     setError(null);
     try {
-      let me = profile;
+      const mine = needsName ? name.trim() : known;
       if (needsName) {
-        const typed = name.trim();
-        await updateProfile({ displayName: typed });
-        me = { ...profile, displayName: typed };
+        if (!profile.displayName.trim()) await updateProfile({ displayName: mine });
+        saveBook(withName(loadBook(), mine));
       }
-      const report = await gatherReport(store, me, cls, myId(), facts);
+      const report = await gatherReport(store, { ...profile, displayName: mine }, cls, myId(), facts);
       const fitted = fitReport(report);
       setMade({ url: linkUrl(window.location.origin, BASE, "report", fitted.hash), leftOut: fitted.leftOut.length, league: Boolean(report.league), at: Date.now() });
     } catch {
@@ -68,7 +70,7 @@ export function SendProgress({ cls, facts, variant = "primary", withClassName = 
         </p>
       ) : null}
       {made ? (
-        <LinkBox key={made.at} url={made.url} label={`Your progress link for ${cls.teacher}`} shareTitle={`${profile.displayName || name.trim()}'s progress`} shareText={`My progress in ${cls.name}.`}>
+        <LinkBox key={made.at} url={made.url} label={`Your progress link for ${cls.teacher}`} shareTitle={`${known || name.trim()}'s progress`} shareText={`My progress in ${cls.name}.`}>
           <p className={styles.linkNote}>
             Send it to {cls.teacher} however you like. It holds how far you are with each set project and your code for each Build step
             {made.leftOut ? `, except ${made.leftOut === 1 ? "one project's code, which was" : `${made.leftOut} projects' code, which were`} too long for a link` : ""}

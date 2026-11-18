@@ -110,6 +110,8 @@ export function mergeBooks(here: ClassBook, there: ClassBook): ClassBook {
   const me = here.me && (here.joined.length > 0 || !there.me || there.joined.length === 0) ? here.me : there.me || here.me;
   return {
     me,
+    // The name the teacher knows them by goes with that id.
+    name: (me === here.me ? here.name || there.name : there.name || here.name) || "",
     teaching: [...teaching.values()].sort((a, b) => a.createdAt - b.createdAt),
     joined: [...joined.values()].sort((a, b) => a.joinedAt - b.joinedAt),
   };

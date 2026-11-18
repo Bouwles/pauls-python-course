@@ -34,6 +34,7 @@ const report = (over: Partial<Report> = {}): Report => ({
 
 const book = (): ClassBook => ({
   me: "Caitlin0student1",
+  name: "",
   teaching: [],
   joined: [{ ...cls, joinedAt: NOV_6 - 4 * DAY, build: { "shop-sign": "make" } }],
 });
@@ -151,7 +152,7 @@ describe("save: round trips", () => {
     const store = new LocalStore(`save-c-${Math.random()}`);
     await store.put("code_files", { key: "old/make/main.py", jobId: "old", stepId: "make", filename: "main.py", content: "x", cursor: null, baseUpdatedAt: null, conflictNote: false, updatedAt: 1 });
     await store.put("job_progress", { key: "old", jobId: "old", status: "shipped", startedAt: 1, shippedAt: 2, stretchDone: [], timeSpent: 1, updatedAt: 2 });
-    const held = memoryBook({ me: "SomeoneElse00001", teaching: [], joined: [] });
+    const held = memoryBook({ me: "SomeoneElse00001", name: "", teaching: [], joined: [] });
     const result = await applySave(store, caitlin(), "replace", { book: held, now: NOV_6 });
     expect(result.removed).toBe(2);
     expect(await store.get("code_files", "old/make/main.py")).toBeUndefined();
@@ -241,11 +242,12 @@ describe("save: merging", () => {
 
   it("puts two class books together", () => {
     const taught = { ...cls, role: "teacher" as const, createdAt: NOV_6 - 9 * DAY, register: [report()] };
-    const a: ClassBook = { me: "Here000000000001", teaching: [taught], joined: [] };
+    const a: ClassBook = { me: "Here000000000001", name: "", teaching: [taught], joined: [] };
     const sam = report({ student: { id: "Sam00000student2", name: "Sam", character: null, playAs: null }, sentAt: NOV_6 });
     const newerRuth = report({ sentAt: NOV_6, shipped: 4 });
     const b: ClassBook = {
       me: "There00000000001",
+      name: "Ruth",
       teaching: [{ ...taught, name: "Thursday Python, renamed", updatedAt: NOV_6, role: "co-teacher", createdAt: NOV_6 - 2 * DAY, register: [sam, newerRuth] }],
       joined: [{ ...cls, id: "Other00000class1", joinedAt: NOV_6, build: {} }],
     };
@@ -257,6 +259,7 @@ describe("save: merging", () => {
       ["Sam", 3],
     ]);
     expect(m.joined.map((j) => j.id)).toEqual(["Other00000class1"]);
+    expect(m.name).toBe("Ruth");
     // Only the save had been in a class, so the teacher knows this student by the save's id.
     expect(m.me).toBe("There00000000001");
   });

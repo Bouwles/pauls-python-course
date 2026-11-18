@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSession } from "@/lib/store/session";
 import { decodeJoin } from "@/lib/classes/link";
-import { loadBook, putJoined, saveBook, useClassBook } from "@/lib/classes/store";
+import { loadBook, myName, putJoined, saveBook, useClassBook, withName } from "@/lib/classes/store";
 import type { CourseAct } from "@/lib/classes/types";
 import { Button } from "../ui/Button";
 import teach from "../teach/Teach.module.css";
@@ -33,19 +33,22 @@ export function JoinClass({ acts, names }: { acts: CourseAct[]; names: Record<st
   const cls = decoded.value;
   const already = book.joined.find((j) => j.id === cls.id);
   const yours = book.teaching.some((t) => t.id === cls.id);
-  const needsName = ready && !profile.displayName.trim();
+  // Their own name, not the classmate's they may be playing as: it's what the teacher's register shows.
+  const known = myName(book, profile);
+  const needsName = ready && !known;
   const cast = castFor(cls.teacher);
   const count = cls.assignments.length;
 
   const join = async () => {
-    if (needsName) await updateProfile({ displayName: name.trim() });
+    const mine = needsName ? name.trim() : known;
+    if (needsName && !profile.displayName.trim()) await updateProfile({ displayName: mine });
     // Each set project's Build step, from this copy of the course, for the progress link.
     const build: Record<string, string> = {};
     for (const a of cls.assignments) {
       const step = course[a.jobId]?.build;
       if (step) build[a.jobId] = step;
     }
-    const { book: next, result } = putJoined(loadBook(), cls, build);
+    const { book: next, result } = putJoined(withName(loadBook(), mine), cls, build);
     if (saveBook(next)) {
       setError(null);
       setDone(result);

@@ -1,4 +1,5 @@
 import { forwardRef } from "react";
+import { page } from "@/lib/static";
 import { Icon, type IconName } from "./Icon";
 import styles from "./Button.module.css";
 
@@ -78,10 +79,12 @@ export function LinkButton({
   pixelIcon,
   className,
   children,
+  href,
   ...rest
 }: React.AnchorHTMLAttributes<HTMLAnchorElement> & { variant?: ButtonVariant; size?: "sm" | "md"; icon?: IconName | React.ReactNode; pixelIcon?: IconName }) {
+  // A plain link, so a page of the course needs the site's base put in front (lib/static.ts).
   return (
-    <a className={[styles.button, styles[VARIANT[variant]], styles[size], className].filter(Boolean).join(" ")} {...rest}>
+    <a className={[styles.button, styles[VARIANT[variant]], styles[size], className].filter(Boolean).join(" ")} href={href === undefined ? undefined : page(href)} {...rest}>
       {renderIcon(icon ?? pixelIcon)}
       <span>{children}</span>
     </a>

@@ -7,7 +7,9 @@
 // The operations are plain functions from one book to the next, so they can be tested without a
 // browser: load the book, apply one, save what comes back.
 import { useSyncExternalStore } from "react";
-import { classWire, isId, isJobId, readClass, readReport, readTable, reportWire, tableWire, toBase64Url, LIMITS, type ClassWire, type ReportWire, type TableWire } from "./link";
+import { isCast } from "../playas";
+import type { ProfileRow } from "../store/types";
+import { classWire, isId, isJobId, line, readClass, readReport, readTable, reportWire, tableWire, toBase64Url, LIMITS, type ClassWire, type ReportWire, type TableWire } from "./link";
 import type { ClassBook, ClassInfo, JoinedClass, Report, SharedTable, TaughtClass } from "./types";
 
 const KEY = "ppc-classes";
@@ -15,12 +17,14 @@ const KEY = "ppc-classes";
 interface Stored {
   v: 1;
   me: string;
+  /** Your own name for your teachers (absent in books saved before it was kept). */
+  name?: string;
   teaching: { role: TaughtClass["role"]; createdAt: number; c: ClassWire; r: ReportWire[] }[];
   /** `t`: the newest League table shared for the class (lib/classes/league.ts). */
   joined: { joinedAt: number; build: Record<string, string>; c: ClassWire; t?: TableWire }[];
 }
 
-export const EMPTY_BOOK: ClassBook = Object.freeze({ me: "", teaching: [], joined: [] }) as ClassBook;
+export const EMPTY_BOOK: ClassBook = Object.freeze({ me: "", name: "", teaching: [], joined: [] }) as ClassBook;
 
 /** A random id for a class or a student: 16 base64url characters (96 random bits). */
 export function newId(): string {
@@ -62,13 +66,14 @@ export function readBook(raw: string | null): ClassBook {
     const table = j.t ? readTable(j.t) : null;
     joined.push({ ...cls, joinedAt: stamp(j.joinedAt), build, ...(table && table.classId === cls.id ? { table } : {}) });
   }
-  return { me: isId(data.me) ? data.me : "", teaching, joined };
+  return { me: isId(data.me) ? data.me : "", name: line(data.name, LIMITS.studentName) ?? "", teaching, joined };
 }
 
 export function writeBook(book: ClassBook): string {
   const stored: Stored = {
     v: 1,
     me: book.me,
+    ...(book.name ? { name: book.name } : {}),
     teaching: book.teaching.map((t) => ({ role: t.role, createdAt: t.createdAt, c: classWire(t), r: t.register.map(reportWire) })),
     joined: book.joined.map((j) => ({ joinedAt: j.joinedAt, build: j.build, c: classWire(j), ...(j.table ? { t: tableWire(j.table) } : {}) })),
   };
@@ -144,6 +149,22 @@ export function putCoTeach(book: ClassBook, cls: ClassInfo, register: Report[], 
   if (!before) return { book: putTaught(book, { ...info(cls), role: "co-teacher", createdAt: now, register: mergeRegister([], register) }), result: "added" };
   const newer = cls.updatedAt > before.updatedAt ? info(cls) : info(before);
   return { book: putTaught(book, { ...before, ...newer, register: mergeRegister(before.register, register) }), result: "merged" };
+}
+
+/** Keep your own name for your teachers. */
+export function withName(book: ClassBook, name: string): ClassBook {
+  const clean = line(name, LIMITS.studentName) ?? "";
+  return clean && clean !== book.name ? { ...book, name: clean } : book;
+}
+
+/**
+ * The name a progress link goes out under: the one kept for your teachers, or the profile's when
+ * that's your own. Playing as one of the class, the profile's name is theirs ("Caitlin"), which
+ * tells a teacher nothing, so it reads as no name and the class pages ask for yours.
+ */
+export function myName(book: ClassBook, profile: Pick<ProfileRow, "displayName" | "settings">): string {
+  if (book.name) return book.name;
+  return isCast(profile.settings?.playAs) ? "" : (line(profile.displayName, LIMITS.studentName) ?? "");
 }
 
 /** This browser's student id, made the first time. */

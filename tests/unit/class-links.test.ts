@@ -19,7 +19,7 @@ import {
   toBase64Url,
   unpack,
 } from "@/lib/classes/link";
-import { EMPTY_BOOK, mergeRegister, putCoTeach, putJoined, putReport, putTaught, readBook, writeBook } from "@/lib/classes/store";
+import { EMPTY_BOOK, mergeRegister, myName, putCoTeach, putJoined, putReport, putTaught, readBook, withName, writeBook } from "@/lib/classes/store";
 import type { ClassInfo, Report, TaughtClass } from "@/lib/classes/types";
 import { defaultAvatar } from "@/lib/avatar";
 
@@ -326,11 +326,26 @@ describe("the browser's class book", () => {
     expect(again.book.joined[0]!.assignments).toEqual([]);
   });
 
+  it("sends progress under your own name, not the classmate's you play as", () => {
+    const asCaitlin = { displayName: "Caitlin", settings: { playAs: "caitlin" } } as Parameters<typeof myName>[1];
+    const herself = { displayName: " Ruth ", settings: { playAs: null } } as Parameters<typeof myName>[1];
+    // Playing as Caitlin, the profile's name is Caitlin's: no name of your own until you give one.
+    expect(myName(EMPTY_BOOK, asCaitlin)).toBe("");
+    expect(myName(EMPTY_BOOK, herself)).toBe("Ruth");
+    const named = withName(EMPTY_BOOK, "  Ruth   Okafor ");
+    expect(named.name).toBe("Ruth Okafor");
+    expect(myName(named, asCaitlin)).toBe("Ruth Okafor");
+    expect(myName(named, herself)).toBe("Ruth Okafor");
+    expect(withName(named, "   ")).toBe(named);
+  });
+
   it("reads back what it writes, and shrugs off anything it can't read", () => {
     let book = putReport(putTaught(EMPTY_BOOK, taught), report()).book;
     book = putJoined(book, cls, { "shop-sign": "make", __proto__: "x" } as Record<string, string>, 10).book;
-    book = { ...book, me: "MeMeMeMeMeMeMeMe" };
+    book = { ...book, me: "MeMeMeMeMeMeMeMe", name: "Ruth Okafor" };
     expect(readBook(writeBook(book))).toEqual(book);
+    // A book saved before the name was kept reads with none.
+    expect(readBook(writeBook({ ...book, name: "" })).name).toBe("");
     expect(readBook(null)).toEqual(EMPTY_BOOK);
     expect(readBook("not json")).toEqual(EMPTY_BOOK);
     expect(readBook(JSON.stringify({ teaching: [{ c: { i: "bad" } }, "x", null], joined: 5, me: "<script>" }))).toEqual(EMPTY_BOOK);

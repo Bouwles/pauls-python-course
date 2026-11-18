@@ -146,6 +146,11 @@ export interface JoinedClass extends ClassInfo {
 export interface ClassBook {
   /** This browser's student id, made the first time it's needed. */
   me: string;
+  /**
+   * Your own name, as your teachers see it. Kept apart from the profile's, which becomes a
+   * classmate's when you play as one: six students playing as Caitlin are still six names.
+   */
+  name: string;
   teaching: TaughtClass[];
   joined: JoinedClass[];
 }
