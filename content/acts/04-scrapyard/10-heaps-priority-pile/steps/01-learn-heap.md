@@ -3,6 +3,7 @@ id: learn-heap
 type: learn
 title: Smallest on top
 concept: heaps
+edit: true
 code: |
   import heapq
 

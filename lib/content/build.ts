@@ -33,7 +33,7 @@ import type {
   StoryNote,
 } from "./types";
 import type { Files, TestMeta } from "../python/protocol";
-import { lintText } from "./lint";
+import { asksForAChange, lintText } from "./lint";
 import { BRAND } from "../brand";
 
 /**
@@ -498,12 +498,17 @@ export async function loadContent(root: string, opts: LoadOptions = {}): Promise
             } else if (t.accept.length === 0) errors.push(`${where}: answer task "${t.id}" needs accept answers`);
             lint(t.prompt, `${where} task ${t.id}`);
           }
+          if (!s.edit) {
+            const changes = s.tasks.find((t) => t.kind === "run" || asksForAChange(t.prompt));
+            if (changes) errors.push(`${where}: edit is false, so the code can't be typed in, but task "${changes.id}" asks for a change`);
+          }
           steps.push({
             ...common,
             type: "investigate",
             concept: s.concept ?? null,
             code: s.code,
             inputs: s.inputs,
+            edit: s.edit,
             tasks: s.tasks.map((t) => ({ id: t.id, promptHtml: mdInline(t.prompt), kind: t.kind, accept: t.accept, feedback: t.feedback ? mdInline(t.feedback) : null, wrong: t.wrong ? mdInline(t.wrong) : null, hasTests: Boolean(t.tests) })),
           });
           break;
@@ -577,7 +582,9 @@ export async function loadContent(root: string, opts: LoadOptions = {}): Promise
           steps.push({ ...common, type: "reading", code: s.code ?? null });
           break;
         case "learn":
-          steps.push({ ...common, type: "learn", concept: s.concept ?? null, code: s.code ?? null, inputs: s.inputs, error: s.error ?? null });
+          if (s.edit && !s.code) errors.push(`${where}: edit is true, but there's no code to change`);
+          if (!s.edit && s.code && asksForAChange(body)) errors.push(`${where}: the text asks for a change to the example, which is read only; add "edit: true"`);
+          steps.push({ ...common, type: "learn", concept: s.concept ?? null, code: s.code ?? null, inputs: s.inputs, error: s.error ?? null, edit: s.edit });
           break;
         case "git": {
           const files = readFilesUnder(path.join(jobPath, "starter", s.id));

@@ -3,6 +3,7 @@ id: learn-else
 type: learn
 title: Only if it worked
 concept: try-except
+edit: true
 code: |
   text = "4"
   try:

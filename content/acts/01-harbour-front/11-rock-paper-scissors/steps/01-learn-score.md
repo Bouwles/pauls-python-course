@@ -3,6 +3,7 @@ id: learn-score
 type: learn
 title: A dictionary for the score
 concept: dictionaries
+edit: true
 code: |
   wins = {"Caitlin": 0, "Yahya": 0}
   winner = "Caitlin"

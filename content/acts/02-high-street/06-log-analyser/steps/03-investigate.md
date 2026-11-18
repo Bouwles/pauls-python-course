@@ -5,6 +5,7 @@ title: Read it before you touch it
 concept: exceptions
 dialogue:
   - paul.neutral.point: "Neil's script, as he left it. Read it top to bottom before you run anything."
+edit: false
 code: |
   # Flight log report, for Neil's drone.
   # Reads flight.log and counts the errors from each system on the drone.

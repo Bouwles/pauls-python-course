@@ -47,7 +47,7 @@ Every project starts with one of us needing something, like Caitlin picking the 
 
 ![Caitlin in the Studio asking for a bill splitter, with Paul in the foreground.](docs/readme/brief.png)
 
-You pick up the ideas as you go, with short explanations, examples you can run and change, and questions that make you guess what some code will print before you get to run it.
+You pick up the ideas as you go, with short explanations, examples you can run, and questions that make you guess what some code will print before you get to run it. When a step is only asking you to read something or answer a question, the code next to it is locked, so you can run it but you can't type in it, and it opens up for typing when the step actually wants you to change something.
 
 ![A lesson on print() beside the code editor, with the program's output underneath.](docs/readme/lesson.png)
 

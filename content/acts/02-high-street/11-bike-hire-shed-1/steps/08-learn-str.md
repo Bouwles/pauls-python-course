@@ -3,6 +3,7 @@ id: learn-str
 type: learn
 title: In plain words
 concept: dunder-methods
+edit: true
 code: |
   class Ticket:
       def __init__(self, number, prize):

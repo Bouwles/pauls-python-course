@@ -3,6 +3,7 @@ id: learn-try
 type: learn
 title: Catching it
 concept: try-except
+edit: true
 code: |
   text = "twelve"
   try:

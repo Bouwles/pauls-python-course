@@ -3,6 +3,7 @@ id: learn-edge-cases
 type: learn
 title: Where the bugs live
 concept: edge-cases
+edit: true
 code: |
   def slices_each(slices, people):
       return slices // people

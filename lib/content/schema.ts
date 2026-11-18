@@ -186,6 +186,8 @@ export const investigateStep = z.object({
   concept: id.optional(),
   code: z.string(),
   inputs: z.array(z.string()).default([]),
+  /** False when every task is a question about the code as it stands: the editor is read only. */
+  edit: z.boolean().default(true),
   tasks: z.array(investigateTask).min(1),
 });
 
@@ -264,7 +266,8 @@ export const readingStep = z.object({
 
 /**
  * Learn: one new idea explained in plain words before anything asks about it.
- * The body is the explanation; `code` is a small example the learner can run and change.
+ * The body is the explanation; `code` is a small example to run. It's read only, so the
+ * explanation and Got it keep the attention, unless the text asks for a change (`edit: true`).
  */
 export const learnStep = z.object({
   ...stepBase,
@@ -275,6 +278,8 @@ export const learnStep = z.object({
   inputs: z.array(z.string()).default([]),
   /** The error the example stops with on purpose ("ValueError"), when that's the point. */
   error: z.string().optional(),
+  /** The text asks the learner to change the example ("Change line 1 and run it"). */
+  edit: z.boolean().default(false),
 });
 
 export const explainStep = z.object({

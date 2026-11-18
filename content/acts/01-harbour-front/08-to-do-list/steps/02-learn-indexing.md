@@ -3,6 +3,7 @@ id: learn-indexing
 type: learn
 title: Counting from nought
 concept: indexing
+edit: true
 code: |
   tasks = ["rocket poster", "album cover", "order ink"]
   print(tasks[0])

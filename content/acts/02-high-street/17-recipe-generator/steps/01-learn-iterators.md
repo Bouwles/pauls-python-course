@@ -3,6 +3,7 @@ id: learn-iterators
 type: learn
 title: One at a time
 concept: iterators
+edit: true
 code: |
   laps = iter([62.4, 59.8, 61.0])
   print(next(laps))

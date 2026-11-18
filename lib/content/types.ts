@@ -115,6 +115,8 @@ export interface InvestigateStep extends StepCommon {
   concept: string | null;
   code: string;
   inputs: string[];
+  /** False when every task only asks about the code as it stands: the editor is read only. */
+  edit: boolean;
   tasks: InvestigateTask[];
 }
 
@@ -182,7 +184,7 @@ export interface ReadingStep extends StepCommon {
   code: string | null;
 }
 
-/** One new idea, explained, with an example to run and change. */
+/** One new idea, explained, with an example to run. */
 export interface LearnStep extends StepCommon {
   type: "learn";
   concept: string | null;
@@ -190,6 +192,8 @@ export interface LearnStep extends StepCommon {
   inputs: string[];
   /** The error the example stops with on purpose, if that's the point. */
   error: string | null;
+  /** The text asks for a change to the example, so the editor takes typing. Read only otherwise. */
+  edit: boolean;
 }
 
 export interface ExplainStep extends StepCommon {

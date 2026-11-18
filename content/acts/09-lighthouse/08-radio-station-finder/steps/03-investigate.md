@@ -4,6 +4,7 @@ type: investigate
 title: Listening to the dial
 dialogue:
   - paul.thinking: "Before you fix anything, listen to it."
+edit: false
 code: |
   readings = [float(line) for line in open("dial.txt")]
   print(len(readings), "readings")

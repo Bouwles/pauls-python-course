@@ -3,6 +3,7 @@ id: learn-get
 type: learn
 title: A name that might not be there
 concept: dict-get
+edit: true
 code: |
   rooms = {"Paul": "The Workshop", "Yahya": "The Archive"}
   print(rooms.get("Riya", "Not in the book"))

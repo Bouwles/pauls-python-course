@@ -3,6 +3,7 @@ id: learn-import
 type: learn
 title: Borrowing tools
 concept: imports
+edit: true
 code: |
   import math
 

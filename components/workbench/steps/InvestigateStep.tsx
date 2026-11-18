@@ -14,7 +14,10 @@ import { useWorkbench } from "../context";
 import { NextRow, isDone } from "./common";
 import styles from "./steps.module.css";
 
-/** Investigate: run the code, answer questions about it, change it and check the change. */
+/**
+ * Investigate: run the code, answer questions about it, change it and check the change. When
+ * every task is a question about the code as it stands (`edit: false`), the code is read only.
+ */
 export function InvestigateStepView({ step, row }: { step: InvestigateStep; row: StepProgressRow }) {
   const { areas, updateStep, markPassed, job, cue } = useWorkbench();
   const done = (row.data.tasks ?? {}) as Record<string, boolean>;
@@ -48,7 +51,7 @@ export function InvestigateStepView({ step, row }: { step: InvestigateStep; row:
         </ol>
       </Instructions>
       <div className={areas.stage}>
-        <CodeWorkspace stepId={step.id} files={["main.py"]} starter={{ "main.py": step.code }} checkRef={checkRef} filesRef={filesRef} onRun={(r: RunResult) => void cue(cuesFromRun(r))} done={isDone(row)} />
+        <CodeWorkspace stepId={step.id} files={["main.py"]} starter={{ "main.py": step.code }} readOnly={!step.edit} checkRef={checkRef} filesRef={filesRef} onRun={(r: RunResult) => void cue(cuesFromRun(r))} done={isDone(row)} />
       </div>
     </>
   );

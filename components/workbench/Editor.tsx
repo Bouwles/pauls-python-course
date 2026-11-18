@@ -116,7 +116,6 @@ export function Editor({ value, onChange, readOnly = false, onRun, onCheck, erro
       errorLineField,
       errorGutter,
       lineNumbers(),
-      highlightActiveLineGutter(),
       history(),
       drawSelection(),
       indentOnInput(),
@@ -125,7 +124,8 @@ export function Editor({ value, onChange, readOnly = false, onRun, onCheck, erro
       bracketMatching(),
       closeBrackets(),
       autocompletion({ activateOnTyping: true, icons: false }),
-      highlightActiveLine(),
+      // Code that's only there to read has no "you are here" line: it doesn't look ready for typing.
+      ...(readOnly ? [] : [highlightActiveLineGutter(), highlightActiveLine()]),
       python(),
       syntaxHighlighting(ppcHighlight),
       themeSlot.current.of(currentEditorTheme()),

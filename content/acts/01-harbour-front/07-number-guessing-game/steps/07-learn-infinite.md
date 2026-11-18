@@ -3,6 +3,7 @@ id: learn-infinite
 type: learn
 title: A loop that never ends
 concept: infinite-loops
+edit: true
 code: |
   chimes = 3
   while chimes > 0:

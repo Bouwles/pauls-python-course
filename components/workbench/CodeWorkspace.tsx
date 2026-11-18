@@ -92,7 +92,7 @@ export function CodeWorkspace({
 }: CodeWorkspaceProps) {
   const { job, store, runner, markedLine, showZone, zone, logEvent, nextStep, goNext, compact } = useWorkbench();
   const { profile } = useSession();
-  const code = useCodeFiles({ store, jobId: job.id, stepId, files, starter, starterFrom });
+  const code = useCodeFiles({ store, jobId: job.id, stepId, files, starter, starterFrom, readOnly });
   const [active, setActive] = useState(files.includes(entry) ? entry : files[0]!);
   const [pane, setPane] = useState<Pane>("output");
   const [trace, setTrace] = useState<{ result: TraceResult; source: string; startLine: number | null } | null>(null);

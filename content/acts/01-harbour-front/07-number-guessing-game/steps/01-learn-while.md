@@ -3,6 +3,7 @@ id: learn-while
 type: learn
 title: Repeat while it's true
 concept: while-loops
+edit: true
 code: |
   count = 3
   while count > 0:

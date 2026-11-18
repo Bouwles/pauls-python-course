@@ -3,6 +3,7 @@ id: learn-assert
 type: learn
 title: Checking what you believe
 concept: assert
+edit: true
 code: |
   def pounds(pence):
       return pence / 100

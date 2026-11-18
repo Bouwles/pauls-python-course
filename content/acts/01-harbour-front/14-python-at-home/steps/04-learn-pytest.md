@@ -2,6 +2,7 @@
 id: learn-pytest
 type: learn
 title: Tests that check for you
+edit: true
 code: |
   def greeting(name):
       return f"Morning, {name}."

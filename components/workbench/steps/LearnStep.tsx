@@ -10,7 +10,8 @@ import { NextRow, isDone } from "./common";
 
 /**
  * Learn: one new idea in plain words, before anything asks about it. Beside it, a small example
- * to run, change and run again: nothing is checked, it's there to play with. "Got it" moves on.
+ * to run: nothing is checked. It's read only, so the explanation keeps the attention, unless the
+ * text asks for a change to it (`edit` in the step file). "Got it" moves on.
  */
 export function LearnStepView({ step, row }: { step: LearnStep; row: StepProgressRow }) {
   const { areas, markPassed } = useWorkbench();
@@ -32,7 +33,7 @@ export function LearnStepView({ step, row }: { step: LearnStep; row: StepProgres
       />
       {step.code ? (
         <div className={areas.stage}>
-          <CodeWorkspace stepId={step.id} files={["main.py"]} starter={{ "main.py": step.code }} done={done} />
+          <CodeWorkspace stepId={step.id} files={["main.py"]} starter={{ "main.py": step.code }} readOnly={!step.edit} done={done} />
         </div>
       ) : null}
     </>

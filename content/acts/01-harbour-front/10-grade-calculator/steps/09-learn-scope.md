@@ -3,6 +3,7 @@ id: learn-scope
 type: learn
 title: What stays inside
 concept: scope
+edit: true
 code: |
   def add_tip(bill):
       tip = bill * 0.1

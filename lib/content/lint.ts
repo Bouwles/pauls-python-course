@@ -84,3 +84,17 @@ export function lintText(text: string, opts: LintOptions = {}): string[] {
   }
   return problems;
 }
+
+// An instruction to change the code beside the text: it opens with what to do ("Change", "Delete",
+// "Add", "Try") and points at the code on screen (a line number, "the last line", "and run it").
+const CHANGE = /\b(Change|Delete|Add|Try|Remove|Swap|Replace|Set|Put|Uncomment|Rename)\b[^.!?\n]*?(\blines? \d|\brun it\b|\band run\b|\b(last|first) line\b|\bat the (end|bottom)\b|\bafter the loop\b|\bto see\b)/;
+
+/**
+ * Whether a step's text tells the learner to change its code. A Learn step's example is read
+ * only unless it says `edit: true`, so content validation uses this to catch text that asks for
+ * a change the editor wouldn't take.
+ */
+export function asksForAChange(text: string): boolean {
+  const prose = text.replace(/```[\s\S]*?```/g, " ").replace(/`[^`\n]*`/g, "code");
+  return CHANGE.test(prose);
+}

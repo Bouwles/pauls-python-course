@@ -17,11 +17,13 @@ interface Options {
   starter: Files;
   /** Start from the learner's code in this step when nothing is saved yet. */
   starterFrom?: string | null;
+  /** Code to read and run, not to write: always the step's own, and nothing is saved. */
+  readOnly?: boolean;
 }
 
 const SAVE_DELAY = 500;
 
-export function useCodeFiles({ store, jobId, stepId, files, starter, starterFrom }: Options) {
+export function useCodeFiles({ store, jobId, stepId, files, starter, starterFrom, readOnly = false }: Options) {
   const [contents, setContents] = useState<Files | null>(null);
   const [cursors, setCursors] = useState<Record<string, number | null>>({});
   const [conflict, setConflict] = useState(false);
@@ -38,7 +40,8 @@ export function useCodeFiles({ store, jobId, stepId, files, starter, starterFrom
       const cur: Record<string, number | null> = {};
       let anyConflict = false;
       for (const f of files) {
-        const saved = await getCode(store, jobId, stepId, f);
+        // Read only: the step's own code, whatever was typed here when the step took typing.
+        const saved = readOnly ? undefined : await getCode(store, jobId, stepId, f);
         if (saved) {
           loaded[f] = saved.content;
           cur[f] = saved.cursor;
@@ -61,7 +64,7 @@ export function useCodeFiles({ store, jobId, stepId, files, starter, starterFrom
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [store, jobId, stepId, filesKey, starterFrom]);
+  }, [store, jobId, stepId, filesKey, starterFrom, readOnly]);
 
   const flush = useCallback(async () => {
     if (!store) return;
@@ -89,12 +92,14 @@ export function useCodeFiles({ store, jobId, stepId, files, starter, starterFrom
 
   const update = useCallback(
     (file: string, content: string, cursor: number | null) => {
+      // A click in read-only code moves the selection, which is nothing to save.
+      if (readOnly) return;
       setContents((c) => (c && c[file] === content ? c : { ...(c ?? {}), [file]: content }));
       pending.current.set(file, { content, cursor });
       if (timer.current) clearTimeout(timer.current);
       timer.current = setTimeout(() => void flush(), SAVE_DELAY);
     },
-    [flush],
+    [flush, readOnly],
   );
 
   const takeSnapshot = useCallback(

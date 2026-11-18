@@ -3,6 +3,7 @@ id: learn-remove
 type: learn
 title: Take that one off
 concept: list-methods
+edit: true
 code: |
   tasks = ["rocket poster", "order ink", "album cover"]
   tasks.remove("order ink")
