@@ -4,7 +4,7 @@
 
 So I teach Python to my friends (Neil helps me out from time to time), and this is the website for it. Everyone in it is a real person, because the six people in that picture are actually us.
 
-You can **[play it here](https://bouwles.github.io/pauls-python-course/)** without signing up for anything, you just pick who you are and start.
+You can **[play it here](https://paulspythoncourse.com/)** without signing up for anything, you just pick who you are and start.
 
 In the game I've turned an old clocktower into a code school, and you start on the ground floor printing a sign for the door, then work your way up through nine floors and 116 projects until you've written a neural network from scratch and a tiny GPT, trained a crab to race and ended up on the roof building something of your own. All of it takes about 410 hours, so there's no rush.
 
