@@ -107,7 +107,7 @@ export function PredictStepView({ step, row }: { step: PredictStep; row: StepPro
               {correct ? "Right" : "Not quite"}
             </p>
             {step.kind === "typed" ? <p>{correct ? "That's exactly what it prints." : `It prints ${JSON.stringify(step.accept[0])}, and you can run it to see.`}</p> : <p dangerouslySetInnerHTML={{ __html: chosenOption?.feedback ?? "" }} />}
-            {!correct && step.kind !== "typed" ? <p>The right answer is marked, so run it and watch.</p> : null}
+            {!correct && step.kind !== "typed" ? <p>The right answer is marked, run it and watch.</p> : null}
           </div>
         )}
         {committed && step.afterHtml ? <Prose html={step.afterHtml} /> : null}

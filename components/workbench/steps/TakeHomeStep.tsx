@@ -156,7 +156,7 @@ export function TakeHomeStepView({ step, row }: { step: TakeHomeStep; row: StepP
     try {
       const res = await fetch("/api/takehome", { method: "POST", body: data });
       const body = (await res.json()) as { report?: TestReport; passes?: boolean; error?: string };
-      if (!res.ok || !body.report) setMessage(body.error ?? "That didn't go through, so try again.");
+      if (!res.ok || !body.report) setMessage(body.error ?? "That didn't go through, give it another go.");
       else await take(body.report, Boolean(body.passes), Date.now());
     } catch {
       setMessage("Couldn't reach the server, so check your connection.");

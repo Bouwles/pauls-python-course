@@ -12,7 +12,7 @@ export async function changePassword(current: string, next: string): Promise<str
   const check = await supabase().auth.signInWithPassword({ email, password: current });
   if (check.error) return "That isn't your current password.";
   const { error } = await supabase().auth.updateUser({ password: next });
-  if (error) return error.code === "same_password" ? "That's your current password, so pick a new one." : "That didn't work, so try again in a moment.";
+  if (error) return error.code === "same_password" ? "That's your current password, so pick a new one." : "That didn't work, give it another go in a moment.";
   return null;
 }
 

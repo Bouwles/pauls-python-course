@@ -170,7 +170,7 @@ function WhoIsPlaying({ heading, onSomeoneElse }: { heading: React.RefObject<HTM
       <HaveASave disabled={Boolean(picked)} />
 
       <p className="visually-hidden" role="status">
-        {picked ? `Playing as ${picked.name}, so off to the Clocktower.` : ""}
+        {picked ? `Playing as ${picked.name}, off to the Clocktower.` : ""}
       </p>
     </div>
   );

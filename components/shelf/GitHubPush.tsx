@@ -153,7 +153,7 @@ function BrowserPush({ defaultName, files, size = "md", label, what = "your proj
       setSaved(t);
       setTyped("");
     } catch (e) {
-      setProblem(e instanceof PushError ? e : new PushError("That didn't work, so try again.", "github"));
+      setProblem(e instanceof PushError ? e : new PushError("That didn't work, give it another go.", "github"));
     } finally {
       setBusy(false);
     }
@@ -168,7 +168,7 @@ function BrowserPush({ defaultName, files, size = "md", label, what = "your proj
       const url = await pushFiles({ token: saved.token, login: saved.login, name: name.trim(), description, message: `From ${BRAND.name}`, files: await files() });
       setDone(url);
     } catch (e) {
-      const err = e instanceof PushError ? e : new PushError("That didn't work, so try again.", "github");
+      const err = e instanceof PushError ? e : new PushError("That didn't work, give it another go.", "github");
       if (err.reason === "token") {
         forgetToken();
         setSaved(null);

@@ -21,7 +21,7 @@ export function DeviceApprove({ initialCode }: { initialCode: string }) {
       const res = await fetch("/api/device/approve", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code }) });
       const body = (await res.json()) as { error?: string };
       if (!res.ok) {
-        setError(body.error ?? "That didn't work, so try again.");
+        setError(body.error ?? "That didn't work, give it another go.");
         setState("idle");
       } else setState("done");
     } catch {
@@ -52,7 +52,7 @@ export function DeviceApprove({ initialCode }: { initialCode: string }) {
         <div className={`px-panel ${styles.card}`} role="status">
           <p className={styles.done}>
             <Icon name="tick" />
-            <span>Connected, so go back to your terminal and ppc will be signed in as you.</span>
+            <span>You're connected. Go back to your terminal and ppc will be signed in as you.</span>
           </p>
           <p className={styles.hint}>You can disconnect it at any time in Settings, under Your data.</p>
         </div>

@@ -85,7 +85,7 @@ export function MilestoneStepView({ step, row }: { step: MilestoneStep; row: Ste
         const res = await fetch("/api/milestone", { method: "POST", body: data });
         if (!res.ok) {
           const body = (await res.json().catch(() => ({}))) as { error?: string };
-          setError(body.error ?? "That didn't go through, so try again.");
+          setError(body.error ?? "That didn't go through, give it another go.");
           return;
         }
       } catch {

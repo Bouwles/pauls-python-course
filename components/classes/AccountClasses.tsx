@@ -179,7 +179,7 @@ function JoinForm({ initial, onJoined }: { initial: string; onJoined: (name: str
       if (initial) router.replace("/class");
       onJoined(name);
     } catch {
-      setError("That didn't work, so try again in a moment.");
+      setError("That didn't work, give it another go in a moment.");
     } finally {
       setBusy(false);
     }
@@ -250,11 +250,11 @@ function TaughtList({ classes, onChanged, setNote }: { classes: remote.TaughtCla
     setError(null);
     try {
       await remote.createClass(name);
-      setNote(`Made ${name.trim()}, so now give your students its code or join link.`);
+      setNote(`${name.trim()} is made, now give your students its code or join link.`);
       setName("");
       await onChanged();
     } catch {
-      setError("That didn't work, so try again in a moment.");
+      setError("That didn't work, give it another go in a moment.");
     } finally {
       setBusy(false);
     }
@@ -402,7 +402,7 @@ function TaughtClassPage({ classId, acts, course }: { classId: string; acts: Cou
       try {
         return (await remote.setAssignment(classId, jobId, /^\d{4}-\d{2}-\d{2}$/.test(due) ? due : null)) ? null : "That didn't work.";
       } catch {
-        return "That didn't work, so try again in a moment.";
+        return "That didn't work, give it another go in a moment.";
       }
     },
     async remove(a) {

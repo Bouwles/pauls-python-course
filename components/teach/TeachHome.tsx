@@ -98,7 +98,7 @@ export function TeachHome({ teacher, classes }: { teacher: boolean; classes: Cla
           </div>
         </section>
       ) : teacher ? (
-        <p className={styles.empty}>No classes yet, so make one below and it&apos;ll get its own six-character code.</p>
+        <p className={styles.empty}>No classes yet. Make one below and it&apos;ll get its own six-character code.</p>
       ) : null}
 
       {teacher ? (

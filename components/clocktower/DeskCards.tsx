@@ -97,7 +97,7 @@ export function DeskCards({
           <h2 id="desk-continue" className={styles.head}>
             Continue
           </h2>
-          <p className={styles.meta}>Everything so far is shipped, so pick a floor.</p>
+          <p className={styles.meta}>Everything so far is shipped, pick a floor whenever you're ready.</p>
         </Card>
       )}
 

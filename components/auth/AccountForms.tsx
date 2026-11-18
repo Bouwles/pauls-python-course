@@ -38,7 +38,7 @@ function said(error: { message?: string; code?: string } | null | undefined): st
   if (code === "same_password") return "That's your current password, so pick a new one.";
   if (/database error saving new user/i.test(message)) return "Someone has just taken that username, so pick another.";
   if (/fetch|network/i.test(message)) return "Couldn't reach the server, so check your connection and try again.";
-  return message || "That didn't work, so try again in a moment.";
+  return message || "That didn't work, give it another go in a moment.";
 }
 
 function Problem({ text }: { text: string | null }) {
@@ -238,7 +238,7 @@ export function ConfirmCode({ email, then = "/welcome/" }: { email: string; then
       <div className={styles.sent} role="status">
         <h2 className={styles.sentTitle}>Check your email</h2>
         <p>
-          We sent a code to <strong>{email}</strong>, so type it in here or press the link in the email (it works on any device).
+          We sent a code to <strong>{email}</strong>. Type it in here or press the link in the email (it works on any device).
         </p>
       </div>
       <label className={styles.field}>
@@ -346,7 +346,7 @@ export function ConfirmLink() {
     );
   return (
     <p className={styles.hint} role="status">
-      {state === "done" ? "That's confirmed, so taking you in now." : "Checking the link."}
+      {state === "done" ? "That's confirmed, taking you in now." : "Checking the link."}
     </p>
   );
 }

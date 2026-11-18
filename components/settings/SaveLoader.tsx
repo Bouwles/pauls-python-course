@@ -187,7 +187,7 @@ export function SaveLoader({ where = "settings" }: { where?: "settings" | "welco
 
           {done ? (
             <p className={styles.done} role="status">
-              That&apos;s loaded, so off to the Clocktower.
+              That&apos;s loaded, off to the Clocktower.
             </p>
           ) : (
             <div className={styles.buttons}>

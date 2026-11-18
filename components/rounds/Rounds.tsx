@@ -34,7 +34,7 @@ import styles from "./Rounds.module.css";
 const MAX = 10;
 const OPENING = "Ten quick ones before anything new.";
 const CLOSING = "That's the lot, and your desk is waiting for you.";
-const NOTHING_DUE = "Nothing's due today, so go and build something new.";
+const NOTHING_DUE = "Nothing's due today, go and build something new.";
 
 interface Planned {
   concept: Concept;
@@ -54,12 +54,12 @@ const REACTIONS: Record<"right" | "second" | "retry" | "missed", { face: Express
   second: {
     face: "pleased",
     tags: ["approve", "encourage"],
-    lines: ["You got there, so it'll just come back a little sooner.", "Second go still counts, and it's nearly stuck.", "There it is, slower than you'd like but you got there."],
+    lines: ["You got there, it'll just come back a little sooner.", "Second go still counts, and it's nearly stuck.", "There it is, slower than you'd like but you got there."],
   },
   retry: {
     face: "thinking",
     tags: ["encourage", "think"],
-    lines: ["Not quite, so slow down and try once more.", "Read it again the way Python would, line by line.", "Have one more look, because it's in there somewhere."],
+    lines: ["Not quite. Slow down and try once more.", "Read it again the way Python would, line by line.", "Have one more look, because it's in there somewhere."],
   },
   missed: {
     face: "thinking",

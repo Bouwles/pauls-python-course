@@ -43,7 +43,7 @@ export function SendProgress({ cls, facts, variant = "primary", withClassName = 
       const fitted = fitReport(report);
       setMade({ url: linkUrl(window.location.origin, BASE, "report", fitted.hash), leftOut: fitted.leftOut.length, league: Boolean(report.league), at: Date.now() });
     } catch {
-      setError("That didn't work, so try again in a moment.");
+      setError("That didn't work, give it another go in a moment.");
     } finally {
       setBusy(false);
     }

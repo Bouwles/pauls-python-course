@@ -66,7 +66,7 @@ export function ShareButton({
       const link = await make(maker);
       setMade({ url: shareUrl(window.location.origin, BASE, link.kind, link.hash), note: link.note ?? null, at: Date.now() });
     } catch {
-      setError("That didn't work, so try again in a moment.");
+      setError("That didn't work, give it another go in a moment.");
     } finally {
       setBusy(false);
     }

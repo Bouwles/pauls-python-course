@@ -15,7 +15,7 @@ import { CodeList, ProjectTable } from "./StudentReport";
 import styles from "./Classes.module.css";
 
 const SAID: Record<Exclude<AddResult, "no-class">, (name: string, cls: string) => string> = {
-  added: (name, cls) => `Added to ${cls}, so ${name} is in the register now.`,
+  added: (name, cls) => `${name} is in the register now, under ${cls}.`,
   replaced: (name, cls) => `Added to ${cls}, and it replaces ${name}'s last progress.`,
   same: (name, cls) => `This one is already in ${cls}'s register.`,
   older: (name, cls) => `The register for ${cls} already has newer progress from ${name}, so this one wasn't added.`,

@@ -29,10 +29,10 @@ import shelf from "../profile/PublicShelf.module.css";
 const PLEASED: Expression[] = ["pleased", "laughing", "proud", "excited", "relieved"];
 
 const ASKED: Record<AskResult, string> = {
-  sent: "Sent, so it's on their Friends page now for them to accept.",
+  sent: "Sent, it's on their Friends page now waiting for them to accept.",
   accepted: "They'd already asked you, so you're friends now.",
   already: "You're friends already.",
-  pending: "You've asked them already, so it's just waiting for them now.",
+  pending: "You've asked them already, it's just waiting on them now.",
   "not-found": "Nobody has that username, so check the spelling with them.",
   self: "That's you.",
   "signed-out": "Log in again first.",
@@ -96,7 +96,7 @@ function FriendList({ names }: { names: Record<string, string> }) {
       if (result === "sent" || result === "accepted") setAsk("");
       await load();
     } catch {
-      setNote("That didn't send, so try again in a moment.");
+      setNote("That didn't send, give it another go in a moment.");
     } finally {
       setBusy(false);
     }
@@ -110,7 +110,7 @@ function FriendList({ names }: { names: Record<string, string> }) {
       setConfirming(null);
       setNote(said);
     } catch {
-      setNote("That didn't work, so try again in a moment.");
+      setNote("That didn't work, give it another go in a moment.");
     }
   };
 
@@ -251,7 +251,7 @@ function FriendList({ names }: { names: Record<string, string> }) {
                   </span>
                 </div>
                 <div className={classes.setSide}>
-                  <Button size="sm" variant="ghost" onClick={() => void act(() => removeFriend(f.id), `Taken back, so ${f.displayName} won't see it now.`)}>
+                  <Button size="sm" variant="ghost" onClick={() => void act(() => removeFriend(f.id), `Taken back, ${f.displayName} won't see it now.`)}>
                     Take it back
                   </Button>
                 </div>

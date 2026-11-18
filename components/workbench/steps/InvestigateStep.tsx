@@ -69,7 +69,7 @@ function Task({ task, done, saved, onDone, check, onAttempt }: { task: Investiga
       setFeedback({ good: true, text: task.feedback ?? "Right." });
       onDone(answer);
     } else {
-      setFeedback({ good: false, text: task.wrong ?? "Not that one, so run the code and have another look." });
+      setFeedback({ good: false, text: task.wrong ?? "Not that one, run the code and have another look." });
     }
   };
 

@@ -81,7 +81,7 @@ Python runs right there in the browser so you don't have to install anything to 
 
 ## Classes
 
-This part is for when I'm teaching, so I make a class, choose which projects to set and give everyone its six-letter code or a join link. Once they've joined, my register shows how far each of them has got, how long they've spent and their code, as they go, without anyone having to send me anything, and what I've set turns up on their desk in the Clocktower.
+This part is for when I'm teaching. I make a class, choose which projects to set and give everyone its six-letter code or a join link. Once they've joined, my register shows how far each of them has got, how long they've spent and their code, as they go, without anyone having to send me anything, and what I've set turns up on their desk in the Clocktower.
 
 ![The class page: a register of four students, showing which of the three set projects each has shipped.](docs/readme/class.png)
 

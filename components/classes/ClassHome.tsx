@@ -110,7 +110,7 @@ export function ClassHome({ acts, names }: { acts: CourseAct[]; names: Record<st
           onMade={(cls) => {
             setTab(cls.id);
             setMaking(false);
-            setNote(`Made ${cls.name}, so copy its join link and send it round.`);
+            setNote(`${cls.name} is made, copy its join link and send it round.`);
           }}
           onCancel={teaching.length || joined.length ? () => setMaking(false) : undefined}
         />

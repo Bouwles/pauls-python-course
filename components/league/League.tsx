@@ -79,9 +79,9 @@ const HELLO_ANYONE: Line = { text: "There's a new race every Monday, and you can
 
 /** How the hosts take your place on a table. */
 function verdict(place: number, of: number): { host: number; line: Line } {
-  if (place === 1) return { host: 1, line: { text: of > 1 ? "Top of the table, so I'm writing your name on the cabinet." : "First entry this week, so you're top, but someone will come for that.", face: "laughing", gesture: "cheer" } };
+  if (place === 1) return { host: 1, line: { text: of > 1 ? "Top of the table, I'm writing your name on the cabinet." : "First entry this week puts you top, but someone will come for that.", face: "laughing", gesture: "cheer" } };
   if (place <= 3) return { host: 1, line: { text: `Place ${place}, and that's a podium.`, face: "pleased", gesture: "thumbs" } };
-  return { host: 0, line: { text: `Place ${place} of ${of}, so train it for longer and enter again, because only your newest entry counts.`, face: "thinking", gesture: "think" } };
+  return { host: 0, line: { text: `Place ${place} of ${of}. Train it a bit longer and enter again, only your newest entry counts.`, face: "thinking", gesture: "think" } };
 }
 
 /** A host: who's there (`id`), and whose lines they say (`owner`, the Arcade's resident they stand in for). */

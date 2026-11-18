@@ -71,7 +71,7 @@ export function DuckPanel({ stepId, row, source }: { stepId: string; row: StepPr
       </div>
       {told ? (
         <p className={styles.status} role="status">
-          The duck listened, so line {line} is marked in the editor now and the step-through {compact ? "in Output" : "below it"} starts there.
+          The duck listened. Line {line} is marked in the editor now and the step-through {compact ? "in Output" : "below it"} starts there.
         </p>
       ) : null}
     </form>

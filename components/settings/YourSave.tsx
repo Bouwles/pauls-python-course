@@ -46,7 +46,7 @@ export function YourSave() {
       const save = await make();
       if (save) {
         download(saveFileName(save), saveJson(save), "application/json");
-        toast("Save downloaded, so keep it somewhere safe.");
+        toast("Save downloaded, keep it somewhere safe.");
       }
     } finally {
       setBusy(null);

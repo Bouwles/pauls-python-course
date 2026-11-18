@@ -78,7 +78,7 @@ export function CoTeach({ acts, names }: { acts: CourseAct[]; names: Record<stri
         </h2>
         <p className={styles.troubleText} role="status" aria-live="polite">
           {done === "added"
-            ? `Added, so ${cls.name} is on your class page now with its register.`
+            ? `You're in, ${cls.name} and its register are on your class page now.`
             : done === "merged"
               ? `${cls.name} is up to date now, with the newer of the two sets of projects and each student's latest progress.`
               : ""}
