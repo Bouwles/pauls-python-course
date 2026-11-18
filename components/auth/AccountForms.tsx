@@ -262,8 +262,12 @@ export function ConfirmCode({ email, then = "/welcome/" }: { email: string; then
 }
 
 /**
- * /account/confirm/: where the email's link lands, with ?token_hash=...&type=... (email for a new
- * account, recovery for a password reset, email_change for a new address).
+ * /account/confirm/: where an email's link lands. Three kinds arrive:
+ *   - this site's own template: ?token_hash=...&type=... (email, recovery, email_change), checked here;
+ *   - Supabase's standard email, which confirms on Supabase's side first and comes back with the
+ *     sign-in in the address's #fragment (access_token, refresh_token, type);
+ *   - the same with ?code=..., when the sign-up began in this browser;
+ * or with an error (#error_description=...) when the link had expired or was used already.
  */
 export function ConfirmLink() {
   const params = useSearchParams();
@@ -274,26 +278,61 @@ export function ConfirmLink() {
 
   useEffect(() => {
     if (ran.current) return;
+    // On a first visit the page reloads itself once, when its service worker takes over (Python
+    // needs that: components/site/ServiceWorker.tsx). Using a link's one-time token before then
+    // would spend it on a page about to vanish, so wait for the reload; if none comes, go ahead.
+    const reloading = !window.crossOriginIsolated && "serviceWorker" in navigator && (() => {
+      try {
+        return !sessionStorage.getItem("ppc-isolated");
+      } catch {
+        return false;
+      }
+    })();
+    if (reloading) {
+      const t = setTimeout(() => {
+        if (ran.current) return;
+        ran.current = true;
+        go();
+      }, 5000);
+      return () => clearTimeout(t);
+    }
     ran.current = true;
-    const tokenHash = params.get("token_hash");
-    const type = (params.get("type") ?? "email") as EmailOtpType;
-    if (!tokenHash) {
+    go();
+
+    function go() {
+    const fragment = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+    const fail = (text: string) => {
       setState("failed");
-      setError("This page needs the link from the email. Open the email and press the link, or type its code on the sign-up page.");
-      return;
+      setError(text);
+    };
+    const problem = fragment.get("error_description") ?? params.get("error_description");
+    const tokenHash = params.get("token_hash");
+    const code = params.get("code");
+    const access = fragment.get("access_token");
+    const refreshToken = fragment.get("refresh_token");
+    const type = (params.get("type") ?? fragment.get("type") ?? "email") as EmailOtpType;
+    if (problem) return fail(said({ message: problem, code: fragment.get("error_code") ?? params.get("error_code") ?? undefined }));
+    if (!tokenHash && !code && !(access && refreshToken)) {
+      return fail("This page needs the link from the email. Open the email and press the link, or type its code on the sign-up page.");
     }
     void (async () => {
-      const { error: e } = await supabase().auth.verifyOtp({ token_hash: tokenHash, type });
+      const { error: e } = tokenHash
+        ? await supabase().auth.verifyOtp({ token_hash: tokenHash, type })
+        : code
+          ? await supabase().auth.exchangeCodeForSession(code)
+          : await supabase().auth.setSession({ access_token: access!, refresh_token: refreshToken! });
       if (e) {
-        setState("failed");
-        setError(said(e));
-        return;
+        // A ?code= opened in another browser can't be exchanged, but the email is confirmed already.
+        if (code) return fail("Your email is confirmed. Log in with your email and password to carry on.");
+        return fail(said(e));
       }
       await refresh();
-      if (type === "recovery") return window.location.assign(here("/account/reset/"));
+      // replace, not assign: the link, with its sign-in, doesn't stay in the history.
+      if (type === "recovery") return window.location.replace(here("/account/reset/"));
       setState("done");
-      window.location.assign(here(type === "email_change" ? "/settings/" : "/welcome/"));
+      window.location.replace(here(type === "email_change" ? "/settings/" : "/welcome/"));
     })();
+    }
   }, [params, refresh]);
 
   if (state === "failed")
