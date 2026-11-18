@@ -17,7 +17,7 @@ function HandIns({ project }: { project: ProjectReport }) {
       {project.handIns.map((h) => (
         <span key={h.stepId} className={teach.meta}>
           {h.kind === "tests"
-            ? `Take It Home: ${h.passed} of ${h.total} tests passed${h.done ? ", handed in" : ", not finished yet"}.`
+            ? `Take It Home ${h.done ? "handed in" : "not finished yet"}, with ${h.passed} of ${h.total} tests passed.`
             : `Milestone signed off${h.passed !== null && h.total ? `, ${h.passed} of ${h.total} tests passed` : ""}.`}
           {h.link ? (
             <>
@@ -90,7 +90,7 @@ export function ProjectTable({ report, course, labelledBy }: { report: Report; c
 /** The student's code for each set project's Build step, read only. */
 export function CodeList({ report, course, level = 3 }: { report: Report; course: CourseIndex; level?: 3 | 4 | 5 }) {
   const H = `h${level}` as "h3" | "h4" | "h5";
-  if (report.projects.length === 0) return <p className={teach.empty}>No code: nothing was set when this was sent.</p>;
+  if (report.projects.length === 0) return <p className={teach.empty}>There&apos;s no code, because nothing was set when this was sent.</p>;
   return (
     <div className={teach.files}>
       {report.projects.map((p) => {

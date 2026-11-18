@@ -170,7 +170,7 @@ function WhoIsPlaying({ heading, onSomeoneElse }: { heading: React.RefObject<HTM
       <HaveASave disabled={Boolean(picked)} />
 
       <p className="visually-hidden" role="status">
-        {picked ? `Playing as ${picked.name}. Off to the Clocktower.` : ""}
+        {picked ? `Playing as ${picked.name}, off to the Clocktower.` : ""}
       </p>
     </div>
   );
@@ -182,12 +182,12 @@ function WhoIsPlaying({ heading, onSomeoneElse }: { heading: React.RefObject<HTM
 // code before, which decides where you start: the first project, or the placement test. The new
 // avatar waves you off when you save. Paul's gesture and the avatar's goodbye are this visit's.
 
-const HELLO = "Welcome to the Clocktower. Tell me what to call you, then make yourself an avatar. I'll find you a desk.";
+const HELLO = "Welcome to the Clocktower. Tell me what to call you and make yourself an avatar, and I'll find you a desk.";
 
 const EXPERIENCE: [NonNullable<ProfileRow["experience"]>, string, string][] = [
-  ["none", "No, never", "Start at the beginning. The first project takes about twenty minutes."],
-  ["some", "A little", "Start at the beginning anyway. The early projects go quickly if you know them."],
-  ["lots", "Yes, quite a lot", "Take the placement test next: a few tasks per Act, and the Acts you pass open straight away. Morning Rounds still covers them."],
+  ["none", "No, never", "Start at the beginning, and the first project only takes about twenty minutes."],
+  ["some", "A little", "Start at the beginning anyway, because the early projects go quickly if you know them."],
+  ["lots", "Yes, quite a lot", "Take the placement test next, which is a few tasks per Act, and the Acts you pass open straight away (Morning Rounds still covers them)."],
 ];
 
 function OwnAvatar({ heading, onBack }: { heading: React.RefObject<HTMLHeadingElement | null>; onBack: () => void }) {

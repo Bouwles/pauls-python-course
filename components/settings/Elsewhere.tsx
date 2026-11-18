@@ -61,7 +61,7 @@ export function ConnectedTools() {
   useEffect(() => void load(), []);
   if (tokens === null) return null;
   return (
-    <Row label="The command-line tool" hint={tokens.length === 0 ? "Not connected. The Take It Home projects explain how to set it up." : undefined} wide={tokens.length > 0}>
+    <Row label="The command-line tool" hint={tokens.length === 0 ? "Not connected yet, and the Take It Home projects explain how to set it up." : undefined} wide={tokens.length > 0}>
       {tokens.length ? (
         <ul className={styles.list} aria-label="Connected tools">
           {tokens.map((t) => (
@@ -92,7 +92,7 @@ export function GitHubConnection() {
   useEffect(() => void load(), []);
   if (!status?.enabled) return null;
   return (
-    <Row label="GitHub" hint={status.connected ? `Connected${status.login ? ` as ${status.login}` : ""}, for pushing your Shelf to a repository.` : "Not connected. The Shelf offers it when you want to push your projects to GitHub."}>
+    <Row label="GitHub" hint={status.connected ? `Connected${status.login ? ` as ${status.login}` : ""}, for pushing your Shelf to a repository.` : "Not connected yet, but the Shelf offers it when you want to push your projects to GitHub."}>
       {status.connected ? (
         <Button size="sm" variant="secondary" onClick={() => void fetch("/api/github", { method: "DELETE" }).then(load)}>
           Disconnect
@@ -140,7 +140,7 @@ export function Classes({ flags, onFlags }: { flags: Flags; onFlags: (f: Flags) 
   };
 
   return (
-    <Section id="s-classes" title="Classes and teaching" intro="If a teacher gave you a class code, join here. Your teacher can see your progress, test results, time and code for as long as you stay in the class.">
+    <Section id="s-classes" title="Classes and teaching" intro="If a teacher gave you a class code you can join here, and your teacher can see your progress, test results, time and code for as long as you stay in the class.">
       <Row label="Class code" htmlFor="class-code" wide>
         <form className={own.joinRow} onSubmit={(e) => void join(e)}>
           <input
@@ -176,7 +176,7 @@ export function Classes({ flags, onFlags }: { flags: Flags; onFlags: (f: Flags) 
               leaving === m.classId ? (
                 <li key={m.classId} className={own.confirm}>
                   <span>
-                    Leave <strong>{m.name}</strong>? Your teacher stops seeing your work. You can join again with the code.
+                    Leave <strong>{m.name}</strong>? Your teacher won&apos;t see your work any more, but you can join again with the code.
                   </span>
                   <span className={own.buttons}>
                     <Button size="sm" variant="danger" onClick={() => void leave(m)}>
@@ -219,7 +219,7 @@ export function Classes({ flags, onFlags }: { flags: Flags; onFlags: (f: Flags) 
       />
       {flags.teacher ? (
         <p className={styles.note}>
-          <Link href="/teach">Your classes</Link>: make one, share its code, set projects and follow each student.
+          <Link href="/teach">Your classes</Link> is where you make one, share its code, set projects and follow each student.
         </p>
       ) : null}
     </Section>
@@ -259,7 +259,7 @@ export function PublicProfile({ flags, onFlags }: { flags: Flags; onFlags: (f: F
   const url = flags.slug ? `${origin}/u/${flags.slug}` : "";
 
   return (
-    <Section id="s-public" title="Privacy" intro="A public profile is a page anyone with the address can open. It shows your display name, your avatar, and the projects you've shipped. Nothing else: no code, no times, no email.">
+    <Section id="s-public" title="Privacy" intro="A public profile is a page anyone with the address can open, and all it shows is your display name, your avatar and the projects you've shipped, so there's no code, no times and no email on it.">
       <Choice
         label="Public profile"
         name="public-profile"
@@ -301,7 +301,7 @@ export function PublicProfile({ flags, onFlags }: { flags: Flags; onFlags: (f: F
         </p>
         {on && url ? (
           <p className={styles.note}>
-            Your page: <a href={url}>{url}</a>
+            Your page is at <a href={url}>{url}</a>
           </p>
         ) : on ? (
           <p className={styles.note}>Choose an address to publish the page.</p>

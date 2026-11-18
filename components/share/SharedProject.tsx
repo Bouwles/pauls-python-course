@@ -83,7 +83,7 @@ export function SharedProjectView(props: {
           </p>
           <p className={styles.meta}>
             {props.actLabel}
-            {date ? `. Shipped ${date}.` : "."}
+            {date ? `, shipped on ${date}.` : "."}
           </p>
         </div>
       </header>

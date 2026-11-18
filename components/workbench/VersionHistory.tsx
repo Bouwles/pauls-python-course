@@ -50,7 +50,7 @@ export function VersionHistory({ stepId, file, current, onClose, onRestore }: { 
       {snaps === null ? (
         <p className={styles.empty}>Looking.</p>
       ) : snaps.length === 0 ? (
-        <p className={styles.empty}>No earlier versions yet. One is kept every time you run or check.</p>
+        <p className={styles.empty}>No earlier versions yet, but one is kept every time you run or check.</p>
       ) : (
         <div className={styles.body}>
           <ol className={styles.list}>

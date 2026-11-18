@@ -72,16 +72,16 @@ interface Line {
 
 /** What each host says to open the page, in their own voice; anyone else hosting gets a plain line. */
 const HELLO: Record<string, Line> = {
-  caitlin: { text: "Can it have a high score? It already does. Lowest average wins.", face: "pleased", gesture: "wave" },
+  caitlin: { text: "Can it have a high score? It already does, and the lowest average wins.", face: "pleased", gesture: "wave" },
   aaesha: { text: "Every entry races the same seeds, so luck doesn't come into it.", face: "neutral", gesture: "point" },
 };
-const HELLO_ANYONE: Line = { text: "New race every Monday. Enter as often as you like; your newest entry counts.", face: "pleased", gesture: "wave" };
+const HELLO_ANYONE: Line = { text: "There's a new race every Monday, and you can enter as often as you like because only your newest entry counts.", face: "pleased", gesture: "wave" };
 
 /** How the hosts take your place on a table. */
 function verdict(place: number, of: number): { host: number; line: Line } {
-  if (place === 1) return { host: 1, line: { text: of > 1 ? "Top of the table. I'm writing your name on the cabinet." : "First entry this week, so you're top. Someone will come for that.", face: "laughing", gesture: "cheer" } };
-  if (place <= 3) return { host: 1, line: { text: `Place ${place}. That's a podium.`, face: "pleased", gesture: "thumbs" } };
-  return { host: 0, line: { text: `Place ${place} of ${of}. Train it for longer and enter again. Your newest entry counts.`, face: "thinking", gesture: "think" } };
+  if (place === 1) return { host: 1, line: { text: of > 1 ? "Top of the table, I'm writing your name on the cabinet." : "First entry this week puts you top, but someone will come for that.", face: "laughing", gesture: "cheer" } };
+  if (place <= 3) return { host: 1, line: { text: `Place ${place}, and that's a podium.`, face: "pleased", gesture: "thumbs" } };
+  return { host: 0, line: { text: `Place ${place} of ${of}. Train it a bit longer and enter again, only your newest entry counts.`, face: "thinking", gesture: "think" } };
 }
 
 /** A host: who's there (`id`), and whose lines they say (`owner`, the Arcade's resident they stand in for). */
@@ -260,18 +260,18 @@ export function League({ hosts: residents, names = {} }: { hosts: { id: string; 
     }
     const kept = saveEntries(putEntry(loadEntries(), got.entry));
     setLastWeek(false);
-    if (!kept) setMessage("This browser wouldn't keep it. It may be a private window, or site data may be switched off.");
+    if (!kept) setMessage("This browser wouldn't keep it, maybe because it's a private window or site data is switched off.");
     const place = placeAmong(
       arcade(got.entry.week).filter((r) => !r.mine),
       got.result.score,
     );
-    setNote(`Raced: ${scoreLine(got.result)}. That's ${ordinal(place)} at the Arcade this week.`);
+    setNote(`That came out at ${scoreLine(got.result)}, so you're ${ordinal(place)} at the Arcade this week.`);
     if (!toServer) return;
     setBusy(true);
     try {
       const res = await fetch("/api/league", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ entry: JSON.parse(text) as unknown }) });
       const body = (await res.json()) as { error?: string };
-      if (!res.ok) setMessage(`It's kept in this browser, but the server's table didn't take it: ${body.error ?? "that didn't go through."}`);
+      if (!res.ok) setMessage(`It's kept in this browser, but the server's table didn't take it. ${body.error ?? "That didn't go through."}`);
       await loadServer(got.entry.week);
     } catch {
       setMessage("It's kept in this browser, but the server's table couldn't be reached.");
@@ -283,8 +283,8 @@ export function League({ hosts: residents, names = {} }: { hosts: { id: string; 
   const withdraw = async () => {
     if (!current) return;
     setMessage(null);
-    if (!saveEntries(dropEntry(loadEntries(), current))) setMessage("This browser wouldn't change it. It may be a private window, or site data may be switched off.");
-    setNote("Withdrawn. Enter again whenever you like.");
+    if (!saveEntries(dropEntry(loadEntries(), current))) setMessage("This browser wouldn't change it, maybe because it's a private window or site data is switched off.");
+    setNote("That's withdrawn, and you can enter again whenever you like.");
     if (toServer) {
       await fetch("/api/league", { method: "DELETE" }).catch(() => null);
       await loadServer(current);
@@ -314,7 +314,7 @@ export function League({ hosts: residents, names = {} }: { hosts: { id: string; 
               {shared.className}&apos;s table
             </h2>
             <p className={styles.meta}>
-              {weekName(shared.week)}. Shared by {shared.teacher} on {shortDate(shared.sentAt)}.
+              {weekName(shared.week)}, shared by {shared.teacher} on {shortDate(shared.sentAt)}.
             </p>
           </div>
           {sharedPlaced.length ? (
@@ -325,15 +325,15 @@ export function League({ hosts: residents, names = {} }: { hosts: { id: string; 
           <p className={styles.standing}>
             {sharedMine
               ? myForShared && myForShared.score !== sharedMine.score
-                ? `You're ${ordinal(sharedMine.place)} of ${sharedPlaced.length} here. Your newest entry, ${myForShared.score.toFixed(2)}, would come ${ordinal(placeAmong(sharedPlaced.filter((r) => !r.mine), myForShared.score))}. Send ${shared.teacher} your progress to update it.`
+                ? `You're ${ordinal(sharedMine.place)} of ${sharedPlaced.length} here, but your newest entry, ${myForShared.score.toFixed(2)}, would come ${ordinal(placeAmong(sharedPlaced.filter((r) => !r.mine), myForShared.score))}, so send ${shared.teacher} your progress to update it.`
                 : `You're ${ordinal(sharedMine.place)} of ${sharedPlaced.length}.`
               : inSharedClass
                 ? myForShared
-                  ? `You're not on this one yet. Your entry, ${myForShared.score.toFixed(2)}, would come ${ordinal(placeAmong(sharedPlaced, myForShared.score))}. Send ${shared.teacher} your progress and you'll be on the next.`
-                  : `You're not on this one yet. Enter, then send ${shared.teacher} your progress.`
+                  ? `You're not on this one yet, but your entry, ${myForShared.score.toFixed(2)}, would come ${ordinal(placeAmong(sharedPlaced, myForShared.score))}, so send ${shared.teacher} your progress and you'll be on the next.`
+                  : `You're not on this one yet, so enter and then send ${shared.teacher} your progress.`
                 : myForShared
                   ? `Your own entry, ${myForShared.score.toFixed(2)}, would come ${ordinal(placeAmong(sharedPlaced, myForShared.score))} here.`
-                  : "Standings only: names and scores, as the class's teacher had them."}
+                  : "This only has the names and scores, as the class's teacher had them."}
           </p>
         </section>
       ) : null}
@@ -346,7 +346,7 @@ export function League({ hosts: residents, names = {} }: { hosts: { id: string; 
           <CourseGrid hosts={hostIds} label="The Arcade course, 7 rows by 9 columns. The crab starts top left and the finish is bottom right, with rocks and rock pools between." />
           <CourseKey hosts={hostIds} />
           <p className={styles.meta}>
-            Start top left, finish bottom right. Rocks can&apos;t be crossed. On sand the crab slips sideways {Math.round(SLIP_SAND * 100)}% of the time, and in a rock pool {Math.round(SLIP_POOL * 100)}%. Each race is {RACES} runs of at most {MAX_STEPS} moves; your score is the average number of moves, and lower is better. The plain shortest path takes {par} moves when nothing slips.
+            You start top left and finish bottom right, and rocks can&apos;t be crossed. On sand the crab slips sideways {Math.round(SLIP_SAND * 100)}% of the time, and in a rock pool {Math.round(SLIP_POOL * 100)}%. Each race is {RACES} runs of at most {MAX_STEPS} moves, and your score is the average number of moves, so lower is better. The plain shortest path takes {par} moves when nothing slips.
           </p>
           <div className={styles.row}>
             <Button variant="secondary" icon="download" onClick={() => download("arcade-course.json", JSON.stringify(courseJson(), null, 2), "application/json")}>
@@ -359,7 +359,7 @@ export function League({ hosts: residents, names = {} }: { hosts: { id: string; 
           <h2 id="enter-title" className={styles.h2}>
             Enter this week
           </h2>
-          <p className={styles.meta}>Save your policy from Python as league.json:</p>
+          <p className={styles.meta}>Save your policy from Python as league.json, like this.</p>
           <CodeBlock code={SAVE_SNIPPET} />
           {saved.length ? (
             <div className={styles.row}>
@@ -414,7 +414,7 @@ export function League({ hosts: residents, names = {} }: { hosts: { id: string; 
           {mineNow ? (
             <div className={styles.mine}>
               <p>
-                <strong>Your entry:</strong> {scoreLine(mineNow)}. Kept in this browser
+                <strong>Your entry:</strong> {scoreLine(mineNow)}, kept in this browser
                 {teachers.length ? `, and it goes to ${together(teachers)} with your progress link` : ""}.
               </p>
               <Button size="sm" variant="secondary" onClick={() => void withdraw()}>
@@ -452,7 +452,7 @@ export function League({ hosts: residents, names = {} }: { hosts: { id: string; 
           {!viewing ? null : rows.length ? (
             <LeagueTable rows={rows} labelledBy="table-title" caption={`${view.id === "arcade" ? "The Arcade's" : `${view.label}'s`} table for ${weekName(viewing)}.`} />
           ) : (
-            <p className={styles.meta}>{"taught" in view ? `No entries for ${isCurrent ? "this week" : "that week"} yet. Each student's entry comes with their progress link.` : `Nothing here for ${isCurrent ? "this week" : "that week"} yet.`}</p>
+            <p className={styles.meta}>{"taught" in view ? `No entries for ${isCurrent ? "this week" : "that week"} yet, because each student's entry comes with their progress link.` : `Nothing here for ${isCurrent ? "this week" : "that week"} yet.`}</p>
           )}
           {"taught" in view && viewing ? <ShareTable cls={view.taught} week={viewing} disabled={rows.length === 0} /> : null}
         </div>
@@ -470,7 +470,7 @@ function TableNote({ view, week, isCurrent, hasMine }: { view: View; week: strin
     const t = view.joined.table;
     text =
       t && t.week === week
-        ? `${view.joined.teacher} shared this on ${shortDate(t.sentAt)}.${hasMine ? " Your row is your newest entry in this browser." : ""}`
+        ? `${view.joined.teacher} shared this on ${shortDate(t.sentAt)}${hasMine ? ", and your row is your newest entry in this browser" : ""}.`
         : `${view.joined.teacher} hasn't shared ${when} table yet.${isCurrent ? " Your entry goes to them with your progress link." : ""}`;
   } else text = STATIC ? "Everyone at the Clocktower races too, so there's always a time to beat." : "Everyone at the Clocktower races too, with anyone here who entered with an account.";
   return <p className={styles.meta}>{text}</p>;

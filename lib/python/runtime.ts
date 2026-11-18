@@ -212,9 +212,9 @@ class PythonRuntime {
     const results: TestResult[] = p.tests.map((meta, i) => {
       if (p.results[i]) return p.results[i]!;
       if (i === index) {
-        return { ...meta, passed: false, error: null, timedOut: true, message: `This took longer than ${Math.round(timeout / 1000)} seconds. A loop that never ends is the usual cause.` };
+        return { ...meta, passed: false, error: null, timedOut: true, message: `This took longer than ${Math.round(timeout / 1000)} seconds, which usually means a loop that never ends.` };
       }
-      return { ...meta, passed: false, error: null, notRun: true, message: "Not run: the check before it had to be stopped." };
+      return { ...meta, passed: false, error: null, notRun: true, message: "Not run, because the check before it had to be stopped." };
     });
     this.pending = null;
     this.clearTimers();

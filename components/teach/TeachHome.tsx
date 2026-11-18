@@ -30,7 +30,7 @@ export function TeachHome({ teacher, classes }: { teacher: boolean; classes: Cla
     setBusy(false);
     if (!res.ok || !body.class) return setError(body.error ?? "That didn't work.");
     setName("");
-    setNote(`Made ${body.class.name}. Its code is ${body.class.joinCode}.`);
+    setNote(`Made ${body.class.name}, and its code is ${body.class.joinCode}.`);
     router.refresh();
   };
 
@@ -39,7 +39,7 @@ export function TeachHome({ teacher, classes }: { teacher: boolean; classes: Cla
       <header className={styles.head}>
         <h1 className={styles.title}>Your classes</h1>
         <p className={styles.lede}>
-          Make a class and give its code to your students. They type it in Settings. From then until they leave, you see each one&apos;s progress, test results, time and code, and you can set projects for the whole class.
+          Make a class and give its code to your students, who type it in Settings, and from then until they leave you can see each one&apos;s progress, test results, time and code and set projects for the whole class.
         </p>
       </header>
 
@@ -98,7 +98,7 @@ export function TeachHome({ teacher, classes }: { teacher: boolean; classes: Cla
           </div>
         </section>
       ) : teacher ? (
-        <p className={styles.empty}>No classes yet. Make one below; it gets its own six-character code.</p>
+        <p className={styles.empty}>No classes yet. Make one below and it&apos;ll get its own six-character code.</p>
       ) : null}
 
       {teacher ? (
@@ -171,7 +171,7 @@ function DeleteClass({ cls, onClose, onDeleted }: { cls: ClassItem | null; onClo
             Delete {cls.name}
           </h2>
           <p>
-            {cls.students === 0 ? "Nobody has joined it yet." : cls.students === 1 ? "Its one student leaves the class." : `Its ${cls.students} students leave the class.`} Its set projects go and the code stops working. Students keep all their own work. This can&apos;t be undone.
+            {cls.students === 0 ? "Nobody has joined it yet." : cls.students === 1 ? "Its one student leaves the class." : `Its ${cls.students} students leave the class.`} Its set projects go and the code stops working, although students keep all their own work. This can&apos;t be undone.
           </p>
           <label className={styles.field}>
             <span className="label">

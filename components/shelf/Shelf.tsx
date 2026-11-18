@@ -57,9 +57,9 @@ interface SavedRun {
 
 const runKey = (jobId: string) => `shelf-run/${jobId}`;
 const PREVIEW_LINES = 8;
-const EMPTY_LINE = "Nothing on the Shelf yet. Your first project is the sign on my door. It takes about twenty minutes.";
+const EMPTY_LINE = "Nothing on the Shelf yet, but your first project is the sign on my door and it only takes about twenty minutes.";
 /** The same, from Neil, when you're playing as Paul: it's your door. */
-const EMPTY_LINE_YOURS = "Nothing on the Shelf yet. Your first project is the sign on your door. It takes about twenty minutes.";
+const EMPTY_LINE_YOURS = "Nothing on the Shelf yet, but your first project is the sign on your door and it only takes about twenty minutes.";
 
 /** A project's code as the share links carry it: its files, by name. */
 const sharedFiles = (code: Files): SharedFile[] => Object.entries(code).filter(([, content]) => content.trim()).map(([name, content]) => ({ name, content }));
@@ -192,7 +192,7 @@ export function Shelf({ cards }: { cards: ShelfCard[] }) {
               <ShareButton
                 label="Share my Shelf"
                 title="Share your Shelf"
-                holds="A link to everything you've shipped, for friends to look through and run. It holds your name, who you play as, and each project's code where it fits. Nothing is uploaded: the link is all there is."
+                holds="A link to everything you've shipped, for friends to look through and run. It holds your name, who you play as and each project's code where it fits, and nothing gets uploaded anywhere, so the link is all there is."
                 make={async (maker) => {
                   const items = [];
                   for (const c of shipped) {
@@ -200,7 +200,7 @@ export function Shelf({ cards }: { cards: ShelfCard[] }) {
                     items.push({ jobId: c.item.jobId, shippedAt: progress[c.item.jobId]?.shippedAt ?? null, files: files.length ? files : null });
                   }
                   const { hash, leftOut } = encodeShelf({ maker, items });
-                  return { kind: "shelf", hash, note: leftOut ? `${leftOut === 1 ? "One project's code didn't" : `${leftOut} projects' code didn't`} fit in a link, so ${leftOut === 1 ? "that one is" : "those are"} listed without it. Share a project on its own to send its code.` : null };
+                  return { kind: "shelf", hash, note: leftOut ? `${leftOut === 1 ? "One project's code didn't" : `${leftOut} projects' code didn't`} fit in a link, so ${leftOut === 1 ? "that one is" : "those are"} listed without it, but you can share a project on its own to send its code.` : null };
                 }}
               />
             </div>
@@ -256,7 +256,7 @@ export function Shelf({ cards }: { cards: ShelfCard[] }) {
                       size="sm"
                       ariaLabel={`Share ${c.name}`}
                       title={`Share ${c.name}`}
-                      holds="Anyone with the link can read your code and run it in their browser. The link holds your name, who you play as, and the code. Nothing is uploaded: the link is all there is."
+                      holds="Anyone with the link can read your code and run it in their browser. The link holds your name, who you play as and the code, and nothing gets uploaded anywhere, so the link is all there is."
                       make={async (maker) => {
                         const { hash, cut } = encodeProject({ maker, jobId: c.item.jobId, shippedAt: row.shippedAt, files: sharedFiles(await codeFor(c.item)), cut: false });
                         return { kind: "project", hash, note: cut ? "Some of the code was cut short to keep the link a sensible length." : null };
@@ -351,7 +351,7 @@ function RunSheet({ card, yours, codeFor, onRan, onClose }: { card: ShelfCard; y
             {card.name}
           </h2>
           <p className={styles.meta}>
-            {yours ? "Yours" : `For ${item.client}`}. Act {item.actNumber}.
+            {yours ? "Yours" : `For ${item.client}`}, from Act {item.actNumber}.
           </p>
         </div>
         <Button variant="ghost" size="sm" icon="close" onClick={close} aria-label="Close" className={styles.close} />

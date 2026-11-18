@@ -46,7 +46,7 @@ export function raceEntry(text: string, now = Date.now()): Entered {
   try {
     parsed = JSON.parse(text);
   } catch {
-    return { ok: false, error: "That isn't JSON. Save it with json.dump, as above." };
+    return { ok: false, error: "That isn't JSON, so save it with json.dump like it shows above." };
   }
   const read = readEntry(parsed);
   if ("error" in read) return { ok: false, error: read.error };

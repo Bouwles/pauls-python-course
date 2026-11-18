@@ -10,8 +10,8 @@ const TEXT: Record<SyncStatus, string> = {
   local: "Saved on this device",
   saved: "Saved",
   saving: "Saving",
-  offline: "Offline. Your work saves when you're back.",
-  error: "Not saving. Log in again to keep saving.",
+  offline: "You're offline, your work will save when you're back.",
+  error: "Not saving, log in again to keep saving.",
 };
 
 export function SyncIndicator({ status }: { status: SyncStatus }) {

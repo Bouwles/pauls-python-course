@@ -149,7 +149,7 @@ export function TestReport({
       <div className={styles.report} aria-live="polite">
         <p className={[styles.summary, styles.bad].join(" ")}>
           <Icon name="cross" />
-          Python stopped unexpectedly during the checks. Run the program to see why
+          Python stopped unexpectedly during the checks, so run the program to see why
         </p>
       </div>
     );

@@ -21,17 +21,17 @@ export async function copyText(text: string): Promise<boolean> {
 export function LinkBox({ url, label, shareTitle, shareText, copied: already = false, children }: { url: string; label: string; shareTitle: string; shareText: string; copied?: boolean; children?: React.ReactNode }) {
   const id = useId();
   const field = useRef<HTMLInputElement>(null);
-  const [note, setNote] = useState(already ? "Copied. Paste it wherever you're sending it." : "");
+  const [note, setNote] = useState(already ? "Copied, you can paste it wherever you're sending it." : "");
   const [canShare, setCanShare] = useState(false);
 
   // Only after hydrating: the server can't know what this device offers.
   useEffect(() => setCanShare(typeof navigator !== "undefined" && typeof navigator.share === "function"), []);
 
   const copy = async () => {
-    if (await copyText(url)) setNote("Copied. Paste it wherever you're sending it.");
+    if (await copyText(url)) setNote("Copied, you can paste it wherever you're sending it.");
     else {
       field.current?.select();
-      setNote("This browser wouldn't copy it. The link is selected in the box, so copy it from there.");
+      setNote("This browser wouldn't copy it, but the link is selected in the box so you can copy it from there.");
     }
   };
 
@@ -41,7 +41,7 @@ export function LinkBox({ url, label, shareTitle, shareText, copied: already = f
       setNote("Shared.");
     } catch (e) {
       // Closing the share sheet isn't a problem.
-      if ((e as Error)?.name !== "AbortError") setNote("That didn't share. Copy the link instead.");
+      if ((e as Error)?.name !== "AbortError") setNote("That didn't share, copy the link instead.");
     }
   };
 

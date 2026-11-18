@@ -160,7 +160,7 @@ export async function signUp(emailRaw: string, password: string, origin: string)
     if (error || !data.user) return { ok: false, error: error?.message ?? "Sign-up failed." };
     return { ok: true, user: { id: data.user.id, email } };
   }
-  if (await localUserByEmail(email)) return { ok: false, error: "There's already an account with that email. Try logging in." };
+  if (await localUserByEmail(email)) return { ok: false, error: "There's already an account with that email, so try logging in." };
   const user = await createLocalUser(email, password);
   await startLocalSession(user.id);
   return { ok: true, user };
@@ -214,7 +214,7 @@ export async function sendMagicLink(emailRaw: string, origin: string): Promise<{
     await q("insert into local_auth.mailbox (to_email, subject, body, link) values ($1, $2, $3, $4)", [
       email,
       `Your link to ${BRAND.name}`,
-      `Here's your way in. The link works once, for ${MAGIC_MINUTES} minutes.`,
+      `Here's your way in, and the link works once, for ${MAGIC_MINUTES} minutes.`,
       link,
     ]);
   });

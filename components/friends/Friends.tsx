@@ -29,11 +29,11 @@ import shelf from "../profile/PublicShelf.module.css";
 const PLEASED: Expression[] = ["pleased", "laughing", "proud", "excited", "relieved"];
 
 const ASKED: Record<AskResult, string> = {
-  sent: "Sent. It's on their Friends page for them to accept.",
+  sent: "Sent, it's on their Friends page now waiting for them to accept.",
   accepted: "They'd already asked you, so you're friends now.",
   already: "You're friends already.",
-  pending: "You've asked them already. It's waiting for them.",
-  "not-found": "Nobody has that username. Check the spelling with them.",
+  pending: "You've asked them already, it's just waiting on them now.",
+  "not-found": "Nobody has that username, so check the spelling with them.",
   self: "That's you.",
   "signed-out": "Log in again first.",
 };
@@ -96,7 +96,7 @@ function FriendList({ names }: { names: Record<string, string> }) {
       if (result === "sent" || result === "accepted") setAsk("");
       await load();
     } catch {
-      setNote("That didn't send. Try again in a moment.");
+      setNote("That didn't send, give it another go in a moment.");
     } finally {
       setBusy(false);
     }
@@ -110,7 +110,7 @@ function FriendList({ names }: { names: Record<string, string> }) {
       setConfirming(null);
       setNote(said);
     } catch {
-      setNote("That didn't work. Try again in a moment.");
+      setNote("That didn't work, give it another go in a moment.");
     }
   };
 
@@ -131,7 +131,7 @@ function FriendList({ names }: { names: Record<string, string> }) {
         </h2>
         {username ? (
           <p className={teach.meta}>
-            Your username is <strong>@{username}</strong>. Give it to friends so they can add you.{" "}
+            Your username is <strong>@{username}</strong>, so give it to your friends and they can add you.{" "}
             <button type="button" className={teach.copy} onClick={() => void copyText(username).then((ok) => setNote(ok ? "Copied your username." : "Copy it from the page instead."))}>
               Copy it
             </button>
@@ -178,7 +178,7 @@ function FriendList({ names }: { names: Record<string, string> }) {
                   <Button size="sm" variant="primary" onClick={() => void act(() => answerFriend(f.id, true), `You and ${f.displayName} are friends now.`)}>
                     Accept
                   </Button>
-                  <Button size="sm" variant="ghost" onClick={() => void act(() => answerFriend(f.id, false), `Turned down. ${f.displayName} isn't told.`)}>
+                  <Button size="sm" variant="ghost" onClick={() => void act(() => answerFriend(f.id, false), `Turned down, but ${f.displayName} won't be told.`)}>
                     Not now
                   </Button>
                 </div>
@@ -195,7 +195,7 @@ function FriendList({ names }: { names: Record<string, string> }) {
         {list === null && !problem ? (
           <p className={teach.empty}>Loading.</p>
         ) : friends.length === 0 ? (
-          <p className={teach.empty}>No friends here yet. Ask someone by their username above.</p>
+          <p className={teach.empty}>No friends here yet, but you can ask someone by their username above.</p>
         ) : (
           <ul className={classes.setList}>
             {friends.map((f) => (
@@ -251,7 +251,7 @@ function FriendList({ names }: { names: Record<string, string> }) {
                   </span>
                 </div>
                 <div className={classes.setSide}>
-                  <Button size="sm" variant="ghost" onClick={() => void act(() => removeFriend(f.id), `Taken back. ${f.displayName} won't see it now.`)}>
+                  <Button size="sm" variant="ghost" onClick={() => void act(() => removeFriend(f.id), `Taken back, ${f.displayName} won't see it now.`)}>
                     Take it back
                   </Button>
                 </div>
@@ -286,7 +286,7 @@ function NotFriends({ username, failed }: { username: string; failed: boolean })
       <h1 id="not-title" className={teach.h2}>
         {failed ? "That didn't load" : `@${username} isn't your friend yet`}
       </h1>
-      <p className={teach.meta}>{failed ? "Check your connection and reload the page." : "You can see someone's Shelf once you're friends. Ask them from your Friends page."}</p>
+      <p className={teach.meta}>{failed ? "Check your connection and reload the page." : "You can see someone's Shelf once you're friends, so ask them from your Friends page."}</p>
       <Link href="/friends" className={teach.back}>
         Back to your friends
       </Link>
@@ -311,7 +311,7 @@ function FriendShelf({ username, course, names }: { username: string; course: Sh
   if (!profile) return <NotFriends username={username} failed={failed} />;
   const shippedCount = profile.shipped.length;
   const cast = isCast(profile.playAs) ? profile.playAs : null;
-  const playing = cast && (names[cast] ?? cast).toLowerCase() !== profile.displayName.toLowerCase() ? `Playing as ${names[cast] ?? cast}. ` : "";
+  const playing = cast && (names[cast] ?? cast).toLowerCase() !== profile.displayName.toLowerCase() ? `, playing as ${names[cast] ?? cast}` : "";
 
   return (
     <div className={shelf.layout}>
@@ -325,13 +325,14 @@ function FriendShelf({ username, course, names }: { username: string; course: Sh
         <div className={shelf.text}>
           <h1 className={shelf.name}>{profile.displayName}</h1>
           <p className={shelf.line}>
-            @{profile.username}. {playing}
-            {shippedCount === 0 ? "Nothing shipped yet." : `${shippedCount} ${shippedCount === 1 ? "project" : "projects"} shipped.`}
+            @{profile.username}
+            {playing}
+            {shippedCount === 0 ? ", with nothing shipped yet." : `, with ${shippedCount} ${shippedCount === 1 ? "project" : "projects"} shipped.`}
           </p>
         </div>
       </header>
       {acts.length === 0 ? (
-        <p className={shelf.meta}>Nothing on their Shelf yet. Projects appear here as they ship them.</p>
+        <p className={shelf.meta}>Nothing on their Shelf yet, but projects turn up here as they ship them.</p>
       ) : (
         acts.map((act) => (
           <section key={act.number} className={shelf.act} aria-labelledby={`act-${act.number}`}>
@@ -423,7 +424,7 @@ function FriendProject({ username, jobId, course }: { username: string; jobId: s
       entry={entry}
       data={data}
       shippedAt={shipped.shippedAt}
-      note={Object.keys(files).length ? null : "There's no code saved for this one: it was built on their own computer."}
+      note={Object.keys(files).length ? null : "There's no code saved for this one, because it was built on their own computer."}
       back={back}
     />
   );

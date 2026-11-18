@@ -24,7 +24,7 @@ export function Growth({ params, onDone, done }: { params: { max?: number; show?
   return (
     <div className={styles.widget}>
       <label className={styles.question} htmlFor="growth-n">
-        Piles of n items. How many steps does each kind of search or sort take? n = {n}
+        With a pile of n items, how many steps does each kind of search or sort take? n = {n}
       </label>
       <input
         id="growth-n"
@@ -65,7 +65,7 @@ export function Growth({ params, onDone, done }: { params: { max?: number; show?
           ))}
         </tbody>
       </table>
-      {moved ? <p className={styles.fbGood}>At n = {n}, the difference between the slowest and quickest growth is a factor of {Math.round(top / Math.max(1, Math.min(...shown.map((c) => c.f(n))))).toLocaleString("en-GB")}. That gap is what Big-O describes.</p> : <p className={styles.dim}>Drag n past {Math.round(max / 2)} and watch which line runs away.</p>}
+      {moved ? <p className={styles.fbGood}>At n = {n}, the difference between the slowest and quickest growth is a factor of {Math.round(top / Math.max(1, Math.min(...shown.map((c) => c.f(n))))).toLocaleString("en-GB")}, and that gap is what Big-O describes.</p> : <p className={styles.dim}>Drag n past {Math.round(max / 2)} and watch which line runs away.</p>}
     </div>
   );
 }

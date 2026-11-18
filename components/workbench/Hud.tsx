@@ -49,7 +49,7 @@ export function Hud({ job, actProjects, syncStatus, guest, secondsSpent = 0 }: {
       <div className={styles.right}>
         {job.timedMinutes ? (
           // A suggested time, never enforced (University Readiness practises working to time).
-          <p className={[styles.clock, minutes > job.timedMinutes ? styles.over : ""].join(" ")} title="Active time on this project. Nothing happens when it runs out.">
+          <p className={[styles.clock, minutes > job.timedMinutes ? styles.over : ""].join(" ")} title="Active time on this project, and nothing happens when it runs out.">
             <Icon name="timer" />
             {minutes}/{job.timedMinutes} min
           </p>

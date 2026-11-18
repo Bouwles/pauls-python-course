@@ -25,7 +25,7 @@ import { castFor, ClassLine, SetList, useCourse, type CourseIndex } from "./shar
 import { statusTone, stepsText } from "./StudentReport";
 import styles from "./Classes.module.css";
 
-const WONT_SAVE = "This browser wouldn't save it. It may be a private window, or site data may be switched off.";
+const WONT_SAVE = "This browser wouldn't save it, which usually means it's a private window or site data is switched off.";
 
 /**
  * /class: the class you're in, the classes you teach, and making one. All of it is kept in this
@@ -51,7 +51,7 @@ export function ClassHome({ acts, names }: { acts: CourseAct[]; names: Record<st
     teaching.length > 0
       ? { who: "neil", text: "Got someone's progress link? Open it here and add it to the register." }
       : first && teacherCast
-        ? { who: teacherCast, text: "Have a go at what I've set, then send me your progress. I'll look at it before we next meet.", third: `Have a go at what ${first.teacher} set, then send your progress over.` }
+        ? { who: teacherCast, text: "Have a go at what I've set and send me your progress, and I'll look at it before we next meet.", third: `Have a go at what ${first.teacher} set, then send your progress over.` }
         : first
           ? { who: "neil", text: `Have a go at what ${first.teacher} set, then send your progress over.` }
           : { who: "paul", text: "Got a join link from me? Open it and the class shows up here.", third: "Got a join link from Paul? Open it and the class shows up here." };
@@ -73,7 +73,7 @@ export function ClassHome({ acts, names }: { acts: CourseAct[]; names: Record<st
             {joined.length === 1 ? "The class you're in" : "The classes you're in"}
           </h2>
           {joined.map((c) => (
-            <JoinedView key={c.id} cls={c} course={course} many={joined.length > 1} onLeft={() => setNote(`You've left ${c.name}. Its join link brings you back.`)} />
+            <JoinedView key={c.id} cls={c} course={course} many={joined.length > 1} onLeft={() => setNote(`You've left ${c.name}, but its join link will get you back in.`)} />
           ))}
         </section>
       ) : mounted && teaching.length === 0 ? (
@@ -110,7 +110,7 @@ export function ClassHome({ acts, names }: { acts: CourseAct[]; names: Record<st
           onMade={(cls) => {
             setTab(cls.id);
             setMaking(false);
-            setNote(`Made ${cls.name}. Copy its join link and send it round.`);
+            setNote(`${cls.name} is made, copy its join link and send it round.`);
           }}
           onCancel={teaching.length || joined.length ? () => setMaking(false) : undefined}
         />
@@ -159,7 +159,7 @@ function JoinedView({ cls, course, many, onLeft }: { cls: JoinedClass; course: C
       <div className={teach.titleRow}>
         <Title className={many ? teach.h3 : teach.strongCell}>{cls.name}</Title>
         <span className={teach.meta}>
-          Set by {cls.teacher}. Joined {shortDate(cls.joinedAt)}.
+          Set by {cls.teacher}, joined {shortDate(cls.joinedAt)}.
         </span>
       </div>
       <SetList
@@ -177,15 +177,22 @@ function JoinedView({ cls, course, many, onLeft }: { cls: JoinedClass; course: C
       />
       {entry || cls.table ? (
         <p className={teach.meta}>
-          <Link href="/league">The Arcade League</Link>
-          {entry ? `: your entry this week, ${entry.score.toFixed(2)} moves, goes with your progress.` : `: ${cls.teacher} has shared the class's table.`}
+          {entry ? (
+            <>
+              Your <Link href="/league">Arcade League</Link> entry this week ({entry.score.toFixed(2)} moves) goes with your progress.
+            </>
+          ) : (
+            <>
+              {cls.teacher} has shared the class&apos;s <Link href="/league">Arcade League</Link> table.
+            </>
+          )}
         </p>
       ) : null}
       <SendProgress cls={cls} facts={facts} withClassName={many} />
       <div className={styles.dangerRow}>
         {leaving ? (
           <span className={styles.inlineConfirm}>
-            <span>Leave {cls.name}? Your work stays; only the class goes.</span>
+            <span>Leave {cls.name}? Your work stays, it&apos;s only the class that goes.</span>
             <Button
               size="sm"
               variant="danger"
@@ -247,8 +254,9 @@ function TaughtView({ cls, acts, course, names, onDeleted }: { cls: TaughtClass;
           {cls.name}
         </h3>
         <p className={teach.meta}>
-          {cls.role === "co-teacher" ? `Co-teaching with ${cls.teacher}` : `Taught by ${cls.teacher}`}. {cls.register.length === 0 ? "Nobody in the register yet" : `${cls.register.length} ${cls.register.length === 1 ? "student" : "students"} in the register`}.
-          {cls.createdAt ? ` Made ${shortDate(cls.createdAt)}.` : ""}
+          {cls.role === "co-teacher" ? `Co-teaching with ${cls.teacher}` : `Taught by ${cls.teacher}`}
+          {cls.register.length === 0 ? ", with nobody in the register yet" : `, with ${cls.register.length} ${cls.register.length === 1 ? "student" : "students"} in the register`}
+          {cls.createdAt ? ` (made ${shortDate(cls.createdAt)}).` : "."}
         </p>
       </div>
       <div className={styles.actions}>
@@ -267,7 +275,7 @@ function TaughtView({ cls, acts, course, names, onDeleted }: { cls: TaughtClass;
       {shown?.kind === "teach" ? (
         <LinkBox key={shown.at} url={shown.url} label={`Co-teacher link for ${cls.name}`} shareTitle={`Help teach ${cls.name}`} shareText={`${cls.name}, with what's set and the register.`}>
           <p className={styles.linkNote}>
-            For whoever helps you teach. They get the class and the register
+            This is for whoever helps you teach, so they get the class and the register
             {shown.leftOut ? " (without some students' code, which made it too long)" : ""}, and progress links can go to either of you.
           </p>
         </LinkBox>
@@ -280,7 +288,7 @@ function TaughtView({ cls, acts, course, names, onDeleted }: { cls: TaughtClass;
       <div className={teach.files}>
         <h3 className={teach.h3}>What&apos;s set</h3>
         <ProjectPicker acts={acts} value={draft} onChange={setWork} idPrefix={`set-${cls.id}`} />
-        <p className={teach.meta}>Changed it? Send the join link again.</p>
+        <p className={teach.meta}>If you change any of it, send the join link round again.</p>
       </div>
 
       {problem ? (
@@ -309,7 +317,7 @@ function TaughtView({ cls, acts, course, names, onDeleted }: { cls: TaughtClass;
           <h2 id={`delete-${cls.id}`} className={teach.h2}>
             Delete {cls.name}
           </h2>
-          <p>This deletes it from this browser. Students and co-teachers keep their copies.</p>
+          <p>This deletes it from this browser, but students and co-teachers keep their copies.</p>
           <div className={teach.row}>
             <Button type="submit" variant="danger">
               Delete the class

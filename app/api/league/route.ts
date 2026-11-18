@@ -36,13 +36,13 @@ export async function POST(req: Request) {
   const user = await requireUser();
   if (user instanceof Response) return user;
   const body = await readJson<{ entry?: unknown }>(req, 100_000);
-  if (!body?.entry) return json({ error: "Send the entry: the contents of your league.json." }, 400);
+  if (!body?.entry) return json({ error: "Send the entry, which is the contents of your league.json." }, 400);
   const read = readEntry(body.entry);
   if ("error" in read) return json({ error: read.error }, 400);
   const db = await getDb();
   const profile = await db.asUser(user.id, (q) => q<{ display_name: string }>("select display_name from public.profiles where id = $1", [user.id]));
   const name = profile[0]?.display_name?.trim();
-  if (!name) return json({ error: "Set a display name in Settings first: it's the only thing the table shows." }, 400);
+  if (!name) return json({ error: "Set a display name in Settings first, because it's the only thing the table shows." }, 400);
   const week = isoWeek();
   const result = league(read.policy, week);
   // Entries are written by the server only, so nobody can post a score they didn't race.

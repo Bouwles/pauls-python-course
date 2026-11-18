@@ -67,9 +67,9 @@ function OneProject({ link, course, names, back }: { link: ProjectLink | (ShelfE
   const entry = info?.entry && files[info.entry] !== undefined ? info.entry : (Object.keys(files)[0] ?? "main.py");
   const notes = [
     "cut" in link && link.cut ? "Some of the code was cut short to keep the link a sensible length, so it may not run as it did for them." : null,
-    failed ? "Its data files didn't load, so it may stop where it reads them. Reload the page to try again." : null,
+    failed ? "Its data files didn't load, so it may stop where it reads them, and reloading the page tries again." : null,
     info ? null : "This project isn't in this version of the course, so it runs without any data files it needs.",
-    Object.keys(files).length ? null : "There's no code in this link: this one was built on their own computer.",
+    Object.keys(files).length ? null : "There's no code in this link, because this one was built on their own computer.",
   ].filter(Boolean);
   return (
     <SharedProjectView
@@ -151,11 +151,11 @@ function SharedShelf({ link, course, names }: { link: ShelfLink; course: ShareCo
         <div className={shelf.text}>
           <h1 className={shelf.name}>{maker.name}&apos;s Shelf</h1>
           <p className={shelf.line}>
-            {link.items.length} {link.items.length === 1 ? "project" : "projects"} shipped{playing ? `. ${playing}` : ""}.
+            {link.items.length} {link.items.length === 1 ? "project" : "projects"} shipped{playing ? `, ${playing.charAt(0).toLowerCase()}${playing.slice(1)}` : ""}.
           </p>
           {link.items.length ? (
             <p className={styles.shelfNote}>
-              {withCode === link.items.length ? "Open any of them to read the code and run it." : withCode ? "Open the ones with their code here to read it and run it." : "The code didn't fit in this link. Ask them to share a project on its own to see it run."}
+              {withCode === link.items.length ? "Open any of them to read the code and run it." : withCode ? "Open the ones with their code here to read it and run it." : "The code didn't fit in this link, so ask them to share a project on its own to see it run."}
             </p>
           ) : null}
         </div>
@@ -184,7 +184,7 @@ function SharedShelf({ link, course, names }: { link: ShelfLink; course: ShareCo
                     <span className={i.files ? styles.openName : shelf.project}>{name}</span>
                     <span className={shelf.meta}>
                       {info ? `For ${info.client}` : "Not in this version of the course"}
-                      {i.files ? "" : ". Code not in this link"}
+                      {i.files ? "" : ", but the code isn't in this link"}
                     </span>
                   </span>
                 </>

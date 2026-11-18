@@ -45,21 +45,21 @@ const rules: Rule[] = [
     c.error.type === "SyntaxError" && /was never closed/.test(c.error.message)
       ? {
           title: "A bracket was opened and never closed.",
-          body: `Count the opening and closing brackets on line ${c.error.line}. The ^ points at the one left open. Every ( needs a ), every [ needs a ].`,
+          body: `Count the opening and closing brackets on line ${c.error.line}, and the ^ points at the one left open. Every ( needs a ) and every [ needs a ].`,
         }
       : null,
   (c) =>
     c.error.type === "SyntaxError" && /unterminated (triple-quoted )?string literal/.test(c.error.message)
       ? {
           title: "A string starts but never ends.",
-          body: "Check the quotes at each end of the text on that line. They have to match, and an apostrophe inside single quotes ends the string early. Double quotes outside let you use an apostrophe inside.",
+          body: "Check the quotes at each end of the text on that line, because they have to match, and an apostrophe inside single quotes ends the string early. Putting double quotes on the outside lets you use an apostrophe inside.",
         }
       : null,
   (c) =>
     c.error.type === "SyntaxError" && /expected ':'/.test(c.error.message)
       ? {
           title: "A colon is missing.",
-          body: "Lines that start a block, like if, elif, else, for, while and def, end with a colon. The indented lines below belong to it.",
+          body: "Lines that start a block, like if, elif, else, for, while and def, end with a colon, and the indented lines below belong to it.",
         }
       : null,
   (c) =>
@@ -80,7 +80,7 @@ const rules: Rule[] = [
     c.error.type === "IndentationError" && /expected an indented block/.test(c.error.message)
       ? {
           title: "The line after a colon needs indenting.",
-          body: "After a line ending in a colon, the lines that belong to it are indented four spaces. Python found nothing indented.",
+          body: "After a line ending in a colon, the lines that belong to it are indented four spaces, but Python found nothing indented.",
         }
       : null,
   (c) =>
@@ -94,14 +94,14 @@ const rules: Rule[] = [
     c.error.type === "IndentationError" || c.error.type === "TabError"
       ? {
           title: "The indentation doesn't line up.",
-          body: "Each level of indentation is four spaces. This line doesn't match any level above it. The Tab key in the editor puts in four spaces for you.",
+          body: "Each level of indentation is four spaces, and this line doesn't match any level above it. The Tab key in the editor puts in four spaces for you.",
         }
       : null,
   (c) =>
     c.error.type === "SyntaxError"
       ? {
           title: "Python couldn't read this line.",
-          body: `Nothing ran, because Python reads the whole file before running any of it. Look where the ^ points, and at the end of line ${Math.max(1, (c.error.line ?? 2) - 1)}: a bracket or quote left open there often shows up here.`,
+          body: `Nothing ran, because Python reads the whole file before running any of it. Look where the ^ points, and at the end of line ${Math.max(1, (c.error.line ?? 2) - 1)} too, because a bracket or quote left open there often shows up here.`,
         }
       : null,
 
@@ -114,18 +114,18 @@ const rules: Rule[] = [
     if (suggestion) {
       return {
         title: `Python doesn't know the name ${name}.`,
-        body: `It suggests ${suggestion}. Names have to match exactly, capitals included.`,
+        body: `It suggests ${suggestion}, and names have to match exactly, capitals included.`,
       };
     }
     if (/^[A-Z][a-z]+$/.test(name) || /print\(\s*\w+\s*\)/.test(c.line)) {
       return {
         title: `Python doesn't know the name ${name}.`,
-        body: `If ${name} is meant to be text, it needs quotes: "${name}". Without quotes, Python looks for a variable called ${name}.`,
+        body: `If ${name} is meant to be text, it needs quotes, like "${name}", because without them Python looks for a variable called ${name}.`,
       };
     }
     return {
       title: `Python doesn't know the name ${name}.`,
-      body: `Either it's spelt differently where it was created, or this line runs before the line that gives ${name} a value. Programs run top to bottom.`,
+      body: `Either it's spelt differently where it was created, or this line runs before the line that gives ${name} a value, since programs run from top to bottom.`,
     };
   },
 
@@ -154,12 +154,12 @@ const rules: Rule[] = [
     if (/can't multiply sequence by non-int of type 'float'/.test(c.error.message)) {
       return {
         title: "Text is being multiplied by a decimal.",
-        body: "Text times a whole number repeats it, but text times a decimal makes no sense. One of these values is text when it should be a number.",
+        body: "Text times a whole number repeats it, but text times a decimal makes no sense, so one of these values is text when it should be a number.",
       };
     }
     return {
       title: "Arithmetic with text and a number.",
-      body: "One side of the sum is text. Arithmetic needs numbers on both sides: int() or float() turns text into a number.",
+      body: "One side of the sum is text, and arithmetic needs numbers on both sides, so use int() or float() to turn the text into a number.",
     };
   },
   (c) =>
@@ -181,19 +181,19 @@ const rules: Rule[] = [
     if (c.error.type !== "TypeError" || !f) return null;
     return {
       title: `${f[1]}() got a different number of values than it expects.`,
-      body: `It is defined to take ${f[2]}, and this call gives it ${f[3]}. Check the brackets of the call against the def line. Inside a class, remember self.`,
+      body: `It's defined to take ${f[2]} and this call gives it ${f[3]}, so check the brackets of the call against the def line (and inside a class, remember self).`,
     };
   },
   (c) =>
     c.error.type === "TypeError" && /object is not callable/.test(c.error.message)
       ? {
           title: "Brackets after something that isn't a function.",
-          body: "Putting () after a name calls it. This name holds a value, not a function. Often a variable has been given the same name as a function, like print or sum.",
+          body: "Putting () after a name calls it, but this name holds a value rather than a function. Often a variable has been given the same name as a function, like print or sum.",
         }
       : null,
   (c) =>
     c.error.type === "TypeError"
-      ? { title: "A value is the wrong type for this.", body: "Read the last line of the traceback for the two types involved. type(x) tells you what something really is." }
+      ? { title: "A value is the wrong type for this.", body: "Read the last line of the traceback for the two types involved, and type(x) tells you what something really is." }
       : null,
 
   // ---- ValueError ---------------------------------------------------------------
@@ -212,22 +212,22 @@ const rules: Rule[] = [
     }
     return {
       title: `int() can't read "${text}".`,
-      body: "int() only reads text made of digits, like \"42\". The value has the right type, text, but not a usable value. That's what a ValueError means.",
+      body: "int() only reads text made of digits, like \"42\". The value is the right type, text, but it isn't a usable value, which is what a ValueError means.",
     };
   },
   (c) =>
     c.error.type === "ValueError" && /could not convert string to float/.test(c.error.message)
-      ? { title: "float() can't read that text.", body: "float() reads numbers like \"2.5\" or \"7\". Anything else, including a stray letter, is a ValueError." }
+      ? { title: "float() can't read that text.", body: "float() reads numbers like \"2.5\" or \"7\", and anything else, including a stray letter, is a ValueError." }
       : null,
   (c) =>
     c.error.type === "ValueError"
-      ? { title: "The right type, but a value that can't be used.", body: "The last line says which value. Compare a TypeError, where the type itself is wrong." }
+      ? { title: "The right type, but a value that can't be used.", body: "The last line says which value it was, which is different from a TypeError, where the type itself is wrong." }
       : null,
 
   // ---- Others ---------------------------------------------------------------------
   (c) =>
     c.error.type === "ZeroDivisionError"
-      ? { title: "Something was divided by zero.", body: "Check what the bottom of the division is when it fails. Often it's a count that can be zero, like an empty list or no readings." }
+      ? { title: "Something was divided by zero.", body: "Check what the bottom of the division is when it fails, because it's often a count that can be zero, like an empty list or no readings." }
       : null,
   (c) =>
     c.error.type === "IndexError"
@@ -240,7 +240,7 @@ const rules: Rule[] = [
     if (c.error.type !== "KeyError") return null;
     return {
       title: `The dictionary has no key ${c.error.message}.`,
-      body: "Check the spelling and capitals of the key. If it might be missing, .get(key, default) gives a fallback instead of crashing.",
+      body: "Check the spelling and capitals of the key, and if it might be missing, .get(key, default) gives a fallback instead of crashing.",
     };
   },
   (c) => {
@@ -248,12 +248,12 @@ const rules: Rule[] = [
     if (c.error.type !== "AttributeError" || !a) return null;
     return {
       title: `A ${a[1]} has no ${a[2]}.`,
-      body: `Check the spelling of ${a[2]}. If it should exist, check that the value really is the type you think. type() will tell you.`,
+      body: `Check the spelling of ${a[2]}. If it should exist, check the value really is the type you think it is, and type() will tell you.`,
     };
   },
   (c) =>
     c.error.type === "RecursionError"
-      ? { title: "A function kept calling itself.", body: "Every recursive function needs a base case: a situation where it stops calling itself. Check it can actually be reached." }
+      ? { title: "A function kept calling itself.", body: "Every recursive function needs a base case, which is a situation where it stops calling itself, so check that it can actually be reached." }
       : null,
   (c) =>
     c.error.type === "EOFError" || c.error.inputsExhausted
@@ -261,13 +261,13 @@ const rules: Rule[] = [
       : null,
   (c) =>
     c.error.type === "ModuleNotFoundError"
-      ? { title: "Python can't find that module.", body: "Check the spelling in the import line. For your own files, the file has to be in this Job." }
+      ? { title: "Python can't find that module.", body: "Check the spelling in the import line, and if it's one of your own files, it has to be in this project." }
       : null,
   (c) =>
     c.error.type === "UnboundLocalError"
       ? {
           title: "A variable is used inside a function before it's set there.",
-          body: "Assigning to a name anywhere inside a function makes it local to that function. Pass the value in as a parameter, or return the new value.",
+          body: "Assigning to a name anywhere inside a function makes it local to that function, so pass the value in as a parameter or return the new value.",
         }
       : null,
 ];

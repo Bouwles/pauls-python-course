@@ -31,14 +31,14 @@ function said(error: { message?: string; code?: string } | null | undefined): st
   const code = error?.code ?? "";
   const message = error?.message ?? "";
   if (code === "invalid_credentials" || /invalid login credentials/i.test(message)) return "That email and password don't match an account.";
-  if (code === "email_not_confirmed" || /not confirmed/i.test(message)) return "Confirm your email first. The code is in the email we sent.";
-  if (code === "over_email_send_rate_limit" || code === "over_request_rate_limit" || /rate limit/i.test(message)) return "Too many tries for now. Wait a few minutes and try again.";
-  if (code === "otp_expired" || /expired|invalid/i.test(message)) return "That code or link has expired, or has been used already. Send a new one.";
-  if (code === "weak_password") return `Pick a longer password: at least ${MIN_PASSWORD} characters.`;
-  if (code === "same_password") return "That's your current password. Pick a new one.";
-  if (/database error saving new user/i.test(message)) return "Someone has just taken that username. Pick another.";
-  if (/fetch|network/i.test(message)) return "Couldn't reach the server. Check your connection and try again.";
-  return message || "That didn't work. Try again in a moment.";
+  if (code === "email_not_confirmed" || /not confirmed/i.test(message)) return "You need to confirm your email first, and the code is in the email we sent you.";
+  if (code === "over_email_send_rate_limit" || code === "over_request_rate_limit" || /rate limit/i.test(message)) return "That's too many tries for now, so wait a few minutes and try again.";
+  if (code === "otp_expired" || /expired|invalid/i.test(message)) return "That code or link has expired or been used already, so send yourself a new one.";
+  if (code === "weak_password") return `That password's too short, it needs to be at least ${MIN_PASSWORD} characters.`;
+  if (code === "same_password") return "That's your current password, so pick a new one.";
+  if (/database error saving new user/i.test(message)) return "Someone has just taken that username, so pick another.";
+  if (/fetch|network/i.test(message)) return "Couldn't reach the server, so check your connection and try again.";
+  return message || "That didn't work, give it another go in a moment.";
 }
 
 function Problem({ text }: { text: string | null }) {
@@ -143,12 +143,12 @@ export function SignUpForm() {
   if (sentTo) return <ConfirmCode email={sentTo} />;
 
   const nameHint: Record<NameState, string> = {
-    empty: "3 to 20 characters: lower-case letters, numbers and _. Friends find you by it.",
+    empty: "3 to 20 lower-case letters, numbers and _, and it's how your friends find you.",
     invalid: "Only lower-case letters, numbers and _, from 3 to 20 characters.",
     checking: "Checking.",
     free: "That one's free.",
-    taken: "Someone has that one. Try another.",
-    unknown: "Couldn't check that just now. It's checked again when you make the account.",
+    taken: "Someone's already got that one, so try another.",
+    unknown: "Couldn't check that just now, but it gets checked again when you make the account.",
   };
 
   return (
@@ -179,7 +179,7 @@ export function SignUpForm() {
         </label>
         <input id="su-email" type="email" autoComplete="email" required value={email} onChange={(e) => setEmail(e.target.value)} aria-describedby="email-hint" />
         <small id="email-hint" className={styles.hint}>
-          We send a code to it, to check it&apos;s yours.
+          We send a code to it to check it&apos;s yours.
         </small>
       </div>
       <PasswordFields password={password} setPassword={setPassword} again={again} setAgain={setAgain} />
@@ -188,7 +188,7 @@ export function SignUpForm() {
           <input type="checkbox" checked={age} onChange={(e) => setAge(e.target.checked)} required />
           <span>I&apos;m 13 or older.</span>
         </label>
-        <p className={styles.hint}>If you&apos;re under 16, check with a parent or guardian first. In some countries the law asks for their consent.</p>
+        <p className={styles.hint}>If you&apos;re under 16, check with a parent or guardian first, because in some countries the law asks for their consent.</p>
       </div>
       <Problem text={error} />
       <Button type="submit" variant="primary" className={styles.submit} disabled={!ready || busy}>
@@ -230,7 +230,7 @@ export function ConfirmCode({ email, then = "/welcome/" }: { email: string; then
     setNote(null);
     const { error: e } = await supabase().auth.resend({ type: "signup", email, options: { emailRedirectTo: here("/account/confirm/") } });
     if (e) setError(said(e));
-    else setNote("Sent again. It can take a minute, and may land in spam.");
+    else setNote("Sent it again, but it can take a minute and it might end up in spam.");
   };
 
   return (
@@ -238,7 +238,7 @@ export function ConfirmCode({ email, then = "/welcome/" }: { email: string; then
       <div className={styles.sent} role="status">
         <h2 className={styles.sentTitle}>Check your email</h2>
         <p>
-          We sent a code to <strong>{email}</strong>. Type it here, or press the link in the email (on any device).
+          We sent a code to <strong>{email}</strong>. Type it in here or press the link in the email (it works on any device).
         </p>
       </div>
       <label className={styles.field}>
@@ -313,7 +313,7 @@ export function ConfirmLink() {
     const type = (params.get("type") ?? fragment.get("type") ?? "email") as EmailOtpType;
     if (problem) return fail(said({ message: problem, code: fragment.get("error_code") ?? params.get("error_code") ?? undefined }));
     if (!tokenHash && !code && !(access && refreshToken)) {
-      return fail("This page needs the link from the email. Open the email and press the link, or type its code on the sign-up page.");
+      return fail("This page only works from the link in the email, so open the email and press the link, or type its code on the sign-up page.");
     }
     void (async () => {
       const { error: e } = tokenHash
@@ -323,7 +323,7 @@ export function ConfirmLink() {
           : await supabase().auth.setSession({ access_token: access!, refresh_token: refreshToken! });
       if (e) {
         // A ?code= opened in another browser can't be exchanged, but the email is confirmed already.
-        if (code) return fail("Your email is confirmed. Log in with your email and password to carry on.");
+        if (code) return fail("Your email is confirmed, so log in with your email and password to carry on.");
         return fail(said(e));
       }
       await refresh();
@@ -346,7 +346,7 @@ export function ConfirmLink() {
     );
   return (
     <p className={styles.hint} role="status">
-      {state === "done" ? "Confirmed. Taking you in." : "Checking the link."}
+      {state === "done" ? "That's confirmed, taking you in now." : "Checking the link."}
     </p>
   );
 }
@@ -441,7 +441,7 @@ export function ForgotForm() {
       <div className={styles.sent} role="status">
         <h2 className={styles.sentTitle}>Check your email</h2>
         <p>
-          If <strong>{email.trim()}</strong> has an account, a link to set a new password is on its way. It can take a minute, and may land in spam.
+          If <strong>{email.trim()}</strong> has an account, a link to set a new password is on its way, although it can take a minute and it might end up in spam.
         </p>
       </div>
     );
@@ -475,7 +475,7 @@ export function ResetForm() {
   if (!user)
     return (
       <div className={styles.form}>
-        <Problem text="This page needs the link from the reset email. It works once, and for an hour." />
+        <Problem text="This page only works from the link in the reset email, and that link only works once and for an hour." />
         <p className={styles.switch}>
           <Link href="/account/forgot">Send a new one</Link>
         </p>

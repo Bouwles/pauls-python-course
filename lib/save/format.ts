@@ -562,18 +562,18 @@ export function readSave(value: unknown): SaveRead {
 export function problemText(problem: SaveProblem): string {
   switch (problem) {
     case "empty":
-      return "There's nothing there yet. Choose a save file or paste a save code.";
+      return "There's nothing there yet, so choose a save file or paste a save code.";
     case "too-big":
       return "That's far too big to be a save from this course.";
     case "newer":
-      return "That save is from a newer version of the course. Reload the page and try again.";
+      return "That save is from a newer version of the course, so reload the page and try again.";
     case "data-export":
-      return "That's the data download, which is for reading. To load your work, use the file from Download my save.";
+      return "That's the data download, which is just for reading, so to load your work use the file from Download my save.";
     case "class-link":
-      return "That looks like a class link. Open it in the address bar instead.";
+      return "That looks like a class link, so open it in the address bar instead.";
     case "not-a-save":
-      return "That isn't a save from this course. A save code starts with ppc-save.";
+      return "That isn't a save from this course, because a save code starts with ppc-save.";
     case "broken":
-      return "That save doesn't read. It may have been cut short when it was copied: try copying all of it again.";
+      return "That save doesn't read, and it may have been cut short when it was copied, so try copying all of it again.";
   }
 }

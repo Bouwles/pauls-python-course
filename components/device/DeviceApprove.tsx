@@ -21,11 +21,11 @@ export function DeviceApprove({ initialCode }: { initialCode: string }) {
       const res = await fetch("/api/device/approve", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code }) });
       const body = (await res.json()) as { error?: string };
       if (!res.ok) {
-        setError(body.error ?? "That didn't work. Try again.");
+        setError(body.error ?? "That didn't work, give it another go.");
         setState("idle");
       } else setState("done");
     } catch {
-      setError("Couldn't reach the server. Check your connection.");
+      setError("Couldn't reach the server, so check your connection.");
       setState("idle");
     }
   };
@@ -52,7 +52,7 @@ export function DeviceApprove({ initialCode }: { initialCode: string }) {
         <div className={`px-panel ${styles.card}`} role="status">
           <p className={styles.done}>
             <Icon name="tick" />
-            <span>Connected. Go back to your terminal; ppc is signed in as you.</span>
+            <span>You're connected. Go back to your terminal and ppc will be signed in as you.</span>
           </p>
           <p className={styles.hint}>You can disconnect it at any time in Settings, under Your data.</p>
         </div>
@@ -64,7 +64,7 @@ export function DeviceApprove({ initialCode }: { initialCode: string }) {
             void submit();
           }}
         >
-          <p>Your terminal shows a code of eight letters after you run ppc login. Type it here to let ppc hand work in for you.</p>
+          <p>Your terminal shows a code of eight letters after you run ppc login, and typing it here lets ppc hand work in for you.</p>
           <label className={styles.field}>
             <span className="label">Code</span>
             <input

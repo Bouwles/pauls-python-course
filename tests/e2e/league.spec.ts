@@ -41,7 +41,7 @@ test("enter a league.json in the browser, as a guest, and race the cast", async 
   // Pasting: raced there and then, on this week's seeds.
   const shortest = league(baselinePolicy(), week);
   await paste(page, entryJson());
-  await expect(page.getByRole("status").filter({ hasText: "Raced:" })).toContainText(`${shortest.score.toFixed(2)} moves on average, ${shortest.finished} of 50 finished`);
+  await expect(page.getByRole("status").filter({ hasText: "That came out at" })).toContainText(`${shortest.score.toFixed(2)} moves on average, ${shortest.finished} of 50 finished`);
   const me = table.locator(`tr[aria-current="true"]`);
   await expect(me).toContainText(shortest.score.toFixed(2));
   await expect(table.getByRole("row")).toHaveCount(before + 1);
@@ -53,7 +53,7 @@ test("enter a league.json in the browser, as a guest, and race the cast", async 
   const best = league(bestPolicy(), week);
   const q = bestPolicy().map((row) => row.map((m) => MOVES.map((a) => (a === m ? 1 : 0))));
   await page.getByLabel("Upload league.json").setInputFiles({ name: "league.json", mimeType: "application/json", buffer: Buffer.from(JSON.stringify({ format: "ppc-league-1", q })) });
-  await expect(page.getByRole("status").filter({ hasText: "Raced:" })).toContainText(best.score.toFixed(2));
+  await expect(page.getByRole("status").filter({ hasText: "That came out at" })).toContainText(best.score.toFixed(2));
   await expect(me).toContainText(best.score.toFixed(2));
 
   // Kept in this browser.
@@ -135,6 +135,6 @@ test("a class's League table through links: the progress link carries the entry,
   const other = await (await fresh(browser)).newPage();
   await other.goto(tableUrl);
   await expect(other.getByRole("table", { name: `${className}'s table for ${named}, as Paul shared it.` })).toContainText("Ruth");
-  await expect(other.getByText("Standings only: names and scores, as the class's teacher had them.")).toBeVisible();
+  await expect(other.getByText("This only has the names and scores, as the class's teacher had them.")).toBeVisible();
   await shot(other, "anyone-shared-table");
 });

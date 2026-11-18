@@ -119,13 +119,13 @@ function Certificate({ cert, acts, names }: { cert: CertificateLink; acts: Certi
       setTimeout(() => URL.revokeObjectURL(url), 10_000);
       setNote(`Saved as ${file}.png.`);
     } catch {
-      setNote("This browser wouldn't make the picture. Print it instead, and choose Save as PDF.");
+      setNote("This browser wouldn't make the picture, so print it instead and choose Save as PDF.");
     } finally {
       setBusy(false);
     }
   };
 
-  const copy = async () => setNote((await copyText(window.location.href)) ? "Copied the link. Anyone you send it to sees this page." : "This browser wouldn't copy it. Copy the address from the address bar instead.");
+  const copy = async () => setNote((await copyText(window.location.href)) ? "Copied the link, and anyone you send it to sees this page." : "This browser wouldn't copy it, so copy the address from the address bar instead.");
 
   return (
     <div className={`${styles.page} ${certificateFonts}`} ref={holder}>
@@ -175,7 +175,7 @@ function Certificate({ cert, acts, names }: { cert: CertificateLink; acts: Certi
         <p className={styles.note} role="status" aria-live="polite">
           {note}
         </p>
-        <p className={styles.honest}>A keepsake for friends. Nothing signs the link, so it doesn&apos;t prove anything.</p>
+        <p className={styles.honest}>It&apos;s a keepsake for friends, and nothing signs the link, so it doesn&apos;t prove anything.</p>
       </section>
       {/* What prints: the certificate alone, filling an A4 landscape page. */}
       {mounted ? createPortal(<div className={`${styles.print} ${certificateFonts}`} aria-hidden="true"><CertificateSvg shapes={shapes} label={words} /></div>, document.body) : null}

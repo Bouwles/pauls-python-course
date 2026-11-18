@@ -81,7 +81,7 @@ export function download(name: string, data: Uint8Array | string, type = "applic
 export function repoReadme(items: { item: ShelfItem; shippedAt: number | null }[], name: string): string {
   const byAct = new Map<string, { item: ShelfItem; shippedAt: number | null }[]>();
   for (const x of items) byAct.set(x.item.actTitle, [...(byAct.get(x.item.actTitle) ?? []), x]);
-  const lines = [`# ${name ? `${name}'s` : "My"} Python projects`, "", `Programs I wrote for ${BRAND.name}: ${items.length} of them, each a real program with a README.`, ""];
+  const lines = [`# ${name ? `${name}'s` : "My"} Python projects`, "", `Programs I wrote for ${BRAND.name}, ${items.length} of them, and each one is a real program with its own README.`, ""];
   for (const [act, xs] of byAct) {
     lines.push(`## ${act}`, "");
     for (const { item } of xs.sort((a, b) => a.item.number - b.item.number)) lines.push(`- [${item.title}](${projectFolder(item)}/): ${item.spec.split("\n")[0]}`);

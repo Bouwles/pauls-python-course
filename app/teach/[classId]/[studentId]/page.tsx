@@ -67,7 +67,7 @@ export default async function StudentPage(props: PageProps<"/teach/[classId]/[st
             <div className={styles.whoText}>
               <h1 className={styles.title}>{student.name}</h1>
               <p className={styles.meta}>
-                Joined {shortDate(student.joinedAt, now)}. Last active: {lastActive(latest, now).toLowerCase()}. {shipped} {shipped === 1 ? "project" : "projects"} shipped.
+                Joined {shortDate(student.joinedAt, now)} and last active {lastActive(latest, now).toLowerCase()}, with {shipped} {shipped === 1 ? "project" : "projects"} shipped.
               </p>
             </div>
           </div>
@@ -145,7 +145,7 @@ export default async function StudentPage(props: PageProps<"/teach/[classId]/[st
               <p className={styles.empty}>No code saved for this project yet.</p>
             ) : (
               <div className={styles.files}>
-                <p className={styles.meta}>The latest saved version of each file. Read-only.</p>
+                <p className={styles.meta}>This is the latest saved version of each file, and you can only read it.</p>
                 {steps.map((stepId) => (
                   <div key={stepId} className={styles.files}>
                     <h3 className={styles.h3}>{job?.steps.find((s) => s.id === stepId)?.title ?? stepId}</h3>

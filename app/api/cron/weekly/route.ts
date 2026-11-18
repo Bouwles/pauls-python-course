@@ -31,7 +31,7 @@ export async function GET(req: Request) {
     ]);
     const note = weeklyNote({ shipped: (shipped as { job_id: string }[]).map((r) => titles[r.job_id] ?? r.job_id), dueCards: (due as { n: number }[])[0]?.n ?? 0 });
     if (!note) continue;
-    const result = await sendMail({ to: learner.email, subject: note.subject, text: `${note.lines.join("\n")}\n\n(You asked for this in Settings. Switch it off there any time: ${originOf(req)}/settings)` });
+    const result = await sendMail({ to: learner.email, subject: note.subject, text: `${note.lines.join("\n")}\n\n(You asked for this in Settings, and you can switch it off there any time at ${originOf(req)}/settings)` });
     if (result !== "no-provider") sent++;
   }
   return json({ ok: true, learners: learners.length, sent });

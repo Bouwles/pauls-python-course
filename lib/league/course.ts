@@ -79,7 +79,7 @@ export function readEntry(raw: unknown): { policy: Policy } | { error: string } 
   const c = course();
   if (!raw || typeof raw !== "object") return { error: "The entry should be a JSON object." };
   const obj = raw as { format?: unknown; policy?: unknown; q?: unknown };
-  if (obj.format !== undefined && obj.format !== FORMAT) return { error: `Unknown format "${String(obj.format)}". Use "${FORMAT}".` };
+  if (obj.format !== undefined && obj.format !== FORMAT) return { error: `Unknown format "${String(obj.format)}", so use "${FORMAT}".` };
   const toMove = (m: unknown): MoveName | null => {
     if (typeof m === "number" && Number.isInteger(m) && m >= 0 && m < 4) return MOVES[m]!;
     if (typeof m !== "string") return null;
@@ -97,7 +97,7 @@ export function readEntry(raw: unknown): { policy: Policy } | { error: string } 
         const m = toMove((p[r] as unknown[])[col]);
         // Rocks and the finish don't need a move; anything there is ignored.
         row.push(m ?? "right");
-        if (!m && !isRock(c, r, col) && !(r === c.finish[0] && col === c.finish[1])) return { error: `Row ${r}, column ${col}: "${String((p[r] as unknown[])[col])}" isn't a move. Use up, down, left or right.` };
+        if (!m && !isRock(c, r, col) && !(r === c.finish[0] && col === c.finish[1])) return { error: `In row ${r}, column ${col}, "${String((p[r] as unknown[])[col])}" isn't a move, so use up, down, left or right.` };
       }
       policy.push(row);
     }

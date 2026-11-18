@@ -61,12 +61,12 @@ export default function Credits() {
         </ul>
         <h2>Icons</h2>
         <p>
-          <strong>pixelarticons</strong>, by Gerrit Halfmann, MIT License, drawn on a 24-pixel grid. The rubber duck and the crab are drawn for this project on the same grid to match.
+          <strong>pixelarticons</strong>, by Gerrit Halfmann, MIT License, drawn on a 24-pixel grid, and the rubber duck and the crab are drawn for this project on the same grid so they match.
         </p>
         <h2>Sound</h2>
-        <p>Every sound is worked out in your browser as it plays, with Web Audio, so there are no recordings. Each one comes out a little different every time.</p>
+        <p>Every sound is worked out in your browser as it plays, with Web Audio, so there are no recordings and each one comes out a little different every time.</p>
         <h2>Data</h2>
-        <p>Real public data, with its source and licence. Each project keeps a small copy so it works offline, and lists it again in its own README.</p>
+        <p>The data is real and public, listed here with its source and licence, and each project keeps a small copy so it works offline and lists it again in its own README.</p>
         <ul>
           {[...datasets.values()].map((d) => (
             <li key={d.source + d.name}>
@@ -74,7 +74,7 @@ export default function Credits() {
             </li>
           ))}
           <li>
-            <strong>The SMS Spam Collection</strong>, by Tiago A. Almeida and José María Gómez Hidalgo, from the UCI Machine Learning Repository, CC BY 4.0: the spam filter&apos;s results on the home page.
+            <strong>The SMS Spam Collection</strong>, by Tiago A. Almeida and José María Gómez Hidalgo, from the UCI Machine Learning Repository, CC BY 4.0, which is where the spam filter&apos;s results on the home page come from.
           </li>
         </ul>
         <h2>Software</h2>
@@ -87,7 +87,7 @@ export default function Credits() {
         </ul>
         <h2>Ideas</h2>
         <p>
-          The teaching borrows from computing education research: PRIMM (Predict, Run, Investigate, Modify, Make), worked examples with subgoal labels, Parsons problems, erroneous examples, retrieval practice and spaced repetition. The step-through visualiser follows the idea of Philip Guo&apos;s Python Tutor.
+          The teaching borrows a lot from computing education research, like PRIMM (Predict, Run, Investigate, Modify, Make), worked examples with subgoal labels, Parsons problems, erroneous examples, retrieval practice and spaced repetition, and the step-through visualiser is based on the idea behind Philip Guo&apos;s Python Tutor.
         </p>
       </Doc>
     </Page>

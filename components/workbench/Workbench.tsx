@@ -205,10 +205,15 @@ export function Workbench({ job: given, characters, conceptTitles, actTitle, act
     };
   }, []);
 
+  const stepSaves = useRef<Promise<unknown>>(Promise.resolve());
   const updateStep = useCallback<WorkbenchContextValue["updateStep"]>(
     async (id, patch) => {
       if (!store) return null;
-      const row = await saveStep(store, job.id, id, patch);
+      // One save at a time: two at once (an attempt counted as a task is done) would each read
+      // the row before the other wrote it, and the second would undo the first.
+      const run = stepSaves.current.then(() => saveStep(store, job.id, id, patch));
+      stepSaves.current = run.catch(() => undefined);
+      const row = await run;
       setProgress((p) => ({ ...p, [id]: row }));
       if (!jobProgress || jobProgress.status === "not-started") setJobProgress(await updateJob(store, job.id, {}));
       return row;

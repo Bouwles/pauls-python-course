@@ -33,8 +33,8 @@ import styles from "./Rounds.module.css";
 
 const MAX = 10;
 const OPENING = "Ten quick ones before anything new.";
-const CLOSING = "That's the lot. Your desk is waiting.";
-const NOTHING_DUE = "Nothing due today. Go and build something new.";
+const CLOSING = "That's the lot, and your desk is waiting for you.";
+const NOTHING_DUE = "Nothing's due today, go and build something new.";
 
 interface Planned {
   concept: Concept;
@@ -50,10 +50,22 @@ interface Said {
 
 /** How Paul takes each answer: a face, what his gesture is for, and a few short lines to choose between. */
 const REACTIONS: Record<"right" | "second" | "retry" | "missed", { face: Expression; tags: GestureTag[]; lines: string[] }> = {
-  right: { face: "pleased", tags: ["approve", "celebrate"], lines: ["Straight from memory. Good.", "That one's stuck.", "Right, and no hesitating.", "You didn't even need to think about that one."] },
-  second: { face: "pleased", tags: ["approve", "encourage"], lines: ["Got there. It'll come back a little sooner.", "Second go counts. It's nearly stuck.", "There it is. Slower than you'd like, but there."] },
-  retry: { face: "thinking", tags: ["encourage", "think"], lines: ["Not quite. Slow down and try once more.", "Read it again, the way Python would. Line by line.", "Look at it one more time. It's in there."] },
-  missed: { face: "thinking", tags: ["encourage", "listen"], lines: ["No harm done. That one comes round again soon.", "That's what Rounds are for. You'll see it again tomorrow.", "Read the answer once. It'll be back before long."] },
+  right: { face: "pleased", tags: ["approve", "celebrate"], lines: ["Straight from memory, good.", "That one's stuck.", "Right, and no hesitating.", "You didn't even need to think about that one."] },
+  second: {
+    face: "pleased",
+    tags: ["approve", "encourage"],
+    lines: ["You got there, it'll just come back a little sooner.", "Second go still counts, and it's nearly stuck.", "There it is, slower than you'd like but you got there."],
+  },
+  retry: {
+    face: "thinking",
+    tags: ["encourage", "think"],
+    lines: ["Not quite. Slow down and try once more.", "Read it again the way Python would, line by line.", "Have one more look, because it's in there somewhere."],
+  },
+  missed: {
+    face: "thinking",
+    tags: ["encourage", "listen"],
+    lines: ["No harm done, that one comes round again soon.", "That's what Rounds are for, and you'll see it again tomorrow.", "Just read the answer once and it'll be back before long."],
+  },
 };
 
 export function Rounds({ concepts, jobs, characters }: { concepts: Record<string, Concept>; jobs: Record<string, JobSummary>; characters: Record<string, Character> }) {
@@ -171,7 +183,7 @@ export function Rounds({ concepts, jobs, characters }: { concepts: Record<string
               {firstTime}
               <span className={styles.scoreOf}> of {outcomes.length}</span>
             </p>
-            <p className={styles.scoreText}>right first time. {held ? "Every one held." : `${shaky.length} needed a second look.`}</p>
+            <p className={styles.scoreText}>right first time{held ? ", and every one held." : `, and ${shaky.length} needed a second look.`}</p>
             <ol className={styles.tally} aria-hidden="true">
               {outcomes.map((o, i) => (
                 <li key={i} className={o.correct && o.attempts === 1 ? styles.tallyRight : o.correct ? styles.tallySecond : styles.tallyMissed} />
@@ -203,7 +215,7 @@ export function Rounds({ concepts, jobs, characters }: { concepts: Record<string
                 );
               })}
             </ul>
-            <p className={styles.quiet}>These come back sooner. The ones that held come back later.</p>
+            <p className={styles.quiet}>These come back sooner, and the ones that held come back later.</p>
           </section>
         ) : null}
         <div className={styles.end}>

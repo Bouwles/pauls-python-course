@@ -13,21 +13,21 @@ export default function Privacy() {
         <ul>
           <li>Your email address, so you can log in.</li>
           <li>The display name and avatar you choose.</li>
-          <li>Your work: the code you write in each step, earlier versions of it, your answers, hints used, time spent on each step, your review deck and its history.</li>
-          <li>Simple usage events (a step started, a step passed, a hint used) so we can see where the course is too hard or too easy. They are stored with the rest of your data, not sent to anyone else.</li>
+          <li>Your work, which means the code you write in each step and earlier versions of it, your answers, the hints you used, the time you spent on each step, and your review deck and its history.</li>
+          <li>Simple usage events (a step started, a step passed, a hint used) so we can see where the course is too hard or too easy. They&apos;re stored with the rest of your data and aren&apos;t sent to anyone else.</li>
         </ul>
         <h2>What we don&apos;t do</h2>
         <ul>
           <li>No advertising, no ad trackers, no selling or sharing your data.</li>
           <li>No cookies except the one that keeps you logged in.</li>
-          <li>Your code runs in your own browser. It is sent to our server only to be saved for you.</li>
+          <li>Your code runs in your own browser, and it only goes to our server so it can be saved for you.</li>
         </ul>
         <h2>Where it lives</h2>
         <p>Your data is stored by our database provider (currently Supabase) and on your own device, so you can keep working offline.</p>
         <h2>Age</h2>
-        <p>You need to be 13 or older to make an account. If you are under 16, please check with a parent or guardian first: in some countries the law asks for their consent.</p>
+        <p>You need to be 13 or older to make an account. If you are under 16, please check with a parent or guardian first, because in some countries the law asks for their consent.</p>
         <h2>Taking it back</h2>
-        <p>In Settings you can download everything we hold about you as a file, and you can delete your account. Deleting removes your data from our database straight away.</p>
+        <p>In Settings you can download everything we hold about you as a file, and you can delete your account, which removes your data from our database straight away.</p>
         <h2>Contact</h2>
         <p>Ask Paul.</p>
       </Doc>

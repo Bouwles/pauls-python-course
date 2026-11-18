@@ -18,7 +18,7 @@ test("a teacher makes a class, a learner joins with the code, and sees the Job s
   await teacher.waitForURL("**/teach");
   await teacher.getByLabel("Class name").fill(className);
   await teacher.getByRole("button", { name: "Make the class" }).click();
-  await expect(teacher.getByRole("status").filter({ hasText: `Made ${className}.` })).toBeVisible();
+  await expect(teacher.getByRole("status").filter({ hasText: `Made ${className}, and its code is` })).toBeVisible();
   const row = teacher.getByRole("row").filter({ hasText: className });
   const code = (await row.locator("code").textContent())!.trim();
   expect(code).toMatch(/^[BCDFGHJKLMNPQRSTVWXZ2-9]{6}$/);

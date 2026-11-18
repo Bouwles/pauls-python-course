@@ -25,21 +25,21 @@ import styles from "./MeetTheClass.module.css";
 // still.
 
 const ROLE: Record<string, string> = {
-  paul: "The professor. Coding, AI and machine learning.",
-  neil: "The teaching assistant. Racing cars and aerospace.",
-  aaesha: "Classmate. Cognitive systems.",
-  caitlin: "Classmate. A bit of everything.",
-  riya: "Classmate. Art and design.",
-  yahya: "Classmate. Data science.",
+  paul: "The professor, into coding, AI and machine learning.",
+  neil: "The teaching assistant, into racing cars and aerospace.",
+  aaesha: "A classmate, into cognitive systems.",
+  caitlin: "A classmate, into a bit of everything.",
+  riya: "A classmate, into art and design.",
+  yahya: "A classmate, into data science.",
 };
 
 const LINE: Record<string, { text: string; face: string; gesture: string }> = {
-  paul: { text: "Most of AI is careful Python and honest data. I'll teach you both, in that order.", face: "pleased", gesture: "point" },
-  neil: { text: "Racing cars and rockets both run on code. Lap times, launch windows, telemetry: it's all Python underneath.", face: "laughing", gesture: "thumbs" },
-  aaesha: { text: "I'm into how minds remember and decide. I build small ones in code to see where they break.", face: "thinking", gesture: "think" },
-  caitlin: { text: "Games, websites, a bot that reminds me to water my plants. If it's fun, I've built it.", face: "laughing", gesture: "point" },
-  riya: { text: "I make art with code: patterns, colour, pictures that draw themselves. First question: who's it for?", face: "pleased", gesture: "wave" },
-  yahya: { text: "Give me a messy dataset and ten minutes. The answer's in there, and I'll find it first.", face: "proud", gesture: "thumbs" },
+  paul: { text: "Most of AI is careful Python and honest data, so I'll teach you both, in that order.", face: "pleased", gesture: "point" },
+  neil: { text: "Racing cars and rockets both run on code, and the lap times, launch windows and telemetry are all Python underneath.", face: "laughing", gesture: "thumbs" },
+  aaesha: { text: "I'm into how minds remember and decide, so I build small ones in code to see where they break.", face: "thinking", gesture: "think" },
+  caitlin: { text: "I've made games, websites and a bot that reminds me to water my plants, basically if it's fun I've built it.", face: "laughing", gesture: "point" },
+  riya: { text: "I make art with code, like patterns, colour and pictures that draw themselves, and the first thing I ask is who it's for.", face: "pleased", gesture: "wave" },
+  yahya: { text: "Give me a messy dataset and ten minutes, the answer's in there somewhere and I'll find it first.", face: "proud", gesture: "thumbs" },
 };
 
 /** What their small figure does, their interest first: a turn of each, back to the first between. */

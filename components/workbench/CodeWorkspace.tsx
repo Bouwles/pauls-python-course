@@ -272,7 +272,7 @@ export function CodeWorkspace({
             label: "Reset",
             icon: "reset" as const,
             onSelect: () => {
-              if (contents && window.confirm("Put the starting code back? Your current code is kept in History.")) void code.replace(active, starter[active] ?? "", "manual");
+              if (contents && window.confirm("Put the starting code back? Your current code will still be in History.")) void code.replace(active, starter[active] ?? "", "manual");
             },
           },
         ]
@@ -343,7 +343,7 @@ export function CodeWorkspace({
         </div>
         {code.conflict ? (
           <p className={styles.conflict}>
-            You edited this on another device too. The newer version is here; the other one is in History.{" "}
+            You edited this on another device too, so the newer version is here and the other one is in History.{" "}
             <button className={styles.linkButton} onClick={() => void code.dismissConflict()}>
               Dismiss
             </button>

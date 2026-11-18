@@ -62,8 +62,8 @@ export function Landing({ data }: { data: LandingData }) {
       title: "Learn the idea, then guess what it prints",
       text: (
         <>
-          Short explanations, examples you can run, and questions that ask what some code will print before you get to run it. When a step only wants you to read, the code beside it is locked: you can run
-          it, but you can&apos;t type in it until a step asks you to change something.
+          You pick up the ideas as you go, with short explanations, examples you can run and questions that make you guess what some code will print before you get to run it. When a step only wants you
+          to read something, the code next to it is locked, so you can run it but you can&apos;t type in it until a step actually asks you to change something.
         </>
       ),
       shot: { src: lessonShot, alt: "A lesson on print() beside the code editor, with the program's output underneath." },
@@ -76,15 +76,15 @@ export function Landing({ data }: { data: LandingData }) {
           At some point somebody&apos;s code turns up with a mistake in it. {n("yahya")}&apos;s tip program says a bill of 20 with a 10 per cent tip comes to 20.10, so you find the bug and fix it (and I&apos;ll have something to say about the variable called <code>c</code>).
         </>
       ),
-      shot: { src: fixShot, alt: `Fixing ${n("yahya")}'s program: the output says 20.10 where it should say 22.00, and ${n("paul")} complains about the variable name.` },
+      shot: { src: fixShot, alt: `Fixing ${n("yahya")}'s program, where the output says 20.10 when it should say 22.00 and ${n("paul")} complains about the variable name.` },
     },
     {
       name: "Build it",
       title: "Write it yourself",
       text: (
         <>
-          Then you write the program and the tests check it. If you get stuck there are hints that give away a little more each time, or a rubber duck you can explain the problem to, although it won&apos;t
-          answer you.
+          Then you write the program yourself and the tests check it, and if you get stuck there are hints that give away a little more each time, or a rubber duck you can explain the problem to,
+          although it won&apos;t answer you.
         </>
       ),
     },
@@ -93,7 +93,7 @@ export function Landing({ data }: { data: LandingData }) {
       title: "Ship it to your Shelf",
       text: (
         <>
-          Once the checks pass, the program goes on your Shelf. From there you can download everything as one repository, push it to GitHub, or send a friend a link that runs it in their browser.
+          Once the checks pass the program goes on your Shelf, and from there you can download everything as one repository, push it to GitHub or send a friend a link that runs it in their browser.
         </>
       ),
       shot: { src: shelfShot, alt: "The Shelf, with an example run of each program someone has shipped." },
@@ -103,27 +103,30 @@ export function Landing({ data }: { data: LandingData }) {
   const extras = [
     { title: "Morning Rounds", text: "Each idea comes back a day or two after you first use it, then less and less often as it sticks." },
     { title: "Drills", text: `Five quick tasks against the clock, and ${n("yahya")} has set the time to beat on every one of them.` },
-    { title: "The Arcade League", text: "A race every week for the crabs you train in Act 8. Everyone's crab runs on the same seeds, and the lowest average number of moves wins." },
-    { title: "Certificates", text: "One for each Act you finish: proper ones, with an engraved border, a gold seal and my signature. Save it as a picture or print it on a sheet of A4." },
+    { title: "The Arcade League", text: "A race every week for the crabs you train in Act 8, where everyone's crab runs on the same seeds and the lowest average number of moves wins." },
+    {
+      title: "Certificates",
+      text: "You get one for each Act you finish, and they're proper ones with an engraved border, a gold seal and my signature on them, which you can save as a picture or print on a sheet of A4.",
+    },
   ];
 
   const questions = [
-    { q: "What does it cost?", a: "Nothing. Every Act is free, and so are the certificates." },
+    { q: "What does it cost?", a: "Nothing, every Act is free and so are the certificates." },
     ...(ACCOUNTS
       ? [
           {
             q: "Do I need an account?",
-            a: "Yes, a free one: a username, your email and a password. It keeps your work safe on any device, and it's how you add friends, see their Shelves and join a class.",
+            a: "Yes, but it's free and all it needs is a username, your email and a password. It keeps your work safe on any device, and it's how you add friends, look round their Shelves and join a class.",
           },
         ]
       : []),
     {
       q: "Do I need to install anything?",
-      a: "No. Python runs in your browser. A few of the later projects need more than a browser can do, like PyTorch and Pygame, so you build those on your own computer and paste the test results back in.",
+      a: "No, Python runs right there in your browser. A few of the later projects need more than a browser can do, like PyTorch and Pygame, so you build those on your own computer and paste the test results back in.",
     },
     {
       q: "Do I need to know any Python first?",
-      a: "No. The first project starts with a single print(). If you already know some Python, a placement test can open the early floors for you.",
+      a: "No, the first project starts with a single print(), and if you already know some Python there's a placement test that can open the early floors for you.",
     },
     {
       q: "How long does it take?",
@@ -131,7 +134,7 @@ export function Landing({ data }: { data: LandingData }) {
     },
     {
       q: "Is all of it ready?",
-      a: `${writtenProjects} of the ${totalProjects} projects are written and ready to play. The rest are being written, and the syllabus marks which ones they are.`,
+      a: `${writtenProjects} of the ${totalProjects} projects are written and ready to play, and the rest are still being written, so the syllabus marks which ones they are.`,
     },
   ];
 
@@ -156,11 +159,11 @@ export function Landing({ data }: { data: LandingData }) {
             </LinkButton>
           </div>
           <p className={styles.small}>
-            Free, with nothing to install. <Link href="/syllabus">Read the syllabus</Link>
+            It&apos;s free and there&apos;s nothing to install. <Link href="/syllabus">Read the syllabus</Link>
           </p>
         </div>
         <div className={styles.heroArt}>
-          <ClassScene names={names} greeting="Welcome to the Clocktower. We build real things here, starting with the sign on the front door." />
+          <ClassScene names={names} greeting="Welcome to the Clocktower, where we build actual programs, and we start with the sign on the front door." />
         </div>
       </section>
 
@@ -229,8 +232,8 @@ export function Landing({ data }: { data: LandingData }) {
                       {a.room}: {a.subject}
                     </h3>
                     <p className={styles.floorMeta}>
-                      {a.projects} projects, about {a.hours} hours.
-                      {floor && !everyone ? ` ${list(floor.residents.map(n))}'s floor.` : everyone ? " Everyone's floor." : ""}
+                      {a.projects} projects and about {a.hours} hours
+                      {floor && !everyone ? `, on ${list(floor.residents.map(n))}'s floor.` : everyone ? ", on everyone's floor." : "."}
                     </p>
                     {a.examples.length ? <p className={styles.floorBuild}>You build {list(a.examples)}.</p> : null}
                   </div>
@@ -251,7 +254,7 @@ export function Landing({ data }: { data: LandingData }) {
           </h2>
           <p className={styles.headLede}>
             Everyone in it is a real person. I teach, {n("neil")} helps me out, and {list(["aaesha", "caitlin", "riya", "yahya"].map(n))} bring you the projects, and sometimes their own buggy code. You can
-            play as any of us or make your own avatar: everyone learns the same Python, and only the story around it changes.
+            play as any of us or make your own avatar, and everyone learns the same Python either way, it&apos;s just the story around it that changes.
           </p>
         </header>
         <MeetTheClass names={names} />
@@ -293,7 +296,7 @@ export function Landing({ data }: { data: LandingData }) {
               <>
                 <p className={styles.body}>
                   Make a class, choose which projects to set, and give everyone its six-character code or join link. Once they&apos;ve joined, your register shows each student&apos;s progress, time and code as they
-                  work, with nothing for them to send.
+                  work, without anyone having to send you anything.
                 </p>
                 <p className={styles.body}>Students see what&apos;s set on their desk in the Clocktower, with its due date, until they ship it.</p>
               </>
@@ -308,7 +311,7 @@ export function Landing({ data }: { data: LandingData }) {
             )}
           </div>
           <div className={styles.shot}>
-            <Image src={classShot} alt="The class page: a register of four students, showing which of the three set projects each has shipped." sizes="(max-width: 960px) calc(100vw - 32px), 620px" className={styles.shotImage} />
+            <Image src={classShot} alt="The class page, with a register of four students showing which of the three set projects each has shipped." sizes="(max-width: 960px) calc(100vw - 32px), 620px" className={styles.shotImage} />
           </div>
         </div>
       </section>
@@ -335,7 +338,7 @@ export function Landing({ data }: { data: LandingData }) {
             Start on the ground floor
           </h2>
           <p className={styles.body}>
-            The first project is {firstProject.title}, about {firstProject.minutes} minutes: the sign for the Clocktower&apos;s front door.
+            The first project is {firstProject.title}, which is the sign for the Clocktower&apos;s front door and takes about {firstProject.minutes} minutes.
           </p>
         </div>
         <div className={styles.ctas}>

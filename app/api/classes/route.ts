@@ -23,7 +23,7 @@ export async function POST(req: Request) {
   const code = typeof body?.code === "string" ? body.code : "";
   const db = await getDb();
   const joined = await joinClass(db, user.id, code);
-  if (!joined) return json({ error: "No class has that code. Check it with your teacher." }, 404);
+  if (!joined) return json({ error: "No class has that code, so check it with your teacher." }, 404);
   return json({ class: joined });
 }
 

@@ -77,16 +77,16 @@ const KIND_NAME: Record<LinkKind, string> = { join: "a join link", report: "a pr
 export function LinkTrouble({ problem, kind, hash, level = 1 }: { problem: LinkProblem; kind?: LinkKind; hash: string; level?: 1 | 2 }) {
   const [title, text] =
     problem === "empty"
-      ? ["This link has nothing after the #", "The part that holds the class didn't come through. Ask for the link again, and copy all of it."]
+      ? ["This link has nothing after the #", "The part that holds the class didn't come through, so ask for the link again and copy all of it."]
       : problem === "old"
-        ? ["This link is from an older version of the course", "It can't be read any more. Ask for a fresh one."]
+        ? ["This link is from an older version of the course", "It can't be read any more, so ask for a fresh one."]
         : problem === "newer"
           ? ["This link was made by a newer version of the course", "Reload this page and open the link again. If it still won't open, this copy of the course hasn't caught up yet."]
           : problem === "too-long"
-            ? ["This link is far longer than any the course makes", "It may have been joined to something else when it was pasted. Ask for it again."]
+            ? ["This link is far longer than any the course makes", "It may have been joined to something else when it was pasted, so ask for it again."]
             : problem === "wrong-kind" && kind
               ? [`This is ${KIND_NAME[kind]}`, "It opens on another page."]
-              : ["This link didn't come through whole", "It may have been cut short or changed when it was copied. Ask for it again, and copy all of it."];
+              : ["This link didn't come through whole", "It may have been cut short or changed when it was copied, so ask for it again and copy all of it."];
   return (
     <section className={`px-panel ${teach.section} ${styles.trouble}`} aria-labelledby="trouble-title">
       {level === 1 ? (

@@ -103,8 +103,8 @@ export function ClassScene({ greeting, names }: { greeting: string; names: Recor
   return (
     <div className={styles.room}>
       <p className="visually-hidden">
-        The class in the Workshop: {paul} and {name("neil")} standing at the back, {name("aaesha")}, {name("caitlin")}, {name("riya")} and {name("yahya")} in front of them behind a long desk with a
-        yellow rubber duck on it. On the wall, the clock says 3:14.
+        The class in the Workshop, with {paul} and {name("neil")} standing at the back, {name("aaesha")}, {name("caitlin")}, {name("riya")} and {name("yahya")} in front of them behind a long desk with a
+        yellow rubber duck on it, and the clock on the wall says 3:14.
       </p>
       <PixelClock className={styles.clock} scale={3} />
       <div className={styles.scene}>

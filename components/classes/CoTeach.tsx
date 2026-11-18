@@ -39,7 +39,7 @@ export function CoTeach({ acts, names }: { acts: CourseAct[]; names: Record<stri
         <p className={styles.kicker}>A class to help teach</p>
         <h1 className={teach.title}>{cls.name}</h1>
         <p className={teach.lede}>
-          Shared by {cls.teacher}. {cls.assignments.length} {cls.assignments.length === 1 ? "project" : "projects"} set, {register.length} {register.length === 1 ? "student" : "students"} in the register.
+          Shared by {cls.teacher}, with {cls.assignments.length} {cls.assignments.length === 1 ? "project" : "projects"} set and {register.length} {register.length === 1 ? "student" : "students"} in the register.
         </p>
         <ClassLine who="neil" names={names} text="Add the class and progress links can come to either of you." />
       </header>
@@ -78,14 +78,14 @@ export function CoTeach({ acts, names }: { acts: CourseAct[]; names: Record<stri
         </h2>
         <p className={styles.troubleText} role="status" aria-live="polite">
           {done === "added"
-            ? `Added. ${cls.name} is on your class page with its register.`
+            ? `You're in, ${cls.name} and its register are on your class page now.`
             : done === "merged"
-              ? `${cls.name} is up to date: the newer of the two sets of projects, and each student's latest progress.`
+              ? `${cls.name} is up to date now, with the newer of the two sets of projects and each student's latest progress.`
               : ""}
         </p>
         {done === "unsaved" ? (
           <p className={teach.error} role="alert">
-            This browser wouldn&apos;t save it. It may be a private window, or site data may be switched off.
+            This browser wouldn&apos;t save it, which usually means it&apos;s a private window or site data is switched off.
           </p>
         ) : null}
         {done === "added" || done === "merged" ? (
@@ -98,8 +98,8 @@ export function CoTeach({ acts, names }: { acts: CourseAct[]; names: Record<stri
           <>
             <p className={teach.meta}>
               {have
-                ? "It's already on your class page. Bringing this in keeps the newer projects and each student's latest progress."
-                : "It's kept in this browser, beside any class of your own. Students' progress links can then be added here as well."}
+                ? "It's already on your class page, and bringing this in keeps the newer projects and each student's latest progress."
+                : "It's kept in this browser next to any class of your own, and then students' progress links can be added here as well."}
             </p>
             <div className={styles.actions}>
               <Button variant="primary" icon="users" className={styles.wraps} onClick={add}>

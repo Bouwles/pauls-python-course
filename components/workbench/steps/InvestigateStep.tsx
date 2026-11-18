@@ -25,12 +25,16 @@ export function InvestigateStepView({ step, row }: { step: InvestigateStep; row:
   const checkRef = useRef<((key: string) => Promise<CheckReport | null>) | null>(null);
   const filesRef = useRef<(() => Files) | null>(null);
 
+  // Each finished task goes on top of what's stored rather than what was on screen, so answering
+  // two quickly can't lose the first.
   const complete = async (taskId: string, answer?: string) => {
-    const tasks = { ...done, [taskId]: true };
-    const all = step.tasks.every((t) => tasks[t.id]);
-    const patch = { data: { ...row.data, tasks, answers: answer !== undefined ? { ...answers, [taskId]: answer } : answers } };
-    if (all) await markPassed(step.id, patch);
-    else await updateStep(step.id, patch);
+    const saved = await updateStep(step.id, (r) => {
+      const tasks = { ...((r.data.tasks ?? {}) as Record<string, boolean>), [taskId]: true };
+      const answers = { ...((r.data.answers ?? {}) as Record<string, string>), ...(answer !== undefined ? { [taskId]: answer } : {}) };
+      return { data: { ...r.data, tasks, answers } };
+    });
+    const tasks = (saved?.data.tasks ?? {}) as Record<string, boolean>;
+    if (step.tasks.every((t) => tasks[t.id])) await markPassed(step.id);
   };
 
   return (
@@ -69,7 +73,7 @@ function Task({ task, done, saved, onDone, check, onAttempt }: { task: Investiga
       setFeedback({ good: true, text: task.feedback ?? "Right." });
       onDone(answer);
     } else {
-      setFeedback({ good: false, text: task.wrong ?? "Not that. Run the code and look again." });
+      setFeedback({ good: false, text: task.wrong ?? "Not that one, run the code and have another look." });
     }
   };
 
@@ -85,7 +89,7 @@ function Task({ task, done, saved, onDone, check, onAttempt }: { task: Investiga
       onDone();
     } else {
       const first = report.results.find((r) => !r.passed);
-      setFeedback({ good: false, text: first?.hint ?? first?.message ?? "Not yet. The Checks tab shows what happened." });
+      setFeedback({ good: false, text: first?.hint ?? first?.message ?? "Not yet, but the Checks tab shows what happened." });
     }
   };
 

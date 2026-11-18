@@ -91,14 +91,14 @@ export function starterFiles(job: Job, step: TakeHomeStep, site: string, { paste
     "",
     ...(paste
       ? [
-          "With the ppc tool: `ppc test` in this folder runs the tests and prints a line starting `ppc-result`. Paste it on the project's page.",
+          "If you've got the ppc tool, `ppc test` in this folder runs the tests and prints a line starting `ppc-result` for you to paste on the project's page.",
           "",
-          `Without it: run \`pytest\`, then paste the last line it prints on the project's page (${site}/job/${job.id}/).`,
+          `If you haven't, run \`pytest\` and paste the last line it prints on the project's page (${site}/job/${job.id}/).`,
         ]
       : [
-          "With the ppc tool: `ppc check` in this folder runs the tests and sends the results to your account.",
+          "If you've got the ppc tool, `ppc check` in this folder runs the tests and sends the results to your account.",
           "",
-          `Without it: run \`pytest --junitxml=report.xml\`, then upload report.xml (and, if you like, a zip of this folder) on the Job page.`,
+          `If you haven't, run \`pytest --junitxml=report.xml\` and upload report.xml (and a zip of this folder if you like) on the project's page.`,
         ]),
     "",
   ].join("\n");

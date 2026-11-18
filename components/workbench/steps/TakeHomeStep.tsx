@@ -34,9 +34,9 @@ function guide(os: Os, step: TakeHomeStep): Line[] {
   const folder = step.folder;
   const install: Line[] =
     os === "mac"
-      ? [{ say: `Install Python ${step.python} or newer with the macOS installer from python.org. Then check it in Terminal:`, run: "python3 --version" }]
+      ? [{ say: `Install Python ${step.python} or newer with the macOS installer from python.org, then check it in Terminal:`, run: "python3 --version" }]
       : os === "windows"
-        ? [{ say: `Install Python ${step.python} or newer from python.org. On the first screen, tick "Add python.exe to PATH". Then check it in PowerShell:`, run: "py --version" }]
+        ? [{ say: `Install Python ${step.python} or newer from python.org, ticking "Add python.exe to PATH" on the first screen, then check it in PowerShell:`, run: "py --version" }]
         : [{ say: "Install Python and its venv module with your package manager (on Debian and Ubuntu, this):", run: "sudo apt install python3 python3-venv python3-pip" }];
   const py = os === "windows" ? "py" : "python3";
   const cd = os === "windows" ? `cd $HOME\\Downloads\\${folder}` : `cd ~/Downloads/${folder}`;
@@ -46,11 +46,11 @@ function guide(os: Os, step: TakeHomeStep): Line[] {
     { say: "Unzip the project, then go into its folder:", run: cd },
     { say: "Make a virtual environment, so this project's packages stay in this project:", run: `${py} -m venv .venv` },
     {
-      say: os === "windows" ? 'Switch it on. (If PowerShell refuses, run "Set-ExecutionPolicy -Scope CurrentUser RemoteSigned" once, then try again.)' : "Switch it on. Your prompt now starts with (.venv):",
+      say: os === "windows" ? 'Switch it on (and if PowerShell refuses, run "Set-ExecutionPolicy -Scope CurrentUser RemoteSigned" once and try again).' : "Switch it on, and after that your prompt starts with (.venv).",
       run: activate,
     },
     { say: "Install what the project needs:", run: "pip install -r requirements.txt" },
-    { say: "Run the tests. Most fail until you've done the work; that's the point:", run: "pytest" },
+    { say: "Run the tests, and most of them will fail until you've done the work, which is the whole point.", run: "pytest" },
   ];
 }
 
@@ -120,9 +120,9 @@ export function TakeHomeStepView({ step, row }: { step: TakeHomeStep; row: StepP
         const res = await fetch(`/api/takehome?jobId=${encodeURIComponent(job.id)}&stepId=${encodeURIComponent(step.id)}`);
         const body = (await res.json()) as { report: TestReport | null; passes?: boolean; at?: number };
         if (body.report) await take(body.report, Boolean(body.passes), body.at ?? Date.now());
-        else if (!quiet) setMessage("Nothing handed in yet. Run ppc check in the project folder, then look again.");
+        else if (!quiet) setMessage("Nothing's been handed in yet, so run ppc check in the project folder and then look again.");
       } catch {
-        if (!quiet) setMessage("Couldn't reach the server. Check your connection.");
+        if (!quiet) setMessage("Couldn't reach the server, so check your connection.");
       } finally {
         setBusy(false);
       }
@@ -156,10 +156,10 @@ export function TakeHomeStepView({ step, row }: { step: TakeHomeStep; row: StepP
     try {
       const res = await fetch("/api/takehome", { method: "POST", body: data });
       const body = (await res.json()) as { report?: TestReport; passes?: boolean; error?: string };
-      if (!res.ok || !body.report) setMessage(body.error ?? "That didn't go through. Try again.");
+      if (!res.ok || !body.report) setMessage(body.error ?? "That didn't go through, give it another go.");
       else await take(body.report, Boolean(body.passes), Date.now());
     } catch {
-      setMessage("Couldn't reach the server. Check your connection.");
+      setMessage("Couldn't reach the server, so check your connection.");
     } finally {
       setBusy(false);
     }
@@ -172,7 +172,7 @@ export function TakeHomeStepView({ step, row }: { step: TakeHomeStep; row: StepP
     const file = reportFile.current?.files?.[0];
     if (file) {
       if (file.size > 2 * 1024 * 1024) {
-        setMessage("That file is over 2 MB, which is far bigger than a pytest report. Choose report.xml, or paste the results instead.");
+        setMessage("That file is over 2 MB, which is far bigger than a pytest report, so choose report.xml or paste the results instead.");
         return;
       }
       text = await file.text();
@@ -183,17 +183,17 @@ export function TakeHomeStepView({ step, row }: { step: TakeHomeStep; row: StepP
     }
     const r = parseReport(text);
     if (!r) {
-      setMessage("That doesn't look like test results. Paste the line starting ppc-result, or the last line pytest prints (it ends like 12 passed in 0.84s).");
+      setMessage("That doesn't look like test results, so paste the line starting ppc-result or the last line pytest prints (it ends like 12 passed in 0.84s).");
       return;
     }
     if (r.for && (r.for.job !== job.id || r.for.step !== step.id)) {
-      setMessage(`Those results are for another project (${r.for.job}). Run ppc test in this project's folder, ${step.folder}.`);
+      setMessage(`Those results are for another project (${r.for.job}), so run ppc test in this project's folder, ${step.folder}.`);
       return;
     }
     const passes = reportPasses(r, step);
     // Handed in already: a later run with failures doesn't undo it.
     if (done && !passes) {
-      setMessage(`That run has ${r.passed} of ${r.total} passing, which isn't enough to finish it. The results you handed in before still count.`);
+      setMessage(`That run has ${r.passed} of ${r.total} passing, which isn't enough to finish it, but the results you handed in before still count.`);
       return;
     }
     const at = Date.now();
@@ -227,7 +227,7 @@ export function TakeHomeStepView({ step, row }: { step: TakeHomeStep; row: StepP
           <h2 id="th-run" className="label">
             Set it up and run it
           </h2>
-          <p className={th.small}>The steps for your computer are alongside. You only set Python up once; after that, each project is the last four lines.</p>
+          <p className={th.small}>The steps for your computer are alongside, and you only set Python up once, so after that each project is just the last four lines.</p>
           {step.setupHtml ? <Prose html={step.setupHtml} /> : null}
         </section>
         <section className={th.section} aria-labelledby="th-hand">
@@ -259,14 +259,14 @@ export function TakeHomeStepView({ step, row }: { step: TakeHomeStep; row: StepP
                   <>
                     <p className={th.small}>Install it once (with the virtual environment switched on, or anywhere you keep tools):</p>
                     <Command text={`pip install ${site}/ppc.zip`} />
-                    <p className={th.small}>Then, in the project folder, run the tests. It needs no account: it prints a line starting ppc-result to paste here.</p>
+                    <p className={th.small}>Then run the tests in the project folder. It doesn&apos;t need an account, it just prints a line starting ppc-result for you to paste here.</p>
                     <Command text="ppc test" />
                   </>
                 ) : (
                   <>
                     <p className={th.small}>In the project folder, run the tests:</p>
                     <Command text="pytest" />
-                    <p className={th.small}>Then paste what it printed (the last line is enough). For each test by name, run pytest --junitxml=report.xml and choose report.xml instead.</p>
+                    <p className={th.small}>Then paste what it printed (the last line is enough), or if you want each test by name, run pytest --junitxml=report.xml and choose report.xml instead.</p>
                     <label className={th.field}>
                       <span>report.xml (optional)</span>
                       <input ref={reportFile} type="file" accept=".xml,.txt,text/xml" />
@@ -282,7 +282,7 @@ export function TakeHomeStepView({ step, row }: { step: TakeHomeStep; row: StepP
                     Hand it in
                   </Button>
                 </div>
-                <p className={th.small}>It&apos;s kept in this browser and counts as done here. If you&apos;re in a class, it goes to your teacher with your progress link.</p>
+                <p className={th.small}>It&apos;s kept in this browser and counts as done here, and if you&apos;re in a class it goes to your teacher with your progress link.</p>
               </form>
               {message ? (
                 <p className={th.message} role="status">
@@ -304,7 +304,7 @@ export function TakeHomeStepView({ step, row }: { step: TakeHomeStep; row: StepP
                 <div className={th.panel} role="tabpanel">
                   <p className={th.small}>Install it once (with the virtual environment switched on, or anywhere you keep tools):</p>
                   <Command text={`pip install ${site}/ppc.zip`} />
-                  <p className={th.small}>Sign it in to your account. It shows a code to type at {site}/device:</p>
+                  <p className={th.small}>Then sign it in to your account with this, and it&apos;ll show you a code to type in at {site}/device.</p>
                   <Command text="ppc login" />
                   <p className={th.small}>Then, in the project folder, run the tests and send the results:</p>
                   <Command text="ppc check" />
@@ -360,7 +360,7 @@ export function TakeHomeStepView({ step, row }: { step: TakeHomeStep; row: StepP
               {done ? (
                 <p className={th.small}>
                   {row.data.keptHere ? "Handed in, and kept in this browser. " : "Handed in. "}
-                  {step.heavy ? "This one needs packages the browser can't run, so nothing here can re-run it; the report is taken as it is." : "The results come from your computer; checking them again here isn't switched on yet, so they're taken on trust."}
+                  {step.heavy ? "This one needs packages the browser can't run, so nothing here can re-run it and the report is taken as it is." : "The results come from your computer, and checking them again here isn't switched on yet, so they're taken on trust."}
                 </p>
               ) : (
                 <p className={th.small}>
@@ -404,7 +404,7 @@ export function TakeHomeStepView({ step, row }: { step: TakeHomeStep; row: StepP
               </ol>
             </div>
             {step.requirements.length > 1 ? <p className={th.small}>requirements.txt: {step.requirements.join(", ")}.</p> : null}
-            <p className={th.small}>A virtual environment is a folder (.venv) holding this project&apos;s own Python packages. Switch it on each time you open a new terminal for the project.</p>
+            <p className={th.small}>A virtual environment is a folder (.venv) holding this project&apos;s own Python packages, and you switch it on each time you open a new terminal for the project.</p>
           </div>
         </div>
       </div>

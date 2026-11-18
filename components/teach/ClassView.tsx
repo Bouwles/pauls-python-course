@@ -134,7 +134,7 @@ export function ClassView({
         ) : (
           <div className={styles.tableWrap} role="region" aria-labelledby="students-title" tabIndex={0}>
             <table className={styles.table}>
-              <caption className="visually-hidden">Students in {cls.name}. Column headers sort the table.</caption>
+              <caption className="visually-hidden">Students in {cls.name}, and the column headers sort the table.</caption>
               <thead>
                 <tr>
                   {COLUMNS.map((c) => (
@@ -236,7 +236,7 @@ function Assignments({ classId, assignments, groups, members, actions }: { class
         Projects set for the class
       </h2>
       {assignments.length === 0 ? (
-        <p className={styles.empty}>Nothing set yet. A set project appears in each student&apos;s Clocktower, under their next project.</p>
+        <p className={styles.empty}>Nothing set yet, but when you set a project it turns up in each student&apos;s Clocktower, under their next project.</p>
       ) : (
         <div className={styles.tableWrap} role="region" aria-labelledby="set-title" tabIndex={0}>
           <table className={styles.table}>

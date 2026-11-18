@@ -17,7 +17,7 @@ export async function generateMetadata(props: { params: Promise<{ id: string }> 
   const c = await getCertificate(await getDb(), id);
   if (!c) return { title: "Not found" };
   const title = `${c.name} completed Act ${c.actNumber} of ${BRAND.name}`;
-  return { title, description: `${actName(c)}: ${c.projects} projects shipped.`, openGraph: { title, images: [{ url: `/certificates/${c.id}/image`, ...CERTIFICATE_SIZE }] } };
+  return { title, description: `${actName(c)}, with ${c.projects} projects shipped.`, openGraph: { title, images: [{ url: `/certificates/${c.id}/image`, ...CERTIFICATE_SIZE }] } };
 }
 
 /** The public verification page: anyone with the link can check it's real. */
@@ -46,7 +46,7 @@ export default async function CertificatePage(props: { params: Promise<{ id: str
           src={`/certificates/${c.id}/image`}
           width={CERTIFICATE_SIZE.width}
           height={CERTIFICATE_SIZE.height}
-          alt={`${BRAND.name} certificate: ${c.name} completed Act ${c.actNumber}, ${act}, with ${c.projects} projects shipped. Issued ${longDate(c.issuedAt)}.`}
+          alt={`${BRAND.name} certificate saying ${c.name} completed Act ${c.actNumber}, ${act}, with ${c.projects} projects shipped, issued on ${longDate(c.issuedAt)}.`}
         />
         <section className={styles.verify} aria-labelledby="verify-title">
           <p className={styles.status}>

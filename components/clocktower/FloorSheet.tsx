@@ -99,7 +99,7 @@ function SheetBody({ info, progress, names, playAs, acts, placements, onClose }:
               ))}
             </span>
             <span>
-              {residentsLine(floor, names, playAs)}. {stats.shipped} of {stats.total} shipped.
+              {residentsLine(floor, names, playAs)}, with {stats.shipped} of {stats.total} shipped.
             </span>
           </p>
         </div>
@@ -109,11 +109,11 @@ function SheetBody({ info, progress, names, playAs, acts, placements, onClose }:
             <Icon name="lock" />
             <p>
               {act.lockedLine}
-              {first ? ` Opens when you ship ${first.title}.` : ""}
+              {first ? ` It opens when you ship ${first.title}.` : ""}
               {canPlace ? (
                 <>
                   {" "}
-                  Or <Link href="/placement">take the placement test</Link>.
+                  Or you can <Link href="/placement">take the placement test</Link>.
                 </>
               ) : null}
             </p>

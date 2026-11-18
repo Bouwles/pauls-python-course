@@ -13,7 +13,7 @@ describe("the weekly note from Paul", () => {
 
   it("never scolds a week without shipping", () => {
     const note = weeklyNote({ shipped: [], dueCards: 1 })!;
-    expect(note.lines[0]).toBe("Nothing shipped this week. Your desk is where you left it.");
+    expect(note.lines[0]).toBe("Nothing shipped this week, but your desk is where you left it.");
     expect(note.lines[1]).toBe("One card is due in Morning Rounds.");
   });
 });

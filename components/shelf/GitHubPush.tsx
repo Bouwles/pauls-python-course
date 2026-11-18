@@ -73,7 +73,7 @@ function ServerPush({ defaultName, files, size = "md", label, status }: Props & 
       const res = await fetch("/api/github/push", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name, files: await files() }) });
       setResult((await res.json()) as { url?: string; error?: string });
     } catch {
-      setResult({ error: "Couldn't reach GitHub. Check your connection." });
+      setResult({ error: "Couldn't reach GitHub, so check your connection." });
     } finally {
       setBusy(false);
     }
@@ -101,7 +101,7 @@ function ServerPush({ defaultName, files, size = "md", label, status }: Props & 
       </div>
       {result?.url ? (
         <p role="status" className={styles.githubNote}>
-          Pushed. <a href={result.url}>{result.url.replace("https://", "")}</a>
+          Pushed it to <a href={result.url}>{result.url.replace("https://", "")}</a>
         </p>
       ) : result?.error ? (
         <p role="alert" className={styles.githubError}>
@@ -149,11 +149,11 @@ function BrowserPush({ defaultName, files, size = "md", label, what = "your proj
       const token = typed.trim();
       const login = await whoIs(token);
       const t = { token, login };
-      if (!saveToken(t)) setProblem(new PushError("This browser wouldn't keep the token (it may be a private window). It works for this visit only.", "token"));
+      if (!saveToken(t)) setProblem(new PushError("This browser wouldn't keep the token (it may be a private window), so it only works for this visit.", "token"));
       setSaved(t);
       setTyped("");
     } catch (e) {
-      setProblem(e instanceof PushError ? e : new PushError("That didn't work. Try again.", "github"));
+      setProblem(e instanceof PushError ? e : new PushError("That didn't work, give it another go.", "github"));
     } finally {
       setBusy(false);
     }
@@ -168,7 +168,7 @@ function BrowserPush({ defaultName, files, size = "md", label, what = "your proj
       const url = await pushFiles({ token: saved.token, login: saved.login, name: name.trim(), description, message: `From ${BRAND.name}`, files: await files() });
       setDone(url);
     } catch (e) {
-      const err = e instanceof PushError ? e : new PushError("That didn't work. Try again.", "github");
+      const err = e instanceof PushError ? e : new PushError("That didn't work, give it another go.", "github");
       if (err.reason === "token") {
         forgetToken();
         setSaved(null);
@@ -241,15 +241,15 @@ function BrowserPush({ defaultName, files, size = "md", label, what = "your proj
                   void keep();
                 }}
               >
-                <p className={styles.quiet}>Puts your files in a repository on your own GitHub, using a token you make there. The token stays in this browser.</p>
+                <p className={styles.quiet}>This puts your files in a repository on your own GitHub, using a token you make there, and the token stays in this browser.</p>
                 <ol className={styles.githubSteps}>
                   <li>
-                    Make an empty repository for it: <a href={newRepoUrl(repoName, description)} target="_blank" rel="noopener noreferrer">make {repoName} on GitHub</a>. Any name works; use the same one below.
+                    <a href={newRepoUrl(repoName, description)} target="_blank" rel="noopener noreferrer">Make {repoName} on GitHub</a> as an empty repository for it. Any name works, as long as you use the same one below.
                   </li>
                   <li>
-                    <a href={NEW_TOKEN_URL} target="_blank" rel="noopener noreferrer">Make a fine-grained token</a>. Give it a name and an expiry date. Under Repository access, choose Only select repositories and pick that repository. Under Permissions, set Contents to Read and write, and leave everything else as it is.
+                    <a href={NEW_TOKEN_URL} target="_blank" rel="noopener noreferrer">Make a fine-grained token</a> and give it a name and an expiry date. Under Repository access, choose Only select repositories and pick that repository, then under Permissions set Contents to Read and write and leave everything else as it is.
                   </li>
-                  <li>Generate it, copy it, and paste it here.</li>
+                  <li>Then generate it, copy it and paste it here.</li>
                 </ol>
                 <label htmlFor={tokenId} className="label">
                   Your token
@@ -266,7 +266,7 @@ function BrowserPush({ defaultName, files, size = "md", label, what = "your proj
 
             {done ? (
               <p role="status" className={styles.githubNote}>
-                Pushed. <a href={done}>{done.replace("https://", "")}</a>
+                Pushed it to <a href={done}>{done.replace("https://", "")}</a>
               </p>
             ) : null}
             {problem ? (
@@ -284,7 +284,7 @@ function BrowserPush({ defaultName, files, size = "md", label, what = "your proj
 
             {onDownload ? (
               <div className={styles.githubAlt}>
-                <p className={styles.githubSmall}>Or download it, and upload the files on GitHub yourself.</p>
+                <p className={styles.githubSmall}>Or you can download it and upload the files on GitHub yourself.</p>
                 <Button variant="secondary" size="sm" icon="download" onClick={onDownload}>
                   {downloadLabel}
                 </Button>

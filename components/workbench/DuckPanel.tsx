@@ -34,7 +34,7 @@ export function DuckPanel({ stepId, row, source }: { stepId: string; row: StepPr
 
   return (
     <form className={styles.panel} onSubmit={submit} aria-label="Explain it to the duck">
-      <p className={styles.intro}>Say it out loud, or type it. The duck won&apos;t answer.</p>
+      <p className={styles.intro}>Say it out loud or type it, although the duck won&apos;t answer.</p>
       <label className={styles.field}>
         <span>What should this do?</span>
         <textarea rows={3} value={should} onChange={(e) => setShould(e.target.value)} />
@@ -71,7 +71,7 @@ export function DuckPanel({ stepId, row, source }: { stepId: string; row: StepPr
       </div>
       {told ? (
         <p className={styles.status} role="status">
-          The duck listens. Line {line} is marked in the editor, and the step-through {compact ? "in Output" : "below it"} starts there.
+          The duck listened. Line {line} is marked in the editor now and the step-through {compact ? "in Output" : "below it"} starts there.
         </p>
       ) : null}
     </form>

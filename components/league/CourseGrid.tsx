@@ -97,7 +97,7 @@ export function CourseGrid({ hosts, path, policy, label }: { hosts: string[]; pa
       ) : null}
       {path ? (
         <p className={styles.meta} role="status">
-          {at === last ? (finished ? `Finished in ${last} moves.` : `Still racing after ${last} moves.`) : `Move ${at}. The crab is at row ${crab[0]}, column ${crab[1]}.`}
+          {at === last ? (finished ? `Finished in ${last} moves.` : `Still racing after ${last} moves.`) : `Move ${at}, and the crab is at row ${crab[0]}, column ${crab[1]}.`}
         </p>
       ) : null}
     </div>

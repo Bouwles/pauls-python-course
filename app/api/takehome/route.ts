@@ -65,7 +65,7 @@ export async function POST(req: Request) {
     report = parseReport(text);
     const p = form.get("project");
     if (p instanceof Blob && p.size > 0) {
-      if (p.size > MAX_ZIP) return json({ error: "That zip is over 10 MB. Leave out .venv and any data files." }, 413);
+      if (p.size > MAX_ZIP) return json({ error: "That zip is over 10 MB, so leave out .venv and any data files." }, 413);
       project = new Uint8Array(await p.arrayBuffer());
     }
   } else {
