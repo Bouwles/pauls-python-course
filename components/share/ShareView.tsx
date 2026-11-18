@@ -21,14 +21,15 @@ import { ShareTrouble } from "./Trouble";
 import shelf from "../profile/PublicShelf.module.css";
 import styles from "./Share.module.css";
 
-/** What the page needs to know about each project that can be on a Shelf. */
-export type ShareCourse = Record<string, { name: string; clientId: string; client: string; act: number; actName: string; entry: string; data: boolean }>;
+/** What the page needs to know about each project that can be on a Shelf (lib/content/share-course.ts). */
+export type { ShareCourse } from "@/lib/content/share-course";
+import type { ShareCourse } from "@/lib/content/share-course";
 
 const isCastId = (id: string | null | undefined): id is string => Boolean(id && (CAST_IDS as readonly string[]).includes(id));
 const PLEASED: Expression[] = ["pleased", "laughing", "proud", "excited", "relieved"];
 
 /** The project's data files, fetched once it's open; an empty set when it has none. */
-function useData(jobId: string, has: boolean): { data: Files | null; failed: boolean } {
+export function useData(jobId: string, has: boolean): { data: Files | null; failed: boolean } {
   const [got, setGot] = useState<{ id: string; data: Files | null; failed: boolean }>({ id: jobId, data: has ? null : {}, failed: false });
   useEffect(() => {
     if (!has) {

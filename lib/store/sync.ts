@@ -1,16 +1,49 @@
 // Background sync between the local store and the server.
 // Quiet by design: it reports "Saved", "Saving" or "Offline" and never interrupts.
+// Where the rows go is a transport: the local version's /api/sync, or Supabase straight from
+// the browser on GitHub Pages (lib/supabase/sync.ts).
 import type { LocalStore } from "./local";
 import { snapshotKey } from "./progress";
-import { TABLES, type CodeFileRow, type PullResponse, type PushResponse, type SnapshotRow, type Table, type Tables } from "./types";
+import { TABLES, type CodeFileRow, type PullResponse, type PushResponse, type SnapshotRow, type SyncChange, type Table, type Tables } from "./types";
 
 export type SyncStatus = "local" | "saved" | "saving" | "offline" | "error";
+
+/** Where synced rows go and come from. */
+export interface SyncTransport {
+  /** Save rows. "signed-out" stops syncing; throwing means try again later. */
+  push(changes: SyncChange[], keepalive: boolean): Promise<Pick<PushResponse, "conflicts" | "serverTime"> | "signed-out">;
+  /** Everything saved for this learner, or null when it couldn't be fetched. */
+  pull(): Promise<PullResponse | null>;
+}
+
+/** The local version's server. */
+export const httpTransport: SyncTransport = {
+  async push(changes, keepalive) {
+    const body = JSON.stringify({ changes });
+    const res = await fetch("/api/sync", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body,
+      keepalive: keepalive && body.length < 60_000,
+      credentials: "same-origin",
+    });
+    if (res.status === 401) return "signed-out";
+    if (!res.ok) throw new Error(`sync failed: ${res.status}`);
+    return (await res.json()) as PushResponse;
+  },
+  async pull() {
+    const res = await fetch("/api/sync", { credentials: "same-origin", cache: "no-store" });
+    if (!res.ok) return null;
+    return (await res.json()) as PullResponse;
+  },
+};
 
 const DEBOUNCE_MS = 2000;
 const RETRY_MS = [3000, 8000, 20000, 60000];
 
 export class SyncEngine {
   private store: LocalStore;
+  private transport: SyncTransport;
   private timer: ReturnType<typeof setTimeout> | null = null;
   private inFlight: Promise<void> | null = null;
   private retries = 0;
@@ -20,8 +53,9 @@ export class SyncEngine {
   status: SyncStatus = "saved";
   conflicts = new Set<string>();
 
-  constructor(store: LocalStore) {
+  constructor(store: LocalStore, transport: SyncTransport = httpTransport) {
     this.store = store;
+    this.transport = transport;
     this.unsub = store.onOutbox(() => this.schedule());
     if (typeof window !== "undefined") {
       window.addEventListener("online", this.onOnline);
@@ -65,20 +99,15 @@ export class SyncEngine {
         for (;;) {
           const batch = await this.store.outbox(200);
           if (batch.length === 0) break;
-          const res = await fetch("/api/sync", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ changes: batch.map((b) => ({ table: b.entry.table, row: b.row })) }),
-            keepalive: keepalive && JSON.stringify(batch).length < 60_000,
-            credentials: "same-origin",
-          });
-          if (res.status === 401) {
+          const body = await this.transport.push(
+            batch.map((b) => ({ table: b.entry.table, row: b.row }) as SyncChange),
+            keepalive,
+          );
+          if (body === "signed-out") {
             this.stop();
             this.set("error");
             return;
           }
-          if (!res.ok) throw new Error(`sync failed: ${res.status}`);
-          const body = (await res.json()) as PushResponse;
           for (const key of body.conflicts) await this.markConflict(key);
           await this.markSynced(batch.map((b) => ({ table: b.entry.table, row: b.row })), body.serverTime);
           await this.store.clearSent(batch.map((b) => b.entry));
@@ -120,9 +149,8 @@ export class SyncEngine {
   /** Fetch everything the server has and merge it in. Used on sign-in and on each visit. */
   async pull(): Promise<boolean> {
     try {
-      const res = await fetch("/api/sync", { credentials: "same-origin", cache: "no-store" });
-      if (!res.ok) return false;
-      const body = (await res.json()) as PullResponse;
+      const body = await this.transport.pull();
+      if (!body) return false;
       for (const table of TABLES) {
         const rows = body.rows[table];
         if (rows?.length) await this.merge(table, rows as Tables[typeof table][]);

@@ -4,6 +4,8 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { avatarBackground } from "@/lib/pixel/looks";
+import { castColour } from "@/lib/cast";
+import { isCast } from "@/lib/playas";
 import { PixelPerson } from "../art/PixelPerson";
 import { Button } from "../ui/Button";
 import { Icon } from "../ui/Icon";
@@ -13,6 +15,10 @@ import styles from "./Teach.module.css";
 export interface StudentItem {
   id: string;
   name: string;
+  /** Their username, with accounts on GitHub Pages: unique, where names may not be. */
+  username?: string;
+  /** The classmate they play as, drawn in their place. */
+  playAs?: string | null;
   /** Their avatar, or an older look: lib/pixel/looks.ts reads either. */
   character: unknown;
   shipped: number;
@@ -49,7 +55,40 @@ const COLUMNS: { key: Key; label: string; numeric: boolean; narrow?: boolean }[]
   { key: "lastActive", label: "Last active", numeric: true },
 ];
 
-export function ClassView({ cls, students, assignments, groups }: { cls: { id: string; name: string; joinCode: string }; students: StudentItem[]; assignments: AssignmentItem[]; groups: JobGroup[] }) {
+/**
+ * What the page does when a project is set or removed. The local version's server is the default;
+ * with accounts on GitHub Pages, the page passes its own (lib/classes/remote.ts).
+ */
+export interface ClassActions {
+  /** Set a project; an error to show, or null. */
+  set(jobId: string, due: string): Promise<string | null>;
+  remove(a: AssignmentItem): Promise<boolean>;
+  /** Something changed: load it again. */
+  changed(): void;
+}
+
+export function ClassView({
+  cls,
+  students,
+  assignments,
+  groups,
+  studentHref = (id) => `/teach/${cls.id}/${id}`,
+  back = { href: "/teach", label: "Your classes" },
+  joinHint = "Students type the code in Settings, under Classes.",
+  actions,
+  footer,
+}: {
+  cls: { id: string; name: string; joinCode: string };
+  students: StudentItem[];
+  assignments: AssignmentItem[];
+  groups: JobGroup[];
+  studentHref?: (id: string) => string;
+  back?: { href: string; label: string };
+  joinHint?: React.ReactNode;
+  actions?: ClassActions;
+  /** Anything after the set projects (deleting the class). */
+  footer?: React.ReactNode;
+}) {
   const [sort, setSort] = useState<{ key: Key; dir: 1 | -1 }>({ key: "name", dir: 1 });
 
   const sorted = useMemo(() => {
@@ -71,9 +110,9 @@ export function ClassView({ cls, students, assignments, groups }: { cls: { id: s
   return (
     <div className={styles.page}>
       <header className={styles.head}>
-        <Link href="/teach" className={styles.back}>
+        <Link href={back.href} className={styles.back}>
           <Icon name="caretLeft" size={16} />
-          Your classes
+          {back.label}
         </Link>
         <div className={styles.titleRow}>
           <h1 className={styles.title}>{cls.name}</h1>
@@ -82,7 +121,7 @@ export function ClassView({ cls, students, assignments, groups }: { cls: { id: s
           </p>
         </div>
         <p className={styles.meta}>
-          {students.length === 0 ? "Nobody has joined yet." : `${students.length} ${students.length === 1 ? "student" : "students"}.`} Students type the code in Settings, under Classes.
+          {students.length === 0 ? "Nobody has joined yet." : `${students.length} ${students.length === 1 ? "student" : "students"}.`} {joinHint}
         </p>
       </header>
 
@@ -118,10 +157,11 @@ export function ClassView({ cls, students, assignments, groups }: { cls: { id: s
                   <tr key={s.id}>
                     <th scope="row" className={styles.strongCell}>
                       <span className={styles.student}>
-                        <span className={styles.face} style={{ background: avatarBackground(s.character) }} aria-hidden="true">
-                          <PixelPerson avatar={s.character} crop="head" scale={1} animate={false} />
+                        <span className={styles.face} style={{ background: isCast(s.playAs) ? castColour(s.playAs).face : avatarBackground(s.character) }} aria-hidden="true">
+                          <PixelPerson who={isCast(s.playAs) ? s.playAs : undefined} avatar={isCast(s.playAs) ? undefined : s.character} crop="head" scale={1} animate={false} />
                         </span>
-                        <Link href={`/teach/${cls.id}/${s.id}`}>{s.name}</Link>
+                        <Link href={studentHref(s.id)}>{s.name}</Link>
+                        {s.username ? <span className={styles.meta}>@{s.username}</span> : null}
                       </span>
                     </th>
                     <td className={styles.num}>{s.shipped}</td>
@@ -138,7 +178,8 @@ export function ClassView({ cls, students, assignments, groups }: { cls: { id: s
         {students.length ? <p className={styles.meta}>Last 7 days is the time on steps worked on in the past seven days. Pick a name to see that student&apos;s projects, results and code.</p> : null}
       </section>
 
-      <Assignments classId={cls.id} assignments={assignments} groups={groups} members={students.length} />
+      <Assignments classId={cls.id} assignments={assignments} groups={groups} members={students.length} actions={actions} />
+      {footer}
     </div>
   );
 }
@@ -148,7 +189,7 @@ function SortMark({ dir }: { dir: 1 | -1 | 0 }) {
   return <Icon name="caretDown" size={14} className={[styles.sortMark, dir === 0 ? styles.sortIdle : dir === 1 ? styles.sortUp : ""].join(" ")} />;
 }
 
-function Assignments({ classId, assignments, groups, members }: { classId: string; assignments: AssignmentItem[]; groups: JobGroup[]; members: number }) {
+function Assignments({ classId, assignments, groups, members, actions }: { classId: string; assignments: AssignmentItem[]; groups: JobGroup[]; members: number; actions?: ClassActions }) {
   const router = useRouter();
   const [jobId, setJobId] = useState("");
   const [due, setDue] = useState("");
@@ -161,17 +202,29 @@ function Assignments({ classId, assignments, groups, members }: { classId: strin
     setBusy(true);
     setError(null);
     setNote(null);
-    const res = await fetch(`/api/teach/classes/${classId}/assignments`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ jobId, due }) });
-    setBusy(false);
-    if (!res.ok) return setError(((await res.json().catch(() => ({}))) as { error?: string }).error ?? "That didn't work.");
+    if (actions) {
+      const problem = await actions.set(jobId, due);
+      setBusy(false);
+      if (problem) return setError(problem);
+    } else {
+      const res = await fetch(`/api/teach/classes/${classId}/assignments`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ jobId, due }) });
+      setBusy(false);
+      if (!res.ok) return setError(((await res.json().catch(() => ({}))) as { error?: string }).error ?? "That didn't work.");
+    }
     const title = groups.flatMap((g) => g.jobs).find((j) => j.id === jobId)?.title.replace(/^\d+\.\s*/, "");
     setNote(`Set ${title}.`);
     setJobId("");
     setDue("");
-    router.refresh();
+    if (actions) actions.changed();
+    else router.refresh();
   };
 
   const remove = async (a: AssignmentItem) => {
+    if (actions) {
+      if (await actions.remove(a)) setNote(`Removed ${a.title}.`);
+      actions.changed();
+      return;
+    }
     const res = await fetch(`/api/teach/classes/${classId}/assignments?id=${a.id}`, { method: "DELETE" });
     if (res.ok) setNote(`Removed ${a.title}.`);
     router.refresh();

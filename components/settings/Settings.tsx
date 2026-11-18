@@ -27,6 +27,7 @@ import { AvatarCreator, describeAvatar } from "../welcome/AvatarCreator";
 import { Choice, Row, Section } from "./controls";
 import { Classes, ConnectedTools, GitHubConnection, PublicProfile, useFlags } from "./Elsewhere";
 import { BASE, STATIC } from "@/lib/static";
+import { ACCOUNTS } from "@/lib/supabase/project";
 import { collectSave, deleteBrowserData } from "@/lib/save/browser";
 import { exportFiles } from "@/lib/save/export";
 import { YourSave } from "./YourSave";
@@ -41,15 +42,20 @@ const SECTIONS: [string, string, boolean][] = [
   ["s-coach", "The coach", false],
   ["s-sound", "Sound", false],
   ["s-goals", "Goals", false],
-  ["s-public", "Privacy", true],
-  ["s-classes", "Classes and teaching", true],
+  // The local version's server keeps these; with accounts on GitHub Pages, classes are on /class.
+  ...(ACCOUNTS
+    ? []
+    : ([
+        ["s-public", "Privacy", true],
+        ["s-classes", "Classes and teaching", true],
+      ] as [string, string, boolean][])),
   ["s-data", "Your data", false],
 ];
 
 export function Settings() {
   const router = useRouter();
   const toast = useToast();
-  const { profile, updateProfile, user, store, mode, signOut, ready } = useSession();
+  const { profile, updateProfile, user, store, mode, signOut, ready, username } = useSession();
   const s = { ...DEFAULT_SETTINGS, ...profile.settings };
   const [name, setName] = useState(profile.displayName);
   const [look, setLook] = useState<AvatarLook>(readAvatar(profile.character));
@@ -59,7 +65,9 @@ export function Settings() {
   const hellos = useRef(0);
   const visit = useVisit();
   const [passwordOpen, setPasswordOpen] = useState(false);
-  const [flags, setFlags] = useFlags(Boolean(user));
+  // The local version's server only: public address, teaching and tools.
+  const server = Boolean(user) && !ACCOUNTS;
+  const [flags, setFlags] = useFlags(server);
   const me = useMe();
   const playing = playableOf(me.playAs);
 
@@ -108,6 +116,11 @@ export function Settings() {
           <Section id="s-account" title="Account">
             {user ? (
               <>
+                {ACCOUNTS && username ? (
+                  <Row label="Username" hint="Friends add you by it, and your teacher sees it beside your name.">
+                    <span className={styles.value}>@{username}</span>
+                  </Row>
+                ) : null}
                 <Row label="Email" hint={mode === "local" ? "Running on the local development backend." : undefined}>
                   <span className={styles.value}>{user.email}</span>
                 </Row>
@@ -276,9 +289,9 @@ export function Settings() {
             ) : null}
           </Section>
 
-          {user && flags ? <PublicProfile flags={flags} onFlags={setFlags} /> : null}
+          {server && flags ? <PublicProfile flags={flags} onFlags={setFlags} /> : null}
 
-          {user && flags ? <Classes flags={flags} onFlags={setFlags} /> : null}
+          {server && flags ? <Classes flags={flags} onFlags={setFlags} /> : null}
 
           <Section id="s-data" title="Your data">
             <Row
@@ -289,8 +302,8 @@ export function Settings() {
                 Download all my data
               </Button>
             </Row>
-            {user ? <ConnectedTools /> : null}
-            {user ? <GitHubConnection /> : null}
+            {server ? <ConnectedTools /> : null}
+            {server ? <GitHubConnection /> : null}
             {user ? null : (
               <Row label="Delete my data" hint="Clears everything from this browser. It can't be undone.">
                 <DeleteData onDelete={() => deleteBrowserData(store)} />
@@ -299,7 +312,7 @@ export function Settings() {
             {user ? (
               <Row label="Delete my account" hint="Removes your account, your code, your Shelf and your review deck. It can't be undone.">
                 <DeleteAccount
-                  expected={profile.displayName || user.email}
+                  expected={(ACCOUNTS && username) || profile.displayName || user.email}
                   onDeleted={async () => {
                     if (store) await store.destroy();
                     router.push("/");
@@ -325,6 +338,16 @@ function PasswordForm({ onClose }: { onClose: () => void }) {
       className={`px-panel ${styles.inline}`}
       onSubmit={async (e) => {
         e.preventDefault();
+        if (ACCOUNTS) {
+          const { changePassword } = await import("@/lib/supabase/account");
+          const problem = await changePassword(current, next);
+          setMsg(problem ?? "Password changed.");
+          if (!problem) {
+            setCurrent("");
+            setNext("");
+          }
+          return;
+        }
         const res = await fetch("/api/account", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ current, next }) });
         const body = (await res.json()) as { error?: string };
         setMsg(res.ok ? "Password changed." : (body.error ?? "That didn't work."));
@@ -376,6 +399,15 @@ function DeleteAccount({ expected, onDeleted }: { expected: string; onDeleted: (
           onSubmit={async (e) => {
             e.preventDefault();
             setBusy(true);
+            if (ACCOUNTS) {
+              const { deleteAccount } = await import("@/lib/supabase/account");
+              const problem = await deleteAccount();
+              setBusy(false);
+              if (problem) return setError(problem);
+              dialog.current?.close();
+              await onDeleted();
+              return;
+            }
             const res = await fetch("/api/account", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ confirm: typed }) });
             setBusy(false);
             if (res.ok) {

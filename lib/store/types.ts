@@ -63,6 +63,8 @@ export interface ProfileRow {
   experience: "none" | "some" | "lots" | null;
   lastLocation: Location | null;
   onboarded: boolean;
+  /** The account's username (GitHub Pages with accounts). Read only: it never syncs back up. */
+  username?: string | null;
   updatedAt: number;
 }
 

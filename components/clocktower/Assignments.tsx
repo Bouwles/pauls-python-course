@@ -13,6 +13,7 @@ import type { JobProgressRow } from "@/lib/store/types";
 import { useSession } from "@/lib/store/session";
 import { isShipped } from "@/lib/progress-rules";
 import { STATIC } from "@/lib/static";
+import { ACCOUNTS } from "@/lib/supabase/project";
 import { dueDate } from "@/lib/teaching";
 import { dayMs } from "@/lib/classes/link";
 import { useClassBook } from "@/lib/classes/store";
@@ -35,16 +36,20 @@ const SHOWN = 5;
 export function Assignments({ jobs, progress }: { jobs: JobSummary[]; progress: Record<string, JobProgressRow> }) {
   const { user } = useSession();
   const book = useClassBook();
-  // Account classes need the server: the local version, signed in.
-  const userId = STATIC ? null : (user?.id ?? null);
+  // Account classes: the local version's server, or Supabase on GitHub Pages with accounts.
+  const userId = STATIC && !ACCOUNTS ? null : (user?.id ?? null);
   const [items, setItems] = useState<Assigned[]>([]);
 
   useEffect(() => {
     if (!userId) return;
     let live = true;
-    fetch("/api/classes/assignments")
-      .then((r) => (r.ok ? r.json() : { assignments: [] }))
-      .then((b: { assignments: Assigned[] }) => live && setItems(b.assignments))
+    const load: Promise<Assigned[]> = ACCOUNTS
+      ? import("@/lib/classes/remote").then((r) => r.myAssignments()).then((list) => list.map((a) => ({ id: a.id, className: a.className, jobId: a.jobId, dueAt: a.dueAt })))
+      : fetch("/api/classes/assignments")
+          .then((r) => (r.ok ? r.json() : { assignments: [] }))
+          .then((b: { assignments: Assigned[] }) => b.assignments);
+    load
+      .then((list) => live && setItems(list))
       .catch(() => {});
     return () => {
       live = false;

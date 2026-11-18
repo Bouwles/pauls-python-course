@@ -11,6 +11,8 @@ create table if not exists auth.users (
   email_confirmed_at timestamptz,
   created_at timestamptz not null default now()
 );
+-- Where Supabase keeps signUp's options.data (0008 reads the username from it).
+alter table auth.users add column if not exists raw_user_meta_data jsonb;
 
 -- Same definition as Supabase's.
 create or replace function auth.uid() returns uuid language sql stable as $$

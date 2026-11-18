@@ -82,6 +82,13 @@
   flex: none;
 }
 
+/* Log in and Sign up, for someone signed out when the course has accounts. */
+.way {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
 /* Your avatar: a square pixel tile; pointing at it raises a pixel outline round it. */
 .avatar {
   display: inline-grid;

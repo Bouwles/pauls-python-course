@@ -6,6 +6,7 @@ import { SessionProvider } from "@/lib/store/session";
 import { getSessionUser } from "@/lib/server/auth";
 import { asset } from "@/lib/static";
 import { ServiceWorker } from "@/components/site/ServiceWorker";
+import { AccountGate } from "@/components/site/AccountGate";
 import { ToastProvider } from "@/components/ui/Toast";
 import { BRAND, siteUrl } from "@/lib/brand";
 
@@ -67,7 +68,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           Skip to content
         </a>
         <SessionProvider initialUser={user}>
-          <ToastProvider>{children}</ToastProvider>
+          <ToastProvider>
+            <AccountGate>{children}</AccountGate>
+          </ToastProvider>
         </SessionProvider>
         <ServiceWorker />
       </body>

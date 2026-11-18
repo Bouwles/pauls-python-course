@@ -33,6 +33,13 @@ export function courseActs(): CourseAct[] {
   return acts;
 }
 
+/** Each written project's steps, in order, by id and title: for naming the code a student saved. */
+export function courseSteps(): Record<string, { id: string; title: string }[]> {
+  const out: Record<string, { id: string; title: string }[]> = {};
+  for (const act of courseActs()) for (const j of act.jobs) out[j.id] = (getJob(j.id)?.steps ?? []).map((s) => ({ id: s.id, title: s.title }));
+  return out;
+}
+
 /** The cast's names, for the lines on the class pages. */
 export function castNames(): Record<string, string> {
   return Object.fromEntries(Object.values(getIndex().characters).map((c) => [c.id, c.name]));

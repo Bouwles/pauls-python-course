@@ -3,10 +3,14 @@
 // Who is here, and where their work is kept.
 // Guests get a local-only store. Signed-in learners get a store that syncs,
 // and any guest progress on this device is moved into their account.
+// Three backends: the local version's server (/api/auth, /api/sync); GitHub Pages with a Supabase
+// project (ACCOUNTS), signed in and synced straight from the browser; GitHub Pages without one,
+// where everyone is a guest.
 import { BASE, STATIC } from "../static";
+import { ACCOUNTS } from "../supabase/project";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { LocalStore, databaseExists } from "./local";
-import { SyncEngine, type SyncStatus } from "./sync";
+import { SyncEngine, type SyncStatus, type SyncTransport } from "./sync";
 import { blankProfile, getProfile, updateProfile as saveProfile } from "./progress";
 import type { ProfileRow } from "./types";
 import { applyDisplaySettings } from "../display";
@@ -26,6 +30,8 @@ interface SessionValue {
   syncStatus: SyncStatus;
   mode: "local" | "supabase";
   oauth: ("google" | "github")[];
+  /** GitHub Pages with accounts: the signed-in account's username, once known. */
+  username: string | null;
   updateProfile: (patch: Partial<ProfileRow>) => Promise<void>;
   /** Re-check the session (after signing in) and move guest progress across. */
   refresh: () => Promise<SessionUser | null>;
@@ -34,6 +40,36 @@ interface SessionValue {
 }
 
 const SessionContext = createContext<SessionValue | null>(null);
+
+/** The sync transport for a signed-in learner: Supabase on GitHub Pages, the server locally. */
+async function transportFor(user: SessionUser): Promise<SyncTransport | undefined> {
+  if (!ACCOUNTS) return undefined;
+  const { supabaseTransport } = await import("../supabase/sync");
+  return supabaseTransport(user.id);
+}
+
+const SIGNED_IN = "ppc-signed-in";
+
+/**
+ * A hint for the first paint only: whether this browser was signed in last time, so the home
+ * page can hold off showing the landing page to someone who'll be shown their desk a moment later.
+ */
+export function wasSignedIn(): boolean {
+  try {
+    return localStorage.getItem(SIGNED_IN) === "1";
+  } catch {
+    return false;
+  }
+}
+
+function rememberSignedIn(on: boolean) {
+  try {
+    if (on) localStorage.setItem(SIGNED_IN, "1");
+    else localStorage.removeItem(SIGNED_IN);
+  } catch {
+    // Storage refused: the hint just isn't there.
+  }
+}
 
 /** The first pull on a device decides what the learner sees, so give it a couple of tries. */
 async function pullWithRetry(sync: SyncEngine, tries = 3): Promise<boolean> {
@@ -53,6 +89,7 @@ export function SessionProvider({ children, initialUser = null }: { children: Re
   const [synced, setSynced] = useState(false);
   const [mode, setMode] = useState<"local" | "supabase">("local");
   const [oauth, setOauth] = useState<("google" | "github")[]>([]);
+  const [username, setUsername] = useState<string | null>(null);
   const syncRef = useRef<SyncEngine | null>(null);
   const storeRef = useRef<LocalStore | null>(null);
 
@@ -98,7 +135,7 @@ export function SessionProvider({ children, initialUser = null }: { children: Re
     }
     storeRef.current = s;
     if (next) {
-      const sync = new SyncEngine(s);
+      const sync = new SyncEngine(s, await transportFor(next));
       syncRef.current = sync;
       sync.subscribe(setSyncStatus);
       // On a new device the profile only exists after this pull; until it succeeds,
@@ -118,7 +155,29 @@ export function SessionProvider({ children, initialUser = null }: { children: Re
     setReady(true);
   }, []);
 
-  const refresh = useCallback(async () => {
+  // One refresh at a time: logging in asks for one, and Supabase announcing the sign-in asks for
+  // another a moment later. Run together, both would set up the account's store and move guest
+  // progress into it at once, and trip over each other; one after the other, the second finds the
+  // store already set up and only checks for anything new.
+  const queue = useRef<Promise<unknown>>(Promise.resolve());
+  const refreshNow = useCallback(async (): Promise<SessionUser | null> => {
+    // GitHub Pages with accounts: Supabase, from the browser.
+    if (ACCOUNTS) {
+      const { supabase } = await import("../supabase/client");
+      const { data } = await supabase().auth.getSession();
+      const u = data.session?.user;
+      const next = u ? { id: u.id, email: u.email ?? "" } : null;
+      setMode("supabase");
+      // The username first, so pages that show it have it as soon as they draw.
+      if (next) {
+        const row = await supabase().from("profiles").select("username").eq("id", next.id).maybeSingle();
+        setUsername((row.data?.username as string | undefined) ?? null);
+      } else setUsername(null);
+      setUser(next);
+      rememberSignedIn(Boolean(next));
+      await attach(next);
+      return next;
+    }
     // GitHub Pages: no server, so everyone is a guest with their progress in this browser.
     if (STATIC) {
       await attach(null);
@@ -133,9 +192,35 @@ export function SessionProvider({ children, initialUser = null }: { children: Re
     return body.user;
   }, [attach]);
 
+  const refresh = useCallback(() => {
+    const next = queue.current.then(refreshNow, refreshNow);
+    queue.current = next.catch(() => null);
+    return next;
+  }, [refreshNow]);
+
   useEffect(() => {
     void refresh();
+    // Signing in or out in another tab, or a session that ends, changes who is here.
+    let unsubscribe = () => {};
+    if (ACCOUNTS) {
+      void import("../supabase/client").then(({ supabase }) => {
+        const seen = { id: undefined as string | null | undefined };
+        const { data } = supabase().auth.onAuthStateChange((_event, session) => {
+          const id = session?.user.id ?? null;
+          if (seen.id === undefined) {
+            seen.id = id;
+            return;
+          }
+          if (id === seen.id) return;
+          seen.id = id;
+          // Not inside the callback: supabase-js asks that its own calls wait until it returns.
+          setTimeout(() => void refresh(), 0);
+        });
+        unsubscribe = () => data.subscription.unsubscribe();
+      });
+    }
     return () => {
+      unsubscribe();
       syncRef.current?.stop();
     };
   }, [refresh]);
@@ -155,7 +240,11 @@ export function SessionProvider({ children, initialUser = null }: { children: Re
   const signOut = useCallback(async () => {
     await syncRef.current?.flush();
     syncRef.current?.stop();
-    await fetch("/api/auth/logout", { method: "POST" });
+    if (ACCOUNTS) {
+      const { supabase } = await import("../supabase/client");
+      await supabase().auth.signOut();
+      rememberSignedIn(false);
+    } else await fetch("/api/auth/logout", { method: "POST" });
     // Don't leave a learner's work on a shared computer.
     if (storeRef.current) await storeRef.current.destroy();
     storeRef.current = null;
@@ -163,8 +252,8 @@ export function SessionProvider({ children, initialUser = null }: { children: Re
   }, []);
 
   const value = useMemo<SessionValue>(
-    () => ({ ready, synced, user, store, profile, syncStatus, mode, oauth, updateProfile, refresh, signOut, flush }),
-    [ready, synced, user, store, profile, syncStatus, mode, oauth, updateProfile, refresh, signOut, flush],
+    () => ({ ready, synced, user, store, profile, syncStatus, mode, oauth, username, updateProfile, refresh, signOut, flush }),
+    [ready, synced, user, store, profile, syncStatus, mode, oauth, username, updateProfile, refresh, signOut, flush],
   );
   return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>;
 }

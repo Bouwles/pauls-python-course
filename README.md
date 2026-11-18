@@ -4,7 +4,7 @@
 
 So I teach Python to my friends (Neil helps me out from time to time), and this is the website for it. Everyone in it is a real person, because the six people in that picture are actually us.
 
-You can **[play it here](https://paulspythoncourse.com/)** without signing up for anything, you just pick who you are and start.
+You can **[play it here](https://paulspythoncourse.com/)**. It's free, you make an account with a username, your email and a password, and then you pick who you are and start.
 
 In the game I've turned an old clocktower into a code school, and you start on the ground floor printing a sign for the door, then work your way up through nine floors and 116 projects until you've written a neural network from scratch and a tiny GPT, trained a crab to race and ended up on the roof building something of your own. All of it takes about 410 hours, so there's no rush.
 
@@ -81,12 +81,16 @@ Python runs right there in the browser so you don't have to install anything to 
 
 ## Classes
 
-This part is for when I'm teaching: I make a class, choose which projects to set and send everyone a join link, and when they've had a go they send me a progress link, which adds them to my register with their code there for me to read. Neil gets a co-teacher link with the same class on it, and I can share the League table the same way.
+This part is for when I'm teaching: I make a class, choose which projects to set and give everyone its six-letter code or a join link. Once they've joined, my register shows how far each of them has got, how long they've spent and their code, as they go, without anyone having to send me anything, and what I've set turns up on their desk in the Clocktower.
 
 ![The class page: a register of four students, showing which of the three set projects each has shipped.](docs/readme/class.png)
 
+## Friends
+
+You can add your friends by their username, and once they've said yes you can look round each other's Shelves and run anything the other one has shipped. Nobody sees work you haven't finished.
+
 ## A couple of other things
 
-You don't need an account for any of this, because your progress stays in your browser and if you want to carry on somewhere else you just take a save with you, as a file or a line of text, and a class lives entirely in its link.
+Your account keeps everything saved, so you can carry on from any computer, and you can still download a save as a file whenever you like.
 
 All the art is drawn in code as well, so everyone is put together pixel by pixel from a description of how they look, with 135 gestures to choose from, and every room in the tower is built the same way.

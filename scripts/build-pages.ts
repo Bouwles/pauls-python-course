@@ -1,9 +1,11 @@
 // Builds the GitHub Pages version of the course: plain files in pages-out/, served from
 // https://<user>.github.io/<repo>/, or from the root of a custom domain (an empty base).
 // There's no server there, so:
-// - the pages that need one (accounts, account classes, certificates, admin, the API) are left
-//   out of this build; the League races entries in the browser, so it stays;
-// - everyone is a guest, with their progress kept in their browser;
+// - the pages that need one (the server's own sign-in routes, its teacher pages, certificates,
+//   admin, the API) are left out of this build; the League races entries in the browser, so it stays;
+// - accounts, when a Supabase project is configured (lib/supabase/project.ts), are kept in
+//   Supabase and reached straight from the browser; without one everyone is a guest, with their
+//   progress kept in their browser;
 // - each step's checks and solution are written as files under /data for the browser to read
 //   (lib/static-data.ts);
 // - the service worker adds the headers that input() and Stop need (lib/sw/sw-template.js).
@@ -26,7 +28,7 @@ const OUT = path.join(root, "pages-out");
 const STASH = path.join(root, ".pages-stash");
 
 /** Everything under app/ that needs a server. */
-const SERVER_ONLY = ["api", "admin", "teach", "u", "certificates", "auth", "login", "signup", "device", "dev", "ppc.zip"];
+const SERVER_ONLY = ["api", "admin", "teach", "u", "certificates", "auth", "device", "dev", "ppc.zip"];
 
 function restore() {
   if (!fs.existsSync(STASH)) return;
