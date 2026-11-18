@@ -20,7 +20,8 @@ export type Accessory = "none" | "scarf" | "beanie" | "glasses" | "flat-cap" | "
 
 export interface Settings {
   dialogue: "full" | "less";
-  sound: boolean;
+  /** Small sounds as you work (lib/sound.ts). Called "sound" when it was off by default. */
+  sounds: boolean;
   theme: "system" | "light" | "dark";
   motion: "system" | "reduced";
   prose: "serif" | "hyperlegible";
@@ -35,7 +36,7 @@ export interface Settings {
 
 export const DEFAULT_SETTINGS: Settings = {
   dialogue: "full",
-  sound: false,
+  sounds: true,
   theme: "dark",
   motion: "system",
   prose: "serif",

@@ -12,6 +12,7 @@ import type { GestureTag } from "@/lib/pixel/gestures";
 import { isOwnWork, ownerFor } from "@/lib/cast";
 import { castJob, displayName, isYou, playingAs, speakerOf, voiceFor } from "@/lib/playas";
 import { track } from "@/lib/track";
+import { playSound } from "@/lib/sound";
 import { WorkbenchContext, type CoachKind, type Utterance, type WorkbenchContextValue, type Zone } from "./context";
 import { classmateOf, isSpoken, nextId, usesEditor, utterancesFor } from "./labels";
 import { useRunner } from "./useRunner";
@@ -57,6 +58,9 @@ const RECAP_AFTER_MS = 4 * 60 * 60 * 1000;
 const LAST_SEEN = "last-seen";
 const IDLE_AFTER_MS = 60_000;
 const NUDGE_AFTER_MS = 4 * 60_000;
+
+/** Steps where your work is checked, so passing one gets a tick. */
+const TICKED = new Set(["ask", "predict", "investigate", "pips", "fix", "modify", "make", "parsons", "git", "takehome"]);
 
 export function isComplete(row: StepProgressRow | undefined) {
   return row?.status === "passed" || row?.status === "seen-solution";
@@ -212,11 +216,16 @@ export function Workbench({ job: given, characters, conceptTitles, actTitle, act
     [store, job.id, jobProgress],
   );
 
+  // A pencil tick the first time a step where your work gets checked is passed. Reading steps
+  // pass quietly, the milestone has the desk bell and shipping has the stamp.
+  const sounds = profile.settings.sounds;
   const markPassed = useCallback<WorkbenchContextValue["markPassed"]>(
     async (id, patch = {}) => {
-      await updateStep(id, (r) => ({ ...patch, status: r.status === "seen-solution" ? "seen-solution" : "passed" }));
+      const type = job.steps.find((s) => s.id === id)?.type;
+      const row = await updateStep(id, (r) => ({ ...patch, status: r.status === "seen-solution" ? "seen-solution" : "passed" }));
+      if (row && type && TICKED.has(type) && !isComplete(progress[id])) playSound("tick", sounds);
     },
-    [updateStep],
+    [updateStep, job.steps, progress, sounds],
   );
 
   const logEvent = useCallback(

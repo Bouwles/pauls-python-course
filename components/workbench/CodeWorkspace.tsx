@@ -144,7 +144,7 @@ export function CodeWorkspace({
 
   const doRun = useCallback(async () => {
     if (busy || runDisabledReason || !code.contents) return;
-    playSound("key", profile.settings.sound);
+    playSound("key", profile.settings.sounds);
     await code.takeSnapshot("run");
     openConsole("output");
     showZone("output");
@@ -159,7 +159,7 @@ export function CodeWorkspace({
     if (result?.visuals?.frames.length || result?.figures?.length) grow();
     if (result) onRun?.(result, files);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [busy, runDisabledReason, code, allFiles, runner, entry, onRun, showZone, logEvent, argvField, args, profile.settings.sound, store, job.id, openConsole]);
+  }, [busy, runDisabledReason, code, allFiles, runner, entry, onRun, showZone, logEvent, argvField, args, profile.settings.sounds, store, job.id, openConsole]);
 
   const doTrace = useCallback(
     async (startLine: number | null = null) => {

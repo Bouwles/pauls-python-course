@@ -82,11 +82,11 @@ const H = {
 const paul: GestureDef[] = [
   {
     id: "cap-push",
-    label: "pushes his cap back",
+    label: "tips his cap",
     arms: { left: true, right: false },
     beats: 6,
     ms: 260,
-    tags: ["work", "think", "idle"],
+    tags: ["approve", "celebrate", "greet", "think"],
     faces: ["pleased", "determined"],
     who: ["paul"],
     draw: (g, p, beat) => {
@@ -286,7 +286,7 @@ const neil: GestureDef[] = [
     arms: { left: true, right: false },
     beats: 12,
     ms: 260,
-    tags: ["celebrate", "explain", "surprise", "work", "idle"],
+    tags: ["celebrate", "work"],
     faces: ["excited", "pleased"],
     who: ["neil"],
     draw: (g, p, beat) => {
@@ -719,7 +719,7 @@ const yahya: GestureDef[] = [
     arms: { left: true, right: false },
     beats: 6,
     ms: 390,
-    tags: ["tease", "celebrate"],
+    tags: ["tease"],
     faces: ["smug", "unimpressed"],
     who: ["yahya"],
     draw: (g, p, beat) => {

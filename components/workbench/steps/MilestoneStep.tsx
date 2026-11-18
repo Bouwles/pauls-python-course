@@ -12,7 +12,9 @@ import { useEffect, useRef, useState } from "react";
 import type { MilestoneStep } from "@/lib/content/types";
 import type { StepProgressRow } from "@/lib/store/types";
 import { PROFESSOR } from "@/lib/cast";
+import { playSound } from "@/lib/sound";
 import { STATIC } from "@/lib/static";
+import { useSession } from "@/lib/store/session";
 import { parseReport, type TestReport } from "@/lib/takehome";
 import { Button } from "../../ui/Button";
 import { Instructions } from "../Instructions";
@@ -34,6 +36,7 @@ interface Saved {
 
 export function MilestoneStepView({ step, row }: { step: MilestoneStep; row: StepProgressRow }) {
   const { areas, job, updateStep, markPassed, guest, landing, say, nameOf, speaker } = useWorkbench();
+  const { profile } = useSession();
   const paul = nameOf(speaker(PROFESSOR));
   const saved = row.data as Saved;
   const [checks, setChecks] = useState<Record<string, boolean>>(saved.checks ?? {});
@@ -95,7 +98,9 @@ export function MilestoneStepView({ step, row }: { step: MilestoneStep; row: Ste
         setBusy(false);
       }
     }
+    const first = row.status !== "passed";
     await markPassed(step.id, { data: { ...row.data, checks, plan, link, ...(results ? { results } : {}), reviewedAt: Date.now() } });
+    if (first) playSound("bell", profile.settings.sounds);
     setResultsText("");
     say(PROFESSOR, step.testPlan ? "Signed off. Keep the test plan; you'll want it at the next milestone." : "Signed off.", { kind: "pass", face: "pleased" });
   };

@@ -137,7 +137,7 @@ export function ShipStepView({ step, row }: { step: ShipStep; row: StepProgressR
     if (first) {
       setStamping(true);
       setCheering(true);
-      playSound("stamp", profile.settings.sound);
+      playSound("stamp", profile.settings.sounds);
     }
   };
 

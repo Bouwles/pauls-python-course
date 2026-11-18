@@ -267,7 +267,7 @@ export function Settings() {
           </Section>
 
           <Section id="s-sound" title="Sound">
-            <Choice label="Sound effects" name="sound" value={s.sound ? "on" : "off"} options={[["off", "Off"], ["on", "On"]]} onChange={(v) => void set({ sound: v === "on" })} hint="A soft key for Run and a stamp when you ship." />
+            <Choice label="Sound effects" name="sound" value={s.sounds ? "on" : "off"} options={[["off", "Off"], ["on", "On"]]} onChange={(v) => void set({ sounds: v === "on" })} hint="A key going down when you press Run, a pencil tick when a check passes, the desk bell when a milestone is signed off and a stamp when you ship." />
           </Section>
 
           <Section id="s-goals" title="Goals">

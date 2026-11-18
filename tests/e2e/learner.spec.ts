@@ -154,7 +154,7 @@ const actOne = () => INDEX().acts.find((a) => a.number === 1)!.jobs.filter((j) =
 async function seedGuest(page: import("@playwright/test").Page, jobs: string[], name = "Ruth Okafor", playAs: string | null = null) {
   const at = Date.UTC(2026, 10, 6, 12);
   const data: Record<string, unknown[]> = { profile: [], job_progress: [], step_progress: [], code_files: [] };
-  data.profile!.push({ key: "me", displayName: name, character: null, settings: { dialogue: "less", sound: false, theme: "dark", motion: "reduced", prose: "serif", editorFontSize: 14, dailyGoalMinutes: null, streaks: false, weeklyEmail: false, publicProfile: false, playAs }, experience: "none", lastLocation: null, onboarded: true, updatedAt: at });
+  data.profile!.push({ key: "me", displayName: name, character: null, settings: { dialogue: "less", sounds: false, theme: "dark", motion: "reduced", prose: "serif", editorFontSize: 14, dailyGoalMinutes: null, streaks: false, weeklyEmail: false, publicProfile: false, playAs }, experience: "none", lastLocation: null, onboarded: true, updatedAt: at });
   for (const id of jobs) {
     const j = job(id);
     data.job_progress!.push({ key: id, jobId: id, status: "shipped", startedAt: at - 3_600_000, shippedAt: at, stretchDone: [], timeSpent: 600, updatedAt: at });

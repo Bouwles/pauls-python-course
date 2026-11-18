@@ -64,7 +64,7 @@ export default function Credits() {
           <strong>pixelarticons</strong>, by Gerrit Halfmann, MIT License, drawn on a 24-pixel grid. The rubber duck and the crab are drawn for this project on the same grid to match.
         </p>
         <h2>Sound</h2>
-        <p>Every sound is made in your browser as it plays, with Web Audio. There are no recordings.</p>
+        <p>Every sound is worked out in your browser as it plays, with Web Audio, so there are no recordings. Each one comes out a little different every time.</p>
         <h2>Data</h2>
         <p>Real public data, with its source and licence. Each project keeps a small copy so it works offline, and lists it again in its own README.</p>
         <ul>

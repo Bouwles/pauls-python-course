@@ -620,7 +620,7 @@ const LIST: GestureDef[] = [
     arms: { left: false, right: false },
     beats: 6,
     ms: 170,
-    tags: ["surprise", "celebrate"],
+    tags: ["surprise"],
     faces: ["surprised", "excited"],
     draw: (g, p, beat) => {
       const { R, joint } = frame(p);
@@ -648,7 +648,7 @@ const LIST: GestureDef[] = [
     arms: { left: false, right: false },
     beats: 8,
     ms: 200,
-    tags: ["celebrate", "idle"],
+    tags: ["celebrate"],
     faces: ["laughing", "excited"],
     draw: (g, p, beat) => {
       const { R, joint } = frame(p);
@@ -1086,7 +1086,7 @@ const LIST: GestureDef[] = [
     arms: { left: true, right: false },
     beats: 5,
     ms: 170,
-    tags: ["worry", "celebrate"],
+    tags: ["worry"],
     faces: ["relieved"],
     draw: (g, p, beat) => {
       const { R, joint } = frame(p);

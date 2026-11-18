@@ -295,7 +295,7 @@ function readSettings(x: unknown): Settings {
   out.editorFontSize = size === null ? DEFAULT_SETTINGS.editorFontSize : Math.max(12, size);
   const goal = s.dailyGoalMinutes === null ? null : count(s.dailyGoalMinutes, 600);
   out.dailyGoalMinutes = goal === null || goal === 0 ? null : goal;
-  for (const k of ["sound", "streaks", "weeklyEmail", "publicProfile"] as const) out[k] = typeof s[k] === "boolean" ? (s[k] as boolean) : DEFAULT_SETTINGS[k];
+  for (const k of ["sounds", "streaks", "weeklyEmail", "publicProfile"] as const) out[k] = typeof s[k] === "boolean" ? (s[k] as boolean) : DEFAULT_SETTINGS[k];
   out.playAs = typeof s.playAs === "string" && isCast(s.playAs) ? s.playAs : null;
   return out;
 }

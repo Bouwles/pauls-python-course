@@ -37,18 +37,30 @@ export const isFamily = (id: string) => id in FAMILY;
  */
 export type PickMode = "talk" | "moment";
 
-/** Their own moves that suit a conversation: hands, glasses, a cap, nothing to set up. */
-const TALK_OWN = new Set(["cap-push", "finger-count", "pointer-stick", "specs-push", "duck-hold", "pixel-heart", "splat-thumbs", "double-peace", "bangle-turn", "controller-victory", "selfie-peace", "phone-time", "test-pass"]);
+/**
+ * What someone can do while they're saying a line: their hands and face, and the few of their own
+ * moves that go with talking (Paul tipping his cap, Neil pushing his glasses up, Riya's finger
+ * heart). Nothing that needs a prop or the whole body (a phone call, a trophy, a dance): those
+ * are for moments (a project shipping, a room at work), never for the middle of a sentence.
+ */
+const TALK = new Set([
+  "idle", "wave", "wave-small", "wave-both", "salute", "cheer", "think", "point", "thumbs", "thumbs-both",
+  "shrug", "arms-crossed", "hands-on-hips", "facepalm", "scratch-head", "clap", "fist-pump", "ok-sign",
+  "finger-guns", "rub-neck", "stroke-chin", "tap-temple", "point-at-you", "idea", "hand-up", "stop-hand",
+  "please", "cheeks-shock", "mind-blown", "phew", "heart-hands", "startled", "count-fingers", "beckon",
+  "thumb-back", "check-watch", "air-quotes", "fist-bump", "high-five", "fingers-crossed", "hands-up",
+  "point-self", "cup-ear", "peace", "fan-face",
+  // Their own, the ones that suit a conversation.
+  "cap-push", "finger-count", "pointer-stick", "specs-push", "duck-hold", "pixel-heart", "splat-thumbs",
+  "double-peace", "bangle-turn", "controller-victory", "phone-time", "test-pass",
+]);
 /** Never chosen by chance: kept for the moments that call for them by name. */
 const NAMED_ONLY = new Set(["paper-crown", "nod-off", "thumbs-down", "slow-clap", "umbrella", "eat-sandwich", "eat-apple", "eat-noodles"]);
-/** Not while talking: they need the mouth, or the hands for something else. */
-const NOT_TALKING = new Set(["sip-mug", "sip-coffee", "drink-water", "stretch-yawn", "rub-eyes", "listen-headphones", "check-phone", "phone-call", "read-book", "write-notes", "type-laptop", "shush", "cover-laugh", "hands-behind-head", "dance"]);
 
 function suits(g: GestureDef, mode: PickMode): boolean {
   if (NAMED_ONLY.has(g.id)) return false;
   if (mode === "moment") return true;
-  if (NOT_TALKING.has(g.id) || g.tags.includes("work")) return false;
-  return !g.who || TALK_OWN.has(g.id);
+  return TALK.has(g.id);
 }
 
 export interface PickOptions {
@@ -72,15 +84,26 @@ export interface PickOptions {
  * A gesture for a moment. Their own moves count three times as likely as everyday ones (they're
  * what makes them them), and gestures that go with the face twice as likely.
  */
+/**
+ * What someone does by habit when a moment calls for it, so it reads as theirs rather than a roll
+ * of the dice: Paul tips his cap when you get something right. Most of the time, not every time,
+ * and never twice running (the avoid list sees to that).
+ */
+const HABITS: { who: string; tags: GestureTag[]; id: string; often: number }[] = [
+  { who: "paul", tags: ["approve", "celebrate"], id: "cap-push", often: 65 },
+];
+
 export function pickGesture({ who, tags, face, seed, avoid = [], small = false, mode = "talk" }: PickOptions): string {
   const all = gesturesFor(who).filter((g) => g.tags.some((t) => tags.includes(t)) && suits(g, mode) && (!small || fitsSmall(g)));
   const fresh = all.filter((g) => !avoid.includes(g.id));
   const pool = fresh.length ? fresh : all;
   if (!pool.length) return "idle";
+  const habit = HABITS.find((h) => h.who === who && h.tags.some((t) => tags.includes(t)) && fresh.some((g) => g.id === h.id));
+  if (habit && (hash(`habit|${who}|${seed}`) % 100) < habit.often) return habit.id;
   const weight = (g: GestureDef) => (g.id === "idle" ? 0 : (g.who ? (mode === "moment" ? 3 : 1.5) : 1) * (face && g.faces?.includes(face) ? 2 : 1));
   // A plain line is often said standing still: nobody gestures at every word.
   const still = mode === "talk" && (tags.includes("explain") || tags.includes("idle") || tags.includes("listen")) ? pool.reduce((n, g) => n + weight(g), 0) * 0.6 : 0;
-  if (still && !avoid.includes("idle") && (hash(`still|${who ?? "you"}|${seed}`) % 100) < 38) return "idle";
+  if (still && !avoid.includes("idle") && (hash(`still|${who ?? "you"}|${seed}`) % 100) < 20) return "idle";
   const total = pool.reduce((n, g) => n + weight(g), 0);
   if (!total) return "idle";
   let r = (hash(`${who ?? "you"}|${seed}`) % 10_000) / 10_000 * total;
