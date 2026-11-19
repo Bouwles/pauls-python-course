@@ -31,9 +31,9 @@ summary: "Caitlin wants music on the roof for the last night of term, and the ol
 concepts_reviewed: [functions, looping-lists, slicing, sorted-vs-sort, edge-cases, numpy-arrays]
 ask:
   dialogue:
-    - caitlin.pleased.wave: "Last night of term needs music. I brought the old Studio radio up."
-    - caitlin.unimpressed: "The whole dial is hiss. Auto-tune found one very loud crackle, then nothing."
-    - neil.thinking.think: "That's a noisy signal. Rocket telemetry looks like that. You smooth it before you trust it."
+    - caitlin.pleased.wave: "It's the last night of term so we need music, and I've brought the old Studio radio up."
+    - caitlin.unimpressed: "The whole dial's just hiss, though. Auto-tune found one very loud crackle and then nothing."
+    - neil.thinking.think: "That's a noisy signal, rocket telemetry looks just like that. You smooth it out before you trust it."
     - caitlin.laughing.point: "Smooth the dial, find the real stations, and we'll have music up here."
   spec: |
     The dial gives one signal reading for every 0.1 MHz from 88.0 to 108.0, in `dial.txt`. Write `find_stations(readings, start=88.0, step=0.1, window=5, floor=0.5)` in `tuner.py`:
@@ -47,8 +47,8 @@ ask:
 ship:
   dialogue:
     - narrator: "The hiss thins. Music, then a voice: it's nine o'clock."
-    - caitlin.surprised.point: "Nine o'clock. The clock says 3:14."
+    - caitlin.surprised.point: "It's nine o'clock and the clock still says 3:14."
     - yahya.unimpressed: "It's said 3:14 all term."
-    - paul.proud: "Then it's tonight. Everyone stay on the roof."
+    - paul.proud: "Then it's happening tonight, and I want everyone to stay on the roof."
   shelf: { object: valve-radio, label: "The roof radio, tuned at last" }
   cards: []

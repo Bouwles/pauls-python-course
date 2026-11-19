@@ -5,8 +5,8 @@ title: "Aaesha's race-day checklist"
 test_plan: true
 evidence: none
 dialogue:
-  - aaesha.neutral.point: "No crab races in this League without the checklist."
-  - aaesha.laughing: "It's in the rules. I wrote the rules."
+  - aaesha.neutral.point: "No crab races in this League until it's been through the checklist."
+  - aaesha.laughing: "It's in the rules, and I should know because I wrote them."
 checklist:
   - id: checks
     text: "Every check on the course, the crab and race day passes."

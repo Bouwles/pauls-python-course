@@ -4,7 +4,7 @@ type: make
 title: Make the grid Gymnasium-shaped
 files: [gridenv.py]
 entry: gridenv.py
-on_pass: { aaesha.pleased.thumbs: "The same grid, in the agreed shape. Any agent can race it now." }
+on_pass: { aaesha.pleased.thumbs: "That's the same grid, just in the agreed shape. Any agent can race it now." }
 hints:
   nudge: "What does the grid have to remember between one call to step and the next, and which of those does reset put back?"
   plan:

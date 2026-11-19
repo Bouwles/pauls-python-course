@@ -3,7 +3,7 @@ id: before-you-start
 type: reading
 title: Before the clock
 dialogue:
-  - paul.neutral.point: "Read the whole paper before you write a line. All six."
+  - paul.neutral.point: "Read the whole paper before you write a line, all six questions."
 ---
 Six questions, each a function, each in the list of steps. Take them in any order.
 

@@ -35,9 +35,9 @@ concepts_introduced: [mutation-testing]
 concepts_reviewed: [pytest, assert, edge-cases, test-first, raising-errors, exceptions, functions, docstrings, modules, main-guard, naming, git-basics, virtual-environments]
 ask:
   dialogue:
-    - paul.pleased.wave: "The rest of the list was for other people. This one's yours. Choose it well."
-    - paul.neutral.point: "Someone who'll use it, small enough to finish, and testable. Drop any one of the three and it goes wrong."
-    - caitlin.pleased: "I'm doing a game engine. A small one. With physics."
+    - paul.pleased.wave: "The rest of the list was for other people, but this one's yours, so choose it well."
+    - paul.neutral.point: "It needs someone who'll use it, small enough to finish and testable. Lose any one of those and it goes wrong."
+    - caitlin.pleased: "I'm doing a game engine, only a small one, with physics."
     - paul.unimpressed: "Then read the next page twice."
   spec: |
     A project of your own choosing, built the way the other capstones are.
@@ -64,10 +64,10 @@ ask:
     Slice 1: weight and destination in, price out, with tests
 ship:
   dialogue:
-    - paul.proud: "Your own idea, finished, tested, and in somebody else's hands. That's the trade."
-    - paul.pleased: "Most projects never get a second user. Yours has one."
-    - caitlin.laughing.cheer: "My game engine has a README now. And a first slice: a square that falls."
-    - paul.laughing: "A square that falls, with tests. I've seen worse starts. I've made worse starts."
+    - paul.proud: "Your own idea, finished and tested, and now it's in somebody else's hands. I'm really pleased with that."
+    - paul.pleased: "Most projects never get a second user, and yours has one."
+    - caitlin.laughing.cheer: "My game engine has a README now, and a first slice! It's a square that falls."
+    - paul.laughing: "A square that falls, with tests. I've seen worse starts, and to be fair I've made worse starts."
   shelf: { object: makers-mark, label: "Your own project, with your name on it" }
   cards: [mutation-testing]
 stretch:

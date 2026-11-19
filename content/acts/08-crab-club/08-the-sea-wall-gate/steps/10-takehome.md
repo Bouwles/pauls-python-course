@@ -8,8 +8,8 @@ heavy: true
 setup: |
   Gymnasium installs with pip like anything else; `pip install -r requirements.txt` fetches it with NumPy. Nothing here needs a screen or a graphics card. The agent's tests train a keeper twice, which takes about twenty seconds, so let pytest finish.
 dialogue:
-  - caitlin.pleased.point: "Here's the game, rules and all. Aaesha wrote the tests before Riya had finished the art."
-  - aaesha.neutral: "Fifteen for the gate, five for the keeper. Read them before you run them."
+  - caitlin.pleased.point: "Here's the game with all the rules in. Aaesha had written the tests before Riya had even finished the art."
+  - aaesha.neutral: "There are fifteen tests for the gate and five for the keeper, and I'd read them before you run them."
 ---
 `gate_env.py` is the gate as a real Gymnasium environment. Its docstring has Caitlin's rules: how the gate moves, how the river and the tide move the harbour, when it's safe, and what to draw from `self.np_random` at reset. The comments in each method are the labels from Neil's drone. Fifteen tests check it: the spaces, Gymnasium's own `check_env`, the same seed giving the same tides, and every rule.
 

@@ -48,11 +48,11 @@ concepts_introduced: [bandits, exploration-exploitation, ab-testing]
 concepts_reviewed: [numpy-arrays, matplotlib, probability, functions-as-values, lambda, mutability, default-arguments, f-strings, zip]
 ask:
   dialogue:
-    - caitlin.pleased.wave: "New cabinet. Riya drew four attract screens for it: the loop it plays when nobody's playing."
-    - riya.proud: "A high-score table, a demo race, a flashing coin and a crab that waves at you."
-    - caitlin.unimpressed: "The fair way is a quarter of the visitors each. For a fortnight. I'll be bored by Tuesday."
-    - aaesha.thinking.think: "People choose like this every day. Stick with the best so far, or try something new?"
-    - paul.unimpressed: "Fair to the screens. The visitors pay for it. There's a cheaper kind of fair."
+    - caitlin.pleased.wave: "I've got a new cabinet, and Riya drew four attract screens for it, the loop it plays when nobody's playing."
+    - riya.proud: "There's a high-score table, a demo race, a flashing coin and a crab that waves at you."
+    - caitlin.unimpressed: "The fair way is a quarter of the visitors each for a whole fortnight, and I'll be bored by Tuesday."
+    - aaesha.thinking.think: "People make this kind of choice every day, whether to stick with the best so far or try something new."
+    - paul.unimpressed: "That's fair to the screens, but it's the visitors who pay for it. There's a cheaper way to be fair."
   spec: |
     Every visitor who walks past Caitlin's new cabinet sees one of four attract screens. If they stop and play, that screen scored (reward 1); if they walk on, it didn't (reward 0). Each version has its own chance of bringing a visitor in, and nobody knows what it is.
 
@@ -77,11 +77,11 @@ ask:
     Recommendation: waving crab, 96% likely to be the best
 ship:
   dialogue:
-    - caitlin.laughing.cheer: "The waving crab. I said it would be the waving crab."
+    - caitlin.laughing.cheer: "It's the waving crab! I said it would be the waving crab."
     - yahya.unimpressed: "You said the demo race."
     - caitlin.unimpressed: "We don't talk about the demo race."
-    - aaesha.pleased: "Twenty-six visitors lost. The fair way would have lost two hundred and thirty-eight."
-    - paul.proud.thumbs: "Same answer, a tenth of the cost. That's the whole idea."
+    - aaesha.pleased: "Only twenty-six visitors lost, when the fair way would have lost two hundred and thirty-eight."
+    - paul.proud.thumbs: "You got the same answer for a tenth of the cost, and that's exactly what we were after."
   shelf: { object: tally-counter, label: "Caitlin's attract-screen test" }
   cards: [bandits, exploration-exploitation, ab-testing]
 stretch:

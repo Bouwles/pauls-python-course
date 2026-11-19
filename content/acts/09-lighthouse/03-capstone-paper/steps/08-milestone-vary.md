@@ -4,8 +4,8 @@ type: milestone
 title: "Milestone 3: one thing the paper didn't try"
 evidence: link
 dialogue:
-  - paul.pleased: "Now ask it something the authors didn't. That's where reproducing turns into finding out."
-  - yahya.proud: "I'll change everything at once. Faster."
+  - paul.pleased: "Now ask it something the authors didn't, because that's where reproducing turns into actually finding out."
+  - yahya.proud: "I'll just change everything at once, it's faster."
   - aaesha.unimpressed: "Then you'll know something changed, and nothing else."
 checklist:
   - id: one-change

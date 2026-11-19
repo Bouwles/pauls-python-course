@@ -4,8 +4,8 @@ type: milestone
 title: "Milestone 3: the game on screen"
 evidence: link
 dialogue:
-  - caitlin.pleased.point: "It should look like a pier at night. And the score has to be readable from across the room."
-  - riya.thinking: "Navy for the sea, lamplight yellow for the pier, and one red, only for the boots."
+  - caitlin.pleased.point: "It should look like a pier at night, and the score has to be readable from across the room."
+  - riya.thinking: "I'd go navy for the sea and lamplight yellow for the pier, with one red that's only for the boots."
 checklist:
   - id: state-only
     text: "main.py draws only from game.state(), and changes nothing while it draws."

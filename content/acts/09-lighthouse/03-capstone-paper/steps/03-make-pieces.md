@@ -5,7 +5,7 @@ title: Make the pieces
 files: [descent.py]
 entry: descent.py
 timeout_ms: 20000
-on_pass: { paul.pleased: "ReLU, the smallest fit, and the error. Tested, all three. Now I trust them." }
+on_pass: { paul.pleased: "ReLU, the smallest fit and the error, all three tested, and now I trust them." }
 hints:
   nudge: "With more features than examples, many sets of weights fit exactly. Which NumPy function picks the smallest, and still gives ordinary least squares when there are fewer features?"
   plan:

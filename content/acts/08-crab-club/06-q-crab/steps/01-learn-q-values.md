@@ -4,7 +4,7 @@ type: learn
 title: The worth of a move
 concept: q-learning
 dialogue:
-  - caitlin.thinking: "Values tell you which tiles are good. The crab needs to know which way to go."
+  - caitlin.thinking: "Values tell you which tiles are good, but the crab needs to know which way to go."
 code: |
   # What each move is worth on two tiles, if the crab plays its best afterwards.
   Q = {

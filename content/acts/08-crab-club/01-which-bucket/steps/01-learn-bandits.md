@@ -4,7 +4,7 @@ type: learn
 title: Try things and keep score
 concept: bandits
 dialogue:
-  - aaesha.pleased: "Try something, see how it went, do a bit better next time. That's most of learning."
+  - aaesha.pleased: "You try something, see how it went and do a bit better next time, and honestly that's most of learning."
 code: |
   estimates = [0.0, 0.0]
   counts = [0, 0]

@@ -32,11 +32,11 @@ summary: "On the roof, by the clock face, the clock's controller gets its first 
 concepts_reviewed: [assert, pytest, edge-cases, test-first, train-test-split, overfitting, neural-networks]
 ask:
   dialogue:
-    - paul.pleased.wave: "Everyone's here. Good. The clock."
-    - paul.proud: "It's said 3:14 since before I had the keys. Tonight it runs."
-    - neil.pleased.thumbs: "The gears are fine. Aaesha and I checked every one in the Engine Room."
-    - aaesha.thinking: "It's the controller. It learned the clock from old logs, and nobody ever tested it."
-    - paul.neutral.point: "So we test it. Then we start it."
+    - paul.pleased.wave: "Good, everyone's here. Let's sort out the clock."
+    - paul.proud: "It's said 3:14 since before I had the keys, and tonight it's going to run."
+    - neil.pleased.thumbs: "The gears are fine, Aaesha and I checked every one of them in the Engine Room."
+    - aaesha.thinking: "It's the controller that's the problem. It learned the clock from old logs and nobody ever tested it."
+    - paul.neutral.point: "So we test it first, and then we start it."
   spec: |
     The clock's controller decides, from the readings outside, whether to light the clock face, switch on the fog lamp and heat the hands so ice can't stop them. It learned this from three winters of logs and has never had a single test.
 
@@ -49,11 +49,11 @@ ship:
   dialogue:
     - narrator: "Paul throws the switch. Below the roof, the gears take up the slack."
     - narrator: "The minute hand leaves 3:14 for the first time in years."
-    - yahya.surprised.cheer: "It's running. It's actually running."
-    - riya.pleased: "Nobody move. I'm drawing it. The first sketch of this clock with its hands moving."
+    - yahya.surprised.cheer: "It's running! It's actually running."
+    - riya.pleased: "Nobody move, I'm drawing it. It's the first sketch of this clock with its hands moving."
     - narrator: "Caitlin puts a gold paper crown on Paul's head. He leaves it there."
-    - neil.laughing: "Four spaces, by the way. Every file. You were right."
-    - paul.proud.wave: "Thank you. All of you. Especially whoever wrote the tests."
+    - neil.laughing: "Four spaces in every file, by the way. You were right about that."
+    - paul.proud.wave: "Thank you, all of you, and especially whoever wrote the tests."
   shelf: { object: lamp-room-key, label: "The key to the clock, the night it started again" }
   cards: []
   awards: [keeper-coat]

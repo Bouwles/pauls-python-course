@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.neutral.point: "The practice corridor, one more time. Four tiles, two moves, and a critic."
+  - paul.neutral.point: "Let's do the practice corridor one more time, with four tiles and two moves, and a critic this time."
 code: |
   import numpy as np
 

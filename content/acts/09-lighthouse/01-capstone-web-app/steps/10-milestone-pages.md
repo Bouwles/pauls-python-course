@@ -4,9 +4,9 @@ type: milestone
 title: "Milestone 3: the pages people use"
 evidence: link
 dialogue:
-  - caitlin.laughing.point: "Skippers don't send JSON. They stand on the pontoon and jab at a phone."
-  - yahya.unimpressed: "Error 409. Clear enough."
-  - riya.thinking: "Not to the skipper of the Kittiwake. Big buttons, plain words, and colours you can read in the rain."
+  - caitlin.laughing.point: "Skippers don't send JSON, they stand on the pontoon jabbing at a phone."
+  - yahya.unimpressed: "Error 409 seems clear enough to me."
+  - riya.thinking: "Not to the skipper of the Kittiwake. She needs big buttons, plain words and colours you can read in the rain."
 checklist:
   - id: front
     text: "The front page shows every berth and who is in it on the chosen night, readable without knowing what JSON is."

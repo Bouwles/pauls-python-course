@@ -4,7 +4,7 @@ type: milestone
 title: "Milestone 2: the main figure"
 evidence: link
 dialogue:
-  - paul.neutral.point: "Log scales, both of them. Say so on the axes. Yahya will ask, and he'll be right to."
+  - paul.neutral.point: "Both of them are log scales, so say that on the axes. Yahya will ask, and he'll be right to."
 checklist:
   - id: figure
     text: "Your figure shows the median test error against the number of features, on log scales, with 40 features marked."

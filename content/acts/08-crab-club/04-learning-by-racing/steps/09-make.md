@@ -5,7 +5,7 @@ title: Make it learn by racing
 files: [track.py, dp.py, learn.py]
 entry: learn.py
 timeout_ms: 30000
-on_pass: { aaesha.pleased: "The races agree with the map, within the wobble. That's how I know it learned." }
+on_pass: { aaesha.pleased: "The races agree with the map, give or take the wobble, and that's how I know it really learned." }
 hints:
   nudge: "Monte Carlo and TD both start every tile at 0.0 and change it from races. What does each one move a tile towards, and when?"
   plan:

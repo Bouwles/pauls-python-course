@@ -4,8 +4,8 @@ type: learn
 title: One shape for every world
 concept: gymnasium
 dialogue:
-  - paul.neutral: "Every learner so far has needed its own grid code. Gymnasium is an agreement about the shape."
-  - paul.pleased.point: "Write the world in that shape once, and any agent can practise on it."
+  - paul.neutral: "Every learner so far has needed its own bit of grid code. Gymnasium is basically everyone agreeing on one shape for it."
+  - paul.pleased.point: "If you write the world in that shape once, any agent can practise on it."
 code: |
   class Kettle:
       """The Studio kettle, in Gymnasium's shape. It boils at 100 degrees."""

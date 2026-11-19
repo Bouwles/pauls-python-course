@@ -4,7 +4,7 @@ type: investigate
 title: What might be true
 concept: exploration-exploitation
 dialogue:
-  - aaesha.pleased: "A belief about each screen, not just a number. Much more like a person."
+  - aaesha.pleased: "It keeps a belief about each screen rather than just a number, which is much more like how a person thinks."
 code: |
   import numpy as np
 

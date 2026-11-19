@@ -50,11 +50,11 @@ concepts_introduced: [policy-evaluation, value-iteration, policy-iteration]
 concepts_reviewed: [mdps, returns-discounting, dictionaries, dict-items, while-loops, functions, default-arguments, lambda]
 ask:
   dialogue:
-    - aaesha.pleased.wave: "A thousand races says the traditional line is worth about minus eight. About."
+    - aaesha.pleased.wave: "A thousand races say the traditional line is worth about minus eight, but that's only about."
     - aaesha.thinking: "Rats in a maze learn a map of it in their heads, then plan with it."
-    - aaesha.neutral.point: "You have the map already. Every tile, every chance. That's enough to work it out exactly."
+    - aaesha.neutral.point: "You've already got the map, with every tile and every chance on it, which is enough to work it out exactly."
     - neil.worried: "I'd like to know, exactly, whether I've been racing it wrong all term."
-    - paul.neutral: "Work it out. Don't race it."
+    - paul.neutral: "Then work it out instead of racing it."
   spec: |
     Write `dp.py`, using your racing grid in `track.py`. Values and policies are dictionaries keyed by tile; `gamma` is 0.9 unless you're told otherwise.
 
@@ -82,10 +82,10 @@ ask:
     Policy iteration agrees: True
 ship:
   dialogue:
-    - aaesha.pleased: "The start is worth one point two. Under the traditional line it was minus seven point six."
-    - neil.surprised: "And the tile under the pool says go left. Away from the finish. On purpose."
-    - aaesha.proud.thumbs: "Two methods, one answer. Now I believe it."
-    - paul.thinking: "You had the map. Next, the crab learns the track with no map at all."
+    - aaesha.pleased: "The start's worth one point two now, and under the traditional line it was minus seven point six."
+    - neil.surprised: "And the tile under the pool says go left, away from the finish, on purpose."
+    - aaesha.proud.thumbs: "Two different methods gave the same answer, and now I believe it."
+    - paul.thinking: "You had the map this time, but next the crab learns the track with no map at all."
   shelf: { object: track-map, label: "The racing grid, every tile known" }
   cards: [policy-evaluation, value-iteration, policy-iteration]
 stretch:

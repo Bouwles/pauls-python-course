@@ -4,7 +4,7 @@ type: predict
 title: The benefit of the doubt
 concept: exploration-exploitation
 dialogue:
-  - aaesha.thinking: "Eight visitors. That's not evidence. That's a rumour."
+  - aaesha.thinking: "Eight visitors isn't really evidence, it's more of a rumour."
 code: |
   import math
 

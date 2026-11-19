@@ -5,10 +5,10 @@ title: Fix Riya's version
 files: [track.py, dp.py]
 entry: dp.py
 dialogue:
-  - riya.neutral: "Can you look at mine? Something's off. Value iteration, max over everything, one line."
-  - riya.confused: "It says the tile under the pool is worth 4.6. The crab loves it there."
+  - riya.neutral: "Can you look at mine? Something's off with my value iteration. I did the max over everything in one line."
+  - riya.confused: "It says the tile under the pool is worth 4.6. The crab absolutely loves it there."
 dialogue_after:
-  - riya.surprised: "I only planned for the moves that go right. The max is your choice. The sum is the luck."
+  - riya.surprised: "So I only planned for the moves that go right. The max is the bit you choose, the sum's the luck."
 hints:
   nudge: "You choose the action. Who chooses which outcome happens, and how should the value account for it?"
   plan:

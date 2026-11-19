@@ -46,11 +46,11 @@ concepts_introduced: [mdps, returns-discounting]
 concepts_reviewed: [bandits, dictionaries, tuples, while-loops, functions, default-arguments, numpy-arrays, probability]
 ask:
   dialogue:
-    - neil.pleased.wave: "Caitlin's crab cabinet. League night isn't a straight race. It's the grid."
-    - neil.thinking: "Everyone races the traditional line. Along the bottom and up the far side."
-    - paul.unimpressed: "Right past the pool."
-    - neil.neutral: "It's the shortest way round. In karting, shortest is rarely fastest. I want numbers."
-    - paul.thinking.point: "Then work out what it's worth. With the slips in."
+    - neil.pleased.wave: "This is Caitlin's crab cabinet, and on League night everyone races it on the grid."
+    - neil.thinking: "Everyone races the traditional line, along the bottom and then up the far side."
+    - paul.unimpressed: "Which goes right past the pool."
+    - neil.neutral: "It's the shortest way round, but in karting the shortest is hardly ever the fastest, and I want numbers."
+    - paul.thinking.point: "Then let's work out what it's worth, with the slips included."
   spec: |
     Write `track.py`, the racing grid as a Markov decision process:
 
@@ -84,10 +84,10 @@ ask:
     Average return over 1000 races: 0.92
 ship:
   dialogue:
-    - neil.surprised: "Minus seven point eight. The line everyone races averages minus seven point eight."
-    - caitlin.laughing: "Including you. Twice a week."
-    - neil.pleased.thumbs: "Not any more. That's a racing line, and I'll be studying it."
-    - paul.neutral: "Next time, the worth of every tile, without running a single race."
+    - neil.surprised: "Minus seven point eight! That's what the line everyone races actually averages."
+    - caitlin.laughing: "Including you, twice a week."
+    - neil.pleased.thumbs: "Well, not any more. That's a proper racing line, and I'll be studying it."
+    - paul.neutral: "Next time we'll work out the worth of every tile without running a single race."
   shelf: { object: racing-grid, label: "Neil's racing line on the crab's grid, slips and all" }
   cards: [mdps, returns-discounting]
 stretch:

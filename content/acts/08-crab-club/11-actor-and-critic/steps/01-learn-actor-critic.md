@@ -4,8 +4,8 @@ type: learn
 title: One acts, one judges
 concept: actor-critic
 dialogue:
-  - paul.thinking: "REINFORCE waits for the finish before it says anything. By then the third move is long gone."
-  - paul.laughing: "Give the crab a critic. Yahya can show it how."
+  - paul.thinking: "REINFORCE waits for the finish before it says anything, and by then the third move is long gone."
+  - paul.laughing: "Let's give the crab a critic, and Yahya can show it how it's done."
 code: |
   import numpy as np
 

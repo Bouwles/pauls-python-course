@@ -47,10 +47,10 @@ concepts_introduced: [monte-carlo, td-learning]
 concepts_reviewed: [policy-evaluation, returns-discounting, mdps, bandits, dictionaries, tuples, zip, default-arguments, numpy-arrays]
 ask:
   dialogue:
-    - aaesha.pleased.wave: "Your figures for the grid are right. On paper."
-    - aaesha.thinking: "The crab in the cabinet never sees the paper. It races, it's surprised, and it adjusts."
-    - yahya.neutral: "Then let it race, and check the races against the paper. That's how you'll know."
-    - paul.neutral.point: "Two ways to learn from races alone. Both should land near the map."
+    - aaesha.pleased.wave: "Your figures for the grid are right, on paper anyway."
+    - aaesha.thinking: "But the crab in the cabinet never sees the paper, it just races and adjusts whenever something surprises it."
+    - yahya.neutral: "Then let it race and check the races against the paper, because that's how you'll actually know."
+    - paul.neutral.point: "There are two ways to learn from races alone, and both of them should end up near the map."
   spec: |
     Write `learn.py`. The crab gets no map: nothing in it may read `outcomes`. All it has is `step(tile, action, rng)` from `track.py`, which takes one real step and tells it where it landed, what it earned, and whether the race is over. Practice races start on a random tile, `random_start(rng)`.
 
@@ -80,11 +80,11 @@ ask:
     Furthest from the map: 1.45
 ship:
   dialogue:
-    - aaesha.proud.cheer: "Two thousand races, and it knows the grid to within a fifth of a point."
-    - caitlin.laughing: "Without ever seeing the map. It's a natural."
-    - aaesha.thinking: "The TD error is how surprised it was. Dopamine cells in the brain fire much the same way."
-    - yahya.neutral: "Monte Carlo's closer. TD learns as it goes. I'd want both."
-    - paul.thinking: "It knows what a line is worth. Next, it finds a better one itself."
+    - aaesha.proud.cheer: "Two thousand races and it knows the grid to within a fifth of a point!"
+    - caitlin.laughing: "And it never even saw the map. It's a natural."
+    - aaesha.thinking: "The TD error is basically how surprised it was, and dopamine cells in the brain fire in much the same way."
+    - yahya.neutral: "Monte Carlo's closer, but TD learns as it goes, so honestly I'd want both."
+    - paul.thinking: "It knows what a line is worth now, and next time it'll find a better one by itself."
   shelf: { object: race-card, label: "Two thousand practice races, written up" }
   cards: [monte-carlo, td-learning]
 stretch:

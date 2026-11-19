@@ -4,7 +4,7 @@ type: predict
 title: Stopped or finished
 concept: gymnasium
 dialogue:
-  - neil.pleased.point: "My kart's tyres, in Gymnasium's shape. Cold tyres don't grip, so you warm them first."
+  - neil.pleased.point: "I've put my kart's tyres into Gymnasium's shape. Cold tyres don't grip, that's why you warm them up first."
 code: |
   class Tyres:
       """Neil's tyres, in Gymnasium's shape. Ready at 100 degrees. Neil allows three warm-up laps."""

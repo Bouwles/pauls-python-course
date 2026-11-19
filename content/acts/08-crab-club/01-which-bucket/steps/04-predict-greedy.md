@@ -4,7 +4,7 @@ type: predict
 title: The greedy test
 concept: bandits
 dialogue:
-  - caitlin.pleased: "Simpler still. Show whichever screen is doing best."
+  - caitlin.pleased: "Or make it even simpler and just show whichever screen's doing best."
   - paul.thinking: "Best so far, you mean."
 code: |
   def played(version, visitor):

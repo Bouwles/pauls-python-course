@@ -3,7 +3,7 @@ id: round-and-round
 type: learn
 title: Sixty times a second
 dialogue:
-  - paul.thinking.point: "A game is a loop that never stops asking what happened, and drawing the answer."
+  - paul.thinking.point: "A game's really just a loop that keeps asking what happened and drawing the answer, over and over."
 concept: game-loop
 code: |
   class Drop:

@@ -11,7 +11,7 @@ code: |
       print(line[:60])
   print(lines[1569].split())      # September 2003: rain estimated, sunshine from the sensor
 dialogue:
-  - yahya.thinking.point: "Before the numbers, the notes above them. Somebody wrote those for a reason."
+  - yahya.thinking.point: "Read the notes above the numbers before the numbers themselves, because somebody wrote those for a reason."
 ---
 A data file's notes are part of its data. `stornowaydata.txt` starts with five lines about the station and its marks, then two of column names and units, then one row per month.
 

@@ -4,7 +4,7 @@ type: make
 title: "Question 2: The poster vote"
 files: [votes.py]
 entry: votes.py
-on_pass: { riya.pleased: "Gannet, by the third slip. It goes on the poster. Good choice: it has the best colours." }
+on_pass: { riya.pleased: "It's the gannet, by the third slip, so it's going on the poster. Good choice too, it's got the best colours." }
 hints:
   nudge: "Going through the slips one at a time, what do you need to remember to know who's winning so far?"
   plan:

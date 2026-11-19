@@ -41,11 +41,11 @@ concepts_introduced: [binary-search-answer]
 concepts_reviewed: [lists, append-pop, enumerate, dictionaries, dict-get, none, membership-speed, big-o, sort-key, sort-stability, sorted-vs-sort, tuples, binary-search, edge-cases, test-first, assert, stacks, recursion, base-cases, call-stack]
 ask:
   dialogue:
-    - yahya.proud.wave: "Six first-year questions, a hundred and fifty minutes. I did it in ninety-four."
-    - paul.thinking: "Universities ask two things of you. So do interviews. The same two, as it happens."
-    - paul.neutral.point: "Solve something you've never seen, against a clock. Then explain something you built, clearly."
-    - caitlin.pleased: "I'll do the questions in order. Quickest way through."
-    - yahya.unimpressed: "Read them all first. Then we'll talk about quickest."
+    - yahya.proud.wave: "It's six first-year questions in a hundred and fifty minutes, and I did it in ninety-four."
+    - paul.thinking: "Universities ask two things of you, and so do interviews. It happens to be the same two."
+    - paul.neutral.point: "Solving something you've never seen against a clock, and then explaining something you built, clearly."
+    - caitlin.pleased: "I'll just do the questions in order, it's the quickest way through."
+    - yahya.unimpressed: "Read them all first, and then we can talk about quickest."
   spec: |
     Two parts, and a clock in the top bar that counts your time against 150 minutes. Nothing happens when it runs out.
 
@@ -68,10 +68,10 @@ ask:
     11
 ship:
   dialogue:
-    - paul.proud: "Six answers that hold, and you can say what you built and why. That's what they're checking for."
-    - caitlin.laughing: "I read them all first, in the end. Did the fourth one first. Don't tell anyone."
-    - yahya.neutral: "Ninety-four minutes is still the record. For now."
-    - paul.pleased.thumbs: "Nobody asks what order you did them in. Only whether they're right."
+    - paul.proud: "Six answers that hold up, and you can say what you built and why. That's what they're checking for."
+    - caitlin.laughing: "I did read them all first in the end, and then did the fourth one first. Don't tell anyone."
+    - yahya.neutral: "Ninety-four minutes is still the record, for now."
+    - paul.pleased.thumbs: "Nobody asks what order you did them in, they only care whether they're right."
   shelf: { object: exam-paper, label: "Yahya's practice paper, sat and explained" }
   cards: [binary-search-answer]
 stretch:

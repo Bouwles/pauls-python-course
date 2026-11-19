@@ -3,8 +3,8 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.neutral.point: "The practice corridor again. Five tiles, and the crab only goes left or right."
-  - paul.thinking: "A table, to keep the moving parts few. The two tricks are what matter."
+  - paul.neutral.point: "Back to the practice corridor again. It's five tiles long and the crab can only go left or right."
+  - paul.thinking: "I've used a table to keep the moving parts down, because the two tricks are what matter here."
 code: |
   import numpy as np
 

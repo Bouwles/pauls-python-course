@@ -40,11 +40,11 @@ concepts_introduced: [gymnasium]
 concepts_reviewed: [q-learning, td-learning, exploration-exploitation, classes, init, self, numpy-arrays, pytest, virtual-environments]
 ask:
   dialogue:
-    - caitlin.pleased.wave: "My new cabinet. Tide Gate. A little harbour, a sea wall and one gate."
-    - caitlin.neutral.point: "Shut it at high water and the river fills the harbour. Open it at low water and it drains."
-    - yahya.unimpressed: "Leave it alone and you last about eight hours of game time. I've tried."
+    - caitlin.pleased.wave: "This is my new cabinet, it's called Tide Gate. There's a little harbour, a sea wall and one gate."
+    - caitlin.neutral.point: "Shut it at high water and the river fills the harbour, but if you open it at low water it drains."
+    - yahya.unimpressed: "If you just leave it alone you last about eight hours of game time. I've tried, trust me."
     - caitlin.thinking: "I want a keeper that plays it properly, and a table that says why it did what it did."
-    - paul.laughing: "A balancing job. Like a pole on a cart, only wetter."
+    - paul.laughing: "It's a balancing job really, a bit like keeping a pole up on a cart, only wetter."
   spec: |
     First, in the workshop: the racing grid in Gymnasium's shape, `reset` and `step`, as a plain class.
 
@@ -61,10 +61,10 @@ ask:
     20 passed in 16.75s
 ship:
   dialogue:
-    - caitlin.laughing.cheer: "Two hundred quarter hours. Four tides, springs and neaps, and not a wet boot."
-    - yahya.surprised: "That's the high score on the cabinet. By a long way."
-    - aaesha.pleased: "And when it winds the gate down, there's a table that says why. I like that part."
-    - paul.thinking: "A keeper you can question. Hold on to that idea."
+    - caitlin.laughing.cheer: "Two hundred quarter hours, four tides with springs and neaps, and nobody's got a wet boot!"
+    - yahya.surprised: "That's the high score on the cabinet, and by a long way too."
+    - aaesha.pleased: "And when it winds the gate down there's a table that tells you why, which is my favourite part."
+    - paul.thinking: "I like that you can ask the keeper why it did something. Hang on to that idea for later."
   shelf: { object: gate-wheel, label: "Tide Gate, kept by a keeper you can question" }
   cards: [gymnasium]
 stretch:
