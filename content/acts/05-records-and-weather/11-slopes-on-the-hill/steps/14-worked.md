@@ -3,8 +3,8 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.laughing: "I carried the Archive's barometer up the hill path once. Slowly. It fell the whole way."
-  - paul.thinking.point: "Two links. Minutes give height, height gives pressure. The rates multiply."
+  - paul.laughing: "I carried the Archive's barometer up the hill path once, slowly, and it fell the whole way."
+  - paul.thinking.point: "There are two links here, minutes give height and height gives pressure, and you multiply the rates."
 code: |
   import math
 

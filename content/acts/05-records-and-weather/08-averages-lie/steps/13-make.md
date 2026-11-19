@@ -3,7 +3,7 @@ id: make
 type: make
 title: Make the summary sheet's numbers
 timeout_ms: 20000
-on_pass: { yahya.pleased.cheer: "Nought point three on the middle day. That's the day I'd recognise. The sheet gets six numbers now." }
+on_pass: { yahya.pleased.cheer: "Nought point three on the middle day, which is a day I'd actually recognise, and the sheet gets six numbers now." }
 hints:
   nudge: "What does `values.mode()` give you back, and how do you get one number out of it? And which two conditions make a reading an outlier?"
   plan:

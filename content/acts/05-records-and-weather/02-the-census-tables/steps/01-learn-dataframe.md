@@ -4,7 +4,7 @@ type: learn
 title: A table with names on its columns
 concept: pandas-basics
 dialogue:
-  - yahya.pleased: "One drawer of the Archive, typed up. Rows of people, columns of facts."
+  - yahya.pleased: "Here's one drawer of the Archive typed up, with rows of people and columns of facts about them."
 code: |
   import pandas as pd
 

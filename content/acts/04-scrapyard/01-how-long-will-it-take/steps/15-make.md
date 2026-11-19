@@ -4,7 +4,7 @@ type: make
 title: Make the speed tester
 files: [speed_tester.py]
 entry: speed_tester.py
-on_pass: { neil.laughing.cheer: "Twice the parts, four times the comparisons. I said it would fall over." }
+on_pass: { neil.laughing.cheer: "Twice the parts means four times the comparisons, and I did say it would fall over." }
 hints:
   nudge: "Where, in Neil's loops, do two parts actually get compared? That's where the counting goes. And what does `scale` say for each growth when n doubles?"
   plan:

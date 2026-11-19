@@ -4,7 +4,7 @@ type: predict
 title: Two kinds of spread
 concept: descriptive-statistics
 dialogue:
-  - yahya.proud: "Standard deviation. I'll use NumPy's, it's faster. Same answer anyway."
+  - yahya.proud: "For standard deviation I'll use NumPy's because it's faster, and it gives the same answer anyway."
 code: |
   import numpy as np
   import pandas as pd

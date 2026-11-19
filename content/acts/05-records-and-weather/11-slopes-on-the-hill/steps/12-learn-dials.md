@@ -4,7 +4,7 @@ type: learn
 title: Which way to turn the dials
 concept: chain-rule
 dialogue:
-  - yahya.worried: "The new thermometer reads low. Two dials on the back. Which way do I turn them?"
+  - yahya.worried: "The new thermometer reads low and it's got two dials on the back. Which way do I turn them?"
 code: |
   gain, offset = 1.0, 0.0
   reading, true = 9.0, 10.0

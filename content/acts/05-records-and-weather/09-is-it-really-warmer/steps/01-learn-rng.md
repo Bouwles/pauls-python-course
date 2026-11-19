@@ -4,7 +4,7 @@ type: learn
 title: Dice you can roll again
 concept: probability
 dialogue:
-  - yahya.proud: "Paul says the warming could be luck. Fine. We'll find out exactly how lucky."
+  - yahya.proud: "Paul reckons the warming could be luck. Fine, we'll find out exactly how lucky it would have to be."
 code: |
   import numpy as np
 

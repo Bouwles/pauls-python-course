@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would chain it
 dialogue:
-  - paul.pleased: "A treasure hunt. Each clue only knows where the next one is. That's enough to finish."
+  - paul.pleased: "It's like a treasure hunt where each clue only knows where the next one is, and that's enough to finish."
 code: |
   class Clue:
       def __init__(self, name):

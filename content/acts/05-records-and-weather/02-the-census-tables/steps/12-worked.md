@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.neutral.point: "Six days of Yahya's station book. Same kind of questions as the census, about weather."
+  - paul.neutral.point: "Here's six days of Yahya's station book, with the same kind of questions as the census but about weather."
 code: |
   import pandas as pd
 

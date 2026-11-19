@@ -4,7 +4,7 @@ type: predict
 title: The trades index
 concept: merging
 dialogue:
-  - yahya.pleased.point: "The Archive's trades index. Every occupation on a card, and the sector it belongs to."
+  - yahya.pleased.point: "Here's the Archive's trades index, with every occupation on a card and the sector it belongs to."
 code: |
   import pandas as pd
 

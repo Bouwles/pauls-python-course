@@ -49,10 +49,10 @@ concepts_introduced: [linear-search, binary-search, bisect]
 concepts_reviewed: [big-o, while-loops, indexing, return-values, multiple-returns, imports, list-methods, string-methods, edge-cases]
 ask:
   dialogue:
-    - neil.pleased.wave: "My parts list. Kart, rockets, drones: 188 parts, every one in alphabetical order."
-    - neil.laughing: "Caitlin borrows a part, reads the list from the top, and gives up around the brake pads."
-    - neil.thinking: "A list in order should take seven looks, not 188. I want a search box that shows it."
-    - paul.neutral: "Because it's in order. Order is worth a great deal, if you use it."
+    - neil.pleased.wave: "This is my parts list for the kart, the rockets and the drones, 188 parts and every one in alphabetical order."
+    - neil.laughing: "When Caitlin borrows a part she reads the list from the top and usually gives up around the brake pads."
+    - neil.thinking: "A list in order should only take seven looks instead of 188, and I'd like a search box that shows it."
+    - paul.neutral: "That's because it's in order, and order's worth a lot as long as you actually use it."
   spec: |
     `parts.txt` is the parts list: one part a line, like `bolt-M8` or `tyre-slick`. `load_parts` reads it into a list in alphabetical order. In `parts_search.py`, write:
 
@@ -82,9 +82,9 @@ ask:
     Search?
 ship:
   dialogue:
-    - neil.surprised: "Slick tyres. Seven looks. I counted them on my fingers and had three left over."
-    - neil.pleased.thumbs: "And carbon anywhere in the name takes the whole list. Caitlin will use that one most."
-    - paul.thinking: "Order buys you the first kind of search. Nothing buys you the second."
+    - neil.surprised: "Seven looks to find the slick tyres! I counted on my fingers and had three left over."
+    - neil.pleased.thumbs: "Finding carbon anywhere in the name means going through the whole list, though, and I bet Caitlin uses that most."
+    - paul.thinking: "Order gets you the quick search, but there's no trick like that for a word in the middle of a name."
   shelf: { object: catalogue-card, label: "Neil's parts search, seven looks a part" }
   cards: [linear-search, binary-search, bisect]
 stretch:

@@ -5,7 +5,7 @@ title: Make the dashboard
 timeout_ms: 30000
 files: [dashboard.py]
 entry: dashboard.py
-on_pass: { yahya.proud.cheer: "Bars from zero, the change drawn as a change, every axis named. I would sign these." }
+on_pass: { yahya.proud.cheer: "Bars from zero, the change drawn as a change and every axis named. I'd happily sign these." }
 hints:
   nudge: "For `yearly`, what does each year's mean need before it can be trusted? For the warming chart, what do you take off every year's temperature before you draw it, and which line marks zero?"
   plan:

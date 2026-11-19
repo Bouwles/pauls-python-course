@@ -4,7 +4,7 @@ type: make
 title: Make the catalogue
 files: [catalogue.py]
 entry: catalogue.py
-on_pass: { neil.proud.thumbs: "Fifteen cards, five levels, and the recovery section without a single wasted look." }
+on_pass: { neil.proud.thumbs: "Fifteen cards over five levels, and it found the recovery section without wasting a single look." }
 hints:
   nudge: "For a tree that's empty, what's the answer? For any other, how does the answer come from the card and the answers for its two sides?"
   plan:

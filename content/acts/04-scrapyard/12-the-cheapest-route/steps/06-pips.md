@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Caitlin's version
 dialogue:
-  - caitlin.pleased.wave: "Can you look at mine? A heap, like Paul's. Each place keeps the minutes I first see it with."
-  - caitlin.confused: "Eight minutes to the main gate, straight there. Neil says seven, round by the food court. That's further."
+  - caitlin.pleased.wave: "Can you look at mine? It's a heap like Paul's, and each place keeps the minutes I first see it with."
+  - caitlin.confused: "It says eight minutes straight to the main gate, but Neil says seven round by the food court, and that's further."
 dialogue_after:
-  - caitlin.thinking: "In breadth first, the first time you see a place is the best. With minutes on the roads, it isn't."
+  - caitlin.thinking: "In breadth first, the first time you see a place is the best, but with minutes on the roads it isn't."
 hints:
   nudge: "Caitlin reaches the main gate from the campsite first, at 8 minutes. What happens when the food court turns up, with a road there that makes it 7?"
   plan:

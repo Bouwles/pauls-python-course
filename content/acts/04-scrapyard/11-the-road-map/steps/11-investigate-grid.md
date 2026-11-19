@@ -4,7 +4,7 @@ type: investigate
 title: A maze is a graph
 concept: graphs
 dialogue:
-  - neil.pleased.point: "The car park, off the circuit's website. Hedges, grass, and my car somewhere in the middle."
+  - neil.pleased.point: "I got the car park off the circuit's website. It's hedges and grass, with my car somewhere in the middle."
   - paul.thinking: "Every open square is a place, and its roads are the four ways off it."
 code: |
   maze = ["S.#",

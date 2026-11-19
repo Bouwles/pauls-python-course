@@ -4,7 +4,7 @@ type: predict
 title: Two days of wind
 concept: vectors
 dialogue:
-  - caitlin.proud: "Ten knots Monday, ten knots Tuesday. Twenty knots between them. That's just adding."
+  - caitlin.proud: "Ten knots on Monday and ten on Tuesday makes twenty knots between them, that's just adding."
 code: |
   import numpy as np
 

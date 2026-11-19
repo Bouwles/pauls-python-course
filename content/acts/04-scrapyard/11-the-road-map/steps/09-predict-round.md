@@ -4,7 +4,7 @@ type: predict
 title: Every road to the end
 concept: dfs
 dialogue:
-  - neil.pleased: "How I explore a new circuit. Down a road, keep going, and only turn back when there's nowhere new."
+  - neil.pleased: "It's how I explore a new circuit, I keep going down a road and only turn back when there's nowhere new."
 code: |
   ROADS = {
       "campsite": ["main-gate", "car-park"],

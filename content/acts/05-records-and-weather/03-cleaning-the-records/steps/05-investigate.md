@@ -4,7 +4,7 @@ type: investigate
 title: Three volunteers
 concept: data-cleaning
 dialogue:
-  - yahya.laughing: "One volunteer per thirty years. They never met. You can tell."
+  - yahya.laughing: "One volunteer for every thirty years, and they never met each other. You can tell."
 code: |
   import pandas as pd
 

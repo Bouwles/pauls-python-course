@@ -7,8 +7,8 @@ entry: charts.py
 starter_from: make-numbers
 timeout_ms: 30000
 dialogue:
-  - yahya.thinking: "Three charts. Each one says what it measures, in what, and where it came from."
-on_pass: { yahya.pleased.thumbs: "The warming drawn as a difference from a stated average, the rain from zero, and a source on every one." }
+  - yahya.thinking: "Three charts, and each one has to say what it measures, in what units, and where it came from."
+on_pass: { yahya.pleased.thumbs: "The warming's drawn as a difference from a stated average and the rain from zero, with a source on every one." }
 hints:
   nudge: "What does each chart need besides its data: labels with units, a title, a key, a scale from zero, a line of small print?"
   plan:

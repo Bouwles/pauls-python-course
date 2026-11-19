@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Yahya's version
 dialogue:
-  - yahya.proud.wave: "Can you look at mine? January as arrows. I skipped np.radians: one call fewer per reading."
-  - yahya.confused: "Due north at ten knots, spot on. Due east comes out pointing south-east. Something's off."
+  - yahya.proud.wave: "Can you look at mine? It's January as arrows, and I skipped np.radians, which is one call fewer per reading."
+  - yahya.confused: "Due north at ten knots comes out spot on, but due east points south-east, and that can't be right."
 dialogue_after:
-  - yahya.unimpressed: "Degrees in, radians wanted. NumPy took my 90 as ninety radians and never said a word. Very quickly."
+  - yahya.unimpressed: "It wanted radians and I gave it degrees, and NumPy took my 90 as ninety radians without saying a word. Very quickly."
 hints:
   nudge: "What does `np.sin` think 90 means: 90 degrees, or something else?"
   plan:

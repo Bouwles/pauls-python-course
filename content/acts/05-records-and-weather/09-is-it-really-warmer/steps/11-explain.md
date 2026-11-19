@@ -4,8 +4,8 @@ type: explain
 title: The Clocktower is warming the city
 concept: correlation-causation
 dialogue:
-  - caitlin.proud: "The Clocktower gets a year older, the city gets warmer. r is 0.63. Case closed."
-  - paul.unimpressed: "It's been getting older since 1890. The warming started rather later."
+  - caitlin.proud: "Every year the Clocktower gets older and the city gets warmer, and r is 0.63. Case closed."
+  - paul.unimpressed: "It's been getting older since 1890, and the warming started quite a bit later than that."
 code: |
   import numpy as np
   import pandas as pd

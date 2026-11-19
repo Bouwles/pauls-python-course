@@ -4,7 +4,7 @@ type: predict
 title: Not a number
 concept: missing-data
 dialogue:
-  - riya.pleased: "Count the missing ones. They're NaN, so look for NaN. Obviously."
+  - riya.pleased: "To count the missing ones you just look for NaN, because that's what they are. Obviously."
 code: |
   import numpy as np
   import pandas as pd

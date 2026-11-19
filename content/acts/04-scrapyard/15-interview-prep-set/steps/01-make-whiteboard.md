@@ -5,8 +5,8 @@ title: Paul's whiteboard
 files: [whiteboard.py]
 entry: whiteboard.py
 dialogue:
-  - paul: "One day someone will hand you a pen and ten minutes. Three questions. Everything you need is on this floor."
-on_pass: { paul: "A dictionary, a queue and a heap. Ten minutes each, and you'd have time to spare." }
+  - paul: "One day someone will hand you a pen, three questions and ten minutes each. Everything you need is on this floor."
+on_pass: { paul: "A dictionary, a queue and a heap, and at ten minutes each you'd still have time to spare." }
 hints:
   nudge: "For `pair_for`, when you reach a weight, what would you need to know about the weights before it to answer straight away?"
   plan:

@@ -56,10 +56,10 @@ concepts_introduced: [weighted-graphs, dijkstra, a-star]
 concepts_reviewed: [graphs, bfs, dfs, heaps, priority-queues, dictionaries, dict-get, sets, tuples, zip, raising-errors, files, string-methods, big-o, edge-cases]
 ask:
   dialogue:
-    - neil.thinking.wave: "Fewest roads isn't quickest. Campsite to the main gate, direct, is eight minutes of queue."
-    - neil.laughing: "Round by the food court is a road longer and a minute quicker. My feet don't count roads."
+    - neil.thinking.wave: "The fewest roads isn't always quickest, because going straight from the campsite to the main gate is eight minutes of queue."
+    - neil.laughing: "Round by the food court is a road longer and a minute quicker, and my feet honestly don't count roads."
     - paul.neutral.point: "Then write the minutes on the roads, and always carry on from the nearest place you haven't finished with."
-    - neil.worried: "And in the car park, mud takes three times as long as the track. It always rains on race day."
+    - neil.worried: "Mud in the car park takes three times as long as the track, too, and it always rains on race day."
   spec: |
     `MINUTES` in `routes.py` is the circuit again, with the minutes each road takes on foot: `MINUTES["campsite"]["food-court"]` is 4. Roads can still be one way, and a place with no dictionary of its own has no roads out. No road takes less than 0 minutes.
 
@@ -91,9 +91,9 @@ ask:
     ......#.......#...#.
 ship:
   dialogue:
-    - neil.surprised: "Fourteen minutes to the hairpin, by the grandstand. Five roads. I'd never have gone that way."
-    - neil.pleased.cheer: "And twenty-three minutes across the car park, gate to car, with no more mud than it needed."
-    - paul.proud: "Nearest unfinished place first, and lean towards where you're going. Nothing can beat it."
+    - neil.surprised: "Fourteen minutes to the hairpin by the grandstand, over five roads, and I'd never have gone that way."
+    - neil.pleased.cheer: "And it's twenty-three minutes across the car park from gate to car, with no more mud than it needed!"
+    - paul.proud: "Take the nearest unfinished place first and lean towards where you're going, and nothing will beat it."
   shelf: { object: signpost, label: "Neil's route planner, circuit and car park" }
   cards: [weighted-graphs, dijkstra, a-star]
 stretch:

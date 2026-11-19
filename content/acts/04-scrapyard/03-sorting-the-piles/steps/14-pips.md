@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Yahya's version
 dialogue:
-  - yahya.proud.wave: "Can you look at mine? Quicksort. Seven lines, and it's the quick one. It's in the name."
-  - yahya.unimpressed: "I put in three laps at seven tenths. One came out. Very quickly, but still."
+  - yahya.proud.wave: "Can you look at mine? It's quicksort in seven lines, and it's the quick one, it says so in the name."
+  - yahya.unimpressed: "I put in three laps at seven tenths and only one came out. Very quickly, to be fair, but still."
 dialogue_after:
-  - yahya.thinking: "Same as the pivot isn't faster or slower. It's its own pile. Fair enough."
+  - yahya.thinking: "Right, a lap the same as the pivot isn't faster or slower, it needs its own pile. Fair enough."
 hints:
   nudge: "Yahya makes a pile of faster laps and a pile of slower ones. Where does a lap go that's exactly as quick as the pivot?"
   plan:

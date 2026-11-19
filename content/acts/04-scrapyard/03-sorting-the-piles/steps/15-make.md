@@ -5,7 +5,7 @@ title: Make the sorting visualiser
 files: [piles.py, sorter.py]
 entry: sorter.py
 starter_from: make-piles
-on_pass: { neil.pleased.thumbs: "Merge, quick and sorted() all agree, ties and all. sorted() still wins. Of course it does." }
+on_pass: { neil.pleased.thumbs: "Merge, quick and sorted() all agree, ties included, and sorted() still wins. Of course it does." }
 hints:
   nudge: "Merge sort starts with every lap as a pile of one and merges them up. Quick sort starts with one pile and splits it down. How many piles are there after one round of each?"
   plan:

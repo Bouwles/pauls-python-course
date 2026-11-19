@@ -5,7 +5,7 @@ title: "Milestone: your own data story"
 evidence: link
 test_plan: true
 dialogue:
-  - yahya.unimpressed: "Same checklist. I don't have a softer one for strangers."
+  - yahya.unimpressed: "It's the same checklist. I don't have a softer one for strangers."
 checklist:
   - id: question
     text: "The page asks one plain question near the top, and the conclusion answers it."

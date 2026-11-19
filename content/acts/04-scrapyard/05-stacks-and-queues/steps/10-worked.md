@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.neutral.point: "Marks on the chalkboard, with undo and redo. Same shape as your editor, with numbers."
+  - paul.neutral.point: "Here it's marks on the chalkboard with undo and redo, the same shape as your editor but with numbers."
 code: |
   from collections import deque
 

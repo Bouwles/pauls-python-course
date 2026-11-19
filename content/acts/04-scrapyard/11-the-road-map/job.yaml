@@ -51,10 +51,10 @@ concepts_introduced: [graphs, bfs, dfs]
 concepts_reviewed: [dictionaries, dict-get, sets, lists, tuples, negative-indices, while-loops, queues, deque, stacks, recursion, big-o, list-comprehensions, edge-cases, files]
 ask:
   dialogue:
-    - neil.pleased.wave: "Race weekend. The circuit's car park is a field of hedges, one gate, and my car."
-    - neil.thinking: "The steward says twenty-three steps from the gate to my car. I say nineteen is possible."
-    - neil.worried: "And I want to know if any space is hedged in, so nobody can get to it."
-    - paul.neutral.point: "Places, and the ways between them. Write it down like that and it's a graph."
+    - neil.pleased.wave: "It's race weekend, and the circuit's car park is a field of hedges with one gate and my car in it."
+    - neil.thinking: "The steward says it's twenty-three steps from the gate to my car, but I reckon nineteen's possible."
+    - neil.worried: "I also want to know if any space is hedged in so nobody can get to it."
+    - paul.neutral.point: "If you write it down as places and the ways between them, what you've got is a graph."
   spec: |
     `maze.txt` is the car park, drawn as text: `#` is a hedge, a wall to you, `.` is open grass, `S` is the gate and `G` is Neil's car. A tile is a `(row, col)` pair. `read_maze` is written: it gives back `(grid, start, goal)`, where `grid` is the list of lines. In `maze.py`, write:
 
@@ -80,9 +80,9 @@ ask:
     Cut off: (8, 7), (8, 9), (8, 10), (8, 11)
 ship:
   dialogue:
-    - neil.pleased.cheer: "Nineteen steps, gate to car. I'll be first out on Sunday night."
-    - neil.surprised: "Four spaces in the bottom corner nobody can reach. I've told the circuit."
-    - paul.thinking: "One map, three questions. Breadth first for the nearest, depth first for everywhere."
+    - neil.pleased.cheer: "Nineteen steps from the gate to my car, which means I'll be first out on Sunday night!"
+    - neil.surprised: "There are four spaces in the bottom corner that nobody can reach, and I've already told the circuit."
+    - paul.thinking: "That's three questions answered from one map, with breadth first for the nearest and depth first for everywhere."
   shelf: { object: track-map, label: "Neil's car park, solved" }
   cards: [graphs, bfs, dfs]
 stretch:

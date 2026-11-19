@@ -4,7 +4,7 @@ type: investigate
 title: The circuit as a graph
 concept: graphs
 dialogue:
-  - neil.thinking.point: "Seventeen places round the circuit. I know every road. I couldn't draw you one."
+  - neil.thinking.point: "There are seventeen places round the circuit and I know every road, but I couldn't draw you a map of it."
 code: |
   from workshop import show_graph
 

@@ -4,7 +4,7 @@ type: predict
 title: Coins are not crates
 concept: dynamic-programming
 dialogue:
-  - yahya.thinking.think: "Pay 4p with 1p and 2p coins. Three ways: four ones, two ones and a two, or two twos."
+  - yahya.thinking.think: "There are three ways to pay 4p with 1p and 2p coins, four ones, two ones and a two, or two twos."
 code: |
   def ways(amount):
       if amount == 0:

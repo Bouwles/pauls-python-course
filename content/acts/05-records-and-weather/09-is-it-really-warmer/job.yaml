@@ -45,10 +45,10 @@ concepts_introduced: [probability, permutation-tests, correlation-causation]
 concepts_reviewed: [numpy-arrays, vectorisation, pandas-basics, groupby, descriptive-statistics, random-module, for-loops, functions, return-values, default-arguments, docstrings, main-guard, f-strings]
 ask:
   dialogue:
-    - yahya.proud.wave: "I bet Paul it's warmer now than when the station book started. He says prove it isn't luck."
+    - yahya.proud.wave: "I bet Paul it's warmer now than when the station book started, and he says I have to prove it isn't luck."
     - yahya.thinking: "The last thirty years are 0.86 of a degree up on the first thirty. Could luck do that?"
     - paul.neutral.point: "Find out how often luck does it, then."
-    - yahya.laughing: "Fine. And Paul says it's drier now. Same question for him."
+    - yahya.laughing: "Fine, but Paul says it's drier now, and he can have the same question."
   spec: |
     A statistics toolkit: four functions that work on any two groups of numbers, and a report at the bottom that uses them. `station.csv` is the station book: one row per month from 1925 to 2024, with `year`, `month`, `temp` (degrees C), `rain` (mm) and `sun` (hours).
 
@@ -68,10 +68,10 @@ ask:
     The Clocktower's age and temperature: r = 0.63
 ship:
   dialogue:
-    - yahya.proud.cheer: "Warmer, and luck didn't do it. Paul owes me a coffee."
-    - yahya.thinking: "Drier, perhaps. Luck manages that one time in ten, so his bet's a draw."
+    - yahya.proud.cheer: "It's warmer and luck didn't do it, so Paul owes me a coffee!"
+    - yahya.thinking: "Drier, maybe, but luck manages that one time in ten, so I'd call his bet a draw."
     - paul.unimpressed: "And the line about the Clocktower's age?"
-    - yahya.laughing: "Struck out. Correlated, and nothing to do with it."
+    - yahya.laughing: "Struck out. It's correlated, but it's got nothing to do with it."
   shelf: { object: thermometer, label: "Yahya's bet: warmer, and not by luck" }
   cards: [probability, permutation-tests, correlation-causation]
 stretch:

@@ -7,8 +7,8 @@ entry: report.py
 starter_from: make-charts
 timeout_ms: 40000
 dialogue:
-  - yahya.neutral: "Numbers first, then what they mean. In words anyone would read to the end."
-on_pass: { yahya.pleased: "It changes when the ledger does. So the numbers are the ledger's, not yours. Good." }
+  - yahya.neutral: "Numbers first and then what they mean, in words anyone would actually read to the end."
+on_pass: { yahya.pleased: "It changes when the ledger does, which means the numbers come from the ledger and not from you. Good." }
 hints:
   nudge: "Which of your functions gives each line of the report? And what does the conclusion have to say, besides that it got warmer?"
   plan:

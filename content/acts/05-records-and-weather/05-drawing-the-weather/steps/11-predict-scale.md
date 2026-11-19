@@ -4,7 +4,7 @@ type: predict
 title: Where the scale starts
 concept: honest-charts
 dialogue:
-  - yahya.unimpressed: "Same two numbers, two charts. One of them is about to tell a fib."
+  - yahya.unimpressed: "It's the same two numbers on two charts, and one of them's about to tell a fib."
 code: |
   import matplotlib.pyplot as plt
 

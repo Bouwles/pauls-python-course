@@ -4,7 +4,7 @@ type: predict
 title: One card, filed twice
 concept: merging
 dialogue:
-  - yahya.unimpressed: "The fisherman card's in twice. Doesn't matter. Same card, same answer."
+  - yahya.unimpressed: "The fisherman card's in twice, but it doesn't matter because it's the same card with the same answer."
 code: |
   import pandas as pd
 

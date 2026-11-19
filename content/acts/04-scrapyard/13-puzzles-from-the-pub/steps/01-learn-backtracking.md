@@ -4,7 +4,7 @@ type: learn
 title: Back out of dead ends
 concept: backtracking
 dialogue:
-  - caitlin.neutral.point: "My bike lock. Three different digits, one to four, no two neighbours one apart. I forgot which."
+  - caitlin.neutral.point: "I've forgotten my bike lock code. It's three different digits from one to four, and no two neighbours are one apart."
 code: |
   def pick(code):
       if len(code) == 3:

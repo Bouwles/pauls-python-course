@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Yahya's version
 dialogue:
-  - yahya.proud.wave: "Can you look at mine? Fewest roads to the hairpin. I used pop(), not pop(0). pop(0) is slow."
-  - yahya.confused: "It says seven roads. Neil walked it in four. Something's off."
+  - yahya.proud.wave: "Can you look at mine? It finds the fewest roads to the hairpin, and I used pop() because pop(0) is slow."
+  - yahya.confused: "It says seven roads, but Neil walked it in four. Something's not right there."
 dialogue_after:
-  - yahya.unimpressed: "So pop from the end is a stack, and a stack goes deep. Faster, and wrong."
+  - yahya.unimpressed: "So popping from the end makes it a stack, and a stack goes deep. It's faster, but it's wrong."
 hints:
   nudge: "Yahya's `queue.pop()` takes the place added last. Which place should a breadth-first search take next?"
   plan:

@@ -66,10 +66,10 @@ concepts_introduced: [simple-sorts, quicksort, merge-sort, sort-stability]
 concepts_reviewed: [big-o, timing-code, sorted-vs-sort, sort-key, lambda, list-comprehensions, slicing, tuples, mutability, default-arguments, none, copying]
 ask:
   dialogue:
-    - neil.pleased.wave: "The sim league's whole term of laps. Ten thousand, in the order they were set."
-    - neil.thinking: "I want them fastest first. Everyone says sort it. Nobody says which sort."
-    - neil.laughing: "So I want to watch four of them race. Obviously."
-    - paul.neutral: "There are four ways worth knowing. After that, you'll see why nobody writes their own."
+    - neil.pleased.wave: "I've got the sim league's laps for the whole term, all ten thousand of them in the order they were set."
+    - neil.thinking: "I want them fastest first, and everyone tells me to just sort it, but nobody ever says which sort."
+    - neil.laughing: "Obviously that means I want to watch four of them race each other."
+    - paul.neutral: "There are four worth knowing, and once you've built them you'll see why nobody bothers writing their own."
   spec: |
     A sorting visualiser, in two files, each sort written by hand: no `sorted()` or `.sort()` inside your functions. A lap is its time off the track record, in tenths of a second, so the smallest is the fastest. Every sort takes a `frames` list (or `None`, the default) and, if it's a list, puts a copy of the pile on it after each pass or round, so the work can be played back.
 
@@ -124,9 +124,9 @@ ask:
     sorted() 0.002 s, merge 0.033 s, quick 0.016 s
 ship:
   dialogue:
-    - neil.pleased.cheer: "Ten thousand laps, fastest first. Same time to the tenth, and whoever set it first stays ahead."
-    - neil.laughing: "sorted() beat both of them. I've decided I'm fine with that."
-    - paul.thinking: "It should. It's merge sort and insertion sort working together, in C. You've seen inside it."
+    - neil.pleased.cheer: "All ten thousand laps fastest first, and when two are the same to the tenth, whoever set it first stays ahead."
+    - neil.laughing: "sorted() beat both of them, which I've decided I'm fine with."
+    - paul.thinking: "It ought to, it's merge sort and insertion sort working together in C, and now you've seen what's inside it."
   shelf: { object: chequered-flag, label: "Neil's sorting visualiser, fastest first" }
   cards: [simple-sorts, quicksort, merge-sort, sort-stability]
 stretch:

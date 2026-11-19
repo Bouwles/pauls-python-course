@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the wind report
-on_pass: { riya.pleased.thumbs: "From 350 at 11.4 knots. That's January's arrow, and it goes in the middle of the print." }
+on_pass: { riya.pleased.thumbs: "From 350 at 11.4 knots, which is January's arrow, and it's going in the middle of the print." }
 hints:
   nudge: "Every one of these starts from the arrows, never the bearings. Which ones need the mean arrow, and which need a dot product?"
   plan:

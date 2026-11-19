@@ -4,8 +4,8 @@ type: explain
 title: Two stacks
 concept: stacks
 dialogue:
-  - yahya.proud: "Undo pops onto a second stack, redo pops it back. I left out the clearing. Saves a line."
-  - paul.unimpressed: "Run it and read the board."
+  - yahya.proud: "Undo pops onto a second stack and redo pops it back. I left out the clearing, because it saves a line."
+  - paul.unimpressed: "Go on, run it and have a read of the board."
 code: |
   text = ""
   undo_stack = []

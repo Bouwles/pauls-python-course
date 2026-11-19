@@ -4,7 +4,7 @@ type: investigate
 title: If nothing were changing
 concept: probability
 dialogue:
-  - yahya.thinking.think: "Nine of the ten warmest years are recent. Could that happen by chance? Let's count."
+  - yahya.thinking.think: "Nine of the ten warmest years are recent, and I want to count how often that'd happen by chance."
 code: |
   import numpy as np
   import pandas as pd

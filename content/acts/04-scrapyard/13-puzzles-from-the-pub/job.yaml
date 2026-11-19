@@ -54,10 +54,10 @@ concepts_introduced: [backtracking]
 concepts_reviewed: [recursion, base-cases, call-stack, sets, tuples, nested-data, list-methods, files, big-o, edge-cases]
 ask:
   dialogue:
-    - caitlin.pleased.wave: "The last three sudokus in my puzzle book. No answers in the back."
-    - caitlin.proud: "Two took me under ten minutes each. The third, I've been stuck on for a week."
-    - caitlin.unimpressed: "Either I'm wrong or the puzzle is. I'd like to know which, quickly."
-    - paul.neutral: "Try everything, carefully, and back out of every dead end. A program doesn't mind dead ends."
+    - caitlin.pleased.wave: "These are the last three sudokus in my puzzle book, and there are no answers in the back."
+    - caitlin.proud: "Two of them took me under ten minutes each, but I've been stuck on the third for a week."
+    - caitlin.unimpressed: "Either I'm wrong or the puzzle is, and I'd like to know which, quickly."
+    - paul.neutral: "Have it try everything carefully and back out of every dead end, because a program doesn't mind dead ends."
   spec: |
     `puzzles.txt` holds Caitlin's three puzzles. `read_puzzles` is written: it gives back each puzzle as nine rows of nine numbers, with 0 for a blank. In `sudoku.py`, write:
 
@@ -98,8 +98,8 @@ ask:
     No solution. It can't be done.
 ship:
   dialogue:
-    - caitlin.laughing.cheer: "The third one can't be done. Not by me, not by anyone. So it wasn't me."
-    - caitlin.unimpressed: "A week on a puzzle with no answer. I'm choosing to call that practice."
+    - caitlin.laughing.cheer: "The third one can't be done by anyone, so it wasn't me after all!"
+    - caitlin.unimpressed: "I spent a week on a puzzle with no answer, and I'm choosing to call that practice."
     - paul.thinking: "It tried every digit in every square it had to, and rubbed out every one it got wrong."
   shelf: { object: quiz-sheet, label: "Caitlin's puzzle book, with the answers" }
   cards: [backtracking]

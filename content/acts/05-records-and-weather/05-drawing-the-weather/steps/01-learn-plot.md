@@ -4,7 +4,7 @@ type: learn
 title: A line on a chart
 concept: matplotlib
 dialogue:
-  - yahya.pleased: "Numbers on a page, nobody reads. Numbers on the wall, everybody argues about."
+  - yahya.pleased: "Nobody reads numbers on a page, but put them on the wall and everybody argues about them."
 code: |
   import matplotlib.pyplot as plt
 

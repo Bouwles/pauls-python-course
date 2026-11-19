@@ -3,7 +3,7 @@ id: make
 type: make
 title: Make the census answers
 timeout_ms: 20000
-on_pass: { yahya.pleased.thumbs: "Eighteen on the Hill in 1951. Counted by hand, that took me an afternoon. That took you a line." }
+on_pass: { yahya.pleased.thumbs: "Eighteen on the Hill in 1951. Counting that by hand took me an afternoon, and it took you one line." }
 hints:
   nudge: "Every function starts by keeping one year's rows. What goes inside `census[...]` for that, and how do you add a second condition?"
   plan:

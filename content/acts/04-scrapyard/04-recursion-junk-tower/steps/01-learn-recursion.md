@@ -4,7 +4,7 @@ type: learn
 title: A function that calls itself
 concept: recursion
 dialogue:
-  - neil.laughing.point: "The kart track's lot came in crates. Open one, there's a sprocket and another crate."
+  - neil.laughing.point: "The kart track's lot came in crates, and you open one and there's a sprocket and another crate inside."
 code: |
   def weigh(crate):
       total = 0

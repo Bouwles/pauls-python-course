@@ -4,7 +4,7 @@ type: make
 title: Make the search engine
 files: [parts_search.py]
 entry: parts_search.py
-on_pass: { neil.proud.cheer: "Seven looks for the slicks, out of a hundred and eighty-eight. That's a pit stop, not a search." }
+on_pass: { neil.proud.cheer: "Seven looks for the slicks out of a hundred and eighty-eight, that's more like a pit stop than a search." }
 hints:
   nudge: "For `find_part`, what are the first and last places the name could be, before you've looked at anything? And for `starting_with`, where would the prefix itself go?"
   plan:

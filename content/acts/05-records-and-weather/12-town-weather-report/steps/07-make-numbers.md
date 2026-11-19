@@ -8,7 +8,7 @@ starter_from: make-clean
 timeout_ms: 30000
 dialogue:
   - yahya.neutral.point: "Every number in the report comes from here. Including the ones that say nothing happened."
-on_pass: { yahya.proud: "Warmer, p under a thousandth. Wetter, p of a fifth. One finding and one shrug, and both are true." }
+on_pass: { yahya.proud: "Warmer with p under a thousandth and wetter with p of a fifth, which is one finding and one shrug, both true." }
 hints:
   nudge: "What does a year's total mean if one month is missing? And for `compare`, what do you count on each shuffle?"
   plan:

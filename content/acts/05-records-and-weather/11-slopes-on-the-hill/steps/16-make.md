@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the hill survey
-on_pass: { paul.pleased.cheer: "Uphill from the gorse is 340, not straight at the top. Upstairs, we walk the other way." }
+on_pass: { paul.pleased.cheer: "Uphill from the gorse is 340 rather than straight at the top, and upstairs we'll be walking the other way." }
 hints:
   nudge: "Which input does each partial slope nudge, and which does it hold still? And for `miss_slopes`, what is the inner value, and what is the outer function done to it?"
   plan:

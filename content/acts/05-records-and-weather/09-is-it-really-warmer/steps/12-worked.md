@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.laughing: "Yahya swears by his new keyboard. Eight Drills on the old, eight on the new. Better, or lucky?"
+  - paul.laughing: "Yahya swears by his new keyboard, and here's eight Drills on the old one and eight on the new. Better, or lucky?"
 code: |
   import numpy as np
 

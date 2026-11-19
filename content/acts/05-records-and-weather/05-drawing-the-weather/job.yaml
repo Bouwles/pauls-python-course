@@ -51,11 +51,11 @@ concepts_introduced: [matplotlib, honest-charts]
 concepts_reviewed: [pandas-basics, selecting-filtering, groupby, missing-data, data-provenance, numpy-arrays, functions, return-values, docstrings, main-guard, f-strings]
 ask:
   dialogue:
-    - yahya.pleased.wave: "A hundred years of weather, and the Archive wall has one chart on it. From 1974."
-    - yahya.unimpressed: "Our own station book has gaps and Fahrenheit in it. For the wall I want a record anyone can check."
-    - yahya.thinking.point: "The Met Office has kept a station at Stornoway since 1873. Far north, and wet. One page, four charts."
-    - paul.neutral: "And honest, I expect."
-    - yahya.proud: "Bars start at zero. Every axis says what it measures. Anyone who wants drama can read a novel."
+    - yahya.pleased.wave: "We've got a hundred years of weather and the Archive wall has one chart on it, from 1974."
+    - yahya.unimpressed: "Our own station book has gaps and Fahrenheit in it, and for the wall I want a record anyone can check."
+    - yahya.thinking.point: "The Met Office's station at Stornoway goes back to 1873, far north and wet, and I want four charts on one page."
+    - paul.neutral: "And honest ones, I expect."
+    - yahya.proud: "Obviously the bars start at zero and every axis says what it measures. Anyone who wants drama can read a novel."
   spec: |
     `stornoway.csv` is real: the Met Office's monthly readings at Stornoway from 1925 to 2024, one row a month: `month`, `tmax` and `tmin` (the mean daily high and low, degrees C), `frost` (days), `rain` (mm), `sun` (hours) and `estimated`. A few months are missing a reading. `load_station` is written: it reads the file with the month as a date index and adds `temp`, the mean of `tmax` and `tmin`.
 
@@ -78,8 +78,8 @@ ask:
     Saved dashboard.png
 ship:
   dialogue:
-    - yahya.pleased.point: "Half a degree warmer than the first thirty years, drawn as half a degree. That goes in the middle."
-    - yahya.thinking: "And sunny Julys are warm Julys, mostly. The one furthest right is 1955."
+    - yahya.pleased.point: "Half a degree warmer than the first thirty years, and it's drawn as half a degree, so it goes in the middle."
+    - yahya.thinking: "Sunny Julys are mostly warm Julys, too. The one furthest right is 1955."
     - paul.laughing: "Caitlin has redrawn hers from zero, by the way."
     - yahya.pleased.thumbs: "Then it can go up next to mine."
   shelf: { object: noticeboard, label: "A century at Stornoway, on one honest page" }

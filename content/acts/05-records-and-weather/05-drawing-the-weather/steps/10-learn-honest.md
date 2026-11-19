@@ -4,7 +4,7 @@ type: learn
 title: Charts that don't fib
 concept: honest-charts
 dialogue:
-  - yahya.unimpressed: "If your chart starts at forty, I will notice. I always notice."
+  - yahya.unimpressed: "If your chart starts at forty I will notice, because I always do."
 code: |
   import matplotlib.pyplot as plt
 

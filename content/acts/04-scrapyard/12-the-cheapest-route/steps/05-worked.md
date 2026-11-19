@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How long Paul's walks take
 dialogue:
-  - paul.laughing: "Roads are fine. Minutes are better. I walk slowly, so I count minutes."
+  - paul.laughing: "Counting roads is fine, but I walk slowly, which is why minutes suit me better."
 code: |
   import heapq
 

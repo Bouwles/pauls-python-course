@@ -42,10 +42,10 @@ concepts_introduced: [hashing, hash-maps]
 concepts_reviewed: [dictionaries, membership-speed, sets, tuples, immutability, classes, dunder-methods, raising-errors, big-o, linked-lists]
 ask:
   dialogue:
-    - neil.surprised.wave: "I timed my parts dict. Two hundred parts or the kart track's ten thousand, a lookup takes the same time."
-    - neil.thinking.think: "A list has to walk along. So what does a dict do instead? I've never looked inside one."
-    - paul.neutral: "It does a sum on the key, and the sum says which pile to look in. Build one and see."
-    - paul.thinking: "You'll want more piles as it fills, and a rule for when to make them."
+    - neil.surprised.wave: "I timed my parts dict, and a lookup's just as quick with two hundred parts as with the kart track's ten thousand."
+    - neil.thinking.think: "A list has to walk along, so what's a dict doing instead? I've never actually looked inside one."
+    - paul.neutral: "It does a sum on the key, and the answer tells it which pile to look in. Build one and you'll see."
+    - paul.thinking: "You'll need more piles as it fills up, and some rule for when to make them."
   spec: |
     In `hash_map.py`, `part_hash(name)` turns a name into a number, the same number every time. Build a `HashMap`: a dictionary made by hand, from names to anything, filed in piles.
 
@@ -63,9 +63,9 @@ ask:
     Finding every part along one long list: 20100 probes
 ship:
   dialogue:
-    - neil.surprised: "Two hundred and sixty probes for two hundred parts. The long list took twenty thousand."
-    - neil.laughing: "So that's all a dict is doing. I'm slightly annoyed it's this simple."
-    - paul.pleased.thumbs: "Every dict in Python works that way. Yours counts its probes out loud."
+    - neil.surprised: "Two hundred and sixty probes for two hundred parts, when the long list took twenty thousand!"
+    - neil.laughing: "So that's all a dict's doing, and honestly I'm a bit annoyed it's this simple."
+    - paul.pleased.thumbs: "Every dict in Python works like that, yours just counts its probes out loud."
   shelf: { object: numbered-pile, label: "Neil's hash map, every probe counted" }
   cards: [hashing, hash-maps]
 stretch:

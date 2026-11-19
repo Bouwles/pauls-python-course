@@ -4,7 +4,7 @@ type: learn
 title: Sort into piles, then count each pile
 concept: groupby
 dialogue:
-  - yahya.thinking: "Everything by parish. Whoever kept the Archive before us did it with four piles of cards."
+  - yahya.thinking: "Everything gets done by parish, and whoever kept the Archive before us did it with four piles of cards."
 code: |
   import pandas as pd
 

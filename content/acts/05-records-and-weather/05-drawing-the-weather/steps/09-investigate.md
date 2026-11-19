@@ -4,8 +4,8 @@ type: investigate
 title: A century on one line
 concept: matplotlib
 dialogue:
-  - yahya.neutral: "The station book is ours. For the wall I want a record anyone in the country can check."
-  - yahya.pleased.point: "The Met Office has kept one at Stornoway since 1873. Far north, and wetter than us."
+  - yahya.neutral: "The station book's only ours, though, and for the wall I want a record anyone in the country can check."
+  - yahya.pleased.point: "The Met Office has kept one at Stornoway since 1873, which is far north and wetter than us."
 code: |
   import matplotlib.pyplot as plt
   import pandas as pd

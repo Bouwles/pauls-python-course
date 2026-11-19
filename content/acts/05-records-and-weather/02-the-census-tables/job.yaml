@@ -47,8 +47,8 @@ ask:
   dialogue:
     - yahya.pleased.wave: "One drawer in the Archive is census returns for the streets round here, 1921 to 2011."
     - yahya.unimpressed: "Someone typed up one household in three, and anyone they found interesting."
-    - yahya.thinking: "I keep asking it the same things. How many on the Hill. Who fished. I want each answer in a line."
-    - paul.neutral.point: "A table with names on its columns. That's what pandas is for."
+    - yahya.thinking: "I keep asking it the same things, how many on the Hill, who fished, and I'd like each answer in a line."
+    - paul.neutral.point: "A table with names on its columns is exactly what pandas is for."
   spec: |
     `census.csv` has one row per person: `year`, `parish`, `household`, `name`, `relation`, `age` and `occupation`. The years are 1921, 1951, 1981 and 2011.
 
@@ -69,10 +69,10 @@ ask:
     Oldest of all: Walter Rook
 ship:
   dialogue:
-    - yahya.surprised: "Thirty-five in Bankside in 1951. Eighteen in 2011. A street that halved, in one line."
-    - yahya.unimpressed: "Oldest in 2011: Albert Moyle, aged 121. That's either a record or a typo."
-    - paul.laughing: "Hold that thought. The next project is about exactly that."
-    - yahya.pleased.point: "And a Rowe, baker, in every census since 1921. Same street, same trade. That's a story."
+    - yahya.surprised: "Thirty-five in Bankside in 1951 and eighteen in 2011, and that whole street halving took one line."
+    - yahya.unimpressed: "The oldest in 2011 is Albert Moyle, aged 121, which is either a record or a typo."
+    - paul.laughing: "Hold that thought, because the next project's all about exactly that."
+    - yahya.pleased.point: "And there's a Rowe who's a baker in every census since 1921, on the same street, and I think that's a story."
   shelf: { object: census-ledger, label: "Yahya's census, in one table" }
   cards: [pandas-basics, selecting-filtering]
 stretch:

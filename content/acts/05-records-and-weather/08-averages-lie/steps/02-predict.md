@@ -4,7 +4,7 @@ type: predict
 title: An average week
 concept: descriptive-statistics
 dialogue:
-  - yahya.thinking.point: "A week in November. Six quiet days and one that wasn't."
+  - yahya.thinking.point: "Here's a week in November with six quiet days and one that wasn't."
 code: |
   import numpy as np
 

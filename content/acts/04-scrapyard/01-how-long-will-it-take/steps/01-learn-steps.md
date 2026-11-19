@@ -4,7 +4,7 @@ type: learn
 title: Counting the steps
 concept: big-o
 dialogue:
-  - neil.thinking: "My script's instant on two hundred parts. That proves nothing, does it?"
+  - neil.thinking: "My script's instant on two hundred parts, but that doesn't really prove anything, does it?"
 edit: true
 code: |
   parts = ["axle", "bolt", "chain"]

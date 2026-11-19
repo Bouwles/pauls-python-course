@@ -3,7 +3,7 @@ id: worked-merge
 type: worked
 title: How Paul merges two piles
 dialogue:
-  - paul.pleased: "Two tidy piles into one tidy pile. Easiest job in the building, done properly."
+  - paul.pleased: "Putting two tidy piles into one tidy pile is the easiest job in the building, as long as you do it properly."
 code: |
   def merge(left, right):
       merged = []

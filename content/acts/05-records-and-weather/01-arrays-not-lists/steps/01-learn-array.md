@@ -4,7 +4,7 @@ type: learn
 title: A block of numbers
 concept: numpy-arrays
 dialogue:
-  - yahya.pleased: "Everything up here is numbers. Thousands of them. We're not doing them one at a time."
+  - yahya.pleased: "Everything up here is numbers, thousands of them, and we're not doing them one at a time."
 code: |
   import numpy as np
 

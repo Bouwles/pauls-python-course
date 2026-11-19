@@ -4,7 +4,7 @@ type: learn
 title: A blank where a number should be
 concept: missing-data
 dialogue:
-  - yahya.unimpressed: "A register with gaps in it. Every register has gaps in it."
+  - yahya.unimpressed: "It's a register with gaps in it, but then every register has gaps in it."
 code: |
   import numpy as np
   import pandas as pd

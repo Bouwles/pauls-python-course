@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Yahya's version
 dialogue:
-  - yahya.proud.wave: "Can you look at mine? Six teams, every seating. I added a set, so checking who's seated is quick."
-  - yahya.confused: "It is quick. It says there's one way. Caitlin's seated them three different ways this month."
+  - yahya.proud.wave: "Can you look at mine? It seats six teams every way, and I added a set so checking who's seated is quick."
+  - yahya.confused: "It is quick, but it says there's only one way, and Caitlin's seated them three different ways this month."
 dialogue_after:
-  - yahya.thinking: "So whatever you do on the way down, you undo on the way back. Even the bit for speed."
+  - yahya.thinking: "Right, whatever you do on the way down you undo on the way back, even the bit that was for speed."
 hints:
   nudge: "When Yahya stands a team up again with `row.pop()`, is it still in `seated`?"
   plan:

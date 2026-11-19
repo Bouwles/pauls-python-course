@@ -60,10 +60,10 @@ concepts_introduced: [recursion, base-cases, call-stack, memoisation]
 concepts_reviewed: [functions, return-values, scope, nested-data, dictionaries, big-o, quicksort, files, sys-argv, enumerate, f-strings]
 ask:
   dialogue:
-    - neil.surprised.wave: "I found my old laptop's backup. Folders inside folders inside folders."
-    - neil.laughing: "My first kart lap timer is in there. My first rocket's flight notes. A lot of typos."
-    - neil.thinking: "I want to see what's on it without opening a thing. And how big it all is."
-    - paul.neutral.point: "A folder is files and smaller folders. Look at it the way it was packed."
+    - neil.surprised.wave: "I've found my old laptop's backup, and it's folders inside folders inside folders."
+    - neil.laughing: "My first kart lap timer's in there, and my first rocket's flight notes, with a lot of typos."
+    - neil.thinking: "I'd like to see what's on it without opening anything, and find out how big it all is."
+    - paul.neutral.point: "A folder is files plus smaller folders, and the easiest way to look at it is the way it was packed."
   spec: |
     In `tree.py`, a file tree printer for the `backup` folder, Neil's old laptop, or any folder you name. List a folder with `os.listdir(path)`, in sorted order, and build the path to each name inside with `os.path.join(path, name)`.
 
@@ -98,9 +98,9 @@ ask:
     12 files, 4 folders deep
 ship:
   dialogue:
-    - neil.laughing: "Eight hundred and thirty-five bytes. A lap timer and two rocket flights. Humbling."
-    - neil.pleased.thumbs: "And every folder measured once. Mine measured `versions` four times."
-    - paul.proud: "Same sums. It just stopped doing any of them twice."
+    - neil.laughing: "Eight hundred and thirty-five bytes for a lap timer and two rocket flights, which is humbling."
+    - neil.pleased.thumbs: "And it measured every folder once, whereas mine measured `versions` four times."
+    - paul.proud: "It's doing the same sums as before, it just doesn't do any of them twice now."
   shelf: { object: crate-tower, label: "Neil's old backup, lap timer and rockets drawn" }
   cards: [recursion, base-cases, call-stack, memoisation]
 stretch:

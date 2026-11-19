@@ -4,7 +4,7 @@ type: learn
 title: A pile used from the top
 concept: stacks
 dialogue:
-  - paul.neutral.point: "Neil's crates. The last one on the pile is the first one off. Nobody digs from the bottom."
+  - paul.neutral.point: "Think of Neil's crates, where the last one on the pile is the first one off, because nobody digs from the bottom."
 code: |
   plans = []
   plans.append("Monday's plan")

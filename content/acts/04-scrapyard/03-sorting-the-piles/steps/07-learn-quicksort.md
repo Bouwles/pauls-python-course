@@ -4,7 +4,7 @@ type: learn
 title: Split round a pivot
 concept: quicksort
 dialogue:
-  - neil.pleased: "The second half: two sorts that are actually quick. Ten thousand laps quick."
+  - neil.pleased: "Now for the second half, two sorts that are actually quick, quick enough for ten thousand laps."
 code: |
   pile = [5, 8, 2, 5, 1, 9]
   pivot = pile[0]

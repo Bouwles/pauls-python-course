@@ -4,8 +4,8 @@ type: investigate
 title: Which growth is it?
 concept: big-o
 dialogue:
-  - neil.confused: "So you count it at one size, then at twice the size. Then what?"
-  - paul.thinking: "Then you ask which growth would have done that."
+  - neil.confused: "Okay, you count it at one size and then at twice the size, but what do you do after that?"
+  - paul.thinking: "Then you work out which growth would have turned the first count into the second."
 code: |
   import math
 
