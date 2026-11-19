@@ -68,7 +68,7 @@ for (const file of [...walk(path.join(root, "app"), [".tsx", ".ts"]), ...walk(pa
 for (const file of walk(path.join(root, "content"), [".md", ".yaml"])) {
   const rel = path.relative(root, file);
   const text = fs.readFileSync(file, "utf8");
-  // Dialogue may carry one exclamation mark per job; the build counts those, so only the rest is checked here.
+  // Dialogue may carry three exclamation marks per job; the build counts those, so only the rest is checked here.
   for (const problem of lintText(text, { ui: false })) findings.push(`${rel}: ${problem}`);
 }
 

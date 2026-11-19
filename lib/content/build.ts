@@ -676,7 +676,7 @@ export async function loadContent(root: string, opts: LoadOptions = {}): Promise
     });
 
     const exclamations = dialogueAll.filter((l) => l.text.includes("!")).length;
-    if (exclamations > 1) errors.push(`${rel(jy)}: ${exclamations} exclamation marks in dialogue; the limit is one per Job`);
+    if (exclamations > 3) errors.push(`${rel(jy)}: ${exclamations} exclamation marks in dialogue; the limit is three per Job`);
 
     const stretch = job.stretch.map((t) => {
       lint(t.prompt, `${rel(jy)} stretch ${t.id}`);

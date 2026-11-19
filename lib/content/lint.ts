@@ -52,7 +52,7 @@ export function stripCode(text: string): string {
 }
 
 export interface LintOptions {
-  /** UI copy: no exclamation marks at all. Dialogue allows one per Job (checked elsewhere). */
+  /** UI copy: no exclamation marks at all. Dialogue allows three per Job (checked elsewhere). */
   ui?: boolean;
   /** Check British spelling (content prose). */
   spelling?: boolean;
