@@ -22,7 +22,7 @@ export async function generateMetadata(props: { params: Promise<{ id: string }> 
   const { id } = await props.params;
   const c = getConcepts()[id];
   if (!c) return { title: "Python Handbook" };
-  const url = `${siteUrl()}${handbookPath(id)}`;
+  const url = `${siteUrl()}${handbookPath(id)}/`;
   const title = c.handbookTitle ?? `${c.title}: Python Handbook`;
   return {
     title,

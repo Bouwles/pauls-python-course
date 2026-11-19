@@ -8,7 +8,11 @@ import { FloorResident } from "@/components/site/FloorResident";
 import { LinkButton } from "@/components/ui/Button";
 import styles from "@/components/legal/Syllabus.module.css";
 
-export const metadata: Metadata = { title: "Syllabus" };
+export const metadata: Metadata = {
+  title: "Syllabus",
+  description: "Every project in the course, Act by Act, from a first print() to machine learning, deep learning, reinforcement learning and a tiny GPT.",
+  alternates: { canonical: "/syllabus/" },
+};
 
 const WORDS: Record<number, string> = { 8: "Eight", 9: "Nine", 10: "Ten" };
 

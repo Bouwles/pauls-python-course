@@ -4,7 +4,7 @@ export const BRAND = {
   name: "Paul's Python Course",
   shortName: "PPC",
   tagline: "Python with the class, in the Clocktower.",
-  description: "Paul's Python class for his friends, with projects that take you from a first print() to machine learning alongside Paul, Neil and the rest of the class.",
+  description: "A free Python course in your browser, with nothing to install. Build real projects from your first print() to machine learning, neural networks and a tiny GPT, alongside Paul, Neil and the rest of the class.",
   domain: "paulspythoncourse.com",
   supportEmail: "hello@paulspythoncourse.example",
   creditName: "Paul Nercessian",

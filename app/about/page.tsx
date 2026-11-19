@@ -12,11 +12,12 @@ const DESCRIPTION =
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  alternates: { canonical: "/about" },
+  // The same page as home, so search engines are pointed there and the two don't compete.
+  alternates: { canonical: "/" },
   // The page's own Open Graph replaces the layout's whole, so the picture is named again here.
   openGraph: {
     type: "website",
-    url: "/about",
+    url: "/",
     siteName: BRAND.name,
     title: `${TITLE} · ${BRAND.name}`,
     description: DESCRIPTION,

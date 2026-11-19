@@ -8,7 +8,7 @@ import { ConceptIndex } from "@/components/concepts/ConceptIndex";
 export const metadata: Metadata = {
   title: "Python Handbook",
   description: `Python, from print() to transformers, with examples you can run in the page. From ${BRAND.name}.`,
-  alternates: { canonical: `${siteUrl()}${handbookPath()}` },
+  alternates: { canonical: `${siteUrl()}${handbookPath()}/` },
 };
 
 /** The public Python Handbook: every concept in the course, free and crawlable. */
