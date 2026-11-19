@@ -3,9 +3,9 @@ id: make-ferry
 type: make
 title: Riya's exhibition tickets
 dialogue:
-  - riya.pleased.wave: "Open day. My prints are up in the Makerspace, twelve visitors at a time."
-  - riya.laughing: "People keep asking about the clock. It still says 3:14."
-on_pass: { riya.proud.cheer: "Twelve up the stairs and not a thirteenth. The stairs are very old." }
+  - riya.pleased.wave: "It's open day, and my prints are up in the Makerspace, twelve visitors at a time."
+  - riya.laughing: "People keep asking me about the clock, and yes, it still says 3:14."
+on_pass: { riya.proud.cheer: "Twelve up the stairs and not a thirteenth, which is good, because those stairs are very old." }
 ---
 Write Riya's ticket desk for her exhibition in `main.py`.
 

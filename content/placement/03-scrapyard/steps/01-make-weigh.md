@@ -5,8 +5,8 @@ title: Neil's hardware shelves
 files: [weighbridge.py]
 entry: weighbridge.py
 dialogue:
-  - neil.pleased.wave: "Someone gave me a box of old sim-rig hardware. Monitors, speakers, the lot."
-  - neil.thinking.point: "Lightest first for the top shelf. Ties stay in box order."
+  - neil.pleased.wave: "Someone gave me a box of old sim-rig hardware, monitors, speakers, the lot."
+  - neil.thinking.point: "Lightest first for the top shelf, and any ties stay in the order they were in the box."
 on_pass: { neil.proud.thumbs: "Lightest first, ties in box order, and it finds the three-kilo end in a couple of dozen looks." }
 ---
 Parts are `(name, kg)` pairs. Write two functions in `weighbridge.py`, by hand: no `sorted`, `.sort()` or `bisect`.

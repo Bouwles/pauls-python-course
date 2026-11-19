@@ -8,27 +8,27 @@ voice: "Creative, fast, impatient. Builds the fun version first. Bored by anythi
 pools:
   # Reactive lines. lib/cast.ts says which events are Caitlin's.
   long-no-loop:
-    - "That's a lot of lines that look the same. Isn't that what loops are for?"
-    - "Twenty lines and no loop. I've shipped worse. A loop would be shorter, though."
+    - "That's loads of lines that all look the same, isn't that literally what loops are for?"
+    - "Twenty lines and not one loop, which, fair, I've shipped worse, but a loop would be way shorter."
   pass-first-try:
-    - "First try. It works. Ship it."
-    - "First go. I usually need three."
-    - "Passed first time. Can it have a high score next?"
-    - "First go. That deserves a biscuit."
+    - "First try and it works? Ship it, honestly."
+    - "You got it first go, which is annoying because I usually need about three."
+    - "Passed first time, nice. Can it have a high score next?"
+    - "First go as well, that definitely deserves a biscuit."
   # When the learner fixes Caitlin's version, or fixes it in fewer lines.
   fixed-by-learner:
-    - "Oh. That's what it was. Thanks."
-    - "Fixed. I'd have shipped it broken. Glad I didn't."
-    - "It works now. It's still ugly, but that's on me."
+    - "Oh, so that's what it was. Thanks for that."
+    - "Thank you, I'd have happily shipped that broken and never noticed."
+    - "It works now, thanks. It's still a bit ugly, but that part's on me."
   shorter-than-mine:
-    - "Yours is shorter. Mine had more features. Possibly."
-    - "Shorter than mine, and it works. Fine. Fair."
+    - "Okay, yours is shorter, but in my defence mine had more features. Possibly."
+    - "Yours is shorter than mine and it works, which, fine, is fair enough."
   # Caitlin is the client for the Bill Splitter, the Number Guessing Game and Rock Paper Scissors.
   waiting:
-    - "Can it have a high score?"
-    - "Take your time. Actually, don't. I'm keen."
-    - "Does it work yet? No pressure. Some pressure."
-    - "I'm making toast. Finish before it pops and you win."
+    - "Can it have a high score, though?"
+    - "Take your time. Actually, don't, I'm really keen to see it."
+    - "Does it work yet? No pressure, well, maybe a little bit of pressure."
+    - "I'm making toast, and if you're done before it pops you win."
   recap:
-    - "Back to my {job}. You'd got to {step}"
-    - "My {job} is waiting. You were here: {step}"
+    - "Back to my {job}, you'd got up to {step}."
+    - "My {job}'s still waiting for you, you'd got as far as {step}."

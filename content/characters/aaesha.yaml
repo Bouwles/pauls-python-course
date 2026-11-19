@@ -9,20 +9,20 @@ pools:
   # Reactive lines. lib/cast.ts says which events are Aaesha's.
   # When the learner fixes Aaesha's version, or fixes it in fewer lines.
   fixed-by-learner:
-    - "That's it. Everything else was right. Thank you."
-    - "Fixed. I'm writing that one down, so I don't do it twice."
-    - "Thank you. I'd checked everything except that."
-    - "Fixed. I read what I meant, not what I typed. Brains do that."
+    - "Oh, that's it, everything else was fine and that was the one bit I'd got wrong. Thank you."
+    - "That's fixed, thank you. I'm writing that one down so I don't make it again."
+    - "Thank you, honestly, I'd checked absolutely everything apart from that."
+    - "Thanks for that. I kept reading what I meant to type instead of what I actually typed, which brains love doing."
   shorter-than-mine:
-    - "Shorter than mine, and it still passes. I'm keeping yours."
-    - "Fewer lines, same results. I'll take that."
-    - "Shorter, and easier to hold in your head at once. That matters."
+    - "Yours is shorter than mine and it still passes everything. I think I'm keeping yours."
+    - "You've got the same results out of fewer lines than me, which I'm very happy to take."
+    - "It's shorter, and I can hold the whole thing in my head at once, which matters more than people think."
   # Aaesha is the client for the Password Checker and the Times Table Trainer.
   waiting:
-    - "Before you run it, how will you know it worked?"
-    - "Take your time. I'd rather it was right."
-    - "When you check it, read the expected output first."
-    - "People decide faster when they're rushed, and worse. Take your time."
+    - "Before you run it, how are you going to know it's worked?"
+    - "Take as long as you need, I'd much rather it was right than quick."
+    - "When you check it, have a look at what it's meant to print before you look at what it did."
+    - "People make quicker decisions when they're rushed, and worse ones too, so honestly, take your time."
   recap:
-    - "Where you left my {job}: {step}"
-    - "Back to my {job}. The last step you were on: {step}"
+    - "You'd got as far as {step} on my {job}."
+    - "Back to my {job}, and the last step you were on was {step}."

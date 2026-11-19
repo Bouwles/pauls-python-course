@@ -32,7 +32,7 @@ import { ReviewCard, type CardOutcome } from "./ReviewCard";
 import styles from "./Rounds.module.css";
 
 const MAX = 10;
-const OPENING = "Ten quick ones before anything new.";
+const OPENING = "Ten quick ones before we get onto anything new.";
 const CLOSING = "That's the lot, and your desk is waiting for you.";
 const NOTHING_DUE = "Nothing's due today, go and build something new.";
 
@@ -50,7 +50,7 @@ interface Said {
 
 /** How Paul takes each answer: a face, what his gesture is for, and a few short lines to choose between. */
 const REACTIONS: Record<"right" | "second" | "retry" | "missed", { face: Expression; tags: GestureTag[]; lines: string[] }> = {
-  right: { face: "pleased", tags: ["approve", "celebrate"], lines: ["Straight from memory, good.", "That one's stuck.", "Right, and no hesitating.", "You didn't even need to think about that one."] },
+  right: { face: "pleased", tags: ["approve", "celebrate"], lines: ["Straight from memory, nice one.", "That one's stuck.", "Right, and you didn't hesitate at all.", "You didn't even need to think about that one."] },
   second: {
     face: "pleased",
     tags: ["approve", "encourage"],
@@ -59,7 +59,7 @@ const REACTIONS: Record<"right" | "second" | "retry" | "missed", { face: Express
   retry: {
     face: "thinking",
     tags: ["encourage", "think"],
-    lines: ["Not quite. Slow down and try once more.", "Read it again the way Python would, line by line.", "Have one more look, because it's in there somewhere."],
+    lines: ["Not quite, slow down a bit and have another go.", "Read it again the way Python would, line by line.", "Have one more look, because it's in there somewhere."],
   },
   missed: {
     face: "thinking",

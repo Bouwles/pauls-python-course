@@ -5,8 +5,8 @@ title: Boxes in boxes
 files: [tower.py]
 entry: tower.py
 dialogue:
-  - paul.thinking.think: "The clock's spare weight is in my cupboard somewhere. Boxes in boxes in boxes."
-on_pass: { paul.laughing: "Position one, then one, then nought. Found in one pass. Now I've no excuse about the clock." }
+  - paul.thinking.think: "The clock's spare weight is in my cupboard somewhere, in a box inside a box inside a box."
+on_pass: { paul.laughing: "Position one, then one, then nought, found in one pass. Now I've got no excuse about the clock." }
 ---
 Paul's cupboard is crates inside crates. A crate is a list, and each thing in it is either a part, a `(name, kg)` pair, or another crate. Write three functions in `tower.py`, each of which calls itself.
 

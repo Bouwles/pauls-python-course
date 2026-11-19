@@ -43,9 +43,9 @@ const START_LINE = "Mine runs in 0.02 seconds, so let's see what yours does.";
 const BEATEN_LINE = "Fine, but I want a rematch tomorrow.";
 const INTRO_LINE = "Every card has my time on it, so pick one and try to beat it.";
 const NOTHING_LINE = "There's nothing to race yet, but ship a project and I'll set you a time.";
-const MY_TIME_LINE = "That's my time gone, but finish anyway because it still counts.";
+const MY_TIME_LINE = "Okay, that's my time gone, but finish it anyway, it still counts.";
 /** When the rival wins: he's proud of it, and a good sport. */
-const WON_LINES = ["Still my record, but go again whenever you like.", "My time stands, for now anyway.", "That was close, just not quite close enough."];
+const WON_LINES = ["Still my record, but go again whenever you like.", "My time's still standing, for now anyway.", "That was close, just not quite close enough."];
 
 export interface DrillAct {
   number: number;

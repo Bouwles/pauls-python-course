@@ -8,39 +8,39 @@ voice: "Competitive, quick, a good sport. Loves an elegant answer and a clean da
 pools:
   # Reactive lines. lib/cast.ts says which events are Yahya's.
   nested-loop:
-    - "A loop inside a loop. That's n squared. Fine for twelve rows, slow for a million."
-    - "Nested loops. Neat. Just watch how big n gets."
+    - "A loop inside a loop is n squared, which is fine for twelve rows and painful for a million."
+    - "Nested loops, neat enough, just keep an eye on how big n gets."
   one-left:
-    - "One check left. Read that one carefully."
-    - "One to go. That's usually the edge case."
-    - "Nearly. The last check is the one people skip."
+    - "Only one check left, and I'd read that one carefully if I were you."
+    - "One to go, and I bet it's the edge case."
+    - "Nearly there. The last check's the one everyone skips, so don't."
   drill-start:
-    - "Mine runs in 0.02 seconds. Yours?"
-    - "My time's on the board. Go."
-    - "Ready when you are. I've been ready for a while."
+    - "Mine runs in 0.02 seconds. What's yours going to do?"
+    - "My time's already up on the board, off you go then."
+    - "Ready when you are, although I've been ready for ages."
   drill-beaten:
-    - "Faster than mine. Fair. Rematch tomorrow."
-    - "That's my time beaten. Good. Now I've got something to chase."
-    - "You beat me. Don't get used to it."
+    - "Okay, that's faster than mine, fair enough, but I want a rematch tomorrow."
+    - "You've beaten my time, which is good, honestly, because now I've got something to chase."
+    - "Yeah, you beat me, just don't get used to it."
   pass-first-try:
-    - "First try. Clean."
-    - "Passed first time. Now do it in fewer lines."
-    - "First go. That's a good time."
-    - "First try. One data point. Do it again and it's a trend."
+    - "First try, and clean too."
+    - "Passed first time, nice. Now do it in fewer lines."
+    - "First go, and that's a decent time as well."
+    - "First try, but that's one data point. Do it again and I'll call it a trend."
   # When the learner fixes Yahya's version, or fixes it in fewer lines.
   fixed-by-learner:
-    - "Oh. That's annoying. In a good way."
-    - "Huh. Fast and wrong is still wrong. Thanks."
-    - "So that was it. I was optimising the wrong thing."
-    - "Fixed. I optimised it before I'd checked the output. Lesson logged."
+    - "Oh, that's annoying, in a good way."
+    - "Huh, so mine was fast and wrong, which is still wrong. Thanks."
+    - "So that's what it was, I was busy optimising the wrong thing."
+    - "Okay, I optimised it before I'd even checked the output, I'm logging that one."
   shorter-than-mine:
-    - "Yours is shorter and it works. Respect."
-    - "Fewer lines than mine. I'm taking notes."
+    - "Yours is shorter and it works, so, respect."
+    - "Fewer lines than mine, okay, I'm taking notes."
   # Yahya is the client for the Calculator and the Expense Tracker.
   waiting:
-    - "No rush. Well. A bit of rush."
-    - "I'm timing you. Kidding. Mostly."
-    - "I'll be cleaning a dataset. Mine will take longer. Probably."
+    - "No rush. Well, maybe a bit of rush."
+    - "I'm timing you. I'm kidding, mostly."
+    - "I'll be cleaning a dataset, which will probably take longer than yours."
   recap:
-    - "Where you left my {job}: {step}"
-    - "My {job}. Last place you were: {step}"
+    - "My {job}'s still waiting, and you'd only got as far as {step}."
+    - "Back to my {job}, you were on {step} last time."

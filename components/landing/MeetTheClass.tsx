@@ -34,11 +34,11 @@ const ROLE: Record<string, string> = {
 };
 
 const LINE: Record<string, { text: string; face: string; gesture: string }> = {
-  paul: { text: "Most of AI is careful Python and honest data, so I'll teach you both, in that order.", face: "pleased", gesture: "point" },
-  neil: { text: "Racing cars and rockets both run on code, and the lap times, launch windows and telemetry are all Python underneath.", face: "laughing", gesture: "thumbs" },
+  paul: { text: "Most of AI is really just careful Python and honest data, and I'll teach you both, Python first.", face: "pleased", gesture: "point" },
+  neil: { text: "Racing cars and rockets both run on code, and a lot of the lap times and launch maths behind them is Python.", face: "laughing", gesture: "thumbs" },
   aaesha: { text: "I'm into how minds remember and decide, so I build small ones in code to see where they break.", face: "thinking", gesture: "think" },
   caitlin: { text: "I've made games, websites and a bot that reminds me to water my plants, basically if it's fun I've built it.", face: "laughing", gesture: "point" },
-  riya: { text: "I make art with code, like patterns, colour and pictures that draw themselves, and the first thing I ask is who it's for.", face: "pleased", gesture: "wave" },
+  riya: { text: "I make art with code, patterns and pictures that draw themselves, and I always start by asking who it's for.", face: "pleased", gesture: "wave" },
   yahya: { text: "Give me a messy dataset and ten minutes, the answer's in there somewhere and I'll find it first.", face: "proud", gesture: "thumbs" },
 };
 

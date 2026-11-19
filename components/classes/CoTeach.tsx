@@ -41,7 +41,7 @@ export function CoTeach({ acts, names }: { acts: CourseAct[]; names: Record<stri
         <p className={teach.lede}>
           Shared by {cls.teacher}, with {cls.assignments.length} {cls.assignments.length === 1 ? "project" : "projects"} set and {register.length} {register.length === 1 ? "student" : "students"} in the register.
         </p>
-        <ClassLine who="neil" names={names} text="Add the class and progress links can come to either of you." />
+        <ClassLine who="neil" names={names} text="If you add the class, progress links can come to either of you." />
       </header>
 
       <section className={`px-panel ${teach.section}`} aria-labelledby="set-title">

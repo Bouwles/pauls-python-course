@@ -163,7 +163,7 @@ export function Landing({ data }: { data: LandingData }) {
           </p>
         </div>
         <div className={styles.heroArt}>
-          <ClassScene names={names} greeting="Welcome to the Clocktower, where we build actual programs, and we start with the sign on the front door." />
+          <ClassScene names={names} greeting="Welcome to the Clocktower. We build real programs in here, and the first one's the sign on the front door." />
         </div>
       </section>
 
