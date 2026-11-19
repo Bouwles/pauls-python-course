@@ -257,3 +257,26 @@
     height: 164px;
   }
 }
+
+/* An option that's a word, not a colour: "A shade of my top". */
+.chipWord {
+  display: inline-grid;
+  place-items: center;
+  min-height: 32px;
+  padding: 0 var(--s-3);
+  font-size: var(--fs-1);
+  font-weight: 700;
+  color: var(--text);
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 2px var(--px-outline);
+}
+
+.swatch:has(.chipWord) {
+  width: auto;
+}
+
+.swatch.on .chipWord {
+  background: var(--blue-wash);
+  color: var(--blue-text);
+  box-shadow: inset 0 0 0 2px var(--blue);
+}

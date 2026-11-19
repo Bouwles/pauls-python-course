@@ -1,6 +1,6 @@
 // The cast's looks, as picked in art/pixel-reference/, and the learner's avatar
 // choices (lib/avatar.ts) turned into a look the same engine draws (lib/pixel/people.ts).
-import { ACCESSORIES, AVATAR_COLOURS, HAIR_COLOURS, SKIN_TONES, TOP_COLOURS, readAvatar, type AvatarLook } from "../avatar";
+import { ACCESSORIES, AVATAR_COLOURS, BOTTOMS_COLOURS, EYE_COLOURS, FRAME_COLOURS, HAIR_COLOURS, HAIR_ENDS, HEADWEAR, HEADWEAR_COLOURS, JEWELLERY, SHOES, SKIN_TONES, TOP_COLOURS, readAvatar, type AvatarLook } from "../avatar";
 import { mix, type HairStyle, type PersonLook } from "./people";
 
 export const CAST_LOOKS: Record<string, PersonLook> = {
@@ -143,12 +143,14 @@ const HAIR_STYLE: Record<string, HairStyle> = {
   hijab: "hijab",
   turban: "turban",
   beanie: "beanie",
+  quiff: "quiff",
+  "curls-fringe": "curls-fringe",
+  "long-behind": "long-behind",
+  "cap-back": "cap-back",
 };
 
-/** Whether a colour is light enough that dark jeans sit better under it. */
-const lightTop = (c: string) => [1, 3, 5].reduce((n, i) => n + parseInt(c.slice(i, i + 2), 16), 0) / 3 > 120;
-
 const hexOf = (list: { id: string; hex?: string }[], id: string, fallback: string) => list.find((o) => o.id === id)?.hex ?? fallback;
+const oneOf = <T extends string>(x: string, ok: readonly T[], fallback: T): T => ((ok as readonly string[]).includes(x) ? (x as T) : fallback);
 
 /** The learner's avatar as a pixel person. Old animal looks read as the default avatar. */
 export function avatarToLook(saved: unknown): PersonLook {
@@ -156,29 +158,47 @@ export function avatarToLook(saved: unknown): PersonLook {
   const skin = hexOf(SKIN_TONES, a.skin, "#d49a72");
   const hair = hexOf(HAIR_COLOURS, a.hairColour, "#3b2a20");
   const top = hexOf(TOP_COLOURS, a.topColour, "#22304f");
-  const pale = ["blonde", "grey", "dyed-pink"].includes(a.hairColour);
-  const fabric = a.hair === "hijab" || a.hair === "turban" || a.hair === "beanie" ? mix(top, "#ffffff", 0.18) : mix(top, "#ffffff", 0.3);
-  const face = (["oval", "round", "square", "long", "heart"].includes(a.face) ? a.face : "oval") as PersonLook["face"];
+  const second = hexOf(TOP_COLOURS, a.topColour2, "#e9e6df");
+  const pale = ["blonde", "grey", "dyed-pink", "platinum", "white"].includes(a.hairColour);
+  const hairStyle = HAIR_STYLE[a.hair] ?? "short-straight";
+  // A hat or scarf: the colour chosen for it, or a shade of the top.
+  const chosen = a.headwearColour !== "match" ? HEADWEAR_COLOURS.find((o) => o.id === a.headwearColour)?.hex : undefined;
+  const fabric = chosen ?? (HEADWEAR.includes(a.hair) ? mix(top, "#ffffff", 0.18) : mix(top, "#ffffff", 0.3));
+  const ends = HAIR_ENDS.find((o) => o.id === a.hairEnds && o.hex)?.hex;
+  const jewel = (id: string) => JEWELLERY.find((o) => o.id === id && o.hex)?.hex;
+  const kind = oneOf(a.top, ["hoodie", "jumper", "shirt", "jacket", "tee", "overshirt", "varsity"] as const, "hoodie");
   return {
-    face,
+    face: oneOf(a.face, ["oval", "round", "square", "long", "heart", "standard", "strong"] as const, "oval"),
     skin,
     skinShade: mix(skin, "#000000", 0.12),
     lip: mix(skin, "#8a3434", 0.35),
-    iris: "#3a2418",
+    iris: hexOf(EYE_COLOURS, a.eyes, "#3a2418"),
     brow: pale ? mix(hair, "#2a1a12", 0.55) : mix(hair, "#000000", 0.3),
-    browShape: (["straight", "arched", "thick", "fine"].includes(a.brows) ? a.brows : "straight") as PersonLook["browShape"],
-    mouth: "smile",
-    hairStyle: HAIR_STYLE[a.hair] ?? "short-straight",
+    browShape: oneOf(a.brows, ["straight", "arched", "thick", "fine", "defined", "bold"] as const, "straight"),
+    mouth: oneOf(a.smile, ["smile", "grin", "half", "smirk", "flat"] as const, "smile"),
+    hairStyle,
     hair,
     hairShade: mix(hair, "#000000", 0.45),
     hairLight: mix(hair, "#ffffff", 0.25),
+    ends: ends ? { colour: ends, shade: mix(ends, "#000000", 0.3), light: mix(ends, "#ffffff", 0.3), from: 28 } : undefined,
     fabric,
-    glasses: a.glasses ? "round" : null,
-    stubble: a.facialHair,
+    glasses: a.glasses ? oneOf(a.glassesStyle, ["round", "rect"] as const, "round") : null,
+    glassesColour: hexOf(FRAME_COLOURS, a.glassesColour, "#121214"),
+    stubble: a.facialHair && a.facialHairStyle !== "moustache",
+    moustache: a.facialHair && a.facialHairStyle === "moustache",
+    blush: a.cheeks === "rosy" ? mix(skin, "#e06a6a", 0.4) : undefined,
+    earrings: jewel(a.earrings),
+    necklace: jewel(a.necklace),
     accessory: (ACCESSORIES.some((o) => o.id === a.accessory) ? a.accessory : "none") as PersonLook["accessory"],
-    top: a.top === "jacket" ? { kind: "jacket", outer: top, inner: "#e9e6df" } : a.top === "shirt" ? { kind: "shirt", colour: top } : a.top === "jumper" ? { kind: "jumper", colour: top } : { kind: "hoodie", colour: top },
-    // Jeans and light trainers for the full-body figure (lib/pixel/figures.ts): a darker wash under a light top.
-    legs: { trousers: lightTop(top) ? "#2e3a57" : "#4a5f86", shoes: "#e6e2da", kind: "jeans" },
+    build: a.build === "regular" ? "regular" : "slim",
+    top:
+      kind === "varsity"
+        ? { kind, body: top, sleeves: second, trim: second, shirt: "#f7f6f2" }
+        : kind === "jacket" || kind === "overshirt"
+          ? { kind, outer: top, inner: second }
+          : { kind, colour: top },
+    // Below the waist, for the full-body figure (lib/pixel/figures.ts).
+    legs: { trousers: hexOf(BOTTOMS_COLOURS, a.bottomsColour, "#4a5f86"), shoes: hexOf(SHOES, a.shoes, "#e6e2da"), kind: oneOf(a.bottoms, ["jeans", "trousers", "shorts", "skirt"] as const, "jeans") },
   };
 }
 

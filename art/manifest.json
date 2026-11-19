@@ -1712,7 +1712,7 @@
       "id": "clocktower.floor1.locked",
       "file": "clocktower_floor1_locked.png",
       "kind": "floor",
-      "character": "neil",
+      "character": "caitlin",
       "state": "locked",
       "time": "night",
       "size": {
@@ -1727,13 +1727,13 @@
       ],
       "required": true,
       "status": "placeholder",
-      "notes": "Floor 1: The Studio, Act II. Desks, shelves of notebooks, a kettle. Neil is here when it's busy. Dark. The furniture under dust sheets. No people. Night version: lit windows against a dark sky."
+      "notes": "Floor 1: The Studio, Act II. Desks, shelves of notebooks, a kettle, a bike hung on the wall. Caitlin is here when it's busy. Dark. The furniture under dust sheets. No people. Night version: lit windows against a dark sky."
     },
     {
       "id": "clocktower.floor1.locked.day",
       "file": "clocktower_floor1_locked_day.png",
       "kind": "floor",
-      "character": "neil",
+      "character": "caitlin",
       "state": "locked",
       "time": "day",
       "size": {
@@ -1748,13 +1748,13 @@
       ],
       "required": false,
       "status": "placeholder",
-      "notes": "Floor 1: The Studio, Act II. Desks, shelves of notebooks, a kettle. Neil is here when it's busy. Dark. The furniture under dust sheets. No people. Day version: daylight through the windows."
+      "notes": "Floor 1: The Studio, Act II. Desks, shelves of notebooks, a kettle, a bike hung on the wall. Caitlin is here when it's busy. Dark. The furniture under dust sheets. No people. Day version: daylight through the windows."
     },
     {
       "id": "clocktower.floor1.open",
       "file": "clocktower_floor1_open.png",
       "kind": "floor",
-      "character": "neil",
+      "character": "caitlin",
       "state": "open",
       "time": "night",
       "size": {
@@ -1769,13 +1769,13 @@
       ],
       "required": true,
       "status": "placeholder",
-      "notes": "Floor 1: The Studio, Act II. Desks, shelves of notebooks, a kettle. Neil is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Night version: lit windows against a dark sky."
+      "notes": "Floor 1: The Studio, Act II. Desks, shelves of notebooks, a kettle, a bike hung on the wall. Caitlin is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Night version: lit windows against a dark sky."
     },
     {
       "id": "clocktower.floor1.open.day",
       "file": "clocktower_floor1_open_day.png",
       "kind": "floor",
-      "character": "neil",
+      "character": "caitlin",
       "state": "open",
       "time": "day",
       "size": {
@@ -1790,13 +1790,13 @@
       ],
       "required": false,
       "status": "placeholder",
-      "notes": "Floor 1: The Studio, Act II. Desks, shelves of notebooks, a kettle. Neil is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Day version: daylight through the windows."
+      "notes": "Floor 1: The Studio, Act II. Desks, shelves of notebooks, a kettle, a bike hung on the wall. Caitlin is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Day version: daylight through the windows."
     },
     {
       "id": "clocktower.floor1.busy",
       "file": "clocktower_floor1_busy.png",
       "kind": "floor",
-      "character": "neil",
+      "character": "caitlin",
       "state": "busy",
       "time": "night",
       "size": {
@@ -1811,12 +1811,264 @@
       ],
       "required": true,
       "status": "placeholder",
-      "notes": "Floor 1: The Studio, Act II. Desks, shelves of notebooks, a kettle. Neil is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Night version: lit windows against a dark sky."
+      "notes": "Floor 1: The Studio, Act II. Desks, shelves of notebooks, a kettle, a bike hung on the wall. Caitlin is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Night version: lit windows against a dark sky."
     },
     {
       "id": "clocktower.floor1.busy.day",
       "file": "clocktower_floor1_busy_day.png",
       "kind": "floor",
+      "character": "caitlin",
+      "state": "busy",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Floor 1: The Studio, Act II. Desks, shelves of notebooks, a kettle, a bike hung on the wall. Caitlin is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.floor2.locked",
+      "file": "clocktower_floor2_locked.png",
+      "kind": "floor",
+      "character": "riya",
+      "state": "locked",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Floor 2: The Makerspace, Act III. Easels and a drawing tablet, prints pinned to every wall, a small arcade cabinet. Riya is here when it's busy. Dark. The furniture under dust sheets. No people. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.floor2.locked.day",
+      "file": "clocktower_floor2_locked_day.png",
+      "kind": "floor",
+      "character": "riya",
+      "state": "locked",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Floor 2: The Makerspace, Act III. Easels and a drawing tablet, prints pinned to every wall, a small arcade cabinet. Riya is here when it's busy. Dark. The furniture under dust sheets. No people. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.floor2.open",
+      "file": "clocktower_floor2_open.png",
+      "kind": "floor",
+      "character": "riya",
+      "state": "open",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Floor 2: The Makerspace, Act III. Easels and a drawing tablet, prints pinned to every wall, a small arcade cabinet. Riya is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.floor2.open.day",
+      "file": "clocktower_floor2_open_day.png",
+      "kind": "floor",
+      "character": "riya",
+      "state": "open",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Floor 2: The Makerspace, Act III. Easels and a drawing tablet, prints pinned to every wall, a small arcade cabinet. Riya is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.floor2.busy",
+      "file": "clocktower_floor2_busy.png",
+      "kind": "floor",
+      "character": "riya",
+      "state": "busy",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Floor 2: The Makerspace, Act III. Easels and a drawing tablet, prints pinned to every wall, a small arcade cabinet. Riya is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.floor2.busy.day",
+      "file": "clocktower_floor2_busy_day.png",
+      "kind": "floor",
+      "character": "riya",
+      "state": "busy",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Floor 2: The Makerspace, Act III. Easels and a drawing tablet, prints pinned to every wall, a small arcade cabinet. Riya is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.floor3.locked",
+      "file": "clocktower_floor3_locked.png",
+      "kind": "floor",
+      "character": "neil",
+      "state": "locked",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Floor 3: The Puzzle Room, Act IV. A racing simulator rig, a model rocket on the shelf, a wall of sticky notes and string. Neil is here when it's busy. Dark. The furniture under dust sheets. No people. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.floor3.locked.day",
+      "file": "clocktower_floor3_locked_day.png",
+      "kind": "floor",
+      "character": "neil",
+      "state": "locked",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Floor 3: The Puzzle Room, Act IV. A racing simulator rig, a model rocket on the shelf, a wall of sticky notes and string. Neil is here when it's busy. Dark. The furniture under dust sheets. No people. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.floor3.open",
+      "file": "clocktower_floor3_open.png",
+      "kind": "floor",
+      "character": "neil",
+      "state": "open",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Floor 3: The Puzzle Room, Act IV. A racing simulator rig, a model rocket on the shelf, a wall of sticky notes and string. Neil is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.floor3.open.day",
+      "file": "clocktower_floor3_open_day.png",
+      "kind": "floor",
+      "character": "neil",
+      "state": "open",
+      "time": "day",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": false,
+      "status": "placeholder",
+      "notes": "Floor 3: The Puzzle Room, Act IV. A racing simulator rig, a model rocket on the shelf, a wall of sticky notes and string. Neil is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Day version: daylight through the windows."
+    },
+    {
+      "id": "clocktower.floor3.busy",
+      "file": "clocktower_floor3_busy.png",
+      "kind": "floor",
+      "character": "neil",
+      "state": "busy",
+      "time": "night",
+      "size": {
+        "width": 2400,
+        "height": 400
+      },
+      "transparent": false,
+      "display": [
+        360,
+        720,
+        1200
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Floor 3: The Puzzle Room, Act IV. A racing simulator rig, a model rocket on the shelf, a wall of sticky notes and string. Neil is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Night version: lit windows against a dark sky."
+    },
+    {
+      "id": "clocktower.floor3.busy.day",
+      "file": "clocktower_floor3_busy_day.png",
+      "kind": "floor",
       "character": "neil",
       "state": "busy",
       "time": "day",
@@ -1832,265 +2084,13 @@
       ],
       "required": false,
       "status": "placeholder",
-      "notes": "Floor 1: The Studio, Act II. Desks, shelves of notebooks, a kettle. Neil is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Day version: daylight through the windows."
-    },
-    {
-      "id": "clocktower.floor2.locked",
-      "file": "clocktower_floor2_locked.png",
-      "kind": "floor",
-      "character": "caitlin",
-      "state": "locked",
-      "time": "night",
-      "size": {
-        "width": 2400,
-        "height": 400
-      },
-      "transparent": false,
-      "display": [
-        360,
-        720,
-        1200
-      ],
-      "required": true,
-      "status": "placeholder",
-      "notes": "Floor 2: The Makerspace, Act III. A soldering bench, a small arcade cabinet, a server under the desk. Caitlin is here when it's busy. Dark. The furniture under dust sheets. No people. Night version: lit windows against a dark sky."
-    },
-    {
-      "id": "clocktower.floor2.locked.day",
-      "file": "clocktower_floor2_locked_day.png",
-      "kind": "floor",
-      "character": "caitlin",
-      "state": "locked",
-      "time": "day",
-      "size": {
-        "width": 2400,
-        "height": 400
-      },
-      "transparent": false,
-      "display": [
-        360,
-        720,
-        1200
-      ],
-      "required": false,
-      "status": "placeholder",
-      "notes": "Floor 2: The Makerspace, Act III. A soldering bench, a small arcade cabinet, a server under the desk. Caitlin is here when it's busy. Dark. The furniture under dust sheets. No people. Day version: daylight through the windows."
-    },
-    {
-      "id": "clocktower.floor2.open",
-      "file": "clocktower_floor2_open.png",
-      "kind": "floor",
-      "character": "caitlin",
-      "state": "open",
-      "time": "night",
-      "size": {
-        "width": 2400,
-        "height": 400
-      },
-      "transparent": false,
-      "display": [
-        360,
-        720,
-        1200
-      ],
-      "required": true,
-      "status": "placeholder",
-      "notes": "Floor 2: The Makerspace, Act III. A soldering bench, a small arcade cabinet, a server under the desk. Caitlin is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Night version: lit windows against a dark sky."
-    },
-    {
-      "id": "clocktower.floor2.open.day",
-      "file": "clocktower_floor2_open_day.png",
-      "kind": "floor",
-      "character": "caitlin",
-      "state": "open",
-      "time": "day",
-      "size": {
-        "width": 2400,
-        "height": 400
-      },
-      "transparent": false,
-      "display": [
-        360,
-        720,
-        1200
-      ],
-      "required": false,
-      "status": "placeholder",
-      "notes": "Floor 2: The Makerspace, Act III. A soldering bench, a small arcade cabinet, a server under the desk. Caitlin is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Day version: daylight through the windows."
-    },
-    {
-      "id": "clocktower.floor2.busy",
-      "file": "clocktower_floor2_busy.png",
-      "kind": "floor",
-      "character": "caitlin",
-      "state": "busy",
-      "time": "night",
-      "size": {
-        "width": 2400,
-        "height": 400
-      },
-      "transparent": false,
-      "display": [
-        360,
-        720,
-        1200
-      ],
-      "required": true,
-      "status": "placeholder",
-      "notes": "Floor 2: The Makerspace, Act III. A soldering bench, a small arcade cabinet, a server under the desk. Caitlin is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Night version: lit windows against a dark sky."
-    },
-    {
-      "id": "clocktower.floor2.busy.day",
-      "file": "clocktower_floor2_busy_day.png",
-      "kind": "floor",
-      "character": "caitlin",
-      "state": "busy",
-      "time": "day",
-      "size": {
-        "width": 2400,
-        "height": 400
-      },
-      "transparent": false,
-      "display": [
-        360,
-        720,
-        1200
-      ],
-      "required": false,
-      "status": "placeholder",
-      "notes": "Floor 2: The Makerspace, Act III. A soldering bench, a small arcade cabinet, a server under the desk. Caitlin is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Day version: daylight through the windows."
-    },
-    {
-      "id": "clocktower.floor3.locked",
-      "file": "clocktower_floor3_locked.png",
-      "kind": "floor",
-      "character": "yahya",
-      "state": "locked",
-      "time": "night",
-      "size": {
-        "width": 2400,
-        "height": 400
-      },
-      "transparent": false,
-      "display": [
-        360,
-        720,
-        1200
-      ],
-      "required": true,
-      "status": "placeholder",
-      "notes": "Floor 3: The Puzzle Room, Act IV. A wall of sticky notes and string, a chess table. Yahya is here when it's busy. Dark. The furniture under dust sheets. No people. Night version: lit windows against a dark sky."
-    },
-    {
-      "id": "clocktower.floor3.locked.day",
-      "file": "clocktower_floor3_locked_day.png",
-      "kind": "floor",
-      "character": "yahya",
-      "state": "locked",
-      "time": "day",
-      "size": {
-        "width": 2400,
-        "height": 400
-      },
-      "transparent": false,
-      "display": [
-        360,
-        720,
-        1200
-      ],
-      "required": false,
-      "status": "placeholder",
-      "notes": "Floor 3: The Puzzle Room, Act IV. A wall of sticky notes and string, a chess table. Yahya is here when it's busy. Dark. The furniture under dust sheets. No people. Day version: daylight through the windows."
-    },
-    {
-      "id": "clocktower.floor3.open",
-      "file": "clocktower_floor3_open.png",
-      "kind": "floor",
-      "character": "yahya",
-      "state": "open",
-      "time": "night",
-      "size": {
-        "width": 2400,
-        "height": 400
-      },
-      "transparent": false,
-      "display": [
-        360,
-        720,
-        1200
-      ],
-      "required": true,
-      "status": "placeholder",
-      "notes": "Floor 3: The Puzzle Room, Act IV. A wall of sticky notes and string, a chess table. Yahya is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Night version: lit windows against a dark sky."
-    },
-    {
-      "id": "clocktower.floor3.open.day",
-      "file": "clocktower_floor3_open_day.png",
-      "kind": "floor",
-      "character": "yahya",
-      "state": "open",
-      "time": "day",
-      "size": {
-        "width": 2400,
-        "height": 400
-      },
-      "transparent": false,
-      "display": [
-        360,
-        720,
-        1200
-      ],
-      "required": false,
-      "status": "placeholder",
-      "notes": "Floor 3: The Puzzle Room, Act IV. A wall of sticky notes and string, a chess table. Yahya is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Day version: daylight through the windows."
-    },
-    {
-      "id": "clocktower.floor3.busy",
-      "file": "clocktower_floor3_busy.png",
-      "kind": "floor",
-      "character": "yahya",
-      "state": "busy",
-      "time": "night",
-      "size": {
-        "width": 2400,
-        "height": 400
-      },
-      "transparent": false,
-      "display": [
-        360,
-        720,
-        1200
-      ],
-      "required": true,
-      "status": "placeholder",
-      "notes": "Floor 3: The Puzzle Room, Act IV. A wall of sticky notes and string, a chess table. Yahya is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Night version: lit windows against a dark sky."
-    },
-    {
-      "id": "clocktower.floor3.busy.day",
-      "file": "clocktower_floor3_busy_day.png",
-      "kind": "floor",
-      "character": "yahya",
-      "state": "busy",
-      "time": "day",
-      "size": {
-        "width": 2400,
-        "height": 400
-      },
-      "transparent": false,
-      "display": [
-        360,
-        720,
-        1200
-      ],
-      "required": false,
-      "status": "placeholder",
-      "notes": "Floor 3: The Puzzle Room, Act IV. A wall of sticky notes and string, a chess table. Yahya is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Day version: daylight through the windows."
+      "notes": "Floor 3: The Puzzle Room, Act IV. A racing simulator rig, a model rocket on the shelf, a wall of sticky notes and string. Neil is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Day version: daylight through the windows."
     },
     {
       "id": "clocktower.floor4.locked",
       "file": "clocktower_floor4_locked.png",
       "kind": "floor",
-      "character": "aaesha",
+      "character": "yahya",
       "state": "locked",
       "time": "night",
       "size": {
@@ -2105,13 +2105,13 @@
       ],
       "required": true,
       "status": "placeholder",
-      "notes": "Floor 4: The Archive, Act V. Filing cabinets, a huge wall chart, a weather station outside the window. Aaesha is here when it's busy. Dark. The furniture under dust sheets. No people. Night version: lit windows against a dark sky."
+      "notes": "Floor 4: The Archive, Act V. Filing cabinets, a huge wall chart, a weather station outside the window. Yahya is here when it's busy. Dark. The furniture under dust sheets. No people. Night version: lit windows against a dark sky."
     },
     {
       "id": "clocktower.floor4.locked.day",
       "file": "clocktower_floor4_locked_day.png",
       "kind": "floor",
-      "character": "aaesha",
+      "character": "yahya",
       "state": "locked",
       "time": "day",
       "size": {
@@ -2126,13 +2126,13 @@
       ],
       "required": false,
       "status": "placeholder",
-      "notes": "Floor 4: The Archive, Act V. Filing cabinets, a huge wall chart, a weather station outside the window. Aaesha is here when it's busy. Dark. The furniture under dust sheets. No people. Day version: daylight through the windows."
+      "notes": "Floor 4: The Archive, Act V. Filing cabinets, a huge wall chart, a weather station outside the window. Yahya is here when it's busy. Dark. The furniture under dust sheets. No people. Day version: daylight through the windows."
     },
     {
       "id": "clocktower.floor4.open",
       "file": "clocktower_floor4_open.png",
       "kind": "floor",
-      "character": "aaesha",
+      "character": "yahya",
       "state": "open",
       "time": "night",
       "size": {
@@ -2147,13 +2147,13 @@
       ],
       "required": true,
       "status": "placeholder",
-      "notes": "Floor 4: The Archive, Act V. Filing cabinets, a huge wall chart, a weather station outside the window. Aaesha is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Night version: lit windows against a dark sky."
+      "notes": "Floor 4: The Archive, Act V. Filing cabinets, a huge wall chart, a weather station outside the window. Yahya is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Night version: lit windows against a dark sky."
     },
     {
       "id": "clocktower.floor4.open.day",
       "file": "clocktower_floor4_open_day.png",
       "kind": "floor",
-      "character": "aaesha",
+      "character": "yahya",
       "state": "open",
       "time": "day",
       "size": {
@@ -2168,13 +2168,13 @@
       ],
       "required": false,
       "status": "placeholder",
-      "notes": "Floor 4: The Archive, Act V. Filing cabinets, a huge wall chart, a weather station outside the window. Aaesha is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Day version: daylight through the windows."
+      "notes": "Floor 4: The Archive, Act V. Filing cabinets, a huge wall chart, a weather station outside the window. Yahya is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Day version: daylight through the windows."
     },
     {
       "id": "clocktower.floor4.busy",
       "file": "clocktower_floor4_busy.png",
       "kind": "floor",
-      "character": "aaesha",
+      "character": "yahya",
       "state": "busy",
       "time": "night",
       "size": {
@@ -2189,13 +2189,13 @@
       ],
       "required": true,
       "status": "placeholder",
-      "notes": "Floor 4: The Archive, Act V. Filing cabinets, a huge wall chart, a weather station outside the window. Aaesha is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Night version: lit windows against a dark sky."
+      "notes": "Floor 4: The Archive, Act V. Filing cabinets, a huge wall chart, a weather station outside the window. Yahya is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Night version: lit windows against a dark sky."
     },
     {
       "id": "clocktower.floor4.busy.day",
       "file": "clocktower_floor4_busy_day.png",
       "kind": "floor",
-      "character": "aaesha",
+      "character": "yahya",
       "state": "busy",
       "time": "day",
       "size": {
@@ -2210,13 +2210,13 @@
       ],
       "required": false,
       "status": "placeholder",
-      "notes": "Floor 4: The Archive, Act V. Filing cabinets, a huge wall chart, a weather station outside the window. Aaesha is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Day version: daylight through the windows."
+      "notes": "Floor 4: The Archive, Act V. Filing cabinets, a huge wall chart, a weather station outside the window. Yahya is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Day version: daylight through the windows."
     },
     {
       "id": "clocktower.floor5.locked",
       "file": "clocktower_floor5_locked.png",
       "kind": "floor",
-      "character": "riya",
+      "character": "paul",
       "state": "locked",
       "time": "night",
       "size": {
@@ -2231,13 +2231,13 @@
       ],
       "required": true,
       "status": "placeholder",
-      "notes": "Floor 5: The Model Room, Act VI. Whiteboards full of graphs, a coffee machine. Riya is here when it's busy. Dark. The furniture under dust sheets. No people. Night version: lit windows against a dark sky."
+      "notes": "Floor 5: The Model Room, Act VI. Whiteboards full of graphs, a coffee machine, a laptop training something overnight. Paul is here when it's busy. Dark. The furniture under dust sheets. No people. Night version: lit windows against a dark sky."
     },
     {
       "id": "clocktower.floor5.locked.day",
       "file": "clocktower_floor5_locked_day.png",
       "kind": "floor",
-      "character": "riya",
+      "character": "paul",
       "state": "locked",
       "time": "day",
       "size": {
@@ -2252,13 +2252,13 @@
       ],
       "required": false,
       "status": "placeholder",
-      "notes": "Floor 5: The Model Room, Act VI. Whiteboards full of graphs, a coffee machine. Riya is here when it's busy. Dark. The furniture under dust sheets. No people. Day version: daylight through the windows."
+      "notes": "Floor 5: The Model Room, Act VI. Whiteboards full of graphs, a coffee machine, a laptop training something overnight. Paul is here when it's busy. Dark. The furniture under dust sheets. No people. Day version: daylight through the windows."
     },
     {
       "id": "clocktower.floor5.open",
       "file": "clocktower_floor5_open.png",
       "kind": "floor",
-      "character": "riya",
+      "character": "paul",
       "state": "open",
       "time": "night",
       "size": {
@@ -2273,13 +2273,13 @@
       ],
       "required": true,
       "status": "placeholder",
-      "notes": "Floor 5: The Model Room, Act VI. Whiteboards full of graphs, a coffee machine. Riya is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Night version: lit windows against a dark sky."
+      "notes": "Floor 5: The Model Room, Act VI. Whiteboards full of graphs, a coffee machine, a laptop training something overnight. Paul is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Night version: lit windows against a dark sky."
     },
     {
       "id": "clocktower.floor5.open.day",
       "file": "clocktower_floor5_open_day.png",
       "kind": "floor",
-      "character": "riya",
+      "character": "paul",
       "state": "open",
       "time": "day",
       "size": {
@@ -2294,13 +2294,13 @@
       ],
       "required": false,
       "status": "placeholder",
-      "notes": "Floor 5: The Model Room, Act VI. Whiteboards full of graphs, a coffee machine. Riya is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Day version: daylight through the windows."
+      "notes": "Floor 5: The Model Room, Act VI. Whiteboards full of graphs, a coffee machine, a laptop training something overnight. Paul is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Day version: daylight through the windows."
     },
     {
       "id": "clocktower.floor5.busy",
       "file": "clocktower_floor5_busy.png",
       "kind": "floor",
-      "character": "riya",
+      "character": "paul",
       "state": "busy",
       "time": "night",
       "size": {
@@ -2315,13 +2315,13 @@
       ],
       "required": true,
       "status": "placeholder",
-      "notes": "Floor 5: The Model Room, Act VI. Whiteboards full of graphs, a coffee machine. Riya is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Night version: lit windows against a dark sky."
+      "notes": "Floor 5: The Model Room, Act VI. Whiteboards full of graphs, a coffee machine, a laptop training something overnight. Paul is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Night version: lit windows against a dark sky."
     },
     {
       "id": "clocktower.floor5.busy.day",
       "file": "clocktower_floor5_busy_day.png",
       "kind": "floor",
-      "character": "riya",
+      "character": "paul",
       "state": "busy",
       "time": "day",
       "size": {
@@ -2336,7 +2336,7 @@
       ],
       "required": false,
       "status": "placeholder",
-      "notes": "Floor 5: The Model Room, Act VI. Whiteboards full of graphs, a coffee machine. Riya is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Day version: daylight through the windows."
+      "notes": "Floor 5: The Model Room, Act VI. Whiteboards full of graphs, a coffee machine, a laptop training something overnight. Paul is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Day version: daylight through the windows."
     },
     {
       "id": "clocktower.floor6.locked",
@@ -2357,7 +2357,7 @@
       ],
       "required": true,
       "status": "placeholder",
-      "notes": "Floor 6: The Engine Room, Act VII. The clock's gears behind glass, a rack of glowing servers. Aaesha and Neil are here when it's busy. Dark. The furniture under dust sheets. No people. Night version: lit windows against a dark sky."
+      "notes": "Floor 6: The Engine Room, Act VII. The clock's gears behind glass, a rack of servers, a model of a brain. Aaesha is here when it's busy. Dark. The furniture under dust sheets. No people. Night version: lit windows against a dark sky."
     },
     {
       "id": "clocktower.floor6.locked.day",
@@ -2378,7 +2378,7 @@
       ],
       "required": false,
       "status": "placeholder",
-      "notes": "Floor 6: The Engine Room, Act VII. The clock's gears behind glass, a rack of glowing servers. Aaesha and Neil are here when it's busy. Dark. The furniture under dust sheets. No people. Day version: daylight through the windows."
+      "notes": "Floor 6: The Engine Room, Act VII. The clock's gears behind glass, a rack of servers, a model of a brain. Aaesha is here when it's busy. Dark. The furniture under dust sheets. No people. Day version: daylight through the windows."
     },
     {
       "id": "clocktower.floor6.open",
@@ -2399,7 +2399,7 @@
       ],
       "required": true,
       "status": "placeholder",
-      "notes": "Floor 6: The Engine Room, Act VII. The clock's gears behind glass, a rack of glowing servers. Aaesha and Neil are here when it's busy. Lights on, furniture uncovered, ready for work. No people. Night version: lit windows against a dark sky."
+      "notes": "Floor 6: The Engine Room, Act VII. The clock's gears behind glass, a rack of servers, a model of a brain. Aaesha is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Night version: lit windows against a dark sky."
     },
     {
       "id": "clocktower.floor6.open.day",
@@ -2420,7 +2420,7 @@
       ],
       "required": false,
       "status": "placeholder",
-      "notes": "Floor 6: The Engine Room, Act VII. The clock's gears behind glass, a rack of glowing servers. Aaesha and Neil are here when it's busy. Lights on, furniture uncovered, ready for work. No people. Day version: daylight through the windows."
+      "notes": "Floor 6: The Engine Room, Act VII. The clock's gears behind glass, a rack of servers, a model of a brain. Aaesha is here when it's busy. Lights on, furniture uncovered, ready for work. No people. Day version: daylight through the windows."
     },
     {
       "id": "clocktower.floor6.busy",
@@ -2441,7 +2441,7 @@
       ],
       "required": true,
       "status": "placeholder",
-      "notes": "Floor 6: The Engine Room, Act VII. The clock's gears behind glass, a rack of glowing servers. Aaesha and Neil are here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Night version: lit windows against a dark sky."
+      "notes": "Floor 6: The Engine Room, Act VII. The clock's gears behind glass, a rack of servers, a model of a brain. Aaesha is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Night version: lit windows against a dark sky."
     },
     {
       "id": "clocktower.floor6.busy.day",
@@ -2462,13 +2462,13 @@
       ],
       "required": false,
       "status": "placeholder",
-      "notes": "Floor 6: The Engine Room, Act VII. The clock's gears behind glass, a rack of glowing servers. Aaesha and Neil are here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Day version: daylight through the windows."
+      "notes": "Floor 6: The Engine Room, Act VII. The clock's gears behind glass, a rack of servers, a model of a brain. Aaesha is here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Day version: daylight through the windows."
     },
     {
       "id": "clocktower.floor7.locked",
       "file": "clocktower_floor7_locked.png",
       "kind": "floor",
-      "character": "yahya",
+      "character": "aaesha",
       "state": "locked",
       "time": "night",
       "size": {
@@ -2483,13 +2483,13 @@
       ],
       "required": true,
       "status": "placeholder",
-      "notes": "Floor 7: The Arcade, Act VIII. A row of cabinets, a leaderboard, a prize shelf. Yahya and Caitlin are here when it's busy. Dark. The furniture under dust sheets. No people. Night version: lit windows against a dark sky."
+      "notes": "Floor 7: The Arcade, Act VIII. A row of cabinets, a leaderboard, a prize shelf. Aaesha and Caitlin are here when it's busy. Dark. The furniture under dust sheets. No people. Night version: lit windows against a dark sky."
     },
     {
       "id": "clocktower.floor7.locked.day",
       "file": "clocktower_floor7_locked_day.png",
       "kind": "floor",
-      "character": "yahya",
+      "character": "aaesha",
       "state": "locked",
       "time": "day",
       "size": {
@@ -2504,13 +2504,13 @@
       ],
       "required": false,
       "status": "placeholder",
-      "notes": "Floor 7: The Arcade, Act VIII. A row of cabinets, a leaderboard, a prize shelf. Yahya and Caitlin are here when it's busy. Dark. The furniture under dust sheets. No people. Day version: daylight through the windows."
+      "notes": "Floor 7: The Arcade, Act VIII. A row of cabinets, a leaderboard, a prize shelf. Aaesha and Caitlin are here when it's busy. Dark. The furniture under dust sheets. No people. Day version: daylight through the windows."
     },
     {
       "id": "clocktower.floor7.open",
       "file": "clocktower_floor7_open.png",
       "kind": "floor",
-      "character": "yahya",
+      "character": "aaesha",
       "state": "open",
       "time": "night",
       "size": {
@@ -2525,13 +2525,13 @@
       ],
       "required": true,
       "status": "placeholder",
-      "notes": "Floor 7: The Arcade, Act VIII. A row of cabinets, a leaderboard, a prize shelf. Yahya and Caitlin are here when it's busy. Lights on, furniture uncovered, ready for work. No people. Night version: lit windows against a dark sky."
+      "notes": "Floor 7: The Arcade, Act VIII. A row of cabinets, a leaderboard, a prize shelf. Aaesha and Caitlin are here when it's busy. Lights on, furniture uncovered, ready for work. No people. Night version: lit windows against a dark sky."
     },
     {
       "id": "clocktower.floor7.open.day",
       "file": "clocktower_floor7_open_day.png",
       "kind": "floor",
-      "character": "yahya",
+      "character": "aaesha",
       "state": "open",
       "time": "day",
       "size": {
@@ -2546,13 +2546,13 @@
       ],
       "required": false,
       "status": "placeholder",
-      "notes": "Floor 7: The Arcade, Act VIII. A row of cabinets, a leaderboard, a prize shelf. Yahya and Caitlin are here when it's busy. Lights on, furniture uncovered, ready for work. No people. Day version: daylight through the windows."
+      "notes": "Floor 7: The Arcade, Act VIII. A row of cabinets, a leaderboard, a prize shelf. Aaesha and Caitlin are here when it's busy. Lights on, furniture uncovered, ready for work. No people. Day version: daylight through the windows."
     },
     {
       "id": "clocktower.floor7.busy",
       "file": "clocktower_floor7_busy.png",
       "kind": "floor",
-      "character": "yahya",
+      "character": "aaesha",
       "state": "busy",
       "time": "night",
       "size": {
@@ -2567,13 +2567,13 @@
       ],
       "required": true,
       "status": "placeholder",
-      "notes": "Floor 7: The Arcade, Act VIII. A row of cabinets, a leaderboard, a prize shelf. Yahya and Caitlin are here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Night version: lit windows against a dark sky."
+      "notes": "Floor 7: The Arcade, Act VIII. A row of cabinets, a leaderboard, a prize shelf. Aaesha and Caitlin are here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Night version: lit windows against a dark sky."
     },
     {
       "id": "clocktower.floor7.busy.day",
       "file": "clocktower_floor7_busy_day.png",
       "kind": "floor",
-      "character": "yahya",
+      "character": "aaesha",
       "state": "busy",
       "time": "day",
       "size": {
@@ -2588,7 +2588,7 @@
       ],
       "required": false,
       "status": "placeholder",
-      "notes": "Floor 7: The Arcade, Act VIII. A row of cabinets, a leaderboard, a prize shelf. Yahya and Caitlin are here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Day version: daylight through the windows."
+      "notes": "Floor 7: The Arcade, Act VIII. A row of cabinets, a leaderboard, a prize shelf. Aaesha and Caitlin are here when it's busy. Lights on, the residents there and doing something, more props, plants grown. Day version: daylight through the windows."
     },
     {
       "id": "clocktower.roof.locked",
@@ -2827,6 +2827,50 @@
       "notes": "Face shape: heart, with ears and neck. Greyscale, for tinting to the skin tone."
     },
     {
+      "id": "avatar.face.standard",
+      "file": "avatar_face_standard.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "face",
+      "option": "standard",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Face shape: soft, with ears and neck. Greyscale, for tinting to the skin tone."
+    },
+    {
+      "id": "avatar.face.strong",
+      "file": "avatar_face_strong.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "face",
+      "option": "strong",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Face shape: strong jaw, with ears and neck. Greyscale, for tinting to the skin tone."
+    },
+    {
       "id": "avatar.features",
       "file": "avatar_features.png",
       "kind": "avatar",
@@ -2934,6 +2978,50 @@
       "required": true,
       "status": "placeholder",
       "notes": "Eyebrows: fine. Greyscale, tinted to the hair colour."
+    },
+    {
+      "id": "avatar.brows.defined",
+      "file": "avatar_brows_defined.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "brows",
+      "option": "defined",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Eyebrows: defined. Greyscale, tinted to the hair colour."
+    },
+    {
+      "id": "avatar.brows.bold",
+      "file": "avatar_brows_bold.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "brows",
+      "option": "bold",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Eyebrows: bold. Greyscale, tinted to the hair colour."
     },
     {
       "id": "avatar.hair.short-straight",
@@ -3464,6 +3552,94 @@
       "notes": "Beanie. Greyscale, tinted to the chosen fabric colour."
     },
     {
+      "id": "avatar.hair.quiff",
+      "file": "avatar_hair_quiff.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "hair",
+      "option": "quiff",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Swept up. Greyscale, tinted to the hair colour."
+    },
+    {
+      "id": "avatar.hair.curls-fringe",
+      "file": "avatar_hair_curls-fringe.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "hair",
+      "option": "curls-fringe",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Curls with a fringe. Greyscale, tinted to the hair colour."
+    },
+    {
+      "id": "avatar.hair.long-behind",
+      "file": "avatar_hair_long-behind.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "hair",
+      "option": "long-behind",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Long, behind the shoulders. Greyscale, tinted to the hair colour."
+    },
+    {
+      "id": "avatar.hair.cap-back",
+      "file": "avatar_hair_cap-back.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "hair",
+      "option": "cap-back",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Cap on backwards. Greyscale, tinted to the hair colour."
+    },
+    {
       "id": "avatar.facial-hair",
       "file": "avatar_facial-hair.png",
       "kind": "avatar",
@@ -3594,6 +3770,72 @@
       "notes": "Jacket, shoulders and chest. Greyscale, tinted to the top colour."
     },
     {
+      "id": "avatar.top.tee",
+      "file": "avatar_top_tee.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "top",
+      "option": "tee",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "T-shirt, shoulders and chest. Greyscale, tinted to the top colour."
+    },
+    {
+      "id": "avatar.top.overshirt",
+      "file": "avatar_top_overshirt.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "top",
+      "option": "overshirt",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Overshirt, shoulders and chest. Greyscale, tinted to the top colour."
+    },
+    {
+      "id": "avatar.top.varsity",
+      "file": "avatar_top_varsity.png",
+      "kind": "avatar",
+      "character": null,
+      "part": "top",
+      "option": "varsity",
+      "size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "transparent": true,
+      "display": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "required": true,
+      "status": "placeholder",
+      "notes": "Varsity jacket, shoulders and chest. Greyscale, tinted to the top colour."
+    },
+    {
       "id": "avatar.accessory.headphones",
       "file": "avatar_accessory_headphones.png",
       "kind": "avatar",
@@ -3684,7 +3926,7 @@
       "id": "shelf.bill-splitter",
       "file": "shelf_bill-splitter.png",
       "kind": "shelf",
-      "character": "riya",
+      "character": "caitlin",
       "project": "bill-splitter",
       "size": {
         "width": 512,
@@ -3699,7 +3941,7 @@
       ],
       "required": true,
       "status": "placeholder",
-      "notes": "Bill Splitter, for Riya. A restaurant receipt from the class dinner, with the total split into equal shares in pen."
+      "notes": "Bill Splitter, for Caitlin. A restaurant receipt from the class dinner, with the total split into equal shares in pen."
     },
     {
       "id": "shelf.reading-tracebacks",
@@ -3726,7 +3968,7 @@
       "id": "shelf.unit-converter",
       "file": "shelf_unit-converter.png",
       "kind": "shelf",
-      "character": "yahya",
+      "character": "neil",
       "project": "unit-converter",
       "size": {
         "width": 512,
@@ -3741,7 +3983,7 @@
       ],
       "required": true,
       "status": "placeholder",
-      "notes": "Unit Converter, for Yahya. A running shoe with a tape measure looped through the laces."
+      "notes": "Unit Converter, for Neil. A running shoe with a tape measure looped through the laces."
     },
     {
       "id": "shelf.password-checker",
@@ -3768,7 +4010,7 @@
       "id": "shelf.times-table-trainer",
       "file": "shelf_times-table-trainer.png",
       "kind": "shelf",
-      "character": "riya",
+      "character": "aaesha",
       "project": "times-table-trainer",
       "size": {
         "width": 512,
@@ -3783,7 +4025,7 @@
       ],
       "required": true,
       "status": "placeholder",
-      "notes": "Times Table Trainer, for Riya. A small chalk slate with a times table grid, one answer circled."
+      "notes": "Times Table Trainer, for Aaesha. A small chalk slate with a times table grid, one answer circled."
     },
     {
       "id": "shelf.number-guessing-game",
@@ -3810,7 +4052,7 @@
       "id": "shelf.to-do-list",
       "file": "shelf_to-do-list.png",
       "kind": "shelf",
-      "character": "neil",
+      "character": "riya",
       "project": "to-do-list",
       "size": {
         "width": 512,
@@ -3825,13 +4067,13 @@
       ],
       "required": true,
       "status": "placeholder",
-      "notes": "To-Do List, for Neil. A clipboard with a numbered to-do list, the top items ticked off."
+      "notes": "To-Do List, for Riya. A clipboard with a numbered to-do list, the top items ticked off."
     },
     {
       "id": "shelf.contact-book",
       "file": "shelf_contact-book.png",
       "kind": "shelf",
-      "character": "aaesha",
+      "character": "riya",
       "project": "contact-book",
       "size": {
         "width": 512,
@@ -3846,7 +4088,7 @@
       ],
       "required": true,
       "status": "placeholder",
-      "notes": "Contact Book, for Aaesha. A small address book with letter tabs down the side."
+      "notes": "Contact Book, for Riya. A small address book with letter tabs down the side."
     },
     {
       "id": "shelf.grade-calculator",
@@ -3894,7 +4136,7 @@
       "id": "shelf.calculator",
       "file": "shelf_calculator.png",
       "kind": "shelf",
-      "character": "riya",
+      "character": "yahya",
       "project": "calculator",
       "size": {
         "width": 512,
@@ -3909,13 +4151,13 @@
       ],
       "required": true,
       "status": "placeholder",
-      "notes": "Four-Function Calculator, for Riya. A chunky four-function pocket calculator."
+      "notes": "Four-Function Calculator, for Yahya. A chunky four-function pocket calculator."
     },
     {
       "id": "shelf.expense-tracker",
       "file": "shelf_expense-tracker.png",
       "kind": "shelf",
-      "character": "aaesha",
+      "character": "yahya",
       "project": "expense-tracker",
       "size": {
         "width": 512,
@@ -3930,7 +4172,7 @@
       ],
       "required": true,
       "status": "placeholder",
-      "notes": "Expense Tracker, for Aaesha. A jar of coins labelled \"Trip fund\", with a small notebook of spending beside it."
+      "notes": "Expense Tracker, for Yahya. A jar of coins labelled \"Trip fund\", with a small notebook of spending beside it."
     },
     {
       "id": "duck",

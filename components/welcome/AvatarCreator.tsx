@@ -17,7 +17,7 @@ import { pickGesture } from "@/lib/pixel/variety";
 import { pickAction } from "@/lib/moments";
 import { useVisit } from "@/lib/useVisit";
 import { PixelFigure } from "../art/PixelFigure";
-import { ACCESSORIES, AVATAR_COLOURS, BROWS, FACES, HAIR_COLOURS, HAIR_STYLES, SKIN_TONES, TOP_COLOURS, TOPS, type AvatarLook, type AvatarOption } from "@/lib/avatar";
+import { ACCESSORIES, AVATAR_COLOURS, BOTTOMS, BOTTOMS_COLOURS, BROWS, BUILDS, CHEEKS, EYE_COLOURS, FACES, FACIAL_HAIR, FRAME_COLOURS, GLASSES, HAIR_COLOURS, HAIR_ENDS, HAIR_STYLES, HEADWEAR, HEADWEAR_COLOURS, JEWELLERY, LONG_HAIR, SHOES, SKIN_TONES, SMILES, TOP_COLOURS, TOPS, TWO_TONE_TOPS, type AvatarLook, type AvatarOption } from "@/lib/avatar";
 import { PixelPerson } from "../art/PixelPerson";
 import { Tabs } from "../ui/Tabs";
 import styles from "./AvatarCreator.module.css";
@@ -44,23 +44,34 @@ const HAIR: Record<string, (c: string) => string> = {
   hijab: () => "a hijab",
   turban: () => "a turban",
   beanie: () => "a beanie",
+  quiff: (c) => `${c} hair swept up`,
+  "curls-fringe": (c) => `${c} curls with a fringe`,
+  "long-behind": (c) => `long ${c} hair behind the shoulders`,
+  "cap-back": () => "a cap on backwards",
 };
-const FACE: Record<string, string> = { oval: "an oval face", round: "a round face", square: "a square face", long: "a long face", heart: "a heart-shaped face" };
+const FACE: Record<string, string> = { oval: "an oval face", round: "a round face", square: "a square face", long: "a long face", heart: "a heart-shaped face", standard: "a soft face", strong: "a strong jaw" };
 const TOP_COLOUR_WORD: Record<string, string> = { sun: "yellow" };
 const ACCESSORY: Record<string, string> = { headphones: "headphones", cap: "a cap", scarf: "a scarf" };
 
-/** The chosen parts in plain words: "Long wavy dark brown hair, an oval face, glasses and a teal hoodie." */
+/** The chosen parts in plain words: "Long wavy dark brown hair, an oval face, glasses and a teal hoodie with jeans." */
 export function describeAvatar(look: AvatarLook): string {
-  const hairColour = labelOf(HAIR_COLOURS, look.hairColour).toLowerCase();
-  const topColour = TOP_COLOUR_WORD[look.topColour] ?? labelOf(TOP_COLOURS, look.topColour).toLowerCase();
-  const top = labelOf(TOPS, look.top).toLowerCase();
+  const word = (list: AvatarOption[], id: string) => labelOf(list, id).toLowerCase();
+  const hairColour = word(HAIR_COLOURS, look.hairColour);
+  const topColour = TOP_COLOUR_WORD[look.topColour] ?? word(TOP_COLOURS, look.topColour);
+  const top = word(TOPS, look.top);
+  const ends = look.hairEnds !== "none" && LONG_HAIR.includes(look.hair) ? ` dyed ${word(HAIR_ENDS, look.hairEnds)} at the ends` : "";
+  const glasses = look.glasses ? `${word(FRAME_COLOURS, look.glassesColour)} ${look.glassesStyle === "rect" ? "square" : "round"} glasses` : null;
+  const jewellery = [look.earrings !== "none" ? `${word(JEWELLERY, look.earrings)} earrings` : null, look.necklace !== "none" ? `${an(look.necklace)} ${word(JEWELLERY, look.necklace)} necklace` : null];
   const parts = [
-    (HAIR[look.hair] ?? ((c: string) => `${c} hair`))(hairColour),
+    (HAIR[look.hair] ?? ((c: string) => `${c} hair`))(hairColour) + ends,
     FACE[look.face] ?? `${an(look.face)} ${look.face} face`,
-    `${labelOf(BROWS, look.brows).toLowerCase()} eyebrows`,
-    look.glasses ? "glasses" : null,
-    look.facialHair ? "facial hair" : null,
-    `${an(topColour)} ${topColour} ${top}`,
+    `${word(EYE_COLOURS, look.eyes)} eyes`,
+    `${word(BROWS, look.brows)} eyebrows`,
+    look.cheeks === "rosy" ? "rosy cheeks" : null,
+    glasses,
+    look.facialHair ? (look.facialHairStyle === "moustache" ? "a moustache" : "stubble") : null,
+    ...jewellery,
+    `${an(topColour)} ${topColour} ${top} with ${word(BOTTOMS_COLOURS, look.bottomsColour)} ${word(BOTTOMS, look.bottoms)}`,
     ACCESSORY[look.accessory] ?? null,
   ].filter((p): p is string => Boolean(p));
   const text = parts.length > 1 ? `${parts.slice(0, -1).join(", ")} and ${parts[parts.length - 1]}` : parts[0]!;
@@ -92,6 +103,19 @@ const REACT: Partial<Record<keyof AvatarLook, { face: Expression; tags: GestureT
   topColour: { face: "pleased", tags: ["approve"], try: ["rest", "idle"] },
   glasses: { face: "pleased", tags: ["explain", "think"], try: ["sit", "work"] },
   accessory: { face: "pleased", tags: ["celebrate", "idle"], try: ["hobby", "celebrate"] },
+  eyes: { face: "surprised", tags: ["surprise"], try: ["think", "talk"] },
+  smile: { face: "laughing", tags: ["celebrate"], try: ["greet", "talk"] },
+  cheeks: { face: "pleased", tags: ["approve"], try: ["greet", "idle"] },
+  hairEnds: { face: "laughing", tags: ["celebrate", "approve"], try: ["celebrate", "hobby"] },
+  headwearColour: { face: "pleased", tags: ["approve"], try: ["rest", "idle"] },
+  topColour2: { face: "pleased", tags: ["approve"], try: ["rest", "idle"] },
+  bottoms: { face: "proud", tags: ["approve", "celebrate"], try: ["celebrate", "greet"] },
+  bottomsColour: { face: "pleased", tags: ["approve"], try: ["rest", "idle"] },
+  shoes: { face: "pleased", tags: ["approve", "celebrate"], try: ["celebrate", "hobby"] },
+  build: { face: "proud", tags: ["approve"], try: ["greet", "idle"] },
+  glassesColour: { face: "pleased", tags: ["explain", "think"], try: ["sit", "work"] },
+  earrings: { face: "pleased", tags: ["approve"], try: ["greet", "idle"] },
+  necklace: { face: "pleased", tags: ["approve"], try: ["greet", "idle"] },
 };
 
 /** What their whole self can try on the spot: anything that doesn't need walking somewhere. */
@@ -110,6 +134,7 @@ function Group({
   look,
   part,
   crop = "head",
+  hint,
 }: {
   legend: string;
   name: string;
@@ -119,7 +144,9 @@ function Group({
   look: AvatarLook;
   /** How this option changes the avatar, to draw it on the tile; colours have none. */
   part?: (id: string) => Partial<AvatarLook>;
-  crop?: "head" | "bust";
+  /** "figure" draws the option on their whole self, head to toe. */
+  crop?: "head" | "bust" | "figure";
+  hint?: string;
 }) {
   return (
     <fieldset className={styles.group}>
@@ -127,22 +154,25 @@ function Group({
         {legend}
         <span className={styles.current}>{labelOf(options, value)}</span>
       </legend>
+      {hint ? <p className={styles.hint}>{hint}</p> : null}
       <div className={part ? styles.parts : styles.swatches}>
         {options.map((o) => (
           <label key={o.id} className={[part ? styles.part : styles.swatch, value === o.id ? styles.on : ""].join(" ")} title={part ? undefined : o.label}>
             <input type="radio" className="visually-hidden" name={name} value={o.id} checked={value === o.id} onChange={() => onChange(o.id)} />
             {part ? (
               <>
-                <span className={[styles.partTile, crop === "bust" ? styles.partBust : ""].join(" ")} style={{ background: look.colour }} aria-hidden="true">
-                  <PixelPerson avatar={{ ...look, ...part(o.id) }} crop={crop} scale={2} animate={false} />
+                <span className={[styles.partTile, crop === "head" ? "" : styles.partBust].join(" ")} style={{ background: look.colour }} aria-hidden="true">
+                  {crop === "figure" ? <PixelFigure avatar={{ ...look, ...part(o.id) }} scale={2} animate={false} /> : <PixelPerson avatar={{ ...look, ...part(o.id) }} crop={crop} scale={2} animate={false} />}
                 </span>
                 <span className={styles.partName}>{o.label}</span>
               </>
-            ) : (
+            ) : o.hex ? (
               <>
                 <span className={styles.chipColour} style={{ background: o.hex }} aria-hidden="true" />
                 <span className="visually-hidden">{o.label}</span>
               </>
+            ) : (
+              <span className={styles.chipWord}>{o.label}</span>
             )}
           </label>
         ))}
@@ -151,10 +181,6 @@ function Group({
   );
 }
 
-const YES_NO = (no: string, yes: string): AvatarOption[] => [
-  { id: "no", label: no },
-  { id: "yes", label: yes },
-];
 
 export function AvatarCreator({ look, name, onChange, waving = false }: { look: AvatarLook; name: string; onChange: (l: AvatarLook) => void; waving?: boolean }) {
   const id = useId();
@@ -206,20 +232,42 @@ export function AvatarCreator({ look, name, onChange, waving = false }: { look: 
         <div {...panel("face")}>
           <Group legend="Skin tone" name={`${id}-skin`} options={SKIN_TONES} value={look.skin} onChange={(v) => set({ skin: v })} look={look} />
           <Group legend="Face shape" name={`${id}-face`} options={FACES} value={look.face} onChange={(v) => set({ face: v })} look={look} part={(v) => ({ face: v })} />
+          <Group legend="Eye colour" name={`${id}-eyes`} options={EYE_COLOURS} value={look.eyes} onChange={(v) => set({ eyes: v })} look={look} />
           <Group legend="Eyebrows" name={`${id}-brows`} options={BROWS} value={look.brows} onChange={(v) => set({ brows: v })} look={look} part={(v) => ({ brows: v })} />
-          <Group legend="Facial hair" name={`${id}-facial-hair`} options={YES_NO("None", "Facial hair")} value={look.facialHair ? "yes" : "no"} onChange={(v) => set({ facialHair: v === "yes" })} look={look} part={(v) => ({ facialHair: v === "yes" })} />
+          <Group legend="Smile" name={`${id}-smile`} options={SMILES} value={look.smile} onChange={(v) => set({ smile: v })} look={look} part={(v) => ({ smile: v })} />
+          <Group legend="Cheeks" name={`${id}-cheeks`} options={CHEEKS} value={look.cheeks} onChange={(v) => set({ cheeks: v })} look={look} part={(v) => ({ cheeks: v })} />
+          <Group legend="Facial hair" name={`${id}-facial-hair`} options={FACIAL_HAIR} value={look.facialHair ? look.facialHairStyle : "none"} onChange={(v) => set(v === "none" ? { facialHair: false } : { facialHair: true, facialHairStyle: v })} look={look} part={(v) => (v === "none" ? { facialHair: false } : { facialHair: true, facialHairStyle: v })} />
         </div>
         <div {...panel("hair")}>
-          <Group legend="Hair colour" name={`${id}-hair-colour`} options={HAIR_COLOURS} value={look.hairColour} onChange={(v) => set({ hairColour: v })} look={look} />
           <Group legend="Hair" name={`${id}-hair`} options={HAIR_STYLES} value={look.hair} onChange={(v) => set({ hair: v })} look={look} part={(v) => ({ hair: v })} />
+          <Group legend="Hair colour" name={`${id}-hair-colour`} options={HAIR_COLOURS} value={look.hairColour} onChange={(v) => set({ hairColour: v })} look={look} />
+          {LONG_HAIR.includes(look.hair) ? (
+            <Group legend="Dyed ends" name={`${id}-hair-ends`} options={HAIR_ENDS} value={look.hairEnds} onChange={(v) => set({ hairEnds: v })} look={look} part={(v) => ({ hairEnds: v })} crop="bust" />
+          ) : null}
+          {HEADWEAR.includes(look.hair) ? (
+            <Group legend="Hat or headscarf colour" name={`${id}-headwear`} options={HEADWEAR_COLOURS} value={look.headwearColour} onChange={(v) => set({ headwearColour: v })} look={look} />
+          ) : null}
         </div>
         <div {...panel("clothes")}>
-          <Group legend="Top colour" name={`${id}-top-colour`} options={TOP_COLOURS} value={look.topColour} onChange={(v) => set({ topColour: v })} look={look} />
           <Group legend="Top" name={`${id}-top`} options={TOPS} value={look.top} onChange={(v) => set({ top: v })} look={look} part={(v) => ({ top: v })} crop="bust" />
+          <Group legend="Top colour" name={`${id}-top-colour`} options={TOP_COLOURS} value={look.topColour} onChange={(v) => set({ topColour: v })} look={look} />
+          {TWO_TONE_TOPS.includes(look.top) ? (
+            <Group legend={look.top === "varsity" ? "Sleeves" : "Underneath"} name={`${id}-top-colour-2`} options={TOP_COLOURS} value={look.topColour2} onChange={(v) => set({ topColour2: v })} look={look} />
+          ) : null}
+          <Group legend="Bottoms" name={`${id}-bottoms`} options={BOTTOMS} value={look.bottoms} onChange={(v) => set({ bottoms: v })} look={look} part={(v) => ({ bottoms: v })} crop="figure" />
+          <Group legend="Bottoms colour" name={`${id}-bottoms-colour`} options={BOTTOMS_COLOURS} value={look.bottomsColour} onChange={(v) => set({ bottomsColour: v })} look={look} />
+          <Group legend="Shoes" name={`${id}-shoes`} options={SHOES} value={look.shoes} onChange={(v) => set({ shoes: v })} look={look} />
+          <Group legend="Build" name={`${id}-build`} options={BUILDS} value={look.build} onChange={(v) => set({ build: v })} look={look} part={(v) => ({ build: v })} crop="bust" />
         </div>
         <div {...panel("extras")}>
-          <Group legend="Glasses" name={`${id}-glasses`} options={YES_NO("None", "Glasses")} value={look.glasses ? "yes" : "no"} onChange={(v) => set({ glasses: v === "yes" })} look={look} part={(v) => ({ glasses: v === "yes" })} />
+          <Group legend="Glasses" name={`${id}-glasses`} options={GLASSES} value={look.glasses ? look.glassesStyle : "none"} onChange={(v) => set(v === "none" ? { glasses: false } : { glasses: true, glassesStyle: v })} look={look} part={(v) => (v === "none" ? { glasses: false } : { glasses: true, glassesStyle: v })} />
+          {look.glasses ? <Group legend="Frames" name={`${id}-frames`} options={FRAME_COLOURS} value={look.glassesColour} onChange={(v) => set({ glassesColour: v })} look={look} /> : null}
+          <Group legend="Earrings" name={`${id}-earrings`} options={JEWELLERY} value={look.earrings} onChange={(v) => set({ earrings: v })} look={look} part={(v) => ({ earrings: v })} />
+          <Group legend="Necklace" name={`${id}-necklace`} options={JEWELLERY} value={look.necklace} onChange={(v) => set({ necklace: v })} look={look} part={(v) => ({ necklace: v })} crop="bust" />
           <Group legend="Accessory" name={`${id}-accessory`} options={ACCESSORIES} value={look.accessory} onChange={(v) => set({ accessory: v })} look={look} part={(v) => ({ accessory: v })} crop="bust" />
+          {look.accessory !== "none" && !HEADWEAR.includes(look.hair) ? (
+            <Group legend={look.accessory === "scarf" ? "Scarf colour" : look.accessory === "cap" ? "Cap colour" : "Headphone colour"} name={`${id}-accessory-colour`} options={HEADWEAR_COLOURS} value={look.headwearColour} onChange={(v) => set({ headwearColour: v })} look={look} />
+          ) : null}
         </div>
         <div {...panel("colour")}>
           <Group legend="Colour" name={`${id}-colour`} options={AVATAR_COLOURS} value={look.colour} onChange={(v) => set({ colour: v })} look={look} />

@@ -7,7 +7,7 @@
 // capped, lists are capped, and a link that doesn't read says why (broken, old or newer). Nothing
 // decoded here is ever treated as HTML; the pages show it as text.
 import { Inflate, deflateSync, strFromU8, strToU8 } from "fflate";
-import { ACCESSORIES, AVATAR_COLOURS, BROWS, FACES, HAIR_COLOURS, HAIR_STYLES, SKIN_TONES, TOPS, TOP_COLOURS, defaultAvatar, type AvatarLook } from "../avatar";
+import { ACCESSORIES, AVATAR_COLOURS, BOTTOMS, BOTTOMS_COLOURS, BROWS, BUILDS, CHEEKS, EYE_COLOURS, FACES, FACIAL_HAIR, FRAME_COLOURS, GLASSES, HAIR_COLOURS, HAIR_ENDS, HAIR_STYLES, HEADWEAR_COLOURS, JEWELLERY, SHOES, SKIN_TONES, SMILES, TOPS, TOP_COLOURS, defaultAvatar, type AvatarLook } from "../avatar";
 import { isWeek, MAX_STEPS, policyText, readPolicyText, scoreOf } from "../league/course";
 import { isCast } from "../playas";
 import type { JobStatus } from "../store/types";
@@ -215,22 +215,55 @@ const LOOK_FIELDS: { key: keyof AvatarLook; options?: { id: string }[] }[] = [
   { key: "top", options: TOPS },
   { key: "topColour", options: TOP_COLOURS },
   { key: "accessory", options: ACCESSORIES },
+  // Added later, on the end, so a link made before them still reads (as the defaults).
+  { key: "eyes", options: EYE_COLOURS },
+  { key: "smile", options: SMILES },
+  { key: "cheeks", options: CHEEKS },
+  { key: "facialHairStyle", options: FACIAL_HAIR },
+  { key: "hairEnds", options: HAIR_ENDS },
+  { key: "headwearColour", options: HEADWEAR_COLOURS },
+  { key: "topColour2", options: TOP_COLOURS },
+  { key: "bottoms", options: BOTTOMS },
+  { key: "bottomsColour", options: BOTTOMS_COLOURS },
+  { key: "shoes", options: SHOES },
+  { key: "build", options: BUILDS },
+  { key: "glassesStyle", options: GLASSES },
+  { key: "glassesColour", options: FRAME_COLOURS },
+  { key: "earrings", options: JEWELLERY },
+  { key: "necklace", options: JEWELLERY },
 ];
+/** How many fields a look had before the later ones were added. */
+const FIRST_LOOK_FIELDS = 11;
 
-/** A saved look (profile.character) as a list of option ids, or 0 for none. */
+/**
+ * A saved look (profile.character) as a list of option ids, or 0 for none. The later fields go
+ * as their place in the list (a number, so links stay short), and any left at the default on
+ * the end are left off.
+ */
 export function lookWire(look: unknown): (string | number)[] | 0 {
   if (!isObj(look) || look.kind !== "human") return 0;
-  return LOOK_FIELDS.map((f) => (f.options ? (typeof look[f.key] === "string" ? (look[f.key] as string) : "") : look[f.key] ? 1 : 0));
+  const plain = defaultAvatar() as unknown as Record<string, unknown>;
+  const out = LOOK_FIELDS.map((f, i) => {
+    const v = look[f.key];
+    if (!f.options) return v ? 1 : 0;
+    if (i < FIRST_LOOK_FIELDS) return typeof v === "string" ? v : "";
+    const at = f.options.findIndex((o) => o.id === v);
+    return at < 0 ? f.options.findIndex((o) => o.id === plain[f.key]) : at;
+  });
+  while (out.length > FIRST_LOOK_FIELDS && out[out.length - 1] === LOOK_FIELDS[out.length - 1]!.options!.findIndex((o) => o.id === plain[LOOK_FIELDS[out.length - 1]!.key])) out.pop();
+  return out;
 }
 
 export function readLook(x: unknown): AvatarLook | null {
-  if (!Array.isArray(x) || x.length !== LOOK_FIELDS.length) return null;
+  if (!Array.isArray(x) || x.length < FIRST_LOOK_FIELDS || x.length > LOOK_FIELDS.length) return null;
   const look: AvatarLook = defaultAvatar();
   const out = look as unknown as Record<string, unknown>;
   LOOK_FIELDS.forEach((f, i) => {
+    if (i >= x.length) return;
     const v = x[i];
     if (f.options) {
-      if (typeof v === "string" && f.options.some((o) => o.id === v)) out[f.key] = v;
+      const id = typeof v === "number" && i >= FIRST_LOOK_FIELDS ? f.options[v]?.id : v;
+      if (typeof id === "string" && f.options.some((o) => o.id === id)) out[f.key] = id;
     } else out[f.key] = v === 1 || v === true;
   });
   return look;
