@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Yahya's version
 dialogue:
-  - yahya.proud: "My data logger. There were two input lines, exactly the same. I took one out."
-  - yahya.confused: "Fewer lines, faster program. It's been thinking since I typed 14. Can you look?"
+  - yahya.proud: "This is my data logger. There were two input lines exactly the same, so I took one out."
+  - yahya.confused: "Fewer lines should mean a faster program, but it's been thinking ever since I typed 14. Can you look?"
 dialogue_after:
-  - yahya.surprised: "So the second one wasn't a copy. It was the next reading. Fast and stuck is still stuck."
+  - yahya.surprised: "Oh, the second one wasn't a copy, it was the next reading. Being fast doesn't help much if it's stuck."
 hints:
   nudge: "After the first pass, what changes `reading`? Look inside the loop for a line that does."
   plan:

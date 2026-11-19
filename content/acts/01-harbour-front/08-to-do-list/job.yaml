@@ -50,10 +50,10 @@ concepts_introduced: [lists, indexing, negative-indices, append-pop, looping-lis
 concepts_reviewed: [in-operator, while-loops, sentinels, break-continue, for-loops, range, if-elif-else, boolean-operators, int-conversion, f-strings]
 ask:
   dialogue:
-    - riya.pleased.wave: "Three commissions, a print run and an exhibition. My to-do list is a sketchbook margin."
-    - riya.neutral.point: "Numbered, please. New ones on the end. Done ones taken off. Never shuffled. People asked in that order."
-    - riya.laughing: "And it starts at one. I know Python counts from nought. My clients don't."
-    - paul.thinking: "Then you'll be adding one, and taking it away again."
+    - riya.pleased.wave: "I've got three commissions, a print run and an exhibition on, and my to-do list is the margin of a sketchbook."
+    - riya.neutral.point: "Can they be numbered, new ones on the end and done ones off? Never shuffle them, people asked in that order."
+    - riya.laughing: "And it has to start at one. I know Python counts from nought, but my clients don't."
+    - paul.thinking: "Then you'll be adding one on the way out and taking it away again on the way in."
   spec: |
     A menu. Ask `Command? ` over and over:
 
@@ -79,9 +79,9 @@ ask:
     Left to do: 2
 ship:
   dialogue:
-    - riya.pleased: "Number two done, and the ink moved up to two. Nothing shuffled. Nothing lost."
-    - riya.proud.thumbs: "Who's going to use it? Me, every morning, before I pick up a pencil."
-    - caitlin.laughing: "My album cover was number two. I'm not complaining."
+    - riya.pleased: "Number two's done and the ink moved up to two, with nothing shuffled and nothing lost."
+    - riya.proud.thumbs: "Who's going to use it? Me, every morning, before I've even picked up a pencil."
+    - caitlin.laughing: "My album cover was number two, so I'm not complaining."
   shelf: { object: list, label: "Riya's commissions, in order" }
   cards: [lists, indexing, negative-indices, append-pop, looping-lists, list-methods, slicing, sorted-vs-sort, list-aliasing]
 stretch:

@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Aaesha's version
 dialogue:
-  - aaesha.pleased: "Riya wanted her jobs in alphabetical order for the whiteboard. I didn't want two copies of one list."
-  - aaesha.worried: "Duplicated data is how mistakes start. But now her own list says album cover first. Can you look?"
+  - aaesha.pleased: "Riya wanted her jobs in alphabetical order for the whiteboard, and I didn't want two copies of one list."
+  - aaesha.worried: "Duplicated data is how mistakes start, but now her own list says album cover first. Can you look?"
 dialogue_after:
-  - aaesha.thinking.think: "So there was only ever one list with two names. A copy that's meant to differ isn't duplication."
+  - aaesha.thinking.think: "So it was only ever one list with two names. A copy that's meant to be different isn't really duplication."
 hints:
   nudge: "After line 4, how many lists are there? Count the boxes, not the names."
   plan:

@@ -41,10 +41,10 @@ concepts_introduced: [exceptions, try-except]
 concepts_reviewed: [reading-tracebacks, value-error, float-conversion, split-join, functions, parameters, return-values, none, while-loops, break-continue, if-elif-else, f-strings]
 ask:
   dialogue:
-    - yahya.neutral.wave: "Every chart I see has a number on it. I check them. Quick sums, all day."
-    - yahya.unimpressed: "And numbers get typed by people. People type twelve, or 12*4, or divide by nothing."
-    - yahya.neutral.point: "I want a calculator that takes a sum the way I'd write it, and says so when it's wrong. No crashing."
-    - paul.thinking: "It'll need to take a bad sum without falling over. That's new."
+    - yahya.neutral.wave: "Every chart I see has numbers on it and I check them all, it's quick sums all day long."
+    - yahya.unimpressed: "The trouble is people type the numbers in, and they'll put twelve as a word, or 12*4, or divide by nothing."
+    - yahya.neutral.point: "I want a calculator that takes a sum the way I'd write it and tells me when it's wrong, without crashing."
+    - paul.thinking: "It'll have to cope with a bad sum without falling over, which you haven't done yet."
   spec: |
     Ask `Sum? ` over and over. `quit` prints `Done for today.` and stops. Spaces at the ends don't matter.
 
@@ -73,8 +73,8 @@ ask:
     Done for today.
 ship:
   dialogue:
-    - yahya.pleased: "Twelve and a half at four. Fifty. Then I typed rubbish at it for ten minutes."
-    - yahya.proud.thumbs: "Forty bad sums, and it never once fell over. It stays open next to my data."
+    - yahya.pleased: "Twelve and a half at four is fifty. Then I spent ten minutes typing rubbish at it."
+    - yahya.proud.thumbs: "Forty bad sums and it never fell over once, so it's staying open next to my data."
   shelf: { object: abacus, label: "Yahya's calculator" }
   cards: [exceptions, try-except]
 stretch:

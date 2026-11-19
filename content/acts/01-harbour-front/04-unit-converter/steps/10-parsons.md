@@ -3,7 +3,7 @@ id: parsons
 type: parsons
 title: Rain first
 dialogue:
-  - neil.thinking.think: "Wet track, wet tyres. Only when it's dry do we talk about the heat."
+  - neil.thinking.think: "If the track's wet it's wet tyres, and we only talk about the heat when it's dry."
 blocks:
   - { code: 'track = input("Track? ")', indent: 0 }
   - { code: 'temp = int(input("Track temperature? "))', indent: 0 }

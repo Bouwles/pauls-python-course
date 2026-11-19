@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the Clocktower sign
-on_pass: { paul.pleased: "Four lines, straight, and the apostrophe where it belongs." }
+on_pass: { paul.pleased: "That's all four lines, nice and straight, with the apostrophe where it should be." }
 hints:
   nudge: "Each line of the sign needs its own `print()`. Which kind of quotes lets PAUL'S keep its apostrophe?"
   plan:

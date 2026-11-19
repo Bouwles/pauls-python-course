@@ -3,8 +3,8 @@ id: fix-table
 type: fix
 title: Script five, the board
 dialogue:
-  - neil.thinking.think: "Last script, the board itself. This one's hiding two."
-on_pass: { neil.pleased.thumbs: "Both found. That board's going on the wall by the sim rig." }
+  - neil.thinking.think: "This last script's the board itself, and there are two bugs hiding in this one."
+on_pass: { neil.pleased.thumbs: "You found both of them! That board's going up on the wall by the sim rig." }
 hints:
   nudge: "Fix the first error Python reports, then run it again. The second only shows up once the first is gone."
   plan:

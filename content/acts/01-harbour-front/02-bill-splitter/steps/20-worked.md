@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.neutral: "The floors are sharing the cost of network cable for the servers. Same shape of problem, different bill."
+  - paul.neutral: "The floors are sharing the cost of network cable for the servers, which is basically your problem with a different bill."
 code: |
   # Network cable for the Clocktower, shared between the floors that use it
   metres = input("Metres of cable? ")

@@ -40,10 +40,10 @@ concepts_introduced: [dictionaries, dict-get, dict-items, nested-data, split-joi
 concepts_reviewed: [while-loops, sentinels, lists, append-pop, in-operator, string-methods, f-strings, list-aliasing]
 ask:
   dialogue:
-    - riya.pleased.wave: "I'm drawing for half the class now. Posters, covers, portraits."
-    - riya.worried: "Their numbers are everywhere. A group chat, a sketchbook, the back of a print."
-    - riya.neutral.point: "Plus the print shop and the framer, every week. A name in, a number out. Even from half a name."
-    - paul.thinking: "Names to details. That wants a dictionary."
+    - riya.pleased.wave: "I'm drawing for half the class now, posters and covers and portraits."
+    - riya.worried: "Their numbers are all over the place, in a group chat, a sketchbook, even on the back of a print."
+    - riya.neutral.point: "Plus the print shop and framer every week. I want to type a name, even half of one, and get the number."
+    - paul.thinking: "Names to details? That sounds like it wants a dictionary."
   spec: |
     `contacts` holds a record for each name: a dictionary with a `phone` and an `address`. Ask `Name? ` until a blank line.
 
@@ -64,9 +64,9 @@ ask:
     Name?
 ship:
   dialogue:
-    - riya.pleased: "Print Shop, then Frame Shop. Both of them, in the order they went in."
-    - riya.proud.thumbs: "Who's going to use it? Me, every time a print needs a frame."
-    - aaesha.pleased: "One record for everyone. No copies, so nothing to go out of date."
+    - riya.pleased: "Print Shop, then Frame Shop, both of them in the order they went in."
+    - riya.proud.thumbs: "Who's going to use it? Me, every time one of my prints needs a frame."
+    - aaesha.pleased: "There's one record for everyone, and with no copies there's nothing to go out of date."
   shelf: { object: address-book, label: "Riya's contact book" }
   cards: [dictionaries, dict-get, dict-items, nested-data, split-join]
 stretch:

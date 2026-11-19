@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.thinking: "The clock's spare parts, in drawers. One day I'll use them. Nobody remembers the full names."
+  - paul.thinking: "I've got the clock's spare parts in drawers for when I finally use them, and nobody remembers their full names."
 code: |
   # The clock's spare parts: a record for each one
   drawers = {

@@ -9,7 +9,7 @@ params:
   ask: 3
   negative: false
 dialogue:
-  - riya.pleased.point: "I drew everyone in the class. Pigeonhole three, please. I'm handing out the prints."
+  - riya.pleased.point: "I drew everyone in the class and I'm handing out the prints now. Pigeonhole three, please."
 ---
 Riya has printed a portrait of everyone and is handing them out through the Workshop pigeonholes. The holes are numbered from 0, like the items in a list.
 

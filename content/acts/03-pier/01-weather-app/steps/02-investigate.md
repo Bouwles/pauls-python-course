@@ -4,7 +4,7 @@ type: investigate
 title: What came back
 concept: json-module
 dialogue:
-  - riya.pleased.point: "This is for my painting trip. I asked Open-Meteo about Penzance on Sunday and kept the reply."
+  - riya.pleased.point: "This one's for my painting trip. I asked Open-Meteo about Penzance on Sunday and kept the reply it sent."
 code: |
   import json
 

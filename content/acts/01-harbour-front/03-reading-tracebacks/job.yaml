@@ -42,9 +42,9 @@ concepts_introduced: [reading-tracebacks, syntax-error, name-error, type-error, 
 concepts_reviewed: [print, strings, variables, input-returns-text, int-conversion, float-conversion, f-strings]
 ask:
   dialogue:
-    - neil.pleased.wave: "Five scripts from my first term. Karting, rockets, one about the clock. Every one crashes."
-    - neil.laughing: "I kept them on purpose. Best teaching material I own."
-    - paul.neutral: "When Python breaks, it leaves a note. Today you learn to read the note."
+    - neil.pleased.wave: "These are five scripts from my first term, karting, rockets and one about the clock, and every one of them crashes."
+    - neil.laughing: "I kept them on purpose, honestly they're the best teaching material I've got."
+    - paul.neutral: "When Python breaks it leaves you a note, and today you're going to learn how to read it."
   spec: |
     Neil's first-term scripts: a race-day board for his karting club, a rocket launch date, a glider's wings, and the clock. Five small scripts, and each one crashes.
     Read the traceback, find the line, fix it. Between them they hold the four errors you will meet most: SyntaxError, NameError, TypeError and ValueError. Each one is explained just before you fix it.
@@ -55,8 +55,8 @@ ask:
     Race 16:00
 ship:
   dialogue:
-    - neil.pleased.cheer: "Practice at nine thirty, race at four. Exactly what I meant to print in my first term."
-    - paul.proud: "Five scripts, six tracebacks. Most people never read one."
+    - neil.pleased.cheer: "Practice at nine thirty, race at four, which is exactly what I meant it to print back in my first term."
+    - paul.proud: "That's five scripts and six tracebacks, and most people never read even one."
   shelf: { object: tide-table, label: "Neil's race-day board, working again" }
   cards: [reading-tracebacks, syntax-error, name-error, type-error, value-error, str-conversion]
 stretch:

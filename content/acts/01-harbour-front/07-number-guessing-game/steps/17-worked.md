@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.laughing: "The server cupboard has a padlock. I forget the code. Same shape as Caitlin's game."
+  - paul.laughing: "The server cupboard's got a padlock and I keep forgetting the code. It's the same shape as Caitlin's game."
 code: |
   # The server cupboard padlock. q gives up and asks Neil.
   secret = 4172

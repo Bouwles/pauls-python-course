@@ -3,7 +3,7 @@ id: make
 type: make
 title: Make the expense tracker
 timeout_ms: 15000
-on_pass: { yahya.pleased: "Requirement ten: anything else gets told. I typed my own name at it. It told me." }
+on_pass: { yahya.pleased: "Requirement ten says anything else gets told, and when I typed my own name at it, it told me." }
 hints:
   nudge: "What does the program have to remember from one choice to the next? Set that up before the loop starts."
   plan:

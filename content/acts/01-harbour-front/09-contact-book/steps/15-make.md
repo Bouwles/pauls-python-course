@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the contact book
-on_pass: { riya.pleased.cheer: "It found both shops from one word. No more hunting for the framer's number." }
+on_pass: { riya.pleased.cheer: "It found both shops from one word! No more hunting for the framer's number." }
 hints:
   nudge: "Three things can happen to a name: it's `add`, it's in the book, or it isn't. Which do you check first?"
   plan:

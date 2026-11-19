@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Riya's version
 dialogue:
-  - riya.pleased: "I started Neil's converter. A menu, because nobody remembers which number is which."
-  - riya.confused: "Every option says no such option. Can you look at it? Something's off."
+  - riya.pleased: "I started Neil's converter with a menu, because nobody can remember which number is which."
+  - riya.confused: "But every option says no such option. Can you have a look? Something's off."
 dialogue_after:
-  - riya.surprised: "So \"1\" isn't 1. They look identical. Like two blacks that turn out not to match."
+  - riya.surprised: "So \"1\" isn't the same as 1, even though they look identical? It's like two blacks that turn out not to match."
 hints:
   nudge: "What type does `input()` give you? And what type is the `1` on the `if` line?"
   plan:

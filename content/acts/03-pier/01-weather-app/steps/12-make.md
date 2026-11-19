@@ -5,7 +5,7 @@ title: Make the weather app
 files: [weather.py]
 entry: weather.py
 timeout_ms: 15000
-on_pass: { riya.laughing: "I unplugged the router and asked about Penzance. It told me, politely, that nobody was answering." }
+on_pass: { riya.laughing: "I unplugged the router and asked about Penzance, and it politely told me nobody was answering." }
 hints:
   nudge: "Which of your functions need the internet? Only `fetch_json` should. Everything else is handed a reply that has already arrived."
   plan:

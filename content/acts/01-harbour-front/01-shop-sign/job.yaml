@@ -39,9 +39,9 @@ summary: "A first program: print the sign for the Clocktower's front door."
 concepts_introduced: [program-order, print, strings, comments]
 ask:
   dialogue:
-    - paul.pleased.wave: "Welcome to the Workshop. First program: the sign on the front door."
-    - paul.unimpressed: "The old one fell off in the rain. People started asking us to fix the clock."
-    - paul.neutral.point: "Name, what we teach, the hours, and a warning. Four lines. Nothing clever."
+    - paul.pleased.wave: "Welcome to the Workshop! Your first program's going to be the sign for the front door."
+    - paul.unimpressed: "The old one fell off in the rain, and people started coming in asking us to fix the clock."
+    - paul.neutral.point: "It just needs the name, what we teach, the hours and a little warning at the bottom, nothing fancy."
   spec: |
     Write a program that shows the sign for the Clocktower's front door: the course's name, what it teaches, the opening hours and a note for visitors.
 
@@ -53,8 +53,8 @@ ask:
     Ignore the clock. It says 3:14.
 ship:
   dialogue:
-    - paul.pleased.thumbs: "Straight lines. No spelling mistakes. Apostrophe in the right place."
-    - paul.laughing: "One day I'll fix the clock, and the last line will be wrong. I can live with that."
+    - paul.pleased.thumbs: "That's spot on, every line's straight and you even got the apostrophe in the right place."
+    - paul.laughing: "Mind you, if I ever fix the clock that last line's going to be wrong, but I can live with that."
   shelf: { object: workshop-sign, label: "The sign on the Clocktower door" }
   cards: [program-order, print, strings, comments]
 stretch:

@@ -60,10 +60,10 @@ concepts_introduced: [web-apis, http-basics]
 concepts_reviewed: [json-module, nested-data, dictionaries, dict-get, zip, tuples, unpacking, functions, return-values, none, exceptions, try-except, raising-errors, standard-library, main-guard, f-strings, string-methods, with-statement, files]
 ask:
   dialogue:
-    - riya.pleased.wave: "I'm painting outdoors in Penzance next week. Painters have gone there for the light for over a hundred years."
-    - riya.worried: "Rain ruins a watercolour. Wind takes the easel. I want three days of forecast, in plain words."
-    - riya.thinking: "From a real service, and it credits its source. Aaesha says a forecast without one is a rumour."
-    - paul.neutral: "A program that talks to another computer. It fails in new ways. Plan for every one."
+    - riya.pleased.wave: "I'm painting outdoors in Penzance next week, and painters have been going there for the light for over a hundred years."
+    - riya.worried: "Rain ruins a watercolour and wind takes the easel, so I want three days of forecast in plain words."
+    - riya.thinking: "It has to come from a real service and credit its source, because Aaesha says a forecast without one's a rumour."
+    - paul.neutral: "It's talking to another computer now, and that means new ways to fail, so you'll want a plan for each one."
   spec: |
     Write `weather.py`. It asks `Where? `, looks the place up with Open-Meteo's geocoding service, asks Open-Meteo's forecast service about the next three days, and prints a plain forecast.
 
@@ -87,9 +87,9 @@ ask:
     Weather data by Open-Meteo.com
 ship:
   dialogue:
-    - riya.laughing: "Penzance, three days, rain on all of them. Then I'm painting the rain. From under the harbour wall."
-    - riya.pleased.thumbs: "And it says where its numbers came from, on the last line. Like signing a painting."
-    - paul.proud: "It asks another computer and stays calm when nobody answers. That's most of the job."
+    - riya.laughing: "Penzance, three days, and rain on all of them. I'll just paint the rain from under the harbour wall."
+    - riya.pleased.thumbs: "And it says where its numbers came from on the last line, a bit like signing a painting."
+    - paul.proud: "It asks another computer for the weather and stays calm when nobody answers, which a lot of programs don't."
   shelf: { object: weathervane, label: "Riya's three-day forecast for painting outdoors" }
   cards: [web-apis, http-basics]
 stretch:

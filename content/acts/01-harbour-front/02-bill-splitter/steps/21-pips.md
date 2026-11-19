@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Yahya's version
 dialogue:
-  - yahya.proud: "I did the tip part for Caitlin already. Three letters, one line of maths. Fast."
-  - yahya.confused: "Twenty pounds, ten per cent tip: twenty pounds ten. Caitlin says that's wrong. Can you look?"
+  - yahya.proud: "I've already done the tip bit for Caitlin, just three letters and one line of maths, nice and fast."
+  - yahya.confused: "Twenty pounds with a ten per cent tip comes out at twenty pounds ten, and Caitlin says that's wrong. Can you look?"
 dialogue_after:
-  - yahya.thinking.think: "So the times went first, and the tip came to ten pence. Brackets. Fine."
+  - yahya.thinking.think: "Right, the times went first and the tip only came to ten pence. It needed brackets, fair enough."
 hints:
   nudge: "On line 3, which happens first, the `*` or the `+`? Work out `20 * 1 + 10 / 100` by hand, in Python's order."
   plan:

@@ -41,10 +41,10 @@ concepts_introduced: [arithmetic, operator-precedence, variables, naming, input-
 concepts_reviewed: [print, strings, comments]
 ask:
   dialogue:
-    - caitlin.pleased.wave: "Class dinner on Friday. I picked the restaurant. Six of us, one bill."
-    - caitlin.laughing: "Last time it was twenty minutes of who had the extra garlic bread."
-    - caitlin.unimpressed: "And a tip on top, which nobody could work out either."
-    - paul.thinking: "It'll have to do sums, and it'll have to listen. Both new."
+    - caitlin.pleased.wave: "We're having a class dinner on Friday at a place I picked, and it's six of us on one bill."
+    - caitlin.laughing: "Last time we spent twenty minutes arguing about who had the extra garlic bread."
+    - caitlin.unimpressed: "Then there was the tip on top, and nobody could work that out either."
+    - paul.thinking: "It'll have to do sums and listen to what people type, and you haven't done either of those yet."
   spec: |
     Ask for the bill in pounds, the number of people sharing it, and the tip as a percentage. The bill and the tip can have a decimal point.
 
@@ -57,8 +57,8 @@ ask:
     Each pays: 7.59
 ship:
   dialogue:
-    - caitlin.surprised: "Forty-one forty, and ten per cent is four fourteen. Forty-five fifty-four."
-    - caitlin.pleased.thumbs: "Six ways, seven fifty-nine each. Sorted before pudding. Next time it's pizza."
+    - caitlin.surprised: "Forty-one forty, plus ten per cent is four fourteen, which makes forty-five fifty-four."
+    - caitlin.pleased.thumbs: "That's seven fifty-nine each between six of us, all sorted before pudding, and next time it's pizza."
   shelf: { object: till-receipt, label: "Caitlin's bill splitter" }
   cards: [arithmetic, operator-precedence, variables, naming, input-returns-text, int-conversion, float-conversion, f-strings, type-function]
 stretch:

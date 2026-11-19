@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.pleased: "I made a chart for my training runs: batches into images. Same shape of job."
+  - paul.pleased: "I made a chart for my training runs, batches into images, and honestly it's the same shape of job."
 code: |
   # Training runs: how many images a model sees, then three questions
   size = int(input("Batch size? "))

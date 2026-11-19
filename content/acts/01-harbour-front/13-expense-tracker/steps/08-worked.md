@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: A menu that remembers
 dialogue:
-  - paul.thinking: "Neil's office-hours log: who came, and for how long. The trip fund is the same shape, with money."
+  - paul.thinking: "This is Neil's office-hours log, who came and for how long. The trip fund's the same shape, just with money."
 code: |
   # Office hours: who came, and how long they stayed
   def add_visit(visits):

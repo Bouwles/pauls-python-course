@@ -3,7 +3,7 @@ id: plan
 type: reading
 title: How Paul would break it down
 dialogue:
-  - paul.neutral.point: "Big jobs are small jobs in a row. Write the row down first."
+  - paul.neutral.point: "A big job is just small jobs in a row, and it helps to write the row down first."
 ---
 Before any code, Paul writes the steps on the chalkboard:
 

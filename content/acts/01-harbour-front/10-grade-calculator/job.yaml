@@ -49,10 +49,10 @@ concepts_introduced: [functions, parameters, return-values, none, scope]
 concepts_reviewed: [split-join, lists, append-pop, for-loops, while-loops, sentinels, if-elif-else, int-conversion, f-strings]
 ask:
   dialogue:
-    - paul.neutral.wave: "The class sat its first Python test on Friday. I've been putting off the marking."
-    - paul.unimpressed: "Papers are marked blind: candidate numbers, no names. Nobody gets a kind mark."
-    - paul.neutral.point: "An average and a letter for each paper, and one for the class. Small functions, each one checkable."
-    - neil.laughing: "He means he'll check every function. Twice."
+    - paul.neutral.wave: "The class sat its first Python test on Friday, and I've been putting off the marking."
+    - paul.unimpressed: "They're marked blind with candidate numbers instead of names, which means nobody gets a kind mark."
+    - paul.neutral.point: "I want an average and a letter for each paper and for the class, with small functions I can check separately."
+    - neil.laughing: "He means he'll check every function. Twice, knowing him."
   spec: |
     Write three functions, then a `main()` that uses them.
 
@@ -76,9 +76,9 @@ ask:
     Class average: 70.0
 ship:
   dialogue:
-    - paul.pleased: "Candidate 2, eighty-six point three. Tidy code, whoever you are."
-    - yahya.surprised: "Is Candidate 2 me?"
-    - paul.pleased: "Blind marking, Yahya. You'll find out on Friday."
+    - paul.pleased: "Candidate 2, eighty-six point three. That's tidy code, whoever you are."
+    - yahya.surprised: "Wait, is Candidate 2 me?"
+    - paul.pleased: "It's blind marking, Yahya, you'll find out on Friday."
   shelf: { object: exam-paper, label: "Marks for the class's first Python test" }
   cards: [functions, parameters, return-values, none, scope]
 stretch:

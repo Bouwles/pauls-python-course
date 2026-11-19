@@ -3,7 +3,7 @@ id: what-goes-where
 type: reading
 title: What goes where
 dialogue:
-  - neil.neutral.point: "Four things, in order, like a pre-flight check. People get stuck by doing them in the wrong order."
+  - neil.neutral.point: "There are four things to do in order, like a pre-flight check, and people get stuck by doing them out of order."
 ---
 Here's the order you'll set things up in on your own computer. The next step has the full guide for Windows, macOS and Linux.
 

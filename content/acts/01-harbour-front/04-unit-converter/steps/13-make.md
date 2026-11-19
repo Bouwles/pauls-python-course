@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the unit converter
-on_pass: { neil.pleased: "Mach 2 up high, two thousand one hundred and twenty-four km/h. Same as my notes." }
+on_pass: { neil.pleased: "Mach 2 up high comes out at two thousand one hundred and twenty-four km/h, same as in my notes." }
 hints:
   nudge: "Which question does the program ask first? And which option, only one, needs a second question?"
   plan:

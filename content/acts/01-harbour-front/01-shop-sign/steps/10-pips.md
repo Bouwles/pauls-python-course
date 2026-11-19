@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Caitlin's version
 dialogue:
-  - caitlin.pleased: "I made a sign for the arcade cabinet upstairs. Took me two minutes."
-  - caitlin.confused.point: "It says unterminated string. I terminated it. Look, there's a quote right there."
+  - caitlin.pleased: "I knocked up a sign for the arcade cabinet upstairs, it only took me about two minutes."
+  - caitlin.confused.point: "But it keeps saying unterminated string, and I did terminate it, look, there's a quote right there."
 dialogue_after:
-  - caitlin.laughing.thumbs: "Oh. They have to match. Fine. It works, it's ugly, I'm shipping it."
+  - caitlin.laughing.thumbs: "Oh, the quotes have to match? Fine, it works now, and it's a bit ugly, but I'm shipping it."
 hints:
   nudge: "Look at line 2. Which kind of quote opens the text, and which kind closes it?"
   plan:
