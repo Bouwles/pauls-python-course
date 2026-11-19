@@ -46,10 +46,10 @@ concepts_introduced: [heaps, priority-queues]
 concepts_reviewed: [trees, big-o, tuples, classes, methods, dunder-methods, while-loops, standard-library, sort-stability, files, main-guard]
 ask:
   dialogue:
-    - neil.pleased.wave: "Race day at the kart track. Between sessions, jobs come in faster than I can do them."
-    - neil.worried: "A loose steering bolt can't wait. A cracked number plate can wait all day."
-    - neil.thinking: "Same urgency, they're done in the order they came. That's only fair."
-    - paul.neutral: "Then you want a scheduler that keeps the most urgent on top, whatever comes in."
+    - neil.pleased.wave: "It's race day at the kart track, and between sessions the jobs come in faster than I can do them."
+    - neil.worried: "A loose steering bolt can't wait, but a cracked number plate can wait all day."
+    - neil.thinking: "If two are just as urgent they get done in the order they came in, which is only fair."
+    - paul.neutral: "Then you want a scheduler that keeps the most urgent job on top, whatever comes in."
   spec: |
     A task scheduler for Neil's pit crew. Jobs on the kart come in all race day with a priority: 1 is the most urgent. Neil always does the most urgent one waiting, and of two with the same priority, the one that came in first. In `scheduler.py`, by hand, with no `heapq`:
 
@@ -68,9 +68,9 @@ ask:
     Still waiting: 1
 ship:
   dialogue:
-    - neil.pleased.cheer: "Steering bolt first, and the fuel leak the minute it came in. Tyres before the chain."
-    - neil.laughing: "The number plate is still cracked. Nobody has noticed."
-    - paul.thinking: "That's heapq, more or less. Now you know what it's doing when you use it."
+    - neil.pleased.cheer: "It did the steering bolt first and the fuel leak the minute it came in, and the tyres before the chain."
+    - neil.laughing: "The number plate's still cracked, and nobody's noticed."
+    - paul.thinking: "That's more or less what heapq is, and now you'll know what it's doing when you use it."
   shelf: { object: ticket-spike, label: "Neil's pit-stop scheduler, most urgent on top" }
   cards: [heaps, priority-queues]
 stretch:

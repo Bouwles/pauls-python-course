@@ -4,7 +4,7 @@ type: make
 title: Make the task scheduler
 files: [scheduler.py]
 entry: scheduler.py
-on_pass: { neil.proud.thumbs: "A thousand jobs and it knows what's next in ten looks. I'd have done the wrong one first." }
+on_pass: { neil.proud.thumbs: "A thousand jobs and it knows what's next in ten looks, when I'd have done the wrong one first." }
 hints:
   nudge: "After `pop` moves the last item up to the top, it's probably too big for there. Which of its two children should take its place?"
   plan:

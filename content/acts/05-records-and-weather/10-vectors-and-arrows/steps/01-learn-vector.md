@@ -4,7 +4,7 @@ type: learn
 title: Arrows, not bearings
 concept: vectors
 dialogue:
-  - riya.pleased: "An arrow a day for the print. Long for a gale, short for a breeze."
+  - riya.pleased: "There's an arrow a day for the print, long for a gale and short for a breeze."
 code: |
   import numpy as np
 

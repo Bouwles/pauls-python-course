@@ -3,11 +3,11 @@ id: pips
 type: pips
 title: Fix Caitlin's version
 dialogue:
-  - caitlin.proud.wave: "Can you look at mine? Two charts for the wall. I zoomed in on the warming so people notice it."
-  - caitlin.pleased: "And the driest year and the wettest look the same. So the rain hardly varies. Done."
+  - caitlin.proud.wave: "Can you look at mine? Two charts for the wall, and I zoomed in on the warming so people notice it."
+  - caitlin.pleased: "The driest year and the wettest look the same, which means the rain hardly varies. Done."
 dialogue_after:
-  - caitlin.surprised: "So the 2020s weren't seven times warmer than the 1960s. About a degree. Not a cliff."
-  - caitlin.laughing: "And 1999 had nearly twice the rain of 1968. The panels were both just filling their boxes."
+  - caitlin.surprised: "So the 2020s weren't seven times warmer than the 1960s, it's about a degree, which isn't exactly a cliff."
+  - caitlin.laughing: "And 1999 had nearly twice the rain of 1968. Both panels were just stretching to fill their boxes."
 hints:
   nudge: "Where does each bar start from, and what does that do to how long the bars look? And what scale does each rain panel choose for itself?"
   plan:

@@ -51,10 +51,10 @@ concepts_introduced: [dynamic-programming]
 concepts_reviewed: [recursion, memoisation, decorators, base-cases, nested-data, lists, dictionaries, tuples, sort-key, string-methods, strip-replace, files, big-o, edge-cases]
 ask:
   dialogue:
-    - paul.pleased.wave: "End-of-term quiz, capital cities. I'm marking. Riya wrote Copenhagan. I'd give it her."
-    - paul.unimpressed: "Yahya wrote Kito, for Quito, and says that's near enough too. I need a rule, not an argument."
-    - yahya.proud: "And nobody got the bonus question: how many ways to make fifty pence."
-    - neil.thinking.point: "Never work anything out twice. Both questions come apart into smaller ones."
+    - paul.pleased.wave: "I'm marking the end-of-term quiz on capital cities, and Riya wrote Copenhagan, which I'd give her."
+    - paul.unimpressed: "Yahya wrote Kito for Quito and reckons that's near enough too. I need a proper rule before he starts arguing."
+    - yahya.proud: "And nobody got the bonus question, which was how many ways there are to make fifty pence."
+    - neil.thinking.point: "Both of those come apart into smaller questions, and the trick is never working anything out twice."
   spec: |
     `words.csv` is a word list with a count for each word: every word that turns up at least twice in two old novels, *Great Expectations* and *Treasure Island*, and how many times. `load_counts` reads it into a dictionary, and `words_in` gives back the words of a text in lower case. In `spell.py`, write:
 
@@ -78,10 +78,10 @@ ask:
     Check?
 ship:
   dialogue:
-    - paul.pleased: "Copenhagan, near enough: Riya gets her point. Kito, wrong. Yahya has appealed."
-    - yahya.unimpressed: "Appeal withdrawn. The table was very clear. Four hundred and fifty ways, by the way."
-    - neil.pleased.thumbs: "Every pair of beginnings worked out once, and written in the table. That's the whole trick."
-    - paul.laughing: "And that's the Puzzle Room's wall explained. Most of it."
+    - paul.pleased: "Copenhagan's near enough, so Riya gets her point, but Kito's wrong and Yahya has appealed."
+    - yahya.unimpressed: "I've withdrawn the appeal because the table was very clear. It's four hundred and fifty ways, by the way."
+    - neil.pleased.thumbs: "It works out every pair of beginnings once and writes it in the table, and nothing ever gets done twice."
+    - paul.laughing: "And that explains the Puzzle Room's wall, or most of it anyway."
   shelf: { object: quiz-sheet, label: "Paul's spell checker, near enough" }
   cards: [dynamic-programming]
 stretch:

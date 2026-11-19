@@ -4,7 +4,7 @@ type: predict
 title: Odd shapes
 concept: broadcasting
 dialogue:
-  - yahya.proud: "Easy. Take each assessment's average off, then each student's. Same trick twice."
+  - yahya.proud: "Easy, you take each assessment's average off and then each student's. It's the same trick twice."
 code: |
   import numpy as np
 

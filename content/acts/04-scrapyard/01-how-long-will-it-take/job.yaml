@@ -62,10 +62,10 @@ concepts_introduced: [big-o, timing-code]
 concepts_reviewed: [for-loops, while-loops, membership-speed, sets, tuples, functions-as-values, raising-errors, main-guard, files, f-strings, zip]
 ask:
   dialogue:
-    - neil.surprised.wave: "The kart track's clearing out its parts store. Ten thousand parts, all coming here."
-    - neil.thinking: "My parts script checks for spares every time a part comes in. Every part against every part."
-    - neil.worried: "Two hundred parts, no bother. Ten thousand? I think it falls over. Paul says it depends."
-    - paul.neutral.point: "It depends on how the steps grow. So build something that measures that."
+    - neil.surprised.wave: "The kart track's clearing out its parts store, and all ten thousand parts are coming here!"
+    - neil.thinking: "Every time a part comes in, my script checks for spares by comparing every part against every other part."
+    - neil.worried: "It's fine with two hundred, but I reckon ten thousand will make it fall over. Paul just says it depends."
+    - paul.neutral.point: "It depends on how the steps grow with the parts, and you can build something that measures exactly that."
   spec: |
     A speed tester runs a function on bigger and bigger inputs, measures the work, and says how it grows. Build one in `speed_tester.py` and point it at Neil's spares check, which finds the parts his drawers hold more than one of. `stock.txt` lists the 200 kart and rocket parts in them today.
 
@@ -101,9 +101,9 @@ ask:
     By pairs today: 0.0007 s. With the track's lot: about 1.8 s, every time a part comes in.
 ship:
   dialogue:
-    - neil.surprised: "By pairs, nearly two seconds a part, and ten thousand parts coming. By set, a blink."
-    - neil.laughing.thumbs: "I'll retire my script. It was excellent at two hundred parts."
-    - paul.proud: "Same answer. Different growth. That's the whole of it."
+    - neil.surprised: "By pairs it's nearly two seconds a part, with ten thousand on the way, and by set it's over in a blink."
+    - neil.laughing.thumbs: "I'm retiring my script, though to be fair to it, it was excellent at two hundred parts."
+    - paul.proud: "Both checks find the same spares, it's just that one of them grows a lot faster than the other."
   shelf: { object: stopwatch, label: "Neil's speed tester, the kart track's lot worked out" }
   cards: [big-o, timing-code]
 stretch:

@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.pleased.point: "The Workshop's index cards, filed as a tree this time. By subject, alphabetically."
+  - paul.pleased.point: "It's the Workshop's index cards again, only this time they're filed as a tree, alphabetically by subject."
 code: |
   class Card:
       def __init__(self, subject):

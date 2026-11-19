@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Caitlin's version
 dialogue:
-  - caitlin.pleased.wave: "Can you look at mine? A hoist counter for Neil's crates. Eight metres up, four pulls down."
-  - caitlin.confused: "Seven metres and it thinks for ages, then falls over. Seven's a perfectly good height."
+  - caitlin.pleased.wave: "Can you look at mine? It's a hoist counter for Neil's crates, and eight metres up is four pulls down."
+  - caitlin.confused: "Give it seven metres and it thinks for ages before falling over, and seven's a perfectly good height."
 dialogue_after:
-  - caitlin.surprised: "It walked straight past nought. Never even noticed it was there."
+  - caitlin.surprised: "Oh, it went straight past nought and never even noticed it was there."
 hints:
   nudge: "From 7 m the basket goes 7, 5, 3, 1. What height does Caitlin's function try next, and does it ever reach the base case?"
   plan:

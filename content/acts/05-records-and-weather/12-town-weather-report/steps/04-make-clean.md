@@ -6,9 +6,9 @@ files: [station.py]
 entry: station.py
 timeout_ms: 20000
 dialogue:
-  - yahya.unimpressed: "The station book, as the volunteers typed it. Fahrenheit until 1960, as it was written."
-  - yahya.worried: "The 1987 pages got soaked in the October storm. They were typed up last."
-on_pass: { yahya.pleased.thumbs: "Twelve hundred months, each once, each in Celsius. The ledger can go back in its cabinet." }
+  - yahya.unimpressed: "Here's the station book the way the volunteers typed it, still in Fahrenheit until 1960 as it was written."
+  - yahya.worried: "The 1987 pages got soaked in the October storm, and they were typed up last."
+on_pass: { yahya.pleased.thumbs: "Twelve hundred months, each in once and in Celsius, and the ledger can go back in its cabinet." }
 hints:
   nudge: "Which rows need converting, and how would you know if the unit were written `f` or `F `? And when can `drop_duplicates()` see that two rows are the same month?"
   plan:

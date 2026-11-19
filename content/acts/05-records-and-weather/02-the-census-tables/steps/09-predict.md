@@ -4,7 +4,7 @@ type: predict
 title: Two conditions
 concept: selecting-filtering
 dialogue:
-  - caitlin.proud: "Over fifty and living in Bankside. Two conditions, one and. Done."
+  - caitlin.proud: "Over fifty and living in Bankside, that's two conditions with an and between them. Done."
 code: |
   import pandas as pd
 

@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul keeps his jobs board
 dialogue:
-  - paul.laughing: "My jobs board. Biggest job on top, so I can see what I'm avoiding."
+  - paul.laughing: "My jobs board has the biggest job on top, so I can see exactly what I'm avoiding."
 code: |
   def add_job(board, hours):
       board.append(hours)

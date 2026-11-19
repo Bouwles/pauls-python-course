@@ -4,7 +4,7 @@ type: make
 title: Make the sudoku solver
 files: [sudoku.py]
 entry: sudoku.py
-on_pass: { caitlin.surprised.cheer: "Two solved and one that can't be. A week of my life, explained." }
+on_pass: { caitlin.surprised.cheer: "Two solved and one that can't be, which explains a whole week of my life." }
 hints:
   nudge: "Paul's `seat` chose a team for the next table. What does `solve` choose each time, where does it put it, and what makes a choice no good?"
   plan:

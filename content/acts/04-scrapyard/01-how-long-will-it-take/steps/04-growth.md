@@ -6,7 +6,7 @@ concept: big-o
 widget: growth
 params: { max: 1000, show: ["1", "logn", "n", "nlogn", "n2"] }
 dialogue:
-  - paul.neutral: "At two hundred they all look fine. Drag it out to the kart track's lot."
+  - paul.neutral: "Everything looks fine at two hundred. Try dragging it out to the size of the kart track's lot."
 ---
 These are the five growths from the last step, drawn as lines: steps up the side, the size of the pile, n, along the bottom.
 

@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Caitlin's version
 dialogue:
-  - caitlin.proud.wave: "Can you look at mine? Binary search. Found the 10 mm in one look. One."
-  - caitlin.confused: "Neil says the 30 mm is in the last drawer. Mine says there isn't one. Something's off."
+  - caitlin.proud.wave: "Can you look at mine? It's a binary search and it found the 10 mm in one look, literally one."
+  - caitlin.confused: "Neil says the 30 mm is in the last drawer, but mine reckons there isn't one at all. What's going on?"
 dialogue_after:
-  - caitlin.surprised: "So low and high meeting isn't the end. It's the last drawer left."
+  - caitlin.surprised: "Oh, so when low and high meet it isn't over yet, that's just the last drawer left to check."
 hints:
   nudge: "When `low` and `high` are the same drawer, is there still somewhere left to look?"
   plan:

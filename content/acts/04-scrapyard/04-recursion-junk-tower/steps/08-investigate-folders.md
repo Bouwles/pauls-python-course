@@ -4,8 +4,8 @@ type: investigate
 title: Folders inside folders
 concept: recursion
 dialogue:
-  - neil.worried: "My old laptop's backup. I copied it onto the Puzzle Room computer and never opened it again."
-  - paul.neutral: "Then we'll only look at the outside of everything first."
+  - neil.worried: "Here's my old laptop's backup, which I copied onto the Puzzle Room computer and then never opened again."
+  - paul.neutral: "Then let's just look at the outside of everything to start with."
 code: |
   import os
 

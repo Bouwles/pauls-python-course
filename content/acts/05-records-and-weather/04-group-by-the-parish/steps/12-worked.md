@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.laughing.point: "Caitlin's tea round book. Every cup since September. She asked me what it says."
+  - paul.laughing.point: "Caitlin's kept a tea round book with every cup since September, and she's asked me what it says."
 code: |
   import pandas as pd
 

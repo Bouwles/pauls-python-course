@@ -4,7 +4,7 @@ type: predict
 title: Dead ahead
 concept: vectors
 dialogue:
-  - neil.thinking.point: "Twelve knots out of the north. Which way the plane is pointing is the whole question."
+  - neil.thinking.point: "It's twelve knots out of the north, and the real question is which way the plane is pointing."
 code: |
   import numpy as np
 

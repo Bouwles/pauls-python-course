@@ -4,7 +4,7 @@ type: make
 title: Make the round of crates
 files: [chalk_round.py]
 entry: chalk_round.py
-on_pass: { neil.proud.thumbs: "Tank in, axle out, round the other way. And not one crate lifted." }
+on_pass: { neil.proud.thumbs: "Tank in, axle out and round the other way, and I didn't have to lift one crate." }
 hints:
   nudge: "To change the round just after a crate, which crate's `next` has to change, and what must you hold on to before you change it?"
   plan:

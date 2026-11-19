@@ -3,8 +3,8 @@ id: plan
 type: reading
 title: Mark it out first
 dialogue:
-  - paul.neutral.point: "Four pieces. Each does one job, and you can check each without the others."
-  - yahya.thinking: "And the last piece is words. The numbers are for the words."
+  - paul.neutral.point: "It's in four pieces, each doing one job, and you can check any of them without the others."
+  - yahya.thinking: "And the last piece is the words, which is what all the numbers are for really."
 ---
 A report this size goes in four files, built in this order:
 

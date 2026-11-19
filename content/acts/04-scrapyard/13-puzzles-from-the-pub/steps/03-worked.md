@@ -3,9 +3,9 @@ id: worked
 type: worked
 title: How Paul seats the teams
 dialogue:
-  - caitlin.laughing: "Games night. Chess teams. The Rooks won't sit by the Knights since the last final."
+  - caitlin.laughing: "It's games night with the chess teams, and the Rooks won't sit by the Knights since the last final."
   - caitlin.unimpressed: "The Bishops and the Pawns, don't ask."
-  - paul.thinking.point: "Seat them one table at a time. When you're stuck, stand the last one up again."
+  - paul.thinking.point: "Seat them one table at a time, and when you get stuck, stand the last one up again."
 code: |
   TEAMS = ["Rooks", "Knights", "Bishops", "Pawns"]
   RIVALS = {("Rooks", "Knights"), ("Bishops", "Pawns")}

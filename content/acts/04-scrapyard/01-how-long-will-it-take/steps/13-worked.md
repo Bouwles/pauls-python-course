@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would time it
 dialogue:
-  - paul.thinking: "Counting tells you how it grows. A clock tells you where it starts. You need both."
+  - paul.thinking: "Counting steps tells you how it grows and the clock tells you where it starts, and you really need both."
 code: |
   import time
 

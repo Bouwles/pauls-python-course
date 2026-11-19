@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Riya's version
 dialogue:
-  - riya.pleased.wave: "Can you look at mine? A tally of my paints, with undo. I tried undo once, on one change. Perfect."
-  - riya.worried: "Then I typed forty tubes of yellow instead of four and pressed undo. Still forty."
+  - riya.pleased.wave: "Can you look at mine? It's a paint tally with undo, and when I tried it on one change it was perfect."
+  - riya.worried: "Then I typed forty tubes of yellow instead of four, pressed undo, and it still says forty."
 dialogue_after:
-  - riya.thinking: "History's a stack. Last in, first out. One change was never going to show me that."
+  - riya.thinking: "History's a stack, last in first out, and testing one change was never going to show me that."
 hints:
   nudge: "The mistake was the latest change. Which end of `history` is the latest change at, and which end does Riya take from?"
   plan:

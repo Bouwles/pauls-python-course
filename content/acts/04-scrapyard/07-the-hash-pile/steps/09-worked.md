@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.neutral.point: "My register, as a set made by hand. Names only, no values. Same piles as your map."
+  - paul.neutral.point: "Here's my register as a set I've made by hand, just names with no values, using the same piles as your map."
 code: |
   def name_hash(name):
       number = 0

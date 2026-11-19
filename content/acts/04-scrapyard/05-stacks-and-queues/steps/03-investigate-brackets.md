@@ -4,7 +4,7 @@ type: investigate
 title: Brackets on a stack
 concept: stacks
 dialogue:
-  - paul.thinking: "One bracket out of place and nothing runs. Python checks them with a stack. So can we."
+  - paul.thinking: "If one bracket's out of place nothing runs at all. Python checks them with a stack, and we can do the same."
 code: |
   PARTNERS = {")": "(", "]": "[", "}": "{"}
 

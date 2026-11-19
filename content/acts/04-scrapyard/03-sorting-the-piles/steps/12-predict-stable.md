@@ -4,7 +4,7 @@ type: predict
 title: Three laps at four tenths
 concept: sort-stability
 dialogue:
-  - neil.thinking: "Same time to the tenth? In qualifying, whoever set it first goes ahead."
+  - neil.thinking: "What if two laps are the same to the tenth? In qualifying, whoever set it first goes ahead."
 code: |
   laps = [("Caitlin", 4), ("Neil", 2), ("Yahya", 4), ("Riya", 1), ("Aaesha", 4)]
   fastest_first = sorted(laps, key=lambda lap: lap[1])

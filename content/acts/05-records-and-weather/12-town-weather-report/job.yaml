@@ -63,10 +63,10 @@ concepts_introduced: []
 concepts_reviewed: [pandas-basics, selecting-filtering, missing-data, data-cleaning, groupby, matplotlib, honest-charts, descriptive-statistics, probability, permutation-tests, numpy-arrays, vectorisation, modules, imports, functions, multiple-returns, default-arguments, docstrings, main-guard, f-strings]
 ask:
   dialogue:
-    - yahya.pleased.wave: "A hundred years of the Clocktower's station book. I want it read properly, once, and written up."
-    - yahya.thinking: "What changed, how sure we are, and what didn't change. That last part always gets left out."
-    - yahya.unimpressed: "The ledger is as the volunteers typed it. Fahrenheit until 1960. Some pages twice."
-    - paul.neutral.point: "Four files, each with one job. Then the words, then a page anyone can open."
+    - yahya.pleased.wave: "This is a hundred years of the Clocktower's station book, and I want it read properly, once, and written up."
+    - yahya.thinking: "I want what changed, how sure we are and what didn't change, because that last part always gets left out."
+    - yahya.unimpressed: "The ledger's just as the volunteers typed it, in Fahrenheit until 1960 and with some pages in twice."
+    - paul.neutral.point: "Do it as four files with one job each, then the words, and then a page anyone can open."
   spec: |
     `ledger.csv` is the station book as it was typed: one row per month from 1925 to 2024, with the month, the temperature and the unit it was written in, the rain in millimetres and the hours of sunshine.
 
@@ -99,11 +99,11 @@ ask:
       ...
 ship:
   dialogue:
-    - yahya.proud.cheer: "Warmer, and sure of it. Not wetter, and honest about it. It goes on the wall on Friday."
+    - yahya.proud.cheer: "Warmer and sure of it, not wetter and honest about it, and it's going on the wall on Friday!"
     - caitlin.pleased: "Can my chart go up as well?"
-    - yahya.laughing: "With the scale from zero, it can go in the middle."
-    - yahya.pleased.thumbs: "And yours, about your own question. The source is named and the scales start at zero. I've no notes."
-    - paul.proud: "That's the Archive done. Next floor up, the Model Room. Mine."
+    - yahya.laughing: "If the scale starts from zero, it can go in the middle."
+    - yahya.pleased.thumbs: "Yours on your own question can go up too, with the source named and the scales from zero. I've no notes."
+    - paul.proud: "That's the Archive done, and next floor up is the Model Room, which is mine."
   shelf: { object: almanac, label: "Yahya's Clocktower Weather Report, and a data story of your own" }
   cards: []
 stretch:

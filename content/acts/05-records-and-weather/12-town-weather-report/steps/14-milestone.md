@@ -4,8 +4,8 @@ type: milestone
 title: "Milestone: Yahya's checklist"
 evidence: none
 dialogue:
-  - yahya.neutral.point: "My checklist. I use it on my own reports too. Especially on those."
-  - paul.laughing: "Tick only what's true. He'll read it."
+  - yahya.neutral.point: "This is my checklist, and I use it on my own reports too, especially those."
+  - paul.laughing: "Only tick what's true, because he will read it."
 checklist:
   - id: axes
     text: "Every chart's scale is honest: the rain from zero, and the temperature drawn as a difference from an average the chart names."

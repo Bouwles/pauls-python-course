@@ -56,10 +56,10 @@ concepts_introduced: [numpy-arrays, vectorisation, broadcasting]
 concepts_reviewed: [lists, slicing, functions, return-values, multiple-returns, main-guard, docstrings, for-loops, comparisons]
 ask:
   dialogue:
-    - yahya.pleased.wave: "Paul asked me how the class's marks are spread. Properly, not by eye."
-    - yahya.neutral: "Ours are private. So I'm practising on real marks that aren't."
-    - yahya.thinking.point: "Two schools in Portugal published theirs. Three hundred and ninety-five students, three marks each."
-    - paul.neutral: "One block of numbers. Nothing done one student at a time."
+    - yahya.pleased.wave: "Paul asked me how the class's marks are spread, and he wants it done properly rather than by eye."
+    - yahya.neutral: "Ours are private, though, so I'm practising on some real marks that aren't."
+    - yahya.thinking.point: "Two schools in Portugal published theirs, which is three hundred and ninety-five students with three marks each."
+    - paul.neutral: "Treat it as one block of numbers and don't do anything one student at a time."
   spec: |
     `marks.csv` is real data: the maths marks of 395 students at two secondary schools in Portugal, published by Paulo Cortez and Alice Silva in 2008. One row per student: an anonymous number, the school, and three marks out of 20, the `first` period, the `second` period and the `final`. `load_marks` is written. It gives back `students`, the 395 numbers, and `marks`, an array of 395 rows and 3 columns.
 
@@ -83,10 +83,10 @@ ask:
     Final bands: A 40, B 60, C 62, D 103, F 130
 ship:
   dialogue:
-    - yahya.surprised: "Thirty-eight noughts in the final. Not one in the first period."
-    - yahya.thinking.think: "Every one of those students had a first-period mark. I don't think they failed. I think they weren't there."
-    - paul.thinking: "So the averages fall over the year for a reason that isn't maths."
-    - yahya.proud.point: "That goes at the top of my report. Before any of the numbers. That's the story."
+    - yahya.surprised: "There are thirty-eight noughts in the final and not a single one in the first period."
+    - yahya.thinking.think: "Every one of those students had a first-period mark. I don't think they failed, I think they just weren't there."
+    - paul.thinking: "Which means the averages fall over the year for a reason that's got nothing to do with maths."
+    - yahya.proud.point: "That's going at the top of my report, before any of the numbers, because that's the actual story."
   shelf: { object: exam-paper, label: "Yahya's grade book, three marks each, no loops" }
   cards: [numpy-arrays, vectorisation, broadcasting]
 stretch:

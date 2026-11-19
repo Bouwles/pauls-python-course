@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How far Paul walks
 dialogue:
-  - paul.neutral: "I'm coming on the Sunday. I like to know how far everything is from the gate, in roads."
+  - paul.neutral: "I'm coming on the Sunday, and I like to know how far everything is from the gate, in roads."
 code: |
   from collections import deque
   from workshop import show_graph

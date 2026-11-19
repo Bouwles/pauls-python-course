@@ -4,7 +4,7 @@ type: learn
 title: Dijkstra, with a sense of direction
 concept: a-star
 dialogue:
-  - neil.thinking.point: "I don't search the whole car park to get to my car. I head for it."
+  - neil.thinking.point: "When I'm getting to my car I don't search the whole car park, I just head for it."
 code: |
   import heapq
 

@@ -4,7 +4,7 @@ type: learn
 title: A picture is a matrix
 concept: matrices
 dialogue:
-  - riya.pleased.wave: "Part two. A photograph of a lighthouse. My drawing app keeps pictures as numbers."
+  - riya.pleased.wave: "Now for part two, a photograph of a lighthouse, because my drawing app keeps pictures as numbers."
 code: |
   import numpy as np
 

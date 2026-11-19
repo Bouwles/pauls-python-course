@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Yahya's version
 dialogue:
-  - yahya.proud.wave: "Can you look at mine? Doubling means moving every pair, and that's O(n). So mine doesn't."
-  - yahya.unimpressed: "Five things in, and three of them have vanished. Very quickly, but still."
+  - yahya.proud.wave: "Can you look at mine? Doubling means moving every pair, which is O(n), so mine just doesn't bother."
+  - yahya.unimpressed: "I put five things in and three of them have vanished. Very quickly, I'll give it that, but still."
 dialogue_after:
-  - yahya.thinking: "The pile number changes when the piles do. So the moving isn't optional. Fine."
+  - yahya.thinking: "Right, the pile number changes when the piles do, which means the moving isn't optional. Fine."
 hints:
   nudge: "Before the doubling, `folders` was in pile 2 of 4. Which pile does `get` look in once there are 8?"
   plan:

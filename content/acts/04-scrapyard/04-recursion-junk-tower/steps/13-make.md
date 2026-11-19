@@ -5,7 +5,7 @@ title: Make the file tree printer
 files: [tree.py]
 entry: tree.py
 argv_field: true
-on_pass: { neil.laughing.cheer: "Four folders deep. I'd have said three, and I'd have said it confidently." }
+on_pass: { neil.laughing.cheer: "Four folders deep! I'd have said three, and I'd have said it really confidently." }
 hints:
   nudge: "What's the answer for an empty folder? How does a folder's answer come from the answers for the folders inside it? And for `tree_lines`, what changes in front of the lines one folder further in?"
   plan:

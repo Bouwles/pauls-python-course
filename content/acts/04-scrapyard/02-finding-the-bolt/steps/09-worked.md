@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would find it
 dialogue:
-  - paul.pleased.point: "The Workshop's index cards. Alphabetical, naturally. I'd have it no other way."
+  - paul.pleased.point: "Here are the Workshop's index cards, which are alphabetical, naturally. I wouldn't have them any other way."
 code: |
   def find_card(drawer, subject):
       low = 0

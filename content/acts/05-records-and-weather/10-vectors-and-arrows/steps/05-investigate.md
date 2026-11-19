@@ -4,7 +4,7 @@ type: investigate
 title: The January vane
 concept: vectors
 dialogue:
-  - yahya.unimpressed.point: "The old summary says January blew from the south. The vane spent the month pointing north."
+  - yahya.unimpressed.point: "The old summary says January blew from the south, but the vane spent the whole month pointing north."
 code: |
   import numpy as np
 

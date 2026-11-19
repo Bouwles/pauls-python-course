@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul sorts his marking
 dialogue:
-  - paul.neutral.point: "Last week's tests, marked out of twenty. Highest on top, every time."
+  - paul.neutral.point: "I mark last week's tests out of twenty and always put the highest on top."
 code: |
   def highest_first(marks):
       for position in range(1, len(marks)):

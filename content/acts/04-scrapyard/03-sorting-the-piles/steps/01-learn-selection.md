@@ -4,7 +4,7 @@ type: learn
 title: Fastest to the front
 concept: simple-sorts
 dialogue:
-  - neil.thinking.point: "The obvious way. Find the fastest lap, put it at the front. Then the next."
+  - neil.thinking.point: "The obvious way is to find the fastest lap and put it at the front, then the next one."
 code: |
   laps = [6, 4, 9, 1]
   for start in range(len(laps) - 1):

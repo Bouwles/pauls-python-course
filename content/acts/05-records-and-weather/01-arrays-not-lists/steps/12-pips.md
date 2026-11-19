@@ -3,11 +3,11 @@ id: pips
 type: pips
 title: Fix Aaesha's version
 dialogue:
-  - aaesha.pleased.wave: "Can you look at mine? I wrote the checks first, like always. Then the code."
-  - aaesha.confused: "The code looks right to me. The check says it isn't. Something's off."
+  - aaesha.pleased.wave: "Can you look at mine? I wrote the checks first like I always do, and then the code."
+  - aaesha.confused: "The code looks right to me, but the check says it isn't, and I can't see why."
 dialogue_after:
-  - aaesha.surprised: "Three hundred and fifty-nine. I typed my own check wrong. The code was fine all along."
-  - aaesha.thinking: "So a failing check means something's wrong. Not always the code."
+  - aaesha.surprised: "It's three hundred and fifty-nine. I typed my own check wrong, and the code was fine all along."
+  - aaesha.thinking: "So a failing check means something's wrong, but it isn't always the code."
 hints:
   nudge: "How many students are there, so how many numbers should `student_means` give back? Is it the code or the check that disagrees with that?"
   plan:

@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.neutral.point: "Yahya's thermometers. Same shape of problem as a curve, different wall."
+  - paul.neutral.point: "Yahya's thermometers are the same shape of problem as a curve, just on a different wall."
 code: |
   import numpy as np
 

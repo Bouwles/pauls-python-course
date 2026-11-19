@@ -43,10 +43,10 @@ concepts_introduced: [trees, binary-search-trees, traversals]
 concepts_reviewed: [recursion, base-cases, call-stack, classes, none, tuples, binary-search, linked-lists, big-o, dunder-methods]
 ask:
   dialogue:
-    - neil.pleased.wave: "Every rocket part I own has a numbered card. Recovery in the three hundreds, launch kit the seven hundreds."
-    - neil.thinking.point: "Smaller numbers down the left of every card, bigger down the right. A family tree of parts."
-    - neil.neutral: "I want it filed, searchable, listed by section, and copied out so I can build it back."
-    - paul.thinking: "A tree is a card with two smaller trees under it. You've met that shape in Neil's folders."
+    - neil.pleased.wave: "Every rocket part I own has a numbered card, recovery in the three hundreds and the launch kit in the seven hundreds."
+    - neil.thinking.point: "Smaller numbers go down the left of every card and bigger ones down the right, like a family tree of parts."
+    - neil.neutral: "I want it filed and searchable, listed by section, and copied out so I can build it back again."
+    - paul.thinking: "A tree's just a card with two smaller trees under it, and you've already met that shape in Neil's folders."
   spec: |
     In `catalogue.py`, two classes.
 
@@ -71,9 +71,9 @@ ask:
     Copied out: [500, 250, 101, 188, 133, 342, 377, 430, 750, 621, 555, 702, 977, 850, 915]
 ship:
   dialogue:
-    - neil.pleased: "Three looks for the parachute. And three to be sure card 999 isn't there."
-    - neil.surprised.cheer: "I copied it out top first, then built the same tree back from the copy. Card for card."
-    - paul.proud: "Every card a smaller tree. That's why each of those methods was only a few lines long."
+    - neil.pleased: "Three looks to find the parachute, and three more to be sure card 999 isn't there."
+    - neil.surprised.cheer: "I copied it out top first and then built the exact same tree back from the copy, card for card!"
+    - paul.proud: "Because every card is a smaller tree, each of those methods only needed a few lines."
   shelf: { object: catalogue-card, label: "Neil's rocket parts catalogue, the family tree of parts" }
   cards: [trees, binary-search-trees, traversals]
 stretch:

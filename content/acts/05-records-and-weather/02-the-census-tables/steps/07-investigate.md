@@ -4,7 +4,7 @@ type: investigate
 title: The census as a table
 concept: pandas-basics
 dialogue:
-  - yahya.unimpressed: "Four censuses, three hundred and nineteen people. I've read every one of them by hand. Never again."
+  - yahya.unimpressed: "Four censuses and three hundred and nineteen people, and I've read every one of them by hand. Never again."
 code: |
   import pandas as pd
 

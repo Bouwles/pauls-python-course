@@ -57,11 +57,11 @@ concepts_introduced: [vectors, matrices]
 concepts_reviewed: [numpy-arrays, vectorisation, broadcasting, slicing, negative-indices, matplotlib, functions, return-values, multiple-returns, main-guard, docstrings, f-strings]
 ask:
   dialogue:
-    - riya.pleased.wave: "I'm making a print of January's wind. An arrow a day, from the vane outside the Archive."
-    - yahya.unimpressed: "The old summary script averages the bearings. It says January came from the south. The vane pointed north all month."
-    - neil.thinking: "And the flying field's runway points at forty degrees. I want the headwind and the crosswind."
-    - paul.neutral.point: "Bearings go round. Numbers don't. Make them arrows."
-    - riya.thinking: "And after that, a photograph of a lighthouse. As numbers. I want to know what my filters really do."
+    - riya.pleased.wave: "I'm making a print of January's wind, with an arrow for each day from the vane outside the Archive."
+    - yahya.unimpressed: "The old summary script averages the bearings and says January came from the south, when the vane pointed north all month."
+    - neil.thinking: "And the flying field's runway points at forty degrees, so I'd like the headwind and the crosswind."
+    - paul.neutral.point: "Bearings go round in a circle and plain numbers don't, which is why you turn them into arrows."
+    - riya.thinking: "After that I want to do a photograph of a lighthouse as numbers, to see what my filters really do."
   spec: |
     `vane.csv` has one row per day of January 2024: the `date`, the `bearing` the wind came from (degrees clockwise from north) and its `speed` in knots. `load_vane` and `to_arrows` are written: `to_arrows` gives one arrow per day, `(east, north)` in knots, pointing where the wind came from.
 
@@ -99,10 +99,10 @@ ask:
     Roof, turned 90 degrees: [-12.  10.]
 ship:
   dialogue:
-    - riya.pleased.point: "North by a touch west, steadiness 0.81. That's the big arrow in the middle of my print."
-    - neil.surprised: "Twenty-three knots across the runway on the fifteenth. I didn't fly that day. Rightly, it turns out."
-    - yahya.laughing: "I've crossed out the old summary's 197. In pencil. It did its best."
-    - riya.proud.cheer: "And the lighthouse turned and blurred and put back. Every filter I use, more or less."
+    - riya.pleased.point: "North by a touch west with a steadiness of 0.81, and that's the big arrow in the middle of my print."
+    - neil.surprised: "Twenty-three knots across the runway on the fifteenth, and I didn't fly that day, which turns out to be right."
+    - yahya.laughing: "I've crossed out the old summary's 197 in pencil, because to be fair it did its best."
+    - riya.proud.cheer: "And the lighthouse got turned and blurred and put back, which is more or less every filter I use!"
   shelf: { object: weathervane, label: "Riya's linear algebra lab: wind in arrows, a lighthouse in numbers" }
   cards: [vectors, matrices]
 stretch:

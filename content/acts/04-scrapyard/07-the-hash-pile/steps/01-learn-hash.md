@@ -4,7 +4,7 @@ type: learn
 title: A number for every name
 concept: hashing
 dialogue:
-  - paul.thinking.think: "A dict never walks along. It does a sum on the key, and the sum says where to look."
+  - paul.thinking.think: "A dict never walks along like a list. It does a sum on the key, and the sum says where to look."
 code: |
   def letter_sum(name):
       total = 0

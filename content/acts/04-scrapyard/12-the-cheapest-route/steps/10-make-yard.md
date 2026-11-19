@@ -5,7 +5,7 @@ title: Make the car park planner
 files: [planner.py]
 entry: planner.py
 timeout_ms: 15000
-on_pass: { neil.surprised.cheer: "Twenty-three minutes, and the arrows go where I'd have walked. Now I know why." }
+on_pass: { neil.surprised.cheer: "Twenty-three minutes, and the arrows go exactly where I'd have walked. Now I finally know why." }
 hints:
   nudge: "Your quickest route round the circuit kept `(minutes, place)` on its heap. What does A* put first instead, and where do a tile's neighbours come from now?"
   plan:

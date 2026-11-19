@@ -48,10 +48,10 @@ concepts_introduced: [descriptive-statistics, distributions]
 concepts_reviewed: [pandas-basics, selecting-filtering, vectorisation, matplotlib, dictionaries, functions, return-values, multiple-returns, default-arguments, docstrings, main-guard, f-strings]
 ask:
   dialogue:
-    - yahya.unimpressed.wave: "The station's summary sheet does the whole year in one line. Average daily rain: 2.6 millimetres."
-    - yahya.thinking: "Most days it didn't rain at all. The average day never happened."
+    - yahya.unimpressed.wave: "The station's summary sheet does the whole year in one line, and it says average daily rain is 2.6 millimetres."
+    - yahya.thinking: "Most days it didn't rain at all, so that average day never actually happened."
     - paul.neutral: "Then give it more than one number."
-    - yahya.pleased.point: "Six, and say which is which. And find me the readings that don't belong."
+    - yahya.pleased.point: "Let's give it six and say which is which, and find me the readings that don't belong while we're at it."
   spec: |
     `daily.csv` is the Clocktower station's 2024, one row per day: `date`, `rain` (mm), `temp` (degrees C) and `thornby`, the temperature at Thornby's station, twenty miles out of the city.
 
@@ -72,10 +72,10 @@ ask:
       Rain: 38 days
 ship:
   dialogue:
-    - yahya.pleased: "Two point six on the mean day. Nought point three on the middle one. Nothing on the most common."
-    - yahya.surprised: "Thornby has our average and half as much swing again. That goes on the sheet too."
-    - aaesha.laughing: "Forty-one degrees on the fourteenth of June was the screen door, left open. Struck out, in ink, with a note."
-    - paul.thinking.thumbs: "With a note. That's the part people forget."
+    - yahya.pleased: "Two point six on the mean day, nought point three on the middle one and nothing at all on the most common."
+    - yahya.surprised: "Thornby has the same average as us and half as much swing again, so that goes on the sheet too."
+    - aaesha.laughing: "Forty-one degrees on the fourteenth of June was the screen door left open. I've struck it out in ink, with a note."
+    - paul.thinking.thumbs: "Good, with a note, because that's the bit people always forget."
   shelf: { object: parish-magazine, label: "Yahya's station year, in more than one number" }
   cards: [descriptive-statistics, distributions]
 stretch:

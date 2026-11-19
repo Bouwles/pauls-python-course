@@ -4,7 +4,7 @@ type: make
 title: Make the maze solver
 files: [maze.py]
 entry: maze.py
-on_pass: { neil.laughing.cheer: "Nineteen steps, gate to car. And four spaces in the corner that nobody can reach." }
+on_pass: { neil.laughing.cheer: "Nineteen steps from gate to car, and four spaces in the corner that nobody can get to at all." }
 hints:
   nudge: "Paul's walk took places from a dictionary of roads. Here the roads come from `neighbours`. What else changes in `shortest_path`, apart from that?"
   plan:

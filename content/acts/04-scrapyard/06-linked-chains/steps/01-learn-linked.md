@@ -4,7 +4,7 @@ type: learn
 title: Each crate knows the next
 concept: linked-lists
 dialogue:
-  - neil.thinking.point: "Never mind which crate came in first. Follow the arrows."
+  - neil.thinking.point: "It doesn't matter which crate came in first, you just follow the arrows."
 code: |
   class Crate:
       def __init__(self, part):

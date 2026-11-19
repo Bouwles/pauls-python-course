@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Riya's version
 dialogue:
-  - riya.pleased.wave: "Can you look at mine? Neil's scheduler, with heapq. Priority first in the tuple, so urgent comes out first."
-  - riya.confused: "The tyres went in before the chain. Same priority. It did the chain first."
+  - riya.pleased.wave: "Can you look at mine? It's Neil's scheduler with heapq, with priority first in the tuple so urgent comes out first."
+  - riya.confused: "The tyres went in before the chain with the same priority, and it still did the chain first."
 dialogue_after:
-  - riya.surprised: "So the tuple was choosing between them, and it chose by the alphabet. C before T."
+  - riya.surprised: "Oh, so the tuple was choosing between them, and it went by the alphabet, C before T."
 hints:
   nudge: "Two jobs both have priority 3. What does Python compare next, to decide which tuple is smaller?"
   plan:

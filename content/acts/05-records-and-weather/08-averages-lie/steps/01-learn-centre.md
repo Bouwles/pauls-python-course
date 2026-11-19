@@ -4,7 +4,7 @@ type: learn
 title: Three kinds of average
 concept: descriptive-statistics
 dialogue:
-  - yahya.unimpressed: "Average daily rain, 2.6 millimetres. The average day never happened."
+  - yahya.unimpressed: "It says average daily rain is 2.6 millimetres, but that average day never happened."
 code: |
   import pandas as pd
 

@@ -4,7 +4,7 @@ type: learn
 title: How steep, right here
 concept: derivatives
 dialogue:
-  - paul.neutral.wave: "Next floor up is mine. Training a model is walking downhill. So first: hills."
+  - paul.neutral.wave: "The next floor up is mine, and training a model is basically walking downhill, so we're starting with hills."
 code: |
   def height(metres):
       return 0.0001 * metres ** 2      # a lane that gets steeper as it climbs

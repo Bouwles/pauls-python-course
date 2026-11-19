@@ -4,7 +4,7 @@ type: learn
 title: Looking at each in turn
 concept: linear-search
 dialogue:
-  - neil.laughing: "This is Caitlin's method. Top of the list, one at a time, until she gives up."
+  - neil.laughing: "Caitlin does it this way, starting at the top and going one at a time until she gives up."
 code: |
   def find(pile, wanted):
       looks = 0

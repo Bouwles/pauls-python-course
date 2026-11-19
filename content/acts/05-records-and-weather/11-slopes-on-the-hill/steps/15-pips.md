@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Riya's version
 dialogue:
-  - riya.pleased.wave: "Can you look at mine? A step either side, like Paul said. Tested at the top: slope 0. Perfect."
-  - riya.confused: "Then at the stile it says one in two. Nobody's carrying a thermometer screen up one in two."
+  - riya.pleased.wave: "Can you look at mine? A step either side like Paul said, and at the top I got slope 0, which is perfect."
+  - riya.confused: "Then at the stile it says one in two, and nobody's carrying a thermometer screen up one in two."
 dialogue_after:
-  - riya.surprised: "One in four. At the top, 0 divided by anything is 0. My one test couldn't fail."
+  - riya.surprised: "One in four, then. At the top, 0 divided by anything is 0, so my one test couldn't fail."
 hints:
   nudge: "Nudging up by `step` and down by `step`: how far apart are the two points?"
   plan:

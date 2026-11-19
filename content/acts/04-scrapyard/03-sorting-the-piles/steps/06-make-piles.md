@@ -4,7 +4,7 @@ type: make
 title: Two sorts, frame by frame
 files: [piles.py]
 entry: piles.py
-on_pass: { neil.surprised: "Six passes each. Insertion sort barely touched the tidy pile. Selection sort never noticed it was tidy." }
+on_pass: { neil.surprised: "Six passes each, but insertion sort barely touched the tidy pile while selection sort never even noticed it was tidy." }
 hints:
   nudge: "Selection sort needs a loop inside a loop. What does the outer one count, and what does the inner one look for? And where in the outer loop is a pass finished?"
   plan:

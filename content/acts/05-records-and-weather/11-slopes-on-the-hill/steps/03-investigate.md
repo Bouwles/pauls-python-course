@@ -4,8 +4,8 @@ type: investigate
 title: The night the glass fell
 concept: derivatives
 dialogue:
-  - paul.neutral.point: "The Clocktower's barograph, the night of the great storm in 1987. The glass fell all evening."
-  - yahya.thinking: "How low it went is the headline. How fast it fell is the warning."
+  - paul.neutral.point: "Here's the Clocktower's barograph from the night of the great storm in 1987. The glass fell all evening."
+  - yahya.thinking: "How low it went makes the headline, but it's how fast it fell that warns you."
 code: |
   import numpy as np
 

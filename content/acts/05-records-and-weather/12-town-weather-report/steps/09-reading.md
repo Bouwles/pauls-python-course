@@ -3,8 +3,8 @@ id: review
 type: reading
 title: Yahya reads Caitlin's draft
 dialogue:
-  - caitlin.proud: "I wrote my conclusion first. Saves time. Then I made a chart to go with it."
-  - yahya.unimpressed: "Six things. Every number in it is right. That's what makes it dangerous."
+  - caitlin.proud: "I wrote my conclusion first because it saves time, and then made a chart to go with it."
+  - yahya.unimpressed: "I've got six notes on it, and every number in it is right, which is what makes it dangerous."
 code: |
   fig, ax = plt.subplots()
   ax.bar(["1920s", "1960s", "2020s"], [11.14, 10.88, 12.33])

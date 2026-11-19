@@ -4,7 +4,7 @@ type: make
 title: Make the hash map
 files: [hash_map.py]
 entry: hash_map.py
-on_pass: { neil.pleased.cheer: "Two hundred parts, five hundred and twelve piles, and none of them more than three deep." }
+on_pass: { neil.pleased.cheer: "Two hundred parts in five hundred and twelve piles, and not one of them's more than three deep." }
 hints:
   nudge: "Every method starts the same way: which pile would this name be in? What do `put`, `get`, `remove` and `in` each do once they're looking along that pile?"
   plan:
