@@ -5,7 +5,7 @@ title: A network that sees
 files: [seeing.py]
 entry: seeing.py
 timeout_ms: 60000
-on_pass: { aaesha.proud: "Two hundred and eighty-nine, with thirty-six numbers per digit instead of sixty-four. Fewer numbers, better ones." }
+on_pass: { aaesha.proud: "Two hundred and eighty-nine with thirty-six numbers per digit instead of sixty-four, and they're better numbers too." }
 hints:
   nudge: "A digit is 8 by 8 and a kernel is 3 by 3. How many places does the kernel fit each way, and what shape does the map come out?"
   plan:

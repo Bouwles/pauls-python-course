@@ -48,9 +48,9 @@ concepts_introduced: [attention, transformers]
 concepts_reviewed: [embeddings, language-models, batch-normalisation, neural-networks, activation-functions, matrices, numpy-arrays, broadcasting, json-module]
 ask:
   dialogue:
-    - aaesha.pleased.wave: "In psychology, attention is choosing what to notice. One voice across a noisy room, and not the rest."
-    - yahya.thinking: "The forecast model looked one letter back. This looks at all of them?"
-    - aaesha.thinking.think: "All of them, and it decides how much each one counts. That's attention. Literally."
+    - aaesha.pleased.wave: "In psychology, attention is choosing what to notice, like hearing one voice across a noisy room and not the rest."
+    - yahya.thinking: "The forecast model looked one letter back, and this one looks at all of them?"
+    - aaesha.thinking.think: "All of them, and it decides how much each one counts, which is literally what attention is."
   spec: |
     In `attention.py`:
 
@@ -68,10 +68,10 @@ ask:
     montmorency would have stopped half a man on the back that it was a since to be in a methin
 ship:
   dialogue:
-    - aaesha.pleased: "Nine characters in, nine out, and nothing looks ahead. Then two blocks that had read a whole book."
-    - caitlin.laughing: "Montmorency would have stopped half a man. That's literature."
-    - aaesha.thinking: "It's spelling. It learnt which letters keep company. Not what any of them mean."
-    - paul.proud.thumbs: "The big models are this, only bigger. Now you know what's inside them."
+    - aaesha.pleased: "Nine characters in and nine out with nothing looking ahead, and then two blocks that had read a whole book."
+    - caitlin.laughing: "Montmorency would have stopped half a man, and if that isn't literature I don't know what is."
+    - aaesha.thinking: "It's really just spelling, it learnt which letters keep company but not what any of them mean."
+    - paul.proud.thumbs: "The big models are basically this, only bigger, so now you know what's inside them."
   shelf: { object: magnifier, label: "Aaesha's tiny GPT, from Neil's blackboard" }
   cards: [attention, transformers]
 stretch:

@@ -3,7 +3,7 @@ id: reading
 type: reading
 title: What it can't know
 dialogue:
-  - neil.thinking: "A model could give away the slots it thinks will be empty. If I can trust it."
+  - neil.thinking: "A model could give away the slots it thinks will be empty, if I can trust it, that is."
 ---
 Neil has two seasons of bookings, and this season's locked in the bottom drawer of his desk, under the duck.
 

@@ -5,10 +5,10 @@ title: Fix Aaesha's version
 files: [peek.py]
 entry: peek.py
 dialogue:
-  - aaesha.neutral: "Can you look at mine? I wrote the test before the attention. Every query's weights add up to 1."
-  - aaesha.confused: "The test fails, and I've checked the attention twice. Something's off."
+  - aaesha.neutral: "Can you look at mine? I wrote the test before the attention, and it checks every query's weights add up to 1."
+  - aaesha.confused: "The test fails, though, and I've checked the attention twice and can't see anything wrong."
 dialogue_after:
-  - aaesha.laughing: "Each query shares its attention along its row. My test added up the columns. The code was right; the test had the typo."
+  - aaesha.laughing: "Each query shares its attention along its row, but my test added up the columns, so the test had the typo."
 hints:
   nudge: "Which way does one query's attention run: along a row of `weights`, or down a column? Which way does the test add up?"
   plan:

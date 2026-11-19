@@ -49,10 +49,10 @@ concepts_introduced: [k-means, pca, eigenvectors]
 concepts_reviewed: [scikit-learn, feature-scaling, matrices, vectors, numpy-arrays, broadcasting, vectorisation, random-module, lambda, while-loops, list-comprehensions, zip, dictionaries, pandas-basics, matplotlib, functions, multiple-returns, main-guard, docstrings, f-strings]
 ask:
   dialogue:
-    - yahya.neutral.wave: "A wholesaler in Portugal published a year of spending for 440 customers. No labels on what they are."
-    - yahya.thinking: "Six columns of money, and a story in there somewhere. What kinds of customer are there?"
-    - yahya.neutral.point: "Group them, then find the two numbers that say most about how they differ."
-    - paul.neutral: "And then say in words what each group is. That part's yours."
+    - yahya.neutral.wave: "A wholesaler in Portugal published a year of spending for 440 customers, but there are no labels on what they are."
+    - yahya.thinking: "It's six columns of money and there's a story in there somewhere. What kinds of customer have they got?"
+    - yahya.neutral.point: "We group them first, then find the two numbers that say most about how they differ."
+    - paul.neutral: "And then you say in words what each group is, because that part's down to you."
   spec: |
     `customers.csv` holds 440 real customers of a wholesaler: a year's spending on fresh food, milk, grocery, frozen food, detergents and paper, and delicatessen, and whether each is a hotel, restaurant or cafe (`horeca`) or a shop (`retail`).
 
@@ -80,9 +80,9 @@ ask:
     Component 2 explains 27%: fresh, frozen, delicatessen
 ship:
   dialogue:
-    - yahya.pleased: "Fresh and frozen, that's restaurants and cafes. Milk, groceries and paper, that's shops."
+    - yahya.pleased: "Fresh and frozen is restaurants and cafes, and milk, groceries and paper is the shops."
     - yahya.surprised: "It never saw which customers were shops, and still put seven in ten of them together."
-    - paul.proud.thumbs: "It found the groups. You said what they were. That's the right way round."
+    - paul.proud.thumbs: "It found the groups and you said what they were, which is exactly the right way round."
   shelf: { object: stock-sheet, label: "Yahya's wholesaler, in two segments" }
   cards: [k-means, pca, eigenvectors]
 stretch:

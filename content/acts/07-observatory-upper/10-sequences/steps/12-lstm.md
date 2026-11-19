@@ -4,7 +4,7 @@ type: modify
 title: Neil's sluice
 files: [lstm.py]
 entry: lstm.py
-on_pass: { neil.proud: "Forty-eight quiet hours, and the cell still holds most of it. The plain memory holds nothing." }
+on_pass: { neil.proud: "After forty-eight quiet hours the cell still holds most of it, while the plain memory's got nothing left." }
 hints:
   nudge: "There are four gates, and each is a weighted sum like the plain step. Which ones are squashed by sigmoid, and which by tanh?"
   plan:

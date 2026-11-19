@@ -3,8 +3,8 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.neutral.point: "My log for the roof terrace. Wind at noon, and whether I called off the lesson up there."
-  - aaesha.thinking: "One reading, one yes or no. A decision, with a line drawn somewhere."
+  - paul.neutral.point: "This is my log for the roof terrace, the wind at noon and whether I called off the lesson up there."
+  - aaesha.thinking: "It's one reading and one yes or no, which is really a decision with a line drawn somewhere."
 code: |
   import numpy as np
 

@@ -3,8 +3,8 @@ id: worked
 type: worked
 title: How Paul would scale it
 dialogue:
-  - paul.neutral.point: "Saturday open days: visitors and rain, against cups of coffee poured."
-  - caitlin.laughing: "Four hundred visitors and the machine's dry by ten. Rain, and it's just us."
+  - paul.neutral.point: "These are our Saturday open days, with the visitors and the rain against how many cups of coffee we poured."
+  - caitlin.laughing: "Four hundred visitors and the machine's dry by ten, but if it rains it's just us lot."
 code: |
   import numpy as np
 

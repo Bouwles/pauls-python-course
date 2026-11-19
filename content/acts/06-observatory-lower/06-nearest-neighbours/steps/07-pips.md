@@ -5,11 +5,11 @@ title: Fix Yahya's version
 files: [identify.py, tools.py]
 entry: identify.py
 dialogue:
-  - yahya.proud: "Can you look at mine? Five nearest penguins, and every distance in one line. No loops."
-  - yahya.confused: "It's never once said Chinstrap. Sixty-eight of them in the data. Something's off."
+  - yahya.proud: "Can you look at mine? It's five nearest penguins with every distance in one line, and no loops at all."
+  - yahya.confused: "It's never once said Chinstrap, though, and there are sixty-eight of them in the data."
 dialogue_after:
-  - yahya.surprised: "Axis 0 adds down the columns. I was measuring the flippers from the weights, not the penguins from each other."
-  - yahya.pleased.thumbs: "Still one line. Now it's the right line."
+  - yahya.surprised: "Axis 0 adds down the columns. I was measuring the flippers from the weights instead of the penguins from each other."
+  - yahya.pleased.thumbs: "It's still one line, it's just the right one now."
 hints:
   nudge: "Print `distances(X_train, X_val[0]).shape`. How many penguins are in `X_train`, and how many numbers came back?"
   plan:

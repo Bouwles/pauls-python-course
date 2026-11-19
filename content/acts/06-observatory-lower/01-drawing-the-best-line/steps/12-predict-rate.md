@@ -4,7 +4,7 @@ type: predict
 title: Square metres or hundreds
 concept: gradient-descent
 dialogue:
-  - caitlin.pleased: "Same houses, same rate. Hundreds or ones, it's the same walk. It's only a unit."
+  - caitlin.pleased: "Honestly, it's the same houses at the same rate. Hundreds or ones makes no difference to the walk, it's only a unit."
 code: |
   import numpy as np
 

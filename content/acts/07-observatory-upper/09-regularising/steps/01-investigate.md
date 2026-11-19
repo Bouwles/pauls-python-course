@@ -4,8 +4,8 @@ type: investigate
 title: Perfect, on paper
 concept: overfitting
 dialogue:
-  - riya.proud.point: "Sixty-four neurons, three thousand epochs. Look at that training loss."
-  - aaesha.unimpressed: "I'm looking at the other line."
+  - riya.proud.point: "Sixty-four neurons and three thousand epochs, and look at that training loss."
+  - aaesha.unimpressed: "I'm looking at the other line, actually."
 code: |
   import matplotlib.pyplot as plt
 

@@ -4,8 +4,8 @@ type: learn
 title: The library way
 concept: scikit-learn
 dialogue:
-  - yahya.neutral: "Everything you've written today is three lines of scikit-learn."
-  - paul.unimpressed: "And now you can mend those three lines when they break."
+  - yahya.neutral: "You know everything you've written today is about three lines of scikit-learn, right?"
+  - paul.unimpressed: "It is, and now you'll be able to mend those three lines when they break."
 code: |
   import numpy as np
   from sklearn.linear_model import LinearRegression

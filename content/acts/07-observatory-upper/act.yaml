@@ -7,11 +7,11 @@ hours: 60
 summary: "Aaesha's floor, behind the clock's gears: a rack of servers, and a model of a brain on the shelf. How networks perceive, remember and attend, and where they're nothing like a mind. A neural network from scratch, an autograd engine, a digit recogniser, PyTorch, an image classifier, a tide predictor, a text generator and a tiny GPT, built up from the chain rule and checked at every step."
 locked_line: "The Engine Room, sixth floor. A model of a brain sits on the shelf. The gears behind the glass don't move."
 intro:
-  - paul.neutral.point: "Sixth floor. The clock's gears are behind that glass. Still stuck at 3:14. I'm getting to it."
-  - paul.neutral: "Aaesha's room. Neural networks, from one neuron up."
-  - aaesha.pleased.wave: "Every network up here was borrowed from a brain, loosely. We'll see what it perceives, remembers and attends to."
-  - aaesha.thinking: "And where it's nothing like a mind. Every network gets a test before it gets trained."
-  - neil.laughing: "And when it learns nothing, we find out why. That's my favourite part."
+  - paul.neutral.point: "Welcome to the sixth floor. The clock's gears are behind that glass, still stuck at 3:14, and yes, I'm getting to it."
+  - paul.neutral: "This is Aaesha's room, where we build neural networks up from a single neuron."
+  - aaesha.pleased.wave: "Every network up here was borrowed from a brain, loosely, and we'll see what it perceives, remembers and attends to."
+  - aaesha.thinking: "And also where it's nothing like a mind, which is why every network gets tested before it gets trained."
+  - neil.laughing: "And when it learns nothing we find out why, which is honestly my favourite part."
 jobs:
   - learning-backwards
   - the-tiny-engine

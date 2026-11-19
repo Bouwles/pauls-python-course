@@ -4,7 +4,7 @@ type: predict
 title: Too sure to count
 concept: classification-networks
 dialogue:
-  - neil.thinking: "Some of the scores will be large. I'd like chances anyway."
+  - neil.thinking: "Some of the scores are going to be large, but I'd still like chances out of them."
 code: |
   import numpy as np
 

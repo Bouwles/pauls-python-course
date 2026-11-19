@@ -4,7 +4,7 @@ type: predict
 title: An average evening
 concept: batch-normalisation
 dialogue:
-  - yahya.pleased: "Batch norm on tonight's readings. Just the one evening. Should be quick."
+  - yahya.pleased: "I'm doing batch norm on tonight's readings, just the one evening, which should be quick."
 code: |
   import numpy as np
 

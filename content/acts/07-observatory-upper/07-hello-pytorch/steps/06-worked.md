@@ -4,7 +4,7 @@ type: worked
 title: How Paul would do it
 language: text
 dialogue:
-  - paul.neutral.point: "Neil ran this on his laptop. The telescope's focus line, from his time trial. I've seen it work, so I'll allow it."
+  - paul.neutral.point: "Neil ran this telescope focus line on his laptop for his time trial, and I've seen it work, so I'll allow it."
 code: |
   import numpy as np
   import torch

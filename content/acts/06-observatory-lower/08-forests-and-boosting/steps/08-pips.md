@@ -5,11 +5,11 @@ title: Fix Riya's version
 files: [loan_tree.py, tools.py]
 entry: loan_tree.py
 dialogue:
-  - riya.pleased: "Can you look at mine? Max depth three, so it can't overfit. I learnt that one properly."
-  - riya.worried: "A hundred and seventy-seven leaves. Right about every applicant it learnt from. That's suspicious."
+  - riya.pleased: "Can you look at mine? I set max depth to three so it can't overfit, I learnt that one properly."
+  - riya.worried: "It's got a hundred and seventy-seven leaves and it's right about every applicant it learnt from, which seems suspicious."
 dialogue_after:
-  - riya.surprised: "Every call thought it was the first one. So the depth never got to three, and nothing ever stopped."
-  - aaesha.neutral.point: "Next time, a test that counts the leaves."
+  - riya.surprised: "Every call thought it was the first one, which means the depth never got to three and nothing ever stopped."
+  - aaesha.neutral.point: "Next time, maybe write a test that counts the leaves."
 hints:
   nudge: "Each call of `build_tree` is one level further down than the call that made it. Where does it find out which level it's on?"
   plan:

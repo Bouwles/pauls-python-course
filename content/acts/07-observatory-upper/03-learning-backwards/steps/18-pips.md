@@ -3,11 +3,11 @@ id: pips
 type: pips
 title: Fix Aaesha's version
 dialogue:
-  - aaesha.neutral: "Can you look at mine? I wrote the checker before anything else. It nudges every weight and measures."
-  - aaesha.confused: "It says Neil's gradients are all exactly half what they should be. His are usually right. Something's off."
+  - aaesha.neutral: "Can you look at mine? I wrote the checker before anything else, and it nudges every weight and measures."
+  - aaesha.confused: "It says Neil's gradients are all exactly half what they should be, which is odd, because his are usually right."
 dialogue_after:
-  - aaesha.surprised: "Up and down are two steps apart. I divided by one. And I left every weight a hair lower."
-  - aaesha.laughing: "So Neil's gradients were right all along. My test had the typo."
+  - aaesha.surprised: "Up and down are two steps apart and I divided by one, and I left every weight a hair lower as well."
+  - aaesha.laughing: "So Neil's gradients were right all along and it was my test that had the typo."
 hints:
   nudge: "Before trusting a checker, try it on something you can do by hand. What should the slope of `w ** 2` be, and what does Aaesha's give? Then look at `weights` afterwards."
   plan:

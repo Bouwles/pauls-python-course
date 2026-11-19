@@ -4,7 +4,7 @@ type: predict
 title: Eighty-seven per cent
 concept: classification-metrics
 dialogue:
-  - yahya.proud: "My first one says no to everyone. It's never once been fooled."
+  - yahya.proud: "My first one just says no to everyone, and it's never once been fooled."
 code: |
   import numpy as np
 

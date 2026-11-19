@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would check it
 dialogue:
-  - aaesha.thinking: "Before it names anyone, we see who it's wrong about."
+  - aaesha.thinking: "Before it names anyone, I want to see who it's wrong about."
 code: |
   import numpy as np
 

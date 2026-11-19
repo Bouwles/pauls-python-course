@@ -4,7 +4,7 @@ type: predict
 title: Softmax twice
 concept: pytorch
 dialogue:
-  - riya.confused: "I ended my PyTorch network with a softmax, like before. It's sure and it's right. The loss won't go below 1.4, though."
+  - riya.confused: "I ended my PyTorch network with a softmax like before, and it's sure and right, but the loss won't go below 1.4."
 code: |
   import numpy as np
 

@@ -4,7 +4,7 @@ type: learn
 title: Adam
 concept: optimisers
 dialogue:
-  - neil.pleased.point: "Page forty of my notebook. One word: Adam. Then six lines, and a small drawing of a hill."
+  - neil.pleased.point: "Page forty of my notebook just says Adam, then there are six lines and a small drawing of a hill."
 code: |
   import numpy as np
 

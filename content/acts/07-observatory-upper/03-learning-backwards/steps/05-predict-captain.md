@@ -4,7 +4,7 @@ type: predict
 title: The stairs light
 concept: perceptron
 dialogue:
-  - neil.pleased: "The stairs light. Both switches up or both down, it's on. One neuron can learn that, surely."
+  - neil.pleased: "The stairs light's on when both switches are up or both are down, and surely one neuron can learn that."
 code: |
   import numpy as np
 

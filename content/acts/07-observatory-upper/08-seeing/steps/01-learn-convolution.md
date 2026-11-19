@@ -4,7 +4,7 @@ type: learn
 title: A window slid across a picture
 concept: convolutions
 dialogue:
-  - aaesha.thinking.point: "Cells in the visual cortex each watch one small patch. Not the whole picture. One patch."
+  - aaesha.thinking.point: "Cells in the visual cortex each watch one small patch, rather than taking in the whole picture at once."
 code: |
   import numpy as np
 

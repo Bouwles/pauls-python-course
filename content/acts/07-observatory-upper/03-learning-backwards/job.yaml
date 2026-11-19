@@ -45,10 +45,10 @@ concepts_introduced: [perceptron, neural-networks, activation-functions, backpro
 concepts_reviewed: [chain-rule, numerical-gradients, gradient-descent, mean-squared-error, logistic-regression, train-test-split, feature-scaling, numpy-arrays, vectors, matrices, broadcasting, dictionaries, mutability, functions, multiple-returns, zip, enumerate, for-loops]
 ask:
   dialogue:
-    - aaesha.pleased.wave: "Welcome to the Engine Room. Paul has logged the tower's lights, beacon and shutters every evening for years."
-    - aaesha.thinking.think: "Can a network learn how he decides? Not why. Just how."
-    - neil.pleased: "I trained a small one on his log once. Four readings in, three answers out. I kept the weights, not the code."
-    - aaesha.proud: "I've already written a gradient checker."
+    - aaesha.pleased.wave: "Welcome to the Engine Room! Paul's logged the tower's lights, beacon and shutters every evening for years."
+    - aaesha.thinking.think: "I want to know if a network can learn how he decides, just the how, never mind the why."
+    - neil.pleased: "I once trained a small one on his log, four readings in and three answers out, and I only kept the weights."
+    - aaesha.proud: "And I've already written a gradient checker."
   spec: |
     Paul's log, `evenings.csv`, has 800 evenings. Each is four readings from 0 to 1, visibility, wind, rain and dark, and three answers: whether the clock-face lights came on, the beacon flashed and the storm shutters closed. Neil's network has a hidden layer of five neurons and an output layer of three, with its weights in a dict under `"W1"`, `"b1"`, `"W2"` and `"b2"`.
 
@@ -62,10 +62,10 @@ ask:
     Tonight: lights, beacon, shutters
 ship:
   dialogue:
-    - aaesha.pleased: "Four gradients, four oks. Then it learnt Paul's log from random numbers."
-    - neil.surprised: "A hundred and ninety-five evenings out of two hundred it had never seen. All three calls right."
-    - paul.laughing: "It switches things the way I do. It doesn't know why. Fair. Some evenings, neither do I."
-    - aaesha.proud.thumbs: "It copies how you decide, not why. A model of a mind, not a mind. And every number checked."
+    - aaesha.pleased: "All four gradients came back ok, and then it learnt Paul's log starting from random numbers."
+    - neil.surprised: "It got all three calls right on a hundred and ninety-five of the two hundred evenings it had never seen."
+    - paul.laughing: "It switches things the way I do without knowing why, which is fair enough, because some evenings neither do I."
+    - aaesha.proud.thumbs: "It copies how you decide but not why, and at least every number in it has been checked."
   shelf: { object: chalkboard, label: "Aaesha's network, backwards and checked" }
   cards: [perceptron, neural-networks, activation-functions, backpropagation, numerical-gradient-checking]
 stretch:

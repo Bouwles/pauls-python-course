@@ -45,8 +45,8 @@ concepts_introduced: [tokenisation, embeddings, language-models]
 concepts_reviewed: [cross-entropy, neural-networks, backpropagation, gradient-descent, probability, sets, dictionaries, string-methods, files, numpy-arrays, matrices, random-module]
 ask:
   dialogue:
-    - caitlin.pleased.wave: "My sailing game has a radio. It reads the shipping forecast for the game's sea areas."
-    - caitlin.neutral.point: "I wrote thirty forecasts, and kept five back. I want the game to make up its own."
+    - caitlin.pleased.wave: "My sailing game's got a radio that reads the shipping forecast for the game's sea areas."
+    - caitlin.neutral.point: "I wrote thirty forecasts and kept five back, and I want the game to make up its own."
     - yahya.proud: "It'll be writing the forecast by Friday."
     - paul.unimpressed: "It'll be writing something by Friday."
   spec: |
@@ -69,10 +69,10 @@ ask:
     6 hesaiomo mon sherly omorigherough-weshea9-3 goorably norstester. e. orsththor.
 ship:
   dialogue:
-    - caitlin.pleased.cheer: "Perplexity 7.05 on forecasts it never saw. Guessing evenly would be 39."
-    - yahya.laughing: "It forecast 'gout ooubesinoord'. I'd still sail in that."
-    - neil.thinking: "It knows which letter follows which. One letter back. That's everything it knows."
-    - paul.neutral.point: "Then it needs to look further back."
+    - caitlin.pleased.cheer: "Perplexity 7.05 on forecasts it never saw, when guessing evenly would be 39!"
+    - yahya.laughing: "It forecast 'gout ooubesinoord', and to be fair I'd still sail in that."
+    - neil.thinking: "It knows which letter follows which, but only one letter back, and that's all it knows."
+    - paul.neutral.point: "Then it's going to need to look further back."
   shelf: { object: type-case, label: "Caitlin's forecasts, as numbers" }
   cards: [tokenisation, embeddings, language-models]
 stretch:

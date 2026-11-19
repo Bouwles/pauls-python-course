@@ -4,7 +4,7 @@ type: learn
 title: Passing the blame back
 concept: backpropagation
 dialogue:
-  - neil.thinking.think: "Which weight was to blame, and by how much? Then we know which way to turn each one."
+  - neil.thinking.think: "If we know which weight was to blame and by how much, we know which way to turn each one."
 code: |
   # One reading through two weights:  h = w1 * x,  a = relu(h),  y = w2 * a,  loss = (y - t) ** 2
   x, w1, w2, t = 3.0, 1.0, 2.0, 4.0

@@ -5,7 +5,7 @@ title: The network
 files: [notes.py, baseline.py, model.py]
 entry: model.py
 starter_from: make-baseline
-on_pass: { aaesha.proud: "6.60 on notes it never saw, against the bigram's 10.73. Four characters back is worth having." }
+on_pass: { aaesha.proud: "6.60 on notes it never saw, against the bigram's 10.73, which says looking four characters back is worth having." }
 hints:
   nudge: "Write the shape beside every line of `forward`, then go back up through `backward` with the same shapes. Which shape must `d_flat` become before it can reach `E`?"
   plan:

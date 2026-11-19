@@ -4,7 +4,7 @@ type: learn
 title: How columns move together
 concept: pca
 dialogue:
-  - paul.neutral.point: "A tailor's records. When the chest is generous, so is the waist. Usually."
+  - paul.neutral.point: "These are a tailor's records, and when the chest is generous the waist usually is too."
 code: |
   import numpy as np
 

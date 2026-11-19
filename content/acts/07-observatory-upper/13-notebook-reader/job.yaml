@@ -43,10 +43,10 @@ concepts_introduced: []
 concepts_reviewed: [language-models, embeddings, tokenisation, backpropagation, numerical-gradient-checking, optimisers, activation-functions, neural-networks, train-test-split, overfitting, regularisation, random-module, json-module, files, modules, docstrings]
 ask:
   dialogue:
-    - aaesha.neutral.wave: "Every comment Paul has left on our code, and the notes in the margins of his notebook. Eighty-five, one a line."
-    - aaesha.thinking: "I'd like a machine that reads them, and finishes a note when you start one. In his voice."
+    - aaesha.neutral.wave: "I've got every comment Paul's left on our code and the notes from his notebook margins, eighty-five of them, one a line."
+    - aaesha.thinking: "I'd like a machine that reads them and finishes a note when you start one, in his voice."
     - paul.thinking: "And when it finishes one I never wrote?"
-    - aaesha.pleased: "Then we'll know how well it learnt you. How you sound, anyway. Not what you mean."
+    - aaesha.pleased: "Then we'll know how well it learnt you, or at least how you sound, if not what you mean."
   spec: |
     The Notebook Reader, in four files, built in this order. Each starter is almost empty: a docstring listing what to write.
 
@@ -62,10 +62,10 @@ ask:
     Whoever reads this nrom the son. P.
 ship:
   dialogue:
-    - aaesha.proud: "Perplexity 6.6 on notes it never saw. The bigram managed 10.7, and guessing 55."
-    - neil.laughing: "Start a note with the duck, and it writes: 'The duck.' Full stop. It's learnt that the duck never says anything."
-    - yahya.unimpressed: "Ask it for the likeliest every time and it says 'the code it has not' for ever. Like the clock."
-    - paul.pleased.thumbs: "It's learnt how I sound. Nobody's learnt what I mean. Not yet."
+    - aaesha.proud: "Perplexity 6.6 on notes it never saw, when the bigram managed 10.7 and guessing got 55."
+    - neil.laughing: "Start a note with the duck and it writes 'The duck.' and stops, because it's learnt the duck never says anything."
+    - yahya.unimpressed: "Ask it for the likeliest every time and it says 'the code it has not' for ever, a bit like the clock."
+    - paul.pleased.thumbs: "It's learnt how I sound, but nobody's learnt what I mean, not yet anyway."
   shelf: { object: lectern, label: "Paul's Notebook Reader" }
   cards: []
 stretch:

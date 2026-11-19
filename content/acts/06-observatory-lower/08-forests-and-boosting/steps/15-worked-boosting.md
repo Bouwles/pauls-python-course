@@ -3,7 +3,7 @@ id: worked-boosting
 type: worked
 title: How Paul would boost
 dialogue:
-  - paul.unimpressed: "My cycle in to the Clocktower. The windier it is, the longer it takes, and not in a straight line."
+  - paul.unimpressed: "My cycle in to the Clocktower takes longer the windier it is, though not in a straight line."
 code: |
   import numpy as np
 

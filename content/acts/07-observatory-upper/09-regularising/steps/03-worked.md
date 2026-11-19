@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.neutral: "Yahya's radiator, from downstairs. Twelve readings to learn from."
+  - paul.neutral: "This is Yahya's radiator from downstairs, with twelve readings to learn from."
 code: |
   import numpy as np
 

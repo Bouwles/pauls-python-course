@@ -5,10 +5,10 @@ title: Fix Caitlin's version
 files: [babble.py]
 entry: babble.py
 dialogue:
-  - caitlin.pleased: "Can you look at mine? Count the pairs, divide, done. The game's radio could be reading it by teatime."
-  - caitlin.confused: "NumPy says my probabilities don't add up to 1. They're probabilities. That's their whole job."
+  - caitlin.pleased: "Can you look at mine? I just counted the pairs and divided, and the game's radio could be reading it by teatime."
+  - caitlin.confused: "NumPy says my probabilities don't add up to 1, but they're probabilities, adding up to 1 is literally what they do."
 dialogue_after:
-  - caitlin.laughing: "I divided by the columns. And 'iv' never came up in thirty forecasts, so it was impossible. Then 'river' turned up."
+  - caitlin.laughing: "I divided by the columns, and 'iv' never came up in thirty forecasts so it was impossible, until 'river' turned up."
 hints:
   nudge: "Which way does each row of `probs` need to add up to 1? And what chance does a pair get if it never happened in the thirty forecasts?"
   plan:

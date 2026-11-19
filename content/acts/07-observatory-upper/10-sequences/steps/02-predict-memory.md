@@ -4,7 +4,7 @@ type: predict
 title: What it remembers
 concept: rnns
 dialogue:
-  - neil.pleased.point: "One number, no squashing. You could do it in your head."
+  - neil.pleased.point: "It's one number with no squashing, and you could do this one in your head."
 code: |
   readings = [1.0, 0.0, 0.0, 0.0]
   memory = 0.0

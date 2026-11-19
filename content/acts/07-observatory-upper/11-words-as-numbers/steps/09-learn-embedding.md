@@ -4,7 +4,7 @@ type: learn
 title: A row of numbers per token
 concept: embeddings
 dialogue:
-  - neil.thinking: "Counting won't stretch to longer memories. A network will. So the characters go in as rows."
+  - neil.thinking: "Counting won't stretch to longer memories but a network will, so the characters go in as rows."
 code: |
   import numpy as np
 

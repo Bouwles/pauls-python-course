@@ -4,7 +4,7 @@ type: predict
 title: Blame from twenty hours back
 concept: rnns
 dialogue:
-  - yahya.pleased: "So the network learns from every hour it read. All of them, equally."
+  - yahya.pleased: "So the network learns from every hour it read, and all of them equally."
 code: |
   w_memory = 0.9
   h = 0.6                       # the hidden state, hour after hour

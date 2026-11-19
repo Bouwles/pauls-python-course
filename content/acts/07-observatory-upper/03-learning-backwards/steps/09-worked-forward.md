@@ -3,7 +3,7 @@ id: worked-forward
 type: worked
 title: Two lines for the stairs light
 dialogue:
-  - neil.proud.point: "On the back of the page, the stairs light. Solved. Two neurons, then one."
+  - neil.proud.point: "On the back of the page I solved the stairs light with two neurons and then one."
 code: |
   import numpy as np
 

@@ -4,7 +4,7 @@ type: make
 title: Grow the loan tree
 files: [loans.py, tools.py]
 entry: loans.py
-on_pass: { paul.pleased: "Overdrawn, a long loan, no savings: decline. A loan officer could follow that. I've marked worse rules." }
+on_pass: { paul.pleased: "Overdrawn, a long loan and no savings means decline, which any loan officer could follow, and I've marked worse rules than that." }
 hints:
   nudge: "When does `build_tree` stop asking? Name all three reasons. And what does each recursive call need to be told about its depth?"
   plan:

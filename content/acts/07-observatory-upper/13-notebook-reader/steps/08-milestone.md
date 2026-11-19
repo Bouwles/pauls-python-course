@@ -5,7 +5,7 @@ title: "Milestone: the write-up"
 test_plan: true
 evidence: none
 dialogue:
-  - aaesha.neutral.point: "Write down what it is, how it learnt, and where it goes wrong. Paul always does."
+  - aaesha.neutral.point: "Write down what it is, how it learnt and where it goes wrong, because Paul always does."
   - paul.thinking: "And what you'd check, if someone handed it to you cold."
 checklist:
   - id: beats-bigram

@@ -4,7 +4,7 @@ type: learn
 title: Tensors remember too
 concept: pytorch
 dialogue:
-  - neil.thinking: "So it's our engine, made big. I'd like to know what it does that we didn't."
+  - neil.thinking: "So it's basically our engine made big, and I'd like to know what it does that we didn't."
 ---
 **PyTorch** is the library most people train networks with. It's everything you've built in this room, made big and fast, and it runs on your own computer, not in the Workshop.
 

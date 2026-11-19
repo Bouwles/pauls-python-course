@@ -4,7 +4,7 @@ type: predict
 title: Hot and cold
 concept: language-models
 dialogue:
-  - yahya.pleased: "So it writes the most likely next letter, every time. Simple."
+  - yahya.pleased: "So it just writes the most likely next letter every time, simple."
   - neil.laughing: "Then it writes the same thing every time, too."
 code: |
   import numpy as np

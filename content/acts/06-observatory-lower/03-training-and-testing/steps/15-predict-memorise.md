@@ -4,7 +4,7 @@ type: predict
 title: By heart
 concept: overfitting
 dialogue:
-  - yahya.proud.point: "My curve goes through every one of Tuesday's readings. Every one."
+  - yahya.proud.point: "Look, my curve goes through every single one of Tuesday's readings, it doesn't miss any."
 code: |
   import numpy as np
 

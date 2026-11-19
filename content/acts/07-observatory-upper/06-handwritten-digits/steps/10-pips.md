@@ -3,11 +3,11 @@ id: pips
 type: pips
 title: Fix Yahya's version
 dialogue:
-  - yahya.proud: "Can you look at mine? Softmax. Every column adds up to exactly 1. I checked."
-  - yahya.pleased: "And I subtract the biggest score once, for the whole batch. Saves time. Something's still off."
+  - yahya.proud: "Can you look at my softmax? Every column adds up to exactly 1, I checked."
+  - yahya.pleased: "And I subtract the biggest score once for the whole batch to save time, but something's still off."
 dialogue_after:
-  - yahya.surprised: "Rows. A row is one digit, so a row adds up to 1. Columns are nothing in particular."
-  - yahya.thinking: "And one biggest score per row. Otherwise a quiet row gets shifted into nothing."
+  - yahya.surprised: "Oh, it's rows, because a row is one digit and that's what adds up to 1. The columns aren't anything in particular."
+  - yahya.thinking: "And it's one biggest score per row, otherwise a quiet row gets shifted into nothing."
 hints:
   nudge: "Which axis runs along a row? Each row is one digit's ten chances."
   plan:

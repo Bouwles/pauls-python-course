@@ -3,7 +3,7 @@ id: reading
 type: reading
 title: The same, in matrices
 dialogue:
-  - neil.neutral.point: "The other half of the blackboard. Same chain, but every number is now a whole array."
+  - neil.neutral.point: "Here's the other half of the blackboard, with the same chain but every number's now a whole array."
 code: |
   # forward                      backward: the blame passed back
   Z1 = X @ W1 + b1

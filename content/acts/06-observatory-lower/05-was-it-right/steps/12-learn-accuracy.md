@@ -4,7 +4,7 @@ type: learn
 title: When right isn't enough
 concept: classification-metrics
 dialogue:
-  - paul.unimpressed: "Eighty-five per cent sounds good until you count what it missed."
+  - paul.unimpressed: "Eighty-five per cent sounds good, right up until you count what it missed."
 code: |
   import numpy as np
 

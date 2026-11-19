@@ -63,10 +63,10 @@ concepts_introduced: [logistic-regression, cross-entropy, classification-metrics
 concepts_reviewed: [linear-regression, gradient-descent, multivariate-regression, feature-scaling, train-test-split, numerical-gradients, scikit-learn, numpy-arrays, vectorisation, broadcasting, matrices, boolean-operators, imports, functions, multiple-returns, default-arguments, main-guard, docstrings, zip, f-strings]
 ask:
   dialogue:
-    - paul.neutral.wave: "Say a clinic can offer a free blood test, but not to everyone. Who do they ask first?"
-    - paul.neutral: "Two thousand answers from a big public health survey. Six questions each, and whether they had diabetes."
-    - yahya.proud: "My first model is eighty-seven per cent accurate. Took me a minute."
-    - paul.unimpressed: "Then spend another one counting what it misses."
+    - paul.neutral.wave: "Say a clinic can offer a free blood test, but not to everyone. Who should they ask first?"
+    - paul.neutral: "We've got two thousand answers from a big public health survey, six questions each, and whether they had diabetes."
+    - yahya.proud: "My first model's already eighty-seven per cent accurate, and it only took me a minute."
+    - paul.unimpressed: "Then you've got time to spend another minute counting what it misses."
   spec: |
     `diabetes.csv` holds 2,000 real respondents to the US CDC's 2015 health survey: body mass index, age band (1 to 13), high blood pressure, high cholesterol, general health (1 excellent to 5 poor) and exercise, each 1 or 0 where it's a yes or no, and whether they have diabetes or prediabetes. About one in eight does.
 
@@ -95,10 +95,10 @@ ask:
     Respondent: 27% chance. Flag for a test.
 ship:
   dialogue:
-    - paul.pleased: "At a half it found eight cases in seventy-five. At one in ten, fifty-eight. Same model, different question."
-    - paul.neutral.point: "A hundred and eighty-three invitations for five hundred people, and three in four of the real cases among them."
-    - yahya.unimpressed: "And my say-no-to-everyone model ties with it at a half. On accuracy."
-    - paul.proud.thumbs: "That's what accuracy hides when the thing you're after is rare. Now you can see it."
+    - paul.pleased: "At a half it found eight cases in seventy-five, and at one in ten it found fifty-eight, with the very same model."
+    - paul.neutral.point: "That's a hundred and eighty-three invitations for five hundred people, and three in four of the real cases are among them."
+    - yahya.unimpressed: "And at a half, my say-no-to-everyone model ties with it on accuracy, which is a bit embarrassing."
+    - paul.proud.thumbs: "That's what accuracy hides when the thing you're looking for is rare, and now you know how to see it."
   shelf: { object: storm-glass, label: "Paul's screening model, scored honestly" }
   cards: [logistic-regression, cross-entropy, classification-metrics, roc-auc]
 stretch:

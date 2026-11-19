@@ -7,10 +7,10 @@ hours: 45
 summary: "Paul's floor: whiteboards full of graphs, a coffee machine that never rests, and a laptop training something overnight. Every method is tried on real public data first. House prices, exam scores, diabetes risk, penguins, loans and customers: regression, classification, trees, ensembles, clustering and PCA, built from scratch, then with scikit-learn, and tested for what each model has really learned."
 locked_line: "The Model Room, fifth floor. A laptop on Paul's desk has been training something since Tuesday."
 intro:
-  - paul.pleased.wave: "Fifth floor. My floor. Mind the laptop, it's been training since Tuesday."
-  - paul.thinking.point: "From here on, the program learns the rule. Your job is to find out what it really learned."
-  - paul.unimpressed: "A model that's 99% right gets the same question as a student who's 99% right. Show me the working."
-  - yahya.pleased: "Real public data on every project. Finally."
+  - paul.pleased.wave: "Welcome to the fifth floor, which is my floor, and mind the laptop because it's been training since Tuesday."
+  - paul.thinking.point: "From here on the program learns the rule itself, and your job is to find out what it really learnt."
+  - paul.unimpressed: "A model that's 99% right gets asked the same as a student who's 99% right, which is to show me the working."
+  - yahya.pleased: "Finally, it's real public data on every project."
 jobs:
   - drawing-the-best-line
   - training-and-testing

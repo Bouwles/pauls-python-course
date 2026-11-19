@@ -55,10 +55,10 @@ concepts_introduced: [pipelines, cross-validation, grid-search, data-leakage, mo
 concepts_reviewed: [scikit-learn, train-test-split, feature-scaling, logistic-regression, knn, decision-trees, ensembles, classification-metrics, overfitting, numpy-arrays, inheritance, super, sets, dictionaries, dict-set-comprehensions, functions, main-guard, docstrings, f-strings]
 ask:
   dialogue:
-    - neil.pleased.wave: "Stargazing nights on the roof terrace. Twelve telescope slots, always booked, always somebody who doesn't come."
-    - neil.worried: "The space station goes over, and someone on the waiting list misses it. Yahya's built a model."
-    - yahya.proud: "Ninety-eight per cent. Beat that."
-    - paul.thinking.point: "First we see what it's using, which model deserves the job, and who it's wrong about. Before anyone loses a place."
+    - neil.pleased.wave: "We do stargazing nights on the roof terrace with twelve telescope slots, and they're always booked, but there's always a no-show."
+    - neil.worried: "Then the space station goes over and someone on the waiting list misses it, which is why Yahya's built a model."
+    - yahya.proud: "It gets ninety-eight per cent, go on, beat that!"
+    - paul.thinking.point: "Before anyone loses a place, let's see what it's using, which model deserves the job and who it's wrong about."
   spec: |
     Two seasons of stargazing bookings are in `bookings.csv`. This season's are locked in the bottom drawer, `drawer.csv`. Each booking says how many days ahead it was made, the size of the party, the cloud forecast on the day, whether it was a first visit, whether the visitor lives outside the city, whether they signed the visitors' book on the night, and whether they came.
 
@@ -88,10 +88,10 @@ ask:
     outside  accuracy 0.35, slot given away 0.64
 ship:
   dialogue:
-    - neil.surprised: "Visitors from outside the city book a month ahead, for the train. Locals who book that far ahead forget."
-    - neil.worried: "It only learnt the locals. It would have given away two in three of the others' places. The ones who came."
-    - paul.neutral: "It can't know about the train. Nobody told it."
-    - neil.pleased.thumbs: "Then nobody's slot goes on its say-so. I'm adding a question about travel to the booking form."
+    - neil.surprised: "Visitors from outside the city book a month ahead because of the train, but locals who book that far ahead forget."
+    - neil.worried: "It only learnt the locals, so it would've given away two in three of the others' places, the ones who came."
+    - paul.neutral: "Well, it can't know about the train when nobody told it."
+    - neil.pleased.thumbs: "Then nobody loses their slot on its say-so, and I'm adding a question about travel to the booking form."
   shelf: { object: visitors-book, label: "Neil's stargazing clinic" }
   cards: [pipelines, cross-validation, grid-search, data-leakage, model-bias]
 stretch:

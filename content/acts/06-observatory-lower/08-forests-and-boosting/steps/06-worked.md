@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would find one question
 dialogue:
-  - caitlin.thinking: "Over a certain number of visitors and we're out of coffee by twelve. I just don't know the number."
+  - caitlin.thinking: "Over a certain number of visitors we're out of coffee by twelve, I just don't know what the number is."
 code: |
   import numpy as np
 

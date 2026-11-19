@@ -4,7 +4,7 @@ type: predict
 title: Which way round
 concept: neural-networks
 dialogue:
-  - neil.laughing: "I wrote my first layer down as five rows of four. It made sense at the time."
+  - neil.laughing: "I wrote my first layer down as five rows of four, which made sense at the time, honestly."
 code: |
   import numpy as np
 

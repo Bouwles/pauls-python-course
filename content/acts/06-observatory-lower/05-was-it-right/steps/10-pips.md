@@ -5,11 +5,11 @@ title: Fix Caitlin's version
 files: [risk.py, tools.py]
 entry: risk.py
 dialogue:
-  - caitlin.pleased: "Can you look at mine? Risk model. I copied the house price walk and put a sigmoid on the end."
-  - caitlin.confused: "It gives everyone about a coin toss. Fair, I thought. Nobody gets left out."
+  - caitlin.pleased: "Can you look at my risk model? I copied the house price walk and stuck a sigmoid on the end."
+  - caitlin.confused: "It gives everyone about a coin toss, which I thought was fair because at least nobody gets left out."
 dialogue_after:
-  - caitlin.surprised: "The chance goes into the miss. Not the score. The chance."
-  - caitlin.laughing: "Mine was a straight line wearing a sigmoid as a hat."
+  - caitlin.surprised: "Oh, it's the chance that goes into the miss, and I was putting the score in."
+  - caitlin.laughing: "Mine was basically a straight line wearing a sigmoid as a hat."
 hints:
   nudge: "In Paul's walk, which number was compared with what happened: the score, or the chance?"
   plan:

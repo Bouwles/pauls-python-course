@@ -50,10 +50,10 @@ concepts_introduced: [baselines, feature-engineering]
 concepts_reviewed: [scikit-learn, pipelines, cross-validation, data-leakage, train-test-split, logistic-regression, ensembles, classification-metrics, feature-scaling, overfitting, pandas-basics, selecting-filtering, missing-data, modules, imports, dictionaries, functions, main-guard, f-strings]
 ask:
   dialogue:
-    - paul.neutral.wave: "A fishing co-op on the coast wrote to me. Good fishing or not, from the weather and the tide."
-    - paul.thinking: "Who's going to use it? Six boats, and the café by the water that cooks whatever they land."
-    - caitlin.pleased: "That café does the best chips on the coast. Get this right."
-    - paul.proud: "Three years of the fleet's log. This one's yours, start to finish. Then write down what worked, and what didn't."
+    - paul.neutral.wave: "A fishing co-op on the coast wrote to me. They want to know if fishing's good from the weather and the tide."
+    - paul.thinking: "And who's going to use it? Six boats, and the café by the water that cooks whatever they land."
+    - caitlin.pleased: "That café does the best chips on the coast, so we really need to get this right."
+    - paul.proud: "There's three years of the fleet's log, and this one's yours start to finish. Then write down what worked and what didn't."
   spec: |
     The fleet's log is in `fishing.csv`: every day from 2023 to 2025, with what was known at dawn and how many boxes each boat landed. A good day is eight boxes a boat or more.
 
@@ -73,10 +73,10 @@ ask:
     Good days it caught: 0.85
 ship:
   dialogue:
-    - paul.pleased: "The co-op wrote back. It said good on Thursday, the boats came in full, and the café sold out by two."
-    - caitlin.laughing.cheer: "Sold out by two. That's the review that counts."
-    - yahya.thinking: "Eighty-five in a hundred, on a year it never saw. The skipper's rule gets seventy-two."
-    - paul.proud.thumbs: "A model, a test it hadn't seen, and a page a stranger could check. That's the job done properly."
+    - paul.pleased: "The co-op wrote back, and it said good on Thursday, the boats came in full and the café sold out by two."
+    - caitlin.laughing.cheer: "Sold out by two! Honestly, that's the only review I care about."
+    - yahya.thinking: "Eighty-five in a hundred on a year it never saw, and the skipper's rule only gets seventy-two."
+    - paul.proud.thumbs: "You've got a model, a test it hadn't seen and a page a stranger could check, and that's doing it properly."
   shelf: { object: catch-board, label: "Paul's fishing forecast, tested on a year it never saw" }
   cards: [baselines, feature-engineering]
 stretch:

@@ -63,10 +63,10 @@ concepts_introduced: [knn]
 concepts_reviewed: [feature-scaling, train-test-split, overfitting, classification-metrics, numpy-arrays, vectorisation, broadcasting, vectors, imports, csv-module, functions, default-arguments, multiple-returns, main-guard, docstrings, f-strings]
 ask:
   dialogue:
-    - aaesha.neutral.wave: "How do you name a bird you've never seen? One theory: you remember the ones most like it, and ask them."
-    - aaesha.thinking.point: "In code, that's k nearest neighbours. We'll try it on three kinds of penguin, and Fisher's irises."
-    - riya.pleased: "Done it. One nearest penguin. Ninety-seven per cent on the penguins it learnt from."
-    - aaesha.unimpressed: "Every penguin it learnt from is its own nearest penguin."
+    - aaesha.neutral.wave: "How do you name a bird you've never seen? One theory is you remember the ones most like it and ask them."
+    - aaesha.thinking.point: "In code that's called k nearest neighbours, and we'll try it on three kinds of penguin and Fisher's irises."
+    - riya.pleased: "I've done it already with one nearest penguin, and it gets ninety-seven per cent on the penguins it learnt from."
+    - aaesha.unimpressed: "Well, every penguin it learnt from is its own nearest penguin, isn't it?"
   spec: |
     `penguins.csv` holds 342 real penguins of three species from Palmer Station in Antarctica, Adelie, Chinstrap and Gentoo, with bill length and depth, flipper length and body mass. `iris.csv` holds Fisher's 150 irises of three species, with four measurements each.
 
@@ -94,10 +94,10 @@ ask:
     New: Gentoo, like 8 of the 9 nearest
 ship:
   dialogue:
-    - aaesha.pleased: "Gentoo, like eight of the nine nearest. One memory is a rumour. Nine is a fair sample."
-    - aaesha.proud.point: "And the irises, with not a line changed. Nine in ten of the ones it never saw."
-    - riya.laughing: "Mine was right about nearly every penguin it had already seen. That isn't naming. That's remembering."
-    - paul.pleased.thumbs: "Now you've said it out loud, you'll remember that too."
+    - aaesha.pleased: "It says Gentoo, like eight of its nine nearest, and I'll trust nine of them a lot more than one."
+    - aaesha.proud.point: "And it did the irises without a single line changed, nine in ten right on the ones it never saw."
+    - riya.laughing: "Mine was right about nearly every penguin it had already seen, which is really just remembering them, isn't it?"
+    - paul.pleased.thumbs: "Well, now you've said it out loud, you'll remember that too."
   shelf: { object: pin-map, label: "Aaesha's penguin and iris classifier" }
   cards: [knn]
 stretch:

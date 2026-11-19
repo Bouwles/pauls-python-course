@@ -4,7 +4,7 @@ type: learn
 title: Lock some away
 concept: train-test-split
 dialogue:
-  - paul.unimpressed: "A model marked on the answers it learnt from will always look clever."
+  - paul.unimpressed: "If you mark a model on the answers it learnt from, it's always going to look clever."
 code: |
   import numpy as np
 

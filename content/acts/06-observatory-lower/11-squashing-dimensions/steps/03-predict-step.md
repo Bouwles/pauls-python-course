@@ -4,8 +4,8 @@ type: predict
 title: One step
 concept: k-means
 dialogue:
-  - caitlin.confused: "If nobody labelled them, what does it learn?"
-  - yahya.thinking.point: "Where the crowds are. Well, where the middles of the crowds are."
+  - caitlin.confused: "Hang on, if nobody labelled them, what does it even learn?"
+  - yahya.thinking.point: "Where the crowds are, or really, where the middles of the crowds are."
 code: |
   import numpy as np
 
