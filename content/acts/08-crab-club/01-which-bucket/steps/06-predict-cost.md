@@ -4,7 +4,7 @@ type: predict
 title: A quarter each
 concept: ab-testing
 dialogue:
-  - caitlin.neutral: "The fair way, then. A quarter each, and we count them at the end."
+  - caitlin.neutral: "Let's do it the fair way then, a quarter each, and we count them up at the end."
   - paul.thinking: "Count what it costs, while you're at it."
 code: |
   rates = [0.10, 0.14, 0.08, 0.17]   # the truth, which nobody at the cabinet knows

@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.neutral.point: "The old grid, learned from scratch. No map, no outcomes. Just races."
+  - paul.neutral.point: "Here's the old grid learned from scratch, with no map and no outcomes, just races."
 code: |
   import numpy as np
   from workshop import show_grid

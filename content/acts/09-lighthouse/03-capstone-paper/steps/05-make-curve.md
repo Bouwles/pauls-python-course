@@ -6,7 +6,7 @@ files: [reproduce.py, descent.py, test_descent.py]
 entry: reproduce.py
 starter_from: pieces
 timeout_ms: 30000
-on_pass: { paul.thinking: "Down, up at forty, down again, first time. I'm suspicious. Try other seeds." }
+on_pass: { paul.thinking: "Down, up at forty and down again, first time? Honestly I'm suspicious, so try some other seeds." }
 hints:
   nudge: "Everything random comes from one generator, made from the seed. What has to be the same, and in the same order, for two people to get the same numbers?"
   plan:

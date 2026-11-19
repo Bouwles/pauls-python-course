@@ -5,7 +5,7 @@ title: Make the A/B test bandit
 files: [abtest.py]
 entry: abtest.py
 timeout_ms: 30000
-on_pass: { caitlin.proud.thumbs: "Thompson sampling, twenty-six visitors lost. The waving crab goes on the cabinet." }
+on_pass: { caitlin.proud.thumbs: "Thompson sampling only lost twenty-six visitors, and the waving crab's going on the cabinet." }
 hints:
   nudge: "Every strategy gets the same estimates and counts. What does each one do with them before it calls np.argmax?"
   plan:

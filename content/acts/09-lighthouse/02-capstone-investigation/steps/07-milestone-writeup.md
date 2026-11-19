@@ -4,7 +4,7 @@ type: milestone
 title: "Milestone 4: the write-up"
 evidence: link
 dialogue:
-  - yahya.neutral: "I'll read the first paragraph, then check every number in it. Then I'll read the rest."
+  - yahya.neutral: "I'll read the first paragraph and check every number in it before I read the rest."
 checklist:
   - id: answer-first
     text: "The first paragraph answers the question: what changed, by how much, and how sure you are."

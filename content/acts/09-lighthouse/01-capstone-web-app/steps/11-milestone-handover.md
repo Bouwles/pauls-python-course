@@ -4,7 +4,7 @@ type: milestone
 title: "Milestone 4: tested, documented, handed over"
 evidence: link
 dialogue:
-  - caitlin.thinking: "The marina won't read code. They'll read instructions, and follow them exactly."
+  - caitlin.thinking: "The marina won't read code, but they will read instructions and follow them exactly."
   - paul.neutral: "Then the instructions had better be right."
 checklist:
   - id: agreed

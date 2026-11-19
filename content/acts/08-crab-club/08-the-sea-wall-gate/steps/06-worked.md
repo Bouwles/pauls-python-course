@@ -4,8 +4,8 @@ type: worked
 title: How Paul would do it
 language: text
 dialogue:
-  - paul.pleased: "Neil's camera drone, hovering in a crosswind. Gusts tip it; the motors push back."
-  - paul.neutral: "This one needs Gymnasium itself, so it runs at home, not here. Read it for the shape."
+  - paul.pleased: "This is Neil's camera drone hovering in a crosswind. The gusts tip it over and the motors push it back."
+  - paul.neutral: "This one needs the real Gymnasium, so you'd run it at home rather than here. Just read it for the shape."
 code: |
   import gymnasium as gym
   import numpy as np

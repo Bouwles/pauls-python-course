@@ -4,7 +4,7 @@ type: learn
 title: How a web app answers
 concept: http-basics
 dialogue:
-  - paul.neutral.point: "A web app is a function someone calls from across the city. That's most of it."
+  - paul.neutral.point: "A web app is really just a function someone calls from across the city, and that's most of it."
 code: |
   import json
 

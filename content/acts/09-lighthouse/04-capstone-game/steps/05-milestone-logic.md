@@ -4,7 +4,7 @@ type: milestone
 title: "Milestone 2: the logic, tested"
 evidence: link
 dialogue:
-  - paul.neutral: "No window yet. If the rules are right, the window is decoration."
+  - paul.neutral: "Don't make a window yet. If the rules are right, the window's just decoration."
   - caitlin.pleased: "Decoration is the best part."
   - paul.laughing: "Then it'll still be the best part next week."
 checklist:

@@ -4,9 +4,9 @@ type: learn
 title: Preferences, not values
 concept: policy-gradients
 dialogue:
-  - aaesha.unimpressed: "Values. Q-values. Targets. Frozen copies."
-  - caitlin.laughing: "The crab doesn't value tiles. It just goes somewhere."
-  - paul.pleased.point: "Then learn where it goes, and skip the worth."
+  - aaesha.unimpressed: "Values, Q-values, targets and frozen copies, that's a lot to keep track of."
+  - caitlin.laughing: "The crab doesn't value tiles though, it just goes somewhere."
+  - paul.pleased.point: "Then let's learn where it goes and skip the worth altogether."
 code: |
   import numpy as np
 

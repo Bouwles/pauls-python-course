@@ -5,7 +5,7 @@ title: Now or later
 concept: returns-discounting
 dialogue:
   - caitlin.pleased.point: "In my version, the crab can eat a crumb at the start line..."
-  - caitlin.laughing: "...or race the full straight for the prize. Patience is a virtue, in crabs."
+  - caitlin.laughing: "...or race the whole straight for the prize, if it's got the patience."
 code: |
   def discounted_return(rewards, gamma):
       total = 0

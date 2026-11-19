@@ -3,7 +3,7 @@ id: worth-doing
 type: reading
 title: A project worth doing
 dialogue:
-  - paul.thinking: "The best projects I've seen were small, for one person, and finished. The rest are in a drawer somewhere."
+  - paul.thinking: "The best projects I've seen were small, made for one person and actually finished. The rest are in a drawer somewhere."
 ---
 Three questions sort the good ideas from the rest.
 

@@ -4,7 +4,7 @@ type: make
 title: "Question 4: Two for a pound"
 files: [pairs.py]
 entry: pairs.py
-on_pass: { caitlin.surprised: "Mine took a minute on the whole list. Yours took a blink. Fine. Yours is better." }
+on_pass: { caitlin.surprised: "Mine took a minute on the whole list and yours took a blink. Fine, yours is better." }
 hints:
   nudge: "A 30p item needs a 70p partner. How could you know how many 70p items you've already gone past, without looking back through the list?"
   plan:

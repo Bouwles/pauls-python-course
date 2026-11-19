@@ -4,9 +4,9 @@ type: milestone
 title: "Milestone 3: the analysis, and honest charts"
 evidence: link
 dialogue:
-  - yahya.unimpressed.point: "That axis starts at 1,050 millimetres. Start it at zero, or say on the chart that you didn't."
+  - yahya.unimpressed.point: "That axis starts at 1,050 millimetres, so either start it at zero or say on the chart that you didn't."
   - caitlin.laughing: "It looked much more dramatic from 1,050."
-  - yahya.neutral: "Yes. That's the problem."
+  - yahya.neutral: "Yeah, that's the problem."
 checklist:
   - id: answers
     text: "Each chart answers part of your question, and its title says which part."

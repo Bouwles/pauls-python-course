@@ -4,7 +4,7 @@ type: milestone
 title: "Milestone 2: the data, kept"
 evidence: link
 dialogue:
-  - caitlin.worried: "The marina switches everything off at six. The boats stay booked overnight. So must the bookings."
+  - caitlin.worried: "The marina switches everything off at six, but the boats stay overnight and the bookings have to survive too."
 checklist:
   - id: choice
     text: "You've chosen a JSON file or SQLite, and written one sentence on why."

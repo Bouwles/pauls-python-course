@@ -19,7 +19,7 @@ code: |
       test_error = np.mean((test_f @ weights - y_test) ** 2)
       print(width, round(train_error, 3), round(test_error, 3))
 dialogue:
-  - paul.thinking.point: "You drew the U with exam marks in the Model Room. This is what happens off its right-hand edge."
+  - paul.thinking.point: "You drew the U with exam marks in the Model Room, and this is what happens off its right-hand edge."
 ---
 In the Exam Score Model, the test error made a U: too stiff, about right, then too flexible, chasing the noise.
 

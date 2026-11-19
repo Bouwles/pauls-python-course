@@ -38,11 +38,11 @@ concepts_introduced: [game-loop]
 concepts_reviewed: [classes, init, attributes, methods, self, dataclasses, random-module, while-loops, if-elif-else, modules, main-guard, argparse, files, json-module, pytest, assert, edge-cases, test-first, virtual-environments, git-basics]
 ask:
   dialogue:
-    - caitlin.pleased.wave: "A new cabinet for the Arcade. Proper joystick, and a coin slot I've taped over."
+    - caitlin.pleased.wave: "I've got a new cabinet for the Arcade, with a proper joystick and a coin slot I've taped over."
     - caitlin.laughing.point: "Mackerel fall off a pier, you catch them in a bucket, and boots cost you a life."
-    - yahya.proud: "Make the mackerel faster every level. Twice as fast."
-    - caitlin.unimpressed: "Make them land first. Then we'll talk about twice as fast."
-    - paul.neutral: "The rules in one file, the drawing in another. Then the rules can be tested."
+    - yahya.proud: "You should make the mackerel faster every level, like twice as fast."
+    - caitlin.unimpressed: "Let's make them land first, then we'll talk about twice as fast."
+    - paul.neutral: "Put the rules in one file and the drawing in another, and then the rules can be tested."
   spec: |
     Caitlin's rules, written down at last:
 
@@ -69,10 +69,10 @@ ask:
     {'bucket_x': 208, 'items': [], 'score': 1, 'lives': 3, 'level': 1, 'over': False}
 ship:
   dialogue:
-    - caitlin.laughing: "Yahya got forty-two on the first night. He says he's had practice."
+    - caitlin.laughing: "Yahya got forty-two on the first night, and he says he's had practice."
     - yahya.proud: "I've had practice."
-    - caitlin.pleased.cheer: "Nobody's said it's fiddled. They've said it's unfair, which is different, and good for the leaderboard."
-    - paul.proud.thumbs: "Rules tested, drawing kept apart, strangers playing it. That's a game, not a demo."
+    - caitlin.pleased.cheer: "Nobody's said it's fiddled, they've just said it's unfair, which is different and good for the leaderboard!"
+    - paul.proud.thumbs: "The rules are tested, the drawing's kept apart and strangers are playing it, so you've made a proper game there."
   shelf: { object: pier-cabinet, label: "Mackerel Night, on a new cabinet in the Arcade" }
   cards: [game-loop]
 stretch:

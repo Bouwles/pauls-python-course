@@ -4,7 +4,7 @@ type: milestone
 title: "Milestone 4: the write-up"
 evidence: link
 dialogue:
-  - paul.neutral: "I read the section on what didn't match first. Then I decide whether to read the rest."
+  - paul.neutral: "I always read the section on what didn't match first, and then decide whether to read the rest."
 checklist:
   - id: summary
     text: "The first paragraph says what you reproduced, at what scale, and how closely it matched."

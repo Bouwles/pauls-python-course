@@ -46,11 +46,11 @@ concepts_introduced: [actor-critic]
 concepts_reviewed: [policy-gradients, td-learning, dqn, returns-discounting, mdps, numpy-arrays, mutability]
 ask:
   dialogue:
-    - aaesha.pleased.wave: "REINFORCE waits until the race is over before it learns anything. Brains don't wait that long."
+    - aaesha.pleased.wave: "REINFORCE waits until the race is over before it learns anything, and brains definitely don't wait that long."
     - yahya.neutral: "I comment on every move you make at the cabinet."
-    - caitlin.unimpressed: "You do. It's annoying. It also works."
-    - aaesha.thinking.think: "One theory of the brain has two parts: one picks the move, one judges it. Dopamine carries the verdict."
-    - paul.neutral.point: "Then the crab gets a critic. One acts, one judges, and both learn as they go."
+    - caitlin.unimpressed: "You do, and it's really annoying, but it also works."
+    - aaesha.thinking.think: "There's a theory that the brain has one part picking the move and another judging it, with dopamine carrying the verdict."
+    - paul.neutral.point: "Then let's give the crab a critic, with one part acting and one judging, and both learning as they go."
   spec: |
     Write `actor_critic.py`, one-step actor-critic on the racing grid in `track.py`. The actor is `theta`, a `(3, 4, 4)` array of preferences, with `chances` and `grad_log_chance` from Policy Gradients. The critic is `values`, a `(3, 4)` array.
 
@@ -80,10 +80,10 @@ ask:
     ratio 0.5, advantage -2.0: -1.6
 ship:
   dialogue:
-    - aaesha.proud.cheer: "Judged on every move, and better for it. One point oh five."
-    - yahya.unimpressed: "The critic says the start is worth nought point two. It's never raced in its life."
-    - caitlin.laughing: "Critics. All talk."
-    - paul.pleased: "Next, a course nobody has seen. Not even Yahya."
+    - aaesha.proud.cheer: "It got judged on every move and it's better for it, one point oh five!"
+    - yahya.unimpressed: "The critic reckons the start is worth nought point two, and it's never raced in its life."
+    - caitlin.laughing: "Typical critics, all talk."
+    - paul.pleased: "Next time it's a course nobody has seen before, not even Yahya."
   shelf: { object: scorecard, label: "The crab and its critic" }
   cards: [actor-critic]
 stretch:

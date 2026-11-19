@@ -4,8 +4,8 @@ type: learn
 title: A rule instead of a table
 concept: dqn
 dialogue:
-  - paul.neutral: "A table has a box for every tile. Fine for twelve tiles. Not for a million."
-  - paul.thinking: "A network has one rule for all of them. It needs watching."
+  - paul.neutral: "A table has a box for every tile, which is fine when there are twelve but not when there are a million."
+  - paul.thinking: "A network has one rule for all of them, though it does need keeping an eye on."
 code: |
   import numpy as np
 

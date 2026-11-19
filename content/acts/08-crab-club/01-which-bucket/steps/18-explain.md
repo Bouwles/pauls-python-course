@@ -3,7 +3,7 @@ id: explain
 type: explain
 title: What the winner hides
 dialogue:
-  - riya.thinking: "I've a question too. How much worse is the flashing coin, really?"
+  - riya.thinking: "I've got a question too. How much worse is the flashing coin, really?"
   - riya.worried: "I want to know whether to redraw it for next term, or bin it."
 prompt: "Thompson sampling lost about a tenth as many visitors as the even split. Which of the two can answer Riya, and why can't the other?"
 answer: "The even split can. It showed the flashing coin to 1250 visitors, so its estimate of that rate is close. Thompson sampling stopped showing it once it was fairly sure the flashing coin wasn't the best: about a hundred visitors, so its estimate could be out by a third either way. A bandit answers \"which is best?\" cheaply. An even split pays for an answer to \"how good is each one?\", and if Riya needs that, the visitors it costs are the price of the question."

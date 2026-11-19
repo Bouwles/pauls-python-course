@@ -42,10 +42,10 @@ summary: "Caitlin's first real client: visitor berth bookings for a marina on th
 concepts_reviewed: [http-basics, json-module, functions, dictionaries, nested-data, decorators, exceptions, raising-errors, try-except, modules, imports, files, with-statement, paths, string-methods, f-strings, pytest, assert, edge-cases, test-first, virtual-environments, terminal-basics, git-basics]
 ask:
   dialogue:
-    - caitlin.pleased.wave: "My first real client. A marina on the river, five visitor berths, all booked in pencil."
-    - caitlin.laughing: "Pencil runs in the rain. They've given me five requirements. The fifth is surviving a switch-off."
-    - riya.thinking: "Who'll use it? Skippers on a wet pontoon, and the berth master at a desk. Design for both."
-    - paul.neutral.point: "This one's yours from the first line. Plan it, test it, and hand it over properly."
+    - caitlin.pleased.wave: "I've got my first real client, a marina on the river with five visitor berths, all booked in pencil."
+    - caitlin.laughing: "Pencil runs in the rain, it turns out. They've given me five requirements, and the fifth is surviving a switch-off."
+    - riya.thinking: "Who's going to use it? Skippers on a wet pontoon and the berth master at a desk, so design for both."
+    - paul.neutral.point: "This one's yours from the very first line. Plan it, test it and hand it over properly."
   spec: |
     Requirements, from the marina, through Caitlin. Visiting boats book one of the five visitor berths in `berths.py`, for a number of nights.
 
@@ -81,10 +81,10 @@ ask:
     {"berth":2,"boat":"Kittiwake","date":"2027-04-10","id":1,"length":9.5,"nights":2}
 ship:
   dialogue:
-    - caitlin.proud.cheer: "Forty-one bookings in the first fortnight, and no berth booked twice."
-    - aaesha.pleased: "I checked every night. And every test still passes after each change."
+    - caitlin.proud.cheer: "Forty-one bookings in the first fortnight, and no berth booked twice!"
+    - aaesha.pleased: "I checked every night, and every test still passes after each change."
     - caitlin.laughing: "The Kittiwake's skipper booked from the pontoon, in the rain, on her phone."
-    - paul.proud.thumbs: "It has tests, a README and an owner who can run it. That's a handover."
+    - paul.proud.thumbs: "It's got tests, a README and an owner who can run it, and that's what I'd call a proper handover."
   shelf: { object: berth-board, label: "The marina's visitor berths, booked on the web" }
   cards: []
 stretch:

@@ -5,9 +5,9 @@ title: "Milestone 1: the plan and the routes"
 test_plan: true
 evidence: none
 dialogue:
-  - paul.thinking: "Before any code: what it does, what it says when it can't, and how you'll know."
-  - caitlin.pleased: "I'd start with the pages. People like pages."
-  - aaesha.unimpressed: "They like a berth that's really theirs even more. Routes first."
+  - paul.thinking: "Before any code, write down what it does, what it says when it can't, and how you'll know it works."
+  - caitlin.pleased: "I'd start with the pages, people like pages."
+  - aaesha.unimpressed: "They like a berth that's really theirs even more. I'd do the routes first."
 checklist:
   - id: starts
     text: "The skeleton starts with one command, and you've written that command down."

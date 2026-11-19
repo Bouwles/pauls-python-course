@@ -4,7 +4,7 @@ type: milestone
 title: "Milestone 2: the first working slice"
 evidence: link
 dialogue:
-  - paul.neutral.point: "Thin and working, from one end to the other. Then thicken it."
+  - paul.neutral.point: "Get it thin and working from one end to the other first, and then thicken it up."
 checklist:
   - id: end-to-end
     text: "The slice does one useful thing from start to finish, however plain it looks."

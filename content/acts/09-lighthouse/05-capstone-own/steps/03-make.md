@@ -4,7 +4,7 @@ type: make
 title: Tests from a spec
 files: [test_postage.py, postage.py]
 entry: test_postage.py
-on_pass: { paul.proud.thumbs: "Every broken postage caught, and the real one passed. Those are tests you can lean on." }
+on_pass: { paul.proud.thumbs: "Every broken postage got caught and the real one passed. You can lean on tests like those." }
 hints:
   nudge: "Where in the docstring does one price stop and the next begin, and what should be refused?"
   plan:

@@ -5,7 +5,7 @@ title: How good a tile is to stand on
 concept: policy-evaluation
 dialogue:
   - paul.neutral: "Last week you raced a thousand times to find out what a line was worth."
-  - paul.thinking.think: "You know every tile and every chance. You can work it out instead."
+  - paul.thinking.think: "But you know every tile and every chance, so you can just work it out instead."
 code: |
   gamma = 0.9
   values = {"A": 0.0, "B": 5.0, "C": -2.0}

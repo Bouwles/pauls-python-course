@@ -4,7 +4,7 @@ type: learn
 title: Tiles, moves and rewards
 concept: mdps
 dialogue:
-  - neil.thinking.point: "Twelve tiles. One rock. One pool. Everyone races the same line."
+  - neil.thinking.point: "It's twelve tiles with one rock and one pool, and everyone races the same line round it."
 code: |
   TRACK = ["...F",
            ".#.P",

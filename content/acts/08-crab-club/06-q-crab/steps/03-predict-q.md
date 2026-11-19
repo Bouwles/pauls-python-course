@@ -4,7 +4,7 @@ type: predict
 title: One Q-learning update
 concept: q-learning
 dialogue:
-  - aaesha.thinking.think: "The best it could do next, not what it happened to do. Remember that."
+  - aaesha.thinking.think: "Remember, it uses the best it could do next, even if that isn't what it actually did."
 code: |
   Q = {
       (1, 2): {"up": 0.0, "down": -2.0, "left": -1.5, "right": -6.0},

@@ -4,7 +4,7 @@ type: learn
 title: Racing without the map
 concept: monte-carlo
 dialogue:
-  - paul.thinking.think: "Last week you had every chance written down. On League night, nobody hands the crab the list."
+  - paul.thinking.think: "Last week you had every chance written down, but on League night nobody's going to hand the crab the list."
 code: |
   import numpy as np
 

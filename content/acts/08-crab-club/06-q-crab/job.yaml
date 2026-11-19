@@ -45,11 +45,11 @@ concepts_introduced: [q-learning, sarsa]
 concepts_reviewed: [td-learning, exploration-exploitation, bandits, value-iteration, numpy-arrays, list-aliasing, json-module, with-statement]
 ask:
   dialogue:
-    - caitlin.pleased.wave: "The Arcade League. Every week, the same course and the same rules for everyone's crab."
-    - yahya.neutral.point: "Seven rows, nine columns, two rock pools and a lot of rocks."
-    - caitlin.thinking: "Nobody gets a map of the chances. You race it until you know it."
-    - aaesha.thinking: "Like learning a new city on foot. Every turning gets a worth of its own."
-    - paul.neutral: "Then the crab learns the worth of every move, not just every tile."
+    - caitlin.pleased.wave: "This is the Arcade League. Every week everyone's crab gets the same course and the same rules."
+    - yahya.neutral.point: "It's seven rows by nine columns, with two rock pools and a lot of rocks."
+    - caitlin.thinking: "Nobody gets a map of the chances, you just race it until you know it."
+    - aaesha.thinking: "It's like learning a new city on foot, where every turning ends up with a worth of its own."
+    - paul.neutral: "Then the crab learns the worth of every move as well as every tile."
   spec: |
     The League course is in `club-course.json`, and Aaesha has copied the League's rules into `course.py`. The crab starts at S, top left, and races to F, bottom right. It slips sideways one move in ten on sand and 35 in a hundred in a rock pool. Into a rock or off the course, it stays put. A race stops at 100 moves, and the League's score is the average number of moves: lower is better.
 
@@ -74,10 +74,10 @@ ask:
     Saved league.json
 ship:
   dialogue:
-    - yahya.surprised: "Fifteen point seven moves. The League record is..."
-    - yahya.unimpressed: "...also fifteen point seven moves. As of this afternoon."
-    - caitlin.laughing.cheer: "Enter league.json on the League page. This week's races start on Monday."
-    - paul.neutral: "Same course and same luck for every crab. Only the training differs."
+    - yahya.surprised: "Fifteen point seven moves, and the League record is..."
+    - yahya.unimpressed: "...also fifteen point seven moves, as of this afternoon."
+    - caitlin.laughing.cheer: "Go and enter league.json on the League page, because this week's races start on Monday!"
+    - paul.neutral: "Every crab gets the same course and the same luck. The only thing that's different is the training."
   shelf: { object: rosette, label: "Caitlin's crab, entered in the Arcade League" }
   cards: [q-learning, sarsa]
 stretch:

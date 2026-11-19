@@ -3,9 +3,9 @@ id: rules
 type: reading
 title: Race-day rules
 dialogue:
-  - caitlin.neutral.point: "The final's course is made that morning, from a seed. Nobody sees it before."
-  - caitlin.laughing: "Not you. Not Yahya. Not even me, and I wrote the generator."
-  - paul.thinking: "So a crab that knows one course is no use. It has to learn whichever one it's given."
+  - caitlin.neutral.point: "The final's course gets made that morning from a seed, and nobody sees it beforehand."
+  - caitlin.laughing: "Not you, not Yahya, not even me, and I wrote the generator."
+  - paul.thinking: "So a crab that only knows one course is no use, it has to learn whichever one it's given."
 ---
 Every crab so far learned one track. In the final the track is new every time, made from a seed that morning. So you're not building a policy: you're building a crab that practises on a strange course and comes away racing it well.
 

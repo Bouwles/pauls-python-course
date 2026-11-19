@@ -4,8 +4,8 @@ type: learn
 title: Change, but not too much
 concept: actor-critic
 dialogue:
-  - neil.pleased.point: "The drone that beat the world's best racing pilots learned with something called PPO."
-  - paul.thinking: "Then it's worth knowing what PPO is for, before anyone reaches for it."
+  - neil.pleased.point: "You know the drone that beat the world's best racing pilots? It learned with something called PPO."
+  - paul.thinking: "Then it's worth knowing what PPO is actually for before anyone reaches for it."
 code: |
   import numpy as np
 

@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Yahya's version
 dialogue:
-  - yahya.neutral: "Can you look at mine? Something's off. I work out the best screen first, every visitor. Saves a step."
-  - yahya.confused: "It explores one visitor in ten. Then says it showed the high-score table a thousand times."
+  - yahya.neutral: "Can you look at mine? I work out the best screen first for every visitor to save a step, but something's off."
+  - yahya.confused: "It explores one visitor in ten, then tells me it showed the high-score table a thousand times."
 dialogue_after:
-  - yahya.surprised: "So the other screens brought people in, and the high-score table got the credit. Fast and wrong."
+  - yahya.surprised: "So the other screens brought people in and the high-score table took the credit. It was fast, I'll give it that."
 hints:
   nudge: "When an exploring visitor is shown the demo race, whose estimate should their answer change?"
   plan:

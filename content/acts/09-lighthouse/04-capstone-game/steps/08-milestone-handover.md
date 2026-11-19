@@ -4,9 +4,9 @@ type: milestone
 title: "Milestone 4: playtested in the Arcade and handed to Caitlin"
 evidence: link
 dialogue:
-  - caitlin.neutral.point: "League night. Three people from other floors, one cabinet, and nobody explaining anything."
+  - caitlin.neutral.point: "On League night it'll be three people from other floors at one cabinet, with nobody explaining anything."
   - yahya.pleased: "I could stand next to it and explain."
-  - caitlin.unimpressed: "That's what I said. Nobody."
+  - caitlin.unimpressed: "That's what I said, nobody."
 checklist:
   - id: watched
     text: "At least three people have played it while you watched and said nothing."

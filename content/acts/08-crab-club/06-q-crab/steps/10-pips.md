@@ -5,10 +5,10 @@ title: Fix Yahya's version
 files: [track.py, main.py]
 entry: main.py
 dialogue:
-  - yahya.neutral: "Can you look at mine? Q-learning on the old grid. Twelve tiles don't need numpy. Lists start faster."
-  - yahya.confused: "The crab goes right on every single tile. Even under the pool. Even into the rock."
+  - yahya.neutral: "Can you look at mine? It's Q-learning on the old grid, and twelve tiles don't need numpy because lists start faster."
+  - yahya.confused: "The crab goes right on every single tile, even under the pool and even into the rock."
 dialogue_after:
-  - yahya.laughing: "One list, twelve names for it. Every tile was learning into the same four numbers. Fast, though."
+  - yahya.laughing: "It was one list with twelve names for it, so every tile was learning into the same four numbers. Fast, though."
 hints:
   nudge: "Yahya's table is built with `*`. What does `*` do to a list that has another list inside it?"
   plan:

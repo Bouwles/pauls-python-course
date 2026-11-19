@@ -44,11 +44,11 @@ concepts_introduced: []
 concepts_reviewed: [q-learning, dqn, policy-gradients, actor-critic, exploration-exploitation, td-learning, mdps, bfs, classes, exceptions, raising-errors, try-except, train-test-split, overfitting, numpy-arrays]
 ask:
   dialogue:
-    - caitlin.pleased.wave: "The Arcade League. A race every week, everyone's crab, one leaderboard."
-    - caitlin.laughing.point: "Term ends with the final. A new course, made that morning from a seed nobody knows."
-    - aaesha.neutral: "Five thousand practice moves, then the races. Fewest moves wins. It's all in the rules."
+    - caitlin.pleased.wave: "Welcome to the Arcade League, where everyone's crab races every week on one leaderboard."
+    - caitlin.laughing.point: "Term ends with the final, on a new course made that morning from a seed nobody knows."
+    - aaesha.neutral: "You get five thousand practice moves before the races, and the fewest moves wins. It's all in the rules."
     - yahya.proud: "I've been practising."
-    - paul.thinking.think: "So the crab can't learn the course beforehand. It has to learn how to learn one."
+    - paul.thinking.think: "So the crab can't learn the course beforehand, it has to learn how to learn one."
   spec: |
     A crab that races well on a course nobody has seen, in three files.
 
@@ -71,11 +71,11 @@ ask:
     Saved league.json for the Arcade League.
 ship:
   dialogue:
-    - caitlin.surprised.cheer: "Eighteen point one moves, on a course made this morning. Par was eighteen."
-    - aaesha.laughing: "Another crab sat down at the first groyne and wouldn't move. Not ours."
-    - paul.proud: "It learned a course nobody had seen. That's the whole trade, in a crab."
-    - caitlin.thinking.point: "One floor left. And the clock still says 3:14."
-    - paul.laughing: "I know. I haven't forgotten."
+    - caitlin.surprised.cheer: "Eighteen point one moves on a course made this morning, and par was eighteen!"
+    - aaesha.laughing: "Another crab sat down at the first groyne and wouldn't move, but it wasn't ours."
+    - paul.proud: "It learned a course nobody had seen before, and that's really what this whole floor was building towards."
+    - caitlin.thinking.point: "There's one floor left, and the clock still says 3:14."
+    - paul.laughing: "I know, I know, I haven't forgotten."
   shelf: { object: trophy, label: "The Arcade League final, won on an unseen course" }
   cards: []
 stretch:

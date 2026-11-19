@@ -4,7 +4,7 @@ type: milestone
 title: "Milestone 3: the whole project"
 evidence: link
 dialogue:
-  - paul.neutral: "Everything the proposal promised. If something changed, say what and why."
+  - paul.neutral: "It should do everything the proposal promised, and if something changed, say what and why."
   - caitlin.worried: "Mine changed a lot."
   - paul.laughing: "Then the README will be interesting."
 checklist:

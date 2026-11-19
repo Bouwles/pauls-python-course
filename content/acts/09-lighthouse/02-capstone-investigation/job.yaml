@@ -41,10 +41,10 @@ concepts_introduced: [data-provenance]
 concepts_reviewed: [pandas-basics, selecting-filtering, missing-data, data-cleaning, matplotlib, files, string-methods, functions, docstrings, main-guard, f-strings, pytest, assert, edge-cases, test-first]
 ask:
   dialogue:
-    - yahya.pleased.wave: "The weather station outside the Archive only goes back a few years. Stornoway's goes back to 1873."
-    - yahya.neutral.point: "Ask it one question. Answer it so someone who disagrees with you would still believe it."
+    - yahya.pleased.wave: "The weather station outside the Archive only goes back a few years, but Stornoway's goes back to 1873."
+    - yahya.neutral.point: "Ask it one question, and answer it so well that someone who disagrees with you would still believe it."
     - caitlin.laughing: "Is it getting rainier? I'll have it by lunch."
-    - yahya.unimpressed: "You'll have an answer by lunch. That's what worries me."
+    - yahya.unimpressed: "You'll have an answer by lunch, that's what worries me."
   spec: |
     `stornowaydata.txt` is the Met Office's monthly record for Stornoway Airport, on the Isle of Lewis, from July 1873 to September 2026: for each month, the mean daily maximum and minimum temperatures, the days of air frost, the rainfall and the hours of sunshine. It's exactly as the Met Office publishes it, marks and all, and `SOURCE.md` says where it came from and what each mark means.
 
@@ -65,10 +65,10 @@ ask:
     1838  2026      9  140.6  94.0        True         True
 ship:
   dialogue:
-    - yahya.proud: "One question, one answer, the uncertainty beside it, and a paragraph on what it can't say."
-    - yahya.pleased.thumbs: "I checked the axes before I read a word. Then I read every word."
-    - caitlin.surprised: "Mine said it's getting rainier. Since the sixties, it is. Since 1900, it isn't."
-    - paul.thinking.point: "Choose the years before you look. That's half of honesty, in a sentence."
+    - yahya.proud: "One question and one answer, with the uncertainty beside it and a paragraph on what it can't say."
+    - yahya.pleased.thumbs: "I checked the axes before I read a word, and then I read every word."
+    - caitlin.surprised: "Mine said it's getting rainier, and since the sixties it is, but since 1900 it isn't."
+    - paul.thinking.point: "That's why you choose the years before you look, otherwise you can make it say whatever you like."
   shelf: { object: sunshine-recorder, label: "Stornoway's weather, one question answered honestly" }
   cards: [data-provenance]
 stretch:

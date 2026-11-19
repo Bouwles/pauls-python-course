@@ -5,7 +5,7 @@ title: "Milestone 1: the proposal"
 test_plan: true
 evidence: link
 dialogue:
-  - paul.neutral: "One page. Who it's for, what done looks like, what could go wrong. Then I'll tell you it's too big."
+  - paul.neutral: "Write one page on who it's for, what done looks like and what could go wrong. Then I'll say it's too big."
   - caitlin.proud: "Mine's exactly the right size."
   - paul.laughing: "They all are, on the first page."
 checklist:
