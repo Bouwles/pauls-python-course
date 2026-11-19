@@ -3,8 +3,8 @@ id: make-quiz
 type: make
 title: Paul's quiz sheets
 dialogue:
-  - paul.unimpressed: "Friday quiz. Someone always writes THE ZEN OF PYTHON in capitals and argues it's different."
-on_pass: { paul.laughing: "Zen of Python, the Zen of Python, THE ZEN OF PYTHON. All marked the same. They'll argue anyway." }
+  - paul.unimpressed: "It's the Friday quiz, and someone always writes THE ZEN OF PYTHON in capitals and argues it's different."
+on_pass: { paul.laughing: "Zen of Python, the Zen of Python, THE ZEN OF PYTHON, all marked the same. They'll still argue, mind." }
 ---
 Teams hand Paul one line of answers, separated by commas. Write three functions in `main.py`; the main block is written and uses them.
 

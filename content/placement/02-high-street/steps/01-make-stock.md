@@ -6,8 +6,8 @@ files: [stock.py, main.py]
 entry: main.py
 dialogue:
   - riya.pleased.wave: "The Makerspace art cupboard needs a reorder list before I run out of charcoal."
-  - riya.unimpressed: "The stock file has typos. Nibs cost nought point six oh, apparently."
-on_pass: { riya.laughing.thumbs: "Charcoal, crayons, erasers. And it skipped the typos instead of ordering two inks." }
+  - riya.unimpressed: "The stock file's full of typos, apparently nibs cost nought point six oh."
+on_pass: { riya.laughing.thumbs: "Charcoal, crayons and erasers, and it skipped the typos instead of ordering two inks." }
 ---
 The art cupboard's stock list is `stock.csv`: a header, then one `item,price,count` line per item. Some lines have typos.
 

@@ -9,20 +9,20 @@ pools:
   # Reactive lines. lib/cast.ts says which events are Riya's.
   # When the learner fixes Riya's version, or fixes it in fewer lines.
   fixed-by-learner:
-    - "Oh. I only tested the easy case. Thank you."
-    - "Fixed. People are going to use this, so that matters. Thanks."
-    - "So that was it. I'll try the awkward inputs first next time."
-    - "Fixed. Like a sketch that only worked from one angle. Thanks."
+    - "Oh, I only ever tested the easy case. Thank you."
+    - "Thanks for fixing it, people are actually going to use this, so it matters."
+    - "So that's what it was. Next time I'll try the awkward inputs first."
+    - "Thanks, it was like a sketch that only looked right from one angle."
   shorter-than-mine:
-    - "Yours is shorter and does the same thing. I'm using yours."
-    - "Fewer lines than mine. Easier to explain, too."
-    - "Fewer strokes, same picture. I like that."
+    - "Yours is shorter and does exactly the same thing, I'm using yours from now on."
+    - "That's fewer lines than mine, and it's easier to explain to someone too."
+    - "Same picture with fewer strokes, I really like that."
   # Riya is the client for the To-Do List and the Contact Book.
   waiting:
-    - "Who's actually going to use this? Me, soon. So no pressure."
-    - "No rush. I'd rather it worked on the awkward cases too."
-    - "Take your time. Make it something I could explain to someone else."
-    - "No hurry. I'll be sketching. Shout when it works."
+    - "Who's actually going to use this? Me, quite soon, so no pressure."
+    - "No rush, I'd rather it worked on the awkward cases as well."
+    - "Take your time, and make it something I could explain to someone else."
+    - "No hurry at all, I'll be over here sketching until you shout."
   recap:
-    - "Back to my {job}. You'd got to {step}"
-    - "Where you left my {job}: {step}"
+    - "Back to my {job}, and you'd got up to {step}."
+    - "You left my {job} at {step}, if you want to carry on."

@@ -5,9 +5,9 @@ title: Caitlin's bike hire
 files: [bikes.py]
 entry: bikes.py
 dialogue:
-  - caitlin.pleased.wave: "I'm building a bike hire app. A bike is a class."
-  - neil.thinking.point: "And a shed has bikes. Write that down too."
-on_pass: { caitlin.laughing.cheer: "It won't hire out a bike that's already gone. My first version did that twice." }
+  - caitlin.pleased.wave: "I'm building a bike hire app, and a bike is a class."
+  - neil.thinking.point: "And a shed has bikes in it, you'll want to write that down too."
+on_pass: { caitlin.laughing.cheer: "It won't hire out a bike that's already gone, which my first version did twice." }
 ---
 Write two classes in `bikes.py`.
 

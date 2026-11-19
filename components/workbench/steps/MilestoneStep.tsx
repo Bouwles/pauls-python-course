@@ -102,7 +102,7 @@ export function MilestoneStepView({ step, row }: { step: MilestoneStep; row: Ste
     await markPassed(step.id, { data: { ...row.data, checks, plan, link, ...(results ? { results } : {}), reviewedAt: Date.now() } });
     if (first) playSound("bell", profile.settings.sounds);
     setResultsText("");
-    say(PROFESSOR, step.testPlan ? "Signed off, and hang on to the test plan because you'll want it at the next milestone." : "Signed off.", { kind: "pass", face: "pleased" });
+    say(PROFESSOR, step.testPlan ? "That's signed off. Hang on to your test plan, you'll want it again at the next milestone." : "That's signed off, nice work.", { kind: "pass", face: "pleased" });
   };
 
   return (

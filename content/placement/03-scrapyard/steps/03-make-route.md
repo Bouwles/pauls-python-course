@@ -5,8 +5,8 @@ title: The quickest way to the park
 files: [routes.py]
 entry: routes.py
 dialogue:
-  - caitlin.pleased.wave: "Gym to the park, fewest roads. I don't care about corners. I care about roads."
-on_pass: { caitlin.laughing.cheer: "Gym, Clocktower, station, bridge, park. Four roads. That's my new warm-up." }
+  - caitlin.pleased.wave: "I want gym to the park on the fewest roads. I don't care about corners, just roads."
+on_pass: { caitlin.laughing.cheer: "Gym, Clocktower, station, bridge, park, that's four roads and my new warm-up sorted." }
 ---
 `CITY` in `routes.py` is the roads round the Clocktower: each place, and the places one road away. Roads can be one-way, so follow the lists exactly, and a place with no list of its own is a dead end.
 
