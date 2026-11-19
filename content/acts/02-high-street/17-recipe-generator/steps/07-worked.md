@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.neutral.point: "The Workshop stock book. Same shape as Neil's race log, only shorter."
+  - paul.neutral.point: "This is the Workshop stock book, which is the same shape as Neil's race log, only shorter."
 code: |
   def read_stock(path):
       with open(path) as stock_book:

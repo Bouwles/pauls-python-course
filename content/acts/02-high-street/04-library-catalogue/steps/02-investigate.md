@@ -4,7 +4,7 @@ type: investigate
 title: The book as it is
 concept: with-statement
 dialogue:
-  - aaesha.pleased.point: "My copy, as plain text. Every word Carroll wrote, and none of my notes."
+  - aaesha.pleased.point: "This is my copy as plain text, with every word Carroll wrote and none of my notes."
 code: |
   with open("alice.txt") as book:
       text = book.read()

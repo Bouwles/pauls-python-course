@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the measurement book
-on_pass: { caitlin.pleased: "Three players, three lines, and every number beside its owner." }
+on_pass: { caitlin.pleased: "Three players on three lines, and every number's right next to its owner." }
 hints:
   nudge: "zip pairs each name with its tuple. What does enumerate add, and how will you get the chest, waist and leg out of each tuple?"
   plan:

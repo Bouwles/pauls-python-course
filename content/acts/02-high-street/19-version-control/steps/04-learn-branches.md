@@ -4,7 +4,7 @@ type: learn
 title: A line of work of its own
 concept: git-branches
 dialogue:
-  - paul.neutral: "An idea goes on a branch. If it's good, it comes home. If not, nothing's lost."
+  - paul.neutral: "You try an idea out on a branch, and if it's good it comes home, and if not you haven't lost anything."
 ---
 A **branch** is a name pointing at a commit. Every repository starts with one, `main`.
 

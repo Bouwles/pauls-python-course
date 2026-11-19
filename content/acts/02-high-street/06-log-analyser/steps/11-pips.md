@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Caitlin's version
 dialogue:
-  - caitlin.proud: "I've made Neil's flight report unbreakable. Nothing gets past my try."
-  - caitlin.confused: "Fifteen lines skipped out of fifteen, though. Can you look? Something's off."
+  - caitlin.proud: "I've made Neil's flight report unbreakable, because nothing gets past my try."
+  - caitlin.confused: "It's skipped fifteen lines out of fifteen though, which feels off. Can you have a look?"
 dialogue_after:
-  - caitlin.laughing: "It was my typo all along. The try was hiding it from me. Very loyal of it."
+  - caitlin.laughing: "It was my typo all along and the try was hiding it from me, which is very loyal of it."
 hints:
   nudge: "If every single line is skipped, is the log really that bad? What else could `except Exception` be catching?"
   plan:

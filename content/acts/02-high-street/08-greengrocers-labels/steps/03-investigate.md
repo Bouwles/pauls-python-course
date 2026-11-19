@@ -4,7 +4,7 @@ type: investigate
 title: The question book
 concept: json-module
 dialogue:
-  - caitlin.pleased.point: "Sixteen questions, typed up from my sheet. I left out the ones under the coffee ring."
+  - caitlin.pleased.point: "I typed up sixteen questions from my sheet and left out the ones under the coffee ring."
 code: |
   import json
 

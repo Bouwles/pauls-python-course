@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Teach it some manners
-on_pass: { neil.proud: "Every line read or accounted for. First-year me would be impressed." }
+on_pass: { neil.proud: "Every line's been read or accounted for, and first-year me would be really impressed." }
 hints:
   nudge: "The ValueError starts in parse_line. Where would you rather catch it: in parse_line itself, or in the loop that calls it for each line?"
   plan:

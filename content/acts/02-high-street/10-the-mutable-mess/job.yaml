@@ -37,10 +37,10 @@ concepts_introduced: [references, mutability, copying, is-vs-equals]
 concepts_reviewed: [list-aliasing, dictionaries, nested-data, dict-items, dict-get, functions, return-values, modules, imports, docstrings]
 ask:
   dialogue:
-    - caitlin.pleased.wave: "I run a bake sale on Fridays and Saturdays. The money's for new board games for the Studio."
-    - caitlin.surprised: "Saturday's sheet said thirty-five loaves sold by nine. We'd been open ten minutes."
-    - caitlin.worried: "I wrote the stock program last term. I counted three times. It's still wrong."
-    - paul.thinking: "Numbers don't move on their own. Something else is holding the same box."
+    - caitlin.pleased.wave: "I run a bake sale on Fridays and Saturdays to raise money for new board games for the Studio."
+    - caitlin.surprised: "Saturday's sheet said we'd sold thirty-five loaves by nine, and we'd only been open ten minutes."
+    - caitlin.worried: "I wrote the stock program last term and I've counted three times, but it's still wrong."
+    - paul.thinking: "Hmm, numbers don't move on their own. I reckon something else is holding the same box."
   spec: |
     Caitlin's stock program keeps a sheet for each day of the bake sale. Find out why one day's sales turn up on the next day's sheet, and fix it.
 
@@ -51,9 +51,9 @@ ask:
     brownies: 12 left of 12
 ship:
   dialogue:
-    - caitlin.pleased: "Five loaves sold, thirty-five left. That's what the table says. I counted."
-    - caitlin.laughing.cheer: "And Paul gets six buns this week. Four next week, like always."
-    - paul.pleased: "One box each. That was all it needed."
+    - caitlin.pleased: "Five loaves sold and thirty-five left, which is exactly what the table says, and I counted."
+    - caitlin.laughing.cheer: "And Paul gets six buns this week, then four next week like always."
+    - paul.pleased: "All it needed was one box each."
   shelf: { object: stock-sheet, label: "Caitlin's bake sale order book, counting once" }
   cards: [references, mutability, copying, is-vs-equals]
 stretch:

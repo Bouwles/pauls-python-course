@@ -4,7 +4,7 @@ type: make
 title: Make the library
 files: [library.py]
 entry: library.py
-on_pass: { neil.pleased: "One Carrying the Fire. On loan to Aaesha. And Paul's house style stays where everyone can find it." }
+on_pass: { neil.pleased: "There's one Carrying the Fire and it's on loan to Aaesha, and Paul's house style stays where everyone can find it." }
 hints:
   nudge: "Which of these is a kind of book, and which only has books?"
   plan:

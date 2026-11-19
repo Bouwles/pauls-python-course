@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.neutral: "Neil's milk order. He wanted to work it out without coming down to ask me."
+  - paul.neutral: "This is Neil's milk order, which he wanted to work out without coming down to ask me."
 code: |
   import argparse
   import sys

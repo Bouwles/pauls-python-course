@@ -49,10 +49,10 @@ concepts_introduced: [classes, init, attributes, methods, self, dunder-methods]
 concepts_reviewed: [functions, parameters, return-values, none, f-strings, raising-errors, exceptions, references, is-vs-equals, docstrings, main-guard, lists, append-pop]
 ask:
   dialogue:
-    - caitlin.pleased.wave: "Half the class is going to a festival in the summer. I'm keeping the savings."
-    - caitlin.unimpressed: "Last week somebody wrote minus five pounds on my savings sheet. Then they took it out again."
-    - caitlin.thinking: "An account should know its own balance. And nobody takes out more than they put in."
-    - paul.neutral: "Then each account should know that about itself, and say no for itself."
+    - caitlin.pleased.wave: "Half the class are going to a festival in the summer, and I'm the one keeping the savings."
+    - caitlin.unimpressed: "Last week somebody wrote minus five pounds on my savings sheet and then took it out again."
+    - caitlin.thinking: "An account should know its own balance, and nobody should take out more than they've put in."
+    - paul.neutral: "Then each account should know that about itself and be able to say no on its own."
   spec: |
     Write a class `Account` in `bank.py`. Money is kept in whole pence, so 2000 is £20.
 
@@ -66,9 +66,9 @@ ask:
     [2000, -750]
 ship:
   dialogue:
-    - caitlin.pleased: "Aaesha, twelve pounds fifty. Nobody below zero, which is an improvement."
-    - caitlin.laughing.cheer: "Every penny in the history, in the order it moved. My savings sheet can retire."
-    - paul.neutral.point: "Each account looks after itself. Next time, we find out if it really does. With tests."
+    - caitlin.pleased: "Aaesha's on twelve pounds fifty and nobody's below zero, which is an improvement."
+    - caitlin.laughing.cheer: "Every penny's in the history in the order it moved, and my savings sheet can finally retire!"
+    - paul.neutral.point: "Each account looks after itself now, and next time we'll write some tests to find out if it really does."
   shelf: { object: abacus, label: "Caitlin's festival fund accounts" }
   cards: [classes, init, attributes, methods, self, dunder-methods]
 stretch:

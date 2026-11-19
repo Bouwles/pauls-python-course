@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Riya's version
 dialogue:
-  - riya.pleased: "Every word and its count, saved for Aaesha. Four lines, more or less."
-  - riya.confused: "The file's got one word in it. Hatter. Can you look? I'm told there were others."
+  - riya.pleased: "I've saved every word and its count for Aaesha, and it only took four lines, more or less."
+  - riya.confused: "The file's only got one word in it, Hatter, and I'm told there were others. Can you look?"
 dialogue_after:
-  - riya.surprised: "So w wipes the file every time it opens. And I opened it every time. Got it."
+  - riya.surprised: "Oh, w wipes the file every time it opens, and I was opening it every time. Got it."
 hints:
   nudge: "What does opening a file with \"w\" do to what's already in it? How many times does Riya's program open it?"
   plan:

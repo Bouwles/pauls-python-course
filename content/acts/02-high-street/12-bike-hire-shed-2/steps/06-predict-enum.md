@@ -4,7 +4,7 @@ type: predict
 title: On the shelf, or not
 concept: enums
 dialogue:
-  - caitlin.thinking: "A book is on the shelf or it's on loan. Not 'out', not 'lent', not 'with Riya'. Two choices."
+  - caitlin.thinking: "A book's either on the shelf or on loan, and I don't want 'out' or 'lent' or 'with Riya'."
 code: |
   from enum import Enum
 

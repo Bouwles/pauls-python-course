@@ -51,10 +51,10 @@ concepts_introduced: [default-arguments, keyword-arguments, args-kwargs, mutable
 concepts_reviewed: [functions, parameters, return-values, none, random-module, imports, strings, string-methods, in-operator, for-loops, while-loops, dictionaries, dict-items, f-strings]
 ask:
   dialogue:
-    - caitlin.pleased.wave: "The Studio's getting a game server for Friday nights. Everyone in the class needs a password."
-    - caitlin.thinking: "I made six up myself. Yahya guessed four of them before the kettle boiled."
-    - caitlin.laughing: "The other two were highscore1 and highscore2. He got those after."
-    - paul.neutral: "Then let a program make them. Good defaults, and options for anyone fussy."
+    - caitlin.pleased.wave: "We're getting a game server in the Studio for Friday nights, and everyone in the class is going to need a password."
+    - caitlin.thinking: "I made six up myself and Yahya guessed four of them before the kettle had even boiled."
+    - caitlin.laughing: "The other two were highscore1 and highscore2, which he got straight after."
+    - paul.neutral: "Let's get a program to make them instead, with sensible defaults and a few options for anyone who's fussy."
   spec: |
     Write `passwords.py`, with a docstring in every function.
 
@@ -71,10 +71,10 @@ ask:
     Passphrase for the Wi-Fi: ample-crust-vowel-tidal
 ship:
   dialogue:
-    - caitlin.pleased: "Server's up. A password each, a passphrase for the Wi-Fi, and no highscore1 anywhere."
-    - yahya.unimpressed: "I spent ten minutes on Caitlin's. Nothing. I don't usually give up."
-    - paul.proud: "It's secrets, not random. Nobody works those out from yesterday's."
-    - caitlin.laughing.cheer: "Friday's on. Bring snacks."
+    - caitlin.pleased: "The server's up! Everyone's got their own password, there's a passphrase for the Wi-Fi, and highscore1 is nowhere to be seen."
+    - yahya.unimpressed: "I spent ten minutes on Caitlin's and got nowhere, and I don't usually give up that easily."
+    - paul.proud: "They come from secrets rather than random, and nobody's working those out from yesterday's."
+    - caitlin.laughing.cheer: "Friday's definitely on then, just bring snacks."
   shelf: { object: type-case, label: "Caitlin's password generator for the game server" }
   cards: [default-arguments, keyword-arguments, args-kwargs, mutable-default, docstrings]
 stretch:

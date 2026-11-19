@@ -50,11 +50,11 @@ concepts_introduced: [inheritance, super, composition, dataclasses, type-hints, 
 concepts_reviewed: [classes, init, attributes, methods, self, dunder-methods, is-vs-equals, list-comprehensions, mutable-default, immutability, lists, none, f-strings, docstrings, main-guard]
 ask:
   dialogue:
-    - neil.pleased.wave: "My racing and space books live on the Studio shelves. Nothing says which are out, or who has them."
-    - neil.laughing: "I asked Yahya and Caitlin to write me something. They've been arguing by the kettle for an hour."
-    - yahya.unimpressed: "A reference book is a book. A library is a list of books. Done."
-    - caitlin.thinking: "A library is not a list. A library has books. And rules."
-    - paul.laughing: "You're each right once. Write it and find out where."
+    - neil.pleased.wave: "My racing and space books live on the Studio shelves, but nothing says which ones are out or who's got them."
+    - neil.laughing: "I asked Yahya and Caitlin to write me something and they've been arguing by the kettle for an hour."
+    - yahya.unimpressed: "Look, a reference book is a book and a library is a list of books, it's that simple."
+    - caitlin.thinking: "A library isn't a list though, it has books in it, and rules."
+    - paul.laughing: "You're each right about one thing. Write it and you'll find out which."
   spec: |
     In `library.py`, with type hints throughout:
 
@@ -76,10 +76,10 @@ ask:
     On the shelf: The Mechanic's Tale, House Style
 ship:
   dialogue:
-    - yahya.proud: "ReferenceBook inherits from Book. As I said."
-    - caitlin.proud: "And the library has books. As I said."
-    - neil.pleased.thumbs: "Three books, one card each. The second Carrying the Fire was turned away at the door."
-    - paul.unimpressed: "Both right, once each. Now stop arguing by the kettle."
+    - yahya.proud: "ReferenceBook inherits from Book, just like I said."
+    - caitlin.proud: "And the library has books, just like I said."
+    - neil.pleased.thumbs: "Three books with one card each, and the second Carrying the Fire got turned away at the door."
+    - paul.unimpressed: "You were both right once each, now please stop arguing by the kettle."
   shelf: { object: catalogue-card, label: "Neil's racing and space library, with loans" }
   cards: [inheritance, super, composition, dataclasses, type-hints, enums]
 stretch:

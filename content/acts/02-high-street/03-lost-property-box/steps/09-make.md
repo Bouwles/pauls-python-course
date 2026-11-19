@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the lost property matcher
-on_pass: { caitlin.surprised: "Four lines. No umbrella counted twice. That's a first for this box." }
+on_pass: { caitlin.surprised: "Four lines and not a single umbrella counted twice, which is a first for this box." }
 hints:
   nudge: "Which set operation gives 'handed in and asked about', and which gives 'in one but not the other'? Which way round does each subtraction go?"
   plan:

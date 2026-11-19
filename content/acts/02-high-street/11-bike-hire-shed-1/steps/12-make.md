@@ -4,7 +4,7 @@ type: make
 title: Make the account
 files: [bank.py]
 entry: bank.py
-on_pass: { caitlin.laughing: "Minus five pounds, refused. Somebody asked whether that's personal. It isn't. It's validation." }
+on_pass: { caitlin.laughing: "It refused the minus five pounds, and when somebody asked if that was personal I said no, it's just validation." }
 hints:
   nudge: "What does an account need to remember about itself, and which method changes each of those things?"
   plan:

@@ -42,11 +42,11 @@ concepts_introduced: [assert, pytest, edge-cases, test-first]
 concepts_reviewed: [classes, methods, attributes, self, dunder-methods, functions, return-values, modules, imports, exceptions, try-except, raising-errors, default-arguments, f-strings]
 ask:
   dialogue:
-    - caitlin.pleased.wave: "The festival fund has real money in it now. Aaesha won't pay in until it's tested."
-    - aaesha.neutral: "Requirements. One: the accounts are right. Two: they stay right."
-    - aaesha.thinking: "Three: if someone breaks them, we find out by lunchtime. Not the week of the festival."
+    - caitlin.pleased.wave: "The festival fund has real money in it now, but Aaesha won't pay in until it's been tested."
+    - aaesha.neutral: "My requirements are, one, the accounts are right, and two, they stay right."
+    - aaesha.thinking: "And three, if someone breaks them we find out by lunchtime, instead of the week of the festival."
     - paul.neutral: "That's three requirements, and one of them is tests."
-    - aaesha.laughing: "All three are tests."
+    - aaesha.laughing: "Actually, all three are tests."
   spec: |
     The festival fund's `Account` is in `bank.py`, the class you wrote for Caitlin. Write tests for it in `test_bank.py`: plain functions whose names start with `test_`, each checking one thing with `assert`. Your tests must pass on the real `bank.py` and fail on broken ones.
 
@@ -70,10 +70,10 @@ ask:
     passed test_no_interest_on_nothing
 ship:
   dialogue:
-    - aaesha.pleased: "I broke bank.py on purpose, seven different ways. Your tests caught all seven."
-    - aaesha.proud: "Two per cent on twelve pounds fifty is twenty-five pence. I did it by hand first."
-    - caitlin.laughing.cheer: "And she's paid in. The festival is officially funded. Partly."
-    - paul.neutral: "At home you'll run these with pytest. They won't need changing."
+    - aaesha.pleased: "I broke bank.py on purpose seven different ways, and your tests caught all seven."
+    - aaesha.proud: "Two per cent on twelve pounds fifty is twenty-five pence, and I worked it out by hand first."
+    - caitlin.laughing.cheer: "And she's paid in, which means the festival's officially funded! Well, partly."
+    - paul.neutral: "When you're at home you'll run these with pytest, and they won't need changing at all."
   shelf: { object: ticket-spike, label: "Caitlin's festival fund accounts, with their tests" }
   cards: [assert, pytest, edge-cases, test-first]
 stretch:

@@ -4,7 +4,7 @@ type: make
 title: Make Saturday's orders
 files: [orders.py]
 entry: orders.py
-on_pass: { caitlin.laughing: "Six buns for Paul this week, four in the standing book. Both right." }
+on_pass: { caitlin.laughing: "Six buns for Paul this week and four in the standing book, and they're both right." }
 hints:
   nudge: "If you copy only the outer dictionary, whose inner dictionaries are the extras added to?"
   plan:

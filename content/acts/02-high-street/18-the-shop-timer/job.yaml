@@ -50,11 +50,11 @@ concepts_introduced: [functions-as-values, lambda, map-filter, sort-key, closure
 concepts_reviewed: [functions, parameters, return-values, tuples, unpacking, args-kwargs, list-comprehensions, dictionaries, standard-library, main-guard, f-strings, slicing, sorted-vs-sort]
 ask:
   dialogue:
-    - caitlin.pleased.wave: "The bake sale has a fruit table now. The till weighs everything, and it's slow."
-    - yahya.unimpressed: "I timed it. Four minutes for two plums. The queue went past the next stall."
-    - caitlin.thinking: "My till has a function for everything. One of them is dawdling. I want to know which."
-    - yahya.laughing: "And the card reader only answers if you ask it twice. Caitlin asks it twice. Out loud."
-    - paul.neutral: "Don't guess which is slow. Measure. And let the till do the asking twice."
+    - caitlin.pleased.wave: "The bake sale's got a fruit table now, but the till weighs everything and it's really slow."
+    - yahya.unimpressed: "I timed it at four minutes for two plums, and the queue went right past the next stall."
+    - caitlin.thinking: "My till has a function for everything, and one of them is dawdling. I want to know which."
+    - yahya.laughing: "And the card reader only answers if you ask it twice, so Caitlin asks it twice, out loud."
+    - paul.neutral: "Don't guess which one's slow, measure it, and let the till do the asking twice."
   spec: |
     Write a decorator `timed` that times a function every time it runs, appends `(name, seconds)` to the list `log`, and hands back the function's own result. Read the time with `clock()`: it starts as `time.perf_counter`, and the checks swap it for a clock that ticks in known steps.
 
@@ -75,9 +75,9 @@ ask:
     look_up_price took 0.30 s
 ship:
   dialogue:
-    - yahya.proud: "Look up price. Three tenths of a second, every single time. Told you it was the code."
-    - caitlin.laughing.cheer: "And the reader got asked twice without me shouting. The queue's gone."
-    - paul.neutral.point: "Measured, not guessed. Now go and fix the dawdler."
+    - yahya.proud: "It's look up price, three tenths of a second every single time. I told you it was the code."
+    - caitlin.laughing.cheer: "And the reader got asked twice without me shouting at it, and the queue's gone!"
+    - paul.neutral.point: "Now you've measured it instead of guessing, go and fix the dawdler."
   shelf: { object: stopwatch, label: "Caitlin's bake sale till, timed and patient" }
   cards: [functions-as-values, lambda, map-filter, sort-key, closures, decorators]
 stretch:

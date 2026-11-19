@@ -42,10 +42,10 @@ concepts_introduced: [sys-argv, exit-codes, argparse]
 concepts_reviewed: [json-module, files, with-statement, paths, dictionaries, lists, list-comprehensions, exceptions, try-except, main-guard, standard-library, f-strings, functions]
 ask:
   dialogue:
-    - paul.neutral.wave: "My to-dos live in comments all over the course code. Forty of them, at the last count."
-    - paul.unimpressed: "Neil asks what's left to do, and I go hunting through the files."
-    - paul.thinking: "I want a list on the terminal that we can both run. Add a job, see the list, tick one off."
-    - paul.neutral: "And it's still there tomorrow. When it can't help, it says so. In words, and in the exit code."
+    - paul.neutral.wave: "My to-dos are in comments all over the course code, and there were forty of them at the last count."
+    - paul.unimpressed: "Every time Neil asks what's left to do, I have to go hunting through the files."
+    - paul.thinking: "I want a list on the terminal we can both run, to add a job, see the list and tick one off."
+    - paul.neutral: "It should still be there tomorrow, and when it can't help it should say so, in words and in the exit code."
   spec: |
     Write `todo.py`, a command-line to-do list kept in `todo.json`: a JSON list of tasks, each `{"number": 1, "task": "rename x in grades.py", "done": false}`. Use `argparse`, with three commands:
 
@@ -71,9 +71,9 @@ ask:
     4 [ ] fix the clock
 ship:
   dialogue:
-    - neil.pleased: "Four things on Paul's list. I added one, he ticked one, and nobody had to go hunting."
-    - neil.laughing: "Then I asked it to finish task two. It said finish isn't a command. Exit code two. Fair."
-    - paul.proud.thumbs: "So it can say no. Most tools can't. And yes, the clock is on the list."
+    - neil.pleased: "There are four things on Paul's list. I added one and he ticked one off, and nobody had to go hunting."
+    - neil.laughing: "Then I asked it to finish task two and it told me finish isn't a command, with exit code two. Fair enough."
+    - paul.proud.thumbs: "Good, it can say no, which most tools can't. And yes, the clock is on the list."
   shelf: { object: workshop-ledger, label: "Paul's to-do tool for the course code" }
   cards: [sys-argv, exit-codes, argparse]
 stretch:

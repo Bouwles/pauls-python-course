@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.neutral.point: "The Studio's tea round. The usual week, and this week's changes, without spoiling the usual."
+  - paul.neutral.point: "This is the Studio's tea round, with the usual week and this week's changes, and the usual doesn't get spoiled."
 code: |
   """The Studio's tea round: what each day needs."""
   import copy

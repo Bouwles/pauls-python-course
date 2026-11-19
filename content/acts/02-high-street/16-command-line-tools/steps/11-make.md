@@ -6,7 +6,7 @@ files: [todo.py]
 entry: todo.py
 argv_field: true
 timeout_ms: 15000
-on_pass: { paul.laughing: "Neil read my list. Then he added three more jobs, all for me." }
+on_pass: { paul.laughing: "Neil read my list and then added three more jobs, all of them for me." }
 hints:
   nudge: "Each run starts from nothing but `todo.json`. What has to happen before a change is finished?"
   plan:

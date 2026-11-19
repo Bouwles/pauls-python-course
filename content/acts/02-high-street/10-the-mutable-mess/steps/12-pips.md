@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Riya's version
 dialogue:
-  - riya.pleased: "I did the standing orders for Caitlin. Paul wanted two extra buns. Once."
-  - riya.confused: "Now it's every week. I never wrote every week. Can you look?"
+  - riya.pleased: "I did the standing orders for Caitlin, and Paul wanted two extra buns just the once."
+  - riya.confused: "Now he's getting them every week, and I never wrote every week. Can you look?"
 dialogue_after:
-  - riya.surprised: "order = standing. Two labels, one book. I'd have sworn that was a copy."
+  - riya.surprised: "So order = standing just gives one book two labels. I'd have sworn that made a copy."
 hints:
   nudge: "After `order = standing`, how many dictionaries are there?"
   plan:

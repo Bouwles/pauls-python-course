@@ -42,10 +42,10 @@ concepts_introduced: [modules, main-guard, standard-library]
 concepts_reviewed: [imports, functions, return-values, none, dictionaries, dict-get, tuples, unpacking, list-comprehensions, counter]
 ask:
   dialogue:
-    - caitlin.pleased.wave: "I want a board by the front door. Every floor, open or shut, right now."
-    - caitlin.thinking: "But every floor has its own copy of the opening-hours code."
-    - caitlin.unimpressed: "Somebody changed the Workshop's copy. Now it closes at half past never."
-    - paul.laughing: "That somebody was me. A module, then. Write it once, import it everywhere."
+    - caitlin.pleased.wave: "I want a board by the front door that shows whether every floor is open or shut right now."
+    - caitlin.thinking: "The trouble is every floor has its own copy of the opening-hours code."
+    - caitlin.unimpressed: "Somebody changed the Workshop's copy and now it closes at half past never."
+    - paul.laughing: "Okay, that somebody was me. Let's put it in a module, write it once and import it everywhere."
   spec: |
     Write `hours.py`, a module every floor can import. A room's hours are a dictionary of day to `(opens, closes)`, in whole hours on the 24-hour clock. A day that's missing is a day the room is closed.
 
@@ -72,9 +72,9 @@ ask:
     Busiest in the Studio: Sat
 ship:
   dialogue:
-    - riya.laughing: "The Makerspace is shut on a Saturday. I knew that. Now the board knows it too."
-    - caitlin.pleased.point: "Correct to the hour. I'd like a countdown on it, but one thing at a time."
-    - paul.proud.thumbs: "One copy. When it's wrong, it's wrong in one place. That's the point."
+    - riya.laughing: "The Makerspace is shut on a Saturday, which I knew, and now the board knows it too."
+    - caitlin.pleased.point: "It's right to the hour. I'd love a countdown on it, but one thing at a time."
+    - paul.proud.thumbs: "There's one copy now, so if it's ever wrong, at least it's only wrong in one place."
   shelf: { object: shop-sign, label: "The Clocktower hours module" }
   cards: [modules, main-guard, standard-library]
 stretch:

@@ -49,10 +49,10 @@ concepts_introduced: []
 concepts_reviewed: [classes, init, attributes, methods, dataclasses, type-hints, exceptions, raising-errors, try-except, json-module, files, with-statement, modules, main-guard, docstrings, mutable-default, copying, list-comprehensions, dict-set-comprehensions, sort-key, lambda, argparse, exit-codes, assert, pytest, edge-cases, standard-library]
 ask:
   dialogue:
-    - caitlin.pleased.wave: "Everyone in our class says they'll keep a budget. Nobody does. The apps are all too boring."
-    - caitlin.thinking: "I want one that does four things. In, out, a budget for each thing, and a page a month."
-    - caitlin.laughing: "I'll try it first, with a made-up month. Made-up me has an arcade habit."
-    - paul.neutral: "Classes, a file, a command line and tests. Everything you've got. Then make it a proper package."
+    - caitlin.pleased.wave: "Everyone in our class says they'll keep a budget and nobody does, because the apps are all so boring."
+    - caitlin.thinking: "I want one that does four things, money in, money out, a budget for each thing and a page a month."
+    - caitlin.laughing: "I'll try it first with a made-up month, and made-up me has a bit of an arcade habit."
+    - paul.neutral: "This uses everything you've got, classes, a file, a command line and tests, and then it becomes a proper package."
   spec: |
     A personal finance app for Caitlin, in four files, then a package:
 
@@ -81,11 +81,11 @@ ask:
     Left over: £844.45
 ship:
   dialogue:
-    - caitlin.surprised: "Fun, fifty-three ninety-five, against a budget of forty. That's the arcade. I'd have guessed ten."
-    - caitlin.laughing: "Eight hundred and forty-four pounds forty-five left over. I'd have guessed six hundred."
-    - aaesha.pleased: "And eight planted bugs, eight caught. I'd trust it with real numbers now."
-    - caitlin.pleased.cheer: "It works. It's not even ugly. Shipping it."
-    - paul.proud.thumbs: "Four files, and each one knows its job. Then one package that knows it's a program."
+    - caitlin.surprised: "Fun came to fifty-three ninety-five against a budget of forty, which is the arcade, and I'd have guessed ten."
+    - caitlin.laughing: "There's eight hundred and forty-four pounds forty-five left over, and I'd have guessed six hundred."
+    - aaesha.pleased: "And it caught all eight of the bugs I planted. I'd trust it with real numbers now."
+    - caitlin.pleased.cheer: "It works and it's not even ugly! I'm shipping it."
+    - paul.proud.thumbs: "That's four files that each know their job, all in one package that knows it's a program."
   shelf: { object: till-receipt, label: "Caitlin's personal finance app" }
   cards: []
 stretch:

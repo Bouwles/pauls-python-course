@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Yahya's version
 dialogue:
-  - yahya.proud: "The Local round, in one line. Only the questions Caitlin wants. Elegant."
-  - yahya.confused: "It says it expected an else. I don't want an else. Can you look?"
+  - yahya.proud: "I got the Local round down to one line with only the questions Caitlin wants. Pretty elegant, honestly."
+  - yahya.confused: "It says it expected an else, but I don't want an else. Can you have a look?"
 dialogue_after:
-  - yahya.pleased: "So the front if picks what to write, and the end if picks what to keep. Still one line."
+  - yahya.pleased: "Right, the front if picks what to write and the end if picks what to keep, and it's still one line."
 hints:
   nudge: "Yahya wants to keep only some questions. Where does an `if` go when it decides which items get in?"
   plan:

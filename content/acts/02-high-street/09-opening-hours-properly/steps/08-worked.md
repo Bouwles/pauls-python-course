@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.neutral.point: "The kit sums, from Caitlin's measurement book, in a file of their own. Any program for the team can borrow them."
+  - paul.neutral.point: "The kit sums from Caitlin's measurement book have their own file now, and any team program can borrow them."
 code: |
   """Sizes for the five-a-side kit. Import it; don't copy it."""
   import math

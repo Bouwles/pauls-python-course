@@ -4,7 +4,7 @@ type: learn
 title: Photographs, not drawers
 concept: git-basics
 dialogue:
-  - paul.neutral.point: "A commit is a photograph of every file, with a note on the back."
+  - paul.neutral.point: "Think of a commit as a photograph of every file with a note on the back."
 ---
 **git** is a program that keeps the history of a folder of files. Every saved version is a **commit**: a photograph of the files, with a message saying what changed and why.
 

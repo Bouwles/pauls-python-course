@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.neutral: "Same shape as the timer you're about to write. I count instead of time."
+  - paul.neutral: "This is the same shape as the timer you're about to write, except I count instead of timing."
 code: |
   import functools
 

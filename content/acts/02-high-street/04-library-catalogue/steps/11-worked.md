@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.laughing: "The Clocktower's repair book. One repair a line, in whatever capitals I felt like that day."
+  - paul.laughing: "This is the Clocktower's repair book, one repair a line, in whatever capitals I felt like using that day."
 code: |
   import csv
   from collections import Counter

@@ -37,10 +37,10 @@ concepts_introduced: [iterators, generators, lazy-evaluation]
 concepts_reviewed: [files, with-statement, functions, return-values, tuples, unpacking, split-join, strip-replace, keyword-arguments, none, argparse, main-guard, f-strings, list-comprehensions]
 ask:
   dialogue:
-    - neil.pleased.wave: "My racing sim logs every part of the car, a line a minute, every race. It's years long."
-    - neil.worried: "My old report reads the whole lot into a list first. It took fifteen minutes this morning."
-    - neil.thinking: "I only want the first few that matter. Brake errors, from last weekend's 24-hour race."
-    - paul.neutral: "So don't read what you don't need. Hand it over a line at a time."
+    - neil.pleased.wave: "My racing sim logs every part of the car a line a minute for every race, and it's years long now."
+    - neil.worried: "My old report reads the whole lot into a list first, and this morning it took fifteen minutes."
+    - neil.thinking: "I only want the first few that matter, which are the brake errors from last weekend's 24-hour race."
+    - paul.neutral: "Then don't read what you don't need, just hand it over a line at a time."
   spec: |
     `race.log` has a line a minute for each part of the car, `time | level | system | message`, and the odd line that doesn't. Write `logstream.py` as a chain of generators, so it never reads further than it has to:
 
@@ -57,10 +57,10 @@ ask:
     07:57 ERROR brakes: overheating
 ship:
   dialogue:
-    - neil.pleased: "Brake errors, the first three, before the kettle boiled. It never read past hour eight."
-    - neil.laughing: "And at two in the morning, a driver change. Yahya took over and set the fastest lap of the night."
-    - yahya.proud.thumbs: "He's not exaggerating. It's in the log."
-    - paul.neutral: "One line at a time. That's how you read anything long."
+    - neil.pleased: "I had the first three brake errors before the kettle boiled, and it never read past hour eight."
+    - neil.laughing: "There was a driver change at two in the morning, and Yahya took over and set the fastest lap of the night."
+    - yahya.proud.thumbs: "He's not exaggerating either, it's right there in the log."
+    - paul.neutral: "Yeah, one line at a time works for anything long, however big the file gets."
   shelf: { object: logbook, label: "Neil's race log streamer" }
   cards: [iterators, generators, lazy-evaluation]
 stretch:

@@ -4,7 +4,7 @@ type: predict
 title: A class that writes itself
 concept: dataclasses
 dialogue:
-  - neil.unimpressed: "Two cards for the same book. Two. On my shelves."
+  - neil.unimpressed: "There are two cards for the same book, on my shelves of all places."
 code: |
   from dataclasses import dataclass
 

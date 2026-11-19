@@ -3,7 +3,7 @@ id: collide
 type: git
 title: When two changes collide
 dialogue:
-  - neil.thinking: "Paul wants eight pounds extra for urgent jobs. I think six. We'll see who git believes."
+  - neil.thinking: "Paul wants eight pounds extra for urgent jobs and I think it should be six. Let's see who git believes."
 tasks:
   - id: setup
     prompt: "Fresh project: `git init`, `git add .`, first commit."

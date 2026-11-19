@@ -4,7 +4,7 @@ type: predict
 title: Something to fall back on
 concept: default-arguments
 dialogue:
-  - caitlin.thinking: "Locker codes are six digits. Unless I say otherwise, which I sometimes do."
+  - caitlin.thinking: "Locker codes are six digits unless I say otherwise, which to be honest I sometimes do."
 code: |
   def test_code(length=6):
       return "0" * length

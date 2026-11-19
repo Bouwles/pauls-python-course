@@ -4,7 +4,7 @@ type: learn
 title: Labels on boxes
 concept: references
 dialogue:
-  - paul.neutral.think: "Remember the labels and the boxes from Riya's to-do list. Dictionaries work the same way."
+  - paul.neutral.think: "Remember the labels and the boxes from Riya's to-do list? Dictionaries work the same way."
 code: |
   standing = {"bread": 3, "buns": 4}
   this_week = standing
