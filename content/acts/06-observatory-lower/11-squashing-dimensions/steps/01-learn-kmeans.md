@@ -4,7 +4,7 @@ type: learn
 title: Groups nobody named
 concept: k-means
 dialogue:
-  - yahya.thinking.point: "No labels on these customers. No answers to learn from. Just what they spend."
+  - yahya.thinking.point: "There aren't any labels on these customers and no answers to learn from, just what they spend."
 code: |
   import numpy as np
 

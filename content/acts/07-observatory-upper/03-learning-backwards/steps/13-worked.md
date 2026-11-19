@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: Blame, on paper
 dialogue:
-  - neil.neutral.point: "This much is still on my blackboard. One input, two weights, one answer."
+  - neil.neutral.point: "This bit's still on my blackboard, with one input and two weights giving one answer."
 language: text
 code: |
   The chain:  x -> h = w1 * x -> a = relu(h) -> y = w2 * a -> L = (y - t) ** 2

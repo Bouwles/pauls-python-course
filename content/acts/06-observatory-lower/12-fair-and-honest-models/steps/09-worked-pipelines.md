@@ -3,8 +3,8 @@ id: worked-pipelines
 type: worked
 title: How Paul would choose
 dialogue:
-  - caitlin.laughing: "Some open days the coffee's gone by noon. Some, there's a full pot left at four."
-  - paul.thinking: "Visitors, rain and temperature. Let's see if it can tell which Saturday is which."
+  - caitlin.laughing: "Some open days the coffee's gone by noon, and on others there's a full pot left at four."
+  - paul.thinking: "We've got visitors, rain and temperature. Let's see if it can tell which Saturday is which."
 code: |
   import numpy as np
   from sklearn.model_selection import GridSearchCV, cross_val_score, train_test_split

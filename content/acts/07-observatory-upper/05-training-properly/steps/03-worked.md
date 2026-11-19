@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.neutral.point: "The roof telescope's focus against the temperature. Plain descent takes two thousand steps. I counted. Here it is with momentum."
+  - paul.neutral.point: "Here's the roof telescope's focus against the temperature. Plain descent takes two thousand steps, I counted, and here it is with momentum."
 code: |
   import numpy as np
 

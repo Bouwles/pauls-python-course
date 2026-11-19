@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.neutral.point: "My fog log, one reading an hour. The beacon should keep flashing a while after the fog lifts."
+  - paul.neutral.point: "Here's my fog log, one reading an hour, and the beacon should keep flashing for a while after the fog lifts."
 code: |
   import numpy as np
 

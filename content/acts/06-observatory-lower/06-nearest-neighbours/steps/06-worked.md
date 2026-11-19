@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - caitlin.thinking: "Don't give me a formula. Tell me what we poured on days like this one."
+  - caitlin.thinking: "Don't give me a formula, just tell me what we poured on days like this one."
 code: |
   import numpy as np
 

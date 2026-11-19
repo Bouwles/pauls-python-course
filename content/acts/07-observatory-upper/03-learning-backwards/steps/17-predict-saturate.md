@@ -4,7 +4,7 @@ type: predict
 title: Sure, and wrong
 concept: backpropagation
 dialogue:
-  - yahya.pleased: "Easy one. Big mistake, big gradient. It'll fix itself in one step."
+  - yahya.pleased: "This one's easy, a big mistake means a big gradient, and it'll fix itself in one step."
 code: |
   import numpy as np
 

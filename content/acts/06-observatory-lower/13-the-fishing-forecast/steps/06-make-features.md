@@ -5,7 +5,7 @@ title: Make the features
 files: [features.py]
 entry: features.py
 timeout_ms: 30000
-on_pass: { paul.pleased: "Wind as an arrow, tide from dawn. Now it reads the sky the way a skipper does." }
+on_pass: { paul.pleased: "With the wind as an arrow and the tide counted from dawn, it reads the sky the way a skipper does now." }
 hints:
   nudge: "Which columns are known at dawn, and which three of them need rewriting before a model can use what they mean?"
   plan:

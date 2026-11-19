@@ -4,7 +4,7 @@ type: make
 title: The notes, as numbers
 files: [notes.py]
 entry: notes.py
-on_pass: { aaesha.pleased: "Eighty-five notes, sixty-eight to learn from, seventeen in the drawer. And not a sentence cut in half." }
+on_pass: { aaesha.pleased: "Eighty-five notes, sixty-eight to learn from and seventeen in the drawer, and not one sentence cut in half." }
 hints:
   nudge: "For a note like \"ab\" with windows of 2, write out by hand the three windows and the three targets. Where do the newlines go?"
   plan:

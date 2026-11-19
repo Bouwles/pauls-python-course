@@ -42,10 +42,10 @@ concepts_introduced: [pytorch]
 concepts_reviewed: [autograd, classification-networks, optimisers, weight-initialisation, neural-networks, classes, init, super, methods, virtual-environments, terminal-basics, pytest, train-test-split]
 ask:
   dialogue:
-    - paul.neutral.wave: "Nearly everyone out there trains their networks in PyTorch. I'd like to know if they're right to."
-    - paul.neutral.point: "Your NumPy network reads the digits. Build the same one in PyTorch, at home, and see if it agrees."
-    - caitlin.pleased: "PyTorch does the backward pass for you. So the cards were a waste of a week."
-    - paul.unimpressed: "The cards are how you'll know what it's doing when it goes wrong."
+    - paul.neutral.wave: "Nearly everyone out there trains their networks in PyTorch, and I'd like to know if they're right to."
+    - paul.neutral.point: "Your NumPy network reads the digits. Build the same one in PyTorch at home and see if it agrees."
+    - caitlin.pleased: "Wait, PyTorch does the backward pass for you? Then the cards were basically a waste of a week."
+    - paul.unimpressed: "The cards are how you'll know what it's doing when it goes wrong, though."
   spec: |
     On your own computer, in `reader.py`:
 
@@ -63,9 +63,9 @@ ask:
     Read 291 of 297 digits it had never seen
 ship:
   dialogue:
-    - paul.pleased: "Two hundred and ninety-one. Ours read two hundred and ninety-three. Within two digits of each other."
-    - neil.laughing: "Different engine, different shuffles, nearly the same answers. That's the nicest thing I can say about either."
-    - paul.proud.thumbs: "And you know what it does under the lid. That's what makes it a tool and not a charm."
+    - paul.pleased: "Two hundred and ninety-one, and ours read two hundred and ninety-three, which puts them within two digits of each other."
+    - neil.laughing: "Different engine and different shuffles but nearly the same answers, and that's the nicest thing I can say about either."
+    - paul.proud.thumbs: "And you know what it's doing under the lid now, which means you can treat it as a tool."
   shelf: { object: torch, label: "The digit reader, in PyTorch, at home" }
   cards: [pytorch]
 stretch:

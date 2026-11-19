@@ -4,7 +4,7 @@ type: learn
 title: A picture is a grid of numbers
 concept: classification-networks
 dialogue:
-  - aaesha.pleased.point: "You read handwriting without trying. The network gets sixty-four greys, and no more."
+  - aaesha.pleased.point: "You read handwriting without even trying, but the network only gets sixty-four greys and nothing else."
 code: |
   import numpy as np
 

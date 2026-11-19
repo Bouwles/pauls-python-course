@@ -4,7 +4,7 @@ type: learn
 title: Five turns at validation
 concept: cross-validation
 dialogue:
-  - neil.thinking: "One validation pile is one roll of the dice. Roll five times."
+  - neil.thinking: "One validation pile is like one roll of the dice. Why not roll five times?"
 code: |
   import numpy as np
   from sklearn.model_selection import cross_val_score

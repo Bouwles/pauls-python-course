@@ -3,10 +3,10 @@ id: pips-forward
 type: pips
 title: Fix Caitlin's version
 dialogue:
-  - caitlin.pleased: "Can you look at mine? Two layers, one line each. Done before Neil found his coffee."
-  - caitlin.confused: "NumPy's max is broken. It wants an axis. I gave it a zero."
+  - caitlin.pleased: "Can you look at mine? It's two layers, one line each, and I finished before Neil had even found his coffee."
+  - caitlin.confused: "I think NumPy's max is broken, because it wants an axis and I gave it a zero."
 dialogue_after:
-  - caitlin.laughing: "So max finds the biggest, and maximum compares. And nothing is 2 likely. I should have noticed."
+  - caitlin.laughing: "So max finds the biggest and maximum compares, and nothing's 2 likely, which I really should have noticed."
 hints:
   nudge: "What does `np.max` do with one array? What do you need instead: the biggest entry, or 0 and each entry compared?"
   plan:

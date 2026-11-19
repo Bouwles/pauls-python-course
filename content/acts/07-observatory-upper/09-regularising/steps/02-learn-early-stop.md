@@ -4,7 +4,7 @@ type: learn
 title: Stop while it's best
 concept: regularisation
 dialogue:
-  - paul.neutral.point: "Stop when it stops getting better. Then go back to when it was best."
+  - paul.neutral.point: "You stop when it stops getting better, and then go back to wherever it was best."
 code: |
   # Validation loss after each epoch of some training run
   val_losses = [0.40, 0.31, 0.25, 0.22, 0.23, 0.21, 0.24, 0.26, 0.27, 0.29, 0.30]

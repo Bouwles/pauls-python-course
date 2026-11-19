@@ -46,9 +46,9 @@ concepts_introduced: [optimisers, weight-initialisation]
 concepts_reviewed: [backpropagation, gradient-descent, neural-networks, activation-functions, numpy-arrays, random-module, classes, init, methods, dictionaries, generators, feature-scaling, mean-squared-error]
 ask:
   dialogue:
-    - neil.pleased.wave: "My network learnt Paul's whole log the plain way. It got there. Eventually."
-    - neil.thinking.point: "So, a time trial. Same network, same start, same batches. Fastest down the loss wins."
-    - yahya.proud: "Adam. Calling it now."
+    - neil.pleased.wave: "My network learnt Paul's whole log the plain way, and it did get there, eventually."
+    - neil.thinking.point: "So let's have a time trial with the same network, start and batches, and whoever's fastest down the loss wins."
+    - yahya.proud: "I'm calling it now, Adam wins."
   spec: |
     The network from Neural Network from Scratch is in `brain.py`: `forward`, `loss`, `backward`, and `batches`, mended from Caitlin's version. In `optimisers.py`, plain `SGD` is already written, as the pattern.
 
@@ -66,10 +66,10 @@ ask:
     adam      loss 0.1756, every answer right on 40% of evenings
 ship:
   dialogue:
-    - neil.pleased.cheer: "Adam: every answer right on ninety-seven evenings in a hundred. Thirty epochs. Pole position, fairly won."
-    - neil.worried: "From zeros, forty. Sixteen hidden neurons, every one saying the same thing."
+    - neil.pleased.cheer: "Adam got every answer right on ninety-seven evenings in a hundred after thirty epochs, so that's pole position, fairly won!"
+    - neil.worried: "Starting from zeros it only got forty, because all sixteen hidden neurons were saying the same thing."
     - aaesha.laughing: "It's one neuron, sixteen times."
-    - yahya.proud.thumbs: "Adam. Called it."
+    - yahya.proud.thumbs: "Adam, like I said, I called it."
   shelf: { object: pendulum, label: "Neil's optimiser time trial, run fairly" }
   cards: [optimisers, weight-initialisation]
 stretch:

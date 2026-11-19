@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.unimpressed: "The little door to the clock's gears sticks. Six jobs, and some can't start until others are done."
+  - paul.unimpressed: "The little door to the clock's gears sticks, and fixing it is six jobs where some can't start until others are done."
 code: |
   # Mending the clock-room door: each job, and the jobs it needs done first.
   needs = {

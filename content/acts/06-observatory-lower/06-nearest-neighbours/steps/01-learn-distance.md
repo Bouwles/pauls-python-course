@@ -4,7 +4,7 @@ type: learn
 title: How alike is alike?
 concept: knn
 dialogue:
-  - aaesha.thinking.point: "Two penguins are alike if their measurements are close. So, how close?"
+  - aaesha.thinking.point: "Two penguins are alike if their measurements are close, but how do we say how close?"
 code: |
   import numpy as np
 

@@ -6,7 +6,7 @@ widget: hill-walker
 params: { start: -2, rate: 0.1 }
 concept: gradient-descent
 dialogue:
-  - paul.thinking.point: "Same valley as the example, bottom at 3. Walk it yourself."
+  - paul.thinking.point: "This is the same valley as the example, with the bottom at 3, and this time you're doing the walking."
 ---
 The curve is the loss for every value of one dial, `x`. Each press of **Take a step** moves the point by the learning rate times the slope, downhill.
 

@@ -5,11 +5,11 @@ title: Fix Caitlin's version
 files: [squash.py]
 entry: squash.py
 dialogue:
-  - caitlin.pleased: "Can you look at mine? Six kinds of goods, and the first component holds ninety-eight per cent of everything."
-  - caitlin.confused: "So they're really one. Yahya says restaurants and shops buy differently. My sums say one per cent."
+  - caitlin.pleased: "Can you look at mine? There are six kinds of goods and the first component holds ninety-eight per cent of everything."
+  - caitlin.confused: "So they're really just one, but Yahya says restaurants and shops buy differently, and my sums say that's one per cent."
 dialogue_after:
-  - caitlin.surprised: "I found the direction to the average customer. Not the directions customers differ in."
-  - yahya.unimpressed: "The average customer is a fine thing. It's just not a story."
+  - caitlin.surprised: "Oh, I found the direction to the average customer, when I wanted the directions customers differ in."
+  - yahya.unimpressed: "The average customer's fine and all, it just doesn't tell you a story."
 hints:
   nudge: "Compare Caitlin's covariance line with Paul's. What happened to the readings in Paul's version first?"
   plan:

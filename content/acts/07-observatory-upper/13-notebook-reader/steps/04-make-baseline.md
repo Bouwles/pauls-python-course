@@ -5,7 +5,7 @@ title: The scores to beat
 files: [notes.py, baseline.py]
 entry: baseline.py
 starter_from: make-notes
-on_pass: { aaesha.neutral: "Guessing evenly: 55. The bigram: 10.7. That's the bar. A low one, but a bar." }
+on_pass: { aaesha.neutral: "Guessing evenly gets 55 and the bigram gets 10.7. That's the bar, a low one but still a bar." }
 hints:
   nudge: "A bigram looks one character back. Which column of `X` is the character just before each target?"
   plan:

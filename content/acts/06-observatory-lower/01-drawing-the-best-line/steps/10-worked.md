@@ -3,8 +3,8 @@ id: worked
 type: worked
 title: How Paul would walk it
 dialogue:
-  - paul.neutral.point: "The wall clock in here. I set it a little slow, and it loses more every day."
-  - paul.unimpressed: "The big clock's still stuck at 3:14. This one at least moves."
+  - paul.neutral.point: "See the wall clock in here? I set it a little slow and it loses a bit more every day."
+  - paul.unimpressed: "The big clock's still stuck at 3:14, mind you, and this one does at least move."
 code: |
   import numpy as np
 

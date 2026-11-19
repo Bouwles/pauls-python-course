@@ -4,7 +4,7 @@ type: predict
 title: A window on the Clocktower
 concept: convolutions
 dialogue:
-  - neil.neutral.point: "A little window, slid across the Clocktower. Here's the smallest."
+  - neil.neutral.point: "Imagine a little window slid across the Clocktower, and here's the smallest one."
 code: |
   import numpy as np
 

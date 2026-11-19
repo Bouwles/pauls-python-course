@@ -4,7 +4,7 @@ type: learn
 title: One block
 concept: transformers
 dialogue:
-  - neil.neutral.point: "Under the heads, two lines. I boxed them and wrote: one block. Stack them."
+  - neil.neutral.point: "Under the heads there are two more lines, which I boxed and labelled 'one block, stack them'."
 code: |
   import numpy as np
 

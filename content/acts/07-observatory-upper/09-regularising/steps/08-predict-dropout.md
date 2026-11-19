@@ -4,8 +4,8 @@ type: predict
 title: Half asleep
 concept: dropout
 dialogue:
-  - caitlin.unimpressed: "Switch off half the neurons at random. Sounds like sabotage."
-  - neil.pleased: "It is sabotage. On purpose, and a different half every time."
+  - caitlin.unimpressed: "Switch off half the neurons at random? That sounds like sabotage."
+  - neil.pleased: "It is sabotage, on purpose, with a different half every time."
 code: |
   import numpy as np
 

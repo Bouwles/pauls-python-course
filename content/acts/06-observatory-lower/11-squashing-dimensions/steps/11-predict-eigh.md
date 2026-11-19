@@ -4,7 +4,7 @@ type: predict
 title: The directions that don't turn
 concept: eigenvectors
 dialogue:
-  - yahya.thinking: "Chest and waist spread out along a slant. That slant is what I'm after."
+  - yahya.thinking: "Chest and waist spread out along a slant, and that slant is what I'm after."
 code: |
   import numpy as np
 

@@ -3,8 +3,8 @@ id: worked
 type: worked
 title: How Paul would sort it
 dialogue:
-  - riya.thinking: "My art supplies come in small, middling and big boxes. I know which is which. I couldn't say why."
-  - paul.pleased: "Then we won't tell it either. Three heaps, from the weights alone."
+  - riya.thinking: "My art supplies come in small, middling and big boxes, and I know which is which but I couldn't tell you why."
+  - paul.pleased: "Then we won't tell it either, and we'll see if it finds three heaps from the weights alone."
 code: |
   import random
 

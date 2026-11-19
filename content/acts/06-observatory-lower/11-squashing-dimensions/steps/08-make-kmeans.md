@@ -5,7 +5,7 @@ title: Find the segments
 files: [segments.py]
 entry: segments.py
 timeout_ms: 30000
-on_pass: { yahya.pleased: "Two kinds of customer. One buys fresh and frozen, one buys groceries and paper. Restaurants and shops, I'd guess." }
+on_pass: { yahya.pleased: "Two kinds of customer, one buying fresh and frozen and one buying groceries and paper. I'd guess restaurants and shops." }
 hints:
   nudge: "In `k_means`, what has to be true for the loop to stop, and what goes into `history` each time round?"
   plan:

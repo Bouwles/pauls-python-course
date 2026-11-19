@@ -4,7 +4,7 @@ type: learn
 title: Questions, labels and contents
 concept: attention
 dialogue:
-  - neil.proud.point: "My blackboard. Q, K, V. Nobody rub this one out."
+  - neil.proud.point: "That's my blackboard with Q, K and V on it. Nobody rub this one out, please."
 code: |
   import numpy as np
 

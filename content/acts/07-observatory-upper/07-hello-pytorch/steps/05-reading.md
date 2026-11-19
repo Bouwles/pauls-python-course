@@ -3,7 +3,7 @@ id: side-by-side
 type: reading
 title: Your network, in PyTorch's words
 dialogue:
-  - paul.neutral: "Bought tools. Fine, once you know what they're doing for you."
+  - paul.neutral: "Bought tools are fine, once you know what they're doing for you."
 code: |
   # What you built                    PyTorch
   # NumPy array                        torch.tensor(..., dtype=torch.float32)

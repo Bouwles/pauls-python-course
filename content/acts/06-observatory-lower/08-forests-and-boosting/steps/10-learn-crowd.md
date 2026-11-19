@@ -4,7 +4,7 @@ type: learn
 title: A panel of guessers
 concept: ensembles
 dialogue:
-  - aaesha.thinking: "Ask three people and average them. Better than asking one, if they don't all think alike."
+  - aaesha.thinking: "If you ask three people and average them, it's better than asking one, as long as they don't all think alike."
 code: |
   import numpy as np
 

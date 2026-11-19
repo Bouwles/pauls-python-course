@@ -4,7 +4,7 @@ type: predict
 title: Backward, twice
 concept: autograd
 dialogue:
-  - caitlin.pleased: "I called backward twice, to be sure. Belt and braces."
+  - caitlin.pleased: "I called backward twice just to be sure, belt and braces."
 code: |
   class Value:
       def __init__(self, data, parents=()):

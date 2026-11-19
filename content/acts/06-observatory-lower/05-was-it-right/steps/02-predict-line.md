@@ -4,7 +4,7 @@ type: predict
 title: A chance of 214 per cent
 concept: logistic-regression
 dialogue:
-  - caitlin.pleased: "Diabetes is 1, none is 0. Fit the line from the house prices and call it a chance. Surely."
+  - caitlin.pleased: "If diabetes is 1 and none is 0, surely we just fit the house price line and call it a chance?"
 code: |
   import numpy as np
 

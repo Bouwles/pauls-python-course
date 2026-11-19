@@ -4,7 +4,7 @@ type: learn
 title: Numbers with receipts
 concept: autograd
 dialogue:
-  - neil.neutral.point: "Picture a shoebox of index cards. One number on each, and on the back, the cards it was made from."
+  - neil.neutral.point: "Picture a shoebox of index cards with one number on each, and on the back, the cards it was made from."
 code: |
   class Value:
       """A number that remembers what it was made from."""

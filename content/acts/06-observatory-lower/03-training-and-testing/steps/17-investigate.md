@@ -4,7 +4,7 @@ type: investigate
 title: Reading a validation curve
 concept: overfitting
 dialogue:
-  - paul.surprised: "Six students were absent thirty times or more. One, seventy-five times."
+  - paul.surprised: "Six students were absent thirty times or more, and one of them was off seventy-five times."
 edit: false
 code: |
   import numpy as np

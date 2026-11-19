@@ -4,7 +4,7 @@ type: learn
 title: Yes or no, as a chance
 concept: logistic-regression
 dialogue:
-  - paul.neutral.point: "Not a number this time. A yes or a no, and how sure."
+  - paul.neutral.point: "We're not after a number this time, it's a yes or a no and how sure it is."
 code: |
   import numpy as np
 

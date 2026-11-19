@@ -4,7 +4,7 @@ type: learn
 title: A network with a memory
 concept: rnns
 dialogue:
-  - aaesha.thinking.point: "One gauge reading can't tell you if the river's rising or falling. You have to remember the hours before."
+  - aaesha.thinking.point: "One gauge reading can't tell you if the river's rising or falling, so you have to remember the hours before."
 code: |
   readings = [0.0, 1.0, 1.0, 0.0, 0.0]
   memory = 0.0                        # nothing remembered yet

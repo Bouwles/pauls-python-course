@@ -5,10 +5,10 @@ title: Fix Caitlin's version
 files: [tide_check.py]
 entry: tide_check.py
 dialogue:
-  - caitlin.pleased: "Can you look at mine? I ran Neil's network over the whole roll. Out by 8.8 centimetres. His note says under six."
-  - caitlin.laughing: "Close enough, I thought. Notes are optimistic. Mine certainly are."
+  - caitlin.pleased: "Can you look? I ran Neil's network over the whole roll and got 8.8 centimetres out, though his note says under six."
+  - caitlin.laughing: "I thought that was close enough, because notes are always optimistic and mine certainly are."
 dialogue_after:
-  - caitlin.surprised: "It forgot every hour, and I marked it against the hour it had just read. Two wrongs made nearly a right."
+  - caitlin.surprised: "It forgot every hour and I marked it against the hour it had just read, so two wrongs nearly made a right."
 hints:
   nudge: "How much does the network remember from one hour to the next in Caitlin's `run`? And which hour is each guess a guess about?"
   plan:

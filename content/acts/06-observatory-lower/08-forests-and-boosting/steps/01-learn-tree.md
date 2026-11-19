@@ -4,7 +4,7 @@ type: learn
 title: A chain of questions
 concept: decision-trees
 dialogue:
-  - paul.neutral.wave: "A lender should be able to explain a no. Questions, written down, are an explanation."
+  - paul.neutral.wave: "A lender ought to be able to explain a no, and a few questions written down count as an explanation."
 code: |
   # A small tree, as nested dictionaries. Column 0 is checking, column 1 is months.
   tree = {"feature": 0, "threshold": 1.5,

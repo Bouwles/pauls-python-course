@@ -46,9 +46,9 @@ concepts_introduced: [regularisation, dropout, batch-normalisation]
 concepts_reviewed: [overfitting, train-test-split, neural-networks, backpropagation, gradient-descent, mean-squared-error, feature-scaling, copying, mutability, dictionaries, numpy-arrays, broadcasting, matplotlib, default-arguments]
 ask:
   dialogue:
-    - neil.pleased.wave: "I rate the seeing before every stargazing night. How much the stars shimmer, in arcseconds."
-    - riya.proud: "I've trained a network on it. Training loss: zero."
-    - neil.thinking: "And on the nights it hasn't seen?"
+    - neil.pleased.wave: "Before every stargazing night I rate the seeing, which is how much the stars shimmer, in arcseconds."
+    - riya.proud: "I've trained a network on it and the training loss is zero."
+    - neil.thinking: "Okay, and on the nights it hasn't seen?"
   spec: |
     In `regular.py`, add three regularisers to the seeing network in `net.py`, and compare them on the nights it never learnt from.
 
@@ -66,10 +66,10 @@ ask:
     Guessing the average                0.4213
 ship:
   dialogue:
-    - neil.pleased: "Weight decay: 0.134 on nights it never saw. Riya's scored 0.246, and guessing scored 0.421."
-    - riya.laughing: "Mine was perfect for 24 nights. That's nearly a month."
-    - aaesha.thinking: "It learnt them by heart. People do that too, the night before an exam. It doesn't last either."
-    - paul.proud.thumbs: "A model that only fits the nights it's seen isn't a forecast. It's a diary."
+    - neil.pleased: "Weight decay got 0.134 on nights it never saw, when Riya's scored 0.246 and guessing scored 0.421."
+    - riya.laughing: "Well, mine was perfect for 24 nights, and that's nearly a month."
+    - aaesha.thinking: "It learnt them by heart, like people do the night before an exam, and it doesn't last for them either."
+    - paul.proud.thumbs: "If a model only fits the nights it's already seen, it's more of a diary than a forecast, really."
   shelf: { object: seeing-chart, label: "Neil's seeing network, held back" }
   cards: [regularisation, dropout, batch-normalisation]
 stretch:

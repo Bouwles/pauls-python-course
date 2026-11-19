@@ -4,7 +4,7 @@ type: learn
 title: One dial per column
 concept: multivariate-regression
 dialogue:
-  - paul.neutral.point: "The first-term grade says a lot. Absences say a bit more. One dial each."
+  - paul.neutral.point: "The first-term grade tells you a lot and absences add a bit more, and each of them gets its own dial."
 code: |
   import numpy as np
 

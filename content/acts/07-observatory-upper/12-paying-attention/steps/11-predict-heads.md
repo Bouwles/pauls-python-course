@@ -4,7 +4,7 @@ type: predict
 title: Two heads, side by side
 concept: transformers
 dialogue:
-  - neil.neutral: "Two at once. One head for one kind of question, one for another."
+  - neil.neutral: "This is two at once, with one head for one kind of question and one for another."
 code: |
   import numpy as np
 

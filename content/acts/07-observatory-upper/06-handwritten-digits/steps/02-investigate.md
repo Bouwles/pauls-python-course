@@ -4,7 +4,7 @@ type: investigate
 title: The digits
 concept: classification-networks
 dialogue:
-  - aaesha.pleased.point: "Here they are. Squint. Your eyes do the rest without asking."
+  - aaesha.pleased.point: "Here they are, and if you squint a bit your eyes do the rest without being asked."
 code: |
   from notebooks import load_notebook_digits
 

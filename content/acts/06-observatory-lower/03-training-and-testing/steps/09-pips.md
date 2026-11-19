@@ -5,10 +5,10 @@ title: Fix Riya's version
 files: [predictor.py]
 entry: predictor.py
 dialogue:
-  - riya.pleased: "Can you look at mine? Exam predictor. Five columns, all scaled, trained in half a second."
-  - riya.confused: "It's fine on all 357 students. Then the new student gets nan out of twenty. Something's off."
+  - riya.pleased: "Can you look at my exam predictor? It's got five columns, all scaled, and it trained in half a second."
+  - riya.confused: "It's fine on all 357 students, but then the new one gets nan out of twenty and I don't get why."
 dialogue_after:
-  - riya.surprised: "So the new student borrows everyone else's ruler. One student hasn't got a spread of their own."
+  - riya.surprised: "Oh, the new student has to borrow everyone else's ruler, because one student on their own hasn't got a spread."
 hints:
   nudge: "What is the spread of a column with only one number in it?"
   plan:

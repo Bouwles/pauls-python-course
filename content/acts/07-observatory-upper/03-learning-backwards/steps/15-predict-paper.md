@@ -4,7 +4,7 @@ type: predict
 title: Your turn, on paper
 concept: backpropagation
 dialogue:
-  - neil.pleased: "Same chain as my blackboard, but the target is 4 now. Paper and pencil. Then we measure."
+  - neil.pleased: "It's the same chain as my blackboard but the target's 4 now, so try it on paper first and then we'll measure."
 code: |
   def loss(w1, x=2.0, w2=3.0, target=4.0):
       h = w1 * x

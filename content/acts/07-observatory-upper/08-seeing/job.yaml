@@ -46,9 +46,9 @@ concepts_introduced: [convolutions]
 concepts_reviewed: [classification-networks, neural-networks, activation-functions, pytorch, numpy-arrays, slicing, for-loops, matrices]
 ask:
   dialogue:
-    - aaesha.neutral.wave: "The digit network reads a picture as sixty-four numbers in a row. It has no idea which pixel is next to which."
-    - aaesha.thinking.point: "Eyes don't work like that. Cells in the visual cortex each watch one small patch, and fire for an edge."
-    - neil.pleased: "Little grids, then, slid across the picture. I trained four at home in PyTorch and copied out the numbers."
+    - aaesha.neutral.wave: "The digit network reads a picture as sixty-four numbers in a row and has no idea which pixel's next to which."
+    - aaesha.thinking.point: "Eyes don't work like that, because cells in the visual cortex each watch one small patch and fire for an edge."
+    - neil.pleased: "So it's little grids slid across the picture, then. I trained four at home in PyTorch and copied out the numbers."
   spec: |
     In `seeing.py`, by hand with NumPy, no SciPy or PyTorch. Neil's trained numbers are in `filters.py`.
 
@@ -62,8 +62,8 @@ ask:
     Read 289 of 297 digits it had never seen
 ship:
   dialogue:
-    - aaesha.pleased.thumbs: "Two hundred and eighty-nine. Four little grids, and every number in them checked by hand."
-    - neil.surprised: "One of the grids learnt to look for the tops of strokes. Nobody asked it to."
+    - aaesha.pleased.thumbs: "Two hundred and eighty-nine with just four little grids, and every number in them checked by hand."
+    - neil.surprised: "One of the grids learnt to look for the tops of strokes and nobody even asked it to."
     - yahya.proud: "I'd have given it a hundred filters."
     - aaesha.laughing: "And then you'd have a hundred to check."
   shelf: { object: lens, label: "Aaesha's seeing network, four filters checked by hand" }

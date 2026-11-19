@@ -4,7 +4,7 @@ type: learn
 title: A guess with dials
 concept: linear-regression
 dialogue:
-  - paul.neutral.point: "Every model on this floor is a guess with dials. This one has two."
+  - paul.neutral.point: "Every model on this floor is basically a guess with dials on it, and this one's only got two."
 code: |
   import numpy as np
 

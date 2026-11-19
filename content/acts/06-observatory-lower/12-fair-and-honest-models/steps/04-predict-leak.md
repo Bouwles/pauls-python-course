@@ -4,7 +4,7 @@ type: predict
 title: The morning after
 concept: data-leakage
 dialogue:
-  - caitlin.pleased: "How long the telescope was out each night. That must help. Out for hours, good night."
+  - caitlin.pleased: "How long the telescope was out each night has got to help, because out for hours means a good night."
 code: |
   import numpy as np
   from sklearn.model_selection import cross_val_score

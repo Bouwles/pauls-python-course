@@ -4,7 +4,7 @@ type: learn
 title: Gathering speed
 concept: optimisers
 dialogue:
-  - neil.thinking.point: "Same car, same track. Only the driver changes. The driver's called the optimiser."
+  - neil.thinking.point: "Think of it as the same car on the same track where only the driver changes, and the driver's called the optimiser."
 code: |
   rate, beta = 0.1, 0.9
   plain, w, velocity = 0.0, 0.0, 0.0

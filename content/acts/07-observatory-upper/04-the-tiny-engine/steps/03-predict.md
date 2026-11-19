@@ -4,7 +4,7 @@ type: predict
 title: One card, used twice
 concept: autograd
 dialogue:
-  - neil.thinking: "A square tabletop. The side is on the back of the area's card twice. Is that allowed? It is."
+  - neil.thinking: "With a square tabletop the side's on the back of the area's card twice, and yes, that's allowed."
 code: |
   class Value:
       """A number that remembers what it was made from."""

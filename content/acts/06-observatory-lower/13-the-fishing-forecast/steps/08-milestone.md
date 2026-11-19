@@ -4,8 +4,8 @@ type: milestone
 title: "Milestone: the write-up"
 evidence: none
 dialogue:
-  - aaesha.thinking: "Most project notes say what someone did. Almost never what didn't work. I'd like ours to."
-  - paul.neutral.point: "Write it for someone who wasn't here. Then tick only what's true."
+  - aaesha.thinking: "Most project notes say what someone did and hardly ever what didn't work, and I'd like ours to say that too."
+  - paul.neutral.point: "Write it for someone who wasn't here, and only tick the things that are actually true."
 checklist:
   - id: drawer
     text: "The 2025 days were opened once, after the model was chosen, and the write-up says so."

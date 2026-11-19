@@ -44,10 +44,10 @@ concepts_introduced: [rnns, lstm-gates]
 concepts_reviewed: [neural-networks, activation-functions, backpropagation, chain-rule, numpy-arrays, matrices, json-module, mean-squared-error, for-loops, functions, multiple-returns]
 ask:
   dialogue:
-    - aaesha.neutral.wave: "The river path floods at high tide, and half the class walks it. Requirement: an hour's warning."
-    - neil.pleased: "I trained a network that reads one hour at a time and remembers. The weights are in the file."
-    - paul.thinking: "Remembers what?"
-    - aaesha.pleased: "The hours before. Some of them. How many is what I want to find out."
+    - aaesha.neutral.wave: "The river path floods at high tide and half the class walks it, which is why we need an hour's warning."
+    - neil.pleased: "I trained a network that reads one hour at a time and remembers, and the weights are in the file."
+    - paul.thinking: "Remembers what, exactly?"
+    - aaesha.pleased: "Some of the hours before, and how many is what I want to find out."
   spec: |
     In `rnn.py`, run Neil's recurrent network over the river gauge. `load_tides` and `load_weights` are written; readings go in scaled, as `(height - MEAN) / SCALE`, and guesses come out the same way.
 
@@ -63,10 +63,10 @@ ask:
     Next six hours: 4.01 4.27 4.16 3.72 2.99 2.16
 ship:
   dialogue:
-    - aaesha.pleased: "Out by six centimetres an hour ahead. Same as last hour was out by forty-seven."
-    - neil.thinking: "Six hours ahead it drifts. By then it's reading its own guesses."
-    - caitlin.pleased.thumbs: "One hour is all the path needs. I'll take the one hour."
-    - paul.proud: "A short memory, well kept. That'll do for a tide."
+    - aaesha.pleased: "It's out by six centimetres an hour ahead, when just saying the same as last hour was out by forty-seven."
+    - neil.thinking: "It drifts six hours ahead, because by then it's reading its own guesses."
+    - caitlin.pleased.thumbs: "One hour's all the path needs, and I'll happily take the one hour."
+    - paul.proud: "It's a short memory but it keeps it well, and that'll do for a tide."
   shelf: { object: tide-drum, label: "Aaesha's tide network, remembering" }
   cards: [rnns, lstm-gates]
 stretch:

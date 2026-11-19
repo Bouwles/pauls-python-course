@@ -4,7 +4,7 @@ type: learn
 title: Text into numbers
 concept: tokenisation
 dialogue:
-  - neil.neutral.point: "A network only takes numbers. So first, every character gets a number of its own."
+  - neil.neutral.point: "A network only takes numbers, which means every character needs a number of its own first."
 code: |
   text = "gale 8"
   vocab = sorted(set(text))                            # every character once, in order

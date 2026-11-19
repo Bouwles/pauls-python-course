@@ -4,7 +4,7 @@ type: learn
 title: Four characters in
 concept: embeddings
 dialogue:
-  - neil.pleased: "My favourite network before the transformer. Four characters in, one guess out."
+  - neil.pleased: "This was my favourite network before the transformer, four characters in and one guess out."
 code: |
   import numpy as np
 

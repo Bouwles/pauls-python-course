@@ -4,7 +4,7 @@ type: learn
 title: One neuron
 concept: perceptron
 dialogue:
-  - aaesha.neutral.point: "A brain cell adds up what reaches it, and fires if the total is high enough. This copies that."
+  - aaesha.neutral.point: "A brain cell adds up whatever reaches it and fires if the total's high enough, and this copies that."
 code: |
   import numpy as np
 

@@ -4,7 +4,7 @@ type: learn
 title: Blame back through time
 concept: rnns
 dialogue:
-  - neil.neutral: "My weights were trained the way the blackboard chain was: backwards. Only backwards through time."
+  - neil.neutral: "My weights were trained backwards like the blackboard chain was, only this time it's backwards through time."
 code: |
   for factor in [0.5, 1.5]:             # what each hour back multiplies the blame by
       blame = 1.0

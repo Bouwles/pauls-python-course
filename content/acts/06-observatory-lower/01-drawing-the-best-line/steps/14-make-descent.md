@@ -5,7 +5,7 @@ title: The best line, on foot
 files: [house_prices.py]
 entry: house_prices.py
 starter_from: make-line
-on_pass: { paul.pleased: "The walker and the formula agree to the cent. Two routes, one answer. I never tire of that." }
+on_pass: { paul.pleased: "The walker and the formula agree to the cent, and two routes ending up at one answer never gets old." }
 hints:
   nudge: "Which way should `w` move when `dw` is positive? And which loss goes into `losses` first?"
   plan:
