@@ -4,7 +4,7 @@ type: worked
 title: Reading from the bottom
 language: text
 dialogue:
-  - paul.neutral.point: "Read it from the bottom. The last line is where it hurt."
+  - paul.neutral.point: "Start reading from the bottom, because the last line's where it actually hurt."
 code: |
   Morning, Neil
   Traceback (most recent call last):

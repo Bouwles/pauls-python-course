@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.neutral.point: "I made one for Neil's door last week. Same job as yours, smaller door."
+  - paul.neutral.point: "I did one for Neil's door last week. It's the same job as yours, just a smaller door."
 code: |
   # Sign for the Puzzle Room door.
   # Neil wants it in this order: name, hours, invitation.

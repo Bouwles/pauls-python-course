@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the times table trainer
-on_pass: { aaesha.pleased: "Nine sevens, sixty-three. It marked the slip wrong, which is right." }
+on_pass: { aaesha.pleased: "Nine sevens is sixty-three, and it marked the slip as wrong. That's exactly what it should do." }
 hints:
   nudge: "Two loops again: one to print the twelve lines, one to ask the five questions. Where does the score start, and where is it printed?"
   plan:

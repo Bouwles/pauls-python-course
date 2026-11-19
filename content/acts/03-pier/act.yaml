@@ -7,10 +7,10 @@ hours: 40
 summary: "Programs that talk to the world, from Riya's Makerspace on the second floor: a forecast for painting outdoors, a palette scraper, the paperwork behind her prints, games for the arcade cabinet in her pixel art, and a gallery and print shop you put online."
 locked_line: "The Makerspace opens once the Studio's projects are shipped. Riya's prints are already pinned to every wall."
 intro:
-  - paul.neutral.point: "Second floor: the Makerspace. Riya's room. Mind the easels."
-  - paul.neutral: "These programs talk to the outside world. Some run here. Some you take home and run properly."
-  - riya.pleased.wave: "Everything up here ends up as something people use. A gallery, a print shop, a game."
-  - riya.laughing: "The arcade cabinet in the corner has nothing on it yet. I've drawn the sprites. That's where you come in."
+  - paul.neutral.point: "Welcome up to the second floor. This is the Makerspace, Riya's room, and do mind the easels."
+  - paul.neutral: "These programs talk to the outside world. Some of them run here, and some you'll take home and run properly."
+  - riya.pleased.wave: "Everything up here ends up as something people use, like a gallery or a print shop or a game."
+  - riya.laughing: "The arcade cabinet in the corner's still empty. I've drawn the sprites, and that's where you come in."
 jobs:
   - weather-app
   - web-scraper

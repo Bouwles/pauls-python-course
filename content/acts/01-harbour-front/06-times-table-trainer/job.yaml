@@ -44,10 +44,10 @@ concepts_introduced: [for-loops, range, loop-variables, tracing-loops]
 concepts_reviewed: [int-conversion, input-returns-text, f-strings, if-elif-else, comparisons, variables]
 ask:
   dialogue:
-    - aaesha.pleased.wave: "Nobody works out seven eights. You remember it. Times tables are stored facts."
-    - aaesha.thinking: "But the big ones come back slower, and wrong more often. It's called the problem-size effect."
-    - aaesha.neutral.point: "I want a trainer for my volunteers. The table written out neat, then the hard end as a quiz."
-    - paul.neutral: "Twelve lines that look the same. That's what loops are for."
+    - aaesha.pleased.wave: "Nobody works out seven eights, you just remember it, because times tables are stored facts."
+    - aaesha.thinking: "But the big ones come back slower and wrong more often, which is called the problem-size effect."
+    - aaesha.neutral.point: "I'd like a trainer for my volunteers, with the table written out neatly and then the hard end as a quiz."
+    - paul.neutral: "Twelve lines that look the same is exactly the kind of thing loops are for."
   spec: |
     Ask which table to practise. Print it from 1 to 12, one line each, with the columns lined up: the first number takes 2 characters and the answer takes 3.
 
@@ -80,9 +80,9 @@ ask:
     Score: 4 out of 5
 ship:
   dialogue:
-    - aaesha.pleased: "Four out of five on the sevens. The slip was nine sevens."
-    - aaesha.proud.point: "Right in the hard end, where the theory says it would be. One volunteer down."
-    - yahya.neutral: "I'm doing all twelve tables. Put my score up first."
+    - aaesha.pleased: "Four out of five on the sevens, and the one slip was nine sevens."
+    - aaesha.proud.point: "That's right in the hard end where the theory said it would be, and that's one volunteer done."
+    - yahya.neutral: "I'm doing all twelve tables, and you can put my score up first."
   shelf: { object: lamp, label: "Aaesha's times table trainer" }
   cards: [for-loops, range, loop-variables, tracing-loops]
 stretch:

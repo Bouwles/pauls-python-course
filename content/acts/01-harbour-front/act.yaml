@@ -7,11 +7,11 @@ hours: 25
 summary: "Thirteen real programs in Paul's Workshop, from the door sign to the trip fund, for Neil's racing, Riya's art, Aaesha's experiments, Yahya's data and Caitlin's games. Printing, numbers, input, decisions, loops, lists, strings, functions, dictionaries and handling errors."
 locked_line: "The ground floor: Paul's Workshop, where every class begins."
 intro:
-  - paul.pleased.wave: "Welcome to the Clocktower. This is the Workshop, my floor. Every class starts here."
-  - paul.neutral.point: "You'll build real programs for real people. Mostly the people in this room."
-  - paul.thinking: "Racing cars, rockets, art, data, how minds work. Everyone here has something worth building."
-  - neil.laughing.wave: "I'm Neil. When you're stuck, ask me. Or the duck on my desk."
-  - paul.neutral: "Build it ugly first. Then make it good. And ignore the clock. It's been 3:14 for years."
+  - paul.pleased.wave: "Welcome to the Clocktower! This is the Workshop, my floor, and it's where every class starts."
+  - paul.neutral.point: "You'll be building real programs for real people, and to be fair most of them are in this room."
+  - paul.thinking: "Everyone here's into something, whether it's racing cars, rockets, art, data or how minds work, and it's all worth building."
+  - neil.laughing.wave: "Hiya, I'm Neil. If you get stuck just ask me, or failing that the duck on my desk."
+  - paul.neutral: "Build it ugly first and make it good after. Oh, and ignore the clock, it's said 3:14 for years."
 jobs:
   - shop-sign
   - bill-splitter

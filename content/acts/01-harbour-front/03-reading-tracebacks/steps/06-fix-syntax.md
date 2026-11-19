@@ -3,9 +3,9 @@ id: fix-syntax
 type: fix
 title: Script one, the header
 dialogue:
-  - neil.laughing: "First script, the header for my race-day board. It won't even start."
-  - neil.neutral.point: "See the duck on my desk? When you're stuck, explain the problem to it."
-  - neil.pleased: "It won't answer. That's the point."
+  - neil.laughing: "First up is the header for my race-day board, and it won't even start."
+  - neil.neutral.point: "See the duck on my desk? When you're stuck, try explaining the problem to it out loud."
+  - neil.pleased: "It won't answer, obviously, but you'll usually hear yourself spot it halfway through."
 hints:
   nudge: "Count the brackets on the line the error points at. Does every ( have a )?"
   plan:

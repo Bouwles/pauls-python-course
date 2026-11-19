@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Aaesha's version
 dialogue:
-  - aaesha.pleased: "I wrote the letters rule first. I checked each half of it on its own. Both right."
-  - aaesha.confused: "Then I typed clocktower1987 and it said the letters were fine. They aren't. Can you look?"
+  - aaesha.pleased: "I wrote the letters rule first and checked each half of it on its own, and both were right."
+  - aaesha.confused: "Then I typed clocktower1987 and it said the letters were fine, which they aren't. Can you look?"
 dialogue_after:
-  - aaesha.thinking.think: "Either one missing is enough to fail. So it's or. The rule said and. One word, in the test."
+  - aaesha.thinking.think: "Either one missing should fail it, which means or, and I'd written and. It was one word in the test."
 hints:
   nudge: "Take `clocktower1987`. What are `has_capital` and `has_lower`? Does the password fail when one of them is missing, or only when both are?"
   plan:

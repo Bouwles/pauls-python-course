@@ -47,11 +47,11 @@ concepts_introduced: [string-methods, string-slicing, immutability, strip-replac
 concepts_reviewed: [strings, bool, comparisons, if-elif-else, input-returns-text, variables, f-strings]
 ask:
   dialogue:
-    - aaesha.pleased.wave: "My memory experiments run on the class server. Everyone's results are on it."
-    - aaesha.worried: "Last year, every account had the password clocktower1. Four people knew it. Then everyone did."
-    - aaesha.thinking: "People pick passwords they can remember. That's exactly what makes them easy to guess."
-    - aaesha.neutral.point: "Six rules, numbered. When it says no, it says why."
-    - paul.pleased: "Numbered requirements. Every programmer's favourite kind."
+    - aaesha.pleased.wave: "My memory experiments run on the class server, and everyone's results are on there."
+    - aaesha.worried: "Last year every account had the password clocktower1. Four people knew it, and then everyone did."
+    - aaesha.thinking: "People pick passwords they can remember, and that's exactly what makes them easy to guess."
+    - aaesha.neutral.point: "I've got six numbered rules, and when it says no it has to say why."
+    - paul.pleased: "Oh, numbered requirements, every programmer's favourite kind."
   spec: |
     Requirements, from Aaesha. Numbered, naturally.
 
@@ -73,9 +73,9 @@ ask:
     Password rejected.
 ship:
   dialogue:
-    - aaesha.neutral.point: "Clock0314. Too short, and it ends in four digits. It told Paul both. Correct."
-    - paul.laughing: "I typed that one to test it."
-    - aaesha.pleased.thumbs: "He's chosen a new one. He won't tell me what it is. Also correct."
+    - aaesha.neutral.point: "Clock0314 is too short and ends in four digits, and it told Paul both of those. Quite right too."
+    - paul.laughing: "In my defence, I only typed that one to test it."
+    - aaesha.pleased.thumbs: "He's chosen a new one now and he won't tell me what it is. Also correct, as it happens."
   shelf: { object: notice, label: "Aaesha's password rules, numbered" }
   cards: [string-methods, string-slicing, immutability, strip-replace, boolean-operators, in-operator]
 stretch:

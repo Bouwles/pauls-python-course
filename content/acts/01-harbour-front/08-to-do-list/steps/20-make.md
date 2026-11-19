@@ -2,7 +2,7 @@
 id: make
 type: make
 title: Make the to-do list
-on_pass: { riya.pleased: "Number two done, and three moved up to two. Every commission, in the order they asked." }
+on_pass: { riya.pleased: "Number two's done and three moved up to two, with every commission still in the order they asked." }
 hints:
   nudge: "Which command has to turn a person's number into an index? And what should happen before you use a number that might not be on the list?"
   plan:

@@ -3,7 +3,7 @@ id: fix-name
 type: fix
 title: Script two, the times
 dialogue:
-  - neil.laughing: "My first week here. I time laps to the hundredth, and I couldn't spell time."
+  - neil.laughing: "This was my first week here. I time laps to the hundredth of a second and I couldn't even spell time."
 hints:
   nudge: "Read the end of the error message. Python has a suggestion."
   plan:

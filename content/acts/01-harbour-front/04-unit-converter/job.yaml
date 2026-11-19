@@ -44,10 +44,10 @@ concepts_introduced: [bool, comparisons, if-elif-else, nested-conditions]
 concepts_reviewed: [print, input-returns-text, float-conversion, f-strings, variables, arithmetic]
 ask:
   dialogue:
-    - neil.pleased.wave: "F1 gives me speeds in km/h. American racing gives me mph. I want to compare them."
-    - neil.thinking: "Planes come in knots. Rockets come in Mach, and Mach depends on how high you are."
-    - neil.neutral.point: "One converter for every speed I read about. Mach's the awkward one."
-    - paul.neutral: "It'll have to choose what to do. That's new."
+    - neil.pleased.wave: "F1 gives me speeds in km/h and American racing gives me mph, and I want to compare them."
+    - neil.thinking: "Planes use knots, and rockets use Mach, which changes depending on how high you are."
+    - neil.neutral.point: "I'd love one converter for every speed I read about, though Mach's going to be the awkward one."
+    - paul.neutral: "This time it'll have to choose what to do, and that's the new bit."
   spec: |
     Print a menu of three conversions and ask which one (`Choose 1, 2 or 3: `). Then ask for the speed (`Speed? `), which may have a decimal point.
 
@@ -67,9 +67,9 @@ ask:
     That's 2124.00 km/h.
 ship:
   dialogue:
-    - neil.surprised: "Three hundred and forty km/h is two hundred and eleven mph. I always guessed lower."
-    - neil.pleased.cheer: "Mach 2 up high, two thousand one hundred and twenty-four. Converted before I'd finished reading."
-    - paul.laughing: "He'll be converting speeds over lunch now. All of them."
+    - neil.surprised: "Three hundred and forty km/h is two hundred and eleven mph? I always guessed lower than that."
+    - neil.pleased.cheer: "Mach 2 up high is two thousand one hundred and twenty-four, and it worked that out before I'd finished reading."
+    - paul.laughing: "He'll be converting every speed he can find over lunch now, you watch."
   shelf: { object: compass, label: "Neil's unit converter" }
   cards: [bool, comparisons, if-elif-else, nested-conditions]
 stretch:

@@ -40,11 +40,11 @@ summary: "The Act I capstone: a menu-driven expense tracker, built from a list o
 concepts_reviewed: [while-loops, if-elif-else, break-continue, lists, append-pop, sorted-vs-sort, list-aliasing, dictionaries, dict-get, dict-items, nested-data, string-methods, strip-replace, functions, parameters, return-values, none, scope, exceptions, try-except, float-conversion, f-strings]
 ask:
   dialogue:
-    - yahya.neutral.wave: "The end-of-term trip fund. Everyone's paid in. Now the money's going out."
-    - yahya.unimpressed: "The receipts are in five pockets and two group chats. That's not data. That's a mess."
-    - yahya.thinking: "One list, then totals by category. The numbers will say where it went before we book the coach."
-    - caitlin.pleased: "Can it have a chart?"
-    - paul.neutral.point: "Biggest job yet. Plan it before you build it. The chart can wait."
+    - yahya.neutral.wave: "Everyone's paid into the end-of-term trip fund, and now the money's starting to go out."
+    - yahya.unimpressed: "The receipts are spread over five pockets and two group chats, and honestly it's a mess."
+    - yahya.thinking: "I want one list and then totals by category, so the numbers tell us where it went before we book the coach."
+    - caitlin.pleased: "Ooh, can it have a chart?"
+    - paul.neutral.point: "This is the biggest job yet, so plan it before you build it. The chart can wait, Caitlin."
   spec: |
     Requirements, from Yahya. Aaesha numbered them:
 
@@ -89,9 +89,9 @@ ask:
     2 expenses, 230.40 in all.
 ship:
   dialogue:
-    - yahya.pleased: "Food, forty-two ninety. Travel, two seventy-two. I did it on paper too. Same both times."
-    - yahya.proud.point: "There's the story in the numbers. The coach is nearly all of it. One cheaper quote and we're fine."
-    - paul.pleased.cheer: "That's the whole Workshop floor. The clock still says 3:14, mind."
+    - yahya.pleased: "Food's forty-two ninety and travel's two seventy-two. I did it on paper as well and got the same both times."
+    - yahya.proud.point: "And there's the story in the numbers, the coach is nearly all of it. One cheaper quote and we're fine."
+    - paul.pleased.cheer: "And that's the whole Workshop floor done! The clock still says 3:14, mind."
   shelf: { object: till-receipt, label: "The trip fund's expense tracker" }
   cards: []
   awards: [name-plate]

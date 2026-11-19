@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Yahya's version
 dialogue:
-  - yahya.proud: "I built the machine already. Calling random every round is wasteful, so it picks once."
-  - yahya.confused: "Caitlin played paper three times and won every round. That's not chance. Can you look?"
+  - yahya.proud: "I've built the machine already. Calling random every round seemed wasteful, so it only picks once."
+  - yahya.confused: "But Caitlin played paper three times and won every round, and that's not chance. Can you look?"
 dialogue_after:
-  - yahya.thinking.think: "It picked once and kept it all game. Fast, and no use. A fresh hand every round."
+  - yahya.thinking.think: "It picked once and kept the same hand all game, which is fast but useless. It needs a fresh one every round."
 hints:
   nudge: "How many times does `random.choice` run, and where is it compared with the loop?"
   plan:

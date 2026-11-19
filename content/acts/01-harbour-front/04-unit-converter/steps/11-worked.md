@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.neutral: "This is how I cost the class's server time. A menu, and one option that needs a second question."
+  - paul.neutral: "This is how I cost the class's server time, with a menu where one option needs a second question."
 code: |
   # The cost of running the class's code on a hired server
   print("1. Quick script")

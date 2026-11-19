@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.pleased: "Aaesha asked for usernames first. I did those. Same shape, fewer rules."
+  - paul.pleased: "Aaesha asked for usernames first, so I did those. It's the same shape with fewer rules."
 code: |
   # Usernames for the class server
   name = input("Username? ")
