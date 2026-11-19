@@ -54,11 +54,11 @@ concepts_introduced: [files, with-statement, paths, csv-module, counter]
 concepts_reviewed: [string-methods, strip-replace, split-join, lists, dictionaries, sets, tuples, unpacking, enumerate, default-arguments, functions, return-values, main-guard, f-strings, docstrings]
 ask:
   dialogue:
-    - aaesha.pleased.wave: "I'm building a reading experiment. People read a common word faster than a rare one."
-    - aaesha.thinking: "So I need to know which words Alice in Wonderland uses most. I started counting by hand."
-    - aaesha.unimpressed: "Then I saw how long the book is."
-    - aaesha.neutral: "Every word once, with how many times it's used. One row each. Not two."
-    - paul.neutral: "Read the file, count the words, write the counts down. The counting is the easy bit."
+    - aaesha.pleased.wave: "I'm setting up a reading experiment, because people read a common word faster than a rare one."
+    - aaesha.thinking: "I need to know which words Alice in Wonderland uses most, and I'd started counting them by hand."
+    - aaesha.unimpressed: "Then I saw how long the book actually is."
+    - aaesha.neutral: "I'd like every word once with how many times it's used, one row each and never two."
+    - paul.neutral: "You'll read the file in and write the counts back out, and the counting in between is honestly the easy bit."
   spec: |
     Aaesha's copy of the book is `alice.txt`. Write `words.py`:
 
@@ -84,10 +84,10 @@ ask:
     Every count is in counts.csv.
 ship:
   dialogue:
-    - aaesha.surprised: "Said, four hundred and sixty-two. Alice, three hundred and eighty-six. She's outnumbered in her own book."
-    - aaesha.laughing: "Little, a hundred and twenty-nine. For a book about growing, that's a lot of little."
-    - aaesha.pleased.thumbs: "Now I know which words should be read fastest. Next, I time people reading them."
-    - paul.proud: "And the counts are in a file. Next week nobody has to count them again."
+    - aaesha.surprised: "Said comes up four hundred and sixty-two times and Alice only three hundred and eighty-six, so she's outnumbered in her own book."
+    - aaesha.laughing: "Little's in there a hundred and twenty-nine times, which is a lot of little for a book about growing."
+    - aaesha.pleased.thumbs: "Now I know which words should be read fastest, and next I get to time people reading them."
+    - paul.proud: "And because the counts are saved in a file, nobody has to count them again next week."
   shelf: { object: card-index, label: "Aaesha's word counter, for her reading experiment" }
   cards: [files, with-statement, paths, csv-module, counter]
 stretch:

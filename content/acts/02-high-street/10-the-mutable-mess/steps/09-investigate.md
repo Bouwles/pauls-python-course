@@ -4,7 +4,7 @@ type: investigate
 title: Reading Caitlin's stock sheets
 concept: is-vs-equals
 dialogue:
-  - paul.neutral.point: "Read it all before you touch it. Then ask it questions."
+  - paul.neutral.point: "Read the whole thing before you touch it, and then start asking it questions."
 code: |
   # Bake sale stock sheets, for the Studio's new board games. Caitlin, last term.
   # By hand, everything gets counted twice. This counts it once, carefully.

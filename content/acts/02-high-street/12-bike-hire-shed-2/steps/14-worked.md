@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.neutral: "Yahya's way, done properly, on a bike hire. A cargo bike really is a kind of bike."
+  - paul.neutral: "Here's Yahya's way done properly on a bike hire, because a cargo bike really is a kind of bike."
 code: |
   class Bike:
       def __init__(self, number, rate):

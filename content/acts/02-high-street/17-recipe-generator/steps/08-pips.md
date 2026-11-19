@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Yahya's version
 dialogue:
-  - yahya.proud: "The race's early errors, printed, then counted. I used a generator, so it's fast."
-  - yahya.confused: "It says nought errors. I've read them out loud. There are two. Can you look?"
+  - yahya.proud: "I print the race's early errors and then count them, and I used a generator so it's fast."
+  - yahya.confused: "It says nought errors, but I've read them out loud and there are two. Can you look?"
 dialogue_after:
-  - yahya.unimpressed: "So a generator only goes round once. Fast, but you only get the one go."
+  - yahya.unimpressed: "So a generator only goes round once. It's fast, but you only get the one go."
 hints:
   nudge: "By the time `len(list(found))` runs, the `for` loop has had every value out of `found`. What's left to count?"
   plan:

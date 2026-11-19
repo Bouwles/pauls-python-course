@@ -3,8 +3,8 @@ id: review
 type: reading
 title: Paul's review
 dialogue:
-  - caitlin.worried: "Paul is reviewing my money code. He's been quiet for a long time."
-  - paul.neutral: "Six things. None of them break it. All of them matter."
+  - caitlin.worried: "Paul's reviewing my money code and he's been quiet for a really long time."
+  - paul.neutral: "I've got six things, and none of them break it, but they all matter."
 code: |
   from money import *
   def Spend(l,d,p,c):

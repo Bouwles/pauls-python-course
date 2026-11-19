@@ -3,7 +3,7 @@ id: worked-records
 type: worked
 title: How Paul would keep a record
 dialogue:
-  - paul.neutral: "Neil's flight log. A record for each drone flight, and only three kinds of weather."
+  - paul.neutral: "This is Neil's flight log, with a record for each drone flight and only three kinds of weather."
 code: |
   from dataclasses import dataclass
   from enum import Enum

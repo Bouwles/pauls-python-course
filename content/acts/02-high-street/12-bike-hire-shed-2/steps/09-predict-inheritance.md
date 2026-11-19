@@ -4,7 +4,7 @@ type: predict
 title: A kind of book
 concept: inheritance
 dialogue:
-  - yahya.proud.point: "A new book is a book you only get for a week. So it's a kind of book. Watch."
+  - yahya.proud.point: "A new book is just a book you only get for a week, which makes it a kind of book. Watch this."
 code: |
   class Book:
       def __init__(self, title):

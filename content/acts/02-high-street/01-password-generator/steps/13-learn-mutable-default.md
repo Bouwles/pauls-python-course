@@ -4,7 +4,7 @@ type: learn
 title: A default made once
 concept: mutable-default
 dialogue:
-  - paul.unimpressed: "One more default. This one bites."
+  - paul.unimpressed: "There's one more default to look at, and this one tends to bite people."
 code: |
   def add_player(name, team=[]):
       team.append(name)

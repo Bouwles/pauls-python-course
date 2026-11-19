@@ -5,7 +5,7 @@ title: Make the quiz
 files: [quiz.py]
 entry: quiz.py
 timeout_ms: 15000
-on_pass: { caitlin.laughing: "Piano, the piano, grand piano. All three right. Yahya will have to find something else to argue about." }
+on_pass: { caitlin.laughing: "Piano, the piano and grand piano all count as right now. Yahya will have to find something else to argue about." }
 hints:
   nudge: "Which of these functions keep every item, and which keep only some? That decides where each comprehension's `if` goes."
   plan:

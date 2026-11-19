@@ -4,7 +4,7 @@ type: worked
 title: How Paul would try an idea
 language: text
 dialogue:
-  - paul.neutral: "Stars for urgent jobs. I wasn't sure, so it went on a branch first."
+  - paul.neutral: "I wanted stars for urgent jobs but I wasn't sure, so it went on a branch first."
 code: |
   workshop $ git switch -c urgent
   Switched to a new branch 'urgent'

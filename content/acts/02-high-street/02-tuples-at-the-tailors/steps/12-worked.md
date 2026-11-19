@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.neutral: "Questions brought to Neil's desk, morning and afternoon. He keeps them in two lists too."
+  - paul.neutral: "These are the questions brought to Neil's desk, morning and afternoon, and he keeps them in two lists too."
 code: |
   days = ["Mon", "Tue", "Wed", "Thu"]
   questions = [(25, 15), (30, 22), (18, 20), (27, 22)]

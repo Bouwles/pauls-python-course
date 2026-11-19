@@ -36,10 +36,10 @@ concepts_introduced: [sets, set-operations, membership-speed]
 concepts_reviewed: [lists, in-operator, split-join, sorted-vs-sort, functions, for-loops, tuples]
 ask:
   dialogue:
-    - caitlin.pleased.wave: "The Studio's lost property box is mine now. Friday game nights keep it full."
-    - caitlin.unimpressed: "Every umbrella is written down twice. Some three times. One scarf, eleven times."
-    - caitlin.thinking: "I want each thing once. And I want to know which ones people have asked about."
-    - paul.neutral: "Sets, then. They don't hold with duplicates either."
+    - caitlin.pleased.wave: "I've ended up in charge of the Studio's lost property box, and Friday game nights keep it full."
+    - caitlin.unimpressed: "Every umbrella's written down twice, some of them three times, and there's one scarf that's on there eleven times."
+    - caitlin.thinking: "I just want each thing listed once, and I'd like to know which ones people have asked about."
+    - paul.neutral: "Sounds like a job for sets, because they don't hold with duplicates either."
   spec: |
     `found` lists everything handed in, repeats and all. `reported` lists what people have asked about.
 
@@ -58,9 +58,9 @@ ask:
     Still missing: spare controller
 ship:
   dialogue:
-    - caitlin.laughing.cheer: "One red scarf. One. It was handed in eleven times, by the same person."
-    - caitlin.pleased.point: "And the dice bag is Yahya's. He says his luck was in it."
-    - yahya.unimpressed: "It was. I lost four games without it."
+    - caitlin.laughing.cheer: "It's one red scarf, just the one! It got handed in eleven times by the same person."
+    - caitlin.pleased.point: "And it turns out the dice bag is Yahya's, apparently his luck was in it."
+    - yahya.unimpressed: "It was, honestly. I lost four games without it."
   shelf: { object: umbrella, label: "Caitlin's lost property matcher" }
   cards: [sets, set-operations, membership-speed]
 stretch:

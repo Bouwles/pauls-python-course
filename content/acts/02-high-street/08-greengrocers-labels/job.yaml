@@ -45,10 +45,10 @@ concepts_introduced: [list-comprehensions, dict-set-comprehensions, conditional-
 concepts_reviewed: [random-module, files, with-statement, dictionaries, dict-get, sets, tuples, unpacking, enumerate, zip, string-methods, functions, return-values, while-loops, main-guard, f-strings, docstrings]
 ask:
   dialogue:
-    - caitlin.pleased.wave: "I'm running the class quiz on Thursday. My question sheet has a coffee ring over half the answers."
-    - caitlin.thinking: "I want the questions in a file, a different order every week, and marking nobody can argue with."
-    - caitlin.laughing: "Last time Yahya argued that piano and the piano were different answers. He won the argument. Not the quiz."
-    - paul.neutral: "Load them, shuffle them, mark them. Most of it is lists made out of other lists."
+    - caitlin.pleased.wave: "I'm running the class quiz on Thursday, and my question sheet's got a coffee ring over half the answers."
+    - caitlin.thinking: "I want the questions in a file, in a different order every week, with marking nobody can argue with."
+    - caitlin.laughing: "Last time Yahya argued that piano and the piano were different answers, and he won the argument but not the quiz."
+    - paul.neutral: "Once they're loaded it's mostly shuffling and marking, and nearly all of that is lists made out of other lists."
   spec: |
     Caitlin's questions are in `questions.json`: a list of dictionaries, each with a `round`, a `question`, an `answer`, and sometimes `also`, a list of other answers she'll accept. Write `quiz.py`, with a comprehension at the heart of each of the first four:
 
@@ -77,10 +77,10 @@ ask:
     Score: 3 out of 4
 ship:
   dialogue:
-    - caitlin.laughing: "Three out of four for Yahya's table. Keyboard, for the one with 88 keys. He's appealing."
-    - yahya.unimpressed: "A keyboard has keys. I stand by it."
-    - caitlin.pleased.cheer: "Different order every week, so nobody can learn it. It works. Shipping it."
-    - paul.proud: "Every function's a list made from a list. Hardly a loop in it, and you can still read it."
+    - caitlin.laughing: "Yahya's table got three out of four because they put keyboard for the one with 88 keys, and he's appealing."
+    - yahya.unimpressed: "A keyboard has keys though, and I stand by it."
+    - caitlin.pleased.cheer: "It comes out in a different order every week so nobody can learn it! It works and I'm shipping it."
+    - paul.proud: "Every function's a list made from another list and there's hardly a loop in it, but you can still read it fine."
   shelf: { object: quiz-sheet, label: "Caitlin's quiz, marked fairly" }
   cards: [list-comprehensions, dict-set-comprehensions, conditional-comprehensions, json-module]
 stretch:

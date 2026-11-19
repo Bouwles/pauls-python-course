@@ -6,7 +6,7 @@ files: [logstream.py]
 entry: logstream.py
 argv_field: true
 timeout_ms: 15000
-on_pass: { neil.proud: "Three brake errors before hour eight, and it read that far and stopped. Sensible program." }
+on_pass: { neil.proud: "Three brake errors before hour eight, and it read that far and stopped, which is very sensible of it." }
 hints:
   nudge: "Which function stops the whole chain early, and how does it tell the others to stop?"
   plan:

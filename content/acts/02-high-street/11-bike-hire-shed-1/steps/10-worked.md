@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.neutral: "The clock's spare parts again. Each drawer should keep its own count, and refuse to go below zero."
+  - paul.neutral: "It's the clock's spare parts again, and each drawer should keep its own count and refuse to go below zero."
 code: |
   class Drawer:
       """One drawer of the clock's spare parts."""

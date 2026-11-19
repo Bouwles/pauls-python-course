@@ -5,10 +5,10 @@ title: Fix Riya's version
 files: [main.py, crates.py]
 entry: main.py
 dialogue:
-  - riya.pleased: "Caitlin's crates module packs the Studio's fruit order. I've borrowed it for my craft fair prints."
-  - riya.confused: "It did the postcards. Then it forgot how to count. Can you look?"
+  - riya.pleased: "Caitlin's crates module packs the Studio's fruit order, and I've borrowed it for my craft fair prints."
+  - riya.confused: "It did the postcards fine and then forgot how to count. Can you take a look?"
 dialogue_after:
-  - riya.surprised: "I called the answer crates, and then crates wasn't the module any more. Same name, two jobs."
+  - riya.surprised: "Oh, I called the answer crates, and then crates wasn't the module any more. I'd given one name two jobs."
 hints:
   nudge: "The first time round the loop, `crates` is the module. What is it the second time round?"
   plan:

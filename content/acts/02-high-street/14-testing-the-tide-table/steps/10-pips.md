@@ -5,10 +5,10 @@ title: Fix Caitlin's version
 files: [bank.py, test_bank.py]
 entry: test_bank.py
 dialogue:
-  - caitlin.proud: "Aaesha wanted tests for the accounts. I wrote four. They all pass. Shipping it."
-  - caitlin.worried: "Then I broke bank.py on purpose. They still all pass. Something's off, isn't it?"
+  - caitlin.proud: "Aaesha wanted tests for the accounts, and I wrote four that all pass. I'm shipping it."
+  - caitlin.worried: "Then I broke bank.py on purpose and they all still pass. Something's off, isn't it?"
 dialogue_after:
-  - caitlin.laughing: "So a test that can't fail isn't a test. It's decoration. Nice decoration, but still."
+  - caitlin.laughing: "Turns out a test that can't fail is basically decoration. Nice decoration, but still."
 hints:
   nudge: "If `deposit` paid everything in twice, which of Caitlin's tests would notice?"
   plan:

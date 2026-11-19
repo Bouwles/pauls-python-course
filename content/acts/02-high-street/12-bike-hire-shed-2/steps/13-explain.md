@@ -3,8 +3,8 @@ id: explain
 type: explain
 title: Caitlin's way
 dialogue:
-  - yahya.proud: "A library is a list of books. So Library inherits from list. One line. Done."
-  - caitlin.laughing: "The Studio has books in it. And a kettle, and Neil. Is it a kind of kettle?"
+  - yahya.proud: "A library's a list of books, so Library inherits from list and that's it, one line."
+  - caitlin.laughing: "The Studio has books in it, and a kettle, and Neil. Does that make it a kind of kettle?"
 code: |
   # Yahya's library: a kind of list
   class Library(list):

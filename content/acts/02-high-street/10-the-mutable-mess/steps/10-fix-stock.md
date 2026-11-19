@@ -4,7 +4,7 @@ type: fix
 title: Fix the stock sheets
 files: [stock.py, main.py]
 entry: main.py
-on_pass: { caitlin.pleased: "Thirty-five left of forty. Five sold. That's the morning I remember." }
+on_pass: { caitlin.pleased: "Thirty-five left out of forty means five sold, which is the morning I actually remember." }
 hints:
   nudge: "What does `copy()` copy, and what does it leave shared?"
   plan:

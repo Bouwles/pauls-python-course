@@ -36,10 +36,10 @@ concepts_introduced: [tuples, unpacking, multiple-returns, enumerate, zip]
 concepts_reviewed: [lists, looping-lists, for-loops, functions, return-values, negative-indices, f-strings]
 ask:
   dialogue:
-    - caitlin.pleased.wave: "The Clocktower has a five-a-side team now. I'm doing the kit."
-    - caitlin.thinking: "I kept the sizes in two lists. Names in one, numbers in the other."
-    - caitlin.laughing: "Then the lists slipped by one. Our keeper's tracksuit arrived with someone else's legs."
-    - paul.neutral: "Keep each person's numbers together, then. And keep them still."
+    - caitlin.pleased.wave: "The Clocktower's got a five-a-side team now and I'm the one sorting out the kit."
+    - caitlin.thinking: "I kept the sizes in two lists, with the names in one and the numbers in the other."
+    - caitlin.laughing: "Then the lists slipped by one and our keeper's tracksuit turned up with someone else's legs."
+    - paul.neutral: "Let's keep each person's numbers together then, in something that won't let them move."
   spec: |
     Each player's measurements are a tuple in centimetres: `(chest, waist, leg)`. The names are in a second list, in the same order.
 
@@ -56,9 +56,9 @@ ask:
     Longest leg: Jon Hale, 84 cm
 ship:
   dialogue:
-    - caitlin.pleased.cheer: "Kit's ordered. I checked every line against the forms. Every number is beside its owner."
-    - caitlin.laughing: "The keeper's tracksuit fits. He sent a photo of his ankles to prove it."
-    - paul.proud: "Names and numbers that can't drift apart. That's the whole fix, and it's a good one."
+    - caitlin.pleased.cheer: "The kit's ordered! I checked every line against the forms and every number's sitting next to its owner."
+    - caitlin.laughing: "The keeper's tracksuit actually fits, and he sent me a photo of his ankles to prove it."
+    - paul.proud: "Now the names and numbers can't drift apart, and honestly that's a really good fix."
   shelf: { object: tape-measure, label: "The five-a-side kit book, for Caitlin" }
   cards: [tuples, unpacking, multiple-returns, enumerate, zip]
 stretch:

@@ -44,10 +44,10 @@ concepts_introduced: [raising-errors, defensive-input]
 concepts_reviewed: [exceptions, try-except, reading-tracebacks, value-error, enumerate, unpacking, multiple-returns, with-statement, files, strip-replace, dict-get, dict-items, comments]
 ask:
   dialogue:
-    - neil.pleased.wave: "Everything on my drone writes to one flight log. GPS, motors, battery, camera, radio."
-    - neil.thinking: "I wrote the script that reads it in my first year. It stops at the first bad line."
-    - neil.worried: "Sunday's flight has a lot of bad lines. The drone came down in a hedge."
-    - paul.neutral: "Read it properly before you touch it. Old code usually has its reasons."
+    - neil.pleased.wave: "Everything on my drone writes to the one flight log, the GPS, the motors, the battery, the camera and the radio."
+    - neil.thinking: "I wrote the script that reads it back in my first year, and it stops at the first bad line."
+    - neil.worried: "Sunday's flight has got a lot of bad lines, and the drone ended up coming down in a hedge."
+    - paul.neutral: "Have a proper read of it before you change anything, because old code usually has its reasons."
   spec: |
     Neil's script reads `flight.log` and counts the errors from each system on the drone. It stops dead at the first line it can't read.
 
@@ -64,9 +64,9 @@ ask:
       line 12: expected 4 parts, got 1
 ship:
   dialogue:
-    - neil.pleased.thumbs: "Eleven read, three skipped, and it says which three. The radio owes me an explanation."
-    - neil.thinking.think: "Two GPS errors in four minutes. That's why it drifted towards the hedge."
-    - paul.proud: "One bad line no longer hides the other eleven. That's the whole job."
+    - neil.pleased.thumbs: "It read eleven, skipped three and told me which three, and the radio owes me an explanation."
+    - neil.thinking.think: "There were two GPS errors in four minutes, which is why it drifted off towards the hedge."
+    - paul.proud: "Nice, one bad line doesn't hide the other eleven any more."
   shelf: { object: log-book, label: "Neil's flight log analyser, now with manners" }
   cards: [raising-errors, defensive-input]
 stretch:

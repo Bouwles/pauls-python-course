@@ -4,7 +4,7 @@ type: learn
 title: When two changes collide
 concept: merge-conflicts
 dialogue:
-  - paul.thinking.think: "Two people, one line. Git won't guess who's right. That's your job."
+  - paul.thinking.think: "When two people change the same line, git won't guess who's right, and that's left to you."
 ---
 A **conflict** happens when both branches have changed the same lines since they split. Git can't know which is right, so it writes both into the file and stops for you to choose:
 

@@ -5,7 +5,7 @@ title: The money file
 files: [money.py, storage.py]
 entry: storage.py
 starter_from: make-money
-on_pass: { caitlin.pleased: "Saved, closed, opened again, and every penny where I left it. Better than my savings sheet ever managed." }
+on_pass: { caitlin.pleased: "I saved it, closed it, opened it again and every penny was where I left it. My savings sheet never managed that." }
 hints:
   nudge: "What does JSON do with a date? What type does `Transaction` need its day to be?"
   plan:

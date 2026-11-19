@@ -4,7 +4,7 @@ type: make
 title: The rules
 files: [money.py]
 entry: money.py
-on_pass: { caitlin.pleased: "No sweets, no spending that's secretly income, and November's food under budget. It's starting to look like an app." }
+on_pass: { caitlin.pleased: "It won't take sweets or spending that's secretly income, and November's food is under budget. It's starting to look like an app." }
 hints:
   nudge: "Which methods need a single month's transactions? Could `spending` lean on `in_month`, and `over_budget` on `spending`?"
   plan:

@@ -3,7 +3,7 @@ id: worked
 type: worked
 title: How Paul would do it
 dialogue:
-  - paul.neutral.point: "My laptop's log of overnight training runs. It's had some odd nights."
+  - paul.neutral.point: "This is my laptop's log of overnight training runs, and it's had a few odd nights."
 code: |
   # Paul's overnight training runs: run | status | minutes
   RUNS = [

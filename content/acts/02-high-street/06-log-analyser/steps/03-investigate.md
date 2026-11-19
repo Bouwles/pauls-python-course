@@ -4,7 +4,7 @@ type: investigate
 title: Read it before you touch it
 concept: exceptions
 dialogue:
-  - paul.neutral.point: "Neil's script, as he left it. Read it top to bottom before you run anything."
+  - paul.neutral.point: "This is Neil's script exactly how he left it. Have a read from top to bottom before you run anything."
 edit: false
 code: |
   # Flight log report, for Neil's drone.

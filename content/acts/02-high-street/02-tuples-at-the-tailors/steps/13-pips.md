@@ -3,10 +3,10 @@ id: pips
 type: pips
 title: Fix Caitlin's version
 dialogue:
-  - caitlin.proud: "The kit company wants the smallest chest and the largest. Two returns, two answers. Done."
-  - caitlin.confused: "Except it says it can't unpack an int. I never gave it an int. Can you look?"
+  - caitlin.proud: "The kit company wants the smallest chest and the largest, and I've given it two returns, one for each."
+  - caitlin.confused: "Except it says it can't unpack an int, and I never gave it an int. Can you have a look?"
 dialogue_after:
-  - caitlin.surprised: "So the first return leaves and shuts the door. The second one never gets a turn."
+  - caitlin.surprised: "Oh, the first return leaves and shuts the door behind it. The second one never even gets a turn."
 hints:
   nudge: "How many times can a function return? Which of Caitlin's two returns actually happens?"
   plan:
